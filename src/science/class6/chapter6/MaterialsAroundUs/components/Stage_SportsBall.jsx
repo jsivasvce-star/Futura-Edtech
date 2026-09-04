@@ -65,7 +65,7 @@ export default function Stage_SportsBall({ onComplete, addXp }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%', flex: 1, minHeight: 0 }}>
       <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', border: '1px solid var(--lesson-accent-border)' }}>
-        <h3 style={{ margin: 0, fontSize: '2.2rem', color: 'var(--lesson-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <h3 style={{ margin: 0, fontSize: '2.2rem', color: 'var(--heading-main)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Target size={26} style={{ color: '#A64B27' }} />
           Investigation: Sports Equipment Properties
         </h3>
@@ -144,15 +144,7 @@ export default function Stage_SportsBall({ onComplete, addXp }) {
                           </div>
                         </div>
 
-                        <motion.div 
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.3 }}
-                          style={{ padding: '0.75rem', background: 'rgba(59, 130, 246, 0.1)', border: '1px dashed #A64B27', borderRadius: '8px', color: '#A64B27', fontSize: '1.15rem', display: 'flex', alignItems: 'center', gap: '0.5rem', lineHeight: '1.4' }}
-                        >
-                          <span style={{ fontSize: '1.5rem' }}>👉</span> 
-                          <span><strong>Detective Task:</strong> Observe the <strong>Drop Test</strong> on the right to see how this material&apos;s hardness affects its bounce!</span>
-                        </motion.div>
+
                       </>
                     );
                   })()}
@@ -230,24 +222,7 @@ export default function Stage_SportsBall({ onComplete, addXp }) {
         </div>
       </div>
 
-      {allInspected && (
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="glass-panel"
-          style={{ background: 'var(--lesson-success-bg)', border: '1px solid var(--lesson-success-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.75rem 1.25rem' }}
-        >
-          <div>
-            <h4 style={{ margin: '0 0 0.25rem 0', color: '#A64B27', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.4rem' }}>
-              <CheckCircle size={24} /> Analysis Complete
-            </h4>
-            <p style={{ margin: 0, fontSize: '1.2rem', color: 'var(--lesson-secondary)', lineHeight: '1.4' }}>
-              <strong>Conclusion:</strong> We cannot use a soft rubber ball for cricket, nor a hard leather ball for tennis!<br/>
-              Different purposes require materials with completely different properties.
-            </p>
-          </div>
-        </motion.div>
-      )}
+
     </div>
   );
 }
