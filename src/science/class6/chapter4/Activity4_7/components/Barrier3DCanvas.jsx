@@ -84,7 +84,7 @@ const BADGE_CONFIG = {
     1: { title: '🧴 Part 1: 200 mL Pocket Bottle (PET)', bg: 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)', border: '#7DD3FC' },
     2: { title: '🧴 Part 2: 500 mL Spring Water (PET)', bg: 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)', border: '#7DD3FC' },
     3: { title: '🍶 Part 3: 1 Litre Sports Bottle (PET)', bg: 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)', border: '#7DD3FC' },
-    4: { title: '🛢️ Part 4: 20 Litre Water Can (Polymer)', bg: 'linear-gradient(135deg, #0369A1 0%, #075985 100%)', border: '#38BDF8' }
+    4: { title: '🧴 Part 4: Reusable Plastic Bottle', bg: 'linear-gradient(135deg, #0369A1 0%, #075985 100%)', border: '#38BDF8' }
   },
   glass: {
     1: { title: '🥃 Part 1: Small Shot Glass (Silicate)', bg: 'linear-gradient(135deg, #0F766E 0%, #115E59 100%)', border: '#5EEAD4' },

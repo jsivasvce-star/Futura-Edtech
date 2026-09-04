@@ -64,6 +64,19 @@ function playMagneticSound(type = 'snap') {
       gain.connect(ctx.destination);
       osc.start(now);
       osc.stop(now + 0.4);
+    } else if (type === 'glide') {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.linearRampToValueAtTime(360, now + 0.35);
+      osc.frequency.linearRampToValueAtTime(280, now + 0.6);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.6);
     }
   } catch (e) { }
 }
@@ -227,12 +240,12 @@ const MATERIALS = [
   {
     id: 'plastic',
     name: 'Plastic bottle',
-    itemLabel: '20L Can',
-    fullName: '20 Litre Plastic Water Canister Jug',
+    itemLabel: 'Water Bottle',
+    fullName: 'Modern Reusable Plastic Water Bottle',
     type: 'plastic',
     stage: 4,
-    icon: '🛢️',
-    desc: '20 Litre plastic canister jug',
+    icon: '🧴',
+    desc: 'Modern reusable plastic water bottle',
     deflection: { angle: -38, label: 'Medium-High Deflection', fieldPower: '70%' }
   },
   {
@@ -267,8 +280,9 @@ export default function Simulation({ onComplete, onNext }) {
   const [workspaceSize, setWorkspaceSize] = useState({ width: 840, height: 560 });
   const [isFlipped, setIsFlipped] = useState(false);
   const [isObjectArrived, setIsObjectArrived] = useState(false);
+  const [magnetApproached, setMagnetApproached] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [needleRotation, setNeedleRotation] = useState(-48);
+  const [needleRotation, setNeedleRotation] = useState(0); // Initially at 0° North-South!
   const [thickness, setThickness] = useState(1);
   const [observations, setObservations] = useState({
     glass: null,
@@ -279,11 +293,13 @@ export default function Simulation({ onComplete, onNext }) {
 
   const [feedback, setFeedback] = useState({
     type: 'info',
-    text: '🚀 Starting Auto Demo: Crystal glass (Small Glass) moving into center position...'
+    text: '🚀 Starting Auto Demo: Crystal glass (Small Glass) moving into center position... Needle at North-South (0° N).'
   });
 
   const workspaceContainerRef = useRef(null);
   const arrivalTimerRef = useRef(null);
+  const magnetMoveTimerRef = useRef(null);
+  const needleDeflectTimerRef = useRef(null);
   const autoAdvanceTimerRef = useRef(null);
 
   const activeItem = MATERIALS[selectedMaterialIndex] || MATERIALS[0];
@@ -319,67 +335,108 @@ export default function Simulation({ onComplete, onNext }) {
 
   const isTreeStage = activeMaterial === 'wood' && currentStage === 4;
 
-  // Helper to trigger object slide-in and sequential needle deflection in requested order
+  // Safe distance calculations: guarantee the magnet NEVER touches any object
+  // Cardboard has wider footprint (~95px half-width); bottle & glass have ~60px half-width
+  const barrierClearance = activeMaterial === 'cardboard' ? 145 : 125;
+  const magnetFarLeft = isTreeStage ? 15 : 25;
+  const magnetCloseLeft = isTreeStage
+    ? Math.max(25, Math.round(centerX - 270))
+    : Math.max(45, Math.round(centerX - 180 - barrierClearance));
+
+  const magnetLeft = magnetApproached ? magnetCloseLeft : magnetFarLeft;
+
+  // Helper to trigger object slide-in, magnet approach, and realistic needle deflection
   const triggerObjectArrival = useCallback((targetIndex = 0, isAutoMode = isAutoPlaying) => {
     if (arrivalTimerRef.current) clearTimeout(arrivalTimerRef.current);
+    if (magnetMoveTimerRef.current) clearTimeout(magnetMoveTimerRef.current);
+    if (needleDeflectTimerRef.current) clearTimeout(needleDeflectTimerRef.current);
     if (autoAdvanceTimerRef.current) clearTimeout(autoAdvanceTimerRef.current);
-
-    // Mark transition
-    setIsObjectArrived(false);
-    playMagneticSound('whoosh');
 
     const targetItem = MATERIALS[targetIndex] || MATERIALS[0];
     const targetDefl = targetItem.deflection;
     const targetAngle = isFlipped ? -targetDefl.angle : targetDefl.angle;
 
+    // STEP 1: INITIAL STATE (Needle at North-South 0°, Magnet parked at distance)
+    setIsObjectArrived(false);
+    setNeedleRotation(0);
+    setMagnetApproached(false);
+    playMagneticSound('whoosh');
+
     setFeedback({
       type: 'info',
-      text: `📦 Moving ${targetItem.itemLabel} (${targetItem.name}) into center station... (North needle holding deflection)`
+      text: `📦 Moving ${targetItem.itemLabel} (${targetItem.name}) into center position... Compass needle resting at North-South (0° N).`
     });
 
+    // STEP 2: OBJECT SETTLES IN PLACE (t = 800ms)
     arrivalTimerRef.current = setTimeout(() => {
       setIsObjectArrived(true);
-      setNeedleRotation(targetAngle);
       playMagneticSound('snap');
 
-      const dirName = targetAngle < 0 ? 'North-West (NW)' : 'North-East (NE)';
-      const degVal = Math.round(((targetAngle % 360) + 360) % 360);
-
       setFeedback({
-        type: 'success',
-        text: `✨ ${targetItem.itemLabel} in position! Magnetic field penetrates barrier ➔ Red North Needle points to ${degVal}° ${dirName} (${targetDefl.label})!`
+        type: 'info',
+        text: `📍 ${targetItem.itemLabel} set in place! Waiting 1s before magnet approaches...`
       });
 
-      // Mark observation
-      setObservations(prev => {
-        const updated = { ...prev, [targetItem.id]: 'deflects' };
-        const allTested = MATERIALS.every(m => updated[m.id] === 'deflects');
-        if (allTested && onComplete) {
-          onComplete();
-        }
-        return updated;
-      });
+      // STEP 3: AFTER 1 SEC (1000ms), MAGNET COMES CLOSE (WITHOUT TOUCHING OBJECT)
+      magnetMoveTimerRef.current = setTimeout(() => {
+        setMagnetApproached(true);
+        playMagneticSound('glide');
 
-      // Sequential auto-tour in exact requested order:
-      // 1. Crystal glass (small glass) -> 2. Plastic bottle (20L can) -> 3. Cardboard (Shipping box) -> 4. Tree (tree)
-      if (isAutoMode) {
-        if (targetIndex < MATERIALS.length - 1) {
-          autoAdvanceTimerRef.current = setTimeout(() => {
-            const nextIdx = targetIndex + 1;
-            setSelectedMaterialIndex(nextIdx);
-            triggerObjectArrival(nextIdx, true);
-          }, 3000); // 3.0s dwell time for student observation
-        } else {
-          autoAdvanceTimerRef.current = setTimeout(() => {
-            setIsAutoPlaying(false);
-            setFeedback({
-              type: 'success',
-              text: `🎉 Auto-Demo complete! All 4 items (Crystal glass, Plastic bottle, Cardboard, Tree) demonstrate magnetic penetration.`
-            });
-          }, 3200);
-        }
-      }
-    }, 650);
+        setFeedback({
+          type: 'info',
+          text: `🧲 Magnet moving close to ${targetItem.itemLabel}...`
+        });
+
+        // STEP 4: AFTER 0.3 SEC (300ms), NEEDLE DEFLECTION SHOWN
+        needleDeflectTimerRef.current = setTimeout(() => {
+          setNeedleRotation(targetAngle);
+          playMagneticSound('snap');
+
+          const dirName = targetAngle < 0 ? 'North-West (NW)' : 'North-East (NE)';
+          const degVal = Math.round(((targetAngle % 360) + 360) % 360);
+
+          setFeedback({
+            type: 'success',
+            text: `✨ Magnet close to ${targetItem.itemLabel}! Magnetic field penetrates through ➔ Red North Needle deflects to ${degVal}° in ${dirName} (${targetDefl.label})!`
+          });
+
+          // Mark observation
+          setObservations(prev => {
+            const updated = { ...prev, [targetItem.id]: 'deflects' };
+            const allTested = MATERIALS.every(m => updated[m.id] === 'deflects');
+            if (allTested && onComplete) {
+              onComplete();
+            }
+            return updated;
+          });
+
+          // STEP 5: SEQUENTIAL AUTO-TOUR ADVANCE (if auto mode enabled)
+          if (isAutoMode) {
+            if (targetIndex < MATERIALS.length - 1) {
+              autoAdvanceTimerRef.current = setTimeout(() => {
+                // Magnet glides back and needle resets to 0° North-South
+                setMagnetApproached(false);
+                setNeedleRotation(0);
+
+                setTimeout(() => {
+                  const nextIdx = targetIndex + 1;
+                  setSelectedMaterialIndex(nextIdx);
+                  triggerObjectArrival(nextIdx, true);
+                }, 600);
+              }, 3200); // 3.2s observation time
+            } else {
+              autoAdvanceTimerRef.current = setTimeout(() => {
+                setIsAutoPlaying(false);
+                setFeedback({
+                  type: 'success',
+                  text: `🎉 Auto-Demo complete! All 4 items demonstrate magnetic penetration.`
+                });
+              }, 3200);
+            }
+          }
+        }, 300); // exactly 0.3sec after magnet approaches
+      }, 1000); // exactly 1.0sec after object settles in place
+    }, 800); // 800ms for object transition to set in place
   }, [isAutoPlaying, isFlipped, onComplete]);
 
   // Initial enter behavior: automatically run in order from 0 to 3
@@ -390,6 +447,8 @@ export default function Simulation({ onComplete, onNext }) {
 
     return () => {
       if (arrivalTimerRef.current) clearTimeout(arrivalTimerRef.current);
+      if (magnetMoveTimerRef.current) clearTimeout(magnetMoveTimerRef.current);
+      if (needleDeflectTimerRef.current) clearTimeout(needleDeflectTimerRef.current);
       if (autoAdvanceTimerRef.current) clearTimeout(autoAdvanceTimerRef.current);
     };
   }, []); // Run once on mount
@@ -397,6 +456,8 @@ export default function Simulation({ onComplete, onNext }) {
   // Handle Manual Material Switching
   const handleSelectObject = (idx) => {
     if (arrivalTimerRef.current) clearTimeout(arrivalTimerRef.current);
+    if (magnetMoveTimerRef.current) clearTimeout(magnetMoveTimerRef.current);
+    if (needleDeflectTimerRef.current) clearTimeout(needleDeflectTimerRef.current);
     if (autoAdvanceTimerRef.current) clearTimeout(autoAdvanceTimerRef.current);
 
     setSelectedMaterialIndex(idx);
@@ -408,6 +469,8 @@ export default function Simulation({ onComplete, onNext }) {
   const toggleAutoPlay = () => {
     if (isAutoPlaying) {
       if (arrivalTimerRef.current) clearTimeout(arrivalTimerRef.current);
+      if (magnetMoveTimerRef.current) clearTimeout(magnetMoveTimerRef.current);
+      if (needleDeflectTimerRef.current) clearTimeout(needleDeflectTimerRef.current);
       if (autoAdvanceTimerRef.current) clearTimeout(autoAdvanceTimerRef.current);
       setIsAutoPlaying(false);
       setFeedback({
@@ -429,7 +492,12 @@ export default function Simulation({ onComplete, onNext }) {
       const currentItem = MATERIALS[selectedMaterialIndex] || MATERIALS[0];
       const targetDefl = currentItem.deflection;
       const newAngle = nextFlipped ? -targetDefl.angle : targetDefl.angle;
-      setNeedleRotation(newAngle);
+
+      if (magnetApproached) {
+        setNeedleRotation(newAngle);
+      } else {
+        setNeedleRotation(0);
+      }
 
       const dirName = newAngle < 0 ? 'North-West (NW)' : 'North-East (NE)';
       const degVal = Math.round(((newAngle % 360) + 360) % 360);
@@ -437,7 +505,7 @@ export default function Simulation({ onComplete, onNext }) {
 
       setFeedback({
         type: 'info',
-        text: `🔄 Flipped to ${polarityLabel}! Red North Needle now faces ${degVal}° in ${dirName}.`
+        text: `🔄 Flipped to ${polarityLabel}! Red North Needle ${magnetApproached ? `deflects to ${degVal}° in ${dirName}` : 'resting at 0° North-South'}.`
       });
 
       return nextFlipped;
@@ -446,12 +514,15 @@ export default function Simulation({ onComplete, onNext }) {
 
   const handleReset = () => {
     if (arrivalTimerRef.current) clearTimeout(arrivalTimerRef.current);
+    if (magnetMoveTimerRef.current) clearTimeout(magnetMoveTimerRef.current);
+    if (needleDeflectTimerRef.current) clearTimeout(needleDeflectTimerRef.current);
     if (autoAdvanceTimerRef.current) clearTimeout(autoAdvanceTimerRef.current);
 
     setIsFlipped(false);
     setThickness(1);
     setSelectedMaterialIndex(0);
-    setNeedleRotation(-48);
+    setNeedleRotation(0);
+    setMagnetApproached(false);
     setObservations({ glass: null, plastic: null, cardboard: null, wood: null });
     setIsAutoPlaying(true);
     triggerObjectArrival(0, true);
@@ -1011,18 +1082,22 @@ export default function Simulation({ onComplete, onNext }) {
                   : undefined
               }}
             >
-              <ExactCompass rotation={needleRotation} size={COMPASS_SIZE} />
+              <ExactCompass 
+                rotation={needleRotation} 
+                size={COMPASS_SIZE} 
+                transition={{ type: 'spring', stiffness: 70, damping: 12, restDelta: 0.01 }}
+              />
             </div>
 
-            {/* Left Bar Magnet (Stationary Fixed Position) */}
+            {/* Left Bar Magnet (Smooth Glide Towards Barrier & Return) */}
             <div 
               style={{ 
                 position: 'absolute', 
-                left: isTreeStage ? magnetX - 60 : magnetX - 90, 
+                left: `${magnetLeft}px`, 
                 top: isTreeStage ? centerY + 175 - 27 : centerY - 27,
                 transform: isTreeStage ? 'scale(0.55)' : 'scale(1)',
                 transformOrigin: 'center center',
-                transition: 'all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                transition: 'left 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)',
                 zIndex: 25, 
                 cursor: 'pointer',
                 userSelect: 'none'

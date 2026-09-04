@@ -7,37 +7,24 @@ import * as THREE from 'three';
 import '../MagneticPoles.css';
 
 // ---------------------------------------------------------
-// Realistic Parchment Paper Box Enclosure
 // ---------------------------------------------------------
-function PaperBoxEnclosure() {
-  const paperTexture = useTexture('/MagneticPoles/paper_texture.jpg');
-
+// Realistic White Floating Paper Sheet (No tray walls)
+// ---------------------------------------------------------
+function WhiteFloatingPaper() {
   return (
-    <>
-      {/* 1. Bottom Paper Base */}
-      <mesh receiveShadow position={[0, -0.01, 0]}>
+    <group>
+      {/* 1. Pure Crisp White Floating Paper Sheet */}
+      <mesh receiveShadow castShadow position={[0, -0.015, 0]}>
         <boxGeometry args={[26, 0.04, 16]} />
-        <meshStandardMaterial map={paperTexture} roughness={0.95} metalness={0.0} />
+        <meshStandardMaterial color="#FFFFFF" roughness={0.92} metalness={0.0} />
       </mesh>
 
-      {/* 2. Back Paper Wall - Increased Height */}
-      <mesh receiveShadow position={[0, 3.9, -8.0]}>
-        <boxGeometry args={[26, 7.8, 0.04]} />
-        <meshStandardMaterial map={paperTexture} roughness={0.95} metalness={0.0} />
+      {/* 2. Soft Edge Paper Trim / Underside Bevel */}
+      <mesh position={[0, -0.04, 0]}>
+        <boxGeometry args={[26.06, 0.015, 16.06]} />
+        <meshStandardMaterial color="#CBD5E1" roughness={0.96} metalness={0.0} />
       </mesh>
-
-      {/* 3. Left Paper Wall - Increased Height */}
-      <mesh receiveShadow position={[-13.0, 3.9, 0]}>
-        <boxGeometry args={[0.04, 7.8, 16]} />
-        <meshStandardMaterial map={paperTexture} roughness={0.95} metalness={0.0} />
-      </mesh>
-
-      {/* 4. Right Paper Wall - Increased Height */}
-      <mesh receiveShadow position={[13.0, 3.9, 0]}>
-        <boxGeometry args={[0.04, 7.8, 16]} />
-        <meshStandardMaterial map={paperTexture} roughness={0.95} metalness={0.0} />
-      </mesh>
-    </>
+    </group>
   );
 }
 
@@ -235,41 +222,12 @@ function BreakingMagnet3D({ broken, showPoles }) {
 }
 
 // ---------------------------------------------------------
-// Smooth Intro Animation Group (Bottom-Left to Center Growth)
+// Fixed-Scale Realistic Classroom Lab Placement
 // ---------------------------------------------------------
-function AnimatedLabGroup({ children, zoomScale = 1.0 }) {
-  const groupRef = useRef();
-  const [hasStarted, setHasStarted] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setHasStarted(true);
-    }, 800);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useFrame((state, delta) => {
-    if (!groupRef.current) return;
-    const dt = Math.min(delta, 0.1);
-
-    // Initial: Positioned on the left tabletop parallel to the compass & ruler on the right
-    const targetX = hasStarted ? 0 : -5.8;
-    const targetY = hasStarted ? -0.4 : -3.5;
-    const targetZ = hasStarted ? 0 : 0.5;
-    const targetScale = (hasStarted ? 0.50 : 0.08) * zoomScale;
-
-    const speed = 3.6;
-    groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, dt * speed);
-    groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, dt * speed);
-    groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, targetZ, dt * speed);
-
-    const currentScale = groupRef.current.scale.x;
-    const nextScale = THREE.MathUtils.lerp(currentScale, targetScale, dt * speed);
-    groupRef.current.scale.set(nextScale, nextScale, nextScale);
-  });
-
+function AnimatedLabGroup({ children }) {
+  const FIXED_SCALE = 0.60;
   return (
-    <group ref={groupRef} position={[-5.8, -3.5, 0.5]} scale={[0.08, 0.08, 0.08]}>
+    <group position={[-1.6, -3.3, 0]} scale={[FIXED_SCALE, FIXED_SCALE, FIXED_SCALE]}>
       {children}
     </group>
   );
@@ -339,9 +297,9 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
             overflow: 'hidden',
             border: '1.5px solid #A7F3D0',
             boxShadow: '0 12px 30px rgba(6, 78, 59, 0.12)',
-            backgroundImage: `url('/MagneticPoles/bg_image.jpg')`,
+            backgroundImage: `url('/MagneticPoles/classroom_sunset_bg.jpg')`,
             backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            backgroundPosition: 'center 40%',
           }}
         >
           {/* 3D Canvas Scene matching Stage 1 Camera, Lighting, and Controls */}
@@ -352,35 +310,37 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
             style={{ width: '100%', height: '100%' }}
           >
             <Suspense fallback={null}>
-              <ambientLight intensity={0.8} />
+              <ambientLight intensity={0.9} color="#FFF7ED" />
               <directionalLight
-                position={[10, 22, 12]}
-                intensity={1.8}
+                position={[-12, 18, 10]}
+                intensity={2.2}
+                color="#FED7AA"
                 castShadow
                 shadow-mapSize={[2048, 2048]}
                 shadow-bias={-0.0001}
               />
-              <directionalLight position={[-10, 10, -10]} intensity={0.4} color="#93C5FD" />
-              <Environment preset="city" />
+              <directionalLight position={[12, 10, -5]} intensity={0.5} color="#E0F2FE" />
+              <Environment preset="sunset" />
 
-              <AnimatedLabGroup zoomScale={1.0}>
+              <AnimatedLabGroup>
                 <RotatableMagnetGroup>
                   <BreakingMagnet3D broken={broken} showPoles={showPoles} />
                 </RotatableMagnetGroup>
-                <PaperBoxEnclosure />
+                <WhiteFloatingPaper />
 
-                {/* Soft Drop Shadow under Paper */}
-                <ContactShadows position={[0, -0.08, 0]} opacity={0.65} scale={32} blur={2.2} far={4} color="#000000" />
+                {/* Soft Drop Shadow under Floating Paper */}
+                <ContactShadows position={[0, -0.12, 0]} opacity={0.7} scale={38} blur={2.4} far={4} color="#000000" />
               </AnimatedLabGroup>
               <OrbitControls
                 makeDefault
-                target={[0, 0.8, 0]}
+                target={[0, 0.6, 0]}
+                enableZoom={false}
                 minAzimuthAngle={0}
                 maxAzimuthAngle={0}
                 maxPolarAngle={Math.PI / 2.05}
                 minPolarAngle={0.1}
-                minDistance={8}
-                maxDistance={45}
+                minDistance={25}
+                maxDistance={25}
                 enablePan={false}
               />
             </Suspense>
