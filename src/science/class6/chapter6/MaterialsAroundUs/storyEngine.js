@@ -3,9 +3,7 @@ import Stage2_Identify from './components/Stage2_Identify';
 import Stage3_Classification from './components/Stage3_Classification';
 import Stage5_Suitability from './components/Stage5_Suitability';
 import Stage_SportsBall from './components/Stage_SportsBall';
-import Stage4_LustreHardness from './components/Stage4_LustreHardness';
 import Stage4a_Appearance_Observe from './components/Stage4a_Appearance_Observe';
-import Stage4b_Appearance_Group from './components/Stage4b_Appearance_Group';
 import Stage4c_Hardness_Observe from './components/Stage4c_Hardness_Observe';
 import Stage4d_MaterialIdentification from './components/Stage4d_MaterialIdentification';
 import Stage6a_Surveillance from './components/Stage6a_Surveillance';
@@ -135,11 +133,9 @@ export const chapterFlow = [
     type: 'mission',
     title: 'Appearance (Stage 6.3.1)',
     dialogue: 'Detective, Barrier 3 is massive! It contains 6 distinct properties to investigate. We will start with the first one: Appearance. To keep our evidence organized, Headquarters has issued a separate handbook for each stage.',
-    description: 'Scientists use specific tests to determine the properties of different materials. In this stage, you will observe how materials look, group them by their visual properties, and specifically test if they reflect light (lustre).',
+    description: 'Scientists use specific tests to determine the properties of different materials. In this stage, you will observe how materials look.',
     objective: [
-      'Phase 1: Observation Notebook',
-      'Phase 2: Group by Appearance',
-      'Phase 3: Lustre Testing'
+      'Phase 1: Observation Notebook'
     ],
     difficulty: 3,
     estimatedTime: '8 minutes',
@@ -147,8 +143,6 @@ export const chapterFlow = [
   },
   // 10: Activities
   { type: 'activity', id: 'stage4_1', title: 'Stage 6.3.1: Appearance', subtitle: 'Phase 1: Observation Notebook', component: Stage4a_Appearance_Observe, handbook: Handbook_Appearance, layout: '3fr 7fr' },
-  { type: 'activity', id: 'stage4_2', title: 'Stage 6.3.1: Appearance', subtitle: 'Phase 2: Group by Appearance', component: Stage4b_Appearance_Group, handbook: Handbook_Appearance, layout: '3fr 7fr' },
-  { type: 'activity', id: 'stage4_3', title: 'Stage 6.3.1: Appearance', subtitle: 'Phase 3: Lustre Testing', component: Stage4_LustreHardness, props: { mode: 'lustre_only' }, handbook: Handbook_Appearance },
   
   // Checkpoint for 6.3.1
   {
