@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Text, OrbitControls, ContactShadows, Environment, useTexture } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Scissors, AlertCircle, CheckCircle, XCircle, ArrowRight, BookOpen, RotateCcw } from 'lucide-react';
+import { Scissors, AlertCircle, CheckCircle, XCircle, ArrowRight, BookOpen, RotateCcw, Hand } from 'lucide-react';
 import * as THREE from 'three';
 import '../MagneticPoles.css';
 
@@ -13,7 +13,7 @@ import '../MagneticPoles.css';
 function WhiteFloatingPaper() {
   return (
     <group>
-      {/* 1. Pure Crisp White Floating Paper Sheet */}
+      {/* 1. Pure Crisp White Bottom Paper Sheet */}
       <mesh receiveShadow castShadow position={[0, -0.015, 0]}>
         <boxGeometry args={[26, 0.04, 16]} />
         <meshStandardMaterial color="#FFFFFF" roughness={0.92} metalness={0.0} />
@@ -22,6 +22,18 @@ function WhiteFloatingPaper() {
       {/* 2. Soft Edge Paper Trim / Underside Bevel */}
       <mesh position={[0, -0.04, 0]}>
         <boxGeometry args={[26.06, 0.015, 16.06]} />
+        <meshStandardMaterial color="#CBD5E1" roughness={0.96} metalness={0.0} />
+      </mesh>
+
+      {/* 3. Compact Upright Background Paper Sheet (Directly behind magnet) */}
+      <mesh receiveShadow castShadow position={[0, 4.25, -8.02]}>
+        <boxGeometry args={[26, 8.5, 0.04]} />
+        <meshStandardMaterial color="#FFFFFF" roughness={0.92} metalness={0.0} />
+      </mesh>
+
+      {/* 4. Upright Sheet Soft Edge Paper Trim / Frame Accent */}
+      <mesh position={[0, 4.25, -8.045]}>
+        <boxGeometry args={[26.06, 8.56, 0.015]} />
         <meshStandardMaterial color="#CBD5E1" roughness={0.96} metalness={0.0} />
       </mesh>
     </group>
@@ -222,12 +234,11 @@ function BreakingMagnet3D({ broken, showPoles }) {
 }
 
 // ---------------------------------------------------------
-// Fixed-Scale Realistic Classroom Lab Placement
-// ---------------------------------------------------------
+// Perfectly fitted scale and position inside classroom blackboard (shifted significantly further downwards)
 function AnimatedLabGroup({ children }) {
-  const FIXED_SCALE = 0.60;
+  const FIXED_SCALE = 0.42;
   return (
-    <group position={[-1.6, -3.3, 0]} scale={[FIXED_SCALE, FIXED_SCALE, FIXED_SCALE]}>
+    <group position={[1.0, -1.1, 0]} scale={[FIXED_SCALE, FIXED_SCALE, FIXED_SCALE]}>
       {children}
     </group>
   );
@@ -299,14 +310,14 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
             boxShadow: '0 12px 30px rgba(6, 78, 59, 0.12)',
             backgroundImage: `url('/MagneticPoles/classroom_sunset_bg.jpg')`,
             backgroundSize: 'cover',
-            backgroundPosition: 'center 40%',
+            backgroundPosition: 'center center',
           }}
         >
           {/* 3D Canvas Scene matching Stage 1 Camera, Lighting, and Controls */}
           <Canvas
             shadows
             gl={{ alpha: true, antialias: true }}
-            camera={{ position: [0, 5.5, 25], fov: 42 }}
+            camera={{ position: [0.3, 10.6, 24], fov: 40 }}
             style={{ width: '100%', height: '100%' }}
           >
             <Suspense fallback={null}>
@@ -333,18 +344,44 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
               </AnimatedLabGroup>
               <OrbitControls
                 makeDefault
-                target={[0, 0.6, 0]}
+                target={[0.4, -0.9, 0]}
                 enableZoom={false}
+                enableRotate={true}
                 minAzimuthAngle={0}
                 maxAzimuthAngle={0}
-                maxPolarAngle={Math.PI / 2.05}
-                minPolarAngle={0.1}
-                minDistance={25}
-                maxDistance={25}
+                minPolarAngle={0.35}
+                maxPolarAngle={1.42}
+                enableDamping={true}
+                dampingFactor={0.08}
+                rotateSpeed={0.7}
                 enablePan={false}
               />
             </Suspense>
           </Canvas>
+
+          {/* Passive Interaction Hint Overlay */}
+          <div style={{
+            position: 'absolute',
+            bottom: '14px',
+            left: '16px',
+            background: 'rgba(6, 78, 59, 0.82)',
+            backdropFilter: 'blur(8px)',
+            color: '#FFFFFF',
+            padding: '6px 14px',
+            borderRadius: '20px',
+            fontSize: '0.78rem',
+            fontWeight: 700,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            border: '1px solid rgba(167, 243, 208, 0.45)',
+            pointerEvents: 'none',
+            boxShadow: '0 4px 14px rgba(0,0,0,0.18)',
+            zIndex: 10
+          }}>
+            <Hand size={14} color="#FDE68A" />
+            <span>Drag vertically to tilt view • Drag magnet to rotate</span>
+          </div>
         </div>
       </div>
 
