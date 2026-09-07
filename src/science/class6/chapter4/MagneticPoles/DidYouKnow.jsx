@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles } from 'lucide-react';
 import { useHybridVoice } from '../../../../hooks/useHybridVoice';
+import { ELEVENLABS_VOICES } from '../../../../services/elevenLabsService';
 
 const facts = [
   {
@@ -33,25 +34,66 @@ const facts = [
   }
 ];
 
-export default function DidYouKnow() {
+export default function DidYouKnow({ activeTab = 'investigate' }) {
   const [hoveredFact, setHoveredFact] = useState(null);
   const { speak, stop, spokenCharIndex } = useHybridVoice();
 
-  const handleMouseEnter = (fact) => {
+  // On the first page only ('investigate'), stream with ElevenLabs free-tier compatible authoritative male voice
+  const isFirstPage = activeTab === 'investigate';
+  const ELEVENLABS_DID_YOU_KNOW_VOICE_ID = ELEVENLABS_VOICES?.did_you_know || 'nPczCjzI2devNBz1zQrb';
+
+  const handleTrigger = (fact) => {
     setHoveredFact(fact);
     const fullText = `${fact.title}. ${fact.content}`;
+
     speak({
       text: fullText,
-      audioUrl: fact.audioUrl
+      // On the first page only, remove existing audio clip and stream/synthesize with ElevenLabs voiceover
+      audioUrl: isFirstPage ? null : fact.audioUrl,
+      voiceId: isFirstPage ? ELEVENLABS_DID_YOU_KNOW_VOICE_ID : (ELEVENLABS_VOICES?.teacher || undefined),
+      role: 'did_you_know'
     });
   };
 
-  const handleMouseLeave = () => {
+  const handleLeave = () => {
     setHoveredFact(null);
     stop();
   };
 
-  // Clean text with vibrant orange/amber for currently reading word only
+  // Synchronized subtitle highlighting for Title
+  const renderHighlightedTitle = (title, charIndex) => {
+    if (!title) return null;
+    if (charIndex === undefined || charIndex === null || charIndex < 0) {
+      return title;
+    }
+
+    const words = title.split(' ');
+    let currentPos = 0;
+
+    return words.map((word, i) => {
+      const startPos = currentPos;
+      const endPos = currentPos + word.length;
+      currentPos = endPos + 1;
+
+      const isCurrentWord = charIndex >= startPos && charIndex <= endPos + 2;
+
+      return (
+        <span
+          key={i}
+          style={{
+            color: isCurrentWord ? '#D97706' : '#064E3B',
+            transition: 'color 0.12s ease',
+            display: 'inline-block',
+            marginRight: '0.28rem'
+          }}
+        >
+          {word}
+        </span>
+      );
+    });
+  };
+
+  // Synchronized subtitle highlighting for Content
   const renderHighlightedContent = (content, title, charIndex) => {
     if (!content) return null;
     if (charIndex === undefined || charIndex === null || charIndex < 0) {
@@ -71,13 +113,8 @@ export default function DidYouKnow() {
 
       const isCurrentWord = adjustedIndex >= startPos && adjustedIndex <= endPos + 2;
 
-      let color = '#1E293B'; // Deep slate
-      let fontWeight = 600;
-
-      if (isCurrentWord) {
-        color = '#D97706'; // Vibrant amber for reading word only
-        fontWeight = 800;
-      }
+      let color = isCurrentWord ? '#D97706' : '#1E293B';
+      let fontWeight = isCurrentWord ? 800 : 600;
 
       return (
         <span
@@ -98,7 +135,7 @@ export default function DidYouKnow() {
 
   return (
     <div style={{ position: 'relative', width: '100%', fontFamily: "system-ui, -apple-system, sans-serif" }}>
-      {/* Floating Hover Tooltip Card */}
+      {/* Floating Hover Tooltip Card with Subtitle Highlighting */}
       {hoveredFact && (
         <div style={{
           position: 'absolute',
@@ -121,7 +158,7 @@ export default function DidYouKnow() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.6rem' }}>
             <span style={{ fontSize: '1.75rem' }}>🧠</span>
             <h4 style={{ margin: 0, fontSize: '1.55rem', fontWeight: 900, color: '#064E3B', letterSpacing: '-0.01em', lineHeight: 1.25 }}>
-              {hoveredFact.title}
+              {renderHighlightedTitle(hoveredFact.title, spokenCharIndex)}
             </h4>
           </div>
           <p style={{ margin: 0, fontSize: '1.18rem', lineHeight: '1.7', color: '#065F46', fontWeight: 600 }}>
@@ -150,7 +187,7 @@ export default function DidYouKnow() {
           <span style={{ fontSize: '1.6rem' }}>🧠</span>
         </div>
 
-        {/* Fact items horizontally */}
+        {/* Fact items horizontally with both hover & click triggers */}
         <div style={{ display: 'flex', alignItems: 'center', flex: 1, justifyContent: 'space-around', height: '100%' }}>
           {facts.map((fact, idx) => (
             <React.Fragment key={idx}>
@@ -158,8 +195,15 @@ export default function DidYouKnow() {
                 <div style={{ width: '1.5px', height: '55%', backgroundColor: '#92400E' }} />
               )}
               <div
-                onMouseEnter={() => handleMouseEnter(fact)}
-                onMouseLeave={handleMouseLeave}
+                onMouseEnter={() => handleTrigger(fact)}
+                onMouseLeave={handleLeave}
+                onClick={() => {
+                  if (hoveredFact?.id === fact.id) {
+                    handleLeave();
+                  } else {
+                    handleTrigger(fact);
+                  }
+                }}
                 style={{
                   color: hoveredFact === fact ? '#FEF3C7' : '#FFFFFF',
                   display: 'flex',

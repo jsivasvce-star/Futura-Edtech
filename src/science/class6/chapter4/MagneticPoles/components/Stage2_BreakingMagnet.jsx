@@ -7,38 +7,6 @@ import * as THREE from 'three';
 import '../MagneticPoles.css';
 
 // ---------------------------------------------------------
-// ---------------------------------------------------------
-// Realistic White Floating Paper Sheet (No tray walls)
-// ---------------------------------------------------------
-function WhiteFloatingPaper() {
-  return (
-    <group>
-      {/* 1. Pure Crisp White Bottom Paper Sheet */}
-      <mesh receiveShadow castShadow position={[0, -0.015, 0]}>
-        <boxGeometry args={[26, 0.04, 16]} />
-        <meshStandardMaterial color="#FFFFFF" roughness={0.92} metalness={0.0} />
-      </mesh>
-
-      {/* 2. Soft Edge Paper Trim / Underside Bevel */}
-      <mesh position={[0, -0.04, 0]}>
-        <boxGeometry args={[26.06, 0.015, 16.06]} />
-        <meshStandardMaterial color="#CBD5E1" roughness={0.96} metalness={0.0} />
-      </mesh>
-
-      {/* 3. Compact Upright Background Paper Sheet (Directly behind magnet) */}
-      <mesh receiveShadow castShadow position={[0, 4.25, -8.02]}>
-        <boxGeometry args={[26, 8.5, 0.04]} />
-        <meshStandardMaterial color="#FFFFFF" roughness={0.92} metalness={0.0} />
-      </mesh>
-
-      {/* 4. Upright Sheet Soft Edge Paper Trim / Frame Accent */}
-      <mesh position={[0, 4.25, -8.045]}>
-        <boxGeometry args={[26.06, 8.56, 0.015]} />
-        <meshStandardMaterial color="#CBD5E1" roughness={0.96} metalness={0.0} />
-      </mesh>
-    </group>
-  );
-}
 
 // ---------------------------------------------------------
 // Rotatable System for Magnet
@@ -234,11 +202,12 @@ function BreakingMagnet3D({ broken, showPoles }) {
 }
 
 // ---------------------------------------------------------
-// Perfectly fitted scale and position inside classroom blackboard (shifted significantly further downwards)
+// Classroom Blackboard Centered Lab Placement
+// ---------------------------------------------------------
 function AnimatedLabGroup({ children }) {
-  const FIXED_SCALE = 0.42;
+  const FIXED_SCALE = 0.36;
   return (
-    <group position={[1.0, -1.1, 0]} scale={[FIXED_SCALE, FIXED_SCALE, FIXED_SCALE]}>
+    <group position={[0.5, 0.3, 0]} scale={[FIXED_SCALE, FIXED_SCALE, FIXED_SCALE]}>
       {children}
     </group>
   );
@@ -317,7 +286,7 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
           <Canvas
             shadows
             gl={{ alpha: true, antialias: true }}
-            camera={{ position: [0.3, 10.6, 24], fov: 40 }}
+            camera={{ position: [0, 10.6, 24], fov: 40 }}
             style={{ width: '100%', height: '100%' }}
           >
             <Suspense fallback={null}>
@@ -337,23 +306,13 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
                 <RotatableMagnetGroup>
                   <BreakingMagnet3D broken={broken} showPoles={showPoles} />
                 </RotatableMagnetGroup>
-                <WhiteFloatingPaper />
-
-                {/* Soft Drop Shadow under Floating Paper */}
-                <ContactShadows position={[0, -0.12, 0]} opacity={0.7} scale={38} blur={2.4} far={4} color="#000000" />
+                <ContactShadows position={[0, -0.02, 0]} opacity={0.48} scale={18} blur={2.0} far={2.5} color="#251605" />
               </AnimatedLabGroup>
               <OrbitControls
                 makeDefault
-                target={[0.4, -0.9, 0]}
+                target={[0, -1.4, 0]}
                 enableZoom={false}
-                enableRotate={true}
-                minAzimuthAngle={0}
-                maxAzimuthAngle={0}
-                minPolarAngle={0.35}
-                maxPolarAngle={1.42}
-                enableDamping={true}
-                dampingFactor={0.08}
-                rotateSpeed={0.7}
+                enableRotate={false}
                 enablePan={false}
               />
             </Suspense>
@@ -380,7 +339,7 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
             zIndex: 10
           }}>
             <Hand size={14} color="#FDE68A" />
-            <span>Drag vertically to tilt view • Drag magnet to rotate</span>
+            <span>Drag magnet to rotate</span>
           </div>
         </div>
       </div>

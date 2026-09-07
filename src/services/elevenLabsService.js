@@ -10,7 +10,8 @@
 export const ELEVENLABS_VOICES = {
   teacher: 'Ps8lsQuJKZHMxxDU1tff',     // Bold & Clear Indian Lady (Teacher / Narrator)
   girl: 'Dk3lflqf310KiWVmwB9F',        // Cute Indian Teenage Girl (Reshma)
-  ancient_man: 'JBFqnCBsd6RMkjVDRZzb'  // Ancient Sailor (Deep Storytelling Male)
+  ancient_man: 'JBFqnCBsd6RMkjVDRZzb', // Ancient Sailor (Deep Storytelling Male)
+  did_you_know: 'nPczCjzI2devNBz1zQrb' // Free-tier compatible authoritative, educational voice (Brian)
 };
 
 class VoiceService {
@@ -153,6 +154,9 @@ class VoiceService {
             return;
           }
           this.currentAudio = audio;
+          if (role === 'did_you_know') {
+            audio.playbackRate = 0.86; // Slow and steady delivery
+          }
           this.startAudioKaraokeLoop(audio, text, onBoundary);
 
           audio.play().then(resolve).catch(reject);
@@ -193,6 +197,9 @@ class VoiceService {
           if (this.currentSessionId !== sessionId) return;
 
           this.currentAudio = audio;
+          if (role === 'did_you_know') {
+            audio.playbackRate = 0.86; // Slow and steady delivery
+          }
 
           audio.addEventListener('ended', () => {
             if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
@@ -212,6 +219,7 @@ class VoiceService {
           return;
         }
       } catch (err) {
+        console.warn(`[VoiceService] ElevenLabs stream error for voiceId "${voiceId}":`, err.message);
         if (this.currentSessionId !== sessionId) return;
       }
     }
@@ -260,7 +268,18 @@ class VoiceService {
         style: 0.00,
         use_speaker_boost: false
       };
+    } else if (role === 'did_you_know' || voiceId === 'nPczCjzI2devNBz1zQrb' || voiceId === 'UZZaeURqKfDlK782R5Xb') {
+      voice_settings = {
+        stability: 0.72, // High stability for steady, composed, authoritative narration
+        similarity_boost: 0.85,
+        style: 0.05,
+        use_speaker_boost: true
+      };
     }
+
+    const modelId = (role === 'did_you_know' || voiceId === 'nPczCjzI2devNBz1zQrb')
+      ? 'eleven_multilingual_v2'
+      : 'eleven_turbo_v2_5';
 
     const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream`, {
       method: 'POST',
@@ -271,7 +290,7 @@ class VoiceService {
       },
       body: JSON.stringify({
         text,
-        model_id: 'eleven_turbo_v2_5',
+        model_id: modelId,
         voice_settings
       })
     });
@@ -324,6 +343,18 @@ class VoiceService {
       }) || voices.find(v => (v.name || '').toLowerCase().includes('david') || (v.name || '').toLowerCase().includes('male'));
       utterance.pitch = 0.78;
       utterance.rate = 0.75;
+    } else if (role === 'did_you_know') {
+      selectedVoice = voices.find(v => {
+        const lang = (v.lang || '').toLowerCase();
+        const name = (v.name || '').toLowerCase();
+        return (lang.includes('en-in') || lang.includes('hi-in') || lang.includes('india')) &&
+               (name.includes('ravi') || name.includes('hemant') || name.includes('prabhat') || name.includes('male') || (!name.includes('female') && !name.includes('zira') && !name.includes('heera') && !name.includes('veena') && !name.includes('neerja')));
+      }) || voices.find(v => {
+        const lang = (v.lang || '').toLowerCase();
+        return lang.includes('en-in') || lang.includes('hi-in');
+      }) || voices.find(v => (v.name || '').toLowerCase().includes('male'));
+      utterance.pitch = 0.95;
+      utterance.rate = 0.78; // Slow and steady pacing
     } else {
       selectedVoice = voices.find(v => {
         const lang = (v.lang || '').toLowerCase();

@@ -7,51 +7,7 @@ import * as THREE from 'three';
 import '../MagneticPoles.css';
 
 // ---------------------------------------------------------
-// ---------------------------------------------------------
-// Realistic White Floating Paper Sheet (No tray walls)
-// ---------------------------------------------------------
-function WhiteFloatingPaper({ isVibrating, isPaused }) {
-  const paperGroupRef = useRef();
 
-  useFrame((state) => {
-    if (!paperGroupRef.current || isPaused) return;
-    if (isVibrating) {
-      paperGroupRef.current.position.y = Math.sin(state.clock.elapsedTime * 90) * 0.035;
-      paperGroupRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 70) * 0.003;
-    } else {
-      paperGroupRef.current.position.y = 0;
-      paperGroupRef.current.rotation.z = 0;
-    }
-  });
-
-  return (
-    <group ref={paperGroupRef}>
-      {/* 1. Pure Crisp White Bottom Paper Sheet */}
-      <mesh receiveShadow castShadow position={[0, -0.015, 0]}>
-        <boxGeometry args={[26, 0.04, 16]} />
-        <meshStandardMaterial color="#FFFFFF" roughness={0.92} metalness={0.0} />
-      </mesh>
-
-      {/* 2. Soft Edge Paper Trim / Subtle Underside Bevel */}
-      <mesh position={[0, -0.04, 0]}>
-        <boxGeometry args={[26.06, 0.015, 16.06]} />
-        <meshStandardMaterial color="#CBD5E1" roughness={0.96} metalness={0.0} />
-      </mesh>
-
-      {/* 3. Compact Upright Background Paper Sheet (Directly behind magnet) */}
-      <mesh receiveShadow castShadow position={[0, 4.25, -8.02]}>
-        <boxGeometry args={[26, 8.5, 0.04]} />
-        <meshStandardMaterial color="#FFFFFF" roughness={0.92} metalness={0.0} />
-      </mesh>
-
-      {/* 4. Upright Sheet Soft Edge Paper Trim / Frame Accent */}
-      <mesh position={[0, 4.25, -8.045]}>
-        <boxGeometry args={[26.06, 8.56, 0.015]} />
-        <meshStandardMaterial color="#CBD5E1" roughness={0.96} metalness={0.0} />
-      </mesh>
-    </group>
-  );
-}
 
 // ---------------------------------------------------------
 // Rotatable System for Magnet + Iron Filings
@@ -232,7 +188,7 @@ function Magnet3D() {
 }
 
 // ---------------------------------------------------------
-// Fixed-Scale Realistic Classroom Lab Placement
+// Classroom Blackboard Centered Lab Placement
 // ---------------------------------------------------------
 function AnimatedLabGroup({ children, onArrival }) {
   const groupRef = useRef();
@@ -248,11 +204,10 @@ function AnimatedLabGroup({ children, onArrival }) {
     return () => clearTimeout(timer);
   }, [onArrival]);
 
-  // Perfectly fitted scale and position inside classroom blackboard (shifted significantly further downwards)
-  const FIXED_SCALE = 0.42;
+  const FIXED_SCALE = 0.36;
 
   return (
-    <group ref={groupRef} position={[1.0, -1.1, 0]} scale={[FIXED_SCALE, FIXED_SCALE, FIXED_SCALE]}>
+    <group ref={groupRef} position={[0.5, 0.3, 0]} scale={[FIXED_SCALE, FIXED_SCALE, FIXED_SCALE]}>
       {children}
     </group>
   );
@@ -697,7 +652,7 @@ export default function Stage1_Investigate({ onComplete }) {
           <Canvas 
             shadows 
             gl={{ alpha: true, antialias: true }} 
-            camera={{ position: [0.3, 10.6, 24], fov: 40 }}
+            camera={{ position: [0, 10.6, 24], fov: 40 }}
           >
             <Suspense fallback={null}>
               <ambientLight intensity={0.9} color="#FFF7ED" />
@@ -717,23 +672,13 @@ export default function Stage1_Investigate({ onComplete }) {
                   <Magnet3D />
                   <FilingsSystem step={step} isSprinkling={isSprinkling} isVibrating={isVibrating} cycleKey={cycleKey} isPaused={isPaused} />
                 </RotatableMagnetGroup>
-                <WhiteFloatingPaper isVibrating={isVibrating} isPaused={isPaused} />
-
-                {/* Soft Drop Shadow under Floating Paper */}
-                <ContactShadows position={[0, -0.12, 0]} opacity={0.7} scale={38} blur={2.4} far={4} color="#000000" />
+                <ContactShadows position={[0, -0.02, 0]} opacity={0.48} scale={18} blur={2.0} far={2.5} color="#251605" />
               </AnimatedLabGroup>
               <OrbitControls
                 makeDefault
-                target={[0.4, -0.9, 0]}
+                target={[0, -1.4, 0]}
                 enableZoom={false}
-                enableRotate={true}
-                minAzimuthAngle={0}
-                maxAzimuthAngle={0}
-                minPolarAngle={0.35}
-                maxPolarAngle={1.42}
-                enableDamping={true}
-                dampingFactor={0.08}
-                rotateSpeed={0.7}
+                enableRotate={false}
                 enablePan={false}
               />
             </Suspense>
@@ -760,7 +705,7 @@ export default function Stage1_Investigate({ onComplete }) {
             zIndex: 10
           }}>
             <Hand size={14} color="#FDE68A" />
-            <span>Drag vertically to tilt view • Drag magnet to rotate</span>
+            <span>Drag magnet to rotate</span>
           </div>
         </div>
       </div>

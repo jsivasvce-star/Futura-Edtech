@@ -179,7 +179,7 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
       {/* Bottom Footer Bar */}
       {activeTab !== 'quiz' && (
         <footer style={{ marginTop: '0.4rem', width: '100%', flexShrink: 0, position: 'relative', zIndex: 99999 }}>
-          <DidYouKnow />
+          <DidYouKnow activeTab={activeTab} />
         </footer>
       )}
     </div>
