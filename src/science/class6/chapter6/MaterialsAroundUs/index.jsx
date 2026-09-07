@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowLeft, RefreshCw, Sun, Moon, ArrowRight } from 'lucide-react';
 import './theme.css';
-import useSound from 'use-sound';
 import { useTheme } from '../../../../ThemeContext.jsx';
 import { chapterFlow } from './storyEngine';
 import ChiefDetective from './components/ChiefDetective/ChiefDetective';
@@ -70,11 +69,11 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
   
   const toggleNode = (id) => setExpandedNodes(prev => ({ ...prev, [id]: !prev[id] }));
 
-  const [playSuccess] = useSound('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3', { volume: 0.5 });
   
+
   const addXp = (amount) => {
     setXp(prev => prev + amount);
-    try { playSuccess(); } catch (e) {}
+    
   };
 
   const handleNext = () => {
@@ -100,10 +99,10 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
       const nextIndex = currentFlowIndex + 1;
       const nextNode = chapterFlow[nextIndex];
       
-      if (nextNode && (nextNode.id === 'stage2' || nextNode.id === 'stage7_a' || nextNode.id === 'stage8_a' || nextNode.id === 'stage8_b')) {
-        setShowHandbook(false);
-      } else {
+      if (nextNode && nextNode.id === 'stage1') {
         setShowHandbook(true);
+      } else {
+        setShowHandbook(false);
       }
       
       setCurrentFlowIndex(nextIndex);
@@ -208,7 +207,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
                       disabled={isLocked}
                       onClick={() => {
                         if (!isLocked) {
-                          try { playSuccess(); } catch (e) {}
+                          
                           if (item.type === 'mission') {
                             setShowHandbook(true);
                           } else {
@@ -429,84 +428,12 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
 
           <button 
             onClick={() => {
-              if (currentNode.id === 'sportsball') {
-                const prevIndex = chapterFlow.findIndex(node => node.id === 'stage5');
-                if (prevIndex !== -1) {
-                  setShowHandbook(false);
-                  setCurrentFlowIndex(prevIndex);
-                  return;
-                }
-              }
-
-              if (currentNode.id === 'stage5') {
-                const prevIndex = chapterFlow.findIndex(node => node.id === 'stage3_material');
-                if (prevIndex !== -1) {
-                  setShowHandbook(false);
-                  setCurrentFlowIndex(prevIndex);
-                  return;
-                }
-              }
-
-              if (currentNode.id === 'stage3_material') {
-                const prevIndex = chapterFlow.findIndex(node => node.id === 'stage3_use');
-                if (prevIndex !== -1) {
-                  setShowHandbook(false);
-                  setCurrentFlowIndex(prevIndex);
-                  return;
-                }
-              }
-
-              if (currentNode.id === 'stage2') {
-                const prevIndex = chapterFlow.findIndex(node => node.title === 'Phase 2: Identification');
-                if (prevIndex !== -1) {
-                  setShowHandbook(false);
-                  setCurrentFlowIndex(prevIndex);
-                  return;
-                }
-              }
-
-              if (currentNode.id === 'stage7_a') {
-                const prevIndex = currentFlowIndex - 1;
-                if (prevIndex >= 0) {
-                  setShowHandbook(true);
-                  setCurrentFlowIndex(prevIndex);
-                  return;
-                }
-              }
-
-              if (currentNode.id === 'stage7_b') {
-                const prevIndex = chapterFlow.findIndex(node => node.id === 'stage7_a');
-                if (prevIndex !== -1) {
-                  setShowHandbook(false);
-                  setCurrentFlowIndex(prevIndex);
-                  return;
-                }
-              }
-
-              if (currentNode.id === 'stage8_a') {
-                const prevIndex = currentFlowIndex - 1;
-                if (prevIndex >= 0) {
-                  setShowHandbook(false);
-                  setCurrentFlowIndex(prevIndex);
-                  return;
-                }
-              }
-
-              if (currentNode.id === 'stage8_b' || currentNode.id === 'stage8_c') {
-                const prevIndex = currentFlowIndex - 1;
-                if (prevIndex >= 0) {
-                  setShowHandbook(false);
-                  setCurrentFlowIndex(prevIndex);
-                  return;
-                }
-              }
-
-              if (!showHandbook && currentNode.type === 'activity' && currentNode.id !== 'stage8_b' && currentNode.id !== 'stage8_c') {
+              if (!showHandbook && currentNode.type === 'activity' && currentNode.id === 'stage1') {
                 setShowHandbook(true);
               } else if (currentFlowIndex > 0) {
                 const prevIndex = currentFlowIndex - 1;
                 const prevNode = chapterFlow[prevIndex];
-                if (prevNode && prevNode.type === 'mission') {
+                if (prevNode && prevNode.type === 'mission' && prevNode.title.includes('Barrier 1')) {
                   setShowHandbook(true);
                 } else {
                   setShowHandbook(false);

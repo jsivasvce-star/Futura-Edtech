@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ShieldAlert, Check, X, ArrowRight, ArrowLeft } from 'lucide-react';
-import useSound from 'use-sound';
 import newChiefDetectiveImage from '../../../../../../assets/new chief detective .jpeg';
 
 export default function MissionBriefingSpread({ data, onContinue, onBack }) {
@@ -9,10 +8,8 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
   const isBarrier2 = data?.title?.includes('Barrier 2') || data?.title?.includes('Grouping Materials') || data?.id === 'barrier_2';
   const detectiveImg = data?.detectiveImage || (isBarrier2 ? newChiefDetectiveImage : BLAKE_IMG_URL);
   
-  const [playSuccess] = useSound('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3', { volume: 0.5 });
 
   const handleStart = () => {
-    try { playSuccess(); } catch (e) {}
     onContinue();
   };
 

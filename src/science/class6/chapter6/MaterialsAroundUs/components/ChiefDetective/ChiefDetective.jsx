@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ShieldAlert, CheckCircle, ArrowRight, ArrowLeft, BookMarked, Award } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import useSound from 'use-sound';
+
 
 export default function ChiefDetective({ data, onContinue, onBack }) {
   const BLAKE_IMG_URL = '/images/chief_detective_blake.png';
-  const [playSuccess] = useSound('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3', { volume: 0.5 });
   const [stampVisible, setStampVisible] = useState(false);
 
   useEffect(() => {
-    try { playSuccess(); } catch(e) {}
     try {
       confetti({
         particleCount: 150,
@@ -23,7 +21,7 @@ export default function ChiefDetective({ data, onContinue, onBack }) {
       setStampVisible(true);
     }, 1000);
     return () => clearTimeout(timer);
-  }, [playSuccess]);
+  }, []);
 
   const handleStart = () => {
     onContinue();

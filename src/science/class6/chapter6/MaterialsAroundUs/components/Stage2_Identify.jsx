@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import useSound from 'use-sound';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Info, HelpCircle, Check, Award } from 'lucide-react';
 import scannerIdleBg from '../images/scanner_pad_bg.png';
@@ -56,7 +55,6 @@ const BigTumblerVisual = ({ width = "100%", height = "100%" }) => (
 
 export default function Stage2_Identify({ onComplete, addXp }) {
   const [selectedObj, setSelectedObj] = useState(null);
-  const [playError] = useSound('https://assets.mixkit.co/active_storage/sfx/2954/2954-preview.mp3', { volume: 0.5, forceHTML5: true, interrupt: true });
   const [scannedObjects, setScannedObjects] = useState({});
   const [scanState, setScanState] = useState('idle'); // 'idle', 'scanning', 'correct', 'incorrect'
   const [isDraggingOver, setIsDraggingOver] = useState(false);
@@ -210,7 +208,6 @@ export default function Stage2_Identify({ onComplete, addXp }) {
 
     } else {
       setScanState('incorrect');
-      playError();
     }
   };
 

@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class 6 Science - Materials Around Us</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: #1c1a17;
+    overflow: hidden;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+
+  .stage {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page-frame {
+    position: relative;
+    display: none;
+  }
+
+  .page-frame.active {
+    display: block;
+  }
+
+  #page1 {
+    width: min(98vw, calc(98vh * 1678 / 937));
+    height: min(98vh, calc(98vw * 937 / 1678));
+  }
+  #page2 {
+    width: min(98vw, calc(98vh * 1678 / 937));
+    height: min(98vh, calc(98vw * 937 / 1678));
+  }
+  #page3 {
+    width: min(98vw, calc(98vh * 1678 / 937));
+    height: min(98vh, calc(98vw * 937 / 1678));
+  }
+  #page4 {
+    width: min(98vw, calc(98vh * 1678 / 937));
+    height: min(98vh, calc(98vw * 937 / 1678));
+  }
+  #page5 {
+    width: min(98vw, calc(98vh * 1585 / 992));
+    height: min(98vh, calc(98vw * 992 / 1585));
+  }
+
+  .page-frame img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+  }
+
+  .nav-btn {
+    position: absolute;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+  }
+
+  .nav-btn:disabled {
+    cursor: default;
+  }
+
+  .nav-btn:not(:disabled):hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+  }
+
+  .nav-btn:not(:disabled):active {
+    background: rgba(0, 0, 0, 0.10);
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <div class="page-frame active" id="page1" data-w="1678" data-h="937">
+    <img src="..." alt="Page 1 of 5">
+    <button class="nav-btn" id="p1-back" style="left:2.384%; top:89.968%; width:11.204%; height:6.297%;" aria-label="Back"></button>
+    <button class="nav-btn" id="p1-prev" style="left:14.839%; top:89.968%; width:15.613%; height:6.297%;" aria-label="Previous Page"></button>
+    <button class="nav-btn" id="p1-next" style="left:84.863%; top:89.968%; width:12.812%; height:6.297%;" aria-label="Next Page"></button>
+  </div>
+  <div class="page-frame " id="page2" data-w="1678" data-h="937">
+    <img src="..." alt="Page 2 of 5">
+    <button class="nav-btn" id="p2-back" style="left:2.443%; top:90.181%; width:8.94%; height:6.19%;" aria-label="Back"></button>
+    <button class="nav-btn" id="p2-prev" style="left:12.515%; top:90.181%; width:14.541%; height:6.19%;" aria-label="Previous Page"></button>
+    <button class="nav-btn" id="p2-next" style="left:85.399%; top:90.181%; width:12.098%; height:6.19%;" aria-label="Next Page"></button>
+  </div>
+  <div class="page-frame " id="page3" data-w="1678" data-h="937">
+    <img src="..." alt="Page 3 of 5">
+    <button class="nav-btn" id="p3-back" style="left:2.384%; top:90.181%; width:8.999%; height:6.083%;" aria-label="Back"></button>
+    <button class="nav-btn" id="p3-prev" style="left:12.455%; top:90.181%; width:14.601%; height:6.083%;" aria-label="Previous Page"></button>
+    <button class="nav-btn" id="p3-next" style="left:85.339%; top:90.181%; width:12.157%; height:6.083%;" aria-label="Next Page"></button>
+  </div>
+  <div class="page-frame " id="page4" data-w="1678" data-h="937">
+    <img src="..." alt="Page 4 of 5">
+    <button class="nav-btn" id="p4-back" style="left:2.443%; top:89.435%; width:8.999%; height:6.083%;" aria-label="Back"></button>
+    <button class="nav-btn" id="p4-prev" style="left:12.515%; top:89.435%; width:14.303%; height:6.083%;" aria-label="Previous Page"></button>
+    <button class="nav-btn" id="p4-next" style="left:85.339%; top:89.435%; width:11.978%; height:6.083%;" aria-label="Next Page"></button>
+  </div>
+  <div class="page-frame " id="page5" data-w="1585" data-h="992">
+    <img src="..." alt="Page 5 of 5">
+    <button class="nav-btn" id="p5-back" style="left:2.524%; top:88.911%; width:9.211%; height:5.444%;" aria-label="Back"></button>
+    <button class="nav-btn" id="p5-prev" style="left:12.934%; top:88.911%; width:15.079%; height:5.444%;" aria-label="Previous Page"></button>
+    <button class="nav-btn" id="p5-next" style="left:85.931%; top:88.911%; width:11.798%; height:5.444%;" aria-label="Next Page"></button>
+  </div>
+</div>
+
+<script>
+  var TOTAL_PAGES = 5;
+  var currentPage = 1;
+
+  function showPage(n) {
+    for (var i = 1; i <= TOTAL_PAGES; i++) {
+      document.getElementById('page' + i).classList.remove('active');
+    }
+    document.getElementById('page' + n).classList.add('active');
+    currentPage = n;
+  }
+
+  function goNext() {
+    if (currentPage < TOTAL_PAGES) {
+      showPage(currentPage + 1);
+    }
+  }
+
+  function goPrev() {
+    if (currentPage > 1) {
+      showPage(currentPage - 1);
+    }
+  }
+
+  function goBack() {
+    window.history.back();
+  }
+
+  for (var i = 1; i <= TOTAL_PAGES; i++) {
+    var backBtn = document.getElementById('p' + i + '-back');
+    var prevBtn = document.getElementById('p' + i + '-prev');
+    var nextBtn = document.getElementById('p' + i + '-next');
+
+    if (backBtn) backBtn.addEventListener('click', goBack);
+    if (prevBtn) prevBtn.addEventListener('click', goPrev);
+    if (nextBtn) nextBtn.addEventListener('click', goNext);
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') goNext();
+    if (e.key === 'ArrowLeft') goPrev();
+  });
+
+  showPage(1);
+</script>
+
+</body>
+</html>
