@@ -829,6 +829,11 @@ const LabBasicSequences = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '20px', boxSizing: 'border-box' }}>
       <p style={{ color: '#f8fafc', fontSize: '18px', textAlign: 'center', margin: '0 0 16px 0' }}>
+        Basic sequences lab.
+      </p>
+    </div>
+  );
+};
 
 const LabTriangularToHexagonal = () => {
   const [step, setStep] = useState(0); // 0: 1 Triangle, 1: 6 Triangles, 2: Add Center

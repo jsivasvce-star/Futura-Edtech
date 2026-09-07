@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 
-﻿const SvgIcons = {
+∩╗┐const SvgIcons = {
   MagnifyingGlass: () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
   ),
@@ -51,8 +51,75 @@ const clues = [
   }
 ];
 
-const PotterySpotlight = ({ currentClue, setCurrentClue }) => {
+const HighlightedText = ({ phrases, activeCharIndex }) => {
+  const fullText = phrases.join('');
+  return (
+    <span>
+      {fullText.split('').map((char, index) => (
+        <span key={index} style={{
+          backgroundColor: index < activeCharIndex ? '#fef08a' : 'transparent',
+          color: index < activeCharIndex ? 'var(--lesson-text)' : 'inherit',
+          transition: 'background-color 0.1s',
+          borderRadius: '2px'
+        }}>
+          {char}
+        </span>
+      ))}
+    </span>
+  );
+};
+
+const PotterySpotlight = ({ page1Layout }) => {
+  const [currentClue, setCurrentClue] = useState(1);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeCharIndex, setActiveCharIndex] = useState(-1);
+  const [hasPlayed, setHasPlayed] = useState(false);
+
   const currentData = clues[currentClue - 1];
+
+  const stopAudio = () => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    setIsPlaying(false);
+    setActiveCharIndex(-1);
+  };
+
+  useEffect(() => {
+    stopAudio();
+    setHasPlayed(false);
+  }, [currentClue]);
+
+  useEffect(() => {
+    return stopAudio;
+  }, []);
+
+  const playAudio = () => {
+    if (!('speechSynthesis' in window)) return;
+    stopAudio();
+    setIsPlaying(true);
+    setHasPlayed(true);
+
+    const fullText = currentData.text;
+    const utterance = new SpeechSynthesisUtterance(fullText);
+    utterance.lang = 'en-IN';
+    const voices = window.speechSynthesis.getVoices();
+    const femaleVoice = voices.find(v => v.lang === 'en-IN' && (v.name.includes('Female') || v.name.includes('Ravi') === false));
+    if (femaleVoice) utterance.voice = femaleVoice;
+    
+    utterance.rate = 0.9;
+    
+    utterance.onboundary = (e) => {
+      setActiveCharIndex(e.charIndex);
+    };
+    
+    utterance.onend = () => {
+      setIsPlaying(false);
+      setActiveCharIndex(fullText.length);
+    };
+
+    window.speechSynthesis.speak(utterance);
+  };
 
   const timelineNode = (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 'auto', paddingTop: '16px', flexWrap: 'nowrap', overflow: 'hidden' }}>
@@ -64,7 +131,7 @@ const PotterySpotlight = ({ currentClue, setCurrentClue }) => {
               style={{
                 width: '32px', height: '32px', 
                 borderRadius: '50%',
-                background: currentClue === c.id ? 'var(--lesson-accent)' : (currentClue > c.id ? 'var(--lesson-success)' : 'var(--lesson-border)'),
+                background: currentClue === c.id ? '#A64B27' : (currentClue > c.id ? '#3B2A1F' : 'var(--lesson-border)'),
                 color: currentClue === c.id || currentClue > c.id ? 'white' : 'var(--lesson-muted)',
                 display: 'flex', justifyContent: 'center', alignItems: 'center',
                 fontWeight: 'bold', fontSize: '14px', cursor: 'pointer',
@@ -77,7 +144,7 @@ const PotterySpotlight = ({ currentClue, setCurrentClue }) => {
             <div style={{ 
               fontSize: '10px', 
               fontWeight: 'bold', 
-              color: currentClue === c.id ? 'var(--lesson-accent)' : 'var(--lesson-muted)',
+              color: currentClue === c.id ? '#A64B27' : 'var(--lesson-muted)',
               marginTop: '4px'
             }}>
               {c.timelineText}
@@ -87,7 +154,7 @@ const PotterySpotlight = ({ currentClue, setCurrentClue }) => {
             <div style={{ 
               height: '4px', 
               width: '40px',
-              background: currentClue > c.id ? 'var(--lesson-success)' : 'var(--lesson-border)',
+              background: currentClue > c.id ? '#3B2A1F' : 'var(--lesson-border)',
               margin: '0 4px',
               flexShrink: 1,
               transform: 'translateY(-8px)'
@@ -102,19 +169,19 @@ const PotterySpotlight = ({ currentClue, setCurrentClue }) => {
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '0', boxSizing: 'border-box', overflow: 'hidden' }}>
       
       <div style={{ marginBottom: 'clamp(8px, 1.5vh, 16px)' }}>
-        <h3 style={{ fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: '900', color: 'var(--lesson-text)', margin: '0 0 4px 0', wordBreak: 'break-word', lineHeight: '1.2' }}>
+        <h3 style={{ fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: '900', color: '#7A6A52', margin: '0 0 4px 0', wordBreak: 'break-word', lineHeight: '1.2' }}>
           {currentData.title}
         </h3>
-        <div style={{ fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: '900', color: 'var(--lesson-accent)', letterSpacing: '1px' }}>
+        <div style={{ fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: '900', color: '#A64B27', letterSpacing: '1px' }}>
           DO YOU KNOW?
         </div>
       </div>
 
       <div style={{ 
         flex: '1 1 auto', 
-        backgroundColor: 'var(--lesson-background)', 
+        backgroundColor: '#FDF6F2', 
         borderRadius: '12px', 
-        border: '1px solid var(--lesson-border)', 
+        border: '3px solid #D9C9A3', 
         padding: 'clamp(12px, 2vmin, 16px)',
 
         display: 'flex',
@@ -128,32 +195,32 @@ const PotterySpotlight = ({ currentClue, setCurrentClue }) => {
         boxSizing: 'border-box',
         overflow: 'visible'
       }}>
-        
-        <div style={{ fontSize: 'clamp(24px, 4.5vmin, 60px)', fontWeight: '900', color: 'var(--lesson-primary)', marginBottom: 'clamp(8px, 1.5vh, 16px)', lineHeight: '1.1', wordBreak: 'break-word' }}>
+        <div style={{ fontSize: 'clamp(24px, 4.5vmin, 60px)', fontWeight: '900', color: '#A64B27', marginBottom: 'clamp(8px, 1.5vh, 16px)', lineHeight: '1.1', wordBreak: 'break-word' }}>
           {currentData.bigFact}
         </div>
         
-        <div style={{ fontSize: 'clamp(17px, 2.5vw, 21px)', fontWeight: '600', color: 'var(--lesson-text)', lineHeight: '1.5', maxWidth: '100%', overflow: 'visible' }}>
-             <span style={{ backgroundColor: '#fef08a' }}>{currentData.text}</span>
+        <div style={{ fontSize: 'clamp(17px, 2.5vw, 21px)', fontWeight: '600', color: '#3b2818', lineHeight: '1.5', maxWidth: '100%', overflow: 'visible' }}>
+          <span>{currentData.text}</span>
         </div>
       </div>
 
       <div style={{ flex: '0 0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'flex-end', alignItems: 'center' }}>
+          
           {currentClue < clues.length ? (
              <button 
                onClick={() => setCurrentClue(currentClue + 1)}
                style={{
-                 background: 'var(--lesson-accent)', color: 'white', border: 'none', borderRadius: '24px',
+                 background: '#A64B27', color: 'white', border: 'none', borderRadius: '24px',
                  padding: 'clamp(8px, 1.5vw, 12px) clamp(16px, 3vw, 24px)', fontWeight: 'bold', fontSize: 'clamp(14px, 2vw, 18px)',
                  cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                }}
              >
-               NEXT CLUE →
+               NEXT CLUE ΓåÆ
              </button>
           ) : (
              <div style={{
-                 background: 'var(--lesson-success)', color: 'white', borderRadius: '24px',
+                 background: '#FFFFFF', color: 'white', borderRadius: '24px',
                  padding: 'clamp(8px, 1.5vw, 12px) clamp(16px, 3vw, 24px)', fontWeight: 'bold', fontSize: 'clamp(14px, 2vw, 18px)',
 
                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
@@ -168,28 +235,8 @@ const PotterySpotlight = ({ currentClue, setCurrentClue }) => {
   );
 };
 
-const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowIndex = 0, stageCompleted = false, onNext, onComplete }, ref) => {
+export default function InvestigationHandbook({ highestUnlockedIndex = 0, currentFlowIndex = 0, stageCompleted = false, onNext, onComplete }) {
   const handleProceed = onNext || onComplete;
-  
-  const [b1Page, setB1Page] = useState(1);
-  const [currentClue, setCurrentClue] = useState(1);
-
-  useImperativeHandle(ref, () => ({
-    handleGlobalNext: () => {
-      if (currentFlowIndex < 5) {
-        if (b1Page === 1) {
-          setB1Page(2);
-          return false; // Don't close handbook
-        } else if (b1Page === 2) {
-          if (currentClue < 5) {
-            return false; // Don't close handbook, user must click the internal clue button
-          }
-          return true; // Close handbook
-        }
-      }
-      return true; // Close handbook for other barriers
-    }
-  }));
 
   // Determine which barrier we are in
   // currentFlowIndex 13 is Mission 3. index >= 13 is Barrier 3.
@@ -219,12 +266,12 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
       height: '100%',
       minHeight: 0,
       boxSizing: 'border-box',
-      background: 'var(--lesson-surface)',
+      background: '#FFFFFF',
       borderRadius: '12px',
       boxShadow: '0 12px 36px rgba(0,0,0,0.14)',
       display: 'flex',
       flexDirection: 'column',
-      border: '8px solid var(--lesson-primary)',
+      border: '8px solid #D9C9A3',
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -249,81 +296,77 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
         overflow: 'hidden'
       }}>
         {!isBarrier2 && !isBarrier3 ? (
-          // ================= BARRIER 1 PAGES =================
+          // ================= BARRIER 1 TWO-PAGE SPREAD =================
           <>
-            {b1Page === 1 && (
-              <div style={{ flex: 1, minHeight: 0, padding: 'clamp(24px, 4vh, 32px) clamp(24px, 3vw, 32px)', position: 'relative', display: 'flex', flexDirection: 'column', gap: 'clamp(12px, 3vh, 24px)' }}>
-                {/* ================= PAGE 1 ================= */}
-                <h2 style={{ margin: 0, fontSize: '34px', color: 'var(--lesson-primary)', fontWeight: '900', borderBottom: '4px solid var(--lesson-accent)', paddingBottom: '4px', display: 'inline-block', alignSelf: 'flex-start' }}>
-                  What are Objects Made Of?
-                </h2>
+            {/* ================= LEFT PAGE (PAGE 1) ================= */}
+            <div style={{ flex: 1, minHeight: 0, padding: 'clamp(24px, 4vh, 32px) clamp(24px, 3vw, 32px)', position: 'relative', display: 'flex', flexDirection: 'column', gap: 'clamp(12px, 3vh, 24px)', borderRight: '1px solid var(--lesson-border)' }}>
+              <h2 style={{ margin: 0, fontSize: '34px', color: '#3B2A1F', fontWeight: '900', borderBottom: '4px solid #A64B27', paddingBottom: '4px', display: 'inline-block', alignSelf: 'flex-start' }}>
+                What are Objects Made Of?
+              </h2>
 
-                <div style={{ fontSize: '21px', color: 'var(--lesson-text)', lineHeight: '1.4', fontWeight: '600', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div>Look around you! You can see many things - a chair, a book, a water bottle, a pencil and so on.</div>
-                  <div>These are all <strong style={{ color: 'var(--lesson-primary)', fontWeight: '800' }}>objects</strong>. Even though they look different, each object is made of some <strong style={{ color: 'var(--lesson-primary)', fontWeight: '800' }}>material</strong>.</div>
-                </div>
+              <div style={{ fontSize: '21px', color: 'var(--lesson-text)', lineHeight: '1.4', fontWeight: '600', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div>Look around you! You can see many things - a chair, a book, a water bottle, a pencil and so on.</div>
+                <div>These are all <strong style={{ color: '#3B2A1F', fontWeight: '800' }}>objects</strong>. Even though they look different, each object is made of some <strong style={{ color: '#3B2A1F', fontWeight: '800' }}>material</strong>.</div>
+              </div>
 
-                <div style={{ border: '1px dashed var(--lesson-border)', borderRadius: '8px', padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ fontSize: '20px', fontWeight: '600', color: 'var(--lesson-text)' }}><strong style={{ color: 'var(--lesson-primary)', fontWeight: '800', fontSize: '22px' }}>Material:</strong> The substance used to make an object.</div>
-                  <div style={{ fontSize: '20px', fontWeight: '600', color: 'var(--lesson-text)' }}><strong style={{ color: 'var(--lesson-primary)', fontWeight: '800', fontSize: '22px' }}>Object:</strong> Anything we can see or use around us.</div>
-                </div>
+              <div style={{ border: '1px dashed var(--lesson-border)', borderRadius: '8px', padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ fontSize: '20px', fontWeight: '600', color: 'var(--lesson-text)' }}><strong style={{ color: '#3B2A1F', fontWeight: '800', fontSize: '22px' }}>Material:</strong> The substance used to make an object.</div>
+                <div style={{ fontSize: '20px', fontWeight: '600', color: 'var(--lesson-text)' }}><strong style={{ color: '#3B2A1F', fontWeight: '800', fontSize: '22px' }}>Object:</strong> Anything we can see or use around us.</div>
+              </div>
 
-                <div style={{ background: 'var(--lesson-background)', border: '1px solid var(--lesson-warning-border)', borderRadius: '8px', padding: '12px 16px' }}>
-                  <h4 style={{ margin: '0 0 8px 0', color: 'var(--lesson-accent)', fontSize: '24px', fontWeight: '800' }}>Examples:</h4>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '21px', fontWeight: '600', color: 'var(--lesson-text)' }}>
-                    <div>Chair can be made of wood, plastic or steel.</div>
-                    <div>A plate can be made of steel, glass or plastic.</div>
-                    <div>A bottle can be made of plastic, glass or steel.</div>
-                  </div>
-                </div>
-
-                <div style={{ background: 'var(--lesson-surface)', border: '1px solid var(--lesson-border)', borderRadius: '8px', padding: '16px 20px', display: 'flex', alignItems: 'flex-start' }}>
-                  <div style={{ fontSize: '21px', fontWeight: '600', color: 'var(--lesson-primary)', lineHeight: '1.4' }}>
-                    <strong style={{ fontWeight: '800', fontSize: '24px' }}>Think!</strong> One object can be made from different materials. One material can be used to make many different objects.
-                  </div>
+              <div style={{ background: '#FFFDF5', border: '3px solid #D9C9A3', borderRadius: '8px', padding: '12px 16px' }}>
+                <h4 style={{ margin: '0 0 8px 0', color: '#A64B27', fontSize: '24px', fontWeight: '900' }}>Examples:</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '21px', fontWeight: '700', color: '#3b2818' }}>
+                  <div>Chair can be made of wood, plastic or steel.</div>
+                  <div>A plate can be made of steel, glass or plastic.</div>
+                  <div>A bottle can be made of plastic, glass or steel.</div>
                 </div>
               </div>
-            )}
 
-            {b1Page === 2 && (
-              <div style={{ flex: 1, minHeight: 0, padding: '24px 32px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
-                {/* ================= PAGE 2 ================= */}
-                <h2 style={{ margin: '0 0 16px 0', fontSize: 'clamp(28px, 3.5vw, 34px)', color: 'var(--lesson-primary)', fontWeight: '900', borderBottom: '4px solid var(--lesson-accent)', paddingBottom: '8px', display: 'inline-block' }}>
-                  Historical Spotlight: Pottery
-                </h2>
-
-                <PotterySpotlight currentClue={currentClue} setCurrentClue={setCurrentClue} />
+              <div style={{ background: '#FFFFFF', border: '2px solid #D9C9A3', borderRadius: '8px', padding: '16px 20px', display: 'flex', alignItems: 'flex-start' }}>
+                <div style={{ fontSize: '21px', fontWeight: '700', color: '#3b2818', lineHeight: '1.4' }}>
+                  <strong style={{ fontWeight: '900', fontSize: '24px', color: '#A64B27' }}>Think!</strong> One object can be made from different materials. One material can be used to make many different objects.
+                </div>
               </div>
-            )}
+            </div>
+
+            {/* ================= RIGHT PAGE (PAGE 2) ================= */}
+            <div style={{ flex: 1, minHeight: 0, padding: '24px 32px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
+              <h2 style={{ margin: '0 0 16px 0', fontSize: 'clamp(28px, 3.5vw, 34px)', color: '#3B2A1F', fontWeight: '900', borderBottom: '4px solid #A64B27', paddingBottom: '8px', display: 'inline-block' }}>
+                Historical Spotlight: Pottery
+              </h2>
+
+              <PotterySpotlight />
+            </div>
           </>
         ) : isBarrier2 ? (
           // ================= BARRIER 2 TWO-PAGE SPREAD =================
           <>
             {/* ================= LEFT PAGE B2 (PAGE 1) ================= */}
             <div style={{ flex: 1, minHeight: 0, padding: '24px 32px', position: 'relative', display: 'flex', flexDirection: 'column', overflowY: 'hidden', borderRight: '1px solid var(--lesson-border)' }}>
-              <h2 style={{ margin: '0 0 16px 0', fontSize: 'calc(var(--text-2xl) * 1.15)', color: 'var(--lesson-primary)', fontWeight: 'bold', borderBottom: '4px solid var(--lesson-accent)', paddingBottom: '6px', display: 'inline-block' }}>
+              <h2 style={{ margin: '0 0 16px 0', fontSize: 'calc(var(--text-2xl) * 1.15)', color: '#3B2A1F', fontWeight: 'bold', borderBottom: '4px solid #A64B27', paddingBottom: '6px', display: 'inline-block' }}>
                 Observe and Identify Appearance of Materials
               </h2>
 
               <div style={{ fontSize: 'clamp(1.30rem, 1.55vw, 1.65rem)', color: 'var(--lesson-text)', lineHeight: '1.4', marginBottom: '14px', fontWeight: '600' }}>
                 <p style={{ margin: '0 0 10px 0', fontSize: 'inherit', lineHeight: 'inherit' }}>Materials can look different from each other.</p>
                 <p style={{ margin: '0 0 10px 0', fontSize: 'inherit', lineHeight: 'inherit' }}>Some have shiny surfaces, while others look dull.</p>
-                <p style={{ margin: '0 0 10px 0', fontSize: 'inherit', lineHeight: 'inherit' }}>They may also differ in <strong style={{ color: 'var(--lesson-primary)', fontWeight: '800' }}>colour</strong> and <strong style={{ color: 'var(--lesson-primary)', fontWeight: '800' }}>texture</strong>, such as smooth or rough.</p>
+                <p style={{ margin: '0 0 10px 0', fontSize: 'inherit', lineHeight: 'inherit' }}>They may also differ in <strong style={{ color: '#A64B27', fontWeight: '800' }}>colour</strong> and <strong style={{ color: '#A64B27', fontWeight: '800' }}>texture</strong>, such as smooth or rough.</p>
               </div>
 
-              <div style={{ border: '2px solid var(--lesson-accent)', borderRadius: '12px', padding: '16px', background: 'var(--lesson-surface)', marginBottom: '14px' }}>
-                <h4 style={{ margin: '0 0 10px 0', color: 'var(--lesson-accent)', fontSize: 'calc(var(--text-lg) * 1.15)', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  ✨ Lustrous vs Non-lustrous
+              <div style={{ border: '2px solid #D9C9A3', borderRadius: '12px', padding: '16px', background: '#FFFFFF', marginBottom: '14px' }}>
+                <h4 style={{ margin: '0 0 10px 0', color: '#A64B27', fontSize: 'calc(var(--text-lg) * 1.15)', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  Γ£¿ Lustrous vs Non-lustrous
                 </h4>
                 <div style={{ fontSize: 'calc(var(--text-lg) * 1.15)', color: 'var(--lesson-text)', lineHeight: '1.4', fontWeight: '600' }}>
-                  <p style={{ margin: '0 0 10px 0' }}>Materials with shiny surfaces are called <strong style={{ color: 'var(--lesson-accent)', fontWeight: '800' }}>lustrous</strong>. Metals like iron, copper and aluminium are usually lustrous.</p>
-                  <p style={{ margin: '0' }}>Paper, wood and rubber are examples of <strong style={{ color: 'var(--lesson-accent)', fontWeight: '800' }}>non-lustrous</strong> materials.</p>
+                  <p style={{ margin: '0 0 10px 0' }}>Materials with shiny surfaces are called <strong style={{ color: '#A64B27', fontWeight: '800' }}>lustrous</strong>. Metals like iron, copper and aluminium are usually lustrous.</p>
+                  <p style={{ margin: '0' }}>Paper, wood and rubber are examples of <strong style={{ color: '#A64B27', fontWeight: '800' }}>non-lustrous</strong> materials.</p>
                 </div>
               </div>
 
               <div style={{ marginTop: 'auto', background: 'var(--lesson-warning-bg)', border: '2px solid var(--lesson-warning-border)', borderRadius: '12px', padding: '12px 18px', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                <div style={{ fontSize: 'calc(var(--text-xl) * 1.3)' }}>📌</div>
-                <div style={{ fontSize: 'calc(var(--text-lg) * 1.3)', color: 'var(--lesson-primary)', lineHeight: '1.35' }}>
+                <div style={{ fontSize: 'calc(var(--text-xl) * 1.3)' }}>≡ƒôî</div>
+                <div style={{ fontSize: 'calc(var(--text-lg) * 1.3)', color: '#3B2A1F', lineHeight: '1.35' }}>
                   <strong>Remember!</strong><br/>
                   Not everything that shines is a metal!
                 </div>
@@ -332,7 +375,7 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
 
             {/* ================= RIGHT PAGE B2 (PAGE 2) ================= */}
             <div style={{ flex: 1, minHeight: 0, padding: '20px 28px', position: 'relative', display: 'flex', flexDirection: 'column', overflowY: 'hidden' }}>
-              <h2 style={{ margin: '0 0 12px 0', fontSize: 'calc(var(--text-2xl) * 1.15)', color: 'var(--lesson-primary)', fontWeight: 'bold' }}>
+              <h2 style={{ margin: '0 0 12px 0', fontSize: 'calc(var(--text-2xl) * 1.15)', color: '#3B2A1F', fontWeight: 'bold' }}>
                 Investigation: Group by Appearance
               </h2>
 
@@ -341,50 +384,50 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
               </div>
 
               <div style={{ background: 'var(--lesson-warning-bg)', border: '1px solid var(--lesson-warning-border)', borderRadius: '12px', padding: '12px 16px', display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '14px' }}>
-                <div style={{ fontSize: 'calc(var(--text-xl) * 1.1)' }}>💡</div>
-                <div style={{ fontSize: 'calc(var(--text-lg) * 1.15)', color: 'var(--lesson-primary)', lineHeight: '1.4', fontWeight: '600' }}>
+                <div style={{ fontSize: 'calc(var(--text-xl) * 1.1)' }}>≡ƒÆí</div>
+                <div style={{ fontSize: 'calc(var(--text-lg) * 1.15)', color: '#3B2A1F', lineHeight: '1.4', fontWeight: '600' }}>
                   Look carefully under the lamp.<br/>Drag each item to the correct group.
                 </div>
               </div>
 
-              <div style={{ border: '2px solid var(--lesson-success)', borderRadius: '12px', padding: '12px 18px', background: 'var(--lesson-success-bg)', display: 'flex', position: 'relative', marginBottom: '14px' }}>
+              <div style={{ border: '2px solid #D9C9A3', borderRadius: '12px', padding: '12px 18px', background: 'var(--lesson-success-bg)', display: 'flex', position: 'relative', marginBottom: '14px' }}>
                 <div style={{ flex: 1 }}>
-                  <h4 style={{ margin: '0 0 10px 0', color: 'var(--lesson-success)', fontSize: 'calc(var(--text-lg) * 1.1)', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold' }}>
-                    🎯 MISSION CHECKLIST
+                  <h4 style={{ margin: '0 0 10px 0', color: '#A64B27', fontSize: 'calc(var(--text-lg) * 1.1)', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold' }}>
+                    ≡ƒÄ» MISSION CHECKLIST
                   </h4>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: 'calc(var(--text-lg) * 1.05)', color: 'var(--lesson-success)', fontWeight: '600' }}>
-                      <input type="checkbox" checked={true} readOnly style={{ width: '18px', height: '18px', accentColor: 'var(--lesson-success)', marginTop: '2px' }} />
+                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: 'calc(var(--text-lg) * 1.05)', color: '#A64B27', fontWeight: '600' }}>
+                      <input type="checkbox" checked={true} readOnly style={{ width: '18px', height: '18px', accentColor: '#A64B27', marginTop: '2px' }} />
                       <span>Read the Handbook</span>
                     </label>
-                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: 'calc(var(--text-lg) * 1.05)', color: 'var(--lesson-success)', fontWeight: '600' }}>
-                      <input type="checkbox" checked={false} readOnly style={{ width: '18px', height: '18px', accentColor: 'var(--lesson-success)', marginTop: '2px' }} />
+                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: 'calc(var(--text-lg) * 1.05)', color: '#A64B27', fontWeight: '600' }}>
+                      <input type="checkbox" checked={false} readOnly style={{ width: '18px', height: '18px', accentColor: '#A64B27', marginTop: '2px' }} />
                       <span>Observe the materials</span>
                     </label>
-                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: 'calc(var(--text-lg) * 1.05)', color: 'var(--lesson-success)', fontWeight: '600' }}>
-                      <input type="checkbox" checked={false} readOnly style={{ width: '18px', height: '18px', accentColor: 'var(--lesson-success)', marginTop: '2px' }} />
+                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: 'calc(var(--text-lg) * 1.05)', color: '#A64B27', fontWeight: '600' }}>
+                      <input type="checkbox" checked={false} readOnly style={{ width: '18px', height: '18px', accentColor: '#A64B27', marginTop: '2px' }} />
                       <span>Group by appearance</span>
                     </label>
-                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: 'calc(var(--text-lg) * 1.05)', color: 'var(--lesson-success)', fontWeight: '600' }}>
-                      <input type="checkbox" checked={false} readOnly style={{ width: '18px', height: '18px', accentColor: 'var(--lesson-success)', marginTop: '2px' }} />
+                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: 'calc(var(--text-lg) * 1.05)', color: '#A64B27', fontWeight: '600' }}>
+                      <input type="checkbox" checked={false} readOnly style={{ width: '18px', height: '18px', accentColor: '#A64B27', marginTop: '2px' }} />
                       <span>Test with the lamp</span>
                     </label>
                   </div>
                 </div>
               </div>
 
-              <div style={{ border: '1px solid var(--lesson-border)', borderRadius: '12px', padding: '12px 18px', background: 'var(--lesson-surface)', display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '14px' }}>
-                <h4 style={{ margin: '0', color: 'var(--lesson-primary)', fontSize: 'calc(var(--text-lg) * 1.1)', fontWeight: 'bold' }}>
+              <div style={{ border: '1px solid var(--lesson-border)', borderRadius: '12px', padding: '12px 18px', background: '#FFFFFF', display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '14px' }}>
+                <h4 style={{ margin: '0', color: '#3B2A1F', fontSize: 'calc(var(--text-lg) * 1.1)', fontWeight: 'bold' }}>
                   How to do:
                 </h4>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: 'calc(var(--text-lg) * 1.05)', color: 'var(--lesson-text)', fontWeight: '600' }}>
-                  <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'var(--lesson-accent-bg)', color: 'var(--lesson-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>👆</div> Drag an item from the tray
+                  <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'var(--lesson-accent-bg)', color: '#A64B27', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>≡ƒæå</div> Drag an item from the tray
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: 'calc(var(--text-lg) * 1.05)', color: 'var(--lesson-text)', fontWeight: '600' }}>
-                  <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'var(--lesson-accent-bg)', color: 'var(--lesson-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🎯</div> Drop it in the right group
+                  <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'var(--lesson-accent-bg)', color: '#A64B27', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>≡ƒÄ»</div> Drop it in the right group
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: 'calc(var(--text-lg) * 1.05)', color: 'var(--lesson-text)', fontWeight: '600' }}>
-                  <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'var(--lesson-accent-bg)', color: 'var(--lesson-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>👁️</div> Click the lamp to observe again
+                  <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'var(--lesson-accent-bg)', color: '#A64B27', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>≡ƒæü∩╕Å</div> Click the lamp to observe again
                 </div>
               </div>
 
@@ -396,27 +439,27 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
           <>
             {/* ================= LEFT PAGE B3 (PAGE 1) ================= */}
             <div style={{ flex: 1, minHeight: 0, padding: '24px 32px', position: 'relative', display: 'flex', flexDirection: 'column', overflowY: 'auto', borderRight: '1px solid var(--lesson-border)' }}>
-              <h2 style={{ margin: '0 0 16px 0', fontSize: 'var(--text-2xl)', color: 'var(--lesson-primary)', fontWeight: 'bold', borderBottom: '4px solid var(--lesson-accent)', paddingBottom: '8px', display: 'inline-block' }}>
+              <h2 style={{ margin: '0 0 16px 0', fontSize: 'var(--text-2xl)', color: '#3B2A1F', fontWeight: 'bold', borderBottom: '4px solid #A64B27', paddingBottom: '8px', display: 'inline-block' }}>
                 Choosing the Right Material
               </h2>
 
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', background: 'var(--lesson-surface)', padding: '24px', borderRadius: '12px', marginBottom: '24px', position: 'relative' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#FFFFFF', padding: '24px', borderRadius: '12px', marginBottom: '24px', position: 'relative' }}>
                 <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix&backgroundColor=transparent" alt="Detective" style={{ width: 'clamp(84px, 12vw, 180px)', height: 'clamp(84px, 12vw, 180px)', zIndex: 2 }} />
                 <div style={{ position: 'absolute', display: 'flex', gap: '40px', bottom: '20px' }}>
-                   <div style={{ fontSize: 'var(--text-2xl)', filter: 'drop-shadow(0px 4px 2px rgba(0,0,0,0.2))' }}>🖋️</div>
-                   <div style={{ fontSize: 'var(--text-2xl)', marginLeft: '90px', filter: 'drop-shadow(0px 4px 2px rgba(0,0,0,0.2))' }}>✒️</div>
+                   <div style={{ fontSize: 'var(--text-2xl)', filter: 'drop-shadow(0px 4px 2px rgba(0,0,0,0.2))' }}>≡ƒûï∩╕Å</div>
+                   <div style={{ fontSize: 'var(--text-2xl)', marginLeft: '90px', filter: 'drop-shadow(0px 4px 2px rgba(0,0,0,0.2))' }}>Γ£Æ∩╕Å</div>
                 </div>
               </div>
 
               <div style={{ fontSize: 'calc(var(--text-xl) * 1.05)', color: 'var(--lesson-text)', lineHeight: '1.6', marginBottom: '24px', fontWeight: '500' }}>
                 <p style={{ margin: '0 0 16px 0' }}>Different objects are made for different purposes.</p>
-                <p style={{ margin: '0 0 16px 0' }}>The material used to make an object depends on its <strong style={{ color: 'var(--lesson-primary)', fontWeight: '800' }}>properties</strong> and how the object will be used.</p>
+                <p style={{ margin: '0 0 16px 0' }}>The material used to make an object depends on its <strong style={{ color: '#A64B27', fontWeight: '800' }}>properties</strong> and how the object will be used.</p>
                 <p style={{ margin: '0 0 16px 0' }}>For example, a pen is made of different materials such as plastic, metal and ink. Each material is chosen because it performs a specific job.</p>
-                <p style={{ margin: '0' }}>Choosing the right material helps us make objects that are <strong style={{ color: 'var(--lesson-primary)', fontWeight: '800' }}>safe</strong>, <strong style={{ color: 'var(--lesson-primary)', fontWeight: '800' }}>useful</strong> and <strong style={{ color: 'var(--lesson-primary)', fontWeight: '800' }}>long-lasting</strong>.</p>
+                <p style={{ margin: '0' }}>Choosing the right material helps us make objects that are <strong style={{ color: '#A64B27', fontWeight: '800' }}>safe</strong>, <strong style={{ color: '#A64B27', fontWeight: '800' }}>useful</strong> and <strong style={{ color: '#A64B27', fontWeight: '800' }}>long-lasting</strong>.</p>
               </div>
 
               <div style={{ background: 'var(--lesson-warning-bg)', border: '1px solid var(--lesson-warning-border)', borderRadius: '12px', padding: '16px', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                <div style={{ fontSize: 'var(--text-xl)' }}>💡</div>
+                <div style={{ fontSize: 'var(--text-xl)' }}>≡ƒÆí</div>
                 <div style={{ fontSize: 'var(--text-xl)', color: 'var(--lesson-accent-text)', lineHeight: '1.4' }}>
                   <strong>Remember</strong><br/>
                   The properties of a material help us decide where and how it should be used.
@@ -426,7 +469,7 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
 
             {/* ================= RIGHT PAGE B3 (PAGE 2) ================= */}
             <div style={{ flex: 1, minHeight: 0, padding: '24px 32px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
-              <h2 style={{ margin: '0 0 16px 0', fontSize: 'var(--text-2xl)', color: 'var(--lesson-primary)', fontWeight: 'bold' }}>
+              <h2 style={{ margin: '0 0 16px 0', fontSize: 'var(--text-2xl)', color: '#3B2A1F', fontWeight: 'bold' }}>
                 Case File 03: Choosing the Right Material
               </h2>
 
@@ -437,13 +480,13 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
 
               <div style={{ border: '2px dashed var(--lesson-accent-border)', borderRadius: '12px', padding: '16px', marginBottom: '16px', background: 'var(--lesson-accent-bg)', position: 'relative' }}>
                 <h4 style={{ margin: '0 0 12px 0', color: '#A64B27', fontSize: 'var(--text-xl)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  🧠 Think Like a Scientist
+                  ≡ƒºá Think Like a Scientist
                 </h4>
                 <p style={{ margin: '0 0 12px 0', fontSize: 'var(--text-xl)', color: 'var(--lesson-text)' }}>Before making a choice, ask yourself:</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: 'var(--text-xl)', color: 'var(--lesson-text)' }}>
-                  <div style={{ display: 'flex', gap: '8px' }}><span style={{ color: '#A64B27', fontWeight: 'bold' }}>✔</span> Is this material strong enough?</div>
-                  <div style={{ display: 'flex', gap: '8px' }}><span style={{ color: '#A64B27', fontWeight: 'bold' }}>✔</span> Is it safe to use?</div>
-                  <div style={{ display: 'flex', gap: '8px' }}><span style={{ color: '#A64B27', fontWeight: 'bold' }}>✔</span> Will it work well for this purpose?</div>
+                  <div style={{ display: 'flex', gap: '8px' }}><span style={{ color: '#A64B27', fontWeight: 'bold' }}>Γ£ö</span> Is this material strong enough?</div>
+                  <div style={{ display: 'flex', gap: '8px' }}><span style={{ color: '#A64B27', fontWeight: 'bold' }}>Γ£ö</span> Is it safe to use?</div>
+                  <div style={{ display: 'flex', gap: '8px' }}><span style={{ color: '#A64B27', fontWeight: 'bold' }}>Γ£ö</span> Will it work well for this purpose?</div>
                 </div>
                 <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix&backgroundColor=transparent" alt="Detective" style={{ position: 'absolute', bottom: '10px', right: '10px', width: 'clamp(56px, 8vw, 120px)', height: 'clamp(56px, 8vw, 120px)' }} />
               </div>
@@ -451,19 +494,19 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
               <div style={{ background: 'var(--lesson-warning-bg)', border: '1px solid var(--lesson-warning-border)', borderRadius: '12px', padding: '16px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <div style={{ flex: 1 }}>
                   <h4 style={{ margin: '0 0 6px 0', color: '#A64B27', fontSize: 'var(--text-xl)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    ⭐ Example
+                    Γ¡É Example
                   </h4>
                   <p style={{ margin: 0, fontSize: 'var(--text-xl)', color: 'var(--lesson-text)' }}>
                     A shopping bag can be made from cloth or paper, but each material is suitable for different situations.
                   </p>
                 </div>
-                <div style={{ fontSize: 'var(--text-3xl)', display: 'flex', gap: '8px' }}>🛍️ 🛍️</div>
+                <div style={{ fontSize: 'var(--text-3xl)', display: 'flex', gap: '8px' }}>≡ƒ¢ì∩╕Å ≡ƒ¢ì∩╕Å</div>
               </div>
 
               <div style={{ border: '2px solid #D9C9A3', borderRadius: '12px', padding: '16px', background: 'var(--lesson-success-bg)', display: 'flex', position: 'relative' }}>
                 <div style={{ flex: 1, paddingRight: '80px' }}>
                   <h4 style={{ margin: '0 0 12px 0', color: '#A64B27', fontSize: 'var(--text-lg)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    🎯 MISSION
+                    ≡ƒÄ» MISSION
                   </h4>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: 'var(--text-lg)', color: 'var(--lesson-text)' }}>
@@ -498,7 +541,7 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
       {/* FOOTER BAR WITH BOTTOM-RIGHT NEXT BUTTON */}
       <div style={{
         height: '56px',
-        background: 'var(--lesson-surface)',
+        background: '#FFFFFF',
         borderTop: '1px solid var(--lesson-border)',
         padding: '0 24px',
         display: 'flex',
@@ -508,12 +551,9 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
         zIndex: 10
       }}>
         <div style={{ color: 'var(--lesson-muted)', fontSize: '0.9rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span>📖</span> Investigation Handbook
+          <span>≡ƒôû</span> Investigation Handbook
         </div>
       </div>
     </div>
   );
-};
-
-const InvestigationHandbook = forwardRef(InvestigationHandbookRender);
-export default InvestigationHandbook;
+}
