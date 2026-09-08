@@ -156,7 +156,7 @@ export default function Stage4c_Hardness_Observe({ onComplete, addXp }) {
 
       <div style={{ display: 'flex', gap: '1rem', width: '100%', flex: 1, minHeight: 0 }}>
         {/* Left Panel */}
-        <div className="glass-panel" style={{ flex: '0 0 300px', display: 'flex', flexDirection: 'column', gap: '0.75rem', border: '1px solid var(--border)', padding: '1rem', overflowY: 'hidden' }}>
+        <div className="glass-panel" style={{ width: '30%', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem', border: '1px solid var(--border)', padding: '1rem', overflowY: 'hidden' }}>
           <h4 style={{ margin: 0, fontSize: '1.35rem', paddingBottom: '0.5rem', borderBottom: '1px solid var(--border)' }}>
             Objects to Investigate ({completedCount} / 5)
           </h4>
@@ -191,7 +191,7 @@ export default function Stage4c_Hardness_Observe({ onComplete, addXp }) {
           </div>
         </div>
                {/* Center Panel */}
-        <div className="glass-panel" style={{ flex: '1', display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px solid var(--border)', padding: '1rem', position: 'relative', overflowY: 'hidden' }}>
+        <div className="glass-panel" style={{ width: '70%', flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px solid var(--border)', padding: '1rem', position: 'relative', overflowY: 'hidden' }}>
           
           <div style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
             <Search size={22} style={{ color: 'var(--text-muted)' }} /> 
@@ -227,10 +227,10 @@ export default function Stage4c_Hardness_Observe({ onComplete, addXp }) {
                   color: 'white', padding: '0.75rem 2.5rem', borderRadius: '10px', fontSize: '1.5rem', 
                   fontWeight: 'bold', border: 'none', cursor: isPlaying ? 'not-allowed' : 'pointer', 
                   boxShadow: isPlaying ? 'none' : '0 4px 14px rgba(34, 197, 94, 0.4)', 
-                  transition: 'all 0.2s'
+                  transition: 'all 0.2s', whiteSpace: 'nowrap'
                 }}
               >
-                PRESS
+                OBSERVE THE CHANGE
               </button>
             </div>
           )}

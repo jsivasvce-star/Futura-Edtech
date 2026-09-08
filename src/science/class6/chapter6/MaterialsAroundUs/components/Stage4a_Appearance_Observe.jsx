@@ -36,46 +36,53 @@ const MATERIALS = [
 // const SHINY_IDS = new Set(MATERIALS.filter(m => m.isShiny).map(m => m.id));
 
 const WHICH_SIDE_MATERIALS = [
-  { id: "goldcoin", name: "Gold Coin", img: goldCoinImg, isShiny: true },
-  { id: "glassmarble", name: "Glass Marble", img: glassMarbleImg, isShiny: true },
   { id: "cd", name: "CD", img: cdImg, isShiny: true },
-  { id: "plasticruler", name: "Plastic Ruler", img: plasticRulerImg, isShiny: false },
+  { id: "goldcoin", name: "Gold Coin", img: goldCoinImg, isShiny: true },
   { id: "rubberband", name: "Rubber Band", img: rubberBandImg, isShiny: false },
+  { id: "glassmarble", name: "Glass Marble", img: glassMarbleImg, isShiny: true },
   { id: "pencil", name: "Pencil", img: pencilImg, isShiny: false },
+  { id: "plasticruler", name: "Plastic Ruler", img: plasticRulerImg, isShiny: false },
 ];
 
 const WHICH_SIDE_SHINY_IDS = new Set(WHICH_SIDE_MATERIALS.filter(m => m.isShiny).map(m => m.id));
 // ── Torch observation modal ────────────────────────────────────────────────────
 const TorchObservation = ({ mat, onDone, onCancel }) => {
   const [torchOn, setTorchOn] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
-  const [feedback, setFeedback] = useState(null);
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [overlayHint, setOverlayHint] = useState(null);
+
+  const [showCorrect, setShowCorrect] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    if (torchOn) {
+      timer = setTimeout(() => setShowOverlay(true), 3000);
+    } else {
+      setShowOverlay(false);
+      setOverlayHint(null);
+      setShowCorrect(false);
+    }
+    return () => clearTimeout(timer);
+  }, [torchOn]);
 
   const handleToggle = (isOn) => {
     setTorchOn(isOn);
   };
 
   const handleAnswer = (answer) => {
-    const isShinyAnswer = answer === 'shiny';
-    if (isShinyAnswer === mat.isShiny) {
-      setFeedback('correct');
+    const isCorrect = answer === (mat.isShiny ? "shiny" : "dull");
+    if (isCorrect) {
+      setOverlayHint(null);
+      setShowCorrect(true);
       setTimeout(() => {
+        setShowCorrect(false);
+        setShowOverlay(false);
         onDone(answer);
       }, 1500);
     } else {
-      setFeedback('wrong');
+      setOverlayHint("Hint: Look closely. Is there a clear reflection?");
     }
   };
-
-  useEffect(() => {
-    let timer;
-    if (torchOn && !showPopup) {
-      timer = setTimeout(() => {
-        setShowPopup(true);
-      }, 3000);
-    }
-    return () => clearTimeout(timer);
-  }, [torchOn, showPopup]);
 
   return (
     <div style={{
@@ -100,9 +107,6 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
           <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#d1a25a", letterSpacing: "0.5px" }}>
             Investigating: {mat.name}
           </div>
-          <div style={{ fontSize: "1.2rem", color: "#e2d9c8", marginTop: 4 }}>
-            Use the torch to test how light reflects.
-          </div>
         </div>
         <button onClick={onCancel} style={{
           background: '#4a3525', border: '4px solid #fdfbf7',
@@ -118,19 +122,19 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
       <div style={{ flex: 1, display: "flex", overflow: "hidden", position: "relative" }}>
         
         {/* Left: Investigation Area */}
-        <div style={{ flex: 1, position: "relative", padding: "1rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <div style={{ width: "70%", position: "relative", padding: "1rem", display: "flex", flexDirection: "column", gap: "1rem", flexShrink: 0 }}>
           
           <div style={{
             position: "relative", flex: 1, width: "100%", minHeight: 0,
             borderRadius: 12, overflow: "hidden",
             boxShadow: "0 4px 24px rgba(0,0,0,0.6)",
-            background: torchOn ? "radial-gradient(circle at 50% 50%, #3e2c1e 0%, #2c1e14 80%)" : "#3e2c1e",
+            background: "#ffffff",
             display: "flex", justifyContent: "center", alignItems: "center",
             transition: "background 0.3s"
           }}>
             <img src={mat.img} alt={mat.name} draggable="false" style={{
-              width: "100%", height: "100%", objectFit: "contain",
-              filter: "brightness(1) contrast(1)",
+              width: "100%", height: "100%", objectFit: "contain", mixBlendMode: "multiply",
+              filter: (torchOn && mat.isShiny) ? "brightness(1.05) contrast(1.05)" : "brightness(0.95) contrast(1.02)",
               transition: "filter 0.3s",
             }} />
 
@@ -153,45 +157,27 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
               <div style={{
                 position: "absolute", top: 59, left: "50%",
                 width: "100%", height: "calc(100% - 59px)", transform: "translateX(-50%)",
-                background: "linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.02) 40%, transparent 100%)",
+                background: "linear-gradient(to bottom, rgba(250, 204, 21, 0.25) 0%, rgba(250, 204, 21, 0.05) 40%, transparent 100%)",
                 pointerEvents: "none", clipPath: "polygon(44% 0%, 56% 0%, 90% 100%, 10% 100%)", zIndex: 10,
               }} />
             )}
 
-            {torchOn && (
+            {torchOn && mat.isShiny && (
               <>
-                {mat.isShiny ? (
-                  <>
-                    <div style={{
-                      position: "absolute", top: "50%", left: "50%", width: "15%", paddingBottom: "15%", borderRadius: "50%",
-                      background: "radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 40%, transparent 70%)",
-                      transform: "translate(-50%,-50%)", filter: "blur(2px)", pointerEvents: "none", zIndex: 15,
-                    }} />
-                    <motion.div
-                      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}
-                      style={{
-                        position: "absolute", top: "50%", left: "50%", width: "80px", height: "300px",
-                        background: "linear-gradient(to top, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%)",
-                        transform: "translate(-50%, -100%) rotate(45deg)", transformOrigin: "bottom center",
-                        filter: "blur(8px)", pointerEvents: "none", zIndex: 14,
-                      }} 
-                    />
-                  </>
-                ) : null}
-
-                {mat.isShiny && (
-                  <>
-                    <motion.div animate={{ opacity: [0.6, 1, 0.6], scale: [0.95, 1.15, 0.95] }} transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }} style={{ position: "absolute", top: "35%", left: "35%", width: "32px", height: "32px", color: "#fdfbf7", filter: "drop-shadow(0 0 8px rgba(255,255,255,0.8))", zIndex: 35, pointerEvents: "none", transform: "translate(-50%, -50%)" }}>
-                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C12 0 12 10.5 24 12C12 13.5 12 24 12 24C12 24 12 13.5 0 12C12 10.5 12 0 12 0Z" /></svg>
-                    </motion.div>
-                    <motion.div animate={{ opacity: [0.5, 0.9, 0.5], scale: [0.9, 1.1, 0.9] }} transition={{ repeat: Infinity, duration: 2.1, ease: "easeInOut", delay: 0.7 }} style={{ position: "absolute", top: "60%", left: "55%", width: "24px", height: "24px", color: "#fdfbf7", filter: "drop-shadow(0 0 6px rgba(255,255,255,0.7))", zIndex: 35, pointerEvents: "none", transform: "translate(-50%, -50%)" }}>
-                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C12 0 12 10.5 24 12C12 13.5 12 24 12 24C12 24 12 13.5 0 12C12 10.5 12 0 12 0Z" /></svg>
-                    </motion.div>
-                    <motion.div animate={{ opacity: [0.3, 0.8, 0.3], scale: [0.9, 1.1, 0.9] }} transition={{ repeat: Infinity, duration: 1.7, ease: "easeInOut", delay: 1.2 }} style={{ position: "absolute", top: "45%", left: "70%", width: "16px", height: "16px", color: "#fdfbf7", filter: "drop-shadow(0 0 4px rgba(255,255,255,0.6))", zIndex: 35, pointerEvents: "none", transform: "translate(-50%, -50%)" }}>
-                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C12 0 12 10.5 24 12C12 13.5 12 24 12 24C12 24 12 13.5 0 12C12 10.5 12 0 12 0Z" /></svg>
-                    </motion.div>
-                  </>
-                )}
+                <div style={{
+                  position: "absolute", top: "50%", left: "50%", width: "15%", paddingBottom: "15%", borderRadius: "50%",
+                  background: "radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,230,0.3) 40%, transparent 70%)",
+                  transform: "translate(-50%,-50%)", filter: "blur(2px)", pointerEvents: "none", zIndex: 15,
+                }} />
+                <motion.div animate={{ opacity: [0.6, 1, 0.6], scale: [0.95, 1.15, 0.95] }} transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }} style={{ position: "absolute", top: "35%", left: "35%", width: "32px", height: "32px", color: "#fbbf24", filter: "drop-shadow(0 0 8px rgba(251,191,36,0.8))", zIndex: 35, pointerEvents: "none", transform: "translate(-50%, -50%)" }}>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C12 0 12 10.5 24 12C12 13.5 12 24 12 24C12 24 12 13.5 0 12C12 10.5 12 0 12 0Z" /></svg>
+                </motion.div>
+                <motion.div animate={{ opacity: [0.5, 0.9, 0.5], scale: [0.9, 1.1, 0.9] }} transition={{ repeat: Infinity, duration: 2.1, ease: "easeInOut", delay: 0.7 }} style={{ position: "absolute", top: "60%", left: "55%", width: "24px", height: "24px", color: "#fbbf24", filter: "drop-shadow(0 0 6px rgba(251,191,36,0.7))", zIndex: 35, pointerEvents: "none", transform: "translate(-50%, -50%)" }}>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C12 0 12 10.5 24 12C12 13.5 12 24 12 24C12 24 12 13.5 0 12C12 10.5 12 0 12 0Z" /></svg>
+                </motion.div>
+                <motion.div animate={{ opacity: [0.3, 0.8, 0.3], scale: [0.9, 1.1, 0.9] }} transition={{ repeat: Infinity, duration: 1.7, ease: "easeInOut", delay: 1.2 }} style={{ position: "absolute", top: "45%", left: "70%", width: "16px", height: "16px", color: "#fbbf24", filter: "drop-shadow(0 0 4px rgba(251,191,36,0.6))", zIndex: 35, pointerEvents: "none", transform: "translate(-50%, -50%)" }}>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C12 0 12 10.5 24 12C12 13.5 12 24 12 24C12 24 12 13.5 0 12C12 10.5 12 0 12 0Z" /></svg>
+                </motion.div>
               </>
             )}
             
@@ -205,73 +191,94 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
               {mat.name}
             </div>
 
-            {/* Pop-up Question */}
+            {/* Observation Overlay */}
             <AnimatePresence>
-              {showPopup && (
+              {showOverlay && (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
                   style={{
-                    position: "absolute", inset: 0, background: "rgba(44,30,20,0.85)", zIndex: 50,
-                    display: "flex", alignItems: "center", justifyContent: "center"
+                    position: "absolute", inset: 0, zIndex: 60,
+                    background: "rgba(44, 30, 20, 0.75)", backdropFilter: "blur(4px)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
                   }}
                 >
                   <div style={{
-                    background: "#fdfbf7", padding: "1.5rem 2rem", borderRadius: "16px",
-                    border: "3px solid #d1a25a", boxShadow: "0 8px 32px rgba(0,0,0,0.6)",
-                    display: "flex", flexDirection: "column", alignItems: "center", gap: "1.2rem", width: "85%", maxWidth: "400px"
+                    background: "#fdfbf7", padding: "2rem 3rem", borderRadius: 16,
+                    border: "3px solid #d1a25a", boxShadow: "0 12px 32px rgba(0,0,0,0.4)",
+                    display: "flex", flexDirection: "column", alignItems: "center", gap: "1.25rem"
                   }}>
-                    <h3 style={{ margin: 0, fontSize: "2.2rem", color: "#4a3525", textAlign: "center" }}>Shine or Dull?</h3>
+                    <div style={{ fontSize: "1.5rem", fontWeight: 700, color: "#8a6545" }}>{mat.name}</div>
+                    <div style={{ fontSize: "2.1rem", fontWeight: 900, color: "#4a3525", marginBottom: 12 }}>What did you observe?</div>
                     
-                    {feedback === 'correct' ? (
-                      <div style={{ fontSize: "1.4rem", fontWeight: "bold", color: "#166534", textAlign: "center", padding: "1rem", background: "#dcfce7", border: "2px solid #22c55e", borderRadius: "12px", width: "100%" }}>
-                        Correct! ✨ Proceeding...
+                    {showCorrect ? (
+                      <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#16a34a", padding: "1.25rem", textAlign: "center", width: "100%", background: "#dcfce7", borderRadius: 10, border: "2px solid #22c55e" }}>
+                        ✓ Correct!
                       </div>
                     ) : (
-                      <>
-                        <div style={{ display: "flex", gap: "1rem", width: "100%" }}>
-                          <button onClick={() => handleAnswer("shiny")} style={{ flex: 1, padding: "1rem", fontSize: "1.6rem", fontWeight: "bold", background: "#4a3525", border: "2px solid #6b5c51", color: "#fdfbf7", borderRadius: "10px", cursor: "pointer", transition: "all 0.2s" }} onMouseOver={(e) => { e.currentTarget.style.background = '#6b5c51'; e.currentTarget.style.borderColor = '#d1a25a'; }} onMouseOut={(e) => { e.currentTarget.style.background = '#4a3525'; e.currentTarget.style.borderColor = '#6b5c51'; }}>Shine</button>
-                          <button onClick={() => handleAnswer("dull")} style={{ flex: 1, padding: "1rem", fontSize: "1.6rem", fontWeight: "bold", background: "#4a3525", border: "2px solid #6b5c51", color: "#fdfbf7", borderRadius: "10px", cursor: "pointer", transition: "all 0.2s" }} onMouseOver={(e) => { e.currentTarget.style.background = '#6b5c51'; e.currentTarget.style.borderColor = '#d1a25a'; }} onMouseOut={(e) => { e.currentTarget.style.background = '#4a3525'; e.currentTarget.style.borderColor = '#6b5c51'; }}>Dull</button>
-                        </div>
-                        {feedback === 'wrong' && (
-                          <div style={{ fontSize: "1.1rem", color: "#b91c1c", textAlign: "center", fontWeight: "bold", background: "#fee2e2", border: "1px solid #fca5a5", padding: "0.8rem", borderRadius: "8px", width: "100%" }}>
-                            Not quite. Look at the reflection again and choose the correct answer.
-                          </div>
-                        )}
-                      </>
+                      <div style={{ display: "flex", gap: "1.25rem", width: "100%" }}>
+                        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                          onClick={() => handleAnswer("shiny")}
+                          style={{
+                            flex: 1, padding: "1rem", borderRadius: 10,
+                            background: "#4a3525", color: "#fdfbf7",
+                            fontWeight: 900, fontSize: "1.6rem", cursor: "pointer",
+                            border: "2px solid #6b5c51",
+                          }}>
+                          ✨ Shiny
+                        </motion.button>
+                        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                          onClick={() => handleAnswer("dull")}
+                          style={{
+                            flex: 1, padding: "1rem", borderRadius: 10,
+                            background: "#4a3525", color: "#fdfbf7",
+                            fontWeight: 900, fontSize: "1.6rem", cursor: "pointer",
+                            border: "2px solid #6b5c51",
+                          }}>
+                          ◇ Dull
+                        </motion.button>
+                      </div>
+                    )}
+                    {overlayHint && (
+                      <div style={{ color: "#dc2626", fontWeight: 700, fontSize: "1.1rem", marginTop: 8 }}>
+                        {overlayHint}
+                      </div>
                     )}
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
+
           </div>
         </div>
 
         {/* Right: Controls Panel */}
         <div style={{
-          width: "360px", padding: "1rem", borderLeft: "1px solid #4a3525",
-          background: "transparent", display: "flex", flexDirection: "column", gap: "0.8rem", overflow: "hidden"
+          width: "30%", padding: "1.25rem", borderLeft: "1px solid #4a3525",
+          background: "transparent", display: "flex", flexDirection: "column", gap: "0.85rem", overflow: "hidden", flexShrink: 0
         }}>
           
           <div style={{
             background: "#8a6545", borderRadius: 12,
-            padding: "1rem", border: "1px solid #a0744e",
+            padding: "0.85rem", border: "1px solid #a0744e",
             boxShadow: "0 4px 12px rgba(0,0,0,0.2)", flexShrink: 0
           }}>
-            <div style={{ fontSize: "1.8rem", color: "#fdfbf7", marginBottom: "0.3rem", fontWeight: 900 }}>
+            <div style={{ fontSize: "2.1rem", color: "#fdfbf7", marginBottom: "0.5rem", fontWeight: 900 }}>
               Observation
             </div>
-            <div style={{ fontSize: "1.2rem", color: "#fdfbf7", lineHeight: 1.3, marginBottom: "0.8rem" }}>
+            <div style={{ fontSize: "1.4rem", color: "#fdfbf7", lineHeight: 1.3, marginBottom: "0.75rem" }}>
               Turn the torch ON and OFF and observe what happens to the light.
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               <button
                 onClick={() => handleToggle(true)}
                 style={{
-                  padding: "0.8rem", borderRadius: 8,
+                  padding: "0.85rem", borderRadius: 8,
                   background: "#4a3525",
                   color: "#fdfbf7", border: torchOn ? "3px solid #d1a25a" : "3px solid #6b5c51",
-                  fontSize: "1.4rem", fontWeight: 900, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, transition: "all 0.2s",
+                  fontSize: "1.65rem", fontWeight: 900, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, transition: "all 0.2s",
                   boxShadow: torchOn ? "0 0 16px rgba(209,162,90,0.5)" : "none"
                 }}
               >
@@ -280,10 +287,10 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
               <button
                 onClick={() => handleToggle(false)}
                 style={{
-                  padding: "0.8rem", borderRadius: 8,
+                  padding: "0.85rem", borderRadius: 8,
                   background: "#4a3525",
                   color: "#fdfbf7", border: !torchOn ? "3px solid #d1a25a" : "3px solid #6b5c51",
-                  fontSize: "1.4rem", fontWeight: 900, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, transition: "all 0.2s",
+                  fontSize: "1.65rem", fontWeight: 900, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, transition: "all 0.2s",
                   boxShadow: !torchOn ? "0 0 16px rgba(209,162,90,0.5)" : "none"
                 }}
               >
@@ -293,12 +300,12 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
           </div>
 
           <div style={{
-            background: "#f0e8d9", borderRadius: 12, padding: "1rem 1.25rem",
-            border: "1px solid #d1a25a",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.15)", flexShrink: 0
+            background: "#f0e8d9", borderRadius: 12, padding: "1.5rem",
+            border: "1px solid #d1a25a", flex: 1,
+            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
           }}>
-            <div style={{ fontWeight: 900, color: "#8a6545", marginBottom: "0.5rem", fontSize: "1.8rem" }}>Watch for:</div>
-            <ul style={{ margin: 0, paddingLeft: "1.8rem", display: "flex", flexDirection: "column", gap: "6px", color: "#4a3525", fontWeight: 700, fontSize: "1.4rem", lineHeight: 1.3 }}>
+            <div style={{ fontWeight: 900, color: "#8a6545", marginBottom: "1rem", fontSize: "2.35rem" }}>Watch for:</div>
+            <ul style={{ margin: 0, paddingLeft: "2.5rem", display: "flex", flexDirection: "column", gap: "12px", color: "#4a3525", fontWeight: 700, fontSize: "1.9rem", lineHeight: 1.4 }}>
               <li>Does a bright spot appear?</li>
               <li>Is the reflection clear or soft?</li>
             </ul>
@@ -332,10 +339,11 @@ const MaterialCard = ({ mat, state, onClick }) => {
           : "0 4px 16px rgba(0,0,0,0.1)",
       }}
     >
-      <div style={{ position: "relative", flex: 1, minHeight: 0, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", padding: 0, background: "transparent" }}>
+      <div style={{ position: "relative", flex: 1, minHeight: 0, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", padding: "0", background: "transparent" }}>
         <img src={mat.img} alt={mat.name} draggable="false" style={{
-          width: "100%", height: "100%", objectFit: "cover",
+          width: "100%", height: "100%", objectFit: "contain", mixBlendMode: "multiply",
           objectPosition: "center", display: "block",
+          transform: (mat.id === "paper" || mat.id === "steel") ? "scale(1.15)" : "scale(1.4)", transformOrigin: "center",
           filter: isDone && mat.isShiny
             ? "brightness(1.15) contrast(1.08) saturate(1.1)"
             : isDone ? "brightness(0.88) contrast(1.05)"
@@ -452,17 +460,19 @@ const WhichSideActivity = ({ onSolve }) => {
         whileHover={!isSuccess ? { scale: 1.05 } : {}}
         whileTap={!isSuccess ? { scale: 0.95 } : {}}
         style={{
-          width: 80, height: 90,
-          background: "white", borderRadius: 10,
+          width: 130, height: 135,
+          background: "white", borderRadius: 12,
           border: isError ? "2px solid var(--lesson-danger)" : "1px solid var(--lesson-border)",
           boxShadow: isError ? "0 0 8px rgba(239,68,68,0.5)" : "0 4px 6px rgba(0,0,0,0.05)",
           display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-          gap: 8, cursor: isSuccess ? "default" : "grab",
+          gap: 12, cursor: isSuccess ? "default" : "grab",
           backgroundColor: isError ? "var(--lesson-danger-bg)" : "white",
         }}
       >
-        <img src={mat.img} alt={mat.name} draggable="false" style={{ width: 40, height: 40, objectFit: "contain", filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.1))" }} />
-        <div style={{ fontSize: "0.75rem", fontWeight: 700, color: "#4a3525", textAlign: "center", lineHeight: 1.1 }}>{mat.name}</div>
+        <div style={{ flex: 1, width: "100%", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", paddingTop: 8 }}>
+          <img src={mat.img} alt={mat.name} draggable="false" style={{ width: "90%", height: "90%", objectFit: "contain", mixBlendMode: "multiply", transform: "scale(1.2)" }} />
+        </div>
+        <div style={{ fontSize: "1.05rem", fontWeight: 700, color: "#4a3525", textAlign: "center", lineHeight: 1.1, paddingBottom: 8 }}>{mat.name}</div>
       </motion.div>
     );
   };
@@ -472,22 +482,19 @@ const WhichSideActivity = ({ onSolve }) => {
       initial={{ scale: 0.9, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       style={{
-        background: "white", borderRadius: 20, padding: "2.5rem",
-        width: 700, maxWidth: "90vw",
+        background: "white", borderRadius: 20, padding: "2.25rem 3rem",
+        width: 940, maxWidth: "95vw",
         boxShadow: "0 24px 48px rgba(0,0,0,0.3)",
-        display: "flex", flexDirection: "column", gap: "2rem",
+        display: "flex", flexDirection: "column", gap: "1.75rem",
         fontFamily: "'Inter', sans-serif"
       }}
     >
       <div style={{ textAlign: "center" }}>
-        <h2 style={{ margin: 0, fontSize: "2.2rem", fontWeight: 900, color: "#4a3525", fontFamily: "'Merriweather', 'Georgia', serif" }}>
+        <h2 style={{ margin: 0, fontSize: "2.5rem", fontWeight: 900, color: "#4a3525", fontFamily: "'Merriweather', 'Georgia', serif" }}>
           Which Side?
         </h2>
-        <p style={{ margin: "10px 0 0", fontSize: "1.1rem", fontWeight: 700, color: "#6b5c51" }}>
+        <p style={{ margin: "8px 0 0", fontSize: "1.5rem", fontWeight: 700, color: "#6b5c51", whiteSpace: "nowrap" }}>
           Drag each object to the side where it belongs.
-        </p>
-        <p style={{ margin: "4px 0 0", fontSize: "0.95rem", color: "#8a7b6f" }}>
-          Can you identify which materials are shiny and which are dull?
         </p>
       </div>
 
@@ -495,7 +502,7 @@ const WhichSideActivity = ({ onSolve }) => {
         onDragOver={handleDragOver}
         onDrop={(e) => handleDrop(e, "unplaced")}
         style={{
-          minHeight: 110, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "1rem",
+          minHeight: 140, display: "flex", flexWrap: "nowrap", justifyContent: "center", gap: "1rem",
           padding: "1rem", borderRadius: 12, background: "rgba(0,0,0,0.02)"
         }}
       >
@@ -507,17 +514,17 @@ const WhichSideActivity = ({ onSolve }) => {
           onDragOver={handleDragOver}
           onDrop={(e) => handleDrop(e, "shiny")}
           style={{
-            flex: 1, minHeight: 220, borderRadius: 16,
+            flex: 1, minHeight: 230, borderRadius: 16,
             border: "2px dashed #facc15", background: "rgba(250,204,21,0.05)",
-            padding: "1.5rem", display: "flex", flexDirection: "column", gap: "1rem",
+            padding: "1.5rem", display: "flex", flexDirection: "column", gap: "1.25rem",
             alignItems: "center"
           }}
         >
           <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "1.3rem", fontWeight: 900, color: "#A64B27", letterSpacing: "1px" }}>✨ SHINY</div>
-            <div style={{ fontSize: "0.85rem", fontWeight: 600, color: "#A64B27", marginTop: 4 }}>Lustrous materials</div>
+            <div style={{ fontSize: "1.4rem", fontWeight: 900, color: "#A64B27", letterSpacing: "1px" }}>✨ SHINY</div>
+            <div style={{ fontSize: "1rem", fontWeight: 600, color: "#A64B27", marginTop: 4 }}>Lustrous materials</div>
           </div>
-          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "0.75rem", width: "100%" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "1rem", width: "100%" }}>
             {shinyGroup.map(renderCard)}
           </div>
         </div>
@@ -526,17 +533,17 @@ const WhichSideActivity = ({ onSolve }) => {
           onDragOver={handleDragOver}
           onDrop={(e) => handleDrop(e, "dull")}
           style={{
-            flex: 1, minHeight: 220, borderRadius: 16,
-            border: "2px dashed var(--lesson-muted)", background: "rgba(156,163,175,0.05)",
-            padding: "1.5rem", display: "flex", flexDirection: "column", gap: "1rem",
+            flex: 1, minHeight: 230, borderRadius: 16,
+            border: "2px dashed #facc15", background: "rgba(250,204,21,0.05)",
+            padding: "1.5rem", display: "flex", flexDirection: "column", gap: "1.25rem",
             alignItems: "center"
           }}
         >
           <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "1.3rem", fontWeight: 900, color: "#4b5563", letterSpacing: "1px" }}>🪨 DULL</div>
-            <div style={{ fontSize: "0.85rem", fontWeight: 600, color: "#6b7280", marginTop: 4 }}>Non-lustrous materials</div>
+            <div style={{ fontSize: "1.4rem", fontWeight: 900, color: "#A64B27", letterSpacing: "1px" }}>◈ DULL</div>
+            <div style={{ fontSize: "1rem", fontWeight: 600, color: "#A64B27", marginTop: 4 }}>Non-lustrous materials</div>
           </div>
-          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "0.75rem", width: "100%" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "1rem", width: "100%" }}>
             {dullGroup.map(renderCard)}
           </div>
         </div>
@@ -628,7 +635,7 @@ export default function Stage4a_Appearance_Observe({ onComplete, addXp }) {
               <div style={{
                 background: "#f0e8d9",
                 border: "2px solid #e2d9c8", borderRadius: 10,
-                padding: "0.65rem 1rem", fontSize: "1.2rem",
+                padding: "0.65rem 1rem", fontSize: "1.4rem",
                 color: "#4a3525", fontWeight: 800, flexShrink: 0,
               }}>
                 🔦 Click any material to open the torch observation.{doneCount > 0 ? "  (" + doneCount + "/6 done)" : ""}
@@ -666,11 +673,12 @@ export default function Stage4a_Appearance_Observe({ onComplete, addXp }) {
         </div>
 
         {/* Detective Board */}
-        <div className="glass-panel" style={{
-          width: 340, flexShrink: 0,
-          display: "flex", flexDirection: "column",
-          padding: "1rem", overflow: "hidden",
-          background: "#fdfbf7",
+        {!activeMat && (
+          <div className="glass-panel" style={{
+            width: 340, flexShrink: 0,
+            display: "flex", flexDirection: "column",
+            padding: "1rem", overflow: "hidden",
+            background: "#fdfbf7",
           border: "2px solid #e2d9c8",
           borderRadius: "16px",
           boxShadow: "0 4px 16px rgba(0,0,0,0.08)"
@@ -690,18 +698,18 @@ export default function Stage4a_Appearance_Observe({ onComplete, addXp }) {
               const obs = observations[mat.id];
               return (
                 <div key={mat.id} style={{
-                  display: "flex", alignItems: "center", gap: 10,
-                  padding: "6px 10px",
+                  display: "flex", alignItems: "center", gap: 12,
+                  padding: "8px 12px",
                   borderBottom: "1px solid rgba(138,101,69,0.2)",
                   transition: "all 0.3s",
                 }}>
                   <img src={mat.img} alt={mat.name} draggable="false"
-                    style={{ width: 38, height: 38, objectFit: "cover", borderRadius: 6, flexShrink: 0 }} />
+                    style={{ width: 44, height: 44, objectFit: "cover", borderRadius: 8, flexShrink: 0 }} />
                   <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                    <div style={{ fontSize: "1.3rem", fontWeight: 900, color: "#4a3525", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                    <div style={{ fontSize: "1.45rem", fontWeight: 900, color: "#4a3525", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                       {mat.name}
                     </div>
-                    <div style={{ fontSize: "1.1rem", marginTop: 1 }}>
+                    <div style={{ fontSize: "1.25rem", marginTop: 2 }}>
                       {obs ? (
                         <span style={{ color: "#8a6545", fontWeight: 800 }}>
                           {obs.result === "shiny" ? "✨ Shiny" : "🪨 Dull"}
@@ -711,7 +719,7 @@ export default function Stage4a_Appearance_Observe({ onComplete, addXp }) {
                       )}
                     </div>
                   </div>
-                  {obs && <Check size={20} color="#d1a25a" />}
+                  {obs && <Check size={24} color="#d1a25a" />}
                 </div>
               );
             })}
@@ -763,6 +771,7 @@ export default function Stage4a_Appearance_Observe({ onComplete, addXp }) {
             </motion.div>
           )}
         </div>
+        )}
       </div>
       
       {/* Modal Overlay for Which Side Activity */}
