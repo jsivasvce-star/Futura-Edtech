@@ -478,8 +478,8 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
                   setShowHandbook(false);
                 }
               } : handleNext}
-              disabled={(showHandbook && !['stage8_b', 'stage8_c', 'stage3_use', 'stage4_1', 'stage4_2', 'stage4_4', 'stage4_5', 'stage6_a'].includes(currentNode.id)) ? false : !(stageCompleted || currentNode.id === 'stage2')}
-              className={((showHandbook && !['stage8_b', 'stage8_c', 'stage3_use', 'stage4_1', 'stage4_2', 'stage4_4', 'stage4_5', 'stage6_a'].includes(currentNode.id)) || stageCompleted || currentNode.id === 'stage2') ? 'primary' : 'outline'}
+              disabled={false}
+              className={'primary'}
               style={{ 
                 padding: '0.85rem 1.8rem', 
                 fontSize: '1.5rem', 

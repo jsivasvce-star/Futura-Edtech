@@ -213,6 +213,7 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
   // Determine which barrier we are in
   // currentFlowIndex 13 is Mission 3. index >= 13 is Barrier 3.
   const isBarrier2 = currentFlowIndex >= 5 && currentFlowIndex < 13;
+  const isBarrier3 = currentFlowIndex >= 13;
 
   // Barrier 1 logic
   const isPhase1Done = highestUnlockedIndex > 1 || (currentFlowIndex === 1 && stageCompleted);

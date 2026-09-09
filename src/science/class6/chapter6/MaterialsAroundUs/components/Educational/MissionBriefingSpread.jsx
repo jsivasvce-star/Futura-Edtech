@@ -1,17 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ShieldAlert, Check, X, ArrowRight, ArrowLeft } from 'lucide-react';
-import newChiefDetectiveImage from '../../../../../../assets/new chief detective .jpeg';
+import newChiefDetectiveImage from '../../../../../../assets/4.detective.png';
 
 export default function MissionBriefingSpread({ data, onContinue, onBack }) {
+  const [currentPage, setCurrentPage] = useState(1);
   const BLAKE_IMG_URL = '/images/chief_detective_blake.png';
   const isBarrier2 = data?.title?.includes('Barrier 2') || data?.title?.includes('Grouping Materials') || data?.id === 'barrier_2';
-  const detectiveImg = data?.detectiveImage || (isBarrier2 ? newChiefDetectiveImage : BLAKE_IMG_URL);
   
-
+  // ALWAYS use the new wide asset as requested, preventing fallback to narrow portraits
+  const detectiveImg = newChiefDetectiveImage;
+  
   const handleStart = () => {
     onContinue();
   };
+
+  // The user explicitly requested this exact string mapping for the title
+  let displayTitle = data?.title || 'The Classroom Mystery';
+  if (displayTitle === 'The Classroom Mystery (Barrier 1)') {
+    displayTitle = 'The Classroom Mystery (Barrier 2)';
+  } else if (typeof displayTitle === 'string') {
+    displayTitle = displayTitle.replace('Barrier 2', 'Barrier\u00A02');
+  }
 
   return (
     <div style={{
@@ -49,44 +59,38 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
           }
           .page-spread {
             flex: 1;
+            width: 100%;
           }
           .left-page {
             background: #f6f1e4;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: stretch;
             height: 100%;
             overflow: hidden;
             position: relative;
-            padding: 24px 28px 76px;
+            padding: 16px 40px 76px;
           }
           .left-hero-wrapper {
             width: 100%;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
+            flex: 0 0 auto;
+            display: block;
             overflow: hidden;
-          }
-          .barrier2-hero-img {
-            width: 100%;
-            height: clamp(480px, 60vh, 650px);
-            object-fit: cover;
-            object-position: top center;
-            display: block;
-            filter: drop-shadow(0 6px 16px rgba(0,0,0,0.12));
-          }
-          .default-hero-img {
-            width: 100%;
-            height: clamp(480px, 60vh, 650px);
-            object-fit: cover;
-            object-position: top center;
-            display: block;
+            border-radius: 8px;
             box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+          }
+          .barrier2-hero-img, .default-hero-img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            display: block;
           }
 
           /* ---------- RIGHT PAGE ---------- */
           .right-page {
-            background: var(--lesson-surface);
-            border-left: 1px solid #ece7d8;
+            background: #f6f1e4;
             height: 100%;
             position: relative;
             overflow: hidden;
@@ -112,7 +116,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             width: 100%;
             background: white;
             padding: 2.5rem 1.8rem;
-            min-height: 180px;
+            min-height: 120px;
             display: flex;
             align-items: center;
             border-radius: 12px;
@@ -146,14 +150,14 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
           }
           .speech-speaker {
             position: absolute;
-            top: -15px;
+            top: -22px;
             right: 20px;
             background: var(--lesson-muted);
             color: white;
-            padding: 4px 16px;
-            border-radius: 6px;
+            padding: 5px 18px;
+            border-radius: 8px;
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 1.08rem;
+            font-size: 30px;
             font-weight: bold;
             letter-spacing: 1px;
             box-shadow: 0 3px 6px rgba(0,0,0,0.1);
@@ -162,21 +166,21 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
           /* ---------- RIGHT PAGE CONTENT ---------- */
           .mission-header {
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
             letter-spacing: 1.8px;
             color: var(--lesson-primary);
-            margin-bottom: 14px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 10px;
           }
           .mission-title {
-            font-size: clamp(35px, 4.3vh, 46px);
+            font-size: 24px;
             line-height: 1.15;
             color: var(--lesson-primary);
             font-weight: 700;
-            margin: 0 0 22px 0;
+            margin: 0 0 16px 0;
             font-family: Georgia, "Times New Roman", serif;
             word-break: keep-all;
           }
@@ -187,7 +191,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
           .mission-content p {
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
-            font-size: clamp(23px, 2.8vh, 29px);
+            font-size: 16px;
             line-height: 1.5;
             color: #3b4560;
           }
@@ -202,7 +206,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
           }
           .mission-box h3 {
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 19px;
+            font-size: 20px;
             font-weight: 700;
             color: var(--lesson-primary);
             margin: 0 0 12px 0;
@@ -213,7 +217,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
           }
           .mission-box p, .mission-box li {
             font-family: Arial, Helvetica, sans-serif;
-            font-size: clamp(20px, 2.5vh, 25px);
+            font-size: 20px;
             color: var(--lesson-text);
             line-height: 1.45;
             font-weight: 600;
@@ -241,7 +245,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
           }
           .meta-value {
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 22px;
+            font-size: 16px;
             font-weight: 600;
             color: var(--lesson-text);
             display: flex;
@@ -250,7 +254,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
           }
           .meta-stars {
             color: var(--lesson-warning);
-            font-size: 24px;
+            font-size: 20px;
           }
           .meta-stars.empty {
             color: var(--lesson-border);
@@ -283,11 +287,6 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             background: var(--lesson-primary);
           }
 
-          @media (max-width: 1024px) {
-            .spread { flex-direction: column; overflow-y: auto; }
-            .right-page { border-left: none; border-top: 1px solid #ece7d8; overflow-y: visible; }
-            .right-page-content { overflow-y: visible; height: auto; padding-bottom: 96px; }
-          }
           .spread-back-btn {
             position: absolute;
             bottom: 18px;
@@ -323,84 +322,100 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
         transition={{ duration: 0.5 }}
       >
         <div className="spread">
-          {/* LEFT PAGE */}
-          <div className="page-spread left-page">
-            <div className="left-hero-wrapper">
-              <img 
-                src={detectiveImg} 
-                alt="Chief Detective" 
-                className={isBarrier2 ? "barrier2-hero-img" : "default-hero-img"}
-                onError={(e) => { e.target.src = 'https://via.placeholder.com/400x600.png?text=Blake'; }}
-              />
-            </div>
-            <motion.div 
-              className="briefing-box speech-bubble"
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-              <div className="speech-speaker">CHIEF BLAKE</div>
-              <p style={{ margin: 0, fontSize: 'clamp(26px, 3vh, 34px)', color: 'var(--lesson-text)', lineHeight: '1.45', fontWeight: '500' }}>
-                {data.dialogue || "Good morning, Detective. Headquarters has received an unusual science case. Study your investigation brief carefully before proceeding!"}
-              </p>
-            </motion.div>
-
-            <button className="spread-back-btn" onClick={onBack}>
-              <ArrowLeft size={20} /> Back
-            </button>
-          </div>
-          
-          {/* RIGHT PAGE */}
-          <div className="page-spread right-page">
-            <div className="right-page-content">
-              <div className="mission-header">
-                <ShieldAlert size={22} />
+          {currentPage === 1 && (
+            <div className="page-spread left-page">
+              <div className="mission-header" style={{ fontSize: '34px' }}>
+                <ShieldAlert size={34} />
                 MISSION BRIEFING
               </div>
-              
-              <h1 className="mission-title">
-                {typeof data?.title === 'string' ? data.title.replace('Barrier 2', 'Barrier\u00A02') : (data?.title || 'The Classroom Mystery')}
+              <h1 className="mission-title" style={{ fontSize: '42px' }}>
+                {displayTitle}
               </h1>
               
-              <div className="mission-content">
-                <p>{data.description || "Review the handbook and proceed to the activity area to complete the required tasks for this barrier."}</p>
+              <div className="left-hero-wrapper">
+                <img 
+                  src={detectiveImg} 
+                  alt="Chief Detective" 
+                  className={isBarrier2 ? "barrier2-hero-img" : "default-hero-img"}
+                  onError={(e) => { e.target.src = 'https://via.placeholder.com/400x600.png?text=Blake'; }}
+                />
               </div>
-              
-              <div className="mission-box">
-                <h3><Check size={18} color="var(--lesson-danger)" /> OBJECTIVES</h3>
-                {Array.isArray(data.objective) ? (
-                  <ul style={{ margin: 0, paddingLeft: '26px', display: 'flex', flexDirection: 'column', gap: '9px' }}>
-                    {data.objective.map((obj, i) => (
-                      <li key={i} style={{ fontSize: 'clamp(20px, 2.5vh, 25px)', color: 'var(--lesson-text)', lineHeight: '1.45' }}>
-                        {obj}
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>{data.objective || "Complete the investigation."}</p>
-                )}
-              </div>
-              
-              <div className="mission-meta">
-                <div className="meta-item">
-                  <span className="meta-label">Difficulty</span>
-                  <span className="meta-value">
-                    {[1, 2, 3].map(star => (
-                      <span key={star} className={`meta-stars ${star > (data.difficulty || 1) ? 'empty' : ''}`}>★</span>
-                    ))}
-                  </span>
-                </div>
-                <div className="meta-item">
-                  <span className="meta-label">Est. Time</span>
-                  <span className="meta-value">⏱ {data.estimatedTime || '5 minutes'}</span>
-                </div>
-              </div>
-            </div>
+              <motion.div 
+                className="briefing-box speech-bubble"
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                <div className="speech-speaker">CHIEF BLAKE</div>
+                <p style={{ margin: 0, fontSize: '28px', color: 'var(--lesson-text)', lineHeight: '1.45', fontWeight: '600' }}>
+                  {data.dialogue || "Good morning, Detective. Headquarters has received an unusual science case. Study your investigation brief carefully before proceeding!"}
+                </p>
+              </motion.div>
 
-            <button className="start-btn" onClick={handleStart}>
-              Acknowledge & Begin <ArrowRight size={22} />
-            </button>
-          </div>
+              <button className="spread-back-btn" onClick={onBack}>
+                <ArrowLeft size={20} /> Back
+              </button>
+              <button className="start-btn" onClick={() => setCurrentPage(2)}>
+                Next <ArrowRight size={22} />
+              </button>
+            </div>
+          )}
+
+          {currentPage === 2 && (
+            <div className="page-spread right-page">
+              <div className="right-page-content">
+                <div className="mission-header" style={{ fontSize: '20px' }}>
+                  <ShieldAlert size={20} />
+                  MISSION BRIEFING
+                </div>
+                
+                <h1 className="mission-title" style={{ fontSize: '24px' }}>
+                  {displayTitle}
+                </h1>
+                
+                <div className="mission-content">
+                  <p style={{ fontSize: '16px' }}>{data.description || "Review the handbook and proceed to the activity area to complete the required tasks for this barrier."}</p>
+                </div>
+                
+                <div className="mission-box">
+                  <h3 style={{ fontSize: '20px' }}><Check size={20} color="var(--lesson-danger)" /> OBJECTIVES</h3>
+                  {Array.isArray(data.objective) ? (
+                    <ul style={{ margin: 0, paddingLeft: '26px', display: 'flex', flexDirection: 'column', gap: '9px' }}>
+                      {data.objective.map((obj, i) => (
+                        <li key={i} style={{ fontSize: '20px', color: 'var(--lesson-text)', lineHeight: '1.45' }}>
+                          {obj}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p style={{ fontSize: '20px' }}>{data.objective || "Complete the investigation."}</p>
+                  )}
+                </div>
+                
+                <div className="mission-meta">
+                  <div className="meta-item">
+                    <span className="meta-label" style={{ fontSize: '16px' }}>Difficulty</span>
+                    <span className="meta-value" style={{ fontSize: '16px' }}>
+                      {[1, 2, 3].map(star => (
+                        <span key={star} className={`meta-stars ${star > (data.difficulty || 1) ? 'empty' : ''}`}>★</span>
+                      ))}
+                    </span>
+                  </div>
+                  <div className="meta-item">
+                    <span className="meta-label" style={{ fontSize: '16px' }}>Est. Time</span>
+                    <span className="meta-value" style={{ fontSize: '16px' }}>⏱ {data.estimatedTime || '5 minutes'}</span>
+                  </div>
+                </div>
+              </div>
+
+              <button className="spread-back-btn" onClick={() => setCurrentPage(1)}>
+                <ArrowLeft size={20} /> Back
+              </button>
+              <button className="start-btn" onClick={handleStart}>
+                Acknowledge & Begin <ArrowRight size={22} />
+              </button>
+            </div>
+          )}
         </div>
       </motion.div>
     </div>
