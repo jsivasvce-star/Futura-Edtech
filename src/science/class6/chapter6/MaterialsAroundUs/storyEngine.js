@@ -88,7 +88,8 @@ export const chapterFlow = [
     objective: [
       'Phase 1: Organize by Purpose',
       'Phase 2: Scientific Grouping',
-      'Phase 3: Product Design'
+      'Phase 3: Suitability',
+      'Phase 4: Product Design'
     ],
     difficulty: 2,
     estimatedTime: '5 minutes',
@@ -97,7 +98,8 @@ export const chapterFlow = [
   // 5: Activity
   { type: 'activity', id: 'stage3_use', title: 'Stage 6.2: Grouping Materials', subtitle: 'Phase 1: Organize by Purpose', component: Stage3_Classification, props: { defaultPhase: 'use' } },
   { type: 'activity', id: 'stage3_material', title: 'Stage 6.2: Grouping Materials', subtitle: 'Phase 2: Scientific Grouping', component: Stage3_Classification, props: { defaultPhase: 'material' } },
-  { type: 'activity', id: 'sportsball', title: 'Stage 6.2: Grouping Materials', subtitle: 'Phase 3: Product Design', component: Stage_SportsBall },
+  { type: 'activity', id: 'stage5', title: 'Stage 6.2: Grouping Materials', subtitle: 'Phase 3: Suitability', component: Stage5_Suitability },
+  { type: 'activity', id: 'sportsball', title: 'Stage 6.2: Grouping Materials', subtitle: 'Phase 4: Product Design', component: Stage_SportsBall },
   // 11: Checkpoint 2
   {
     type: 'checkpoint',
@@ -171,6 +173,21 @@ export const chapterFlow = [
     ]
   },
   
+  // Mission Briefing for 6.3.2 Hardness
+  {
+    type: 'mission',
+    title: 'Hardness (Stage 6.3.2)',
+    dialogue: 'Brilliant work on appearance! Now, we must investigate how easy it is to scratch or compress the materials. This is the property of Hardness.',
+    description: 'Materials can be soft (easily compressed) or hard (difficult to compress). Your next mission is to physically test the hardness of various evidence items and identify materials based on these physical traits.',
+    objective: [
+      'Phase 1: Observe Hardness',
+      'Phase 2: Material Identification'
+    ],
+    difficulty: 2,
+    estimatedTime: '5 minutes',
+    rewardXP: 100
+  },
+  
   // Stage 6.3.2 Hardness
   
   { type: 'activity', id: 'stage4_4', title: 'Stage 6.3.2: Hardness', subtitle: 'Phase 1: Observe Hardness', component: Stage4c_Hardness_Observe, handbook: Handbook_Hardness, layout: '3fr 7fr' },
@@ -202,6 +219,21 @@ export const chapterFlow = [
       'Materials that are difficult to compress or scratch are hard.',
       'Hardness is a physical property used to classify materials.'
     ]
+  },
+  
+  // Mission Briefing for 6.3.3 Transparency
+  {
+    type: 'mission',
+    title: 'Transparency (Stage 6.3.3)',
+    dialogue: 'During a stakeout, a detective must know which materials block sight and which allow it. Let\'s investigate the property of transparency.',
+    description: 'Materials can be transparent, translucent, or opaque based on how much light passes through them. Your next mission is to analyze materials using our surveillance simulator.',
+    objective: [
+      'Phase 1: Surveillance Simulator',
+      'Phase 2: Classify Materials'
+    ],
+    difficulty: 2,
+    estimatedTime: '5 minutes',
+    rewardXP: 100
   },
   
   // Stage 6.3.3 Transparency
