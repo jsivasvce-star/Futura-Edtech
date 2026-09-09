@@ -234,7 +234,7 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
 
   return (
     <div style={{
-      width: (!isBarrier2 && !isBarrier3) ? '100vw' : '100%',
+      width: '100%',
       height: (!isBarrier2 && !isBarrier3) ? '100vh' : '100%',
       position: (!isBarrier2 && !isBarrier3) ? 'fixed' : 'relative',
       top: (!isBarrier2 && !isBarrier3) ? 0 : 'auto',
@@ -253,6 +253,13 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
     }}>
       {(!isBarrier2 && !isBarrier3 && b1Page === 1) && (
         <style>{`
+          .global-action-bar {
+            border-top: none !important;
+            box-shadow: none !important;
+            background: transparent !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+          }
           .global-action-bar button {
             border-radius: 20px !important;
           }
@@ -270,10 +277,10 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
           // ================= BARRIER 1 PAGES =================
           <>
             {b1Page === 1 && (
-              <div style={{ flex: 1, minHeight: 0, padding: '24px 48px', position: 'relative', display: 'flex', flexDirection: 'row', gap: '48px', overflowY: 'auto' }}>
+              <div style={{ flex: 1, minHeight: 0, padding: '24px 48px', position: 'relative', display: 'flex', flexDirection: 'row', gap: '48px', overflow: 'hidden' }}>
                 {/* ================= PAGE 1 ================= */}
                 {/* LEFT COLUMN – 58% */}
-                <div style={{ width: '58%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ width: 'calc(58% - 24px)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   <div>
                     <h2 style={{ margin: 0, fontFamily: "'Merriweather', Georgia, serif", fontSize: '50px', color: '#3F2923', fontWeight: '900', lineHeight: 1.15 }}>
                       What are Objects Made Of?
@@ -318,18 +325,17 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
                 </div>
 
                 {/* RIGHT COLUMN – 42% */}
-                <div style={{ width: '42%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                <div style={{ width: 'calc(42% - 24px)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
                   <img 
                     src={classroomObjectsImg} 
                     alt="Classroom Objects – desk, chair, book, water bottle, pencil" 
                     style={{ 
-                      maxWidth: '100%', 
-                      maxHeight: '100%',
-                      width: 'auto',
-                      height: 'auto', 
-                      objectFit: 'contain', 
+                      width: '100%',
+                      height: '100%', 
+                      objectFit: 'contain',
+                      objectPosition: 'center',
                       mixBlendMode: 'multiply',
-                      filter: 'drop-shadow(0 12px 32px rgba(62, 39, 35, 0.15))'
+                      transform: 'scale(1.3) translateX(0%)',
                     }} 
                   />
                 </div>

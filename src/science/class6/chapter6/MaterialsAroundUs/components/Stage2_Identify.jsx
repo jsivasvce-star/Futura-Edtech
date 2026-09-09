@@ -257,12 +257,12 @@ export default function Stage2_Identify({ onComplete, addXp }) {
 
             <div style={{ borderBottom: '2px dashed var(--lesson-border)', paddingBottom: '12px', marginBottom: '8px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <Search size={28} color="#3B2A1F" />
-                <h4 style={{ margin: 0, fontSize: '1.75rem', letterSpacing: '1px', color: '#3B2A1F', fontWeight: '900' }}>EVIDENCE BOARD</h4>
+                <Search size={36} color="#3B2A1F" />
+                <h4 style={{ margin: 0, fontSize: '2.4rem', letterSpacing: '1px', color: '#3B2A1F', fontWeight: '900' }}>EVIDENCE BOARD</h4>
               </div>
-              <h3 style={{ margin: 0, fontSize: '1rem', color: '#7A6A52', textTransform: 'uppercase', letterSpacing: '1.5px', fontWeight: '700' }}>CASE FILE 06 • MATERIAL SAMPLES</h3>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', alignSelf: 'flex-start', background: '#A64B27', color: 'white', padding: '4px 12px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: '800', marginTop: '4px', letterSpacing: '0.5px' }}>
-                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'white' }} />
+              <h3 style={{ margin: 0, fontSize: '1.4rem', color: '#7A6A52', textTransform: 'uppercase', letterSpacing: '1.5px', fontWeight: '700' }}>CASE FILE 06 • MATERIAL SAMPLES</h3>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', alignSelf: 'flex-start', background: '#A64B27', color: 'white', padding: '8px 16px', borderRadius: '6px', fontSize: '1.2rem', fontWeight: '800', marginTop: '4px', letterSpacing: '0.5px' }}>
+                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'white' }} />
                 {objectsToScan.length} ITEMS • READY TO SCAN
               </div>
             </div>
@@ -331,7 +331,7 @@ export default function Stage2_Identify({ onComplete, addXp }) {
                     }}
                   >
                     {/* Header: Label */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.75rem', color: '#7A6A52', fontWeight: '800', letterSpacing: '0.5px', marginBottom: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '1.15rem', color: '#7A6A52', fontWeight: '800', letterSpacing: '0.5px', marginBottom: '8px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                         <div style={{ width: '4px', height: '12px', background: '#A64B27', borderRadius: '2px' }} />
                         <span>EVIDENCE {(index + 1).toString().padStart(2, '0')}</span>
@@ -369,9 +369,9 @@ export default function Stage2_Identify({ onComplete, addXp }) {
 
                     {/* Footer: Name & Status */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                      <span style={{ fontSize: '1.1rem', fontWeight: '900', color: nameColor, textTransform: 'uppercase', letterSpacing: '0.5px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{obj.name}</span>
+                      <span style={{ fontSize: '1.6rem', fontWeight: '900', color: nameColor, textTransform: 'uppercase', letterSpacing: '0.5px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{obj.name}</span>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <span style={{ fontSize: '0.85rem', fontWeight: '800', color: labelColor, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <span style={{ fontSize: '1.3rem', fontWeight: '800', color: labelColor, display: 'flex', alignItems: 'center', gap: '6px' }}>
                           {isScanning && (
                              <motion.span
                                animate={{ opacity: [1, 0.4, 1] }}
@@ -502,8 +502,8 @@ export default function Stage2_Identify({ onComplete, addXp }) {
                       boxShadow: '0 8px 32px rgba(56, 189, 248, 0.2)'
                     }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', gap: '24px' }}>
-                        <h3 style={{ margin: 0, color: 'rgba(56, 189, 248, 0.9)', fontSize: '0.85rem', fontWeight: '800', letterSpacing: '1px' }}>SCANNER ACTIVE</h3>
-                        <div style={{ fontSize: '1.1rem', fontWeight: '800', color: 'whitefff' }}>{scanProgress}%</div>
+                        <h3 style={{ margin: 0, color: 'rgba(56, 189, 248, 0.9)', fontSize: '1.3rem', fontWeight: '800', letterSpacing: '1px' }}>SCANNER ACTIVE</h3>
+                        <div style={{ fontSize: '1.8rem', fontWeight: '800', color: 'whitefff' }}>{scanProgress}%</div>
                       </div>
                       
                       {/* Progress bar */}
@@ -511,7 +511,7 @@ export default function Stage2_Identify({ onComplete, addXp }) {
                         <div style={{ height: '100%', width: `${scanProgress}%`, background: 'rgba(56, 189, 248, 0.9)', boxShadow: '0 0 10px rgba(56, 189, 248, 0.5)', transition: 'width 0.1s linear' }} />
                       </div>
                       
-                      <h4 style={{ margin: 0, color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.75rem', fontWeight: '700', letterSpacing: '1px', alignSelf: 'flex-start' }}>SCANNING...</h4>
+                      <h4 style={{ margin: 0, color: 'rgba(255, 255, 255, 0.7)', fontSize: '1.2rem', fontWeight: '700', letterSpacing: '1px', alignSelf: 'flex-start' }}>SCANNING...</h4>
                     </div>
                   </>
                 )}
@@ -526,17 +526,17 @@ export default function Stage2_Identify({ onComplete, addXp }) {
                     <Award size={40} style={{ color: '#A64B27' }} />
                   </div>
                   <div>
-                    <h3 style={{ margin: 0, color: 'var(--lesson-surface)', fontSize: '2rem', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>Scan Complete!</h3>
-                    <p style={{ color: 'var(--lesson-border)', fontSize: '1.1rem', marginTop: '0.75rem', maxWidth: '340px', lineHeight: '1.5', textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
+                    <h3 style={{ margin: 0, color: 'var(--lesson-surface)', fontSize: '3rem', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>Scan Complete!</h3>
+                    <p style={{ color: 'var(--lesson-border)', fontSize: '1.6rem', marginTop: '0.75rem', maxWidth: '500px', lineHeight: '1.5', textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
                       You have successfully scanned and identified materials for all objects. Click <strong style={{ color: 'var(--lesson-surface)' }}>"Proceed to next"</strong> in the bottom right corner!
                     </p>
                   </div>
                 </div>
               ) : !selectedObj ? (
                 <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', minHeight: 0, overflow: 'hidden', gap: '0.75rem', position: 'relative', alignItems: 'center', justifyContent: 'center', color: 'var(--scanner-subtext)', textAlign: 'center', padding: '1.5rem', zIndex: 2 }}>
-                  <Search size={48} />
-                  <span style={{ fontWeight: 'bold', fontSize: '1.3rem' }}>Scanner Active</span>
-                  <span style={{ fontSize: '1rem', opacity: 0.8, maxWidth: '280px', lineHeight: '1.5' }}>
+                  <Search size={64} />
+                  <span style={{ fontWeight: 'bold', fontSize: '2rem' }}>Scanner Active</span>
+                  <span style={{ fontSize: '1.5rem', opacity: 0.8, maxWidth: '400px', lineHeight: '1.5' }}>
                     Drag an object from the Evidence Tray and drop it here to scan it!
                   </span>
                 </div>
@@ -558,7 +558,7 @@ export default function Stage2_Identify({ onComplete, addXp }) {
                   alignItems: 'center',
                   gap: '0.75rem',
                   color: '#A64B27',
-                  fontSize: '1.2rem',
+                  fontSize: '2rem',
                   fontWeight: 'bold',
                   letterSpacing: '2px',
                   background: '#FFFFFF',
@@ -607,13 +607,13 @@ export default function Stage2_Identify({ onComplete, addXp }) {
                 }}>
                 
                 {scanState !== 'correct' ? (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '100%', maxWidth: '500px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center', color: '#A64B27', fontSize: '1.4rem', fontWeight: '800', letterSpacing: '1px' }}>
-                      <Check size={22} /> SCAN COMPLETE
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '100%', maxWidth: '600px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center', color: '#A64B27', fontSize: '2rem', fontWeight: '800', letterSpacing: '1px' }}>
+                      <Check size={32} /> SCAN COMPLETE
                     </div>
                     <div style={{ textAlign: 'center' }}>
-                      <span style={{ color: 'var(--lesson-primary)', fontSize: '1.5rem', fontWeight: '800' }}>IDENTIFY MATERIAL</span>
-                      <div style={{ color: 'var(--lesson-secondary)', fontSize: '1.3rem', fontWeight: '800', marginTop: '0.2rem' }}>{selectedObj.name.toUpperCase()}</div>
+                      <span style={{ color: 'var(--lesson-primary)', fontSize: '2.2rem', fontWeight: '800' }}>IDENTIFY MATERIAL</span>
+                      <div style={{ color: 'var(--lesson-secondary)', fontSize: '1.9rem', fontWeight: '800', marginTop: '0.2rem' }}>{selectedObj.name.toUpperCase()}</div>
                     </div>
                     
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', width: '100%', marginTop: '0.5rem' }}>
@@ -623,8 +623,8 @@ export default function Stage2_Identify({ onComplete, addXp }) {
                         const hasScannedThis = scannedObjects[selectedObj.id];
       
                         let btnStyle = {
-                          padding: '1rem 0.5rem',
-                          fontSize: '1.25rem',
+                          padding: '1.25rem 0.5rem',
+                          fontSize: '1.7rem',
                           fontWeight: '800',
                           background: '#FFFFFF',
                           color: 'var(--lesson-text)',
@@ -667,7 +667,7 @@ export default function Stage2_Identify({ onComplete, addXp }) {
                         style={{ width: '100%', marginTop: '0.5rem' }}
                       >
                         <div style={{
-                          fontSize: '1.1rem',
+                          fontSize: '1.5rem',
                           textAlign: 'center',
                           lineHeight: '1.4',
                           padding: '0.75rem',
@@ -684,25 +684,25 @@ export default function Stage2_Identify({ onComplete, addXp }) {
                 ) : (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%', maxWidth: '500px' }}>
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid var(--lesson-border)', paddingBottom: '0.75rem' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#A64B27', fontSize: 'clamp(20px, 3vw, 24px)', fontWeight: 900, letterSpacing: '1px' }}>
-                        <Check size={24} strokeWidth={3} /> MATERIAL IDENTIFIED
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#A64B27', fontSize: 'clamp(28px, 3.5vw, 34px)', fontWeight: 900, letterSpacing: '1px' }}>
+                        <Check size={32} strokeWidth={3} /> MATERIAL IDENTIFIED
                       </div>
                     </div>
                     
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', textAlign: 'center' }}>
                       <div>
-                        <div style={{ color: 'var(--lesson-secondary)', fontSize: 'clamp(15px, 2vw, 18px)', letterSpacing: '1px', marginBottom: '0.25rem', fontWeight: 800 }}>OBJECT</div>
-                        <div style={{ color: 'var(--lesson-primary)', fontSize: 'clamp(22px, 3.5vw, 28px)', fontWeight: 900, letterSpacing: '0.5px' }}>{selectedObj.name.toUpperCase()}</div>
+                        <div style={{ color: 'var(--lesson-secondary)', fontSize: 'clamp(22px, 2.5vw, 26px)', letterSpacing: '1px', marginBottom: '0.25rem', fontWeight: 800 }}>OBJECT</div>
+                        <div style={{ color: 'var(--lesson-primary)', fontSize: 'clamp(32px, 4vw, 40px)', fontWeight: 900, letterSpacing: '0.5px' }}>{selectedObj.name.toUpperCase()}</div>
                       </div>
                       <div>
-                        <div style={{ color: 'var(--lesson-secondary)', fontSize: 'clamp(15px, 2vw, 18px)', letterSpacing: '1px', marginBottom: '0.25rem', fontWeight: 800 }}>MATERIAL</div>
-                        <div style={{ color: '#A64B27', fontSize: 'clamp(22px, 3.5vw, 28px)', fontWeight: 900, letterSpacing: '1px' }}>{selectedMaterialOption.toUpperCase()}</div>
+                        <div style={{ color: 'var(--lesson-secondary)', fontSize: 'clamp(22px, 2.5vw, 26px)', letterSpacing: '1px', marginBottom: '0.25rem', fontWeight: 800 }}>MATERIAL</div>
+                        <div style={{ color: '#A64B27', fontSize: 'clamp(32px, 4vw, 40px)', fontWeight: 900, letterSpacing: '1px' }}>{selectedMaterialOption.toUpperCase()}</div>
                       </div>
                     </div>
     
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem' }}>
-                      <div style={{ color: 'var(--lesson-secondary)', fontSize: 'clamp(15px, 2vw, 18px)', letterSpacing: '1px', fontWeight: 800 }}>PROPERTIES</div>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', fontSize: 'clamp(16px, 2vw, 19px)', color: 'var(--lesson-text)' }}>
+                      <div style={{ color: 'var(--lesson-secondary)', fontSize: 'clamp(22px, 2.5vw, 26px)', letterSpacing: '1px', fontWeight: 800 }}>PROPERTIES</div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', fontSize: 'clamp(22px, 3vw, 26px)', color: 'var(--lesson-text)' }}>
                         {(() => {
                           let text = selectedObj.explanations[selectedMaterialOption];
                           const prefix = selectedMaterialOption + ' is ';
@@ -729,8 +729,8 @@ export default function Stage2_Identify({ onComplete, addXp }) {
                         }}
                         className="primary"
                         style={{
-                          padding: '0.75rem 2rem',
-                          fontSize: 'clamp(17px, 2.5vw, 20px)',
+                          padding: '1rem 2rem',
+                          fontSize: 'clamp(24px, 3vw, 28px)',
                           fontWeight: 800,
                           borderRadius: '8px',
                           cursor: 'pointer'
