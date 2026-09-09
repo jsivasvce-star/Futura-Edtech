@@ -54,6 +54,7 @@ const AnglesLabActivity = lazy(() => import('./maths/class6/chapter4/AnglesLab')
 const PolygonsLabActivity = lazy(() => import('./maths/class6/chapter4/PolygonsLab'));
 const CirclesLabActivity = lazy(() => import('./maths/class6/chapter4/CirclesLab'));
 const Class6MathsChapter1 = lazy(() => import('./maths/class6/chapter1'));
+const Class6MathsChapter1Cover = lazy(() => import('./maths/class6/chapter1_cover'));
 const VirtualBiodiversityExplorerActivity = lazy(() => import('./science/class6/chapter2/VirtualBiodiversityExplorer'));
 const PlantDetectiveActivity = lazy(() => import('./science/class6/chapter2/PlantDetective'));
 const AnimalHabitatExplorerActivity = lazy(() => import('./science/class6/chapter2/AnimalHabitatExplorer'));
@@ -1156,13 +1157,22 @@ export default function App() {
                     Explore patterns in numbers, visualise sequences, and understand the fundamentals of mathematics.
                   </p>
 
-                  <button
-                    onClick={() => navigateTo('class6_maths', 'chapter1')}
-                    className="primary"
-                    style={{ width: '100%', gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
-                  >
-                     Open Chapter <ArrowRight size={14} />
-                  </button>
+                  <div style={{ display: 'flex', gap: '0.75rem', width: '100%' }}>
+                    <button
+                      onClick={() => navigateTo('class6_maths', 'chapter1')}
+                      className="primary"
+                      style={{ flex: 1, gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
+                    >
+                      Old
+                    </button>
+                    <button
+                      onClick={() => navigateTo('class6_maths', 'chapter1_new')}
+                      className="primary"
+                      style={{ flex: 1, gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
+                    >
+                      New
+                    </button>
+                  </div>
                 </div>
               );
             }
@@ -3159,6 +3169,8 @@ export default function App() {
         ) : activeSubject === 'class6_maths' ? (
           activeActivity === 'chapter1' ? (
             <Class6MathsChapter1 onBackToDashboard={() => navigateTo('class6_maths', null)} />
+          ) : activeActivity === 'chapter1_new' ? (
+            <Class6MathsChapter1Cover onBackToDashboard={() => navigateTo('class6_maths', null)} />
           ) : activeActivity === 'line_segment_lab' ? (
             <LineSegmentLabActivity onBackToDashboard={() => navigateTo('class6_maths', 'chapter4')} />
           ) : activeActivity === 'parallel_intersecting_lab' ? (
