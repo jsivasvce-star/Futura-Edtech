@@ -78,6 +78,11 @@
   --heading-main: #1A5431; /* Rich Dark Green (Main Activity Headings) */
   --heading-sub: #D35F2D; /* Warm Orange (Instruction / Subheadings) */
   --heading-section: #4F386E; /* Purple (Section Headings) */
+
+  /* ── Global Overrides for Textbook Consistency ── */
+  --card-bg: #F0E8D8;   /* warm parchment for fixed bottom bar */
+  --border: #D8C3A5;     /* warm tan border instead of default gray */
+  --bg-color: #FDFBF7;
 }
 
 /* Ensure background color overrides tailwind bg classes */

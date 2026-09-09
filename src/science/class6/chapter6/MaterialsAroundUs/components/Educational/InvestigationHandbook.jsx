@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import { ArrowRight } from 'lucide-react';
+import classroomObjectsImg from '../../../../../../assets/classroom_objects.jpg';
+import ancientPotteryImg from '../../../../../../assets/indian_pottery_illustration.jpg';
 
-﻿const SvgIcons = {
+const SvgIcons = {
   MagnifyingGlass: () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
   ),
@@ -51,12 +53,11 @@ const clues = [
   }
 ];
 
-const PotterySpotlight = ({ page1Layout }) => {
-  const [currentClue, setCurrentClue] = useState(1);
+const PotterySpotlight = ({ currentClue, setCurrentClue }) => {
   const currentData = clues[currentClue - 1];
 
   const timelineNode = (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 'auto', paddingTop: '16px', flexWrap: 'nowrap', overflow: 'hidden' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 'auto', paddingTop: '8px', flexWrap: 'nowrap', overflow: 'hidden' }}>
       {clues.map((c, idx) => (
         <React.Fragment key={c.id}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
@@ -65,20 +66,21 @@ const PotterySpotlight = ({ page1Layout }) => {
               style={{
                 width: '32px', height: '32px', 
                 borderRadius: '50%',
-                background: currentClue === c.id ? 'var(--lesson-accent)' : (currentClue > c.id ? 'var(--lesson-success)' : 'var(--lesson-border)'),
-                color: currentClue === c.id || currentClue > c.id ? 'white' : 'var(--lesson-muted)',
+                background: currentClue === c.id ? '#A94727' : (currentClue > c.id ? '#2C6E63' : '#D8C3A5'),
+                color: currentClue === c.id || currentClue > c.id ? 'white' : '#8D6E63',
                 display: 'flex', justifyContent: 'center', alignItems: 'center',
                 fontWeight: 'bold', fontSize: '14px', cursor: 'pointer',
-                boxShadow: currentClue === c.id ? '0 0 0 4px rgba(59,130,246,0.3)' : 'none',
+                boxShadow: currentClue === c.id ? '0 0 0 4px rgba(169, 71, 39, 0.25)' : 'none',
                 flexShrink: 0
               }}
             >
               {currentClue > c.id ? <SvgIcons.Check /> : `0${c.id}`}
             </div>
             <div style={{ 
-              fontSize: '10px', 
-              fontWeight: 'bold', 
-              color: currentClue === c.id ? 'var(--lesson-accent)' : 'var(--lesson-muted)',
+              fontSize: '11px', 
+              fontWeight: '700', 
+              fontFamily: "'Merriweather', Georgia, serif",
+              color: currentClue === c.id ? '#A94727' : '#8D6E63',
               marginTop: '4px'
             }}>
               {c.timelineText}
@@ -86,9 +88,9 @@ const PotterySpotlight = ({ page1Layout }) => {
           </div>
           {idx < clues.length - 1 && (
             <div style={{ 
-              height: '4px', 
+              height: '3px', 
               width: '40px',
-              background: currentClue > c.id ? 'var(--lesson-success)' : 'var(--lesson-border)',
+              background: currentClue > c.id ? '#2C6E63' : '#D8C3A5',
               margin: '0 4px',
               flexShrink: 1,
               transform: 'translateY(-8px)'
@@ -102,62 +104,78 @@ const PotterySpotlight = ({ page1Layout }) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '0', boxSizing: 'border-box', overflow: 'hidden' }}>
       
-      <div style={{ marginBottom: 'clamp(8px, 1.5vh, 16px)' }}>
-        <h3 style={{ fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: '900', color: 'var(--lesson-text)', margin: '0 0 4px 0', wordBreak: 'break-word', lineHeight: '1.2' }}>
+      <div style={{ marginBottom: '8px' }}>
+        <h3 style={{ fontSize: '42px', fontFamily: "'Merriweather', Georgia, serif", fontWeight: 700, color: '#3F2923', margin: '0 0 8px 0', wordBreak: 'break-word', lineHeight: '1.2' }}>
           {currentData.title}
         </h3>
-        <div style={{ fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: '900', color: 'var(--lesson-accent)', letterSpacing: '1px' }}>
+        <div style={{ fontSize: '36px', fontFamily: "'Merriweather', Georgia, serif", fontWeight: 700, color: '#A94727', letterSpacing: '1px' }}>
           DO YOU KNOW?
         </div>
       </div>
 
       <div style={{ 
         flex: '1 1 auto', 
-        backgroundColor: 'var(--lesson-background)', 
+        backgroundColor: '#FDFBF7', 
         borderRadius: '12px', 
-        border: '1px solid var(--lesson-border)', 
-        padding: 'clamp(12px, 2vmin, 16px)',
-
+        border: '1.5px solid #D8C3A5', 
+        borderLeft: '8px solid #A94727',
+        padding: '20px 32px',
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
+        flexDirection: 'row',
         alignItems: 'center',
-        textAlign: 'center',
-        marginBottom: 'clamp(8px, 1.5vh, 16px)',
+        gap: '40px',
+        marginBottom: '16px',
         minHeight: 'min-content',
-        boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)',
         boxSizing: 'border-box',
         overflow: 'visible'
       }}>
         
-        <div style={{ fontSize: 'clamp(24px, 4.5vmin, 60px)', fontWeight: '900', color: 'var(--lesson-primary)', marginBottom: 'clamp(8px, 1.5vh, 16px)', lineHeight: '1.1', wordBreak: 'break-word' }}>
-          {currentData.bigFact}
+        {/* Left Text Box (55-60%) */}
+        <div style={{ flex: '1 1 58%', display: 'flex', flexDirection: 'column', justifyContent: 'center', textAlign: 'center' }}>
+          <div style={{ fontSize: '42px', fontFamily: "'Merriweather', Georgia, serif", fontWeight: 700, color: '#3F2923', marginBottom: '16px', lineHeight: '1.15', wordBreak: 'break-word' }}>
+            {currentData.bigFact}
+          </div>
+          
+          <div style={{ fontFamily: "'Merriweather', Georgia, serif", fontSize: '24px', fontWeight: 500, color: '#3F2923', lineHeight: '1.45', maxWidth: '100%', overflow: 'visible' }}>
+            {currentData.text}
+          </div>
         </div>
-        
-        <div style={{ fontSize: 'clamp(17px, 2.5vw, 21px)', fontWeight: '600', color: 'var(--lesson-text)', lineHeight: '1.5', maxWidth: '100%', overflow: 'visible' }}>
-             <span style={{ backgroundColor: '#fef08a' }}>{currentData.text}</span>
+
+        {/* Right Image Box (35-40%) */}
+        <div style={{ flex: '0 0 38%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+          <img 
+            src={ancientPotteryImg} 
+            alt="Pottery" 
+            style={{ 
+              maxWidth: '100%', 
+              maxHeight: '40vh',
+              objectFit: 'contain',
+              mixBlendMode: 'multiply',
+              filter: 'drop-shadow(0 12px 24px rgba(62, 39, 35, 0.15))'
+            }} 
+          />
         </div>
       </div>
 
-      <div style={{ flex: '0 0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <div style={{ flex: '0 0 auto', display: 'flex', flexDirection: 'column', gap: '12px' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center', alignItems: 'center' }}>
           {currentClue < clues.length ? (
              <button 
                onClick={() => setCurrentClue(currentClue + 1)}
                style={{
-                 background: 'var(--lesson-accent)', color: 'white', border: 'none', borderRadius: '24px',
-                 padding: 'clamp(8px, 1.5vw, 12px) clamp(16px, 3vw, 24px)', fontWeight: 'bold', fontSize: 'clamp(14px, 2vw, 18px)',
-                 cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                 background: '#A94727', color: 'white', border: 'none', borderRadius: '24px',
+                 padding: 'clamp(8px, 1.5vw, 12px) clamp(16px, 3vw, 24px)', fontWeight: 'bold', fontSize: 'clamp(14px, 1.8vw, 18px)',
+                 cursor: 'pointer', boxShadow: '0 2px 6px rgba(169, 71, 39, 0.25)'
                }}
              >
                NEXT CLUE →
              </button>
           ) : (
              <div style={{
-                 background: 'var(--lesson-success)', color: 'white', borderRadius: '24px',
-                 padding: 'clamp(8px, 1.5vw, 12px) clamp(16px, 3vw, 24px)', fontWeight: 'bold', fontSize: 'clamp(14px, 2vw, 18px)',
-
-                 boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                 background: '#2C6E63', color: 'white', borderRadius: '24px',
+                 padding: 'clamp(8px, 1.5vw, 12px) clamp(16px, 3vw, 24px)', fontWeight: 'bold', fontSize: 'clamp(14px, 1.8vw, 18px)',
+                 boxShadow: '0 2px 6px rgba(44, 110, 99, 0.25)',
+                 display: 'flex', alignItems: 'center', gap: '8px'
                }}>
                INVESTIGATION COMPLETE! <SvgIcons.Check />
              </div>
@@ -169,8 +187,28 @@ const PotterySpotlight = ({ page1Layout }) => {
   );
 };
 
-export default function InvestigationHandbook({ highestUnlockedIndex = 0, currentFlowIndex = 0, stageCompleted = false, onNext, onComplete }) {
+const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowIndex = 0, stageCompleted = false, onNext, onComplete }, ref) => {
   const handleProceed = onNext || onComplete;
+  
+  const [b1Page, setB1Page] = useState(1);
+  const [currentClue, setCurrentClue] = useState(1);
+
+  useImperativeHandle(ref, () => ({
+    handleGlobalNext: () => {
+      if (currentFlowIndex < 5) {
+        if (b1Page === 1) {
+          setB1Page(2);
+          return false; // Don't close handbook
+        } else if (b1Page === 2) {
+          if (currentClue < 5) {
+            return false; // Don't close handbook, user must click the internal clue button
+          }
+          return true; // Close handbook
+        }
+      }
+      return true; // Close handbook for other barriers
+    }
+  }));
 
   // Determine which barrier we are in
   // currentFlowIndex 13 is Mission 3. index >= 13 is Barrier 3.
@@ -192,30 +230,36 @@ export default function InvestigationHandbook({ highestUnlockedIndex = 0, curren
   return (
     <div style={{
       width: '100%',
-      height: '100%',
+      height: (!isBarrier2 && !isBarrier3) ? '100vh' : '100%',
+      position: (!isBarrier2 && !isBarrier3) ? 'fixed' : 'relative',
+      top: (!isBarrier2 && !isBarrier3) ? 0 : 'auto',
+      left: (!isBarrier2 && !isBarrier3) ? 0 : 'auto',
+      zIndex: (!isBarrier2 && !isBarrier3) ? 50 : 1,
       minHeight: 0,
       boxSizing: 'border-box',
-      background: 'var(--lesson-surface)',
-      borderRadius: '12px',
-      boxShadow: '0 12px 36px rgba(0,0,0,0.14)',
+      background: '#F4EBDD',
+      paddingBottom: (!isBarrier2 && !isBarrier3) ? '82px' : 0,
+      borderRadius: 0,
+      boxShadow: 'none',
       display: 'flex',
       flexDirection: 'column',
-      border: '8px solid var(--lesson-primary)',
-      position: 'relative',
+      border: (!isBarrier2 && !isBarrier3) ? 'none' : '6px solid #3E2723',
       overflow: 'hidden'
     }}>
-      {/* Central Book Spine Divider */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        bottom: '56px',
-        left: '50%',
-        width: '1px',
-        background: 'var(--lesson-border)',
-        zIndex: 5,
-        pointerEvents: 'none'
-      }} />
-
+      {(!isBarrier2 && !isBarrier3 && b1Page === 1) && (
+        <style>{`
+          .global-action-bar {
+            border-top: none !important;
+            box-shadow: none !important;
+            background: transparent !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+          }
+          .global-action-bar button {
+            border-radius: 20px !important;
+          }
+        `}</style>
+      )}
       {/* TWO PAGES SPREAD CONTAINER */}
       <div style={{
         flex: 1,
@@ -224,49 +268,88 @@ export default function InvestigationHandbook({ highestUnlockedIndex = 0, curren
         flexDirection: 'row',
         overflow: 'hidden'
       }}>
-        {!isBarrier2 ? (
-          // ================= BARRIER 1 TWO-PAGE SPREAD =================
+        {!isBarrier2 && !isBarrier3 ? (
+          // ================= BARRIER 1 PAGES =================
           <>
-            {/* ================= LEFT PAGE (PAGE 1) ================= */}
-            <div style={{ flex: 1, minHeight: 0, padding: 'clamp(24px, 4vh, 32px) clamp(24px, 3vw, 32px)', position: 'relative', display: 'flex', flexDirection: 'column', gap: 'clamp(12px, 3vh, 24px)', borderRight: '1px solid var(--lesson-border)' }}>
-              <h2 style={{ margin: 0, fontSize: '34px', color: 'var(--lesson-primary)', fontWeight: '900', borderBottom: '4px solid var(--lesson-accent)', paddingBottom: '4px', display: 'inline-block', alignSelf: 'flex-start' }}>
-                What are Objects Made Of?
-              </h2>
+            {b1Page === 1 && (
+              <div style={{ flex: 1, minHeight: 0, padding: '24px 48px', position: 'relative', display: 'flex', flexDirection: 'row', gap: '48px', overflow: 'hidden' }}>
+                {/* ================= PAGE 1 ================= */}
+                {/* LEFT COLUMN – 58% */}
+                <div style={{ width: 'calc(58% - 24px)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div>
+                    <h2 style={{ margin: 0, fontFamily: "'Merriweather', Georgia, serif", fontSize: '50px', color: '#3F2923', fontWeight: '900', lineHeight: 1.15 }}>
+                      What are Objects Made Of?
+                    </h2>
+                    <div style={{ width: '420px', height: '4px', background: '#3F2923', opacity: 0.9, borderRadius: '2px', marginTop: '4px' }} />
+                  </div>
 
-              <div style={{ fontSize: '21px', color: 'var(--lesson-text)', lineHeight: '1.4', fontWeight: '600', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <div>Look around you! You can see many things - a chair, a book, a water bottle, a pencil and so on.</div>
-                <div>These are all <strong style={{ color: 'var(--lesson-primary)', fontWeight: '800' }}>objects</strong>. Even though they look different, each object is made of some <strong style={{ color: 'var(--lesson-primary)', fontWeight: '800' }}>material</strong>.</div>
-              </div>
+                  <div style={{ fontFamily: "'Merriweather', Georgia, serif", color: '#3F2923' }}>
+                    <p style={{ margin: '0 0 8px 0', fontSize: '26px', lineHeight: '1.45', fontWeight: 500 }}>
+                      Look around you! You can see many things – a chair, a book, a water bottle, a pencil and so on.
+                    </p>
+                    <p style={{ margin: 0, fontSize: '26px', lineHeight: '1.45', fontWeight: 500 }}>
+                      These are all <strong style={{ color: '#A94727', fontWeight: 700 }}>objects</strong>. Even though they look different, each object is made of some <strong style={{ color: '#A94727', fontWeight: 700 }}>material</strong>.
+                    </p>
+                  </div>
 
-              <div style={{ border: '1px dashed var(--lesson-border)', borderRadius: '8px', padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <div style={{ fontSize: '20px', fontWeight: '600', color: 'var(--lesson-text)' }}><strong style={{ color: 'var(--lesson-primary)', fontWeight: '800', fontSize: '22px' }}>Material:</strong> The substance used to make an object.</div>
-                <div style={{ fontSize: '20px', fontWeight: '600', color: 'var(--lesson-text)' }}><strong style={{ color: 'var(--lesson-primary)', fontWeight: '800', fontSize: '22px' }}>Object:</strong> Anything we can see or use around us.</div>
-              </div>
+                  {/* Definition Box */}
+                  <div style={{ background: '#FDFBF7', border: '1.5px solid #D8C3A5', borderLeft: '8px solid #A94727', borderRadius: '12px', padding: '12px 20px' }}>
+                    <div style={{ fontFamily: "'Merriweather', Georgia, serif", fontSize: '24px', fontWeight: 500, color: '#3F2923', lineHeight: 1.45 }}>
+                      <div style={{ marginBottom: '6px' }}><strong style={{ color: '#A94727', fontWeight: 700 }}>Material:</strong> The substance used to make an object.</div>
+                      <div><strong style={{ color: '#A94727', fontWeight: 700 }}>Object:</strong> Anything we can see or use around us.</div>
+                    </div>
+                  </div>
 
-              <div style={{ background: 'var(--lesson-background)', border: '1px solid var(--lesson-warning-border)', borderRadius: '8px', padding: '12px 16px' }}>
-                <h4 style={{ margin: '0 0 8px 0', color: 'var(--lesson-accent)', fontSize: '24px', fontWeight: '800' }}>Examples:</h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '21px', fontWeight: '600', color: 'var(--lesson-text)' }}>
-                  <div>Chair can be made of wood, plastic or steel.</div>
-                  <div>A plate can be made of steel, glass or plastic.</div>
-                  <div>A bottle can be made of plastic, glass or steel.</div>
+                  {/* Examples Box */}
+                  <div style={{ background: '#FDFBF7', border: '1.5px solid #D8C3A5', borderLeft: '8px solid #A94727', borderRadius: '12px', padding: '12px 20px' }}>
+                    <h4 style={{ margin: '0 0 6px 0', color: '#325244', fontSize: '30px', fontWeight: 700, fontFamily: "'Merriweather', Georgia, serif" }}>Examples:</h4>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontFamily: "'Merriweather', Georgia, serif", fontSize: '23px', fontWeight: 500, color: '#3F2923', lineHeight: 1.45 }}>
+                      <div>• A chair can be made of wood, plastic or steel.</div>
+                      <div>• A plate can be made of steel, glass or plastic.</div>
+                      <div>• A bottle can be made of plastic, glass or steel.</div>
+                    </div>
+                  </div>
+
+                  {/* Think! Box */}
+                  <div style={{ background: '#FDFBF7', border: '1.5px solid #D8C3A5', borderLeft: '8px solid #A94727', borderRadius: '12px', padding: '12px 20px' }}>
+                    <div style={{ fontFamily: "'Merriweather', Georgia, serif", fontSize: '23px', fontWeight: 500, color: '#3F2923', lineHeight: 1.45 }}>
+                      <strong style={{ fontWeight: 700, color: '#A94727', fontSize: '30px', fontFamily: "'Merriweather', Georgia, serif", display: 'inline-block', marginBottom: '2px' }}>Think!</strong><br />
+                      One object can be made from different materials. One material can be used to make many different objects. Can you think of more examples?
+                    </div>
+                  </div>
+                </div>
+
+                {/* RIGHT COLUMN – 42% */}
+                <div style={{ width: 'calc(42% - 24px)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                  <img 
+                    src={classroomObjectsImg} 
+                    alt="Classroom Objects – desk, chair, book, water bottle, pencil" 
+                    style={{ 
+                      width: '100%',
+                      height: '100%', 
+                      objectFit: 'contain',
+                      objectPosition: 'center',
+                      mixBlendMode: 'multiply',
+                      transform: 'scale(1.3) translateX(0%)',
+                    }} 
+                  />
                 </div>
               </div>
+            )}
 
-              <div style={{ background: 'var(--lesson-surface)', border: '1px solid var(--lesson-border)', borderRadius: '8px', padding: '16px 20px', display: 'flex', alignItems: 'flex-start' }}>
-                <div style={{ fontSize: '21px', fontWeight: '600', color: 'var(--lesson-primary)', lineHeight: '1.4' }}>
-                  <strong style={{ fontWeight: '800', fontSize: '24px' }}>Think!</strong> One object can be made from different materials. One material can be used to make many different objects.
+            {b1Page === 2 && (
+              <div style={{ flex: 1, minHeight: 0, padding: '20px 48px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
+                {/* ================= PAGE 2 ================= */}
+                <div>
+                  <h2 style={{ margin: 0, fontFamily: "'Merriweather', Georgia, serif", fontSize: '50px', color: '#3F2923', fontWeight: '900', lineHeight: 1.15 }}>
+                    Historical Spotlight: Pottery
+                  </h2>
+                  <div style={{ width: '100%', height: '4px', background: '#A94727', opacity: 0.9, borderRadius: '2px', marginTop: '12px', marginBottom: '16px' }} />
                 </div>
+
+                <PotterySpotlight currentClue={currentClue} setCurrentClue={setCurrentClue} />
               </div>
-            </div>
-
-            {/* ================= RIGHT PAGE (PAGE 2) ================= */}
-            <div style={{ flex: 1, minHeight: 0, padding: '24px 32px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
-              <h2 style={{ margin: '0 0 16px 0', fontSize: 'clamp(28px, 3.5vw, 34px)', color: 'var(--lesson-primary)', fontWeight: '900', borderBottom: '4px solid var(--lesson-accent)', paddingBottom: '8px', display: 'inline-block' }}>
-                Historical Spotlight: Pottery
-              </h2>
-
-              <PotterySpotlight />
-            </div>
+            )}
           </>
         ) : isBarrier2 ? (
           // ================= BARRIER 2 TWO-PAGE SPREAD =================
@@ -366,22 +449,15 @@ export default function InvestigationHandbook({ highestUnlockedIndex = 0, curren
         ) : null}
       </div>
 
-      {/* FOOTER BAR WITH BOTTOM-RIGHT NEXT BUTTON */}
+      {/* FOOTER BAR – thin, no visible label */}
       <div style={{
-        height: '56px',
-        background: 'var(--lesson-surface)',
-        borderTop: '1px solid var(--lesson-border)',
-        padding: '0 24px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexShrink: 0,
-        zIndex: 10
-      }}>
-        <div style={{ color: 'var(--lesson-muted)', fontSize: '0.9rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span>📖</span> Investigation Handbook
-        </div>
-      </div>
+        height: '4px',
+        background: 'transparent',
+        flexShrink: 0
+      }} />
     </div>
   );
-}
+};
+
+const InvestigationHandbook = forwardRef(InvestigationHandbookRender);
+export default InvestigationHandbook;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { ArrowLeft, RefreshCw, Sun, Moon, ArrowRight } from 'lucide-react';
 import './theme.css';
 import { useTheme } from '../../../../ThemeContext.jsx';
@@ -53,6 +53,7 @@ const timelineTree = (() => {
 })();
 
 export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
+  const handbookRef = useRef(null);
   const [currentFlowIndex, setCurrentFlowIndex] = useState(0);
   const [highestUnlockedIndex, setHighestUnlockedIndex] = useState(0);
   const [isTimelineOpen, setIsTimelineOpen] = useState(false);
@@ -138,7 +139,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
       ) : showIntroSpread ? (
         <ChapterIntroSpread onContinue={() => setShowIntroSpread(false)} onBack={() => { setShowIntroSpread(false); setShowCover(true); }} />
       ) : (
-        <div className="activity-workspace materials-around-us-theme flex h-screen bg-[var(--surface)] overflow-hidden" style={{ paddingTop: 0, paddingBottom: '72px' }}>
+        <div className="activity-workspace materials-around-us-theme" style={{ paddingTop: 0, paddingBottom: '72px', background: 'linear-gradient(135deg, #F5EFE6 0%, #EDE4D3 40%, #F0E8D8 70%, #E8DDCC 100%)' }}>
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden', position: 'relative' }}>
         {/* Toggle Button */}
         <button
@@ -343,8 +344,9 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
                 addXp={addXp} 
               />
             ) : showHandbook ? (
-              <div style={{ flex: 1, minHeight: 0, padding: '1.5rem', display: 'flex', flexDirection: 'column', width: '100%', height: '100%', boxSizing: 'border-box' }}>
+              <div style={{ flex: 1, minHeight: 0, padding: 0, display: 'flex', flexDirection: 'column', width: '100%', height: '100%', boxSizing: 'border-box' }}>
                 <InvestigationHandbook 
+                  ref={handbookRef}
                   highestUnlockedIndex={highestUnlockedIndex} 
                   currentFlowIndex={currentFlowIndex} 
                   stageCompleted={stageCompleted} 
@@ -468,9 +470,16 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
 
           {(currentNode.type === 'activity' || currentNode.type === 'checkpoint') && (
             <button 
-              onClick={showHandbook && currentNode.id !== 'stage8_b' && currentNode.id !== 'stage8_c' ? () => setShowHandbook(false) : handleNext}
-              disabled={false}
-              className={'primary'}
+              onClick={showHandbook && !['stage8_b', 'stage8_c', 'stage3_use', 'stage4_1', 'stage4_2', 'stage4_4', 'stage4_5', 'stage6_a'].includes(currentNode.id) ? () => {
+                if (handbookRef.current && handbookRef.current.handleGlobalNext) {
+                  const shouldClose = handbookRef.current.handleGlobalNext();
+                  if (shouldClose) setShowHandbook(false);
+                } else {
+                  setShowHandbook(false);
+                }
+              } : handleNext}
+              disabled={(showHandbook && !['stage8_b', 'stage8_c', 'stage3_use', 'stage4_1', 'stage4_2', 'stage4_4', 'stage4_5', 'stage6_a'].includes(currentNode.id)) ? false : !(stageCompleted || currentNode.id === 'stage2')}
+              className={((showHandbook && !['stage8_b', 'stage8_c', 'stage3_use', 'stage4_1', 'stage4_2', 'stage4_4', 'stage4_5', 'stage6_a'].includes(currentNode.id)) || stageCompleted || currentNode.id === 'stage2') ? 'primary' : 'outline'}
               style={{ 
                 padding: '0.85rem 1.8rem', 
                 fontSize: '1.5rem', 
