@@ -1,5 +1,8 @@
 import { motion, useTransform, useMotionValue } from 'framer-motion';
 import PropTypes from 'prop-types';
+import waterCupImg from '../../../../../../assets/water_cup.png';
+import sandCupImg from '../../../../../../assets/sand_cup.png';
+import pebblesCupImg from '../../../../../../assets/pebbles_cup.png';
 
 const WaterMaterial = ({ velocityX }) => {
   const fallbackMotion = useMotionValue(0);
@@ -222,6 +225,35 @@ const PebblesMaterial = ({ velocityX }) => {
 };
 
 export const RealisticCup = ({ material, velocityX = 0 }) => {
+  // Cups use realistic image assets
+  let cupImgSrc = null;
+  if (material === 'water') cupImgSrc = waterCupImg;
+  if (material === 'sand') cupImgSrc = sandCupImg;
+  if (material === 'pebbles') cupImgSrc = pebblesCupImg;
+
+  if (cupImgSrc) {
+    return (
+      <div style={{ 
+        position: 'relative', 
+        width: '100%', 
+        height: '100%',
+        transform: 'translateZ(0)'
+      }}>
+        <img
+          src={cupImgSrc}
+          alt={`${material} Cup`}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+            pointerEvents: 'none',
+            display: 'block'
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div style={{ 
       position: 'relative', 
