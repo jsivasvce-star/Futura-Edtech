@@ -54,12 +54,12 @@ export default function Stage3_Classification({ defaultPhase = 'use', onComplete
   const items = phase === 'material' ? allItems : allItems.slice(0, 6);
 
   const materialBaskets = [
-    { name: 'Metal', label: 'METAL BASKET', color: 'var(--lesson-secondary)', borderColor: 'var(--lesson-muted)', bgLight: 'var(--lesson-background)', image: imgBasketMetal },
-    { name: 'Glass', label: 'GLASS BASKET', color: '#0891b2', borderColor: '#D9C9A3', bgLight: 'var(--lesson-accent-bg)', image: imgBasketGlass },
-    { name: 'Wood', label: 'WOOD BASKET', color: '#A64B27', borderColor: 'var(--lesson-warning)', bgLight: 'var(--lesson-warning-bg)', image: imgBasketWood },
-    { name: 'Plastic', label: 'PLASTIC BASKET', color: '#A64B27', borderColor: '#D9C9A3', bgLight: 'var(--lesson-success-bg)', image: imgBasketPlastic },
+    { name: 'Metal', label: 'METAL BASKET', color: 'var(--lesson-secondary)', borderColor: 'var(--lesson-secondary)', bgLight: 'var(--lesson-background)', image: imgBasketMetal },
+    { name: 'Glass', label: 'GLASS BASKET', color: '#0891b2', borderColor: '#0891b2', bgLight: 'var(--lesson-accent-bg)', image: imgBasketGlass },
+    { name: 'Wood', label: 'WOOD BASKET', color: '#A64B27', borderColor: '#A64B27', bgLight: 'var(--lesson-warning-bg)', image: imgBasketWood },
+    { name: 'Plastic', label: 'PLASTIC BASKET', color: 'var(--lesson-success)', borderColor: 'var(--lesson-success)', bgLight: 'var(--lesson-success-bg)', image: imgBasketPlastic },
     { name: 'Cloth', label: 'CLOTH BASKET', color: 'var(--lesson-danger)', borderColor: 'var(--lesson-danger)', bgLight: 'var(--lesson-danger-bg)', image: imgBasketCloth },
-    { name: 'Paper', label: 'PAPER BASKET', color: '#6366f1', borderColor: '#D9C9A3', bgLight: '#eef2ff', image: imgBasketPaper }
+    { name: 'Paper', label: 'PAPER BASKET', color: '#6366f1', borderColor: '#6366f1', bgLight: '#eef2ff', image: imgBasketPaper }
   ];
 
   const shelves = [

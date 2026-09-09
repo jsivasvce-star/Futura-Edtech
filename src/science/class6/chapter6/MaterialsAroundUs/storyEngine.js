@@ -3,9 +3,7 @@ import Stage2_Identify from './components/Stage2_Identify';
 import Stage3_Classification from './components/Stage3_Classification';
 import Stage5_Suitability from './components/Stage5_Suitability';
 import Stage_SportsBall from './components/Stage_SportsBall';
-import Stage4_LustreHardness from './components/Stage4_LustreHardness';
 import Stage4a_Appearance_Observe from './components/Stage4a_Appearance_Observe';
-import Stage4b_Appearance_Group from './components/Stage4b_Appearance_Group';
 import Stage4c_Hardness_Observe from './components/Stage4c_Hardness_Observe';
 import Stage4d_MaterialIdentification from './components/Stage4d_MaterialIdentification';
 import Stage6a_Surveillance from './components/Stage6a_Surveillance';
@@ -90,8 +88,7 @@ export const chapterFlow = [
     objective: [
       'Phase 1: Organize by Purpose',
       'Phase 2: Scientific Grouping',
-      'Phase 3: Suitability',
-      'Phase 4: Product Design'
+      'Phase 3: Product Design'
     ],
     difficulty: 2,
     estimatedTime: '5 minutes',
@@ -100,8 +97,7 @@ export const chapterFlow = [
   // 5: Activity
   { type: 'activity', id: 'stage3_use', title: 'Stage 6.2: Grouping Materials', subtitle: 'Phase 1: Organize by Purpose', component: Stage3_Classification, props: { defaultPhase: 'use' } },
   { type: 'activity', id: 'stage3_material', title: 'Stage 6.2: Grouping Materials', subtitle: 'Phase 2: Scientific Grouping', component: Stage3_Classification, props: { defaultPhase: 'material' } },
-  { type: 'activity', id: 'stage5', title: 'Stage 6.2: Grouping Materials', subtitle: 'Phase 3: Suitability', component: Stage5_Suitability },
-  { type: 'activity', id: 'sportsball', title: 'Stage 6.2: Grouping Materials', subtitle: 'Phase 4: Product Design', component: Stage_SportsBall },
+  { type: 'activity', id: 'sportsball', title: 'Stage 6.2: Grouping Materials', subtitle: 'Phase 3: Product Design', component: Stage_SportsBall },
   // 11: Checkpoint 2
   {
     type: 'checkpoint',
@@ -135,11 +131,9 @@ export const chapterFlow = [
     type: 'mission',
     title: 'Appearance (Stage 6.3.1)',
     dialogue: 'Detective, Barrier 3 is massive! It contains 6 distinct properties to investigate. We will start with the first one: Appearance. To keep our evidence organized, Headquarters has issued a separate handbook for each stage.',
-    description: 'Scientists use specific tests to determine the properties of different materials. In this stage, you will observe how materials look, group them by their visual properties, and specifically test if they reflect light (lustre).',
+    description: 'Scientists use specific tests to determine the properties of different materials. In this stage, you will observe how materials look.',
     objective: [
-      'Phase 1: Observation Notebook',
-      'Phase 2: Group by Appearance',
-      'Phase 3: Lustre Testing'
+      'Phase 1: Observation Notebook'
     ],
     difficulty: 3,
     estimatedTime: '8 minutes',
@@ -147,8 +141,6 @@ export const chapterFlow = [
   },
   // 10: Activities
   { type: 'activity', id: 'stage4_1', title: 'Stage 6.3.1: Appearance', subtitle: 'Phase 1: Observation Notebook', component: Stage4a_Appearance_Observe, handbook: Handbook_Appearance, layout: '3fr 7fr' },
-  { type: 'activity', id: 'stage4_2', title: 'Stage 6.3.1: Appearance', subtitle: 'Phase 2: Group by Appearance', component: Stage4b_Appearance_Group, handbook: Handbook_Appearance, layout: '3fr 7fr' },
-  { type: 'activity', id: 'stage4_3', title: 'Stage 6.3.1: Appearance', subtitle: 'Phase 3: Lustre Testing', component: Stage4_LustreHardness, props: { mode: 'lustre_only' }, handbook: Handbook_Appearance },
   
   // Checkpoint for 6.3.1
   {
@@ -179,23 +171,9 @@ export const chapterFlow = [
     ]
   },
   
-  // Mission Briefing for 6.3.2 Hardness
-  {
-    type: 'mission',
-    title: 'Hardness (Stage 6.3.2)',
-    dialogue: 'Brilliant work on appearance! Now, we must investigate how easy it is to scratch or compress the materials. This is the property of Hardness.',
-    description: 'Materials can be soft (easily compressed) or hard (difficult to compress). Your next mission is to physically test the hardness of various evidence items and identify materials based on these physical traits.',
-    objective: [
-      'Phase 1: Observe Hardness',
-      'Phase 2: Material Identification'
-    ],
-    difficulty: 2,
-    estimatedTime: '5 minutes',
-    rewardXP: 100
-  },
+  // Stage 6.3.2 Hardness
   
   { type: 'activity', id: 'stage4_4', title: 'Stage 6.3.2: Hardness', subtitle: 'Phase 1: Observe Hardness', component: Stage4c_Hardness_Observe, handbook: Handbook_Hardness, layout: '3fr 7fr' },
-  { type: 'activity', id: 'stage4_5', title: 'Stage 6.3.2: Hardness', subtitle: 'Phase 2: Material Identification', component: Stage4d_MaterialIdentification, handbook: Handbook_Hardness, layout: '3fr 7fr' },
   
   // Checkpoint for 6.3.2
   {
@@ -226,20 +204,7 @@ export const chapterFlow = [
     ]
   },
   
-  // Mission Briefing for 6.3.3 Transparency
-  {
-    type: 'mission',
-    title: 'Transparency (Stage 6.3.3)',
-    dialogue: 'During a stakeout, a detective must know which materials block sight and which allow it. Let\'s investigate the property of transparency.',
-    description: 'Materials can be transparent, translucent, or opaque based on how much light passes through them. Your next mission is to analyze materials using our surveillance simulator.',
-    objective: [
-      'Phase 1: Surveillance Simulator',
-      'Phase 2: Classify Materials'
-    ],
-    difficulty: 2,
-    estimatedTime: '5 minutes',
-    rewardXP: 100
-  },
+  // Stage 6.3.3 Transparency
   
   { type: 'activity', id: 'stage6_a', title: 'Stage 6.3.3: Transparency', subtitle: 'Phase 1: Surveillance Simulator', component: Stage6a_Surveillance, handbook: Handbook_Transparency, layout: '3fr 7fr' },
   { type: 'activity', id: 'stage6_b', title: 'Stage 6.3.3: Transparency', subtitle: 'Phase 2: Activity 6.6', component: Stage6b_Classify, handbook: Handbook_Transparency, layout: '3fr 7fr' },

@@ -174,7 +174,6 @@ export default function InvestigationHandbook({ highestUnlockedIndex = 0, curren
 
   // Determine which barrier we are in
   // currentFlowIndex 13 is Mission 3. index >= 13 is Barrier 3.
-  const isBarrier3 = currentFlowIndex >= 13;
   const isBarrier2 = currentFlowIndex >= 5 && currentFlowIndex < 13;
 
   // Barrier 1 logic
@@ -188,11 +187,7 @@ export default function InvestigationHandbook({ highestUnlockedIndex = 0, curren
   const isB2Phase4Done = highestUnlockedIndex > 9 || (currentFlowIndex === 9 && stageCompleted);
   const isB2Phase5Done = highestUnlockedIndex > 10 || (currentFlowIndex === 10 && stageCompleted);
 
-  // Barrier 3 logic
-  const isB3Phase1Done = highestUnlockedIndex > 14 || (currentFlowIndex === 14 && stageCompleted);
-  const isB3Phase2Done = highestUnlockedIndex > 15 || (currentFlowIndex === 15 && stageCompleted);
-  const isB3Phase3Done = highestUnlockedIndex > 17 || (currentFlowIndex === 17 && stageCompleted);
-  const isB3Phase4Done = highestUnlockedIndex > 19 || (currentFlowIndex === 19 && stageCompleted);
+
 
   return (
     <div style={{
@@ -229,7 +224,7 @@ export default function InvestigationHandbook({ highestUnlockedIndex = 0, curren
         flexDirection: 'row',
         overflow: 'hidden'
       }}>
-        {!isBarrier2 && !isBarrier3 ? (
+        {!isBarrier2 ? (
           // ================= BARRIER 1 TWO-PAGE SPREAD =================
           <>
             {/* ================= LEFT PAGE (PAGE 1) ================= */}
@@ -368,108 +363,7 @@ export default function InvestigationHandbook({ highestUnlockedIndex = 0, curren
 
             </div>
           </>
-        ) : (
-          // ================= BARRIER 3 TWO-PAGE SPREAD =================
-          <>
-            {/* ================= LEFT PAGE B3 (PAGE 1) ================= */}
-            <div style={{ flex: 1, minHeight: 0, padding: '24px 32px', position: 'relative', display: 'flex', flexDirection: 'column', overflowY: 'auto', borderRight: '1px solid var(--lesson-border)' }}>
-              <h2 style={{ margin: '0 0 16px 0', fontSize: 'var(--text-2xl)', color: 'var(--lesson-primary)', fontWeight: 'bold', borderBottom: '4px solid var(--lesson-accent)', paddingBottom: '8px', display: 'inline-block' }}>
-                Choosing the Right Material
-              </h2>
-
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', background: 'var(--lesson-surface)', padding: '24px', borderRadius: '12px', marginBottom: '24px', position: 'relative' }}>
-                <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix&backgroundColor=transparent" alt="Detective" style={{ width: 'clamp(84px, 12vw, 180px)', height: 'clamp(84px, 12vw, 180px)', zIndex: 2 }} />
-                <div style={{ position: 'absolute', display: 'flex', gap: '40px', bottom: '20px' }}>
-                   <div style={{ fontSize: 'var(--text-2xl)', filter: 'drop-shadow(0px 4px 2px rgba(0,0,0,0.2))' }}>🖋️</div>
-                   <div style={{ fontSize: 'var(--text-2xl)', marginLeft: '90px', filter: 'drop-shadow(0px 4px 2px rgba(0,0,0,0.2))' }}>✒️</div>
-                </div>
-              </div>
-
-              <div style={{ fontSize: 'calc(var(--text-xl) * 1.05)', color: 'var(--lesson-text)', lineHeight: '1.6', marginBottom: '24px', fontWeight: '500' }}>
-                <p style={{ margin: '0 0 16px 0' }}>Different objects are made for different purposes.</p>
-                <p style={{ margin: '0 0 16px 0' }}>The material used to make an object depends on its <strong style={{ color: 'var(--lesson-primary)', fontWeight: '800' }}>properties</strong> and how the object will be used.</p>
-                <p style={{ margin: '0 0 16px 0' }}>For example, a pen is made of different materials such as plastic, metal and ink. Each material is chosen because it performs a specific job.</p>
-                <p style={{ margin: '0' }}>Choosing the right material helps us make objects that are <strong style={{ color: 'var(--lesson-primary)', fontWeight: '800' }}>safe</strong>, <strong style={{ color: 'var(--lesson-primary)', fontWeight: '800' }}>useful</strong> and <strong style={{ color: 'var(--lesson-primary)', fontWeight: '800' }}>long-lasting</strong>.</p>
-              </div>
-
-              <div style={{ background: 'var(--lesson-warning-bg)', border: '1px solid var(--lesson-warning-border)', borderRadius: '12px', padding: '16px', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                <div style={{ fontSize: 'var(--text-xl)' }}>💡</div>
-                <div style={{ fontSize: 'var(--text-xl)', color: 'var(--lesson-accent-text)', lineHeight: '1.4' }}>
-                  <strong>Remember</strong><br/>
-                  The properties of a material help us decide where and how it should be used.
-                </div>
-              </div>
-            </div>
-
-            {/* ================= RIGHT PAGE B3 (PAGE 2) ================= */}
-            <div style={{ flex: 1, minHeight: 0, padding: '24px 32px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
-              <h2 style={{ margin: '0 0 16px 0', fontSize: 'var(--text-2xl)', color: 'var(--lesson-primary)', fontWeight: 'bold' }}>
-                Case File 03: Choosing the Right Material
-              </h2>
-
-              <div style={{ fontSize: 'calc(var(--text-xl) * 1.05)', color: 'var(--lesson-text)', lineHeight: '1.6', marginBottom: '24px', fontWeight: '500' }}>
-                <p style={{ margin: '0 0 16px 0' }}>As a Science Detective, your next challenge is to decide which material is the <strong style={{ color: '#A64B27', fontWeight: '800' }}>best choice</strong> for making an object.</p>
-                <p style={{ margin: '0' }}>Sometimes an object can be made from different materials, but only some materials are <strong style={{ color: '#A64B27', fontWeight: '800' }}>suitable</strong> for its purpose.</p>
-              </div>
-
-              <div style={{ border: '2px dashed var(--lesson-accent-border)', borderRadius: '12px', padding: '16px', marginBottom: '16px', background: 'var(--lesson-accent-bg)', position: 'relative' }}>
-                <h4 style={{ margin: '0 0 12px 0', color: '#A64B27', fontSize: 'var(--text-xl)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  🧠 Think Like a Scientist
-                </h4>
-                <p style={{ margin: '0 0 12px 0', fontSize: 'var(--text-xl)', color: 'var(--lesson-text)' }}>Before making a choice, ask yourself:</p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: 'var(--text-xl)', color: 'var(--lesson-text)' }}>
-                  <div style={{ display: 'flex', gap: '8px' }}><span style={{ color: '#A64B27', fontWeight: 'bold' }}>✔</span> Is this material strong enough?</div>
-                  <div style={{ display: 'flex', gap: '8px' }}><span style={{ color: '#A64B27', fontWeight: 'bold' }}>✔</span> Is it safe to use?</div>
-                  <div style={{ display: 'flex', gap: '8px' }}><span style={{ color: '#A64B27', fontWeight: 'bold' }}>✔</span> Will it work well for this purpose?</div>
-                </div>
-                <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix&backgroundColor=transparent" alt="Detective" style={{ position: 'absolute', bottom: '10px', right: '10px', width: 'clamp(56px, 8vw, 120px)', height: 'clamp(56px, 8vw, 120px)' }} />
-              </div>
-
-              <div style={{ background: 'var(--lesson-warning-bg)', border: '1px solid var(--lesson-warning-border)', borderRadius: '12px', padding: '16px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <div style={{ flex: 1 }}>
-                  <h4 style={{ margin: '0 0 6px 0', color: '#A64B27', fontSize: 'var(--text-xl)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    ⭐ Example
-                  </h4>
-                  <p style={{ margin: 0, fontSize: 'var(--text-xl)', color: 'var(--lesson-text)' }}>
-                    A shopping bag can be made from cloth or paper, but each material is suitable for different situations.
-                  </p>
-                </div>
-                <div style={{ fontSize: 'var(--text-3xl)', display: 'flex', gap: '8px' }}>🛍️ 🛍️</div>
-              </div>
-
-              <div style={{ border: '2px solid #D9C9A3', borderRadius: '12px', padding: '16px', background: 'var(--lesson-success-bg)', display: 'flex', position: 'relative' }}>
-                <div style={{ flex: 1, paddingRight: '80px' }}>
-                  <h4 style={{ margin: '0 0 12px 0', color: '#A64B27', fontSize: 'var(--text-lg)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    🎯 MISSION
-                  </h4>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: 'var(--text-lg)', color: 'var(--lesson-text)' }}>
-                      <input type="checkbox" checked={true} readOnly style={{ width: '18px', height: '18px', accentColor: '#A64B27', marginTop: '4px' }} />
-                      Read the Handbook
-                    </label>
-                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: 'var(--text-lg)', color: 'var(--lesson-text)' }}>
-                      <input type="checkbox" checked={isB3Phase1Done} readOnly style={{ width: '18px', height: '18px', accentColor: '#A64B27', marginTop: '4px' }} />
-                      Observe carefully.
-                    </label>
-                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: 'var(--text-lg)', color: 'var(--lesson-text)' }}>
-                      <input type="checkbox" checked={isB3Phase2Done} readOnly style={{ width: '18px', height: '18px', accentColor: '#A64B27', marginTop: '4px' }} />
-                      Compare different materials.
-                    </label>
-                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: 'var(--text-lg)', color: 'var(--lesson-text)' }}>
-                      <input type="checkbox" checked={isB3Phase3Done} readOnly style={{ width: '18px', height: '18px', accentColor: '#A64B27', marginTop: '4px' }} />
-                      Think about their properties.
-                    </label>
-                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: 'var(--text-lg)', color: 'var(--lesson-text)' }}>
-                      <input type="checkbox" checked={isB3Phase4Done} readOnly style={{ width: '18px', height: '18px', accentColor: '#A64B27', marginTop: '4px' }} />
-                      Find the most suitable material for each object.
-                    </label>
-                  </div>
-                </div>
-                <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix&backgroundColor=transparent" alt="Detective" style={{ position: 'absolute', bottom: '10px', right: '10px', width: 'clamp(56px, 8vw, 120px)', height: 'clamp(56px, 8vw, 120px)' }} />
-              </div>
-            </div>
-          </>
-        )}
+        ) : null}
       </div>
 
       {/* FOOTER BAR WITH BOTTOM-RIGHT NEXT BUTTON */}
