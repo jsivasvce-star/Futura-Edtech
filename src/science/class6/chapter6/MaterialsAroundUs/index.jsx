@@ -143,7 +143,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
       ) : showIntroSpread ? (
         <ChapterIntroSpread onContinue={() => setShowIntroSpread(false)} onBack={() => { setShowIntroSpread(false); setShowCover(true); }} />
       ) : (
-        <div className="activity-workspace materials-around-us-theme flex h-screen bg-[var(--lesson-surface)] overflow-hidden" style={{ paddingTop: 0, paddingBottom: '72px' }}>
+        <div className="activity-workspace materials-around-us-theme" style={{ paddingTop: 0, paddingBottom: '72px', background: 'linear-gradient(135deg, #F5EFE6 0%, #EDE4D3 40%, #F0E8D8 70%, #E8DDCC 100%)' }}>
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden', position: 'relative' }}>
         {/* Toggle Button */}
         <button
@@ -348,7 +348,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
                 addXp={addXp} 
               />
             ) : showHandbook ? (
-              <div style={{ flex: 1, minHeight: 0, padding: '1.5rem', display: 'flex', flexDirection: 'column', width: '100%', height: '100%', boxSizing: 'border-box' }}>
+              <div style={{ flex: 1, minHeight: 0, padding: 0, display: 'flex', flexDirection: 'column', width: '100%', height: '100%', boxSizing: 'border-box' }}>
                 <InvestigationHandbook 
                   ref={handbookRef}
                   highestUnlockedIndex={highestUnlockedIndex} 
