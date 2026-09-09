@@ -40,6 +40,7 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
   const [bottlePos,  setBottlePos]  = useState(BOTTLE_INIT);
   const [isDragging, setIsDragging] = useState(false);
   const [bottleTilt, setBottleTilt] = useState(0);   // visual rotate degrees
+  const [isCapRemoved, setIsCapRemoved] = useState(false);
 
   /* ── Water levels ── */
   const [waterLevelA, setWaterLevelA] = useState(0); // 0→0.50
@@ -630,10 +631,7 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
                         </clipPath>
                       </defs>
 
-                      {/* Inner Back Wall of Glass */}
-                      <path d="M 20 20 L 28 150 C 28 160, 92 160, 92 150 L 100 20 Z" fill="rgba(0,0,0,0.06)" />
-                      {/* Deep Refraction Shadow inside */}
-                      <path d="M 20 20 L 28 150 C 28 160, 92 160, 92 150 L 100 20 Z" fill="none" stroke="rgba(0,0,0,0.15)" strokeWidth="6" />
+                      {/* Inner Back Wall of Glass - Replaced by Image */}
                       
                       {/* WATER LEVEL */}
                       {waterLevelA > 0 && (
@@ -651,30 +649,9 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
                       )}
                       <rect id="tumbler-a-surface" x="0" y={150 - (130 * waterLevelA)} width="120" height="2" fill="transparent" pointerEvents="none" />
 
-                      {/* Front Glass Cylinder */}
-                      <path d="M 20 20 L 28 150 C 28 160, 92 160, 92 150 L 100 20 Z" fill="url(#glassFront)" />
-                      
-                      {/* Inner Glass Edge Refraction */}
-                      <path d="M 20 20 L 28 150 C 28 160, 92 160, 92 150 L 100 20 Z" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="4" />
-                      <path d="M 20 20 L 28 150 C 28 160, 92 160, 92 150 L 100 20 Z" fill="none" stroke="url(#glassEdge)" strokeWidth="2" />
-                      
-                      {/* Intense Left Specular Highlight */}
-                      <path d="M 22 25 L 29 145" stroke="rgba(255,255,255,0.9)" strokeWidth="5" strokeLinecap="round" filter="blur(2px)" />
-                      <path d="M 23 27 L 30 143" stroke="rgba(255,255,255,1)" strokeWidth="2" strokeLinecap="round" />
-                      
-                      {/* Right Shadow Refraction */}
-                      <path d="M 98 25 L 91 145" stroke="rgba(0,0,0,0.3)" strokeWidth="5" strokeLinecap="round" filter="blur(1.5px)" />
-                      <path d="M 99 22 L 92 148" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round" />
-
-                      {/* Thick Glass Base (Refractive Block) */}
-                      <path d="M 28 150 C 28 160, 92 160, 92 150 L 90 156 C 90 165, 30 165, 30 156 Z" fill="rgba(255,255,255,0.7)" />
-                      <ellipse cx="60" cy="156" rx="30" ry="5.5" fill="none" stroke="rgba(255,255,255,0.95)" strokeWidth="3" />
-                      <ellipse cx="60" cy="158" rx="28" ry="4.5" fill="none" stroke="rgba(0,0,0,0.3)" strokeWidth="2" />
-                      <path d="M 40 155 Q 60 160 80 155" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="4" filter="blur(1px)" />
-
-                      {/* Top Rim */}
-                      <ellipse cx="60" cy="20" rx="40" ry="7" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.95)" strokeWidth="2.5" />
-                      <ellipse cx="60" cy="20" rx="37" ry="6" fill="none" stroke="rgba(0,0,0,0.2)" strokeWidth="1.5" />
+                      {/* Realistic Tumbler Image Overlay */}
+                      <image href="/images/tumbler_glass_clean.png" x="-15" y="-5" width="150" height="180" preserveAspectRatio="xMidYMid meet" style={{ mixBlendMode: 'multiply' }} />
+                      <image href="/images/tumbler_glass_clean.png" x="-15" y="-5" width="150" height="180" preserveAspectRatio="xMidYMid meet" opacity="0.3" />
                     </svg>
 
                     <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)', marginTop: '12px', background: 'rgba(255,255,255,0.92)', border: '1px solid var(--lesson-border)', borderRadius: '8px', padding: '4px 16px', boxShadow: '0 2px 6px rgba(0,0,0,0.08)', textAlign: 'center', width: 'max-content' }}>
@@ -699,10 +676,7 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
                         </clipPath>
                       </defs>
 
-                      {/* Inner Back Wall of Glass */}
-                      <path d="M 20 20 L 28 150 C 28 160, 92 160, 92 150 L 100 20 Z" fill="rgba(0,0,0,0.06)" />
-                      {/* Deep Refraction Shadow inside */}
-                      <path d="M 20 20 L 28 150 C 28 160, 92 160, 92 150 L 100 20 Z" fill="none" stroke="rgba(0,0,0,0.15)" strokeWidth="6" />
+                      {/* Inner Back Wall of Glass - Replaced by Image */}
                       
                       {/* WATER LEVEL */}
                       {waterLevelB > 0 && (
@@ -720,30 +694,9 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
                       )}
                       <rect id="tumbler-b-surface" x="0" y={150 - (130 * waterLevelB)} width="120" height="2" fill="transparent" pointerEvents="none" />
 
-                      {/* Front Glass Cylinder */}
-                      <path d="M 20 20 L 28 150 C 28 160, 92 160, 92 150 L 100 20 Z" fill="url(#glassFront)" />
-                      
-                      {/* Inner Glass Edge Refraction */}
-                      <path d="M 20 20 L 28 150 C 28 160, 92 160, 92 150 L 100 20 Z" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="4" />
-                      <path d="M 20 20 L 28 150 C 28 160, 92 160, 92 150 L 100 20 Z" fill="none" stroke="url(#glassEdge)" strokeWidth="2" />
-                      
-                      {/* Intense Left Specular Highlight */}
-                      <path d="M 22 25 L 29 145" stroke="rgba(255,255,255,0.9)" strokeWidth="5" strokeLinecap="round" filter="blur(2px)" />
-                      <path d="M 23 27 L 30 143" stroke="rgba(255,255,255,1)" strokeWidth="2" strokeLinecap="round" />
-                      
-                      {/* Right Shadow Refraction */}
-                      <path d="M 98 25 L 91 145" stroke="rgba(0,0,0,0.3)" strokeWidth="5" strokeLinecap="round" filter="blur(1.5px)" />
-                      <path d="M 99 22 L 92 148" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round" />
-
-                      {/* Thick Glass Base (Refractive Block) */}
-                      <path d="M 28 150 C 28 160, 92 160, 92 150 L 90 156 C 90 165, 30 165, 30 156 Z" fill="rgba(255,255,255,0.7)" />
-                      <ellipse cx="60" cy="156" rx="30" ry="5.5" fill="none" stroke="rgba(255,255,255,0.95)" strokeWidth="3" />
-                      <ellipse cx="60" cy="158" rx="28" ry="4.5" fill="none" stroke="rgba(0,0,0,0.3)" strokeWidth="2" />
-                      <path d="M 40 155 Q 60 160 80 155" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="4" filter="blur(1px)" />
-
-                      {/* Top Rim */}
-                      <ellipse cx="60" cy="20" rx="40" ry="7" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.95)" strokeWidth="2.5" />
-                      <ellipse cx="60" cy="20" rx="37" ry="6" fill="none" stroke="rgba(0,0,0,0.2)" strokeWidth="1.5" />
+                      {/* Realistic Tumbler Image Overlay */}
+                      <image href="/images/tumbler_glass_clean.png" x="-15" y="-5" width="150" height="180" preserveAspectRatio="xMidYMid meet" style={{ mixBlendMode: 'multiply' }} />
+                      <image href="/images/tumbler_glass_clean.png" x="-15" y="-5" width="150" height="180" preserveAspectRatio="xMidYMid meet" opacity="0.3" />
                     </svg>
 
                     <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)', marginTop: '12px', background: 'rgba(255,255,255,0.92)', border: '1px solid var(--lesson-border)', borderRadius: '8px', padding: '4px 16px', boxShadow: '0 2px 6px rgba(0,0,0,0.08)', textAlign: 'center', width: 'max-content' }}>
@@ -796,90 +749,60 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
 
                     <svg width="120" height="240" viewBox="0 0 120 240" style={{ position: 'relative', zIndex: 2, display: 'block', overflow: 'visible' }}>
                       <defs>
-                        <clipPath id="bottleClip2">
-                          <path d="M 46 22 L 74 22 L 74 52 C 74 65, 98 82, 98 108 L 98 215 C 98 226, 88 232, 76 232 L 44 232 C 32 232, 22 226, 22 215 L 22 108 C 22 82, 46 65, 46 52 Z" />
+                        <linearGradient id="waterGradRealistic" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stopColor="rgba(60, 180, 250, 0.4)" />
+                          <stop offset="100%" stopColor="rgba(10, 100, 180, 0.8)" />
+                        </linearGradient>
+                        <clipPath id="bodyClip" clipPathUnits="objectBoundingBox">
+                          <rect x="0" y="0.1461" width="1" height="0.8539" />
+                        </clipPath>
+                        <clipPath id="capClip" clipPathUnits="objectBoundingBox">
+                          <rect x="0" y="0" width="1" height="0.1461" />
                         </clipPath>
                       </defs>
 
-                      {/* Inner Back Wall */}
-                      <path d="M 46 22 L 74 22 L 74 52 C 74 65, 98 82, 98 108 L 98 215 C 98 226, 88 232, 76 232 L 44 232 C 32 232, 22 226, 22 215 L 22 108 C 22 82, 46 65, 46 52 Z" fill="rgba(0,0,0,0.06)" />
-                      {/* Deep Refraction Shadow inside */}
-                      <path d="M 46 22 L 74 22 L 74 52 C 74 65, 98 82, 98 108 L 98 215 C 98 226, 88 232, 76 232 L 44 232 C 32 232, 22 226, 22 215 L 22 108 C 22 82, 46 65, 46 52 Z" fill="none" stroke="rgba(0,0,0,0.15)" strokeWidth="6" />
+                      {/* 0. Hidden Bottle Neck (Revealed when cap flies off) */}
+                      <g style={{ opacity: isCapRemoved ? 1 : 0, transition: 'opacity 0.3s' }}>
+                        <rect x="52" y="24" width="16" height="8" rx="2" fill="rgba(255, 255, 255, 0.4)" stroke="rgba(255, 255, 255, 0.8)" strokeWidth="1" />
+                        <ellipse cx="60" cy="24" rx="8" ry="2" fill="none" stroke="rgba(255, 255, 255, 0.8)" strokeWidth="1" />
+                      </g>
 
-                      {/* Water inside */}
+                      {/* 1. Water inside (Strictly confined cylinder, drawn BEHIND the bottle) */}
                       {bottleFill > 0 && (
                         <g>
-                          <g clipPath="url(#bottleClip2)">
-                            <rect x="0" y={232 - 180 * bottleFill} width="120" height={180 * bottleFill + 15} fill="url(#waterGrad)" />
-                          </g>
-                          {/* Surface meniscus */}
-                          <ellipse cx="60" cy={232 - 180 * bottleFill} rx={bottleFill > 0.68 ? 16 : 38} ry={bottleFill > 0.68 ? 3 : 6} fill="rgba(180, 230, 255, 0.4)" stroke="rgba(255,255,255,0.9)" strokeWidth="1.5" />
-                          <ellipse cx="60" cy={233 - 180 * bottleFill} rx={bottleFill > 0.68 ? 15 : 37} ry={bottleFill > 0.68 ? 2 : 5} fill="none" stroke="rgba(0,50,100,0.2)" strokeWidth="2" />
+                          {/* Water Body */}
+                          <rect x="38" y={215 - 160 * bottleFill} width="44" height={160 * bottleFill} fill="url(#waterGradRealistic)" />
+                          {/* Bottom Curve */}
+                          <ellipse cx="60" cy="215" rx="22" ry="5" fill="url(#waterGradRealistic)" />
+                          {/* Surface meniscus (water top) */}
+                          <ellipse cx="60" cy={215 - 160 * bottleFill} rx="22" ry="4" fill="rgba(100, 200, 255, 0.6)" />
+                          {/* Surface Highlight */}
+                          <ellipse cx="60" cy={215 - 160 * bottleFill} rx="22" ry="4" fill="none" stroke="rgba(255, 255, 255, 0.7)" strokeWidth="1" />
                         </g>
                       )}
 
-                      {/* Front wall glass reflection */}
-                      <path d="M 46 22 L 74 22 L 74 52 C 74 65, 98 82, 98 108 L 98 215 C 98 226, 88 232, 76 232 L 44 232 C 32 232, 22 226, 22 215 L 22 108 C 22 82, 46 65, 46 52 Z" fill="url(#bottleGlassFront)" />
-                      
-                      {/* Inner Glass Edge Refraction */}
-                      <path d="M 46 22 L 74 22 L 74 52 C 74 65, 98 82, 98 108 L 98 215 C 98 226, 88 232, 76 232 L 44 232 C 32 232, 22 226, 22 215 L 22 108 C 22 82, 46 65, 46 52 Z" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="4" />
-                      <path d="M 46 22 L 74 22 L 74 52 C 74 65, 98 82, 98 108 L 98 215 C 98 226, 88 232, 76 232 L 44 232 C 32 232, 22 226, 22 215 L 22 108 C 22 82, 46 65, 46 52 Z" fill="none" stroke="url(#glassEdge)" strokeWidth="2" />
-                      
-                      {/* Intense Left Specular Highlight */}
-                      <path d="M 26 102 L 26 212" stroke="rgba(255,255,255,0.9)" strokeWidth="6" strokeLinecap="round" filter="blur(2px)" />
-                      <path d="M 27 105 L 27 210" stroke="rgba(255,255,255,1)" strokeWidth="2" strokeLinecap="round" />
+                      {/* 2. Base Realistic Bottle Image (Body) (Drawn ON TOP of water) */}
+                      <image href="/images/bottle_clean.png" x="-10" y="-10" width="140" height="260" preserveAspectRatio="xMidYMid meet" pointerEvents="none" clipPath="url(#bodyClip)" />
 
-                      {/* Right Shadow Refraction */}
-                      <path d="M 94 105 L 94 210" stroke="rgba(0,0,0,0.3)" strokeWidth="5" strokeLinecap="round" filter="blur(1.5px)" />
-                      <path d="M 96 102 L 96 212" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round" />
-
-                      {/* Neck Highlights */}
-                      <path d="M 48 24 L 48 50" stroke="rgba(255,255,255,0.8)" strokeWidth="3" filter="blur(1px)" />
-                      <path d="M 72 24 L 72 50" stroke="rgba(0,0,0,0.2)" strokeWidth="3" filter="blur(1px)" />
-
-                      {/* Base Glass Thickness */}
-                      <path d="M 32 231 Q 60 240 88 231 L 86 235 Q 60 242 34 235 Z" fill="rgba(255,255,255,0.7)" />
-                      <path d="M 32 231 Q 60 240 88 231" fill="none" stroke="rgba(255,255,255,0.95)" strokeWidth="3" />
-                      <path d="M 30 228 Q 60 237 90 228" fill="none" stroke="rgba(0,0,0,0.3)" strokeWidth="2" />
-                      <path d="M 45 233 Q 60 238 75 233" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="4" filter="blur(1px)" />
-
-                      {/* Rim / open mouth */}
-                      <ellipse id="bottle-mouth-ref" cx="60" cy="22" rx="14" ry="4.5" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.95)" strokeWidth="2" />
-                      <ellipse cx="60" cy="22" rx="13" ry="3.5" fill="none" stroke="rgba(0,0,0,0.2)" strokeWidth="1" />
-                      
-                      {/* Neck threading */}
-                      <path d="M 45 28 Q 60 31 75 28" fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth="1.5" />
-                      <path d="M 45 34 Q 60 37 75 34" fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth="1.5" />
-
-                    <g 
-                      style={{
-                        transform: Math.abs(bottleTilt) > 5 ? 'translateY(-30px) rotate(-15deg)' : 'translateY(0) rotate(0)',
-                        opacity: Math.abs(bottleTilt) > 5 ? 0 : 1,
-                        transition: 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease-out',
-                        transformOrigin: '60px 14px',
-                        pointerEvents: 'none'
-                      }}
-                    >
-                      {/* Collar (neck ring stays attached to cap) */}
-                      <rect x="44" y="22" width="32" height="5" rx="2" fill="#A64B27" stroke="#3B2A1F" strokeWidth="1" />
-                      <rect x="46" y="23" width="28" height="2" rx="1" fill="rgba(255,255,255,0.4)" />
-
-                      {/* Cap body */}
-                      <rect x="43" y="5" width="34" height="22" rx="3" fill="#A64B27" stroke="#A64B27" strokeWidth="1.5" />
-                      {/* Top rim of cap */}
-                      <ellipse cx="60" cy="5" rx="17" ry="4" fill="#A64B27" stroke="#A64B27" strokeWidth="1" />
-                      {/* Cap highlight */}
-                      <rect x="46" y="9" width="28" height="3" rx="1" fill="rgba(255,255,255,0.5)" />
-                      {/* Ridges */}
-                      <g fill="rgba(0,0,0,0.15)">
-                        <rect x="48" y="11" width="1.5" height="14" />
-                        <rect x="52" y="11" width="1.5" height="14" />
-                        <rect x="56" y="11" width="1.5" height="14" />
-                        <rect x="60" y="11" width="1.5" height="14" />
-                        <rect x="64" y="11" width="1.5" height="14" />
-                        <rect x="68" y="11" width="1.5" height="14" />
-                      </g>
-                    </g>
+                      {/* 3. Interactive Cap (Top of image) */}
+                      <motion.g
+                        animate={{
+                          y: isCapRemoved ? -80 : 0,
+                          x: isCapRemoved ? 40 : 0,
+                          rotate: isCapRemoved ? 45 : 0,
+                          opacity: isCapRemoved ? 0 : 1
+                        }}
+                        transition={{ duration: 0.6, ease: "easeInOut" }}
+                        onPointerDown={(e) => {
+                          if (!isCapRemoved) {
+                            e.stopPropagation(); // Prevent dragging the bottle when clicking the cap
+                            setIsCapRemoved(true);
+                          }
+                        }}
+                        style={{ cursor: isCapRemoved ? 'default' : 'pointer' }}
+                      >
+                        <image href="/images/bottle_clean.png" x="-10" y="-10" width="140" height="260" preserveAspectRatio="xMidYMid meet" clipPath="url(#capClip)" pointerEvents={isCapRemoved ? "none" : "all"} />
+                      </motion.g>
                   </svg>
                   </div>
                 </motion.div>
