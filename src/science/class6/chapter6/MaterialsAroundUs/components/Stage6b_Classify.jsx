@@ -234,23 +234,10 @@ export default function Stage6b_Classify({ onComplete, addXp }) {
           <h3 style={{ margin: 0, fontSize: '1.45rem', color: 'var(--text-heading)', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: '900' }}>
             <Eye size={24} color="var(--accent)" /> Phase 2: Activity 6.6 — Let us Classify
           </h3>
-          <p style={{ margin: '4px 0 0 0', fontSize: '1.21rem', fontWeight: '600', color: 'var(--heading-sub)' }}>
+          <p style={{ margin: '4px 0 0 0', fontSize: '1.21rem', fontWeight: '600', color: 'var(--text-secondary)' }}>
             Drag each object into the correct tray. Transparent lets you see clearly. Translucent blurs. Opaque hides completely.
           </p>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-          <img src="/images/chief_detective_blake.png" alt="Chief" style={{ width: '80px', height: '80px', objectFit: 'contain' }} />
-          <div style={{ background: '#fefce8', border: '1px solid #fef08a', borderRadius: '12px', padding: '10px 15px', position: 'relative', width: '200px' }}>
-            <div style={{ fontSize: '0.85rem', color: '#a16207', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-              <Lightbulb size={16} /> Detective Tip
-            </div>
-            <div style={{ fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: '500' }}>Think carefully! Where would each object belong?</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Classification Area */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{
           background: isComplete ? '#dcfce7' : 'var(--surface)',
           border: `1px solid ${isComplete ? '#bbf7d0' : 'var(--border)'}`,

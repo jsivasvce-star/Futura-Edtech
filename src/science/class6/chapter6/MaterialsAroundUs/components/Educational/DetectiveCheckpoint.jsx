@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ShieldAlert, Check, X, ArrowRight, CheckCircle2, ClipboardList, Lightbulb } from 'lucide-react';
 import { motion } from 'framer-motion';
-import useSound from 'use-sound';
 
 export default function DetectiveCheckpoint({ data, onComplete, addXp }) {
   const [currentQ, setCurrentQ] = useState(0);
@@ -17,8 +16,6 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp }) {
 
   const BLAKE_IMG_URL = '/images/chief_detective_blake.png';
 
-  const [playSuccess] = useSound('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3', { volume: 0.5 });
-  const [playError] = useSound('https://assets.mixkit.co/active_storage/sfx/2997/2997-preview.mp3', { volume: 0.5 });
 
   const q = data.questions[currentQ];
   // const maxScore = data.questions.length * 10;
@@ -33,7 +30,7 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp }) {
 
     if (idx === q.correct) {
       setIsCorrect(true);
-      try { playSuccess(); } catch (err) { console.warn('Audio playback failed', err); }
+      
       if (addXp) addXp(20);
 
       // Auto advance on correct answer
@@ -42,7 +39,7 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp }) {
       }, 1000);
     } else {
       setIsCorrect(false);
-      try { playError(); } catch (err) { console.warn('Audio playback failed', err); }
+      
       
       // Auto advance on wrong answer after a readable delay
       setTimeout(() => {

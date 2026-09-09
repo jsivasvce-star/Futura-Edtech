@@ -148,6 +148,12 @@ export default function Quiz({ onComplete }) {
       padding: '0.5rem 1rem', 
       boxSizing: 'border-box',
       overflow: 'hidden',
+      borderRadius: '24px',
+      border: '1.5px solid #A7F3D0',
+      backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.88)), url('/MagneticPoles/classroom_sunset_bg.jpg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center 40%',
+      boxShadow: '0 12px 30px rgba(6, 78, 59, 0.12)',
       fontFamily: 'system-ui, -apple-system, sans-serif'
     }}>
       <div style={{ width: '100%', maxWidth: '1100px', display: 'flex', flexDirection: 'column' }}>

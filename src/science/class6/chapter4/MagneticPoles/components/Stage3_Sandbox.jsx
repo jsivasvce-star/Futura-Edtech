@@ -7,51 +7,6 @@ import * as THREE from 'three';
 import '../MagneticPoles.css';
 
 // ---------------------------------------------------------
-// Realistic Parchment Paper Box Enclosure
-// ---------------------------------------------------------
-function PaperBoxEnclosure({ isVibrating, isPaused }) {
-  const paperTexture = useTexture('/MagneticPoles/paper_texture.jpg');
-  const paperGroupRef = useRef();
-
-  useFrame((state) => {
-    if (!paperGroupRef.current || isPaused) return;
-    if (isVibrating) {
-      paperGroupRef.current.position.y = Math.sin(state.clock.elapsedTime * 90) * 0.035;
-      paperGroupRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 70) * 0.003;
-    } else {
-      paperGroupRef.current.position.y = 0;
-      paperGroupRef.current.rotation.z = 0;
-    }
-  });
-
-  return (
-    <group ref={paperGroupRef}>
-      {/* 1. Bottom Paper Base */}
-      <mesh receiveShadow position={[0, -0.01, 0]}>
-        <boxGeometry args={[26, 0.04, 16]} />
-        <meshStandardMaterial map={paperTexture} roughness={0.95} metalness={0.0} />
-      </mesh>
-
-      {/* 2. Back Paper Wall - Increased Height */}
-      <mesh receiveShadow position={[0, 3.9, -8.0]}>
-        <boxGeometry args={[26, 7.8, 0.04]} />
-        <meshStandardMaterial map={paperTexture} roughness={0.95} metalness={0.0} />
-      </mesh>
-
-      {/* 3. Left Paper Wall - Increased Height */}
-      <mesh receiveShadow position={[-13.0, 3.9, 0]}>
-        <boxGeometry args={[0.04, 7.8, 16]} />
-        <meshStandardMaterial map={paperTexture} roughness={0.95} metalness={0.0} />
-      </mesh>
-
-      {/* 4. Right Paper Wall - Increased Height */}
-      <mesh receiveShadow position={[13.0, 3.9, 0]}>
-        <boxGeometry args={[0.04, 7.8, 16]} />
-        <meshStandardMaterial map={paperTexture} roughness={0.95} metalness={0.0} />
-      </mesh>
-    </group>
-  );
-}
 
 // ---------------------------------------------------------
 // Rotatable System for Magnet + Iron Filings
@@ -397,59 +352,25 @@ function ChosenMagnet3D({ shape }) {
 }
 
 // ---------------------------------------------------------
-// Smooth Intro Animation Group (Bottom-Left to Center Growth)
-// ---------------------------------------------------------
-function AnimatedLabGroup({ children, zoomScale = 1.0, onArrival }) {
+// Perfectly fitted scale and position inside center of classroom blackboard
+function AnimatedLabGroup({ children, onArrival }) {
   const groupRef = useRef();
-  const [hasStarted, setHasStarted] = useState(false);
   const arrivedRef = useRef(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setHasStarted(true);
-    }, 250);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useFrame((state, delta) => {
-    if (!groupRef.current) return;
-    const dt = Math.min(delta, 0.1);
-
-    // Initial: Positioned on the left tabletop parallel to the compass & ruler on the right
-    const targetX = hasStarted ? 0 : -5.8;
-    const targetY = hasStarted ? -0.4 : -3.5;
-    const targetZ = hasStarted ? 0 : 0.5;
-    const targetScale = (hasStarted ? 0.50 : 0.08) * zoomScale;
-
-    const speed = 3.6;
-    groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, dt * speed);
-    groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, dt * speed);
-    groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, targetZ, dt * speed);
-
-    const currentScale = groupRef.current.scale.x;
-    const nextScale = THREE.MathUtils.lerp(currentScale, targetScale, dt * speed);
-    groupRef.current.scale.set(nextScale, nextScale, nextScale);
-
-    // Notify once tray and magnet have smoothly arrived at the center
-    if (hasStarted && !arrivedRef.current) {
-      const dist = Math.hypot(
-        groupRef.current.position.x - 0,
-        groupRef.current.position.y - (-0.4),
-        groupRef.current.position.z - 0
-      );
-      const scaleDiff = Math.abs(currentScale - targetScale);
-
-      if (dist < 0.08 && scaleDiff < 0.015) {
+      if (!arrivedRef.current) {
         arrivedRef.current = true;
-        groupRef.current.position.set(0, -0.4, 0);
-        groupRef.current.scale.set(targetScale, targetScale, targetScale);
         if (onArrival) onArrival();
       }
-    }
-  });
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [onArrival]);
+
+  const FIXED_SCALE = 0.36;
 
   return (
-    <group ref={groupRef} position={[-5.8, -3.5, 0.5]} scale={[0.08, 0.08, 0.08]}>
+    <group ref={groupRef} position={[0.5, 0.3, 0]} scale={[FIXED_SCALE, FIXED_SCALE, FIXED_SCALE]}>
       {children}
     </group>
   );
@@ -812,60 +733,71 @@ export default function Stage3_Sandbox({ onComplete }) {
             overflow: 'hidden',
             border: '1.5px solid #A7F3D0',
             boxShadow: '0 12px 30px rgba(6, 78, 59, 0.12)',
-            backgroundImage: `url('/MagneticPoles/bg_image.jpg')`,
+            backgroundImage: `url('/MagneticPoles/classroom_sunset_bg.jpg')`,
             backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            backgroundPosition: 'center center',
           }}
         >
           {/* 3D Canvas Scene matching Stage 1 Camera & Lights */}
           <Canvas
             shadows
             gl={{ alpha: true, antialias: true }}
-            camera={{ position: [0, 5.5, 25], fov: 42 }}
+            camera={{ position: [0, 10.6, 24], fov: 40 }}
             style={{ width: '100%', height: '100%' }}
           >
             <Suspense fallback={null}>
-              <ambientLight intensity={0.8} />
+              <ambientLight intensity={0.9} color="#FFF7ED" />
               <directionalLight
-                position={[10, 22, 12]}
-                intensity={1.8}
+                position={[-12, 18, 10]}
+                intensity={2.2}
+                color="#FED7AA"
                 castShadow
                 shadow-mapSize={[2048, 2048]}
                 shadow-bias={-0.0001}
               />
-              <directionalLight position={[-10, 10, -10]} intensity={0.4} color="#93C5FD" />
-              <Environment preset="city" />
+              <directionalLight position={[12, 10, -5]} intensity={0.5} color="#E0F2FE" />
+              <Environment preset="sunset" />
 
-              <AnimatedLabGroup zoomScale={1.0} onArrival={handleArrival}>
+              <AnimatedLabGroup onArrival={handleArrival}>
                 <RotatableMagnetGroup>
                   <ChosenMagnet3D shape={shape} />
                   <FilingsSystem step={step} isSprinkling={isSprinkling} isVibrating={isVibrating} shape={shape} cycleKey={cycleKey} isPaused={isPaused} />
                 </RotatableMagnetGroup>
-                <PaperBoxEnclosure isVibrating={isVibrating} isPaused={isPaused} />
-
-                {/* Soft Drop Shadow under Paper */}
-                <ContactShadows
-                  position={[0, -0.08, 0]}
-                  opacity={0.65}
-                  scale={32}
-                  blur={2.2}
-                  far={4}
-                  color="#000000"
-                />
+                <ContactShadows position={[0, -0.02, 0]} opacity={0.48} scale={18} blur={2.0} far={2.5} color="#251605" />
               </AnimatedLabGroup>
               <OrbitControls
                 makeDefault
-                target={[0, 0.8, 0]}
-                minAzimuthAngle={0}
-                maxAzimuthAngle={0}
-                maxPolarAngle={Math.PI / 2.05}
-                minPolarAngle={0.1}
-                minDistance={8}
-                maxDistance={45}
+                target={[0, -1.4, 0]}
+                enableZoom={false}
+                enableRotate={false}
                 enablePan={false}
               />
             </Suspense>
           </Canvas>
+
+          {/* Passive Interaction Hint Overlay */}
+          <div style={{
+            position: 'absolute',
+            bottom: '14px',
+            left: '16px',
+            background: 'rgba(6, 78, 59, 0.82)',
+            backdropFilter: 'blur(8px)',
+            color: '#FFFFFF',
+            padding: '6px 14px',
+            borderRadius: '20px',
+            fontSize: '0.78rem',
+            fontWeight: 700,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            border: '1px solid rgba(167, 243, 208, 0.45)',
+            pointerEvents: 'none',
+            boxShadow: '0 4px 14px rgba(0,0,0,0.18)',
+            zIndex: 10
+          }}>
+            <Hand size={14} color="#FDE68A" />
+            <span>Drag magnet to rotate</span>
+          </div>
         </div>
       </div>
 

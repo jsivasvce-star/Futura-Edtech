@@ -6,7 +6,7 @@ export function useHybridVoice() {
   const [spokenCharIndex, setSpokenCharIndex] = useState(-1);
   const [currentText, setCurrentText] = useState('');
 
-  const speak = useCallback(({ text, audioUrl, voiceId, onEnd }) => {
+  const speak = useCallback(({ text, audioUrl, voiceId, role, onEnd }) => {
     setCurrentText(text);
     setIsPlaying(true);
     setSpokenCharIndex(0);
@@ -15,6 +15,7 @@ export function useHybridVoice() {
       text,
       audioUrl,
       voiceId,
+      role,
       onBoundary: (charIndex) => {
         setSpokenCharIndex(charIndex);
       },

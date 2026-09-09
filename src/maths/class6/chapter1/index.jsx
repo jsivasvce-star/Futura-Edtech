@@ -492,12 +492,49 @@ export default function Class6MathsChapter1({ onBackToDashboard }) {
                 <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#3B82F6', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '8px' }}>✨ SECTION 6</div>
                 <h2 style={{ fontFamily: '"Fraunces", serif', fontSize: '2.25rem', fontWeight: 800, color: '#1E40AF', margin: '0 0 16px 0' }}>📖 Shapes to Numbers</h2>
               </div>
-              <h2 className="math-serif-title" style={{ margin: '0.15rem 0 0 0', fontSize: '1.45rem', fontWeight: '900', color: 'var(--theme-heading, #134e4a)' }}>
-                📖 {tabs[currentStep - 1]?.title} — {tabs[currentStep - 1]?.subtitle}
-              </h2>
-            </div>
-            <div style={{ background: 'var(--theme-badge-bg, #ccfbf1)', color: 'var(--theme-badge-text, #0f766e)', padding: '4px 12px', borderRadius: '10px', fontSize: '0.78rem', fontWeight: '900', border: '1px solid var(--theme-border, #a7f3d0)' }}>
-              LEARNING STEP 0{currentSlide} / 0{totalSlides}
+              <div style={{ flex: 1, overflowY: 'auto', padding: '0 24px 24px 24px', minHeight: 0 }} className="hide-scrollbar chapter-content-justified">
+                <PatternsInShapes
+                  activeActivity={currentSlide}
+                  setActiveActivity={(id) => setCurrentSlide(id)}
+                  viewMode={viewMode}
+                  setViewMode={setViewMode}
+                  polygonIdx={polygonIdx}
+                  setPolygonIdx={setPolygonIdx}
+                  placedPolyEdges={placedPolyEdges}
+                  setPlacedPolyEdges={setPlacedPolyEdges}
+                  graphIdx={graphIdx}
+                  setGraphIdx={setGraphIdx}
+                  activeComponentIds={activeComponentIds}
+                  setActiveComponentIds={setActiveComponentIds}
+                  squareSize={squareSize}
+                  setSquareSize={setSquareSize}
+                  placedSquareLayers={placedSquareLayers}
+                  setPlacedSquareLayers={setPlacedSquareLayers}
+                  triangleRows={triangleRows}
+                  setTriangleRows={setTriangleRows}
+                  placedTriLayers={placedTriLayers}
+                  setPlacedTriLayers={setPlacedTriLayers}
+                  kochDepth={kochDepth}
+                  setKochDepth={setKochDepth}
+                />
+              </div>
+              <ChapterBackFooter
+                onBack={() => {
+                  if (currentSlide > 1) setCurrentSlide(currentSlide - 1);
+                  else { setCurrentStep(5); setCurrentSlide(1); }
+                }}
+                onNext={() => {
+                  if (currentSlide < 5) setCurrentSlide(currentSlide + 1);
+                  else { setCurrentStep(7); setCurrentSlide(1); }
+                }}
+                nextLabel="Next"
+                nextVariant="blue"
+                centerContent={
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: 800, color: '#1E3A8A' }}>
+                    <span>Slide {currentSlide} of 5</span>
+                  </div>
+                }
+              />
             </div>
           </div>
         ) : currentStep === 7 ? (
@@ -542,34 +579,13 @@ export default function Class6MathsChapter1({ onBackToDashboard }) {
               />
             </div>
           </div>
-
-          </>
         ) : currentStep === 8 ? (
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingTop: '0.25rem',
-            flexShrink: 0
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-              <span style={{ fontWeight: '800', color: 'var(--theme-heading, #0f172a)', fontSize: '0.75rem', letterSpacing: '1px', textTransform: 'uppercase' }}>
-                LEARNING STEP 0{currentSlide} / 0{totalSlides}
-              </span>
-              <div style={{ display: 'flex', gap: '5px' }}>
-                {Array.from({ length: totalSlides }).map((_, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      width: '10px',
-                      height: '10px',
-                      borderRadius: '50%',
-                      background: currentSlide === i + 1 ? 'var(--theme-btn-gradient, linear-gradient(135deg, #14b8a6 0%, #0d9488 100%))' : 'var(--theme-border, #a7f3d0)',
-                      transition: 'all 0.2s',
-                      boxShadow: currentSlide === i + 1 ? 'var(--theme-btn-shadow, 0 0 8px rgba(13, 148, 136, 0.4))' : 'none'
-                    }}
-                  />
-                ))}
+          <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
+            {renderLeftPanelContent()}
+            <div style={{ flex: 1, background: '#FFFFFF', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+              <div style={{ padding: '24px 24px 0 24px' }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#3B82F6', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '8px' }}>✨ SECTION 8</div>
+                <h2 style={{ fontFamily: '"Fraunces", serif', fontSize: '2.25rem', fontWeight: 800, color: '#1E40AF', margin: '0 0 16px 0' }}>📖 Quiz & Solutions</h2>
               </div>
               <div style={{ flex: 1, overflowY: 'auto', padding: '0 24px 24px 24px', minHeight: 0 }} className="hide-scrollbar chapter-content-justified">
                 <ChapterQuizAndSolutions 
@@ -598,6 +614,7 @@ export default function Class6MathsChapter1({ onBackToDashboard }) {
             </div>
           </div>
         ) : null}
+
       </div>
       </div>
     </div>

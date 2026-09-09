@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { ArrowLeft, RefreshCw, ArrowRight } from 'lucide-react';
+import { ArrowLeft, RefreshCw, Sun, Moon, ArrowRight } from 'lucide-react';
 import './theme.css';
-import useSound from 'use-sound';
+import { useTheme } from '../../../../ThemeContext.jsx';
 import { chapterFlow } from './storyEngine';
 import ChiefDetective from './components/ChiefDetective/ChiefDetective';
 import InvestigationHandbook from './components/Educational/InvestigationHandbook';
@@ -11,7 +11,6 @@ import ChapterCover from './components/Educational/ChapterCover';
 import ChapterIntroSpread from './components/Educational/ChapterIntroSpread';
 import MissionBriefingSpread from './components/Educational/MissionBriefingSpread';
 import FullscreenButton from './components/Common/FullscreenButton';
-import PropTypes from 'prop-types';
 
 const timelineTree = (() => {
   const tree = [];
@@ -59,7 +58,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
   const [highestUnlockedIndex, setHighestUnlockedIndex] = useState(0);
   const [isTimelineOpen, setIsTimelineOpen] = useState(false);
   const [stageCompleted, setStageCompleted] = useState(false);
-  const [, setXp] = useState(0);
+  const [xp, setXp] = useState(0);
   const [resetKey, setResetKey] = useState(0);
   const [showCover, setShowCover] = useState(true);
   const [showIntroSpread, setShowIntroSpread] = useState(false);
@@ -71,16 +70,11 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
   
   const toggleNode = (id) => setExpandedNodes(prev => ({ ...prev, [id]: !prev[id] }));
 
-  const [playSuccess] = useSound('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3', { volume: 0.5 });
-
-  // Pour Water activity (stage8_b) must be completely silent — no audio of any kind.
-  const isSilentStage = () => chapterFlow[currentFlowIndex]?.id === 'stage8_b';
+  
 
   const addXp = (amount) => {
     setXp(prev => prev + amount);
-    if (!isSilentStage()) {
-      try { playSuccess(); } catch (err) { console.warn('Audio playback failed', err); }
-    }
+    
   };
 
   const handleNext = () => {
@@ -106,10 +100,10 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
       const nextIndex = currentFlowIndex + 1;
       const nextNode = chapterFlow[nextIndex];
       
-      if (nextNode && (nextNode.id === 'stage2' || nextNode.id === 'stage3_use' || nextNode.id === 'stage4_1' || nextNode.id === 'stage4_2' || nextNode.id === 'stage4_4' || nextNode.id === 'stage4_5' || nextNode.id === 'stage6_a' || nextNode.id === 'stage7_a' || nextNode.id === 'stage8_a' || nextNode.id === 'stage8_b')) {
-        setShowHandbook(false);
-      } else {
+      if (nextNode && nextNode.id === 'stage1') {
         setShowHandbook(true);
+      } else {
+        setShowHandbook(false);
       }
       
       setCurrentFlowIndex(nextIndex);
@@ -131,9 +125,11 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
   };
 
   const handleStageComplete = () => {
-    console.log('[Parent] Activity completion state updating to TRUE');
     setStageCompleted(true);
   };
+
+  // Global Theme Hook
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <>
@@ -154,8 +150,8 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
             top: '50%',
             transform: 'translateY(-50%)',
             zIndex: 101,
-            background: 'var(--lesson-surface)',
-            border: '1px solid var(--lesson-border)',
+            background: 'var(--surface)',
+            border: '1px solid var(--border)',
             borderLeft: 'none',
             borderTopRightRadius: '8px',
             borderBottomRightRadius: '8px',
@@ -163,7 +159,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
             cursor: 'pointer',
             boxShadow: '2px 0 8px rgba(0,0,0,0.1)',
             transition: 'left 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-            color: 'var(--lesson-text)',
+            color: 'var(--text-primary)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
@@ -180,7 +176,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
             position: 'absolute', 
             left: 0,
             top: 0, bottom: 0, zIndex: 100, 
-            background: 'var(--lesson-surface)', borderRight: '1px solid var(--lesson-border)', 
+            background: 'var(--surface)', borderRight: '1px solid var(--border)', 
             display: 'flex', flexDirection: 'column', 
             overflow: 'hidden', boxShadow: isTimelineOpen ? '4px 0 20px rgba(0,0,0,0.2)' : 'none',
             width: '320px', 
@@ -189,7 +185,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
           }}
         >
           <div style={{ width: '320px', padding: '1.5rem', display: 'flex', flexDirection: 'column', height: '100%' }}>
-            <h3 style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: 'var(--lesson-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>
+            <h3 style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>
               Investigation Progress
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', overflowY: 'auto', paddingRight: '0.5rem' }}>
@@ -212,7 +208,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
                       disabled={isLocked}
                       onClick={() => {
                         if (!isLocked) {
-                          if (!isSilentStage()) { try { playSuccess(); } catch (err) { console.warn('Audio playback failed', err); } }
+                          
                           if (item.type === 'mission') {
                             setShowHandbook(true);
                           } else {
@@ -229,9 +225,9 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
                         padding: '0.75rem',
                         marginLeft: `${indentLevel * 1}rem`,
                         borderRadius: '8px',
-                        background: isActive ? 'var(--lesson-accent-bg)' : 'transparent',
-                        border: `1px solid ${isActive ? 'var(--lesson-accent-border)' : 'transparent'}`,
-                        color: isPast ? 'var(--lesson-muted)' : isActive ? 'var(--lesson-accent)' : 'var(--lesson-text)',
+                        background: isActive ? 'var(--accent-bg)' : 'transparent',
+                        border: `1px solid ${isActive ? 'var(--accent-border)' : 'transparent'}`,
+                        color: isPast ? 'var(--text-muted)' : isActive ? 'var(--accent)' : 'var(--text-primary)',
                         transition: 'all 0.2s',
                         opacity: isLocked ? 0.4 : 1,
                         cursor: isLocked ? 'not-allowed' : 'pointer',
@@ -243,7 +239,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
                         <span style={{ fontSize: '0.85rem', fontWeight: isActive ? 'bold' : 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                           {item.title}
                         </span>
-                        <span style={{ fontSize: '0.7rem', color: 'var(--lesson-muted)' }}>
+                        <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
                           {item.type === 'mission' ? 'Mission Briefing' : item.type === 'activity' ? item.subtitle : 'Evidence Review'}
                         </span>
                       </div>
@@ -277,7 +273,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
                           borderRadius: '8px',
                           background: 'rgba(0,0,0,0.03)',
                           border: 'none',
-                          color: isLocked ? 'var(--lesson-muted)' : 'var(--lesson-text)',
+                          color: isLocked ? 'var(--text-muted)' : 'var(--text-primary)',
                           fontWeight: 'bold',
                           cursor: isLocked ? 'not-allowed' : 'pointer',
                           textAlign: 'left',
@@ -285,7 +281,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
                         }}
                       >
                         <span style={{ fontSize: '0.9rem', flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{group.title}</span>
-                        <span style={{ fontSize: '0.8rem', transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s', color: 'var(--lesson-muted)' }}>▶</span>
+                        <span style={{ fontSize: '0.8rem', transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s', color: 'var(--text-muted)' }}>▶</span>
                       </button>
                       {isExpanded && !isLocked && (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', marginTop: '0.25rem' }}>
@@ -309,7 +305,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
         </div>
 
         {/* Main Content Area - Full Width */}
-        <div className="activity-content" style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', position: 'relative', overflowY: currentNode.type === 'activity' ? 'hidden' : 'auto', marginLeft: isTimelineOpen ? '320px' : '0px', transition: 'margin-left 0.4s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+        <div className="activity-content" style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', position: 'relative', overflowY: currentNode.type === 'activity' ? 'hidden' : 'auto' }}>
           {currentNode.type === 'mission' && (
             <MissionBriefingSpread 
               data={currentNode} 
@@ -434,84 +430,12 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
 
           <button 
             onClick={() => {
-              if (currentNode.id === 'sportsball') {
-                const prevIndex = chapterFlow.findIndex(node => node.id === 'stage5');
-                if (prevIndex !== -1) {
-                  setShowHandbook(false);
-                  setCurrentFlowIndex(prevIndex);
-                  return;
-                }
-              }
-
-              if (currentNode.id === 'stage5') {
-                const prevIndex = chapterFlow.findIndex(node => node.id === 'stage3_material');
-                if (prevIndex !== -1) {
-                  setShowHandbook(false);
-                  setCurrentFlowIndex(prevIndex);
-                  return;
-                }
-              }
-
-              if (currentNode.id === 'stage3_material') {
-                const prevIndex = chapterFlow.findIndex(node => node.id === 'stage3_use');
-                if (prevIndex !== -1) {
-                  setShowHandbook(false);
-                  setCurrentFlowIndex(prevIndex);
-                  return;
-                }
-              }
-
-              if (currentNode.id === 'stage2') {
-                const prevIndex = chapterFlow.findIndex(node => node.title === 'Phase 2: Identification');
-                if (prevIndex !== -1) {
-                  setShowHandbook(false);
-                  setCurrentFlowIndex(prevIndex);
-                  return;
-                }
-              }
-
-              if (currentNode.id === 'stage7_a') {
-                const prevIndex = currentFlowIndex - 1;
-                if (prevIndex >= 0) {
-                  setShowHandbook(true);
-                  setCurrentFlowIndex(prevIndex);
-                  return;
-                }
-              }
-
-              if (currentNode.id === 'stage7_b') {
-                const prevIndex = chapterFlow.findIndex(node => node.id === 'stage7_a');
-                if (prevIndex !== -1) {
-                  setShowHandbook(false);
-                  setCurrentFlowIndex(prevIndex);
-                  return;
-                }
-              }
-
-              if (currentNode.id === 'stage8_a') {
-                const prevIndex = currentFlowIndex - 1;
-                if (prevIndex >= 0) {
-                  setShowHandbook(false);
-                  setCurrentFlowIndex(prevIndex);
-                  return;
-                }
-              }
-
-              if (currentNode.id === 'stage8_b' || currentNode.id === 'stage8_c') {
-                const prevIndex = currentFlowIndex - 1;
-                if (prevIndex >= 0) {
-                  setShowHandbook(false);
-                  setCurrentFlowIndex(prevIndex);
-                  return;
-                }
-              }
-
-              if (!showHandbook && currentNode.type === 'activity' && !['stage8_b', 'stage8_c', 'stage3_use', 'stage4_1', 'stage4_2', 'stage4_4', 'stage4_5', 'stage6_a'].includes(currentNode.id)) {
+              if (!showHandbook && currentNode.type === 'activity' && currentNode.id === 'stage1') {
                 setShowHandbook(true);
               } else if (currentFlowIndex > 0) {
                 const prevIndex = currentFlowIndex - 1;
                 const prevNode = chapterFlow[prevIndex];
-                if (prevNode && prevNode.type === 'mission') {
+                if (prevNode && prevNode.type === 'mission' && prevNode.title.includes('Barrier 1')) {
                   setShowHandbook(true);
                 } else {
                   setShowHandbook(false);
@@ -562,8 +486,8 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
                 fontWeight: 'bold',
                 gap: '0.75rem', 
                 borderRadius: '10px',
-                opacity: ((showHandbook && !['stage8_b', 'stage8_c', 'stage3_use', 'stage4_1', 'stage4_2', 'stage4_4', 'stage4_5', 'stage6_a'].includes(currentNode.id)) || stageCompleted || currentNode.id === 'stage2') ? 1 : 0.5,
-                cursor: ((showHandbook && !['stage8_b', 'stage8_c', 'stage3_use', 'stage4_1', 'stage4_2', 'stage4_4', 'stage4_5', 'stage6_a'].includes(currentNode.id)) || stageCompleted || currentNode.id === 'stage2') ? 'pointer' : 'not-allowed',
+                opacity: 1,
+                cursor: 'pointer',
                 transition: 'all 0.3s',
                 display: 'flex',
                 alignItems: 'center'
@@ -579,7 +503,3 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
   </>
   );
 }
-
-MaterialsAroundUsActivity.propTypes = {
-  onBackToDashboard: PropTypes.func.isRequired
-};
