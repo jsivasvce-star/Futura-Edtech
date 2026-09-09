@@ -237,7 +237,11 @@ export const RealisticCup = ({ material, velocityX = 0 }) => {
         position: 'relative', 
         width: '100%', 
         height: '100%',
-        transform: 'translateZ(0)'
+        // 3D perspective to tilt the beaker so it matches the scale's angle
+        transform: 'perspective(800px) rotateX(10deg) rotateY(-3deg) translateZ(0)',
+        transformOrigin: 'bottom center',
+        // Grounding shadows cast behind and slightly to the side
+        filter: 'drop-shadow(5px 20px 15px rgba(0,0,0,0.3)) drop-shadow(2px 5px 5px rgba(0,0,0,0.2))'
       }}>
         <img
           src={cupImgSrc}
@@ -247,7 +251,9 @@ export const RealisticCup = ({ material, velocityX = 0 }) => {
             height: '100%',
             objectFit: 'contain',
             pointerEvents: 'none',
-            display: 'block'
+            display: 'block',
+            position: 'relative',
+            zIndex: 1
           }}
         />
       </div>
