@@ -66,11 +66,11 @@ export default function Stage6a_Surveillance({ onComplete, addXp }) {
     
     activationTimerRef.current = setTimeout(() => {
       setOverlayState({ spotId: spot.id, phase: 'active' });
-    }, 2000);
+    }, 3000);
 
     completionTimerRef.current = setTimeout(() => {
       setOverlayState({ spotId: null, phase: null });
-    }, 7000);
+    }, 6000);
   };
 
   const obsCount = Object.keys(observations).length;

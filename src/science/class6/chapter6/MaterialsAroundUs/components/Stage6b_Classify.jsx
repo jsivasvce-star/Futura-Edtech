@@ -323,32 +323,26 @@ export default function Stage6b_Classify({ onComplete, addXp }) {
       </div>
 
       {/* Observation Box */}
-      <div style={{ flexShrink: 0, background: 'var(--surface)', borderRadius: '12px', border: '1px solid var(--border)', padding: '0.5rem 1.25rem' }}>
-        <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '1.21rem', fontWeight: '900', color: 'var(--accent)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Eye size={20} /> Observation Box
+      <div style={{ flexShrink: 0, background: 'var(--surface)', borderRadius: '12px', border: '1px solid var(--border)', padding: '0.75rem 1.25rem', display: 'flex', flexDirection: 'column' }}>
+        <h4 style={{ margin: '0 0 0.75rem 0', fontSize: '1.5rem', fontWeight: '900', color: 'var(--accent)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Eye size={24} /> Observation Box
         </h4>
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', gap: '1rem' }}>
           {[
             { label: 'Transparent', accent: '#16a34a', border: '#bbf7d0', examples: transparentItems },
             { label: 'Translucent', accent: '#d97706', border: '#fde68a', examples: translucentItems },
             { label: 'Opaque', accent: '#dc2626', border: '#fecaca', examples: opaqueItems },
           ].map(obs => (
-            <div key={obs.label} style={{ flex: 1, background: 'white', borderRadius: '10px', padding: '0.5rem 0.85rem', border: `1px solid ${obs.border}`, display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <div style={{ alignSelf: 'flex-start', border: `1.5px solid ${obs.border}`, color: obs.accent, padding: '2px 10px', borderRadius: '8px', fontSize: '0.99rem', fontWeight: '900' }}>
+            <div key={obs.label} style={{ flex: 1, background: 'white', borderRadius: '12px', padding: '0.75rem 1.25rem', border: `1px solid ${obs.border}`, display: 'flex', flexDirection: 'column', gap: '6px', justifyContent: 'center' }}>
+              <div style={{ alignSelf: 'flex-start', border: `1.5px solid ${obs.border}`, color: obs.accent, padding: '4px 12px', borderRadius: '8px', fontSize: '1.2rem', fontWeight: '900' }}>
                 {obs.label}
               </div>
-              <div style={{ fontSize: '1.05rem', color: 'var(--text-secondary)' }}>
-                Examples observed: <span style={{ color: obs.accent, fontWeight: '800', fontSize: '1.15rem', marginLeft: '4px' }}>{obs.examples || 'None yet'}</span>
+              <div style={{ fontSize: '1.25rem', color: 'var(--text-secondary)' }}>
+                Examples observed: <span style={{ color: obs.accent, fontWeight: '800', fontSize: '1.35rem', marginLeft: '6px' }}>{obs.examples || 'None yet'}</span>
               </div>
             </div>
           ))}
         </div>
-      </div>
-
-      {/* Footer tip */}
-      <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: '12px', background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '10px', padding: '0.75rem 1.25rem', fontSize: '1.21rem', color: '#92400e', fontWeight: '600' }}>
-        <Lightbulb size={24} color="#d97706" style={{ flexShrink: 0 }} />
-        <span><strong style={{ fontSize: '1.27rem' }}>Tip:</strong> Classify all 6 objects to complete this activity. Watch how each tray visually responds to the object placed inside!</span>
       </div>
 
     </div>
