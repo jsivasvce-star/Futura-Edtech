@@ -158,7 +158,6 @@ export default function Chapter4Flow({ onBackToDashboard, onLaunchActivity }) {
                   </div>
                   <div className="hud-title-box">
                     <h3 className="hud-card-title">{card.title}</h3>
-                    <span className="hud-card-sub">{card.sub}</span>
                   </div>
                 </div>
 
@@ -182,7 +181,7 @@ export default function Chapter4Flow({ onBackToDashboard, onLaunchActivity }) {
             onClick={onBackToDashboard}
             className="hud-btn hud-btn-back"
           >
-            <ArrowLeft size={18} color="#ffffff" />
+            <ArrowLeft size={22} color="#ffffff" />
             <span>BACK</span>
           </button>
 
@@ -191,7 +190,7 @@ export default function Chapter4Flow({ onBackToDashboard, onLaunchActivity }) {
             className="hud-btn hud-btn-quiz"
           >
             <span>NEXT</span>
-            <ArrowRight size={18} color="#ffffff" />
+            <ArrowRight size={22} color="#ffffff" />
           </button>
         </div>
 

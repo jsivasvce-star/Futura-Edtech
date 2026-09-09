@@ -2881,9 +2881,11 @@ export default function App() {
                 <BookOpen style={{ color: activeActivity === 'chapter4_flow' ? '#ffffff' : 'var(--accent)' }} size={28} />
                 <h1 style={{ fontSize: '2.15rem', fontWeight: 800 }}>FuturaX Interactive Labs</h1>
               </div>
-              <p className="header-subtitle" style={{ fontSize: '1.05rem', marginTop: '0.35rem' }}>
-                Active-learning simulations and concept reviews for science and social science
-              </p>
+              {activeActivity !== 'chapter4_flow' && (
+                <p className="header-subtitle" style={{ fontSize: '1.05rem', marginTop: '0.35rem' }}>
+                  Active-learning simulations and concept reviews for science and social science
+                </p>
+              )}
             </div>
             {activeSubject && activeActivity !== 'chapter4_flow' && (
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
