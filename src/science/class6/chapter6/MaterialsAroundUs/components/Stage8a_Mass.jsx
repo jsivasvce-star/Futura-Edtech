@@ -255,7 +255,6 @@ export default function Stage8a_Mass({ onComplete, addXp }) {
         {/* Footer Progress */}
         <div style={{ flex: '1', background: '#FFFFFF', border: '1px solid var(--lesson-border)', borderRadius: '16px', padding: '0.75rem 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#A64B27' }}>
-            <Target size={20} />
             <span style={{ color: 'var(--lesson-secondary)', fontSize: '1.1rem', fontWeight: '700' }}>Weigh all 3 cups to uncover their mass.</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center' }}>

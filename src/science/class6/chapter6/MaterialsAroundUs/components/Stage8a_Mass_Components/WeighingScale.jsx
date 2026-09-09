@@ -79,7 +79,7 @@ export const WeighingScale = ({ currentCupOnScale, mass, isHovered }) => {
       }} />
 
       {/* Scale Assembly */}
-      <div style={{ position: 'relative', width: '380px', height: '260px', marginTop: '20px' }}>
+      <div style={{ position: 'relative', width: '380px', height: '260px', marginTop: '20px', transform: 'scale(1.25)' }}>
         
         {/* Invisible expanded drop target for extremely forgiving dropping */}
         <div 
@@ -94,26 +94,50 @@ export const WeighingScale = ({ currentCupOnScale, mass, isHovered }) => {
           }}
         />
 
-        {/* Realistic image weighing scale */}
-        <img 
-          src={weighingMachineImg} 
-          alt="Weighing Scale"
-          style={{
-            position: 'absolute',
-            top: 0, left: 0, width: '100%', height: '100%',
-            objectFit: 'contain',
-            pointerEvents: 'none'
-          }}
-        />
-
-        {/* LCD Overlay for live mass reading */}
         <div style={{
           position: 'absolute',
-          bottom: '22%', 
-          left: '50%', 
-          transform: 'translateX(-50%)',
-          width: '180px',
-          height: '40px',
+          top: 0, left: 0, width: '100%', height: '100%',
+          pointerEvents: 'none'
+        }}>
+          {/* Subtle elliptical shadow directly under the scale body to ground it realistically */}
+          <div style={{
+            position: 'absolute',
+            bottom: '2%', left: '5%', width: '90%', height: '15%',
+            background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 70%)',
+            pointerEvents: 'none',
+            zIndex: 0
+          }} />
+          <img 
+            src={weighingMachineImg} 
+            alt="Weighing Scale"
+            style={{
+              width: '100%', height: '100%',
+              objectFit: 'contain',
+              position: 'relative',
+              zIndex: 1,
+              mixBlendMode: 'multiply' // Completely removes any white background boundary
+            }}
+          />
+          {/* Subtle reflection over the metal pan to enhance 3D volumetric feel */}
+          <div style={{
+            position: 'absolute',
+            top: '30%', left: '25%', width: '50%', height: '20%',
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%)',
+            borderRadius: '10px',
+            transform: 'perspective(500px) rotateX(45deg)',
+            pointerEvents: 'none',
+            zIndex: 2,
+            mixBlendMode: 'overlay'
+          }} />
+        </div>
+
+        {/* LCD Overlay for live mass reading – aligned to the green LCD rectangle */}
+        <div style={{
+          position: 'absolute',
+          bottom: '24%', 
+          left: '16%', 
+          width: '38%',
+          height: '10%',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -123,7 +147,8 @@ export const WeighingScale = ({ currentCupOnScale, mass, isHovered }) => {
           {isSettling && (
             <div style={{
               position: 'absolute',
-              left: '10px', top: '10px',
+              left: '8px', top: '50%',
+              transform: 'translateY(-50%)',
               width: '6px', height: '6px',
               borderRadius: '50%',
               background: '#1a1f1c',
@@ -132,11 +157,11 @@ export const WeighingScale = ({ currentCupOnScale, mass, isHovered }) => {
           )}
           <span style={{ 
             fontFamily: "'Courier New', Courier, monospace",
-            fontSize: '1.8rem', 
+            fontSize: 'clamp(1rem, 1.6vw, 1.6rem)', 
             color: '#1a1f1c', 
             fontWeight: 'bold',
             letterSpacing: '1px',
-            textShadow: '0px 0px 1px rgba(0,0,0,0.3)',
+            textShadow: '1px 1px 1px rgba(255,255,255,0.3), -1px -1px 2px rgba(0,0,0,0.3)',
             whiteSpace: 'nowrap'
           }}>
             {displayMass ? `${displayMass.toFixed(2)} g` : '0.00 g'}
@@ -146,7 +171,7 @@ export const WeighingScale = ({ currentCupOnScale, mass, isHovered }) => {
         {/* Anchor point: Renders ONLY currentCupOnScale if present */}
         <div 
           style={{
-            position: 'absolute', top: '30%', left: '50%',
+            position: 'absolute', top: '55%', left: '50%',
             width: '1px', height: '1px'
           }}
         >
@@ -161,8 +186,8 @@ export const WeighingScale = ({ currentCupOnScale, mass, isHovered }) => {
                 style={{
                   position: 'absolute',
                   bottom: '0px',
-                  left: '-40px',
-                  width: '80px', height: '100px',
+                  left: '-80px',
+                  width: '160px', height: '200px',
                   zIndex: 10
                 }}
               >
