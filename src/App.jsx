@@ -46,6 +46,8 @@ const MagneticEffectOfCurrentActivity = lazy(() => import('./science/class8/chap
 const ElectromagnetInvestigationActivity = lazy(() => import('./science/class8/chapter4/ElectromagnetInvestigation'));
 const GrassrootsDemocracyActivity = lazy(() => import('./social/class6/chapter11/GrassrootsDemocracy'));
 const LocatingPlacesActivity = lazy(() => import('./social/class6/locating_places/LocatingPlaces'));
+const LocatingPlacesActivityV2 = lazy(() => import('./social/chapter1-version2/index'));
+const LocatingPlacesActivityV3 = lazy(() => import('./social/chapter1-version3/index'));
 const Activity9_1 = lazy(() => import('./science/class8/chapter9/SolutesAndSolvents'));
 const LineSegmentLabActivity = lazy(() => import('./maths/class6/chapter4/LineSegmentLab'));
 const ParallelIntersectingLabActivity = lazy(() => import('./maths/class6/chapter4/ParallelIntersectingLab'));
@@ -714,13 +716,29 @@ export default function App() {
                     Introduce maps by experiencing what it's like to navigate without one. Learn how maps help locate places.
                   </p>
 
-                  <button 
-                    onClick={() => navigateTo('class6_social', 'locating_places')}
-                    className="primary" 
-                    style={{ width: '100%', gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
-                  >
-                    Open Chapter <ArrowRight size={14} />
-                  </button>
+                  <div style={{ display: 'flex', gap: '0.5rem', width: '100%' }}>
+                    <button 
+                      onClick={() => navigateTo('class6_social', 'locating_places')}
+                      className="primary" 
+                      style={{ flex: 1, gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
+                    >
+                      V1 <ArrowRight size={14} />
+                    </button>
+                    <button 
+                      onClick={() => navigateTo('class6_social', 'locating_places_v2')}
+                      className="primary" 
+                      style={{ flex: 1, gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
+                    >
+                      V2 <ArrowRight size={14} />
+                    </button>
+                    <button 
+                      onClick={() => navigateTo('class6_social', 'locating_places_v3')}
+                      className="primary" 
+                      style={{ flex: 1, gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
+                    >
+                      V3 <ArrowRight size={14} />
+                    </button>
+                  </div>
                 </div>
               );
             }
@@ -3157,6 +3175,10 @@ export default function App() {
             <GrassrootsDemocracyActivity onBackToDashboard={() => navigateTo('class6_social', null)} />
           ) : activeActivity === 'locating_places' ? (
             <LocatingPlacesActivity onBackToDashboard={() => navigateTo('class6_social', null)} />
+          ) : activeActivity === 'locating_places_v2' ? (
+            <LocatingPlacesActivityV2 onBackToDashboard={() => navigateTo('class6_social', null)} />
+          ) : activeActivity === 'locating_places_v3' ? (
+            <LocatingPlacesActivityV3 onBackToDashboard={() => navigateTo('class6_social', null)} />
           ) : (
             renderClass6SocialWing()
           )
