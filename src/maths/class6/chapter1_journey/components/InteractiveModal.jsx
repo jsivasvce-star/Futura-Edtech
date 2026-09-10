@@ -66,40 +66,6 @@ function FullscreenExplore1_1({ onClose }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
 
-  const isFirstSlide = currentSlide === 0;
-
-  // Active state logic:
-  // Image 1: ‹ is subdued, › is bright yellow/orange
-  // Images 2–8: ‹ is bright yellow/orange, › is bright yellow/orange
-  const isPrevHighlighted = !isFirstSlide;
-  const isNextHighlighted = true;
-
-  const handlePrev = () => {
-    if (currentSlide > 0) {
-      setCurrentSlide(prev => prev - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentSlide < TRAFFIC_SLIDES.length - 1) {
-      setCurrentSlide(prev => prev + 1);
-    }
-  };
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'ArrowRight') {
-        handleNext();
-      } else if (e.key === 'ArrowLeft') {
-        handlePrev();
-      } else if (e.key === 'Escape') {
-        if (onClose) onClose();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentSlide, onClose]);
-
   // Compute character ranges for exact word-by-word tracking
   const wordsWithOffsets = React.useMemo(() => {
     const text = TRAFFIC_SLIDES[currentSlide]?.subtitle || '';
@@ -113,15 +79,32 @@ function FullscreenExplore1_1({ onClose }) {
     });
   }, [currentSlide]);
 
-  // Voice narration synchronization with real-time word boundaries
+  // Voice narration synchronization, slower educational pace, and exact 15-second slide duration
   useEffect(() => {
+    let slideTimer = null;
+    let isMounted = true;
+    const slideStartTime = Date.now();
+    const TOTAL_SLIDE_DURATION_MS = 15000; // Exactly 15 seconds per Explore image
+
     setCurrentWordIndex(-1);
+
+    const advanceSlide = () => {
+      setCurrentSlide((prev) => {
+        if (prev < TRAFFIC_SLIDES.length - 1) {
+          return prev + 1;
+        }
+        return prev;
+      });
+    };
+
     const textToSpeak = TRAFFIC_SLIDES[currentSlide]?.subtitle;
     if (textToSpeak && voiceService) {
       voiceService.speak({
         text: textToSpeak,
-        voiceId: ELEVENLABS_VOICES?.teacher || 'Ps8lsQuJKZHMxxDU1tff',
+        role: 'young_indian_male',
+        voiceId: ELEVENLABS_VOICES?.young_indian_male || '4w024U7w6P92yq0716Qc',
         onBoundary: (charIndex) => {
+          if (!isMounted) return;
           if (charIndex === -1) {
             setCurrentWordIndex(-1);
             return;
@@ -138,15 +121,50 @@ function FullscreenExplore1_1({ onClose }) {
             }
           }
         },
+        onEnd: () => {
+          if (!isMounted) return;
+          // 1. Remove the active-word highlight so complete text displays normally in Times New Roman
+          setCurrentWordIndex(-1);
+
+          // 2. Complete the remainder of the exact 15-second total duration
+          const elapsed = Date.now() - slideStartTime;
+          const remaining = Math.max(1000, TOTAL_SLIDE_DURATION_MS - elapsed);
+          
+          if (slideTimer) clearTimeout(slideTimer);
+          slideTimer = setTimeout(() => {
+            if (isMounted) advanceSlide();
+          }, remaining);
+        },
       });
+
+      // Ensure audio playback rate is set to a calm, comfortable educational speed (0.75x)
+      if (voiceService.currentAudio) {
+        voiceService.currentAudio.playbackRate = 0.75;
+      }
     }
 
+    // Fixed 15-second timer
+    slideTimer = setTimeout(() => {
+      if (isMounted) advanceSlide();
+    }, TOTAL_SLIDE_DURATION_MS);
+
     return () => {
-      if (voiceService) {
-        voiceService.stop();
-      }
+      isMounted = false;
+      if (slideTimer) clearTimeout(slideTimer);
+      if (voiceService) voiceService.stop();
     };
   }, [currentSlide, wordsWithOffsets]);
+
+  // Support Escape key to exit fullscreen modal if needed
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && onClose) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   const activeImage = TRAFFIC_SLIDES[currentSlide];
 
@@ -161,175 +179,86 @@ function FullscreenExplore1_1({ onClose }) {
       padding: 0,
       overflow: 'hidden',
       display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: '#000000',
+      flexDirection: 'column',
+      backgroundColor: '#020617',
     }}>
-      {/* ── SEAMLESS AMBIENT BACKDROP (ELIMINATES EMPTY BARS / GAPS) ── */}
-      <img
-        src={activeImage.src}
-        alt=""
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100vw',
-          height: '100vh',
-          objectFit: 'cover',
-          filter: 'blur(32px) brightness(0.35)',
-          transform: 'scale(1.15)',
-          pointerEvents: 'none',
-          userSelect: 'none',
-        }}
-      />
-
-      {/* ── FULLY VISIBLE, UNCROPPED, UNDISTORTED FOREGROUND IMAGE ── */}
-      <img
-        key={activeImage.id}
-        src={activeImage.src}
-        alt={activeImage.alt}
-        style={{
-          position: 'relative',
-          zIndex: 1,
-          width: '100vw',
-          height: '100vh',
-          objectFit: 'contain',
-          display: 'block',
-          margin: 0,
-          padding: 0,
-          userSelect: 'none',
-        }}
-        loading="eager"
-      />
-
-      {/* ── 8 SMALL SLIDE DOTS AT THE TOP (INSIDE IMAGE) ── */}
+      {/* ── TOP 90%: FULL-WIDTH COMPLETE ORIGINAL IMAGE (ZERO CROPPING, ZERO DISTORTION) ── */}
       <div style={{
-        position: 'absolute',
-        top: '20px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        zIndex: 20,
+        width: '100%',
+        height: '90vh',
+        flex: '0 0 90vh',
+        margin: 0,
+        padding: 0,
         display: 'flex',
         alignItems: 'center',
-        gap: '10px',
-        userSelect: 'none',
+        justifyContent: 'center',
+        overflow: 'hidden',
+        position: 'relative',
       }}>
-        {TRAFFIC_SLIDES.map((slide, idx) => {
-          const isActive = idx === currentSlide;
-          return (
-            <button
-              key={slide.id}
-              onClick={() => setCurrentSlide(idx)}
-              aria-label={`Go to slide ${idx + 1}`}
-              style={{
-                width: '8px',
-                height: '8px',
-                borderRadius: '50%',
-                padding: 0,
-                margin: 0,
-                background: isActive ? '#f59e0b' : 'transparent',
-                border: isActive ? '1.5px solid #f59e0b' : '1.5px solid rgba(255, 255, 255, 0.6)',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                filter: 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8))',
-              }}
-            />
-          );
-        })}
+        <img
+          key={activeImage.id}
+          src={activeImage.src}
+          alt={activeImage.alt}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+            display: 'block',
+            margin: 0,
+            padding: 0,
+            userSelect: 'none',
+          }}
+          loading="eager"
+        />
       </div>
 
-      {/* ── CLEAN ACTIVE WORD-BY-WORD SPOKEN TEXT IN CENTRE (NO BOX/CARD) ── */}
-      {currentWordIndex >= 0 && wordsWithOffsets[currentWordIndex] && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            zIndex: 25,
-            pointerEvents: 'none',
-            userSelect: 'none',
-            textAlign: 'center',
-            width: '90vw',
-            maxWidth: '1100px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <span
-            key={`${currentSlide}-${currentWordIndex}`}
-            style={{
-              fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              fontSize: 'clamp(2.4rem, 5.5vw, 4.4rem)',
-              fontWeight: 800,
-              color: '#ffffff',
-              lineHeight: 1.25,
-              letterSpacing: '-0.01em',
-              textShadow: '0 4px 16px rgba(0, 0, 0, 0.95), 0 0 32px rgba(0, 0, 0, 0.85), 0 2px 4px rgba(0, 0, 0, 1)',
-              WebkitTextStroke: '1px rgba(0, 0, 0, 0.35)',
-              display: 'inline-block',
-            }}
-          >
-            {wordsWithOffsets[currentWordIndex].word}
-          </span>
-        </div>
-      )}
-
-      {/* ── MINIMAL CHEVRON NAVIGATION: ‹ (BOTTOM-LEFT) ── */}
-      <button
-        onClick={handlePrev}
-        disabled={isFirstSlide}
-        aria-label="Previous"
-        style={{
-          position: 'absolute',
-          bottom: '24px',
-          left: '24px',
-          background: 'none',
-          border: 'none',
-          padding: 0,
+      {/* ── BOTTOM 10%: COMPACT CLEAN NARRATION TEXT AREA (TIMES NEW ROMAN) ── */}
+      <div style={{
+        width: '100%',
+        height: '10vh',
+        flex: '0 0 10vh',
+        backgroundColor: '#0b0f19',
+        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '6px 24px',
+        boxSizing: 'border-box',
+        userSelect: 'none',
+      }}>
+        <p style={{
+          fontFamily: '"Times New Roman", Times, Georgia, serif',
+          fontSize: 'clamp(1.05rem, 1.55vw, 1.4rem)',
+          lineHeight: 1.3,
+          color: '#f8fafc',
           margin: 0,
-          color: isPrevHighlighted ? '#f59e0b' : 'rgba(255, 255, 255, 0.25)',
-          fontSize: '3.5rem',
-          lineHeight: 1,
-          fontFamily: 'system-ui, -apple-system, sans-serif',
-          fontWeight: '300',
-          cursor: isPrevHighlighted ? 'pointer' : 'not-allowed',
-          filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.85))',
-          transition: 'color 0.2s ease',
-          zIndex: 20,
-          userSelect: 'none',
-        }}
-      >
-        ‹
-      </button>
-
-      {/* ── MINIMAL CHEVRON NAVIGATION: › (BOTTOM-RIGHT) ── */}
-      <button
-        onClick={handleNext}
-        aria-label="Next"
-        style={{
-          position: 'absolute',
-          bottom: '24px',
-          right: '24px',
-          background: 'none',
-          border: 'none',
-          padding: 0,
-          margin: 0,
-          color: isNextHighlighted ? '#f59e0b' : 'rgba(255, 255, 255, 0.25)',
-          fontSize: '3.5rem',
-          lineHeight: 1,
-          fontFamily: 'system-ui, -apple-system, sans-serif',
-          fontWeight: '300',
-          cursor: currentSlide < TRAFFIC_SLIDES.length - 1 ? 'pointer' : 'default',
-          filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.85))',
-          transition: 'color 0.2s ease',
-          zIndex: 20,
-          userSelect: 'none',
-        }}
-      >
-        ›
-      </button>
+          textAlign: 'center',
+          maxWidth: '1200px',
+        }}>
+          {wordsWithOffsets.map(({ word, idx }) => {
+            const isCurrent = currentWordIndex === idx;
+            return (
+              <span
+                key={idx}
+                style={{
+                  display: 'inline',
+                  color: isCurrent ? '#fbbf24' : '#f8fafc',
+                  fontWeight: isCurrent ? 700 : 400,
+                  textDecoration: isCurrent ? 'underline' : 'none',
+                  textUnderlineOffset: '5px',
+                  textDecorationColor: '#f59e0b',
+                  backgroundColor: isCurrent ? 'rgba(245, 158, 11, 0.16)' : 'transparent',
+                  padding: '1px 3px',
+                  borderRadius: '3px',
+                  transition: 'color 0.12s ease, background-color 0.12s ease',
+                }}
+              >
+                {word}{' '}
+              </span>
+            );
+          })}
+        </p>
+      </div>
     </div>
   );
 }
@@ -351,3 +280,4 @@ export default function InteractiveModal({
 
   return null;
 }
+
