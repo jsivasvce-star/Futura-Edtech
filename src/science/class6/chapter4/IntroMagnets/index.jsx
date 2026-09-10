@@ -1,6 +1,8 @@
+/* eslint-disable react/prop-types, no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, Magnet, ArrowRight, Volume2, VolumeX, RotateCcw } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Volume2, VolumeX, RotateCcw } from 'lucide-react';
 import { voiceService, ELEVENLABS_VOICES } from '../../../../services/elevenLabsService';
+import './ParchmentScroll.css';
 
 export default function IntroMagnets({ onBackToDashboard, onComplete }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -201,7 +203,7 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
   };
 
   // Render text directly over image with real-time word-by-word karaoke highlighting (Text Color ONLY - No Background/Popups)
-  const renderWordByWordText = (text, lineIdx, activeLineIdx, charIndex, isEduCard = false) => {
+  const renderWordByWordText = (text, lineIdx, activeLineIdx, charIndex, isEduCard = false, isScroll = false) => {
     if (!text) return null;
     const isThisLineActive = lineIdx === activeLineIdx && isPlaying;
 
@@ -218,16 +220,18 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
       const isCurrentWord = isThisLineActive && charIndex >= startPos && charIndex < nextPos;
       const isPastWord = isThisLineActive && charIndex >= nextPos;
 
-      let color = isEduCard ? '#F5EEDB' : '#2C221E';
-      let fontWeight = 500;
+      let color = isEduCard ? '#F5EEDB' : (isScroll ? '#1E1006' : '#2C221E');
+      let fontWeight = isScroll ? 600 : 500;
+      let textShadow = 'none';
 
       if (isCurrentWord) {
         // TEXT COLOR ONLY HIGHLIGHT (No Background, No Popups)
-        color = isEduCard ? '#F3C969' : '#2563EB';
-        fontWeight = 800;
+        color = isEduCard ? '#F3C969' : (isScroll ? '#C2410C' : '#2563EB');
+        fontWeight = isScroll ? 900 : 800;
+        if (isScroll) textShadow = '0 0 2px rgba(194, 65, 12, 0.45)';
       } else if (isPastWord) {
-        color = isEduCard ? '#D4AF37' : '#1E40AF';
-        fontWeight = 700;
+        color = isEduCard ? '#D4AF37' : (isScroll ? '#5A260A' : '#1E40AF');
+        fontWeight = isScroll ? 750 : 700;
       }
 
       return (
@@ -236,6 +240,7 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
             style={{
               color,
               fontWeight,
+              textShadow,
               transition: 'color 0.15s ease'
             }}
           >
@@ -595,48 +600,66 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
               const isTeacher = line.role === 'teacher';
 
               if (isTeacher) {
-                /* Parchment card: Always visible once scene starts */
+                /* Authentic Unrolled Vertical Parchment Scroll with Turned Teak Dowels & Finials */
                 return (
                   <div
                     key={idx}
+                    className="parchment-scroll-assembly"
                     style={{
                       position: 'absolute',
                       top: pos.top,
                       left: pos.left,
                       width: pos.width,
-                      maxWidth: '480px',
-                      background: '#F5E8C7',
-                      border: '1.5px solid #5A3E28',
-                      borderRadius: '18px',
-                      padding: '1rem 1.25rem',
-                      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.45)',
-                      pointerEvents: 'auto',
-                      zIndex: isActive ? 25 : 20,
-                      transition: 'all 0.25s ease'
+                      maxWidth: '520px',
+                      zIndex: isActive ? 30 : 22
                     }}
                   >
-                    <div style={{
-                      fontSize: '1.18rem',
-                      fontWeight: 800,
-                      letterSpacing: '0.08em',
-                      color: '#5A3E28',
-                      textTransform: 'uppercase',
-                      marginBottom: '0.4rem',
-                      borderBottom: '1px solid rgba(90, 62, 40, 0.25)',
-                      paddingBottom: '0.25rem'
-                    }}>
-                      {currentScene.subtitle}
+                    {/* Top Wooden Dowel with Turned Teak Rod & Carved Finials */}
+                    <div className="scroll-dowel top-dowel">
+                      <div className="dowel-finial finial-left" />
+                      <div className="dowel-rod-segment" />
+                      <div className="dowel-finial finial-right" />
                     </div>
-                    <p style={{ 
-                      margin: 0, 
-                      fontSize: '1.42rem', 
-                      lineHeight: 1.6, 
-                      color: '#2C221E', 
-                      textAlign: 'justify',
-                      textJustify: 'inter-word'
-                    }}>
-                      {renderWordByWordText(line.text, idx, activeLineIndex, spokenCharIndex, false)}
-                    </p>
+
+                    {/* Top Curled Paper Roll with Realistic Contact Shadow */}
+                    <div className="scroll-paper-roll top-roll" />
+
+                    {/* Main Parchment Sheet with Organic Deckled Edges & Coastal Sunlight Integration */}
+                    <div className="scroll-parchment-body">
+                      {/* Golden-Hour Coastal Sunlight Wash (Catching light from window on right) */}
+                      <div className="parchment-sunlight-wash" />
+                      {/* Aged Fibrous Papyrus Texture & Crease Grain */}
+                      <div className="parchment-fiber-grain" />
+
+                      {/* Reading Content Pane with Generous Clear Padding */}
+                      <div className="parchment-content">
+                        {/* Antique Story Header */}
+                        <div className="parchment-story-header">
+                          <span className="parchment-story-tag">EXPEDITION CHRONICLE</span>
+                          <h2 className="parchment-story-title">{currentScene.subtitle}</h2>
+                          <div className="parchment-header-ornament">
+                            <span className="ornament-line" />
+                            <span className="ornament-gem">✦</span>
+                            <span className="ornament-line" />
+                          </div>
+                        </div>
+
+                        {/* Narrative Paragraph with Iron-Gall Black Typography & High Contrast Readability */}
+                        <p className="parchment-narrative-text">
+                          {renderWordByWordText(line.text, idx, activeLineIndex, spokenCharIndex, false, true)}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Bottom Curled Paper Roll with Realistic Contact Shadow */}
+                    <div className="scroll-paper-roll bottom-roll" />
+
+                    {/* Bottom Wooden Dowel with Turned Teak Rod & Carved Finials */}
+                    <div className="scroll-dowel bottom-dowel">
+                      <div className="dowel-finial finial-left" />
+                      <div className="dowel-rod-segment" />
+                      <div className="dowel-finial finial-right" />
+                    </div>
                   </div>
                 );
               }
