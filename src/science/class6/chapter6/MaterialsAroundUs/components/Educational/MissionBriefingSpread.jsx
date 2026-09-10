@@ -176,7 +176,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             padding: 5px 18px;
             border-radius: 8px;
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 34px;
+            font-size: 30px;
             font-weight: bold;
             letter-spacing: 1px;
             box-shadow: 0 3px 6px rgba(0,0,0,0.1);
@@ -278,6 +278,11 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             color: var(--lesson-border);
           }
 
+          @keyframes primary-pulse {
+            0% { box-shadow: 0 6px 20px rgba(217, 119, 6, 0.8), 0 0 0 0 rgba(245, 158, 11, 0.7); }
+            50% { box-shadow: 0 10px 30px rgba(245, 158, 11, 1), 0 0 0 16px rgba(245, 158, 11, 0); }
+            100% { box-shadow: 0 6px 20px rgba(217, 119, 6, 0.8), 0 0 0 0 rgba(245, 158, 11, 0); }
+          }
           .start-btn {
             position: absolute;
             bottom: 18px;
@@ -285,24 +290,26 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             z-index: 10000;
             background: var(--lesson-primary);
             color: white;
-            border: none;
-            padding: 18px 44px;
+            border: 3px solid #FEF08A;
+            padding: 15px 41px; /* Adjusted to compensate for 3px border */
             border-radius: 42px;
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 22px;
+            font-size: 24.2px;
             font-weight: 700;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 14px;
-            box-shadow: 0 6px 18px rgba(64,82,160,0.3);
+            box-shadow: 0 6px 20px rgba(217, 119, 6, 0.8);
+            animation: primary-pulse 2s infinite;
             transition: all 0.2s;
             width: fit-content;
           }
           .start-btn:hover {
             transform: translateY(-2px);
             background: var(--lesson-primary);
+            border-color: #FEF3C7;
           }
 
           .spread-back-btn {
@@ -312,7 +319,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             top: auto;
             z-index: 10000;
             background: var(--lesson-surface);
-            border: 2px solid var(--lesson-border);
+            border: 2px solid rgba(217, 119, 6, 0.5);
             color: var(--lesson-text);
             padding: 12px 26px;
             border-radius: 11px;
@@ -320,15 +327,17 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             align-items: center;
             gap: 10px;
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 19px;
+            font-size: 20.9px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 5px 14px rgba(0,0,0,0.09);
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
             transition: all 0.2s;
           }
           .spread-back-btn:hover {
             background: var(--lesson-surface);
             transform: translateY(-1px);
+            border: 2px solid rgba(217, 119, 6, 0.8);
+            box-shadow: 0 6px 16px rgba(217, 119, 6, 0.35);
           }
         `}
       </style>
