@@ -637,21 +637,20 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
                       {waterLevelA > 0 && (
                          <g>
                             {/* Main water body */}
-                            <path d={`M ${20 + 8*(1-waterLevelA)} ${150 - 130*waterLevelA} L 28 150 C 28 160, 92 160, 92 150 L ${100 - 8*(1-waterLevelA)} ${150 - 130*waterLevelA} Z`} fill="url(#waterGrad)" />
+                            <path d={`M ${35 - 12*waterLevelA} ${150 - 110*waterLevelA} L 35 150 C 35 156, 85 156, 85 150 L ${85 + 12*waterLevelA} ${150 - 110*waterLevelA} Z`} fill="url(#waterGrad)" />
                             
                             {/* Water Base Depth */}
-                            <ellipse cx="60" cy="150" rx="32" ry="6" fill="rgba(10, 80, 130, 0.6)" />
+                            <ellipse cx="60" cy="150" rx="25" ry="4" fill="rgba(10, 80, 130, 0.6)" />
                             
                             {/* Water Surface (Meniscus) */}
-                            <ellipse cx="60" cy={150 - 130*waterLevelA} rx={40 - 8*(1-waterLevelA)} ry={7} fill="rgba(180, 230, 255, 0.4)" stroke="rgba(255,255,255,0.9)" strokeWidth="1.5" />
-                            <ellipse cx="60" cy={151 - 130*waterLevelA} rx={39 - 8*(1-waterLevelA)} ry={6} fill="none" stroke="rgba(0, 50, 100, 0.2)" strokeWidth="2" />
+                            <ellipse cx="60" cy={150 - 110*waterLevelA} rx={25 + 12*waterLevelA} ry={5} fill="rgba(180, 230, 255, 0.4)" stroke="rgba(255,255,255,0.9)" strokeWidth="1.5" />
+                            <ellipse cx="60" cy={151 - 110*waterLevelA} rx={24 + 12*waterLevelA} ry={4} fill="none" stroke="rgba(0, 50, 100, 0.2)" strokeWidth="2" />
                          </g>
                       )}
-                      <rect id="tumbler-a-surface" x="0" y={150 - (130 * waterLevelA)} width="120" height="2" fill="transparent" pointerEvents="none" />
+                      <rect id="tumbler-a-surface" x="0" y={150 - (110 * waterLevelA)} width="120" height="2" fill="transparent" pointerEvents="none" />
 
                       {/* Realistic Tumbler Image Overlay */}
-                      <image href="/images/tumbler_glass_clean.png" x="-15" y="-5" width="150" height="180" preserveAspectRatio="xMidYMid meet" style={{ mixBlendMode: 'multiply' }} />
-                      <image href="/images/tumbler_glass_clean.png" x="-15" y="-5" width="150" height="180" preserveAspectRatio="xMidYMid meet" opacity="0.3" />
+                      <image href="/images/tumbler_glass_clean.png" x="-15" y="-5" width="150" height="180" preserveAspectRatio="xMidYMid meet" pointerEvents="none" />
                     </svg>
 
                     <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)', marginTop: '12px', background: 'rgba(255,255,255,0.92)', border: '1px solid var(--lesson-border)', borderRadius: '8px', padding: '4px 16px', boxShadow: '0 2px 6px rgba(0,0,0,0.08)', textAlign: 'center', width: 'max-content' }}>
@@ -682,21 +681,20 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
                       {waterLevelB > 0 && (
                          <g>
                             {/* Main water body */}
-                            <path d={`M ${20 + 8*(1-waterLevelB)} ${150 - 130*waterLevelB} L 28 150 C 28 160, 92 160, 92 150 L ${100 - 8*(1-waterLevelB)} ${150 - 130*waterLevelB} Z`} fill="url(#waterGrad)" />
+                            <path d={`M ${35 - 12*waterLevelB} ${150 - 110*waterLevelB} L 35 150 C 35 156, 85 156, 85 150 L ${85 + 12*waterLevelB} ${150 - 110*waterLevelB} Z`} fill="url(#waterGrad)" />
                             
                             {/* Water Base Depth */}
-                            <ellipse cx="60" cy="150" rx="32" ry="6" fill="rgba(10, 80, 130, 0.6)" />
+                            <ellipse cx="60" cy="150" rx="25" ry="4" fill="rgba(10, 80, 130, 0.6)" />
                             
                             {/* Water Surface (Meniscus) */}
-                            <ellipse cx="60" cy={150 - 130*waterLevelB} rx={40 - 8*(1-waterLevelB)} ry={7} fill="rgba(180, 230, 255, 0.4)" stroke="rgba(255,255,255,0.9)" strokeWidth="1.5" />
-                            <ellipse cx="60" cy={151 - 130*waterLevelB} rx={39 - 8*(1-waterLevelB)} ry={6} fill="none" stroke="rgba(0, 50, 100, 0.2)" strokeWidth="2" />
+                            <ellipse cx="60" cy={150 - 110*waterLevelB} rx={25 + 12*waterLevelB} ry={5} fill="rgba(180, 230, 255, 0.4)" stroke="rgba(255,255,255,0.9)" strokeWidth="1.5" />
+                            <ellipse cx="60" cy={151 - 110*waterLevelB} rx={24 + 12*waterLevelB} ry={4} fill="none" stroke="rgba(0, 50, 100, 0.2)" strokeWidth="2" />
                          </g>
                       )}
-                      <rect id="tumbler-b-surface" x="0" y={150 - (130 * waterLevelB)} width="120" height="2" fill="transparent" pointerEvents="none" />
+                      <rect id="tumbler-b-surface" x="0" y={150 - (110 * waterLevelB)} width="120" height="2" fill="transparent" pointerEvents="none" />
 
                       {/* Realistic Tumbler Image Overlay */}
-                      <image href="/images/tumbler_glass_clean.png" x="-15" y="-5" width="150" height="180" preserveAspectRatio="xMidYMid meet" style={{ mixBlendMode: 'multiply' }} />
-                      <image href="/images/tumbler_glass_clean.png" x="-15" y="-5" width="150" height="180" preserveAspectRatio="xMidYMid meet" opacity="0.3" />
+                      <image href="/images/tumbler_glass_clean.png" x="-15" y="-5" width="150" height="180" preserveAspectRatio="xMidYMid meet" pointerEvents="none" />
                     </svg>
 
                     <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)', marginTop: '12px', background: 'rgba(255,255,255,0.92)', border: '1px solid var(--lesson-border)', borderRadius: '8px', padding: '4px 16px', boxShadow: '0 2px 6px rgba(0,0,0,0.08)', textAlign: 'center', width: 'max-content' }}>
@@ -759,6 +757,9 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
                         <clipPath id="capClip" clipPathUnits="objectBoundingBox">
                           <rect x="0" y="0" width="1" height="0.1461" />
                         </clipPath>
+                        <clipPath id="bottleInnerClip">
+                          <path d="M 38 205 L 38 90 C 38 70, 48 55, 52 35 L 68 35 C 72 55, 82 70, 82 90 L 82 205 C 82 215, 38 215, 38 205 Z" />
+                        </clipPath>
                       </defs>
 
                       {/* 0. Hidden Bottle Neck (Revealed when cap flies off) */}
@@ -766,23 +767,34 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
                         <rect x="52" y="24" width="16" height="8" rx="2" fill="rgba(255, 255, 255, 0.4)" stroke="rgba(255, 255, 255, 0.8)" strokeWidth="1" />
                         <ellipse cx="60" cy="24" rx="8" ry="2" fill="none" stroke="rgba(255, 255, 255, 0.8)" strokeWidth="1" />
                       </g>
+                      
+                      {/* Reference point for water stream trajectory */}
+                      <rect id="bottle-mouth-ref" x="55" y="24" width="10" height="2" fill="transparent" pointerEvents="none" />
 
-                      {/* 1. Water inside (Strictly confined cylinder, drawn BEHIND the bottle) */}
-                      {bottleFill > 0 && (
-                        <g>
-                          {/* Water Body */}
-                          <rect x="38" y={215 - 160 * bottleFill} width="44" height={160 * bottleFill} fill="url(#waterGradRealistic)" />
-                          {/* Bottom Curve */}
-                          <ellipse cx="60" cy="215" rx="22" ry="5" fill="url(#waterGradRealistic)" />
-                          {/* Surface meniscus (water top) */}
-                          <ellipse cx="60" cy={215 - 160 * bottleFill} rx="22" ry="4" fill="rgba(100, 200, 255, 0.6)" />
-                          {/* Surface Highlight */}
-                          <ellipse cx="60" cy={215 - 160 * bottleFill} rx="22" ry="4" fill="none" stroke="rgba(255, 255, 255, 0.7)" strokeWidth="1" />
-                        </g>
-                      )}
-
-                      {/* 2. Base Realistic Bottle Image (Body) (Drawn ON TOP of water) */}
+                      {/* 1. Base Realistic Bottle Image (Body) */}
                       <image href="/images/bottle_clean.png" x="-10" y="-10" width="140" height="260" preserveAspectRatio="xMidYMid meet" pointerEvents="none" clipPath="url(#bodyClip)" />
+
+                      {/* 2. Water inside (Conforms to inner bottle shape, drawn ON TOP of the bottle) */}
+                      {bottleFill > 0 && (() => {
+                        const cy = 205 - 150 * bottleFill;
+                        const t = Math.max(0, Math.min(1, (90 - cy) / 55));
+                        const rx = 22 - t * 14; // Surface radius shrinks as it goes up the neck
+                        return (
+                          <g style={{ mixBlendMode: 'multiply' }}>
+                            <g clipPath="url(#bottleInnerClip)">
+                              <rect x="20" y={cy} width="80" height={220 - cy} fill="url(#waterGradRealistic)" />
+                              <ellipse cx="60" cy="205" rx="22" ry="5" fill="url(#waterGradRealistic)" />
+                            </g>
+                            {/* Surface meniscus (water top) */}
+                            <ellipse cx="60" cy={cy} rx={rx} ry={Math.max(2, rx * 0.18)} fill="rgba(100, 200, 255, 0.6)" />
+                            {/* Surface Highlight */}
+                            <ellipse cx="60" cy={cy} rx={rx} ry={Math.max(2, rx * 0.18)} fill="none" stroke="rgba(255, 255, 255, 0.7)" strokeWidth="1" />
+                          </g>
+                        );
+                      })()}
+
+                      {/* 2.5 Glass Highlight Overlay */}
+                      <image href="/images/bottle_clean.png" x="-10" y="-10" width="140" height="260" preserveAspectRatio="xMidYMid meet" pointerEvents="none" clipPath="url(#bodyClip)" opacity="0.35" style={{ mixBlendMode: 'screen' }} />
 
                       {/* 3. Interactive Cap (Top of image) */}
                       <motion.g
