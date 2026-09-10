@@ -29,9 +29,9 @@
 
 .scroll-dowel {
   position: relative;
-  width: calc(100% + 36px);
-  margin-left: -18px;
-  margin-right: -18px;
+  width: calc(100% + 28px);
+  margin-left: -14px;
+  margin-right: -14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -308,7 +308,7 @@
 .parchment-content {
   position: relative;
   z-index: 5;
-  padding: clamp(1.25rem, 2.2vh, 1.85rem) clamp(1.4rem, 2.2vw, 2.2rem);
+  padding: clamp(0.70rem, 1.25vh, 1.05rem) clamp(0.95rem, 1.35vw, 1.35rem);
   display: flex;
   flex-direction: column;
 }
@@ -319,30 +319,19 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 0.75rem;
-}
-
-/* Small Spaced Tag */
-.parchment-story-tag {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(0.68rem, 0.76vw, 0.86rem);
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  color: #8C4112;
-  text-transform: uppercase;
-  margin-bottom: 2px;
+  margin-bottom: clamp(0.30rem, 0.5vh, 0.45rem);
 }
 
 /* Primary Story Title (e.g., RESHMA'S BIRTHDAY GIFT) */
 .parchment-story-title {
   margin: 0;
   font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
-  font-size: clamp(1.22rem, 1.45vw, 1.62rem);
+  font-size: clamp(1.18rem, 1.42vw, 1.62rem);
   font-weight: 900;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.07em;
   color: #1A0D05; /* Deep iron-gall black */
   text-transform: uppercase;
-  line-height: 1.25;
+  line-height: 1.2;
   text-shadow: 0 1px 1px rgba(255, 248, 230, 0.75);
 }
 
@@ -351,9 +340,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  width: 82%;
-  margin-top: 0.35rem;
+  gap: 8px;
+  width: 72%;
+  margin-top: 0.22rem;
 }
 
 .ornament-line {
@@ -369,21 +358,21 @@
 
 .ornament-gem {
   color: #B45309;
-  font-size: 0.82rem;
+  font-size: 0.80rem;
   line-height: 1;
   filter: drop-shadow(0 1px 2px rgba(180, 83, 9, 0.3));
 }
 
-/* Narrative Paragraphs with Classical Serif Elegance */
+/* Narrative Paragraphs with Maximized Typography Scale & High Readability */
 .parchment-narrative-text {
   margin: 0;
   font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  font-size: clamp(1.22rem, 1.38vw, 1.54rem);
-  line-height: 1.74;
+  font-size: clamp(1.38rem, 1.65vw, 1.88rem);
+  line-height: 1.56;
   color: #1E1006; /* Deep iron-gall black */
   text-align: justify;
   text-justify: inter-word;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.012em;
 }
 
 /* Antique Calligraphy Highlight Styles */

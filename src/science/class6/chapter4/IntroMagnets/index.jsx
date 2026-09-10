@@ -609,8 +609,8 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
                       position: 'absolute',
                       top: pos.top,
                       left: pos.left,
-                      width: pos.width,
-                      maxWidth: '520px',
+                      width: 'clamp(280px, 26vw, 400px)',
+                      maxWidth: '400px',
                       zIndex: isActive ? 30 : 22
                     }}
                   >
@@ -631,11 +631,10 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
                       {/* Aged Fibrous Papyrus Texture & Crease Grain */}
                       <div className="parchment-fiber-grain" />
 
-                      {/* Reading Content Pane with Generous Clear Padding */}
+                      {/* Reading Content Pane with Tight Compact Padding */}
                       <div className="parchment-content">
-                        {/* Antique Story Header */}
+                        {/* Antique Story Header (Label removed) */}
                         <div className="parchment-story-header">
-                          <span className="parchment-story-tag">EXPEDITION CHRONICLE</span>
                           <h2 className="parchment-story-title">{currentScene.subtitle}</h2>
                           <div className="parchment-header-ornament">
                             <span className="ornament-line" />
@@ -644,7 +643,7 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
                           </div>
                         </div>
 
-                        {/* Narrative Paragraph with Iron-Gall Black Typography & High Contrast Readability */}
+                        {/* Narrative Paragraph with Maximized Typography Scale & High Readability */}
                         <p className="parchment-narrative-text">
                           {renderWordByWordText(line.text, idx, activeLineIndex, spokenCharIndex, false, true)}
                         </p>

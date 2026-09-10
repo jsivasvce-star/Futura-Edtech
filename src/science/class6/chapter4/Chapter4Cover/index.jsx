@@ -437,7 +437,7 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
         }
 
         /* Prominent Activity 4.6 Exact Interactive Compass:
-           - Balanced prominent scale: 26.5% width
+           - Reduced slightly to 23% width for refined balance
            - Positioned at left: 31.4%, top: 49%
            - Deep dimensional drop shadow
         */
@@ -445,7 +445,7 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           position: absolute;
           left: 31.4%;
           top: 49%;
-          width: 26.5%;
+          width: 23%;
           aspect-ratio: 1 / 1;
           transform: translate(-50%, -50%);
           display: flex;
