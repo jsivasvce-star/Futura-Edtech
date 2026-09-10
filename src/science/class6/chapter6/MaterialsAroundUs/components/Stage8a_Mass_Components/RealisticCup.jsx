@@ -1,5 +1,8 @@
 import { motion, useTransform, useMotionValue } from 'framer-motion';
 import PropTypes from 'prop-types';
+import waterCupImg from '../../../../../../assets/water_cup.png';
+import sandCupImg from '../../../../../../assets/sand_cup.png';
+import pebblesCupImg from '../../../../../../assets/pebbles_cup.png';
 
 const WaterMaterial = ({ velocityX }) => {
   const fallbackMotion = useMotionValue(0);
@@ -222,6 +225,41 @@ const PebblesMaterial = ({ velocityX }) => {
 };
 
 export const RealisticCup = ({ material, velocityX = 0 }) => {
+  // Cups use realistic image assets
+  let cupImgSrc = null;
+  if (material === 'water') cupImgSrc = waterCupImg;
+  if (material === 'sand') cupImgSrc = sandCupImg;
+  if (material === 'pebbles') cupImgSrc = pebblesCupImg;
+
+  if (cupImgSrc) {
+    return (
+      <div style={{ 
+        position: 'relative', 
+        width: '100%', 
+        height: '100%',
+        // 3D perspective to tilt the beaker so it matches the scale's angle
+        transform: 'perspective(800px) rotateX(10deg) rotateY(-3deg) translateZ(0)',
+        transformOrigin: 'bottom center',
+        // Grounding shadows cast behind and slightly to the side
+        filter: 'drop-shadow(5px 20px 15px rgba(0,0,0,0.3)) drop-shadow(2px 5px 5px rgba(0,0,0,0.2))'
+      }}>
+        <img
+          src={cupImgSrc}
+          alt={`${material} Cup`}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+            pointerEvents: 'none',
+            display: 'block',
+            position: 'relative',
+            zIndex: 1
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div style={{ 
       position: 'relative', 

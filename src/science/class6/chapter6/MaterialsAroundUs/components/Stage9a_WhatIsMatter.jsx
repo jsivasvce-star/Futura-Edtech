@@ -8,17 +8,32 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [clueRevealed, setClueRevealed] = useState(false);
   
+  // State for the new Objects vs Materials section
+  const [materialAnswer, setMaterialAnswer] = useState(null);
+  const [materialClueRevealed, setMaterialClueRevealed] = useState(false);
+  
   const handleAnswer = (val) => {
     if (clueRevealed) return;
     setSelectedAnswer(val);
   };
   
+  const handleMaterialAnswer = (val) => {
+    if (materialClueRevealed) return;
+    setMaterialAnswer(val);
+  };
+  
   const handleSubmit = () => {
     if (selectedAnswer && !clueRevealed) {
       setClueRevealed(true);
+    }
+  };
+
+  const handleMaterialSubmit = () => {
+    if (materialAnswer && !materialClueRevealed) {
+      setMaterialClueRevealed(true);
       if (typeof addXp === 'function') addXp(20);
       if (typeof onComplete === 'function') {
-        setTimeout(onComplete, 500);
+        setTimeout(onComplete, 1000);
       }
     }
   };
@@ -71,8 +86,7 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
             <div style={{ fontSize: '0.8rem', fontWeight: '800', color: 'var(--lesson-primary)', textTransform: 'uppercase' }}>Clues found</div>
             <div style={{ display: 'flex', gap: '8px' }}>
                {clueRevealed ? <CheckCircle2 size={24} color="#A64B27" /> : <Circle size={24} color="var(--lesson-border)" />}
-               <Circle size={24} color="var(--lesson-border)" />
-               <Circle size={24} color="var(--lesson-border)" />
+               {materialClueRevealed ? <CheckCircle2 size={24} color="#A64B27" /> : <Circle size={24} color="var(--lesson-border)" />}
             </div>
          </div>
       </div>
@@ -82,40 +96,40 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
          <div style={{ flex: 1, background: '#FFFFFF', borderRadius: '24px', border: '1px solid var(--lesson-border)', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', display: 'flex', flexDirection: 'column', padding: '24px', gap: '16px', overflow: 'hidden' }}>
             
             {/* Header / Intro */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', borderBottom: '1px solid var(--lesson-border)', paddingBottom: '12px', flexShrink: 0 }}>
-               <img src="/images/chief_detective_blake.png" alt="Aura" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', borderBottom: '1px solid var(--lesson-border)', paddingBottom: '8px', flexShrink: 0 }}>
+               <img src="/images/chief_detective_blake.png" alt="Aura" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
                <div>
-                  <div style={{ fontSize: '0.95rem', fontWeight: '800', color: 'var(--lesson-primary)' }}>Detective Aura: Let&apos;s begin with a simple situation.</div>
-                  <div style={{ fontSize: '1rem', color: 'var(--lesson-text)' }}>What are we trying to find out here?</div>
+                  <div style={{ fontSize: '0.85rem', fontWeight: '800', color: 'var(--lesson-primary)' }}>Detective Aura: Let&apos;s begin with a simple situation.</div>
+                  <div style={{ fontSize: '0.9rem', color: 'var(--lesson-text)' }}>What are we trying to find out here?</div>
                </div>
             </div>
             
             {/* Section 1: Bottle Observation */}
-            <div style={{ display: 'flex', gap: '20px', flexShrink: 0 }}>
-               <div style={{ flex: '0 0 180px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', background: 'var(--lesson-background)', borderRadius: '16px', padding: '12px', border: '1px solid var(--lesson-border)' }}>
-                  <div style={{ fontSize: '0.85rem', fontWeight: '800', color: 'var(--lesson-primary)' }}>Observe the scene</div>
-                  <div style={{ fontSize: '0.85rem', color: 'var(--lesson-text)', textAlign: 'center', fontWeight: 'bold' }}>Why can&apos;t we fill this bottle completely?</div>
-                  <div style={{ flex: 1, width: '100%', minHeight: '80px', position: 'relative' }}>
+            <div style={{ display: 'flex', gap: '12px', flexShrink: 0 }}>
+               <div style={{ flex: '0 0 140px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', background: 'var(--lesson-background)', borderRadius: '16px', padding: '8px', border: '1px solid var(--lesson-border)' }}>
+                  <div style={{ fontSize: '0.8rem', fontWeight: '800', color: 'var(--lesson-primary)' }}>Observe the scene</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--lesson-text)', textAlign: 'center', fontWeight: 'bold' }}>Why can&apos;t we fill this bottle completely?</div>
+                  <div style={{ flex: 1, width: '100%', minHeight: '60px', position: 'relative' }}>
                      <img src="/images/volume_overflow.png" alt="Bottle" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'multiply' }} />
                   </div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--lesson-secondary)' }}>Some space is still left.</div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--lesson-secondary)' }}>Some space is still left.</div>
                </div>
                
-               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px', justifyContent: 'center' }}>
-                  <div style={{ fontSize: '1rem', fontWeight: '800', color: 'var(--lesson-primary)' }}>What could be stopping the water?</div>
-                  <div style={{ fontSize: '0.85rem', color: 'var(--lesson-secondary)', fontWeight: 'bold' }}>Think and choose:</div>
+               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '4px', justifyContent: 'center' }}>
+                  <div style={{ fontSize: '0.9rem', fontWeight: '800', color: 'var(--lesson-primary)' }}>What could be stopping the water?</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--lesson-secondary)', fontWeight: 'bold' }}>Think and choose:</div>
                   
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                      {['The bottle', 'The water', 'Something else inside'].map(opt => (
                         <button 
                            key={opt}
                            onClick={() => handleAnswer(opt)}
                            style={{ 
-                              display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 12px', 
+                              display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 10px', 
                               borderRadius: '8px', cursor: clueRevealed ? 'default' : 'pointer',
                               background: selectedAnswer === opt ? 'var(--lesson-success-bg)' : 'white',
                               border: `1px solid ${selectedAnswer === opt ? '#A64B27' : 'var(--lesson-border)'}`,
-                              color: 'var(--lesson-primary)', fontWeight: '600', fontSize: '0.9rem'
+                              color: 'var(--lesson-primary)', fontWeight: '600', fontSize: '0.85rem'
                            }}
                         >
                            {selectedAnswer === opt ? <CheckCircle2 size={16} color="#A64B27" /> : <Circle size={16} color="var(--lesson-muted)" />}
@@ -124,11 +138,11 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
                      ))}
                   </div>
                   
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '4px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2px' }}>
                      <button 
                         onClick={handleSubmit}
                         disabled={!selectedAnswer || clueRevealed}
-                        style={{ background: '#A64B27', color: '#FFFFFF', border: 'none', padding: '6px 20px', borderRadius: '6px', fontWeight: 'bold', fontSize: '0.9rem', opacity: (!selectedAnswer || clueRevealed) ? 0.5 : 1, cursor: (!selectedAnswer || clueRevealed) ? 'default' : 'pointer' }}
+                        style={{ background: '#A64B27', color: '#FFFFFF', border: 'none', padding: '4px 16px', borderRadius: '6px', fontWeight: 'bold', fontSize: '0.85rem', opacity: (!selectedAnswer || clueRevealed) ? 0.5 : 1, cursor: (!selectedAnswer || clueRevealed) ? 'default' : 'pointer' }}
                      >
                         Submit ✓
                      </button>
@@ -142,55 +156,121 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
                   <motion.div 
                      initial={{ opacity: 0, height: 0, y: 10 }}
                      animate={{ opacity: 1, height: 'auto', y: 0 }}
-                     style={{ display: 'flex', flexDirection: 'column', gap: '12px', overflow: 'hidden' }}
+                     style={{ display: 'flex', flexDirection: 'column', gap: '8px', overflow: 'hidden' }}
                   >
-                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--lesson-success-bg)', padding: '10px 16px', borderRadius: '12px', border: '1px solid var(--lesson-success-border)', flexShrink: 0 }}>
-                        <img src="/images/chief_detective_blake.png" alt="Chief" style={{ width: '36px', height: '36px', objectFit: 'contain' }} />
+                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--lesson-success-bg)', padding: '6px 12px', borderRadius: '12px', border: '1px solid var(--lesson-success-border)', flexShrink: 0 }}>
+                        <img src="/images/chief_detective_blake.png" alt="Chief" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
                         <div style={{ flex: 1 }}>
-                           <div style={{ fontSize: '0.85rem', fontWeight: '800', color: '#A64B27' }}>Clue revealed!</div>
-                           <div style={{ fontSize: '0.95rem', color: 'var(--lesson-text)' }}>There is something inside the bottle that takes up <strong style={{ color: 'var(--lesson-primary)' }}>space</strong>. That something is <strong style={{ color: 'var(--lesson-primary)' }}>matter</strong>.</div>
+                           <div style={{ fontSize: '0.8rem', fontWeight: '800', color: '#A64B27' }}>Clue revealed!</div>
+                           <div style={{ fontSize: '0.9rem', color: 'var(--lesson-text)' }}>There is something inside the bottle that takes up <strong style={{ color: 'var(--lesson-primary)' }}>space</strong>. That something is <strong style={{ color: 'var(--lesson-primary)' }}>matter</strong>.</div>
                         </div>
-                        <HelpCircle size={28} color="#A64B27" opacity={0.5} />
+                        <HelpCircle size={24} color="#A64B27" opacity={0.5} />
                      </div>
                      
-                     <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', flexShrink: 0 }}>
-                        <div style={{ fontSize: '0.95rem', fontWeight: '800', color: 'var(--lesson-primary)' }}>What is matter?</div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 12px', background: 'white', borderRadius: '8px', border: '1px solid var(--lesson-border)' }}>
-                           <CheckCircle2 size={18} color="#A64B27" />
-                           <div style={{ fontSize: '1rem', color: 'var(--lesson-text)' }}>
+                     <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flexShrink: 0 }}>
+                        <div style={{ fontSize: '0.9rem', fontWeight: '800', color: 'var(--lesson-primary)' }}>What is matter?</div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 10px', background: 'white', borderRadius: '8px', border: '1px solid var(--lesson-border)' }}>
+                           <CheckCircle2 size={16} color="#A64B27" />
+                           <div style={{ fontSize: '0.9rem', color: 'var(--lesson-text)' }}>
                               Anything that <strong style={{ color: 'var(--lesson-primary)', background: 'var(--lesson-highlight)', padding: '0 4px' }}>occupies space</strong> and <strong style={{ color: 'var(--lesson-primary)', background: 'var(--lesson-highlight)', padding: '0 4px' }}>has mass</strong> is called matter.
                            </div>
                         </div>
                      </div>
                      
                      <div style={{ display: 'flex', gap: '12px', flexShrink: 0 }}>
-                        <div style={{ flex: 1, background: 'var(--lesson-background)', borderRadius: '12px', border: '1px solid var(--lesson-border)', padding: '12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-                              <div style={{ fontSize: '1rem', fontWeight: '900', color: 'var(--lesson-primary)' }}>Mass</div>
-                              <Scale size={20} color="var(--lesson-secondary)" />
+                        <div style={{ flex: 1, background: 'var(--lesson-background)', borderRadius: '12px', border: '1px solid var(--lesson-border)', padding: '8px 12px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2px' }}>
+                              <div style={{ fontSize: '0.9rem', fontWeight: '900', color: 'var(--lesson-primary)' }}>Mass</div>
+                              <Scale size={16} color="var(--lesson-secondary)" />
                            </div>
-                           <div style={{ fontSize: '0.85rem', color: 'var(--lesson-text)' }}>The <strong>quantity of matter</strong>.</div>
-                           <div style={{ fontSize: '0.8rem', color: 'var(--lesson-secondary)', marginTop: '2px' }}>Measured in kilogram (<strong>kg</strong>) and gram (<strong>g</strong>).</div>
+                           <div style={{ fontSize: '0.8rem', color: 'var(--lesson-text)' }}>The <strong>quantity of matter</strong>.</div>
+                           <div style={{ fontSize: '0.75rem', color: 'var(--lesson-secondary)' }}>Measured in kilogram (<strong>kg</strong>) and gram (<strong>g</strong>).</div>
                         </div>
                         
-                        <div style={{ flex: 1, background: 'var(--lesson-background)', borderRadius: '12px', border: '1px solid var(--lesson-border)', padding: '12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-                              <div style={{ fontSize: '1rem', fontWeight: '900', color: 'var(--lesson-primary)' }}>Volume</div>
-                              <Droplets size={20} color="var(--lesson-secondary)" />
+                        <div style={{ flex: 1, background: 'var(--lesson-background)', borderRadius: '12px', border: '1px solid var(--lesson-border)', padding: '8px 12px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2px' }}>
+                              <div style={{ fontSize: '0.9rem', fontWeight: '900', color: 'var(--lesson-primary)' }}>Volume</div>
+                              <Droplets size={16} color="var(--lesson-secondary)" />
                            </div>
-                           <div style={{ fontSize: '0.85rem', color: 'var(--lesson-text)' }}>The <strong>space occupied</strong> by matter.</div>
-                           <div style={{ fontSize: '0.8rem', color: 'var(--lesson-secondary)', marginTop: '2px' }}>Measured in litre (<strong>L</strong>), millilitre (<strong>mL</strong>), and cubic metre (<strong>m³</strong>).</div>
+                           <div style={{ fontSize: '0.8rem', color: 'var(--lesson-text)' }}>The <strong>space occupied</strong> by matter.</div>
+                           <div style={{ fontSize: '0.75rem', color: 'var(--lesson-secondary)' }}>Measured in litre (<strong>L</strong>), millilitre (<strong>mL</strong>), and cubic metre (<strong>m³</strong>).</div>
                         </div>
                      </div>
                      
                      <div style={{ display: 'flex', gap: '12px', flexShrink: 0, minHeight: 0 }}>
-                         <div style={{ flex: 1, background: 'var(--lesson-warning-bg)', borderRadius: '12px', border: '1px dashed var(--lesson-warning-border)', padding: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                            <div style={{ fontSize: '0.85rem', fontWeight: '800', color: 'var(--lesson-text)' }}>Important Fact:</div>
-                            <div style={{ fontSize: '1.1rem', fontWeight: '900', color: 'var(--lesson-primary)' }}>1 m³ = 1000 L</div>
+                         <div style={{ flex: 1, background: 'var(--lesson-warning-bg)', borderRadius: '12px', border: '1px dashed var(--lesson-warning-border)', padding: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                            <div style={{ fontSize: '0.8rem', fontWeight: '800', color: 'var(--lesson-text)' }}>Important Fact:</div>
+                            <div style={{ fontSize: '0.95rem', fontWeight: '900', color: 'var(--lesson-primary)' }}>1 m³ = 1000 L</div>
                          </div>
                      </div>
                      
                      <AirExperiments3D />
+                     
+                     {/* Section 2: Objects vs Materials */}
+                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '6px', borderTop: '1px dashed var(--lesson-border)', paddingTop: '10px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                           <img src="/images/chief_detective_blake.png" alt="Aura" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
+                           <div>
+                              <div style={{ fontSize: '0.85rem', fontWeight: '800', color: 'var(--lesson-primary)' }}>Detective Aura: New Evidence!</div>
+                              <div style={{ fontSize: '0.85rem', color: 'var(--lesson-text)' }}>An <strong style={{color:'var(--lesson-primary)'}}>object</strong> is anything we see or touch. Its substance is called a <strong style={{color:'var(--lesson-primary)'}}>material</strong>.</div>
+                           </div>
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '12px', flexShrink: 0 }}>
+                           <div style={{ flex: '0 0 120px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '4px', background: 'var(--lesson-background)', borderRadius: '12px', padding: '10px', border: '1px solid var(--lesson-border)' }}>
+                              <div style={{ fontSize: '1.8rem' }}>🥛</div>
+                              <div style={{ fontSize: '0.75rem', color: 'var(--lesson-text)', textAlign: 'center', fontWeight: 'bold' }}>Why don&apos;t we make a tumbler out of cloth?</div>
+                           </div>
+                           
+                           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '4px', justifyContent: 'center' }}>
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                 {['Cloth cannot hold liquids.', 'Glass is always better.'].map(opt => (
+                                    <button 
+                                       key={opt}
+                                       onClick={() => handleMaterialAnswer(opt)}
+                                       style={{ 
+                                          display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 10px', 
+                                          borderRadius: '8px', cursor: materialClueRevealed ? 'default' : 'pointer',
+                                          background: materialAnswer === opt ? 'var(--lesson-success-bg)' : 'white',
+                                          border: `1px solid ${materialAnswer === opt ? '#A64B27' : 'var(--lesson-border)'}`,
+                                          color: 'var(--lesson-primary)', fontWeight: '600', fontSize: '0.85rem', textAlign: 'left'
+                                       }}
+                                    >
+                                       {materialAnswer === opt ? <CheckCircle2 size={14} color="#A64B27" /> : <Circle size={14} color="var(--lesson-muted)" />}
+                                       {opt}
+                                    </button>
+                                 ))}
+                              </div>
+                              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2px' }}>
+                                 <button 
+                                    onClick={handleMaterialSubmit}
+                                    disabled={!materialAnswer || materialClueRevealed}
+                                    style={{ background: '#A64B27', color: '#FFFFFF', border: 'none', padding: '4px 16px', borderRadius: '6px', fontWeight: 'bold', fontSize: '0.8rem', opacity: (!materialAnswer || materialClueRevealed) ? 0.5 : 1, cursor: (!materialAnswer || materialClueRevealed) ? 'default' : 'pointer' }}
+                                 >
+                                    Submit ✓
+                                 </button>
+                              </div>
+                           </div>
+                        </div>
+
+                        <AnimatePresence>
+                           {materialClueRevealed && (
+                              <motion.div 
+                                 initial={{ opacity: 0, height: 0, y: 10 }}
+                                 animate={{ opacity: 1, height: 'auto', y: 0 }}
+                                 style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', background: 'var(--lesson-success-bg)', padding: '8px 12px', borderRadius: '12px', border: '1px solid var(--lesson-success-border)' }}
+                              >
+                                 <CheckCircle2 size={20} color="#A64B27" style={{ marginTop: '2px' }} />
+                                 <div style={{ flex: 1 }}>
+                                    <div style={{ fontSize: '0.8rem', fontWeight: '800', color: '#A64B27', textTransform: 'uppercase' }}>CASE CRACKED!</div>
+                                    <div style={{ fontSize: '0.85rem', color: 'var(--lesson-text)', marginTop: '2px' }}>
+                                       If made of cloth, water will leak! We choose a material based on its <strong style={{ color: 'var(--lesson-primary)' }}>properties</strong> and its <strong style={{ color: 'var(--lesson-primary)' }}>purpose</strong>.
+                                    </div>
+                                 </div>
+                              </motion.div>
+                           )}
+                        </AnimatePresence>
+                     </div>
                      
                   </motion.div>
                )}

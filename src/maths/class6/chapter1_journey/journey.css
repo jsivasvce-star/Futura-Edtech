@@ -1,0 +1,695 @@
+/* ══════════════════════════════════════════════════════════════════════════════
+   CHAPTER 1 MATHEMATICS LEARNING JOURNEY PATHWAY
+   Warm Ivory / Soft Cream / Walnut Brown / Muted Terracotta / Soft Gold
+   Connected Mathematical Pathway · Unique Visual Milestones · Zero Card-Grid
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.journey-container {
+  width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  box-sizing: border-box;
+  background: radial-gradient(circle at 50% 30%, #fdfbf7 0%, #f7f2ea 55%, #ede4d6 100%);
+  color: #1c1917;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 100;
+  user-select: none;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Subtle background mathematical graph-paper grid & coordinate markings */
+.journey-ambient-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-image: 
+    linear-gradient(rgba(180, 83, 9, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180, 83, 9, 0.05) 1px, transparent 1px),
+    radial-gradient(rgba(217, 119, 6, 0.12) 1px, transparent 1px);
+  background-size: 32px 32px, 32px 32px, 64px 64px;
+  background-position: 0 0, 0 0, 16px 16px;
+  opacity: 0.9;
+}
+
+.journey-ambient-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+}
+
+.journey-ambient-glow-1 {
+  width: 600px;
+  height: 400px;
+  top: -80px;
+  left: 10%;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.22) 0%, rgba(217, 119, 6, 0.1) 60%, transparent 100%);
+}
+
+.journey-ambient-glow-2 {
+  width: 550px;
+  height: 350px;
+  bottom: -60px;
+  right: 12%;
+  background: radial-gradient(circle, rgba(234, 88, 12, 0.18) 0%, rgba(180, 83, 9, 0.08) 60%, transparent 100%);
+}
+
+/* ── HEADER ── */
+.journey-header {
+  height: 96px;
+  min-height: 96px;
+  padding: 0 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.5px solid rgba(180, 83, 9, 0.15);
+  background: rgba(255, 253, 248, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  position: relative;
+  z-index: 25;
+  box-shadow: 0 4px 20px rgba(60, 30, 10, 0.05);
+}
+
+.journey-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #451a03;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(180, 83, 9, 0.25);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.journey-back-btn:hover {
+  color: #1c1917;
+  background: #fef3c7;
+  border-color: #d97706;
+  transform: translateX(-3px);
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.15);
+}
+
+.journey-title-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.journey-main-title {
+  margin: 0;
+  font-size: 2.1rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: #1c1917;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.journey-chapter-tag-sub {
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: #b45309;
+  text-transform: uppercase;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(217, 119, 6, 0.35);
+  padding: 0.15rem 0.85rem;
+  border-radius: 20px;
+}
+
+.journey-header-right-meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 200px;
+}
+
+.journey-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.95rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #9a3412;
+  background: rgba(254, 243, 199, 0.8);
+  border: 1.5px solid rgba(217, 119, 6, 0.35);
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.1);
+}
+
+.journey-badge-icon {
+  color: #d97706;
+}
+
+/* ── MAIN MAP CANVAS ── */
+.journey-map-canvas {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.2rem 3rem 1.6rem 3rem;
+  max-width: 1560px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+/* Continuous SVG Golden/Copper Flowing Pathway Line */
+.journey-svg-path-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  overflow: visible;
+}
+
+/* ── PATHWAY TIERS (TOP & BOTTOM FLOW) ── */
+.journey-pathway-tier {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.8rem;
+  position: relative;
+  z-index: 5;
+}
+
+.tier-top {
+  margin-top: 0.4rem;
+}
+
+.tier-bottom {
+  margin-bottom: 0.4rem;
+}
+
+/* ── MILESTONE NODE (UNIQUE MATHEMATICAL STATION) ── */
+.journey-milestone-node {
+  position: relative;
+  background: rgba(255, 253, 248, 0.95);
+  border: 2px solid rgba(217, 119, 6, 0.35);
+  border-radius: 20px;
+  padding: 1.1rem 1.25rem 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+  cursor: pointer;
+  box-shadow: 0 10px 28px -6px rgba(69, 26, 3, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  height: 236px;
+  box-sizing: border-box;
+  z-index: 6;
+}
+
+.journey-milestone-node:hover {
+  transform: translateY(-6px);
+  border-color: #d97706;
+  background: #ffffff;
+  box-shadow: 0 18px 36px -4px rgba(69, 26, 3, 0.16), 0 0 20px rgba(245, 158, 11, 0.2);
+}
+
+/* Active Milestone State */
+.journey-milestone-node.active-milestone {
+  border-color: #ea580c;
+  background: #ffffff;
+  box-shadow: 0 0 25px rgba(234, 88, 12, 0.25), 0 14px 32px rgba(69, 26, 3, 0.12);
+}
+
+.journey-milestone-node.active-milestone .milestone-id-badge {
+  background: #ea580c;
+  color: #ffffff;
+  border-color: #c2410c;
+}
+
+/* Completed Milestone State (Warm theme, no green) */
+.journey-milestone-node.completed-milestone {
+  border-color: rgba(217, 119, 6, 0.35);
+  background: rgba(255, 253, 248, 0.95);
+}
+
+.journey-milestone-node.completed-milestone:hover {
+  border-color: #d97706;
+  box-shadow: 0 18px 36px -4px rgba(69, 26, 3, 0.16);
+}
+
+/* Upcoming Milestone State */
+.journey-milestone-node.upcoming-milestone {
+  border-color: rgba(180, 83, 9, 0.25);
+  background: rgba(253, 250, 243, 0.9);
+}
+
+/* ── MILESTONE TOP HEADER ── */
+.milestone-pin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.milestone-pin-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fffbeb;
+  border: 2px solid #d97706;
+  box-shadow: 0 2px 6px rgba(217, 119, 6, 0.2);
+}
+
+.active-milestone .milestone-pin-dot {
+  border-color: #ea580c;
+  background: #fff7ed;
+}
+
+.completed-milestone .milestone-pin-dot {
+  border-color: #d97706;
+  background: #fffbeb;
+}
+
+.pin-inner-core {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+}
+
+.active-milestone .pin-inner-core {
+  background: #ea580c;
+}
+
+.milestone-id-badge {
+  font-size: 0.95rem;
+  font-weight: 800;
+  padding: 0.2rem 0.65rem;
+  border-radius: 6px;
+  background: rgba(245, 158, 11, 0.15);
+  color: #9a3412;
+  border: 1px solid rgba(217, 119, 6, 0.3);
+  letter-spacing: 0.04em;
+}
+
+.completed-milestone .milestone-id-badge {
+  background: rgba(245, 158, 11, 0.15);
+  color: #9a3412;
+  border-color: rgba(217, 119, 6, 0.3);
+}
+
+/* ── EMBEDDED 3D MATH VISUAL CONCEPT AREA ── */
+.milestone-visual-wrapper {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.35rem 0;
+  background: rgba(254, 243, 199, 0.25);
+  border-radius: 12px;
+  border: 1px dashed rgba(217, 119, 6, 0.25);
+  padding: 0.2rem 0.4rem;
+  box-sizing: border-box;
+}
+
+.milestone-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Visual 1.2: 3D Number Sequence Blocks */
+.sequence-block-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.num-3d-block {
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 900;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.question-block {
+  background: #fef08a !important;
+  color: #9a3412 !important;
+  border: 1.5px solid #d97706;
+}
+
+.seq-arrow {
+  color: #b45309;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+/* Visual 1.3: Ascending 3D Staircase */
+.staircase-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 6px;
+  height: 56px;
+}
+
+.stair-column {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 2px;
+}
+
+.stair-block {
+  width: 15px;
+  height: 8px;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.stair-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #78350f;
+  margin-top: 2px;
+}
+
+/* Visual 1.6: Shapes to Numbers Transformation */
+.shapes-to-num-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.shape-box-cluster {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mini-shape {
+  width: 14px;
+  height: 14px;
+}
+
+.mini-tri {
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 14px solid #f59e0b;
+}
+
+.mini-circle {
+  border-radius: 50%;
+  background: #ea580c;
+}
+
+.mini-square {
+  background: #c2410c;
+  border-radius: 2px;
+}
+
+.transform-arrow {
+  font-size: 1rem;
+  font-weight: 900;
+  color: #b45309;
+}
+
+.num-box-cluster {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mini-num-pill {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.pill-1 { background: #f59e0b; color: #1c1917; }
+.pill-2 { background: #ea580c; }
+.pill-3 { background: #c2410c; }
+
+/* Visual Summary: Chapter Checkpoint */
+.summary-seal-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.seal-ring {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fef08a 0%, #f59e0b 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #b45309;
+  box-shadow: 0 3px 8px rgba(217, 119, 6, 0.3);
+}
+
+.seal-icon {
+  color: #78350f;
+}
+
+.summary-tags-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.summary-chip {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #78350f;
+  background: rgba(254, 243, 199, 0.8);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid rgba(217, 119, 6, 0.25);
+}
+
+/* Visual Quiz: Puzzle Station */
+.quiz-station-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.quiz-central-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(234, 88, 12, 0.35);
+  border: 2px solid #fef08a;
+}
+
+.quiz-question-mark {
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 900;
+}
+
+.puzzle-piece {
+  font-size: 1.25rem;
+}
+
+/* ── MILESTONE TITLE ── */
+.milestone-title-wrapper {
+  padding: 0.1rem 0;
+}
+
+.milestone-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #1c1917;
+  line-height: 1.25;
+}
+
+/* ── MILESTONE ACTION BUTTON ── */
+.milestone-action-btn {
+  width: 100%;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  color: #1c1917;
+  box-shadow: 0 3px 10px rgba(217, 119, 6, 0.25);
+}
+
+.journey-milestone-node:hover .milestone-action-btn {
+  background: linear-gradient(135deg, #fbbf24 0%, #ea580c 100%);
+  color: #ffffff;
+  box-shadow: 0 5px 14px rgba(234, 88, 12, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Completed Card Button */
+.completed-milestone .milestone-action-btn {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #1c1917;
+  box-shadow: 0 3px 10px rgba(217, 119, 6, 0.25);
+}
+
+.completed-milestone:hover .milestone-action-btn {
+  background: linear-gradient(135deg, #fbbf24 0%, #ea580c 100%);
+  color: #ffffff;
+}
+
+/* Summary Milestone Specifics */
+.summary-milestone {
+  border-color: rgba(245, 158, 11, 0.6) !important;
+  background: rgba(255, 251, 235, 0.98) !important;
+}
+
+.summary-milestone .milestone-action-btn {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  color: #ffffff;
+}
+
+/* Quiz Milestone Specifics */
+.quiz-milestone {
+  border-color: rgba(217, 119, 6, 0.35) !important;
+  background: rgba(255, 253, 248, 0.95) !important;
+}
+
+.quiz-milestone .milestone-id-badge {
+  background: rgba(245, 158, 11, 0.15);
+  color: #9a3412;
+  border-color: rgba(217, 119, 6, 0.3);
+}
+
+.quiz-milestone .milestone-action-btn {
+  background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+  color: #ffffff;
+  box-shadow: 0 3px 12px rgba(234, 88, 12, 0.3);
+}
+
+.quiz-milestone:hover .milestone-action-btn {
+  background: linear-gradient(135deg, #f97316 0%, #9a3412 100%);
+}
+
+/* ── MODAL VIEWER ── */
+.journey-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(28, 16, 10, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  animation: fadeInModal 0.2s ease-out;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.journey-modal-header {
+  height: 68px;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #2a1810;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.3);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.journey-modal-header .journey-back-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fef3c7;
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.journey-modal-header .journey-back-btn:hover {
+  background: rgba(245, 158, 11, 0.3);
+  color: #ffffff;
+}
+
+.journey-modal-content {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+}
+
+.journey-modal-complete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1c1917;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+}
+
+.journey-modal-complete-btn:hover {
+  background: linear-gradient(135deg, #fbbf24 0%, #ea580c 100%);
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(234, 88, 12, 0.55);
+  transform: translateY(-1px);
+}

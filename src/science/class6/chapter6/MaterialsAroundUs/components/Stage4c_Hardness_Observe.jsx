@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 import cottonVideo from '../../../../../assets/1.cottonball.mp4';
 import spongeVideo from '../../../../../assets/1.sponge.mp4';
-import eraserVideo from '../../../../../assets/1.eraser.mp4';
+import eraserVideo from '../../../../../assets/1.eraserss.mp4';
 import stoneVideo from '../../../../../assets/1.stone.mp4';
 import ironVideo from '../../../../../assets/1.ironrod.mp4';
 

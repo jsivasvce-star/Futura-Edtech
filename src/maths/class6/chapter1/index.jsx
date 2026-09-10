@@ -538,6 +538,7 @@ export default function Class6MathsChapter1({ onBackToDashboard }) {
             </div>
           </div>
         ) : currentStep === 7 ? (
+          <>
           <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
             {renderLeftPanelContent()}
             <div style={{ flex: 1, background: '#FFFFFF', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
