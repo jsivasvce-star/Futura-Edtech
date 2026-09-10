@@ -1,0 +1,921 @@
+/* ══════════════════════════════════════════════════════════════════════════════
+   WHAT IS MATHEMATICS? (1.1) INTERACTIVE LESSON
+   Fixed Two-Column (45% Left / 55% Right) · Exactly 4 Slides
+   Sophisticated Warm Cream / Ivory Background with Subtle Math Drafting Art
+   Dark Navy Rounded High-Contrast Content Panels · Gold/Yellow Highlights
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.wm-page-container {
+  width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  box-sizing: border-box;
+  background: radial-gradient(circle at 50% 25%, #fffdfa 0%, #fcf6ed 50%, #f4eae0 100%);
+  color: #0f172a;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 150;
+  user-select: none;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ── Subtle Background Mathematical Line-Art & Grid ── */
+.wm-bg-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(217, 119, 6, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(217, 119, 6, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.75;
+  z-index: 1;
+}
+
+.wm-bg-svg-art {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.18;
+  z-index: 1;
+}
+
+/* ── TOP HEADER / NAVIGATION BAR ── */
+.wm-header {
+  height: 64px;
+  min-height: 64px;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.5px solid rgba(217, 119, 6, 0.2);
+  background: rgba(255, 253, 248, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: relative;
+  z-index: 20;
+  box-shadow: 0 2px 10px rgba(60, 30, 10, 0.04);
+}
+
+.wm-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #451a03;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1.5px solid rgba(217, 119, 6, 0.35);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.wm-nav-btn:hover {
+  background: #fef3c7;
+  color: #1c1917;
+  border-color: #d97706;
+  transform: translateY(-1px);
+}
+
+.wm-header-center {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.wm-chapter-pill {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #9a3412;
+  background: rgba(254, 243, 199, 0.9);
+  border: 1px solid rgba(217, 119, 6, 0.4);
+  padding: 0.2rem 0.65rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.wm-slide-badge {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #1c1917;
+  background: linear-gradient(135deg, #fef08a 0%, #fde047 100%);
+  border: 1px solid #d97706;
+  padding: 0.2rem 0.75rem;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(217, 119, 6, 0.15);
+}
+
+/* ── MAIN 2-COLUMN VIEWPORT (45% Left / 55% Right) ── */
+.wm-main-viewport {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 45% 55%;
+  gap: 1.5rem;
+  padding: 1.2rem 2rem 1rem 2rem;
+  max-width: 1560px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+}
+
+/* ── LEFT PANEL (DARK NAVY LESSON CONTENT) ── */
+.wm-left-panel {
+  background: linear-gradient(145deg, #0b1329 0%, #0f1b38 60%, #070d1e 100%);
+  border: 2px solid rgba(245, 158, 11, 0.35);
+  border-radius: 22px;
+  padding: 1.8rem 2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow-y: auto;
+}
+
+.wm-section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #fde047;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.wm-lesson-title {
+  margin: 0 0 1rem 0;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.wm-text-block {
+  color: #e2e8f0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.wm-text-block p {
+  margin: 0;
+}
+
+.wm-highlight {
+  color: #fde047;
+  font-weight: 800;
+  background: rgba(253, 224, 71, 0.12);
+  padding: 0.08rem 0.35rem;
+  border-radius: 4px;
+  border-bottom: 1.5px solid rgba(253, 224, 71, 0.6);
+}
+
+.wm-highlight-orange {
+  color: #fb923c;
+  font-weight: 800;
+  background: rgba(251, 146, 60, 0.12);
+  padding: 0.08rem 0.35rem;
+  border-radius: 4px;
+}
+
+/* Takeaway Badges */
+.wm-takeaway-box {
+  margin-top: 1.2rem;
+  padding: 0.9rem 1.2rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.08) 100%);
+  border: 1.5px solid rgba(245, 158, 11, 0.45);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #fef08a;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+/* 5 Examples Grid (Slide 3 Left) */
+.wm-examples-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 0.6rem;
+}
+
+.wm-example-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.9rem;
+}
+
+.wm-example-category {
+  font-weight: 800;
+  color: #fde047;
+  min-width: 90px;
+}
+
+.wm-example-desc {
+  color: #cbd5e1;
+}
+
+/* Dual Pillar Box (Slide 4 Left) */
+.wm-pillars-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-top: 0.6rem;
+}
+
+.wm-pillar-card {
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.wm-pillar-title {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #fbbf24;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.wm-pillar-body {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* ── RIGHT PANEL (DARK NAVY INTERACTIVE ACTIVITY) ── */
+.wm-right-panel {
+  background: linear-gradient(145deg, #070d1e 0%, #0b1429 60%, #050914 100%);
+  border: 2px solid rgba(245, 158, 11, 0.35);
+  border-radius: 22px;
+  padding: 1.6rem 1.8rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow-y: auto;
+}
+
+.wm-activity-header {
+  margin-bottom: 1rem;
+}
+
+.wm-activity-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #fb923c;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.wm-activity-title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+/* ── SLIDE 1 ACTIVITY: 4 DISCOVERY CARDS ── */
+.wm-discovery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.9rem;
+  flex: 1;
+  margin-bottom: 0.8rem;
+}
+
+.wm-discovery-card {
+  background: rgba(15, 27, 56, 0.7);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 0.85rem 1rem;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.wm-discovery-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(245, 158, 11, 0.6);
+  background: rgba(20, 36, 74, 0.9);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4), 0 0 14px rgba(245, 158, 11, 0.15);
+}
+
+.wm-discovery-card.active {
+  border-color: #f59e0b;
+  background: linear-gradient(135deg, rgba(30, 58, 110, 0.95) 0%, rgba(15, 27, 56, 0.95) 100%);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3), 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+.wm-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.3rem;
+}
+
+.wm-card-icon {
+  font-size: 1.15rem;
+}
+
+.wm-card-title {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+/* 3D Realistic Visual Stage Inside Card */
+.wm-card-3d-stage {
+  width: 100%;
+  height: 86px;
+  margin: 0.25rem 0;
+  background: radial-gradient(circle at 50% 50%, rgba(30, 58, 110, 0.45) 0%, rgba(11, 19, 41, 0.85) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.wm-discovery-card.active .wm-card-3d-stage {
+  border-color: rgba(245, 158, 11, 0.55);
+  background: radial-gradient(circle at 50% 50%, rgba(40, 75, 140, 0.6) 0%, rgba(11, 19, 41, 0.95) 100%);
+  box-shadow: inset 0 0 14px rgba(245, 158, 11, 0.2), inset 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.wm-3d-visual-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wm-3d-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* 3D Micro-Animations */
+@keyframes floatCube {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+.wm-cube-float {
+  animation: floatCube 3s ease-in-out infinite;
+}
+
+.wm-cube-1 { animation-delay: 0s; }
+.wm-cube-2 { animation-delay: 0.3s; }
+.wm-cube-3 { animation-delay: 0.6s; }
+.wm-cube-4 { animation-delay: 0.9s; }
+
+@keyframes beamPulse {
+  0%, 100% { stroke-dashoffset: 0; opacity: 0.7; }
+  50% { stroke-dashoffset: 12; opacity: 1; }
+}
+
+.wm-beam-pulse {
+  animation: beamPulse 2.5s linear infinite;
+}
+
+@keyframes rotateTilt1 {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(4deg); }
+}
+
+.wm-shape-rotate-1 {
+  animation: rotateTilt1 4s ease-in-out infinite;
+}
+
+@keyframes rotateTilt2 {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  50% { transform: translateY(-4px) rotate(-6deg) scale(1.05); }
+}
+
+.wm-shape-rotate-2 {
+  animation: rotateTilt2 3.5s ease-in-out infinite;
+}
+
+@keyframes shapePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+.wm-shape-pulse {
+  animation: shapePulse 2.8s ease-in-out infinite;
+}
+
+@keyframes symShimmerLeft {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 1; filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.4)); }
+}
+
+.wm-sym-wing-left, .wm-sym-wing-right {
+  animation: symShimmerLeft 3s ease-in-out infinite;
+}
+
+@keyframes rotateMinuteHand {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.wm-hand-minute {
+  transform-origin: 0px 0px;
+  animation: rotateMinuteHand 8s linear infinite;
+}
+
+@keyframes rotateHourHand {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.wm-hand-hour {
+  transform-origin: 0px 0px;
+  animation: rotateHourHand 48s linear infinite;
+}
+
+@keyframes sunPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+
+.wm-sun-pulse {
+  animation: sunPulse 3s ease-in-out infinite;
+}
+
+.wm-card-explanation {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.78rem;
+  color: #cbd5e1;
+  line-height: 1.35;
+}
+
+.wm-card-status-chip {
+  align-self: flex-start;
+  margin-top: 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #fde047;
+  background: rgba(253, 224, 71, 0.15);
+  border: 1px solid rgba(253, 224, 71, 0.3);
+  padding: 0.12rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* ── SLIDE 2 ACTIVITY: NUMBER PATTERN DETECTIVE ── */
+.wm-detective-challenge {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  flex: 1;
+}
+
+.wm-sequence-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: rgba(15, 27, 56, 0.8);
+  border: 1.5px solid rgba(245, 158, 11, 0.4);
+  border-radius: 16px;
+  padding: 1.4rem 1rem;
+}
+
+.wm-seq-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #0f172a;
+  font-size: 1.4rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.wm-seq-box.target-box {
+  background: #fde047;
+  color: #9a3412;
+  border: 2px dashed #b45309;
+}
+
+.wm-seq-arrow {
+  color: #fbbf24;
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.wm-options-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.8rem;
+}
+
+.wm-choice-btn {
+  padding: 0.85rem;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 900;
+  cursor: pointer;
+  background: rgba(30, 41, 59, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.wm-choice-btn:hover {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.2);
+  transform: translateY(-2px);
+}
+
+.wm-choice-btn.selected-correct {
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+  border-color: #fde047;
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+}
+
+.wm-choice-btn.selected-wrong {
+  background: rgba(239, 68, 68, 0.3);
+  border-color: #ef4444;
+  color: #fca5a5;
+}
+
+/* Detective 3-Step Workflow */
+.wm-workflow-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.wm-workflow-card {
+  background: rgba(15, 27, 56, 0.7);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 10px;
+  padding: 0.65rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.wm-wf-step {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #fde047;
+}
+
+.wm-wf-desc {
+  font-size: 0.72rem;
+  color: #cbd5e1;
+  line-height: 1.35;
+}
+
+/* ── SLIDE 3 ACTIVITY: EVERYDAY OBJECTS EXPLORER ── */
+.wm-everyday-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 0.8rem;
+}
+
+.wm-everyday-card {
+  background: rgba(15, 27, 56, 0.7);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.4rem;
+}
+
+.wm-everyday-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(245, 158, 11, 0.5);
+  background: rgba(25, 45, 90, 0.85);
+}
+
+.wm-everyday-card.active {
+  border-color: #f59e0b;
+  background: linear-gradient(135deg, rgba(30, 58, 110, 0.95) 0%, rgba(15, 27, 56, 0.95) 100%);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.25);
+}
+
+.wm-everyday-icon {
+  font-size: 1.8rem;
+}
+
+.wm-everyday-title {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.wm-everyday-detail-box {
+  background: rgba(15, 27, 56, 0.9);
+  border: 1.5px solid rgba(245, 158, 11, 0.5);
+  border-radius: 12px;
+  padding: 0.85rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.wm-detail-icon {
+  font-size: 1.8rem;
+}
+
+.wm-detail-title {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #fde047;
+  margin-bottom: 0.2rem;
+}
+
+.wm-detail-text {
+  font-size: 0.85rem;
+  color: #e2e8f0;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ── SLIDE 4 ACTIVITY: MATHS DETECTIVE CHALLENGES & GRAND TAKEAWAY ── */
+.wm-challenges-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  flex: 1;
+}
+
+.wm-challenge-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.wm-challenge-tab {
+  padding: 0.5rem 0.6rem;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+  transition: all 0.2s ease;
+}
+
+.wm-challenge-tab.active {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #0f172a;
+  border-color: #fde047;
+  font-weight: 900;
+}
+
+.wm-active-challenge-box {
+  background: rgba(15, 27, 56, 0.8);
+  border: 1.5px solid rgba(245, 158, 11, 0.4);
+  border-radius: 14px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.wm-challenge-prompt {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #fde047;
+}
+
+.wm-challenge-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.6rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.wm-challenge-options {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.wm-mini-btn {
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.wm-mini-btn:hover {
+  background: rgba(245, 158, 11, 0.3);
+  border-color: #f59e0b;
+}
+
+.wm-mini-btn.selected {
+  background: #f59e0b;
+  color: #0f172a;
+  border-color: #fde047;
+}
+
+/* Grand Takeaway Tri-Pillars */
+.wm-grand-takeaway {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.18) 0%, rgba(217, 119, 6, 0.1) 100%);
+  border: 1.5px solid rgba(245, 158, 11, 0.5);
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+}
+
+.wm-tri-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.45rem;
+}
+
+.wm-tri-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #fef08a;
+}
+
+.wm-final-statement {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  font-style: italic;
+}
+
+/* ── BOTTOM PROGRESS & SLIDE NAVIGATION BAR ── */
+.wm-footer-nav {
+  height: 62px;
+  min-height: 62px;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1.5px solid rgba(217, 119, 6, 0.2);
+  background: rgba(255, 253, 248, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: relative;
+  z-index: 20;
+}
+
+.wm-dots-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.wm-dot-btn {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  border: 2px solid #94a3b8;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  padding: 0;
+}
+
+.wm-dot-btn:hover {
+  background: #f59e0b;
+  border-color: #d97706;
+  transform: scale(1.15);
+}
+
+.wm-dot-btn.active {
+  width: 32px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+  border-color: #b45309;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+}
+
+.wm-action-btn-prev {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1.15rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #451a03;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1.5px solid rgba(217, 119, 6, 0.35);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wm-action-btn-prev:hover:not(:disabled) {
+  background: #fef3c7;
+  color: #1c1917;
+  border-color: #d97706;
+}
+
+.wm-action-btn-prev:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.wm-action-btn-next {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.4rem;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #0f172a;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.3);
+}
+
+.wm-action-btn-next:hover {
+  background: linear-gradient(135deg, #fef08a 0%, #fbbf24 50%, #ea580c 100%);
+  color: #000000;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(217, 119, 6, 0.45);
+}
