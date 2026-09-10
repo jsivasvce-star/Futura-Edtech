@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ShieldAlert, Check, X, ArrowRight, ArrowLeft } from 'lucide-react';
 import newChiefDetectiveImage from '../../../../../../assets/4.detective.png';
+import mbDecorativeImage from '../../../../../../assets/4.MBimage.png';
 
 export default function MissionBriefingSpread({ data, onContinue, onBack }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -96,6 +97,22 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            z-index: 1;
+          }
+          .mb-decorative-bg {
+            position: absolute;
+            bottom: -5%; /* Pull down slightly so it anchors firmly */
+            right: -10%; /* Pull right to compensate for transparent left edge */
+            width: 130%; /* Drastically increased to double the visible scene size */
+            max-width: none; /* Removed limits */
+            height: auto;
+            object-fit: contain;
+            pointer-events: none;
+            z-index: 0;
+            mix-blend-mode: multiply;
+            opacity: 0.85;
+            -webkit-mask-image: linear-gradient(to top left, black 50%, transparent 100%);
+            mask-image: linear-gradient(to top left, black 50%, transparent 100%);
           }
           .right-page-content {
             width: 100%;
@@ -107,6 +124,8 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             justify-content: flex-start;
             align-items: flex-start;
             box-sizing: border-box;
+            position: relative;
+            z-index: 2;
           }
           
           /* ---------- LEFT PAGE SPEECH BUBBLE ---------- */
@@ -157,7 +176,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             padding: 5px 18px;
             border-radius: 8px;
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 30px;
+            font-size: 34px;
             font-weight: bold;
             letter-spacing: 1px;
             box-shadow: 0 3px 6px rgba(0,0,0,0.1);
@@ -202,7 +221,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             border-radius: 12px;
             padding: 22px 26px;
             margin-bottom: 22px;
-            width: 100%;
+            width: 58%; /* Reduced from 100% to prevent overlap with the right-side background image */
           }
           .mission-box h3 {
             font-family: Arial, Helvetica, sans-serif;
@@ -225,7 +244,6 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
           .mission-meta {
             display: flex;
             gap: 48px;
-            border-top: 1px dashed var(--lesson-border);
             padding-top: 18px;
             margin-bottom: 22px;
             width: 100%;
@@ -254,7 +272,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
           }
           .meta-stars {
             color: var(--lesson-warning);
-            font-size: 20px;
+            font-size: 28px;
           }
           .meta-stars.empty {
             color: var(--lesson-border);
@@ -363,47 +381,48 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
 
           {currentPage === 2 && (
             <div className="page-spread right-page">
+              <img src={mbDecorativeImage} alt="" className="mb-decorative-bg" aria-hidden="true" />
               <div className="right-page-content">
-                <div className="mission-header" style={{ fontSize: '20px' }}>
+                <div className="mission-header" style={{ fontSize: '34px' }}>
                   <ShieldAlert size={20} />
                   MISSION BRIEFING
                 </div>
                 
-                <h1 className="mission-title" style={{ fontSize: '24px' }}>
+                <h1 className="mission-title" style={{ fontSize: '42px' }}>
                   {displayTitle}
                 </h1>
                 
                 <div className="mission-content">
-                  <p style={{ fontSize: '16px' }}>{data.description || "Review the handbook and proceed to the activity area to complete the required tasks for this barrier."}</p>
+                  <p style={{ fontSize: '28px' }}>{data.description || "Review the handbook and proceed to the activity area to complete the required tasks for this barrier."}</p>
                 </div>
                 
                 <div className="mission-box">
-                  <h3 style={{ fontSize: '20px' }}><Check size={20} color="var(--lesson-danger)" /> OBJECTIVES</h3>
+                  <h3 style={{ fontSize: '32px' }}><Check size={20} color="var(--lesson-danger)" /> OBJECTIVES</h3>
                   {Array.isArray(data.objective) ? (
                     <ul style={{ margin: 0, paddingLeft: '26px', display: 'flex', flexDirection: 'column', gap: '9px' }}>
                       {data.objective.map((obj, i) => (
-                        <li key={i} style={{ fontSize: '20px', color: 'var(--lesson-text)', lineHeight: '1.45' }}>
+                        <li key={i} style={{ fontSize: '32px', color: 'var(--lesson-text)', lineHeight: '1.45' }}>
                           {obj}
                         </li>
                       ))}
                     </ul>
                   ) : (
-                    <p style={{ fontSize: '20px' }}>{data.objective || "Complete the investigation."}</p>
+                    <p style={{ fontSize: '32px' }}>{data.objective || "Complete the investigation."}</p>
                   )}
                 </div>
                 
                 <div className="mission-meta">
                   <div className="meta-item">
-                    <span className="meta-label" style={{ fontSize: '16px' }}>Difficulty</span>
-                    <span className="meta-value" style={{ fontSize: '16px' }}>
+                    <span className="meta-label" style={{ fontSize: '28px' }}>Difficulty</span>
+                    <span className="meta-value" style={{ fontSize: '28px' }}>
                       {[1, 2, 3].map(star => (
                         <span key={star} className={`meta-stars ${star > (data.difficulty || 1) ? 'empty' : ''}`}>★</span>
                       ))}
                     </span>
                   </div>
                   <div className="meta-item">
-                    <span className="meta-label" style={{ fontSize: '16px' }}>Est. Time</span>
-                    <span className="meta-value" style={{ fontSize: '16px' }}>⏱ {data.estimatedTime || '5 minutes'}</span>
+                    <span className="meta-label" style={{ fontSize: '28px' }}>Est. Time</span>
+                    <span className="meta-value" style={{ fontSize: '28px' }}>⏱ {data.estimatedTime || '5 minutes'}</span>
                   </div>
                 </div>
               </div>
