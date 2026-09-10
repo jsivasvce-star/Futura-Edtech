@@ -164,7 +164,7 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           flex-shrink: 0;
         }
 
-        /* Edge-to-Edge Full Background Backdrop */
+        /* Edge-to-Edge Full Background Backdrop - Unified warm cinematic photo grading */
         .cover-bg-backdrop {
           position: absolute;
           inset: 0;
@@ -173,23 +173,30 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           object-fit: fill;
           pointer-events: none;
           z-index: 0;
+          filter: sepia(16%) contrast(106%) brightness(95%) saturate(104%);
         }
 
-        /* Subtle Ambient Warm Vignette */
+        /* Atmospheric Edge Vignette & Golden-Hour Lighting Falloff */
         .cover-vignette {
           position: absolute;
           inset: 0;
           pointer-events: none;
-          background: radial-gradient(circle at 65% 50%, rgba(0, 0, 0, 0) 35%, rgba(15, 10, 5, 0.28) 100%);
+          background: 
+            /* Directional golden-hour warm spotlight over central desk */
+            radial-gradient(ellipse 75% 65% at 42% 48%, rgba(251, 191, 36, 0.08) 0%, rgba(217, 119, 6, 0.03) 45%, rgba(0, 0, 0, 0) 70%),
+            /* Deep dramatic edge vignette - warm charcoal-sepia falloff */
+            radial-gradient(ellipse 85% 78% at 50% 50%, rgba(20, 10, 4, 0) 40%, rgba(32, 16, 6, 0.35) 70%, rgba(14, 7, 2, 0.65) 100%);
+          box-shadow: 
+            inset 0 0 80px rgba(22, 10, 3, 0.65),
+            inset 0 0 160px rgba(12, 5, 1, 0.45);
           z-index: 1;
         }
 
         /* Authentic Navigational Artifact Stage Area:
            - Multi-layered organic aged-parchment texture with burnt perimeter vignette
-           - Fine vintage double border in antique burnished brass (#b38b47) & inner hairline (#8c672e)
-           - Four metallic corner pins/rivets
-           - Faint vector magnetic field & astrolabe watermark engraving (10% opacity)
-           - Multi-layered physical drop shadow
+           - Fine vintage double border in antique burnished brass (#9C7235) & inner hairline
+           - Four metallic corner pins/rivets with golden-hour specular gleam
+           - Multi-tier ambient occlusion contact shadows
         */
         .hero-compass-overlay {
           position: absolute;
@@ -200,18 +207,21 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           z-index: 10;
           border-radius: 24px;
           background: 
-            radial-gradient(ellipse at 50% 50%, rgba(254, 250, 240, 0.82) 0%, rgba(246, 236, 218, 0.72) 55%, rgba(235, 218, 192, 0.68) 85%, rgba(214, 188, 150, 0.78) 100%),
-            radial-gradient(circle at 12% 15%, rgba(175, 125, 65, 0.16) 0%, transparent 45%),
-            radial-gradient(circle at 88% 85%, rgba(150, 100, 45, 0.18) 0%, transparent 50%),
-            linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(120, 75, 25, 0.08) 100%);
-          backdrop-filter: blur(14px) saturate(125%) sepia(20%);
-          -webkit-backdrop-filter: blur(14px) saturate(125%) sepia(20%);
-          border: 1.5px solid #b38b47;
+            radial-gradient(ellipse at 50% 30%, rgba(248, 237, 216, 0.94) 0%, rgba(240, 226, 198, 0.90) 50%, rgba(225, 204, 168, 0.92) 80%, rgba(200, 172, 130, 0.95) 100%),
+            radial-gradient(circle at 12% 15%, rgba(175, 125, 65, 0.18) 0%, transparent 45%),
+            radial-gradient(circle at 88% 85%, rgba(140, 90, 35, 0.20) 0%, transparent 50%),
+            linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(120, 75, 25, 0.12) 100%);
+          backdrop-filter: blur(14px) saturate(125%) sepia(22%);
+          -webkit-backdrop-filter: blur(14px) saturate(125%) sepia(22%);
+          border: 1.8px solid #9C7235;
           box-shadow: 
-            0 16px 36px -8px rgba(35, 18, 5, 0.55),
-            0 4px 12px rgba(0, 0, 0, 0.25),
-            inset 0 0 45px rgba(90, 50, 20, 0.35),
-            inset 0 0 12px rgba(60, 30, 10, 0.45);
+            0 24px 52px -6px rgba(22, 10, 3, 0.65),
+            0 8px 20px rgba(18, 8, 2, 0.35),
+            0 2px 4px rgba(0, 0, 0, 0.25),
+            inset 0 1px 1px rgba(255, 245, 220, 0.65),
+            inset 0 -1px 1px rgba(120, 75, 25, 0.35),
+            inset 0 0 50px rgba(110, 60, 18, 0.32),
+            inset 0 0 16px rgba(70, 35, 10, 0.40);
           padding: clamp(16px, 1.8vw, 26px) clamp(20px, 2.2vw, 32px);
           box-sizing: border-box;
           overflow: hidden;
@@ -222,20 +232,20 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           content: '';
           position: absolute;
           inset: 6px;
-          border: 0.8px solid rgba(140, 103, 46, 0.55);
+          border: 0.8px solid rgba(130, 92, 38, 0.65);
           border-radius: calc(24px - 6px);
           pointer-events: none;
           z-index: 2;
         }
 
-        /* Subtle Metallic Brass Pins / Corner Rivets */
+        /* Subtle Metallic Brass Pins / Corner Rivets with Golden-Hour Specular Highlight */
         .card-rivet {
           position: absolute;
           width: 7px;
           height: 7px;
           border-radius: 50%;
-          background: radial-gradient(circle at 35% 35%, #FDE68A 0%, #D97706 55%, #78350F 100%);
-          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.45), inset 0 0.5px 0.5px rgba(255, 255, 255, 0.7);
+          background: radial-gradient(circle at 35% 35%, #FFF2A3 0%, #D97706 50%, #451A03 100%);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), inset 0 0.5px 0.5px rgba(255, 255, 255, 0.85);
           pointer-events: none;
           z-index: 3;
         }
@@ -269,26 +279,26 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           align-items: flex-start;
         }
 
-        /* Tagline Badge */
+        /* Tagline Badge - Antique Vellum with Fine Sepia Border */
         .hero-tagline {
           display: inline-flex;
           align-items: center;
           gap: 0.5rem;
           padding: 0.38rem 0.95rem;
           border-radius: 999px;
-          background: rgba(255, 252, 244, 0.92);
-          border: 1.2px solid rgba(168, 118, 55, 0.6);
-          box-shadow: 0 2px 8px rgba(45, 25, 10, 0.1);
+          background: radial-gradient(ellipse at 50% 50%, rgba(250, 244, 230, 0.96) 0%, rgba(240, 230, 210, 0.94) 100%);
+          border: 1.2px solid rgba(145, 95, 40, 0.65);
+          box-shadow: 0 2px 8px rgba(35, 18, 5, 0.16), inset 0 1px 1px rgba(255, 255, 255, 0.7);
           font-family: var(--font-sans);
           font-size: clamp(0.76rem, 0.88vw, 0.92rem);
           font-weight: 800;
           letter-spacing: 0.12em;
-          color: var(--bronze-dark);
+          color: #4A2408;
           text-transform: uppercase;
         }
 
         .hero-tagline-icon {
-          color: var(--bronze-accent);
+          color: #B45309;
           stroke-width: 2.4px;
         }
 
@@ -320,7 +330,7 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
         }
 
-        /* CTA Wrapper & Button */
+        /* CTA Wrapper & Button - Burnished Amber / Wax-Seal Leather */
         .hero-cta-wrapper {
           width: 100%;
           display: flex;
@@ -334,19 +344,28 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           gap: 0.75rem;
           padding: clamp(0.6rem, 1.1vh, 0.82rem) clamp(1.4rem, 1.9vw, 2.3rem);
           border-radius: 999px;
-          border: none;
-          background: linear-gradient(135deg, #F59E0B 0%, #D97706 65%, #B45309 100%);
-          color: #FFFFFF;
+          border: 1.6px solid #D4A857;
+          background: linear-gradient(
+            140deg, 
+            #92400E 0%, 
+            #78350F 35%, 
+            #5A2408 70%, 
+            #3D1704 100%
+          );
+          color: #FEF3C7;
           font-family: var(--font-sans);
           font-weight: 900;
           font-size: clamp(0.92rem, 1.1vw, 1.15rem);
-          letter-spacing: 0.04em;
+          letter-spacing: 0.05em;
           cursor: pointer;
           overflow: hidden;
           box-shadow: 
-            0 4px 16px rgba(217, 119, 6, 0.45),
-            0 8px 24px rgba(217, 119, 6, 0.25);
-          transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s ease;
+            0 6px 20px rgba(25, 10, 3, 0.65),
+            0 2px 5px rgba(0, 0, 0, 0.4),
+            inset 0 1px 1.5px rgba(255, 235, 175, 0.55),
+            inset 0 -1.5px 3px rgba(0, 0, 0, 0.6);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+          transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s ease, background 0.22s ease, border-color 0.22s ease;
           z-index: 1;
         }
 
@@ -358,13 +377,17 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
         @keyframes ctaAmberPulse {
           0% {
             box-shadow: 
-              0 4px 14px rgba(217, 119, 6, 0.45),
-              0 0 12px rgba(245, 158, 11, 0.25);
+              0 6px 18px rgba(25, 10, 3, 0.65),
+              0 0 14px rgba(217, 119, 6, 0.25),
+              inset 0 1px 1.5px rgba(255, 235, 175, 0.55),
+              inset 0 -1.5px 3px rgba(0, 0, 0, 0.6);
           }
           100% {
             box-shadow: 
-              0 6px 22px rgba(217, 119, 6, 0.75),
-              0 0 24px rgba(245, 158, 11, 0.6);
+              0 8px 26px rgba(25, 10, 3, 0.75),
+              0 0 24px rgba(217, 119, 6, 0.5),
+              inset 0 1px 2px rgba(255, 245, 190, 0.75),
+              inset 0 -1.5px 3px rgba(0, 0, 0, 0.6);
           }
         }
 
@@ -379,7 +402,7 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           background: linear-gradient(
             90deg,
             rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.65) 50%,
+            rgba(255, 255, 255, 0.55) 50%,
             rgba(255, 255, 255, 0) 100%
           );
           transform: rotate(25deg);
@@ -394,17 +417,26 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
 
         .hero-cta-btn:hover {
           transform: translateY(-2px) scale(1.025);
+          border-color: #FBBF24;
+          background: linear-gradient(
+            140deg, 
+            #A85012 0%, 
+            #8C3D0E 35%, 
+            #6B2706 70%, 
+            #451703 100%
+          );
+          color: #FFFBEB;
           box-shadow: 
-            0 6px 24px rgba(217, 119, 6, 0.75),
-            0 14px 32px rgba(217, 119, 6, 0.45);
-          background: linear-gradient(135deg, #FBBF24 0%, #D97706 100%);
+            0 8px 28px rgba(35, 15, 5, 0.75),
+            0 0 22px rgba(217, 119, 6, 0.45),
+            inset 0 1px 2px rgba(255, 245, 190, 0.8);
         }
 
         .hero-cta-btn:active {
           transform: translateY(0) scale(0.98);
         }
 
-        /* Top-Left Back Navigation */
+        /* Top-Left Back Navigation - Antique Vellum with Sepia Border */
         .cover-back-btn {
           position: absolute;
           top: clamp(20px, 3vh, 32px);
@@ -415,31 +447,30 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           gap: 0.5rem;
           padding: 0.55rem 1.15rem;
           border-radius: 999px;
-          border: 1.2px solid rgba(168, 118, 55, 0.5);
-          background: rgba(255, 252, 245, 0.88);
+          border: 1.2px solid #9C7235;
+          background: radial-gradient(ellipse at 50% 50%, rgba(250, 244, 230, 0.94) 0%, rgba(242, 231, 212, 0.90) 100%);
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
-          color: var(--bronze-dark);
+          color: #381A05;
           font-family: var(--font-sans);
           font-weight: 800;
           font-size: clamp(0.82rem, 0.9vw, 0.92rem);
           letter-spacing: 0.02em;
           cursor: pointer;
-          box-shadow: 0 4px 14px rgba(35, 20, 8, 0.16);
+          box-shadow: 0 4px 16px rgba(25, 12, 4, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.8);
           transition: all 0.22s ease;
         }
 
         .cover-back-btn:hover {
           transform: translateY(-1px) scale(1.03);
-          background: rgba(255, 255, 255, 0.98);
-          border-color: rgba(180, 130, 70, 0.85);
-          box-shadow: 0 6px 18px rgba(35, 20, 8, 0.22);
+          background: rgba(255, 252, 245, 0.98);
+          border-color: #D97706;
+          box-shadow: 0 6px 20px rgba(35, 18, 6, 0.42);
         }
 
         /* Prominent Activity 4.6 Exact Interactive Compass:
-           - Reduced slightly to 23% width for refined balance
+           - Multi-tier ambient occlusion drop shadows
            - Positioned at left: 31.4%, top: 49%
-           - Deep dimensional drop shadow
         */
         .cover-compass-overlay-wrapper {
           position: absolute;
@@ -453,16 +484,21 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           justify-content: center;
           z-index: 6;
           cursor: pointer;
-          filter: drop-shadow(0 20px 42px rgba(25, 12, 4, 0.58));
+          filter: 
+            drop-shadow(0 24px 46px rgba(20, 10, 3, 0.65)) 
+            drop-shadow(0 8px 16px rgba(25, 12, 4, 0.45)) 
+            drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
           transition: filter 0.3s ease, transform 0.3s ease;
         }
 
         .cover-compass-overlay-wrapper:hover {
-          filter: drop-shadow(0 26px 52px rgba(217, 119, 6, 0.55));
+          filter: 
+            drop-shadow(0 28px 56px rgba(217, 119, 6, 0.45)) 
+            drop-shadow(0 12px 24px rgba(25, 12, 4, 0.55));
           transform: translate(-50%, -50%) scale(1.025);
         }
 
-        /* Elegant Antique Navigational Station Pill */
+        /* Elegant Antique Navigational Station Pill - Antique Vellum & Fine Sepia Border */
         .compass-station-pill {
           position: absolute;
           top: 101%;
@@ -473,10 +509,10 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           gap: 8px;
           padding: 6px 18px;
           border-radius: 999px;
-          background: radial-gradient(ellipse at 50% 50%, rgba(255, 252, 244, 0.96) 0%, rgba(244, 233, 212, 0.92) 100%);
-          border: 1.5px solid #b38b47;
+          background: radial-gradient(ellipse at 50% 50%, rgba(252, 246, 234, 0.96) 0%, rgba(242, 231, 212, 0.93) 100%);
+          border: 1.4px solid #8C5E28;
           box-shadow: 
-            0 8px 22px rgba(28, 14, 4, 0.38),
+            0 8px 24px rgba(25, 12, 4, 0.45),
             inset 0 0 10px rgba(120, 70, 20, 0.18);
           white-space: nowrap;
           pointer-events: none;
@@ -488,7 +524,7 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           height: 7px;
           border-radius: 50%;
           background: #D97706;
-          box-shadow: 0 0 6px #F59E0B;
+          box-shadow: 0 0 8px #F59E0B;
         }
 
         .compass-station-text {
@@ -496,12 +532,12 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           font-size: clamp(0.74rem, 0.85vw, 0.84rem);
           font-weight: 800;
           letter-spacing: 0.08em;
-          color: #451a03;
+          color: #381a05;
           text-transform: uppercase;
         }
 
         .compass-station-deg {
-          color: #b45309;
+          color: #92400E;
           font-weight: 700;
           font-size: 0.78rem;
         }

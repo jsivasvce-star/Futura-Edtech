@@ -4,6 +4,7 @@ import { Text, OrbitControls, ContactShadows, Environment, useTexture } from '@r
 import { motion, AnimatePresence } from 'framer-motion';
 import { Hand, RotateCcw, Shapes, Flag, BookOpen, CheckCircle, ArrowRight, Play, Pause } from 'lucide-react';
 import * as THREE from 'three';
+import { createCustomMagnetTextures } from './magnetTextureGenerator';
 import '../MagneticPoles.css';
 
 // ---------------------------------------------------------
@@ -81,103 +82,88 @@ function RotatableMagnetGroup({ children }) {
 
 // A. Bar Magnet with Realistic Panoramic Texture Mapping
 function BarMagnet3D() {
-  const textures = useMemo(() => {
-    const loader = new THREE.TextureLoader();
-    const frontTop = loader.load('/MagneticPoles/magnet_front_top.png');
-    frontTop.colorSpace = THREE.SRGBColorSpace;
-    frontTop.anisotropy = 8;
+  const textures = useMemo(() => createCustomMagnetTextures(), []);
 
-    const back = loader.load('/MagneticPoles/magnet_back.png');
-    back.colorSpace = THREE.SRGBColorSpace;
-    back.anisotropy = 8;
-
-    const northCap = loader.load('/MagneticPoles/magnet_end_north.png');
-    northCap.colorSpace = THREE.SRGBColorSpace;
-    northCap.anisotropy = 8;
-
-    const southCap = loader.load('/MagneticPoles/magnet_end_south.png');
-    southCap.colorSpace = THREE.SRGBColorSpace;
-    southCap.anisotropy = 8;
-
-    return { frontTop, back, northCap, southCap };
-  }, []);
+  useEffect(() => {
+    return () => {
+      Object.values(textures).forEach((tex) => tex?.dispose());
+    };
+  }, [textures]);
 
   return (
     <group position={[0, 4.2, 0]} scale={[1.35, 2.2, 1.35]}>
-      {/* 1. North Pole Core Half (Left) - Metallic Blue */}
+      {/* 1. North Pole Core Half (Left, X: -6 to 0) - Bold Red */}
       <mesh position={[-3.0, 0, 0]} castShadow receiveShadow>
         <boxGeometry args={[6.0, 1.3, 1.9]} />
         <meshStandardMaterial 
-          color="#124982" 
-          roughness={0.4} 
-          metalness={0.25} 
+          color="#8B1A1A" 
+          roughness={0.35} 
+          metalness={0.28} 
         />
       </mesh>
 
-      {/* 2. South Pole Core Half (Right) - Metallic Red */}
+      {/* 2. South Pole Core Half (Right, X: 0 to +6) - Deep Ocean Blue */}
       <mesh position={[3.0, 0, 0]} castShadow receiveShadow>
         <boxGeometry args={[6.0, 1.3, 1.9]} />
         <meshStandardMaterial 
-          color="#A31820" 
-          roughness={0.4} 
-          metalness={0.25} 
+          color="#0F4C81" 
+          roughness={0.35} 
+          metalness={0.28} 
         />
       </mesh>
 
-      {/* 3. Center Dividing Seam */}
+      {/* 3. Center Dividing Equator Seam */}
       <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[0.06, 1.31, 1.91]} />
-        <meshStandardMaterial color="#0F172A" roughness={0.6} metalness={0.5} />
+        <boxGeometry args={[0.08, 1.31, 1.91]} />
+        <meshStandardMaterial color="#B38B47" roughness={0.3} metalness={0.7} />
       </mesh>
 
-      {/* 4. Front Face: First Image (North Left, South Right) */}
+      {/* 4. Front Face: Custom High-Res Texture Overlay */}
       <mesh position={[0, 0, 0.955]} castShadow receiveShadow>
         <planeGeometry args={[12.0, 1.3]} />
         <meshStandardMaterial
-          map={textures.frontTop}
-          roughness={0.3}
-          metalness={0.15}
+          map={textures.front}
+          roughness={0.25}
+          metalness={0.2}
         />
       </mesh>
 
-      {/* 5. Top Face: First Image (North Left, South Right) */}
+      {/* 5. Top Face: Custom High-Res Texture Overlay (Primary Reading Surface) */}
       <mesh position={[0, 0.655, 0]} rotation={[-Math.PI / 2, 0, 0]} castShadow receiveShadow>
         <planeGeometry args={[12.0, 1.9]} />
         <meshStandardMaterial
-          map={textures.frontTop}
-          roughness={0.3}
-          metalness={0.15}
+          map={textures.top}
+          roughness={0.25}
+          metalness={0.2}
         />
       </mesh>
 
-      {/* 6. Back Face: Second Image (South Left, North Right when viewed from back) */}
+      {/* 6. Back Face: Custom High-Res Texture Overlay (Mirrored for 3D rotation continuity) */}
       <mesh position={[0, 0, -0.955]} rotation={[0, Math.PI, 0]} castShadow receiveShadow>
         <planeGeometry args={[12.0, 1.3]} />
         <meshStandardMaterial
           map={textures.back}
-          roughness={0.3}
-          metalness={0.15}
+          roughness={0.25}
+          metalness={0.2}
         />
       </mesh>
 
-      {/* 7. North End-Cap (Left Face, X = -6.0): Matching Blue Section */}
+      {/* 7. North End-Cap (Left Face, X = -6.0): Red Section with Serif N */}
       <mesh position={[-6.005, 0, 0]} rotation={[0, -Math.PI / 2, 0]} castShadow receiveShadow>
         <planeGeometry args={[1.9, 1.3]} />
         <meshStandardMaterial
           map={textures.northCap}
-          color="#124982"
-          roughness={0.38}
+          roughness={0.3}
           metalness={0.25}
         />
       </mesh>
 
-      {/* 8. South End-Cap (Right Face, X = +6.0): Matching Red Section */}
+      {/* 8. South End-Cap (Right Face, X = +6.0): Blue Section with Serif S */}
       <mesh position={[6.005, 0, 0]} rotation={[0, Math.PI / 2, 0]} castShadow receiveShadow>
         <planeGeometry args={[1.9, 1.3]} />
         <meshStandardMaterial
           map={textures.southCap}
-          color="#A31820"
-          roughness={0.38}
+          roughness={0.3}
           metalness={0.25}
         />
       </mesh>

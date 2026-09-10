@@ -84,10 +84,12 @@ export default function Chapter4Flow({ onBackToDashboard, onLaunchActivity }) {
       onClick={() => onLaunchActivity && onLaunchActivity(mod.id)}
       title={`Launch ${mod.title}`}
     >
-      {/* Top Header Bar: Left Pill Badge + Right Primary Title on single line */}
+      {/* Top Header Bar: Left Pill Badge + Styled Title Background Plate */}
       <div className="module-card-header-bar">
         <span className="module-index-pill">{mod.num}</span>
-        <h3 className="module-card-title" title={mod.title}>{mod.title}</h3>
+        <div className="module-title-plate">
+          <h3 className="module-card-title">{mod.title}</h3>
+        </div>
       </div>
 
       {/* Photographic Thumbnail occupying lower body in calibrated aspect ratio */}
@@ -99,19 +101,6 @@ export default function Chapter4Flow({ onBackToDashboard, onLaunchActivity }) {
         />
         <div className="module-card-img-vignette" />
       </div>
-
-      {/* Enter Button with matching amber-orange gradient */}
-      <button 
-        className="module-enter-btn"
-        onClick={(e) => {
-          e.stopPropagation();
-          if (onLaunchActivity) onLaunchActivity(mod.id);
-        }}
-        title={`Enter ${mod.title}`}
-      >
-        <span>ENTER</span>
-        <ArrowRight size={14} className="module-enter-icon" />
-      </button>
     </motion.div>
   );
 

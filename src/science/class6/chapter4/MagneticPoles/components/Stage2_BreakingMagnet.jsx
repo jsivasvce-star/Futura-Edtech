@@ -106,10 +106,10 @@ function BreakingMagnet3D({ broken, showPoles }) {
     <group position={[0, 4.2, 0]} scale={[1.35, 2.2, 1.35]}>
       {/* ---------------- LEFT PIECE (Length: 6.0, Height: 1.3, Depth: 1.9) ---------------- */}
       <group ref={leftGroupRef} position={[0, 0, 0]}>
-        {/* Left Sub-Half: North Pole (3.0 length) */}
+        {/* Left Sub-Half: North Pole (3.0 length) - Bold Red */}
         <mesh position={[-4.5, 0, 0]} castShadow receiveShadow>
           <boxGeometry args={[3.0, 1.3, 1.9]} />
-          <meshStandardMaterial color="#124982" roughness={0.4} metalness={0.25} />
+          <meshStandardMaterial color="#8B1A1A" roughness={0.4} metalness={0.25} />
         </mesh>
         
         {/* North Pole Letter */}
@@ -127,7 +127,7 @@ function BreakingMagnet3D({ broken, showPoles }) {
         <mesh position={[-1.5, 0, 0]} castShadow receiveShadow>
           <boxGeometry args={[3.0, 1.3, 1.9]} />
           <meshStandardMaterial
-            color={showPoles ? '#A31820' : '#124982'}
+            color={showPoles ? '#0F4C81' : '#8B1A1A'}
             roughness={0.4}
             metalness={0.25}
           />
@@ -153,7 +153,7 @@ function BreakingMagnet3D({ broken, showPoles }) {
         <mesh position={[1.5, 0, 0]} castShadow receiveShadow>
           <boxGeometry args={[3.0, 1.3, 1.9]} />
           <meshStandardMaterial
-            color={showPoles ? '#124982' : '#A31820'}
+            color={showPoles ? '#8B1A1A' : '#0F4C81'}
             roughness={0.4}
             metalness={0.25}
           />
@@ -172,10 +172,10 @@ function BreakingMagnet3D({ broken, showPoles }) {
           </Text>
         )}
 
-        {/* Right Sub-Half: South Pole (3.0 length) */}
+        {/* Right Sub-Half: South Pole (3.0 length) - Deep Blue */}
         <mesh position={[4.5, 0, 0]} castShadow receiveShadow>
           <boxGeometry args={[3.0, 1.3, 1.9]} />
-          <meshStandardMaterial color="#A31820" roughness={0.4} metalness={0.25} />
+          <meshStandardMaterial color="#0F4C81" roughness={0.4} metalness={0.25} />
         </mesh>
 
         {/* South Pole Letter */}
@@ -193,8 +193,8 @@ function BreakingMagnet3D({ broken, showPoles }) {
       {/* Center Dividing Seam (Exact dimension: 0.06 x 1.31 x 1.91) */}
       {!broken && (
         <mesh position={[0, 0, 0]}>
-          <boxGeometry args={[0.06, 1.31, 1.91]} />
-          <meshStandardMaterial color="#111827" roughness={0.7} />
+          <boxGeometry args={[0.08, 1.31, 1.91]} />
+          <meshStandardMaterial color="#B38B47" roughness={0.3} metalness={0.7} />
         </mesh>
       )}
     </group>
