@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Box, Droplet, CheckCircle2, AlertCircle,
-  RefreshCw, Hand, Info, HelpCircle, LayoutGrid
+  RefreshCw, Hand, Info, HelpCircle, LayoutGrid, Play
 } from 'lucide-react';
+import pourActivityVideo from '../../../../../assets/pour_activity.mp4';
 
 /* ─────────────────────────────────────────────
    CONSTANTS
@@ -55,6 +56,10 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
   /* ── Think-more ── */
   const [selectedOption, setSelectedOption] = useState(null);
   const [thinkFeedback, setThinkFeedback] = useState(null);
+  const [isThinkModalOpen, setIsThinkModalOpen] = useState(false);
+
+  const videoRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   /* ── Refs (physics loop reads these synchronously) ── */
   const containerRef    = useRef(null);
@@ -75,16 +80,16 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
   const bottleVisualRef = useRef({ pos: BOTTLE_INIT, tilt: 0 }); // Tracks Framer Motion visual state
 
   const colors = {
-    cardBg:        'var(--lesson-background)',
+    cardBg:        'var(--lesson-card)',
     cardBorder:    'var(--lesson-border)',
     textDark:      'var(--lesson-primary)',
     textMedium:    'var(--lesson-secondary)',
-    accent:        '#A64B27',
+    accent:        '#B04924',
     successBg:     'var(--lesson-success-bg)',
     successBorder: 'var(--lesson-success-border)',
-    successText:   '#A64B27',
-    thinkBg:       'white7ed',
-    thinkBorder:   'var(--lesson-warning-bg)',
+    successText:   'var(--lesson-primary)',
+    thinkBg:       'var(--lesson-warning-bg)',
+    thinkBorder:   'var(--lesson-warning-border)',
     thinkText:     'var(--lesson-primary)',
   };
 
@@ -107,217 +112,8 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
   }, [waterLevelA, waterLevelB, onComplete]);
 
   /* ──────────────────────────────────────
-     PHYSICS LOOP
+     PHYSICS LOOP - REMOVED (Replaced by Video Player)
   ────────────────────────────────────── */
-  useEffect(() => {
-    let running = true;
-
-    const loop = (now) => {
-      if (!running) return;
-      const dt = Math.min(0.05, (now - lastTimeRef.current) / 1000);
-      lastTimeRef.current = now;
-
-      const tilt     = bottleVisualRef.current.tilt;
-      const autoState = autoStateRef.current;
-
-      /* ── determine active tumbler based on auto-state ── */
-      let target = null;
-      
-      const currentBottleWater = bottleFillRef.current;
-      
-      if (currentBottleWater > 0) {
-        if (autoState === 'POUR_A' && tilt >= POUR_TILT) target = 'A';
-        else if (autoState === 'POUR_B' && tilt <= -POUR_TILT) target = 'B';
-      }
-      
-      activeTargetRef.current = target;
-
-      /* ── fill tumblers ── */
-      if (target === 'A') {
-        const requestedTransfer = FILL_SPEED * dt;
-        const availableWater = Math.max(0, currentBottleWater);
-        const remainingTargetCapacity = Math.max(0, 0.50 - waterLevelARef.current);
-        
-        // Tumbler A uses a conversion factor of 0.68 from the bottle
-        const maxTransferFromBottle = availableWater / 0.68;
-        
-        const transfer = Math.min(requestedTransfer, maxTransferFromBottle, remainingTargetCapacity);
-        
-        if (transfer > 0) {
-           waterLevelARef.current += transfer;
-           setWaterLevelA(waterLevelARef.current);
-           
-           bottleFillRef.current = Math.max(0, bottleFillRef.current - (transfer * 0.68));
-           setBottleFill(bottleFillRef.current);
-        }
-        
-        if ((waterLevelARef.current >= 0.50 || bottleFillRef.current <= 0) && autoState === 'POUR_A') {
-          autoStateRef.current = 'IDLE';
-          setBottleTilt(0);
-          bottleTiltRef.current = 0;
-          setBottlePos(BOTTLE_INIT);
-          bottlePosRef.current = BOTTLE_INIT;
-        }
-      } else if (target === 'B') {
-        const requestedTransfer = FILL_SPEED * dt;
-        const availableWater = Math.max(0, currentBottleWater);
-        const remainingTargetCapacity = Math.max(0, 0.95 - waterLevelBRef.current);
-        
-        // Tumbler B uses a conversion factor of 0.65 from the bottle
-        const maxTransferFromBottle = availableWater / 0.65;
-        
-        const transfer = Math.min(requestedTransfer, maxTransferFromBottle, remainingTargetCapacity);
-        
-        if (transfer > 0) {
-           waterLevelBRef.current += transfer;
-           setWaterLevelB(waterLevelBRef.current);
-           
-           bottleFillRef.current = Math.max(0, bottleFillRef.current - (transfer * 0.65));
-           setBottleFill(bottleFillRef.current);
-        }
-        
-        if ((waterLevelBRef.current >= 0.95 || bottleFillRef.current <= 0) && autoState === 'POUR_B') {
-          autoStateRef.current = 'IDLE';
-          setBottleTilt(0);
-          bottleTiltRef.current = 0;
-          setBottlePos(BOTTLE_INIT);
-          bottlePosRef.current = BOTTLE_INIT;
-        }
-      }
-
-      const ctx = canvasRef.current?.getContext('2d');
-      if (canvasRef.current && innerContainerRef.current) {
-        // Fix the canvas resolution to match the INNER container exactly, not the outer flex container.
-        if (canvasRef.current.width !== innerContainerRef.current.clientWidth) canvasRef.current.width = innerContainerRef.current.clientWidth;
-        if (canvasRef.current.height !== innerContainerRef.current.clientHeight) canvasRef.current.height = innerContainerRef.current.clientHeight;
-      }
-      if (ctx) ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-
-      if (target) {
-        // Find exactly where the bottle mouth and tumbler surface are visually rendered in the DOM
-        const mouthEl = document.getElementById('bottle-mouth-ref');
-        const tumblerSurfaceEl = document.getElementById(`tumbler-${target.toLowerCase()}-surface`);
-        const canvasRect = canvasRef.current?.getBoundingClientRect();
-
-        if (mouthEl && tumblerSurfaceEl && canvasRect) {
-          const mouthRect = mouthEl.getBoundingClientRect();
-          const surfaceRect = tumblerSurfaceEl.getBoundingClientRect();
-          
-          // Convert from viewport coordinates to canvas internal coordinates
-          const mouth = {
-            x: mouthRect.left + mouthRect.width / 2 - canvasRect.left,
-            y: mouthRect.top + mouthRect.height / 2 - canvasRect.top
-          };
-          const surfaceY = surfaceRect.top + surfaceRect.height / 2 - canvasRect.top;
-
-          const tiltRad = (tilt * Math.PI) / 180;
-          const speed = 50 + Math.abs(tilt) * 0.2; // Gentle, realistic pour
-          const vx = Math.sin(tiltRad) * speed;
-          const vy = Math.cos(tiltRad) * speed;
-
-          // Calculate stream path
-          const pts = [];
-          let t = 0;
-          let cx, cy;
-          const step = 0.02;
-          while (t < 2) {
-            cx = mouth.x + vx * t;
-            cy = mouth.y + vy * t + 0.5 * GRAVITY * t * t;
-            pts.push({x: cx, y: cy});
-            if (cy >= surfaceY) {
-              pts[pts.length - 1].y = surfaceY;
-              break;
-            }
-            t += step;
-          }
-
-          if (pts.length > 1) {
-            const timeOffset = performance.now() * 0.015;
-            
-            // Draw realistic irregular liquid stream
-            // It starts narrow at the mouth and gets slightly wider/more irregular as it falls
-            
-            ctx.beginPath();
-            ctx.moveTo(pts[0].x, pts[0].y);
-            pts.forEach((p, i) => {
-               const progress = i / pts.length;
-               // Wiggle increases as it falls, simulating breaking stream
-               const amplitude = progress * 1.5;
-               const wiggle = Math.sin(timeOffset + i * 0.4) * amplitude;
-               ctx.lineTo(p.x + wiggle, p.y);
-            });
-            
-            // Main transparent blue body
-            ctx.strokeStyle = 'rgba(150, 210, 240, 0.5)'; 
-            ctx.lineWidth = 3;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            ctx.stroke();
-
-            // Inner highlight for volumetric depth
-            ctx.beginPath();
-            ctx.moveTo(pts[0].x - 0.5, pts[0].y);
-            pts.forEach((p, i) => {
-               const progress = i / pts.length;
-               const amplitude = progress * 1.5;
-               const wiggle = Math.sin(timeOffset + i * 0.4) * amplitude;
-               ctx.lineTo(p.x + wiggle - 0.5, p.y);
-            });
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
-            ctx.lineWidth = 1;
-            ctx.stroke();
-
-            // Subtle impact disturbance (not a cartoon ripple)
-            const last = pts[pts.length - 1];
-            ctx.beginPath();
-            ctx.ellipse(last.x, surfaceY, 6 + Math.random() * 2, 1.5, 0, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-            ctx.fill();
-
-            // Few irregular tiny droplets breaking from stream
-            for (let i = 0; i < 2; i++) {
-              if (Math.random() > 0.4) continue;
-              const dt = Math.random() * 0.6 + 0.4; // bottom half of stream
-              const idx = Math.floor(dt * (pts.length - 1));
-              if (idx < 1) continue;
-              const p = pts[idx];
-              const drift = (Math.random() - 0.5) * 6;
-              ctx.beginPath();
-              ctx.arc(p.x + drift, p.y, Math.random() * 1.0 + 0.5, 0, Math.PI * 2);
-              ctx.fillStyle = 'rgba(200, 235, 255, 0.6)';
-              ctx.fill();
-            }
-          } // closes if (pts.length > 1)
-        } // closes if (mouthEl && tumblerSurfaceEl && canvasRect)
-      } // closes if (target)
-
-      // Update and draw ripples
-      const newRipples = [];
-      ripplesRef.current.forEach(r => {
-        const age = (now - r.created) / 1000;
-        const radius = r.radius + age * 30; // expand quickly
-        const alpha = Math.max(0, r.alpha - age * 0.6);
-        if (alpha > 0 && radius < r.maxRadius) {
-          newRipples.push({ ...r, radius, alpha });
-          ctx.beginPath();
-          ctx.arc(r.x, r.y, radius, 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(180,225,250,${alpha})`;
-          ctx.lineWidth = 1.2;
-          ctx.stroke();
-        }
-      });
-      ripplesRef.current = newRipples;
-
-      animFrameRef.current = requestAnimationFrame(loop);
-    };
-
-    lastTimeRef.current = performance.now();
-    animFrameRef.current = requestAnimationFrame(loop);
-    return () => {
-      running = false;
-      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-    };
-  }, []);
 
   /* ──────────────────────────────────────
      COMPLETION TRIGGER
@@ -442,6 +238,11 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
      RESET
   ────────────────────────────────────── */
   const resetActivity = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0.001;
+      setIsPlaying(false);
+    }
     autoStateRef.current = 'IDLE';
     setBottlePos(BOTTLE_INIT);
     bottlePosRef.current = BOTTLE_INIT;
@@ -475,403 +276,183 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
   return (
     <div
       style={{
-        display: 'flex', flexDirection: 'column', gap: '0.75rem',
+        position: 'relative',
+        display: 'flex', flexDirection: 'column', gap: '0.5rem',
         width: '100%', height: '100vh', maxHeight: '100vh',
         overflow: 'hidden', color: colors.textDark,
-        padding: '0.75rem', boxSizing: 'border-box',
+        padding: '0.5rem', boxSizing: 'border-box',
+        background: 'var(--lesson-background)'
       }}
     >
+      <style>
+        {`
+          @keyframes btnPulse {
+            0% { transform: scale(1); box-shadow: 0 4px 12px rgba(166, 75, 39, 0.2); }
+            50% { transform: scale(1.02); box-shadow: 0 8px 24px rgba(166, 75, 39, 0.5); }
+            100% { transform: scale(1); box-shadow: 0 4px 12px rgba(166, 75, 39, 0.2); }
+          }
+          @keyframes shineSweep {
+            0% { left: -100%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
+          }
+        `}
+      </style>
       {/* ── Top Header ── */}
       <div style={{
         background: colors.cardBg, border: `1px solid ${colors.cardBorder}`,
         borderRadius: '12px', padding: '0.75rem 1.25rem',
-        display: 'flex', flexDirection: 'column', gap: '0.25rem',
+        display: 'flex', flexDirection: 'column', gap: '0.2rem',
         flexShrink: 0, boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
       }}>
-        <h2 style={{ margin: 0, fontSize: '1.6rem', color: colors.textDark, display: 'flex', alignItems: 'center', gap: '0.75rem', fontWeight: 'bold' }}>
-          <Box size={28} color={colors.textDark} /> Phase 2: Space and Volume
+        <h2 style={{ margin: 0, fontSize: '36px', fontFamily: '"Merriweather", "Georgia", serif', color: colors.textDark, display: 'flex', alignItems: 'center', gap: '10px', fontWeight: '900' }}>
+          <Box size={36} color={colors.textDark} strokeWidth={2.5} /> Phase 2: Space and Volume
         </h2>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: colors.textMedium, fontSize: '1.05rem' }}>
-          <Info size={16} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: colors.textMedium, fontSize: '20px', fontFamily: '"Merriweather", "Georgia", serif' }}>
+          <Info size={20} />
           <span>Section 6.3.6: Pour water from the bottle into the two identical tumblers to observe volume.</span>
         </div>
       </div>
 
       {/* ── Main Split Layout ── */}
-      <div style={{ display: 'flex', gap: '0.75rem', flex: 1, minHeight: 0, overflow: 'hidden' }}>
+      <div style={{ display: 'flex', gap: '0.5rem', flex: 1, minHeight: 0, overflow: 'hidden' }}>
 
         {/* ────────── LEFT PANEL ────────── */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.75rem', minHeight: 0 }}>
+        <div style={{ flex: 1.4, display: 'flex', flexDirection: 'column', gap: '0.5rem', minHeight: 0 }}>
           <div style={{
             background: colors.cardBg, borderRadius: '12px',
-            border: `1px solid ${colors.cardBorder}`, padding: '1rem',
+            border: `1px solid ${colors.cardBorder}`, padding: '1.25rem',
             display: 'flex', flexDirection: 'column', flex: 1,
             position: 'relative', boxShadow: '0 2px 4px rgba(0,0,0,0.02)', minHeight: 0,
           }}>
 
-            {/* Header / Prompt */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem', flexShrink: 0 }}>
-              <div>
-                <h3 style={{ margin: 0, color: colors.textDark, fontSize: '1.4rem', fontWeight: 'bold' }}>Pour Water</h3>
-                <div style={{ fontSize: '1.05rem', color: colors.textMedium, marginTop: '4px' }}>
-                  {waterLevelA < 0.49
-                    ? 'Drag the bottle over a tumbler and tilt it to pour water.'
-                    : waterLevelB < 0.94
-                      ? 'Now drag the bottle over Tumbler B to fill it almost completely.'
-                      : 'Both tumblers have been measured!'}
-                </div>
+            <div style={{ marginBottom: '1rem', fontSize: '20px', fontFamily: '"Merriweather", "Georgia", serif', color: colors.textDark, fontWeight: '500', lineHeight: '1.4', display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+              <div style={{ background: '#F8EBE3', padding: '16px 20px', borderRadius: '8px', borderLeft: `6px solid ${colors.accent}`, width: '100%', color: '#3E2723' }}>
+                <strong style={{ color: colors.accent, fontWeight: 'bold' }}>Observe carefully:</strong> Watch the video and see what happens when the water is poured into the two identical tumblers.
               </div>
-              <button
-                onClick={resetActivity}
-                style={{
-                  background: '#A64B27', border: `1px solid ${colors.accent}`,
-                  color: colors.accent, padding: '6px 12px', borderRadius: '8px',
-                  fontSize: '1rem', fontWeight: 'bold',
-                  display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer',
-                }}
-              >
-                <RefreshCw size={16} /> Reset
-              </button>
             </div>
 
             {/* ── Lab Viewport ── */}
             <div
               ref={containerRef}
-              onPointerMove={handlePointerMove}
-              onPointerUp={handlePointerUp}
-              onPointerCancel={handlePointerUp}
               style={{
-                flex: 1, position: 'relative', borderRadius: '12px',
+                position: 'relative', borderRadius: '12px',
                 overflow: 'hidden',
-                minHeight: 0,
-                background: 'linear-gradient(180deg, var(--lesson-background) 0%, var(--lesson-border) 100%)',
                 boxShadow: 'inset 0 4px 20px rgba(0,0,0,0.03)',
                 border: `1.5px solid ${colors.cardBorder}`,
-                display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
                 userSelect: 'none', touchAction: 'none',
               }}
             >
-              {/* 560-wide canvas content */}
-              <div ref={innerContainerRef} style={{ width: '560px', height: '100%', position: 'relative' }}>
-                
-                {/* ── Realistic Lab Countertop ── */}
-                <div style={{
-                  position: 'absolute',
-                  bottom: 0, left: '-50%', right: '-50%',
-                  height: `${GROUND_Y}px`,
-                  background: 'linear-gradient(to bottom, var(--lesson-border) 0%, var(--lesson-muted) 100%)',
-                  borderTop: '2px solid var(--lesson-surface)',
-                  boxShadow: '0 -4px 15px rgba(0,0,0,0.06)',
-                  zIndex: 0
-                }} />
+              <video
+                ref={videoRef}
+                src={`${pourActivityVideo}#t=0.001`}
+                preload="metadata"
+                style={{ display: 'block', width: '100%', height: 'auto' }}
+                onTimeUpdate={(e) => {
+                  const time = e.target.currentTime;
+                  const duration = e.target.duration;
+                  if (duration) {
+                    if (time > duration * 0.4 && waterLevelA < 0.50) setWaterLevelA(0.50);
+                    if (time > duration * 0.8 && waterLevelB < 0.95) setWaterLevelB(0.95);
+                  }
+                }}
+                onEnded={() => {
+                  setWaterLevelA(0.50);
+                  setWaterLevelB(0.95);
+                  setIsPlaying(false);
+                }}
+              />
 
-                <svg style={{ width: 0, height: 0, position: 'absolute', pointerEvents: 'none' }}>
-                  <defs>
-                    <linearGradient id="glassFront" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="rgba(255,255,255,0.9)" />
-                      <stop offset="4%" stopColor="rgba(255,255,255,0.5)" />
-                      <stop offset="12%" stopColor="rgba(255,255,255,0.05)" />
-                      <stop offset="88%" stopColor="rgba(255,255,255,0.0)" />
-                      <stop offset="95%" stopColor="rgba(0,0,0,0.15)" />
-                      <stop offset="100%" stopColor="rgba(255,255,255,0.8)" />
-                    </linearGradient>
-                    <linearGradient id="glassEdge" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="rgba(255,255,255,0.8)" />
-                      <stop offset="5%" stopColor="rgba(0,0,0,0.2)" />
-                      <stop offset="95%" stopColor="rgba(0,0,0,0.1)" />
-                      <stop offset="100%" stopColor="rgba(255,255,255,0.6)" />
-                    </linearGradient>
-                    <linearGradient id="waterGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="rgba(160,215,245,0.5)" />
-                      <stop offset="50%" stopColor="rgba(100,180,220,0.7)" />
-                      <stop offset="100%" stopColor="rgba(30,120,160,0.85)" />
-                    </linearGradient>
-                    <linearGradient id="bottleGlassFront" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="rgba(255,255,255,0.95)" />
-                      <stop offset="6%" stopColor="rgba(255,255,255,0.4)" />
-                      <stop offset="15%" stopColor="rgba(255,255,255,0.0)" />
-                      <stop offset="85%" stopColor="rgba(255,255,255,0.0)" />
-                      <stop offset="93%" stopColor="rgba(0,0,0,0.2)" />
-                      <stop offset="100%" stopColor="rgba(255,255,255,0.85)" />
-                    </linearGradient>
-                    <linearGradient id="capGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#A64B27" />
-                      <stop offset="15%" stopColor="#A64B27" />
-                      <stop offset="50%" stopColor="#A64B27" />
-                      <stop offset="85%" stopColor="#3B2A1F" />
-                      <stop offset="100%" stopColor="#075985" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-
-                {/* ── Realistic physical water stream (Canvas) ── */}
-                <canvas
-                  ref={canvasRef}
-                  width={560}
-                  height={340}
-                  style={{
-                    position: 'absolute', inset: 0, width: '100%', height: '100%',
-                    pointerEvents: 'none', zIndex: 30,
-                  }}
-                />
-
-                {/* ── Tumblers ── */}
-                <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 15 }}>
-                  {/* Tumbler A */}
-                  <div style={{ position: 'absolute', left: `${TUMBLER_A.cx - 60}px`, bottom: `${GROUND_Y}px`, width: '120px', height: '170px' }}>
-                    {/* Realistic Contact Shadow Layering */}
-                    <div style={{ position: 'absolute', bottom: '-2px', left: '50%', transform: 'translateX(-50%)', width: '70px', height: '8px', background: 'rgba(10, 5, 5, 0.7)', filter: 'blur(2px)', zIndex: -1, borderRadius: '50%' }} />
-                    <div style={{ position: 'absolute', bottom: '-6px', left: '50%', transform: 'translateX(-50%)', width: '110px', height: '16px', background: 'rgba(20, 15, 10, 0.3)', filter: 'blur(5px)', zIndex: -2, borderRadius: '50%' }} />
-                    <div style={{ position: 'absolute', bottom: '-10px', left: '60%', transform: 'translateX(-50%) skewX(-40deg)', width: '150px', height: '30px', background: 'linear-gradient(to right, rgba(30,20,15,0.15), rgba(30,20,15,0))', filter: 'blur(8px)', zIndex: -3, borderRadius: '50%' }} />
-
-                    <svg width="120" height="170" viewBox="0 0 120 170" style={{ position: 'relative', zIndex: 2, display: 'block', overflow: 'visible' }}>
-                      <defs>
-                        <clipPath id="tumblerClipA">
-                          <path d="M 20 20 L 28 150 C 28 160, 92 160, 92 150 L 100 20 Z" />
-                        </clipPath>
-                      </defs>
-
-                      {/* Inner Back Wall of Glass - Replaced by Image */}
-                      
-                      {/* WATER LEVEL */}
-                      {waterLevelA > 0 && (
-                         <g>
-                            {/* Main water body */}
-                            <path d={`M ${35 - 12*waterLevelA} ${150 - 110*waterLevelA} L 35 150 C 35 156, 85 156, 85 150 L ${85 + 12*waterLevelA} ${150 - 110*waterLevelA} Z`} fill="url(#waterGrad)" />
-                            
-                            {/* Water Base Depth */}
-                            <ellipse cx="60" cy="150" rx="25" ry="4" fill="rgba(10, 80, 130, 0.6)" />
-                            
-                            {/* Water Surface (Meniscus) */}
-                            <ellipse cx="60" cy={150 - 110*waterLevelA} rx={25 + 12*waterLevelA} ry={5} fill="rgba(180, 230, 255, 0.4)" stroke="rgba(255,255,255,0.9)" strokeWidth="1.5" />
-                            <ellipse cx="60" cy={151 - 110*waterLevelA} rx={24 + 12*waterLevelA} ry={4} fill="none" stroke="rgba(0, 50, 100, 0.2)" strokeWidth="2" />
-                         </g>
-                      )}
-                      <rect id="tumbler-a-surface" x="0" y={150 - (110 * waterLevelA)} width="120" height="2" fill="transparent" pointerEvents="none" />
-
-                      {/* Realistic Tumbler Image Overlay */}
-                      <image href="/images/tumbler_glass_clean.png" x="-15" y="-5" width="150" height="180" preserveAspectRatio="xMidYMid meet" pointerEvents="none" />
-                    </svg>
-
-                    <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)', marginTop: '12px', background: 'rgba(255,255,255,0.92)', border: '1px solid var(--lesson-border)', borderRadius: '8px', padding: '4px 16px', boxShadow: '0 2px 6px rgba(0,0,0,0.08)', textAlign: 'center', width: 'max-content' }}>
-                      <div style={{ fontWeight: '800', fontSize: '1.05rem', color: colors.textDark }}>Tumbler A</div>
-                      <div style={{ fontSize: '0.85rem', color: colors.textMedium, fontWeight: '600' }}>
-                        {waterLevelA > 0 ? `${Math.round(waterLevelA * 100)}% Volume` : 'Empty (200ml)'}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Tumbler B */}
-                  <div style={{ position: 'absolute', left: `${TUMBLER_B.cx - 60}px`, bottom: `${GROUND_Y}px`, width: '120px', height: '170px' }}>
-                    {/* Realistic Contact Shadow Layering */}
-                    <div style={{ position: 'absolute', bottom: '-2px', left: '50%', transform: 'translateX(-50%)', width: '70px', height: '8px', background: 'rgba(10, 5, 5, 0.7)', filter: 'blur(2px)', zIndex: -1, borderRadius: '50%' }} />
-                    <div style={{ position: 'absolute', bottom: '-6px', left: '50%', transform: 'translateX(-50%)', width: '110px', height: '16px', background: 'rgba(20, 15, 10, 0.3)', filter: 'blur(5px)', zIndex: -2, borderRadius: '50%' }} />
-                    <div style={{ position: 'absolute', bottom: '-10px', left: '60%', transform: 'translateX(-50%) skewX(-40deg)', width: '150px', height: '30px', background: 'linear-gradient(to right, rgba(30,20,15,0.15), rgba(30,20,15,0))', filter: 'blur(8px)', zIndex: -3, borderRadius: '50%' }} />
-
-                    <svg width="120" height="170" viewBox="0 0 120 170" style={{ position: 'relative', zIndex: 2, display: 'block', overflow: 'visible' }}>
-                      <defs>
-                        <clipPath id="tumblerClipB">
-                          <path d="M 20 20 L 28 150 C 28 160, 92 160, 92 150 L 100 20 Z" />
-                        </clipPath>
-                      </defs>
-
-                      {/* Inner Back Wall of Glass - Replaced by Image */}
-                      
-                      {/* WATER LEVEL */}
-                      {waterLevelB > 0 && (
-                         <g>
-                            {/* Main water body */}
-                            <path d={`M ${35 - 12*waterLevelB} ${150 - 110*waterLevelB} L 35 150 C 35 156, 85 156, 85 150 L ${85 + 12*waterLevelB} ${150 - 110*waterLevelB} Z`} fill="url(#waterGrad)" />
-                            
-                            {/* Water Base Depth */}
-                            <ellipse cx="60" cy="150" rx="25" ry="4" fill="rgba(10, 80, 130, 0.6)" />
-                            
-                            {/* Water Surface (Meniscus) */}
-                            <ellipse cx="60" cy={150 - 110*waterLevelB} rx={25 + 12*waterLevelB} ry={5} fill="rgba(180, 230, 255, 0.4)" stroke="rgba(255,255,255,0.9)" strokeWidth="1.5" />
-                            <ellipse cx="60" cy={151 - 110*waterLevelB} rx={24 + 12*waterLevelB} ry={4} fill="none" stroke="rgba(0, 50, 100, 0.2)" strokeWidth="2" />
-                         </g>
-                      )}
-                      <rect id="tumbler-b-surface" x="0" y={150 - (110 * waterLevelB)} width="120" height="2" fill="transparent" pointerEvents="none" />
-
-                      {/* Realistic Tumbler Image Overlay */}
-                      <image href="/images/tumbler_glass_clean.png" x="-15" y="-5" width="150" height="180" preserveAspectRatio="xMidYMid meet" pointerEvents="none" />
-                    </svg>
-
-                    <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)', marginTop: '12px', background: 'rgba(255,255,255,0.92)', border: '1px solid var(--lesson-border)', borderRadius: '8px', padding: '4px 16px', boxShadow: '0 2px 6px rgba(0,0,0,0.08)', textAlign: 'center', width: 'max-content' }}>
-                      <div style={{ fontWeight: '800', fontSize: '1.05rem', color: colors.textDark }}>Tumbler B</div>
-                      <div style={{ fontSize: '0.85rem', color: colors.textMedium, fontWeight: '600' }}>
-                        {waterLevelB >= 0.95 ? 'Almost Full' : waterLevelB > 0 ? `${Math.round(waterLevelB * 100)}% Volume` : 'Empty (200ml)'}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* ── Draggable Bottle ── */}
-                <motion.div
-                  onPointerDown={handlePointerDown}
-                  onUpdate={(latest) => {
-                    bottleVisualRef.current = {
-                      pos: { x: parseFloat(latest.left) || 0, y: parseFloat(latest.bottom) || 0 },
-                      tilt: parseFloat(latest.rotate) || 0
-                    };
-                  }}
-                  animate={{
-                    left:   `${bottlePos.x}px`,
-                    bottom: `${bottlePos.y}px`,
-                    rotate: bottleTilt,
-                    scale:  isDragging ? 1.04 : 1,
-                  }}
-                  transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+              {!isPlaying && (
+                <div
                   style={{
                     position: 'absolute',
-                    width: '120px', height: '240px',
-                    cursor: isDragging ? 'grabbing' : 'grab',
-                    zIndex: 1000,
-                    transformOrigin: '60px 40px',
-                    touchAction: 'none',
-                    userSelect: 'none',
+                    inset: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'rgba(0, 0, 0, 0.2)',
+                    cursor: 'pointer'
                   }}
+                  onClick={() => {
+                    if (videoRef.current) {
+                      videoRef.current.play();
+                      setIsPlaying(true);
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      if (videoRef.current) {
+                        videoRef.current.play();
+                        setIsPlaying(true);
+                      }
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Play experiment video"
                 >
-                  {/* Bottle Visuals - Enhanced Realism */}
-                  <div style={{ position: 'relative', width: '120px', height: '240px' }}>
-                    {/* Bottle Shadow */}
-                    <div style={{ 
-                      position: 'absolute', bottom: '-4px', left: '50%', transform: 'translateX(-50%)', 
-                      width: '80px', height: '10px', 
-                      background: 'rgba(15, 10, 5, 0.8)', 
-                      filter: `blur(${isDragging ? 8 : 2}px)`, 
-                      opacity: isDragging ? 0.3 : 1,
-                      zIndex: 0, borderRadius: '50%',
-                      transition: 'all 0.1s' 
-                    }} />
-
-                    <svg width="120" height="240" viewBox="0 0 120 240" style={{ position: 'relative', zIndex: 2, display: 'block', overflow: 'visible' }}>
-                      <defs>
-                        <linearGradient id="waterGradRealistic" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="rgba(60, 180, 250, 0.4)" />
-                          <stop offset="100%" stopColor="rgba(10, 100, 180, 0.8)" />
-                        </linearGradient>
-                        <clipPath id="bodyClip" clipPathUnits="objectBoundingBox">
-                          <rect x="0" y="0.1461" width="1" height="0.8539" />
-                        </clipPath>
-                        <clipPath id="capClip" clipPathUnits="objectBoundingBox">
-                          <rect x="0" y="0" width="1" height="0.1461" />
-                        </clipPath>
-                        <clipPath id="bottleInnerClip">
-                          <path d="M 38 205 L 38 90 C 38 70, 48 55, 52 35 L 68 35 C 72 55, 82 70, 82 90 L 82 205 C 82 215, 38 215, 38 205 Z" />
-                        </clipPath>
-                      </defs>
-
-                      {/* 0. Hidden Bottle Neck (Revealed when cap flies off) */}
-                      <g style={{ opacity: isCapRemoved ? 1 : 0, transition: 'opacity 0.3s' }}>
-                        <rect x="52" y="24" width="16" height="8" rx="2" fill="rgba(255, 255, 255, 0.4)" stroke="rgba(255, 255, 255, 0.8)" strokeWidth="1" />
-                        <ellipse cx="60" cy="24" rx="8" ry="2" fill="none" stroke="rgba(255, 255, 255, 0.8)" strokeWidth="1" />
-                      </g>
-                      
-                      {/* Reference point for water stream trajectory */}
-                      <rect id="bottle-mouth-ref" x="55" y="24" width="10" height="2" fill="transparent" pointerEvents="none" />
-
-                      {/* 1. Base Realistic Bottle Image (Body) */}
-                      <image href="/images/bottle_clean.png" x="-10" y="-10" width="140" height="260" preserveAspectRatio="xMidYMid meet" pointerEvents="none" clipPath="url(#bodyClip)" />
-
-                      {/* 2. Water inside (Conforms to inner bottle shape, drawn ON TOP of the bottle) */}
-                      {bottleFill > 0 && (() => {
-                        const cy = 205 - 150 * bottleFill;
-                        const t = Math.max(0, Math.min(1, (90 - cy) / 55));
-                        const rx = 22 - t * 14; // Surface radius shrinks as it goes up the neck
-                        return (
-                          <g style={{ mixBlendMode: 'multiply' }}>
-                            <g clipPath="url(#bottleInnerClip)">
-                              <rect x="20" y={cy} width="80" height={220 - cy} fill="url(#waterGradRealistic)" />
-                              <ellipse cx="60" cy="205" rx="22" ry="5" fill="url(#waterGradRealistic)" />
-                            </g>
-                            {/* Surface meniscus (water top) */}
-                            <ellipse cx="60" cy={cy} rx={rx} ry={Math.max(2, rx * 0.18)} fill="rgba(100, 200, 255, 0.6)" />
-                            {/* Surface Highlight */}
-                            <ellipse cx="60" cy={cy} rx={rx} ry={Math.max(2, rx * 0.18)} fill="none" stroke="rgba(255, 255, 255, 0.7)" strokeWidth="1" />
-                          </g>
-                        );
-                      })()}
-
-                      {/* 2.5 Glass Highlight Overlay */}
-                      <image href="/images/bottle_clean.png" x="-10" y="-10" width="140" height="260" preserveAspectRatio="xMidYMid meet" pointerEvents="none" clipPath="url(#bodyClip)" opacity="0.35" style={{ mixBlendMode: 'screen' }} />
-
-                      {/* 3. Interactive Cap (Top of image) */}
-                      <motion.g
-                        animate={{
-                          y: isCapRemoved ? -80 : 0,
-                          x: isCapRemoved ? 40 : 0,
-                          rotate: isCapRemoved ? 45 : 0,
-                          opacity: isCapRemoved ? 0 : 1
-                        }}
-                        transition={{ duration: 0.6, ease: "easeInOut" }}
-                        onPointerDown={(e) => {
-                          if (!isCapRemoved) {
-                            e.stopPropagation(); // Prevent dragging the bottle when clicking the cap
-                            setIsCapRemoved(true);
-                          }
-                        }}
-                        style={{ cursor: isCapRemoved ? 'default' : 'pointer' }}
-                      >
-                        <image href="/images/bottle_clean.png" x="-10" y="-10" width="140" height="260" preserveAspectRatio="xMidYMid meet" clipPath="url(#capClip)" pointerEvents={isCapRemoved ? "none" : "all"} />
-                      </motion.g>
-                  </svg>
+                  <style>
+                    {`
+                      @keyframes playPulse {
+                        0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+                        70% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(245, 158, 11, 0); }
+                        100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+                      }
+                    `}
+                  </style>
+                  <div
+                    style={{
+                      width: '72px',
+                      height: '72px',
+                      borderRadius: '50%',
+                      background: colors.accent,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      animation: 'playPulse 2s infinite'
+                    }}
+                  >
+                    <Play size={36} color="white" style={{ marginLeft: '4px' }} fill="white" />
                   </div>
-                </motion.div>
-              </div>
+                </div>
+              )}
             </div>
 
-            {/* Step indicators */}
-            <div style={{ marginTop: '0.75rem', flexShrink: 0 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                {[
-                  { label: 'Drag the bottle',   icon: <Hand size={18} color={colors.textMedium} />,        active: waterLevelA === 0 },
-                  { label: 'Pour into tumbler',  icon: <Droplet size={18} color={colors.textMedium} />,    active: waterLevelA > 0 && waterLevelB === 0 },
-                  { label: 'Observe volume level', icon: <AlertCircle size={18} color={colors.textMedium} />, active: waterLevelB > 0 },
-                ].map((step, i) => (
-                  <React.Fragment key={i}>
-                    {i > 0 && <div style={{ color: colors.textMedium }}>›</div>}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'white', border: `1px solid ${colors.cardBorder}`, padding: '10px 14px', borderRadius: '10px', flex: 1, boxShadow: '0 2px 4px rgba(0,0,0,0.02)', opacity: step.active ? 1 : 0.6 }}>
-                      <div style={{ width: '24px', height: '24px', background: colors.accent, color: 'white', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', fontSize: '0.9rem', flexShrink: 0 }}>{i + 1}</div>
-                      {step.icon}
-                      <div style={{ fontSize: '1rem', color: colors.textDark, fontWeight: 'bold' }}>{step.label}</div>
-                    </div>
-                  </React.Fragment>
-                ))}
-              </div>
-            </div>
+
 
           </div>
         </div>
 
         {/* ────────── RIGHT PANEL ────────── */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '6px', minHeight: 0, overflow: 'visible' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '6px', minHeight: 0, overflow: 'hidden' }}>
 
           {/* Investigation Log */}
-          <div style={{ background: colors.cardBg, borderRadius: '10px', border: `1px solid ${colors.cardBorder}`, padding: '8px 12px', display: 'flex', flexDirection: 'column', gap: '4px', boxShadow: '0 2px 4px rgba(0,0,0,0.02)', flexShrink: 0 }}>
-            <h4 style={{ margin: 0, fontSize: '22px', color: colors.textDark, display: 'flex', alignItems: 'center', gap: '6px', fontWeight: '800' }}>
-              <LayoutGrid size={22} color={colors.textDark} /> Investigation Log
+          <div style={{ background: colors.cardBg, borderRadius: '10px', border: `1px solid ${colors.cardBorder}`, padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: '10px', boxShadow: '0 2px 4px rgba(0,0,0,0.02)', flexShrink: 0 }}>
+            <h4 style={{ margin: 0, fontSize: '32px', fontFamily: '"Merriweather", "Georgia", serif', color: colors.textDark, display: 'flex', alignItems: 'center', gap: '10px', fontWeight: '900' }}>
+              <LayoutGrid size={32} color={colors.textDark} strokeWidth={2.5} /> Investigation Log
             </h4>
             <AnimatePresence mode="popLayout">
               {waterLevelA >= 0.49 && (
-                <motion.div key="obsA" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={{ background: 'white', padding: '6px 10px', borderRadius: '8px', border: `1px solid ${colors.cardBorder}`, display: 'flex', gap: '8px', alignItems: 'center', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-                  <div style={{ width: '24px', height: '30px', position: 'relative', flexShrink: 0 }}>
+                <motion.div key="obsA" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={{ background: 'white', padding: '12px 16px', borderRadius: '8px', border: `1px solid ${colors.cardBorder}`, display: 'flex', gap: '16px', alignItems: 'center', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
+                  <div style={{ width: '36px', height: '48px', position: 'relative', flexShrink: 0 }}>
                     <img src="/images/realistic_tumbler_water_half.jpg" alt="Tumbler A" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '4px' }} />
                   </div>
                   <div>
-                    <div style={{ color: colors.accent, fontWeight: '800', fontSize: '16px' }}>Observation 1</div>
-                    <div style={{ fontSize: '15px', color: colors.textDark, marginTop: '1px', lineHeight: '1.2', fontWeight: '600' }}>Tumbler A is half-filled with water (50% Volume).</div>
+                    <div style={{ color: colors.accent, fontWeight: '800', fontSize: '20px', fontFamily: '"Merriweather", "Georgia", serif' }}>Observation 1</div>
+                    <div style={{ fontSize: '18px', color: colors.textDark, marginTop: '4px', lineHeight: '1.3', fontWeight: '600', fontFamily: '"Merriweather", "Georgia", serif' }}>Tumbler A is half-filled with water (50% Volume).</div>
                   </div>
                 </motion.div>
               )}
               {waterLevelB >= 0.94 && (
-                <motion.div key="obsB" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={{ background: 'white', padding: '6px 10px', borderRadius: '8px', border: `1px solid ${colors.cardBorder}`, display: 'flex', gap: '8px', alignItems: 'center', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-                  <div style={{ width: '24px', height: '30px', position: 'relative', flexShrink: 0 }}>
+                <motion.div key="obsB" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={{ background: 'white', padding: '12px 16px', borderRadius: '8px', border: `1px solid ${colors.cardBorder}`, display: 'flex', gap: '16px', alignItems: 'center', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
+                  <div style={{ width: '36px', height: '48px', position: 'relative', flexShrink: 0 }}>
                     <img src="/images/realistic_tumbler_water_full.jpg" alt="Tumbler B" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '4px' }} />
                   </div>
                   <div>
-                    <div style={{ color: colors.accent, fontWeight: '800', fontSize: '16px' }}>Observation 2</div>
-                    <div style={{ fontSize: '15px', color: colors.textDark, marginTop: '1px', lineHeight: '1.2', fontWeight: '600' }}>Tumbler B is almost completely filled with water.</div>
+                    <div style={{ color: colors.accent, fontWeight: '800', fontSize: '20px', fontFamily: '"Merriweather", "Georgia", serif' }}>Observation 2</div>
+                    <div style={{ fontSize: '18px', color: colors.textDark, marginTop: '4px', lineHeight: '1.3', fontWeight: '600', fontFamily: '"Merriweather", "Georgia", serif' }}>Tumbler B is almost completely filled with water.</div>
                   </div>
                 </motion.div>
               )}
@@ -886,98 +467,191 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
           {/* Scientific Conclusion */}
           <AnimatePresence>
             {waterLevelB >= 0.90 && (
-              <motion.div key="conclusion" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }} style={{ background: colors.successBg, padding: '8px 12px', borderRadius: '10px', border: `1px solid ${colors.successBorder}`, flexShrink: 0 }}>
-                <div style={{ color: colors.successText, fontWeight: '800', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '22px' }}>
+              <motion.div key="conclusion" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }} style={{ background: colors.successBg, padding: '14px 20px', borderRadius: '10px', border: `1px solid ${colors.successBorder}`, flexShrink: 0 }}>
+                <div style={{ color: colors.successText, fontWeight: '900', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '32px', fontFamily: '"Merriweather", "Georgia", serif' }}>
                   🧪 Scientific Conclusion
                 </div>
-                <div style={{ fontSize: '15px', color: colors.successText, lineHeight: '1.2', fontWeight: '600', display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}><CheckCircle2 size={15} color={colors.successText} style={{ flexShrink: 0 }} /> The bottle has a limited amount of space.</div>
-                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}><CheckCircle2 size={15} color={colors.successText} style={{ flexShrink: 0 }} /> <span>The space occupied by an object or substance is called its <strong style={{ color: 'var(--lesson-text)', background: '#FFFFFF', padding: '0 4px', fontWeight: '900' }}>VOLUME</strong>.</span></div>
-                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}><CheckCircle2 size={15} color={colors.successText} style={{ flexShrink: 0 }} /> Different containers can have different volumes.</div>
-                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}><CheckCircle2 size={15} color={colors.successText} style={{ flexShrink: 0 }} /> We can observe and compare volume by pouring water!</div>
+                <div style={{ fontSize: '18px', color: colors.successText, lineHeight: '1.4', fontWeight: '600', display: 'flex', flexDirection: 'column', gap: '6px', fontFamily: '"Merriweather", "Georgia", serif' }}>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={20} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> The bottle has a limited amount of space.</div>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={20} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> <span>The space occupied by an object or substance is called its <strong style={{ color: colors.accent, background: '#fef08a', padding: '2px 8px', fontWeight: '900', borderRadius: '4px' }}>VOLUME</strong>.</span></div>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={20} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> Different containers can have different volumes.</div>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={20} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> We can observe and compare volume by pouring water!</div>
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* Think More */}
+          {/* Think More Button */}
           <AnimatePresence>
             {waterLevelB >= 0.90 && (
-              <motion.div key="think" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} style={{ background: colors.thinkBg, padding: '10px 12px', borderRadius: '10px', border: `1px solid ${colors.thinkBorder}`, display: 'flex', flexDirection: 'column', gap: '4px', flexShrink: 0, height: 'auto', boxSizing: 'border-box', overflow: 'visible' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
-                  <div style={{ color: colors.accent, fontWeight: '800', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '22px' }}>
-                    <HelpCircle size={22} /> Think More!
-                  </div>
-                </div>
-                <div style={{ fontSize: '16px', color: colors.thinkText, lineHeight: '1.2', fontWeight: '700', flexShrink: 0 }}>
-                  What if we pour the water from Tumbler B back into the bottle? What will you observe?
-                </div>
-                <div style={{ fontSize: '14px', fontStyle: 'italic', color: colors.textDark, opacity: 0.85, lineHeight: '1.2', fontWeight: '500', flexShrink: 0 }}>
-                  <Info size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} />
-                  Hint: The bottle may not be able to hold all the water. What might happen if there is more water than the bottle can hold?
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', overflow: 'visible' }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flexShrink: 0 }}>
-                    {THINK_OPTIONS.map((opt, i) => {
-                      const isCorrectSelection = thinkFeedback && thinkFeedback.type === 'success' && selectedOption === i;
-                      return (
-                      <div
-                        key={i}
-                        onClick={() => {
-                          setSelectedOption(i);
-                          handleCheckAnswer(i);
-                        }}
-                        style={{
-                          padding: '6px 10px',
-                          borderRadius: '6px',
-                          border: `2px solid ${isCorrectSelection ? '#A64B27' : (selectedOption === i ? colors.accent : colors.cardBorder)}`,
-                          background: isCorrectSelection ? 'var(--lesson-success-bg)' : (selectedOption === i ? 'white7ed' : 'white'),
-                          color: isCorrectSelection ? '#A64B27' : (selectedOption === i ? colors.accent : colors.textDark),
-                          fontSize: '15px',
-                          lineHeight: '1.2',
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                          fontWeight: selectedOption === i ? '700' : '600',
-                          boxShadow: selectedOption === i ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
-                          transition: 'all 0.2s ease',
-                          minHeight: '38px',
-                          flexShrink: 0
-                        }}
-                      >
-                        <div style={{ 
-                          width: '16px', height: '16px', borderRadius: '50%', 
-                          border: `2px solid ${isCorrectSelection ? '#A64B27' : (selectedOption === i ? colors.accent : 'var(--lesson-border)')}`,
-                          display: 'flex', justifyContent: 'center', alignItems: 'center', flexShrink: 0,
-                          background: 'white'
-                        }}>
-                          {isCorrectSelection ? (
-                             <CheckCircle2 size={12} color="#A64B27" />
-                          ) : (
-                             selectedOption === i && <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: colors.accent }} />
-                          )}
-                        </div>
-                        {opt}
-                      </div>
-                    )})}
-                  </div>
-                  <AnimatePresence>
-                    {thinkFeedback && (
-                      <motion.div key="feedback" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} style={{ overflow: 'hidden', flexShrink: 0 }}>
-                        <div style={{ padding: '6px 10px', borderRadius: '6px', background: thinkFeedback.type === 'success' ? colors.successBg : 'var(--lesson-danger-bg)', border: `1px solid ${thinkFeedback.type === 'success' ? colors.successBorder : 'var(--lesson-danger-border)'}`, color: thinkFeedback.type === 'success' ? colors.successText : 'var(--lesson-danger)', fontSize: '14px', fontWeight: '600', display: 'flex', alignItems: 'flex-start', gap: '6px', boxSizing: 'border-box', marginTop: '2px' }}>
-                          {thinkFeedback.type === 'success' ? <CheckCircle2 size={14} style={{ flexShrink: 0, marginTop: '1px' }} /> : <AlertCircle size={14} style={{ flexShrink: 0, marginTop: '1px' }} />}
-                          <div>{thinkFeedback.text}</div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
+              <motion.div key="think-btn" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
+                <button 
+                  onClick={() => setIsThinkModalOpen(true)}
+                  style={{
+                    position: 'relative',
+                    overflow: 'hidden',
+                    background: colors.accent,
+                    border: 'none',
+                    color: 'white',
+                    padding: '16px 24px',
+                    borderRadius: '16px',
+                    width: '100%',
+                    fontSize: '24px',
+                    fontFamily: '"Merriweather", "Georgia", serif',
+                    fontWeight: '900',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: '12px',
+                    animation: 'btnPulse 2s infinite',
+                    boxShadow: '0 4px 12px rgba(166, 75, 39, 0.3)',
+                    marginTop: '4px',
+                    flexShrink: 0
+                  }}
+                >
+                  <div style={{
+                     position: 'absolute', top: 0, bottom: 0, width: '40px',
+                     background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                     transform: 'skewX(-20deg)',
+                     animation: 'shineSweep 3s infinite'
+                  }} />
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fef08a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '10px', left: '16px', opacity: 0.9 }}><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fef08a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', bottom: '10px', right: '16px', opacity: 0.9 }}><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
+                  <HelpCircle size={28} strokeWidth={2.5} /> Answer a Bonus Question!
+                </button>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
       </div>
+
+      {/* ── Think More Modal ── */}
+      <AnimatePresence>
+        {isThinkModalOpen && (
+          <motion.div
+            key="think-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'rgba(0,0,0,0.5)',
+              backdropFilter: 'blur(4px)',
+              zIndex: 100,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '2rem'
+            }}
+          >
+              <motion.div
+                initial={{ scale: 0.9, y: 20 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 20 }}
+                style={{
+                  background: colors.cardBg,
+                  padding: '32px 40px',
+                  borderRadius: '24px',
+                  border: `3px solid ${colors.cardBorder}`,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px',
+                  maxWidth: '1100px',
+                  width: '80vw',
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
+                position: 'relative'
+              }}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setIsThinkModalOpen(false)}
+                style={{
+                  position: 'absolute',
+                  top: '16px',
+                  right: '16px',
+                  background: 'none',
+                  border: 'none',
+                  fontSize: '24px',
+                  cursor: 'pointer',
+                  color: colors.textMedium,
+                  padding: '4px',
+                  lineHeight: '1'
+                }}
+              >
+                ✕
+              </button>
+
+              <div style={{ color: colors.textDark, fontWeight: '900', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '36px', fontFamily: '"Merriweather", "Georgia", serif' }}>
+                <HelpCircle size={36} color={colors.textDark} strokeWidth={2.5} /> Think More!
+              </div>
+              <div style={{ fontSize: '24px', color: colors.accent, lineHeight: '1.4', fontWeight: '800', fontFamily: '"Merriweather", "Georgia", serif' }}>
+                What if we pour the water from Tumbler B back into the bottle? What will you observe?
+              </div>
+              <div style={{ fontSize: '18px', fontStyle: 'italic', color: colors.textMedium, lineHeight: '1.4', fontWeight: '600', fontFamily: '"Merriweather", "Georgia", serif' }}>
+                <Info size={18} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} />
+                Hint: The bottle may not be able to hold all the water. What might happen if there is more water than the bottle can hold?
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '24px' }}>
+                {THINK_OPTIONS.map((opt, i) => {
+                  const isCorrectSelection = thinkFeedback && thinkFeedback.type === 'success' && selectedOption === i;
+                  return (
+                  <div
+                    key={i}
+                    onClick={() => {
+                      setSelectedOption(i);
+                      handleCheckAnswer(i);
+                    }}
+                    style={{
+                      padding: '16px 20px',
+                      borderRadius: '12px',
+                      border: `2px solid ${isCorrectSelection ? colors.accent : (selectedOption === i ? colors.accent : colors.cardBorder)}`,
+                      background: isCorrectSelection ? 'var(--lesson-success-bg)' : (selectedOption === i ? '#F8EBE3' : 'white'),
+                      color: isCorrectSelection ? colors.accent : (selectedOption === i ? colors.accent : colors.textDark),
+                      fontSize: '20px',
+                      lineHeight: '1.4',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      fontWeight: selectedOption === i ? '800' : '600',
+                      fontFamily: '"Merriweather", "Georgia", serif',
+                      boxShadow: selectedOption === i ? '0 2px 8px rgba(166, 75, 39, 0.1)' : '0 2px 4px rgba(0,0,0,0.02)',
+                      transition: 'all 0.2s ease',
+                      minHeight: '44px'
+                    }}
+                  >
+                    <div style={{ 
+                      width: '24px', height: '24px', borderRadius: '50%', 
+                      border: `2px solid ${isCorrectSelection ? colors.accent : (selectedOption === i ? colors.accent : colors.cardBorder)}`,
+                      display: 'flex', justifyContent: 'center', alignItems: 'center', flexShrink: 0,
+                      background: 'white'
+                    }}>
+                      {isCorrectSelection ? (
+                         <CheckCircle2 size={18} color={colors.accent} strokeWidth={2.5} />
+                      ) : (
+                         selectedOption === i && <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: colors.accent }} />
+                      )}
+                    </div>
+                    {opt}
+                  </div>
+                )})}
+              </div>
+              <AnimatePresence>
+                {thinkFeedback && (
+                  <motion.div key="feedback" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} style={{ overflow: 'hidden' }}>
+                    <div style={{ padding: '16px 20px', borderRadius: '12px', background: thinkFeedback.type === 'success' ? colors.successBg : 'var(--lesson-danger-bg)', border: `2px solid ${thinkFeedback.type === 'success' ? colors.successBorder : 'var(--lesson-danger-border)'}`, color: thinkFeedback.type === 'success' ? colors.accent : 'var(--lesson-danger)', fontSize: '18px', fontWeight: '700', fontFamily: '"Merriweather", "Georgia", serif', display: 'flex', alignItems: 'flex-start', gap: '10px', boxSizing: 'border-box', marginTop: '4px' }}>
+                      {thinkFeedback.type === 'success' ? <CheckCircle2 size={24} color={colors.accent} style={{ flexShrink: 0, marginTop: '2px' }} strokeWidth={2.5} /> : <AlertCircle size={24} style={{ flexShrink: 0, marginTop: '2px' }} strokeWidth={2.5} />}
+                      <div>{thinkFeedback.text}</div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
