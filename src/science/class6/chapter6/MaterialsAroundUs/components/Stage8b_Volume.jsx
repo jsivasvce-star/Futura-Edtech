@@ -281,7 +281,7 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
         width: '100%', height: '100vh', maxHeight: '100vh',
         overflow: 'hidden', color: colors.textDark,
         padding: '0.5rem', boxSizing: 'border-box',
-        background: 'var(--lesson-background)'
+        background: 'transparent'
       }}
     >
       <style>
@@ -301,15 +301,15 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
       {/* ── Top Header ── */}
       <div style={{
         background: colors.cardBg, border: `1px solid ${colors.cardBorder}`,
-        borderRadius: '12px', padding: '0.75rem 1.25rem',
+        borderRadius: '12px', padding: '0.5rem 1.25rem',
         display: 'flex', flexDirection: 'column', gap: '0.2rem',
         flexShrink: 0, boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
       }}>
-        <h2 style={{ margin: 0, fontSize: '36px', fontFamily: '"Merriweather", "Georgia", serif', color: colors.textDark, display: 'flex', alignItems: 'center', gap: '10px', fontWeight: '900' }}>
-          <Box size={36} color={colors.textDark} strokeWidth={2.5} /> Phase 2: Space and Volume
+        <h2 style={{ margin: 0, fontSize: '42px', fontFamily: '"Merriweather", "Georgia", serif', color: colors.textDark, display: 'flex', alignItems: 'center', gap: '10px', fontWeight: '900' }}>
+          <Box size={42} color={colors.textDark} strokeWidth={2.5} /> Phase 2: Space and Volume
         </h2>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: colors.textMedium, fontSize: '20px', fontFamily: '"Merriweather", "Georgia", serif' }}>
-          <Info size={20} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: colors.textMedium, fontSize: '22px', fontFamily: '"Merriweather", "Georgia", serif' }}>
+          <Info size={22} />
           <span>Section 6.3.6: Pour water from the bottle into the two identical tumblers to observe volume.</span>
         </div>
       </div>
@@ -326,8 +326,8 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
             position: 'relative', boxShadow: '0 2px 4px rgba(0,0,0,0.02)', minHeight: 0,
           }}>
 
-            <div style={{ marginBottom: '1rem', fontSize: '20px', fontFamily: '"Merriweather", "Georgia", serif', color: colors.textDark, fontWeight: '500', lineHeight: '1.4', display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-              <div style={{ background: '#F8EBE3', padding: '16px 20px', borderRadius: '8px', borderLeft: `6px solid ${colors.accent}`, width: '100%', color: '#3E2723' }}>
+            <div style={{ marginBottom: '0.5rem', fontSize: '22px', fontFamily: '"Merriweather", "Georgia", serif', color: colors.textDark, fontWeight: '500', lineHeight: '1.3', display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+              <div style={{ background: '#F8EBE3', padding: '10px 16px', borderRadius: '8px', borderLeft: `6px solid ${colors.accent}`, width: '100%', color: '#3E2723' }}>
                 <strong style={{ color: colors.accent, fontWeight: 'bold' }}>Observe carefully:</strong> Watch the video and see what happens when the water is poured into the two identical tumblers.
               </div>
             </div>
@@ -426,39 +426,39 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
         </div>
 
         {/* ────────── RIGHT PANEL ────────── */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '6px', minHeight: 0, overflow: 'hidden' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px', minHeight: 0, overflow: 'hidden' }}>
 
           {/* Investigation Log */}
-          <div style={{ background: colors.cardBg, borderRadius: '10px', border: `1px solid ${colors.cardBorder}`, padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: '10px', boxShadow: '0 2px 4px rgba(0,0,0,0.02)', flexShrink: 0 }}>
-            <h4 style={{ margin: 0, fontSize: '32px', fontFamily: '"Merriweather", "Georgia", serif', color: colors.textDark, display: 'flex', alignItems: 'center', gap: '10px', fontWeight: '900' }}>
-              <LayoutGrid size={32} color={colors.textDark} strokeWidth={2.5} /> Investigation Log
+          <div style={{ background: colors.cardBg, borderRadius: '10px', border: `1px solid ${colors.cardBorder}`, padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.02)', flexShrink: 0 }}>
+            <h4 style={{ margin: 0, fontSize: '36px', fontFamily: '"Merriweather", "Georgia", serif', color: colors.textDark, display: 'flex', alignItems: 'center', gap: '10px', fontWeight: '900' }}>
+              <LayoutGrid size={36} color={colors.textDark} strokeWidth={2.5} /> Investigation Log
             </h4>
             <AnimatePresence mode="popLayout">
               {waterLevelA >= 0.49 && (
-                <motion.div key="obsA" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={{ background: 'white', padding: '12px 16px', borderRadius: '8px', border: `1px solid ${colors.cardBorder}`, display: 'flex', gap: '16px', alignItems: 'center', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-                  <div style={{ width: '36px', height: '48px', position: 'relative', flexShrink: 0 }}>
+                <motion.div key="obsA" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={{ background: 'white', padding: '8px 12px', borderRadius: '8px', border: `1px solid ${colors.cardBorder}`, display: 'flex', gap: '12px', alignItems: 'center', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
+                  <div style={{ width: '30px', height: '40px', position: 'relative', flexShrink: 0 }}>
                     <img src="/images/realistic_tumbler_water_half.jpg" alt="Tumbler A" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '4px' }} />
                   </div>
                   <div>
-                    <div style={{ color: colors.accent, fontWeight: '800', fontSize: '20px', fontFamily: '"Merriweather", "Georgia", serif' }}>Observation 1</div>
-                    <div style={{ fontSize: '18px', color: colors.textDark, marginTop: '4px', lineHeight: '1.3', fontWeight: '600', fontFamily: '"Merriweather", "Georgia", serif' }}>Tumbler A is half-filled with water (50% Volume).</div>
+                    <div style={{ color: colors.accent, fontWeight: '800', fontSize: '22px', fontFamily: '"Merriweather", "Georgia", serif' }}>Observation 1</div>
+                    <div style={{ fontSize: '20px', color: colors.textDark, marginTop: '4px', lineHeight: '1.3', fontWeight: '600', fontFamily: '"Merriweather", "Georgia", serif' }}>Tumbler A is half-filled with water (50% Volume).</div>
                   </div>
                 </motion.div>
               )}
               {waterLevelB >= 0.94 && (
-                <motion.div key="obsB" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={{ background: 'white', padding: '12px 16px', borderRadius: '8px', border: `1px solid ${colors.cardBorder}`, display: 'flex', gap: '16px', alignItems: 'center', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-                  <div style={{ width: '36px', height: '48px', position: 'relative', flexShrink: 0 }}>
+                <motion.div key="obsB" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={{ background: 'white', padding: '8px 12px', borderRadius: '8px', border: `1px solid ${colors.cardBorder}`, display: 'flex', gap: '12px', alignItems: 'center', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
+                  <div style={{ width: '30px', height: '40px', position: 'relative', flexShrink: 0 }}>
                     <img src="/images/realistic_tumbler_water_full.jpg" alt="Tumbler B" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '4px' }} />
                   </div>
                   <div>
-                    <div style={{ color: colors.accent, fontWeight: '800', fontSize: '20px', fontFamily: '"Merriweather", "Georgia", serif' }}>Observation 2</div>
-                    <div style={{ fontSize: '18px', color: colors.textDark, marginTop: '4px', lineHeight: '1.3', fontWeight: '600', fontFamily: '"Merriweather", "Georgia", serif' }}>Tumbler B is almost completely filled with water.</div>
+                    <div style={{ color: colors.accent, fontWeight: '800', fontSize: '22px', fontFamily: '"Merriweather", "Georgia", serif' }}>Observation 2</div>
+                    <div style={{ fontSize: '20px', color: colors.textDark, marginTop: '4px', lineHeight: '1.3', fontWeight: '600', fontFamily: '"Merriweather", "Georgia", serif' }}>Tumbler B is almost completely filled with water.</div>
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
             {waterLevelA < 0.49 && waterLevelB < 0.94 && (
-              <div style={{ textAlign: 'center', color: colors.textMedium, fontSize: '15px', padding: '4px 0', fontStyle: 'italic', fontWeight: '500' }}>
+              <div style={{ textAlign: 'center', color: colors.textMedium, fontSize: '18px', padding: '4px 0', fontStyle: 'italic', fontWeight: '500' }}>
                 Waiting for observations...
               </div>
             )}
@@ -467,15 +467,15 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
           {/* Scientific Conclusion */}
           <AnimatePresence>
             {waterLevelB >= 0.90 && (
-              <motion.div key="conclusion" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }} style={{ background: colors.successBg, padding: '14px 20px', borderRadius: '10px', border: `1px solid ${colors.successBorder}`, flexShrink: 0 }}>
-                <div style={{ color: colors.successText, fontWeight: '900', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '32px', fontFamily: '"Merriweather", "Georgia", serif' }}>
+              <motion.div key="conclusion" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }} style={{ background: colors.successBg, padding: '10px 16px', borderRadius: '10px', border: `1px solid ${colors.successBorder}`, flexShrink: 0 }}>
+                <div style={{ color: colors.successText, fontWeight: '900', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '40px', fontFamily: '"Merriweather", "Georgia", serif' }}>
                   🧪 Scientific Conclusion
                 </div>
-                <div style={{ fontSize: '18px', color: colors.successText, lineHeight: '1.4', fontWeight: '600', display: 'flex', flexDirection: 'column', gap: '6px', fontFamily: '"Merriweather", "Georgia", serif' }}>
-                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={20} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> The bottle has a limited amount of space.</div>
-                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={20} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> <span>The space occupied by an object or substance is called its <strong style={{ color: colors.accent, background: '#fef08a', padding: '2px 8px', fontWeight: '900', borderRadius: '4px' }}>VOLUME</strong>.</span></div>
-                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={20} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> Different containers can have different volumes.</div>
-                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={20} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> We can observe and compare volume by pouring water!</div>
+                <div style={{ fontSize: '22px', color: colors.successText, lineHeight: '1.25', fontWeight: '700', display: 'flex', flexDirection: 'column', gap: '4px', fontFamily: '"Merriweather", "Georgia", serif' }}>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={24} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> The bottle has a limited amount of space.</div>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={24} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> <span>The space occupied by an object or substance is called its <strong style={{ color: colors.accent, background: '#fef08a', padding: '2px 8px', fontWeight: '900', borderRadius: '4px' }}>VOLUME</strong>.</span></div>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={24} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> Different containers can have different volumes.</div>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={24} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> We can observe and compare volume by pouring water!</div>
                 </div>
               </motion.div>
             )}
@@ -484,7 +484,7 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
           {/* Think More Button */}
           <AnimatePresence>
             {waterLevelB >= 0.90 && (
-              <motion.div key="think-btn" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
+              <motion.div key="think-btn" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} style={{ flexShrink: 0 }}>
                 <button 
                   onClick={() => setIsThinkModalOpen(true)}
                   style={{
@@ -493,10 +493,10 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
                     background: colors.accent,
                     border: 'none',
                     color: 'white',
-                    padding: '16px 24px',
+                    padding: '12px 24px',
                     borderRadius: '16px',
                     width: '100%',
-                    fontSize: '24px',
+                    fontSize: '28px',
                     fontFamily: '"Merriweather", "Georgia", serif',
                     fontWeight: '900',
                     cursor: 'pointer',
@@ -505,9 +505,7 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
                     alignItems: 'center',
                     gap: '12px',
                     animation: 'btnPulse 2s infinite',
-                    boxShadow: '0 4px 12px rgba(166, 75, 39, 0.3)',
-                    marginTop: '4px',
-                    flexShrink: 0
+                    boxShadow: '0 4px 12px rgba(166, 75, 39, 0.3)'
                   }}
                 >
                   <div style={{
@@ -518,7 +516,7 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
                   }} />
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fef08a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '10px', left: '16px', opacity: 0.9 }}><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fef08a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', bottom: '10px', right: '16px', opacity: 0.9 }}><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
-                  <HelpCircle size={28} strokeWidth={2.5} /> Answer a Bonus Question!
+                  <HelpCircle size={32} strokeWidth={2.5} /> Answer a Bonus Question!
                 </button>
               </motion.div>
             )}
