@@ -526,7 +526,7 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
                 <button className="c-btn-action" onClick={() => {
                   setCompleted(prev => ({ ...prev, 1: true }));
                   goStep(2);
-                }} style={{ width: '100%', justifyContent: 'center', alignItems: 'center', gap: '12px', padding: '16px 32px' }}>
+                }} style={{ width: '100%', justifyContent: 'center', padding: '16px 32px' }}>
                   <span>Next Clue &rarr;</span>
                 </button>
               </div>
