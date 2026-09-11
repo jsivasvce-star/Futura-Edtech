@@ -1,107 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment, PerspectiveCamera, OrbitControls, Sphere, Cylinder, Box } from '@react-three/drei';
-import ErrorBoundary from '../../../../../components/ErrorBoundary';
-
-function BalloonExperiment({ inflating }) {
-   const balloonRef = useRef();
-   const [scale, setScale] = useState(1);
-
-   useFrame((state, delta) => {
-      if (inflating && scale < 2.5) {
-         setScale(prev => Math.min(prev + delta * 1.5, 2.5));
-      }
-      if (balloonRef.current) {
-         balloonRef.current.scale.set(scale, scale, scale);
-      }
-   });
-
-   return (
-      <group>
-         {/* Simple pump base */}
-         <Cylinder args={[0.4, 0.4, 0.8]} position={[0, -1, 0]}>
-            <meshStandardMaterial color="#3b82f6" />
-         </Cylinder>
-         <Cylinder args={[0.05, 0.05, 0.5]} position={[0, -0.4, 0]}>
-            <meshStandardMaterial color="#64748b" />
-         </Cylinder>
-         
-         {/* Balloon */}
-         <group position={[0, -0.1, 0]}>
-            <Sphere ref={balloonRef} args={[0.3, 32, 32]} position={[0, 0.3, 0]}>
-               <meshPhysicalMaterial 
-                  color="#ef4444" 
-                  roughness={0.2} 
-                  clearcoat={1} 
-                  clearcoatRoughness={0.1}
-               />
-            </Sphere>
-         </group>
-         
-         <Environment preset="studio" />
-         <PerspectiveCamera makeDefault position={[0, 0, 4]} />
-         <OrbitControls enableZoom={false} enablePan={false} />
-      </group>
-   );
-}
-
-function ScaleExperiment({ weighing }) {
-   const scaleRef = useRef();
-   const [angle, setAngle] = useState(0);
-
-   useFrame((state, delta) => {
-      if (weighing && angle > -0.25) {
-         setAngle(prev => Math.max(prev - delta * 0.5, -0.25));
-      }
-      if (scaleRef.current) {
-         scaleRef.current.rotation.z = angle;
-      }
-   });
-
-   return (
-      <group>
-         {/* Scale base */}
-         <Cylinder args={[0.3, 0.4, 0.2]} position={[0, -1.5, 0]}>
-            <meshStandardMaterial color="#1e293b" />
-         </Cylinder>
-         <Cylinder args={[0.05, 0.05, 2]} position={[0, -0.5, 0]}>
-            <meshStandardMaterial color="#94a3b8" />
-         </Cylinder>
-         
-         {/* Pivot point and beam */}
-         <group ref={scaleRef} position={[0, 0.5, 0]}>
-            <Box args={[3, 0.1, 0.2]} position={[0, 0, 0]}>
-               <meshStandardMaterial color="#475569" />
-            </Box>
-            
-            {/* Left side: Deflated balloon */}
-            <group position={[-1.4, -0.5, 0]}>
-               <Cylinder args={[0.01, 0.01, 1]} position={[0, 0.5, 0]}>
-                  <meshStandardMaterial color="#94a3b8" />
-               </Cylinder>
-               <Sphere args={[0.2, 16, 16]} position={[0, 0, 0]} scale={[1, 0.2, 1]}>
-                  <meshPhysicalMaterial color="#3b82f6" roughness={0.3} />
-               </Sphere>
-            </group>
-            
-            {/* Right side: Inflated balloon */}
-            <group position={[1.4, -0.5, 0]}>
-               <Cylinder args={[0.01, 0.01, 1]} position={[0, 0.5, 0]}>
-                  <meshStandardMaterial color="#94a3b8" />
-               </Cylinder>
-               <Sphere args={[0.5, 32, 32]} position={[0, 0, 0]}>
-                  <meshPhysicalMaterial color="#ef4444" roughness={0.1} clearcoat={1} />
-               </Sphere>
-            </group>
-         </group>
-         
-         <Environment preset="studio" />
-         <PerspectiveCamera makeDefault position={[0, -0.2, 4]} />
-         <OrbitControls enableZoom={false} enablePan={false} />
-      </group>
-   );
-}
-
+import React, { useState, useEffect } from 'react';
 export default function AirExperiments3D({ onComplete }) {
    const [inflate, setInflate] = useState(false);
    const [weigh, setWeigh] = useState(false);
@@ -113,18 +10,14 @@ export default function AirExperiments3D({ onComplete }) {
    }, [inflate, weigh, onComplete]);
 
    return (
-      <div style={{ display: 'flex', gap: '12px', width: '100%', height: '180px' }}>
+      <div style={{ display: 'flex', gap: '12px', width: '100%', height: '100%', minHeight: '260px' }}>
          {/* Experiment 1 */}
          <div style={{ flex: 1, background: '#fff', borderRadius: '12px', border: '1.5px solid var(--line, #ccc)', overflow: 'hidden', position: 'relative', display: 'flex', flexDirection: 'column' }}>
             <div style={{ padding: '6px 8px', background: 'var(--amber-pale, #f8f9fa)', borderBottom: '1px solid var(--line, #ccc)', fontSize: '0.75rem', fontWeight: '800', color: 'var(--ink-soft, #333)' }}>
                1. Air occupies space
             </div>
             <div style={{ flex: 1, position: 'relative' }}>
-               <ErrorBoundary fallback={<div style={{padding: '10px'}}>3D render failed</div>}>
-                  <Canvas>
-                     <BalloonExperiment inflating={inflate} />
-                  </Canvas>
-               </ErrorBoundary>
+               <img src="/images/balloon_pump.jpg" alt="Pumping air into a balloon" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                <button 
                   onClick={() => setInflate(true)}
                   style={{ position: 'absolute', bottom: '8px', left: '50%', transform: 'translateX(-50%)', background: 'var(--amber, #3b82f6)', color: 'white', border: 'none', padding: '6px 14px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 'bold', cursor: 'pointer', zIndex: 10, boxShadow: '0 2px 4px rgba(0,0,0,0.2)' }}
@@ -145,11 +38,7 @@ export default function AirExperiments3D({ onComplete }) {
                2. Air has mass
             </div>
             <div style={{ flex: 1, position: 'relative' }}>
-               <ErrorBoundary fallback={<div style={{padding: '10px'}}>3D render failed</div>}>
-                  <Canvas>
-                     <ScaleExperiment weighing={weigh} />
-                  </Canvas>
-               </ErrorBoundary>
+               <img src="/images/balloon_scale.jpg" alt="Weighing balloons on a scale" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                <button 
                   onClick={() => setWeigh(true)}
                   style={{ position: 'absolute', bottom: '8px', left: '50%', transform: 'translateX(-50%)', background: 'var(--amber, #3b82f6)', color: 'white', border: 'none', padding: '6px 14px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 'bold', cursor: 'pointer', zIndex: 10, boxShadow: '0 2px 4px rgba(0,0,0,0.2)' }}

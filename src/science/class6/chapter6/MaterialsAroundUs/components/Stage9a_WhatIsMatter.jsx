@@ -537,7 +537,7 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
         {/* STEP 2: Investigate Air */}
         <div className={`c-panel ${currentStep === 2 ? 'active' : ''}`}>
           <h2 className="gen">Evidence Tray: Interrogate the air</h2>
-          <p className="sub">Tap the buttons in the 3D viewers to run both tests.</p>
+          <p className="sub">Observe the two experiments and identify what they show about air.</p>
           
           <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
              {currentStep === 2 && <AirExperiments3D onComplete={handleAirComplete} />}
