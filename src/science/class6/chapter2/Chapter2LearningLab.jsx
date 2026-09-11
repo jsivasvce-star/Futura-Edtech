@@ -3,7 +3,7 @@ import ChapterLearningLab from '../../../components/ChapterLearningLab';
 import sanskritSlogan from '../../../assets/sanskrit_slogan.png';
 
 import coverBgImage from '../../../assets/cover_page_ch2.png';
-import coverBgVideo from '../../../assets/in_this_video_just_add_those_b (1).mp4';
+import coverBgVideo from '../../../assets/pour_activity.mp4';
 import learningLabBg from '../../../assets/class_6_ch2_learning_lab_bg.png';
 import levelMapBg from '../../../assets/class_6_ch2_level_map.jpg';
 
