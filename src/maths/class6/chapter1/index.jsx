@@ -613,7 +613,7 @@ export default function Class6MathsChapter1({ onBackToDashboard }) {
               />
             </div>
           </div>
-        ) : null}
+        ) : null
 
       </div>
       </div>
