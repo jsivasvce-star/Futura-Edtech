@@ -116,7 +116,7 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 24px 40px;
+          padding: 12px 40px;
           background: var(--bg-cream);
           flex: none;
         }
@@ -134,7 +134,7 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
           font-family: 'Playfair Display', serif;
           font-size: 32px;
           color: var(--title-dark);
-          margin: 0 0 4px 0;
+          margin: 0;
           font-weight: 700;
         }
         .c-header-left p {
@@ -221,12 +221,22 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
         .c-tab.solved .badge { background: var(--success-green); color: var(--white); }
 
         .c-stage {
-          padding: 32px 40px;
+          padding: 12px 40px 16px 40px;
           flex: 1;
           display: flex;
           flex-direction: column;
           min-height: 0;
           position: relative;
+        }
+
+        .c-panel {
+          display: none;
+          flex: 1;
+          flex-direction: column;
+          min-height: 0;
+        }
+        .c-panel.active {
+          display: flex;
         }
 
         /* Clue 1: Two Column Layout */
@@ -241,15 +251,16 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
           flex: 1;
           display: flex;
           flex-direction: column;
-          padding-top: 12px;
+          padding-top: 0;
         }
         
         .clue1-right {
           flex: 1;
           display: flex;
           flex-direction: column;
-          align-items: center;
+          align-items: stretch;
           min-height: 0;
+          justify-content: flex-end;
         }
 
         .clue1-img-wrap {
@@ -258,7 +269,7 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
           min-height: 0;
           border-radius: 16px;
           overflow: hidden;
-          margin-bottom: 24px;
+          margin-bottom: 20px;
           display: flex;
         }
 
@@ -270,17 +281,18 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
 
         .clue1-left h2 {
           font-family: 'Playfair Display', serif;
-          font-size: 38px;
+          font-size: 48px;
+          font-weight: 800;
           color: var(--title-dark);
-          margin: 0 0 8px 0;
+          margin: 0 0 4px 0;
           line-height: 1.1;
         }
 
         .clue1-left p.lead {
-          font-size: 22px;
+          font-size: 28px;
           color: var(--ink);
-          margin: 0 0 16px 0;
-          line-height: 1.4;
+          margin: 0 0 6px 0;
+          line-height: 1.3;
         }
         
         .clue1-left p.lead b {
@@ -291,11 +303,11 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
           background: var(--white);
           border: 1px solid var(--border-color);
           border-radius: 12px;
-          padding: 16px 20px;
-          margin-bottom: 12px;
+          padding: 8px 12px;
+          margin-bottom: 6px;
           display: flex;
           align-items: center;
-          gap: 16px;
+          gap: 12px;
           box-shadow: 0 2px 8px rgba(0,0,0,0.03);
           border-left: 6px solid var(--subtitle-orange);
         }
@@ -305,8 +317,8 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
         }
 
         .prop-icon {
-          width: 60px;
-          height: 60px;
+          width: 48px;
+          height: 48px;
           border-radius: 50%;
           background: #F8EDE6;
           display: flex;
@@ -317,8 +329,8 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
         .prop-card.green .prop-icon { background: #EAF2EC; }
         
         .prop-icon svg {
-          width: 32px;
-          height: 32px;
+          width: 28px;
+          height: 28px;
           color: var(--subtitle-orange);
         }
         .prop-card.green .prop-icon svg { color: var(--success-green); }
@@ -330,8 +342,8 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
         }
         .prop-txt h4 {
           margin: 0;
-          font-size: 22px;
-          font-weight: 700;
+          font-size: 28px;
+          font-weight: 800;
           color: var(--subtitle-orange);
         }
         .prop-card.green .prop-txt h4 {
@@ -339,30 +351,30 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
         }
         .prop-txt p {
           margin: 0;
-          font-size: 20px;
+          font-size: 24px;
           color: var(--ink);
         }
         .prop-txt p b { color: var(--subtitle-orange); }
 
         .clue1-left p.body {
-          font-size: 20px;
+          font-size: 26px;
           color: var(--ink);
-          margin: 12px 0;
-          line-height: 1.4;
+          margin: 6px 0;
+          line-height: 1.3;
         }
         .clue1-left p.body b { color: var(--subtitle-orange); }
 
         .question-txt {
-          font-size: 22px;
-          font-weight: 700;
+          font-size: 28px;
+          font-weight: 800;
           color: var(--title-dark);
-          margin-bottom: 12px;
+          margin-bottom: 4px;
         }
 
         .chip-opts {
           display: flex;
           gap: 16px;
-          margin-bottom: 16px;
+          margin-bottom: 8px;
         }
 
         .chip-btn {
@@ -393,9 +405,9 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
           background: #E8F5E9;
           border: 2px solid var(--success-green);
           color: var(--success-green);
-          padding: 16px 24px;
+          padding: 12px 20px;
           border-radius: 8px;
-          font-size: 22px;
+          font-size: 24px;
           font-weight: 600;
           display: flex;
           align-items: center;
@@ -454,47 +466,26 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
         .c-stamp-big { font-family: 'Playfair Display', serif; font-size: 80px; color: var(--success-green); border: 8px solid var(--success-green); padding: 20px 60px; border-radius: 16px; transform: rotate(-4deg); font-weight: 700; box-shadow: inset 0 0 0 4px rgba(255,255,255,0.5); }
       `}</style>
 
-      <div className="c-header">
-        <div className="c-header-left">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path><path d="M8 7h6"></path><path d="M8 11h8"></path></svg>
-          <div>
-            <h1>Case File 6.4 — The Mystery of Matter</h1>
-            <p>Follow the clues to crack what "matter" really means.</p>
-          </div>
-        </div>
-        <div className="c-header-right">
-          <span>Clues found</span>
-          <div className="clue-circles">
-            <div className={`c-circle ${completed[1] ? 'done' : ''}`}>{completed[1] && <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>}</div>
-            <div className={`c-circle ${completed[2] ? 'done' : ''}`}>{completed[2] && <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>}</div>
-            <div className={`c-circle ${completed[3] ? 'done' : ''}`}>{completed[3] && <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>}</div>
-          </div>
-        </div>
-      </div>
 
-      <div className="c-top-nav">
-        {[
-          { i: 1, icon: '01', title: 'Define Matter' },
-          { i: 2, icon: '02', title: 'Investigate Air' },
-          { i: 3, icon: '03', title: 'Sort Evidence' }
-        ].map(tab => (
-          <div key={tab.i} className={`c-tab ${currentStep === tab.i ? 'active' : ''} ${completed[tab.i] ? 'solved' : ''}`} onClick={() => goStep(tab.i)}>
-            <div className="badge">{tab.icon}</div>
-            <div className="txt">
-              <b>{tab.title}</b>
-              <span>{clueTags[tab.i]}</span>
-            </div>
-          </div>
-        ))}
-      </div>
 
       <div className="c-stage">
         {/* STEP 1: Two-Column Educational Layout */}
         <div className={`c-panel ${currentStep === 1 ? 'active' : ''}`}>
           <div className="clue1-layout">
             <div className="clue1-left">
-              <h2>What makes something "matter"?</h2>
-              <p className="lead">Everything around us is made of <b>matter</b>.<br/>Matter has two important properties:</p>
+              <div className="c-header-left" style={{ padding: '0', marginBottom: '24px' }}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path><path d="M8 7h6"></path><path d="M8 11h8"></path></svg>
+                <div>
+                  <h1>Case File 6.4 — The Mystery of Matter</h1>
+                  <p>Follow the clues to crack what "matter" really means.</p>
+                </div>
+              </div>
+
+              <h2 style={{ marginBottom: '8px' }}>What makes something "matter"?</h2>
+              <p className="lead" style={{ margin: '0 0 24px 0' }}>
+                <span style={{ display: 'block', marginBottom: '8px' }}>Everything around us is made of <b>matter</b>.</span>
+                <span style={{ display: 'block' }}>Matter has two important properties:</span>
+              </p>
               
               <div className="prop-card">
                 <div className="prop-icon">
@@ -518,28 +509,27 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
 
               <p className="body">Water, sand, pebbles and a cup are all <b>matter</b>.<br/>Anything that <b>occupies space</b> and <b>has mass</b> is called <b>matter</b>.</p>
 
-              <div className="question-txt">Look at the objects. What do they all have in common?</div>
+              <div className="question-txt">What do these objects have in common?</div>
               
-              <div className="chip-opts">
-                <button className={`chip-btn ${picked.space ? 'picked' : ''}`} onClick={() => pickChip('space')}>Occupies space</button>
-                <button className={`chip-btn ${picked.mass ? 'picked' : ''}`} onClick={() => pickChip('mass')}>Has mass</button>
+              <div className="chip-opts" style={{ fontSize: '26px', fontWeight: 700, color: 'var(--subtitle-orange)', width: '100%' }}>
+                They occupy space and have mass — so they are matter.
               </div>
 
-              <AnimatePresence>
-                {completed[1] && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="success-box">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    Case cracked: anything that occupies space and has mass is called matter.
-                  </motion.div>
-                )}
-              </AnimatePresence>
+
             </div>
             
             <div className="clue1-right">
               <div className="clue1-img-wrap">
                 <img src="/assets/matter_examples_clue1.jpg" alt="Examples of matter" />
               </div>
-              <button className="c-btn-action" disabled={!completed[1]} onClick={() => goStep(2)}>Next Clue →</button>
+              <div style={{ display: 'flex' }}>
+                <button className="c-btn-action" onClick={() => {
+                  setCompleted(prev => ({ ...prev, 1: true }));
+                  goStep(2);
+                }} style={{ width: '100%', justifyContent: 'center', alignItems: 'center', gap: '12px', padding: '16px 32px' }}>
+                  <span>Next Clue &rarr;</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
