@@ -558,7 +558,7 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '8px',
-                  maxWidth: '1100px',
+                  maxWidth: '1200px',
                   width: '80vw',
                   boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
                 position: 'relative'
@@ -640,11 +640,32 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
               </div>
               <AnimatePresence>
                 {thinkFeedback && (
-                  <motion.div key="feedback" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} style={{ overflow: 'hidden' }}>
+                  <motion.div key="feedback" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     <div style={{ padding: '16px 20px', borderRadius: '12px', background: thinkFeedback.type === 'success' ? colors.successBg : 'var(--lesson-danger-bg)', border: `2px solid ${thinkFeedback.type === 'success' ? colors.successBorder : 'var(--lesson-danger-border)'}`, color: thinkFeedback.type === 'success' ? colors.accent : 'var(--lesson-danger)', fontSize: '18px', fontWeight: '700', fontFamily: '"Merriweather", "Georgia", serif', display: 'flex', alignItems: 'flex-start', gap: '10px', boxSizing: 'border-box', marginTop: '4px' }}>
                       {thinkFeedback.type === 'success' ? <CheckCircle2 size={24} color={colors.accent} style={{ flexShrink: 0, marginTop: '2px' }} strokeWidth={2.5} /> : <AlertCircle size={24} style={{ flexShrink: 0, marginTop: '2px' }} strokeWidth={2.5} />}
                       <div>{thinkFeedback.text}</div>
                     </div>
+                    {thinkFeedback.type === 'success' && (
+                      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '8px' }}>
+                        <button
+                          onClick={() => setIsThinkModalOpen(false)}
+                          style={{
+                            background: colors.accent,
+                            color: 'white',
+                            border: 'none',
+                            padding: '12px 32px',
+                            borderRadius: '12px',
+                            fontSize: '20px',
+                            fontWeight: '800',
+                            fontFamily: '"Merriweather", "Georgia", serif',
+                            cursor: 'pointer',
+                            boxShadow: '0 4px 12px rgba(166, 75, 39, 0.3)'
+                          }}
+                        >
+                          Done
+                        </button>
+                      </div>
+                    )}
                   </motion.div>
                 )}
               </AnimatePresence>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PropTypes from 'prop-types';
 import { RealisticCup } from './RealisticCup';
@@ -55,10 +55,10 @@ export const WeighingScale = ({ currentCupOnScale, mass, isHovered }) => {
   }, [currentCupOnScale, mass]);
 
   return (
-    <div 
-      style={{ 
-        position: 'relative', 
-        width: '100%', 
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
@@ -80,17 +80,17 @@ export const WeighingScale = ({ currentCupOnScale, mass, isHovered }) => {
 
       {/* Scale Assembly */}
       <div style={{ position: 'relative', width: '380px', height: '260px', marginTop: '20px', transform: 'scale(1.25)' }}>
-        
+
         {/* Invisible expanded drop target for extremely forgiving dropping */}
-        <div 
+        <div
           data-droptarget="scale"
           style={{
             position: 'absolute',
             top: '-40px', left: '50%', transform: 'translateX(-50%)',
-            width: '320px', height: '160px', 
+            width: '320px', height: '160px',
             borderRadius: '50%',
             background: 'transparent',
-            zIndex: 20 
+            zIndex: 20
           }}
         />
 
@@ -107,8 +107,8 @@ export const WeighingScale = ({ currentCupOnScale, mass, isHovered }) => {
             pointerEvents: 'none',
             zIndex: 0
           }} />
-          <img 
-            src={weighingMachineImg} 
+          <img
+            src={weighingMachineImg}
             alt="Weighing Scale"
             style={{
               width: '100%', height: '100%',
@@ -134,8 +134,8 @@ export const WeighingScale = ({ currentCupOnScale, mass, isHovered }) => {
         {/* LCD Overlay for live mass reading – aligned to the green LCD rectangle */}
         <div style={{
           position: 'absolute',
-          bottom: '24%', 
-          left: '16%', 
+          bottom: '24%',
+          left: '16%',
           width: '38%',
           height: '10%',
           display: 'flex',
@@ -155,10 +155,10 @@ export const WeighingScale = ({ currentCupOnScale, mass, isHovered }) => {
               opacity: 0.7
             }} />
           )}
-          <span style={{ 
+          <span style={{
             fontFamily: "'Courier New', Courier, monospace",
-            fontSize: 'clamp(1rem, 1.6vw, 1.6rem)', 
-            color: '#1a1f1c', 
+            fontSize: 'clamp(1rem, 1.6vw, 1.6rem)',
+            color: '#1a1f1c',
             fontWeight: 'bold',
             letterSpacing: '1px',
             textShadow: '1px 1px 1px rgba(255,255,255,0.3), -1px -1px 2px rgba(0,0,0,0.3)',
@@ -169,7 +169,7 @@ export const WeighingScale = ({ currentCupOnScale, mass, isHovered }) => {
         </div>
 
         {/* Anchor point: Renders ONLY currentCupOnScale if present */}
-        <div 
+        <div
           style={{
             position: 'absolute', top: '55%', left: '50%',
             width: '1px', height: '1px'
@@ -191,18 +191,18 @@ export const WeighingScale = ({ currentCupOnScale, mass, isHovered }) => {
                   zIndex: 10
                 }}
               >
-                 <RealisticCup material={currentCupOnScale} velocityX={0} />
-                 
-                 {/* Realistic Grounding Contact Shadow on the metal pan */}
-                 <motion.div 
-                   initial={{ opacity: 0.3, scale: 0.9 }}
-                   animate={{ opacity: 0.7, scale: 1 }}
-                   transition={{ duration: 0.2 }}
-                   style={{
-                     position: 'absolute', bottom: '-4px', left: '12%', right: '12%', height: '8px',
-                     background: 'rgba(0,0,0,0.65)', borderRadius: '50%', filter: 'blur(3px)', zIndex: -1
-                   }} 
-                 />
+                <RealisticCup material={currentCupOnScale} velocityX={0} />
+
+                {/* Realistic Grounding Contact Shadow on the metal pan */}
+                <motion.div
+                  initial={{ opacity: 0.3, scale: 0.9 }}
+                  animate={{ opacity: 0.7, scale: 1 }}
+                  transition={{ duration: 0.2 }}
+                  style={{
+                    position: 'absolute', bottom: '-4px', left: '12%', right: '12%', height: '8px',
+                    background: 'rgba(0,0,0,0.65)', borderRadius: '50%', filter: 'blur(3px)', zIndex: -1
+                  }}
+                />
               </motion.div>
             )}
           </AnimatePresence>
