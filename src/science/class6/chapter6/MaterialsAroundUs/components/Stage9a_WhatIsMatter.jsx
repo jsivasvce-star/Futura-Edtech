@@ -111,6 +111,17 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
 
         .case-wrap * { box-sizing: border-box; }
 
+        @keyframes btnPulse {
+          0% { transform: scale(1); box-shadow: 0 4px 12px rgba(166, 75, 39, 0.2); }
+          50% { transform: scale(1.02); box-shadow: 0 8px 24px rgba(166, 75, 39, 0.5); }
+          100% { transform: scale(1); box-shadow: 0 4px 12px rgba(166, 75, 39, 0.2); }
+        }
+        @keyframes shineSweep {
+          0% { left: -100%; }
+          20% { left: 200%; }
+          100% { left: 200%; }
+        }
+
         /* Header */
         .c-header {
           display: flex;
@@ -523,11 +534,41 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
                 <img src="/assets/matter_examples_clue1.jpg" alt="Examples of matter" />
               </div>
               <div style={{ display: 'flex' }}>
-                <button className="c-btn-action" onClick={() => {
-                  setCompleted(prev => ({ ...prev, 1: true }));
-                  goStep(2);
-                }} style={{ width: '100%', justifyContent: 'center', padding: '16px 32px' }}>
-                  <span>Next Clue &rarr;</span>
+                <button 
+                  onClick={() => {
+                    setCompleted(prev => ({ ...prev, 1: true }));
+                    goStep(2);
+                  }}
+                  style={{
+                    position: 'relative',
+                    overflow: 'hidden',
+                    background: '#B04924',
+                    border: 'none',
+                    color: 'white',
+                    padding: '12px 24px',
+                    borderRadius: '16px',
+                    width: '100%',
+                    fontSize: '28px',
+                    fontFamily: '"Merriweather", "Georgia", serif',
+                    fontWeight: '900',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: '12px',
+                    animation: 'btnPulse 2s infinite',
+                    boxShadow: '0 4px 12px rgba(166, 75, 39, 0.3)'
+                  }}
+                >
+                  <div style={{
+                     position: 'absolute', top: 0, bottom: 0, width: '40px',
+                     background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                     transform: 'skewX(-20deg)',
+                     animation: 'shineSweep 3s infinite'
+                  }} />
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fef08a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '10px', left: '16px', opacity: 0.9 }}><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fef08a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', bottom: '10px', right: '16px', opacity: 0.9 }}><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
+                  Next Clue →
                 </button>
               </div>
             </div>
@@ -552,8 +593,40 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
              )}
           </AnimatePresence>
 
-          <div style={{ marginTop: '24px', display: 'flex', justifyContent: 'flex-end' }}>
-            <button className="c-btn-action" style={{ width: 'auto', padding: '16px 48px' }} disabled={!completed[2]} onClick={() => goStep(3)}>Next Clue →</button>
+          <div style={{ marginTop: '24px', display: 'flex' }}>
+            <button 
+              onClick={() => goStep(3)}
+              style={{
+                position: 'relative',
+                overflow: 'hidden',
+                background: '#B04924',
+                border: 'none',
+                color: 'white',
+                padding: '12px 24px',
+                borderRadius: '16px',
+                width: '100%',
+                fontSize: '28px',
+                fontFamily: '"Merriweather", "Georgia", serif',
+                fontWeight: '900',
+                cursor: 'pointer',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '12px',
+                animation: 'btnPulse 2s infinite',
+                boxShadow: '0 4px 12px rgba(166, 75, 39, 0.3)'
+              }}
+            >
+              <div style={{
+                 position: 'absolute', top: 0, bottom: 0, width: '40px',
+                 background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                 transform: 'skewX(-20deg)',
+                 animation: 'shineSweep 3s infinite'
+              }} />
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fef08a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '10px', left: '16px', opacity: 0.9 }}><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fef08a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', bottom: '10px', right: '16px', opacity: 0.9 }}><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
+              Next Clue →
+            </button>
           </div>
         </div>
 
