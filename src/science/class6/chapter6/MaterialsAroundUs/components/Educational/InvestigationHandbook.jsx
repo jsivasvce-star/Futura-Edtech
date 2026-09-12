@@ -105,7 +105,7 @@ const PotterySpotlight = ({ currentClue, setCurrentClue }) => {
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '0', boxSizing: 'border-box', overflow: 'hidden' }}>
       
       <div style={{ marginBottom: '8px' }}>
-        <h3 style={{ fontSize: '42px', fontFamily: "'Merriweather', Georgia, serif", fontWeight: 700, color: '#3F2923', margin: '0 0 8px 0', wordBreak: 'break-word', lineHeight: '1.2' }}>
+        <h3 style={{ fontSize: '42px', fontFamily: "'Merriweather', Georgia, serif", fontWeight: 700, color: '#4A3B5C', margin: '0 0 8px 0', wordBreak: 'break-word', lineHeight: '1.2' }}>
           {currentData.title}
         </h3>
         <div style={{ fontSize: '36px', fontFamily: "'Merriweather', Georgia, serif", fontWeight: 700, color: '#A94727', letterSpacing: '1px' }}>
@@ -132,11 +132,11 @@ const PotterySpotlight = ({ currentClue, setCurrentClue }) => {
         
         {/* Left Text Box (55-60%) */}
         <div style={{ flex: '1 1 58%', display: 'flex', flexDirection: 'column', justifyContent: 'center', textAlign: 'center' }}>
-          <div style={{ fontSize: '42px', fontFamily: "'Merriweather', Georgia, serif", fontWeight: 700, color: '#3F2923', marginBottom: '16px', lineHeight: '1.15', wordBreak: 'break-word' }}>
+          <div style={{ fontSize: '42px', fontFamily: "'Merriweather', Georgia, serif", fontWeight: 700, color: '#3E2723', marginBottom: '16px', lineHeight: '1.15', wordBreak: 'break-word' }}>
             {currentData.bigFact}
           </div>
           
-          <div style={{ fontFamily: "'Merriweather', Georgia, serif", fontSize: '24px', fontWeight: 500, color: '#3F2923', lineHeight: '1.45', maxWidth: '100%', overflow: 'visible' }}>
+          <div style={{ fontFamily: "'Merriweather', Georgia, serif", fontSize: '24px', fontWeight: 500, color: '#3E2723', lineHeight: '1.45', maxWidth: '100%', overflow: 'visible' }}>
             {currentData.text}
           </div>
         </div>
@@ -187,10 +187,10 @@ const PotterySpotlight = ({ currentClue, setCurrentClue }) => {
   );
 };
 
-const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowIndex = 0, stageCompleted = false, onNext, onComplete }, ref) => {
+const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowIndex = 0, stageCompleted = false, onNext, onComplete, initialPage = 1 }, ref) => {
   const handleProceed = onNext || onComplete;
   
-  const [b1Page, setB1Page] = useState(1);
+  const [b1Page, setB1Page] = useState(initialPage);
   const [currentClue, setCurrentClue] = useState(1);
 
   useImperativeHandle(ref, () => ({
@@ -198,15 +198,24 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
       if (currentFlowIndex < 5) {
         if (b1Page === 1) {
           setB1Page(2);
-          return false; // Don't close handbook
+          return true; // Event handled internally, don't propagate
         } else if (b1Page === 2) {
           if (currentClue < 5) {
-            return false; // Don't close handbook, user must click the internal clue button
+            return true; // Event handled (user must click clue button), don't propagate
           }
-          return true; // Close handbook
+          return false; // Done with page 2, allow index.jsx to proceed
         }
       }
-      return true; // Close handbook for other barriers
+      return false; // Let index.jsx proceed for other barriers
+    },
+    handleGlobalBack: () => {
+      if (currentFlowIndex < 5) {
+        if (b1Page === 2) {
+          setB1Page(1);
+          return true; // Event handled internally
+        }
+      }
+      return false; // Let index.jsx handle back
     }
   }));
 
@@ -278,13 +287,13 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
                 {/* LEFT COLUMN – 58% */}
                 <div style={{ width: 'calc(58% - 24px)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   <div>
-                    <h2 style={{ margin: 0, fontFamily: "'Merriweather', Georgia, serif", fontSize: '50px', color: '#3F2923', fontWeight: '900', lineHeight: 1.15 }}>
+                    <h2 style={{ margin: 0, fontFamily: "'Merriweather', Georgia, serif", fontSize: '50px', color: '#2C4E3D', fontWeight: '900', lineHeight: 1.15 }}>
                       What are Objects Made Of?
                     </h2>
-                    <div style={{ width: '420px', height: '4px', background: '#3F2923', opacity: 0.9, borderRadius: '2px', marginTop: '4px' }} />
+                    <div style={{ width: '420px', height: '4px', background: '#2C4E3D', opacity: 0.9, borderRadius: '2px', marginTop: '4px' }} />
                   </div>
 
-                  <div style={{ fontFamily: "'Merriweather', Georgia, serif", color: '#3F2923' }}>
+                  <div style={{ fontFamily: "'Merriweather', Georgia, serif", color: '#3E2723' }}>
                     <p style={{ margin: '0 0 8px 0', fontSize: '26px', lineHeight: '1.45', fontWeight: 500 }}>
                       Look around you! You can see many things – a chair, a book, a water bottle, a pencil and so on.
                     </p>
@@ -295,7 +304,7 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
 
                   {/* Definition Box */}
                   <div style={{ background: '#FDFBF7', border: '1.5px solid #D8C3A5', borderLeft: '8px solid #A94727', borderRadius: '12px', padding: '12px 20px' }}>
-                    <div style={{ fontFamily: "'Merriweather', Georgia, serif", fontSize: '24px', fontWeight: 500, color: '#3F2923', lineHeight: 1.45 }}>
+                    <div style={{ fontFamily: "'Merriweather', Georgia, serif", fontSize: '24px', fontWeight: 500, color: '#3E2723', lineHeight: 1.45 }}>
                       <div style={{ marginBottom: '6px' }}><strong style={{ color: '#A94727', fontWeight: 700 }}>Material:</strong> The substance used to make an object.</div>
                       <div><strong style={{ color: '#A94727', fontWeight: 700 }}>Object:</strong> Anything we can see or use around us.</div>
                     </div>
@@ -303,8 +312,8 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
 
                   {/* Examples Box */}
                   <div style={{ background: '#FDFBF7', border: '1.5px solid #D8C3A5', borderLeft: '8px solid #A94727', borderRadius: '12px', padding: '12px 20px' }}>
-                    <h4 style={{ margin: '0 0 6px 0', color: '#325244', fontSize: '30px', fontWeight: 700, fontFamily: "'Merriweather', Georgia, serif" }}>Examples:</h4>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontFamily: "'Merriweather', Georgia, serif", fontSize: '23px', fontWeight: 500, color: '#3F2923', lineHeight: 1.45 }}>
+                    <h4 style={{ margin: '0 0 6px 0', color: '#4A3B5C', fontSize: '30px', fontWeight: 700, fontFamily: "'Merriweather', Georgia, serif" }}>Examples:</h4>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontFamily: "'Merriweather', Georgia, serif", fontSize: '23px', fontWeight: 500, color: '#3E2723', lineHeight: 1.45 }}>
                       <div>• A chair can be made of wood, plastic or steel.</div>
                       <div>• A plate can be made of steel, glass or plastic.</div>
                       <div>• A bottle can be made of plastic, glass or steel.</div>
@@ -313,7 +322,7 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
 
                   {/* Think! Box */}
                   <div style={{ background: '#FDFBF7', border: '1.5px solid #D8C3A5', borderLeft: '8px solid #A94727', borderRadius: '12px', padding: '12px 20px' }}>
-                    <div style={{ fontFamily: "'Merriweather', Georgia, serif", fontSize: '23px', fontWeight: 500, color: '#3F2923', lineHeight: 1.45 }}>
+                    <div style={{ fontFamily: "'Merriweather', Georgia, serif", fontSize: '23px', fontWeight: 500, color: '#3E2723', lineHeight: 1.45 }}>
                       <strong style={{ fontWeight: 700, color: '#A94727', fontSize: '30px', fontFamily: "'Merriweather', Georgia, serif", display: 'inline-block', marginBottom: '2px' }}>Think!</strong><br />
                       One object can be made from different materials. One material can be used to make many different objects. Can you think of more examples?
                     </div>
@@ -342,10 +351,10 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
               <div style={{ flex: 1, minHeight: 0, padding: '20px 48px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
                 {/* ================= PAGE 2 ================= */}
                 <div>
-                  <h2 style={{ margin: 0, fontFamily: "'Merriweather', Georgia, serif", fontSize: '50px', color: '#3F2923', fontWeight: '900', lineHeight: 1.15 }}>
+                  <h2 style={{ margin: 0, fontFamily: "'Merriweather', Georgia, serif", fontSize: '50px', color: '#2C4E3D', fontWeight: '900', lineHeight: 1.15 }}>
                     Historical Spotlight: Pottery
                   </h2>
-                  <div style={{ width: '100%', height: '4px', background: '#A94727', opacity: 0.9, borderRadius: '2px', marginTop: '12px', marginBottom: '16px' }} />
+                  <div style={{ width: '100%', height: '4px', background: '#2C4E3D', opacity: 0.9, borderRadius: '2px', marginTop: '12px', marginBottom: '16px' }} />
                 </div>
 
                 <PotterySpotlight currentClue={currentClue} setCurrentClue={setCurrentClue} />

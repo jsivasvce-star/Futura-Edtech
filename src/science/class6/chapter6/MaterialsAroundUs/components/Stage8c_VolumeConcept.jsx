@@ -43,10 +43,10 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', flexShrink: 0 }}>
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <Box size={28} color="var(--lesson-primary)" />
+          <Box size={28} color="#2C4E3D" />
           <div>
-            <h2 style={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--lesson-primary)', margin: 0, lineHeight: '1.1' }}>PHASE 2</h2>
-            <p style={{ color: 'var(--lesson-primary)', fontSize: '1.05rem', margin: '4px 0 0 0', fontWeight: 'bold' }}>Understanding Volume</p>
+            <h2 style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#2C4E3D', margin: 0, lineHeight: '1.1' }}>PHASE 2</h2>
+            <p style={{ color: '#2C4E3D', fontSize: '1.05rem', margin: '4px 0 0 0', fontWeight: 'bold' }}>Understanding Volume</p>
           </div>
         </div>
 
@@ -77,8 +77,8 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
                 {/* Step Indicator */}
                 <div style={{ 
                   width: '32px', height: '32px', borderRadius: '50%',
-                  background: isActive ? '#A64B27' : isCompleted ? '#A64B27' : 'white',
-                  border: `2px solid ${isActive || isCompleted ? '#A64B27' : 'var(--lesson-border)'}`, 
+                  background: isActive ? '#A94727' : isCompleted ? '#A94727' : 'white',
+                  border: `2px solid ${isActive || isCompleted ? '#A94727' : 'var(--lesson-border)'}`, 
                   display: 'flex',
                   alignItems: 'center', 
                   justifyContent: 'center',
@@ -96,7 +96,7 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <div style={{ 
                     fontSize: '12px', fontWeight: 'bold',
-                    color: isActive ? '#A64B27' : isCompleted ? '#A64B27' : 'var(--lesson-muted)',
+                    color: isActive ? '#A94727' : isCompleted ? '#A94727' : 'var(--lesson-muted)',
                     whiteSpace: 'nowrap',
                     textTransform: 'uppercase', letterSpacing: '0.5px'
                   }}>
@@ -104,7 +104,7 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
                   </div>
                   <div style={{ 
                     fontSize: '0.95rem', 
-                    color: isActive ? 'var(--lesson-primary)' : 'var(--lesson-text)',
+                    color: isActive ? '#2C4E3D' : '#3E2723',
                     fontWeight: isActive ? 'bold' : 'normal',
                     marginTop: '2px',
                     lineHeight: '1.2'
@@ -141,20 +141,20 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
                   
                   {/* Right: Explanation */}
                   <div style={{ flex: '1.2', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                    <h3 style={{ fontSize: '2.5rem', color: 'var(--lesson-primary)', margin: '0 0 32px 0', lineHeight: '1.2', fontWeight: '900' }}>WHY CAN&apos;T I ADD MORE WATER?</h3>
+                    <h3 style={{ fontSize: '2.5rem', color: '#2C4E3D', margin: '0 0 32px 0', lineHeight: '1.2', fontWeight: '900' }}>WHY CAN&apos;T I ADD MORE WATER?</h3>
                     
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                      <p style={{ margin: 0, color: 'var(--lesson-text)', fontSize: '1.6rem', lineHeight: '1.5' }}>
+                      <p style={{ margin: 0, color: '#3E2723', fontSize: '1.6rem', lineHeight: '1.5' }}>
                         The bottle has <strong>limited space</strong>.
                       </p>
-                      <p style={{ margin: 0, color: 'var(--lesson-text)', fontSize: '1.6rem', lineHeight: '1.5' }}>
+                      <p style={{ margin: 0, color: '#3E2723', fontSize: '1.6rem', lineHeight: '1.5' }}>
                         Once it is full, no more water can fit.
                       </p>
                     </div>
                     
                     <div style={{ marginTop: '40px', background: 'var(--lesson-warning-bg)', padding: '32px', borderRadius: '20px', border: '3px dashed var(--lesson-warning-border)' }}>
-                      <p style={{ margin: '0 0 12px 0', color: 'var(--lesson-text)', fontSize: '1.4rem', fontWeight: 'bold' }}>That amount of space is called</p>
-                      <div style={{ color: 'var(--lesson-text)', background: '#FFFFFF', display: 'inline-block', padding: '0 12px', fontSize: '3rem', fontWeight: '900', letterSpacing: '2px' }}>VOLUME</div>
+                      <p style={{ margin: '0 0 12px 0', color: '#3E2723', fontSize: '1.4rem', fontWeight: 'bold' }}>That amount of space is called</p>
+                      <div style={{ color: '#3E2723', background: '#FFFFFF', display: 'inline-block', padding: '0 12px', fontSize: '3rem', fontWeight: '900', letterSpacing: '2px' }}>VOLUME</div>
                     </div>
                   </div>
                 </div>
@@ -187,15 +187,15 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
                   
                   {/* 1. TITLE, SUBTITLE, EXPLANATION */}
                   <div style={{ marginBottom: '20px' }}>
-                    <h3 style={{ fontSize: '32px', color: 'var(--lesson-primary)', margin: '0 0 6px 0', fontWeight: '900', letterSpacing: '-0.5px' }}>Volume in Everyday Life</h3>
-                    <p style={{ margin: '0 0 12px 0', color: 'var(--lesson-text)', fontSize: '20px', lineHeight: '1.3', fontWeight: '600' }}>
+                    <h3 style={{ fontSize: '32px', color: '#2C4E3D', margin: '0 0 6px 0', fontWeight: '900', letterSpacing: '-0.5px' }}>Volume in Everyday Life</h3>
+                    <p style={{ margin: '0 0 12px 0', color: '#3E2723', fontSize: '20px', lineHeight: '1.3', fontWeight: '600' }}>
                       How much space can a container hold?
                     </p>
-                    <p style={{ margin: '0 0 2px 0', color: 'var(--lesson-text)', fontSize: '18px', lineHeight: '1.45' }}>
+                    <p style={{ margin: '0 0 2px 0', color: '#3E2723', fontSize: '18px', lineHeight: '1.45' }}>
                       Different containers can hold different amounts of liquid.
                     </p>
-                    <p style={{ margin: 0, color: 'var(--lesson-text)', fontSize: '18px', lineHeight: '1.45' }}>
-                      The amount a container can hold is described using <strong style={{ color: 'var(--lesson-text)', background: '#FFFFFF', padding: '0 4px', fontWeight: '900' }}>volume</strong>.
+                    <p style={{ margin: 0, color: '#3E2723', fontSize: '18px', lineHeight: '1.45' }}>
+                      The amount a container can hold is described using <strong style={{ color: '#3E2723', background: '#FFFFFF', padding: '0 4px', fontWeight: '900' }}>volume</strong>.
                     </p>
                   </div>
                   
@@ -208,8 +208,8 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
                         <img src="/images/3d_water_bottle_1788167284292.jpg" alt="Water Bottle" style={{ width: 'auto', maxHeight: '170px', objectFit: 'contain', mixBlendMode: 'multiply' }} />
                       </div>
                       <div style={{ textAlign: 'center' }}>
-                        <div style={{ fontSize: '18px', fontWeight: 'bold', color: 'var(--lesson-text)', margin: '0 0 4px 0' }}>Water</div>
-                        <div style={{ fontSize: '22px', fontWeight: '900', color: 'var(--lesson-primary)', margin: 0 }}>500 mL</div>
+                        <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#3E2723', margin: '0 0 4px 0' }}>Water</div>
+                        <div style={{ fontSize: '22px', fontWeight: '900', color: '#2C4E3D', margin: 0 }}>500 mL</div>
                       </div>
                     </div>
                     
@@ -222,7 +222,7 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
                         <img src="/images/3d_milk_bottle_1788167274008.jpg" alt="Milk Bottle" style={{ width: 'auto', maxHeight: '170px', objectFit: 'contain', mixBlendMode: 'multiply' }} />
                       </div>
                       <div style={{ textAlign: 'center' }}>
-                        <div style={{ fontSize: '18px', fontWeight: 'bold', color: 'var(--lesson-text)', margin: '0 0 4px 0' }}>Milk</div>
+                        <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#3E2723', margin: '0 0 4px 0' }}>Milk</div>
                         <div style={{ fontSize: '22px', fontWeight: '900', color: 'var(--lesson-secondary)', margin: 0 }}>500 mL</div>
                       </div>
                     </div>
@@ -232,9 +232,9 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
                   {/* 3. SAME VOLUME BADGE */}
                   <div style={{ width: '100%', display: 'flex', justifyContent: 'center', paddingBottom: '20px' }}>
                     <div style={{ background: 'var(--lesson-accent-bg)', padding: '14px 28px', borderRadius: '12px', border: '2px dashed var(--lesson-accent-border)', textAlign: 'center' }}>
-                      <span style={{ color: 'var(--lesson-text)', fontWeight: '900', fontSize: '18px' }}>SAME VOLUME</span>
-                      <span style={{ color: 'var(--lesson-text)', fontWeight: 'bold', fontSize: '18px', margin: '0 12px' }}>•</span>
-                      <span style={{ color: 'var(--lesson-text)', fontWeight: 'bold', fontSize: '18px' }}>DIFFERENT MATERIAL</span>
+                      <span style={{ color: '#3E2723', fontWeight: '900', fontSize: '18px' }}>SAME VOLUME</span>
+                      <span style={{ color: '#3E2723', fontWeight: 'bold', fontSize: '18px', margin: '0 12px' }}>•</span>
+                      <span style={{ color: '#3E2723', fontWeight: 'bold', fontSize: '18px' }}>DIFFERENT MATERIAL</span>
                     </div>
                   </div>
                 </div>
@@ -245,22 +245,22 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
                   <div style={{ background: 'var(--lesson-warning-bg)', border: '1px solid var(--lesson-warning-border)', borderRadius: '20px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px', boxSizing: 'border-box', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', width: '100%' }}>
                     
                     <div>
-                      <div style={{ fontSize: '18px', fontWeight: '900', color: 'var(--lesson-text)', marginBottom: '12px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Measuring Volume</div>
-                      <p style={{ margin: '0 0 12px 0', color: 'var(--lesson-text)', fontSize: '18px', lineHeight: '1.45' }}>
+                      <div style={{ fontSize: '18px', fontWeight: '900', color: '#3E2723', marginBottom: '12px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Measuring Volume</div>
+                      <p style={{ margin: '0 0 12px 0', color: '#3E2723', fontSize: '18px', lineHeight: '1.45' }}>
                         Labels such as <strong>200 mL, 500 mL</strong> and <strong>1 L</strong> tell us how much a container can hold.
                       </p>
-                      <p style={{ margin: '0 0 20px 0', color: 'var(--lesson-text)', fontSize: '18px', lineHeight: '1.45' }}>
+                      <p style={{ margin: '0 0 20px 0', color: '#3E2723', fontSize: '18px', lineHeight: '1.45' }}>
                         Volume is measured in <strong>millilitres (mL)</strong> or <strong>litres (L)</strong>.
                       </p>
                     </div>
 
-                    <div style={{ background: 'var(--lesson-warning-bg)', border: '2px dashed var(--lesson-warning-border)', padding: '16px', borderRadius: '12px', color: 'var(--lesson-text)', fontWeight: '900', fontSize: '26px', textAlign: 'center', width: '100%', boxSizing: 'border-box' }}>
+                    <div style={{ background: 'var(--lesson-warning-bg)', border: '2px dashed var(--lesson-warning-border)', padding: '16px', borderRadius: '12px', color: '#3E2723', fontWeight: '900', fontSize: '26px', textAlign: 'center', width: '100%', boxSizing: 'border-box' }}>
                       1 L = 1000 mL
                     </div>
 
                     <div style={{ display: 'flex', gap: '14px', alignItems: 'center', background: '#FFFFFF', border: '1px solid var(--lesson-border)', padding: '16px', borderRadius: '12px', width: '100%', boxSizing: 'border-box' }}>
-                      <Info size={26} color="var(--lesson-text)" style={{ flexShrink: 0 }} />
-                      <p style={{ margin: 0, color: 'var(--lesson-text)', fontSize: '16px', lineHeight: '1.4' }}>
+                      <Info size={26} color="#3E2723" style={{ flexShrink: 0 }} />
+                      <p style={{ margin: 0, color: '#3E2723', fontSize: '16px', lineHeight: '1.4' }}>
                         <strong>Look at the label</strong> on a container. It tells us how much it can hold.
                       </p>
                     </div>
@@ -269,10 +269,10 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
 
                   {/* FILLER STRIP */}
                   <div style={{ marginTop: '24px', background: 'var(--lesson-warning-bg)', padding: '16px 20px', borderRadius: '16px', border: '2px dashed var(--lesson-warning-border)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', boxSizing: 'border-box' }}>
-                    <p style={{ margin: '0 0 4px 0', color: 'var(--lesson-text)', fontSize: '16px', lineHeight: '1.4', fontWeight: '600' }}>
+                    <p style={{ margin: '0 0 4px 0', color: '#3E2723', fontSize: '16px', lineHeight: '1.4', fontWeight: '600' }}>
                       Container labels tell us the volume they can hold:
                     </p>
-                    <p style={{ margin: 0, fontWeight: '900', color: 'var(--lesson-text)', fontSize: '18px' }}>
+                    <p style={{ margin: 0, fontWeight: '900', color: '#3E2723', fontSize: '18px' }}>
                       200 mL &nbsp;•&nbsp; 500 mL &nbsp;•&nbsp; 1 L
                     </p>
                   </div>
@@ -291,8 +291,8 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
               style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', padding: '24px', gap: '16px', boxSizing: 'border-box', overflow: 'hidden' }}
             >
               <div style={{ flexShrink: 0 }}>
-                <h3 style={{ fontSize: '1.8rem', color: 'var(--lesson-primary)', margin: '0 0 8px 0', fontWeight: '900' }}>Explore Different Volumes</h3>
-                <p style={{ color: 'var(--lesson-text)', fontSize: '1.2rem', margin: 0 }}>Click each container to discover how much it can hold.</p>
+                <h3 style={{ fontSize: '1.8rem', color: '#2C4E3D', margin: '0 0 8px 0', fontWeight: '900' }}>Explore Different Volumes</h3>
+                <p style={{ color: '#3E2723', fontSize: '1.2rem', margin: 0 }}>Click each container to discover how much it can hold.</p>
               </div>
               
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', flex: 1, minHeight: 0 }}>
@@ -303,11 +303,11 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
                     <img src="/images/3d_tea_cup_1788167295553.jpg" alt="Tea Cup" style={{ maxWidth: '90%', maxHeight: '100%', objectFit: 'contain', mixBlendMode: 'multiply' }} />
                   </div>
                   <div style={{ textAlign: 'center', width: '100%', flexShrink: 0 }}>
-                    <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--lesson-text)', marginBottom: '8px' }}>Tea Cup</div>
+                    <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#3E2723', marginBottom: '8px' }}>Tea Cup</div>
                     {volumesRevealed.teaCup ? (
-                      <div style={{ color: 'var(--lesson-text)', fontWeight: '900', fontSize: '1.6rem' }}>150 mL</div>
+                      <div style={{ color: '#3E2723', fontWeight: '900', fontSize: '1.6rem' }}>150 mL</div>
                     ) : (
-                      <button style={{ background: '#A64B27', border: '2px solid var(--lesson-border)', color: '#FFFFFF', padding: '8px 24px', borderRadius: '24px', fontSize: '1.1rem', cursor: 'pointer', fontWeight: 'bold', width: '100%', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>Reveal</button>
+                      <button style={{ background: '#A94727', border: '2px solid var(--lesson-border)', color: '#FFFFFF', padding: '8px 24px', borderRadius: '24px', fontSize: '1.1rem', cursor: 'pointer', fontWeight: 'bold', width: '100%', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>Reveal</button>
                     )}
                   </div>
                 </div>
@@ -318,11 +318,11 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
                     <img src="/images/3d_soup_bowl_1788167306592.jpg" alt="Soup Bowl" style={{ maxWidth: '90%', maxHeight: '100%', objectFit: 'contain', mixBlendMode: 'multiply' }} />
                   </div>
                   <div style={{ textAlign: 'center', width: '100%', flexShrink: 0 }}>
-                    <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--lesson-text)', marginBottom: '8px' }}>Soup Bowl</div>
+                    <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#3E2723', marginBottom: '8px' }}>Soup Bowl</div>
                     {volumesRevealed.soupBowl ? (
-                      <div style={{ color: 'var(--lesson-text)', fontWeight: '900', fontSize: '1.6rem' }}>300 mL</div>
+                      <div style={{ color: '#3E2723', fontWeight: '900', fontSize: '1.6rem' }}>300 mL</div>
                     ) : (
-                      <button style={{ background: '#A64B27', border: '2px solid var(--lesson-border)', color: '#FFFFFF', padding: '8px 24px', borderRadius: '24px', fontSize: '1.1rem', cursor: 'pointer', fontWeight: 'bold', width: '100%', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>Reveal</button>
+                      <button style={{ background: '#A94727', border: '2px solid var(--lesson-border)', color: '#FFFFFF', padding: '8px 24px', borderRadius: '24px', fontSize: '1.1rem', cursor: 'pointer', fontWeight: 'bold', width: '100%', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>Reveal</button>
                     )}
                   </div>
                 </div>
@@ -333,11 +333,11 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
                     <img src="/images/3d_water_glass_1788167318191.jpg" alt="Water Glass" style={{ maxWidth: '90%', maxHeight: '100%', objectFit: 'contain', mixBlendMode: 'multiply' }} />
                   </div>
                   <div style={{ textAlign: 'center', width: '100%', flexShrink: 0 }}>
-                    <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--lesson-text)', marginBottom: '8px' }}>Water Glass</div>
+                    <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#3E2723', marginBottom: '8px' }}>Water Glass</div>
                     {volumesRevealed.waterGlass ? (
-                      <div style={{ color: 'var(--lesson-text)', fontWeight: '900', fontSize: '1.6rem' }}>250 mL</div>
+                      <div style={{ color: '#3E2723', fontWeight: '900', fontSize: '1.6rem' }}>250 mL</div>
                     ) : (
-                      <button style={{ background: '#A64B27', border: '2px solid var(--lesson-border)', color: '#FFFFFF', padding: '8px 24px', borderRadius: '24px', fontSize: '1.1rem', cursor: 'pointer', fontWeight: 'bold', width: '100%', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>Reveal</button>
+                      <button style={{ background: '#A94727', border: '2px solid var(--lesson-border)', color: '#FFFFFF', padding: '8px 24px', borderRadius: '24px', fontSize: '1.1rem', cursor: 'pointer', fontWeight: 'bold', width: '100%', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>Reveal</button>
                     )}
                   </div>
                 </div>
@@ -348,11 +348,11 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
                     <img src="/images/3d_realistic_10l_bucket_1788169915490.jpg" alt="Bucket" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', mixBlendMode: 'multiply' }} />
                   </div>
                   <div style={{ textAlign: 'center', width: '100%', flexShrink: 0 }}>
-                    <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--lesson-text)', marginBottom: '8px' }}>Bucket</div>
+                    <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#3E2723', marginBottom: '8px' }}>Bucket</div>
                     {volumesRevealed.bucket ? (
-                      <div style={{ color: 'var(--lesson-text)', fontWeight: '900', fontSize: '1.6rem' }}>10 L</div>
+                      <div style={{ color: '#3E2723', fontWeight: '900', fontSize: '1.6rem' }}>10 L</div>
                     ) : (
-                      <button style={{ background: '#A64B27', border: '2px solid var(--lesson-border)', color: '#FFFFFF', padding: '8px 24px', borderRadius: '24px', fontSize: '1.1rem', cursor: 'pointer', fontWeight: 'bold', width: '100%', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>Reveal</button>
+                      <button style={{ background: '#A94727', border: '2px solid var(--lesson-border)', color: '#FFFFFF', padding: '8px 24px', borderRadius: '24px', fontSize: '1.1rem', cursor: 'pointer', fontWeight: 'bold', width: '100%', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>Reveal</button>
                     )}
                   </div>
                 </div>
@@ -362,11 +362,11 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
               {/* Key Takeaway Integrated Below Grid */}
               <div style={{ background: 'var(--lesson-success-bg)', border: '1px solid #D9C9A3', borderRadius: '16px', padding: '16px 20px', display: 'flex', gap: '16px', alignItems: 'center', flexShrink: 0 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', background: 'white', width: '50px', height: '50px', borderRadius: '50%', flexShrink: 0, boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-                  <Star size={24} color="#A64B27" />
+                  <Star size={24} color="#A94727" />
                 </div>
                 <div>
-                  <h4 style={{ color: '#A64B27', margin: '0 0 4px 0', fontSize: '1.2rem', fontWeight: 'bold' }}>Key Takeaway</h4>
-                  <p style={{ margin: 0, color: 'var(--lesson-text)', fontSize: '1.1rem' }}>Volume is the amount of space occupied by an object or substance. Different containers can hold different amounts.</p>
+                  <h4 style={{ color: '#A94727', margin: '0 0 4px 0', fontSize: '1.2rem', fontWeight: 'bold' }}>Key Takeaway</h4>
+                  <p style={{ margin: 0, color: '#3E2723', fontSize: '1.1rem' }}>Volume is the amount of space occupied by an object or substance. Different containers can hold different amounts.</p>
                 </div>
               </div>
 
@@ -388,7 +388,7 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
               borderRadius: '24px', 
               border: 'none', 
               background: activeStep === 0 ? 'transparent' : 'white',
-              color: activeStep === 0 ? 'transparent' : 'var(--lesson-text)',
+              color: activeStep === 0 ? 'transparent' : '#3E2723',
               cursor: activeStep === 0 ? 'default' : 'pointer',
               fontWeight: 'bold',
               fontSize: '1.1rem',
@@ -412,7 +412,7 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
               padding: '10px 20px', 
               borderRadius: '24px', 
               border: 'none', 
-              background: activeStep === 2 ? 'transparent' : '#A64B27',
+              background: activeStep === 2 ? 'transparent' : '#A94727',
               color: activeStep === 2 ? 'transparent' : 'white',
               cursor: activeStep === 2 ? 'default' : 'pointer',
               fontWeight: 'bold',
