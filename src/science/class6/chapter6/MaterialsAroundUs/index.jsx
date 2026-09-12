@@ -11,6 +11,7 @@ import ChapterCover from './components/Educational/ChapterCover';
 import ChapterIntroSpread from './components/Educational/ChapterIntroSpread';
 import MissionBriefingSpread from './components/Educational/MissionBriefingSpread';
 import FullscreenButton from './components/Common/FullscreenButton';
+import backgroundImage from '../../../../assets/background image.png';
 
 const timelineTree = (() => {
   const tree = [];
@@ -131,6 +132,8 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
   // Global Theme Hook
   const { theme, toggleTheme } = useTheme();
 
+  const isExcludedBackground = currentNode.type === 'mission' || currentNode.type === 'checkpoint' || showHandbook;
+
   return (
     <>
       <FullscreenButton />
@@ -139,7 +142,11 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
       ) : showIntroSpread ? (
         <ChapterIntroSpread onContinue={() => setShowIntroSpread(false)} onBack={() => { setShowIntroSpread(false); setShowCover(true); }} />
       ) : (
-        <div className="activity-workspace materials-around-us-theme" style={{ paddingTop: 0, paddingBottom: 0, background: 'linear-gradient(135deg, #F5EFE6 0%, #EDE4D3 40%, #F0E8D8 70%, #E8DDCC 100%)' }}>
+        <div className="activity-workspace materials-around-us-theme" style={{ 
+          paddingTop: 0, 
+          paddingBottom: 0, 
+          background: isExcludedBackground ? 'linear-gradient(135deg, #F5EFE6 0%, #EDE4D3 40%, #F0E8D8 70%, #E8DDCC 100%)' : `url("${backgroundImage}") center/cover no-repeat fixed` 
+        }}>
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden', position: 'relative' }}>
         {/* Toggle Button */}
         <button
