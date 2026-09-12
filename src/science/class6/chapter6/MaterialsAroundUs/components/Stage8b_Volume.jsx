@@ -82,15 +82,15 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
   const colors = {
     cardBg:        'var(--lesson-card)',
     cardBorder:    'var(--lesson-border)',
-    textDark:      'var(--lesson-primary)',
+    textDark:      '#2C4E3D',
     textMedium:    'var(--lesson-secondary)',
     accent:        '#B04924',
     successBg:     'var(--lesson-success-bg)',
     successBorder: 'var(--lesson-success-border)',
-    successText:   'var(--lesson-primary)',
+    successText:   '#2C4E3D',
     thinkBg:       'var(--lesson-warning-bg)',
     thinkBorder:   'var(--lesson-warning-border)',
-    thinkText:     'var(--lesson-primary)',
+    thinkText:     '#2C4E3D',
   };
 
   /* ──────────────────────────────────────
@@ -639,7 +639,7 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
               <AnimatePresence>
                 {thinkFeedback && (
                   <motion.div key="feedback" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    <div style={{ padding: '16px 20px', borderRadius: '12px', background: thinkFeedback.type === 'success' ? colors.successBg : 'var(--lesson-danger-bg)', border: `2px solid ${thinkFeedback.type === 'success' ? colors.successBorder : 'var(--lesson-danger-border)'}`, color: thinkFeedback.type === 'success' ? colors.accent : 'var(--lesson-danger)', fontSize: '18px', fontWeight: '700', fontFamily: '"Merriweather", "Georgia", serif', display: 'flex', alignItems: 'flex-start', gap: '10px', boxSizing: 'border-box', marginTop: '4px' }}>
+                    <div style={{ padding: '16px 20px', borderRadius: '12px', background: thinkFeedback.type === 'success' ? colors.successBg : 'var(--lesson-danger-bg)', border: `2px solid ${thinkFeedback.type === 'success' ? colors.successBorder : 'var(--lesson-danger-border)'}`, color: thinkFeedback.type === 'success' ? colors.accent : '#A94727', fontSize: '18px', fontWeight: '700', fontFamily: '"Merriweather", "Georgia", serif', display: 'flex', alignItems: 'flex-start', gap: '10px', boxSizing: 'border-box', marginTop: '4px' }}>
                       {thinkFeedback.type === 'success' ? <CheckCircle2 size={24} color={colors.accent} style={{ flexShrink: 0, marginTop: '2px' }} strokeWidth={2.5} /> : <AlertCircle size={24} style={{ flexShrink: 0, marginTop: '2px' }} strokeWidth={2.5} />}
                       <div>{thinkFeedback.text}</div>
                     </div>

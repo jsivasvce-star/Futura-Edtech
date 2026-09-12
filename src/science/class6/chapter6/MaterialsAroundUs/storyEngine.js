@@ -21,9 +21,7 @@ import Handbook_Solubility from './components/Educational/Handbook_Solubility';
 import Handbook_Mass from './components/Educational/Handbook_Mass';
 import Handbook_Volume from './components/Educational/Handbook_Volume';
 import Handbook_Matter from './components/Educational/Handbook_Matter';
-import Stage8_AyurvedaSummary from './components/Stage8_AyurvedaSummary';
 import Stage9a_WhatIsMatter from './components/Stage9a_WhatIsMatter';
-import Stage9c_ConceptMap from './components/Stage9c_ConceptMap';
 
 export const chapterFlow = [
   // 0: Intro Mission
@@ -445,11 +443,7 @@ export const chapterFlow = [
     ]
   },
 
-  // Do You Know Box (Ancient Classification)
-  { type: 'activity', id: 'summary', title: 'Do You Know?', subtitle: 'Ancient Classification', component: Stage8_AyurvedaSummary },
 
-  // Interactive Concept Map
-  { type: 'activity', id: 'summary', title: 'Concept Map', subtitle: 'Property Review', component: Stage9c_ConceptMap },
 
   // Mission Final Quiz (NOT a barrier)
   {

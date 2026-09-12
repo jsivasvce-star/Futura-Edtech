@@ -24,6 +24,12 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
     displayTitle = displayTitle.replace('Barrier 2', 'Barrier\u00A02');
   }
 
+  const isUserPage = displayTitle.includes('The Classroom Mystery') || displayTitle.includes('Barrier 4');
+  const colorMainHeading = isUserPage ? '#2C4E3D' : 'var(--lesson-primary)';
+  const colorBodyText = isUserPage ? '#3E2723' : '#3b4560'; // or 'var(--lesson-text)' depending on usage
+  const colorHighlight = isUserPage ? '#A94727' : 'var(--lesson-danger)';
+  const colorSubHeading = isUserPage ? '#4A3B5C' : 'var(--lesson-primary)';
+
   return (
     <div style={{
       position: 'fixed',
@@ -188,7 +194,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             font-size: 20px;
             font-weight: 700;
             letter-spacing: 1.8px;
-            color: var(--lesson-primary);
+            color: ${colorMainHeading};
             margin-bottom: 8px;
             display: flex;
             align-items: center;
@@ -197,7 +203,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
           .mission-title {
             font-size: 24px;
             line-height: 1.15;
-            color: var(--lesson-primary);
+            color: ${colorMainHeading};
             font-weight: 700;
             margin: 0 0 16px 0;
             font-family: Georgia, "Times New Roman", serif;
@@ -212,12 +218,12 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             font-family: Arial, Helvetica, sans-serif;
             font-size: 16px;
             line-height: 1.5;
-            color: #3b4560;
+            color: ${colorBodyText};
           }
           .mission-box {
             background: var(--lesson-surface);
             border: 1px solid var(--lesson-border);
-            border-left: 4px solid var(--lesson-danger);
+            border-left: 4px solid ${colorHighlight};
             border-radius: 12px;
             padding: 22px 26px;
             margin-bottom: 22px;
@@ -227,7 +233,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             font-family: Arial, Helvetica, sans-serif;
             font-size: 20px;
             font-weight: 700;
-            color: var(--lesson-primary);
+            color: ${colorSubHeading};
             margin: 0 0 12px 0;
             display: flex;
             align-items: center;
@@ -237,7 +243,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
           .mission-box p, .mission-box li {
             font-family: Arial, Helvetica, sans-serif;
             font-size: 20px;
-            color: var(--lesson-text);
+            color: ${isUserPage ? '#3E2723' : 'var(--lesson-text)'};
             line-height: 1.45;
             font-weight: 600;
           }
