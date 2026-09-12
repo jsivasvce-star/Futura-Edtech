@@ -64,6 +64,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
   const [showCover, setShowCover] = useState(true);
   const [showIntroSpread, setShowIntroSpread] = useState(false);
   const [showHandbook, setShowHandbook] = useState(true);
+  const [handbookInitialPage, setHandbookInitialPage] = useState(1);
   const [expandedNodes, setExpandedNodes] = useState({ 
     'Barrier 6.1': true, 'Barrier 6.2': true, 'Barrier 6.3': true, 'Barrier 6.4': true, 'Final Wrap-up': true,
     'Stage 6.3.1': true, 'Stage 6.3.2': true, 'Stage 6.3.3': true, 'Stage 6.3.4': true, 'Stage 6.3.5': true, 'Stage 6.3.6': true
@@ -348,10 +349,11 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
             ) : showHandbook ? (
               <div style={{ flex: 1, minHeight: 0, padding: 0, display: 'flex', flexDirection: 'column', width: '100%', height: '100%', boxSizing: 'border-box' }}>
                 <InvestigationHandbook 
-                  ref={handbookRef}
+                  ref={stageRef}
                   highestUnlockedIndex={highestUnlockedIndex} 
                   currentFlowIndex={currentFlowIndex} 
                   stageCompleted={stageCompleted} 
+                  initialPage={handbookInitialPage}
                   onNext={() => setShowHandbook(false)}
                 />
               </div>
@@ -380,7 +382,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
                   </div>
                 )}
                 <div style={{ position: 'relative', zIndex: 10, flex: 1, display: 'flex', backgroundColor: 'rgba(0, 0, 0, 0.4)' }}>
-                  <InvestigationHandbook data={currentNode} onComplete={handleNext} />
+                  <InvestigationHandbook ref={stageRef} data={currentNode} onComplete={handleNext} />
                 </div>
               </div>
             );
@@ -436,6 +438,11 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
               if (stageRef.current && stageRef.current.handleGlobalBack && stageRef.current.handleGlobalBack()) {
                 return;
               }
+              if (currentFlowIndex === 1 && !showHandbook) {
+                setHandbookInitialPage(2);
+                setShowHandbook(true);
+                return;
+              }
               setShowHandbook(false);
               if (currentFlowIndex > 0) {
                 setCurrentFlowIndex(currentFlowIndex - 1);
@@ -470,6 +477,10 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
             <button 
               onClick={() => {
                 if (stageRef.current && stageRef.current.handleGlobalNext && stageRef.current.handleGlobalNext()) {
+                  return;
+                }
+                if (currentFlowIndex === 1 && showHandbook) {
+                  setShowHandbook(false);
                   return;
                 }
                 handleNext();

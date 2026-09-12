@@ -187,10 +187,10 @@ const PotterySpotlight = ({ currentClue, setCurrentClue }) => {
   );
 };
 
-const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowIndex = 0, stageCompleted = false, onNext, onComplete }, ref) => {
+const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowIndex = 0, stageCompleted = false, onNext, onComplete, initialPage = 1 }, ref) => {
   const handleProceed = onNext || onComplete;
   
-  const [b1Page, setB1Page] = useState(1);
+  const [b1Page, setB1Page] = useState(initialPage);
   const [currentClue, setCurrentClue] = useState(1);
 
   useImperativeHandle(ref, () => ({
@@ -198,15 +198,24 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
       if (currentFlowIndex < 5) {
         if (b1Page === 1) {
           setB1Page(2);
-          return false; // Don't close handbook
+          return true; // Event handled internally, don't propagate
         } else if (b1Page === 2) {
           if (currentClue < 5) {
-            return false; // Don't close handbook, user must click the internal clue button
+            return true; // Event handled (user must click clue button), don't propagate
           }
-          return true; // Close handbook
+          return false; // Done with page 2, allow index.jsx to proceed
         }
       }
-      return true; // Close handbook for other barriers
+      return false; // Let index.jsx proceed for other barriers
+    },
+    handleGlobalBack: () => {
+      if (currentFlowIndex < 5) {
+        if (b1Page === 2) {
+          setB1Page(1);
+          return true; // Event handled internally
+        }
+      }
+      return false; // Let index.jsx handle back
     }
   }));
 
