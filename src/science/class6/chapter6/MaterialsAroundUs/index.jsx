@@ -54,6 +54,7 @@ const timelineTree = (() => {
 
 export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
   const handbookRef = useRef(null);
+  const stageRef = useRef(null);
   const [currentFlowIndex, setCurrentFlowIndex] = useState(0);
   const [highestUnlockedIndex, setHighestUnlockedIndex] = useState(0);
   const [isTimelineOpen, setIsTimelineOpen] = useState(false);
@@ -338,6 +339,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
           {currentNode.type === 'activity' && (
             ['quiz', 'summary'].includes(currentNode.id) ? (
               <currentNode.component 
+                registerBackHandler={(handler) => { if (stageRef) stageRef.current = { handleGlobalBack: handler }; }}
                 key={`${currentNode.id}-${resetKey}`}
                 {...(currentNode.props || {})} 
                 onComplete={handleStageComplete} 
@@ -356,6 +358,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
             ) : (
               <div style={{ flex: 1, minHeight: 0, position: 'relative', display: 'flex', flexDirection: 'column', overflowY: 'auto', padding: '1.5rem', width: '100%', height: '100%', boxSizing: 'border-box' }}>
                 <currentNode.component 
+                  registerBackHandler={(handler) => { if (stageRef) stageRef.current = { handleGlobalBack: handler }; }}
                   key={`${currentNode.id}-${resetKey}`}
                   {...(currentNode.props || {})} 
                   onComplete={handleStageComplete} 
@@ -430,17 +433,12 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
 
           <button 
             onClick={() => {
-              if (!showHandbook && currentNode.type === 'activity' && currentNode.id === 'stage1') {
-                setShowHandbook(true);
-              } else if (currentFlowIndex > 0) {
-                const prevIndex = currentFlowIndex - 1;
-                const prevNode = chapterFlow[prevIndex];
-                if (prevNode && prevNode.type === 'mission' && prevNode.title.includes('Barrier 1')) {
-                  setShowHandbook(true);
-                } else {
-                  setShowHandbook(false);
-                }
-                setCurrentFlowIndex(prevIndex);
+              if (stageRef.current && stageRef.current.handleGlobalBack && stageRef.current.handleGlobalBack()) {
+                return;
+              }
+              setShowHandbook(false);
+              if (currentFlowIndex > 0) {
+                setCurrentFlowIndex(currentFlowIndex - 1);
               } else {
                 setShowIntroSpread(true);
               }
@@ -470,14 +468,12 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
 
           {(currentNode.type === 'activity' || currentNode.type === 'checkpoint') && (
             <button 
-              onClick={showHandbook && !['stage8_b', 'stage8_c', 'stage3_use', 'stage4_1', 'stage4_2', 'stage4_4', 'stage4_5', 'stage6_a'].includes(currentNode.id) ? () => {
-                if (handbookRef.current && handbookRef.current.handleGlobalNext) {
-                  const shouldClose = handbookRef.current.handleGlobalNext();
-                  if (shouldClose) setShowHandbook(false);
-                } else {
-                  setShowHandbook(false);
+              onClick={() => {
+                if (stageRef.current && stageRef.current.handleGlobalNext && stageRef.current.handleGlobalNext()) {
+                  return;
                 }
-              } : handleNext}
+                handleNext();
+              }}
               disabled={false}
               className={'primary'}
               style={{ 

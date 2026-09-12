@@ -1,15 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import PropTypes from 'prop-types';
 import AirExperiments3D from './AirExperiments3D';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
+const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [completed, setCompleted] = useState({ 1: false, 2: false, 3: false });
 
   const goStep = (n) => {
     setCurrentStep(n);
   };
+
+  React.useEffect(() => {
+    if (registerBackHandler) {
+      registerBackHandler(() => {
+        if (currentStep > 1) {
+          setCurrentStep(currentStep - 1);
+          return true;
+        }
+        return false;
+      });
+    }
+  }, [currentStep, registerBackHandler]);
 
   const markComplete = (n) => {
     setCompleted(prev => ({ ...prev, [n]: true }));
@@ -60,6 +72,7 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
 
       if (newItems.length === 0) {
         markComplete(3);
+        setShowFinalEvidence(true);
       }
     } else {
       setAskUnit(null);
@@ -70,6 +83,7 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
 
   // Final Evidence & Close Case
   const [caseClosed, setCaseClosed] = useState(false);
+  const [showFinalEvidence, setShowFinalEvidence] = useState(false);
   const handleCloseCase = () => {
     setCaseClosed(true);
     if (typeof addXp === 'function') addXp(50);
@@ -653,17 +667,6 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
                 {volumeBin.map(id => <div key={id} className="item">{id}</div>)}
               </div>
             </div>
-            
-            {completed[3] && (
-              <div className="c-final-evidence">
-                <h3>FINAL EVIDENCE FILED</h3>
-                <ul>
-                  <li>Matter takes up space (volume) and has mass.</li>
-                  <li>Solids, liquids, and gases (like air) are all matter.</li>
-                  <li>We can measure mass in kg or g, and volume in L or mL.</li>
-                </ul>
-              </div>
-            )}
           </div>
 
           <div className={`c-ask ${askUnit ? 'show' : ''}`}>
@@ -675,12 +678,111 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
               </div>
             </div>
           </div>
-
-          <div style={{ marginTop: '24px', display: 'flex', justifyContent: 'flex-end' }}>
-            <button className="c-btn-green" disabled={!completed[3]} onClick={handleCloseCase}>Close the case ✓</button>
-          </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {showFinalEvidence && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: 'fixed',
+              top: 0, left: 0, right: 0, bottom: 0,
+              background: 'rgba(0,0,0,0.6)',
+              backdropFilter: 'blur(4px)',
+              zIndex: 9999,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '24px'
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className="c-final-evidence"
+              style={{
+                 margin: 0,
+                 width: '100%',
+                 maxWidth: '680px',
+                 maxHeight: '90vh',
+                 overflowY: 'auto',
+                 boxShadow: '0 12px 48px rgba(0,0,0,0.4)',
+                 border: '2px solid var(--border-color)',
+                 position: 'relative'
+              }}
+            >
+              <h3 style={{ 
+                borderBottom: '2px solid var(--border-color)', 
+                paddingBottom: '16px',
+                margin: '0 0 20px',
+                fontSize: '36px',
+                fontFamily: '"Playfair Display", "Merriweather", serif',
+                fontWeight: 900,
+                color: 'var(--title-dark)'
+              }}>FINAL EVIDENCE FILED</h3>
+              <ul style={{ 
+                margin: 0, 
+                paddingLeft: '32px', 
+                listStyleType: 'square', 
+                color: 'var(--ink)', 
+                fontSize: '28px', 
+                fontWeight: 600,
+                fontFamily: '"Merriweather", "Georgia", serif',
+                lineHeight: '1.4',
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: '12px' 
+              }}>
+                <li>Matter takes up space (volume) and has mass.</li>
+                <li>Solids, liquids, and gases (like air) are all matter.</li>
+                <li>We can measure mass in kg or g, and volume in L or mL.</li>
+              </ul>
+              <div style={{ marginTop: '28px', display: 'flex', justifyContent: 'center' }}>
+                <button 
+                  onClick={() => {
+                    setShowFinalEvidence(false);
+                    handleCloseCase();
+                  }}
+                  style={{
+                    position: 'relative',
+                    overflow: 'hidden',
+                    background: '#B04924',
+                    border: 'none',
+                    color: 'white',
+                    padding: '12px 24px',
+                    borderRadius: '16px',
+                    width: '100%',
+                    fontSize: '28px',
+                    fontFamily: '"Merriweather", "Georgia", serif',
+                    fontWeight: '900',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: '12px',
+                    animation: 'btnPulse 2s infinite',
+                    boxShadow: '0 4px 12px rgba(166, 75, 39, 0.3)'
+                  }}
+                >
+                  <div style={{
+                     position: 'absolute', top: 0, bottom: 0, width: '40px',
+                     background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                     transform: 'skewX(-20deg)',
+                     animation: 'shineSweep 3s infinite'
+                  }} />
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fef08a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '10px', left: '16px', opacity: 0.9 }}><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fef08a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', bottom: '10px', right: '16px', opacity: 0.9 }}><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
+                  Done ✓
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className={`c-closed-overlay ${caseClosed ? 'show' : ''}`}>
          <div className="c-stamp-big">CASE CLOSED</div>
@@ -690,7 +792,9 @@ export default function Stage9a_WhatIsMatter({ onComplete, addXp }) {
       </div>
     </div>
   );
-}
+};
+
+export default Stage9a_WhatIsMatter;
 
 Stage9a_WhatIsMatter.propTypes = {
   onComplete: PropTypes.func,
