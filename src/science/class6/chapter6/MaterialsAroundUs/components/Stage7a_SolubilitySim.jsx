@@ -115,47 +115,93 @@ export default function Stage7a_SolubilitySim({ onComplete, addXp }) {
             <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--text-main)', marginBottom: '2rem' }}>
               Materials to Test
             </h3>
-            <div style={{ flex: 1, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '2rem', alignContent: 'start', justifyItems: 'center', width: '100%' }}>
-              {substances.map((sub) => {
-                const isSelected = selectedSubstance?.id === sub.id;
-                const isObserved = observations[sub.id];
-                return (
-                  <button
-                    key={sub.id}
-                    onClick={() => handleSelect(sub)}
-                    style={{
-                      background: isSelected ? 'var(--lesson-surface)' : 'white',
-                      border: `2px solid ${isSelected ? '#A94727' : 'var(--lesson-border)'}`,
-                      color: isSelected ? '#2C4E3D' : '#3E2723',
-                      padding: '1.5rem 1rem',
-                      borderRadius: '16px',
-                      fontWeight: 'bold',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '1rem',
-                      transition: 'all 0.2s',
-                      boxShadow: isSelected ? '0 4px 15px rgba(166, 75, 39, 0.2)' : '0 4px 10px rgba(0,0,0,0.05)',
-                      transform: isSelected ? 'scale(1.02)' : 'scale(1)',
-                      width: '100%',
-                      maxWidth: '220px',
-                      boxSizing: 'border-box'
-                    }}
-                  >
-                    <div style={{ position: 'relative', width: '80px', height: '80px' }}>
-                      <div style={{ width: '100%', height: '100%', background: '#FFFFFF', borderRadius: '50%', padding: '12px', border: '1px solid var(--lesson-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05)' }}>
-                        <img src={sub.image} alt={sub.name} style={{ width: '55px', height: '55px', objectFit: 'contain', mixBlendMode: 'multiply' }} />
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '2rem', alignItems: 'center', width: '100%' }}>
+              <div style={{ display: 'flex', gap: '2rem', justifyContent: 'center', width: '100%' }}>
+                {substances.slice(0, 3).map((sub) => {
+                  const isSelected = selectedSubstance?.id === sub.id;
+                  const isObserved = observations[sub.id];
+                  return (
+                    <button
+                      key={sub.id}
+                      onClick={() => handleSelect(sub)}
+                      style={{
+                        background: isSelected ? 'var(--lesson-surface)' : 'white',
+                        border: `2px solid ${isSelected ? '#A94727' : 'var(--lesson-border)'}`,
+                        color: isSelected ? '#2C4E3D' : '#3E2723',
+                        padding: '1.5rem 1rem',
+                        borderRadius: '16px',
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '1rem',
+                        transition: 'all 0.2s',
+                        boxShadow: isSelected ? '0 4px 15px rgba(166, 75, 39, 0.2)' : '0 4px 10px rgba(0,0,0,0.05)',
+                        transform: isSelected ? 'scale(1.02)' : 'scale(1)',
+                        width: '100%',
+                        maxWidth: '220px',
+                        boxSizing: 'border-box',
+                        flex: '1 1 160px'
+                      }}
+                    >
+                      <div style={{ position: 'relative', width: '80px', height: '80px' }}>
+                        <div style={{ width: '100%', height: '100%', background: '#FFFFFF', borderRadius: '50%', padding: '12px', border: '1px solid var(--lesson-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05)' }}>
+                          <img src={sub.image} alt={sub.name} style={{ width: '55px', height: '55px', objectFit: 'contain', mixBlendMode: 'multiply' }} />
+                        </div>
+                        {isObserved && (
+                          <div style={{ position: 'absolute', top: -5, right: -5, background: '#A94727', color: 'white', borderRadius: '50%', width: '24px', height: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.9rem', border: '2px solid white', boxShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>✓</div>
+                        )}
                       </div>
-                      {isObserved && (
-                        <div style={{ position: 'absolute', top: -5, right: -5, background: '#A94727', color: 'white', borderRadius: '50%', width: '24px', height: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.9rem', border: '2px solid white', boxShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>✓</div>
-                      )}
-                    </div>
-                    <span style={{ fontSize: '1.1rem', textAlign: 'center', lineHeight: '1.3', width: '100%', wordWrap: 'break-word' }}>{sub.name}</span>
-                  </button>
-                );
-              })}
+                      <span style={{ fontSize: '1.1rem', textAlign: 'center', lineHeight: '1.3', width: '100%', wordWrap: 'break-word' }}>{sub.name}</span>
+                    </button>
+                  );
+                })}
+              </div>
+              <div style={{ display: 'flex', gap: '2rem', justifyContent: 'center', width: '100%' }}>
+                {substances.slice(3).map((sub) => {
+                  const isSelected = selectedSubstance?.id === sub.id;
+                  const isObserved = observations[sub.id];
+                  return (
+                    <button
+                      key={sub.id}
+                      onClick={() => handleSelect(sub)}
+                      style={{
+                        background: isSelected ? 'var(--lesson-surface)' : 'white',
+                        border: `2px solid ${isSelected ? '#A94727' : 'var(--lesson-border)'}`,
+                        color: isSelected ? '#2C4E3D' : '#3E2723',
+                        padding: '1.5rem 1rem',
+                        borderRadius: '16px',
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '1rem',
+                        transition: 'all 0.2s',
+                        boxShadow: isSelected ? '0 4px 15px rgba(166, 75, 39, 0.2)' : '0 4px 10px rgba(0,0,0,0.05)',
+                        transform: isSelected ? 'scale(1.02)' : 'scale(1)',
+                        width: '100%',
+                        maxWidth: '220px',
+                        boxSizing: 'border-box',
+                        flex: '1 1 160px'
+                      }}
+                    >
+                      <div style={{ position: 'relative', width: '80px', height: '80px' }}>
+                        <div style={{ width: '100%', height: '100%', background: '#FFFFFF', borderRadius: '50%', padding: '12px', border: '1px solid var(--lesson-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05)' }}>
+                          <img src={sub.image} alt={sub.name} style={{ width: '55px', height: '55px', objectFit: 'contain', mixBlendMode: 'multiply' }} />
+                        </div>
+                        {isObserved && (
+                          <div style={{ position: 'absolute', top: -5, right: -5, background: '#A94727', color: 'white', borderRadius: '50%', width: '24px', height: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.9rem', border: '2px solid white', boxShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>✓</div>
+                        )}
+                      </div>
+                      <span style={{ fontSize: '1.1rem', textAlign: 'center', lineHeight: '1.3', width: '100%', wordWrap: 'break-word' }}>{sub.name}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
