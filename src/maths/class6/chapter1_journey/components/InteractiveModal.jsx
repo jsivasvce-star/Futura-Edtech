@@ -1,6 +1,8 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import ErrorBoundary from '../../../../components/ErrorBoundary';
+import PatternWhyExperience from './PatternWhyExperience';
+import FigureItOutExperience from './FigureItOutExperience';
 
 import traffic1 from '../../../../assets/traffic_1.jpeg';
 import traffic2 from '../../../../assets/traffic_2.jpeg';
@@ -41,6 +43,17 @@ import schoolCorridor from '../../../../assets/school_corridor.png';
 import schoolBoard from '../../../../assets/school_board.png';
 import schoolSportsCourt from '../../../../assets/school_sports court.png';
 
+import everydayActivityVideo from '../../../../assets/everyday_activity.mp4';
+import cricketImg from '../../../../assets/cricket.png';
+import shoppingImg from '../../../../assets/shopping.png';
+import zebraCrossingImg from '../../../../assets/zebracrossing.png';
+import bicycleImg from '../../../../assets/bicycle.png';
+
+import technologyVideo from '../../../../assets/technology.mp4';
+import satelliteImg from '../../../../assets/satellite.png';
+import phonePatternImg from '../../../../assets/phone_pattern.png';
+import keyboardImg from '../../../../assets/keyboard.png';
+
 const SCHOOL_OBJECTS = [
   {
     id: 'desk',
@@ -73,6 +86,68 @@ const SCHOOL_OBJECTS = [
     heading: 'Sports Court — Geometric Markings',
     description: 'The court showcases concentric circles, arcs, rectangles, and lines of symmetry for balanced gameplay.',
     box: { left: '50%', top: '42%', width: '48%', height: '34%', borderRadius: '16px' }
+  }
+];
+
+const EVERYDAY_OBJECTS = [
+  {
+    id: 'cricket',
+    name: 'Cricket',
+    image: cricketImg,
+    heading: 'Cricket — Field Patterns',
+    description: 'The cricket field and pitches use specific geometrical measurements, shapes, and patterns to organize the game.',
+    box: { left: '0%', top: '0%', width: '50%', height: '50%', borderRadius: '0' }
+  },
+  {
+    id: 'shopping',
+    name: 'Shopping',
+    image: shoppingImg,
+    heading: 'Shopping — Sorting & Grids',
+    description: 'Supermarket shelves are organized into grids, sorting items by categories, sizes, and prices in a logical pattern.',
+    box: { left: '50%', top: '0%', width: '50%', height: '50%', borderRadius: '0' }
+  },
+  {
+    id: 'zebracrossing',
+    name: 'Zebra Crossing',
+    image: zebraCrossingImg,
+    heading: 'Zebra Crossing — Alternating Sequence',
+    description: 'The crossing is made of alternating black and white rectangular stripes, forming a clear repeating visual sequence.',
+    box: { left: '0%', top: '50%', width: '50%', height: '50%', borderRadius: '0' }
+  },
+  {
+    id: 'bicycle',
+    name: 'Bicycle',
+    image: bicycleImg,
+    heading: 'Bicycle — Circular Symmetry',
+    description: 'The bicycle wheels are perfect circles with radiating spokes, demonstrating rotational symmetry and geometry.',
+    box: { left: '50%', top: '50%', width: '50%', height: '50%', borderRadius: '0' }
+  }
+];
+
+const TECHNOLOGY_OBJECTS = [
+  {
+    id: 'satellite',
+    name: 'Satellite',
+    image: satelliteImg,
+    heading: 'Satellite — Orbits & Coordinates',
+    description: 'Satellites orbit the Earth in precise mathematical paths, using geometry and coordinate systems to transmit signals accurately across the globe.',
+    box: { left: '10%', top: '10%', width: '35%', height: '35%', borderRadius: '12px' }
+  },
+  {
+    id: 'phone',
+    name: 'Phone',
+    image: phonePatternImg,
+    heading: 'Phone — Digital Logic',
+    description: 'Inside a smartphone, millions of calculations happen every second using binary patterns and mathematical logic gates to process information.',
+    box: { left: '55%', top: '10%', width: '35%', height: '40%', borderRadius: '12px' }
+  },
+  {
+    id: 'keyboard',
+    name: 'Keyboard',
+    image: keyboardImg,
+    heading: 'Keyboard — Matrix & Arrays',
+    description: 'The keys on a keyboard are arranged in a specific matrix array. Mathematics is used to detect which key is pressed based on its coordinate position.',
+    box: { left: '20%', top: '60%', width: '60%', height: '30%', borderRadius: '12px' }
   }
 ];
 
@@ -235,16 +310,19 @@ const LESSON_TABS = [
   { id: 3, title: 'School' },
   { id: 4, title: 'Everyday Activity' },
   { id: 5, title: 'Technology' },
-  { id: 6, title: 'From Pattern → Why?' }
+  { id: 6, title: 'From Pattern → Why?' },
+  { id: 7, title: 'Figure It Out' }
 ];
 
-function FullscreenExplore1_1({ onClose }) {
+function FullscreenExplore1_1({ onClose, onCompleteNode }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
   const [activeLessonTab, setActiveLessonTab] = useState(1);
   const [selectedNatureObj, setSelectedNatureObj] = useState(null);
   const [selectedHomeObj, setSelectedHomeObj] = useState(null);
   const [selectedSchoolObj, setSelectedSchoolObj] = useState(null);
+  const [selectedEverydayObj, setSelectedEverydayObj] = useState(null);
+  const [selectedTechnologyObj, setSelectedTechnologyObj] = useState(null);
 
   const words = React.useMemo(() => {
     const text = TRAFFIC_SLIDES[currentSlide]?.subtitle || '';
@@ -374,19 +452,19 @@ function FullscreenExplore1_1({ onClose }) {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.45rem',
-              padding: '0.45rem 0.85rem',
-              minHeight: '46px',
-              fontSize: '0.82rem',
-              fontWeight: '800',
-              color: '#0f172a',
-              border: '1.5px solid #cbd5e1',
+              padding: '0.5rem 0.95rem',
+              minHeight: '52px',
+              fontSize: '1.05rem',
+              fontWeight: 900,
+              color: '#050b14',
+              border: '2px solid #94a3b8',
               borderRadius: '12px',
               background: '#ffffff',
               cursor: 'pointer',
               boxSizing: 'border-box',
               transition: 'all 0.2s ease',
               boxShadow: '0 2px 6px rgba(0, 0, 0, 0.05)',
-              fontFamily: '"Space Grotesk", sans-serif',
+              fontFamily: '"Times New Roman", Times, Georgia, serif',
               whiteSpace: 'nowrap'
             }}
             onMouseEnter={(e) => {
@@ -395,12 +473,12 @@ function FullscreenExplore1_1({ onClose }) {
               e.currentTarget.style.transform = 'translateX(-2px)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = '#cbd5e1';
-              e.currentTarget.style.color = '#0f172a';
+              e.currentTarget.style.borderColor = '#94a3b8';
+              e.currentTarget.style.color = '#050b14';
               e.currentTarget.style.transform = 'translateX(0)';
             }}
           >
-            <ArrowLeft size={16} />
+            <ArrowLeft size={18} />
             <span>Back to Main Page</span>
           </button>
 
@@ -409,8 +487,8 @@ function FullscreenExplore1_1({ onClose }) {
               flex: 1,
               minWidth: 0,
               display: 'grid',
-              gridTemplateColumns: 'repeat(6, minmax(0, 1fr))',
-              gap: '0.35rem',
+              gridTemplateColumns: 'repeat(7, minmax(0, 1fr))',
+              gap: '0.45rem',
               boxSizing: 'border-box'
             }}
           >
@@ -421,58 +499,101 @@ function FullscreenExplore1_1({ onClose }) {
                   key={tab.id}
                   type="button"
                   onClick={() => {
+                    if (tab.id === 7) {
+                      setActiveLessonTab(7);
+                      setSelectedNatureObj(null);
+                      setSelectedHomeObj(null);
+                      setSelectedSchoolObj(null);
+                      setSelectedEverydayObj(null);
+                      setSelectedTechnologyObj(null);
+                      return;
+                    }
                     setActiveLessonTab(tab.id);
                     setSelectedNatureObj(null);
                     setSelectedHomeObj(null);
                     setSelectedSchoolObj(null);
+                    setSelectedEverydayObj(null);
+                    setSelectedTechnologyObj(null);
                   }}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '0.4rem',
-                    padding: '0.35rem 0.45rem',
-                    background: isActive ? '#ffffff' : '#f8fafc',
-                    border: `1.5px solid ${isActive ? '#F5A623' : '#cbd5e1'}`,
-                    borderRadius: '12px',
+                    justifyContent: 'center',
+                    gap: '0.45rem',
+                    padding: '0.35rem 0.5rem',
+                    background: isActive
+                      ? 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)'
+                      : '#ffffff',
+                    border: isActive
+                      ? '2.5px solid #d97706'
+                      : '2px solid #94a3b8',
+                    borderRadius: '10px',
                     width: '100%',
-                    minHeight: '46px',
+                    minHeight: '52px',
                     cursor: 'pointer',
-                    transition: 'all 0.2s',
-                    boxShadow: isActive ? '0 4px 15px rgba(245, 166, 35, 0.25)' : 'none',
-                    textAlign: 'left',
-                    boxSizing: 'border-box'
+                    transition: 'all 0.2s ease',
+                    boxShadow: isActive
+                      ? '0 4px 14px rgba(217, 119, 6, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.9)'
+                      : '0 2px 5px rgba(0, 0, 0, 0.05)',
+                    transform: isActive ? 'translateY(-1px)' : 'none',
+                    boxSizing: 'border-box',
+                    fontFamily: '"Times New Roman", Times, Georgia, serif'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.borderColor = '#64748b';
+                      e.currentTarget.style.backgroundColor = '#f8fafc';
+                      e.currentTarget.style.transform = 'translateY(-1px)';
+                      e.currentTarget.style.boxShadow = '0 3px 8px rgba(0, 0, 0, 0.08)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.borderColor = '#94a3b8';
+                      e.currentTarget.style.backgroundColor = '#ffffff';
+                      e.currentTarget.style.transform = 'none';
+                      e.currentTarget.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.05)';
+                    }
                   }}
                 >
                   <div style={{
-                    width: '20px',
-                    height: '20px',
+                    width: '26px',
+                    height: '26px',
                     borderRadius: '6px',
-                    background: isActive ? '#F5A623' : '#64748b',
-                    color: '#fff',
+                    background: isActive
+                      ? 'linear-gradient(135deg, #d97706 0%, #b45309 100%)'
+                      : '#050b14',
+                    color: '#ffffff',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: '0.72rem',
-                    fontWeight: 'bold',
-                    flexShrink: 0
+                    fontSize: '1.05rem',
+                    fontWeight: 900,
+                    fontFamily: '"Times New Roman", Times, Georgia, serif',
+                    flexShrink: 0,
+                    boxShadow: isActive ? '0 2px 5px rgba(180, 83, 9, 0.35)' : 'none',
+                    border: isActive ? '1px solid #92400e' : '1px solid #000000'
                   }}>
                     {tab.id}
                   </div>
                   <div style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'flex-start',
+                    alignItems: 'center',
                     justifyContent: 'center',
                     minWidth: 0,
                     flex: 1
                   }}>
                     <span style={{
-                      fontSize: '0.74rem',
-                      fontWeight: '800',
-                      color: '#0f172a',
+                      fontFamily: '"Times New Roman", Times, Georgia, serif',
+                      fontSize: 'clamp(1.02rem, 1.15vw, 1.25rem)',
+                      fontWeight: 900,
+                      color: isActive ? '#78350f' : '#050b14',
                       lineHeight: 1.15,
-                      whiteSpace: 'normal',
-                      width: '100%'
+                      textAlign: 'center',
+                      width: '100%',
+                      letterSpacing: '0.01em',
+                      display: 'block'
                     }}>
                       {tab.title}
                     </span>
@@ -1333,6 +1454,612 @@ function FullscreenExplore1_1({ onClose }) {
               </div>
             </>
           )}
+
+          {activeLessonTab === 4 && (
+            <>
+              {/* LEFT SIDE: Content panel (exactly 20% width) */}
+              <div style={{
+                flex: '0 0 20%',
+                width: '20%',
+                maxWidth: '20%',
+                minWidth: '20%',
+                height: '100%',
+                backgroundColor: '#ffffff',
+                borderRight: '1px solid #cbd5e1',
+                padding: 'clamp(8px, 1.2vh, 14px) clamp(8px, 0.9vw, 12px)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                boxSizing: 'border-box',
+                zIndex: 5,
+                overflowY: 'auto'
+              }}>
+                {/* Visual Card matching screenshot layout */}
+                <div style={{
+                  backgroundColor: '#ffffff',
+                  border: '1.5px solid #d1d5db',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  boxShadow: '0 3px 12px rgba(0, 0, 0, 0.06)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                  boxSizing: 'border-box'
+                }}>
+                  {/* Dark Forest Green Header Banner */}
+                  <div style={{
+                    backgroundColor: '#1b4332',
+                    padding: 'clamp(8px, 1.3vh, 12px) clamp(10px, 1vw, 14px)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px'
+                  }}>
+                    <span style={{ fontSize: '1.35rem', lineHeight: 1 }}>🚴</span>
+                    <h2 style={{
+                      fontFamily: '"Times New Roman", Times, Georgia, serif',
+                      fontSize: 'clamp(1.15rem, 1.35vw, 1.45rem)',
+                      fontWeight: 700,
+                      color: '#ffffff',
+                      margin: 0,
+                      lineHeight: 1.2,
+                      letterSpacing: '0.01em'
+                    }}>
+                      Explore Everyday Activity
+                    </h2>
+                  </div>
+
+                  {/* Card Content Body */}
+                  <div style={{
+                    padding: 'clamp(10px, 1.5vh, 14px) clamp(10px, 1vw, 14px)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '10px',
+                    boxSizing: 'border-box'
+                  }}>
+                    {/* Instruction */}
+                    <p style={{
+                      fontFamily: '"Times New Roman", Times, Georgia, serif',
+                      fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
+                      color: '#0f172a',
+                      lineHeight: 1.45,
+                      margin: 0,
+                      fontWeight: 600
+                    }}>
+                      Click cricket, shopping, zebra crossing, and bicycle to explore their mathematical patterns.
+                    </p>
+
+                    {/* 4 Clickable Object Rows with Small Thumbnails */}
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '6px',
+                      marginTop: '2px'
+                    }}>
+                      {EVERYDAY_OBJECTS.map((item) => {
+                        const isSelected = selectedEverydayObj?.id === item.id;
+                        return (
+                          <button
+                            key={item.id}
+                            type="button"
+                            onClick={() => setSelectedEverydayObj(isSelected ? null : item)}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              width: '100%',
+                              padding: 'clamp(6px, 0.8vh, 8px) clamp(8px, 0.8vw, 12px)',
+                              backgroundColor: isSelected ? '#ecfdf5' : '#ffffff',
+                              border: `1.5px solid ${isSelected ? '#10b981' : '#e2e8f0'}`,
+                              borderRadius: '8px',
+                              cursor: 'pointer',
+                              transition: 'all 0.15s ease',
+                              boxSizing: 'border-box',
+                              boxShadow: isSelected ? '0 2px 6px rgba(16, 185, 129, 0.2)' : 'none'
+                            }}
+                            onMouseEnter={(e) => {
+                              if (!isSelected) {
+                                e.currentTarget.style.borderColor = '#cbd5e1';
+                                e.currentTarget.style.backgroundColor = '#f8fafc';
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              if (!isSelected) {
+                                e.currentTarget.style.borderColor = '#e2e8f0';
+                                e.currentTarget.style.backgroundColor = '#ffffff';
+                              }
+                            }}
+                          >
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                              <img
+                                src={item.image}
+                                alt={item.name}
+                                style={{
+                                  width: '30px',
+                                  height: '30px',
+                                  borderRadius: '50%',
+                                  objectFit: 'cover',
+                                  border: `1.5px solid ${isSelected ? '#10b981' : '#cbd5e1'}`,
+                                  flexShrink: 0
+                                }}
+                              />
+                              <span style={{
+                                fontFamily: '"Times New Roman", Times, Georgia, serif',
+                                fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
+                                fontWeight: isSelected ? 700 : 600,
+                                color: isSelected ? '#065f46' : '#1e293b'
+                              }}>
+                                {item.name}
+                              </span>
+                            </div>
+                            <span style={{
+                              fontFamily: '"Times New Roman", Times, Georgia, serif',
+                              fontSize: '1.2rem',
+                              fontWeight: 700,
+                              color: isSelected ? '#10b981' : '#94a3b8'
+                            }}>
+                              ›
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Selected Pattern Details Display (when an object is clicked) */}
+                    {selectedEverydayObj && (
+                      <div style={{
+                        marginTop: '4px',
+                        padding: 'clamp(10px, 1.4vh, 14px)',
+                        backgroundColor: '#f0fdf4',
+                        border: '1.5px solid #86efac',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '8px'
+                      }}>
+                        <h4 style={{
+                          fontFamily: '"Times New Roman", Times, Georgia, serif',
+                          fontSize: 'clamp(1.05rem, 1.2vw, 1.25rem)',
+                          fontWeight: 700,
+                          color: '#14532d',
+                          margin: 0,
+                          lineHeight: 1.25
+                        }}>
+                          {selectedEverydayObj.heading}
+                        </h4>
+                        <p style={{
+                          fontFamily: '"Times New Roman", Times, Georgia, serif',
+                          fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
+                          color: '#1e293b',
+                          lineHeight: 1.5,
+                          margin: 0,
+                          fontWeight: 500
+                        }}>
+                          {selectedEverydayObj.description}
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedEverydayObj(null)}
+                          style={{
+                            marginTop: '2px',
+                            padding: '5px 10px',
+                            fontSize: '0.95rem',
+                            fontFamily: '"Times New Roman", Times, Georgia, serif',
+                            fontWeight: 700,
+                            color: '#166534',
+                            border: '1px solid #166534',
+                            borderRadius: '6px',
+                            backgroundColor: '#ffffff',
+                            cursor: 'pointer',
+                            alignSelf: 'flex-start',
+                            transition: 'all 0.15s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = '#166534';
+                            e.currentTarget.style.color = '#ffffff';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = '#ffffff';
+                            e.currentTarget.style.color = '#166534';
+                          }}
+                        >
+                          ← Full Everyday Activity
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* RIGHT SIDE: Large Image / Video Scene Area (exactly 80% width) */}
+              <div style={{
+                flex: '0 0 80%',
+                width: '80%',
+                maxWidth: '80%',
+                minWidth: '80%',
+                height: '100%',
+                position: 'relative',
+                overflow: 'hidden',
+                backgroundColor: '#0f172a',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxSizing: 'border-box',
+                margin: 0,
+                padding: 0
+              }}>
+                {selectedEverydayObj ? (
+                  <img
+                    src={selectedEverydayObj.image}
+                    alt={selectedEverydayObj.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center',
+                      display: 'block',
+                      userSelect: 'none'
+                    }}
+                    loading="eager"
+                  />
+                ) : (
+                  <video
+                    src={everydayActivityVideo}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center',
+                      display: 'block',
+                      userSelect: 'none'
+                    }}
+                  />
+                )}
+
+                {/* Invisible Clickable Hotspot Areas over the Scene (ONLY over actual objects) */}
+                {!selectedEverydayObj && EVERYDAY_OBJECTS.map((obj) => (
+                  <div
+                    key={obj.id}
+                    title={`Click ${obj.name}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedEverydayObj(obj);
+                    }}
+                    onTouchEnd={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setSelectedEverydayObj(obj);
+                    }}
+                    style={{
+                      position: 'absolute',
+                      left: obj.box.left,
+                      top: obj.box.top,
+                      width: obj.box.width,
+                      height: obj.box.height,
+                      cursor: 'pointer',
+                      backgroundColor: 'transparent',
+                      zIndex: 10,
+                      userSelect: 'none',
+                      WebkitTapHighlightColor: 'transparent',
+                      borderRadius: obj.box.borderRadius || '12px'
+                    }}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+
+          {activeLessonTab === 5 && (
+            <>
+              {/* LEFT SIDE: Content panel (exactly 20% width) */}
+              <div style={{
+                flex: '0 0 20%',
+                width: '20%',
+                maxWidth: '20%',
+                minWidth: '20%',
+                height: '100%',
+                backgroundColor: '#ffffff',
+                borderRight: '1px solid #cbd5e1',
+                padding: 'clamp(8px, 1.2vh, 14px) clamp(8px, 0.9vw, 12px)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                boxSizing: 'border-box',
+                zIndex: 5,
+                overflowY: 'auto'
+              }}>
+                {/* Visual Card matching screenshot layout */}
+                <div style={{
+                  backgroundColor: '#ffffff',
+                  border: '1.5px solid #d1d5db',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  boxShadow: '0 3px 12px rgba(0, 0, 0, 0.06)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                  boxSizing: 'border-box'
+                }}>
+                  {/* Dark Forest Green Header Banner */}
+                  <div style={{
+                    backgroundColor: '#1b4332',
+                    padding: 'clamp(8px, 1.3vh, 12px) clamp(10px, 1vw, 14px)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px'
+                  }}>
+                    <span style={{ fontSize: '1.35rem', lineHeight: 1 }}>💻</span>
+                    <h2 style={{
+                      fontFamily: '"Times New Roman", Times, Georgia, serif',
+                      fontSize: 'clamp(1.15rem, 1.35vw, 1.45rem)',
+                      fontWeight: 700,
+                      color: '#ffffff',
+                      margin: 0,
+                      lineHeight: 1.2,
+                      letterSpacing: '0.01em'
+                    }}>
+                      Explore Technology
+                    </h2>
+                  </div>
+
+                  {/* Card Content Body */}
+                  <div style={{
+                    padding: 'clamp(10px, 1.5vh, 14px) clamp(10px, 1vw, 14px)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '10px',
+                    boxSizing: 'border-box'
+                  }}>
+                    {/* Instruction */}
+                    <p style={{
+                      fontFamily: '"Times New Roman", Times, Georgia, serif',
+                      fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
+                      color: '#0f172a',
+                      lineHeight: 1.45,
+                      margin: 0,
+                      fontWeight: 600
+                    }}>
+                      Click satellite, phone, and keyboard to explore their mathematical patterns.
+                    </p>
+
+                    {/* 3 Clickable Object Rows with Small Thumbnails */}
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '6px',
+                      marginTop: '2px'
+                    }}>
+                      {TECHNOLOGY_OBJECTS.map((item) => {
+                        const isSelected = selectedTechnologyObj?.id === item.id;
+                        return (
+                          <button
+                            key={item.id}
+                            type="button"
+                            onClick={() => setSelectedTechnologyObj(isSelected ? null : item)}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              width: '100%',
+                              padding: 'clamp(6px, 0.8vh, 8px) clamp(8px, 0.8vw, 12px)',
+                              backgroundColor: isSelected ? '#ecfdf5' : '#ffffff',
+                              border: `1.5px solid ${isSelected ? '#10b981' : '#e2e8f0'}`,
+                              borderRadius: '8px',
+                              cursor: 'pointer',
+                              transition: 'all 0.15s ease',
+                              boxSizing: 'border-box',
+                              boxShadow: isSelected ? '0 2px 6px rgba(16, 185, 129, 0.2)' : 'none'
+                            }}
+                            onMouseEnter={(e) => {
+                              if (!isSelected) {
+                                e.currentTarget.style.borderColor = '#cbd5e1';
+                                e.currentTarget.style.backgroundColor = '#f8fafc';
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              if (!isSelected) {
+                                e.currentTarget.style.borderColor = '#e2e8f0';
+                                e.currentTarget.style.backgroundColor = '#ffffff';
+                              }
+                            }}
+                          >
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                              <img
+                                src={item.image}
+                                alt={item.name}
+                                style={{
+                                  width: '30px',
+                                  height: '30px',
+                                  borderRadius: '50%',
+                                  objectFit: 'cover',
+                                  border: `1.5px solid ${isSelected ? '#10b981' : '#cbd5e1'}`,
+                                  flexShrink: 0
+                                }}
+                              />
+                              <span style={{
+                                fontFamily: '"Times New Roman", Times, Georgia, serif',
+                                fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
+                                fontWeight: isSelected ? 700 : 600,
+                                color: isSelected ? '#065f46' : '#1e293b'
+                              }}>
+                                {item.name}
+                              </span>
+                            </div>
+                            <span style={{
+                              fontFamily: '"Times New Roman", Times, Georgia, serif',
+                              fontSize: '1.2rem',
+                              fontWeight: 700,
+                              color: isSelected ? '#10b981' : '#94a3b8'
+                            }}>
+                              ›
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Selected Pattern Details Display (when an object is clicked) */}
+                    {selectedTechnologyObj && (
+                      <div style={{
+                        marginTop: '4px',
+                        padding: 'clamp(10px, 1.4vh, 14px)',
+                        backgroundColor: '#f0fdf4',
+                        border: '1.5px solid #86efac',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '8px'
+                      }}>
+                        <h4 style={{
+                          fontFamily: '"Times New Roman", Times, Georgia, serif',
+                          fontSize: 'clamp(1.05rem, 1.2vw, 1.25rem)',
+                          fontWeight: 700,
+                          color: '#14532d',
+                          margin: 0,
+                          lineHeight: 1.25
+                        }}>
+                          {selectedTechnologyObj.heading}
+                        </h4>
+                        <p style={{
+                          fontFamily: '"Times New Roman", Times, Georgia, serif',
+                          fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
+                          color: '#1e293b',
+                          lineHeight: 1.5,
+                          margin: 0,
+                          fontWeight: 500
+                        }}>
+                          {selectedTechnologyObj.description}
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedTechnologyObj(null)}
+                          style={{
+                            marginTop: '2px',
+                            padding: '5px 10px',
+                            fontSize: '0.95rem',
+                            fontFamily: '"Times New Roman", Times, Georgia, serif',
+                            fontWeight: 700,
+                            color: '#166534',
+                            border: '1px solid #166534',
+                            borderRadius: '6px',
+                            backgroundColor: '#ffffff',
+                            cursor: 'pointer',
+                            alignSelf: 'flex-start',
+                            transition: 'all 0.15s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = '#166534';
+                            e.currentTarget.style.color = '#ffffff';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = '#ffffff';
+                            e.currentTarget.style.color = '#166534';
+                          }}
+                        >
+                          ← Full Technology Scene
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* RIGHT SIDE: Large Image / Video Scene Area (exactly 80% width) */}
+              <div style={{
+                flex: '0 0 80%',
+                width: '80%',
+                maxWidth: '80%',
+                minWidth: '80%',
+                height: '100%',
+                position: 'relative',
+                overflow: 'hidden',
+                backgroundColor: '#0f172a',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxSizing: 'border-box',
+                margin: 0,
+                padding: 0
+              }}>
+                {selectedTechnologyObj ? (
+                  <img
+                    src={selectedTechnologyObj.image}
+                    alt={selectedTechnologyObj.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center',
+                      display: 'block',
+                      userSelect: 'none'
+                    }}
+                    loading="eager"
+                  />
+                ) : (
+                  <video
+                    src={technologyVideo}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center',
+                      display: 'block',
+                      userSelect: 'none'
+                    }}
+                  />
+                )}
+
+                {/* Invisible Clickable Hotspot Areas over the Scene (ONLY over actual objects) */}
+                {!selectedTechnologyObj && TECHNOLOGY_OBJECTS.map((obj) => (
+                  <div
+                    key={obj.id}
+                    title={`Click ${obj.name}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedTechnologyObj(obj);
+                    }}
+                    onTouchEnd={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setSelectedTechnologyObj(obj);
+                    }}
+                    style={{
+                      position: 'absolute',
+                      left: obj.box.left,
+                      top: obj.box.top,
+                      width: obj.box.width,
+                      height: obj.box.height,
+                      cursor: 'pointer',
+                      backgroundColor: 'transparent',
+                      zIndex: 10,
+                      userSelect: 'none',
+                      WebkitTapHighlightColor: 'transparent',
+                      borderRadius: obj.box.borderRadius || '12px'
+                    }}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+
+          {activeLessonTab === 6 && (
+            <div style={{ flex: 1, width: '100%', height: '100%', position: 'relative' }}>
+              <PatternWhyExperience />
+            </div>
+          )}
+
+          {activeLessonTab === 7 && (
+            <div style={{ flex: 1, width: '100%', height: '100%', position: 'relative' }}>
+              <FigureItOutExperience />
+            </div>
+          )}
         </div>
       </div>
     );
@@ -1481,7 +2208,7 @@ export default function InteractiveModal({
     return (
       <ErrorBoundary>
         <Suspense fallback={null}>
-          <FullscreenExplore1_1 onClose={onClose} />
+          <FullscreenExplore1_1 onClose={onClose} onCompleteNode={onCompleteNode} />
         </Suspense>
       </ErrorBoundary>
     );
