@@ -139,7 +139,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
       ) : showIntroSpread ? (
         <ChapterIntroSpread onContinue={() => setShowIntroSpread(false)} onBack={() => { setShowIntroSpread(false); setShowCover(true); }} />
       ) : (
-        <div className="activity-workspace materials-around-us-theme" style={{ paddingTop: 0, paddingBottom: '72px', background: 'linear-gradient(135deg, #F5EFE6 0%, #EDE4D3 40%, #F0E8D8 70%, #E8DDCC 100%)' }}>
+        <div className="activity-workspace materials-around-us-theme" style={{ paddingTop: 0, paddingBottom: 0, background: 'linear-gradient(135deg, #F5EFE6 0%, #EDE4D3 40%, #F0E8D8 70%, #E8DDCC 100%)' }}>
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden', position: 'relative' }}>
         {/* Toggle Button */}
         <button
