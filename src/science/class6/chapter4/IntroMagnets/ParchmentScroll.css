@@ -1,0 +1,393 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Outfit:wght@500;600;700;800;900&display=swap');
+
+/* =========================================================================
+   AUTHENTIC UNROLLED VERTICAL PARCHMENT SCROLL
+   Natural Integration with Sunlit Kerala Coastal Room Scene
+   ========================================================================= */
+
+.parchment-scroll-assembly {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto;
+  user-select: none;
+  z-index: 25;
+  filter: 
+    drop-shadow(0 22px 36px rgba(25, 12, 4, 0.62))
+    drop-shadow(0 8px 16px rgba(0, 0, 0, 0.45));
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.parchment-scroll-assembly:hover {
+  transform: translateY(-2px);
+}
+
+/* -------------------------------------------------------------------------
+   WOODEN DOWELS (TEAK / ROSEWOOD WITH CARVED CLASSICAL FINIALS)
+   ------------------------------------------------------------------------- */
+
+.scroll-dowel {
+  position: relative;
+  width: calc(100% + 28px);
+  margin-left: -14px;
+  margin-right: -14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+}
+
+.scroll-dowel.top-dowel {
+  margin-bottom: -7px;
+}
+
+.scroll-dowel.bottom-dowel {
+  margin-top: -7px;
+}
+
+/* Central Cylindrical Turned Wooden Rod */
+.dowel-rod-segment {
+  flex: 1;
+  height: 14px;
+  background: linear-gradient(
+    to bottom,
+    #170802 0%,
+    #331304 18%,
+    #5E250A 35%,
+    #82370E 50%,
+    #A84D15 62%,
+    #5E250A 78%,
+    #331304 90%,
+    #120601 100%
+  );
+  border-radius: 3px;
+  box-shadow: 
+    inset 0 1px 2px rgba(255, 205, 155, 0.42),
+    inset 0 -1.5px 2px rgba(0, 0, 0, 0.65),
+    0 4px 8px rgba(18, 7, 2, 0.45);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle longitudinal wood grain luster */
+.dowel-rod-segment::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.0) 0px,
+    rgba(255, 220, 180, 0.08) 22px,
+    rgba(0, 0, 0, 0.12) 44px,
+    rgba(255, 255, 255, 0.0) 66px
+  );
+  pointer-events: none;
+}
+
+/* Soft highlight on right side of rod catching window sunlight */
+.dowel-rod-segment::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 35%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 225, 160, 0) 0%,
+    rgba(255, 225, 160, 0.28) 100%
+  );
+  pointer-events: none;
+}
+
+/* Carved Classical Teak Finials / Knobs on Dowel Ends */
+.dowel-finial {
+  position: relative;
+  flex-shrink: 0;
+  width: 22px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 12;
+}
+
+/* Left Finial (Ambient Occlusion Shadow Side) */
+.dowel-finial.finial-left {
+  border-radius: 50% 25% 25% 50% / 50%;
+  background: radial-gradient(circle at 45% 35%, #8B3E12 0%, #522007 50%, #1F0A02 100%);
+  box-shadow: 
+    -3px 3px 8px rgba(0, 0, 0, 0.55),
+    inset 1.5px 1.5px 2px rgba(255, 195, 145, 0.35),
+    inset -1px -1px 3px rgba(0, 0, 0, 0.7);
+}
+
+/* Carved Ring Collar for Left Finial */
+.dowel-finial.finial-left::after {
+  content: '';
+  position: absolute;
+  right: -2px;
+  width: 5px;
+  height: 18px;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, #1D0A02 0%, #6E2D0B 50%, #120601 100%);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+/* Right Finial (Catching Golden Window Sunlight) */
+.dowel-finial.finial-right {
+  border-radius: 25% 50% 50% 25% / 50%;
+  background: radial-gradient(circle at 55% 35%, #C26820 0%, #8C4112 45%, #3D1806 82%, #1C0B03 100%);
+  box-shadow: 
+    3px 3px 9px rgba(0, 0, 0, 0.45),
+    inset -1.5px 1.5px 3px rgba(255, 235, 185, 0.65),
+    inset 1px -1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Carved Ring Collar for Right Finial */
+.dowel-finial.finial-right::before {
+  content: '';
+  position: absolute;
+  left: -2px;
+  width: 5px;
+  height: 18px;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, #251004 0%, #944010 40%, #DE8535 60%, #1C0B03 100%);
+  box-shadow: inset 0 1px 1px rgba(255, 240, 200, 0.5);
+}
+
+/* -------------------------------------------------------------------------
+   CURLED PAPER ROLLS (WRAPPED AROUND DOWELS WITH REALISTIC CONTACT SHADOWS)
+   ------------------------------------------------------------------------- */
+
+.scroll-paper-roll {
+  position: relative;
+  width: 100%;
+  height: 16px;
+  z-index: 8;
+  flex-shrink: 0;
+}
+
+/* Top Curled Roll */
+.scroll-paper-roll.top-roll {
+  background: linear-gradient(
+    to bottom,
+    #543011 0%,
+    #875525 15%,
+    #CEAA72 32%,
+    #F5E8C7 52%,
+    #E8D4A5 70%,
+    #A06F34 88%,
+    #45250C 100%
+  );
+  border-radius: 7px 7px 3px 3px;
+  box-shadow: 
+    0 6px 12px rgba(35, 16, 5, 0.48),
+    inset 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+/* Bottom Curled Roll */
+.scroll-paper-roll.bottom-roll {
+  background: linear-gradient(
+    to bottom,
+    #45250C 0%,
+    #A06F34 12%,
+    #E8D4A5 30%,
+    #F5E8C7 48%,
+    #CEAA72 68%,
+    #875525 85%,
+    #543011 100%
+  );
+  border-radius: 3px 3px 7px 7px;
+  box-shadow: 
+    0 -4px 10px rgba(35, 16, 5, 0.38),
+    0 6px 12px rgba(18, 8, 2, 0.5),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.55);
+}
+
+/* -------------------------------------------------------------------------
+   MAIN PARCHMENT READING BODY WITH ORGANIC DECKLED EDGES
+   ------------------------------------------------------------------------- */
+
+.scroll-parchment-body {
+  position: relative;
+  width: 100%;
+  background: 
+    radial-gradient(ellipse at 75% 30%, rgba(255, 250, 235, 0.98) 0%, rgba(248, 237, 210, 0.96) 50%, rgba(235, 215, 180, 0.98) 100%);
+  border-left: 2px solid #825324;
+  border-right: 2px solid #825324;
+  box-shadow: 
+    inset 0 18px 22px -8px rgba(50, 24, 6, 0.42),
+    inset 0 -18px 22px -8px rgba(50, 24, 6, 0.42),
+    inset 16px 0 24px -10px rgba(70, 35, 10, 0.32),
+    inset -16px 0 24px -10px rgba(140, 80, 20, 0.28);
+  overflow: hidden;
+  z-index: 5;
+}
+
+/* Hand-Crafted Deckled Irregular Paper Border (Left Edge) */
+.scroll-parchment-body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 9px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(100, 55, 18, 0.4) 0px,
+    rgba(215, 180, 130, 0.2) 3px,
+    rgba(70, 35, 10, 0.5) 6px,
+    rgba(180, 140, 95, 0.1) 9px,
+    rgba(90, 45, 15, 0.45) 12px
+  );
+  box-shadow: 1px 0 3px rgba(60, 30, 8, 0.25);
+  pointer-events: none;
+  z-index: 6;
+}
+
+/* Hand-Crafted Deckled Irregular Paper Border (Right Edge) */
+.scroll-parchment-body::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 9px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(130, 75, 25, 0.35) 0px,
+    rgba(245, 215, 165, 0.25) 4px,
+    rgba(95, 50, 15, 0.45) 7px,
+    rgba(200, 160, 115, 0.15) 10px,
+    rgba(120, 65, 20, 0.4) 14px
+  );
+  box-shadow: -1px 0 3px rgba(90, 50, 15, 0.2);
+  pointer-events: none;
+  z-index: 6;
+}
+
+/* -------------------------------------------------------------------------
+   ENVIRONMENTAL SUNLIGHT INTEGRATION & FIBER TEXTURE
+   ------------------------------------------------------------------------- */
+
+/* Golden-Hour Coastal Sunlight Wash (Casting from Window on Right) */
+.parchment-sunlight-wash {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(60, 32, 10, 0.14) 0%,
+    rgba(130, 75, 25, 0.05) 8%,
+    rgba(255, 250, 235, 0.0) 30%,
+    rgba(255, 245, 215, 0.06) 62%,
+    rgba(255, 225, 145, 0.24) 86%,
+    rgba(250, 210, 115, 0.40) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Fibrous Papyrus Texture & Aged Crease Grain */
+.parchment-fiber-grain {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 25% 45%, rgba(130, 80, 30, 0.04) 0%, transparent 60%),
+    radial-gradient(circle at 75% 75%, rgba(160, 100, 40, 0.05) 0%, transparent 55%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(0, 0, 0, 0.03) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* -------------------------------------------------------------------------
+   CONTENT FRAMING & HIGH-CONTRAST TYPOGRAPHY
+   ------------------------------------------------------------------------- */
+
+.parchment-content {
+  position: relative;
+  z-index: 5;
+  padding: clamp(0.70rem, 1.25vh, 1.05rem) clamp(0.95rem, 1.35vw, 1.35rem);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Story Header Container */
+.parchment-story-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: clamp(0.30rem, 0.5vh, 0.45rem);
+}
+
+/* Primary Story Title (e.g., RESHMA'S BIRTHDAY GIFT) */
+.parchment-story-title {
+  margin: 0;
+  font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.18rem, 1.42vw, 1.62rem);
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  color: #1A0D05; /* Deep iron-gall black */
+  text-transform: uppercase;
+  line-height: 1.2;
+  text-shadow: 0 1px 1px rgba(255, 248, 230, 0.75);
+}
+
+/* Antique Ornamental Brass/Copper Divider */
+.parchment-header-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 72%;
+  margin-top: 0.22rem;
+}
+
+.ornament-line {
+  flex: 1;
+  height: 1.2px;
+  background: linear-gradient(
+    90deg, 
+    rgba(140, 65, 18, 0) 0%, 
+    rgba(140, 65, 18, 0.65) 50%, 
+    rgba(140, 65, 18, 0) 100%
+  );
+}
+
+.ornament-gem {
+  color: #B45309;
+  font-size: 0.80rem;
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(180, 83, 9, 0.3));
+}
+
+/* Narrative Paragraphs with Maximized Typography Scale & High Readability */
+.parchment-narrative-text {
+  margin: 0;
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.38rem, 1.65vw, 1.88rem);
+  line-height: 1.56;
+  color: #1E1006; /* Deep iron-gall black */
+  text-align: justify;
+  text-justify: inter-word;
+  letter-spacing: 0.012em;
+}
+
+/* Antique Calligraphy Highlight Styles */
+.parchment-narrative-text .scroll-word-unread {
+  color: #1E1006;
+  font-weight: 600;
+}
+
+.parchment-narrative-text .scroll-word-active {
+  color: #C2410C; /* Glowing warm cinnabar/amber calligraphy ink */
+  font-weight: 900;
+  text-shadow: 0 0 2px rgba(194, 65, 12, 0.45);
+}
+
+.parchment-narrative-text .scroll-word-past {
+  color: #5A260A; /* Rich warm dark sepia */
+  font-weight: 750;
+}

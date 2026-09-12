@@ -1,8 +1,92 @@
 /* eslint-disable react/prop-types */
+import { useState, useEffect, useRef } from 'react';
 import { ArrowRight, ArrowLeft, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
+import ExactCompass from '../components/ExactCompass.jsx';
+
+const STATIONS = [
+  { name: 'North', code: 'N', deg: 0 },
+  { name: 'North-East', code: 'NE', deg: 45 },
+  { name: 'East', code: 'E', deg: 90 },
+  { name: 'South-East', code: 'SE', deg: 135 },
+  { name: 'South', code: 'S', deg: 180 },
+  { name: 'South-West', code: 'SW', deg: 225 },
+  { name: 'West', code: 'W', deg: 270 },
+  { name: 'North-West', code: 'NW', deg: 315 },
+];
 
 export default function Chapter4Cover({ onStartJourney, onBack }) {
+  // Sequential clockwise movement through 8 directional stations with discernible pauses:
+  // N (0°) -> NE (45°) -> E (90°) -> SE (135°) -> S (180°) -> SW (225°) -> W (270°) -> NW (315°) -> N (360°)
+  const [compassAngle, setCompassAngle] = useState(0);
+  const [activeStation, setActiveStation] = useState(STATIONS[0]);
+  const animFrameRef = useRef(null);
+  const impulseRef = useRef(0);
+  const impulseTimeRef = useRef(0);
+
+  useEffect(() => {
+    let startTime = null;
+    const PAUSE_DURATION = 1.25; // Clearly discernible pause at each direction (1.25s)
+    const TRAVEL_DURATION = 0.85; // Smooth graceful clockwise movement between stations (0.85s)
+    const STEP_DURATION = PAUSE_DURATION + TRAVEL_DURATION; // 2.10s per station
+
+    const animateNeedle = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const t = (timestamp - startTime) / 1000;
+
+      // Current station cycle index & time within the step
+      const stepIndex = Math.floor(t / STEP_DURATION);
+      const localTime = t - stepIndex * STEP_DURATION;
+      const stationIndex = stepIndex % 8;
+
+      setActiveStation(STATIONS[stationIndex]);
+
+      const fromAngle = stepIndex * 45;
+      let baseAngle = fromAngle;
+
+      if (localTime < PAUSE_DURATION) {
+        // --- PAUSE PHASE at current direction (clearly discernible) ---
+        // Realistic damped magnetic settling overshoot when arriving at station
+        const settling = stepIndex > 0
+          ? 3.4 * Math.exp(-localTime * 6.5) * Math.sin(localTime * 18)
+          : 0;
+        // Fine organic jewel pivot breathing during the rest of the pause
+        const microBreath = Math.sin(localTime * 3.2) * 0.28;
+        baseAngle = fromAngle + settling + microBreath;
+      } else {
+        // --- TRAVEL PHASE: Smooth clockwise sweep from fromAngle to next angle ---
+        const travelTime = localTime - PAUSE_DURATION;
+        const p = Math.min(1, Math.max(0, travelTime / TRAVEL_DURATION));
+        // Quintic smoothstep for smooth acceleration and deceleration
+        const ease = p * p * p * (p * (p * 6 - 15) + 10);
+        // Subtle magnetic sway during motion
+        const sway = Math.sin(p * Math.PI) * Math.sin(p * Math.PI * 2.5) * 1.5;
+        baseAngle = fromAngle + ease * 45 + sway;
+      }
+
+      // User interactive perturbation (decaying damped oscillation on click)
+      let clickImpulse = 0;
+      if (impulseRef.current > 0.05) {
+        const dtImpulse = (timestamp - impulseTimeRef.current) / 1000;
+        clickImpulse = impulseRef.current * Math.exp(-dtImpulse * 2.8) * Math.sin(dtImpulse * 15);
+        if (dtImpulse > 2.2) impulseRef.current = 0;
+      }
+
+      setCompassAngle(baseAngle + clickImpulse);
+      animFrameRef.current = requestAnimationFrame(animateNeedle);
+    };
+
+    animFrameRef.current = requestAnimationFrame(animateNeedle);
+    return () => {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    };
+  }, []);
+
+  const handleCompassInteractiveJolt = () => {
+    impulseRef.current = 65;
+    impulseTimeRef.current = performance.now();
+  };
+
   // Stagger animation timing variants for theatrical, sequential reveal
   const badgeVariants = {
     hidden: { opacity: 0, y: 12, scale: 0.96 },
@@ -51,8 +135,8 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
         .chapter4-cover-wrapper {
           --bronze-dark: #2A1705;
           --bronze-accent: #B45309;
-          --ink-deep: #161007;
-          --ink-body: #2C1F12;
+          --ink-deep: #1c1815;
+          --ink-body: #3a2818;
           --gold-primary: #F59E0B;
           --gold-dark: #D97706;
           --font-serif: 'Cinzel', Georgia, serif;
@@ -100,10 +184,12 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           z-index: 1;
         }
 
-        /* Thematic Showcase Stage Area:
-           - Blends organically into the vintage parchment collage
-           - Frosted vellum glass with sepia warmth and subtle inner edge burn
-           - Sits in the compass diagram zone without concealing the corner insets
+        /* Authentic Navigational Artifact Stage Area:
+           - Multi-layered organic aged-parchment texture with burnt perimeter vignette
+           - Fine vintage double border in antique burnished brass (#b38b47) & inner hairline (#8c672e)
+           - Four metallic corner pins/rivets
+           - Faint vector magnetic field & astrolabe watermark engraving (10% opacity)
+           - Multi-layered physical drop shadow
         */
         .hero-compass-overlay {
           position: absolute;
@@ -113,26 +199,74 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           right: 1.8%;
           z-index: 10;
           border-radius: 24px;
-          background: radial-gradient(
-            ellipse at center,
-            rgba(254, 250, 240, 0.68) 0%,
-            rgba(248, 239, 224, 0.55) 60%,
-            rgba(238, 222, 198, 0.46) 100%
-          );
-          backdrop-filter: blur(14px) saturate(125%) sepia(16%);
-          -webkit-backdrop-filter: blur(14px) saturate(125%) sepia(16%);
-          border: 1.5px solid rgba(168, 122, 62, 0.52);
+          background: 
+            radial-gradient(ellipse at 50% 50%, rgba(254, 250, 240, 0.82) 0%, rgba(246, 236, 218, 0.72) 55%, rgba(235, 218, 192, 0.68) 85%, rgba(214, 188, 150, 0.78) 100%),
+            radial-gradient(circle at 12% 15%, rgba(175, 125, 65, 0.16) 0%, transparent 45%),
+            radial-gradient(circle at 88% 85%, rgba(150, 100, 45, 0.18) 0%, transparent 50%),
+            linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(120, 75, 25, 0.08) 100%);
+          backdrop-filter: blur(14px) saturate(125%) sepia(20%);
+          -webkit-backdrop-filter: blur(14px) saturate(125%) sepia(20%);
+          border: 1.5px solid #b38b47;
           box-shadow: 
-            inset 0 0 45px rgba(70, 42, 14, 0.16),
-            inset 0 1px 2px rgba(255, 255, 255, 0.75),
-            0 16px 40px rgba(35, 18, 6, 0.24);
+            0 16px 36px -8px rgba(35, 18, 5, 0.55),
+            0 4px 12px rgba(0, 0, 0, 0.25),
+            inset 0 0 45px rgba(90, 50, 20, 0.35),
+            inset 0 0 12px rgba(60, 30, 10, 0.45);
+          padding: clamp(16px, 1.8vw, 26px) clamp(20px, 2.2vw, 32px);
+          box-sizing: border-box;
+          overflow: hidden;
+        }
+
+        /* Fine Vintage Inner Offset Hairline Border (inset by 6px) */
+        .hero-compass-overlay::before {
+          content: '';
+          position: absolute;
+          inset: 6px;
+          border: 0.8px solid rgba(140, 103, 46, 0.55);
+          border-radius: calc(24px - 6px);
+          pointer-events: none;
+          z-index: 2;
+        }
+
+        /* Subtle Metallic Brass Pins / Corner Rivets */
+        .card-rivet {
+          position: absolute;
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: radial-gradient(circle at 35% 35%, #FDE68A 0%, #D97706 55%, #78350F 100%);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.45), inset 0 0.5px 0.5px rgba(255, 255, 255, 0.7);
+          pointer-events: none;
+          z-index: 3;
+        }
+        .card-rivet.tl { top: 11px; left: 11px; }
+        .card-rivet.tr { top: 11px; right: 11px; }
+        .card-rivet.bl { bottom: 11px; left: 11px; }
+        .card-rivet.br { bottom: 11px; right: 11px; }
+
+        /* Faint Watermark Engraving (10% Opacity) */
+        .card-engraving-watermark {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          z-index: 1;
+          opacity: 0.10;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+        }
+
+        /* Dedicated Content Layer for Sequential Reveal Elements */
+        .hero-content-layer {
+          position: relative;
+          z-index: 5;
+          width: 100%;
+          height: 100%;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           align-items: flex-start;
-          padding: clamp(15px, 1.7vw, 24px) clamp(18px, 2.2vw, 30px);
-          box-sizing: border-box;
-          overflow: hidden;
         }
 
         /* Tagline Badge */
@@ -142,9 +276,9 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           gap: 0.5rem;
           padding: 0.38rem 0.95rem;
           border-radius: 999px;
-          background: rgba(255, 252, 244, 0.9);
-          border: 1.2px solid rgba(168, 118, 55, 0.55);
-          box-shadow: 0 2px 8px rgba(45, 25, 10, 0.08);
+          background: rgba(255, 252, 244, 0.92);
+          border: 1.2px solid rgba(168, 118, 55, 0.6);
+          box-shadow: 0 2px 8px rgba(45, 25, 10, 0.1);
           font-family: var(--font-sans);
           font-size: clamp(0.76rem, 0.88vw, 0.92rem);
           font-weight: 800;
@@ -158,12 +292,12 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           stroke-width: 2.4px;
         }
 
-        /* Hero Main Title - Large */
+        /* Hero Main Title - Extra Large in Deep Iron-Gall Ink */
         .hero-title {
           font-family: var(--font-serif);
-          font-size: clamp(2.0rem, 2.8vw, 3.2rem);
+          font-size: clamp(2.5rem, 3.6vw, 4.2rem);
           font-weight: 900;
-          line-height: 1.05;
+          line-height: 1.02;
           margin: 0;
           color: var(--ink-deep);
           letter-spacing: 0.02em;
@@ -173,15 +307,16 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
             0 2px 8px rgba(45, 25, 10, 0.18);
         }
 
-        /* Hero Body Description - Medium */
+        /* Hero Body Description - Warm Sepia Dot Notation */
         .hero-description {
           font-family: var(--font-sans);
-          font-size: clamp(1.0rem, 1.28vw, 1.25rem);
-          line-height: 1.5;
+          font-size: clamp(1.25rem, 1.7vw, 1.85rem);
+          line-height: 1.4;
+          letter-spacing: 0.06em;
           color: var(--ink-body);
           margin: 0;
           max-width: 100%;
-          font-weight: 550;
+          font-weight: 800;
           text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
         }
 
@@ -301,6 +436,76 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           box-shadow: 0 6px 18px rgba(35, 20, 8, 0.22);
         }
 
+        /* Prominent Activity 4.6 Exact Interactive Compass:
+           - Reduced slightly to 23% width for refined balance
+           - Positioned at left: 31.4%, top: 49%
+           - Deep dimensional drop shadow
+        */
+        .cover-compass-overlay-wrapper {
+          position: absolute;
+          left: 31.4%;
+          top: 49%;
+          width: 23%;
+          aspect-ratio: 1 / 1;
+          transform: translate(-50%, -50%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 6;
+          cursor: pointer;
+          filter: drop-shadow(0 20px 42px rgba(25, 12, 4, 0.58));
+          transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        .cover-compass-overlay-wrapper:hover {
+          filter: drop-shadow(0 26px 52px rgba(217, 119, 6, 0.55));
+          transform: translate(-50%, -50%) scale(1.025);
+        }
+
+        /* Elegant Antique Navigational Station Pill */
+        .compass-station-pill {
+          position: absolute;
+          top: 101%;
+          left: 50%;
+          transform: translateX(-50%);
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 6px 18px;
+          border-radius: 999px;
+          background: radial-gradient(ellipse at 50% 50%, rgba(255, 252, 244, 0.96) 0%, rgba(244, 233, 212, 0.92) 100%);
+          border: 1.5px solid #b38b47;
+          box-shadow: 
+            0 8px 22px rgba(28, 14, 4, 0.38),
+            inset 0 0 10px rgba(120, 70, 20, 0.18);
+          white-space: nowrap;
+          pointer-events: none;
+          backdrop-filter: blur(8px);
+        }
+
+        .compass-station-dot {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #D97706;
+          box-shadow: 0 0 6px #F59E0B;
+        }
+
+        .compass-station-text {
+          font-family: var(--font-sans);
+          font-size: clamp(0.74rem, 0.85vw, 0.84rem);
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          color: #451a03;
+          text-transform: uppercase;
+        }
+
+        .compass-station-deg {
+          color: #b45309;
+          font-weight: 700;
+          font-size: 0.78rem;
+        }
+
         .cover-back-btn:active {
           transform: translateY(0) scale(0.98);
         }
@@ -318,55 +523,101 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
         {/* Subtle Warm Vignette Overlay */}
         <div className="cover-vignette" />
 
-        {/* Thematic Showcase Stage Area with Sequential Reveal */}
+        {/* Activity 4.6 Exact Interactive Compass Overlay */}
+        <div 
+          className="cover-compass-overlay-wrapper"
+          onClick={handleCompassInteractiveJolt}
+          title={`Activity 4.6 Compass • Heading ${activeStation.name} (${activeStation.code}) • Click to disturb magnetic field`}
+        >
+          <ExactCompass
+            size="100%"
+            rotation={compassAngle}
+            transition={{ type: 'tween', ease: 'linear', duration: 0 }}
+            showThumbLoop={true}
+            onCenterClick={handleCompassInteractiveJolt}
+          />
+
+          {/* Distinct Directional Station Badge */}
+          <div className="compass-station-pill">
+            <span className="compass-station-dot" />
+            <span className="compass-station-text">
+              Heading: {activeStation.name} ({activeStation.code})
+            </span>
+            <span className="compass-station-deg">• {activeStation.deg}°</span>
+          </div>
+        </div>
+
+        {/* Authentic Navigational Artifact Stage with Fine Double Border, Corner Rivets & Watermark */}
         <div className="hero-compass-overlay">
-          {/* Step 1: Metadata Tagline Badge */}
-          <motion.div
-            className="hero-tagline"
-            variants={badgeVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <Zap size={14} className="hero-tagline-icon" />
-            <span>GRADE 6 • SCIENCE • CHAPTER 4</span>
-          </motion.div>
+          {/* Metallic Corner Rivets */}
+          <div className="card-rivet tl" />
+          <div className="card-rivet tr" />
+          <div className="card-rivet bl" />
+          <div className="card-rivet br" />
 
-          {/* Step 2: Headline with ink-settle blur-to-sharp animation */}
-          <motion.h1
-            className="hero-title"
-            variants={titleVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            Exploring Magnets
-          </motion.h1>
+          {/* Faint Vector Watermark Engraving (10% Opacity) */}
+          <div className="card-engraving-watermark">
+            <svg viewBox="0 0 400 300" width="100%" height="100%" fill="none" stroke="#784718" strokeWidth="1" strokeDasharray="3 3">
+              <circle cx="200" cy="150" r="110" strokeWidth="0.8" opacity="0.7" />
+              <circle cx="200" cy="150" r="75" strokeWidth="0.6" />
+              <circle cx="200" cy="150" r="40" strokeWidth="0.5" strokeDasharray="2 2" />
+              <path d="M 90 150 C 90 70, 310 70, 310 150 C 310 230, 90 230, 90 150" strokeWidth="0.9" />
+              <path d="M 60 150 C 60 40, 340 40, 340 150 C 340 260, 60 260, 60 150" strokeWidth="0.7" strokeDasharray="4 4" />
+              <path d="M 120 150 C 120 100, 280 100, 280 150 C 280 200, 120 200, 120 150" strokeWidth="0.6" />
+              <line x1="200" y1="20" x2="200" y2="280" strokeWidth="0.5" opacity="0.6" />
+              <line x1="40" y1="150" x2="360" y2="150" strokeWidth="0.5" opacity="0.6" />
+            </svg>
+          </div>
 
-          {/* Step 3: Body Description with high contrast against the vellum glass */}
-          <motion.p
-            className="hero-description"
-            variants={descriptionVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            Hands-on physics labs for every chapter activity. Experience real magnetic fields,
-            settling compasses, and iron filings gathering at the poles.
-          </motion.p>
-
-          {/* Step 4: Glowing CTA Button with pulsating amber aura */}
-          <motion.div
-            className="hero-cta-wrapper"
-            variants={ctaVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <button
-              className="hero-cta-btn hero-cta-btn-pulse"
-              onClick={onStartJourney}
+          {/* Interactive Content Layer with Sequential Reveal */}
+          <div className="hero-content-layer">
+            {/* Step 1: Metadata Tagline Badge */}
+            <motion.div
+              className="hero-tagline"
+              variants={badgeVariants}
+              initial="hidden"
+              animate="visible"
             >
-              <span>Start the journey</span>
-              <ArrowRight size={18} />
-            </button>
-          </motion.div>
+              <Zap size={14} className="hero-tagline-icon" />
+              <span>GRADE 6 • SCIENCE • CHAPTER 4</span>
+            </motion.div>
+
+            {/* Step 2: Headline with ink-settle blur-to-sharp animation */}
+            <motion.h1
+              className="hero-title"
+              variants={titleVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              Exploring Magnets
+            </motion.h1>
+
+            {/* Step 3: Body Description in 5-word dot notation */}
+            <motion.p
+              className="hero-description"
+              variants={descriptionVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              • Magnets  • Poles  • Compass  • Fields  • Forces
+            </motion.p>
+
+            {/* Step 4: Glowing CTA Button with pulsating amber aura */}
+            <motion.div
+              className="hero-cta-wrapper"
+              variants={ctaVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <button
+                className="hero-cta-btn hero-cta-btn-pulse"
+                onClick={onStartJourney}
+              >
+                <span>Start the journey</span>
+                <ArrowRight size={18} />
+              </button>
+            </motion.div>
+          </div>
         </div>
       </div>
 

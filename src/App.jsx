@@ -46,6 +46,8 @@ const MagneticEffectOfCurrentActivity = lazy(() => import('./science/class8/chap
 const ElectromagnetInvestigationActivity = lazy(() => import('./science/class8/chapter4/ElectromagnetInvestigation'));
 const GrassrootsDemocracyActivity = lazy(() => import('./social/class6/chapter11/GrassrootsDemocracy'));
 const LocatingPlacesActivity = lazy(() => import('./social/class6/locating_places/LocatingPlaces'));
+const LocatingPlacesActivityV2 = lazy(() => import('./social/chapter1-version2/index'));
+const LocatingPlacesActivityV3 = lazy(() => import('./social/chapter1-version3/index'));
 const Activity9_1 = lazy(() => import('./science/class8/chapter9/SolutesAndSolvents'));
 const LineSegmentLabActivity = lazy(() => import('./maths/class6/chapter4/LineSegmentLab'));
 const ParallelIntersectingLabActivity = lazy(() => import('./maths/class6/chapter4/ParallelIntersectingLab'));
@@ -54,6 +56,7 @@ const AnglesLabActivity = lazy(() => import('./maths/class6/chapter4/AnglesLab')
 const PolygonsLabActivity = lazy(() => import('./maths/class6/chapter4/PolygonsLab'));
 const CirclesLabActivity = lazy(() => import('./maths/class6/chapter4/CirclesLab'));
 const Class6MathsChapter1 = lazy(() => import('./maths/class6/chapter1'));
+const Class6MathsChapter1Cover = lazy(() => import('./maths/class6/chapter1_cover'));
 const VirtualBiodiversityExplorerActivity = lazy(() => import('./science/class6/chapter2/VirtualBiodiversityExplorer'));
 const PlantDetectiveActivity = lazy(() => import('./science/class6/chapter2/PlantDetective'));
 const AnimalHabitatExplorerActivity = lazy(() => import('./science/class6/chapter2/AnimalHabitatExplorer'));
@@ -713,13 +716,29 @@ export default function App() {
                     Introduce maps by experiencing what it's like to navigate without one. Learn how maps help locate places.
                   </p>
 
-                  <button 
-                    onClick={() => navigateTo('class6_social', 'locating_places')}
-                    className="primary" 
-                    style={{ width: '100%', gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
-                  >
-                    Open Chapter <ArrowRight size={14} />
-                  </button>
+                  <div style={{ display: 'flex', gap: '0.5rem', width: '100%' }}>
+                    <button 
+                      onClick={() => navigateTo('class6_social', 'locating_places')}
+                      className="primary" 
+                      style={{ flex: 1, gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
+                    >
+                      V1 <ArrowRight size={14} />
+                    </button>
+                    <button 
+                      onClick={() => navigateTo('class6_social', 'locating_places_v2')}
+                      className="primary" 
+                      style={{ flex: 1, gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
+                    >
+                      V2 <ArrowRight size={14} />
+                    </button>
+                    <button 
+                      onClick={() => navigateTo('class6_social', 'locating_places_v3')}
+                      className="primary" 
+                      style={{ flex: 1, gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
+                    >
+                      V3 <ArrowRight size={14} />
+                    </button>
+                  </div>
                 </div>
               );
             }
@@ -1156,13 +1175,22 @@ export default function App() {
                     Explore patterns in numbers, visualise sequences, and understand the fundamentals of mathematics.
                   </p>
 
-                  <button
-                    onClick={() => navigateTo('class6_maths', 'chapter1')}
-                    className="primary"
-                    style={{ width: '100%', gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
-                  >
-                     Open Chapter <ArrowRight size={14} />
-                  </button>
+                  <div style={{ display: 'flex', gap: '0.75rem', width: '100%' }}>
+                    <button
+                      onClick={() => navigateTo('class6_maths', 'chapter1')}
+                      className="primary"
+                      style={{ flex: 1, gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
+                    >
+                      Old
+                    </button>
+                    <button
+                      onClick={() => navigateTo('class6_maths', 'chapter1_new')}
+                      className="primary"
+                      style={{ flex: 1, gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
+                    >
+                      New
+                    </button>
+                  </div>
                 </div>
               );
             }
@@ -2864,7 +2892,7 @@ export default function App() {
     </div>
   );
 
-  const isFullscreen = (activeActivity && !['chapter4_flow', 'chapter5_flow', 'chapter9'].includes(activeActivity)) || hideHeader || ['chapter2', 'chapter3', 'chapter4', 'chapter4_cover', 'chapter5', 'chapter6', 'chapter10', 'chapter11'].includes(activeActivity);
+  const isFullscreen = (activeActivity && !['chapter5_flow', 'chapter9'].includes(activeActivity)) || hideHeader || ['chapter2', 'chapter3', 'chapter4', 'chapter4_cover', 'chapter4_flow', 'chapter5', 'chapter6', 'chapter10', 'chapter11'].includes(activeActivity);
 
   return (
     <div className="app-container">
@@ -2874,20 +2902,18 @@ export default function App() {
 
       {/* Page Title Header */}
       {!isFullscreen && (
-        <header className="header" style={{ marginBottom: activeActivity === 'chapter4_flow' ? '0' : activeSubject ? '1.5rem' : '2.5rem' }}>
+        <header className="header" style={{ marginBottom: activeSubject ? '1.5rem' : '2.5rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', flexWrap: 'wrap', gap: '1rem' }}>
             <div>
               <div className="header-title">
-                <BookOpen style={{ color: activeActivity === 'chapter4_flow' ? '#ffffff' : 'var(--accent)' }} size={28} />
+                <BookOpen style={{ color: 'var(--accent)' }} size={28} />
                 <h1 style={{ fontSize: '2.15rem', fontWeight: 800 }}>FuturaX Interactive Labs</h1>
               </div>
-              {activeActivity !== 'chapter4_flow' && (
-                <p className="header-subtitle" style={{ fontSize: '1.05rem', marginTop: '0.35rem' }}>
-                  Active-learning simulations and concept reviews for science and social science
-                </p>
-              )}
+              <p className="header-subtitle" style={{ fontSize: '1.05rem', marginTop: '0.35rem' }}>
+                Active-learning simulations and concept reviews for science and social science
+              </p>
             </div>
-            {activeSubject && activeActivity !== 'chapter4_flow' && (
+            {activeSubject && (
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
                 <div
                   style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
@@ -3147,6 +3173,10 @@ export default function App() {
             <GrassrootsDemocracyActivity onBackToDashboard={() => navigateTo('class6_social', null)} />
           ) : activeActivity === 'locating_places' ? (
             <LocatingPlacesActivity onBackToDashboard={() => navigateTo('class6_social', null)} />
+          ) : activeActivity === 'locating_places_v2' ? (
+            <LocatingPlacesActivityV2 onBackToDashboard={() => navigateTo('class6_social', null)} />
+          ) : activeActivity === 'locating_places_v3' ? (
+            <LocatingPlacesActivityV3 onBackToDashboard={() => navigateTo('class6_social', null)} />
           ) : (
             renderClass6SocialWing()
           )
@@ -3159,6 +3189,8 @@ export default function App() {
         ) : activeSubject === 'class6_maths' ? (
           activeActivity === 'chapter1' ? (
             <Class6MathsChapter1 onBackToDashboard={() => navigateTo('class6_maths', null)} />
+          ) : activeActivity === 'chapter1_new' ? (
+            <Class6MathsChapter1Cover onBackToDashboard={() => navigateTo('class6_maths', null)} />
           ) : activeActivity === 'line_segment_lab' ? (
             <LineSegmentLabActivity onBackToDashboard={() => navigateTo('class6_maths', 'chapter4')} />
           ) : activeActivity === 'parallel_intersecting_lab' ? (

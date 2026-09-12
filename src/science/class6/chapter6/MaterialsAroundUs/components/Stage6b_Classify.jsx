@@ -53,10 +53,10 @@ function Tray({ type, droppedItems, isDragOver, onDragOver, onDragLeave, onDrop 
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, height: '100%' }}>
       {/* Label above tray */}
       <div style={{ flexShrink: 0, textAlign: 'center', marginBottom: '0.4rem', paddingBottom: '0.25rem' }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontWeight: '900', fontSize: '1.09rem', letterSpacing: '0.05em', color: textColor }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontWeight: '900', fontSize: '1.2535rem', letterSpacing: '0.05em', color: textColor }}>
           {icon} {type.toUpperCase()}
         </div>
-        <div style={{ fontSize: '0.91rem', color: '#64748b', fontWeight: '600' }}>
+        <div style={{ fontSize: '1.0465rem', color: '#64748b', fontWeight: '600' }}>
           {isOpaque ? 'Cannot see through' : isTranslucent ? 'See, but not clearly' : 'See clearly through'}
         </div>
       </div>
@@ -162,7 +162,7 @@ function Tray({ type, droppedItems, isDragOver, onDragOver, onDragLeave, onDrop 
         <div style={{ position: 'absolute', inset: 0, zIndex: 5, pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {droppedItems.length === 0 && !isDragOver && (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', opacity: 0.5, marginTop: '20%' }}>
-              <div style={{ fontSize: '0.97rem', fontWeight: '800', color: '#475569', background: 'rgba(255,255,255,0.7)', padding: '4px 12px', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+              <div style={{ fontSize: '1.1155rem', fontWeight: '800', color: '#475569', background: 'rgba(255,255,255,0.7)', padding: '4px 12px', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
                 Drag here
               </div>
             </div>
@@ -226,16 +226,16 @@ export default function Stage6b_Classify({ onComplete, addXp }) {
   const opaqueItems = items.filter(i => classifications[i.id] === 'Opaque').map(i => i.name).join(', ');
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', width: '100%', height: '100%', color: 'var(--text-primary)', overflow: 'hidden', padding: '0.5rem', boxSizing: 'border-box' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', width: '100%', height: '100%', color: 'var(--text-primary)', overflow: 'hidden', padding: '0.5rem 0.5rem 0 0.5rem', boxSizing: 'border-box' }}>
       
       {/* Header */}
       <div style={{ flexShrink: 0, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '12px', padding: '0.5rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h3 style={{ margin: 0, fontSize: '1.45rem', color: 'var(--text-heading)', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: '900' }}>
+          <h3 style={{ margin: 0, fontSize: 'clamp(29.04px, 3.63vw, 36.3px)', fontWeight: '900', color: 'var(--heading-main)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Eye size={24} color="var(--accent)" /> Phase 2: Activity 6.6 — Let us Classify
           </h3>
-          <p style={{ margin: '4px 0 0 0', fontSize: '1.21rem', fontWeight: '600', color: 'var(--text-secondary)' }}>
-            Drag each object into the correct tray. Transparent lets you see clearly. Translucent blurs. Opaque hides completely.
+          <p style={{ margin: '4px 0 0 0', fontSize: 'clamp(21.78px, 3.025vw, 26.62px)', fontWeight: '600', color: 'var(--heading-sub)', lineHeight: '1.5' }}>
+            Drag each object into the correct tray.
           </p>
         </div>
         <div style={{
@@ -252,9 +252,9 @@ export default function Stage6b_Classify({ onComplete, addXp }) {
 
       {/* Object Cards */}
       <div style={{ flexShrink: 0, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '12px', padding: '0.5rem 1rem' }}>
-        <div style={{ fontSize: '1.09rem', fontWeight: '900', letterSpacing: '0.05em', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.6rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <GripVertical size={16} /> Objects to Classify — drag each into its tray below
-        </div>
+        <h4 style={{ margin: 0, fontSize: 'clamp(23.28px, 2.91vw, 29.1px)', fontWeight: '800', color: 'var(--heading-section)', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem', marginBottom: '0.6rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <GripVertical size={24} /> Objects to Classify — drag each into its tray below
+        </h4>
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
           {items.map(item => {
             const isPlaced = !!classifications[item.id];
@@ -267,7 +267,7 @@ export default function Stage6b_Classify({ onComplete, addXp }) {
                 onDragEnd={handleDragEnd}
                 title={item.name}
                 style={{
-                  flex: '1 1 0', minWidth: '130px', maxWidth: '200px',
+                  flex: '1 1 0', minWidth: '145px', maxWidth: '200px',
                   background: isPlaced ? '#f8fafc' : 'white',
                   border: `1.5px solid ${isPlaced ? '#cbd5e1' : '#e2e8f0'}`,
                   borderRadius: '10px', padding: '8px 10px',
@@ -288,7 +288,7 @@ export default function Stage6b_Classify({ onComplete, addXp }) {
                 )}
                 {!isPlaced && <div style={{ position: 'absolute', top: '6px', left: '6px' }}><GripVertical size={16} color="#94a3b8" /></div>}
                 <ObjectVisual id={item.id} size={64} customStyle={{ width: '100%', height: '85px', mixBlendMode: 'multiply' }} />
-                <div style={{ fontSize: '1.1rem', fontWeight: '800', color: '#1e293b', textAlign: 'center', lineHeight: 1.1 }}>{item.name}</div>
+                <div style={{ fontSize: '1.265rem', fontWeight: '800', color: '#1e293b', textAlign: 'center', lineHeight: 1.1 }}>{item.name}</div>
               </div>
             );
           })}
@@ -308,7 +308,7 @@ export default function Stage6b_Classify({ onComplete, addXp }) {
       </div>
 
       {/* Three Physical Trays */}
-      <div style={{ display: 'flex', gap: '1rem', flex: 1, minHeight: '120px' }}>
+      <div style={{ display: 'flex', gap: '1rem', flex: 1, minHeight: '260px' }}>
         {['Transparent', 'Translucent', 'Opaque'].map(cat => (
           <Tray
             key={cat}
@@ -323,8 +323,8 @@ export default function Stage6b_Classify({ onComplete, addXp }) {
       </div>
 
       {/* Observation Box */}
-      <div style={{ flexShrink: 0, background: 'var(--surface)', borderRadius: '12px', border: '1px solid var(--border)', padding: '0.75rem 1.25rem', display: 'flex', flexDirection: 'column' }}>
-        <h4 style={{ margin: '0 0 0.75rem 0', fontSize: '1.5rem', fontWeight: '900', color: 'var(--accent)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div style={{ flexShrink: 0, marginTop: 'auto', background: 'var(--surface)', borderRadius: '12px', border: '1px solid var(--border)', padding: '0.75rem 1.25rem', display: 'flex', flexDirection: 'column' }}>
+        <h4 style={{ margin: '0 0 0.75rem 0', fontSize: '1.545rem', fontWeight: '900', color: 'var(--accent)', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Eye size={24} /> Observation Box
         </h4>
         <div style={{ display: 'flex', gap: '1rem' }}>
@@ -334,11 +334,11 @@ export default function Stage6b_Classify({ onComplete, addXp }) {
             { label: 'Opaque', accent: '#dc2626', border: '#fecaca', examples: opaqueItems },
           ].map(obs => (
             <div key={obs.label} style={{ flex: 1, background: 'white', borderRadius: '12px', padding: '0.75rem 1.25rem', border: `1px solid ${obs.border}`, display: 'flex', flexDirection: 'column', gap: '6px', justifyContent: 'center' }}>
-              <div style={{ alignSelf: 'flex-start', border: `1.5px solid ${obs.border}`, color: obs.accent, padding: '4px 12px', borderRadius: '8px', fontSize: '1.2rem', fontWeight: '900' }}>
+              <div style={{ alignSelf: 'flex-start', border: `1.5px solid ${obs.border}`, color: obs.accent, padding: '4px 12px', borderRadius: '8px', fontSize: '1.38rem', fontWeight: '900' }}>
                 {obs.label}
               </div>
-              <div style={{ fontSize: '1.25rem', color: 'var(--text-secondary)' }}>
-                Examples observed: <span style={{ color: obs.accent, fontWeight: '800', fontSize: '1.35rem', marginLeft: '6px' }}>{obs.examples || 'None yet'}</span>
+              <div style={{ fontSize: '1.4375rem', color: 'var(--text-secondary)' }}>
+                Examples observed: <span style={{ color: obs.accent, fontWeight: '800', fontSize: '1.5525rem', marginLeft: '6px' }}>{obs.examples || 'None yet'}</span>
               </div>
             </div>
           ))}

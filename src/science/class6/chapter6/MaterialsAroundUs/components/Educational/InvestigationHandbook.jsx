@@ -259,7 +259,7 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
       {(!isBarrier2 && !isBarrier3 && b1Page === 1) && (
         <style>{`
           .global-action-bar {
-            border-top: none !important;
+            border: none !important;
             box-shadow: none !important;
             background: transparent !important;
             backdrop-filter: none !important;

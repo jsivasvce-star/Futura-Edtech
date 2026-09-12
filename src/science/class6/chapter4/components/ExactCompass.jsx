@@ -1,4 +1,4 @@
-import React from 'react';
+/* eslint-disable react/prop-types */
 import { motion } from 'framer-motion';
 
 export default function ExactCompass({ 
@@ -11,13 +11,15 @@ export default function ExactCompass({
   transition,
   showThumbLoop = true
 }) {
+  const sizeValue = typeof size === 'number' ? `${size}px` : size;
+
   return (
     <div 
       onClick={onClick}
       style={{
         position: 'relative',
-        width: `${size}px`,
-        height: `${size}px`,
+        width: sizeValue,
+        height: sizeValue,
         transform: scale !== 1 ? `scale(${scale})` : undefined,
         transformOrigin: 'center center',
         userSelect: 'none',
@@ -492,8 +494,9 @@ export default function ExactCompass({
           title="Click center to return needle to normal North & South"
           style={{
             position: 'absolute',
-            width: `${Math.max(28, size * 0.12)}px`,
-            height: `${Math.max(28, size * 0.12)}px`,
+            width: typeof size === 'number' ? `${Math.max(28, size * 0.12)}px` : '12%',
+            height: typeof size === 'number' ? `${Math.max(28, size * 0.12)}px` : '12%',
+            aspectRatio: '1 / 1',
             borderRadius: '50%',
             background: 'radial-gradient(circle at 35% 32%, #FFFFFF 0%, #FEE08B 25%, #D97706 55%, #854D0E 85%, #451A03 100%)',
             border: '2px solid #FEF08A',

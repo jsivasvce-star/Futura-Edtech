@@ -141,7 +141,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
       ) : showIntroSpread ? (
         <ChapterIntroSpread onContinue={() => setShowIntroSpread(false)} onBack={() => { setShowIntroSpread(false); setShowCover(true); }} />
       ) : (
-        <div className="activity-workspace materials-around-us-theme" style={{ paddingTop: 0, paddingBottom: '72px', background: 'linear-gradient(135deg, #F5EFE6 0%, #EDE4D3 40%, #F0E8D8 70%, #E8DDCC 100%)' }}>
+        <div className="activity-workspace materials-around-us-theme" style={{ paddingTop: 0, paddingBottom: 0, background: 'linear-gradient(135deg, #F5EFE6 0%, #EDE4D3 40%, #F0E8D8 70%, #E8DDCC 100%)' }}>
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden', position: 'relative' }}>
         {/* Toggle Button */}
         <button
@@ -390,7 +390,27 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
 
           {currentNode.type === 'checkpoint' && (
             <div style={{ flex: 1, display: 'flex', background: 'var(--bg-color)', overflow: 'hidden' }}>
-              <DetectiveCheckpoint key={`${currentNode.id}-${resetKey}`} data={currentNode} onComplete={handleStageComplete} addXp={addXp} />
+              <DetectiveCheckpoint 
+                key={`${currentNode.id}-${resetKey}`} 
+                data={currentNode} 
+                onComplete={handleStageComplete} 
+                addXp={addXp} 
+                onProceed={handleNext}
+                onBack={() => {
+                  if (currentFlowIndex > 0) {
+                    const prevIndex = currentFlowIndex - 1;
+                    const prevNode = chapterFlow[prevIndex];
+                    if (prevNode && prevNode.type === 'mission' && prevNode.title.includes('Barrier 1')) {
+                      setShowHandbook(true);
+                    } else {
+                      setShowHandbook(false);
+                    }
+                    setCurrentFlowIndex(prevIndex);
+                  } else {
+                    setShowIntroSpread(true);
+                  }
+                }}
+              />
             </div>
           )}
 
@@ -423,12 +443,13 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
       {/* ═══════════════════════════════════════════
           GLOBAL BOTTOM ACTION BAR
           ═══════════════════════════════════════════ */}
+      {currentNode.type !== 'checkpoint' && (
       <div className="global-action-bar">
         <div className="global-action-bar-left">
           <button 
             onClick={onBackToDashboard} 
             className="outline" 
-            style={{ padding: '0.85rem 1.6rem', fontSize: '1.45rem', fontWeight: 'bold', gap: '0.75rem', borderRadius: '10px', display: 'flex', alignItems: 'center' }}
+            style={{ padding: '0.85rem 1.6rem', fontSize: '1.6rem', fontWeight: 'bold', gap: '0.75rem', borderRadius: '10px', display: 'flex', alignItems: 'center' }}
           >
             <ArrowLeft size={24} /> Dashboard
           </button>
@@ -451,7 +472,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
               }
             }}
             className="outline"
-            style={{ padding: '0.85rem 1.6rem', fontSize: '1.45rem', fontWeight: 'bold', gap: '0.75rem', borderRadius: '10px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center' }}
+            style={{ padding: '0.85rem 1.6rem', fontSize: '1.6rem', fontWeight: 'bold', gap: '0.75rem', borderRadius: '10px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center' }}
           >
             <ArrowLeft size={24} /> Back
           </button>
@@ -468,7 +489,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
               setStageCompleted(false);
             }}
             className="outline"
-            style={{ padding: '0.85rem 1.6rem', fontSize: '1.45rem', fontWeight: 'bold', gap: '0.75rem', borderRadius: '10px', color: 'var(--danger)', borderColor: 'var(--danger-border)', display: 'flex', alignItems: 'center' }}
+            style={{ padding: '0.85rem 1.6rem', fontSize: '1.6rem', fontWeight: 'bold', gap: '0.75rem', borderRadius: '10px', color: 'var(--danger)', borderColor: 'var(--danger-border)', display: 'flex', alignItems: 'center' }}
           >
             <RefreshCw size={22} /> Reset Activity
           </button>
@@ -489,7 +510,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
               className={'primary'}
               style={{ 
                 padding: '0.85rem 1.8rem', 
-                fontSize: '1.5rem', 
+                fontSize: '1.65rem', 
                 fontWeight: 'bold',
                 gap: '0.75rem', 
                 borderRadius: '10px',
@@ -505,6 +526,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
           )}
         </div>
       </div>
+      )}
     </div>
     )}
   </>

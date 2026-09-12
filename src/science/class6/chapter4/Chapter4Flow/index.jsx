@@ -1,198 +1,191 @@
-import React from 'react';
+/* eslint-disable react/prop-types */
 import { motion } from 'framer-motion';
-import { 
-  ArrowLeft, 
-  ArrowRight,
-  Compass, 
-  Target, 
-  Crosshair, 
-  Activity, 
-  Magnet, 
-  Sliders, 
-  Car, 
-  HelpCircle, 
-  GraduationCap 
-} from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import './Chapter4Flow.css';
 
-const GOLD_COLOR = "#F59E0B";
-const GOLD_GLOW = "rgba(245, 158, 11, 0.75)";
-
-const CARDS_DATA = [
+// 10 Curated Learning Modules for Chapter 4
+const MODULES_DATA = [
   {
     num: "01",
     id: "intro_magnets",
     title: "INTRODUCTION",
-    sub: "Reshma's storm & compass",
-    color: GOLD_COLOR,
-    glow: GOLD_GLOW,
     image: "/ch4_cards/img_1.jpg",
-    icon: Target
   },
   {
     num: "02",
     id: "activity_4_1",
     title: "MAGNETIC ITEMS",
-    sub: "Predict & test",
-    color: GOLD_COLOR,
-    glow: GOLD_GLOW,
     image: "/ch4_cards/img_2.jpg",
-    icon: Crosshair
   },
   {
     num: "03",
     id: "magnetic_poles",
     title: "POLES OF MAGNET",
-    sub: "Iron filings & pole pairs",
-    color: GOLD_COLOR,
-    glow: GOLD_GLOW,
     image: "/ch4_cards/img_3.jpg",
-    icon: Activity
   },
   {
     num: "04",
     id: "suspended_magnet",
     title: "FINDING DIRECTIONS",
-    sub: "Hanging magnet N->S",
-    color: GOLD_COLOR,
-    glow: GOLD_GLOW,
     image: "/ch4_cards/img_4.jpg",
-    icon: Compass
   },
   {
     num: "05",
     id: "magnetic_compass",
     title: "MAKE A COMPASS",
-    sub: "Float magnetized needle",
-    color: GOLD_COLOR,
-    glow: GOLD_GLOW,
     image: "/ch4_cards/img_5.jpg",
-    icon: Crosshair
   },
   {
     num: "06",
     id: "magnet_interaction",
     title: "ATTRACTION & REPULSION",
-    sub: "Unlike attract, like repel",
-    color: GOLD_COLOR,
-    glow: GOLD_GLOW,
     image: "/ch4_cards/img_6.jpg",
-    icon: Magnet
   },
   {
     num: "07",
     id: "activity_4_6",
     title: "COMPASS & MAGNET",
-    sub: "Deflect needle live",
-    color: GOLD_COLOR,
-    glow: GOLD_GLOW,
     image: "/ch4_cards/img_7.jpg",
-    icon: Compass
   },
   {
     num: "08",
     id: "activity_4_7",
     title: "THROUGH MATERIALS",
-    sub: "Passes through barriers",
-    color: GOLD_COLOR,
-    glow: GOLD_GLOW,
     image: "/ch4_cards/img_8.jpg",
-    icon: Sliders
   },
   {
     num: "09",
     id: "sci6-ch4-sec45-fun-with-magnets",
     title: "FUN WITH MAGNETS",
-    sub: "Maze & runaway cars",
-    color: GOLD_COLOR,
-    glow: GOLD_GLOW,
     image: "/ch4_cards/img_9.jpg",
-    icon: Car
   },
   {
     num: "10",
     id: "chapter_4_quiz",
     title: "TEST KNOWLEDGE",
-    sub: "20 Questions on Magnets",
-    color: GOLD_COLOR,
-    glow: GOLD_GLOW,
     image: "/ch4_cards/img_10.jpg",
-    icon: HelpCircle
   }
 ];
 
 export default function Chapter4Flow({ onBackToDashboard, onLaunchActivity }) {
+  // Split into Top Row (01–05) and Bottom Row (06–10)
+  const topRowModules = MODULES_DATA.slice(0, 5);
+  const bottomRowModules = MODULES_DATA.slice(5, 10);
+
+  const renderModuleCard = (mod, index) => (
+    <motion.div
+      key={mod.id}
+      className="module-grid-card"
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.32, delay: 0.06 + index * 0.03, ease: [0.25, 1, 0.5, 1] }}
+      whileHover={{ y: -4, scale: 1.025 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={() => onLaunchActivity && onLaunchActivity(mod.id)}
+      title={`Launch ${mod.title}`}
+    >
+      {/* Top Header Bar: Left Pill Badge + Right Primary Title on single line */}
+      <div className="module-card-header-bar">
+        <span className="module-index-pill">{mod.num}</span>
+        <h3 className="module-card-title" title={mod.title}>{mod.title}</h3>
+      </div>
+
+      {/* Photographic Thumbnail occupying lower body in calibrated aspect ratio */}
+      <div className="module-card-img-frame">
+        <img 
+          src={mod.image} 
+          alt={mod.title} 
+          className="module-card-img"
+        />
+        <div className="module-card-img-vignette" />
+      </div>
+
+      {/* Enter Button with matching amber-orange gradient */}
+      <button 
+        className="module-enter-btn"
+        onClick={(e) => {
+          e.stopPropagation();
+          if (onLaunchActivity) onLaunchActivity(mod.id);
+        }}
+        title={`Enter ${mod.title}`}
+      >
+        <span>ENTER</span>
+        <ArrowRight size={14} className="module-enter-icon" />
+      </button>
+    </motion.div>
+  );
+
   return (
-    <div className="hud-chapter4-wrapper">
-      {/* Magnetic Field Vector Lines Background SVG */}
-      <svg className="magnetic-lines-bg" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M-100 450 C 200 100, 500 100, 720 450 C 940 800, 1240 800, 1540 450" stroke="rgba(37, 99, 235, 0.18)" strokeWidth="3" fill="none" />
-        <path d="M-100 450 C 200 180, 500 180, 720 450 C 940 720, 1240 720, 1540 450" stroke="rgba(239, 68, 68, 0.15)" strokeWidth="3" fill="none" />
-        <path d="M-100 450 C 200 260, 500 260, 720 450 C 940 640, 1240 640, 1540 450" stroke="rgba(37, 99, 235, 0.14)" strokeWidth="2" fill="none" />
-        <path d="M-100 450 C 200 340, 500 340, 720 450 C 940 560, 1240 560, 1540 450" stroke="rgba(239, 68, 68, 0.12)" strokeWidth="2" fill="none" />
-        <circle cx="350" cy="450" r="280" stroke="rgba(37, 99, 235, 0.08)" strokeWidth="40" fill="none" />
-        <circle cx="1090" cy="450" r="280" stroke="rgba(239, 68, 68, 0.08)" strokeWidth="40" fill="none" />
-      </svg>
+    <div className="nautical-map-viewport">
+      {/* 1376:768 Precision Map Stage matching custom illustration aspect ratio */}
+      <div className="nautical-map-stage">
+        
+        {/* Full-bleed Custom Illustrated Clean Antique Nautical Expedition Map Backdrop */}
+        <img 
+          src="/assets/nautical_expedition_map_clean.jpg" 
+          alt="16th Century Clean Antique Nautical Expedition Map" 
+          className="map-backdrop-img"
+        />
 
-      <div className="hud-wrap">
-        {/* Main 10 Prominent Cards Grid */}
-        <div className="hud-grid">
-          {CARDS_DATA.map((card, idx) => {
-            return (
-              <motion.div 
-                key={card.id}
-                initial={{ opacity: 0, scale: 0.94, y: 15 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.32, delay: idx * 0.03 }}
-                className="hud-card" 
-                onClick={() => onLaunchActivity(card.id)}
-                style={{ 
-                  '--border-color': card.color,
-                  '--glow-color': card.glow 
-                }}
-              >
-                {/* Card Header Bar */}
-                <div className="hud-card-header">
-                  <div className="hud-num-badge" style={{ borderColor: card.color, color: card.color }}>
-                    {card.num}
-                  </div>
-                  <div className="hud-title-box">
-                    <h3 className="hud-card-title">{card.title}</h3>
-                  </div>
-                </div>
+        {/* Ambient Burnt-Edge Vignette Overlay */}
+        <div className="map-vignette-overlay" />
 
-                {/* Central 4K Magnet Artwork Thumbnail */}
-                <div className="hud-art-container">
-                  <img 
-                    src={card.image} 
-                    alt={card.title} 
-                    className="hud-art-img" 
-                  />
-                  <div className="hud-art-overlay" />
-                </div>
-              </motion.div>
-            );
-          })}
+        {/* Top-Center Brass Nameplate Plaque */}
+        <header className="flow-top-header">
+          <motion.div 
+            className="map-title-plaque"
+            initial={{ opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
+          >
+            <div className="plaque-pin left" />
+            <div className="plaque-inner">
+              <span className="plaque-tag">GRADE 6 • SCIENCE • CHAPTER 4</span>
+              <h1 className="plaque-heading">EXPLORING MAGNETS • EXPEDITION CHART</h1>
+            </div>
+            <div className="plaque-pin right" />
+          </motion.div>
+        </header>
+
+        {/* Calibrated 2x5 Two-Row Grid Layout */}
+        <div className="map-grid-container">
+          {/* Top Row: Modules 01 to 05 */}
+          <div className="map-grid-row top-row">
+            {topRowModules.map((mod, i) => renderModuleCard(mod, i))}
+          </div>
+
+          {/* Bottom Row: Modules 06 to 10 */}
+          <div className="map-grid-row bottom-row">
+            {bottomRowModules.map((mod, i) => renderModuleCard(mod, i + 5))}
+          </div>
         </div>
 
-        {/* Bottom Navigation Bar */}
-        <div className="hud-bottom-bar">
-          <button 
+        {/* Bottom Navigation Bar: <- BACK on bottom-left, NEXT -> on bottom-right */}
+        <footer className="flow-bottom-nav">
+          <motion.button
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: 0.1 }}
+            className="flow-nav-btn back-btn"
             onClick={onBackToDashboard}
-            className="hud-btn hud-btn-back"
+            title="Return to Chapter Cover"
           >
-            <ArrowLeft size={22} color="#ffffff" />
+            <ArrowLeft size={18} className="flow-nav-icon" />
             <span>BACK</span>
-          </button>
+          </motion.button>
 
-          <button 
-            onClick={() => onLaunchActivity('intro_magnets')}
-            className="hud-btn hud-btn-quiz"
+          <motion.button
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: 0.1 }}
+            className="flow-nav-btn next-btn"
+            onClick={() => onLaunchActivity && onLaunchActivity(MODULES_DATA[0].id)}
+            title="Start Journey: Module 01 Introduction"
           >
             <span>NEXT</span>
-            <ArrowRight size={22} color="#ffffff" />
-          </button>
-        </div>
+            <ArrowRight size={18} className="flow-nav-icon" />
+          </motion.button>
+        </footer>
 
       </div>
     </div>
