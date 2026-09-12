@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 import classroomObjectsImg from '../../../../../../assets/classroom_objects.jpg';
-import ancientPotteryImg from '../../../../../../assets/indian_pottery_illustration.jpg';
-
+import ancientPotteryImg from '../../../../../../assets/ancient_pottery_fragments.jpg';
+import potterShapingImg from '../../../../../../assets/potter_shaping_clay.jpg';
+import potteryPatternsImg from '../../../../../../assets/traditional_pottery_patterns.jpg';
+import potteryKilnImg from '../../../../../../assets/traditional_pottery_kiln.jpg';
+import potteryUsesImg from '../../../../../../assets/pottery_uses_storage.jpg';
 const SvgIcons = {
   MagnifyingGlass: () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -21,35 +24,40 @@ const clues = [
     title: "HOW OLD IS POTTERY?",
     bigFact: "7,000-8,000 YEARS",
     text: "The earliest pottery found in the Indian subcontinent dates back to 7,000 to 8,000 years in the Ganga plains and in Baluchistan.",
-    timelineText: "AGE"
+    timelineText: "AGE",
+    image: ancientPotteryImg
   },
   {
     id: 2,
     title: "POTTERY TECHNOLOGY",
     bigFact: "AROUND 4000 BCE",
     text: "About 4000 BCE onwards, Sindhu-Sarasvati developed techniques of wheel-turned pottery production, pigmentation, application of protective or decorative coats of multiple colours, decorative painting, etc.",
-    timelineText: "SHAPING"
+    timelineText: "SHAPING",
+    image: potterShapingImg
   },
   {
     id: 3,
     title: "HARAPPAN POTTERY",
     bigFact: "2600-1900 BCE",
     text: "These techniques became further sophisticated during the Sindhu-Sarasvati Civilisation, with a bright red surface painted with black-coloured designs displaying geometric patterns, and aquatic and terrestrial animals.",
-    timelineText: "DESIGN"
+    timelineText: "DESIGN",
+    image: potteryPatternsImg
   },
   {
     id: 4,
     title: "HOW WAS IT MADE?",
     bigFact: "TERRACOTTA",
     text: "The clay used for making pots, dishes, bowls and other items was carefully selected and cleaned, sieved, kneaded, turned over a wheel and finally baked in kilns.",
-    timelineText: "MAKING"
+    timelineText: "MAKING",
+    image: potteryKilnImg
   },
   {
     id: 5,
     title: "HOW WAS IT USED?",
     bigFact: "STORAGE & COOKING",
     text: "Pots were used for various purposes, from cooking to storage of food grains, oil, ghee, and so on. Some very large storage jars and other pottery items are exhibited at the National Museum, New Delhi.",
-    timelineText: "USES"
+    timelineText: "USES",
+    image: potteryUsesImg
   }
 ];
 
@@ -144,7 +152,7 @@ const PotterySpotlight = ({ currentClue, setCurrentClue }) => {
         {/* Right Image Box (35-40%) */}
         <div style={{ flex: '0 0 38%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
           <img 
-            src={ancientPotteryImg} 
+            src={currentData.image} 
             alt="Pottery" 
             style={{ 
               maxWidth: '100%', 
