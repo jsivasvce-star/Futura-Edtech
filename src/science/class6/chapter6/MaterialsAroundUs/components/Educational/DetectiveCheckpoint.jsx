@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { ShieldAlert, Check, X, ArrowRight, ArrowLeft, CheckCircle2, ClipboardList, Lightbulb } from 'lucide-react';
 import { motion } from 'framer-motion';
 import newChiefDetectiveImage from '../../../../../../assets/4.detective.png';
+import checkpointBg from '../../../../../../assets/detective_checkpoint_bg.png';
 
 export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed, onBack }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -313,12 +314,12 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
           </motion.div>
 
           {onBack && (
-            <button className="spread-back-btn" onClick={onBack}>
-              <ArrowLeft size={20} /> Back
+            <button className="spread-back-btn" onClick={onBack} style={{ fontSize: '24px', fontWeight: '700', padding: '12px 24px' }}>
+              <ArrowLeft size={24} /> Back
             </button>
           )}
-          <button className="start-btn" onClick={() => setCurrentPage(2)}>
-            Next <ArrowRight size={22} />
+          <button className="start-btn" onClick={() => setCurrentPage(2)} style={{ fontSize: '24px', fontWeight: '700', padding: '12px 28px' }}>
+            Next <ArrowRight size={26} />
           </button>
         </div>
       )}
@@ -326,30 +327,46 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
       {/* Page 2: Quiz Interface */}
       {currentPage === 2 && (
         <div style={{ background: '#f6f1e4', display: 'flex', flexDirection: 'column', overflow: 'hidden', height: '100%', width: '100%', position: 'relative' }}>
+          
+          {/* Decorative Background */}
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            width: '60%',
+            backgroundImage: `url(${checkpointBg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'right center',
+            maskImage: 'linear-gradient(to right, transparent, black 40%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent, black 40%)',
+            pointerEvents: 'none',
+            zIndex: 0
+          }} />
 
-          <button className="spread-back-btn" style={{ bottom: '18px', left: '24px', zIndex: 1000 }} onClick={() => setCurrentPage(1)}>
-            <ArrowLeft size={20} /> Back
+          <button className="spread-back-btn" style={{ bottom: '18px', left: '24px', zIndex: 1000, fontSize: '24px', fontWeight: '700', padding: '12px 24px' }} onClick={() => setCurrentPage(1)}>
+            <ArrowLeft size={24} /> Back
           </button>
           
           <button 
             className="start-btn" 
-            style={{ bottom: '18px', right: '28px', zIndex: 1000 }} 
+            style={{ bottom: '18px', right: '28px', zIndex: 1000, fontSize: '24px', fontWeight: '700', padding: '12px 28px' }} 
             onClick={() => { if (onProceed) onProceed(); }}
           >
-            Next <ArrowRight size={22} />
+            Next <ArrowRight size={26} />
           </button>
 
           {/* Header */}
           <div style={{ padding: '2rem 2.5rem', borderBottom: '1px solid var(--lesson-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.5)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <div style={{ background: '#FFFFFF', padding: '10px', borderRadius: '12px', color: 'var(--lesson-primary)' }}>
-                <ShieldAlert size={34} />
+                <ShieldAlert size={42} />
               </div>
               <div>
-                <h1 className="mission-title" style={{ fontSize: '42px', margin: 0, marginBottom: '8px' }}>
+                <h1 className="mission-title" style={{ fontSize: '54px', margin: 0, marginBottom: '8px' }}>
                   {data.title || "Detective Checkpoint"}
                 </h1>
-                <p style={{ margin: 0, fontSize: '24px', fontWeight: '500', color: 'var(--lesson-muted)', fontFamily: 'Arial, Helvetica, sans-serif' }}>
+                <p style={{ margin: 0, fontSize: '28px', fontWeight: '600', color: 'var(--lesson-muted)', fontFamily: 'Arial, Helvetica, sans-serif' }}>
                   Verify your understanding to record our findings.
                 </p>
               </div>
@@ -358,16 +375,9 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
 
         {/* Content */}
         {!quizComplete ? (
-          <div style={{ padding: '2rem', flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-              <span style={{ fontSize: '0.9rem', color: 'var(--lesson-secondary)', fontWeight: '600' }}>Question {currentQ + 1} of {data.questions.length}</span>
-              <div style={{ flex: 1, height: '6px', background: 'var(--lesson-border)', borderRadius: '3px', overflow: 'hidden' }}>
-                <div style={{ height: '100%', background: '#A64B27', width: `${((currentQ + 1) / data.questions.length) * 100}%`, transition: 'width 0.3s ease' }} />
-              </div>
-            </div>
-
-            <h3 style={{ margin: '0 0 2rem 0', fontSize: 'clamp(28px, 3.5vw, 32px)', fontWeight: '700', color: 'var(--lesson-text)', display: 'flex', gap: '12px', fontFamily: 'Arial, Helvetica, sans-serif' }}>
-              <div style={{ background: 'var(--lesson-primary)', color: 'white', width: '38px', height: '38px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '1.2rem' }}>
+          <div style={{ padding: '2rem', flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1, width: '55%' }}>
+            <h3 style={{ margin: '0 0 2rem 0', fontSize: 'clamp(34px, 4vw, 40px)', fontWeight: '800', color: 'var(--lesson-text)', display: 'flex', gap: '12px', fontFamily: 'Arial, Helvetica, sans-serif', lineHeight: '1.3' }}>
+              <div style={{ background: 'var(--lesson-primary)', color: 'white', width: '48px', height: '48px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '1.5rem' }}>
                 Q
               </div>
               {q.question}
@@ -416,10 +426,10 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
                       boxShadow: isSelected && !isVerified ? '0 4px 12px rgba(0,0,0,0.08)' : 'none'
                     }}
                   >
-                    <div style={{ width: '34px', height: '34px', borderRadius: '50%', border: `2px solid ${iconColor}`, color: iconColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '1.1rem', flexShrink: 0 }}>
+                    <div style={{ width: '42px', height: '42px', borderRadius: '50%', border: `2px solid ${iconColor}`, color: iconColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '1.4rem', flexShrink: 0 }}>
                       {String.fromCharCode(65 + idx)}
                     </div>
-                    <span style={{ fontSize: 'clamp(22px, 3vw, 26px)', fontWeight: '500', color: 'var(--lesson-text)', flex: 1, fontFamily: 'Arial, Helvetica, sans-serif' }}>{opt}</span>
+                    <span style={{ fontSize: 'clamp(28px, 3.5vw, 32px)', fontWeight: '700', color: 'var(--lesson-text)', flex: 1, fontFamily: 'Arial, Helvetica, sans-serif', lineHeight: '1.3' }}>{opt}</span>
                     {isVerified && idx === q.correct && (
                       <div style={{ background: 'var(--lesson-success-border)', color: 'white', borderRadius: '50%', padding: '6px' }}>
                         <Check size={20} strokeWidth={3} />
@@ -467,13 +477,13 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
                   {!showHint ? (
                     <button
                       onClick={() => setShowHint(true)}
-                      style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '0.75rem 1.25rem', borderRadius: '8px', border: '1px solid var(--lesson-border)', background: 'white', color: 'var(--lesson-muted)', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s' }}
+                      style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '1rem 1.5rem', borderRadius: '8px', border: '1px solid var(--lesson-border)', background: 'white', color: 'var(--lesson-muted)', fontSize: '24px', fontWeight: '700', cursor: 'pointer', transition: 'all 0.2s' }}
                     >
-                      <Lightbulb size={18} /> Need a hint?
+                      <Lightbulb size={24} /> Need a hint?
                     </button>
                   ) : (
-                    <div style={{ background: 'var(--lesson-warning-bg)', border: '1px solid var(--lesson-warning-bg)', padding: '0.75rem 1.25rem', borderRadius: '8px', color: 'var(--lesson-primary)', fontSize: 'clamp(17px, 2.5vw, 21px)', fontWeight: '600', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                      <Lightbulb size={18} color="#A64B27" style={{ flexShrink: 0, marginTop: '2px' }} />
+                    <div style={{ background: 'var(--lesson-warning-bg)', border: '1px solid var(--lesson-warning-bg)', padding: '1rem 1.5rem', borderRadius: '8px', color: 'var(--lesson-primary)', fontSize: 'clamp(24px, 3.5vw, 28px)', fontWeight: '700', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                      <Lightbulb size={24} color="#A64B27" style={{ flexShrink: 0, marginTop: '2px' }} />
                       <div style={{ lineHeight: '1.4' }}>
                         <strong>Hint:</strong> {q.hint || "Think about the properties we just learned!"}
                       </div>
@@ -486,7 +496,7 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
 
           </div>
         ) : (
-          <div style={{ padding: '3rem', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+          <div style={{ padding: '3rem', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', position: 'relative', zIndex: 1, width: '55%' }}>
             <div style={{ width: '80px', height: '80px', background: '#A64B27', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: 'white' }}>
               <CheckCircle2 size={48} />
             </div>
