@@ -140,11 +140,11 @@ const PotterySpotlight = ({ currentClue, setCurrentClue }) => {
         
         {/* Left Text Box (55-60%) */}
         <div style={{ flex: '1 1 58%', display: 'flex', flexDirection: 'column', justifyContent: 'center', textAlign: 'center' }}>
-          <div style={{ fontSize: '42px', fontFamily: "'Merriweather', Georgia, serif", fontWeight: 700, color: '#3E2723', marginBottom: '16px', lineHeight: '1.15', wordBreak: 'break-word' }}>
+          <div style={{ fontSize: '56px', fontFamily: "'Merriweather', Georgia, serif", fontWeight: 900, color: '#3E2723', marginBottom: '16px', lineHeight: '1.15', wordBreak: 'break-word' }}>
             {currentData.bigFact}
           </div>
           
-          <div style={{ fontFamily: "'Merriweather', Georgia, serif", fontSize: '24px', fontWeight: 500, color: '#3E2723', lineHeight: '1.45', maxWidth: '100%', overflow: 'visible' }}>
+          <div style={{ fontFamily: "'Merriweather', Georgia, serif", fontSize: '28px', fontWeight: 600, color: '#3E2723', lineHeight: '1.45', maxWidth: '100%', overflow: 'visible' }}>
             {currentData.text}
           </div>
         </div>
@@ -302,10 +302,10 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
                   </div>
 
                   <div style={{ fontFamily: "'Merriweather', Georgia, serif", color: '#3E2723' }}>
-                    <p style={{ margin: '0 0 8px 0', fontSize: '26px', lineHeight: '1.45', fontWeight: 500 }}>
+                    <p style={{ margin: '0 0 8px 0', fontSize: '26px', lineHeight: '1.45', fontWeight: 500, color: '#3E2723' }}>
                       Look around you! You can see many things – a chair, a book, a water bottle, a pencil and so on.
                     </p>
-                    <p style={{ margin: 0, fontSize: '26px', lineHeight: '1.45', fontWeight: 500 }}>
+                    <p style={{ margin: 0, fontSize: '26px', lineHeight: '1.45', fontWeight: 500, color: '#3E2723' }}>
                       These are all <strong style={{ color: '#A94727', fontWeight: 700 }}>objects</strong>. Even though they look different, each object is made of some <strong style={{ color: '#A94727', fontWeight: 700 }}>material</strong>.
                     </p>
                   </div>
