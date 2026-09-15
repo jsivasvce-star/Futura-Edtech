@@ -420,9 +420,8 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
                   <div style={{
                     flex: 1,
                     minHeight: 0,
-                    background: '#FFFFFF',
+                    background: 'transparent',
                     borderRadius: '8px',
-                    border: '1px solid rgba(0,0,0,0.05)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -438,6 +437,7 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
                         maxWidth: '92%',
                         maxHeight: '92%',
                         objectFit: 'contain',
+                        mixBlendMode: 'multiply',
                         display: 'block',
                         transition: 'transform 0.2s ease',
                       }}
@@ -667,26 +667,48 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
               {selectedItem ? (
                 <div style={{
                   position: 'relative',
-                  width: '64%',
-                  height: '64%',
+                  width: '82%',
+                  height: '82%',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   zIndex: 4,
                 }}>
-                  {/* Object Image with Clean Drop Shadow and Holographic Pulse */}
+                  {/* Circular Specimen Plate — white disc so object white bg blends away */}
+                  <div style={{
+                    position: 'absolute',
+                    width: '90%',
+                    height: '90%',
+                    borderRadius: '50%',
+                    background: scanState === 'scanning'
+                      ? 'radial-gradient(circle, rgba(255,255,255,0.97) 0%, rgba(240,249,255,0.94) 70%, rgba(224,242,254,0.82) 100%)'
+                      : selectedItem.isMagnetic
+                      ? 'radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(240,253,244,0.9) 70%, rgba(220,252,231,0.8) 100%)'
+                      : 'radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,241,242,0.9) 70%, rgba(254,226,226,0.8) 100%)',
+                    boxShadow: scanState === 'scanning'
+                      ? '0 0 40px rgba(56, 189, 248, 0.55), 0 0 80px rgba(56, 189, 248, 0.2), inset 0 0 20px rgba(56,189,248,0.08)'
+                      : selectedItem.isMagnetic
+                      ? '0 0 30px rgba(34, 197, 94, 0.4), inset 0 0 16px rgba(34,197,94,0.06)'
+                      : '0 0 24px rgba(239, 68, 68, 0.3), inset 0 0 16px rgba(239,68,68,0.05)',
+                    transition: 'all 0.4s ease',
+                    zIndex: 3,
+                  }} />
+
+                  {/* Object Image — sits on the white specimen plate, no white bg visible */}
                   <img
                     src={selectedItem.image}
                     alt={selectedItem.name}
                     style={{
-                      maxWidth: '85%',
-                      maxHeight: '85%',
+                      position: 'relative',
+                      zIndex: 5,
+                      maxWidth: '72%',
+                      maxHeight: '72%',
                       objectFit: 'contain',
                       filter: scanState === 'scanning'
-                        ? 'drop-shadow(0 0 20px rgba(56, 189, 248, 0.85)) brightness(1.15)'
+                        ? 'drop-shadow(0 4px 16px rgba(56, 189, 248, 0.6)) brightness(1.08)'
                         : selectedItem.isMagnetic
-                        ? 'drop-shadow(0 0 22px rgba(34, 197, 94, 0.75))'
-                        : 'drop-shadow(0 0 16px rgba(248, 113, 113, 0.6))',
+                        ? 'drop-shadow(0 4px 14px rgba(34, 197, 94, 0.55))'
+                        : 'drop-shadow(0 4px 14px rgba(239, 68, 68, 0.4))',
                       transition: 'all 0.3s ease',
                       animation: scanState === 'scanning' ? 'holographic-pulse 1.8s ease-in-out infinite' : 'none',
                     }}
@@ -694,19 +716,17 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
 
                   {/* Vertical Laser Sweep Line */}
                   {scanState === 'scanning' && (
-                    <>
-                      <div style={{
-                        position: 'absolute',
-                        left: '10%',
-                        right: '10%',
-                        height: '3px',
-                        background: '#38BDF8',
-                        boxShadow: '0 0 14px #38BDF8, 0 0 24px #0284C7',
-                        zIndex: 6,
-                        animation: 'laser-sweep-vertical 1.35s ease-in-out infinite',
-                        pointerEvents: 'none',
-                      }} />
-                    </>
+                    <div style={{
+                      position: 'absolute',
+                      left: '5%',
+                      right: '5%',
+                      height: '3px',
+                      background: '#38BDF8',
+                      boxShadow: '0 0 14px #38BDF8, 0 0 24px #0284C7',
+                      zIndex: 6,
+                      animation: 'laser-sweep-vertical 1.35s ease-in-out infinite',
+                      pointerEvents: 'none',
+                    }} />
                   )}
                 </div>
               ) : (
