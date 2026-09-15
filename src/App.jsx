@@ -121,6 +121,10 @@ export default function App() {
     const params = new URLSearchParams(window.location.hash.replace('#', '?'));
     return params.get('section') || null;
   });
+  const [activeVersion, setActiveVersion] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    return params.get('version') || 'v2';
+  });
 
   const [hideHeader, setHideHeader] = useState(false);
 
@@ -151,6 +155,7 @@ export default function App() {
       setActiveSubject(params.get('subject') || null);
       setActiveActivity(params.get('activity') || null);
       setActiveSection(params.get('section') || null);
+      setActiveVersion(params.get('version') || 'v2');
     };
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
@@ -242,7 +247,7 @@ export default function App() {
     document.title = title;
   }, [activeSubject, activeActivity]);
 
-  const navigateTo = (subject, activity, section = null) => {
+  const navigateTo = (subject, activity, section = null, version = null) => {
     const params = new URLSearchParams();
     if (subject) params.set('subject', subject);
     if (activity) {
@@ -258,6 +263,7 @@ export default function App() {
       }
     }
     if (section) params.set('section', section);
+    if (version) params.set('version', version);
     window.location.hash = params.toString();
   };
 
@@ -1060,18 +1066,92 @@ export default function App() {
                                   : "Includes Activity 11.1: Nature's treasures & resource conservation."}
                   </p>
 
-                  <button 
-                    onClick={() => {
-                      if (chapter.num === 4) navigateTo('class6', 'chapter4_cover');
-                      else if (chapter.num === 5) navigateTo('class6', 'chapter5_flow');
-                      else if (chapter.num === 6) navigateTo('class6', 'materials_around_us');
-                      else navigateTo('class6', `chapter${chapter.num}`);
-                    }}
-                    className="primary" 
-                    style={{ width: '100%', gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
-                  >
-                    Open Chapter <ArrowRight size={14} />
-                  </button>
+                  {chapter.num === 2 ? (
+                    <div style={{ display: 'flex', gap: '0.65rem', width: '100%', marginTop: 'auto' }}>
+                      <button
+                        id="btn-open-chapter2-v1"
+                        onClick={() => navigateTo('class6', 'chapter2', null, 'v1')}
+                        style={{
+                          flex: 1,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.35rem',
+                          fontSize: '0.84rem',
+                          fontWeight: 800,
+                          padding: '0.65rem 0.4rem',
+                          borderRadius: '8px',
+                          border: 'none',
+                          background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                          color: '#FFFFFF',
+                          cursor: 'pointer',
+                          boxShadow: '0 3px 12px rgba(217, 119, 6, 0.35)',
+                          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                          letterSpacing: '0.02em',
+                          whiteSpace: 'nowrap'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-2px)';
+                          e.currentTarget.style.boxShadow = '0 6px 16px rgba(217, 119, 6, 0.45)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'translateY(0)';
+                          e.currentTarget.style.boxShadow = '0 3px 12px rgba(217, 119, 6, 0.35)';
+                        }}
+                        title="Open Chapter 2 (Version 1)"
+                      >
+                        <span>Version 1</span> <ArrowRight size={13} />
+                      </button>
+
+                      <button
+                        id="btn-open-chapter2-v2"
+                        onClick={() => navigateTo('class6', 'chapter2', null, 'v2')}
+                        style={{
+                          flex: 1,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.35rem',
+                          fontSize: '0.84rem',
+                          fontWeight: 800,
+                          padding: '0.65rem 0.4rem',
+                          borderRadius: '8px',
+                          border: 'none',
+                          background: 'linear-gradient(135deg, #059669 0%, #10B981 100%)',
+                          color: '#FFFFFF',
+                          cursor: 'pointer',
+                          boxShadow: '0 3px 12px rgba(16, 185, 129, 0.35)',
+                          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                          letterSpacing: '0.02em',
+                          whiteSpace: 'nowrap'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-2px)';
+                          e.currentTarget.style.boxShadow = '0 6px 16px rgba(16, 185, 129, 0.45)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'translateY(0)';
+                          e.currentTarget.style.boxShadow = '0 3px 12px rgba(16, 185, 129, 0.35)';
+                        }}
+                        title="Open Chapter 2 (Version 2)"
+                      >
+                        <span>Version 2</span> <ArrowRight size={13} />
+                      </button>
+                    </div>
+                  ) : (
+                    <button 
+                      onClick={() => {
+                        if (chapter.num === 4) navigateTo('class6', 'chapter4_cover');
+                        else if (chapter.num === 5) navigateTo('class6', 'chapter5_flow');
+                        else if (chapter.num === 6) navigateTo('class6', 'materials_around_us');
+                        else navigateTo('class6', `chapter${chapter.num}`);
+                      }}
+                      className="primary" 
+                      style={{ width: '100%', gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
+                    >
+                      Open Chapter <ArrowRight size={14} />
+                    </button>
+                  )}
                 </div>
               );
             }
@@ -3107,6 +3187,7 @@ export default function App() {
               onBack={() => navigateTo('class6', null)}
               onHeaderVisibilityChange={(visible) => setHideHeader(!visible)}
               onSoundButtonVisibilityChange={(visible) => setIsChapter2SoundButtonVisible(visible)}
+              initialVersion={activeVersion}
             />
           ) : activeActivity === 'chapter3' ? (
             <Chapter3LearningLab 
