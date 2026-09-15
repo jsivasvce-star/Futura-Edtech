@@ -11,68 +11,36 @@ import '../MagneticPoles.css';
 
 
 // ---------------------------------------------------------
-// Rotatable System for Magnet + Iron Filings
 // ---------------------------------------------------------
-function RotatableMagnetGroup({ children }) {
+// Rotatable & Tiltable System for Magnet + Iron Filings
+// Centered at exact geometric pivot (y=2.4) so magnet and filings never move out of place
+// ---------------------------------------------------------
+function RotatableMagnetGroup({ children, rotationRef }) {
   const groupRef = useRef();
-  const targetRotationY = useRef(0);
-  const currentRotationY = useRef(0);
-  const isPointerDown = useRef(false);
-  const startX = useRef(0);
-
-  useEffect(() => {
-    const onPointerMove = (e) => {
-      if (!isPointerDown.current) return;
-      const deltaX = e.clientX - startX.current;
-      startX.current = e.clientX;
-      targetRotationY.current += deltaX * 0.012;
-    };
-
-    const onPointerUp = () => {
-      isPointerDown.current = false;
-      document.body.style.cursor = 'auto';
-    };
-
-    window.addEventListener('pointermove', onPointerMove);
-    window.addEventListener('pointerup', onPointerUp);
-    return () => {
-      window.removeEventListener('pointermove', onPointerMove);
-      window.removeEventListener('pointerup', onPointerUp);
-    };
-  }, []);
+  const currentRotation = useRef({ x: 0, y: 0 });
 
   useFrame((state, delta) => {
     if (!groupRef.current) return;
     const dt = Math.min(delta, 0.1);
-    currentRotationY.current = THREE.MathUtils.lerp(currentRotationY.current, targetRotationY.current, dt * 12);
-    groupRef.current.rotation.y = currentRotationY.current;
+    const targetY = rotationRef ? rotationRef.current.y : 0;
+    const targetX = rotationRef ? rotationRef.current.x : 0;
+
+    currentRotation.current.y = THREE.MathUtils.lerp(currentRotation.current.y, targetY, dt * 10);
+    currentRotation.current.x = THREE.MathUtils.lerp(currentRotation.current.x, targetX, dt * 10);
+
+    groupRef.current.rotation.y = currentRotation.current.y;
+    groupRef.current.rotation.x = currentRotation.current.x;
   });
 
   return (
-    <group 
-      ref={groupRef}
-      onPointerDown={(e) => {
-        e.stopPropagation();
-        isPointerDown.current = true;
-        startX.current = e.clientX;
-        document.body.style.cursor = 'grabbing';
-      }}
-      onPointerOver={(e) => {
-        e.stopPropagation();
-        document.body.style.cursor = 'grab';
-      }}
-      onPointerOut={() => {
-        if (!isPointerDown.current) {
-          document.body.style.cursor = 'auto';
-        }
-      }}
-    >
-      {/* Invisible hit cylinder around magnet and filings to easily catch drag gestures */}
-      <mesh visible={false} position={[0, 2.2, 0]}>
-        <cylinderGeometry args={[11, 11, 4.5, 32]} />
-        <meshBasicMaterial transparent opacity={0} />
-      </mesh>
-      {children}
+    // Anchored at y=2.4 (exact geometric midpoint between Magnet3D at y=4.2 and Filings at y=0.04-2.2)
+    <group position={[0, 2.4, 0]}>
+      <group ref={groupRef}>
+        {/* Child offset aligns the combined center of mass right at the pivot */}
+        <group position={[0, -2.4, 0]}>
+          {children}
+        </group>
+      </group>
     </group>
   );
 }
@@ -95,78 +63,72 @@ function Magnet3D() {
   return (
     <group position={[0, 4.2, 0]} scale={[1.35, 2.2, 1.35]}>
       {/* 1. North Pole Core Half (Left, X: -6 to 0) - Bold Red */}
-      <mesh position={[-3.0, 0, 0]} castShadow receiveShadow>
+      <mesh position={[-3.0, 0, 0]} castShadow receiveShadow={false}>
         <boxGeometry args={[6.0, 1.3, 1.9]} />
         <meshStandardMaterial 
-          color="#8B1A1A" 
-          roughness={0.35} 
-          metalness={0.28} 
+          color="#DC2626" 
+          roughness={0.4} 
+          metalness={0.1} 
         />
       </mesh>
 
       {/* 2. South Pole Core Half (Right, X: 0 to +6) - Deep Ocean Blue */}
-      <mesh position={[3.0, 0, 0]} castShadow receiveShadow>
+      <mesh position={[3.0, 0, 0]} castShadow receiveShadow={false}>
         <boxGeometry args={[6.0, 1.3, 1.9]} />
         <meshStandardMaterial 
-          color="#0F4C81" 
-          roughness={0.35} 
-          metalness={0.28} 
+          color="#2563EB" 
+          roughness={0.4} 
+          metalness={0.1} 
         />
       </mesh>
 
-      {/* 3. Center Dividing Equator Seam */}
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[0.08, 1.31, 1.91]} />
-        <meshStandardMaterial color="#B38B47" roughness={0.3} metalness={0.7} />
-      </mesh>
-
       {/* 4. Front Face: Custom High-Res Texture Overlay */}
-      <mesh position={[0, 0, 0.955]} castShadow receiveShadow>
+      <mesh position={[0, 0, 0.955]} castShadow receiveShadow={false}>
         <planeGeometry args={[12.0, 1.3]} />
         <meshStandardMaterial
           map={textures.front}
-          roughness={0.25}
-          metalness={0.2}
+          roughness={0.35}
+          metalness={0.1}
         />
       </mesh>
 
       {/* 5. Top Face: Custom High-Res Texture Overlay (Primary Reading Surface) */}
-      <mesh position={[0, 0.655, 0]} rotation={[-Math.PI / 2, 0, 0]} castShadow receiveShadow>
+      <mesh position={[0, 0.655, 0]} rotation={[-Math.PI / 2, 0, 0]} castShadow receiveShadow={false}>
         <planeGeometry args={[12.0, 1.9]} />
         <meshStandardMaterial
           map={textures.top}
-          roughness={0.25}
-          metalness={0.2}
+          roughness={0.35}
+          metalness={0.1}
         />
       </mesh>
 
       {/* 6. Back Face: Custom High-Res Texture Overlay (Mirrored for 3D rotation continuity) */}
-      <mesh position={[0, 0, -0.955]} rotation={[0, Math.PI, 0]} castShadow receiveShadow>
+      <mesh position={[0, 0, -0.955]} rotation={[0, Math.PI, 0]} castShadow receiveShadow={false}>
         <planeGeometry args={[12.0, 1.3]} />
         <meshStandardMaterial
           map={textures.back}
-          roughness={0.25}
-          metalness={0.2}
+          roughness={0.35}
+          metalness={0.1}
         />
       </mesh>
 
       {/* 7. North End-Cap (Left Face, X = -6.0): Red Section with Serif N */}
-      <mesh position={[-6.005, 0, 0]} rotation={[0, -Math.PI / 2, 0]} castShadow receiveShadow>
+      <mesh position={[-6.005, 0, 0]} rotation={[0, -Math.PI / 2, 0]} castShadow receiveShadow={false}>
         <planeGeometry args={[1.9, 1.3]} />
         <meshStandardMaterial
           map={textures.northCap}
-          roughness={0.3}
-          metalness={0.25}
+          roughness={0.35}
+          metalness={0.1}
         />
       </mesh>
 
       {/* 8. South End-Cap (Right Face, X = +6.0): Blue Section with Serif S */}
-      <mesh position={[6.005, 0, 0]} rotation={[0, Math.PI / 2, 0]} castShadow receiveShadow>
+      <mesh position={[6.005, 0, 0]} rotation={[0, Math.PI / 2, 0]} castShadow receiveShadow={false}>
         <planeGeometry args={[1.9, 1.3]} />
         <meshStandardMaterial
           map={textures.southCap}
-          roughness={0.3}
-          metalness={0.25}
+          roughness={0.35}
+          metalness={0.1}
         />
       </mesh>
     </group>
@@ -193,7 +155,7 @@ function AnimatedLabGroup({ children, onArrival }) {
   const FIXED_SCALE = 0.36;
 
   return (
-    <group ref={groupRef} position={[0.5, 0.3, 0]} scale={[FIXED_SCALE, FIXED_SCALE, FIXED_SCALE]}>
+    <group ref={groupRef} position={[0.1, 5.2, 0]} scale={[FIXED_SCALE, FIXED_SCALE, FIXED_SCALE]}>
       {children}
     </group>
   );
@@ -410,6 +372,52 @@ export default function Stage1_Investigate({ onComplete }) {
   const [isSprinkling, setIsSprinkling] = useState(false);
   const [isVibrating, setIsVibrating] = useState(false);
   const hasArrivedRef = useRef(false);
+
+  // Rotation and tilt controls for the magnet & iron filings
+  const rotationRef = useRef({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const isDraggingRef = useRef(false);
+  const lastPointerRef = useRef({ x: 0, y: 0 });
+
+  const handlePointerDown = (e) => {
+    if (e.target.closest('button')) return;
+    isDraggingRef.current = true;
+    setIsDragging(true);
+    lastPointerRef.current = { x: e.clientX, y: e.clientY };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const handlePointerMove = (e) => {
+    if (!isDraggingRef.current) return;
+    const deltaX = e.clientX - lastPointerRef.current.x;
+    const deltaY = e.clientY - lastPointerRef.current.y;
+    lastPointerRef.current = { x: e.clientX, y: e.clientY };
+
+    // Horizontal drag -> rotate around Y (Yaw, 360 deg)
+    rotationRef.current.y += deltaX * 0.009;
+
+    // Vertical drag -> tilt around X (Pitch, tilt up and towards the front)
+    // Dragging down tilts top towards user (positive rotation.x tilts top toward camera)
+    rotationRef.current.x += deltaY * 0.007;
+
+    // Clamp tilt angle: -0.35 rad (viewing slightly from below/level) to +1.25 rad (~72 deg tilted towards front)
+    rotationRef.current.x = Math.max(-0.35, Math.min(1.25, rotationRef.current.x));
+  };
+
+  const handlePointerUp = (e) => {
+    if (!isDraggingRef.current) return;
+    isDraggingRef.current = false;
+    setIsDragging(false);
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch (_) {}
+  };
+
+  const handleResetRotation = (e) => {
+    e.stopPropagation();
+    rotationRef.current.x = 0;
+    rotationRef.current.y = 0;
+  };
 
   const [isPaused, setIsPaused] = useState(false);
   const isPausedRef = useRef(false);
@@ -633,28 +641,35 @@ export default function Stage1_Investigate({ onComplete }) {
             backgroundImage: `url('/MagneticPoles/classroom_sunset_bg.jpg')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center center',
+            cursor: isDragging ? 'grabbing' : 'grab',
+            touchAction: 'none',
+            userSelect: 'none'
           }}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
         >
           <Canvas 
             shadows 
             gl={{ alpha: true, antialias: true }} 
-            camera={{ position: [0, 10.6, 24], fov: 40 }}
+            camera={{ position: [0.1, 6.0, 22], fov: 38 }}
           >
             <Suspense fallback={null}>
-              <ambientLight intensity={0.9} color="#FFF7ED" />
+              <ambientLight intensity={1.1} color="#FFF7ED" />
               <directionalLight
-                position={[-12, 18, 10]}
-                intensity={2.2}
+                position={[-8, 16, 14]}
+                intensity={2.0}
                 color="#FED7AA"
                 castShadow
                 shadow-mapSize={[2048, 2048]}
                 shadow-bias={-0.0001}
               />
-              <directionalLight position={[12, 10, -5]} intensity={0.5} color="#E0F2FE" />
+              <directionalLight position={[10, 10, 10]} intensity={0.8} color="#E0F2FE" />
               <Environment preset="sunset" />
 
               <AnimatedLabGroup onArrival={handleArrival}>
-                <RotatableMagnetGroup>
+                <RotatableMagnetGroup rotationRef={rotationRef}>
                   <Magnet3D />
                   <FilingsSystem step={step} isSprinkling={isSprinkling} isVibrating={isVibrating} cycleKey={cycleKey} isPaused={isPaused} />
                 </RotatableMagnetGroup>
@@ -662,7 +677,7 @@ export default function Stage1_Investigate({ onComplete }) {
               </AnimatedLabGroup>
               <OrbitControls
                 makeDefault
-                target={[0, -1.4, 0]}
+                target={[0.1, 4.4, 0]}
                 enableZoom={false}
                 enableRotate={false}
                 enablePan={false}
@@ -670,28 +685,59 @@ export default function Stage1_Investigate({ onComplete }) {
             </Suspense>
           </Canvas>
 
-          {/* Passive Interaction Hint Overlay */}
+          {/* Interaction Controls & Hint Overlay */}
           <div style={{
             position: 'absolute',
             bottom: '14px',
             left: '16px',
-            background: 'rgba(6, 78, 59, 0.82)',
-            backdropFilter: 'blur(8px)',
-            color: '#FFFFFF',
-            padding: '6px 14px',
-            borderRadius: '20px',
-            fontSize: '0.78rem',
-            fontWeight: 700,
+            right: '16px',
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
-            border: '1px solid rgba(167, 243, 208, 0.45)',
+            justifyContent: 'space-between',
             pointerEvents: 'none',
-            boxShadow: '0 4px 14px rgba(0,0,0,0.18)',
             zIndex: 10
           }}>
-            <Hand size={14} color="#FDE68A" />
-            <span>Drag magnet to rotate</span>
+            <div style={{
+              background: 'rgba(6, 78, 59, 0.86)',
+              backdropFilter: 'blur(8px)',
+              color: '#FFFFFF',
+              padding: '6px 14px',
+              borderRadius: '20px',
+              fontSize: '0.78rem',
+              fontWeight: 700,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              border: '1px solid rgba(167, 243, 208, 0.45)',
+              boxShadow: '0 4px 14px rgba(0,0,0,0.18)',
+            }}>
+              <Hand size={14} color="#FDE68A" />
+              <span>Hold & drag anywhere to rotate & tilt magnet</span>
+            </div>
+
+            <button
+              onClick={handleResetRotation}
+              style={{
+                pointerEvents: 'auto',
+                background: 'rgba(255, 255, 255, 0.94)',
+                border: '1.5px solid #A7F3D0',
+                borderRadius: '16px',
+                padding: '6px 12px',
+                fontSize: '0.76rem',
+                fontWeight: 800,
+                color: '#065F46',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
+                transition: 'all 0.2s'
+              }}
+              title="Reset view angle"
+            >
+              <RotateCcw size={13} color="#059669" />
+              <span>Reset View</span>
+            </button>
           </div>
         </div>
       </div>
