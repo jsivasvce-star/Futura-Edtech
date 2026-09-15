@@ -78,42 +78,118 @@
   transform: translateY(0) scale(0.98) !important;
 }
 
-/* Radar Sweep Animation */
-@keyframes radar-sweep {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+/* ═══════════════════════════════════════════════════════
+   SCANNER ANIMATIONS — Violet / Indigo / Amber Plasma Theme
+   ═══════════════════════════════════════════════════════ */
+
+/* Spinning outer conic ring around chamber */
+@keyframes ring-spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-/* Vertical Laser Sweep across Object */
-@keyframes laser-sweep-vertical {
-  0% {
-    top: 5%;
-    opacity: 0.85;
-  }
-  50% {
-    top: 92%;
-    opacity: 1;
-  }
-  100% {
-    top: 5%;
-    opacity: 0.85;
-  }
-}
-
-/* Holographic Float & Aura Pulse */
-@keyframes holographic-pulse {
+/* Pulsing outer glow rings */
+@keyframes energy-ring-pulse {
   0%, 100% {
-    filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.45));
+    opacity: 0.35;
     transform: scale(1);
   }
   50% {
-    filter: drop-shadow(0 0 28px rgba(56, 189, 248, 0.85));
-    transform: scale(1.02);
+    opacity: 0.8;
+    transform: scale(1.04);
   }
+}
+
+/* Amber scan beam sweeping top→bottom */
+@keyframes amber-scan-sweep {
+  0%   { top: 2%;  opacity: 0.7; }
+  45%  { top: 94%; opacity: 1;   }
+  55%  { top: 94%; opacity: 1;   }
+  100% { top: 2%;  opacity: 0.7; }
+}
+
+/* Holographic float & scale pulse while scanning */
+@keyframes holographic-pulse {
+  0%, 100% {
+    transform: scale(1.12);
+    filter: drop-shadow(0 0 22px rgba(167, 139, 250, 0.6));
+  }
+  50% {
+    transform: scale(1.18);
+    filter: drop-shadow(0 0 44px rgba(251, 191, 36, 0.85)) drop-shadow(0 0 20px rgba(167,139,250,0.7));
+  }
+}
+
+/* Ripple burst on scan start */
+@keyframes scan-ripple {
+  0%   { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(1.8); opacity: 0;   }
+}
+
+/* Legacy radar sweep (kept for fallback) */
+@keyframes radar-sweep {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Laser sweep — kept for CSS keyframe reference */
+@keyframes laser-sweep-vertical {
+  0%   { top: 5%;  opacity: 0.85; }
+  50%  { top: 92%; opacity: 1;    }
+  100% { top: 5%;  opacity: 0.85; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SCANNER CHAMBER CLASSES
+   ═══════════════════════════════════════════════════════ */
+
+/* Spinning conic gradient border ring */
+.scanner-ring-outer {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    #7C3AED 0deg,
+    #A78BFA 60deg,
+    #FBBF24 120deg,
+    #F59E0B 150deg,
+    #A78BFA 200deg,
+    #7C3AED 280deg,
+    #4F46E5 340deg,
+    #7C3AED 360deg
+  );
+  animation: ring-spin 3s linear infinite;
+  z-index: 1;
+  filter: blur(1px);
+}
+
+.scanner-ring-outer::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: #0D0B1E;
+}
+
+/* Animated energy ring (concentric) */
+.scanner-energy-ring {
+  position: absolute;
+  border-radius: 50%;
+  animation: energy-ring-pulse 2.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Scan-active pulsing outer glow */
+.scanner-active-glow {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid rgba(251, 191, 36, 0.55);
+  animation: energy-ring-pulse 1.1s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* Evidence Card Hover & Active Interaction */
@@ -128,8 +204,8 @@
 }
 
 .evidence-card.is-active-scan {
-  border-color: #0284C7 !important;
-  box-shadow: 0 0 22px rgba(2, 132, 199, 0.35) !important;
+  border-color: #7C3AED !important;
+  box-shadow: 0 0 22px rgba(124, 58, 237, 0.45) !important;
   transform: translateY(-2px);
 }
 

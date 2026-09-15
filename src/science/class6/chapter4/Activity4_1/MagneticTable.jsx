@@ -639,7 +639,7 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
             </div>
           </div>
 
-          {/* Central Scanner Chamber / Radar Pad */}
+          {/* Central Scanner Chamber — Violet / Indigo / Amber Plasma */}
           <div style={{
             flex: 1,
             minHeight: 0,
@@ -648,209 +648,243 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundImage: "url('/Activity4_1/scanner_pad_bg.png')",
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            background: 'radial-gradient(ellipse at 50% 30%, #1C0A3A 0%, #0D0B1E 50%, #07050F 100%)',
             overflow: 'hidden',
           }}>
-            {/* Dark Ambient Overlay */}
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'radial-gradient(circle at center, rgba(15, 23, 42, 0.4) 0%, rgba(11, 17, 32, 0.8) 100%)',
-              zIndex: 1,
-              pointerEvents: 'none',
-            }} />
+            {/* Ambient star-field particles */}
+            {[...Array(18)].map((_, i) => (
+              <div key={i} style={{
+                position: 'absolute',
+                width: `${1 + (i % 3)}px`,
+                height: `${1 + (i % 3)}px`,
+                borderRadius: '50%',
+                background: i % 4 === 0 ? '#FBBF24' : '#A78BFA',
+                opacity: 0.2 + (i % 5) * 0.08,
+                top: `${(i * 17 + 5) % 95}%`,
+                left: `${(i * 23 + 8) % 92}%`,
+                pointerEvents: 'none',
+                animation: `energy-ring-pulse ${2 + (i % 3)}s ease-in-out infinite`,
+                animationDelay: `${(i * 0.3) % 2}s`,
+              }} />
+            ))}
 
             {/* Circular Radar Chamber Container */}
             <div style={{
               position: 'relative',
-              width: 'min(330px, 70vw)',
-              height: 'min(330px, 70vw)',
-              borderRadius: '50%',
+              width: 'min(310px, 68vw)',
+              height: 'min(310px, 68vw)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               zIndex: 2,
             }}>
-              {/* Radar Rotating Sweep Beam */}
+              {/* Spinning Conic Gradient Ring */}
+              <div className="scanner-ring-outer" />
+
+              {/* Inner dark chamber disc */}
               <div style={{
                 position: 'absolute',
-                inset: 0,
+                inset: '4px',
                 borderRadius: '50%',
-                background: 'conic-gradient(from 0deg, rgba(56, 189, 248, 0) 0deg, rgba(56, 189, 248, 0.18) 45deg, rgba(56, 189, 248, 0) 46deg)',
-                animation: 'radar-sweep 4s linear infinite',
-                pointerEvents: 'none',
+                background: 'radial-gradient(circle at 40% 35%, #1A0A35 0%, #0D0720 55%, #060410 100%)',
+                zIndex: 2,
               }} />
 
-              {/* Concentric Cyan Radar Circles */}
-              <div style={{
-                position: 'absolute',
-                width: '78%',
-                height: '78%',
-                borderRadius: '50%',
-                border: '1px solid rgba(56, 189, 248, 0.35)',
-                pointerEvents: 'none',
+              {/* Active scan glow ring */}
+              {scanState === 'scanning' && (
+                <div className="scanner-active-glow" style={{ zIndex: 1 }} />
+              )}
+
+              {/* Energy rings — violet palette */}
+              <div className="scanner-energy-ring" style={{
+                width: '88%', height: '88%',
+                border: scanState === 'scanning'
+                  ? '1.5px solid rgba(251, 191, 36, 0.6)'
+                  : '1px solid rgba(139, 92, 246, 0.5)',
+                animationDuration: '2s',
+                zIndex: 3,
               }} />
-              <div style={{
-                position: 'absolute',
-                width: '52%',
-                height: '52%',
-                borderRadius: '50%',
-                border: '1px dashed rgba(56, 189, 248, 0.3)',
-                pointerEvents: 'none',
+              <div className="scanner-energy-ring" style={{
+                width: '68%', height: '68%',
+                border: scanState === 'scanning'
+                  ? '1px dashed rgba(251, 191, 36, 0.4)'
+                  : '1px dashed rgba(139, 92, 246, 0.35)',
+                animationDuration: '2.8s',
+                animationDelay: '0.4s',
+                zIndex: 3,
               }} />
-              <div style={{
-                position: 'absolute',
-                width: '26%',
-                height: '26%',
-                borderRadius: '50%',
-                border: '1px solid rgba(56, 189, 248, 0.25)',
-                pointerEvents: 'none',
+              <div className="scanner-energy-ring" style={{
+                width: '44%', height: '44%',
+                border: scanState === 'scanning'
+                  ? '1px solid rgba(245, 158, 11, 0.55)'
+                  : '1px solid rgba(167, 139, 250, 0.3)',
+                animationDuration: '1.6s',
+                animationDelay: '0.8s',
+                zIndex: 3,
               }} />
 
-              {/* Crosshair Axes */}
+              {/* Crosshair axes */}
               <div style={{
                 position: 'absolute',
-                width: '88%',
-                height: '1px',
-                background: 'linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.4) 50%, transparent 100%)',
-                pointerEvents: 'none',
+                width: '80%', height: '1px',
+                background: scanState === 'scanning'
+                  ? 'linear-gradient(90deg, transparent 0%, rgba(251, 191, 36, 0.5) 50%, transparent 100%)'
+                  : 'linear-gradient(90deg, transparent 0%, rgba(139, 92, 246, 0.45) 50%, transparent 100%)',
+                zIndex: 4, pointerEvents: 'none',
               }} />
               <div style={{
                 position: 'absolute',
-                height: '88%',
-                width: '1px',
-                background: 'linear-gradient(180deg, transparent 0%, rgba(56, 189, 248, 0.4) 50%, transparent 100%)',
-                pointerEvents: 'none',
+                height: '80%', width: '1px',
+                background: scanState === 'scanning'
+                  ? 'linear-gradient(180deg, transparent 0%, rgba(251, 191, 36, 0.5) 50%, transparent 100%)'
+                  : 'linear-gradient(180deg, transparent 0%, rgba(139, 92, 246, 0.45) 50%, transparent 100%)',
+                zIndex: 4, pointerEvents: 'none',
               }} />
+
+              {/* Corner bracket decorators */}
+              {[
+                { top: '8%', left: '8%',   borderTop: true,  borderLeft: true  },
+                { top: '8%', right: '8%',  borderTop: true,  borderRight: true },
+                { bottom: '8%', left: '8%',  borderBottom: true, borderLeft: true  },
+                { bottom: '8%', right: '8%', borderBottom: true, borderRight: true },
+              ].map((pos, i) => (
+                <div key={i} style={{
+                  position: 'absolute',
+                  width: 14, height: 14,
+                  borderTop:    pos.borderTop    ? `2px solid ${scanState === 'scanning' ? '#FBBF24' : '#8B5CF6'}` : 'none',
+                  borderBottom: pos.borderBottom ? `2px solid ${scanState === 'scanning' ? '#FBBF24' : '#8B5CF6'}` : 'none',
+                  borderLeft:   pos.borderLeft   ? `2px solid ${scanState === 'scanning' ? '#FBBF24' : '#8B5CF6'}` : 'none',
+                  borderRight:  pos.borderRight  ? `2px solid ${scanState === 'scanning' ? '#FBBF24' : '#8B5CF6'}` : 'none',
+                  zIndex: 5,
+                  pointerEvents: 'none',
+                  ...pos,
+                }} />
+              ))}
 
               {/* ACTIVE ITEM ON RADAR PAD */}
               {selectedItem ? (
                 <div style={{
-                  position: 'relative',
-                  width: '82%',
-                  height: '82%',
+                  position: 'absolute',
+                  inset: '4px',
+                  borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  zIndex: 4,
+                  zIndex: 5,
                 }}>
-                  {/* Object Image — canvas-processed transparent PNG, floats on dark radar */}
+                  {/* Object image — noticeably larger during scan via transform scale */}
                   <img
                     src={getImgSrc(selectedItem)}
                     alt={selectedItem.name}
                     style={{
-                      position: 'relative',
-                      zIndex: 5,
-                      maxWidth: '80%',
-                      maxHeight: '80%',
+                      maxWidth: scanState === 'scanning' ? '82%' : '65%',
+                      maxHeight: scanState === 'scanning' ? '82%' : '65%',
                       objectFit: 'contain',
+                      transform: scanState === 'scanning' ? 'scale(1.18)' : 'scale(1)',
+                      transition: 'max-width 0.35s ease, max-height 0.35s ease, transform 0.35s ease, filter 0.4s ease',
                       filter: scanState === 'scanning'
-                        ? 'drop-shadow(0 0 28px rgba(56, 189, 248, 0.9)) drop-shadow(0 0 12px rgba(56,189,248,0.6)) brightness(1.1)'
+                        ? 'drop-shadow(0 0 32px rgba(251, 191, 36, 0.95)) drop-shadow(0 0 16px rgba(167,139,250,0.7)) brightness(1.12)'
                         : selectedItem.isMagnetic
                         ? 'drop-shadow(0 0 24px rgba(34, 197, 94, 0.85)) drop-shadow(0 0 10px rgba(34,197,94,0.5))'
                         : 'drop-shadow(0 0 20px rgba(239, 68, 68, 0.75)) drop-shadow(0 0 8px rgba(239,68,68,0.4))',
-                      transition: 'filter 0.4s ease, transform 0.3s ease',
                       animation: scanState === 'scanning' ? 'holographic-pulse 1.8s ease-in-out infinite' : 'none',
+                      zIndex: 6,
                     }}
                   />
 
-                  {/* Vertical Laser Sweep Line */}
+                  {/* Amber scan beam */}
                   {scanState === 'scanning' && (
                     <div style={{
                       position: 'absolute',
-                      left: '5%',
-                      right: '5%',
+                      left: '8%', right: '8%',
                       height: '3px',
-                      background: '#38BDF8',
-                      boxShadow: '0 0 14px #38BDF8, 0 0 24px #0284C7',
-                      zIndex: 6,
-                      animation: 'laser-sweep-vertical 1.35s ease-in-out infinite',
+                      background: 'linear-gradient(90deg, transparent, #FBBF24, #F59E0B, #FBBF24, transparent)',
+                      boxShadow: '0 0 12px #FBBF24, 0 0 28px #F59E0B, 0 0 6px #FEF3C7',
+                      zIndex: 8,
+                      animation: 'amber-scan-sweep 1.6s ease-in-out infinite',
                       pointerEvents: 'none',
+                      borderRadius: '2px',
                     }} />
                   )}
                 </div>
               ) : (
-                /* IDLE STATE IN SCANNER RADAR */
+                /* IDLE STATE */
                 <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textAlign: 'center',
-                  padding: '1rem',
-                  gap: '0.45rem',
-                  zIndex: 4,
-                  pointerEvents: 'none',
+                  position: 'absolute', inset: 0,
+                  display: 'flex', flexDirection: 'column',
+                  alignItems: 'center', justifyContent: 'center',
+                  textAlign: 'center', gap: '0.5rem',
+                  zIndex: 5, pointerEvents: 'none',
                 }}>
-                  <Search size={48} color="#38BDF8" style={{ filter: 'drop-shadow(0 0 14px rgba(56, 189, 248, 0.6))' }} />
-                  <span style={{
-                    fontSize: '1.45rem',
-                    fontWeight: 900,
-                    color: '#E0F2FE',
-                    letterSpacing: '0.4px',
-                    textShadow: '0 0 12px rgba(56, 189, 248, 0.6)',
-                  }}>
-                    Scanner Active
-                  </span>
-                  <span style={{
-                    fontSize: '0.88rem',
-                    color: '#94A3B8',
-                    maxWidth: '220px',
-                    lineHeight: 1.4,
-                    fontWeight: 700,
-                  }}>
-                    Click any object on the left to scan it!
-                  </span>
-                </div>
-              )}
-
-              {/* Progress HUD Badge while scanning */}
-              {scanState === 'scanning' && (
-                <div style={{
-                  position: 'absolute',
-                  top: '12px',
-                  background: 'rgba(15, 23, 42, 0.92)',
-                  border: '1.5px solid #38BDF8',
-                  borderRadius: '12px',
-                  padding: '6px 16px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '4px',
-                  zIndex: 10,
-                  boxShadow: '0 8px 24px rgba(2, 132, 199, 0.35)',
-                  minWidth: '180px',
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                    <span style={{ fontSize: '0.74rem', fontWeight: 900, color: '#38BDF8', letterSpacing: '0.6px' }}>
-                      SCANNING...
-                    </span>
-                    <span style={{ fontSize: '0.88rem', fontWeight: 900, color: '#FFFFFF' }}>
-                      {scanProgress}%
-                    </span>
-                  </div>
-
-                  {/* Progress Bar */}
                   <div style={{
-                    width: '100%',
-                    height: '5px',
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    borderRadius: '3px',
-                    overflow: 'hidden',
+                    width: 52, height: 52,
+                    borderRadius: '50%',
+                    background: 'radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, transparent 70%)',
+                    border: '2px solid rgba(139, 92, 246, 0.55)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    boxShadow: '0 0 24px rgba(139, 92, 246, 0.4)',
+                    animation: 'energy-ring-pulse 2s ease-in-out infinite',
                   }}>
-                    <div style={{
-                      width: `${scanProgress}%`,
-                      height: '100%',
-                      background: '#38BDF8',
-                      boxShadow: '0 0 10px #38BDF8',
-                      transition: 'width 0.08s linear',
-                    }} />
+                    <Search size={22} color="#A78BFA" style={{ filter: 'drop-shadow(0 0 8px rgba(167,139,250,0.8))' }} />
                   </div>
+                  <span style={{
+                    fontSize: '1.15rem', fontWeight: 900,
+                    background: 'linear-gradient(135deg, #A78BFA, #FBBF24)',
+                    WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                    letterSpacing: '0.5px',
+                  }}>
+                    PLASMA SCANNER
+                  </span>
+                  <span style={{
+                    fontSize: '0.8rem', color: '#6D6A85',
+                    maxWidth: '180px', lineHeight: 1.4, fontWeight: 600,
+                  }}>
+                    Click an object to begin scan
+                  </span>
                 </div>
               )}
             </div>
+
+            {/* Scanning Progress HUD — amber themed */}
+            {scanState === 'scanning' && (
+              <div style={{
+                position: 'absolute',
+                bottom: '12px',
+                background: 'rgba(13, 7, 30, 0.95)',
+                border: '1.5px solid rgba(251, 191, 36, 0.6)',
+                borderRadius: '12px',
+                padding: '7px 18px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '5px',
+                zIndex: 10,
+                boxShadow: '0 4px 20px rgba(251, 191, 36, 0.25)',
+                minWidth: '190px',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                  <span style={{ fontSize: '0.72rem', fontWeight: 900, color: '#FBBF24', letterSpacing: '0.8px' }}>
+                    ⚡ SCANNING...
+                  </span>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 900, color: '#FFFFFF' }}>
+                    {scanProgress}%
+                  </span>
+                </div>
+                <div style={{
+                  width: '100%', height: '4px',
+                  background: 'rgba(255,255,255,0.08)',
+                  borderRadius: '3px', overflow: 'hidden',
+                }}>
+                  <div style={{
+                    width: `${scanProgress}%`, height: '100%',
+                    background: 'linear-gradient(90deg, #7C3AED, #FBBF24)',
+                    boxShadow: '0 0 10px #FBBF24',
+                    transition: 'width 0.08s linear',
+                    borderRadius: '3px',
+                  }} />
+                </div>
+              </div>
+            )}
 
             {/* SCAN RESULTS TELEMETRY CARD (WHEN A SCAN IS COMPLETED) */}
             {selectedItem && scanState === 'complete' && (
