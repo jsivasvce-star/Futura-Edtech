@@ -96,7 +96,7 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
     }}>
       {/* Header */}
       <div style={{
-        padding: "0.8rem 1.5rem",
+        padding: "0.4rem 1.5rem",
         background: "#2c1e14",
         borderBottom: "1px solid #4a3525",
         display: "flex", alignItems: "center", gap: 16, flexShrink: 0,
@@ -104,25 +104,28 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
       }}>
         <span style={{ fontSize: "2rem" }}>🔦</span>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#d1a25a", letterSpacing: "0.5px" }}>
+          <div style={{ fontSize: "1.936rem", fontWeight: 900, color: "#d1a25a", letterSpacing: "0.5px" }}>
             Investigating: {mat.name}
           </div>
         </div>
         <button onClick={onCancel} style={{
           background: '#4a3525', border: '4px solid #fdfbf7',
-          borderRadius: '50%', width: '80px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          borderRadius: '50%', width: '64px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center',
           color: '#fdfbf7', cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 4px 16px rgba(0,0,0,0.6)',
           flexShrink: 0
         }} onMouseOver={(e) => { e.currentTarget.style.background = '#6b5c51'; e.currentTarget.style.transform = 'scale(1.1)'; }} 
            onMouseOut={(e) => { e.currentTarget.style.background = '#4a3525'; e.currentTarget.style.transform = 'scale(1)'; }}>
-          <X size={48} strokeWidth={4} />
+          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
         </button>
       </div>
 
       <div style={{ flex: 1, display: "flex", overflow: "hidden", position: "relative" }}>
         
         {/* Left: Investigation Area */}
-        <div style={{ width: "70%", position: "relative", padding: "1rem", display: "flex", flexDirection: "column", gap: "1rem", flexShrink: 0 }}>
+        <div style={{ width: "70%", position: "relative", padding: "0.5rem 1rem 1rem", display: "flex", flexDirection: "column", gap: "1rem", flexShrink: 0 }}>
           
           <div style={{
             position: "relative", flex: 1, width: "100%", minHeight: 0,
@@ -185,7 +188,7 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
               position: "absolute", bottom: 0, left: 0, right: 0,
               padding: "10px 16px",
               background: "linear-gradient(transparent, rgba(0,0,0,0.85))",
-              fontSize: "1.5rem", fontWeight: 900, color: "#fdfbf7", letterSpacing: "1px",
+              fontSize: "1.815rem", fontWeight: 900, color: "#fdfbf7", letterSpacing: "1px",
               zIndex: 20,
             }}>
               {mat.name}
@@ -209,8 +212,8 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
                     border: "3px solid #d1a25a", boxShadow: "0 12px 32px rgba(0,0,0,0.4)",
                     display: "flex", flexDirection: "column", alignItems: "center", gap: "1.25rem"
                   }}>
-                    <div style={{ fontSize: "1.5rem", fontWeight: 700, color: "#8a6545" }}>{mat.name}</div>
-                    <div style={{ fontSize: "2.1rem", fontWeight: 900, color: "#4a3525", marginBottom: 12 }}>What did you observe?</div>
+                    <div style={{ fontSize: "1.65rem", fontWeight: 700, color: "#8a6545" }}>{mat.name}</div>
+                    <div style={{ fontSize: "2.415rem", fontWeight: 900, color: "#4a3525", marginBottom: 12 }}>What did you observe?</div>
                     
                     {showCorrect ? (
                       <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#16a34a", padding: "1.25rem", textAlign: "center", width: "100%", background: "#dcfce7", borderRadius: 10, border: "2px solid #22c55e" }}>
@@ -255,27 +258,27 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
 
         {/* Right: Controls Panel */}
         <div style={{
-          width: "30%", padding: "1.25rem", borderLeft: "1px solid #4a3525",
-          background: "transparent", display: "flex", flexDirection: "column", gap: "0.85rem", overflow: "hidden", flexShrink: 0
+          width: "30%", padding: "0.5rem 1.25rem 1.25rem", borderLeft: "1px solid #4a3525",
+          background: "transparent", display: "flex", flexDirection: "column", gap: "0.5rem", overflow: "hidden", flexShrink: 0
         }}>
           
           <div style={{
             background: "#8a6545", borderRadius: 12,
-            padding: "0.85rem", border: "1px solid #a0744e",
+            padding: "0.4rem", border: "1px solid #a0744e",
             boxShadow: "0 4px 12px rgba(0,0,0,0.2)", flexShrink: 0
           }}>
-            <div style={{ fontSize: "2.1rem", color: "#fdfbf7", marginBottom: "0.5rem", fontWeight: 900 }}>
+            <div style={{ fontSize: "2.1rem", color: "#fdfbf7", marginBottom: "0.4rem", fontWeight: 900 }}>
               Observation
             </div>
-            <div style={{ fontSize: "1.4rem", color: "#fdfbf7", lineHeight: 1.3, marginBottom: "0.75rem" }}>
+            <div style={{ fontSize: "1.6126rem", color: "#fdfbf7", lineHeight: 1.3, marginBottom: "0.5rem" }}>
               Turn the torch ON and OFF and observe what happens to the light.
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               <button
                 onClick={() => handleToggle(true)}
                 style={{
-                  padding: "0.85rem", borderRadius: 8,
+                  padding: "0.6rem", borderRadius: 8,
                   background: "#4a3525",
                   color: "#fdfbf7", border: torchOn ? "3px solid #d1a25a" : "3px solid #6b5c51",
                   fontSize: "1.65rem", fontWeight: 900, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, transition: "all 0.2s",
@@ -287,7 +290,7 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
               <button
                 onClick={() => handleToggle(false)}
                 style={{
-                  padding: "0.85rem", borderRadius: 8,
+                  padding: "0.6rem", borderRadius: 8,
                   background: "#4a3525",
                   color: "#fdfbf7", border: !torchOn ? "3px solid #d1a25a" : "3px solid #6b5c51",
                   fontSize: "1.65rem", fontWeight: 900, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, transition: "all 0.2s",
@@ -300,12 +303,12 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
           </div>
 
           <div style={{
-            background: "#f0e8d9", borderRadius: 12, padding: "1.5rem",
+            background: "#f0e8d9", borderRadius: 12, padding: "1rem",
             border: "1px solid #d1a25a", flex: 1,
             boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
           }}>
-            <div style={{ fontWeight: 900, color: "#8a6545", marginBottom: "1rem", fontSize: "2.35rem" }}>Watch for:</div>
-            <ul style={{ margin: 0, paddingLeft: "2.5rem", display: "flex", flexDirection: "column", gap: "12px", color: "#4a3525", fontWeight: 700, fontSize: "1.9rem", lineHeight: 1.4 }}>
+            <div style={{ fontWeight: 900, color: "#8a6545", marginBottom: "0.5rem", fontSize: "2.2795rem" }}>Watch for:</div>
+            <ul style={{ margin: 0, paddingLeft: "2.5rem", display: "flex", flexDirection: "column", gap: "8px", color: "#4a3525", fontWeight: 700, fontSize: "1.9rem", lineHeight: 1.4 }}>
               <li>Does a bright spot appear?</li>
               <li>Is the reflection clear or soft?</li>
             </ul>
@@ -341,9 +344,9 @@ const MaterialCard = ({ mat, state, onClick }) => {
     >
       <div style={{ position: "relative", flex: 1, minHeight: 0, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", padding: "0", background: "transparent" }}>
         <img src={mat.img} alt={mat.name} draggable="false" style={{
-          width: "100%", height: "100%", objectFit: "contain", mixBlendMode: "multiply",
+          width: "100%", height: "100%", objectFit: (mat.id === "paper" || mat.id === "steel") ? "contain" : "cover", mixBlendMode: "multiply",
           objectPosition: "center", display: "block",
-          transform: (mat.id === "paper" || mat.id === "steel") ? "scale(1.15)" : "scale(1.4)", transformOrigin: "center",
+          transform: (mat.id === "paper" || mat.id === "steel") ? "scale(1.15)" : "scale(1)", transformOrigin: "center",
           filter: isDone && mat.isShiny
             ? "brightness(1.15) contrast(1.08) saturate(1.1)"
             : isDone ? "brightness(0.88) contrast(1.05)"
@@ -385,7 +388,7 @@ const MaterialCard = ({ mat, state, onClick }) => {
       </div>
       <div style={{
         textAlign: "center", padding: "12px 6px 16px",
-        fontSize: "1.5rem", fontWeight: 900,
+        fontSize: "1.65rem", fontWeight: 900,
         color: isDone ? (mat.isShiny ? "#8a6545" : "#6b5c51") : "#4a3525",
       }}>
         {mat.name}
@@ -460,7 +463,7 @@ const WhichSideActivity = ({ onSolve }) => {
         whileHover={!isSuccess ? { scale: 1.05 } : {}}
         whileTap={!isSuccess ? { scale: 0.95 } : {}}
         style={{
-          width: 130, height: 135,
+          width: 140, height: 135,
           background: "white", borderRadius: 12,
           border: isError ? "2px solid var(--lesson-danger)" : "1px solid var(--lesson-border)",
           boxShadow: isError ? "0 0 8px rgba(239,68,68,0.5)" : "0 4px 6px rgba(0,0,0,0.05)",
@@ -472,7 +475,7 @@ const WhichSideActivity = ({ onSolve }) => {
         <div style={{ flex: 1, width: "100%", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", paddingTop: 8 }}>
           <img src={mat.img} alt={mat.name} draggable="false" style={{ width: "90%", height: "90%", objectFit: "contain", mixBlendMode: "multiply", transform: "scale(1.2)" }} />
         </div>
-        <div style={{ fontSize: "1.05rem", fontWeight: 700, color: "#4a3525", textAlign: "center", lineHeight: 1.1, paddingBottom: 8 }}>{mat.name}</div>
+        <div style={{ fontSize: "1.37214rem", fontWeight: 700, color: "#4a3525", textAlign: "center", lineHeight: 1.1, paddingBottom: 8 }}>{mat.name}</div>
       </motion.div>
     );
   };
@@ -483,7 +486,7 @@ const WhichSideActivity = ({ onSolve }) => {
       animate={{ scale: 1, opacity: 1 }}
       style={{
         background: "white", borderRadius: 20, padding: "2.25rem 3rem",
-        width: 940, maxWidth: "95vw",
+        width: 1020, maxWidth: "95vw",
         boxShadow: "0 24px 48px rgba(0,0,0,0.3)",
         display: "flex", flexDirection: "column", gap: "1.75rem",
         fontFamily: "'Inter', sans-serif"
@@ -493,7 +496,7 @@ const WhichSideActivity = ({ onSolve }) => {
         <h2 style={{ margin: 0, fontSize: "2.5rem", fontWeight: 900, color: "#4a3525", fontFamily: "'Merriweather', 'Georgia', serif" }}>
           Which Side?
         </h2>
-        <p style={{ margin: "8px 0 0", fontSize: "1.5rem", fontWeight: 700, color: "#6b5c51", whiteSpace: "nowrap" }}>
+        <p style={{ margin: "8px 0 0", fontSize: "1.65rem", fontWeight: 700, color: "#6b5c51", whiteSpace: "nowrap" }}>
           Drag each object to the side where it belongs.
         </p>
       </div>
@@ -521,8 +524,8 @@ const WhichSideActivity = ({ onSolve }) => {
           }}
         >
           <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "1.4rem", fontWeight: 900, color: "#A64B27", letterSpacing: "1px" }}>✨ SHINY</div>
-            <div style={{ fontSize: "1rem", fontWeight: 600, color: "#A64B27", marginTop: 4 }}>Lustrous materials</div>
+            <div style={{ fontSize: "1.54rem", fontWeight: 900, color: "#A64B27", letterSpacing: "1px" }}>✨ SHINY</div>
+            <div style={{ fontSize: "1.3915rem", fontWeight: 600, color: "#A64B27", marginTop: 4 }}>Lustrous materials</div>
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "1rem", width: "100%" }}>
             {shinyGroup.map(renderCard)}
@@ -540,8 +543,8 @@ const WhichSideActivity = ({ onSolve }) => {
           }}
         >
           <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "1.4rem", fontWeight: 900, color: "#A64B27", letterSpacing: "1px" }}>◈ DULL</div>
-            <div style={{ fontSize: "1rem", fontWeight: 600, color: "#A64B27", marginTop: 4 }}>Non-lustrous materials</div>
+            <div style={{ fontSize: "1.54rem", fontWeight: 900, color: "#A64B27", letterSpacing: "1px" }}>◈ DULL</div>
+            <div style={{ fontSize: "1.3915rem", fontWeight: 600, color: "#A64B27", marginTop: 4 }}>Non-lustrous materials</div>
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "1rem", width: "100%" }}>
             {dullGroup.map(renderCard)}
@@ -616,10 +619,10 @@ export default function Stage4a_Appearance_Observe({ onComplete, addXp }) {
         boxShadow: "0 4px 12px rgba(0,0,0,0.05)"
       }}>
         <div>
-          <h3 style={{ margin: 0, fontSize: "1.6rem", color: '#4a3525', fontWeight: 900 }}>
+          <h3 style={{ margin: 0, fontSize: "clamp(29.04px, 3.63vw, 36.3px)", color: '#1A5431', fontWeight: 900 }}>
             🔦 Shine Hunt – Torch Observation Lab
           </h3>
-          <p style={{ margin: "4px 0 0", fontSize: "1.1rem", color: "#8a6545", fontWeight: 700 }}>
+          <p style={{ margin: "4px 0 0", fontSize: "clamp(21.78px, 3.025vw, 26.62px)", color: "#D35F2D", fontWeight: 700 }}>
             Shine the torch on each object and observe what happens to the light.
           </p>
         </div>
@@ -635,8 +638,8 @@ export default function Stage4a_Appearance_Observe({ onComplete, addXp }) {
               <div style={{
                 background: "#f0e8d9",
                 border: "2px solid #e2d9c8", borderRadius: 10,
-                padding: "0.65rem 1rem", fontSize: "1.4rem",
-                color: "#4a3525", fontWeight: 800, flexShrink: 0,
+                padding: "0.65rem 1rem", fontSize: "1.5435rem",
+                color: "#4F386E", fontWeight: "bold", flexShrink: 0,
               }}>
                 🔦 Click any material to open the torch observation.{doneCount > 0 ? "  (" + doneCount + "/6 done)" : ""}
               </div>
@@ -684,7 +687,7 @@ export default function Stage4a_Appearance_Observe({ onComplete, addXp }) {
           boxShadow: "0 4px 16px rgba(0,0,0,0.08)"
         }}>
           <div style={{
-            fontWeight: 900, fontSize: "1.6rem", color: "#4a3525",
+            fontWeight: 900, fontSize: "clamp(24px, 3vw, 30px)", color: "#4F386E",
             borderBottom: "2px solid #e2d9c8",
             paddingBottom: "0.25rem", marginBottom: "0.5rem",
           }}>
@@ -699,17 +702,17 @@ export default function Stage4a_Appearance_Observe({ onComplete, addXp }) {
               return (
                 <div key={mat.id} style={{
                   display: "flex", alignItems: "center", gap: 12,
-                  padding: "8px 12px",
+                  padding: "4px 12px",
                   borderBottom: "1px solid rgba(138,101,69,0.2)",
                   transition: "all 0.3s",
                 }}>
                   <img src={mat.img} alt={mat.name} draggable="false"
                     style={{ width: 44, height: 44, objectFit: "cover", borderRadius: 8, flexShrink: 0 }} />
                   <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                    <div style={{ fontSize: "1.45rem", fontWeight: 900, color: "#4a3525", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                    <div style={{ fontSize: "1.547rem", fontWeight: 900, color: "#4a3525", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                       {mat.name}
                     </div>
-                    <div style={{ fontSize: "1.25rem", marginTop: 2 }}>
+                    <div style={{ fontSize: "1.336rem", marginTop: 2 }}>
                       {obs ? (
                         <span style={{ color: "#8a6545", fontWeight: 800 }}>
                           {obs.result === "shiny" ? "✨ Shiny" : "🪨 Dull"}
@@ -727,20 +730,20 @@ export default function Stage4a_Appearance_Observe({ onComplete, addXp }) {
 
           {/* Shine Record */}
           <div style={{
-            marginTop: "0.5rem", padding: "0.75rem 1.25rem",
+            marginTop: "1rem", padding: "0.4rem 1.25rem",
             background: "#4a3525", borderRadius: 14,
             border: "2px solid #6b5c51",
             boxShadow: "0 4px 12px rgba(0,0,0,0.2)"
           }}>
-            <div style={{ fontSize: "1.35rem", fontWeight: 900, color: "#fdfbf7", marginBottom: "0.4rem" }}>
+            <div style={{ fontSize: "1.4883rem", fontWeight: 900, color: "#fdfbf7", marginBottom: "0.2rem" }}>
               Shine Record
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "1.25rem", color: "#d1a25a", fontWeight: 800 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "1.378rem", color: "#d1a25a", fontWeight: 800 }}>
                 <span>✨ Shiny Objects</span>
                 <span>{Object.values(observations).filter(o => o.result === "shiny").length} / 6</span>
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "1.25rem", color: "#e2d9c8", fontWeight: 800 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "1.378rem", color: "#e2d9c8", fontWeight: 800 }}>
                 <span>◇ Dull Objects</span>
                 <span>{Object.values(observations).filter(o => o.result === "dull").length} / 6</span>
               </div>

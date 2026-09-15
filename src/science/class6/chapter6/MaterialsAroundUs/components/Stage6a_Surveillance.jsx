@@ -88,15 +88,15 @@ export default function Stage6a_Surveillance({ onComplete, addXp }) {
       {/* Header */}
       <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '16px', padding: '1.25rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <h3 style={{ margin: 0, fontSize: '1.8rem', color: 'var(--text-heading)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <h3 style={{ margin: 0, fontSize: 'clamp(29.04px, 3.63vw, 36.3px)', fontWeight: '900', color: 'var(--heading-main)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <Search size={24} color="var(--accent)" /> Phase 1: Surveillance Simulator
           </h3>
-          <p style={{ margin: 0, fontSize: '1.3rem', color: 'var(--text-secondary)' }}>
-            Chief Blake is running a surveillance simulation! Click on each location to see if the suspect is visible through the material.
+          <p style={{ margin: 0, fontSize: 'clamp(21.78px, 3.025vw, 26.62px)', fontWeight: '600', color: 'var(--heading-sub)', lineHeight: '1.5' }}>
+            Click on each location to see if the suspect is visible through the material.
           </p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-          <img src="/images/chief_detective_blake.png" alt="Chief" style={{ width: '70px', height: '70px', objectFit: 'contain' }} />
+          <img src="/images/chief_detective_blake.png" alt="Chief" style={{ width: '85px', height: '85px', objectFit: 'contain' }} />
         </div>
       </div>
 
@@ -194,7 +194,7 @@ export default function Stage6a_Surveillance({ onComplete, addXp }) {
                 </AnimatePresence>
 
                 {/* Overlay Label */}
-                <div style={{ position: 'absolute', top: '15px', left: '15px', background: 'var(--text-heading)', color: 'white', padding: '8px 16px', borderRadius: '24px', fontSize: '1.25rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', zIndex: 20, boxShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
+                <div style={{ position: 'absolute', top: '15px', left: '15px', background: 'var(--text-heading)', color: 'white', padding: '8px 16px', borderRadius: '24px', fontSize: '1.3125rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', zIndex: 20, boxShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
                   <div style={{ background: 'var(--accent)', width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '1rem' }}>{index + 1}</div>
                   {!observations[spot.id] ? 'Unknown Target' : spot.name}
                 </div>
@@ -202,7 +202,7 @@ export default function Stage6a_Surveillance({ onComplete, addXp }) {
 
 
                 {observations[spot.id] && (
-                  <div style={{ position: 'absolute', bottom: '15px', right: '15px', background: '#16a34a', color: 'white', padding: '6px 12px', borderRadius: '8px', fontSize: '1.15rem', fontWeight: 'bold', zIndex: 20 }}>
+                  <div style={{ position: 'absolute', bottom: '15px', right: '15px', background: '#16a34a', color: 'white', padding: '6px 12px', borderRadius: '8px', fontSize: '1.2075rem', fontWeight: 'bold', zIndex: 20 }}>
                     Observed
                   </div>
                 )}
@@ -216,7 +216,7 @@ export default function Stage6a_Surveillance({ onComplete, addXp }) {
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           
           <div style={{ background: 'var(--surface)', borderRadius: '16px', border: '1px solid var(--border)', padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-            <h4 style={{ margin: '0 0 1rem 0', color: 'var(--text-heading)', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid var(--border)', paddingBottom: '1rem', fontSize: '1.5rem' }}>
+            <h4 style={{ margin: '0 0 1rem 0', color: 'var(--heading-section)', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid var(--border)', paddingBottom: '1rem', fontSize: 'clamp(24px, 3vw, 30px)', fontWeight: '800' }}>
               <Camera size={26} color="var(--accent)" /> Observation Console
             </h4>
             
@@ -230,23 +230,23 @@ export default function Stage6a_Surveillance({ onComplete, addXp }) {
                   style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}
                 >
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    <div style={{ color: 'var(--text-muted)', fontSize: '1.2rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Target Location</div>
-                    <div style={{ fontSize: '1.7rem', color: 'var(--text-heading)', fontWeight: 'bold' }}>{selectedSpot.name}</div>
+                    <div style={{ color: 'var(--text-muted)', fontSize: '1.2804rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Target Location</div>
+                    <div style={{ fontSize: '1.8139rem', color: 'var(--text-heading)', fontWeight: 'bold' }}>{selectedSpot.name}</div>
                   </div>
 
                   <div style={{ background: 'var(--surface)', borderRadius: '12px', padding: '1.25rem', border: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    <div style={{ color: 'var(--text-muted)', fontSize: '1.2rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Visibility</div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1.55rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>
+                    <div style={{ color: 'var(--text-muted)', fontSize: '1.2804rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Visibility</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1.65385rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>
                       {selectedSpot.icon} {selectedSpot.view}
                     </div>
-                    <div style={{ color: 'var(--text-secondary)', fontSize: '1.3rem', lineHeight: '1.5' }}>
+                    <div style={{ color: 'var(--text-secondary)', fontSize: '1.3871rem', lineHeight: '1.5' }}>
                       {selectedSpot.desc}
                     </div>
                   </div>
 
                   <div style={{ background: '#f0fdfa', borderRadius: '12px', padding: '1.25rem', border: '1px solid #ccfbf1', marginTop: 'auto' }}>
-                    <div style={{ color: '#0d9488', fontSize: '1.2rem', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Conclusion</div>
-                    <div style={{ color: '#115e59', fontSize: '1.4rem', lineHeight: '1.5', fontWeight: 'bold' }}>
+                    <div style={{ color: '#0d9488', fontSize: '1.2804rem', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Conclusion</div>
+                    <div style={{ color: '#115e59', fontSize: '1.4938rem', lineHeight: '1.5', fontWeight: 'bold' }}>
                       {selectedSpot.conclusion}
                     </div>
                   </div>
@@ -256,7 +256,7 @@ export default function Stage6a_Surveillance({ onComplete, addXp }) {
                   <div style={{ background: 'var(--surface)', padding: '15px', borderRadius: '50%' }}>
                     <Camera size={40} color="var(--border)" />
                   </div>
-                  <span style={{ fontSize: '1.15rem' }}>Select a location on the left to begin observation.</span>
+                  <span style={{ fontSize: '1.22705rem' }}>Select a location on the left to begin observation.</span>
                 </div>
               )}
             </AnimatePresence>
@@ -274,12 +274,12 @@ export default function Stage6a_Surveillance({ onComplete, addXp }) {
           <div style={{ background: '#fefce8', padding: '8px', borderRadius: '50%' }}>
             <Target size={22} />
           </div>
-          <span style={{ color: 'var(--text-secondary)', fontSize: '1.25rem' }}>Click on each location (1-4) to check if the suspect is visible through the material.</span>
+          <span style={{ color: 'var(--text-secondary)', fontSize: '1.4375rem' }}>Click on each location (1-4) to check if the suspect is visible through the material.</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-          <div style={{ fontWeight: 'bold', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px', background: 'var(--surface)', padding: '8px 16px', borderRadius: '20px', border: '1px solid var(--border)', fontSize: '1.1rem' }}>
+          <div style={{ fontWeight: 'bold', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px', background: 'var(--surface)', padding: '8px 16px', borderRadius: '20px', border: '1px solid var(--border)', fontSize: '1.265rem' }}>
             <img src="/images/chief_detective_blake.png" alt="Hat" style={{ width: '22px', height: '22px', objectFit: 'contain' }} />
-            Observations: <span style={{ color: isComplete ? '#16a34a' : 'var(--text-heading)', fontSize: '1.25rem' }}>{obsCount} / 4</span>
+            Observations: <span style={{ color: isComplete ? '#16a34a' : 'var(--text-heading)', fontSize: '1.4375rem' }}>{obsCount} / 4</span>
           </div>
         </div>
       </div>

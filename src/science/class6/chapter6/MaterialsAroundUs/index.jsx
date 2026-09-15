@@ -11,6 +11,7 @@ import ChapterCover from './components/Educational/ChapterCover';
 import ChapterIntroSpread from './components/Educational/ChapterIntroSpread';
 import MissionBriefingSpread from './components/Educational/MissionBriefingSpread';
 import FullscreenButton from './components/Common/FullscreenButton';
+import backgroundImage from '../../../../assets/background image.png';
 
 const timelineTree = (() => {
   const tree = [];
@@ -54,6 +55,7 @@ const timelineTree = (() => {
 
 export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
   const handbookRef = useRef(null);
+  const stageRef = useRef(null);
   const [currentFlowIndex, setCurrentFlowIndex] = useState(0);
   const [highestUnlockedIndex, setHighestUnlockedIndex] = useState(0);
   const [isTimelineOpen, setIsTimelineOpen] = useState(false);
@@ -63,6 +65,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
   const [showCover, setShowCover] = useState(true);
   const [showIntroSpread, setShowIntroSpread] = useState(false);
   const [showHandbook, setShowHandbook] = useState(true);
+  const [handbookInitialPage, setHandbookInitialPage] = useState(1);
   const [expandedNodes, setExpandedNodes] = useState({ 
     'Barrier 6.1': true, 'Barrier 6.2': true, 'Barrier 6.3': true, 'Barrier 6.4': true, 'Final Wrap-up': true,
     'Stage 6.3.1': true, 'Stage 6.3.2': true, 'Stage 6.3.3': true, 'Stage 6.3.4': true, 'Stage 6.3.5': true, 'Stage 6.3.6': true
@@ -131,6 +134,8 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
   // Global Theme Hook
   const { theme, toggleTheme } = useTheme();
 
+  const isExcludedBackground = currentNode.type === 'mission' || currentNode.type === 'checkpoint' || showHandbook;
+
   return (
     <>
       <FullscreenButton />
@@ -139,7 +144,11 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
       ) : showIntroSpread ? (
         <ChapterIntroSpread onContinue={() => setShowIntroSpread(false)} onBack={() => { setShowIntroSpread(false); setShowCover(true); }} />
       ) : (
-        <div className="activity-workspace materials-around-us-theme" style={{ paddingTop: 0, paddingBottom: '72px', background: 'linear-gradient(135deg, #F5EFE6 0%, #EDE4D3 40%, #F0E8D8 70%, #E8DDCC 100%)' }}>
+        <div className="activity-workspace materials-around-us-theme" style={{ 
+          paddingTop: 0, 
+          paddingBottom: 0, 
+          background: isExcludedBackground ? 'linear-gradient(135deg, #F5EFE6 0%, #EDE4D3 40%, #F0E8D8 70%, #E8DDCC 100%)' : `url("${backgroundImage}") center/cover no-repeat fixed` 
+        }}>
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden', position: 'relative' }}>
         {/* Toggle Button */}
         <button
@@ -338,6 +347,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
           {currentNode.type === 'activity' && (
             ['quiz', 'summary'].includes(currentNode.id) ? (
               <currentNode.component 
+                registerBackHandler={(handler) => { if (stageRef) stageRef.current = { handleGlobalBack: handler }; }}
                 key={`${currentNode.id}-${resetKey}`}
                 {...(currentNode.props || {})} 
                 onComplete={handleStageComplete} 
@@ -346,16 +356,18 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
             ) : showHandbook ? (
               <div style={{ flex: 1, minHeight: 0, padding: 0, display: 'flex', flexDirection: 'column', width: '100%', height: '100%', boxSizing: 'border-box' }}>
                 <InvestigationHandbook 
-                  ref={handbookRef}
+                  ref={stageRef}
                   highestUnlockedIndex={highestUnlockedIndex} 
                   currentFlowIndex={currentFlowIndex} 
                   stageCompleted={stageCompleted} 
+                  initialPage={handbookInitialPage}
                   onNext={() => setShowHandbook(false)}
                 />
               </div>
             ) : (
               <div style={{ flex: 1, minHeight: 0, position: 'relative', display: 'flex', flexDirection: 'column', overflowY: 'auto', padding: '1.5rem', width: '100%', height: '100%', boxSizing: 'border-box' }}>
                 <currentNode.component 
+                  registerBackHandler={(handler) => { if (stageRef) stageRef.current = { handleGlobalBack: handler }; }}
                   key={`${currentNode.id}-${resetKey}`}
                   {...(currentNode.props || {})} 
                   onComplete={handleStageComplete} 
@@ -377,7 +389,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
                   </div>
                 )}
                 <div style={{ position: 'relative', zIndex: 10, flex: 1, display: 'flex', backgroundColor: 'rgba(0, 0, 0, 0.4)' }}>
-                  <InvestigationHandbook data={currentNode} onComplete={handleNext} />
+                  <InvestigationHandbook ref={stageRef} data={currentNode} onComplete={handleNext} />
                 </div>
               </div>
             );
@@ -385,7 +397,27 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
 
           {currentNode.type === 'checkpoint' && (
             <div style={{ flex: 1, display: 'flex', background: 'var(--bg-color)', overflow: 'hidden' }}>
-              <DetectiveCheckpoint key={`${currentNode.id}-${resetKey}`} data={currentNode} onComplete={handleStageComplete} addXp={addXp} />
+              <DetectiveCheckpoint 
+                key={`${currentNode.id}-${resetKey}`} 
+                data={currentNode} 
+                onComplete={handleStageComplete} 
+                addXp={addXp} 
+                onProceed={handleNext}
+                onBack={() => {
+                  if (currentFlowIndex > 0) {
+                    const prevIndex = currentFlowIndex - 1;
+                    const prevNode = chapterFlow[prevIndex];
+                    if (prevNode && prevNode.type === 'mission' && prevNode.title.includes('Barrier 1')) {
+                      setShowHandbook(true);
+                    } else {
+                      setShowHandbook(false);
+                    }
+                    setCurrentFlowIndex(prevIndex);
+                  } else {
+                    setShowIntroSpread(true);
+                  }
+                }}
+              />
             </div>
           )}
 
@@ -418,35 +450,36 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
       {/* ═══════════════════════════════════════════
           GLOBAL BOTTOM ACTION BAR
           ═══════════════════════════════════════════ */}
+      {currentNode.type !== 'checkpoint' && (
       <div className="global-action-bar">
         <div className="global-action-bar-left">
           <button 
             onClick={onBackToDashboard} 
             className="outline" 
-            style={{ padding: '0.85rem 1.6rem', fontSize: '1.45rem', fontWeight: 'bold', gap: '0.75rem', borderRadius: '10px', display: 'flex', alignItems: 'center' }}
+            style={{ padding: '0.85rem 1.6rem', fontSize: '1.6rem', fontWeight: 'bold', gap: '0.75rem', borderRadius: '10px', display: 'flex', alignItems: 'center' }}
           >
             <ArrowLeft size={24} /> Dashboard
           </button>
 
           <button 
             onClick={() => {
-              if (!showHandbook && currentNode.type === 'activity' && currentNode.id === 'stage1') {
+              if (stageRef.current && stageRef.current.handleGlobalBack && stageRef.current.handleGlobalBack()) {
+                return;
+              }
+              if (currentFlowIndex === 1 && !showHandbook) {
+                setHandbookInitialPage(2);
                 setShowHandbook(true);
-              } else if (currentFlowIndex > 0) {
-                const prevIndex = currentFlowIndex - 1;
-                const prevNode = chapterFlow[prevIndex];
-                if (prevNode && prevNode.type === 'mission' && prevNode.title.includes('Barrier 1')) {
-                  setShowHandbook(true);
-                } else {
-                  setShowHandbook(false);
-                }
-                setCurrentFlowIndex(prevIndex);
+                return;
+              }
+              setShowHandbook(false);
+              if (currentFlowIndex > 0) {
+                setCurrentFlowIndex(currentFlowIndex - 1);
               } else {
                 setShowIntroSpread(true);
               }
             }}
             className="outline"
-            style={{ padding: '0.85rem 1.6rem', fontSize: '1.45rem', fontWeight: 'bold', gap: '0.75rem', borderRadius: '10px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center' }}
+            style={{ padding: '0.85rem 1.6rem', fontSize: '1.6rem', fontWeight: 'bold', gap: '0.75rem', borderRadius: '10px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center' }}
           >
             <ArrowLeft size={24} /> Back
           </button>
@@ -463,26 +496,28 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
               setStageCompleted(false);
             }}
             className="outline"
-            style={{ padding: '0.85rem 1.6rem', fontSize: '1.45rem', fontWeight: 'bold', gap: '0.75rem', borderRadius: '10px', color: 'var(--danger)', borderColor: 'var(--danger-border)', display: 'flex', alignItems: 'center' }}
+            style={{ padding: '0.85rem 1.6rem', fontSize: '1.6rem', fontWeight: 'bold', gap: '0.75rem', borderRadius: '10px', color: 'var(--danger)', borderColor: 'var(--danger-border)', display: 'flex', alignItems: 'center' }}
           >
             <RefreshCw size={22} /> Reset Activity
           </button>
 
           {(currentNode.type === 'activity' || currentNode.type === 'checkpoint') && (
             <button 
-              onClick={showHandbook && !['stage8_b', 'stage8_c', 'stage3_use', 'stage4_1', 'stage4_2', 'stage4_4', 'stage4_5', 'stage6_a'].includes(currentNode.id) ? () => {
-                if (handbookRef.current && handbookRef.current.handleGlobalNext) {
-                  const shouldClose = handbookRef.current.handleGlobalNext();
-                  if (shouldClose) setShowHandbook(false);
-                } else {
-                  setShowHandbook(false);
+              onClick={() => {
+                if (stageRef.current && stageRef.current.handleGlobalNext && stageRef.current.handleGlobalNext()) {
+                  return;
                 }
-              } : handleNext}
+                if (currentFlowIndex === 1 && showHandbook) {
+                  setShowHandbook(false);
+                  return;
+                }
+                handleNext();
+              }}
               disabled={false}
               className={'primary'}
               style={{ 
                 padding: '0.85rem 1.8rem', 
-                fontSize: '1.5rem', 
+                fontSize: '1.65rem', 
                 fontWeight: 'bold',
                 gap: '0.75rem', 
                 borderRadius: '10px',
@@ -498,6 +533,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
           )}
         </div>
       </div>
+      )}
     </div>
     )}
   </>

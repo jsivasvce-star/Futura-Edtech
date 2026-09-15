@@ -24,6 +24,12 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
     displayTitle = displayTitle.replace('Barrier 2', 'Barrier\u00A02');
   }
 
+  const isUserPage = displayTitle.includes('The Classroom Mystery') || displayTitle.includes('Barrier 4');
+  const colorMainHeading = isUserPage ? '#2C4E3D' : 'var(--lesson-primary)';
+  const colorBodyText = isUserPage ? '#3E2723' : '#3b4560'; // or 'var(--lesson-text)' depending on usage
+  const colorHighlight = isUserPage ? '#A94727' : 'var(--lesson-danger)';
+  const colorSubHeading = isUserPage ? '#4A3B5C' : 'var(--lesson-primary)';
+
   return (
     <div style={{
       position: 'fixed',
@@ -176,7 +182,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             padding: 5px 18px;
             border-radius: 8px;
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 34px;
+            font-size: 30px;
             font-weight: bold;
             letter-spacing: 1px;
             box-shadow: 0 3px 6px rgba(0,0,0,0.1);
@@ -188,7 +194,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             font-size: 20px;
             font-weight: 700;
             letter-spacing: 1.8px;
-            color: var(--lesson-primary);
+            color: ${colorMainHeading};
             margin-bottom: 8px;
             display: flex;
             align-items: center;
@@ -197,7 +203,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
           .mission-title {
             font-size: 24px;
             line-height: 1.15;
-            color: var(--lesson-primary);
+            color: ${colorMainHeading};
             font-weight: 700;
             margin: 0 0 16px 0;
             font-family: Georgia, "Times New Roman", serif;
@@ -212,12 +218,12 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             font-family: Arial, Helvetica, sans-serif;
             font-size: 16px;
             line-height: 1.5;
-            color: #3b4560;
+            color: ${colorBodyText};
           }
           .mission-box {
             background: var(--lesson-surface);
             border: 1px solid var(--lesson-border);
-            border-left: 4px solid var(--lesson-danger);
+            border-left: 4px solid ${colorHighlight};
             border-radius: 12px;
             padding: 22px 26px;
             margin-bottom: 22px;
@@ -227,7 +233,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             font-family: Arial, Helvetica, sans-serif;
             font-size: 20px;
             font-weight: 700;
-            color: var(--lesson-primary);
+            color: ${colorSubHeading};
             margin: 0 0 12px 0;
             display: flex;
             align-items: center;
@@ -237,7 +243,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
           .mission-box p, .mission-box li {
             font-family: Arial, Helvetica, sans-serif;
             font-size: 20px;
-            color: var(--lesson-text);
+            color: ${isUserPage ? '#3E2723' : 'var(--lesson-text)'};
             line-height: 1.45;
             font-weight: 600;
           }
@@ -278,6 +284,11 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             color: var(--lesson-border);
           }
 
+          @keyframes primary-pulse {
+            0% { box-shadow: 0 6px 20px rgba(217, 119, 6, 0.8), 0 0 0 0 rgba(245, 158, 11, 0.7); }
+            50% { box-shadow: 0 10px 30px rgba(245, 158, 11, 1), 0 0 0 16px rgba(245, 158, 11, 0); }
+            100% { box-shadow: 0 6px 20px rgba(217, 119, 6, 0.8), 0 0 0 0 rgba(245, 158, 11, 0); }
+          }
           .start-btn {
             position: absolute;
             bottom: 18px;
@@ -285,24 +296,26 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             z-index: 10000;
             background: var(--lesson-primary);
             color: white;
-            border: none;
-            padding: 18px 44px;
+            border: 3px solid #FEF08A;
+            padding: 15px 41px; /* Adjusted to compensate for 3px border */
             border-radius: 42px;
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 22px;
+            font-size: 24.2px;
             font-weight: 700;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 14px;
-            box-shadow: 0 6px 18px rgba(64,82,160,0.3);
+            box-shadow: 0 6px 20px rgba(217, 119, 6, 0.8);
+            animation: primary-pulse 2s infinite;
             transition: all 0.2s;
             width: fit-content;
           }
           .start-btn:hover {
             transform: translateY(-2px);
             background: var(--lesson-primary);
+            border-color: #FEF3C7;
           }
 
           .spread-back-btn {
@@ -312,7 +325,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             top: auto;
             z-index: 10000;
             background: var(--lesson-surface);
-            border: 2px solid var(--lesson-border);
+            border: 2px solid rgba(217, 119, 6, 0.5);
             color: var(--lesson-text);
             padding: 12px 26px;
             border-radius: 11px;
@@ -320,15 +333,17 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             align-items: center;
             gap: 10px;
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 19px;
+            font-size: 20.9px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 5px 14px rgba(0,0,0,0.09);
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
             transition: all 0.2s;
           }
           .spread-back-btn:hover {
             background: var(--lesson-surface);
             transform: translateY(-1px);
+            border: 2px solid rgba(217, 119, 6, 0.8);
+            box-shadow: 0 6px 16px rgba(217, 119, 6, 0.35);
           }
         `}
       </style>

@@ -21,12 +21,11 @@ import Handbook_Solubility from './components/Educational/Handbook_Solubility';
 import Handbook_Mass from './components/Educational/Handbook_Mass';
 import Handbook_Volume from './components/Educational/Handbook_Volume';
 import Handbook_Matter from './components/Educational/Handbook_Matter';
-import Stage8_AyurvedaSummary from './components/Stage8_AyurvedaSummary';
 import Stage9a_WhatIsMatter from './components/Stage9a_WhatIsMatter';
-import Stage9c_ConceptMap from './components/Stage9c_ConceptMap';
 
 export const chapterFlow = [
-  // 0: Intro Mission
+  // Intro Mission temporarily removed to navigate directly to 'What are Objects Made Of?' (Handbook)
+  /*
   {
     type: 'mission',
     title: 'The Classroom Mystery (Barrier 1)',
@@ -40,6 +39,7 @@ export const chapterFlow = [
     estimatedTime: '5 minutes',
     rewardXP: 100
   },
+  */
 
   // 2: Activity
   { type: 'activity', id: 'stage1', title: 'Stage 6.1: Objects Around Us', subtitle: 'Phase 1: Find Objects', component: Stage1_Intro },
@@ -445,11 +445,7 @@ export const chapterFlow = [
     ]
   },
 
-  // Do You Know Box (Ancient Classification)
-  { type: 'activity', id: 'summary', title: 'Do You Know?', subtitle: 'Ancient Classification', component: Stage8_AyurvedaSummary },
 
-  // Interactive Concept Map
-  { type: 'activity', id: 'summary', title: 'Concept Map', subtitle: 'Property Review', component: Stage9c_ConceptMap },
 
   // Mission Final Quiz (NOT a barrier)
   {

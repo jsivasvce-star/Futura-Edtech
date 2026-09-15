@@ -8,10 +8,13 @@
 
 // Default ElevenLabs Voice IDs (Configured with explicit high-conversational variance Voice IDs)
 export const ELEVENLABS_VOICES = {
-  teacher: 'Ps8lsQuJKZHMxxDU1tff',     // Bold & Clear Indian Lady (Teacher / Narrator)
-  girl: 'Dk3lflqf310KiWVmwB9F',        // Cute Indian Teenage Girl (Reshma)
-  ancient_man: 'JBFqnCBsd6RMkjVDRZzb', // Ancient Sailor (Deep Storytelling Male)
-  did_you_know: 'nPczCjzI2devNBz1zQrb' // Free-tier compatible authoritative, educational voice (Brian)
+  teacher: 'Ps8lsQuJKZHMxxDU1tff',               // Bold & Clear Indian Lady (Teacher / Narrator)
+  young_indian_male: '4w024U7w6P92yq0716Qc',     // Natural, Warm & Realistic Young Indian Male (Kabir)
+  indian_male_teacher: 'SOYHLrjzK2X1ezoPC6cr',   // Warm, Natural Indian English Male Teacher
+  teacher_male: 'SOYHLrjzK2X1ezoPC6cr',          // Alias for Male Teacher
+  girl: 'Dk3lflqf310KiWVmwB9F',                  // Cute Indian Teenage Girl (Reshma)
+  ancient_man: 'JBFqnCBsd6RMkjVDRZzb',           // Ancient Sailor (Deep Storytelling Male)
+  did_you_know: 'nPczCjzI2devNBz1zQrb'           // Free-tier compatible authoritative, educational voice (Brian)
 };
 
 class VoiceService {
@@ -156,6 +159,10 @@ class VoiceService {
           this.currentAudio = audio;
           if (role === 'did_you_know') {
             audio.playbackRate = 0.86; // Slow and steady delivery
+          } else if (role === 'young_indian_male') {
+            audio.playbackRate = 0.75; // Calm, slow, natural educational pacing for Class 6
+          } else if (role === 'indian_male_teacher' || role === 'teacher_male') {
+            audio.playbackRate = 0.75; // Slow, calm, natural teaching pace for Class 6
           }
           this.startAudioKaraokeLoop(audio, text, onBoundary);
 
@@ -199,6 +206,10 @@ class VoiceService {
           this.currentAudio = audio;
           if (role === 'did_you_know') {
             audio.playbackRate = 0.86; // Slow and steady delivery
+          } else if (role === 'young_indian_male') {
+            audio.playbackRate = 0.75; // Calm, slow, natural educational pacing for Class 6
+          } else if (role === 'indian_male_teacher' || role === 'teacher_male') {
+            audio.playbackRate = 0.75; // Slow, calm, natural teaching pace for Class 6
           }
 
           audio.addEventListener('ended', () => {
@@ -275,9 +286,23 @@ class VoiceService {
         style: 0.05,
         use_speaker_boost: true
       };
+    } else if (role === 'young_indian_male') {
+      voice_settings = {
+        stability: 0.55, // Highly natural, expressive, human-like cadence
+        similarity_boost: 0.85,
+        style: 0.18,     // Conversational, enthusiastic and friendly young teacher explanation
+        use_speaker_boost: true
+      };
+    } else if (role === 'indian_male_teacher' || role === 'teacher_male') {
+      voice_settings = {
+        stability: 0.65, // Steady, warm, natural delivery with authentic Indian English teacher tone
+        similarity_boost: 0.85,
+        style: 0.12,     // Natural conversational classroom expression
+        use_speaker_boost: true
+      };
     }
 
-    const modelId = (role === 'did_you_know' || voiceId === 'nPczCjzI2devNBz1zQrb')
+    const modelId = (role === 'did_you_know' || voiceId === 'nPczCjzI2devNBz1zQrb' || role === 'young_indian_male' || role === 'indian_male_teacher' || role === 'teacher_male')
       ? 'eleven_multilingual_v2'
       : 'eleven_turbo_v2_5';
 
@@ -355,6 +380,30 @@ class VoiceService {
       }) || voices.find(v => (v.name || '').toLowerCase().includes('male'));
       utterance.pitch = 0.95;
       utterance.rate = 0.78; // Slow and steady pacing
+    } else if (role === 'young_indian_male') {
+      selectedVoice = voices.find(v => {
+        const lang = (v.lang || '').toLowerCase();
+        const name = (v.name || '').toLowerCase();
+        return (lang.includes('en-in') || lang.includes('hi-in') || lang.includes('india')) &&
+               (name.includes('ravi') || name.includes('hemant') || name.includes('prabhat') || name.includes('male') || name.includes('madhav') || name.includes('mohan') || name.includes('kallol') || (!name.includes('female') && !name.includes('zira') && !name.includes('heera') && !name.includes('veena') && !name.includes('neerja') && !name.includes('swara') && !name.includes('kalpana')));
+      }) || voices.find(v => {
+        const lang = (v.lang || '').toLowerCase();
+        return (lang.includes('en-in') || lang.includes('hi-in'));
+      }) || voices.find(v => (v.name || '').toLowerCase().includes('male'));
+      utterance.pitch = 1.02; // Energetic, warm, young Indian male teacher tone
+      utterance.rate = 0.68;  // Calm, relaxed, slow educational pace for Class 6
+    } else if (role === 'indian_male_teacher' || role === 'teacher_male') {
+      selectedVoice = voices.find(v => {
+        const lang = (v.lang || '').toLowerCase();
+        const name = (v.name || '').toLowerCase();
+        return (lang.includes('en-in') || lang.includes('hi-in') || lang.includes('india')) &&
+               (name.includes('ravi') || name.includes('hemant') || name.includes('prabhat') || name.includes('male') || name.includes('madhav') || name.includes('mohan') || name.includes('kallol') || (!name.includes('female') && !name.includes('zira') && !name.includes('heera') && !name.includes('veena') && !name.includes('neerja') && !name.includes('swara') && !name.includes('kalpana')));
+      }) || voices.find(v => {
+        const lang = (v.lang || '').toLowerCase();
+        return (lang.includes('en-in') || lang.includes('hi-in'));
+      }) || voices.find(v => (v.name || '').toLowerCase().includes('male'));
+      utterance.pitch = 0.96; // Warm, natural Indian male teacher pitch
+      utterance.rate = 0.70;  // Relaxed, slow educational pace suitable for Class 6
     } else {
       selectedVoice = voices.find(v => {
         const lang = (v.lang || '').toLowerCase();

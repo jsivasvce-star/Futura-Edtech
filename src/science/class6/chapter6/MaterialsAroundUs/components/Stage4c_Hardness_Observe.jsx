@@ -146,10 +146,10 @@ export default function Stage4c_Hardness_Observe({ onComplete, addXp }) {
       
       {/* Header */}
       <div className="glass-panel" style={{ flex: '0 0 auto', display: 'flex', flexDirection: 'column', gap: '0.15rem', border: '1px solid var(--accent-border)', padding: '0.75rem 1rem' }}>
-        <h3 style={{ margin: 0, fontSize: '1.6rem', color: 'var(--text-heading)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <h3 style={{ margin: 0, fontSize: 'clamp(29.04px, 3.63vw, 36.3px)', fontWeight: '900', color: 'var(--heading-main)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           🕵️ Material Detective – Press & Identify
         </h3>
-        <p style={{ margin: 0, fontSize: '1.35rem', color: 'var(--text-secondary)' }}>
+        <p style={{ margin: 0, fontSize: 'clamp(21.78px, 3.025vw, 26.62px)', fontWeight: '600', color: 'var(--heading-sub)', lineHeight: '1.5' }}>
           Press each object, observe what happens and identify the material it is made of.
         </p>
       </div>
@@ -157,7 +157,7 @@ export default function Stage4c_Hardness_Observe({ onComplete, addXp }) {
       <div style={{ display: 'flex', gap: '1rem', width: '100%', flex: 1, minHeight: 0 }}>
         {/* Left Panel */}
         <div className="glass-panel" style={{ width: '30%', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem', border: '1px solid var(--border)', padding: '1rem', overflowY: 'hidden' }}>
-          <h4 style={{ margin: 0, fontSize: '1.35rem', paddingBottom: '0.5rem', borderBottom: '1px solid var(--border)' }}>
+          <h4 style={{ margin: 0, fontSize: 'clamp(22px, 2.8vw, 28px)', fontWeight: '800', color: 'var(--heading-section)', paddingBottom: '0.5rem', borderBottom: '1px solid var(--border)' }}>
             Objects to Investigate ({completedCount} / 5)
           </h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', flex: 1 }}>
@@ -180,9 +180,9 @@ export default function Stage4c_Hardness_Observe({ onComplete, addXp }) {
                     {isCompleted ? '✓' : obj.id}
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', flex: 1, gap: '0.15rem' }}>
-                    <span style={{ fontWeight: 'bold', fontSize: '1.5rem', color: isSelected ? 'var(--accent)' : 'var(--text-primary)' }}>{obj.name}</span>
+                    <span style={{ fontWeight: 'bold', fontSize: '1.65rem', color: isSelected ? 'var(--accent)' : 'var(--text-primary)' }}>{obj.name}</span>
                     {(progress[obj.id].status !== 'untouched' || (isSelected && isVideoFinished)) && (
-                       <span style={{ fontSize: '1.25rem', color: 'var(--text-secondary)' }}>It is a {obj.hardness} material.</span>
+                       <span style={{ fontSize: '1.375rem', color: 'var(--text-secondary)' }}>It is a {obj.hardness} material.</span>
                     )}
                   </div>
                 </div>
@@ -195,9 +195,9 @@ export default function Stage4c_Hardness_Observe({ onComplete, addXp }) {
           
           <div style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
             <Search size={22} style={{ color: 'var(--text-muted)' }} /> 
-            <span style={{ fontWeight: 'bold', fontSize: '1.35rem', color: 'var(--text-primary)' }}>Investigation {selectedId} of 5</span>
+            <span style={{ fontWeight: '800', fontSize: 'clamp(24px, 3vw, 30px)', color: 'var(--heading-section)' }}>Investigation {selectedId} of 5</span>
           </div>
-          <div style={{ width: '100%', fontSize: '1.35rem', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>
+          <div style={{ width: '100%', fontSize: '1.485rem', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>
             Current Object: <span style={{ color: 'var(--accent)' }}>{activeObj.name}</span>
           </div>
 
@@ -224,7 +224,7 @@ export default function Stage4c_Hardness_Observe({ onComplete, addXp }) {
                 disabled={isPlaying}
                 style={{ 
                   background: isPlaying ? 'var(--text-muted)' : 'var(--success)', 
-                  color: 'white', padding: '0.75rem 2.5rem', borderRadius: '10px', fontSize: '1.5rem', 
+                  color: 'white', padding: '0.75rem 2.5rem', borderRadius: '10px', fontSize: '1.65rem', 
                   fontWeight: 'bold', border: 'none', cursor: isPlaying ? 'not-allowed' : 'pointer', 
                   boxShadow: isPlaying ? 'none' : '0 4px 14px rgba(34, 197, 94, 0.4)', 
                   transition: 'all 0.2s', whiteSpace: 'nowrap'
@@ -239,23 +239,23 @@ export default function Stage4c_Hardness_Observe({ onComplete, addXp }) {
             <div style={{ width: '100%', borderTop: '1px solid var(--border)', paddingTop: '0.75rem', display: 'flex', flexDirection: 'column', alignItems: 'center', animation: 'fadeIn 0.3s' }}>
               
               {/* Question */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem', fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem', fontSize: '1.61rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>
                 <Box size={22} /> What material is it made of?
               </div>
               
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', marginBottom: '0.5rem' }}>
                 {activeState.status !== 'completed' && activeState.wrongAttempts > 0 && (
-                   <div style={{ color: 'var(--danger)', fontWeight: 'bold', fontSize: '1.25rem', marginTop: '0.25rem', textAlign: 'center' }}>
+                   <div style={{ color: 'var(--danger)', fontWeight: 'bold', fontSize: '1.509375rem', marginTop: '0.25rem', textAlign: 'center' }}>
                       Not quite. Try again.
-                      <div style={{ fontSize: '1.15rem', color: 'var(--text-primary)', marginTop: '0.15rem', fontWeight: 'normal' }}>
+                      <div style={{ fontSize: '1.32825rem', color: 'var(--text-primary)', marginTop: '0.15rem', fontWeight: 'normal' }}>
                          Clue: {activeObj.clue}
                       </div>
                    </div>
                 )}
                 {activeState.status === 'completed' && (
-                   <div style={{ color: 'var(--success)', fontWeight: 'bold', fontSize: '1.25rem', marginTop: '0.25rem', textAlign: 'center' }}>
+                   <div style={{ color: 'var(--success)', fontWeight: 'bold', fontSize: '1.4375rem', marginTop: '0.25rem', textAlign: 'center' }}>
                       Correct!
-                      <div style={{ fontSize: '1.15rem', color: 'var(--text-primary)', marginTop: '0.15rem', fontWeight: 'normal' }}>
+                      <div style={{ fontSize: '1.265rem', color: 'var(--text-primary)', marginTop: '0.15rem', fontWeight: 'normal' }}>
                          {activeObj.reason}
                       </div>
                    </div>
@@ -281,7 +281,7 @@ export default function Stage4c_Hardness_Observe({ onComplete, addXp }) {
                       }}
                       className={activeState.status === 'completed' ? '' : 'hover-lift'}
                     >
-                      <span style={{ fontWeight: 'bold', textAlign: 'center', fontSize: '1.3rem', color: 'var(--text-primary)' }}>{opt}</span>
+                      <span style={{ fontWeight: 'bold', textAlign: 'center', fontSize: '1.495rem', color: 'var(--text-primary)' }}>{opt}</span>
                       {showCorrect && <CheckCircle size={22} color="var(--success)" />}
                     </button>
                   );

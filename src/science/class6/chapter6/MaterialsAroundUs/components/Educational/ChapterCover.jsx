@@ -370,7 +370,7 @@ export default function ChapterCover({ onOpenBook, onBack }) {
         }}
       >
         <ArrowLeft size={"clamp(16px, 1.5vw, 30px)"} strokeWidth={3} />
-        <span style={{ fontSize: 'clamp(12px, 1.2vw, 24px)', fontWeight: 800, letterSpacing: '0.02em', fontFamily: '"Inter", "Outfit", sans-serif' }}>BACK</span>
+        <span style={{ fontSize: '24px', fontWeight: 800, letterSpacing: '0.02em', fontFamily: '"Inter", "Outfit", sans-serif' }}>BACK</span>
       </button>
     </div>
   );
