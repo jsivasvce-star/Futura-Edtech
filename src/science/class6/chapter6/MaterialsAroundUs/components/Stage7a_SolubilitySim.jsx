@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Droplets, Target, Camera } from 'lucide-react';
+import { Search, Droplets, Target, Camera, Play, Pause, RotateCcw } from 'lucide-react';
 
 import sugarVid from '../../../../../assets/sugar_soluble.mp4';
 import saltVid from '../../../../../assets/salt_soluble.mp4';
@@ -22,6 +22,7 @@ export default function Stage7a_SolubilitySim({ onComplete, addXp }) {
   const [selectedSubstance, setSelectedSubstance] = useState(null);
   const [stirState, setStirState] = useState('idle'); // idle, stirring (video playing), resolved
   const [observations, setObservations] = useState({});
+  const [isPlaying, setIsPlaying] = useState(true);
   const videoRef = useRef(null);
 
   const substances = [
@@ -60,6 +61,7 @@ export default function Stage7a_SolubilitySim({ onComplete, addXp }) {
   const handleSelect = (sub) => {
     setSelectedSubstance(sub);
     setStirState('stirring');
+    setIsPlaying(true);
     if (videoRef.current) {
       videoRef.current.load();
       videoRef.current.play().catch(e => console.log('Autoplay prevented:', e));
@@ -82,6 +84,27 @@ export default function Stage7a_SolubilitySim({ onComplete, addXp }) {
       onComplete();
     }
   }, [isComplete, onComplete]);
+
+  const togglePlayPause = (e) => {
+    e.stopPropagation();
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleReplay = (e) => {
+    e.stopPropagation();
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play();
+      setIsPlaying(true);
+    }
+  };
 
   return (
     <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '0.5rem', width: '100%', height: '100%', color: '#3E2723' }}>
@@ -211,7 +234,7 @@ export default function Stage7a_SolubilitySim({ onComplete, addXp }) {
 
         {/* Right Side: Observation Console */}
         <div style={{ flex: '1 1 50%', minWidth: 0, maxWidth: '50%', padding: 'clamp(0.5rem, 1.5vh, 1rem)', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
-          <h4 style={{ margin: '0 0 clamp(0.5rem, 1.5vh, 1rem) 0', color: '#4A3B5C', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid var(--lesson-border)', paddingBottom: 'clamp(0.5rem, 1vh, 1rem)', fontSize: 'clamp(1.5rem, 2.5vw, 2.25rem)' }}>
+          <h4 style={{ margin: '0 0 12px 0', color: '#4A3B5C', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid var(--lesson-border)', paddingBottom: 'clamp(0.5rem, 1vh, 1rem)', fontSize: 'clamp(1.5rem, 2.5vw, 2.25rem)' }}>
             <Camera size={32} color="var(--lesson-accent)" /> Observation Console
           </h4>
           
@@ -252,7 +275,7 @@ export default function Stage7a_SolubilitySim({ onComplete, addXp }) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 0, position: 'relative', background: 'transparent' }}
+                style={{ flex: 1, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', minHeight: 0, position: 'relative', background: 'transparent', paddingTop: '12px' }}
               >
                 <video
                   ref={videoRef}
@@ -263,6 +286,52 @@ export default function Stage7a_SolubilitySim({ onComplete, addXp }) {
                   onEnded={handleVideoEnd}
                   style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto', objectFit: 'contain', borderRadius: '12px', border: '1px solid var(--lesson-border)', boxShadow: '0 4px 15px rgba(0,0,0,0.1)' }}
                 />
+                
+                {/* Video Controls Overlay */}
+                <div style={{ position: 'absolute', bottom: '1rem', right: '1rem', display: 'flex', gap: '0.5rem', background: 'rgba(255,255,255,0.85)', padding: '0.5rem', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.15)', backdropFilter: 'blur(4px)' }}>
+                  <button 
+                    onClick={togglePlayPause}
+                    style={{
+                      background: '#A94727',
+                      border: '3px solid #F5E0A5',
+                      borderRadius: '16px',
+                      width: '64px',
+                      height: '64px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      color: '#FAF7F2',
+                      boxShadow: '0 0 12px rgba(255,220,150,0.6)'
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.08)'; e.currentTarget.style.boxShadow = '0 0 18px rgba(255,220,150,0.8)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 0 12px rgba(255,220,150,0.6)'; }}
+                  >
+                    {isPlaying ? <Pause size={32} color="#FAF7F2" strokeWidth={3} style={{ width: '32px', height: '32px', minWidth: '32px', minHeight: '32px' }} /> : <Play size={32} color="#FAF7F2" strokeWidth={3} style={{ width: '32px', height: '32px', minWidth: '32px', minHeight: '32px' }} />}
+                  </button>
+                  <button 
+                    onClick={handleReplay}
+                    style={{
+                      background: '#A94727',
+                      border: '3px solid #F5E0A5',
+                      borderRadius: '16px',
+                      width: '64px',
+                      height: '64px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      color: '#FAF7F2',
+                      boxShadow: '0 0 12px rgba(255,220,150,0.6)'
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.08)'; e.currentTarget.style.boxShadow = '0 0 18px rgba(255,220,150,0.8)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 0 12px rgba(255,220,150,0.6)'; }}
+                  >
+                    <RotateCcw size={32} color="#FAF7F2" strokeWidth={3} style={{ width: '32px', height: '32px', minWidth: '32px', minHeight: '32px' }} />
+                  </button>
+                </div>
               </motion.div>
             ) : (
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem', color: '#78716c', textAlign: 'center', border: '2px dashed #d6d3d1', borderRadius: '12px', padding: '1rem', background: '#FFFFFF', minHeight: 0 }}>
