@@ -19,6 +19,13 @@ export default class ErrorBoundary extends React.Component {
   componentDidCatch(error, errorInfo) {
     console.error("Interactive Activity Error Caught by Boundary:", error, errorInfo);
     this.setState({ errorInfo });
+    try {
+      fetch('http://localhost:9999/error', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ error: error.toString(), stack: errorInfo.componentStack })
+      });
+    } catch (e) {}
   }
 
   handleReset = () => {

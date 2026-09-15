@@ -20,17 +20,17 @@ const VIEW_H = 768;
 const PLACES = [
   // ── BUILDING ENTRANCE DESTINATIONS (SPURS FROM ROADS) ──
   { id: 'RS', x: 180, y: 215, name: 'Railway Station', full: 'Central Junction Railway Station', icon: '🚂', type: 'station', start: true, blurb: 'Main entrance concourse of Railway Station.' },
-  { id: 'AP', x: 835, y: 215, name: 'Apartments', full: 'Apartments', icon: '🏢', type: 'apartment', blurb: 'Main residential lobby entrance of Apartments.' },
-  { id: 'PG', x: 1115, y: 215, name: 'Public Garden', full: 'Public Garden', icon: '🌳', type: 'garden', blurb: 'Public Garden entrance gate.' },
-  { id: 'HO', x: 230, y: 460, name: 'Hospital', full: 'Hospital', icon: '🏥', type: 'hospital', blurb: 'Main emergency entrance & ambulance portico.' },
+  { id: 'AP', x: 835, y: 215, name: 'Apartments', full: 'Sunview Heights Residency', icon: '🏢', type: 'apartment', blurb: 'Main residential lobby entrance of Sunview Heights.' },
+  { id: 'PG', x: 1115, y: 215, name: 'Public Garden', full: 'Rosewood Botanical Garden', icon: '🌳', type: 'garden', blurb: 'Botanical greenhouse entrance gate.' },
+  { id: 'HO', x: 230, y: 460, name: 'Hospital', full: 'City Care Hospital', icon: '🏥', type: 'hospital', blurb: 'Main emergency entrance & ambulance portico.' },
   { id: 'NP', x: 690, y: 460, name: 'Nagar Panchayat', full: 'Nagar Panchayat Office', icon: '🏛️', type: 'civic', blurb: 'Grand portico steps and entrance columns of Nagar Panchayat.' },
-  { id: 'BK', x: 1115, y: 460, name: 'Bank', full: 'Bank', icon: '🏦', type: 'bank', goal: true, blurb: 'Main glass entrance lobby of the Bank.' },
-  { id: 'SC', x: 230, y: 680, name: 'School', full: 'School', icon: '🏫', type: 'school', blurb: 'School main entrance doors by the playground courtyard.' },
-  { id: 'MK', x: 690, y: 625, name: 'Market', full: 'Market', icon: '🛍️', type: 'market', blurb: 'Central bazaar square entrance among market stalls.' },
-  { id: 'MU', x: 1115, y: 680, name: 'Museum', full: 'Museum', icon: '🏛️', type: 'museum', blurb: 'Main steps and entrance to Museum.' },
+  { id: 'BK', x: 1115, y: 460, name: 'Bank', full: 'Apex National Bank', icon: '🏦', type: 'bank', goal: true, blurb: 'Main glass entrance lobby of Apex National Bank.' },
+  { id: 'SC', x: 230, y: 680, name: 'School', full: 'Greenwood Public School', icon: '🏫', type: 'school', blurb: 'School main entrance doors by the playground courtyard.' },
+  { id: 'MK', x: 690, y: 625, name: 'Market', full: 'Janata Central Bazaar', icon: '🛍️', type: 'market', blurb: 'Central bazaar square entrance among market stalls.' },
+  { id: 'MU', x: 1115, y: 680, name: 'Museum', full: 'Heritage Antiquities Museum', icon: '🏛️', type: 'museum', blurb: 'Main steps and entrance to Heritage Antiquities Museum.' },
 
   // ── ROW 0: TOP 3 DEAD-END ROADS (Y = 60) ──
-  { id: 'LA', x: 355, y: 60, name: 'Lake', full: 'Scenic Lake', icon: '🏞️', type: 'lake', blurb: 'A beautiful scenic lake.' },
+  { id: 'D_N1', x: 355, y: 60, name: 'North Dead End 1', full: 'West North Road Dead End', icon: '🚧', type: 'deadend', blurb: 'Dead end road with no exit.' },
   { id: 'D_N2', x: 690, y: 60, name: 'North Dead End 2', full: 'Central North Road Dead End', icon: '🚧', type: 'deadend', blurb: 'Dead end road with no exit.' },
   { id: 'D_N3', x: 1005, y: 60, name: 'North Dead End 3', full: 'East North Road Dead End', icon: '🚧', type: 'deadend', blurb: 'Dead end road with no exit.' },
 
@@ -40,10 +40,10 @@ const PLACES = [
   { id: 'W_N_1', x: 355, y: 245, name: 'West Pond Junction', full: 'Northern Ave & West North Road', icon: '🚦', type: 'junction', blurb: 'Road corridor intersection.' },
   { id: 'J_NH', x: 475, y: 245, name: 'Hospital Way North', full: 'Northern Ave & Hospital Way', icon: '🚦', type: 'junction', blurb: 'Intersection by Botanical Pond.' },
   { id: 'W_N_2', x: 690, y: 245, name: 'Town Hall North Junc', full: 'Northern Ave & Central North Road', icon: '🚦', type: 'junction', blurb: 'Road corridor intersection.' },
-  { id: 'W_N_AP', x: 835, y: 245, name: 'Apartments Waypoint', full: 'Northern Ave in front of Apartments', icon: '🚦', type: 'junction', blurb: 'Road in front of Apartments.' },
+  { id: 'W_N_AP', x: 835, y: 245, name: 'Apartments Waypoint', full: 'Northern Ave in front of Sunview Heights', icon: '🚦', type: 'junction', blurb: 'Road in front of Sunview Heights.' },
   { id: 'J_NB', x: 905, y: 245, name: 'Bank Road North', full: 'Northern Ave & Bank Road', icon: '🚦', type: 'junction', blurb: 'Intersection on Northern Ave.' },
   { id: 'W_N_3', x: 1005, y: 245, name: 'Garden West Junction', full: 'Northern Ave & East North Road', icon: '🚦', type: 'junction', blurb: 'Road corridor intersection.' },
-  { id: 'W_N_PG', x: 1115, y: 245, name: 'Garden Waypoint', full: 'Northern Ave in front of Public Garden', icon: '🚦', type: 'junction', blurb: 'Road in front of Public Garden.' },
+  { id: 'W_N_PG', x: 1115, y: 245, name: 'Garden Waypoint', full: 'Northern Ave in front of Botanical Garden', icon: '🚦', type: 'junction', blurb: 'Road in front of Botanical Garden.' },
   { id: 'J_NE', x: 1325, y: 245, name: 'East End Junction', full: 'Northern Ave & East Lane', icon: '🚦', type: 'junction', blurb: 'Eastern corner intersection.' },
 
   // ── ROW 2: CENTRAL BOULEVARD ROAD NODES (Y = 505) ──
@@ -84,14 +84,14 @@ const ADJ = {
   MU: { S: 'W_S_MU' },
 
   // ── ROW 0: TOP 3 DEAD-END ROADS (Y = 60) ──
-  LA: { S: 'W_N_1' },
+  D_N1: { S: 'W_N_1' },
   D_N2: { S: 'W_N_2' },
   D_N3: { S: 'W_N_3' },
 
   // ── ROW 1: NORTHERN AVENUE (Y = 245) ──
   J_NW: { E: 'W_N_RS', S: 'J_CW' },
   W_N_RS: { W: 'J_NW', E: 'W_N_1', N: 'RS' },
-  W_N_1: { W: 'W_N_RS', E: 'J_NH', N: 'LA' },
+  W_N_1: { W: 'W_N_RS', E: 'J_NH', N: 'D_N1' },
   J_NH: { W: 'W_N_1', E: 'W_N_2', S: 'J_CH' },
   W_N_2: { W: 'J_NH', E: 'W_N_AP', N: 'D_N2' },
   W_N_AP: { W: 'W_N_2', E: 'J_NB', N: 'AP' },
@@ -147,15 +147,15 @@ const STREETS = [
 /* ── 4. UNIQUE BUILDING LANDMARK BADGES (PERFECT POSITION & HIGHLIGHTED) ── */
 const BUILDING_BADGES = [
   { id: 'b_rs', placeId: 'RS', name: 'Railway Station', icon: '🚂', x: 180, y: 110, color: '#F59E0B', label: 'RAILWAY STATION' },
-  { id: 'b_pond', placeId: 'LA', name: 'Lake', icon: '🏞️', x: 375, y: 70, color: '#10B981', label: 'LAKE' },
-  { id: 'b_ap', placeId: 'AP', name: 'Apartments', icon: '🏢', x: 835, y: 40, color: '#38BDF8', label: 'APARTMENTS' },
-  { id: 'b_garden', placeId: 'PG', name: 'Public Garden', icon: '🌳', x: 1115, y: 75, color: '#10B981', label: 'PUBLIC GARDEN' },
-  { id: 'b_ho', placeId: 'HO', name: 'Hospital', icon: '🏥', x: 230, y: 350, color: '#EF4444', label: 'HOSPITAL' },
+  { id: 'b_pond', placeId: 'POND', name: 'Public Lake Park', icon: '🌳', x: 375, y: 70, color: '#10B981', label: 'PUBLIC LAKE PARK' },
+  { id: 'b_ap', placeId: 'AP', name: 'Sunview Heights', icon: '🏢', x: 835, y: 40, color: '#38BDF8', label: 'SUNVIEW HEIGHTS' },
+  { id: 'b_garden', placeId: 'PG', name: 'Botanical Garden', icon: '🌿', x: 1115, y: 75, color: '#10B981', label: 'BOTANICAL GARDEN' },
+  { id: 'b_ho', placeId: 'HO', name: 'City Hospital', icon: '🏥', x: 230, y: 350, color: '#EF4444', label: 'CITY HOSPITAL' },
   { id: 'b_th', placeId: 'NP', name: 'Nagar Panchayat', icon: '🏛️', x: 690, y: 360, color: '#F59E0B', label: 'NAGAR PANCHAYAT' },
-  { id: 'b_bk', placeId: 'BK', name: 'Bank', icon: '🏦', x: 1115, y: 360, color: '#06B6D4', label: 'BANK' },
-  { id: 'b_sc', placeId: 'SC', name: 'School', icon: '🏫', x: 230, y: 625, color: '#818CF8', label: 'SCHOOL' },
-  { id: 'b_mk', placeId: 'MK', name: 'Market', icon: '🛍️', x: 690, y: 635, color: '#F59E0B', label: 'MARKET' },
-  { id: 'b_mu', placeId: 'MU', name: 'Museum', icon: '🏛️', x: 1115, y: 630, color: '#A78BFA', label: 'MUSEUM' }
+  { id: 'b_bk', placeId: 'BK', name: 'Apex National Bank', icon: '🏦', x: 1115, y: 360, color: '#06B6D4', label: 'APEX NATIONAL BANK' },
+  { id: 'b_sc', placeId: 'SC', name: 'Greenwood School', icon: '🏫', x: 230, y: 625, color: '#818CF8', label: 'GREENWOOD SCHOOL' },
+  { id: 'b_mk', placeId: 'MK', name: 'Central Market', icon: '🛍️', x: 690, y: 635, color: '#F59E0B', label: 'CENTRAL MARKET' },
+  { id: 'b_mu', placeId: 'MU', name: 'Heritage Museum', icon: '🏛️', x: 1115, y: 630, color: '#A78BFA', label: 'HERITAGE MUSEUM' }
 ];
 
 function streetBetween(aId, bId) {
@@ -556,7 +556,7 @@ const TOWN_MAP_QUESTIONS = [
 ];
 
 /* ── 8. MAIN TOWN MAP 3D COMPONENT ─────────────────────────────────── */
-const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
+const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false, showQuiz = false }) => {
   const START = 'RS';
   const GOAL = 'BK';
 
@@ -576,6 +576,12 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [quizAnswers, setQuizAnswers] = useState({});
   const [quizPage, setQuizPage] = useState(0);
+
+  useEffect(() => {
+    if (showQuiz) {
+      setShowQuizModal(true);
+    }
+  }, [showQuiz]);
 
   /* ── ZOOM, PAN & MAP-ALONE FULLSCREEN STATE ── */
   const [zoom, setZoom] = useState(1);
@@ -738,9 +744,6 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
             ? [...visitedSequence, targetId]
             : visitedSequence;
           if (onComplete) onComplete({ steps: trail.length, visitedPlaces: finalVisited });
-          setTimeout(() => {
-            setShowQuizModal(true);
-          }, 600);
         }
       }
     };
@@ -1683,7 +1686,7 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
       {/* ══════════ BOX 2: RIGHT STATION (PARALLEL SIDE-BY-SIDE ALIGNMENT) ══════════ */}
       {showQuizModal ? (
         <div style={{
-          width: 'clamp(340px, 26vw, 390px)',
+          width: showQuiz ? 'clamp(400px, 35vw, 450px)' : 'clamp(340px, 26vw, 390px)',
           flexShrink: 0,
           height: '100%',
           background: 'linear-gradient(165deg, #FFFDF8 0%, #FEF3C7 100%)',
@@ -2178,26 +2181,92 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
           overflow: 'hidden',
           boxSizing: 'border-box'
         }}>
-          {/* Destination Card */}
+          {/* 1. Mission Card */}
           <div style={{
             background: won ? '#ECFDF5' : '#FFFFFF',
             border: `1.5px solid ${won ? '#10B981' : '#FDE68A'}`,
             borderRadius: '10px',
-            padding: '6px 10px',
-            marginBottom: '6px',
+            padding: '6px 8px',
             flexShrink: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
             boxShadow: '0 2px 8px rgba(60, 40, 20, 0.04)'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ fontSize: '14px' }}>🎯</span>
-              <span style={{ fontSize: '10.5px', fontWeight: 900, color: won ? '#065F46' : '#B45309', letterSpacing: '0.8px' }}>DESTINATION</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '8.5px', fontWeight: 900, color: won ? '#065F46' : '#B45309', letterSpacing: '0.8px' }}>
+                🎯 NAVIGATION MISSION
+              </span>
+              <span style={{
+                fontSize: '8.5px',
+                fontWeight: 800,
+                color: won ? '#065F46' : '#92400E',
+                background: won ? '#D1FAE5' : '#FEF3C7',
+                border: `1px solid ${won ? '#A7F3D0' : '#FDE68A'}`,
+                padding: '1px 5px',
+                borderRadius: '4px'
+              }}>
+                {won ? 'COMPLETED ✓' : 'IN PROGRESS'}
+              </span>
             </div>
-            <span style={{ fontSize: '10.5px', fontWeight: 800, color: won ? '#065F46' : '#92400E', background: won ? '#D1FAE5' : '#FEF3C7', padding: '3px 8px', borderRadius: '6px', border: `1px solid ${won ? '#A7F3D0' : '#FDE68A'}` }}>
-              Bank
-            </span>
+
+            <div style={{ fontSize: '11px', fontWeight: 700, color: '#3D2E24', marginTop: '2px', lineHeight: 1.3 }}>
+              {won
+                ? '🎉 Mission Complete! You reached the Bank.'
+                : <>Walk from <b style={{ color: '#78350F' }}>Railway Station</b> to <b style={{ color: '#78350F' }}>Bank</b>.</>}
+            </div>
+
+            {won && (
+              <button
+                type="button"
+                onClick={() => setShowQuizModal(true)}
+                style={{
+                  marginTop: '5px',
+                  width: '100%',
+                  background: 'linear-gradient(145deg, #10B981, #059669)',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: '7px',
+                  padding: '6px 8px',
+                  fontSize: '11px',
+                  fontWeight: 900,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '5px',
+                  boxShadow: '0 4px 14px rgba(16,185,129,0.45)',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                Continue to Map Questions ➔
+              </button>
+            )}
+          </div>
+
+          {/* 2. Current Location Card */}
+          <div style={{
+            background: '#FFFFFF',
+            border: '1.5px solid #FDE68A',
+            borderRadius: '10px',
+            padding: '5px 8px',
+            flexShrink: 0,
+            boxShadow: '0 2px 8px rgba(60, 40, 20, 0.04)'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '8.5px', fontWeight: 900, color: '#92400E', letterSpacing: '0.8px' }}>📍 CURRENT LOCATION</span>
+              <span style={{ fontSize: '8.5px', fontWeight: 800, color: '#92400E', background: '#FEF3C7', border: '1px solid #FDE68A', padding: '1px 5px', borderRadius: '4px' }}>
+                {activeStreet}
+              </span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
+              <span style={{ fontSize: '17px', flexShrink: 0 }}>{curPlace.icon}</span>
+              <div style={{ minWidth: 0 }}>
+                <div style={{ fontSize: '11.5px', fontWeight: 900, color: '#1E293B', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {curPlace.name}
+                </div>
+                <div style={{ fontSize: '9px', color: '#64748B', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {curPlace.full}
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* 3. Direction Controls (D-pad) */}
@@ -2280,16 +2349,16 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
                 fontSize: '11px',
                 fontWeight: 800,
                 color: [
-                  'RS', 'LA', 'AP', 'PG', 'HO', 'NP', 'BK', 'SC', 'MK', 'MU'
-                ].filter(id => visited[id]).length === 10 ? '#065F46' : '#92400E',
+                  'RS', 'AP', 'PG', 'HO', 'NP', 'BK', 'SC', 'MK', 'MU'
+                ].filter(id => visited[id]).length === 9 ? '#065F46' : '#92400E',
                 background: '#FEF3C7',
                 border: '1px solid #FDE68A',
                 padding: '1px 5px',
                 borderRadius: '4px'
               }}>
                 {[
-                  'RS', 'LA', 'AP', 'PG', 'HO', 'NP', 'BK', 'SC', 'MK', 'MU'
-                ].filter(id => visited[id]).length} / 10
+                  'RS', 'AP', 'PG', 'HO', 'NP', 'BK', 'SC', 'MK', 'MU'
+                ].filter(id => visited[id]).length} / 9
               </span>
             </div>
 
@@ -2297,8 +2366,8 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
             <div style={{ width: '100%', height: '3px', background: '#FEF3C7', borderRadius: '2px', overflow: 'hidden', marginBottom: '4px' }}>
               <div style={{
                 width: `${([
-                  'RS', 'LA', 'AP', 'PG', 'HO', 'NP', 'BK', 'SC', 'MK', 'MU'
-                ].filter(id => visited[id]).length / 10) * 100}%`,
+                  'RS', 'AP', 'PG', 'HO', 'NP', 'BK', 'SC', 'MK', 'MU'
+                ].filter(id => visited[id]).length / 9) * 100}%`,
                 height: '100%',
                 background: 'linear-gradient(90deg, #F59E0B, #10B981)',
                 borderRadius: '2px',
@@ -2317,12 +2386,11 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
             }}>
               {[
                 { id: 'RS', name: 'Railway Station', icon: '🚂' },
-                { id: 'LA', name: 'Lake', icon: '🏞️' },
                 { id: 'AP', name: 'Apartments', icon: '🏢' },
                 { id: 'PG', name: 'Public Garden', icon: '🌳' },
                 { id: 'HO', name: 'Hospital', icon: '🏥' },
                 { id: 'NP', name: 'Nagar Panchayat', icon: '🏛️' },
-                { id: 'BK', name: 'Bank', icon: '🏦' },
+                { id: 'BK', name: 'Apex Bank', icon: '🏦' },
                 { id: 'SC', name: 'School', icon: '🏫' },
                 { id: 'MK', name: 'Market', icon: '🛍️' },
                 { id: 'MU', name: 'Museum', icon: '🏛️' },

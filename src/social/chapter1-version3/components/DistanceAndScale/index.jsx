@@ -47,6 +47,7 @@ export default function DistanceAndScale({ onComplete, onBack }) {
   const [mainPage, setMainPage] = useState(1);
   const [rightPage, setRightPage] = useState(1);
   const [leftPage, setLeftPage] = useState(1);
+  const [hoveredConcept, setHoveredConcept] = useState(null);
 
   const realDistance = selectedDistance * 500;
 
@@ -533,6 +534,9 @@ export default function DistanceAndScale({ onComplete, onBack }) {
         .ds-s3-visual {
           flex: 1;
           min-height: 0;
+          min-width: 0;
+          width: 100%;
+          box-sizing: border-box;
           position: relative;
           background-color: #FFF9F0;
           background-image: 
@@ -545,8 +549,9 @@ export default function DistanceAndScale({ onComplete, onBack }) {
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
-          padding: 12px 16px;
-          overflow: hidden;
+          padding: 2px 16px;
+          overflow-y: auto;
+          overflow-x: hidden;
         }
         
         .ds-s4-examples {
@@ -603,6 +608,7 @@ export default function DistanceAndScale({ onComplete, onBack }) {
         /* Main Visual Redesign */
         .ds-rw-zone {
           width: 100%;
+          min-width: 0;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -631,8 +637,10 @@ export default function DistanceAndScale({ onComplete, onBack }) {
 
         .ds-scene {
           width: 100%;
+          min-width: 0;
+          box-sizing: border-box;
           display: flex;
-          align-items: flex-end;
+          align-items: center;
           justify-content: space-between;
           position: relative;
         }
@@ -642,9 +650,9 @@ export default function DistanceAndScale({ onComplete, onBack }) {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: flex-end;
-          padding-bottom: 10px;
+          justify-content: center;
           position: relative;
+          transform: translateY(10px);
         }
 
         .ds-ruler {
@@ -885,33 +893,45 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                     <div className="ds-rw-zone">
                       <div className="ds-zone-badge">Real World</div>
                       <div className="ds-scene">
-                        <SchoolVector size={68} />
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', width: '33%', maxWidth: '175px', minWidth: '80px' }}>
+                          <img src="/photorealistic_temple_nobg.png?v=2" alt="Temple" style={{ width: '100%', height: 'auto', aspectRatio: '1/1', objectFit: 'contain', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))', transform: 'translateY(-5px)' }} />
+                          <span style={{ fontSize: 'clamp(12px, 1.5vw, 15px)', fontWeight: 800, color: 'var(--amber)', fontFamily: 'var(--geo)', background: '#FFFBEB', padding: '2px 8px', borderRadius: '6px', border: '1.5px solid var(--amber)', marginTop: '-15px' }}>Temple</span>
+                        </div>
                         <div className="ds-ruler-container">
                           <div className="ds-ruler">
                             <div className="ds-ruler-label">500 metres</div>
                           </div>
                         </div>
-                        <HouseVector size={68} />
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', width: '33%', maxWidth: '175px', minWidth: '80px' }}>
+                          <img src="/photorealistic_home_nobg.png?v=2" alt="Home" style={{ width: '100%', height: 'auto', aspectRatio: '1/1', objectFit: 'contain', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))', transform: 'translateY(-5px)' }} />
+                          <span style={{ fontSize: 'clamp(12px, 1.5vw, 15px)', fontWeight: 800, color: 'var(--amber)', fontFamily: 'var(--geo)', background: '#FFFBEB', padding: '2px 8px', borderRadius: '6px', border: '1.5px solid var(--amber)', marginTop: '-15px' }}>Home</span>
+                        </div>
                       </div>
                     </div>
 
                     {/* Zone 2: Scale Badge */}
-                    <div className="ds-scale-hero">
+                    <div className="ds-scale-hero" style={{ marginTop: '-55px', marginBottom: '-5px', position: 'relative', zIndex: 10 }}>
                       <div className="ds-hero-badge">1 cm = 500 m</div>
                       <div className="ds-hero-caption">Map Scale</div>
                     </div>
 
                     {/* Zone 3: Map */}
-                    <div className="ds-rw-zone" style={{ width: '35%' }}>
+                    <div className="ds-rw-zone" style={{ width: '50%', maxWidth: '350px' }}>
                       <div className="ds-zone-badge ds-zone-badge-green">Map</div>
                       <div className="ds-scene">
-                        <SchoolVector size={30} />
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', width: '40%', maxWidth: '100px', minWidth: '50px' }}>
+                          <img src="/photorealistic_temple_nobg.png?v=2" alt="Temple" style={{ width: '100%', height: 'auto', aspectRatio: '1/1', objectFit: 'contain', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))', transform: 'translateY(-2px)' }} />
+                          <span style={{ fontSize: 'clamp(10px, 1.2vw, 12px)', fontWeight: 800, color: 'var(--green)', fontFamily: 'var(--geo)', background: '#F0FDF4', padding: '1px 6px', borderRadius: '4px', border: '1px solid var(--green)', marginTop: '-10px' }}>Temple</span>
+                        </div>
                         <div className="ds-ruler-container">
                           <div className="ds-ruler ds-ruler-map">
-                            <div className="ds-ruler-label ds-ruler-label-map">1 cm</div>
+                            <div className="ds-ruler-label ds-ruler-map-label">1 cm</div>
                           </div>
                         </div>
-                        <HouseVector size={30} />
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', width: '40%', maxWidth: '100px', minWidth: '50px' }}>
+                          <img src="/photorealistic_home_nobg.png?v=2" alt="Home" style={{ width: '100%', height: 'auto', aspectRatio: '1/1', objectFit: 'contain', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))', transform: 'translateY(-2px)' }} />
+                          <span style={{ fontSize: 'clamp(10px, 1.2vw, 12px)', fontWeight: 800, color: 'var(--green)', fontFamily: 'var(--geo)', background: '#F0FDF4', padding: '1px 6px', borderRadius: '4px', border: '1px solid var(--green)', marginTop: '-10px' }}>Home</span>
+                        </div>
                       </div>
                     </div>
 
@@ -945,12 +965,85 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                       <span className="ds-step-title-num">Step 1</span>
                       Know the Scale
                     </div>
-                    <div className="ds-step1-content">
-                      <div className="ds-step1-badge">1 cm = 500 m</div>
-                      <p className="ds-step1-desc">
-                        <MapPin size={14} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '4px', color: 'var(--amber)' }} />
-                        This means that every 1 cm on the map represents 500 metres in the real world.
-                      </p>
+                    <div className="ds-step1-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '32px', padding: '24px 0' }}>
+                      <div style={{ textAlign: 'center', marginBottom: '-10px' }}>
+                        <h3 style={{ fontSize: '22px', fontWeight: 900, color: '#D97706', margin: 0, display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}><Map size={24} /> From Real World to Map</h3>
+                      </div>
+
+                      <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', gap: '16px' }}>
+                        
+                        {/* BIG -> SMALL Card */}
+                        <div 
+                          onMouseEnter={() => setHoveredConcept('size')}
+                          onMouseLeave={() => setHoveredConcept(null)}
+                          style={{ flex: 1, background: hoveredConcept === 'size' ? '#FFFBEB' : '#FFF9F0', border: hoveredConcept === 'size' ? '2px solid #F59E0B' : '2px solid #F2DFBC', borderRadius: '16px', padding: '16px', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s', boxShadow: hoveredConcept === 'size' ? '0 8px 24px rgba(217, 119, 6, 0.15)' : 'none' }}
+                        >
+                          <div style={{ fontSize: '14px', fontWeight: 900, color: '#92400E', letterSpacing: '0.5px', marginBottom: '8px' }}>BIG → SMALL</div>
+                          <div style={{ fontSize: '13.5px', color: '#78350F', lineHeight: 1.4, fontWeight: 500 }}>A real place is much bigger than its map drawing.</div>
+                        </div>
+
+                        {/* DISTANCE Card */}
+                        <div 
+                          style={{ flex: 1, background: '#FFF9F0', border: '2px solid #F2DFBC', borderRadius: '16px', padding: '16px', textAlign: 'center', transition: 'all 0.2s' }}
+                        >
+                          <div style={{ fontSize: '14px', fontWeight: 900, color: '#2F6DF0', letterSpacing: '0.5px', marginBottom: '8px' }}>DISTANCE → REPRESENTED</div>
+                          <div style={{ fontSize: '13.5px', color: '#1E3A8A', lineHeight: 1.4, fontWeight: 500 }}>A long real distance is shown as a shorter map distance.</div>
+                        </div>
+
+                        {/* POSITION Card */}
+                        <div 
+                          onMouseEnter={() => setHoveredConcept('position')}
+                          onMouseLeave={() => setHoveredConcept(null)}
+                          style={{ flex: 1, background: hoveredConcept === 'position' ? '#F0FDF4' : '#FFF9F0', border: hoveredConcept === 'position' ? '2px solid #22C55E' : '2px solid #F2DFBC', borderRadius: '16px', padding: '16px', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s', boxShadow: hoveredConcept === 'position' ? '0 8px 24px rgba(34, 197, 94, 0.15)' : 'none' }}
+                        >
+                          <div style={{ fontSize: '14px', fontWeight: 900, color: '#166534', letterSpacing: '0.5px', marginBottom: '8px' }}>POSITION STAYS</div>
+                          <div style={{ fontSize: '13.5px', color: '#14532D', lineHeight: 1.4, fontWeight: 500 }}>Places keep their relative positions on the map.</div>
+                        </div>
+                      </div>
+
+                      {/* Central Transformation Visual */}
+                      <div style={{ position: 'relative', width: '100%', padding: '24px', background: 'linear-gradient(to bottom, #FFFFFF, #FFF9F0)', borderRadius: '24px', border: '2px dashed #E2D3B8', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        
+                        {/* REAL PLACE */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', maxWidth: '300px', alignItems: 'flex-end', position: 'relative' }}>
+                          <motion.div animate={{ scale: hoveredConcept === 'size' ? 0.4 : 1, y: hoveredConcept === 'size' ? 122 : 0 }} transition={{ duration: 0.5, type: 'spring' }} style={{ transformOrigin: 'bottom center', zIndex: 2 }}>
+                            <img src="/photorealistic_temple_nobg.png?v=1" alt="Temple" style={{ width: 80, height: 80, objectFit: 'contain', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))' }} />
+                          </motion.div>
+                          
+                          {hoveredConcept === 'position' && (
+                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ position: 'absolute', top: '50%', left: '40px', right: '40px', height: '2px', borderTop: '2px dashed #22C55E', zIndex: 1 }} />
+                          )}
+
+                          <motion.div animate={{ scale: hoveredConcept === 'size' ? 0.4 : 1, y: hoveredConcept === 'size' ? 122 : 0 }} transition={{ duration: 0.5, type: 'spring' }} style={{ transformOrigin: 'bottom center', zIndex: 2 }}>
+                            <img src="/photorealistic_home_nobg.png?v=1" alt="Home" style={{ width: 80, height: 80, objectFit: 'contain', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))' }} />
+                          </motion.div>
+                        </div>
+                        <div style={{ color: '#D97706', fontWeight: 800, fontSize: '14px', marginTop: '12px', letterSpacing: '1px' }}>REAL PLACE</div>
+
+                        {/* Arrow */}
+                        <div style={{ margin: '20px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                          <div style={{ width: '2px', height: '20px', background: '#D1D5DB' }} />
+                          <div style={{ background: '#F3F4F6', color: '#4B5563', padding: '4px 16px', borderRadius: '100px', fontSize: '13px', fontWeight: 700 }}>represented on a map</div>
+                          <ArrowRight color="#9CA3AF" size={24} style={{ transform: 'rotate(90deg)' }} />
+                        </div>
+
+                        {/* MAP */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', maxWidth: '300px', alignItems: 'flex-end', position: 'relative' }}>
+                          <div style={{ zIndex: 2 }}>
+                            <img src="/photorealistic_temple_nobg.png?v=1" alt="Temple" style={{ width: 32, height: 32, objectFit: 'contain', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))', opacity: hoveredConcept === 'size' ? 0 : 1, transition: 'opacity 0.2s' }} />
+                          </div>
+                          
+                          {hoveredConcept === 'position' && (
+                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ position: 'absolute', top: '50%', left: '16px', right: '16px', height: '2px', borderTop: '2px dashed #22C55E', zIndex: 1 }} />
+                          )}
+
+                          <div style={{ zIndex: 2 }}>
+                            <img src="/photorealistic_home_nobg.png?v=1" alt="Home" style={{ width: 32, height: 32, objectFit: 'contain', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))', opacity: hoveredConcept === 'size' ? 0 : 1, transition: 'opacity 0.2s' }} />
+                          </div>
+                        </div>
+                        <div style={{ color: '#2F6DF0', fontWeight: 800, fontSize: '14px', marginTop: '12px', letterSpacing: '1px' }}>MAP</div>
+
+                      </div>
                     </div>
                   </div>
                 )}
@@ -964,13 +1057,13 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                     </div>
                     <div className="ds-step2-content">
                       <div className="ds-scene" style={{ width: `${selectedDistance * 15}%`, minWidth: '120px', transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)', margin: '0 auto', marginBottom: '8px' }}>
-                        <SchoolVector size={38} />
+                        <img src="/photorealistic_temple_nobg.png?v=1" alt="Temple" style={{ width: 45, height: 45, objectFit: 'contain', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))', transform: 'translateY(-2px)' }} />
                         <div className="ds-ruler-container" style={{ paddingBottom: '10px' }}>
                           <div className="ds-ruler ds-ruler-map" style={{ width: '100%' }}>
                             <div className="ds-ruler-label ds-ruler-label-map">{selectedDistance} cm</div>
                           </div>
                         </div>
-                        <HouseVector size={38} />
+                        <img src="/photorealistic_home_nobg.png?v=1" alt="Home" style={{ width: 45, height: 45, objectFit: 'contain', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))', transform: 'translateY(-2px)' }} />
                       </div>
 
                       <div className="ds-seg-group">
@@ -1042,23 +1135,23 @@ export default function DistanceAndScale({ onComplete, onBack }) {
 
                     <div className="ds-res-comp">
                       <div className="ds-scene">
-                        <SchoolVector size={28} />
+                        <img src="/photorealistic_temple_nobg.png?v=1" alt="Temple" style={{ width: 35, height: 35, objectFit: 'contain', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))', transform: 'translateY(-2px)' }} />
                         <div className="ds-ruler-container" style={{ paddingBottom: '10px' }}>
                           <div className="ds-ruler ds-ruler-map" style={{ width: '40%' }}>
                             <div className="ds-ruler-label ds-ruler-label-map">{selectedDistance} cm</div>
                           </div>
                         </div>
-                        <HouseVector size={28} />
+                        <img src="/photorealistic_home_nobg.png?v=1" alt="Home" style={{ width: 35, height: 35, objectFit: 'contain', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))', transform: 'translateY(-2px)' }} />
                       </div>
                       <div style={{ textAlign: 'center', color: 'var(--green)', fontSize: '13px' }}>↓</div>
                       <div className="ds-scene">
-                        <SchoolVector size={46} />
+                        <img src="/photorealistic_temple_nobg.png?v=1" alt="Temple" style={{ width: 60, height: 60, objectFit: 'contain', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))', transform: 'translateY(-4px)' }} />
                         <div className="ds-ruler-container" style={{ paddingBottom: '10px' }}>
                           <div className="ds-ruler" style={{ width: '90%' }}>
                             <div className="ds-ruler-label">{realDistance.toLocaleString()} metres</div>
                           </div>
                         </div>
-                        <HouseVector size={46} />
+                        <img src="/photorealistic_home_nobg.png?v=1" alt="Home" style={{ width: 60, height: 60, objectFit: 'contain', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))', transform: 'translateY(-4px)' }} />
                       </div>
                     </div>
                   </div>

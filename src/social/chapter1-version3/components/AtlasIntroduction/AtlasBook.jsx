@@ -1,7 +1,7 @@
 import React from 'react';
 import { Compass, ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react';
 import { PhysicalMapPage, PoliticalMapPage, ThematicMapPage } from './MapPages';
-
+import { theme } from './theme';
 export default function AtlasBook({ isOpen, currentPage, onNext, onPrev, onFinish }) {
   return (    <div style={{ 
       width: '100%', height: '100%', 
@@ -21,13 +21,13 @@ export default function AtlasBook({ isOpen, currentPage, onNext, onPrev, onFinis
         {/* RIGHT HALF (Back cover + right pages) */}
         <div style={{
           position: 'absolute', top: 0, left: '50%', width: '50%', height: '100%',
-          backgroundColor: '#78350F', borderRadius: '0 8px 8px 0',
+          backgroundColor: theme.colors.coverDark, borderRadius: '0 8px 8px 0',
           boxShadow: '10px 20px 40px rgba(60,40,20,0.3)',
-          border: '2px solid #F2DFBC'
+          border: `2px solid ${theme.colors.border}`
         }}>
           <div style={{
             position: 'absolute', top: '10px', bottom: '10px', left: 0, right: '10px',
-            backgroundColor: '#FFF9F0', borderRadius: '0 4px 4px 0',
+            backgroundColor: theme.colors.paper, borderRadius: '0 4px 4px 0',
             boxShadow: 'inset -5px 0 20px rgba(60,40,20,0.05)'
           }}></div>
         </div>
@@ -35,14 +35,14 @@ export default function AtlasBook({ isOpen, currentPage, onNext, onPrev, onFinis
         {/* LEFT HALF */}
         <div style={{
           position: 'absolute', top: 0, left: 0, width: '50%', height: '100%',
-          backgroundColor: '#78350F', borderRadius: '8px 0 0 8px',
+          backgroundColor: theme.colors.coverDark, borderRadius: '8px 0 0 8px',
           opacity: isOpen ? 1 : 0, transition: 'opacity 0.3s ease-in-out',
           boxShadow: '-10px 20px 40px rgba(60,40,20,0.2)',
-          border: '2px solid #F2DFBC'
+          border: `2px solid ${theme.colors.border}`
         }}>
           <div style={{
             position: 'absolute', top: '10px', bottom: '10px', left: '10px', right: 0,
-            backgroundColor: '#FFF9F0', borderRadius: '4px 0 0 4px',
+            backgroundColor: theme.colors.paper, borderRadius: '4px 0 0 4px',
             boxShadow: 'inset 5px 0 20px rgba(60,40,20,0.05)'
           }}></div>
         </div>
@@ -55,7 +55,7 @@ export default function AtlasBook({ isOpen, currentPage, onNext, onPrev, onFinis
         
         <div style={{
           position: 'absolute', top: '-10px', left: '50%', transform: 'translateX(-50%)', width: '20px', height: '80px',
-          backgroundColor: '#D97706', zIndex: 12, boxShadow: '2px 2px 5px rgba(0,0,0,0.2)',
+          backgroundColor: theme.colors.buttonOrangeHover, zIndex: 12, boxShadow: '2px 2px 5px rgba(0,0,0,0.2)',
           opacity: isOpen ? 1 : 0, transition: 'opacity 0.6s', borderRadius: '0 0 3px 3px'
         }}></div>
 
@@ -71,35 +71,38 @@ export default function AtlasBook({ isOpen, currentPage, onNext, onPrev, onFinis
               {currentPage === 3 && <ThematicMapPage />}
             </div>
 
-            <div style={{ position: 'absolute', bottom: '0.75rem', left: '50%', right: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 1.5rem', gap: '0.75rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#78350F', fontSize: '13px', fontWeight: 800, whiteSpace: 'nowrap', flexShrink: 0 }}>
-                <Compass size={16} color="#D97706" style={{ flexShrink: 0 }} />
+            <div style={{ position: 'absolute', bottom: '0.75rem', left: '50%', right: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: `0 ${theme.spacing.fluid.md}`, gap: theme.spacing.s2 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: theme.spacing.s1, color: theme.colors.primary, fontSize: '13px', fontWeight: 800, whiteSpace: 'nowrap', flexShrink: 0 }}>
+                <Compass size={16} color={theme.colors.borderActive} style={{ flexShrink: 0 }} />
                 <span>Page {currentPage} of 3</span>
               </div>
 
-              <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexShrink: 0 }}>
-                <button onClick={onPrev} disabled={currentPage === 1} style={{ background: '#FFF9F0', border: '1.5px solid #F2DFBC', padding: '0.35rem 0.9rem', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: currentPage === 1 ? 'default' : 'pointer', opacity: currentPage === 1 ? 0 : 1, transition: 'all 0.2s', color: '#78350F', fontSize: '13px', fontWeight: 800, whiteSpace: 'nowrap', fontFamily: '"Space Grotesk", sans-serif' }}>
+              <div style={{ display: 'flex', gap: theme.spacing.s2, alignItems: 'center', flexShrink: 0 }}>
+                <button onClick={onPrev} disabled={currentPage === 1} style={{ background: theme.colors.paper, border: `1.5px solid ${theme.colors.border}`, padding: `10px 20px`, borderRadius: theme.radius.full, display: 'flex', alignItems: 'center', gap: theme.spacing.s1, cursor: currentPage === 1 ? 'default' : 'pointer', opacity: currentPage === 1 ? 0 : 1, transition: 'all 0.2s', color: theme.colors.primary, fontSize: '15px', fontWeight: 800, whiteSpace: 'nowrap', fontFamily: theme.typography.fonts.body }}>
                   <ChevronLeft size={16} /> Previous
                 </button>
                 {currentPage < 3 ? (
                   <button
                     onClick={onNext}
                     style={{
-                      background: '#F59E0B',
+                      background: theme.colors.buttonOrange,
                       color: 'white',
-                      border: 'none',
-                      padding: '0.4rem 1.1rem',
-                      borderRadius: '20px',
+                      border: '1.5px solid transparent',
+                      padding: `10px 20px`,
+                      borderRadius: theme.radius.full,
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.4rem',
+                      gap: theme.spacing.s1,
                       cursor: 'pointer',
                       boxShadow: '0 4px 12px rgba(245,158,11,0.38)',
                       whiteSpace: 'nowrap',
-                      fontSize: '13px',
+                      fontSize: '15px',
                       fontWeight: 800,
-                      fontFamily: '"Space Grotesk", sans-serif'
+                      fontFamily: theme.typography.fonts.body,
+                      transition: 'background 0.2s'
                     }}
+                    onMouseOver={(e) => e.currentTarget.style.background = theme.colors.buttonOrangeHover}
+                    onMouseOut={(e) => e.currentTarget.style.background = theme.colors.buttonOrange}
                   >
                     Next <ChevronRight size={16} />
                   </button>
@@ -107,21 +110,24 @@ export default function AtlasBook({ isOpen, currentPage, onNext, onPrev, onFinis
                   <button
                     onClick={onFinish}
                     style={{
-                      background: '#16A34A',
+                      background: theme.colors.buttonGreen,
                       color: 'white',
-                      border: 'none',
-                      padding: '0.4rem 1.1rem',
-                      borderRadius: '20px',
+                      border: '1.5px solid transparent',
+                      padding: `10px 20px`,
+                      borderRadius: theme.radius.full,
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.4rem',
+                      gap: theme.spacing.s1,
                       cursor: 'pointer',
                       boxShadow: '0 4px 12px rgba(22,163,74,0.3)',
                       whiteSpace: 'nowrap',
-                      fontSize: '13px',
+                      fontSize: '15px',
                       fontWeight: 800,
-                      fontFamily: '"Space Grotesk", sans-serif'
+                      fontFamily: theme.typography.fonts.body,
+                      transition: 'background 0.2s'
                     }}
+                    onMouseOver={(e) => e.currentTarget.style.background = theme.colors.buttonGreenHover}
+                    onMouseOut={(e) => e.currentTarget.style.background = theme.colors.buttonGreen}
                   >
                     Finish <CheckCircle2 size={16} />
                   </button>
@@ -140,27 +146,27 @@ export default function AtlasBook({ isOpen, currentPage, onNext, onPrev, onFinis
         }}>
           <div style={{
             position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-            backgroundColor: '#78350F', borderRadius: '0 8px 8px 0',
+            backgroundColor: theme.colors.coverDark, borderRadius: '0 8px 8px 0',
             boxShadow: isOpen ? 'none' : '5px 0 15px rgba(60,40,20,0.4)',
             backfaceVisibility: 'hidden',
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
             borderLeft: '1px solid rgba(255,255,255,0.1)'
           }}>
-            <div style={{ border: '2px solid #FDE68A', width: '85%', height: '90%', borderRadius: '4px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-              <Compass size={64} color="#FDE68A" style={{ marginBottom: '2rem', opacity: 0.9 }} />
-              <h1 style={{ color: '#FEF3C7', fontSize: '3.2rem', letterSpacing: '6px', margin: 0, fontFamily: '"Fraunces", serif', fontWeight: 900, textShadow: '2px 2px 4px rgba(0,0,0,0.3)' }}>ATLAS</h1>
-              <div style={{ height: '2px', width: '60%', backgroundColor: '#FDE68A', margin: '1.5rem 0', opacity: 0.7 }}></div>
-              <div style={{ color: '#FEF3C7', fontSize: '1.1rem', letterSpacing: '4px', opacity: 0.9, fontWeight: 700 }}>A COLLECTION OF MAPS</div>
+            <div style={{ border: `2px solid ${theme.colors.borderLight}`, width: '85%', height: '90%', borderRadius: '4px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+              <Compass size={64} color={theme.colors.borderLight} style={{ marginBottom: theme.spacing.s6, opacity: 0.9 }} />
+              <h1 style={{ color: theme.colors.coverLight, fontSize: '3.2rem', letterSpacing: '6px', margin: 0, fontFamily: theme.typography.fonts.heading, fontWeight: 900, textShadow: '2px 2px 4px rgba(0,0,0,0.3)' }}>ATLAS</h1>
+              <div style={{ height: '2px', width: '60%', backgroundColor: theme.colors.borderLight, margin: `${theme.spacing.fluid.lg} 0`, opacity: 0.7 }}></div>
+              <div style={{ color: theme.colors.coverLight, fontSize: '1.1rem', letterSpacing: '4px', opacity: 0.9, fontWeight: 700 }}>A COLLECTION OF MAPS</div>
             </div>
           </div>
           
           <div style={{
             position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-            backgroundColor: '#78350F', borderRadius: '8px 0 0 8px',
+            backgroundColor: theme.colors.coverDark, borderRadius: '8px 0 0 8px',
             transform: 'rotateY(180deg)', backfaceVisibility: 'hidden',
             borderRight: '1px solid rgba(0,0,0,0.2)'
           }}>
-             <div style={{ position: 'absolute', top: '10px', bottom: '10px', left: '10px', right: '0', backgroundColor: '#FFF9F0', borderRadius: '4px 0 0 4px', boxShadow: 'inset 5px 0 20px rgba(60,40,20,0.05)' }}></div>
+             <div style={{ position: 'absolute', top: '10px', bottom: '10px', left: '10px', right: '0', backgroundColor: theme.colors.paper, borderRadius: '4px 0 0 4px', boxShadow: 'inset 5px 0 20px rgba(60,40,20,0.05)' }}></div>
           </div>
         </div>
 
