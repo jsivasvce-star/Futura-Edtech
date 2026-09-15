@@ -239,13 +239,13 @@ const MATERIALS = [
   },
   {
     id: 'plastic',
-    name: 'Plastic bottle',
-    itemLabel: 'Water Bottle',
-    fullName: 'Modern Reusable Plastic Water Bottle',
+    name: 'Plastic container',
+    itemLabel: 'Plastic Container',
+    fullName: 'Airtight Plastic Kitchen Container',
     type: 'plastic',
     stage: 4,
-    icon: '🧴',
-    desc: 'Modern reusable plastic water bottle',
+    icon: '🍱',
+    desc: 'Airtight clear plastic kitchen container',
     deflection: { angle: -38, label: 'Medium-High Deflection', fieldPower: '70%' }
   },
   {
@@ -336,7 +336,7 @@ export default function Simulation({ onComplete, onNext }) {
   const isTreeStage = activeMaterial === 'wood' && currentStage === 4;
 
   // Safe distance calculations: guarantee the magnet NEVER touches any object
-  // Cardboard has wider footprint (~95px half-width); bottle & glass have ~60px half-width
+  // Cardboard has wider footprint (~95px half-width); container & glass have ~60px half-width
   const barrierClearance = activeMaterial === 'cardboard' ? 145 : 125;
   const magnetFarLeft = isTreeStage ? 15 : 25;
   const magnetCloseLeft = isTreeStage
@@ -616,7 +616,7 @@ export default function Simulation({ onComplete, onNext }) {
               marginTop: '2px'
             }}>1</div>
             <p style={{ margin: 0, fontSize: '1.05rem', color: '#065F46', lineHeight: 1.5, fontWeight: 600 }}>
-              <strong>Select or Auto-Play:</strong> Barriers advance in order: <strong>Crystal glass ➔ Plastic bottle ➔ Cardboard ➔ Tree</strong> (or click any item below to test manually).
+              <strong>Select or Auto-Play:</strong> Barriers advance in order: <strong>Crystal glass ➔ Plastic container ➔ Cardboard ➔ Tree</strong> (or click any item below to test manually).
             </p>
           </div>
 
@@ -990,7 +990,7 @@ export default function Simulation({ onComplete, onNext }) {
             }}
           />
 
-          {/* 2. Modern Kitchen Counter Background for Plastic Bottle */}
+          {/* 2. Modern Kitchen Counter Background for Plastic Container */}
           <div
             style={{
               position: 'absolute',

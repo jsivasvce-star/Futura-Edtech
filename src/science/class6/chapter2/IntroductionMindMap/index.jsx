@@ -1,28 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BookOpen, HelpCircle, Check, Award, ArrowLeft, Volume2, VolumeX, ArrowRight, Play } from 'lucide-react';
 import sanskritSlogan from '../../../../assets/sanskrit_slogan.png';
 import { useTheme } from '../../../../ThemeContext.jsx';
+import { speakNaturalIndianMale, stopNarration } from '../../../../services/elevenLabsService';
 
 export default function IntroductionMindMap({ onBackToDashboard }) {
   const { theme } = useTheme();
   const [isSpeaking, setIsSpeaking] = useState(false);
 
+  useEffect(() => {
+    return () => {
+      stopNarration();
+    };
+  }, []);
+
   const handleReadAloud = (text) => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.95;
-      utterance.onend = () => setIsSpeaking(false);
-      setIsSpeaking(true);
-      window.speechSynthesis.speak(utterance);
+    if (isSpeaking) {
+      stopNarration();
+      setIsSpeaking(false);
+      return;
     }
+    setIsSpeaking(true);
+    speakNaturalIndianMale({
+      text,
+      onEnd: () => setIsSpeaking(false),
+      onError: () => setIsSpeaking(false)
+    });
   };
 
   const handleStopSpeech = () => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      setIsSpeaking(false);
-    }
+    stopNarration();
+    setIsSpeaking(false);
   };
 
   const lessonSpeechText = `

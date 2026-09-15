@@ -20,17 +20,17 @@ const VIEW_H = 768;
 const PLACES = [
   // ── BUILDING ENTRANCE DESTINATIONS (SPURS FROM ROADS) ──
   { id: 'RS', x: 180, y: 215, name: 'Railway Station', full: 'Central Junction Railway Station', icon: '🚂', type: 'station', start: true, blurb: 'Main entrance concourse of Railway Station.' },
-  { id: 'AP', x: 835, y: 215, name: 'Apartments', full: 'Apartments', icon: '🏢', type: 'apartment', blurb: 'Main residential lobby entrance of Apartments.' },
-  { id: 'PG', x: 1115, y: 215, name: 'Public Garden', full: 'Public Garden', icon: '🌳', type: 'garden', blurb: 'Public Garden entrance gate.' },
-  { id: 'HO', x: 230, y: 460, name: 'Hospital', full: 'Hospital', icon: '🏥', type: 'hospital', blurb: 'Main emergency entrance & ambulance portico.' },
+  { id: 'AP', x: 835, y: 215, name: 'Apartments', full: 'Sunview Heights Residency', icon: '🏢', type: 'apartment', blurb: 'Main residential lobby entrance of Sunview Heights.' },
+  { id: 'PG', x: 1115, y: 215, name: 'Public Garden', full: 'Rosewood Botanical Garden', icon: '🌳', type: 'garden', blurb: 'Botanical greenhouse entrance gate.' },
+  { id: 'HO', x: 230, y: 460, name: 'Hospital', full: 'City Care Hospital', icon: '🏥', type: 'hospital', blurb: 'Main emergency entrance & ambulance portico.' },
   { id: 'NP', x: 690, y: 460, name: 'Nagar Panchayat', full: 'Nagar Panchayat Office', icon: '🏛️', type: 'civic', blurb: 'Grand portico steps and entrance columns of Nagar Panchayat.' },
-  { id: 'BK', x: 1115, y: 460, name: 'Bank', full: 'Bank', icon: '🏦', type: 'bank', goal: true, blurb: 'Main glass entrance lobby of the Bank.' },
-  { id: 'SC', x: 230, y: 680, name: 'School', full: 'School', icon: '🏫', type: 'school', blurb: 'School main entrance doors by the playground courtyard.' },
-  { id: 'MK', x: 690, y: 625, name: 'Market', full: 'Market', icon: '🛍️', type: 'market', blurb: 'Central bazaar square entrance among market stalls.' },
-  { id: 'MU', x: 1115, y: 680, name: 'Museum', full: 'Museum', icon: '🏛️', type: 'museum', blurb: 'Main steps and entrance to Museum.' },
+  { id: 'BK', x: 1115, y: 460, name: 'Bank', full: 'Apex National Bank', icon: '🏦', type: 'bank', goal: true, blurb: 'Main glass entrance lobby of Apex National Bank.' },
+  { id: 'SC', x: 230, y: 680, name: 'School', full: 'Greenwood Public School', icon: '🏫', type: 'school', blurb: 'School main entrance doors by the playground courtyard.' },
+  { id: 'MK', x: 690, y: 625, name: 'Market', full: 'Janata Central Bazaar', icon: '🛍️', type: 'market', blurb: 'Central bazaar square entrance among market stalls.' },
+  { id: 'MU', x: 1115, y: 680, name: 'Museum', full: 'Heritage Antiquities Museum', icon: '🏛️', type: 'museum', blurb: 'Main steps and entrance to Heritage Antiquities Museum.' },
 
   // ── ROW 0: TOP 3 DEAD-END ROADS (Y = 60) ──
-  { id: 'LA', x: 355, y: 60, name: 'Lake', full: 'Scenic Lake', icon: '🏞️', type: 'lake', blurb: 'A beautiful scenic lake.' },
+  { id: 'D_N1', x: 355, y: 60, name: 'North Dead End 1', full: 'West North Road Dead End', icon: '🚧', type: 'deadend', blurb: 'Dead end road with no exit.' },
   { id: 'D_N2', x: 690, y: 60, name: 'North Dead End 2', full: 'Central North Road Dead End', icon: '🚧', type: 'deadend', blurb: 'Dead end road with no exit.' },
   { id: 'D_N3', x: 1005, y: 60, name: 'North Dead End 3', full: 'East North Road Dead End', icon: '🚧', type: 'deadend', blurb: 'Dead end road with no exit.' },
 
@@ -40,10 +40,10 @@ const PLACES = [
   { id: 'W_N_1', x: 355, y: 245, name: 'West Pond Junction', full: 'Northern Ave & West North Road', icon: '🚦', type: 'junction', blurb: 'Road corridor intersection.' },
   { id: 'J_NH', x: 475, y: 245, name: 'Hospital Way North', full: 'Northern Ave & Hospital Way', icon: '🚦', type: 'junction', blurb: 'Intersection by Botanical Pond.' },
   { id: 'W_N_2', x: 690, y: 245, name: 'Town Hall North Junc', full: 'Northern Ave & Central North Road', icon: '🚦', type: 'junction', blurb: 'Road corridor intersection.' },
-  { id: 'W_N_AP', x: 835, y: 245, name: 'Apartments Waypoint', full: 'Northern Ave in front of Apartments', icon: '🚦', type: 'junction', blurb: 'Road in front of Apartments.' },
+  { id: 'W_N_AP', x: 835, y: 245, name: 'Apartments Waypoint', full: 'Northern Ave in front of Sunview Heights', icon: '🚦', type: 'junction', blurb: 'Road in front of Sunview Heights.' },
   { id: 'J_NB', x: 905, y: 245, name: 'Bank Road North', full: 'Northern Ave & Bank Road', icon: '🚦', type: 'junction', blurb: 'Intersection on Northern Ave.' },
   { id: 'W_N_3', x: 1005, y: 245, name: 'Garden West Junction', full: 'Northern Ave & East North Road', icon: '🚦', type: 'junction', blurb: 'Road corridor intersection.' },
-  { id: 'W_N_PG', x: 1115, y: 245, name: 'Garden Waypoint', full: 'Northern Ave in front of Public Garden', icon: '🚦', type: 'junction', blurb: 'Road in front of Public Garden.' },
+  { id: 'W_N_PG', x: 1115, y: 245, name: 'Garden Waypoint', full: 'Northern Ave in front of Botanical Garden', icon: '🚦', type: 'junction', blurb: 'Road in front of Botanical Garden.' },
   { id: 'J_NE', x: 1325, y: 245, name: 'East End Junction', full: 'Northern Ave & East Lane', icon: '🚦', type: 'junction', blurb: 'Eastern corner intersection.' },
 
   // ── ROW 2: CENTRAL BOULEVARD ROAD NODES (Y = 505) ──
@@ -84,14 +84,14 @@ const ADJ = {
   MU: { S: 'W_S_MU' },
 
   // ── ROW 0: TOP 3 DEAD-END ROADS (Y = 60) ──
-  LA: { S: 'W_N_1' },
+  D_N1: { S: 'W_N_1' },
   D_N2: { S: 'W_N_2' },
   D_N3: { S: 'W_N_3' },
 
   // ── ROW 1: NORTHERN AVENUE (Y = 245) ──
   J_NW: { E: 'W_N_RS', S: 'J_CW' },
   W_N_RS: { W: 'J_NW', E: 'W_N_1', N: 'RS' },
-  W_N_1: { W: 'W_N_RS', E: 'J_NH', N: 'LA' },
+  W_N_1: { W: 'W_N_RS', E: 'J_NH', N: 'D_N1' },
   J_NH: { W: 'W_N_1', E: 'W_N_2', S: 'J_CH' },
   W_N_2: { W: 'J_NH', E: 'W_N_AP', N: 'D_N2' },
   W_N_AP: { W: 'W_N_2', E: 'J_NB', N: 'AP' },
@@ -147,15 +147,15 @@ const STREETS = [
 /* ── 4. UNIQUE BUILDING LANDMARK BADGES (PERFECT POSITION & HIGHLIGHTED) ── */
 const BUILDING_BADGES = [
   { id: 'b_rs', placeId: 'RS', name: 'Railway Station', icon: '🚂', x: 180, y: 110, color: '#F59E0B', label: 'RAILWAY STATION' },
-  { id: 'b_pond', placeId: 'LA', name: 'Lake', icon: '🏞️', x: 375, y: 70, color: '#10B981', label: 'LAKE' },
-  { id: 'b_ap', placeId: 'AP', name: 'Apartments', icon: '🏢', x: 835, y: 40, color: '#38BDF8', label: 'APARTMENTS' },
-  { id: 'b_garden', placeId: 'PG', name: 'Public Garden', icon: '🌳', x: 1115, y: 75, color: '#10B981', label: 'PUBLIC GARDEN' },
-  { id: 'b_ho', placeId: 'HO', name: 'Hospital', icon: '🏥', x: 230, y: 350, color: '#EF4444', label: 'HOSPITAL' },
+  { id: 'b_pond', placeId: 'POND', name: 'Public Lake Park', icon: '🌳', x: 375, y: 70, color: '#10B981', label: 'PUBLIC LAKE PARK' },
+  { id: 'b_ap', placeId: 'AP', name: 'Sunview Heights', icon: '🏢', x: 835, y: 40, color: '#38BDF8', label: 'SUNVIEW HEIGHTS' },
+  { id: 'b_garden', placeId: 'PG', name: 'Botanical Garden', icon: '🌿', x: 1115, y: 75, color: '#10B981', label: 'BOTANICAL GARDEN' },
+  { id: 'b_ho', placeId: 'HO', name: 'City Hospital', icon: '🏥', x: 230, y: 350, color: '#EF4444', label: 'CITY HOSPITAL' },
   { id: 'b_th', placeId: 'NP', name: 'Nagar Panchayat', icon: '🏛️', x: 690, y: 360, color: '#F59E0B', label: 'NAGAR PANCHAYAT' },
-  { id: 'b_bk', placeId: 'BK', name: 'Bank', icon: '🏦', x: 1115, y: 360, color: '#06B6D4', label: 'BANK' },
-  { id: 'b_sc', placeId: 'SC', name: 'School', icon: '🏫', x: 230, y: 625, color: '#818CF8', label: 'SCHOOL' },
-  { id: 'b_mk', placeId: 'MK', name: 'Market', icon: '🛍️', x: 690, y: 635, color: '#F59E0B', label: 'MARKET' },
-  { id: 'b_mu', placeId: 'MU', name: 'Museum', icon: '🏛️', x: 1115, y: 630, color: '#A78BFA', label: 'MUSEUM' }
+  { id: 'b_bk', placeId: 'BK', name: 'Apex National Bank', icon: '🏦', x: 1115, y: 360, color: '#06B6D4', label: 'APEX NATIONAL BANK' },
+  { id: 'b_sc', placeId: 'SC', name: 'Greenwood School', icon: '🏫', x: 230, y: 625, color: '#818CF8', label: 'GREENWOOD SCHOOL' },
+  { id: 'b_mk', placeId: 'MK', name: 'Central Market', icon: '🛍️', x: 690, y: 635, color: '#F59E0B', label: 'CENTRAL MARKET' },
+  { id: 'b_mu', placeId: 'MU', name: 'Heritage Museum', icon: '🏛️', x: 1115, y: 630, color: '#A78BFA', label: 'HERITAGE MUSEUM' }
 ];
 
 function streetBetween(aId, bId) {
@@ -598,7 +598,7 @@ const TOWN_MAP_QUESTIONS = [
 ];
 
 /* ── 8. MAIN TOWN MAP 3D COMPONENT ─────────────────────────────────── */
-const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
+const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false, showQuiz = false }) => {
   const START = 'RS';
   const GOAL = 'BK';
 
@@ -619,6 +619,12 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [quizAnswers, setQuizAnswers] = useState({});
   const [quizPage, setQuizPage] = useState(0);
+
+  useEffect(() => {
+    if (showQuiz) {
+      setShowQuizModal(true);
+    }
+  }, [showQuiz]);
 
   /* ── ZOOM, PAN & MAP-ALONE FULLSCREEN STATE ── */
   const [zoom, setZoom] = useState(1);
@@ -781,9 +787,6 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
             ? [...visitedSequence, targetId]
             : visitedSequence;
           if (onComplete) onComplete({ steps: trail.length, visitedPlaces: finalVisited });
-          setTimeout(() => {
-            setShowQuizModal(true);
-          }, 600);
         }
       }
     };
@@ -815,7 +818,7 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
     W: ADJ[cur]?.W ? BY_ID[ADJ[cur].W] : null,
   };
 
-  const DirBtn = ({ dir, label, arrow, gridArea }) => {
+  const DirBtn = ({ dir, label, arrow, gridArea, isCompact }) => {
     const nb = available[dir];
     const off = !nb || isWalking || won;
     return (
@@ -832,31 +835,30 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
         style={{
           gridArea,
           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-          gap: '2px',
-          border: off ? '1.5px solid #E2E8F0' : 'none',
+          gap: isCompact ? '0px' : '2px',
+          border: off ? '1.5px dashed #CBD5E1' : 'none',
           background: off
             ? '#F8FAFC'
             : 'linear-gradient(145deg, #F59E0B 0%, #D97706 100%)',
           color: off ? '#94A3B8' : '#FFFFFF',
-          opacity: off ? 0.6 : 1,
-          borderRadius: '16px',
-          padding: '6px',
+          opacity: off ? 0.45 : 1,
+          borderRadius: '12px',
+          padding: isCompact ? '6px 2px' : '10px 4px',
           cursor: off ? 'not-allowed' : 'pointer',
           pointerEvents: off ? 'none' : 'auto',
+          fontWeight: 800,
           transition: 'all 0.15s ease',
-          boxShadow: off ? 'none' : '0 4px 12px rgba(217,119,6,0.3)',
-          width: '100%',
-          height: '100%',
-          boxSizing: 'border-box',
-          overflow: 'hidden'
+          boxShadow: off ? 'none' : '0 4px 14px rgba(217,119,6,0.35)',
         }}
       >
-        <div style={{ fontSize: '20px', lineHeight: 1, marginBottom: '2px' }}>{arrow}</div>
-        <div style={{ fontSize: '13px', fontWeight: 900, fontFamily: 'Space Grotesk, sans-serif', lineHeight: 1 }}>{label}</div>
-        {nb && (
-          <div style={{ fontSize: '9px', fontWeight: 700, opacity: 0.9, width: '100%', textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: '4px' }}>
-            {nb.name}
-          </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+          <span style={{ fontSize: isCompact ? '11px' : '13px', lineHeight: 1 }}>{arrow}</span>
+          <span style={{ fontSize: isCompact ? '13px' : '15px', fontWeight: 900, fontFamily: 'Space Grotesk, sans-serif' }}>{label}</span>
+        </div>
+        {!isCompact && (
+          <span style={{ fontSize: '9px', fontWeight: 700, opacity: 0.9, maxWidth: '80px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {nb ? nb.name : '—'}
+          </span>
         )}
       </button>
     );
@@ -1727,7 +1729,7 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
       {/* ══════════ BOX 2: RIGHT STATION (PARALLEL SIDE-BY-SIDE ALIGNMENT) ══════════ */}
       {showQuizModal ? (
         <div style={{
-          width: 'clamp(340px, 26vw, 390px)',
+          width: showQuiz ? 'clamp(400px, 35vw, 450px)' : 'clamp(340px, 26vw, 390px)',
           flexShrink: 0,
           height: '100%',
           background: 'linear-gradient(165deg, #FFFDF8 0%, #FEF3C7 100%)',
@@ -1754,10 +1756,10 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
             boxShadow: '0 2px 8px rgba(60,40,20,0.04)'
           }}>
             <div>
-              <div style={{ fontSize: '8.5px', fontWeight: 900, color: '#B45309', letterSpacing: '0.8px', textTransform: 'uppercase' }}>
+              <div style={{ fontSize: '11px', fontWeight: 900, color: '#B45309', letterSpacing: '0.8px', textTransform: 'uppercase' }}>
                 📝 MAP ACTIVITY QUESTIONS
               </div>
-              <div style={{ fontSize: '11.5px', fontWeight: 900, color: '#1E293B', marginTop: '1px' }}>
+              <div style={{ fontSize: '14px', fontWeight: 900, color: '#1E293B', marginTop: '1px' }}>
                 Question {quizPage + 1} of {TOWN_MAP_QUESTIONS.length}
               </div>
             </div>
@@ -1770,7 +1772,7 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
                 border: '1px solid #FDE68A',
                 borderRadius: '7px',
                 padding: '3px 8px',
-                fontSize: '9.5px',
+                fontSize: '11px',
                 fontWeight: 800,
                 color: '#92400E',
                 cursor: 'pointer',
@@ -1843,7 +1845,7 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
                         background: '#FEF3C7',
                         color: '#92400E',
                         border: '1px solid #FDE68A',
-                        fontSize: '9px',
+                        fontSize: '11px',
                         fontWeight: 900,
                         padding: '1px 6px',
                         borderRadius: '5px',
@@ -1851,7 +1853,7 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
                       }}>
                         Q{quizPage + 1}
                       </span>
-                      <span style={{ fontSize: '9px', fontWeight: 800, color: '#78350F', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                      <span style={{ fontSize: '11px', fontWeight: 800, color: '#78350F', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                         {q.tag}
                       </span>
                     </div>
@@ -1860,7 +1862,7 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
                         background: isCorrect ? '#ECFDF5' : '#FEF2F2',
                         border: `1px solid ${isCorrect ? '#10B981' : '#EF4444'}`,
                         color: isCorrect ? '#065F46' : '#991B1B',
-                        fontSize: '9px',
+                        fontSize: '11px',
                         fontWeight: 900,
                         padding: '1px 7px',
                         borderRadius: '999px'
@@ -1870,45 +1872,45 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
                     )}
                   </div>
 
-                  <div style={{ fontSize: '11.5px', fontWeight: 800, color: '#1E293B', lineHeight: 1.35 }}>
+                  <div style={{ fontSize: '17px', fontWeight: 800, color: '#1E293B', lineHeight: 1.4 }}>
                     {q.question}
                   </div>
                 </div>
 
                 {/* Question Content: Interactive Map Action (for Q1) OR 3 Multiple Choice Options */}
                 {isMapClick ? (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     {!isMarked ? (
                       <div style={{
                         background: '#FEF2F2',
                         border: '1.5px dashed #EF4444',
                         borderRadius: '9px',
-                        padding: '8px 10px',
+                        padding: '14px 18px',
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '6px',
+                        gap: '12px',
                         animation: 'targetPulse 2s infinite ease-in-out'
                       }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                           <span style={{
-                            width: '26px',
-                            height: '26px',
-                            borderRadius: '7px',
+                            width: '36px',
+                            height: '36px',
+                            borderRadius: '8px',
                             background: '#FEE2E2',
                             border: '1.5px solid #EF4444',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '14px',
+                            fontSize: '20px',
                             flexShrink: 0
                           }}>
                             🏥
                           </span>
                           <div>
-                            <div style={{ fontSize: '11px', fontWeight: 900, color: '#991B1B' }}>
+                            <div style={{ fontSize: '15px', fontWeight: 900, color: '#991B1B' }}>
                               Interactive Map Action
                             </div>
-                            <div style={{ fontSize: '9.5px', color: '#78350F', fontWeight: 700 }}>
+                            <div style={{ fontSize: '13px', color: '#78350F', fontWeight: 700, marginTop: '2px' }}>
                               Click the Hospital building directly on the map
                             </div>
                           </div>
@@ -1916,9 +1918,9 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
 
                         <div style={{
                           background: '#FFFFFF',
-                          borderRadius: '6px',
-                          padding: '5px 8px',
-                          fontSize: '10px',
+                          borderRadius: '8px',
+                          padding: '10px 14px',
+                          fontSize: '14px',
                           color: '#3D2E24',
                           fontWeight: 700,
                           lineHeight: 1.3,
@@ -1932,17 +1934,17 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          gap: '6px',
-                          fontSize: '9.5px',
+                          gap: '8px',
+                          fontSize: '14px',
                           fontWeight: 800,
                           color: '#B91C1C',
-                          padding: '4px 6px',
-                          borderRadius: '5px',
+                          padding: '8px 12px',
+                          borderRadius: '6px',
                           background: '#FEE2E2'
                         }}>
                           <span style={{
-                            width: '6px',
-                            height: '6px',
+                            width: '8px',
+                            height: '8px',
                             borderRadius: '50%',
                             background: '#EF4444',
                             display: 'inline-block'
@@ -1955,33 +1957,33 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
                         background: '#ECFDF5',
                         border: '1.5px solid #10B981',
                         borderRadius: '9px',
-                        padding: '8px 10px',
+                        padding: '14px 18px',
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '6px',
+                        gap: '12px',
                         boxShadow: '0 2px 8px rgba(16, 185, 129, 0.15)'
                       }}>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                             <span style={{
-                              width: '26px',
-                              height: '26px',
-                              borderRadius: '7px',
+                              width: '36px',
+                              height: '36px',
+                              borderRadius: '8px',
                               background: '#10B981',
                               color: '#FFFFFF',
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
-                              fontSize: '14px',
+                              fontSize: '20px',
                               flexShrink: 0
                             }}>
                               🏥
                             </span>
                             <div>
-                              <div style={{ fontSize: '11px', fontWeight: 900, color: '#065F46' }}>
+                              <div style={{ fontSize: '15px', fontWeight: 900, color: '#065F46' }}>
                                 Hospital Marked on Map!
                               </div>
-                              <div style={{ fontSize: '9px', color: '#047857', fontWeight: 700 }}>
+                              <div style={{ fontSize: '13px', color: '#047857', fontWeight: 700, marginTop: '2px' }}>
                                 South of Railway Station along West Lane
                               </div>
                             </div>
@@ -1989,9 +1991,9 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
                           <span style={{
                             background: '#10B981',
                             color: '#FFFFFF',
-                            fontSize: '8.5px',
+                            fontSize: '12px',
                             fontWeight: 900,
-                            padding: '2px 7px',
+                            padding: '4px 10px',
                             borderRadius: '999px'
                           }}>
                             ✓ Marked
@@ -1999,12 +2001,12 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
                         </div>
 
                         <div style={{
-                          fontSize: '9.5px',
+                          fontSize: '14px',
                           color: '#065F46',
                           fontWeight: 700,
                           background: '#D1FAE5',
-                          padding: '5px 8px',
-                          borderRadius: '6px',
+                          padding: '10px 14px',
+                          borderRadius: '8px',
                           border: '1px solid #A7F3D0'
                         }}>
                           🎯 <b>Building Highlighted:</b> The hospital is highlighted with an animated beacon and landmark badge on the map.
@@ -2013,7 +2015,7 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
                     )}
                   </div>
                 ) : (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {q.options && q.options.map((opt, oIdx) => {
                       const isOptionPicked = picked === opt;
                       const isOptionCorrect = opt === q.answer;
@@ -2046,12 +2048,12 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
                           onClick={() => setQuizAnswers(a => ({ ...a, [q.id]: opt }))}
                           style={{
                             textAlign: 'left',
-                            padding: '7px 10px',
+                            padding: '12px 16px',
                             background: bg,
                             border: `1.5px solid ${border}`,
                             borderRadius: '8px',
                             color: color,
-                            fontSize: '11px',
+                            fontSize: '15px',
                             fontWeight: 700,
                             cursor: 'pointer',
                             transition: 'all 0.15s ease',
@@ -2063,12 +2065,12 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
                           }}
                         >
                           <span style={{
-                            width: '18px',
-                            height: '18px',
+                            width: '26px',
+                            height: '26px',
                             borderRadius: '50%',
                             background: badgeBg,
                             color: badgeColor,
-                            fontSize: '9.5px',
+                            fontSize: '14px',
                             fontWeight: 900,
                             display: 'flex',
                             alignItems: 'center',
@@ -2087,11 +2089,11 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
                 {/* Explanation Card */}
                 {picked ? (
                   <div style={{
-                    padding: '6px 9px',
+                    padding: '10px 14px',
                     borderRadius: '7px',
                     background: isCorrect ? '#ECFDF5' : '#FEF2F2',
                     border: `1px solid ${isCorrect ? '#10B981' : '#EF4444'}`,
-                    fontSize: '10px',
+                    fontSize: '14px',
                     fontWeight: 700,
                     color: isCorrect ? '#065F46' : '#991B1B',
                     lineHeight: 1.35
@@ -2103,8 +2105,8 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
                     background: '#FFFBEB',
                     border: '1px dashed #FDE68A',
                     borderRadius: '7px',
-                    padding: '5px 8px',
-                    fontSize: '9.5px',
+                    padding: '10px 14px',
+                    fontSize: '13px',
                     color: '#78350F',
                     display: 'flex',
                     alignItems: 'center',
@@ -2135,12 +2137,12 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
               style={{
                 fontFamily: '"Space Grotesk", sans-serif',
                 fontWeight: 800,
-                fontSize: '10px',
+                fontSize: '14px',
                 background: '#FEF3C7',
                 color: '#78350F',
                 border: '1px solid #FDE68A',
-                borderRadius: '7px',
-                padding: '5px 10px',
+                borderRadius: '8px',
+                padding: '8px 16px',
                 cursor: quizPage === 0 ? 'not-allowed' : 'pointer',
                 opacity: quizPage === 0 ? 0.35 : 1
               }}
@@ -2148,13 +2150,13 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
               ◀ Back
             </button>
 
-            <div style={{ display: 'flex', gap: '4px' }}>
+            <div style={{ display: 'flex', gap: '6px' }}>
               {TOWN_MAP_QUESTIONS.map((_, i) => (
                 <span
                   key={i}
                   style={{
-                    width: '6px',
-                    height: '6px',
+                    width: '8px',
+                    height: '8px',
                     borderRadius: '50%',
                     background: i === quizPage ? '#F59E0B' : '#E2E8F0',
                     transition: 'all 0.2s ease'
@@ -2170,12 +2172,12 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
                 style={{
                   fontFamily: '"Space Grotesk", sans-serif',
                   fontWeight: 800,
-                  fontSize: '10px',
+                  fontSize: '14px',
                   background: '#F59E0B',
                   color: '#FFFFFF',
                   border: 'none',
-                  borderRadius: '7px',
-                  padding: '5px 12px',
+                  borderRadius: '8px',
+                  padding: '8px 18px',
                   cursor: 'pointer',
                   boxShadow: '0 4px 12px rgba(245, 158, 11, 0.4)'
                 }}
@@ -2191,12 +2193,12 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false }) => {
                 style={{
                   fontFamily: '"Space Grotesk", sans-serif',
                   fontWeight: 900,
-                  fontSize: '10px',
+                  fontSize: '14px',
                   background: '#10B981',
                   color: '#FFFFFF',
                   border: 'none',
-                  borderRadius: '7px',
-                  padding: '5px 12px',
+                  borderRadius: '8px',
+                  padding: '8px 18px',
                   cursor: 'pointer',
                   boxShadow: '0 4px 12px rgba(16, 185, 129, 0.4)'
                 }}

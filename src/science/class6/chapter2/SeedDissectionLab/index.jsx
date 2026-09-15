@@ -1,873 +1,2046 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowLeft, RefreshCw, ChevronRight, Check, Info } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  ArrowLeft,
+  RefreshCw,
+  ChevronRight,
+  Volume2,
+  VolumeX,
+  Maximize2,
+  Minimize2,
+  ZoomIn,
+  Scissors,
+  Droplets,
+  Sparkles,
+  Layers,
+  Award,
+  FlaskConical,
+  CheckCircle2,
+  AlertCircle,
+  ArrowRight
+} from 'lucide-react';
 import confetti from 'canvas-confetti';
-import darkForestBg from '../../../../assets/dark_forest_bg.jpg';
 import dicot1Img from '../../../../assets/dicot_1.png';
-import monocot1Img from '../../../../assets/monocot_1.png';
 import diImg from '../../../../assets/di.png';
-import moImg from '../../../../assets/mo.png';
 import chickpeaSplitImg from '../../../../assets/chickpea_split.png';
 import maizeCutImg from '../../../../assets/maize_cut.png';
+import maizeIntactImg from '../../../../assets/maize_intact_realistic.png';
+import { seedLabAudio } from './seedLabAudio';
+import RealisticSeedBeaker from './RealisticSeedBeaker';
 
-const STEPS = [
-  { id: 'soak',    label: 'Step 1: Soak Seeds',     icon: '💧', desc: 'Hydrate the seeds in water. Watch the seed coats wrinkle, loosen, and swell over a simulated 3-day period.' },
-  { id: 'peel',    label: 'Step 2: Peel Seed Coat',  icon: '✂️', desc: 'Peel the outer seed coat to reveal the food storage cotyledons underneath. Compare peelability.' },
-  { id: 'compare', label: 'Step 3: Label Anatomy',   icon: '🔬', desc: 'Examine both seeds under a lens. Identify and label the plumule, radicle, endosperm, and cotyledons.' },
-  { id: 'result',  label: 'Step 4: Discovery!',      icon: '🏆', desc: 'Review the Grand Correlation: Cotyledons ↔ Leaf Venation ↔ Root System.' },
+// ============================================================
+// ORNATE BOTANICAL SVG ELEMENTS (EXACT MATCH TO SLOGAN PAGE)
+// ============================================================
+
+const TitleVineBranch = ({ side = 'left' }) => (
+  <svg
+    width="54"
+    height="26"
+    viewBox="0 0 80 32"
+    fill="none"
+    style={{
+      transform: side === 'right' ? 'scaleX(-1)' : 'none',
+      flexShrink: 0,
+      opacity: 0.95
+    }}
+  >
+    <path
+      d="M75 16 C55 14, 35 8, 8 2"
+      stroke="#1B4D3E"
+      strokeWidth="2.6"
+      strokeLinecap="round"
+    />
+    <path d="M12 4 C16 1, 24 3, 26 8 C26 12, 20 14, 16 12 C12 10, 10 7, 12 4 Z" fill="#2D6A4F" />
+    <path d="M28 7 C34 4, 42 7, 43 13 C43 17, 37 19, 33 16 C29 13, 26 10, 28 7 Z" fill="#40916C" />
+    <path d="M46 11 C52 9, 60 12, 61 17 C61 21, 55 23, 51 20 C47 17, 44 14, 46 11 Z" fill="#52B788" />
+    <path d="M22 14 C26 18, 25 24, 21 26 C17 28, 13 25, 14 20 C15 16, 19 13, 22 14 Z" fill="#2D6A4F" />
+    <path d="M40 18 C44 22, 43 27, 39 29 C35 31, 31 28, 32 23 C33 20, 37 17, 40 18 Z" fill="#40916C" />
+  </svg>
+);
+
+const TitleSprout = () => (
+  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '-2px', marginBottom: '4px' }}>
+    <svg width="28" height="18" viewBox="0 0 32 20" fill="none">
+      <path d="M16 20 C16 12, 16 4, 16 2" stroke="#1B4D3E" strokeWidth="2.4" strokeLinecap="round" />
+      <path d="M16 8 C11 5, 4 8, 3 13 C4 17, 10 17, 14 13 C16 11, 16 9, 16 8 Z" fill="#2D6A4F" />
+      <path d="M16 8 C21 5, 28 8, 29 13 C28 17, 22 17, 18 13 C16 11, 16 9, 16 8 Z" fill="#40916C" />
+      <path d="M16 3 C14 1, 15 0, 16 0 C17 0, 18 1, 16 3 Z" fill="#52B788" />
+    </svg>
+  </div>
+);
+
+const TopCornerFoliage = ({ side = 'left' }) => (
+  <div
+    style={{
+      position: 'absolute',
+      top: 0,
+      [side]: 0,
+      width: 'clamp(130px, 13vw, 200px)',
+      height: 'clamp(70px, 8vh, 100px)',
+      pointerEvents: 'none',
+      zIndex: 4,
+      overflow: 'hidden',
+      transform: side === 'right' ? 'scaleX(-1)' : 'none',
+      opacity: 0.95
+    }}
+  >
+    <svg width="100%" height="100%" viewBox="0 0 200 110" preserveAspectRatio="none" fill="none">
+      <path d="M0 0 C45 22, 100 38, 155 32 C175 30, 192 24, 200 18" stroke="#0D3B24" strokeWidth="4.5" strokeLinecap="round" />
+      <path d="M65 28 C88 50, 122 66, 150 70" stroke="#1B4D3E" strokeWidth="2.8" strokeLinecap="round" />
+      <path d="M35 16 C50 38, 72 65, 88 86" stroke="#1B4D3E" strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M38 12 C54 2, 74 10, 80 24 C68 31, 48 26, 38 12 Z" fill="#2D6A4F" />
+      <path d="M75 22 C96 14, 118 22, 124 38 C110 45, 88 38, 75 22 Z" fill="#14452F" />
+      <path d="M118 28 C140 20, 162 27, 168 43 C154 50, 132 43, 118 28 Z" fill="#40916C" />
+      <path d="M150 28 C172 22, 188 30, 194 43 C180 49, 164 43, 150 28 Z" fill="#2D6A4F" />
+      <path d="M55 33 C72 27, 88 38, 90 52 C76 57, 60 49, 55 33 Z" fill="#52B788" />
+      <path d="M92 44 C108 38, 125 48, 126 62 C112 67, 97 59, 92 44 Z" fill="#40916C" />
+    </svg>
+  </div>
+);
+
+const TopMountainBackdrop = () => (
+  <div
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: '8%',
+      right: '8%',
+      height: '90px',
+      pointerEvents: 'none',
+      zIndex: 1,
+      opacity: 0.16,
+      overflow: 'hidden'
+    }}
+  >
+    <svg width="100%" height="90" viewBox="0 0 1000 90" preserveAspectRatio="none" fill="none">
+      <path d="M0 80 Q160 36 260 62 T520 32 T760 58 T1000 42 L1000 90 L0 90 Z" fill="#52B788" />
+      <path d="M100 85 Q290 42 440 68 T720 46 T1000 62 L1000 90 L0 90 Z" fill="#2D6A4F" />
+    </svg>
+  </div>
+);
+
+const CardCornerLeaves = ({ position = 'top-left' }) => {
+  const transforms = {
+    'top-left': 'scale(1, 1)',
+    'top-right': 'scale(-1, 1)',
+    'bottom-left': 'scale(1, -1)',
+    'bottom-right': 'scale(-1, -1)'
+  };
+  return (
+    <svg
+      width="36"
+      height="36"
+      viewBox="0 0 52 52"
+      fill="none"
+      style={{
+        position: 'absolute',
+        top: position.includes('top') ? '6px' : 'auto',
+        bottom: position.includes('bottom') ? '6px' : 'auto',
+        left: position.includes('left') ? '6px' : 'auto',
+        right: position.includes('right') ? '6px' : 'auto',
+        transform: transforms[position],
+        opacity: 0.85,
+        pointerEvents: 'none',
+        zIndex: 2
+      }}
+    >
+      <path d="M6 6 C18 9, 28 18, 32 30 C34 36, 32 44, 28 50" stroke="#1B4D3E" strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M12 12 C18 9, 25 12, 26 18 C27 23, 21 26, 16 23 C12 20, 9 15, 12 12 Z" fill="#1B4D3E" />
+      <path d="M22 22 C29 19, 36 22, 37 28 C37 33, 31 36, 26 33 C21 30, 19 25, 22 22 Z" fill="#2D6A4F" />
+      <path d="M8 25 C13 22, 19 24, 20 29 C20 33, 15 36, 11 34 C7 32, 6 27, 8 25 Z" fill="#40916C" />
+    </svg>
+  );
+};
+
+const BottomNatureSilhouettes = () => (
+  <div
+    style={{
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      height: '48px',
+      overflow: 'hidden',
+      pointerEvents: 'none',
+      opacity: 0.28,
+      zIndex: 1
+    }}
+  >
+    <svg width="100%" height="48" viewBox="0 0 1200 48" preserveAspectRatio="none" fill="none">
+      <path d="M0 36 Q220 22 440 32 T880 26 T1200 34 L1200 48 L0 48 Z" fill="#52B788" />
+      <path d="M0 40 Q320 28 640 38 T1200 32 L1200 48 L0 48 Z" fill="#2D6A4F" />
+      <circle cx="110" cy="30" r="12" fill="#1B4D3E" />
+      <circle cx="124" cy="26" r="9" fill="#1B4D3E" />
+      <rect x="115" y="34" width="4" height="12" fill="#1B4D3E" />
+      <path d="M210 20 Q215 16 220 20 Q225 16 230 20" stroke="#1B4D3E" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M820 18 Q825 14 830 18 Q835 14 840 18" stroke="#1B4D3E" strokeWidth="1.6" strokeLinecap="round" />
+      <circle cx="1020" cy="26" r="14" fill="#1B4D3E" />
+      <circle cx="1036" cy="22" r="10" fill="#1B4D3E" />
+      <rect x="1025" y="32" width="4" height="14" fill="#1B4D3E" />
+    </svg>
+  </div>
+);
+
+// ============================================================
+// STAGE DEFINITIONS & ANATOMICAL PIN DATA
+// ============================================================
+
+const STAGES = [
+  { id: 'soak', num: '01', title: 'Hydration Chamber', sub: 'Imbibition & Swelling' },
+  { id: 'peel', num: '02', title: 'Dissection Tray', sub: 'Peel & Longitudinal Cut' },
+  { id: 'compare', num: '03', title: 'Optical Loupe', sub: 'Embryo Anatomy Pinning' }
 ];
 
-const LABELS = [
-  { id: 'Plumule', label: '🌱 Plumule (Baby Shoot)', desc: 'Grows upwards to form leaves and stem.' },
-  { id: 'Radicle', label: '🥕 Radicle (Baby Root)', desc: 'Grows downwards to become the main taproot.' },
-  { id: 'Cotyledon', label: '🫘 Cotyledon (Food Store)', desc: 'Stores nutrients for the germinating embryo.' },
-  { id: 'Endosperm', label: '🌾 Endosperm (Starch)', desc: 'Starch storage tissue that nourishes the monocot embryo.' },
-  { id: 'Single Cotyledon', label: '🛡️ Single Cotyledon', desc: 'Also called scutellum, transfers starch to the embryo.' },
-  { id: 'Embryo', label: '👶 Embryo (Baby Plant)', desc: 'The immature plant consisting of plumule and radicle sheaths.' }
+const CHICKPEA_PINS = [
+  {
+    id: 'plumule',
+    num: '1',
+    name: 'Plumule (Baby Shoot)',
+    role: 'Develops into the future stem and green leaves',
+    x: 48,
+    y: 38,
+    detail: 'The delicate embryonic shoot apex. Upon germination, it elongates upward toward sunlight to form the seedling’s first true leaves.'
+  },
+  {
+    id: 'radicle',
+    num: '2',
+    name: 'Radicle (Baby Root)',
+    role: 'Grows directly into the primary taproot',
+    x: 52,
+    y: 64,
+    detail: 'The lower tip of the embryo axis. It emerges first through the micropyle pore, anchoring the plant deeply with secondary branch roots.'
+  },
+  {
+    id: 'cotyledon',
+    num: '3',
+    name: 'Cotyledons (Two Seed Leaves)',
+    role: 'Dense nutritive reservoir of protein & starch',
+    x: 28,
+    y: 50,
+    detail: 'Chickpea seeds possess exactly two large, fleshy cotyledons that supply food energy until the first green leaves can photosynthesize.'
+  }
 ];
 
-export default function SeedDissectionLab({ onBackToDashboard }) {
-  const [step, setStep] = useState('soak');
-  const [soakProgress, setSoakProgress] = useState(0); // 0 to 100
-  const [soaking, setSoaking] = useState(false);
-  const [dayCount, setDayCount] = useState(0); // 0 to 3
+const MAIZE_PINS = [
+  {
+    id: 'endosperm',
+    num: '1',
+    name: 'Endosperm (Starch Reservoir)',
+    role: 'Massive bulky nutritive starch tissue',
+    x: 50,
+    y: 28,
+    detail: 'Occupies the upper two-thirds of the maize kernel. Packed with starch grains and surrounded by an outer aleurone protein layer.'
+  },
+  {
+    id: 'scutellum',
+    num: '2',
+    name: 'Scutellum (Single Cotyledon)',
+    role: 'Shield-shaped single cotyledon absorbing nutrients',
+    x: 42,
+    y: 58,
+    detail: 'Monocots have only one specialized shield-shaped cotyledon called the scutellum. It secretes enzymes to digest endosperm starch and funnels sugar to the embryo.'
+  },
+  {
+    id: 'embryo',
+    num: '3',
+    name: 'Embryo Axis (Coleoptile & Radicle)',
+    role: 'Protected baby plant with protective sheaths',
+    x: 62,
+    y: 68,
+    detail: 'The plumule is sheathed inside a protective cone called the coleoptile, while the radicle is encased within the coleorhiza sheath.'
+  }
+];
 
-  // Step 2: Peeling states
-  const [peeled, setPeeled] = useState({ chickpea: false, maize: false });
+export default function SeedDissectionLab({ onBackToDashboard, onNextActivity }) {
+  const containerRef = useRef(null);
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [isMuted, setIsMuted] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Step 3: Labeling states
-  const [activeLabel, setActiveLabel] = useState(null);
-  const [placedLabels, setPlacedLabels] = useState({
-    chickpea: { plumule: null, radicle: null, cotyledon: null },
-    maize: { endosperm: null, scutellum: null, embryo: null }
-  });
-  const [checked, setChecked] = useState(false);
-  const [allCorrect, setAllCorrect] = useState(false);
+  // Step 1: Hydration state
+  const [soakDay, setSoakDay] = useState(0); // 0, 1, 2, 3
+  const [isAutoSoaking, setIsAutoSoaking] = useState(false);
+  const [bubbles, setBubbles] = useState([]);
 
-  // Soaking effect
+  // Step 2: Dissection tray state
+  const [activeSpecimen, setActiveSpecimen] = useState('chickpea');
+  const [activeTool, setActiveTool] = useState('tweezers');
+  const [chickpeaPeelProgress, setChickpeaPeelProgress] = useState(0);
+  const [chickpeaSplitProgress, setChickpeaSplitProgress] = useState(0);
+  const [maizeCutProgress, setMaizeCutProgress] = useState(0);
+  const [toolAlertMessage, setToolAlertMessage] = useState('');
+
+  // Step 3: Optical Loupe state
+  const [loupeSpecimen, setLoupeSpecimen] = useState('chickpea');
+  const [loupeZoom, setLoupeZoom] = useState(2.0);
+  const [selectedPinId, setSelectedPinId] = useState('plumule');
+
+
+  const currentStep = STAGES[currentStepIndex].id;
+
+  const toggleMute = () => {
+    const next = !isMuted;
+    setIsMuted(next);
+    seedLabAudio.setMuted(next);
+  };
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      if (containerRef.current) {
+        containerRef.current.requestFullscreen().catch(() => {});
+      } else {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen().catch(() => {});
+      setIsFullscreen(false);
+    }
+  };
+
   useEffect(() => {
-    if (soaking && soakProgress < 100) {
-      const timer = setTimeout(() => {
-        setSoakProgress(p => {
-          const next = Math.min(100, p + 2);
-          setDayCount(Math.min(3, Math.floor((next / 100) * 3)));
+    let timer;
+    if (isAutoSoaking && soakDay < 3) {
+      timer = setTimeout(() => {
+        setSoakDay(prev => {
+          const next = prev + 1;
+          seedLabAudio.playBubbleFizz(isMuted);
+          seedLabAudio.playGlassClink(isMuted);
+          const newBubbles = Array.from({ length: 12 }, (_, i) => ({
+            id: Date.now() + i,
+            left: 36 + Math.random() * 28,
+            size: 7 + Math.random() * 9,
+            duration: 1.2 + Math.random() * 0.7,
+            delay: Math.random() * 0.3
+          }));
+          setBubbles(newBubbles);
+          if (next >= 3) {
+            setIsAutoSoaking(false);
+          }
           return next;
         });
-      }, 50);
-      return () => clearTimeout(timer);
+      }, 1000);
     }
-    if (soakProgress >= 100) {
-      setSoaking(false);
+    return () => clearTimeout(timer);
+  }, [isAutoSoaking, soakDay, isMuted]);
+
+  const handleManualSoakDay = (day) => {
+    setSoakDay(day);
+    seedLabAudio.playSwitch(isMuted);
+    seedLabAudio.playBubbleFizz(isMuted);
+    const newBubbles = Array.from({ length: 10 }, (_, i) => ({
+      id: Date.now() + i,
+      left: 36 + Math.random() * 28,
+      size: 7 + Math.random() * 9,
+      duration: 1.2 + Math.random() * 0.7,
+      delay: Math.random() * 0.3
+    }));
+    setBubbles(newBubbles);
+  };
+
+  const handlePeelChickpea = () => {
+    if (activeTool !== 'tweezers') {
+      setToolAlertMessage('Select the Precision Tweezers to peel the delicate seed coat!');
+      return;
     }
-  }, [soaking, soakProgress]);
-
-  const handleStartSoak = () => {
-    setSoakProgress(0);
-    setDayCount(0);
-    setSoaking(true);
+    setToolAlertMessage('');
+    seedLabAudio.playTweezersPeel(isMuted);
+    setChickpeaPeelProgress(prev => Math.min(100, prev + 35));
   };
 
-  // Label placing logic
-  const handlePlaceLabel = (seed, target) => {
-    if (checked) return;
-    if (!activeLabel) return;
-
-    setPlacedLabels(prev => {
-      const next = { ...prev };
-      next[seed] = { ...next[seed], [target]: activeLabel };
-      return next;
-    });
-    setActiveLabel(null);
+  const handleSplitChickpea = () => {
+    seedLabAudio.playSwitch(isMuted);
+    setChickpeaSplitProgress(prev => Math.min(100, prev + 50));
   };
 
-  const handleRemoveLabel = (seed, target) => {
-    if (checked) return;
-    setPlacedLabels(prev => {
-      const next = { ...prev };
-      next[seed] = { ...next[seed], [target]: null };
-      return next;
-    });
+  const handleCutMaize = () => {
+    if (activeTool !== 'scalpel') {
+      setToolAlertMessage('Tweezers cannot peel maize! In grains, the fruit wall is fused with the seed coat. Select the Surgical Scalpel to make a longitudinal slice.');
+      return;
+    }
+    setToolAlertMessage('');
+    seedLabAudio.playScalpelCut(isMuted);
+    setMaizeCutProgress(prev => Math.min(100, prev + 35));
   };
 
-  const handleCheckLabeling = () => {
-    setChecked(true);
-    const chickCorrect =
-      placedLabels.chickpea.plumule === 'Plumule' &&
-      placedLabels.chickpea.radicle === 'Radicle' &&
-      placedLabels.chickpea.cotyledon === 'Cotyledon';
+  const handleResetLab = () => {
+    seedLabAudio.playSwitch(isMuted);
+    setCurrentStepIndex(0);
+    setSoakDay(0);
+    setIsAutoSoaking(false);
+    setBubbles([]);
+    setActiveSpecimen('chickpea');
+    setActiveTool('tweezers');
+    setChickpeaPeelProgress(0);
+    setChickpeaSplitProgress(0);
+    setMaizeCutProgress(0);
+    setToolAlertMessage('');
+    setLoupeSpecimen('chickpea');
+    setLoupeZoom(2.0);
+    setSelectedPinId('plumule');
+  };
 
-    const maizeCorrect =
-      placedLabels.maize.endosperm === 'Endosperm' &&
-      placedLabels.maize.scutellum === 'Single Cotyledon' &&
-      placedLabels.maize.embryo === 'Embryo';
-
-    const ok = chickCorrect && maizeCorrect;
-    setAllCorrect(ok);
-
-    if (ok) {
-      confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-      setTimeout(() => setStep('result'), 1200);
+  const handleNextStep = () => {
+    if (currentStepIndex < STAGES.length - 1) {
+      seedLabAudio.playSwitch(isMuted);
+      setCurrentStepIndex(prev => prev + 1);
+    } else if (onNextActivity) {
+      seedLabAudio.playSwitch(isMuted);
+      onNextActivity();
+    } else if (onBackToDashboard) {
+      onBackToDashboard();
     }
   };
 
-  const handleReset = () => {
-    setStep('soak');
-    setSoakProgress(0);
-    setSoaking(false);
-    setDayCount(0);
-    setPeeled({ chickpea: false, maize: false });
-    setPlacedLabels({
-      chickpea: { plumule: null, radicle: null, cotyledon: null },
-      maize: { endosperm: null, scutellum: null, embryo: null }
-    });
-    setActiveLabel(null);
-    setChecked(false);
-    setAllCorrect(false);
-  };
-
-  const renderSvgAnchorBox = (seed, target, label, x, y, width = 95, height = 24) => {
-    const placed = placedLabels[seed][target];
-    const isCorrect = checked && placed === label;
-    const isWrong = checked && placed !== label;
-
-    let strokeColor = '#0284c7';
-    let fillColor = '#f0f9ff';
-    let textColor = '#0369a1';
-
-    if (isCorrect) {
-      strokeColor = '#16a34a';
-      fillColor = '#dcfce7';
-      textColor = '#15803d';
-    } else if (isWrong) {
-      strokeColor = '#dc2626';
-      fillColor = '#fee2e2';
-      textColor = '#b91c1c';
-    } else if (placed) {
-      strokeColor = '#0284c7';
-      fillColor = '#e0f2fe';
-      textColor = '#0369a1';
+  const handlePrevStep = () => {
+    if (currentStepIndex > 0) {
+      seedLabAudio.playSwitch(isMuted);
+      setCurrentStepIndex(prev => prev - 1);
     }
-
-    return (
-      <g
-        onClick={() => {
-          if (checked) return;
-          if (placed) {
-            handleRemoveLabel(seed, target);
-          } else {
-            if (!activeLabel) return;
-            handlePlaceLabel(seed, target);
-          }
-        }}
-        style={{ cursor: checked ? 'not-allowed' : 'pointer' }}
-      >
-        <rect
-          x={x}
-          y={y}
-          width={width}
-          height={height}
-          rx={6}
-          ry={6}
-          fill={fillColor}
-          stroke={strokeColor}
-          strokeWidth={placed ? 1.8 : 1.4}
-          strokeDasharray={placed ? 'none' : '3 2'}
-        />
-        <text
-          x={x + width / 2 - (placed && !checked ? 4 : 0)}
-          y={y + height / 2 + 3}
-          textAnchor="middle"
-          fontSize="8"
-          fontWeight="bold"
-          fill={textColor}
-        >
-          {placed ? placed : `+ Drop ${label}`}
-        </text>
-        {placed && !checked && (
-          <g transform={`translate(${x + width - 10}, ${y + height / 2 - 3})`}>
-            <path d="M 0 0 L 6 6 M 6 0 L 0 6" stroke="var(--text-muted)" strokeWidth="1" strokeLinecap="round" />
-          </g>
-        )}
-      </g>
-    );
   };
 
-  const stepIndex = STEPS.findIndex(s => s.id === step);
-  const currentStep = STEPS[stepIndex];
+  const chickpeaScale = 1 + (soakDay / 3) * 0.35;
+  const maizeScale = 1 + (soakDay / 3) * 0.18;
+  const waterAbsorbedGrams = (soakDay * 0.62).toFixed(2);
+  const testaElasticity = soakDay === 0 ? 'Rigid / Brittle' : soakDay === 1 ? 'Wrinkled' : soakDay === 2 ? 'Loose / Soft' : 'Fully Hydrated & Slipping';
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', backgroundImage: `url(${darkForestBg})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', backgroundRepeat: 'no-repeat', color: 'var(--text-primary)', fontFamily: 'system-ui, sans-serif', overflow: 'hidden' }}>
-      
-      {/* Styles for animations */}
+    <div
+      ref={containerRef}
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100vh',
+        maxHeight: '100vh',
+        background: 'linear-gradient(180deg, #D6EDFA 0%, #E8F7EE 16%, #F3FAF5 48%, #E5F5EB 82%, #D5EFE0 100%)',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 'clamp(4px, 0.7vh, 8px) clamp(10px, 1.2vw, 20px)',
+        boxSizing: 'border-box',
+        overflow: 'hidden',
+        userSelect: 'none',
+        fontFamily: '"Plus Jakarta Sans", "Inter", system-ui, sans-serif',
+        color: '#1F2937'
+      }}
+    >
+      <TopCornerFoliage side="left" />
+      <TopCornerFoliage side="right" />
+      <TopMountainBackdrop />
+      <BottomNatureSilhouettes />
+
       <style>{`
-        @keyframes float-bubble {
-          0% { transform: translateY(0) scale(0.7); opacity: 0; }
-          10% { opacity: 0.6; }
-          90% { opacity: 0.6; }
-          100% { transform: translateY(-90px) scale(1.2); opacity: 0; }
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,600;1,9..144,700&family=Outfit:wght@700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+        @keyframes biologyFadeIn {
+          from { opacity: 0; transform: scale(0.992) translateY(4px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
         }
-        .bubble-1 { animation: float-bubble 2.5s infinite ease-in; }
-        .bubble-2 { animation: float-bubble 1.8s infinite ease-in; animation-delay: 0.4s; }
-        .bubble-3 { animation: float-bubble 3s infinite ease-in; animation-delay: 0.8s; }
-        .bubble-4 { animation: float-bubble 2.2s infinite ease-in; animation-delay: 1.2s; }
-        
-        .shimmer-bg {
-          background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 100%);
-          background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
-          background-size: 200% 100%;
-          animation: shimmer-anim 1.5s infinite;
+        .animate-bio-stage {
+          animation: biologyFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
-        @keyframes shimmer-anim {
-          0% { background-position: -200% 0; }
-          100% { background-position: 200% 0; }
+
+        .bio-nav-btn {
+          background: #14452F;
+          color: #D1FAE5;
+          border: 1.5px solid #2D6A4F;
+          border-radius: 12px;
+          padding: 10px 20px;
+          font-size: 16px;
+          font-weight: 800;
+          font-family: 'Outfit', sans-serif;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.2s ease;
+          box-shadow: 0 3px 10px rgba(20, 69, 47, 0.25);
+          position: relative;
+          z-index: 10;
+        }
+        .bio-nav-btn:hover:not(:disabled) {
+          background: #1B5E3C;
+          color: #FFFFFF;
+          border-color: #10B981;
+          transform: translateY(-1px);
+          box-shadow: 0 5px 14px rgba(20, 69, 47, 0.35);
+        }
+        .bio-nav-btn:disabled {
+          opacity: 0.35;
+          cursor: not-allowed;
+          box-shadow: none;
+        }
+
+        .bio-cta-btn {
+          background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+          color: #FFFFFF;
+          border: 1.5px solid #FCD34D;
+          border-radius: 12px;
+          padding: 11px 24px;
+          font-size: 16px;
+          font-weight: 900;
+          font-family: 'Outfit', sans-serif;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.2s ease;
+          box-shadow: 0 4px 16px rgba(217, 119, 6, 0.38);
+          position: relative;
+          z-index: 10;
+        }
+        .bio-cta-btn:hover {
+          background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+          transform: translateY(-1px);
+          box-shadow: 0 6px 20px rgba(217, 119, 6, 0.48);
+        }
+
+        .bio-parchment-card {
+          background: linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%);
+          border: 2px solid #194720;
+          border-radius: 20px;
+          box-shadow: 0 10px 28px rgba(15, 74, 50, 0.14), inset 0 0 0 2px rgba(45, 106, 79, 0.10);
+          position: relative;
+          box-sizing: border-box;
+          overflow: hidden;
+        }
+
+        .bio-step-pill {
+          padding: 9px 18px;
+          border-radius: 22px;
+          font-family: 'Outfit', sans-serif;
+          font-size: 16px;
+          font-weight: 800;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.2s ease;
+        }
+
+        @keyframes floatUp {
+          0% { transform: translateY(0) scale(0.8); opacity: 0.9; }
+          100% { transform: translateY(-210px) scale(1.3); opacity: 0; }
         }
       `}</style>
 
-      {/* Header */}
-      <div style={{ background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 253, 244, 0.96) 100%)', backdropFilter: 'blur(16px)', borderBottom: '2px solid rgba(167, 243, 208, 0.95)', padding: '0.85rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', zIndex: 10, boxShadow: '0 4px 20px rgba(0, 0, 0, 0.12)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem' }}>
-          <button onClick={onBackToDashboard} style={{ background: '#ffffff', border: '1.5px solid rgba(167, 243, 208, 0.95)', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.95rem', fontWeight: 800, padding: '0.45rem 0.9rem', borderRadius: '8px', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}>
-            <ArrowLeft size={18} color="#0f172a" /> Back
+      {/* ============================================================ */}
+      {/* 1. TOP HEADER SECTION: STRICTLY NON-OVERLAPPING CLEAN LAYOUT */}
+      {/* ============================================================ */}
+      {/* 1. TOP HEADER SECTION: COMPACT, BALANCED & ZERO OVERLAP     */}
+      {/* ============================================================ */}
+      <header
+        style={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: '1540px',
+          textAlign: 'center',
+          flexShrink: 0,
+          marginBottom: 'clamp(2px, 0.4vh, 4px)',
+          zIndex: 20
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+            gap: '12px'
+          }}
+        >
+          {/* LEFT: DASHBOARD BUTTON */}
+          <button
+            type="button"
+            className="bio-nav-btn"
+            onClick={onBackToDashboard}
+            aria-label="Back to Dashboard"
+            style={{ padding: '6px 14px', fontSize: '16px', flexShrink: 0 }}
+          >
+            <ArrowLeft size={18} strokeWidth={2.4} />
+            <span>Dashboard</span>
           </button>
-          <div>
-            <div style={{ fontSize: '0.95rem', color: '#0284c7', textTransform: 'uppercase', fontWeight: '900', letterSpacing: '0.06em', background: 'rgba(14, 165, 233, 0.18)', padding: '0.35rem 0.8rem', borderRadius: '8px', border: '1.5px solid rgba(56, 189, 248, 0.4)', display: 'inline-block', marginBottom: '0.35rem', boxShadow: '0 2px 10px rgba(14, 165, 233, 0.25)' }}>Activity 2.8 — Science Lab</div>
-            <div style={{ fontSize: '1.45rem', fontWeight: '900', color: '#0f172a', marginTop: '0.1rem' }}>🌱 Seed Dissection & Anatomy Station</div>
-          </div>
-        </div>
-        <button onClick={handleReset} style={{ background: '#ffffff', border: '2px solid rgba(167, 243, 208, 0.95)', color: '#0f172a', padding: '0.5rem 1.1rem', borderRadius: '8px', cursor: 'pointer', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.4rem', fontWeight: '800', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}>
-          <RefreshCw size={15} color="#0f172a" /> Restart Lab
-        </button>
-      </div>
 
-      {/* Steps Progress Indicator */}
-      <div style={{ background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 253, 244, 0.96) 100%)', backdropFilter: 'blur(16px)', padding: '0.85rem 1.75rem', display: 'flex', gap: '0.65rem', alignItems: 'center', borderBottom: '1.5px solid rgba(167, 243, 208, 0.95)', zIndex: 5, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-        {STEPS.map((s, i) => (
-          <React.Fragment key={s.id}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', opacity: i <= stepIndex ? 1 : 0.65 }}>
-              <div style={{ width: 32, height: 32, borderRadius: '50%', background: i < stepIndex ? '#16a34a' : i === stepIndex ? '#0284c7' : '#cbd5e1', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem', border: i === stepIndex ? '2.5px solid #38bdf8' : i < stepIndex ? '2px solid #22c55e' : '1.5px solid #94a3b8', color: '#fff', fontWeight: 'bold', transition: 'all 0.3s' }}>
-                {i < stepIndex ? '✓' : s.icon}
-              </div>
-              <span style={{ fontSize: '0.95rem', color: i === stepIndex ? '#0284c7' : i < stepIndex ? '#16a34a' : '#475569', fontWeight: i === stepIndex ? '900' : '700' }}>{s.label}</span>
+          {/* CENTER: BADGES & TITLE */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', minWidth: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span
+                style={{
+                  background: '#14452F',
+                  color: '#FFFFFF',
+                  borderRadius: '16px',
+                  padding: '2px 14px',
+                  fontFamily: '"Outfit", sans-serif',
+                  fontWeight: 900,
+                  fontSize: '16px',
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase',
+                  boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
+                }}
+              >
+                CLASS 6 • SCIENCE
+              </span>
+              <span
+                style={{
+                  background: '#14452F',
+                  color: '#34D399',
+                  borderRadius: '16px',
+                  padding: '2px 14px',
+                  fontFamily: '"Outfit", sans-serif',
+                  fontWeight: 900,
+                  fontSize: '16px',
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase',
+                  border: '1.5px solid #10B981',
+                  boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
+                }}
+              >
+                ACTIVITY 2.8 • BOTANY LAB
+              </span>
             </div>
-            {i < STEPS.length - 1 && <div style={{ flex: 1, height: 3, background: i < stepIndex ? '#16a34a' : '#cbd5e1', transition: 'background 0.5s', minWidth: 15 }} />}
-          </React.Fragment>
-        ))}
-      </div>
 
-      {/* Main Sandbox */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '1.25rem', overflowY: 'auto' }}>
-        
-        {/* Step Guide Text */}
-        <div style={{ background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 253, 244, 0.96) 100%)', backdropFilter: 'blur(16px)', border: '1.5px solid rgba(167, 243, 208, 0.95)', borderRadius: '14px', padding: '0.9rem 1.4rem', display: 'flex', gap: '1rem', alignItems: 'center', marginBottom: '1.25rem', boxShadow: '0 4px 16px rgba(0,0,0,0.06)' }}>
-          <div style={{ fontSize: '2rem' }}>{currentStep?.icon || '🔬'}</div>
-          <div>
-            <div style={{ fontSize: '1.15rem', fontWeight: '900', color: '#0284c7' }}>{STEPS[stepIndex]?.label}</div>
-            <div style={{ fontSize: '1.02rem', fontWeight: '600', color: '#0f172a', marginTop: '0.15rem', lineHeight: '1.5' }}>{STEPS[stepIndex]?.desc}</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <TitleVineBranch side="left" />
+              <h1
+                style={{
+                  fontFamily: '"Fraunces", Georgia, serif',
+                  fontWeight: 900,
+                  fontSize: '20px',
+                  color: '#0A3B24',
+                  margin: 0,
+                  lineHeight: 1.15,
+                  letterSpacing: '-0.02em',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                Seed Dissection & Anatomy Station
+              </h1>
+              <TitleVineBranch side="right" />
+            </div>
+          </div>
+
+          {/* RIGHT: SOUND, RESET, FULLSCREEN ROW */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
+            <button
+              type="button"
+              onClick={toggleMute}
+              style={{
+                background: isMuted ? 'rgba(239, 68, 68, 0.15)' : 'rgba(20, 69, 47, 0.92)',
+                color: isMuted ? '#DC2626' : '#D1FAE5',
+                border: `1.5px solid ${isMuted ? '#EF4444' : '#2D6A4F'}`,
+                borderRadius: '8px',
+                padding: '6px 12px',
+                fontSize: '16px',
+                fontWeight: 800,
+                fontFamily: "'Outfit', sans-serif",
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                boxShadow: '0 2px 6px rgba(20, 69, 47, 0.2)'
+              }}
+            >
+              {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+              <span>{isMuted ? 'Muted' : 'Sound On'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleResetLab}
+              title="Reset Station to Beginning"
+              style={{
+                background: 'rgba(20, 69, 47, 0.92)',
+                color: '#D1FAE5',
+                border: '1.5px solid #2D6A4F',
+                borderRadius: '8px',
+                padding: '6px 12px',
+                fontSize: '16px',
+                fontWeight: 800,
+                fontFamily: "'Outfit', sans-serif",
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                boxShadow: '0 2px 6px rgba(20, 69, 47, 0.2)'
+              }}
+            >
+              <RefreshCw size={15} />
+              <span>Reset</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={toggleFullscreen}
+              title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+              style={{
+                background: 'rgba(20, 69, 47, 0.92)',
+                color: '#D1FAE5',
+                border: '1.5px solid #2D6A4F',
+                borderRadius: '8px',
+                padding: '6px 8px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 2px 6px rgba(20, 69, 47, 0.2)'
+              }}
+            >
+              {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+            </button>
           </div>
         </div>
+      </header>
 
-        {/* ================= STEP 1: SOAK SEEDS ================= */}
-        {step === 'soak' && (
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5rem' }}>
-            <div style={{ background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 253, 244, 0.96) 100%)', backdropFilter: 'blur(16px)', border: '2px solid rgba(167, 243, 208, 0.95)', borderRadius: '18px', padding: '1.75rem 2.5rem', maxWidth: '660px', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.35rem', boxShadow: '0 12px 36px rgba(0,0,0,0.18)' }}>
-              
-              {/* Day Badge */}
-              <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
-                <span style={{ fontSize: '1rem', fontWeight: '900', background: soakProgress >= 100 ? 'rgba(22, 163, 74, 0.15)' : 'rgba(14, 165, 233, 0.18)', color: soakProgress >= 100 ? '#16a34a' : '#0284c7', border: soakProgress >= 100 ? '1.5px solid #16a34a' : '1.5px solid rgba(56, 189, 248, 0.4)', padding: '0.45rem 1.1rem', borderRadius: '20px', transition: 'all 0.3s' }}>
-                  {soakProgress >= 100 ? '✅ Swelling Complete' : `📅 Day ${dayCount}`}
-                </span>
-                <span style={{ fontSize: '1.05rem', fontWeight: '800', color: '#0f172a' }}>Hydration: {soakProgress}%</span>
-              </div>
-
-              {/* 3D Beaker SVG */}
-              <div style={{ width: 220, height: 260, position: 'relative' }}>
-                <svg width="220" height="260" viewBox="0 0 220 260" style={{ overflow: 'visible' }}>
-                  <defs>
-                    <filter id="seedShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
-                      <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" />
-                    </filter>
-                    <linearGradient id="wetSheen" x1="0%" y1="0%" x2="50%" y2="100%">
-                      <stop offset="0%" stopColor="#ffffff" stopOpacity="0.85" />
-                      <stop offset="50%" stopColor="#ffffff" stopOpacity="0.25" />
-                      <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
-                    </linearGradient>
-                    <linearGradient id="beakerGlass" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="rgba(255, 255, 255, 0.45)" />
-                      <stop offset="25%" stopColor="rgba(255, 255, 255, 0.15)" />
-                      <stop offset="90%" stopColor="rgba(255, 255, 255, 0.1)" />
-                      <stop offset="100%" stopColor="rgba(255, 255, 255, 0.55)" />
-                    </linearGradient>
-                    <linearGradient id="liquidGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="#7dd3fc" stopOpacity="0.45" />
-                      <stop offset="100%" stopColor="#0284c7" stopOpacity="0.6" />
-                    </linearGradient>
-                    <radialGradient id="realChickpeaGrad" cx="38%" cy="32%" r="68%">
-                      <stop offset="0%" stopColor={soakProgress > 50 ? '#fdf4e2' : '#f5dfb8'} />
-                      <stop offset="25%" stopColor={soakProgress > 50 ? '#f3d9a9' : '#e6c38a'} />
-                      <stop offset="60%" stopColor={soakProgress > 50 ? '#dbaa6c' : '#c89254'} />
-                      <stop offset="85%" stopColor={soakProgress > 50 ? '#b87f43' : '#a76a33'} />
-                      <stop offset="100%" stopColor={soakProgress > 50 ? '#7d491f' : '#6f3d17'} />
-                    </radialGradient>
-                    <linearGradient id="chickpeaLeftLobe" x1="0%" y1="0%" x2="100%" y2="50%">
-                      <stop offset="0%" stopColor="#fef3db" stopOpacity="0.9" />
-                      <stop offset="100%" stopColor="#b67a3f" stopOpacity="0.4" />
-                    </linearGradient>
-                    <linearGradient id="chickpeaRightLobe" x1="100%" y1="0%" x2="0%" y2="50%">
-                      <stop offset="0%" stopColor="#fae2b6" stopOpacity="0.9" />
-                      <stop offset="100%" stopColor="#965d28" stopOpacity="0.4" />
-                    </linearGradient>
-                    <radialGradient id="realMaizeGrad" cx="44%" cy="28%" r="72%">
-                      <stop offset="0%" stopColor={soakProgress > 50 ? '#fff8cc' : '#feed82'} />
-                      <stop offset="25%" stopColor={soakProgress > 50 ? '#fdd84d' : '#f7c325'} />
-                      <stop offset="60%" stopColor={soakProgress > 50 ? '#f59e0b' : '#ea8c06'} />
-                      <stop offset="85%" stopColor={soakProgress > 50 ? '#d97706' : '#c26200'} />
-                      <stop offset="100%" stopColor={soakProgress > 50 ? '#8c3d00' : '#78350f'} />
-                    </radialGradient>
-                    <linearGradient id="maizeCrownGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="#fffde8" />
-                      <stop offset="100%" stopColor="#fde047" />
-                    </linearGradient>
-                    <linearGradient id="maizeEmbryoGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
-                      <stop offset="50%" stopColor="#fef9c3" stopOpacity="0.85" />
-                      <stop offset="100%" stopColor="#fef08a" stopOpacity="0.75" />
-                    </linearGradient>
-                  </defs>
-
-                  <ellipse cx="110" cy="245" rx="75" ry="12" fill="rgba(0,0,0,0.15)" />
-
-                  <g stroke="rgba(15, 23, 42, 0.4)" strokeWidth="1.5">
-                    <line x1="165" y1="110" x2="178" y2="110" />
-                    <line x1="165" y1="150" x2="175" y2="150" />
-                    <line x1="165" y1="190" x2="178" y2="190" />
-                  </g>
-                  
-                  <g>
-                    <path d="M 46 238 L 46 130 Q 110 126 174 130 L 174 238 Q 110 244 46 238 Z" fill="url(#liquidGrad)" />
-                    <ellipse cx="110" cy="130" rx="64" ry="7" fill="#bae6fd" opacity="0.65" />
-                  </g>
-
-                  <g fill="#0f172a" fontSize="11" fontWeight="bold">
-                    <text x="184" y="113">200ml</text>
-                    <text x="182" y="153">150ml</text>
-                    <text x="184" y="193">100ml</text>
-                  </g>
-
-                  <line x1="165" y1="80" x2="165" y2="220" stroke="rgba(15, 23, 42, 0.3)" strokeWidth="1.5" />
-
-                  <ellipse cx="78" cy="226" rx="20" ry="5.5" fill="rgba(2, 28, 60, 0.35)" filter="url(#seedShadowBlur)" />
-
-                  <g transform={`translate(78, 198) scale(${1 + (soakProgress * 0.0035)}) translate(-78, -198)`}>
-                    <path
-                      d="M 78 172 C 72 177 63 187 61 200 C 59 213 67 225 78 226 C 89 225 97 213 95 200 C 93 187 84 177 78 172 Z"
-                      fill="url(#realChickpeaGrad)"
-                      stroke="#8c5828"
-                      strokeWidth="0.8"
-                    />
-
-                    <path
-                      d="M 77 176 C 70 182 63 192 63 203 C 63 216 71 223 77 225 C 75 215 75 194 77 176 Z"
-                      fill="url(#chickpeaLeftLobe)"
-                      opacity="0.8"
-                    />
-
-                    <path
-                      d="M 79 176 C 86 182 93 192 93 203 C 93 216 85 223 79 225 C 81 215 81 194 79 176 Z"
-                      fill="url(#chickpeaRightLobe)"
-                      opacity="0.85"
-                    />
-
-                    <path
-                      d="M 78 178 Q 76 202 78 224"
-                      fill="none"
-                      stroke="#78471e"
-                      strokeWidth="0.9"
-                      opacity="0.55"
-                    />
-
-                    <ellipse cx="78" cy="179" rx="2.5" ry="3.5" fill="#42250d" />
-                    <circle cx="78" cy="178.5" r="1.2" fill="#fffdf5" opacity="0.9" />
-
-                    <path
-                      d="M 66 196 Q 70 205 67 214 M 90 196 Q 86 205 89 214 M 71 216 Q 78 221 85 216"
-                      fill="none"
-                      stroke="#a8743d"
-                      strokeWidth="0.65"
-                      opacity={Math.max(0.2, 0.7 - (soakProgress / 180))}
-                      strokeLinecap="round"
-                    />
-
-                    <path
-                      d="M 77 173 Q 79 173 79 175 Q 77 176 77 173 Z"
-                      fill="#ffffff"
-                      opacity="0.85"
-                    />
-                    <path
-                      d="M 66 188 C 64 194 65 204 68 210 C 67 203 66 195 68 189 Z"
-                      fill="url(#wetSheen)"
-                      opacity="0.8"
-                    />
-                    <ellipse cx="87" cy="197" rx="2.2" ry="7" transform="rotate(15 87 197)" fill="#ffffff" opacity="0.4" />
-
-                    <path
-                      d="M 61 200 C 59 213 67 225 78 226 C 89 225 97 213 95 200"
-                      fill="none"
-                      stroke="#0284c7"
-                      strokeWidth="1.1"
-                      opacity="0.5"
-                    />
-                  </g>
-                  <text x="74" y="238" textAnchor="middle" fill="#0f172a" fontSize="9.5" fontWeight="bold">
-                    <tspan x="74" dy="0">Chickpea</tspan>
-                    <tspan x="74" dy="11" fontSize="8.5" fill="#0284c7">(Dicot)</tspan>
-                  </text>
-
-                  <ellipse cx="138" cy="226" rx="18" ry="5" fill="rgba(2, 28, 60, 0.35)" filter="url(#seedShadowBlur)" />
-
-                  <g transform={`translate(138, 198) scale(${1 + (soakProgress * 0.0028)}) translate(-138, -198)`}>
-                    <path
-                      d="M 125 194 Q 123 173 138 172 Q 153 173 151 194 L 138 226 Z"
-                      fill="url(#realMaizeGrad)"
-                      stroke="#a16207"
-                      strokeWidth="0.8"
-                    />
-
-                    <path
-                      d="M 125 180 Q 138 174 151 180 Q 146 172 138 172 Q 130 172 125 180 Z"
-                      fill="url(#maizeCrownGrad)"
-                      opacity="0.9"
-                    />
-
-                    <path
-                      d="M 134 196 Q 138 190 142 196 L 140 220 Q 138 222 136 220 Z"
-                      fill="url(#maizeEmbryoGrad)"
-                      stroke="#ca8a04"
-                      strokeWidth="0.6"
-                      opacity="0.85"
-                    />
-
-                    <path
-                      d="M 138 196 L 138 218"
-                      fill="none"
-                      stroke="#854d0e"
-                      strokeWidth="0.6"
-                      opacity="0.5"
-                    />
-
-                    <circle cx="138" cy="224" r="1.3" fill="#422006" />
-
-                    <path
-                      d="M 128 186 C 126 192 127 200 130 208 C 129 200 128 192 130 186 Z"
-                      fill="url(#wetSheen)"
-                      opacity="0.85"
-                    />
-                    <path
-                      d="M 149 183 C 151 189 150 199 147 207 C 148 199 149 189 147 185 Z"
-                      fill="#ffffff"
-                      opacity="0.4"
-                    />
-                    <ellipse cx="138" cy="175.5" rx="6" ry="1.5" fill="#ffffff" opacity="0.7" />
-
-                    <path
-                      d="M 125 194 Q 123 173 138 172 Q 153 173 151 194 L 138 226 Z"
-                      fill="none"
-                      stroke="#0284c7"
-                      strokeWidth="1.1"
-                      opacity="0.45"
-                    />
-                  </g>
-                  <text x="142" y="238" textAnchor="middle" fill="#0f172a" fontSize="9.5" fontWeight="bold">
-                    <tspan x="142" dy="0">Maize</tspan>
-                    <tspan x="142" dy="11" fontSize="8.5" fill="#0284c7">(Monocot)</tspan>
-                  </text>
-
-                  <path d="M 38 60 Q 32 60 34 50 Q 38 35 48 35 L 172 35 Q 182 35 186 50 Q 188 60 182 60 Z" fill="none" stroke="rgba(15, 23, 42, 0.4)" strokeWidth="2.5" />
-                  <path d="M 38 52 Q 24 50 36 60" fill="none" stroke="rgba(15, 23, 42, 0.45)" strokeWidth="2" />
-                  <path d="M 44 58 L 44 235 Q 44 246 56 246 L 164 246 Q 176 246 176 235 L 176 58" fill="url(#beakerGlass)" stroke="rgba(15, 23, 42, 0.35)" strokeWidth="3.5" />
-
-                  {soaking && (
-                    <g fill="#0284c7" opacity="0.6">
-                      <circle cx="85" cy="180" r="2.5" className="bubble-1" />
-                      <circle cx="130" cy="175" r="1.8" className="bubble-2" />
-                      <circle cx="95" cy="160" r="3.2" className="bubble-3" />
-                      <circle cx="140" cy="165" r="2.2" className="bubble-4" />
-                    </g>
-                  )}
-                </svg>
-              </div>
-
-              <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <div style={{ height: 10, background: '#cbd5e1', borderRadius: '10px', overflow: 'hidden', width: '100%' }}>
-                  <div className={soaking ? "shimmer-bg" : ""} style={{ height: '100%', background: 'linear-gradient(90deg, #f59e0b, #84cc16)', width: `${soakProgress}%`, transition: 'width 0.1s ease', borderRadius: '10px' }} />
+      {/* ============================================================ */}
+      {/* 3. MAIN SCIENTIFIC STAGE VIEWPORT (100% FIT, ZERO SCROLL)    */}
+      {/* ============================================================ */}
+      <main
+        className="animate-bio-stage"
+        style={{
+          width: '100%',
+          maxWidth: '1540px',
+          flex: 1,
+          minHeight: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'clamp(3px, 0.5vh, 6px)',
+          position: 'relative',
+          zIndex: 10,
+          overflow: 'hidden',
+          boxSizing: 'border-box'
+        }}
+      >
+        {/* ========================================================== */}
+        {/* STAGE 1: HYDRATION CHAMBER (REALISTIC BOROSILICATE BEAKER) */}
+        {/* ========================================================== */}
+        {currentStep === 'soak' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(4px, 0.6vh, 6px)', height: '100%', minHeight: 0, flex: 1, overflow: 'hidden' }}>
+            {/* INSTRUCTIONAL BANNER */}
+            <div
+              className="bio-parchment-card"
+              style={{
+                padding: '4px 14px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '12px',
+                flexShrink: 0
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: 1 }}>
+                <div
+                  style={{
+                    width: '34px',
+                    height: '34px',
+                    borderRadius: '8px',
+                    background: '#14452F',
+                    color: '#34D399',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0
+                  }}
+                >
+                  <FlaskConical size={20} />
                 </div>
-                
-                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0.25rem' }}>
-                  {soakProgress < 100 ? (
-                    <button className="primary" onClick={handleStartSoak} disabled={soaking} style={{ padding: '0.85rem 3rem', fontSize: '1.05rem', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '0.5rem', background: soaking ? '#cbd5e1' : '#f59e0b', cursor: soaking ? 'not-allowed' : 'pointer', border: 'none', color: soaking ? '#475569' : '#1a0f05', borderRadius: '12px', boxShadow: soaking ? 'none' : '0 4px 14px rgba(245,158,11,0.4)' }}>
-                      {soaking ? '⏳ Day by Day Hydration...' : '💧 Start Soaking (3 Days)'}
-                    </button>
-                  ) : (
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.85rem' }}>
-                      <div style={{ color: '#16a34a', fontWeight: '800', fontSize: '1.05rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                        <span>✨ Seeds are swollen & seed coats are soft! Ready to dissect.</span>
-                      </div>
-                      <button className="primary" onClick={() => setStep('peel')} style={{ padding: '0.85rem 3rem', fontSize: '1.05rem', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '0.4rem', border: 'none', color: '#1a0f05', background: '#f59e0b', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 4px 14px rgba(245,158,11,0.4)' }}>
-                        Proceed to Dissection Tray <ChevronRight size={18} />
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span
+                      style={{
+                        background: '#14452F',
+                        color: '#FFFFFF',
+                        borderRadius: '10px',
+                        padding: '1px 8px',
+                        fontSize: '16px',
+                        fontWeight: 800,
+                        fontFamily: "'Outfit', sans-serif"
+                      }}
+                    >
+                      STAGE 01
+                    </span>
+                    <h2
+                      style={{
+                        margin: 0,
+                        fontSize: '18px',
+                        fontWeight: 900,
+                        color: '#0A3B24',
+                        fontFamily: '"Fraunces", Georgia, serif',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      Borosilicate Hydration Beaker & Degassing
+                    </h2>
+                  </div>
+                  <p style={{ margin: '1px 0 0 0', fontSize: '16px', color: '#1B4D3E', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    Submerge dry seeds in water. Observe imbibition—water influx through the micropyle causing cell expansion.
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className="bio-cta-btn"
+                onClick={handleNextStep}
+                style={{ padding: '5px 14px', fontSize: '16px', flexShrink: 0 }}
+              >
+                <span>Proceed to Dissection Tray</span>
+                <ChevronRight size={18} strokeWidth={2.5} />
+              </button>
+            </div>
+
+            {/* 2-COLUMN WORKSPACE: 70% MODEL (LEFT) + 30% CONTENT (RIGHT) */}
+            <div
+              style={{
+                flex: 1,
+                minHeight: 0,
+                display: 'grid',
+                gridTemplateColumns: 'calc(70% - clamp(6px, 0.8vw, 10px)) calc(30% - clamp(6px, 0.8vw, 10px))',
+                gap: 'clamp(8px, 1vw, 14px)',
+                alignItems: 'stretch',
+                overflow: 'hidden'
+              }}
+            >
+              {/* LEFT: 70% MODEL - REALISTIC BOROSILICATE GLASS BEAKER */}
+              <div
+                className="bio-parchment-card"
+                style={{
+                  padding: 'clamp(6px, 0.9vh, 10px) clamp(8px, 1vw, 14px)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '100%',
+                  minHeight: 0,
+                  overflow: 'hidden',
+                  position: 'relative'
+                }}
+              >
+                <CardCornerLeaves position="top-left" />
+                <CardCornerLeaves position="bottom-right" />
+                <RealisticSeedBeaker soakDay={soakDay} isAutoSoaking={isAutoSoaking} />
+              </div>
+
+              {/* RIGHT: 30% CONTENT - CHRONOLOGY & TELEMETRY */}
+              <div
+                className="bio-parchment-card"
+                style={{
+                  padding: 'clamp(6px, 0.9vh, 10px) clamp(8px, 1vw, 14px)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  gap: 'clamp(3px, 0.5vh, 6px)',
+                  height: '100%',
+                  minHeight: 0,
+                  overflow: 'hidden',
+                  position: 'relative'
+                }}
+              >
+                <CardCornerLeaves position="top-right" />
+                <CardCornerLeaves position="bottom-left" />
+
+                <div style={{ position: 'relative', zIndex: 5 }}>
+                  <span
+                    style={{
+                      background: '#14452F',
+                      color: '#FFFFFF',
+                      padding: '2px 10px',
+                      borderRadius: '10px',
+                      fontFamily: '"Outfit", sans-serif',
+                      fontWeight: 900,
+                      fontSize: '16px',
+                      letterSpacing: '0.05em',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    CHRONOLOGY
+                  </span>
+                  <h3
+                    style={{
+                      margin: '3px 0 1px 0',
+                      fontSize: '18px',
+                      fontWeight: 900,
+                      color: '#0A3B24',
+                      fontFamily: '"Fraunces", Georgia, serif'
+                    }}
+                  >
+                    Simulated 72-Hour Immersion
+                  </h3>
+                  <p style={{ margin: 0, fontSize: '16px', color: '#1B4D3E', fontWeight: 600, lineHeight: 1.3 }}>
+                    Step through the 3-day timeline to inspect physical swelling and progressive softening of the seed coat.
+                  </p>
+                </div>
+
+                {/* DAY SELECTION BUTTONS */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '6px', position: 'relative', zIndex: 5 }}>
+                  {[0, 1, 2, 3].map((d) => {
+                    const isCur = soakDay === d;
+                    return (
+                      <button
+                        key={d}
+                        onClick={() => handleManualSoakDay(d)}
+                        style={{
+                          padding: '5px 2px',
+                          borderRadius: '8px',
+                          background: isCur ? '#14452F' : 'rgba(255, 255, 255, 0.85)',
+                          border: isCur ? '2px solid #10B981' : '1.5px solid #2D6A4F',
+                          color: isCur ? '#FFFFFF' : '#14452F',
+                          fontSize: '16px',
+                          fontWeight: 800,
+                          fontFamily: "'Outfit', sans-serif",
+                          cursor: 'pointer',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          gap: '1px',
+                          boxShadow: isCur ? '0 2px 8px rgba(20, 69, 47, 0.3)' : '0 1px 3px rgba(0,0,0,0.06)'
+                        }}
+                      >
+                        <span>Day {d}</span>
+                        <span style={{ fontSize: '16px', opacity: 0.85 }}>{d * 24}h</span>
                       </button>
-                    </div>
-                  )}
+                    );
+                  })}
+                </div>
+
+                {/* AUTO SIMULATE BUTTON */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    seedLabAudio.playSwitch(isMuted);
+                    setSoakDay(0);
+                    setIsAutoSoaking(true);
+                  }}
+                  disabled={isAutoSoaking}
+                  className="bio-cta-btn"
+                  style={{ width: '100%', justifyContent: 'center', padding: '6px 14px', fontSize: '16px' }}
+                >
+                  <Sparkles size={18} />
+                  <span>{isAutoSoaking ? 'Simulating 72-Hour Immersion...' : 'Simulate 3-Day Hydration Cycle'}</span>
+                </button>
+
+                {/* TELEMETRY READOUTS */}
+                <div
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.82)',
+                    border: '1.5px solid #2D6A4F',
+                    borderRadius: '10px',
+                    padding: '8px 12px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px',
+                    position: 'relative',
+                    zIndex: 5
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '16px', color: '#1B4D3E', fontWeight: 700 }}>Water Mass Absorbed:</span>
+                    <span style={{ fontSize: '18px', fontWeight: 900, color: '#0A3B24', fontFamily: "'Outfit', sans-serif" }}>
+                      +{waterAbsorbedGrams} g / seed
+                    </span>
+                  </div>
+
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '16px', color: '#1B4D3E', fontWeight: 700 }}>Chickpea Expansion:</span>
+                    <span style={{ fontSize: '18px', fontWeight: 900, color: '#D97706', fontFamily: "'Outfit', sans-serif" }}>
+                      +{Math.round((chickpeaScale - 1) * 100)}% Volume
+                    </span>
+                  </div>
+
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '16px', color: '#1B4D3E', fontWeight: 700 }}>Testa Elasticity:</span>
+                    <span style={{ fontSize: '16px', fontWeight: 800, color: '#0A3B24' }}>
+                      {testaElasticity}
+                    </span>
+                  </div>
+                </div>
+
+                {/* BOTANICAL NOTE */}
+                <div
+                  style={{
+                    background: '#EAF7EE',
+                    borderLeft: '4px solid #10B981',
+                    borderRadius: '8px',
+                    padding: '6px 12px',
+                    fontSize: '16px',
+                    color: '#0F3822',
+                    lineHeight: 1.35,
+                    position: 'relative',
+                    zIndex: 5,
+                    textAlign: 'justify'
+                  }}
+                >
+                  <strong>Botanical Principle:</strong> Water penetrates through the <em>micropyle</em> pore into the cotyledons, initiating active enzyme synthesis and loosening the pectin layer of the seed coat.
                 </div>
               </div>
-
             </div>
           </div>
         )}
 
-        {/* ================= STEP 2: PEEL SEED COAT ================= */}
-        {step === 'peel' && (
-          <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-            
-            <div style={{ background: '#ffffff', border: `2px solid ${peeled.chickpea ? '#22c55e' : 'rgba(167, 243, 208, 0.95)'}`, borderRadius: '18px', padding: '1.75rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.25rem', textAlign: 'center', boxShadow: '0 6px 20px rgba(0,0,0,0.15)', transition: 'border 0.3s' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', borderBottom: '1.5px solid rgba(167, 243, 208, 0.95)', paddingBottom: '0.6rem' }}>
-                <span style={{ fontSize: '0.95rem', color: '#0284c7', fontWeight: '900', textTransform: 'uppercase' }}>Dicot Specimen</span>
-                <span style={{ fontSize: '1.15rem', fontWeight: '900', color: '#0f172a' }}>Chickpea (Gram)</span>
-              </div>
-
-              <div style={{ width: '100%', height: '220px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)', borderRadius: '14px', border: '1.5px solid rgba(167, 243, 208, 0.85)', position: 'relative', overflow: 'hidden', padding: '0.75rem' }}>
-                <img
-                  src={!peeled.chickpea ? dicot1Img : diImg}
-                  alt={!peeled.chickpea ? "Dicot Chickpea Seed" : "Dicot Peeled & Split"}
+        {/* ========================================================== */}
+        {/* STAGE 2: SURGICAL DISSECTION TRAY & TOOLS                  */}
+        {/* ========================================================== */}
+        {currentStep === 'peel' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(4px, 0.6vh, 6px)', height: '100%', minHeight: 0, flex: 1, overflow: 'hidden' }}>
+            {/* INSTRUCTIONAL BANNER */}
+            <div
+              className="bio-parchment-card"
+              style={{
+                padding: '4px 14px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '12px',
+                flexShrink: 0
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: 1 }}>
+                <div
                   style={{
-                    maxHeight: '180px',
-                    maxWidth: '100%',
-                    objectFit: 'contain',
-                    cursor: !peeled.chickpea ? 'pointer' : 'default',
-                    transition: 'transform 0.3s ease',
-                    filter: 'drop-shadow(0 6px 14px rgba(0,0,0,0.15))'
+                    width: '34px',
+                    height: '34px',
+                    borderRadius: '8px',
+                    background: '#14452F',
+                    color: '#34D399',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0
                   }}
-                  onClick={() => !peeled.chickpea && setPeeled(p => ({ ...p, chickpea: true }))}
-                />
-
-                {!peeled.chickpea && (
-                  <button onClick={() => setPeeled(p => ({ ...p, chickpea: true }))} style={{ position: 'absolute', bottom: 12, padding: '0.55rem 1.3rem', fontSize: '0.95rem', fontWeight: '900', background: '#f59e0b', border: 'none', color: '#1a0f05', borderRadius: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.35rem', boxShadow: '0 4px 14px rgba(245,158,11,0.35)' }}>
-                    🔓 Peel & Split Seed
-                  </button>
-                )}
+                >
+                  <Scissors size={20} />
+                </div>
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span
+                      style={{
+                        background: '#14452F',
+                        color: '#FFFFFF',
+                        borderRadius: '10px',
+                        padding: '1px 8px',
+                        fontSize: '16px',
+                        fontWeight: 800,
+                        fontFamily: "'Outfit', sans-serif"
+                      }}
+                    >
+                      STAGE 02
+                    </span>
+                    <h2
+                      style={{
+                        margin: 0,
+                        fontSize: '18px',
+                        fontWeight: 900,
+                        color: '#0A3B24',
+                        fontFamily: '"Fraunces", Georgia, serif',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      Peeling True Seed Coats vs Fused Grain Walls
+                    </h2>
+                  </div>
+                  <p style={{ margin: '1px 0 0 0', fontSize: '16px', color: '#1B4D3E', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    Select Precision Tweezers to peel the chickpea testa. Select the Surgical Scalpel to slice the maize kernel.
+                  </p>
+                </div>
               </div>
 
-              {peeled.chickpea ? (
-                <div style={{ background: 'rgba(240, 250, 244, 0.98)', color: '#064e3b', border: '2px solid rgba(167, 243, 208, 0.95)', borderRadius: '12px', padding: '0.85rem 1.15rem', fontSize: '0.95rem', lineHeight: '1.6', textAlign: 'left', width: '100%', fontWeight: '700' }}>
-                  <strong style={{ color: '#047857' }}>Observation:</strong> The seed coat peeled off smoothly, and the chickpea split easily into <strong style={{ color: '#047857' }}>TWO equal halves</strong> (cotyledons). It is a <strong style={{ color: '#047857' }}>Dicotyledon (Dicot)</strong>!
-                </div>
-              ) : (
-                <div style={{ fontSize: '0.95rem', fontWeight: '700', color: '#475569' }}>Click the button or seed to peel the coat and investigate the structure.</div>
-              )}
+              <button
+                type="button"
+                className="bio-cta-btn"
+                onClick={handleNextStep}
+                style={{ padding: '5px 14px', fontSize: '16px', flexShrink: 0 }}
+              >
+                <span>Advance to Optical Loupe</span>
+                <ChevronRight size={18} strokeWidth={2.5} />
+              </button>
             </div>
 
-            <div style={{ background: '#ffffff', border: `2px solid ${peeled.maize ? '#22c55e' : 'rgba(167, 243, 208, 0.95)'}`, borderRadius: '18px', padding: '1.75rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.25rem', textAlign: 'center', boxShadow: '0 6px 20px rgba(0,0,0,0.15)', transition: 'border 0.3s' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', borderBottom: '1.5px solid rgba(167, 243, 208, 0.95)', paddingBottom: '0.6rem' }}>
-                <span style={{ fontSize: '0.95rem', color: '#0284c7', fontWeight: '900', textTransform: 'uppercase' }}>Monocot Specimen</span>
-                <span style={{ fontSize: '1.15rem', fontWeight: '900', color: '#0f172a' }}>Maize (Corn)</span>
-              </div>
-
-              <div style={{ width: '100%', height: '220px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)', borderRadius: '14px', border: '1.5px solid rgba(167, 243, 208, 0.85)', position: 'relative', overflow: 'hidden', padding: '0.75rem' }}>
-                <img
-                  src={!peeled.maize ? monocot1Img : moImg}
-                  alt={!peeled.maize ? "Monocot Maize Kernel" : "Monocot Peeled"}
-                  style={{
-                    maxHeight: '180px',
-                    maxWidth: '100%',
-                    objectFit: 'contain',
-                    cursor: !peeled.maize ? 'pointer' : 'default',
-                    transition: 'transform 0.3s ease',
-                    filter: 'drop-shadow(0 6px 14px rgba(0,0,0,0.15))'
-                  }}
-                  onClick={() => !peeled.maize && setPeeled(p => ({ ...p, maize: true }))}
-                />
-
-                {!peeled.maize && (
-                  <button onClick={() => setPeeled(p => ({ ...p, maize: true }))} style={{ position: 'absolute', bottom: 12, padding: '0.55rem 1.3rem', fontSize: '0.95rem', fontWeight: '900', background: '#f59e0b', border: 'none', color: '#1a0f05', borderRadius: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.35rem', boxShadow: '0 4px 14px rgba(245,158,11,0.35)' }}>
-                    🔓 Peel Outer Layer
-                  </button>
-                )}
-              </div>
-
-              {peeled.maize ? (
-                <div style={{ background: 'rgba(240, 250, 244, 0.98)', color: '#064e3b', border: '2px solid rgba(167, 243, 208, 0.95)', borderRadius: '12px', padding: '0.85rem 1.15rem', fontSize: '0.95rem', lineHeight: '1.6', textAlign: 'left', width: '100%', fontWeight: '700' }}>
-                  <strong style={{ color: '#047857' }}>Observation:</strong> In maize, the seed coat is fused with the fruit wall. It cannot be split into two. It has only <strong style={{ color: '#047857' }}>ONE single cotyledon</strong>! It is a <strong style={{ color: '#047857' }}>Monocotyledon (Monocots)</strong>.
-                </div>
-              ) : (
-                <div style={{ fontSize: '0.95rem', fontWeight: '700', color: '#475569' }}>Click the button or seed to peel the coat and investigate the structure.</div>
-              )}
-            </div>
-
-            {peeled.chickpea && peeled.maize && (
-              <div style={{ gridColumn: '1 / -1', display: 'flex', justifyContent: 'center', marginTop: '0.75rem', paddingBottom: '1.25rem' }}>
-                <button className="primary" onClick={() => setStep('compare')} style={{ padding: '0.85rem 3.5rem', fontSize: '1.05rem', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '0.5rem', border: 'none', color: '#1a0f05', background: '#f59e0b', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(245,158,11,0.4)' }}>
-                  Proceed to Labeling Station <ChevronRight size={18} />
-                </button>
+            {/* ERROR / TOOL ALERT NOTIFICATION */}
+            {toolAlertMessage && (
+              <div
+                style={{
+                  background: '#FEE2E2',
+                  border: '1.5px solid #DC2626',
+                  borderRadius: '8px',
+                  padding: '4px 12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  color: '#991B1B',
+                  fontSize: '16px',
+                  fontWeight: 700,
+                  flexShrink: 0
+                }}
+              >
+                <AlertCircle size={18} style={{ flexShrink: 0 }} />
+                <span>{toolAlertMessage}</span>
               </div>
             )}
 
-          </div>
-        )}
+            {/* 2-COLUMN WORKSPACE: 70% MODEL (LEFT) + 30% CONTENT (RIGHT) */}
+            <div
+              style={{
+                flex: 1,
+                minHeight: 0,
+                display: 'grid',
+                gridTemplateColumns: 'calc(70% - clamp(6px, 0.8vw, 10px)) calc(30% - clamp(6px, 0.8vw, 10px))',
+                gap: 'clamp(8px, 1vw, 14px)',
+                alignItems: 'stretch',
+                overflow: 'hidden'
+              }}
+            >
+              {/* LEFT: 70% MODEL - DISSECTION PAN */}
+              <div
+                className="bio-parchment-card"
+                style={{
+                  padding: 'clamp(6px, 0.9vh, 10px) clamp(8px, 1vw, 14px)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  height: '100%',
+                  minHeight: 0,
+                  overflow: 'hidden',
+                  position: 'relative'
+                }}
+              >
+                <CardCornerLeaves position="top-left" />
+                <CardCornerLeaves position="bottom-right" />
 
-        {/* ================= STEP 3: LABEL ANATOMY ================= */}
-        {step === 'compare' && (
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-            
-            <div style={{ background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 253, 244, 0.96) 100%)', border: '1.5px solid rgba(167, 243, 208, 0.95)', borderRadius: '12px', padding: '0.8rem 1.25rem', fontSize: '0.95rem', fontWeight: '700', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.65rem', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
-              <Info size={20} color="#0284c7" />
-              <span><strong style={{ color: '#0284c7' }}>How to Label:</strong> First select a label tag from the toolbar below, then click the correct dotted box on the seed diagrams to place it.</span>
-            </div>
-
-            <div style={{ background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 253, 244, 0.96) 100%)', backdropFilter: 'blur(16px)', border: '2px solid rgba(167, 243, 208, 0.95)', borderRadius: '16px', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.85rem', boxShadow: '0 6px 20px rgba(0,0,0,0.1)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <span style={{ fontSize: '0.95rem', fontWeight: '900', textTransform: 'uppercase', color: '#0284c7', letterSpacing: '0.05em' }}>Anatomical Labels</span>
-              </div>
-              <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap' }}>
-                {LABELS.map(lbl => {
-                  const isSelected = activeLabel === lbl.id;
-                  return (
-                    <button
-                      key={lbl.id}
-                      onClick={() => !checked && setActiveLabel(lbl.id)}
-                      disabled={checked}
+                {/* CENTIMETER CALIBRATION RULER */}
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    padding: '0 8px 4px 8px',
+                    borderBottom: '1.5px dashed #14452F',
+                    position: 'relative',
+                    zIndex: 5,
+                    flexShrink: 0
+                  }}
+                >
+                  {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((cm) => (
+                    <span
+                      key={cm}
                       style={{
-                        padding: '0.55rem 1.1rem',
-                        borderRadius: '12px',
-                        border: `2px solid ${isSelected ? '#0284c7' : 'rgba(167, 243, 208, 0.95)'}`,
-                        background: isSelected ? 'rgba(14, 165, 233, 0.18)' : '#ffffff',
-                        color: isSelected ? '#0284c7' : '#0f172a',
-                        cursor: checked ? 'not-allowed' : 'pointer',
-                        fontSize: '0.95rem',
-                        fontWeight: '800',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.4rem',
-                        transition: 'all 0.2s',
-                        boxShadow: isSelected ? '0 4px 12px rgba(14, 165, 233, 0.25)' : '0 2px 6px rgba(0,0,0,0.04)'
+                        fontSize: '16px',
+                        fontWeight: 800,
+                        color: '#14452F',
+                        fontFamily: "'Outfit', sans-serif"
                       }}
                     >
-                      {lbl.label}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', flex: 1 }}>
-              
-              <div style={{ background: '#ffffff', border: '2px solid rgba(167, 243, 208, 0.95)', borderRadius: '18px', padding: '1.4rem', display: 'flex', flexDirection: 'column', gap: '0.95rem', position: 'relative', boxShadow: '0 6px 20px rgba(0,0,0,0.12)' }}>
-                <h4 style={{ margin: 0, fontSize: '1.05rem', color: '#0f172a', fontWeight: '900', borderBottom: '1.5px solid rgba(167, 243, 208, 0.95)', paddingBottom: '0.5rem', display: 'flex', justifyContent: 'space-between' }}>
-                  <span>🫘 Dicot (Chickpea Split Open)</span>
-                  <span style={{ fontSize: '0.85rem', color: '#0284c7', fontWeight: '800' }}>Interactive Diagram</span>
-                </h4>
-
-                <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)', borderRadius: '12px', border: '1.5px solid rgba(167, 243, 208, 0.85)', minHeight: '260px' }}>
-                  <svg width="100%" height="240px" viewBox="0 0 300 130" style={{ overflow: 'visible' }}>
-                    <image
-                      href={chickpeaSplitImg}
-                      x="70"
-                      y="10"
-                      width="125"
-                      height="110"
-                      preserveAspectRatio="xMidYMid meet"
-                    />
-
-                    <line x1="105" y1="72" x2="100" y2="76" stroke="#d4a373" strokeWidth="1.4" strokeDasharray="3 2" />
-                    <circle cx="100" cy="76" r="3" fill="#d4a373" stroke="#fff" strokeWidth="1" />
-
-                    <line x1="195" y1="32" x2="152" y2="28" stroke="#2a9d8f" strokeWidth="1.4" strokeDasharray="3 2" />
-                    <circle cx="152" cy="28" r="3" fill="#2a9d8f" stroke="#fff" strokeWidth="1" />
-
-                    <line x1="195" y1="97" x2="152" y2="92" stroke="#e76f51" strokeWidth="1.4" strokeDasharray="3 2" />
-                    <circle cx="152" cy="92" r="3" fill="#e76f51" stroke="#fff" strokeWidth="1" />
-
-                    {renderSvgAnchorBox('chickpea', 'cotyledon', 'Cotyledon', 10, 60)}
-                    {renderSvgAnchorBox('chickpea', 'plumule', 'Plumule', 195, 20)}
-                    {renderSvgAnchorBox('chickpea', 'radicle', 'Radicle', 195, 85)}
-                  </svg>
+                      {cm}cm
+                    </span>
+                  ))}
                 </div>
-              </div>
 
-              <div style={{ background: '#ffffff', border: '2px solid rgba(167, 243, 208, 0.95)', borderRadius: '18px', padding: '1.4rem', display: 'flex', flexDirection: 'column', gap: '0.95rem', position: 'relative', boxShadow: '0 6px 20px rgba(0,0,0,0.12)' }}>
-                <h4 style={{ margin: 0, fontSize: '1.05rem', color: '#0f172a', fontWeight: '900', borderBottom: '1.5px solid rgba(167, 243, 208, 0.95)', paddingBottom: '0.5rem', display: 'flex', justifyContent: 'space-between' }}>
-                  <span>🌽 Monocot (Maize Slice cut)</span>
-                  <span style={{ fontSize: '0.85rem', color: '#0284c7', fontWeight: '800' }}>Interactive Diagram</span>
-                </h4>
+                {/* SPECIMEN DISPLAY AREA */}
+                <div
+                  style={{
+                    width: '100%',
+                    flex: 1,
+                    minHeight: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '4px 0',
+                    position: 'relative',
+                    zIndex: 5,
+                    overflow: 'hidden'
+                  }}
+                >
+                  {activeSpecimen === 'chickpea' ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', width: '100%', height: '100%', justifyContent: 'center' }}>
+                      <div
+                        style={{
+                          width: '100%',
+                          flex: 1,
+                          minHeight: 0,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.7) 0%, rgba(220,240,230,0.3) 100%)',
+                          borderRadius: '12px',
+                          border: '1px solid rgba(20, 69, 47, 0.15)',
+                          boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.04)',
+                          overflow: 'hidden'
+                        }}
+                      >
+                        {chickpeaSplitProgress >= 100 ? (
+                          <img
+                            src={chickpeaSplitImg}
+                            alt="Split Chickpea Showing Embryo Axis"
+                            style={{ maxHeight: '92%', maxWidth: '92%', objectFit: 'contain', filter: 'drop-shadow(0 8px 18px rgba(10, 59, 36, 0.25))' }}
+                          />
+                        ) : chickpeaPeelProgress >= 100 ? (
+                          <img
+                            src={diImg}
+                            alt="Peeled Chickpea Cotyledons"
+                            style={{ maxHeight: '92%', maxWidth: '92%', objectFit: 'contain', filter: 'drop-shadow(0 8px 18px rgba(10, 59, 36, 0.25))' }}
+                          />
+                        ) : (
+                          <img
+                            src={dicot1Img}
+                            alt="Chickpea Seed with Seed Coat"
+                            style={{ maxHeight: '92%', maxWidth: '92%', objectFit: 'contain', filter: 'drop-shadow(0 8px 18px rgba(10, 59, 36, 0.25))' }}
+                          />
+                        )}
+                      </div>
 
-                <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)', borderRadius: '12px', border: '1.5px solid rgba(167, 243, 208, 0.85)', minHeight: '260px' }}>
-                  <svg width="100%" height="240px" viewBox="0 0 300 130" style={{ overflow: 'visible' }}>
-                    <image
-                      href={maizeCutImg}
-                      x="98"
-                      y="8"
-                      width="104"
-                      height="114"
-                      preserveAspectRatio="xMidYMid meet"
-                    />
+                      <div
+                        style={{
+                          background: '#14452F',
+                          color: '#D1FAE5',
+                          borderRadius: '12px',
+                          padding: '4px 14px',
+                          fontSize: '16px',
+                          fontWeight: 800,
+                          fontFamily: "'Outfit', sans-serif",
+                          flexShrink: 0
+                        }}
+                      >
+                        {chickpeaSplitProgress >= 100
+                          ? 'Cotyledons Parted: Embryo Axis Exposed'
+                          : chickpeaPeelProgress >= 100
+                          ? 'Testa Removed: Fleshy Cotyledons Revealed'
+                          : `Seed Coat Peel Progress: ${chickpeaPeelProgress}%`}
+                      </div>
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', width: '100%', height: '100%', justifyContent: 'center' }}>
+                      <div
+                        style={{
+                          width: '100%',
+                          flex: 1,
+                          minHeight: 0,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          position: 'relative',
+                          background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.7) 0%, rgba(220,240,230,0.3) 100%)',
+                          borderRadius: '12px',
+                          border: '1px solid rgba(20, 69, 47, 0.15)',
+                          boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.04)',
+                          overflow: 'hidden'
+                        }}
+                      >
+                        {maizeCutProgress >= 100 ? (
+                          <img
+                            src={maizeCutImg}
+                            alt="Longitudinal Section of Maize"
+                            style={{ maxHeight: '92%', maxWidth: '92%', objectFit: 'contain', filter: 'drop-shadow(0 8px 18px rgba(10, 59, 36, 0.25))' }}
+                          />
+                        ) : (
+                          <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
+                            <img
+                              src={maizeIntactImg}
+                              alt="Whole Intact Maize Grain"
+                              style={{ maxHeight: '90%', maxWidth: '90%', objectFit: 'contain', filter: 'drop-shadow(0 8px 18px rgba(10, 59, 36, 0.25))' }}
+                            />
+                            <div
+                              style={{
+                                position: 'absolute',
+                                top: '16px',
+                                bottom: '16px',
+                                left: '50%',
+                                width: '3px',
+                                borderLeft: '3px dashed #DC2626',
+                                transform: 'translateX(-50%)',
+                                opacity: activeTool === 'scalpel' ? 0.95 : 0.4
+                              }}
+                            />
+                          </div>
+                        )}
+                      </div>
 
-                    <line x1="105" y1="32" x2="135" y2="36" stroke="#ca6702" strokeWidth="1.4" strokeDasharray="3 2" />
-                    <circle cx="135" cy="36" r="3" fill="#ca6702" stroke="#fff" strokeWidth="1" />
-
-                    <line x1="105" y1="92" x2="138" y2="82" stroke="#708090" strokeWidth="1.4" strokeDasharray="3 2" />
-                    <circle cx="138" cy="82" r="3" fill="#708090" stroke="#fff" strokeWidth="1" />
-
-                    <line x1="195" y1="67" x2="160" y2="68" stroke="#2a9d8f" strokeWidth="1.4" strokeDasharray="3 2" />
-                    <circle cx="160" cy="68" r="3" fill="#2a9d8f" stroke="#fff" strokeWidth="1" />
-
-                    {renderSvgAnchorBox('maize', 'endosperm', 'Endosperm', 10, 20)}
-                    {renderSvgAnchorBox('maize', 'scutellum', 'Single Cotyledon', 10, 80)}
-                    {renderSvgAnchorBox('maize', 'embryo', 'Embryo', 195, 55)}
-                  </svg>
+                      <div
+                        style={{
+                          background: '#14452F',
+                          color: '#FDE68A',
+                          borderRadius: '12px',
+                          padding: '4px 14px',
+                          fontSize: '16px',
+                          fontWeight: 800,
+                          fontFamily: "'Outfit', sans-serif",
+                          flexShrink: 0
+                        }}
+                      >
+                        {maizeCutProgress >= 100
+                          ? 'Longitudinal Section: Endosperm & Scutellum Exposed'
+                          : `Longitudinal Section Progress: ${maizeCutProgress}%`}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
 
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.85rem', marginTop: '0.75rem', paddingBottom: '1.5rem' }}>
-              {checked && !allCorrect && (
-                <div style={{ color: '#dc2626', fontSize: '1rem', fontWeight: '800', background: '#fee2e2', border: '1.5px solid #ef4444', padding: '0.5rem 1.25rem', borderRadius: '10px', boxShadow: '0 2px 8px rgba(239, 68, 68, 0.15)' }}>
-                  ❌ Some labels are placed incorrectly. Double check the structures and try again!
-                </div>
-              )}
-              
-              <div style={{ display: 'flex', gap: '1.25rem' }}>
-                {checked && !allCorrect && (
-                  <button className="outline" onClick={() => { setChecked(false); setAllCorrect(false); }} style={{ padding: '0.65rem 2rem', fontSize: '0.95rem', fontWeight: '800', borderRadius: '10px', cursor: 'pointer', background: '#ffffff', border: '2px solid rgba(167, 243, 208, 0.95)', color: '#0f172a', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}>
-                    Try Again
-                  </button>
-                )}
-                
-                {!checked && (
+                {/* SPECIMEN SWITCHER BUTTONS */}
+                <div style={{ display: 'flex', gap: '8px', width: '100%', position: 'relative', zIndex: 5, flexShrink: 0 }}>
                   <button
-                    disabled={
-                      !placedLabels.chickpea.plumule ||
-                      !placedLabels.chickpea.radicle ||
-                      !placedLabels.chickpea.cotyledon ||
-                      !placedLabels.maize.endosperm ||
-                      !placedLabels.maize.scutellum ||
-                      !placedLabels.maize.embryo
-                    }
-                    onClick={handleCheckLabeling}
+                    type="button"
+                    onClick={() => {
+                      seedLabAudio.playSwitch(isMuted);
+                      setActiveSpecimen('chickpea');
+                      setToolAlertMessage('');
+                    }}
                     style={{
-                      padding: '0.85rem 3.5rem',
-                      fontSize: '1.05rem',
-                      fontWeight: '900',
-                      borderRadius: '12px',
-                      border: 'none',
-                      color: '#1a0f05',
-                      background: '#f59e0b',
-                      cursor: (
-                        !placedLabels.chickpea.plumule ||
-                        !placedLabels.chickpea.radicle ||
-                        !placedLabels.chickpea.cotyledon ||
-                        !placedLabels.maize.endosperm ||
-                        !placedLabels.maize.scutellum ||
-                        !placedLabels.maize.embryo
-                      ) ? 'not-allowed' : 'pointer',
-                      opacity: (
-                        !placedLabels.chickpea.plumule ||
-                        !placedLabels.chickpea.radicle ||
-                        !placedLabels.chickpea.cotyledon ||
-                        !placedLabels.maize.endosperm ||
-                        !placedLabels.maize.scutellum ||
-                        !placedLabels.maize.embryo
-                      ) ? 0.5 : 1,
-                      boxShadow: '0 4px 14px rgba(245,158,11,0.4)'
+                      flex: 1,
+                      padding: '6px 10px',
+                      borderRadius: '8px',
+                      background: activeSpecimen === 'chickpea' ? '#14452F' : 'rgba(255, 255, 255, 0.85)',
+                      border: activeSpecimen === 'chickpea' ? '2px solid #10B981' : '1.5px solid #2D6A4F',
+                      color: activeSpecimen === 'chickpea' ? '#FFFFFF' : '#14452F',
+                      fontSize: '16px',
+                      fontWeight: 800,
+                      fontFamily: "'Outfit', sans-serif",
+                      cursor: 'pointer',
+                      whiteSpace: 'nowrap'
                     }}
                   >
-                    Check Anatomy Labels
+                    Specimen A: Chickpea (Dicot)
                   </button>
-                )}
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      seedLabAudio.playSwitch(isMuted);
+                      setActiveSpecimen('maize');
+                      setToolAlertMessage('');
+                    }}
+                    style={{
+                      flex: 1,
+                      padding: '6px 10px',
+                      borderRadius: '8px',
+                      background: activeSpecimen === 'maize' ? '#14452F' : 'rgba(255, 255, 255, 0.85)',
+                      border: activeSpecimen === 'maize' ? '2px solid #10B981' : '1.5px solid #2D6A4F',
+                      color: activeSpecimen === 'maize' ? '#FFFFFF' : '#14452F',
+                      fontSize: '16px',
+                      fontWeight: 800,
+                      fontFamily: "'Outfit', sans-serif",
+                      cursor: 'pointer',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    Specimen B: Maize (Monocot)
+                  </button>
+                </div>
+              </div>
+
+              {/* RIGHT: 30% CONTENT - SURGICAL INSTRUMENT DOCK */}
+              <div
+                className="bio-parchment-card"
+                style={{
+                  padding: 'clamp(6px, 0.9vh, 10px) clamp(8px, 1vw, 14px)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 'clamp(3px, 0.5vh, 6px)',
+                  justifyContent: 'space-between',
+                  height: '100%',
+                  minHeight: 0,
+                  overflow: 'hidden',
+                  position: 'relative'
+                }}
+              >
+                <CardCornerLeaves position="top-right" />
+                <CardCornerLeaves position="bottom-left" />
+
+                <div style={{ position: 'relative', zIndex: 5 }}>
+                  <span
+                    style={{
+                      background: '#14452F',
+                      color: '#FFFFFF',
+                      padding: '2px 10px',
+                      borderRadius: '10px',
+                      fontFamily: '"Outfit", sans-serif',
+                      fontWeight: 900,
+                      fontSize: '16px',
+                      letterSpacing: '0.05em',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    INSTRUMENTS
+                  </span>
+                  <h3
+                    style={{
+                      margin: '3px 0 1px 0',
+                      fontSize: '18px',
+                      fontWeight: 900,
+                      color: '#0A3B24',
+                      fontFamily: '"Fraunces", Georgia, serif'
+                    }}
+                  >
+                    Surgical Dissection Dock
+                  </h3>
+                  <p style={{ margin: 0, fontSize: '16px', color: '#1B4D3E', fontWeight: 600, lineHeight: 1.3 }}>
+                    Select the instrument based on whether dissecting a true seed or a cereal grain.
+                  </p>
+                </div>
+
+                {/* INSTRUMENT SELECTORS */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px', position: 'relative', zIndex: 5 }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      seedLabAudio.playSwitch(isMuted);
+                      setActiveTool('tweezers');
+                      setToolAlertMessage('');
+                    }}
+                    style={{
+                      padding: '6px 4px',
+                      borderRadius: '8px',
+                      background: activeTool === 'tweezers' ? '#14452F' : 'rgba(255, 255, 255, 0.85)',
+                      border: activeTool === 'tweezers' ? '2px solid #10B981' : '1.5px solid #2D6A4F',
+                      color: activeTool === 'tweezers' ? '#FFFFFF' : '#14452F',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '2px',
+                      cursor: 'pointer',
+                      fontFamily: "'Outfit', sans-serif"
+                    }}
+                  >
+                    <Scissors size={20} />
+                    <span style={{ fontSize: '16px', fontWeight: 800 }}>Tweezers</span>
+                    <span style={{ fontSize: '16px', opacity: 0.85 }}>Peel Testa</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      seedLabAudio.playSwitch(isMuted);
+                      setActiveTool('scalpel');
+                      setToolAlertMessage('');
+                    }}
+                    style={{
+                      padding: '6px 4px',
+                      borderRadius: '8px',
+                      background: activeTool === 'scalpel' ? '#14452F' : 'rgba(255, 255, 255, 0.85)',
+                      border: activeTool === 'scalpel' ? '2px solid #10B981' : '1.5px solid #2D6A4F',
+                      color: activeTool === 'scalpel' ? '#FFFFFF' : '#14452F',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '2px',
+                      cursor: 'pointer',
+                      fontFamily: "'Outfit', sans-serif"
+                    }}
+                  >
+                    <Layers size={20} />
+                    <span style={{ fontSize: '16px', fontWeight: 800 }}>Scalpel</span>
+                    <span style={{ fontSize: '16px', opacity: 0.85 }}>Section Cut</span>
+                  </button>
+                </div>
+
+                {/* PROCEDURAL ACTION BUTTONS */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', position: 'relative', zIndex: 5 }}>
+                  {activeSpecimen === 'chickpea' ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={handlePeelChickpea}
+                        disabled={chickpeaPeelProgress >= 100}
+                        className="bio-cta-btn"
+                        style={{ width: '100%', justifyContent: 'center', padding: '6px 12px', fontSize: '16px' }}
+                      >
+                        <Scissors size={18} />
+                        <span>{chickpeaPeelProgress >= 100 ? 'Testa Fully Peeled' : 'Grip & Peel Seed Coat'}</span>
+                      </button>
+
+                      {chickpeaPeelProgress >= 100 && (
+                        <button
+                          type="button"
+                          onClick={handleSplitChickpea}
+                          disabled={chickpeaSplitProgress >= 100}
+                          className="bio-cta-btn"
+                          style={{ width: '100%', justifyContent: 'center', background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)', borderColor: '#10B981', padding: '6px 12px', fontSize: '16px' }}
+                        >
+                          <Layers size={18} />
+                          <span>{chickpeaSplitProgress >= 100 ? 'Cotyledons Parted' : 'Part Cotyledons Along Axis'}</span>
+                        </button>
+                      )}
+                    </>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleCutMaize}
+                      disabled={maizeCutProgress >= 100}
+                      className="bio-cta-btn"
+                      style={{ width: '100%', justifyContent: 'center', padding: '6px 12px', fontSize: '16px' }}
+                    >
+                      <Layers size={18} />
+                      <span>{maizeCutProgress >= 100 ? 'Section Cut Complete' : 'Perform Longitudinal Section'}</span>
+                    </button>
+                  )}
+                </div>
+
+                {/* BOTANICAL PRINCIPLE */}
+                <div
+                  style={{
+                    background: '#EAF7EE',
+                    borderLeft: '4px solid #10B981',
+                    borderRadius: '8px',
+                    padding: '6px 12px',
+                    fontSize: '16px',
+                    color: '#0F3822',
+                    lineHeight: 1.35,
+                    position: 'relative',
+                    zIndex: 5,
+                    textAlign: 'justify'
+                  }}
+                >
+                  <strong>Botanical Insight:</strong> In chickpeas, the seed coat is free from the pod wall. In maize, the grain is a single-seeded fruit (caryopsis) where the fruit wall and seed coat are fused.
+                </div>
               </div>
             </div>
-
           </div>
         )}
 
-        {/* ================= STEP 4: DISCOVERY & CORRELATION ================= */}
-        {step === 'result' && (
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', paddingBottom: '1.5rem' }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '3.2rem', filter: 'drop-shadow(0 4px 12px rgba(245,158,11,0.3))' }}>🏆</div>
-              <h2 style={{ color: '#0f172a', margin: '0.25rem 0 0.5rem 0', fontSize: '1.65rem', fontWeight: '900' }}>Grand Discovery Complete!</h2>
-              <p style={{ color: '#334155', fontSize: '1.05rem', fontWeight: '700', margin: 0 }}>You have connected seed structure to plant biology!</p>
+        {/* ========================================================== */}
+        {/* STAGE 3: OPTICAL LOUPE & BOTANICAL ANATOMY PINNING        */}
+        {/* ========================================================== */}
+        {currentStep === 'compare' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(4px, 0.6vh, 6px)', height: '100%', minHeight: 0, flex: 1, overflow: 'hidden' }}>
+            {/* INSTRUCTIONAL BANNER */}
+            <div
+              className="bio-parchment-card"
+              style={{
+                padding: '4px 14px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '12px',
+                flexShrink: 0
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: 1 }}>
+                <div
+                  style={{
+                    width: '34px',
+                    height: '34px',
+                    borderRadius: '8px',
+                    background: '#14452F',
+                    color: '#34D399',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0
+                  }}
+                >
+                  <ZoomIn size={20} />
+                </div>
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span
+                      style={{
+                        background: '#14452F',
+                        color: '#FFFFFF',
+                        borderRadius: '10px',
+                        padding: '1px 8px',
+                        fontSize: '16px',
+                        fontWeight: 800,
+                        fontFamily: "'Outfit', sans-serif"
+                      }}
+                    >
+                      STAGE 03
+                    </span>
+                    <h2
+                      style={{
+                        margin: 0,
+                        fontSize: '18px',
+                        fontWeight: 900,
+                        color: '#0A3B24',
+                        fontFamily: '"Fraunces", Georgia, serif',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      Embryo Axis & Cotyledon Micro-Structures
+                    </h2>
+                  </div>
+                  <p style={{ margin: '1px 0 0 0', fontSize: '16px', color: '#1B4D3E', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    Inspect the exposed embryo under brass optical magnification. Click numbered pearl pins to examine landmarks.
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className="bio-cta-btn"
+                onClick={handleNextStep}
+                style={{ padding: '5px 14px', fontSize: '16px', flexShrink: 0 }}
+              >
+                <span>Next</span>
+                <ChevronRight size={18} strokeWidth={2.5} />
+              </button>
             </div>
 
-            <div style={{ background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 253, 244, 0.96) 100%)', backdropFilter: 'blur(16px)', border: '2px solid rgba(167, 243, 208, 0.95)', borderRadius: '22px', padding: '2.25rem 2.5rem', maxWidth: '960px', width: '100%', boxShadow: '0 12px 36px rgba(0,0,0,0.18)', display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
-              <h4 style={{ margin: 0, color: '#0284c7', fontSize: '1.45rem', fontWeight: '900', textAlign: 'center', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                🔑 The Seed-Leaf-Root Correlation Rule
-              </h4>
+            {/* 2-COLUMN WORKSPACE: 70% MODEL (LEFT) + 30% CONTENT (RIGHT) */}
+            <div
+              style={{
+                flex: 1,
+                minHeight: 0,
+                display: 'grid',
+                gridTemplateColumns: 'calc(70% - clamp(6px, 0.8vw, 10px)) calc(30% - clamp(6px, 0.8vw, 10px))',
+                gap: 'clamp(8px, 1vw, 14px)',
+                alignItems: 'stretch',
+                overflow: 'hidden'
+              }}
+            >
+              {/* LEFT: 70% MODEL - BRASS OPTICAL LOUPE */}
+              <div
+                className="bio-parchment-card"
+                style={{
+                  padding: 'clamp(6px, 0.9vh, 10px) clamp(8px, 1vw, 14px)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  height: '100%',
+                  minHeight: 0,
+                  overflow: 'hidden',
+                  position: 'relative'
+                }}
+              >
+                <CardCornerLeaves position="top-left" />
+                <CardCornerLeaves position="bottom-right" />
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.75rem' }}>
-                
-                <div style={{ background: '#ffffff', border: '2px solid rgba(167, 243, 208, 0.95)', borderRadius: '16px', padding: '1.75rem', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxShadow: '0 4px 14px rgba(0,0,0,0.06)' }}>
-                  <div>
-                    <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>🫘</div>
-                    <div style={{ color: '#6d28d9', fontWeight: '900', fontSize: '1.45rem', marginBottom: '0.6rem' }}>Dicotyledons (Dicots)</div>
-                    
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '1.15rem', color: '#0f172a', textAlign: 'left', background: 'rgba(240, 253, 244, 0.7)', padding: '1.25rem 1.4rem', borderRadius: '12px', border: '1.5px solid rgba(167, 243, 208, 0.85)', marginTop: '0.85rem' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <strong style={{ color: '#334155' }}>Cotyledons:</strong>
-                        <span style={{ color: '#6d28d9', fontWeight: '900' }}>2 Halves</span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <strong style={{ color: '#334155' }}>Leaf Venation:</strong>
-                        <span style={{ color: '#6d28d9', fontWeight: '900' }}>🕸️ Reticulate</span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <strong style={{ color: '#334155' }}>Root System:</strong>
-                        <span style={{ color: '#6d28d9', fontWeight: '900' }}>🥕 Taproot</span>
-                      </div>
-                    </div>
+                {/* CONTROLS BAR: SPECIMEN TOGGLE & ZOOM */}
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    gap: '8px',
+                    position: 'relative',
+                    zIndex: 5,
+                    flexShrink: 0
+                  }}
+                >
+                  <div style={{ display: 'flex', gap: '6px' }}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        seedLabAudio.playSwitch(isMuted);
+                        setLoupeSpecimen('chickpea');
+                        setSelectedPinId('plumule');
+                      }}
+                      style={{
+                        padding: '4px 12px',
+                        borderRadius: '8px',
+                        background: loupeSpecimen === 'chickpea' ? '#14452F' : 'rgba(255, 255, 255, 0.85)',
+                        border: loupeSpecimen === 'chickpea' ? '2px solid #10B981' : '1.5px solid #2D6A4F',
+                        color: loupeSpecimen === 'chickpea' ? '#FFFFFF' : '#14452F',
+                        fontSize: '16px',
+                        fontWeight: 800,
+                        fontFamily: "'Outfit', sans-serif",
+                        cursor: 'pointer',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      Dicot: Chickpea
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        seedLabAudio.playSwitch(isMuted);
+                        setLoupeSpecimen('maize');
+                        setSelectedPinId('endosperm');
+                      }}
+                      style={{
+                        padding: '4px 12px',
+                        borderRadius: '8px',
+                        background: loupeSpecimen === 'maize' ? '#14452F' : 'rgba(255, 255, 255, 0.85)',
+                        border: loupeSpecimen === 'maize' ? '2px solid #10B981' : '1.5px solid #2D6A4F',
+                        color: loupeSpecimen === 'maize' ? '#FFFFFF' : '#14452F',
+                        fontSize: '16px',
+                        fontWeight: 800,
+                        fontFamily: "'Outfit', sans-serif",
+                        cursor: 'pointer',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      Monocot: Maize
+                    </button>
                   </div>
-                  <div style={{ fontSize: '1.05rem', color: '#334155', marginTop: '1.1rem', fontStyle: 'italic', lineHeight: 1.6, fontWeight: '700' }}>
-                    Examples: Gram, Chickpea, Pea, Mustard, Neem, Mango, Tulsi, Hibiscus.
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span style={{ fontSize: '16px', fontWeight: 800, color: '#14452F', marginRight: '2px' }}>Zoom:</span>
+                    {[2.0, 3.5, 5.0].map((z) => (
+                      <button
+                        key={z}
+                        type="button"
+                        onClick={() => {
+                          seedLabAudio.playLoupeMove(isMuted);
+                          setLoupeZoom(z);
+                        }}
+                        style={{
+                          padding: '3px 8px',
+                          borderRadius: '6px',
+                          background: loupeZoom === z ? '#D97706' : 'rgba(255, 255, 255, 0.85)',
+                          border: loupeZoom === z ? '1.5px solid #FCD34D' : '1px solid #2D6A4F',
+                          color: loupeZoom === z ? '#FFFFFF' : '#14452F',
+                          fontSize: '16px',
+                          fontWeight: 800,
+                          fontFamily: "'Outfit', sans-serif",
+                          cursor: 'pointer'
+                        }}
+                      >
+                        {z.toFixed(1)}×
+                      </button>
+                    ))}
                   </div>
                 </div>
 
-                <div style={{ background: '#ffffff', border: '2px solid rgba(167, 243, 208, 0.95)', borderRadius: '16px', padding: '1.75rem', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxShadow: '0 4px 14px rgba(0,0,0,0.06)' }}>
-                  <div>
-                    <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>🌽</div>
-                    <div style={{ color: '#0369a1', fontWeight: '900', fontSize: '1.45rem', marginBottom: '0.6rem' }}>Monocotyledons (Monocots)</div>
+                {/* BRASS OPTICAL LOUPE HOUSING */}
+                <div
+                  style={{
+                    position: 'relative',
+                    width: 'clamp(230px, 32vh, 310px)',
+                    height: 'clamp(230px, 32vh, 310px)',
+                    borderRadius: '50%',
+                    border: '8px solid #D97706',
+                    boxShadow: 'inset 0 0 30px rgba(0, 0, 0, 0.6), 0 10px 26px rgba(10, 59, 36, 0.28)',
+                    background: 'radial-gradient(circle at center, rgba(167, 243, 208, 0.25) 0%, rgba(20, 69, 47, 0.85) 100%)',
+                    overflow: 'hidden',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 5,
+                    flexShrink: 0
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '85%',
+                      height: '85%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transform: `scale(${loupeZoom * 0.52})`,
+                      transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                      position: 'relative'
+                    }}
+                  >
+                    <img
+                      src={loupeSpecimen === 'chickpea' ? chickpeaSplitImg : maizeCutImg}
+                      alt="Dissected Specimen"
+                      style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.5))' }}
+                    />
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '1.15rem', color: '#0f172a', textAlign: 'left', background: 'rgba(240, 253, 244, 0.7)', padding: '1.25rem 1.4rem', borderRadius: '12px', border: '1.5px solid rgba(167, 243, 208, 0.85)', marginTop: '0.85rem' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <strong style={{ color: '#334155' }}>Cotyledons:</strong>
-                        <span style={{ color: '#0369a1', fontWeight: '900' }}>1 Single</span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <strong style={{ color: '#334155' }}>Leaf Venation:</strong>
-                        <span style={{ color: '#0369a1', fontWeight: '900' }}>📏 Parallel</span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <strong style={{ color: '#334155' }}>Root System:</strong>
-                        <span style={{ color: '#0369a1', fontWeight: '900' }}>🌾 Fibrous</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div style={{ fontSize: '1.05rem', color: '#334155', marginTop: '1.1rem', fontStyle: 'italic', lineHeight: 1.6, fontWeight: '700' }}>
-                    Examples: Maize, Wheat, Rice, Grass, Bamboo, Banana, Banyan, Onion.
+                    {/* NUMBERED PEARL PINS (STRICT ZERO TEXT ON TOP) */}
+                    {(loupeSpecimen === 'chickpea' ? CHICKPEA_PINS : MAIZE_PINS).map((pin) => {
+                      const isSelected = selectedPinId === pin.id;
+                      return (
+                        <button
+                          key={pin.id}
+                          type="button"
+                          onClick={() => {
+                            seedLabAudio.playSwitch(isMuted);
+                            setSelectedPinId(pin.id);
+                          }}
+                          style={{
+                            position: 'absolute',
+                            left: `${pin.x}%`,
+                            top: `${pin.y}%`,
+                            transform: 'translate(-50%, -50%)',
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: '50%',
+                            background: isSelected ? '#DC2626' : '#14452F',
+                            border: '2px solid #FFFFFF',
+                            boxShadow: isSelected ? '0 0 12px #DC2626' : '0 4px 8px rgba(0,0,0,0.45)',
+                            color: '#FFFFFF',
+                            fontSize: '16px',
+                            fontWeight: 900,
+                            fontFamily: "'Outfit', sans-serif",
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            zIndex: 20
+                          }}
+                        >
+                          {pin.num}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
+                <div style={{ fontSize: '16px', color: '#1B4D3E', fontWeight: 700, textAlign: 'center', position: 'relative', zIndex: 5, flexShrink: 0 }}>
+                  💡 Click pearl pins <strong>[1]</strong>, <strong>[2]</strong>, or <strong>[3]</strong> to inspect their botanical role.
+                </div>
+              </div>
+
+              {/* RIGHT: 30% CONTENT - PIN DOSSIER CARD */}
+              <div
+                className="bio-parchment-card"
+                style={{
+                  padding: 'clamp(6px, 0.9vh, 10px) clamp(8px, 1vw, 14px)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 'clamp(3px, 0.5vh, 6px)',
+                  justifyContent: 'space-between',
+                  height: '100%',
+                  minHeight: 0,
+                  overflow: 'hidden',
+                  position: 'relative'
+                }}
+              >
+                <CardCornerLeaves position="top-right" />
+                <CardCornerLeaves position="bottom-left" />
+
+                <div style={{ position: 'relative', zIndex: 5 }}>
+                  <span
+                    style={{
+                      background: '#14452F',
+                      color: '#FFFFFF',
+                      padding: '2px 10px',
+                      borderRadius: '10px',
+                      fontFamily: '"Outfit", sans-serif',
+                      fontWeight: 900,
+                      fontSize: '16px',
+                      letterSpacing: '0.05em',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    PIN DOSSIER
+                  </span>
+                  <h3
+                    style={{
+                      margin: '3px 0 1px 0',
+                      fontSize: '18px',
+                      fontWeight: 900,
+                      color: '#0A3B24',
+                      fontFamily: '"Fraunces", Georgia, serif'
+                    }}
+                  >
+                    Botanical Micro-Structure
+                  </h3>
+                  <p style={{ margin: 0, fontSize: '16px', color: '#1B4D3E', fontWeight: 600, lineHeight: 1.3 }}>
+                    Detailed physiological examination of selected landmark.
+                  </p>
+                </div>
+
+                {/* SELECTED PIN DETAILS */}
+                {(() => {
+                  const currentPinList = loupeSpecimen === 'chickpea' ? CHICKPEA_PINS : MAIZE_PINS;
+                  const activePin = currentPinList.find((p) => p.id === selectedPinId) || currentPinList[0];
+
+                  return (
+                    <div
+                      style={{
+                        background: '#FFFFFF',
+                        border: '1.5px solid #14452F',
+                        borderRadius: '12px',
+                        padding: '8px 12px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '6px',
+                        position: 'relative',
+                        zIndex: 5,
+                        boxShadow: '0 2px 8px rgba(20, 69, 47, 0.1)'
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <div
+                          style={{
+                            width: '28px',
+                            height: '28px',
+                            borderRadius: '50%',
+                            background: '#14452F',
+                            color: '#FFFFFF',
+                            fontSize: '16px',
+                            fontWeight: 900,
+                            fontFamily: "'Outfit', sans-serif",
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                        >
+                          {activePin.num}
+                        </div>
+                        <div>
+                          <div style={{ fontSize: '18px', fontWeight: 900, color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif' }}>
+                            {activePin.name}
+                          </div>
+                          <div style={{ fontSize: '16px', fontWeight: 700, color: '#10B981' }}>
+                            {activePin.role}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        style={{
+                          fontSize: '16px',
+                          color: '#1F2937',
+                          lineHeight: 1.35,
+                          background: '#F8FAF9',
+                          padding: '6px 10px',
+                          borderRadius: '8px',
+                          border: '1px solid #E2E8F0',
+                          textAlign: 'justify'
+                        }}
+                      >
+                        {activePin.detail}
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                {/* PIN LIST BUTTONS */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', position: 'relative', zIndex: 5 }}>
+                  <h4 style={{ margin: '1px 0', fontSize: '16px', fontWeight: 800, color: '#0A3B24' }}>
+                    All Visible Structures:
+                  </h4>
+                  {(loupeSpecimen === 'chickpea' ? CHICKPEA_PINS : MAIZE_PINS).map((p) => {
+                    const isSelected = selectedPinId === p.id;
+                    return (
+                      <button
+                        key={p.id}
+                        type="button"
+                        onClick={() => {
+                          seedLabAudio.playSwitch(isMuted);
+                          setSelectedPinId(p.id);
+                        }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          padding: '4px 10px',
+                          borderRadius: '8px',
+                          background: isSelected ? '#14452F' : 'rgba(255, 255, 255, 0.85)',
+                          border: isSelected ? '1.5px solid #10B981' : '1px solid #2D6A4F',
+                          color: isSelected ? '#FFFFFF' : '#14452F',
+                          fontSize: '16px',
+                          fontWeight: 800,
+                          cursor: 'pointer',
+                          textAlign: 'left'
+                        }}
+                      >
+                        <span
+                          style={{
+                            width: '20px',
+                            height: '20px',
+                            borderRadius: '50%',
+                            background: isSelected ? '#10B981' : 'rgba(20, 69, 47, 0.15)',
+                            color: isSelected ? '#064E3B' : '#14452F',
+                            fontSize: '16px',
+                            fontWeight: 900,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                        >
+                          {p.num}
+                        </span>
+                        <span style={{ flex: 1 }}>{p.name}</span>
+                        {isSelected && <CheckCircle2 size={16} color="#34D399" />}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-
-            <div style={{ display: 'flex', gap: '1.25rem' }}>
-              <button className="outline" onClick={handleReset} style={{ padding: '0.75rem 1.75rem', borderRadius: '10px', fontSize: '1rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '0.45rem', background: '#ffffff', border: '2px solid rgba(167, 243, 208, 0.95)', color: '#0f172a', cursor: 'pointer', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}>
-                <RefreshCw size={16} color="#0f172a" /> Redo Experiment
-              </button>
-              <button className="primary" onClick={onBackToDashboard} style={{ padding: '0.75rem 2.5rem', borderRadius: '10px', fontSize: '1.05rem', fontWeight: '900', border: 'none', background: '#f59e0b', color: '#1a0f05', cursor: 'pointer', boxShadow: '0 4px 14px rgba(245,158,11,0.4)' }}>
-                Finish Lab ➔
-              </button>
-            </div>
-
           </div>
         )}
 
-      </div>
+      </main>
+
+      {/* ============================================================ */}
+      {/* 4. BOTTOM NAVIGATION BAR (MATCHING SLOGAN PAGE EXACTLY)      */}
+      {/* ============================================================ */}
+      <footer
+        style={{
+          width: '100%',
+          maxWidth: '1380px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexShrink: 0,
+          padding: '0 4px',
+          boxSizing: 'border-box',
+          position: 'relative',
+          zIndex: 20
+        }}
+      >
+        <button
+          type="button"
+          className="bio-nav-btn"
+          disabled={currentStepIndex === 0}
+          onClick={handlePrevStep}
+          aria-label="Previous Step"
+        >
+          ← Previous Step
+        </button>
+
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '2px'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
+            <svg width="22" height="15" viewBox="0 0 24 16" fill="none" style={{ transform: 'scaleX(-1)' }}>
+              <path d="M2 14 C8 12, 16 10, 22 2 C18 8, 12 12, 2 14 Z" fill="#2D6A4F" />
+              <path d="M6 10 C10 6, 16 4, 22 2 C18 8, 12 10, 6 10 Z" fill="#52B788" />
+            </svg>
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '24px',
+                height: '24px',
+                borderRadius: '50%',
+                background: '#EAF7EE',
+                border: '1.8px solid #14452F',
+                boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
+              }}
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#14452F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+                <path d="M2 12h20" />
+              </svg>
+            </div>
+            <svg width="22" height="15" viewBox="0 0 24 16" fill="none">
+              <path d="M2 14 C8 12, 16 10, 22 2 C18 8, 12 12, 2 14 Z" fill="#2D6A4F" />
+              <path d="M6 10 C10 6, 16 4, 22 2 C18 8, 12 10, 6 10 Z" fill="#52B788" />
+            </svg>
+          </div>
+
+          <div
+            style={{
+              background: '#14452F',
+              color: '#FFFFFF',
+              borderRadius: '20px',
+              padding: '4px 20px',
+              fontFamily: '"Outfit", sans-serif',
+              fontWeight: 900,
+              fontSize: '16px',
+              letterSpacing: '0.05em',
+              boxShadow: '0 3px 10px rgba(20, 69, 47, 0.32)'
+            }}
+          >
+            Stage {currentStepIndex + 1} / {STAGES.length}
+          </div>
+        </div>
+
+        <button
+          type="button"
+          className="bio-cta-btn"
+          onClick={handleNextStep}
+          aria-label="Next"
+        >
+          <span>Next</span>
+          <ArrowRight size={17} strokeWidth={2.5} />
+        </button>
+      </footer>
     </div>
   );
 }
