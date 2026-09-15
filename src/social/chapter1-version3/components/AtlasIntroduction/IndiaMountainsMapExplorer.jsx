@@ -1581,38 +1581,6 @@ export default function IndiaMountainsMapExplorer({ onClose, initialCategory = '
                       {selectedPlace.type}
                     </span>
 
-                    {/* Cycle Through Places */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <button
-                        onClick={handlePrevPlace}
-                        title="Previous Attraction"
-                        style={{
-                          width: '26px', height: '26px', borderRadius: '50%',
-                          border: '1.5px solid #E2E8F0', background: '#F8FAFC',
-                          color: '#334155', fontWeight: 900, fontSize: '13px',
-                          cursor: 'pointer', display: 'grid', placeItems: 'center',
-                          boxShadow: '0 1px 3px rgba(0,0,0,0.06)'
-                        }}
-                      >
-                        ‹
-                      </button>
-                      <span style={{ fontSize: '13px', fontWeight: 800, color: '#475569' }}>
-                        {placeIndex + 1} / {filteredPlaces.length}
-                      </span>
-                      <button
-                        onClick={handleNextPlace}
-                        title="Next Attraction"
-                        style={{
-                          width: '26px', height: '26px', borderRadius: '50%',
-                          border: '1.5px solid #E2E8F0', background: '#F8FAFC',
-                          color: '#334155', fontWeight: 900, fontSize: '13px',
-                          cursor: 'pointer', display: 'grid', placeItems: 'center',
-                          boxShadow: '0 1px 3px rgba(0,0,0,0.06)'
-                        }}
-                      >
-                        ›
-                      </button>
-                    </div>
                   </div>
 
                   <div style={{ fontSize: 'clamp(19px, 2.2vw, 24px)', fontWeight: 900, color: '#451A03', fontFamily: '"Fraunces", Georgia, serif', lineHeight: 1.2, display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -1706,55 +1674,55 @@ export default function IndiaMountainsMapExplorer({ onClose, initialCategory = '
                       </div>
 
                       {/* Description with Enlarged Font */}
-                      <p style={{ fontSize: '13px', color: '#1E293B', lineHeight: 1.45, margin: 0, fontWeight: 500, textAlign: 'justify', textJustify: 'inter-word' }}>
+                      <p style={{ fontSize: '16px', color: '#1E293B', lineHeight: 1.45, margin: 0, fontWeight: 500, textAlign: 'justify', textJustify: 'inter-word' }}>
                         {selectedPlace.description}
                       </p>
 
                       {/* Quick 4-Box Stats Grid (Enlarged Fonts & Padding) */}
                       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
-                        <div style={{ background: '#FFF9F0', border: '1.5px solid #F2DFBC', borderRadius: '10px', padding: '8px 12px' }}>
-                          <div style={{ fontSize: '10px', fontWeight: 800, color: '#92400E', textTransform: 'uppercase' }}>
+                        <div style={{ background: '#FFF9F0', border: '1.5px solid #F2DFBC', borderRadius: '10px', padding: '12px 16px' }}>
+                          <div style={{ fontSize: '12px', fontWeight: 800, color: '#92400E', textTransform: 'uppercase' }}>
                             🏔️ Height
                           </div>
-                          <div style={{ fontSize: '13.5px', fontWeight: 900, color: '#451A03', marginTop: '2px' }}>
+                          <div style={{ fontSize: '16px', fontWeight: 900, color: '#451A03', marginTop: '2px' }}>
                             {selectedPlace.alt}
                           </div>
                         </div>
 
-                        <div style={{ background: '#FFF9F0', border: '1.5px solid #F2DFBC', borderRadius: '10px', padding: '8px 12px' }}>
-                          <div style={{ fontSize: '10px', fontWeight: 800, color: '#92400E', textTransform: 'uppercase' }}>
+                        <div style={{ background: '#FFF9F0', border: '1.5px solid #F2DFBC', borderRadius: '10px', padding: '12px 16px' }}>
+                          <div style={{ fontSize: '12px', fontWeight: 800, color: '#92400E', textTransform: 'uppercase' }}>
                             🏷️ Feature Type
                           </div>
-                          <div style={{ fontSize: '13.5px', fontWeight: 900, color: '#D97706', marginTop: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          <div style={{ fontSize: '16px', fontWeight: 900, color: '#D97706', marginTop: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                             {selectedPlace.type.split('(')[0]}
                           </div>
                         </div>
 
-                        <div style={{ background: '#FFF9F0', border: '1.5px solid #F2DFBC', borderRadius: '10px', padding: '8px 12px' }}>
-                          <div style={{ fontSize: '10px', fontWeight: 800, color: '#92400E', textTransform: 'uppercase' }}>
+                        <div style={{ background: '#FFF9F0', border: '1.5px solid #F2DFBC', borderRadius: '10px', padding: '12px 16px' }}>
+                          <div style={{ fontSize: '12px', fontWeight: 800, color: '#92400E', textTransform: 'uppercase' }}>
                             🗺️ Region
                           </div>
-                          <div style={{ fontSize: '13.5px', fontWeight: 800, color: '#451A03', marginTop: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          <div style={{ fontSize: '16px', fontWeight: 800, color: '#451A03', marginTop: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                             {selectedRange.name.split('(')[0]}
                           </div>
                         </div>
 
-                        <div style={{ background: '#FFF9F0', border: '1.5px solid #F2DFBC', borderRadius: '10px', padding: '8px 12px' }}>
-                          <div style={{ fontSize: '10px', fontWeight: 800, color: '#92400E', textTransform: 'uppercase' }}>
+                        <div style={{ background: '#FFF9F0', border: '1.5px solid #F2DFBC', borderRadius: '10px', padding: '12px 16px' }}>
+                          <div style={{ fontSize: '12px', fontWeight: 800, color: '#92400E', textTransform: 'uppercase' }}>
                             🌊 Regional Rivers
                           </div>
-                          <div style={{ fontSize: '13.5px', fontWeight: 800, color: '#451A03', marginTop: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          <div style={{ fontSize: '16px', fontWeight: 800, color: '#451A03', marginTop: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                             {selectedRange.rivers.slice(0, 2).join(', ')}
                           </div>
                         </div>
                       </div>
 
                       {/* Key Highlights Card (Enlarged Fonts) */}
-                      <div style={{ background: '#F8FAFC', border: '1.5px solid #E2E8F0', borderRadius: '10px', padding: '8px 12px' }}>
-                        <div style={{ fontSize: '10px', fontWeight: 800, color: '#64748B', textTransform: 'uppercase' }}>
+                      <div style={{ background: '#F8FAFC', border: '1.5px solid #E2E8F0', borderRadius: '10px', padding: '12px 16px' }}>
+                        <div style={{ fontSize: '12px', fontWeight: 800, color: '#64748B', textTransform: 'uppercase' }}>
                           Key Attraction Highlight:
                         </div>
-                        <div style={{ fontSize: '13px', color: '#1E293B', fontWeight: 700, lineHeight: 1.4, marginTop: '2px', textAlign: 'justify', textJustify: 'inter-word' }}>
+                        <div style={{ fontSize: '16px', color: '#1E293B', fontWeight: 700, lineHeight: 1.4, marginTop: '2px', textAlign: 'justify', textJustify: 'inter-word' }}>
                           ✨ {selectedPlace.highlight}
                         </div>
                       </div>
@@ -1779,9 +1747,9 @@ export default function IndiaMountainsMapExplorer({ onClose, initialCategory = '
                       background: '#F1F5F9',
                       border: '1.5px solid #CBD5E1',
                       color: '#334155',
-                      fontSize: '12px',
+                      fontSize: '15px',
                       fontWeight: 800,
-                      padding: '6px 14px',
+                      padding: '10px 20px',
                       borderRadius: '7px',
                       cursor: 'pointer',
                       boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
@@ -1819,9 +1787,9 @@ export default function IndiaMountainsMapExplorer({ onClose, initialCategory = '
                       background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                       border: 'none',
                       color: '#FFF',
-                      fontSize: '12px',
+                      fontSize: '15px',
                       fontWeight: 800,
-                      padding: '6px 16px',
+                      padding: '10px 20px',
                       borderRadius: '7px',
                       cursor: 'pointer',
                       boxShadow: '0 2px 8px rgba(217, 119, 6, 0.35)'
