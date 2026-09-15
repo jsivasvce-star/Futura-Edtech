@@ -532,8 +532,8 @@ export default function Stage2_Identify({ onComplete, addXp }) {
               ) : !selectedObj ? (
                 <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', minHeight: 0, overflow: 'hidden', gap: '0.75rem', position: 'relative', alignItems: 'center', justifyContent: 'center', color: 'var(--scanner-subtext)', textAlign: 'center', padding: '1.5rem', zIndex: 2 }}>
                   <Search size={64} />
-                  <span style={{ fontWeight: 'bold', fontSize: '2rem' }}>Scanner Active</span>
-                  <span style={{ fontSize: '1.5rem', opacity: 0.8, maxWidth: '400px', lineHeight: '1.5' }}>
+                  <span style={{ fontWeight: 'bold', fontSize: '2rem', color: '#f6f1e4', textShadow: '0 2px 6px rgba(0,0,0,0.8), 0 1px 2px rgba(0,0,0,0.9)' }}>Scanner Active</span>
+                  <span style={{ fontSize: '1.5rem', maxWidth: '400px', lineHeight: '1.5', color: '#f6f1e4', textShadow: '0 2px 6px rgba(0,0,0,0.8), 0 1px 2px rgba(0,0,0,0.9)' }}>
                     Drag an object from the Evidence Tray and drop it here to scan it!
                   </span>
                 </div>

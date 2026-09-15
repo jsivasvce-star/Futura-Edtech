@@ -338,8 +338,8 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
             backgroundImage: `url(${checkpointBg})`,
             backgroundSize: 'cover',
             backgroundPosition: 'right center',
-            maskImage: 'linear-gradient(to right, transparent, black 40%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent, black 40%)',
+            maskImage: 'linear-gradient(to right, transparent 20%, black 60%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 20%, black 60%)',
             pointerEvents: 'none',
             zIndex: 0
           }} />
@@ -357,11 +357,8 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
           </button>
 
           {/* Header */}
-          <div style={{ padding: '2rem 2.5rem', borderBottom: '1px solid var(--lesson-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.5)' }}>
+          <div style={{ padding: '2rem 2.5rem 2rem 1.5rem', borderBottom: '1px solid var(--lesson-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.5)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <div style={{ background: '#FFFFFF', padding: '10px', borderRadius: '12px', color: 'var(--lesson-primary)' }}>
-                <ShieldAlert size={42} />
-              </div>
               <div>
                 <h1 className="mission-title" style={{ fontSize: '54px', margin: 0, marginBottom: '8px' }}>
                   {data.title || "Detective Checkpoint"}
