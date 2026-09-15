@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { ArrowLeft, Play, X, ChevronLeft, ChevronRight, Volume2, VolumeX, RefreshCw, Check } from "lucide-react";
+import { ArrowLeft, Play, X, ChevronLeft, ChevronRight, Volume2, VolumeX, RefreshCw, Check, CheckCircle } from "lucide-react";
 import CoverPage from "./CoverPage";
 import SloganPage from "./SloganPage";
 import VerticalLevelMap from "./VerticalLevelMap";
@@ -456,7 +456,15 @@ const CHAPTER_2_LEVELS = [
     activities: [
       { id: 'sec-2-1-act', title: 'Activity 2.1 — Plants (Table 2.1)', activityId: 'virtual_biodiversity', icon: '🌿', desc: 'Record real plants — tap the leaves, stems and flowers.', pg: 'p.11', path: '/activities/class6_chapter2/activity_0.html' },
       { id: 'sec-2-1-act-2', title: 'Activity 2.1 — Animals (Table 2.2)', activityId: 'virtual_biodiversity', icon: '🐾', desc: 'Where animals live, what they eat and how they move.', pg: 'p.12', path: '/activities/class6_chapter2/activity_1.html' },
-      { id: 'sec-2-2-act', title: 'Activity 2.2 — Let us appreciate', activityId: 'appreciating_biodiversity', icon: '🎨', desc: 'A live class blackboard reveals biodiversity.', pg: 'p.13', path: '/activities/class6_chapter2/activity_2.html' },
+      { id: 'sec-2-2-act', title: 'Activity 2.2 — Let us appreciate', activityId: 'appreciating_biodiversity', icon: '🎨', desc: 'A live class blackboard reveals biodiversity.', pg: 'p.13', path: '/activities/class6_chapter2/activity_2.html' }
+    ]
+  },
+  {
+    id: 'lvl-2',
+    title: '2.2 — How to Group Living Things?',
+    lessonId: 'biodiversity_concept',
+    icon: '🧩',
+    activities: [
       { id: 'sec-2-3-act', title: 'Activity 2.3: Let Us Group (Card Sorting)', activityId: 'inline_sorting', icon: '🧩', desc: 'The same living things regroup by any feature you pick.', pg: 'p.14–15', path: '/activities/class6_chapter2/activity_3.html' }
     ]
   },
@@ -529,6 +537,18 @@ const CHAPTER_2_LEVELS = [
   }
 ];
 
+const CHAPTER_2_SECTION_TABS = [
+  { id: 'lvl-1', num: 1, title: 'Chapter Introduction', subtitle: 'Plants & Animals Around Us' },
+  { id: 'lvl-2', num: 2, title: 'How to Group', subtitle: 'Card Sorting Trays' },
+  { id: 'lvl-3', num: 3, title: 'Grouping Plants', subtitle: 'Herbs, Shrubs & Trees' },
+  { id: 'lvl-4', num: 4, title: 'Compare Plants', subtitle: 'Venation & Roots' },
+  { id: 'lvl-5', num: 5, title: 'Seeds & Cotyledons', subtitle: 'Dicot & Monocot Seeds' },
+  { id: 'lvl-6', num: 6, title: 'Grouping Animals', subtitle: 'Animal Movement' },
+  { id: 'lvl-7', num: 7, title: 'Surroundings', subtitle: 'Habitats & Adaptations' },
+  { id: 'lvl-8', num: 8, title: 'Sacred Groves', subtitle: 'Glossary & Keywords' },
+  { id: 'lvl-9', num: 9, title: 'Chapter Challenge', subtitle: 'Enhance Our Learning' }
+];
+
 const CHAPTER_2_FLOW = [
   /* 1. Cover Page */
   { type: 'stage', stage: 'cover', name: 'Cover Page' },
@@ -541,42 +561,30 @@ const CHAPTER_2_FLOW = [
   /* 5. Activity 2.1 — Animals */
   { type: 'lab', levelId: 'lvl-1', actIdx: 1, focused: true, subStep: null, slide: 0, name: 'Activity 2.1 — Animals' },
   /* 6. Activity 2.2 — Let Us Appreciate */
-  { type: 'lab', levelId: 'lvl-1', actIdx: 2, focused: true, subStep: 'appreciate', slide: 0, name: 'Activity 2.2 — Let Us Appreciate' },
-  /* 7. Class Board */
-  { type: 'lab', levelId: 'lvl-1', actIdx: 2, focused: true, subStep: 'board', slide: 0, name: 'Class Board' },
-  /* 8. Ecosystem Quiz */
-  { type: 'lab', levelId: 'lvl-1', actIdx: 2, focused: true, subStep: 'quiz', slide: 0, name: 'Ecosystem Quiz' },
-  /* 9. Activity 2.3 — Classification Lab */
-  { type: 'lab', levelId: 'lvl-1', actIdx: 3, focused: true, subStep: null, slide: 0, name: 'Activity 2.3 — Classification Lab' },
-  /* 10. 2.2.1 — How to Group Plants? Activity 2.4 */
-  { type: 'lab', levelId: 'lvl-3', actIdx: 0, focused: false, subStep: null, slide: 0, name: 'Activity 2.4 — Let Us Group' },
-  /* 11. Activity 2.4 — Herbs, Shrubs & Trees */
+  { type: 'lab', levelId: 'lvl-1', actIdx: 2, focused: true, subStep: null, slide: 0, name: 'Activity 2.2 — Let Us Appreciate' },
+  /* 7. Activity 2.3 — Card Sorting */
+  { type: 'lab', levelId: 'lvl-2', actIdx: 0, focused: true, subStep: null, slide: 0, name: 'Activity 2.3 — Card Sorting' },
+  /* 8. Activity 2.4 — Herbs, Shrubs & Trees */
   { type: 'lab', levelId: 'lvl-3', actIdx: 0, focused: true, subStep: null, slide: 0, name: 'Activity 2.4 — Herbs, Shrubs & Trees' },
-  /* 13. Lesson Pane — Activity 2.5: Let Us Compare */
-  { type: 'lab', levelId: 'lvl-4', actIdx: 0, focused: false, subStep: null, slide: 0, name: 'Lesson Pane — Activity 2.5: Let Us Compare' },
-  /* 14. Activity 2.5 — Leaf Venation Pattern */
+  /* 9. Activity 2.5 — Leaf Venation Pattern */
   { type: 'lab', levelId: 'lvl-4', actIdx: 0, focused: true, subStep: null, slide: 0, name: 'Activity 2.5 — Leaf Venation Pattern' },
-  /* 15. Activity 2.6 — Roots */
+  /* 10. Activity 2.6 — Roots */
   { type: 'lab', levelId: 'lvl-4', actIdx: 1, focused: true, subStep: null, slide: 0, name: 'Activity 2.6 — Roots' },
-  /* 16. Activity 2.7 — Relate and Analyse */
+  /* 11. Activity 2.7 — Relate and Analyse */
   { type: 'lab', levelId: 'lvl-4', actIdx: 2, focused: true, subStep: null, slide: 0, name: 'Activity 2.7 — Relate and Analyse' },
-  /* 17. Lesson Pane — Activity 2.8: Let Us Compare — Seeds and Cotyledons */
-  { type: 'lab', levelId: 'lvl-5', actIdx: 0, focused: false, subStep: null, slide: 0, name: 'Lesson Pane — Activity 2.8: Let Us Compare — Seeds and Cotyledons' },
-  /* 18. Activity 2.8 — Seeds (Dicot/Monocot) */
+  /* 12. Activity 2.8 — Seeds (Dicot/Monocot) */
   { type: 'lab', levelId: 'lvl-5', actIdx: 0, focused: true, subStep: null, slide: 0, name: 'Activity 2.8 — Seeds (Dicot/Monocot)' },
-  /* 19. 2.2.2 — How to Group Animals? */
-  { type: 'lab', levelId: 'lvl-6', actIdx: 0, focused: false, subStep: null, slide: 0, name: '2.2.2 — How to Group Animals?' },
-  /* 20. Animal Locomotion */
-  { type: 'lab', levelId: 'lvl-6', actIdx: 0, focused: false, subStep: null, slide: 1, name: 'Animal Locomotion' },
-  /* 21. Activity 2.9 — Animal Locomotion */
-  { type: 'lab', levelId: 'lvl-6', actIdx: 0, focused: true, subStep: null, slide: 0, name: 'Activity 2.9 — Animal Locomotion' },
-  /* 22. 2.3 — Surroundings & Adaptations */
-  { type: 'lab', levelId: 'lvl-7', actIdx: 0, focused: false, subStep: null, slide: 0, name: '2.3 — Surroundings & Adaptations' },
-  /* 23. Activity 2.10 — Different Surroundings / Habitats & Adaptations */
-  { type: 'lab', levelId: 'lvl-7', actIdx: 0, focused: true, subStep: null, slide: 0, name: 'Activity 2.10 — Different Surroundings / Habitats & Adaptations' },
-  /* 24. Chapter 2 Key Vocabulary */
-  { type: 'lab', levelId: 'lvl-8', actIdx: 0, focused: false, subStep: null, slide: 0, name: 'Chapter 2 Key Vocabulary' },
-  /* 25–49. Chapter Challenge Questions 1 to 25 */
+  /* 13. Activity 2.9 — Animal Movement */
+  { type: 'lab', levelId: 'lvl-6', actIdx: 0, focused: true, subStep: null, slide: 0, name: 'Activity 2.9 — Animal Movement' },
+  /* 14. Activity 2.10 — Different Surroundings */
+  { type: 'lab', levelId: 'lvl-7', actIdx: 0, focused: true, subStep: null, slide: 0, name: 'Activity 2.10 — Different Surroundings' },
+  /* 15. Activity 2.11 — Camels Adaptations */
+  { type: 'lab', levelId: 'lvl-7', actIdx: 1, focused: true, subStep: null, slide: 0, name: 'Activity 2.11 — Camels Adaptations' },
+  /* 16. Activity 2.12 — Habitats */
+  { type: 'lab', levelId: 'lvl-7', actIdx: 2, focused: true, subStep: null, slide: 0, name: 'Activity 2.12 — Habitats' },
+  /* 17. Activity 2.13 — Sacred Groves & Keywords */
+  { type: 'lab', levelId: 'lvl-8', actIdx: 0, focused: true, subStep: null, slide: 0, name: 'Activity 2.13 — Sacred Groves & Keywords' },
+  /* 18–42. Chapter Challenge Questions 1 to 25 */
   ...Array.from({ length: 25 }, (_, i) => ({
     type: 'challenge',
     levelId: 'lvl-9',
@@ -1530,14 +1538,14 @@ function VocabularyGlossary({ onMatchComplete }) {
           <div style={{ 
             fontSize: '0.88rem', 
             fontWeight: '900', 
-            color: '#0284c7', 
+            color: '#064e3b', 
             textTransform: 'uppercase', 
             letterSpacing: '0.06em',
             marginBottom: '0.45rem',
-            background: 'rgba(14, 165, 233, 0.18)',
+            background: 'rgba(220, 252, 231, 0.85)',
             padding: '0.35rem 0.8rem',
             borderRadius: '8px',
-            border: '1.5px solid rgba(56, 189, 248, 0.4)',
+            border: '1.5px solid #10b981',
             display: 'inline-block'
           }}>
             Class 6 Science · Chapter 2
@@ -1548,7 +1556,7 @@ function VocabularyGlossary({ onMatchComplete }) {
             margin: '0.45rem 0 0.85rem 0', 
             fontSize: '1.75rem',
             fontWeight: '900',
-            color: '#0f172a',
+            color: '#064e3b',
             letterSpacing: '0.01em'
           }}>
             Key Vocabulary
@@ -1557,16 +1565,18 @@ function VocabularyGlossary({ onMatchComplete }) {
           <p style={{ 
             fontSize: '1.02rem', 
             color: '#334155', 
-            fontWeight: '700',
+            fontWeight: '700', 
             lineHeight: '1.6', 
-            margin: '0 0 1.25rem 0'
+            margin: '0 0 1.25rem 0',
+            textAlign: 'justify',
+            textJustify: 'inter-word'
           }}>
             Mastering scientific terms is key to understanding the diversity of plants and animals. Use this interactive pane to study glossary words or test yourself.
           </p>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: 'auto' }}>
-          <span style={{ fontSize: '0.85rem', fontWeight: '800', color: '#0284c7', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          <span style={{ fontSize: '0.85rem', fontWeight: '800', color: '#064e3b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
             Choose Mode:
           </span>
           <div style={{ display: 'flex', gap: '0.65rem' }}>
@@ -1580,13 +1590,13 @@ function VocabularyGlossary({ onMatchComplete }) {
                 borderRadius: '10px',
                 cursor: 'pointer',
                 background: activeTab === 'glossary' 
-                  ? '#f59e0b' 
+                  ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' 
                   : '#ffffff',
                 border: activeTab === 'glossary' 
-                  ? 'none' 
+                  ? '1px solid #34d399' 
                   : '1.5px solid rgba(167, 243, 208, 0.95)',
-                color: activeTab === 'glossary' ? '#1a0f05' : '#0f172a',
-                boxShadow: activeTab === 'glossary' ? '0 4px 14px rgba(245, 158, 11, 0.4)' : '0 2px 6px rgba(0,0,0,0.04)',
+                color: activeTab === 'glossary' ? '#ffffff' : '#0f172a',
+                boxShadow: activeTab === 'glossary' ? '0 4px 14px rgba(5, 150, 105, 0.35)' : '0 2px 6px rgba(0,0,0,0.04)',
                 transition: 'all 0.2s ease'
               }}
             >
@@ -1602,13 +1612,13 @@ function VocabularyGlossary({ onMatchComplete }) {
                 borderRadius: '10px',
                 cursor: 'pointer',
                 background: activeTab === 'game' 
-                  ? '#f59e0b' 
+                  ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' 
                   : '#ffffff',
                 border: activeTab === 'game' 
-                  ? 'none' 
+                  ? '1px solid #34d399' 
                   : '1.5px solid rgba(167, 243, 208, 0.95)',
-                color: activeTab === 'game' ? '#1a0f05' : '#0f172a',
-                boxShadow: activeTab === 'game' ? '0 4px 14px rgba(245, 158, 11, 0.4)' : '0 2px 6px rgba(0,0,0,0.04)',
+                color: activeTab === 'game' ? '#ffffff' : '#0f172a',
+                boxShadow: activeTab === 'game' ? '0 4px 14px rgba(5, 150, 105, 0.35)' : '0 2px 6px rgba(0,0,0,0.04)',
                 transition: 'all 0.2s ease'
               }}
             >
@@ -1628,9 +1638,9 @@ function VocabularyGlossary({ onMatchComplete }) {
             color: '#0f172a',
             boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
           }}>
-            <span style={{ fontWeight: '900', color: '#0284c7', display: 'block', marginBottom: '6px' }}>Match Game Progress:</span>
+            <span style={{ fontWeight: '900', color: '#064e3b', display: 'block', marginBottom: '6px' }}>Match Game Progress:</span>
             <span>Matched: <b style={{ color: '#16a34a', transition: 'all 0.3s ease' }}>{matchedPairs.length} / 6</b> pairs</span>
-            <span style={{ marginLeft: '14px' }}>Attempts: <b style={{ color: '#b45309', transition: 'all 0.3s ease' }}>{attempts}</b></span>
+            <span style={{ marginLeft: '14px' }}>Attempts: <b style={{ color: '#047857', transition: 'all 0.3s ease' }}>{attempts}</b></span>
           </div>
         )}
       </div>
@@ -1657,7 +1667,7 @@ function VocabularyGlossary({ onMatchComplete }) {
             <span style={{ 
               fontSize: '1.2rem', 
               fontWeight: '900', 
-              color: '#0284c7',
+              color: '#064e3b',
               letterSpacing: '0.01em'
             }}>
               {activeTab === 'glossary' ? '📕 Interactive Textbook Glossary' : '🎯 Definition Matcher'}
@@ -1683,7 +1693,7 @@ function VocabularyGlossary({ onMatchComplete }) {
                       background: isFlipped 
                         ? 'rgba(240, 253, 244, 0.98)' 
                         : '#ffffff',
-                      border: isFlipped ? '2px solid #0284c7' : '2px solid rgba(167, 243, 208, 0.95)',
+                      border: isFlipped ? '2px solid #059669' : '2px solid rgba(167, 243, 208, 0.95)',
                       borderRadius: '14px',
                       padding: '0.85rem',
                       cursor: 'pointer',
@@ -1692,13 +1702,13 @@ function VocabularyGlossary({ onMatchComplete }) {
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
-                      boxShadow: isFlipped ? '0 0 16px rgba(14, 165, 233, 0.2)' : '0 4px 14px rgba(0,0,0,0.06)'
+                      boxShadow: isFlipped ? '0 0 16px rgba(16, 185, 129, 0.25)' : '0 4px 14px rgba(0,0,0,0.06)'
                     }}
                   >
                     {isFlipped ? (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem', height: '100%' }}>
-                        <span style={{ fontSize: '0.92rem', color: '#0f172a', lineHeight: '1.5', fontWeight: 700 }}>
-                          <strong style={{ color: '#0284c7' }}>Def:</strong> {t.desc}
+                        <span style={{ fontSize: '0.92rem', color: '#0f172a', lineHeight: '1.5', fontWeight: 700, textAlign: 'justify', textJustify: 'inter-word' }}>
+                          <strong style={{ color: '#064e3b' }}>Def:</strong> {t.desc}
                         </span>
                         <span style={{ fontSize: '0.84rem', color: '#15803d', fontStyle: 'italic', fontWeight: 700, marginTop: 'auto' }}>
                           Ex: {t.eg}
@@ -1738,7 +1748,7 @@ function VocabularyGlossary({ onMatchComplete }) {
                         <span style={{ fontSize: '0.98rem', fontWeight: '900', color: '#0f172a', textAlign: 'center', lineHeight: '1.2' }}>
                           {t.word}
                         </span>
-                        <span style={{ fontSize: '0.74rem', color: '#0284c7', fontWeight: '700', marginTop: '0.25rem' }}>
+                        <span style={{ fontSize: '0.74rem', color: '#059669', fontWeight: '700', marginTop: '0.25rem' }}>
                           Click for definition ↻
                         </span>
                       </div>
@@ -1782,7 +1792,7 @@ function VocabularyGlossary({ onMatchComplete }) {
                     padding: '0.15rem 0.35rem', 
                     fontSize: '0.85rem', 
                     fontWeight: '900', 
-                    color: '#b45309', 
+                    color: '#064e3b', 
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em'
                   }}>
@@ -1790,14 +1800,14 @@ function VocabularyGlossary({ onMatchComplete }) {
                       width: '20px', 
                       height: '20px', 
                       borderRadius: '50%', 
-                      background: 'rgba(245, 158, 11, 0.2)', 
-                      border: '1.5px solid #f59e0b',
+                      background: 'rgba(16, 185, 129, 0.18)', 
+                      border: '1.5px solid #10b981',
                       display: 'flex', 
                       alignItems: 'center', 
                       justifyContent: 'center', 
                       fontSize: '0.75rem',
                       fontWeight: '900',
-                      color: '#b45309'
+                      color: '#064e3b'
                     }}>D</span>
                     DEFINITIONS
                   </div>
@@ -1824,17 +1834,17 @@ function VocabularyGlossary({ onMatchComplete }) {
                             : isError 
                               ? '2px solid #dc2626' 
                               : isSelected 
-                                ? '2px solid #f59e0b' 
+                                ? '2px solid #059669' 
                                 : '2px solid rgba(167, 243, 208, 0.95)',
                           background: isMatched 
                             ? 'rgba(220, 252, 231, 0.7)' 
                             : isError 
                               ? 'rgba(254, 226, 226, 0.8)' 
                               : isSelected 
-                                ? 'rgba(254, 243, 199, 0.9)' 
+                                ? 'rgba(220, 252, 231, 0.9)' 
                                 : '#ffffff',
                           boxShadow: isSelected 
-                            ? '0 0 14px rgba(245, 158, 11, 0.25)' 
+                            ? '0 0 14px rgba(16, 185, 129, 0.25)' 
                             : isMatched 
                               ? '0 0 10px rgba(34, 197, 94, 0.15)' 
                               : '0 2px 8px rgba(0,0,0,0.04)',
@@ -1846,13 +1856,13 @@ function VocabularyGlossary({ onMatchComplete }) {
                           transition: 'border 0.2s, background 0.2s, box-shadow 0.2s'
                         }}
                       >
-                        {/* Yellow circular number badge */}
+                        {/* Green circular number badge */}
                         <div style={{
                           width: '24px',
                           height: '24px',
                           borderRadius: '50%',
-                          background: isMatched ? '#16a34a' : '#f59e0b',
-                          color: isMatched ? '#ffffff' : '#1a0f05',
+                          background: isMatched ? '#16a34a' : '#059669',
+                          color: '#ffffff',
                           fontWeight: '900',
                           fontSize: '0.8rem',
                           display: 'flex',
@@ -1873,9 +1883,9 @@ function VocabularyGlossary({ onMatchComplete }) {
                           width: '12px',
                           height: '12px',
                           borderRadius: '50%',
-                          background: isMatched ? '#16a34a' : isSelected ? '#f59e0b' : '#0284c7',
+                          background: isMatched ? '#16a34a' : isSelected ? '#059669' : '#047857',
                           border: '2px solid #ffffff',
-                          boxShadow: isSelected ? '0 0 10px #f59e0b' : isMatched ? '0 0 8px #16a34a' : 'none',
+                          boxShadow: isSelected ? '0 0 10px #059669' : isMatched ? '0 0 8px #16a34a' : 'none',
                           position: 'absolute',
                           right: '-6px',
                           top: 'calc(50% - 6px)',
@@ -1889,8 +1899,8 @@ function VocabularyGlossary({ onMatchComplete }) {
 
                 {/* CENTER INSTRUCTION COLUMN */}
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', opacity: 0.65 }}>
-                  <span style={{ fontSize: '1.2rem', color: '#0284c7' }}>↔</span>
-                  <span style={{ fontSize: '0.65rem', color: '#0284c7', fontWeight: '800', textTransform: 'uppercase', writingMode: 'vertical-rl', letterSpacing: '0.12em' }}>
+                  <span style={{ fontSize: '1.2rem', color: '#047857' }}>↔</span>
+                  <span style={{ fontSize: '0.65rem', color: '#047857', fontWeight: '800', textTransform: 'uppercase', writingMode: 'vertical-rl', letterSpacing: '0.12em' }}>
                     Connect
                   </span>
                 </div>
@@ -1904,7 +1914,7 @@ function VocabularyGlossary({ onMatchComplete }) {
                     padding: '0.15rem 0.35rem', 
                     fontSize: '0.85rem', 
                     fontWeight: '900', 
-                    color: '#0284c7', 
+                    color: '#064e3b', 
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em'
                   }}>
@@ -1912,14 +1922,14 @@ function VocabularyGlossary({ onMatchComplete }) {
                       width: '20px', 
                       height: '20px', 
                       borderRadius: '4px', 
-                      background: 'rgba(14, 165, 233, 0.18)', 
-                      border: '1.5px solid rgba(56, 189, 248, 0.4)', 
+                      background: 'rgba(220, 252, 231, 0.85)', 
+                      border: '1.5px solid #10b981', 
                       display: 'flex', 
                       alignItems: 'center', 
                       justifyContent: 'center', 
                       fontSize: '0.75rem',
                       fontWeight: '900',
-                      color: '#0284c7'
+                      color: '#064e3b'
                     }}>W</span>
                     WORDS (TERMS)
                   </div>
@@ -1946,17 +1956,17 @@ function VocabularyGlossary({ onMatchComplete }) {
                             : isError 
                               ? '2px solid #dc2626' 
                               : isSelected 
-                                ? '2px solid #0284c7' 
+                                ? '2px solid #059669' 
                                 : '2px solid rgba(167, 243, 208, 0.95)',
                           background: isMatched 
                             ? 'rgba(220, 252, 231, 0.7)' 
                             : isError 
                               ? 'rgba(254, 226, 226, 0.8)' 
                               : isSelected 
-                                ? 'rgba(224, 242, 254, 0.9)' 
+                                ? 'rgba(220, 252, 231, 0.9)' 
                                 : '#ffffff',
                           boxShadow: isSelected 
-                            ? '0 0 14px rgba(14, 165, 233, 0.25)' 
+                            ? '0 0 14px rgba(16, 185, 129, 0.25)' 
                             : isMatched 
                               ? '0 0 10px rgba(34, 197, 94, 0.15)' 
                               : '0 2px 8px rgba(0,0,0,0.04)',
@@ -1973,9 +1983,9 @@ function VocabularyGlossary({ onMatchComplete }) {
                           width: '12px',
                           height: '12px',
                           borderRadius: '50%',
-                          background: isMatched ? '#16a34a' : isSelected ? '#0284c7' : '#0284c7',
+                          background: isMatched ? '#16a34a' : isSelected ? '#059669' : '#047857',
                           border: '2px solid #ffffff',
-                          boxShadow: isSelected ? '0 0 10px #0284c7' : isMatched ? '0 0 8px #16a34a' : 'none',
+                          boxShadow: isSelected ? '0 0 10px #059669' : isMatched ? '0 0 8px #16a34a' : 'none',
                           position: 'absolute',
                           left: '-6px',
                           top: 'calc(50% - 6px)',
@@ -1983,12 +1993,12 @@ function VocabularyGlossary({ onMatchComplete }) {
                           transition: 'all 0.2s ease'
                         }} />
 
-                        {/* Cyan square letter badge */}
+                        {/* Green square letter badge */}
                         <div style={{
                           width: '24px',
                           height: '24px',
                           borderRadius: '6px',
-                          background: isMatched ? '#16a34a' : '#0284c7',
+                          background: isMatched ? '#16a34a' : '#059669',
                           color: '#ffffff',
                           fontWeight: '900',
                           fontSize: '0.8rem',
@@ -2120,7 +2130,7 @@ function SummaryPane({ lessonId }) {
         <span style={{ 
           fontSize: '1.25rem', 
           fontWeight: '900', 
-          color: '#0284c7', 
+          color: '#064e3b', 
           textTransform: 'uppercase', 
           letterSpacing: '0.06em'
         }}>
@@ -2129,9 +2139,9 @@ function SummaryPane({ lessonId }) {
         <span style={{ 
           fontSize: '0.88rem', 
           fontWeight: '800',
-          color: '#0284c7',
-          background: 'rgba(14, 165, 233, 0.18)',
-          border: '1.5px solid rgba(56, 189, 248, 0.4)',
+          color: '#064e3b',
+          background: 'rgba(220, 252, 231, 0.85)',
+          border: '1.5px solid #10b981',
           padding: '0.3rem 0.85rem',
           borderRadius: '8px'
         }}>
@@ -2154,8 +2164,8 @@ function SummaryPane({ lessonId }) {
             padding: '0.6rem 0.95rem',
             boxShadow: '0 2px 6px rgba(0,0,0,0.03)'
           }}>
-            <span style={{ color: '#0284c7', fontSize: '1.15rem', lineHeight: '1.2', flexShrink: 0, fontWeight: '900' }}>•</span>
-            <span style={{ flex: 1 }}>{point}</span>
+            <span style={{ color: '#059669', fontSize: '1.15rem', lineHeight: '1.2', flexShrink: 0, fontWeight: '900' }}>•</span>
+            <span style={{ flex: 1, textAlign: 'justify', textJustify: 'inter-word' }}>{point}</span>
           </div>
         ))}
       </div>
@@ -2675,17 +2685,17 @@ function ChapterChallengeOverview({ onBack, onComplete, onViewSummary, onComplet
               fontWeight: '800',
               borderRadius: '14px',
               cursor: 'pointer',
-              background: 'linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%)',
-              border: '1.5px solid #38bdf8',
+              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+              border: '1.5px solid #34d399',
               color: '#ffffff',
-              boxShadow: '0 6px 24px rgba(0, 0, 0, 0.45), 0 0 16px rgba(14, 165, 233, 0.5)',
+              boxShadow: '0 6px 24px rgba(5, 150, 105, 0.45), 0 0 16px rgba(16, 185, 129, 0.4)',
               transition: 'all 0.25s ease',
               display: 'flex',
               alignItems: 'center',
               gap: '0.6rem'
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)'; e.currentTarget.style.boxShadow = '0 8px 28px rgba(14, 165, 233, 0.7)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0) scale(1)'; e.currentTarget.style.boxShadow = '0 6px 24px rgba(0, 0, 0, 0.45), 0 0 16px rgba(14, 165, 233, 0.5)'; }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)'; e.currentTarget.style.boxShadow = '0 8px 28px rgba(16, 185, 129, 0.6)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0) scale(1)'; e.currentTarget.style.boxShadow = '0 6px 24px rgba(5, 150, 105, 0.45), 0 0 16px rgba(16, 185, 129, 0.4)'; }}
           >
             🏠 Back to Chapters
           </button>
@@ -2710,7 +2720,7 @@ function ChapterChallengeOverview({ onBack, onComplete, onViewSummary, onComplet
         <div style={{ 
           fontSize: '1.15rem', 
           fontWeight: '900', 
-          color: '#b45309', 
+          color: '#064e3b', 
           textTransform: 'uppercase', 
           letterSpacing: '0.05em',
           borderBottom: '2px solid rgba(167, 243, 208, 0.95)', 
@@ -2726,14 +2736,16 @@ function ChapterChallengeOverview({ onBack, onComplete, onViewSummary, onComplet
           color: '#0f172a', 
           whiteSpace: 'pre-line', 
           fontWeight: '700', 
-          lineHeight: '1.75'
+          lineHeight: '1.75',
+          textAlign: 'justify',
+          textJustify: 'inter-word'
         }}>
           {currentQuestion.question}
         </h2>
         
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.65rem', fontSize: '0.85rem', marginTop: 'auto', paddingTop: '1rem' }}>
-            <span style={{ background: '#ffffff', border: '1.5px solid rgba(167, 243, 208, 0.95)', color: '#0f172a', padding: '0.35rem 0.85rem', borderRadius: '8px', fontWeight: '700', boxShadow: '0 2px 6px rgba(0,0,0,0.03)' }}><b style={{ color: '#0284c7' }}>Difficulty:</b> {currentQuestion.difficulty}</span>
-            <span style={{ background: '#ffffff', border: '1.5px solid rgba(167, 243, 208, 0.95)', color: '#0f172a', padding: '0.35rem 0.85rem', borderRadius: '8px', fontWeight: '700', boxShadow: '0 2px 6px rgba(0,0,0,0.03)' }}><b style={{ color: '#0284c7' }}>Concept:</b> {currentQuestion.concept}</span>
+            <span style={{ background: '#ffffff', border: '1.5px solid rgba(167, 243, 208, 0.95)', color: '#0f172a', padding: '0.35rem 0.85rem', borderRadius: '8px', fontWeight: '700', boxShadow: '0 2px 6px rgba(0,0,0,0.03)' }}><b style={{ color: '#064e3b' }}>Difficulty:</b> {currentQuestion.difficulty}</span>
+            <span style={{ background: '#ffffff', border: '1.5px solid rgba(167, 243, 208, 0.95)', color: '#0f172a', padding: '0.35rem 0.85rem', borderRadius: '8px', fontWeight: '700', boxShadow: '0 2px 6px rgba(0,0,0,0.03)' }}><b style={{ color: '#064e3b' }}>Concept:</b> {currentQuestion.concept}</span>
         </div>
       </div>
 
@@ -2818,7 +2830,7 @@ function ChapterChallengeOverview({ onBack, onComplete, onViewSummary, onComplet
             gap: '0.65rem',
             animation: 'fadeIn 0.3s ease-out'
           }}>
-            <h4 style={{ margin: 0, color: '#0284c7', fontSize: '1.05rem', fontWeight: '900' }}>Explanation</h4>
+            <h4 style={{ margin: 0, color: '#064e3b', fontSize: '1.05rem', fontWeight: '900' }}>Explanation</h4>
             <ul style={{ margin: 0, paddingLeft: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {currentQuestion.explanation.map((point, i) => (
                 <li 
@@ -2829,6 +2841,8 @@ function ChapterChallengeOverview({ onBack, onComplete, onViewSummary, onComplet
                     color: '#0f172a', 
                     lineHeight: '1.6',
                     fontWeight: '600',
+                    textAlign: 'justify',
+                    textJustify: 'inter-word',
                     animationDelay: `${i * 0.25}s` 
                   }}
                 >
@@ -2846,11 +2860,11 @@ function ChapterChallengeOverview({ onBack, onComplete, onViewSummary, onComplet
                 borderRadius: '10px', 
                 fontSize: '0.95rem',
                 fontWeight: '900',
-                background: '#f59e0b',
-                border: 'none',
-                color: '#1a0f05',
+                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                border: '1px solid #34d399',
+                color: '#ffffff',
                 cursor: 'pointer',
-                boxShadow: '0 4px 14px rgba(245, 158, 11, 0.4)',
+                boxShadow: '0 4px 14px rgba(5, 150, 105, 0.35)',
                 alignSelf: 'flex-end',
                 transition: 'all 0.2s ease'
               }}
@@ -2899,6 +2913,7 @@ export default function ChapterLearningLab({
   const [activityFocused, setActivityFocused] = useState(null);
   const [showBriefing, setShowBriefing] = useState(false);
   const [fsBarVisible, setFsBarVisible] = useState(false);
+  const [lessonSubPage, setLessonSubPage] = useState(1);
 
   // Level Map Auto-hide States
   const [isLevelMapOpen, setIsLevelMapOpen] = useState(false);
@@ -2933,6 +2948,10 @@ export default function ChapterLearningLab({
 
   // Lesson view states
   const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    setLessonSubPage(1);
+  }, [activeLevelId, activeSlide]);
   const [quizAnswers, setQuizAnswers] = useState({});
   const [quizChecked, setQuizChecked] = useState(false);
   const [activeQuizQuestionIdx, setActiveQuizQuestionIdx] = useState(0);
@@ -2998,6 +3017,15 @@ export default function ChapterLearningLab({
   };
 
   const timelineContainerRef = useRef(null);
+  const ch2NavRef = useRef(null);
+
+  useEffect(() => {
+    if (!ch2NavRef.current) return;
+    const activeEl = ch2NavRef.current.querySelector('[data-active="true"]');
+    if (activeEl) {
+      activeEl.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  }, [activeLevelId, stage]);
 
   const activeLevel = CHAPTER_2_LEVELS.find(l => l.id === activeLevelId) || CHAPTER_2_LEVELS[0];
   const totalLevels = CHAPTER_2_LEVELS.length;
@@ -3622,7 +3650,7 @@ export default function ChapterLearningLab({
                             <strong style={{ display: 'block', marginBottom: '0.4rem', color: design.accent, fontSize: '1.05rem', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                               Fact {idx + 1}
                             </strong>
-                            <p style={{ margin: 0, fontSize: '1.12rem', color: 'var(--text-heading)', fontWeight: '700', lineHeight: '1.6' }}>
+                            <p style={{ margin: 0, fontSize: '1.12rem', color: 'var(--text-heading)', fontWeight: '700', lineHeight: '1.6', textAlign: 'justify', textJustify: 'inter-word' }}>
                               {fact}
                             </p>
                           </div>
@@ -3776,7 +3804,7 @@ export default function ChapterLearningLab({
                       <strong style={{ display: 'block', marginBottom: '0.4rem', color: design.accent, fontSize: '1.05rem', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                         Fact {idx + 1}
                       </strong>
-                      <p style={{ margin: 0, fontSize: '1.12rem', color: 'var(--text-heading)', fontWeight: '700', lineHeight: '1.6' }}>
+                      <p style={{ margin: 0, fontSize: '1.12rem', color: 'var(--text-heading)', fontWeight: '700', lineHeight: '1.6', textAlign: 'justify', textJustify: 'inter-word' }}>
                         {fact}
                       </p>
                     </div>
@@ -3904,43 +3932,47 @@ export default function ChapterLearningLab({
       <div id="act24-interactive-explorer" style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '1.05rem',
+        gap: '0.6rem',
         width: '100%',
-        minHeight: '100%',
-        padding: '1.3rem 1.5rem',
+        height: '100%',
+        minHeight: 0,
+        overflow: 'hidden',
+        padding: '0.75rem 1rem',
         background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.99) 0%, rgba(240, 253, 244, 0.97) 100%)',
         backdropFilter: 'blur(16px)',
         borderRadius: '20px',
         border: '1.5px solid rgba(167, 243, 208, 0.95)',
-        boxShadow: '0 14px 36px rgba(0, 0, 0, 0.15)',
+        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.12)',
         position: 'relative',
         justifyContent: 'center'
       }}>
-        {/* EXPLORE & LEARN AREA (LARGE HD PLANT VISUAL FOCUS) */}
+        {/* EXPLORE & LEARN AREA (HD PLANT VISUAL FOCUS) */}
         <div style={{
           background: curGroup.bg,
           border: `1.5px solid ${curGroup.color}44`,
           borderRadius: '16px',
-          padding: '1.15rem 1.25rem',
+          padding: '0.75rem 1rem',
           display: 'flex',
           flexDirection: 'column',
-          gap: '0.95rem',
+          gap: '0.5rem',
+          height: '100%',
+          minHeight: 0,
           boxShadow: '0 4px 14px rgba(6, 78, 59, 0.04)'
         }}>
           {/* Header */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.4rem', borderBottom: '1.5px solid rgba(0,0,0,0.06)', paddingBottom: '0.5rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.4rem', borderBottom: '1.5px solid rgba(0,0,0,0.06)', paddingBottom: '0.4rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '1.25rem' }}>🔍</span>
-              <strong style={{ fontSize: '1.18rem', color: curGroup.color, fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              <span style={{ fontSize: '1.15rem' }}>🔍</span>
+              <strong style={{ fontSize: '1.05rem', color: curGroup.color, fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                 EXPLORE &amp; LEARN: {curGroup.name}
               </strong>
             </div>
-            <span style={{ fontSize: '0.9rem', color: '#065f46', fontWeight: '800' }}>
+            <span style={{ fontSize: '0.82rem', color: '#065f46', fontWeight: '800' }}>
               Observe the key features of {curGroup.name.toLowerCase()}.
             </span>
           </div>
 
-          {/* Plant Image (Fills Entire Box Area Edge-to-Edge, Full Original Image Visible, No Empty Side Space) */}
+          {/* Plant Image */}
           <div style={{
             position: 'relative',
             borderRadius: '14px',
@@ -3948,6 +3980,8 @@ export default function ChapterLearningLab({
             border: `2px solid ${curGroup.color}44`,
             boxShadow: '0 6px 20px rgba(0,0,0,0.08)',
             width: '100%',
+            flex: 1,
+            minHeight: 0,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -3959,8 +3993,8 @@ export default function ChapterLearningLab({
               alt={curGroup.imgAlt}
               style={{
                 width: '100%',
-                height: 'auto',
-                maxHeight: '480px',
+                height: '100%',
+                maxHeight: '340px',
                 objectFit: 'contain',
                 display: 'block',
                 userSelect: 'none',
@@ -4244,25 +4278,25 @@ export default function ChapterLearningLab({
       <div style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '0.85rem',
+        gap: '0.55rem',
         width: '100%',
-        padding: '1.25rem',
+        padding: '0.75rem 1rem',
         background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 253, 244, 0.96) 100%)',
         backdropFilter: 'blur(16px)',
         borderRadius: '16px',
         border: '2px solid rgba(167, 243, 208, 0.95)',
         boxShadow: '0 8px 32px rgba(0,0,0,0.15)'
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid rgba(167, 243, 208, 0.95)', paddingBottom: '0.5rem' }}>
-          <span style={{ fontSize: '1.05rem', fontWeight: '900', color: '#0284c7', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1.5px solid rgba(167, 243, 208, 0.95)', paddingBottom: '0.35rem' }}>
+          <span style={{ fontSize: '0.95rem', fontWeight: '900', color: '#0284c7', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
             🥜 Interactive Seed Dissector
           </span>
-          <div style={{ display: 'flex', gap: '0.35rem', background: '#ffffff', padding: '0.2rem', borderRadius: '8px', border: '1.5px solid rgba(167, 243, 208, 0.95)' }}>
+          <div style={{ display: 'flex', gap: '0.35rem', background: '#ffffff', padding: '0.15rem', borderRadius: '8px', border: '1.5px solid rgba(167, 243, 208, 0.95)' }}>
             <button
               onClick={() => handleSelect('pea')}
               style={{
-                padding: '0.3rem 0.65rem',
-                fontSize: '0.78rem',
+                padding: '0.25rem 0.55rem',
+                fontSize: '0.75rem',
                 fontWeight: '900',
                 borderRadius: '6px',
                 border: 'none',
@@ -4277,8 +4311,8 @@ export default function ChapterLearningLab({
             <button
               onClick={() => handleSelect('maize')}
               style={{
-                padding: '0.3rem 0.65rem',
-                fontSize: '0.78rem',
+                padding: '0.25rem 0.55rem',
+                fontSize: '0.75rem',
                 fontWeight: '900',
                 borderRadius: '6px',
                 border: 'none',
@@ -4293,8 +4327,8 @@ export default function ChapterLearningLab({
           </div>
         </div>
 
-        {/* Large Image box on Top */}
-        <div style={{ display: 'flex', justifyContent: 'center', background: '#ffffff', borderRadius: '12px', padding: '1rem', border: '1.5px solid rgba(167, 243, 208, 0.95)', height: '240px', alignItems: 'center', overflow: 'hidden', width: '100%', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+        {/* Scaled Image box to fit comfortably */}
+        <div style={{ display: 'flex', justifyContent: 'center', background: '#ffffff', borderRadius: '12px', padding: '0.5rem', border: '1.5px solid rgba(167, 243, 208, 0.95)', height: '150px', alignItems: 'center', overflow: 'hidden', width: '100%', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
           <img 
             src={getSeedImage()} 
             alt={getSeedAlt()}
@@ -4308,8 +4342,8 @@ export default function ChapterLearningLab({
             disabled={coatRemoved}
             onClick={() => { setCoatRemoved(true); setStatus('Seed coat peeled! Now click "Split Seed" to look inside.'); }}
             style={{
-              padding: '0.75rem',
-              fontSize: '0.9rem',
+              padding: '0.55rem',
+              fontSize: '0.88rem',
               fontWeight: '900',
               flex: 1,
               display: 'flex',
@@ -4340,8 +4374,8 @@ export default function ChapterLearningLab({
                 : '🚫 Monocot does not split. It has a single solid cotyledon.');
             }}
             style={{
-              padding: '0.75rem',
-              fontSize: '0.9rem',
+              padding: '0.55rem',
+              fontSize: '0.88rem',
               fontWeight: '900',
               flex: 1,
               display: 'flex',
@@ -4361,7 +4395,7 @@ export default function ChapterLearningLab({
           </button>
         </div>
 
-        <div style={{ padding: '0.65rem 0.9rem', borderRadius: '10px', background: 'rgba(240, 253, 244, 0.95)', border: '1.5px solid rgba(167, 243, 208, 0.95)', fontSize: '0.85rem', color: '#0f172a', fontWeight: '700' }}>
+        <div style={{ padding: '0.45rem 0.8rem', borderRadius: '10px', background: 'rgba(240, 253, 244, 0.95)', border: '1.5px solid rgba(167, 243, 208, 0.95)', fontSize: '0.82rem', color: '#0f172a', fontWeight: '700' }}>
           {status}
         </div>
       </div>
@@ -4385,10 +4419,10 @@ export default function ChapterLearningLab({
     const specimenKeys = ['fish', 'pigeon', 'snail', 'cow'];
 
     const dropzones = [
-      { id: 'swim', label: 'Swim 🏊', theme: { active: '#0284c7', bg: 'rgba(224, 242, 254, 0.9)', border: '#38bdf8' } },
-      { id: 'fly', label: 'Fly 🦅', theme: { active: '#7c3aed', bg: 'rgba(243, 232, 255, 0.9)', border: '#c084fc' } },
-      { id: 'walk', label: 'Walk 🚶', theme: { active: '#b45309', bg: 'rgba(254, 243, 199, 0.9)', border: '#f59e0b' } },
-      { id: 'crawl', label: 'Crawl 🐌', theme: { active: '#15803d', bg: 'rgba(220, 252, 231, 0.9)', border: '#4ade80' } }
+      { id: 'swim', label: 'Swim 🏊', theme: { active: '#059669', bg: 'rgba(220, 252, 231, 0.9)', border: '#34d399' } },
+      { id: 'fly', label: 'Fly 🦅', theme: { active: '#059669', bg: 'rgba(220, 252, 231, 0.9)', border: '#34d399' } },
+      { id: 'walk', label: 'Walk 🚶', theme: { active: '#059669', bg: 'rgba(220, 252, 231, 0.9)', border: '#34d399' } },
+      { id: 'crawl', label: 'Crawl 🐌', theme: { active: '#059669', bg: 'rgba(220, 252, 231, 0.9)', border: '#34d399' } }
     ];
 
     const handleDragStart = (e, animalId) => {
@@ -4445,7 +4479,7 @@ export default function ChapterLearningLab({
 
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid rgba(167, 243, 208, 0.95)', paddingBottom: '0.5rem' }}>
-          <span style={{ fontSize: '1.1rem', fontWeight: '900', color: '#0284c7', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <span style={{ fontSize: '1.1rem', fontWeight: '900', color: '#064e3b', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             🏃 Locomotion Organ Mapper
           </span>
           <button 
@@ -4453,7 +4487,7 @@ export default function ChapterLearningLab({
             style={{
               background: '#ffffff',
               border: '1.5px solid rgba(167, 243, 208, 0.95)',
-              color: '#0f172a',
+              color: '#064e3b',
               borderRadius: '8px',
               padding: '0.35rem 0.75rem',
               cursor: 'pointer',
@@ -4466,7 +4500,7 @@ export default function ChapterLearningLab({
               transition: 'all 0.2s ease'
             }}
           >
-            <RefreshCw size={14} color="#0284c7" /> Reset
+            <RefreshCw size={14} color="#064e3b" /> Reset
           </button>
         </div>
 
@@ -4519,8 +4553,8 @@ export default function ChapterLearningLab({
                       height: '230px',
                       borderRadius: '14px',
                       background: '#ffffff',
-                      border: isSelected ? '2.5px solid #0284c7' : draggingId === k ? '2px dashed #0284c7' : '2px solid rgba(167, 243, 208, 0.95)',
-                      boxShadow: isSelected ? '0 0 22px rgba(14, 165, 233, 0.35)' : '0 4px 14px rgba(0,0,0,0.06)',
+                      border: isSelected ? '2.5px solid #059669' : draggingId === k ? '2px dashed #059669' : '2px solid rgba(167, 243, 208, 0.95)',
+                      boxShadow: isSelected ? '0 0 22px rgba(16, 185, 129, 0.35)' : '0 4px 14px rgba(0,0,0,0.06)',
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
@@ -4566,7 +4600,7 @@ export default function ChapterLearningLab({
                       {data[k].name}
                     </span>
                     {isSelected && (
-                      <div style={{ position: 'absolute', top: -6, right: -6, background: '#0284c7', color: '#ffffff', borderRadius: '50%', width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: '900', boxShadow: '0 2px 6px rgba(0,0,0,0.2)' }}>
+                      <div style={{ position: 'absolute', top: -6, right: -6, background: '#059669', color: '#ffffff', borderRadius: '50%', width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: '900', boxShadow: '0 2px 6px rgba(0,0,0,0.2)' }}>
                         ✓
                       </div>
                     )}
@@ -4717,7 +4751,7 @@ export default function ChapterLearningLab({
           <span style={{
             fontSize: '1.22rem',
             fontWeight: '900',
-            color: '#0284c7',
+            color: '#064e3b',
             textTransform: 'uppercase',
             letterSpacing: '0.06em',
             display: 'flex',
@@ -4745,12 +4779,12 @@ export default function ChapterLearningLab({
                 fontSize: '0.96rem',
                 fontWeight: '900',
                 cursor: 'pointer',
-                border: tab === t.id ? 'none' : '1.5px solid rgba(167, 243, 208, 0.95)',
+                border: tab === t.id ? '1px solid #34d399' : '1.5px solid rgba(167, 243, 208, 0.95)',
                 background: tab === t.id
-                  ? '#f59e0b'
+                  ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
                   : '#ffffff',
-                color: tab === t.id ? '#1a0f05' : '#0f172a',
-                boxShadow: tab === t.id ? '0 4px 14px rgba(245, 158, 11, 0.4)' : '0 2px 6px rgba(0, 0, 0, 0.04)',
+                color: tab === t.id ? '#ffffff' : '#0f172a',
+                boxShadow: tab === t.id ? '0 4px 14px rgba(5, 150, 105, 0.35)' : '0 2px 6px rgba(0, 0, 0, 0.04)',
                 transition: 'all 0.2s ease',
                 display: 'flex',
                 alignItems: 'center',
@@ -4774,9 +4808,11 @@ export default function ChapterLearningLab({
               boxShadow: '0 4px 14px rgba(0, 0, 0, 0.04)',
               fontSize: '1.08rem',
               lineHeight: '1.65',
-              color: '#0f172a'
+              color: '#0f172a',
+              textAlign: 'justify',
+              textJustify: 'inter-word'
             }}>
-              <b style={{ color: '#b45309', fontSize: '1.2rem', display: 'block', marginBottom: '0.4rem' }}>
+              <b style={{ color: '#064e3b', fontSize: '1.2rem', display: 'block', marginBottom: '0.4rem' }}>
                 🐪 Rajasthan Camel:
               </b>
               Long legs (keeps body above hot sand), wide padded hooves, stores fat in its hump.
@@ -4789,9 +4825,11 @@ export default function ChapterLearningLab({
               boxShadow: '0 4px 14px rgba(0, 0, 0, 0.04)',
               fontSize: '1.08rem',
               lineHeight: '1.65',
-              color: '#0f172a'
+              color: '#0f172a',
+              textAlign: 'justify',
+              textJustify: 'inter-word'
             }}>
-              <b style={{ color: '#15803d', fontSize: '1.2rem', display: 'block', marginBottom: '0.4rem' }}>
+              <b style={{ color: '#064e3b', fontSize: '1.2rem', display: 'block', marginBottom: '0.4rem' }}>
                 🌵 Cactus:
               </b>
               Stem becomes fleshy/green to perform photosynthesis and store water. Leaves turn to spines.
@@ -4809,9 +4847,11 @@ export default function ChapterLearningLab({
               boxShadow: '0 4px 14px rgba(0, 0, 0, 0.04)',
               fontSize: '1.08rem',
               lineHeight: '1.65',
-              color: '#0f172a'
+              color: '#0f172a',
+              textAlign: 'justify',
+              textJustify: 'inter-word'
             }}>
-              <b style={{ color: '#0284c7', fontSize: '1.2rem', display: 'block', marginBottom: '0.4rem' }}>
+              <b style={{ color: '#064e3b', fontSize: '1.2rem', display: 'block', marginBottom: '0.4rem' }}>
                 🐫 Ladakh Camel:
               </b>
               Two humps, short study limbs to scale mountain paths, shaggy thick woolly hair coat for sub-zero climate.
@@ -4829,9 +4869,11 @@ export default function ChapterLearningLab({
               boxShadow: '0 4px 14px rgba(0, 0, 0, 0.04)',
               fontSize: '1.08rem',
               lineHeight: '1.65',
-              color: '#0f172a'
+              color: '#0f172a',
+              textAlign: 'justify',
+              textJustify: 'inter-word'
             }}>
-              <b style={{ color: '#6d28d9', fontSize: '1.2rem', display: 'block', marginBottom: '0.4rem' }}>
+              <b style={{ color: '#064e3b', fontSize: '1.2rem', display: 'block', marginBottom: '0.4rem' }}>
                 🌲 Mountain Pine/Deodar:
               </b>
               Sloping branches let snow slide off. Conical shape and needle-thin leaves protect against frost.
@@ -4849,9 +4891,11 @@ export default function ChapterLearningLab({
               boxShadow: '0 4px 14px rgba(0, 0, 0, 0.04)',
               fontSize: '1.05rem',
               lineHeight: '1.6',
-              color: '#0f172a'
+              color: '#0f172a',
+              textAlign: 'justify',
+              textJustify: 'inter-word'
             }}>
-              • <b style={{ color: '#0284c7' }}>Dr. Salim Ali:</b> India's Birdman, mapped ornithological habitats.
+              • <b style={{ color: '#064e3b' }}>Dr. Salim Ali:</b> India's Birdman, mapped ornithological habitats.
             </div>
             <div style={{
               padding: '1.05rem 1.35rem',
@@ -4861,9 +4905,11 @@ export default function ChapterLearningLab({
               boxShadow: '0 4px 14px rgba(0, 0, 0, 0.04)',
               fontSize: '1.05rem',
               lineHeight: '1.6',
-              color: '#0f172a'
+              color: '#0f172a',
+              textAlign: 'justify',
+              textJustify: 'inter-word'
             }}>
-              • <b style={{ color: '#b45309' }}>Project Tiger (1973):</b> Landmark preservation scheme for national tiger populations.
+              • <b style={{ color: '#064e3b' }}>Project Tiger (1973):</b> Landmark preservation scheme for national tiger populations.
             </div>
             <div style={{
               padding: '1.05rem 1.35rem',
@@ -4873,9 +4919,11 @@ export default function ChapterLearningLab({
               boxShadow: '0 4px 14px rgba(0, 0, 0, 0.04)',
               fontSize: '1.05rem',
               lineHeight: '1.6',
-              color: '#0f172a'
+              color: '#0f172a',
+              textAlign: 'justify',
+              textJustify: 'inter-word'
             }}>
-              • <b style={{ color: '#15803d' }}>Sacred Groves:</b> Local community forest reserves where woodcutting is banned.
+              • <b style={{ color: '#064e3b' }}>Sacred Groves:</b> Local community forest reserves where woodcutting is banned.
             </div>
           </div>
         )}
@@ -4908,437 +4956,71 @@ export default function ChapterLearningLab({
     const isAdaptationsSlide1Or2 = isAdaptationsConcept && (currentSlideIndex === 0 || currentSlideIndex === 1);
     const isAdaptationsSlide5 = isAdaptationsConcept && currentSlideIndex === 4;
 
-    return (
-      <div 
-        className="split-frame" 
-        style={{ 
-          width: '100%', 
-          minHeight: isAdaptationsSlide1Or2 ? '620px' : '560px',
-          ...(isAdaptationsSlide1Or2 ? {
-            gridTemplateColumns: '0.62fr 1.38fr',
-            gap: '1.25rem'
-          } : {})
-        }}
-      >
-        {/* LEFT COLUMN: Concept text & slideshow buttons */}
-        <div 
-          className={`frame-page-left ${isCh2Concept || isPlantConcept ? 'act24-mint-left' : ''}`} 
-          style={{
-            ...(isGroupingAnimalsConcept ? { padding: '1.25rem 1.4rem' } : {}),
-            ...(isPlantVarietyConcept ? { padding: '1.35rem 1.5rem', display: 'flex', flexDirection: 'column' } : {}),
-            ...(isAdaptationsSlide1Or2 ? { padding: '1.5rem 1.6rem', display: 'flex', flexDirection: 'column', minHeight: '100%' } : {}),
-            ...(isCh2Concept ? {
+    // CHAPTER 2: ZERO-SCROLL 2-PAGE SPLIT FLOW IN ASCENDING ORDER
+    if (chapterNum === 2) {
+      // Determine how many bullets this slide has to scale spacing dynamically
+      const bulletCount = slide.bullets ? slide.bullets.length : 0;
+      // Dynamic gap: fewer bullets → more generous spacing, more bullets → tighter
+      const bulletGap = bulletCount <= 2 ? 'clamp(0.5rem, 1.2vh, 0.85rem)' : bulletCount <= 3 ? 'clamp(0.35rem, 0.9vh, 0.65rem)' : 'clamp(0.25rem, 0.6vh, 0.45rem)';
+      // Dynamic bullet padding: scale down when there are many bullets
+      const bulletPad = bulletCount <= 2 ? 'clamp(0.6rem, 1.4vh, 1rem) clamp(0.8rem, 1.6vw, 1.25rem)' : bulletCount <= 3 ? 'clamp(0.45rem, 1vh, 0.75rem) clamp(0.7rem, 1.4vw, 1.1rem)' : 'clamp(0.35rem, 0.8vh, 0.55rem) clamp(0.6rem, 1.2vw, 0.95rem)';
+      // Dynamic bullet font size: scale down with more bullets
+      const bulletFontSize = bulletCount <= 2 ? 'clamp(16px, 2.2vh, 20px)' : bulletCount <= 3 ? 'clamp(15px, 2vh, 18.5px)' : 'clamp(14px, 1.8vh, 17px)';
+
+      if (lessonSubPage === 1) {
+        // ==========================================
+        // PAGE 1 OF 2: CONCEPT THEORY (ASCENDING ORDER: STEP 1)
+        // ==========================================
+        return (
+          <div 
+            className="act24-mint-left"
+            style={{
+              width: '100%',
+              height: '100%',
+              flex: 1,
+              minHeight: 0,
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column',
               background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 253, 244, 0.96) 100%)',
               border: '1.5px solid rgba(167, 243, 208, 0.95)',
-              borderRadius: '16px',
-              boxShadow: '0 8px 30px rgba(0, 0, 0, 0.15)',
-              backdropFilter: 'blur(16px)'
-            } : {}),
-            ...(isAdaptationsSlide5 ? {
-              alignSelf: 'start'
-            } : {})
-          }}
-        >
-          {isCh2Concept ? (
-            <div>
-              <div className="textbook-eyebrow" style={{ 
-                fontSize: '14px', 
-                color: '#ffffff', 
-                fontWeight: '800', 
-                letterSpacing: '0.06em',
-                display: 'inline-block',
-                background: 'linear-gradient(135deg, #065f46 0%, #047857 100%)',
-                border: '1.5px solid #064e3b',
-                padding: '0.35rem 0.85rem',
-                borderRadius: '8px',
-                boxShadow: '0 2px 6px rgba(6, 95, 70, 0.25)',
-                marginBottom: '0.5rem'
-              }}>
-                {activeLevel.title}
-              </div>
-              <h1 className="textbook-title" style={{
-                fontFamily: 'var(--serif-font)',
-                margin: '0 0 0.85rem 0',
-                fontSize: isScientistSlide ? '1.75rem' : '2.1rem',
-                color: '#0f172a',
-                fontWeight: '900',
-                lineHeight: '1.2'
-              }}>
-                {slide.title}
-              </h1>
-            </div>
-          ) : (
-            <>
-              <div className="textbook-eyebrow" style={{ color: '#38bdf8', fontSize: isGroupingAnimalsConcept ? '0.96rem' : (isEnlargedTextConcept ? '1.05rem' : '0.85rem'), fontWeight: '800', marginBottom: isGroupingAnimalsConcept ? '0.35rem' : undefined }}>
-                {activeLevel.title}
-              </div>
-              <h1 className="textbook-title" style={{
-                fontFamily: 'var(--serif-font)',
-                margin: isGroupingAnimalsConcept ? '0 0 0.65rem 0' : '0 0 0.85rem 0',
-                fontSize: isGroupingAnimalsConcept ? (isScientistSlide ? '1.45rem' : '1.65rem') : (isScientistSlide ? '1.75rem' : (isEnlargedTextConcept ? '2.1rem' : '1.65rem')),
-                color: '#38bdf8',
-                fontWeight: '800'
-              }}>
-                {slide.title}
-              </h1>
-            </>
-          )}
-          
-          <p style={{
-            fontSize: (isAdaptationsSlide1Or2 || isAdaptationsSlide5) ? '1.18rem' : (isPlantVarietyConcept ? '1.08rem' : (isCh2Concept ? '1.05rem' : (isGroupingAnimalsConcept ? (isScientistSlide ? '1.02rem' : '1.12rem') : (isScientistSlide ? '1.05rem' : (isEnlargedTextConcept ? '1.22rem' : '1.02rem'))))),
-            color: isCh2Concept ? '#1e293b' : '#fde047',
-            lineHeight: (isAdaptationsSlide1Or2 || isAdaptationsSlide5) ? '1.6' : (isPlantVarietyConcept ? '1.58' : (isGroupingAnimalsConcept ? '1.5' : (isScientistSlide ? '1.45' : '1.65'))),
-            margin: isPlantVarietyConcept ? '0 0 1rem 0' : (isGroupingAnimalsConcept ? '0 0 0.75rem 0' : '0 0 0.85rem 0'),
-            fontWeight: isCh2Concept ? '700' : '500'
-          }}>
-            {slide.content}
-          </p>
-
-          {slide.bullets && (
-            isPlantVarietyConcept ? (
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.85rem',
-                margin: '0 0 1rem 0',
-                flex: 1
-              }}>
-                {slide.bullets.map((b, i) => {
-                  let badgeColor = '#065f46';
-                  let badgeBg = '#dcfce7';
-                  let badgeBorder = '#86efac';
-                  let gKey = 'herbs';
-                  let gImg = tulsiImg;
-                  
-                  if (b.includes('Shrubs')) {
-                    badgeColor = '#9a3412';
-                    badgeBg = '#ffedd5';
-                    badgeBorder = '#fed7aa';
-                    gKey = 'shrubs';
-                    gImg = roseImg;
-                  } else if (b.includes('Trees')) {
-                    badgeColor = '#15803d';
-                    badgeBg = '#dcfce7';
-                    badgeBorder = '#86efac';
-                    gKey = 'trees';
-                    gImg = banyanImg;
-                  } else if (b.includes('Creepers')) {
-                    badgeColor = '#0369a1';
-                    badgeBg = '#e0f2fe';
-                    badgeBorder = '#7dd3fc';
-                    gKey = 'creepers';
-                    gImg = creeperImg;
-                  } else if (b.includes('Climbers')) {
-                    badgeColor = '#7c2d12';
-                    badgeBg = '#fef3c7';
-                    badgeBorder = '#fde68a';
-                    gKey = 'climbers';
-                    gImg = climberImg;
-                  }
-
-                  const isSelected = true;
-                  const parts = b.split(': ');
-                  const groupData = PLANT_DATA[gKey] || PLANT_DATA.herbs;
-
-                  return (
-                    <React.Fragment key={i}>
-                      <div
-                        style={{
-                          background: 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)',
-                          border: `2.5px solid ${badgeBorder}`,
-                          borderRadius: '14px',
-                          padding: '0.95rem 1.15rem',
-                          boxShadow: '0 8px 24px rgba(6, 95, 70, 0.16)',
-                          display: 'flex',
-                          gap: '0.85rem',
-                          alignItems: 'center',
-                          transform: 'translateY(-2px) scale(1.01)',
-                          transition: 'all 0.2s ease',
-                          position: 'relative'
-                        }}
-                      >
-                        {/* Thumbnail Image */}
-                        <div style={{
-                          width: '54px',
-                          height: '54px',
-                          borderRadius: '10px',
-                          overflow: 'hidden',
-                          border: `1.5px solid ${badgeBorder}`,
-                          flexShrink: 0,
-                          background: '#ffffff',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          boxShadow: '0 2px 6px rgba(0,0,0,0.06)'
-                        }}>
-                          <img
-                            src={gImg}
-                            alt={parts[0] || 'Plant'}
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                          />
-                        </div>
-
-                        {/* Content Area */}
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', flex: 1 }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.3rem' }}>
-                            <span style={{
-                              background: badgeBg,
-                              color: badgeColor,
-                              border: `1.5px solid ${badgeBorder}`,
-                              padding: '0.18rem 0.65rem',
-                              borderRadius: '8px',
-                              fontWeight: '900',
-                              fontSize: '1rem',
-                              letterSpacing: '0.01em'
-                            }}>
-                              {parts[0]}
-                            </span>
-
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                              {isSelected && (
-                                <span style={{
-                                  fontSize: '0.72rem',
-                                  color: '#047857',
-                                  fontWeight: '800',
-                                  textTransform: 'uppercase'
-                                }}>
-                                  Active 🔍
-                                </span>
-                              )}
-                            </div>
-                          </div>
-
-                          {parts.length > 1 ? (
-                            <div style={{ color: '#1e293b', fontSize: '0.98rem', lineHeight: '1.5', fontWeight: '600', paddingLeft: '0.1rem' }}>
-                              {parts[1]}
-                            </div>
-                          ) : (
-                            <div style={{ color: '#0f172a', fontSize: '1rem', lineHeight: '1.5', fontWeight: '700' }}>
-                              {b}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Definition & Examples Row */}
-                      <div style={{ display: 'grid', gridTemplateColumns: '1.15fr 1fr', gap: '0.85rem' }}>
-                        <div style={{
-                          background: '#ffffff',
-                          border: '1.5px solid rgba(167, 243, 208, 0.95)',
-                          borderRadius: '12px',
-                          padding: '0.75rem 1rem',
-                          boxShadow: '0 2px 8px rgba(0,0,0,0.03)'
-                        }}>
-                          <div style={{ fontSize: '0.82rem', color: '#047857', fontWeight: '900', textTransform: 'uppercase', marginBottom: '3px', letterSpacing: '0.04em' }}>
-                            Textbook Definition
-                          </div>
-                          <div style={{ color: '#0f172a', fontWeight: '800', fontSize: '1.08rem', lineHeight: '1.45' }}>
-                            “{groupData.definition}”
-                          </div>
-                        </div>
-
-                        <div style={{
-                          background: '#ffffff',
-                          border: '1.5px solid rgba(167, 243, 208, 0.95)',
-                          borderRadius: '12px',
-                          padding: '0.75rem 1rem',
-                          boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
-                        }}>
-                          <div style={{ fontSize: '0.82rem', color: '#047857', fontWeight: '900', textTransform: 'uppercase', marginBottom: '2px', letterSpacing: '0.04em' }}>
-                            Examples
-                          </div>
-                          <div style={{ color: '#0f172a', fontWeight: '700', fontSize: '1.02rem', lineHeight: '1.4' }}>
-                            {groupData.examples}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* 3 Key Feature Badges */}
-                      <div style={{ display: 'flex', gap: '0.55rem', flexWrap: 'wrap', alignItems: 'center' }}>
-                        <span style={{ fontSize: '0.88rem', fontWeight: '900', color: '#065f46', textTransform: 'uppercase', marginRight: '4px' }}>
-                          Key Features:
-                        </span>
-                        {groupData.keyFeatures.map((chip, idx) => (
-                          <span
-                            key={idx}
-                            style={{
-                              padding: '0.35rem 0.8rem',
-                              borderRadius: '10px',
-                              fontSize: '0.92rem',
-                              fontWeight: '800',
-                              background: '#ffffff',
-                              color: '#065f46',
-                              border: '1.5px solid rgba(167, 243, 208, 0.95)',
-                              boxShadow: '0 1px 4px rgba(0,0,0,0.03)',
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '5px'
-                            }}
-                          >
-                            <span>🌿</span>
-                            <span>{chip.label}</span>
-                          </span>
-                        ))}
-                      </div>
-                    </React.Fragment>
-                  );
-                })}
-              </div>
-            ) : isVenationRootsConcept ? (
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.65rem',
-                margin: '0 0 0.85rem 0'
-              }}>
-                {slide.bullets.map((b, i) => {
-                  let badgeColor = '#064e3b';
-                  let badgeBg = '#dcfce7';
-                  let badgeBorder = '#86efac';
-                  
-                  if (b.includes('Parallel')) {
-                    badgeColor = '#0369a1';
-                    badgeBg = '#e0f2fe';
-                    badgeBorder = '#7dd3fc';
-                  } else if (b.includes('Taproot')) {
-                    badgeColor = '#92400e';
-                    badgeBg = '#fef3c7';
-                    badgeBorder = '#fde68a';
-                  } else if (b.includes('Fibrous')) {
-                    badgeColor = '#9a3412';
-                    badgeBg = '#ffedd5';
-                    badgeBorder = '#fed7aa';
-                  }
-
-                  const parts = b.split(': ');
-                  return (
-                    <div key={i} style={{
-                      background: '#ffffff',
-                      border: '1.5px solid rgba(167, 243, 208, 0.95)',
-                      borderRadius: '12px',
-                      padding: '0.7rem 0.95rem',
-                      boxShadow: '0 2px 8px rgba(0, 30, 15, 0.04)',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '0.3rem'
-                    }}>
-                      {parts.length > 1 ? (
-                        <>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            <span style={{
-                              background: badgeBg,
-                              color: badgeColor,
-                              border: `1px solid ${badgeBorder}`,
-                              padding: '0.18rem 0.65rem',
-                              borderRadius: '6px',
-                              fontWeight: '800',
-                              fontSize: '0.96rem',
-                              letterSpacing: '0.02em'
-                            }}>
-                              {parts[0]}
-                            </span>
-                          </div>
-                          <div style={{ color: '#334155', fontSize: '1.02rem', lineHeight: '1.48', fontWeight: '600', paddingLeft: '0.15rem' }}>
-                            {parts[1]}
-                          </div>
-                        </>
-                      ) : (
-                        <div style={{ color: '#0f172a', fontSize: '1.05rem', lineHeight: '1.48', fontWeight: '700' }}>
-                          {b}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            ) : isCh2Concept ? (
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: (isAdaptationsSlide1Or2 || isAdaptationsSlide5) ? '0.75rem' : '0.55rem',
-                margin: (isAdaptationsSlide1Or2 || isAdaptationsSlide5) ? '0 0 1rem 0' : '0 0 0.85rem 0'
-              }}>
-                {slide.bullets.map((b, i) => (
-                  <div key={i} style={{
-                    background: '#ffffff',
-                    border: '1.5px solid rgba(167, 243, 208, 0.95)',
-                    borderRadius: (isAdaptationsSlide1Or2 || isAdaptationsSlide5) ? '12px' : '10px',
-                    padding: (isAdaptationsSlide1Or2 || isAdaptationsSlide5) ? '0.85rem 1.15rem' : '0.6rem 0.85rem',
-                    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.03)',
-                    color: '#0f172a',
-                    fontSize: (isAdaptationsSlide1Or2 || isAdaptationsSlide5) ? '1.14rem' : '0.96rem',
-                    lineHeight: (isAdaptationsSlide1Or2 || isAdaptationsSlide5) ? '1.55' : '1.5',
-                    fontWeight: '700'
-                  }}>
-                    • {b}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <ul style={{
-                margin: isGroupingAnimalsConcept ? '0 0 0.85rem 0' : '0 0 1.25rem 0',
-                paddingLeft: isGroupingAnimalsConcept ? '1.25rem' : '1.25rem',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: isGroupingAnimalsConcept ? (isScientistSlide ? '0.38rem' : '0.55rem') : (isScientistSlide ? '0.4rem' : (isEnlargedTextConcept ? '0.55rem' : '0.4rem'))
-              }}>
-                {slide.bullets.map((b, i) => (
-                  <li key={i} style={{
-                    fontSize: isGroupingAnimalsConcept ? (isScientistSlide ? '0.94rem' : '1.04rem') : (isScientistSlide ? '0.98rem' : (isEnlargedTextConcept ? '1.14rem' : '0.95rem')),
-                    color: '#fde047',
-                    lineHeight: isGroupingAnimalsConcept ? '1.48' : (isScientistSlide ? '1.4' : '1.6'),
-                    fontWeight: '500'
-                  }}>
-                    {b}
-                  </li>
-                ))}
-              </ul>
-            )
-          )}
-
-          {isVenationRootsConcept && (
-            <div style={{
-              background: 'linear-gradient(135deg, rgba(240, 253, 244, 0.95), rgba(255, 255, 255, 0.98))',
-              border: '1.5px dashed #059669',
-              borderRadius: '12px',
-              padding: '0.75rem 1rem',
-              marginTop: 'auto',
-              marginBottom: '0.75rem',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.75rem',
-              boxShadow: '0 2px 8px rgba(5, 150, 105, 0.06)'
-            }}>
-              <div style={{
-                width: '34px',
-                height: '34px',
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, #059669, #047857)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '1.15rem',
-                flexShrink: 0,
-                boxShadow: '0 2px 6px rgba(4, 120, 87, 0.25)'
-              }}>
-                🔬
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem' }}>
-                <span style={{ fontSize: '0.78rem', fontWeight: '800', color: '#065f46', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Lab Diagnostic Tip
+              borderRadius: '20px',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+              backdropFilter: 'blur(16px)',
+              padding: 'clamp(0.6rem, 1.4vh, 1rem) clamp(1rem, 2.5vw, 1.85rem)',
+              boxSizing: 'border-box'
+            }}
+          >
+            {/* Top Eyebrow & Audio Bar — compact, no shrink */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'clamp(0.2rem, 0.5vh, 0.4rem)', flexShrink: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                <span style={{ 
+                  fontSize: 'clamp(11px, 1.4vh, 13px)', 
+                  color: '#ffffff', 
+                  fontWeight: '900', 
+                  letterSpacing: '0.05em',
+                  background: 'linear-gradient(135deg, #065f46 0%, #047857 100%)',
+                  border: '1.5px solid #064e3b',
+                  padding: '0.2rem 0.6rem',
+                  borderRadius: '8px',
+                  boxShadow: '0 2px 6px rgba(6, 95, 70, 0.25)'
+                }}>
+                  {activeLevel.title}
                 </span>
-                <span style={{ fontSize: '0.92rem', fontWeight: '700', color: '#0f172a', lineHeight: '1.35' }}>
-                  {currentSlideIndex === 0 && 'Inspect leaf veins carefully: net-mesh indicates reticulate, straight lines indicate parallel.'}
-                  {currentSlideIndex === 1 && 'Observe root structure: one main thick taproot vs multiple equal fibrous threadlike roots.'}
-                  {currentSlideIndex === 2 && 'Plants show exact correlation: Reticulate leaf ⇄ Taproot, Parallel leaf ⇄ Fibrous roots.'}
+                <span style={{
+                  fontSize: 'clamp(11px, 1.3vh, 12.5px)',
+                  fontWeight: '800',
+                  color: '#047857',
+                  background: '#dcfce7',
+                  border: '1px solid #86efac',
+                  padding: '0.15rem 0.55rem',
+                  borderRadius: '6px'
+                }}>
+                  Step 1 of 2: Concept Theory
                 </span>
               </div>
-            </div>
-          )}
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem', marginTop: isAdaptationsSlide5 ? '1.1rem' : 'auto', paddingTop: isGroupingAnimalsConcept ? '0.75rem' : '1rem', borderTop: isCh2Concept || isPlantConcept ? '1.5px solid rgba(167, 243, 208, 0.7)' : '1px solid rgba(0,0,0,0.06)' }}>
-            <div style={{ display: 'flex', gap: '0.35rem' }}>
-              {chapterNum !== 2 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <button
                   onClick={() => {
                     if (isReading) {
@@ -5349,52 +5031,555 @@ export default function ChapterLearningLab({
                   }}
                   className="outline"
                   style={{
-                    fontSize: '0.75rem',
-                    padding: '0.35rem 0.65rem',
+                    fontSize: 'clamp(11px, 1.3vh, 13px)',
+                    padding: '0.25rem 0.7rem',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '4px',
+                    gap: '5px',
                     borderRadius: '20px',
-                    background: isReading ? 'rgba(99,102,241,0.08)' : 'transparent',
-                    borderColor: isReading ? 'var(--accent)' : 'var(--border)',
-                    color: isReading ? 'var(--accent)' : 'var(--text-primary)',
-                    fontWeight: '600',
+                    background: isReading ? '#ecfdf5' : '#ffffff',
+                    border: '1.5px solid #10b981',
+                    color: '#064e3b',
+                    fontWeight: '800',
+                    cursor: 'pointer',
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
                     transition: 'all 0.2s ease'
                   }}
                   title={isReading ? "Stop Reading" : "Read Aloud"}
                 >
-                  {isReading ? <VolumeX size={13} /> : <Volume2 size={13} />}
-                  <span>{isReading ? 'Stop' : 'Read'}</span>
+                  {isReading ? <VolumeX size={14} /> : <Volume2 size={14} />}
+                  <span>{isReading ? 'Stop' : 'Listen'}</span>
                 </button>
+              </div>
+            </div>
+
+            {/* Title — no shrink */}
+            <h1 className="textbook-title" style={{
+              fontFamily: 'var(--serif-font)',
+              margin: '0 0 clamp(0.2rem, 0.5vh, 0.4rem) 0',
+              fontSize: 'clamp(22px, 3.4vh, 34px)',
+              color: '#0f172a',
+              fontWeight: '900',
+              lineHeight: '1.15',
+              flexShrink: 0
+            }}>
+              {slide.title}
+            </h1>
+
+            {/* Paragraph Text — no shrink */}
+            <p style={{
+              fontSize: 'clamp(15px, 2.2vh, 20px)',
+              color: '#1e293b',
+              lineHeight: '1.5',
+              margin: '0 0 clamp(0.3rem, 0.7vh, 0.6rem) 0',
+              fontWeight: '600',
+              textAlign: 'justify',
+              textJustify: 'inter-word',
+              flexShrink: 0
+            }}>
+              {slide.content}
+            </p>
+
+            {/* Central Concept Bullets / Observation Cards — flex: 1 fills remaining space */}
+            <div style={{ flex: 1, minHeight: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              {isPlantVarietyConcept && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: bulletGap }}>
+                  {(() => {
+                    const groups = ['herbs', 'shrubs', 'trees', 'creepers', 'climbers'];
+                    const gKey = groups[currentSlideIndex] || 'herbs';
+                    const groupData = PLANT_DATA[gKey] || PLANT_DATA.herbs;
+                    const gImg = gKey === 'herbs' ? tulsiImg : gKey === 'shrubs' ? roseImg : gKey === 'trees' ? banyanImg : gKey === 'creepers' ? creeperImg : climberImg;
+                    const badgeBorder = gKey === 'herbs' ? '#86efac' : gKey === 'shrubs' ? '#fed7aa' : gKey === 'trees' ? '#86efac' : gKey === 'creepers' ? '#7dd3fc' : '#fde68a';
+                    const badgeBg = gKey === 'herbs' ? '#dcfce7' : gKey === 'shrubs' ? '#ffedd5' : gKey === 'trees' ? '#dcfce7' : gKey === 'creepers' ? '#e0f2fe' : '#fef3c7';
+                    const badgeColor = gKey === 'herbs' ? '#065f46' : gKey === 'shrubs' ? '#9a3412' : gKey === 'trees' ? '#15803d' : gKey === 'creepers' ? '#0369a1' : '#7c2d12';
+
+                    return (
+                      <>
+                        <div style={{
+                          background: 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)',
+                          border: `2px solid ${badgeBorder}`,
+                          borderRadius: '14px',
+                          padding: 'clamp(0.5rem, 1vh, 0.75rem) clamp(0.7rem, 1.5vw, 1.15rem)',
+                          boxShadow: '0 4px 14px rgba(6, 95, 70, 0.1)',
+                          display: 'flex',
+                          gap: '0.85rem',
+                          alignItems: 'center'
+                        }}>
+                          <div style={{
+                            width: 'clamp(48px, 7vh, 64px)',
+                            height: 'clamp(48px, 7vh, 64px)',
+                            borderRadius: '10px',
+                            overflow: 'hidden',
+                            border: `1.5px solid ${badgeBorder}`,
+                            flexShrink: 0,
+                            background: '#ffffff',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+                          }}>
+                            <img src={gImg} alt={groupData.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          </div>
+
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem', flex: 1 }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <span style={{
+                                background: badgeBg,
+                                color: badgeColor,
+                                border: `1.5px solid ${badgeBorder}`,
+                                padding: '0.15rem 0.55rem',
+                                borderRadius: '6px',
+                                fontWeight: '900',
+                                fontSize: 'clamp(14px, 2vh, 18px)'
+                              }}>
+                                {groupData.name}
+                              </span>
+                              <span style={{ fontSize: 'clamp(11px, 1.3vh, 13px)', color: '#047857', fontWeight: '800' }}>
+                                Specimen {currentSlideIndex + 1} of 5
+                              </span>
+                            </div>
+                            <div style={{ color: '#1e293b', fontSize: 'clamp(14px, 2vh, 18px)', lineHeight: '1.4', fontWeight: '700', textAlign: 'justify' }}>
+                              {groupData.definition}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* 2-column details: Examples & Key features */}
+                        <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 'clamp(0.4rem, 0.8vh, 0.65rem)' }}>
+                          <div style={{ background: '#ffffff', border: '1.5px solid rgba(167, 243, 208, 0.95)', borderRadius: '12px', padding: 'clamp(0.4rem, 0.9vh, 0.65rem) clamp(0.6rem, 1.2vw, 1rem)', boxShadow: '0 2px 6px rgba(0,0,0,0.03)' }}>
+                            <div style={{ fontSize: 'clamp(10px, 1.2vh, 12px)', color: '#047857', fontWeight: '900', textTransform: 'uppercase', marginBottom: '3px', letterSpacing: '0.04em' }}>
+                              Common Plant Examples
+                            </div>
+                            <div style={{ color: '#0f172a', fontWeight: '800', fontSize: 'clamp(14px, 1.9vh, 17px)', lineHeight: '1.35', textAlign: 'justify' }}>
+                              {groupData.examples}
+                            </div>
+                          </div>
+
+                          <div style={{ background: '#ffffff', border: '1.5px solid rgba(167, 243, 208, 0.95)', borderRadius: '12px', padding: 'clamp(0.4rem, 0.9vh, 0.65rem) clamp(0.6rem, 1.2vw, 1rem)', boxShadow: '0 2px 6px rgba(0,0,0,0.03)' }}>
+                            <div style={{ fontSize: 'clamp(10px, 1.2vh, 12px)', color: '#047857', fontWeight: '900', textTransform: 'uppercase', marginBottom: '3px', letterSpacing: '0.04em' }}>
+                              Diagnostic Botanical Features
+                            </div>
+                            <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
+                              {groupData.keyFeatures.map((chip, idx) => (
+                                <span key={idx} style={{
+                                  padding: '0.15rem 0.45rem',
+                                  borderRadius: '8px',
+                                  fontSize: 'clamp(12px, 1.5vh, 14px)',
+                                  fontWeight: '800',
+                                  background: '#f0fdf4',
+                                  color: '#065f46',
+                                  border: '1.5px solid rgba(167, 243, 208, 0.95)',
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '3px'
+                                }}>
+                                  <span>🌿</span>
+                                  <span>{chip.label}</span>
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })()}
+                </div>
+              )}
+
+              {isVenationRootsConcept && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: bulletGap }}>
+                  {slide.bullets && slide.bullets.map((b, i) => {
+                    const parts = b.split(': ');
+                    return (
+                      <div key={i} style={{
+                        background: '#ffffff',
+                        border: '1.5px solid rgba(167, 243, 208, 0.95)',
+                        borderRadius: '12px',
+                        padding: bulletPad,
+                        boxShadow: '0 2px 8px rgba(0, 30, 15, 0.04)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '0.25rem'
+                      }}>
+                        {parts.length > 1 ? (
+                          <>
+                            <span style={{
+                              background: '#dcfce7',
+                              color: '#065f46',
+                              border: '1px solid #86efac',
+                              padding: '0.15rem 0.55rem',
+                              borderRadius: '6px',
+                              fontWeight: '900',
+                              fontSize: 'clamp(14px, 2vh, 18px)',
+                              alignSelf: 'flex-start'
+                            }}>
+                              {parts[0]}
+                            </span>
+                            <div style={{ color: '#1e293b', fontSize: bulletFontSize, lineHeight: '1.4', fontWeight: '700', textAlign: 'justify' }}>
+                              {parts[1]}
+                            </div>
+                          </>
+                        ) : (
+                          <div style={{ color: '#0f172a', fontSize: bulletFontSize, lineHeight: '1.4', fontWeight: '700', textAlign: 'justify' }}>
+                            {b}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+
+                  <div style={{
+                    background: 'linear-gradient(135deg, rgba(240, 253, 244, 0.95), rgba(255, 255, 255, 0.98))',
+                    border: '1.5px dashed #059669',
+                    borderRadius: '12px',
+                    padding: 'clamp(0.4rem, 0.9vh, 0.65rem) clamp(0.7rem, 1.4vw, 1.1rem)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.65rem',
+                    boxShadow: '0 2px 8px rgba(5, 150, 105, 0.06)'
+                  }}>
+                    <div style={{
+                      width: 'clamp(28px, 4.5vh, 36px)',
+                      height: 'clamp(28px, 4.5vh, 36px)',
+                      borderRadius: '50%',
+                      background: 'linear-gradient(135deg, #059669, #047857)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '1rem',
+                      flexShrink: 0,
+                      color: '#ffffff'
+                    }}>
+                      🔬
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 'clamp(10px, 1.2vh, 12px)', fontWeight: '900', color: '#065f46', textTransform: 'uppercase' }}>
+                        Lab Diagnostic Rule
+                      </div>
+                      <div style={{ fontSize: 'clamp(13px, 1.8vh, 16px)', fontWeight: '700', color: '#0f172a', lineHeight: '1.35', textAlign: 'justify' }}>
+                        {currentSlideIndex === 0 && 'Inspect leaf veins: net-mesh indicates reticulate, parallel lines indicate parallel venation.'}
+                        {currentSlideIndex === 1 && 'Examine root layout: single main taproot vs multiple equal fibrous roots.'}
+                        {currentSlideIndex === 2 && 'Universal Correlation: Reticulate venation ⇄ Taproot, Parallel venation ⇄ Fibrous roots.'}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {!isPlantVarietyConcept && !isVenationRootsConcept && slide.bullets && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: bulletGap, justifyContent: 'center' }}>
+                  {slide.bullets.map((b, i) => (
+                    <div key={i} style={{
+                      background: '#ffffff',
+                      border: '1.5px solid rgba(167, 243, 208, 0.95)',
+                      borderRadius: '12px',
+                      padding: bulletPad,
+                      boxShadow: '0 2px 6px rgba(0, 0, 0, 0.03)',
+                      color: '#0f172a',
+                      fontSize: bulletFontSize,
+                      lineHeight: '1.45',
+                      fontWeight: '700',
+                      textAlign: 'justify'
+                    }}>
+                      • {b}
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
 
-            <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '0.75rem', color: isCh2Concept || isPlantConcept ? '#047857' : 'var(--text-muted)', fontWeight: isCh2Concept || isPlantConcept ? '700' : 'normal', marginRight: '0.2rem' }}>
-                Slide {currentSlideIndex + 1} of {totalSlides}
-              </span>
-              {currentSlideIndex > 0 && (
-                <button
-                  onClick={() => { handleStopSpeech(); setActiveSlide(prev => Math.max(0, prev - 1)); }}
-                  className="outline"
-                  style={{ 
-                    padding: '0.35rem 0.8rem', 
-                    fontSize: '0.75rem', 
-                    borderRadius: '20px',
-                    ...(isCh2Concept || isPlantConcept ? {
+            {/* Bottom Controls Bar on Page 1 — pinned, never overlaps */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              borderTop: '1.5px solid rgba(167, 243, 208, 0.9)',
+              paddingTop: 'clamp(0.3rem, 0.7vh, 0.55rem)',
+              marginTop: 'clamp(0.2rem, 0.5vh, 0.35rem)',
+              flexShrink: 0
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: 'clamp(12px, 1.4vh, 14px)', fontWeight: '800', color: '#047857' }}>
+                  Slide {currentSlideIndex + 1} of {totalSlides} · Part 1
+                </span>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                {currentSlideIndex > 0 && (
+                  <button
+                    onClick={() => {
+                      handleStopSpeech();
+                      setActiveSlide(prev => prev - 1);
+                      setLessonSubPage(2);
+                    }}
+                    style={{
+                      padding: '0.4rem 1rem',
+                      fontSize: 'clamp(12px, 1.5vh, 14px)',
+                      borderRadius: '999px',
                       border: '1.5px solid #10b981',
-                      color: '#065f46',
+                      color: '#064e3b',
                       fontWeight: '800',
-                      background: '#ffffff'
-                    } : {})
+                      background: '#ffffff',
+                      cursor: 'pointer',
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.04)'
+                    }}
+                  >
+                    ← Previous Slide
+                  </button>
+                )}
+
+                <button
+                  onClick={() => {
+                    handleStopSpeech();
+                    setLessonSubPage(2);
+                  }}
+                  style={{
+                    padding: '0.5rem 1.5rem',
+                    fontSize: 'clamp(13px, 1.8vh, 16px)',
+                    borderRadius: '999px',
+                    background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                    border: '1.5px solid #b45309',
+                    color: '#ffffff',
+                    fontWeight: '900',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    boxShadow: '0 4px 14px rgba(217, 119, 6, 0.35)',
+                    transition: 'all 0.2s ease'
                   }}
                 >
-                  Prev
+                  <span>Next: Investigation</span>
+                  <span>→</span>
                 </button>
+              </div>
+            </div>
+          </div>
+        );
+      } else {
+        // ==========================================
+        // PAGE 2 OF 2: HANDS-ON LAB / VISUAL INVESTIGATION (ASCENDING ORDER: STEP 2)
+        // ==========================================
+        return (
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              flex: 1,
+              minHeight: 0,
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column',
+              background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 253, 244, 0.96) 100%)',
+              border: '1.5px solid rgba(167, 243, 208, 0.95)',
+              borderRadius: '20px',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+              backdropFilter: 'blur(16px)',
+              padding: 'clamp(0.5rem, 1.1vh, 0.85rem) clamp(0.8rem, 2vw, 1.6rem)',
+              boxSizing: 'border-box'
+            }}
+          >
+            {/* Top Bar on Page 2 — compact, no shrink */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'clamp(0.2rem, 0.5vh, 0.4rem)', borderBottom: '1.5px solid rgba(167, 243, 208, 0.9)', paddingBottom: 'clamp(0.2rem, 0.4vh, 0.35rem)', flexShrink: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{
+                  fontSize: 'clamp(10px, 1.2vh, 12px)',
+                  color: '#ffffff',
+                  fontWeight: '900',
+                  letterSpacing: '0.05em',
+                  background: 'linear-gradient(135deg, #065f46 0%, #047857 100%)',
+                  border: '1.5px solid #064e3b',
+                  padding: '0.2rem 0.55rem',
+                  borderRadius: '8px',
+                  boxShadow: '0 2px 6px rgba(6, 95, 70, 0.25)'
+                }}>
+                  Step 2 of 2: Investigation
+                </span>
+                <h2 style={{ margin: 0, fontSize: 'clamp(16px, 2.5vh, 24px)', fontWeight: '900', color: '#0f172a' }}>
+                  {slide.title}
+                </h2>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{
+                  fontSize: 'clamp(10px, 1.2vh, 12px)',
+                  fontWeight: '800',
+                  color: '#047857',
+                  background: '#dcfce7',
+                  border: '1px solid #86efac',
+                  padding: '0.2rem 0.55rem',
+                  borderRadius: '6px'
+                }}>
+                  🔬 Interactive
+                </span>
+              </div>
+            </div>
+
+            {/* Center Stage: Full size interactive widget or image — fills all remaining space */}
+            <div style={{
+              flex: 1,
+              minHeight: 0,
+              width: '100%',
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              {slide.image ? (
+                <div style={{
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.3rem'
+                }}>
+                  <div style={{
+                    width: '100%',
+                    flex: 1,
+                    minHeight: 0,
+                    borderRadius: '16px',
+                    overflow: 'hidden',
+                    boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
+                    border: '2px solid rgba(167, 243, 208, 0.95)',
+                    background: '#ffffff',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '0.4rem'
+                  }}>
+                    <img 
+                      src={slide.image === 'Scientist2' ? scientist2Img :
+                           slide.image === 'silent_valley' ? silentValleyImg :
+                           slide.image === 'Scientist1' ? scientist1Img :
+                           slide.image === 'protect_wildlife' ? protectWildlifeImg :
+                           slide.image === 'sacred_groves' ? sacredGrovesImg : ''} 
+                      alt={slide.title} 
+                      style={{
+                        maxWidth: '100%',
+                        maxHeight: '100%',
+                        objectFit: 'contain',
+                        borderRadius: '12px',
+                        display: 'block'
+                      }} 
+                    />
+                  </div>
+                  <span style={{ fontSize: 'clamp(10px, 1.2vh, 12px)', color: '#047857', fontWeight: '800', flexShrink: 0 }}>
+                    Textbook Reference (Page {slide.image === 'Scientist2' ? '22' : slide.image === 'silent_valley' ? '23' : slide.image === 'Scientist1' ? '27' : slide.image === 'protect_wildlife' ? '28' : '29'})
+                  </span>
+                </div>
+              ) : lessonId === 'plant_variety_concept' ? (
+                <PlantVarietyMorpher
+                  selectedGroup={['herbs', 'shrubs', 'trees', 'creepers', 'climbers'][currentSlideIndex] || 'herbs'}
+                />
+              ) : lessonId === 'venation_roots_concept' ? (
+                <VenationRootsCorrelationExplorer />
+              ) : lessonId === 'cotyledons_concept' ? (
+                <SeedDissector />
+              ) : lessonId === 'grouping_animals_concept' ? (
+                <AnimalLocomotionGrid />
+              ) : lessonId === 'adaptations_concept' ? (
+                <AdaptationClimator />
+              ) : slide.svg ? (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.8rem', justifyContent: 'center', width: '100%', padding: 'clamp(1rem, 2.5vh, 2rem) clamp(0.8rem, 2vw, 1.25rem)', background: '#ffffff', borderRadius: '20px', boxShadow: '0 8px 24px rgba(14, 42, 69, 0.08)', border: '1.5px solid rgba(167, 243, 208, 0.95)' }}>
+                  <span style={{ fontSize: 'clamp(12px, 1.5vh, 14px)', fontWeight: '900', color: '#047857', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                    Visual Illustration
+                  </span>
+                  <div style={{ display: 'flex', justifyContent: 'center', width: '100%', maxWidth: '640px', gap: '2rem' }}>
+                    {slide.svg === 'venation' && (
+                      <div style={{ display: 'flex', gap: '2.5rem', width: '100%', justifyContent: 'center' }}>
+                        <div style={{ textAlign: 'center' }}>
+                          <svg width="150" height="150" viewBox="0 0 100 100">
+                            <path d="M50,10 C80,30 80,70 50,90 C20,70 20,30 50,10 Z" fill="#10b981" fillOpacity="0.15" stroke="#10b981" strokeWidth="2.5"/>
+                            <line x1="50" y1="10" x2="50" y2="90" stroke="#047857" strokeWidth="3"/>
+                          </svg>
+                          <span style={{ fontSize: 'clamp(13px, 1.6vh, 15px)', display: 'block', color: '#064e3b', fontWeight: '900', marginTop: '4px' }}>Reticulate</span>
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                          <svg width="110" height="110" viewBox="0 0 100 100">
+                            <path d="M50,10 C65,30 65,80 50,95 C35,80 35,30 50,10 Z" fill="#10b981" fillOpacity="0.15" stroke="#10b981" strokeWidth="2.5"/>
+                            <line x1="50" y1="10" x2="50" y2="95" stroke="#047857" strokeWidth="2.5"/>
+                          </svg>
+                          <span style={{ fontSize: 'clamp(13px, 1.6vh, 15px)', display: 'block', color: '#064e3b', fontWeight: '900', marginTop: '4px' }}>Parallel</span>
+                        </div>
+                      </div>
+                    )}
+                    {slide.svg === 'roots' && (
+                      <div style={{ display: 'flex', gap: '2.5rem', width: '100%', justifyContent: 'center' }}>
+                        <div style={{ textAlign: 'center' }}>
+                          <svg width="110" height="110" viewBox="0 0 100 100">
+                            <line x1="10" y1="20" x2="90" y2="20" stroke="#cbd5e1" strokeWidth="2.5"/>
+                            <path d="M50,20 C53,40 52,70 50,90 C48,70 47,40 50,20 Z" fill="#d97706" stroke="#b45309" strokeWidth="2.5"/>
+                          </svg>
+                          <span style={{ fontSize: 'clamp(13px, 1.6vh, 15px)', display: 'block', color: '#064e3b', fontWeight: '900', marginTop: '4px' }}>Taproot</span>
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                          <svg width="110" height="110" viewBox="0 0 100 100">
+                            <line x1="10" y1="20" x2="90" y2="20" stroke="#cbd5e1" strokeWidth="2.5"/>
+                            <path d="M50,20 Q60,40 55,85 M50,20 Q40,40 45,85 M50,20 Q45,50 65,80" stroke="#b45309" strokeWidth="2" fill="none"/>
+                          </svg>
+                          <span style={{ fontSize: 'clamp(13px, 1.6vh, 15px)', display: 'block', color: '#064e3b', fontWeight: '900', marginTop: '4px' }}>Fibrous Root</span>
+                        </div>
+                      </div>
+                    )}
+                    {slide.svg === 'correlation' && (
+                      <div style={{ textAlign: 'center', width: '100%' }}>
+                        <div style={{ display: 'flex', gap: '1.25rem', justifyContent: 'center', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
+                          <span style={{ fontSize: '1.75rem' }}>🕸️ ⇄ 🥕</span>
+                          <span style={{ fontSize: '1.75rem' }}>📏 ⇄ 🌾</span>
+                        </div>
+                        <span style={{ fontSize: 'clamp(14px, 1.8vh, 16px)', display: 'block', color: '#064e3b', fontWeight: '900' }}>Venation &amp; Roots Correlation</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem', textAlign: 'center', gap: '0.5rem' }}>
+                  <span style={{ fontSize: '3rem' }}>📖</span>
+                  <span style={{ fontSize: 'clamp(15px, 2vh, 18px)', fontWeight: '900', color: '#064e3b' }}>
+                    Interactive Investigation Ready
+                  </span>
+                </div>
               )}
+            </div>
+
+            {/* Bottom Nav Bar on Page 2 — pinned, no overlap */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              borderTop: '1.5px solid rgba(167, 243, 208, 0.9)',
+              paddingTop: 'clamp(0.3rem, 0.7vh, 0.55rem)',
+              marginTop: 'clamp(0.2rem, 0.5vh, 0.35rem)',
+              flexShrink: 0
+            }}>
+              <button
+                onClick={() => setLessonSubPage(1)}
+                style={{
+                  padding: '0.4rem 1rem',
+                  fontSize: 'clamp(12px, 1.5vh, 14px)',
+                  borderRadius: '999px',
+                  border: '1.5px solid rgba(167, 243, 208, 0.95)',
+                  color: '#064e3b',
+                  fontWeight: '800',
+                  background: '#ffffff',
+                  cursor: 'pointer',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.3rem'
+                }}
+              >
+                <span>← Back to Theory</span>
+              </button>
+
+              <span style={{ fontSize: 'clamp(11px, 1.3vh, 13px)', fontWeight: '800', color: '#047857' }}>
+                Slide {currentSlideIndex + 1} of {totalSlides} · Step 2
+              </span>
+
               {isLastSlide ? (
                 <button
-                  disabled={slide.isQuiz && !quizChecked}
                   onClick={() => {
                     setContentLessonProgress(prev => ({ ...prev, [lessonId]: true }));
                     const activityPaneEl = document.getElementById("pane-activity-window");
@@ -5403,35 +5588,137 @@ export default function ChapterLearningLab({
                     }
                     setActivityFocused(true);
                   }}
-                  className="primary"
-                  style={{ 
-                    padding: '0.35rem 0.8rem', 
-                    fontSize: '0.75rem', 
-                    borderRadius: '20px',
-                    ...(isCh2Concept || isPlantConcept ? {
-                      background: 'linear-gradient(135deg, #059669, #047857)',
-                      borderColor: '#059669',
-                      fontWeight: '800'
-                    } : {})
+                  style={{
+                    padding: '0.5rem 1.5rem',
+                    fontSize: 'clamp(13px, 1.8vh, 16px)',
+                    borderRadius: '999px',
+                    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                    border: '1.5px solid #34d399',
+                    color: '#ffffff',
+                    fontWeight: '900',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 14px rgba(16, 185, 129, 0.35)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.3rem'
                   }}
+                >
+                  <span>Continue to Activities</span>
+                  <span>➔</span>
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    handleStopSpeech();
+                    setActiveSlide(prev => prev + 1);
+                    setLessonSubPage(1);
+                  }}
+                  style={{
+                    padding: '0.5rem 1.5rem',
+                    fontSize: 'clamp(13px, 1.8vh, 16px)',
+                    borderRadius: '999px',
+                    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                    border: '1.5px solid #34d399',
+                    color: '#ffffff',
+                    fontWeight: '900',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 14px rgba(16, 185, 129, 0.35)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.3rem'
+                  }}
+                >
+                  <span>Next Slide</span>
+                  <span>›</span>
+                </button>
+              )}
+            </div>
+          </div>
+        );
+      }
+    }
+
+    return (
+      <div 
+        className="split-frame" 
+        style={{ 
+          width: '100%', 
+          flex: 'none',
+          height: 'auto',
+          minHeight: 0,
+          overflow: 'hidden',
+          display: 'grid',
+          gridTemplateColumns: isAdaptationsSlide1Or2 ? '0.62fr 1.38fr' : '1fr 1.05fr',
+          gap: '1rem',
+          alignItems: 'stretch'
+        }}
+      >
+        {/* LEFT COLUMN: Concept text & slideshow buttons */}
+        <div 
+          className="frame-page-left" 
+          style={{
+            flex: 1,
+            height: '100%',
+            minHeight: 0,
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
+          <div className="textbook-eyebrow" style={{ color: '#38bdf8', fontSize: '0.85rem', fontWeight: '800' }}>
+            {activeLevel.title}
+          </div>
+          <h1 className="textbook-title" style={{
+            fontFamily: 'var(--serif-font)',
+            margin: '0 0 0.85rem 0',
+            fontSize: '1.65rem',
+            color: '#38bdf8',
+            fontWeight: '800'
+          }}>
+            {slide.title}
+          </h1>
+          <p style={{
+            fontSize: '0.95rem',
+            color: '#fde047',
+            lineHeight: '1.55',
+            margin: '0 0 0.65rem 0',
+            fontWeight: '500',
+            textAlign: 'justify',
+            textJustify: 'inter-word'
+          }}>
+            {slide.content}
+          </p>
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: '1rem' }}>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+              Slide {currentSlideIndex + 1} of {totalSlides}
+            </span>
+            <div style={{ display: 'flex', gap: '0.4rem' }}>
+              {currentSlideIndex > 0 && (
+                <button
+                  onClick={() => { handleStopSpeech(); setActiveSlide(prev => Math.max(0, prev - 1)); }}
+                  className="outline"
+                  style={{ padding: '0.35rem 0.8rem', fontSize: '0.75rem', borderRadius: '20px' }}
+                >
+                  Prev
+                </button>
+              )}
+              {isLastSlide ? (
+                <button
+                  onClick={() => {
+                    setContentLessonProgress(prev => ({ ...prev, [lessonId]: true }));
+                    setActivityFocused(true);
+                  }}
+                  className="primary"
+                  style={{ padding: '0.35rem 0.8rem', fontSize: '0.75rem', borderRadius: '20px' }}
                 >
                   Activity ➔
                 </button>
               ) : (
                 <button
-                  disabled={slide.isQuiz && !quizChecked}
                   onClick={() => { handleStopSpeech(); setActiveSlide(prev => prev + 1); }}
                   className="primary"
-                  style={{ 
-                    padding: '0.35rem 0.8rem', 
-                    fontSize: '0.75rem', 
-                    borderRadius: '20px',
-                    ...(isCh2Concept || isPlantConcept ? {
-                      background: 'linear-gradient(135deg, #059669, #047857)',
-                      borderColor: '#059669',
-                      fontWeight: '800'
-                    } : {})
-                  }}
+                  style={{ padding: '0.35rem 0.8rem', fontSize: '0.75rem', borderRadius: '20px' }}
                 >
                   Next
                 </button>
@@ -5440,154 +5727,23 @@ export default function ChapterLearningLab({
           </div>
         </div>
 
-        {/* RIGHT COLUMN: Interactive Sandbox or Fallbacks */}
+        {/* RIGHT COLUMN: Fallback Sandbox */}
         <div className="frame-page-right" style={{ display: 'flex', flexDirection: 'column', minHeight: 0, justifyContent: 'center', background: 'transparent', border: 'none', padding: '0', width: '100%', height: '100%' }}>
           {slide.image ? (
-            (isAdaptationsConcept || lessonId === 'grouping_animals_concept') ? (
-              <div style={{
-                width: '100%',
-                height: slide.image === 'sacred_groves' ? 'auto' : '100%',
-                minHeight: slide.image === 'sacred_groves' ? 'auto' : '100%',
-                maxHeight: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: 0,
-                margin: 0,
-                borderRadius: '16px',
-                overflow: 'hidden',
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)',
-                border: '2px solid rgba(167, 243, 208, 0.95)',
-                background: '#ffffff'
-              }}>
-                <img 
-                  src={slide.image === 'Scientist2' ? scientist2Img :
-                       slide.image === 'silent_valley' ? silentValleyImg :
-                       slide.image === 'Scientist1' ? scientist1Img :
-                       slide.image === 'protect_wildlife' ? protectWildlifeImg :
-                       slide.image === 'sacred_groves' ? sacredGrovesImg : ''} 
-                  alt={slide.title} 
-                  style={{
-                    width: '100%',
-                    height: slide.image === 'sacred_groves' ? 'auto' : '100%',
-                    maxHeight: '100%',
-                    objectFit: slide.image === 'sacred_groves' ? 'contain' : 'cover',
-                    objectPosition: 'center',
-                    display: 'block'
-                  }} 
-                />
-              </div>
-            ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
-                <div style={{
-                  position: 'relative',
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
-                  border: '1px solid var(--border)',
-                  width: '100%',
-                  maxHeight: '380px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  background: theme === 'dark' ? 'rgba(30, 41, 59, 0.4)' : 'rgba(255, 255, 255, 0.4)',
-                  backdropFilter: 'blur(8px)'
-                }}>
-                  <img 
-                    src={slide.image === 'Scientist2' ? scientist2Img :
-                         slide.image === 'silent_valley' ? silentValleyImg :
-                         slide.image === 'Scientist1' ? scientist1Img :
-                         slide.image === 'protect_wildlife' ? protectWildlifeImg :
-                         slide.image === 'sacred_groves' ? sacredGrovesImg : ''} 
-                    alt={slide.title} 
-                    style={{ width: '100%', height: 'auto', maxHeight: '360px', objectFit: 'contain', borderRadius: '12px' }} 
-                  />
-                </div>
-                <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: '600', marginTop: '8px' }}>
-                  Textbook Reference Visual (Page {slide.image === 'Scientist2' ? '22' : slide.image === 'silent_valley' ? '23' : slide.image === 'Scientist1' ? '27' : slide.image === 'protect_wildlife' ? '28' : '29'})
-                </span>
-              </div>
-            )
-          ) : lessonId === 'plant_variety_concept' ? (
-            <PlantVarietyMorpher
-              selectedGroup={['herbs', 'shrubs', 'trees', 'creepers', 'climbers'][currentSlideIndex] || 'herbs'}
-            />
-          ) : lessonId === 'venation_roots_concept' ? (
-            <VenationRootsCorrelationExplorer />
-          ) : lessonId === 'cotyledons_concept' ? (
-            <SeedDissector />
-          ) : lessonId === 'grouping_animals_concept' ? (
-            <AnimalLocomotionGrid />
-          ) : lessonId === 'adaptations_concept' ? (
-            <AdaptationClimator />
-          ) : slide.svg ? (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', justifyContent: 'center', width: '100%', padding: '2rem 1.25rem', background: 'var(--card-bg)', borderRadius: '20px', boxShadow: '0 18px 40px rgba(14, 42, 69, 0.08)' }}>
-              <span style={{ fontSize: '0.82rem', fontWeight: 'bold', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                Visual Illustration
-              </span>
-              <div style={{ display: 'flex', justifyContent: 'center', width: '100%', maxWidth: '640px', gap: '2rem' }}>
-                {slide.svg === 'venation' && (
-                  <div style={{ display: 'flex', gap: '2rem', width: '100%', justifyContent: 'center' }}>
-                    <div style={{ textAlign: 'center', width: '100%' }}>
-                      <svg width="140" height="140" viewBox="0 0 100 100">
-                        <path d="M50,10 C80,30 80,70 50,90 C20,70 20,30 50,10 Z" fill="#10b981" fillOpacity="0.15" stroke="#10b981" strokeWidth="2.5"/>
-                        <line x1="50" y1="10" x2="50" y2="90" stroke="#047857" strokeWidth="3"/>
-                      </svg>
-                      <span style={{ fontSize: '0.75rem', display: 'block', color: 'var(--text-heading)', fontWeight: 'bold', marginTop: '4px' }}>Reticulate</span>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                      <svg width="90" height="90" viewBox="0 0 100 100">
-                        <path d="M50,10 C65,30 65,80 50,95 C35,80 35,30 50,10 Z" fill="#10b981" fillOpacity="0.15" stroke="#10b981" strokeWidth="2.5"/>
-                        <line x1="50" y1="10" x2="50" y2="95" stroke="#047857" strokeWidth="2.5"/>
-                      </svg>
-                      <span style={{ fontSize: '0.75rem', display: 'block', color: 'var(--text-heading)', fontWeight: 'bold', marginTop: '4px' }}>Parallel</span>
-                    </div>
-                  </div>
-                )}
-                {slide.svg === 'roots' && (
-                  <div style={{ display: 'flex', gap: '2rem', width: '100%', justifyContent: 'center' }}>
-                    <div style={{ textAlign: 'center', width: '100%' }}>
-                      <svg width="90" height="90" viewBox="0 0 100 100">
-                        <line x1="10" y1="20" x2="90" y2="20" stroke="var(--border)" strokeWidth="2.5"/>
-                        <path d="M50,20 C53,40 52,70 50,90 C48,70 47,40 50,20 Z" fill="#d97706" stroke="#b45309" strokeWidth="2.5"/>
-                      </svg>
-                      <span style={{ fontSize: '0.75rem', display: 'block', color: 'var(--text-heading)', fontWeight: 'bold', marginTop: '4px' }}>Taproot</span>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                      <svg width="90" height="90" viewBox="0 0 100 100">
-                        <line x1="10" y1="20" x2="90" y2="20" stroke="var(--border)" strokeWidth="2.5"/>
-                        <path d="M50,20 Q60,40 55,85 M50,20 Q40,40 45,85 M50,20 Q45,50 65,80" stroke="#b45309" strokeWidth="2" fill="none"/>
-                      </svg>
-                      <span style={{ fontSize: '0.75rem', display: 'block', color: 'var(--text-heading)', fontWeight: 'bold', marginTop: '4px' }}>Fibrous Root</span>
-                    </div>
-                  </div>
-                )}
-                {slide.svg === 'correlation' && (
-                  <div style={{ textAlign: 'center', width: '100%' }}>
-                    <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
-                      <span style={{ fontSize: '1.25rem' }}>🕸️ ⇄ 🥕</span>
-                      <span style={{ fontSize: '1.25rem' }}>📏 ⇄ 🌾</span>
-                    </div>
-                    <span style={{ fontSize: '0.75rem', display: 'block', color: 'var(--text-heading)', fontWeight: 'bold' }}>Venation &amp; Roots Correlation</span>
-                  </div>
-                )}
-              </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
+              <img src={slide.image} alt={slide.title} style={{ maxWidth: '100%', maxHeight: '380px', objectFit: 'contain' }} />
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem', textAlign: 'center', gap: '0.5rem' }}>
               <span style={{ fontSize: '3rem' }}>📖</span>
-              <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--text-heading)' }}>
-                Takeaway Summary
-              </span>
-              <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', maxWidth: '240px' }}>
-                Carefully read the left details before continuing to the lab exercises.
-              </span>
+              <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--text-heading)' }}>Takeaway Summary</span>
             </div>
           )}
         </div>
       </div>
     );
   };
+
 
   // Main navigation / layout stages
   if (stage === "cover") {
@@ -5774,6 +5930,10 @@ export default function ChapterLearningLab({
     // Controls
     const handlePrevControl = () => {
       if (chapterNum === 2) {
+        if (!activityFocused && activeLevel.lessonId && activeSlide > 0) {
+          setActiveSlide(prev => prev - 1);
+          return;
+        }
         goToChapter2Step(ch2FlowIndex - 1);
         return;
       }
@@ -5806,6 +5966,21 @@ export default function ChapterLearningLab({
         return;
       }
       const lesson = contentLessonsData[activeLevel.lessonId];
+      if (chapterNum === 2) {
+        if (!activityFocused && activeLevel.lessonId) {
+          if (lessonSubPage === 2) {
+            setLessonSubPage(1);
+            return;
+          }
+          if (activeSlide > 0) {
+            setActiveSlide(prev => prev - 1);
+            setLessonSubPage(2);
+            return;
+          }
+        }
+        goToChapter2Step(ch2FlowIndex - 1);
+        return;
+      }
       if (activeSlide > 0) {
         setActiveSlide(prev => prev - 1);
         setQuizAnswers({});
@@ -5835,6 +6010,19 @@ export default function ChapterLearningLab({
 
     const handleNextControl = () => {
       if (chapterNum === 2) {
+        if (!activityFocused && activeLevel.lessonId) {
+          if (lessonSubPage === 1) {
+            setLessonSubPage(2);
+            return;
+          }
+          const lesson = contentLessonsData[activeLevel.lessonId];
+          const totalSlides = lesson ? lesson.slides.length : 1;
+          if (activeSlide < totalSlides - 1) {
+            setActiveSlide(prev => prev + 1);
+            setLessonSubPage(1);
+            return;
+          }
+        }
         goToChapter2Step(ch2FlowIndex + 1);
         return;
       }
@@ -5927,6 +6115,7 @@ export default function ChapterLearningLab({
     const isDarkThemePage = chapterNum === 2 && (
       (activeLevel && (
         activeLevel.id === 'lvl-1' ||
+        activeLevel.id === 'lvl-2' ||
         activeLevel.id === 'lvl-3' ||
         activeLevel.id === 'lvl-4' ||
         activeLevel.id === 'lvl-5' ||
@@ -5991,8 +6180,9 @@ export default function ChapterLearningLab({
         backgroundRepeat: 'no-repeat',
         padding: '0',
         borderRadius: '0',
-        height: (chapterNum === 2 && activeLevel.lessonId === 'chapter_challenge_overview' && isChapter2Completed) ? '100vh' : (learningLabBg ? '100vh' : 'auto'),
-        overflowY: (chapterNum === 2 && activeLevel.lessonId === 'chapter_challenge_overview' && isChapter2Completed) ? 'hidden' : (learningLabBg ? 'auto' : 'visible'),
+        height: (chapterNum === 2 || learningLabBg) ? '100vh' : 'auto',
+        maxHeight: (chapterNum === 2 || learningLabBg) ? '100vh' : 'none',
+        overflowY: (chapterNum === 2) ? 'hidden' : (learningLabBg ? 'auto' : 'visible'),
         overflowX: 'hidden',
         minHeight: learningLabBg ? '100vh' : 'auto'
       }}>
@@ -6103,10 +6293,30 @@ export default function ChapterLearningLab({
               border: 1.5px solid rgba(52, 211, 153, 0.4) !important;
             }
             .frame-page-left.act21-dark-left {
-              background: #123D2A !important;
+              background: linear-gradient(160deg, #ffffff 0%, #f0fdf4 100%) !important;
+              border: 1.5px solid #a7f3d0 !important;
+              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+              color: #0f172a !important;
+            }
+            .frame-page-left.act21-dark-left p {
+              color: #0f172a !important;
+              text-align: justify !important;
+              text-justify: inter-word !important;
+            }
+            .frame-page-left.act21-dark-left .textbook-eyebrow {
+              color: #047857 !important;
+            }
+            .frame-page-left.act21-dark-left .textbook-title {
+              color: #064e3b !important;
             }
             .frame-page-left.act23-mint-left {
               background: linear-gradient(145deg, rgba(246, 252, 248, 0.97) 0%, rgba(236, 247, 241, 0.95) 100%) !important;
+              color: #0f172a !important;
+            }
+            .frame-page-left.act23-mint-left p {
+              color: #0f172a !important;
+              text-align: justify !important;
+              text-justify: inter-word !important;
             }
             .frame-page-right.act23-mint-right {
               background: linear-gradient(145deg, rgba(246, 252, 248, 0.97) 0%, rgba(236, 247, 241, 0.95) 100%) !important;
@@ -6115,6 +6325,12 @@ export default function ChapterLearningLab({
               background: linear-gradient(145deg, rgba(246, 252, 248, 0.97) 0%, rgba(236, 247, 241, 0.95) 100%) !important;
               border: 1.5px solid rgba(167, 243, 208, 0.85) !important;
               box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35) !important;
+              color: #0f172a !important;
+            }
+            .frame-page-left.act24-mint-left p {
+              color: #0f172a !important;
+              text-align: justify !important;
+              text-justify: inter-word !important;
             }
           ` : ''}
           
@@ -6130,6 +6346,188 @@ export default function ChapterLearningLab({
             pointer-events: none;
           }
         `}</style>
+
+        {/* Chapter 2 Green-Themed Top Section Progress Bar (Ordered, No Overlap) */}
+        {!isFullscreen && chapterNum === 2 && (
+          <div style={{
+            flexShrink: 0,
+            width: '100%',
+            minWidth: 0,
+            padding: '0.65rem clamp(0.5rem, 2vw, 1.25rem) 0.5rem clamp(0.5rem, 2vw, 1.25rem)',
+            boxSizing: 'border-box',
+            background: learningLabBg 
+              ? (theme === 'dark' ? 'rgba(15, 23, 42, 0.75)' : 'rgba(255, 255, 255, 0.92)') 
+              : '#ffffff',
+            backdropFilter: 'blur(20px)',
+            borderBottom: '1.5px solid rgba(167, 243, 208, 0.5)',
+            boxShadow: '0 4px 18px rgba(0, 0, 0, 0.05)',
+            position: 'sticky',
+            top: 0,
+            zIndex: 110
+          }}>
+            <div style={{ display: 'flex', alignItems: 'stretch', gap: '0.5rem', width: '100%', minWidth: 0 }}>
+              <button
+                type="button"
+                onClick={handleExitLab}
+                className="outline"
+                title="Back to Main Page"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.15rem',
+                  padding: '0.35rem 0.4rem',
+                  fontSize: '0.62rem',
+                  fontWeight: '800',
+                  color: '#0f172a',
+                  border: '1.5px solid #cbd5e1',
+                  borderRadius: '10px',
+                  background: '#ffffff',
+                  cursor: 'pointer',
+                  flexShrink: 0,
+                  minHeight: '64px',
+                  width: '68px',
+                  boxSizing: 'border-box',
+                  lineHeight: 1.15,
+                  textAlign: 'center',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#10B981';
+                  e.currentTarget.style.background = '#f0fdf4';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#cbd5e1';
+                  e.currentTarget.style.background = '#ffffff';
+                }}
+              >
+                <ArrowLeft size={14} color="#0f172a" />
+                <span style={{ color: '#0f172a', fontWeight: '800' }}>Back to</span>
+                <span style={{ color: '#0f172a', fontWeight: '800' }}>Main Page</span>
+              </button>
+
+              <nav
+                ref={ch2NavRef}
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(8, minmax(0, 1fr))',
+                  gap: '0.4rem',
+                  overflowX: 'auto',
+                  scrollbarWidth: 'thin',
+                  WebkitOverflowScrolling: 'touch'
+                }}
+              >
+                {CHAPTER_2_SECTION_TABS.map((tab, idx) => {
+                  const isActive = activeLevelId === tab.id;
+                  const activeTabIdx = CHAPTER_2_SECTION_TABS.findIndex(t => t.id === activeLevelId);
+                  const lvlObj = CHAPTER_2_LEVELS.find(l => l.id === tab.id);
+                  const isCompleted = (activeTabIdx > idx) || (lvlObj && isLevelCompleted(lvlObj));
+
+                  return (
+                    <button
+                      key={tab.id}
+                      data-active={isActive}
+                      onClick={() => {
+                        const targetLvl = CHAPTER_2_LEVELS.find(l => l.id === tab.id);
+                        if (!targetLvl) return;
+                        const idxInFlow = CHAPTER_2_FLOW.findIndex(s => s.levelId === tab.id);
+                        if (idxInFlow >= 0) {
+                          goToChapter2Step(idxInFlow);
+                        } else {
+                          setActiveLevelId(tab.id);
+                          setActiveActivityIdx(0);
+                          setActiveSlide(0);
+                          setActivityFocused(false);
+                          setQuizAnswers({});
+                          setQuizChecked(false);
+                        }
+                      }}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        padding: '0.45rem 0.55rem',
+                        background: isActive ? '#ffffff' : (isCompleted ? '#f0fdf4' : '#f8fafc'),
+                        border: `1.5px solid ${isActive ? '#10B981' : (isCompleted ? '#a7f3d0' : '#cbd5e1')}`,
+                        borderRadius: '12px',
+                        width: '100%',
+                        minHeight: '64px',
+                        minWidth: '118px',
+                        opacity: 1,
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        boxShadow: isActive ? '0 4px 15px rgba(16, 185, 129, 0.25)' : 'none',
+                        textAlign: 'left',
+                        boxSizing: 'border-box',
+                        flexShrink: 0
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isActive) {
+                          e.currentTarget.style.borderColor = '#10B981';
+                          e.currentTarget.style.background = '#ffffff';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isActive) {
+                          e.currentTarget.style.borderColor = isCompleted ? '#a7f3d0' : '#cbd5e1';
+                          e.currentTarget.style.background = isCompleted ? '#f0fdf4' : '#f8fafc';
+                        }
+                      }}
+                    >
+                      <div style={{
+                        width: '24px',
+                        height: '24px',
+                        borderRadius: '6px',
+                        background: isActive ? '#10B981' : (isCompleted ? '#059669' : '#64748b'),
+                        color: '#fff',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '0.75rem',
+                        fontWeight: 'bold',
+                        flexShrink: 0
+                      }}>
+                        {isCompleted ? <CheckCircle size={13} strokeWidth={2.8} /> : tab.num}
+                      </div>
+                      <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'flex-start',
+                        justifyContent: 'center',
+                        minWidth: 0,
+                        flex: 1
+                      }}>
+                        <span style={{
+                          fontSize: '0.75rem',
+                          fontWeight: '800',
+                          color: '#0f172a',
+                          lineHeight: 1.2,
+                          whiteSpace: 'normal',
+                          width: '100%'
+                        }}>
+                          {tab.title}
+                        </span>
+                        <span style={{
+                          fontSize: '0.64rem',
+                          color: isActive ? '#059669' : (isCompleted ? '#047857' : '#334155'),
+                          lineHeight: 1.2,
+                          whiteSpace: 'normal',
+                          width: '100%',
+                          fontWeight: '700'
+                        }}>
+                          {tab.subtitle}
+                        </span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </nav>
+            </div>
+          </div>
+        )}
 
         {/* Master stats & control header (Sticky when not in fullscreen) */}
         {!isFullscreen && chapterNum !== 2 && (
@@ -6366,22 +6764,24 @@ export default function ChapterLearningLab({
             </div>
           </div>
         </div>
-        )}        {/* Side-by-side workspace split */}
+        )}        
+        
+        {/* Side-by-side workspace split */}
         <div style={{ 
           display: 'flex', 
           gap: '1.5rem', 
           width: '100%', 
           alignItems: 'stretch', 
           boxSizing: 'border-box', 
-          height: (chapterNum === 2 && activeLevel.lessonId === 'chapter_challenge_overview' && isChapter2Completed) ? '100vh' : 'auto',
-          maxHeight: (chapterNum === 2 && activeLevel.lessonId === 'chapter_challenge_overview' && isChapter2Completed) ? '100vh' : 'none',
-          overflow: (chapterNum === 2 && activeLevel.lessonId === 'chapter_challenge_overview' && isChapter2Completed) ? 'hidden' : 'visible',
+          height: (chapterNum === 2) ? 'calc(100vh - 84px)' : ((activeLevel.lessonId === 'chapter_challenge_overview' && isChapter2Completed) ? '100vh' : 'auto'),
+          maxHeight: (chapterNum === 2) ? 'calc(100vh - 84px)' : 'none',
+          overflow: (chapterNum === 2) ? 'hidden' : 'visible',
           padding: (chapterNum === 2 && activeLevel.lessonId === 'chapter_challenge_overview' && isChapter2Completed) 
             ? '0.75rem 1rem' 
             : (isFullscreen 
                 ? '1.5rem 1.25rem 1.5rem 1.25rem' 
                 : (learningLabBg 
-                    ? (chapterNum === 2 ? '1rem clamp(0.5rem, 2vw, 1.25rem) 1.5rem clamp(0.5rem, 2vw, 1.25rem)' : '0 clamp(0.5rem, 2vw, 1.25rem) 1.5rem clamp(0.5rem, 2vw, 1.25rem)') 
+                    ? (chapterNum === 2 ? '0.4rem clamp(0.5rem, 2vw, 1.25rem) 0.5rem clamp(0.5rem, 2vw, 1.25rem)' : '0 clamp(0.5rem, 2vw, 1.25rem) 1.5rem clamp(0.5rem, 2vw, 1.25rem)') 
                     : '0'))
         }}>
           
@@ -6393,7 +6793,7 @@ export default function ChapterLearningLab({
               style={{
                 position: 'fixed',
                 left: isLevelMapOpen ? '0' : '-300px',
-                top: learningLabBg ? (chapterNum === 2 ? "1.5rem" : "5.5rem") : "6.5rem",
+                top: learningLabBg ? "5.5rem" : "6.5rem",
                 bottom: '1.5rem',
                 width: '300px',
                 zIndex: 50,
@@ -6466,10 +6866,10 @@ export default function ChapterLearningLab({
             minWidth: 0, 
             display: 'flex', 
             flexDirection: 'column', 
-            gap: (chapterNum === 2 && activeLevel.lessonId === 'chapter_challenge_overview' && isChapter2Completed) ? '0' : '2rem', 
-            height: (chapterNum === 2 && activeLevel.lessonId === 'chapter_challenge_overview' && isChapter2Completed) ? '100%' : 'auto',
-            maxHeight: (chapterNum === 2 && activeLevel.lessonId === 'chapter_challenge_overview' && isChapter2Completed) ? '100%' : 'none',
-            overflow: (chapterNum === 2 && activeLevel.lessonId === 'chapter_challenge_overview' && isChapter2Completed) ? 'hidden' : 'visible',
+            gap: (chapterNum === 2 && activeLevel.lessonId === 'chapter_challenge_overview' && isChapter2Completed) ? '0' : (chapterNum === 2 ? '0.35rem' : '2rem'), 
+            height: chapterNum === 2 ? '100%' : 'auto',
+            maxHeight: chapterNum === 2 ? '100%' : 'none',
+            overflow: chapterNum === 2 ? 'hidden' : 'visible',
             boxSizing: 'border-box' 
           }}>
             
@@ -6482,8 +6882,10 @@ export default function ChapterLearningLab({
                 flexDirection: 'column',
                 gap: (activeLevel.lessonId === 'biodiversity_concept' || (activeLevel.lessonId === 'chapter_challenge_overview' && isChapter2Completed)) ? '0' : '0.75rem',
                 position: 'relative',
+                flex: chapterNum === 2 ? 1 : 'none',
+                minHeight: 0,
                 ...((activeLevel.lessonId === 'biodiversity_concept' || (activeLevel.lessonId === 'chapter_challenge_overview' && isChapter2Completed)) ? {
-                  background: 'transparent', border: 'none', boxShadow: 'none', padding: 0, borderRadius: '14px', overflow: 'hidden', height: isChapter2Completed ? '100%' : 'auto', maxHeight: isChapter2Completed ? '100%' : 'none'
+                  background: 'transparent', border: 'none', boxShadow: 'none', padding: 0, borderRadius: '14px', overflow: 'hidden', height: '100%', maxHeight: '100%'
                 } : {})
               }}
             >
@@ -6493,19 +6895,18 @@ export default function ChapterLearningLab({
                   <span style={{ 
                     fontSize: '1.28rem', 
                     fontWeight: '900', 
-                    color: '#38bdf8', 
+                    color: chapterNum === 2 ? '#064e3b' : '#38bdf8', 
                     textTransform: 'uppercase', 
-                    letterSpacing: '0.08em',
-                    textShadow: '0 0 16px rgba(56, 189, 248, 0.65), 0 2px 10px rgba(56, 189, 248, 0.45)'
+                    letterSpacing: '0.08em'
                   }}>
                     Lesson Pane
                   </span>
                   <span style={{ 
                     fontSize: '0.85rem', 
                     fontWeight: '700',
-                    color: '#bae6fd',
-                    background: 'rgba(14, 165, 233, 0.15)',
-                    border: '1px solid rgba(56, 189, 248, 0.3)',
+                    color: chapterNum === 2 ? '#064e3b' : '#bae6fd',
+                    background: chapterNum === 2 ? '#dcfce7' : 'rgba(14, 165, 233, 0.15)',
+                    border: chapterNum === 2 ? '1.5px solid #a7f3d0' : '1px solid rgba(56, 189, 248, 0.3)',
                     padding: '0.2rem 0.65rem',
                     borderRadius: '6px'
                   }}>
@@ -6537,20 +6938,22 @@ export default function ChapterLearningLab({
                   activeQuestionIndex={challengeQuestionIdx}
                   onQuestionChange={(q) => {
                     setChallengeQuestionIdx(q);
-                    setCh2FlowIndex(24 + q);
+                    const chStart = CHAPTER_2_FLOW.findIndex(s => s.type === 'challenge');
+                    if (chStart >= 0) setCh2FlowIndex(chStart + q);
                   }}
                   isCompleted={isChapter2Completed}
                   onViewSummary={() => {
-                    goToChapter2Step(23);
+                    const gIdx = CHAPTER_2_FLOW.findIndex(s => s.levelId === 'lvl-8');
+                    goToChapter2Step(gIdx >= 0 ? gIdx : 0);
                   }}
                   onComplete={() => {
                     setContentLessonProgress(prev => ({ ...prev, chapter_challenge_overview: true }));
                     setIsChapter2Completed(true);
-                    setCh2FlowIndex(49);
+                    setCh2FlowIndex(CHAPTER_2_FLOW.length - 1);
                   }}
                   onCompletionStateChange={(completed) => {
                     setIsChapter2Completed(completed);
-                    if (completed) setCh2FlowIndex(49);
+                    if (completed) setCh2FlowIndex(CHAPTER_2_FLOW.length - 1);
                   }}
                 />
               ) : (
@@ -6563,32 +6966,37 @@ export default function ChapterLearningLab({
               <div id="pane-activity-window" className="glass-panel" style={{ 
                 display: (chapterNum === 2 ? (activityFocused === true) : (!isFullscreen || activityFocused !== false)) ? 'flex' : 'none', 
                 flexDirection: 'column', 
-                gap: '0.75rem',
-                padding: '0.75rem 1rem 1rem 1rem !important',
+                gap: (chapterNum === 2 ? '0.4rem' : '0.75rem'),
+                padding: (chapterNum === 2 ? '0.5rem 0.85rem 0.65rem 0.85rem !important' : '0.75rem 1rem 1rem 1rem !important'),
                 border: '1px solid var(--border) !important',
                 background: 'var(--card-bg) !important',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08) !important',
-                borderRadius: '16px !important'
+                borderRadius: '16px !important',
+                flex: chapterNum === 2 ? 1 : 'none',
+                height: chapterNum === 2 ? '100%' : 'auto',
+                maxHeight: chapterNum === 2 ? '100%' : 'none',
+                minHeight: 0,
+                overflow: 'hidden',
+                boxSizing: 'border-box'
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
                   <h4 style={{ 
                     margin: 0, 
                     fontSize: (activeActivity.id === 'sec-2-1-act' || activeActivity.id === 'sec-2-1-act-2' || activeActivity.id === 'sec-2-2-act' || activeActivity.activityId === 'appreciating_biodiversity' || activeActivity.id === 'sec-2-8-act' || activeActivity.activityId === 'seed_dissection_lab' || activeActivity.id === 'sec-2-9-act' || activeActivity.activityId === 'animal_locomotion' || activeActivity.id === 'sec-2-10-act' || activeActivity.activityId === 'animal_habitat_matching') ? '1.45rem' : '1.15rem', 
                     fontWeight: '900', 
-                    color: (activeActivity.id === 'sec-2-1-act' || activeActivity.id === 'sec-2-1-act-2' || activeActivity.id === 'sec-2-2-act' || activeActivity.activityId === 'appreciating_biodiversity' || activeActivity.id === 'sec-2-8-act' || activeActivity.activityId === 'seed_dissection_lab' || activeActivity.id === 'sec-2-9-act' || activeActivity.activityId === 'animal_locomotion' || activeActivity.id === 'sec-2-10-act' || activeActivity.activityId === 'animal_habitat_matching') ? '#38bdf8' : 'var(--text-heading)', 
+                    color: chapterNum === 2 ? '#064e3b' : 'var(--text-heading)', 
                     display: 'flex', 
                     alignItems: 'center', 
-                    gap: '0.5rem',
-                    textShadow: (activeActivity.id === 'sec-2-1-act' || activeActivity.id === 'sec-2-1-act-2' || activeActivity.id === 'sec-2-2-act' || activeActivity.activityId === 'appreciating_biodiversity' || activeActivity.id === 'sec-2-10-act' || activeActivity.activityId === 'animal_habitat_matching') ? '0 2px 12px rgba(56, 189, 248, 0.45)' : 'none'
+                    gap: '0.5rem'
                   }}>
                     <span>{activeActivity.title}</span>
                     {activeActivity.pg && (
                       <span style={{ 
-                        fontSize: (activeActivity.id === 'sec-2-1-act' || activeActivity.id === 'sec-2-1-act-2' || activeActivity.id === 'sec-2-2-act' || activeActivity.activityId === 'appreciating_biodiversity' || activeActivity.id === 'sec-2-8-act' || activeActivity.activityId === 'seed_dissection_lab' || activeActivity.id === 'sec-2-9-act' || activeActivity.activityId === 'animal_locomotion' || activeActivity.id === 'sec-2-10-act' || activeActivity.activityId === 'animal_habitat_matching') ? '0.9rem' : '0.75rem', 
+                        fontSize: (activeActivity.id === 'sec-2-1-act' || activeActivity.id === 'sec-2-1-act-2' || activeActivity.id === 'sec-2-2-act' || activeActivity.activityId === 'appreciating_biodiversity' || activeActivity.id === 'sec-2-8-act' || activeActivity.activityId === 'seed_dissection_lab' || activeActivity.id === 'sec-2-9-act' || activeActivity.activityId === 'animal_locomotion' || activeActivity.id === 'sec-2-10-act' || activeActivity.activityId === 'animal_habitat_matching') ? '0.88rem' : '0.75rem', 
                         fontWeight: 'bold', 
-                        color: (activeActivity.id === 'sec-2-1-act' || activeActivity.id === 'sec-2-1-act-2' || activeActivity.id === 'sec-2-2-act' || activeActivity.activityId === 'appreciating_biodiversity' || activeActivity.id === 'sec-2-8-act' || activeActivity.activityId === 'seed_dissection_lab' || activeActivity.id === 'sec-2-9-act' || activeActivity.activityId === 'animal_locomotion' || activeActivity.id === 'sec-2-10-act' || activeActivity.activityId === 'animal_habitat_matching') ? '#ffffff' : 'var(--text-muted)', 
-                        background: (activeActivity.id === 'sec-2-1-act' || activeActivity.id === 'sec-2-1-act-2' || activeActivity.id === 'sec-2-2-act' || activeActivity.activityId === 'appreciating_biodiversity' || activeActivity.id === 'sec-2-8-act' || activeActivity.activityId === 'seed_dissection_lab' || activeActivity.id === 'sec-2-9-act' || activeActivity.activityId === 'animal_locomotion' || activeActivity.id === 'sec-2-10-act' || activeActivity.activityId === 'animal_habitat_matching') ? '#1e3a8a' : 'var(--border)', 
-                        border: (activeActivity.id === 'sec-2-1-act' || activeActivity.id === 'sec-2-1-act-2' || activeActivity.id === 'sec-2-2-act' || activeActivity.activityId === 'appreciating_biodiversity' || activeActivity.id === 'sec-2-8-act' || activeActivity.activityId === 'seed_dissection_lab' || activeActivity.id === 'sec-2-9-act' || activeActivity.activityId === 'animal_locomotion' || activeActivity.id === 'sec-2-10-act' || activeActivity.activityId === 'animal_habitat_matching') ? '1px solid #38bdf8' : 'none',
+                        color: '#ffffff', 
+                        background: chapterNum === 2 ? '#065f46' : 'var(--border)', 
+                        border: chapterNum === 2 ? '1.5px solid #10b981' : 'none',
                         padding: '0.2rem 0.6rem', 
                         borderRadius: '6px' 
                       }}>
@@ -6596,12 +7004,14 @@ export default function ChapterLearningLab({
                       </span>
                     )}
                   </h4>
-                  {activeLevel.activities.length > 1 && activeLevel.id !== 'lvl-1' && (
-                    <div style={{ display: 'flex', gap: '0.4rem' }}>
+                  {activeLevel.activities.length > 1 && (
+                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
                       {activeLevel.activities.map((act, aIdx) => {
                         let btnLabel = `${aIdx + 1}`;
                         if (activeLevel.id === 'lvl-1') {
-                          btnLabel = aIdx === 0 ? '🌿 Plants Walk' : '🐾 Animals Walk';
+                          if (aIdx === 0) btnLabel = '🌿 Plants Walk';
+                          else if (aIdx === 1) btnLabel = '🐾 Animals Walk';
+                          else btnLabel = '🎨 Appreciate';
                         } else {
                           const parts = act.title.split(' — ');
                           if (parts[1]) {
@@ -6611,6 +7021,7 @@ export default function ChapterLearningLab({
                             if (subparts[1]) btnLabel = subparts[1];
                           }
                         }
+                        const isSubActive = activeActivityIdx === aIdx;
                         return (
                           <button
                             key={act.id}
@@ -6618,7 +7029,7 @@ export default function ChapterLearningLab({
                               setActiveActivityIdx(aIdx);
                               setActivityFocused(true);
                             }}
-                            className={`glass-btn ${activeActivityIdx === aIdx ? 'primary' : ''}`}
+                            className={`glass-btn ${isSubActive ? 'primary' : ''}`}
                             style={{ 
                               padding: '0.35rem 0.75rem', 
                               fontSize: '0.8rem', 
@@ -6626,7 +7037,10 @@ export default function ChapterLearningLab({
                               display: 'inline-flex',
                               alignItems: 'center',
                               gap: '0.25rem',
-                              boxShadow: activeActivityIdx === aIdx ? '0 4px 10px rgba(99,102,241,0.2)' : 'none'
+                              background: chapterNum === 2 ? (isSubActive ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : '#f0fdf4') : undefined,
+                              borderColor: chapterNum === 2 ? (isSubActive ? '#059669' : '#a7f3d0') : undefined,
+                              color: chapterNum === 2 ? (isSubActive ? '#ffffff' : '#065f46') : undefined,
+                              boxShadow: isSubActive ? '0 4px 10px rgba(16,185,129,0.25)' : 'none'
                             }}
                           >
                             {btnLabel}
@@ -6639,17 +7053,29 @@ export default function ChapterLearningLab({
 
                 <div style={{ 
                   width: '100%', 
+                  flex: 1,
+                  minHeight: 0,
+                  height: '100%',
+                  maxHeight: '100%',
                   borderRadius: '12px', 
                   overflow: 'hidden', 
-                  position: 'relative'
+                  position: 'relative',
+                  display: 'flex',
+                  flexDirection: 'column'
                 }}>
                   {activeActivity.activityId ? (
                     renderCustomSandbox(activeActivity.activityId, (action) => {
                       setActivityStatus(prev => ({ ...prev, [activeActivity.id]: 'done' }));
                       confetti({ particleCount: 60, spread: 60, origin: { y: 0.75 } });
                       if (action === 'next_activity') {
-                        setActiveActivityIdx(prev => Math.min(activeLevel.activities.length - 1, prev + 1));
-                        setActivityFocused(true);
+                        if (activeActivityIdx < activeLevel.activities.length - 1) {
+                          setActiveActivityIdx(prev => prev + 1);
+                          setActivityFocused(true);
+                        } else if (activeLevelIdx < totalLevels - 1) {
+                          setActiveLevelId(CHAPTER_2_LEVELS[activeLevelIdx + 1].id);
+                          setActiveActivityIdx(0);
+                          setActivityFocused(true);
+                        }
                       } else if (action === 'go_to_quiz') {
                         setActivityFocused(null);
                         setTimeout(() => {
@@ -6678,8 +7104,15 @@ export default function ChapterLearningLab({
               </div>
             )}
 
-            {/* 3. BOTTOM PANE: Quiz & DYK Pane */}
-            <div style={{ display: (chapterNum === 2 ? (!showBriefing && (activityFocused === null || activityFocused === false)) : (!isFullscreen || activityFocused !== true)) ? 'flex' : 'none', flexDirection: 'column', gap: '0.75rem' }}>
+            {/* 3. BOTTOM PANE: Quiz & DYK Pane (Hidden in Chapter 2 to prevent overlapping lesson content) */}
+            <div style={{ 
+              display: (chapterNum === 2 ? false : (!isFullscreen || activityFocused !== true)) ? 'flex' : 'none', 
+              flexDirection: 'column', 
+              gap: '0.75rem',
+              flex: chapterNum === 2 ? 1 : 'none',
+              minHeight: 0,
+              overflowY: 'auto'
+            }}>
               {activeLevel.lessonId === 'vocabulary_glossary'
                   ? <SummaryPane lessonId={activeLevel.lessonId} />
                   : activeLevel.lessonId === 'chapter_challenge_overview'
@@ -6688,49 +7121,112 @@ export default function ChapterLearningLab({
               }
             </div>
 
-            {/* 4. BOTTOM NAVIGATION PANE */}
+            {/* 4. BOTTOM NAVIGATION PANE (Clean, Zero Scroll, Aligned with LocatingPlaces) */}
             {!(chapterNum === 2 && activeLevel.lessonId === 'chapter_challenge_overview' && isChapter2Completed) && (
               <div style={{
                 display: 'flex',
-                flexWrap: 'wrap',
                 gap: '1rem',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                padding: (chapterNum === 2 ? '0.4rem 0 0.25rem 0' : '2rem 0 1rem 0'),
-                borderTop: '1px solid var(--border)',
-                marginTop: (chapterNum === 2 ? '0.25rem' : '1rem'),
-                width: '100%'
+                padding: (chapterNum === 2 ? '0.45rem 0.5rem 0.25rem 0.5rem' : '2rem 0 1rem 0'),
+                borderTop: '1.5px solid var(--border)',
+                marginTop: (chapterNum === 2 ? 'auto' : '1rem'),
+                flexShrink: 0,
+                width: '100%',
+                boxSizing: 'border-box'
               }}>
                 <button
                   onClick={handlePrevControl}
-                  className={`glass-btn ${chapterNum === 2 ? 'primary' : ''}`}
                   style={{
-                    padding: '0.8rem 1.5rem',
-                    fontSize: '1rem',
-                    fontWeight: '600',
-                    background: chapterNum === 2 ? 'var(--accent)' : undefined,
-                    color: chapterNum === 2 ? '#ffffff' : undefined,
-                    border: chapterNum === 2 ? 'none' : undefined,
-                    boxShadow: chapterNum === 2 ? '0 4px 12px rgba(99,102,241,0.3)' : undefined
+                    fontFamily: 'var(--sans-font, sans-serif)',
+                    fontWeight: 800,
+                    fontSize: '0.92rem',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    background: chapterNum === 2 ? '#064e3b' : 'var(--card-bg)',
+                    color: '#ffffff',
+                    border: chapterNum === 2 ? '1.5px solid #047857' : 'none',
+                    borderRadius: '999px',
+                    padding: '0.55rem 1.4rem',
+                    cursor: (activeLevelIdx === 0 && activeSlide === 0 && activeActivityIdx === 0 && ch2FlowIndex === 0) ? 'not-allowed' : 'pointer',
+                    opacity: (activeLevelIdx === 0 && activeSlide === 0 && activeActivityIdx === 0 && ch2FlowIndex === 0) ? 0.35 : 1,
+                    boxShadow: chapterNum === 2 ? '0 4px 14px rgba(6, 78, 59, 0.35)' : 'none',
+                    transition: 'all 0.2s ease'
                   }}
                 >
                   ← Previous
                 </button>
+
+                {/* Center Slide Indicator with Dots (LocatingPlaces Style) */}
+                {chapterNum === 2 && !activityFocused && (() => {
+                  const lesson = contentLessonsData[activeLevel.lessonId];
+                  const totalSlides = lesson ? lesson.slides.length : 1;
+                  if (totalSlides <= 1) return null;
+                  return (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '13px', fontWeight: 800, color: '#065f46' }}>
+                        Slide {activeSlide + 1} of {totalSlides} · Page {lessonSubPage} of 2 ({lessonSubPage === 1 ? 'Concept' : 'Lab'})
+                      </span>
+                      <div style={{ display: 'inline-flex', gap: '6px', alignItems: 'center' }}>
+                        {Array.from({ length: totalSlides }, (_, sIdx) => (
+                          <button
+                            key={sIdx}
+                            type="button"
+                            onClick={() => setActiveSlide(sIdx)}
+                            aria-label={`Go to slide ${sIdx + 1}`}
+                            style={{
+                              width: sIdx === activeSlide ? '22px' : '9px',
+                              height: '9px',
+                              borderRadius: '999px',
+                              border: 'none',
+                              padding: 0,
+                              cursor: 'pointer',
+                              background: sIdx === activeSlide ? '#10b981' : '#cbd5e1',
+                              transition: 'all 0.25s ease'
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })()}
                 
                 <button
                   onClick={handleNextControl}
-                  className="glass-btn primary"
                   style={{
-                    padding: '0.8rem 1.5rem',
-                    fontSize: '1rem',
-                    fontWeight: '600',
-                    background: 'var(--accent)',
-                    color: '#fff',
+                    fontFamily: 'var(--sans-font, sans-serif)',
+                    fontWeight: 800,
+                    fontSize: '0.92rem',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    background: chapterNum === 2 ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 'var(--accent)',
+                    color: '#ffffff',
                     border: 'none',
-                    boxShadow: '0 4px 12px rgba(99,102,241,0.3)'
+                    borderRadius: '999px',
+                    padding: '0.55rem 1.6rem',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 14px rgba(16, 185, 129, 0.35)',
+                    transition: 'all 0.2s ease'
                   }}
                 >
                   {(() => {
+                    if (chapterNum === 2) {
+                      if (!activityFocused) {
+                        const lessonData = contentLessonsData[activeLevel.lessonId];
+                        const maxSlides = lessonData ? lessonData.slides.length : 1;
+                        if (lessonSubPage === 1) {
+                          return "Next: Interactive Investigation →";
+                        }
+                        if (activeSlide < maxSlides - 1) {
+                          return "Next Slide →";
+                        } else {
+                          return "Next Activity →";
+                        }
+                      }
+                      return "Next Activity →";
+                    }
                     if (showBriefing === true) {
                       if (activeLevel.activities && activeLevel.activities.length > 0) {
                         const actTitle = activeLevel.activities[0].title;

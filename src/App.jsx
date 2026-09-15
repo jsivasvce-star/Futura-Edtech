@@ -82,7 +82,25 @@ const VenationRootCorrelationLab = lazy(() => import('./science/class6/chapter2/
 const SeedDissectionLab = lazy(() => import('./science/class6/chapter2/SeedDissectionLab'));
 
 import './App.css';
-const Chapter2LearningLab = lazy(() => import('./science/class6/chapter2/Chapter2LearningLab'));
+
+const lazyWithRetry = (componentImport, maxRetries = 3) =>
+  lazy(async () => {
+    let lastError;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        return await componentImport();
+      } catch (error) {
+        lastError = error;
+        console.warn(`Dynamic module import attempt ${attempt}/${maxRetries} failed:`, error);
+        if (attempt < maxRetries) {
+          await new Promise((resolve) => setTimeout(resolve, attempt * 800));
+        }
+      }
+    }
+    throw lastError;
+  });
+
+const Chapter2LearningLab = lazyWithRetry(() => import('./science/class6/chapter2/Chapter2LearningLab'));
 const Chapter3LearningLab = lazy(() => import('./science/class6/chapter3/Chapter3LearningLab'));
 const Chapter10LearningLab = lazy(() => import('./science/class6/chapter10/Chapter10LearningLab'));
 const Chapter11LearningLab = lazy(() => import('./science/class6/chapter11/Chapter11LearningLab'));
@@ -3218,6 +3236,7 @@ export default function App() {
 
       {/* Floating circular controls (Theme & Music) */}
       <div 
+        id="global-theme-music-controls"
         style={{ 
           position: 'fixed', 
           bottom: '2rem', 

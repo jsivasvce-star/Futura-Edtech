@@ -72,7 +72,7 @@ export default function NatureScene3D({
     // Pond Water
     const pondGeo = new THREE.CircleGeometry(7, 32);
     const pondMat = new THREE.MeshStandardMaterial({
-      color: '#0284c7',
+      color: '#0d9488',
       roughness: 0.1,
       metalness: 0.8,
       transparent: true,
@@ -308,7 +308,7 @@ export default function NatureScene3D({
       // Selection Ring Marker underneath
       const ringGeo = new THREE.RingGeometry(1.2, 1.6, 24);
       const ringMat = new THREE.MeshBasicMaterial({
-        color: discoveredIds.includes(org.id) ? '#10b981' : '#f59e0b',
+        color: discoveredIds.includes(org.id) ? '#10b981' : '#84cc16',
         side: THREE.DoubleSide,
         transparent: true,
         opacity: 0.8

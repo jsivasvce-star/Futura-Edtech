@@ -65,8 +65,8 @@ export default function ProfessorBuddy({
             {/* Eyes */}
             {!blinking ? (
               <>
-                <circle cx="41" cy="44" r="3" fill="#0284c7" />
-                <circle cx="59" cy="44" r="3" fill="#0284c7" />
+                <circle cx="41" cy="44" r="3" fill="#064e3b" />
+                <circle cx="59" cy="44" r="3" fill="#064e3b" />
                 <circle cx="42" cy="43" r="1" fill="#ffffff" />
                 <circle cx="60" cy="43" r="1" fill="#ffffff" />
               </>
@@ -95,12 +95,12 @@ export default function ProfessorBuddy({
             {/* Lab Coat */}
             <path d="M 22 75 Q 50 65 78 75 L 85 100 L 15 100 Z" fill="#ffffff" stroke="#cbd5e1" strokeWidth="2" />
             {/* Tie / Badge */}
-            <path d="M 47 68 L 53 68 L 51 82 L 49 82 Z" fill="#0284c7" />
-            <circle cx="34" cy="78" r="3" fill="#fbbf24" />
+            <path d="M 47 68 L 53 68 L 51 82 L 49 82 Z" fill="#059669" />
+            <circle cx="34" cy="78" r="3" fill="#10b981" />
           </svg>
 
           {/* Badge icon */}
-          <div className="absolute top-1 right-1 bg-amber-400 text-amber-950 p-1 rounded-full shadow-md text-xs font-bold">
+          <div className="absolute top-1 right-1 p-1 rounded-full shadow-md text-xs font-bold" style={{ background: '#10b981', color: '#ffffff' }}>
             <Sparkles className="w-3.5 h-3.5 animate-spin" />
           </div>
         </div>

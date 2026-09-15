@@ -29,25 +29,73 @@ export default function DiscoveryPopup({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-md animate-fade-in">
+    <div style={{
+      position: 'fixed',
+      inset: 0,
+      zIndex: 100,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '1rem',
+      background: 'rgba(15, 23, 42, 0.65)',
+      backdropFilter: 'blur(8px)'
+    }}>
       {/* Pop-up Card */}
-      <div className="relative w-full max-w-lg bg-gradient-to-b from-slate-900/95 via-slate-900/90 to-emerald-950/90 border-2 border-emerald-400/40 rounded-3xl p-6 shadow-2xl overflow-hidden transform transition-all scale-100">
+      <div style={{
+        position: 'relative',
+        width: '100%',
+        maxWidth: '34rem',
+        background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
+        border: '2px solid #14452F',
+        borderRadius: '24px',
+        padding: '1.75rem',
+        boxShadow: '0 20px 50px rgba(20, 69, 47, 0.25)',
+        overflow: 'hidden',
+        color: '#14452F'
+      }}>
         
-        {/* Glow backdrop decorative accent */}
-        <div className="absolute -top-24 -right-24 w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-teal-500/20 rounded-full blur-3xl" />
-
         {/* Header Bar */}
-        <div className="relative z-10 flex items-center justify-between pb-4 border-b border-emerald-500/20">
-          <div className="flex items-center gap-3">
-            <span className="text-4xl p-2 bg-emerald-500/20 rounded-2xl border border-emerald-400/30 shadow-inner">
+        <div style={{
+          position: 'relative',
+          zIndex: 10,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingBottom: '1rem',
+          borderBottom: '2px solid rgba(20, 69, 47, 0.2)'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <span style={{
+              fontSize: '2.5rem',
+              padding: '6px 10px',
+              background: 'rgba(20, 69, 47, 0.08)',
+              borderRadius: '16px',
+              border: '1.5px solid #14452F'
+            }}>
               {organism.emoji}
             </span>
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
+              <span style={{
+                fontSize: '14px',
+                fontWeight: 800,
+                textTransform: 'uppercase',
+                letterSpacing: '0.06em',
+                background: '#14452F',
+                color: '#FFFFFF',
+                padding: '3px 10px',
+                borderRadius: '999px',
+                border: '1px solid #10B981',
+                display: 'inline-block'
+              }}>
                 {organism.type === 'plant' ? '🌿 Plant Discovery' : '🐾 Animal Discovery'}
               </span>
-              <h2 className="text-xl font-extrabold text-white">
+              <h2 style={{
+                fontFamily: '"Fraunces", Georgia, serif',
+                fontSize: '22px',
+                fontWeight: 900,
+                color: '#14452F',
+                margin: '0.35rem 0 0'
+              }}>
                 {organism.name}
               </h2>
             </div>
@@ -58,31 +106,71 @@ export default function DiscoveryPopup({
               sounds.playClick();
               onClose();
             }}
-            className="p-2 text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-700 rounded-full border border-slate-700 transition"
+            style={{
+              padding: '8px',
+              color: '#14452F',
+              background: 'rgba(20, 69, 47, 0.08)',
+              border: '1.5px solid #14452F',
+              borderRadius: '999px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Content Body */}
-        <div className="relative z-10 my-5 space-y-4">
+        <div style={{ position: 'relative', zIndex: 10, margin: '1.25rem 0', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {/* Simple Explanation */}
-          <div className="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4">
-            <p className="text-sm md:text-base text-slate-200 font-medium leading-relaxed">
+          <div style={{
+            background: '#FAF8F2',
+            border: '1.5px solid #14452F',
+            borderRadius: '16px',
+            padding: '1rem 1.25rem'
+          }}>
+            <p style={{
+              fontSize: '16px',
+              color: '#2D3748',
+              fontWeight: 600,
+              lineHeight: 1.6,
+              margin: 0,
+              textAlign: 'justify',
+              textJustify: 'inter-word'
+            }}>
               {organism.details}
             </p>
           </div>
 
           {/* Fun Fact Card */}
-          <div className="bg-amber-500/10 border border-amber-400/30 rounded-2xl p-4 flex items-start gap-3">
-            <div className="p-2 bg-amber-500/20 text-amber-300 rounded-xl">
+          <div style={{
+            background: 'rgba(245, 158, 11, 0.1)',
+            border: '1.8px solid #D97706',
+            borderRadius: '16px',
+            padding: '1rem 1.25rem',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '12px'
+          }}>
+            <div style={{ padding: '6px', background: 'rgba(217, 119, 6, 0.15)', color: '#B45309', borderRadius: '10px' }}>
               <Lightbulb className="w-5 h-5" />
             </div>
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-amber-300">
+            <div style={{ flex: 1 }}>
+              <span style={{ fontSize: '14px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: '#B45309', display: 'block' }}>
                 Did You Know?
               </span>
-              <p className="text-xs md:text-sm text-amber-100/90 font-medium mt-0.5">
+              <p style={{
+                fontSize: '16px',
+                color: '#78350F',
+                fontWeight: 600,
+                marginTop: '4px',
+                marginBottom: 0,
+                lineHeight: 1.5,
+                textAlign: 'justify',
+                textJustify: 'inter-word'
+              }}>
                 {organism.fact}
               </p>
             </div>
@@ -90,26 +178,37 @@ export default function DiscoveryPopup({
         </div>
 
         {/* Actions Footer */}
-        <div className="relative z-10 flex items-center gap-3 pt-2">
-
+        <div style={{ position: 'relative', zIndex: 10, display: 'flex', alignItems: 'center', gap: '12px', paddingTop: '0.5rem' }}>
           {/* Add to Journal Button */}
           <button
             onClick={handleCollectClick}
             disabled={isCollected}
-            className={`flex-1 py-3 px-4 rounded-xl font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg transition transform ${
-              isCollected
-                ? 'bg-emerald-800/60 text-emerald-300 border border-emerald-500/30 cursor-default'
-                : 'bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 hover:from-emerald-400 hover:to-teal-400 active:scale-95 shadow-emerald-500/20'
-            }`}
+            style={{
+              flex: 1,
+              padding: '0.85rem 1.25rem',
+              borderRadius: '14px',
+              fontWeight: 800,
+              fontSize: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              cursor: isCollected ? 'default' : 'pointer',
+              border: isCollected ? '1.5px solid #10B981' : '1.5px solid #10B981',
+              background: isCollected ? 'rgba(20, 69, 47, 0.15)' : 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+              color: isCollected ? '#14452F' : '#FFFFFF',
+              boxShadow: isCollected ? 'none' : '0 4px 14px rgba(20, 69, 47, 0.25)',
+              transition: 'all 0.15s ease'
+            }}
           >
             {isCollected ? (
               <>
-                <BookmarkCheck className="w-4 h-4 text-emerald-300" />
+                <BookmarkCheck className="w-5 h-5 text-emerald-600" />
                 <span>Saved to Journal (+25 XP)</span>
               </>
             ) : (
               <>
-                <Sparkles className="w-4 h-4" />
+                <Sparkles className="w-5 h-5" />
                 <span>Collect Entry (+25 XP)</span>
               </>
             )}
