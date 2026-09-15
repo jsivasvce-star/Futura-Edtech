@@ -225,23 +225,23 @@ export default function Stage7a_SolubilitySim({ onComplete, addXp }) {
                 style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', gap: 'clamp(0.5rem, 1.5vh, 1rem)', background: 'var(--lesson-background)', borderRadius: '16px', padding: 'clamp(1rem, 2vh, 1.5rem)', border: '1px solid var(--lesson-border)', boxShadow: '0 4px 6px rgba(0,0,0,0.02)', overflowY: 'auto' }}
               >
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', flexShrink: 0 }}>
-                  <div style={{ color: '#A94727', fontSize: 'clamp(0.9rem, 1.5vh, 1.15rem)', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Material</div>
-                  <div style={{ fontSize: 'clamp(1.5rem, 3vh, 2.5rem)', color: '#2C4E3D', fontWeight: 'bold' }}>{selectedSubstance.name}</div>
+                  <div style={{ color: '#A94727', fontSize: 'clamp(1.2rem, 2vh, 1.4rem)', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Material</div>
+                  <div style={{ fontSize: 'clamp(2rem, 4vh, 3rem)', color: '#2C4E3D', fontWeight: '900' }}>{selectedSubstance.name}</div>
                 </div>
 
-                <div style={{ background: 'white', borderRadius: '16px', padding: 'clamp(0.75rem, 1.5vh, 1.25rem)', border: '1px solid #D9C9A3', display: 'flex', flexDirection: 'column', gap: 'clamp(0.25rem, 1vh, 0.5rem)', boxShadow: '0 2px 4px rgba(0,0,0,0.02)', flexShrink: 0 }}>
-                  <div style={{ color: '#4A3B5C', fontSize: 'clamp(0.9rem, 1.5vh, 1.15rem)', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Observation</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: 'clamp(1.2rem, 2.5vh, 2.25rem)', fontWeight: 'bold', color: selectedSubstance.type === 'Soluble' ? 'var(--lesson-success)' : 'var(--lesson-accent)' }}>
+                <div style={{ background: 'white', borderRadius: '16px', padding: 'clamp(1rem, 2vh, 1.5rem)', border: '1px solid #D9C9A3', display: 'flex', flexDirection: 'column', gap: 'clamp(0.5rem, 1.5vh, 0.75rem)', boxShadow: '0 2px 4px rgba(0,0,0,0.02)', flexShrink: 0 }}>
+                  <div style={{ color: '#4A3B5C', fontSize: 'clamp(1.2rem, 2vh, 1.4rem)', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Observation</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: 'clamp(1.75rem, 3.5vh, 2.75rem)', fontWeight: '900', color: selectedSubstance.type === 'Soluble' ? 'var(--lesson-success)' : 'var(--lesson-accent)' }}>
                     {selectedSubstance.type === 'Soluble' ? 'Disappears in water' : 'Does not disappear'}
                   </div>
-                  <div style={{ color: '#44403c', fontSize: 'clamp(1rem, 2vh, 1.35rem)', lineHeight: '1.4' }}>
+                  <div style={{ color: '#44403c', fontSize: 'clamp(1.3rem, 2.5vh, 1.6rem)', lineHeight: '1.4', fontWeight: '600' }}>
                     {selectedSubstance.desc}
                   </div>
                 </div>
 
-                <div style={{ background: selectedSubstance.type === 'Soluble' ? 'var(--lesson-success-bg)' : 'var(--lesson-background)', borderRadius: '16px', padding: 'clamp(0.75rem, 1.5vh, 1.25rem)', border: `1px solid ${selectedSubstance.type === 'Soluble' ? 'var(--lesson-success-border)' : 'var(--lesson-border)'}`, boxShadow: '0 2px 4px rgba(0,0,0,0.02)', flexShrink: 0 }}>
-                  <div style={{ color: selectedSubstance.type === 'Soluble' ? '#A94727' : '#A94727', fontSize: 'clamp(0.9rem, 1.5vh, 1.15rem)', fontWeight: '900', textTransform: 'uppercase', marginBottom: '0.25rem', letterSpacing: '0.05em' }}>Conclusion</div>
-                  <div style={{ color: selectedSubstance.type === 'Soluble' ? '#14532d' : '#2C4E3D', fontSize: 'clamp(1.1rem, 2vh, 1.5rem)', lineHeight: '1.4', fontWeight: 'bold' }}>
+                <div style={{ background: selectedSubstance.type === 'Soluble' ? 'var(--lesson-success-bg)' : 'var(--lesson-background)', borderRadius: '16px', padding: 'clamp(1rem, 2vh, 1.5rem)', border: `1px solid ${selectedSubstance.type === 'Soluble' ? 'var(--lesson-success-border)' : 'var(--lesson-border)'}`, boxShadow: '0 2px 4px rgba(0,0,0,0.02)', flexShrink: 0 }}>
+                  <div style={{ color: selectedSubstance.type === 'Soluble' ? '#A94727' : '#A94727', fontSize: 'clamp(1.2rem, 2vh, 1.4rem)', fontWeight: '900', textTransform: 'uppercase', marginBottom: '0.25rem', letterSpacing: '0.05em' }}>Conclusion</div>
+                  <div style={{ color: selectedSubstance.type === 'Soluble' ? '#14532d' : '#2C4E3D', fontSize: 'clamp(1.5rem, 3vh, 2rem)', lineHeight: '1.4', fontWeight: '900' }}>
                     {selectedSubstance.conclusion}
                   </div>
                 </div>
