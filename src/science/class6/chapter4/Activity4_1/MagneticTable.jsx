@@ -196,6 +196,46 @@ function playSound(type, soundEnabled = true) {
   }
 }
 
+// ─── Canvas-based white background remover ───────────────────────────────────
+// Processes image pixel-by-pixel: near-white pixels become transparent with
+// smooth anti-aliased feathering so edges look clean on any dark background.
+const transparentCache = new Map();
+
+async function removeWhiteBg(src) {
+  if (transparentCache.has(src)) return transparentCache.get(src);
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imageData.data;
+      const THRESHOLD = 235; // pixels brighter than this are considered white bg
+      const FEATHER = 20;    // smooth transition zone width
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i], g = data[i + 1], b = data[i + 2];
+        // Only treat as background if ALL channels are near-white
+        const minChannel = Math.min(r, g, b);
+        if (minChannel >= THRESHOLD) {
+          // Linear ramp: 235 → alpha=255 (fully opaque edge), 250+ → alpha=0 (fully transparent bg)
+          const t = Math.min(1, (minChannel - THRESHOLD) / FEATHER);
+          data[i + 3] = Math.round((1 - t) * data[i + 3]);
+        }
+      }
+      ctx.putImageData(imageData, 0, 0);
+      const result = canvas.toDataURL('image/png');
+      transparentCache.set(src, result);
+      resolve(result);
+    };
+    img.onerror = () => resolve(src); // fallback to original on error
+    img.src = src;
+  });
+}
+
 export default function MagneticTable({ onComplete, onTableCompleted }) {
   const [selectedItem, setSelectedItem] = useState(null);
   const [scanState, setScanState] = useState('idle'); // 'idle' | 'scanning' | 'complete'
@@ -203,11 +243,34 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
   const [scannedMap, setScannedMap] = useState({}); // { [id]: boolean }
   const [showTableModal, setShowTableModal] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
+  // Stores canvas-processed transparent versions of each item image
+  const [transparentImgs, setTransparentImgs] = useState({});
 
   const scannedCount = Object.keys(scannedMap).length;
   const isAllComplete = scannedCount === EVIDENCE_ITEMS.length;
   const magneticCount = Object.keys(scannedMap).filter(id => EVIDENCE_ITEMS.find(i => i.id === id)?.isMagnetic).length;
   const nonMagneticCount = scannedCount - magneticCount;
+
+  // Pre-process all item images on mount: strip white backgrounds via Canvas API
+  useEffect(() => {
+    let cancelled = false;
+    const processAll = async () => {
+      const entries = await Promise.all(
+        EVIDENCE_ITEMS.map(async (item) => {
+          const transparent = await removeWhiteBg(item.image);
+          return [item.id, transparent];
+        })
+      );
+      if (!cancelled) {
+        setTransparentImgs(Object.fromEntries(entries));
+      }
+    };
+    processAll();
+    return () => { cancelled = true; };
+  }, []);
+
+  // Helper: returns transparent version if ready, otherwise original
+  const getImgSrc = (item) => transparentImgs[item.id] || item.image;
 
   // Notify parent component when all items are scanned
   useEffect(() => {
@@ -416,7 +479,7 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
                     </div>
                   )}
 
-                  {/* Clean Object Image Container */}
+                  {/* Clean Object Image Container — transparent processed image */}
                   <div style={{
                     flex: 1,
                     minHeight: 0,
@@ -431,13 +494,12 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
                     marginBottom: '6px',
                   }}>
                     <img
-                      src={item.image}
+                      src={getImgSrc(item)}
                       alt={item.name}
                       style={{
                         maxWidth: '92%',
                         maxHeight: '92%',
                         objectFit: 'contain',
-                        mixBlendMode: 'multiply',
                         display: 'block',
                         transition: 'transform 0.2s ease',
                       }}
@@ -674,42 +736,22 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
                   justifyContent: 'center',
                   zIndex: 4,
                 }}>
-                  {/* Circular Specimen Plate — white disc so object white bg blends away */}
-                  <div style={{
-                    position: 'absolute',
-                    width: '90%',
-                    height: '90%',
-                    borderRadius: '50%',
-                    background: scanState === 'scanning'
-                      ? 'radial-gradient(circle, rgba(255,255,255,0.97) 0%, rgba(240,249,255,0.94) 70%, rgba(224,242,254,0.82) 100%)'
-                      : selectedItem.isMagnetic
-                      ? 'radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(240,253,244,0.9) 70%, rgba(220,252,231,0.8) 100%)'
-                      : 'radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,241,242,0.9) 70%, rgba(254,226,226,0.8) 100%)',
-                    boxShadow: scanState === 'scanning'
-                      ? '0 0 40px rgba(56, 189, 248, 0.55), 0 0 80px rgba(56, 189, 248, 0.2), inset 0 0 20px rgba(56,189,248,0.08)'
-                      : selectedItem.isMagnetic
-                      ? '0 0 30px rgba(34, 197, 94, 0.4), inset 0 0 16px rgba(34,197,94,0.06)'
-                      : '0 0 24px rgba(239, 68, 68, 0.3), inset 0 0 16px rgba(239,68,68,0.05)',
-                    transition: 'all 0.4s ease',
-                    zIndex: 3,
-                  }} />
-
-                  {/* Object Image — sits on the white specimen plate, no white bg visible */}
+                  {/* Object Image — canvas-processed transparent PNG, floats on dark radar */}
                   <img
-                    src={selectedItem.image}
+                    src={getImgSrc(selectedItem)}
                     alt={selectedItem.name}
                     style={{
                       position: 'relative',
                       zIndex: 5,
-                      maxWidth: '72%',
-                      maxHeight: '72%',
+                      maxWidth: '80%',
+                      maxHeight: '80%',
                       objectFit: 'contain',
                       filter: scanState === 'scanning'
-                        ? 'drop-shadow(0 4px 16px rgba(56, 189, 248, 0.6)) brightness(1.08)'
+                        ? 'drop-shadow(0 0 28px rgba(56, 189, 248, 0.9)) drop-shadow(0 0 12px rgba(56,189,248,0.6)) brightness(1.1)'
                         : selectedItem.isMagnetic
-                        ? 'drop-shadow(0 4px 14px rgba(34, 197, 94, 0.55))'
-                        : 'drop-shadow(0 4px 14px rgba(239, 68, 68, 0.4))',
-                      transition: 'all 0.3s ease',
+                        ? 'drop-shadow(0 0 24px rgba(34, 197, 94, 0.85)) drop-shadow(0 0 10px rgba(34,197,94,0.5))'
+                        : 'drop-shadow(0 0 20px rgba(239, 68, 68, 0.75)) drop-shadow(0 0 8px rgba(239,68,68,0.4))',
+                      transition: 'filter 0.4s ease, transform 0.3s ease',
                       animation: scanState === 'scanning' ? 'holographic-pulse 1.8s ease-in-out infinite' : 'none',
                     }}
                   />
