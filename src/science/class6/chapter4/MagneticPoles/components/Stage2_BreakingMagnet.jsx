@@ -461,7 +461,7 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
             <Scissors size={26} color="#D97706" />
             <h3 style={{ margin: 0, fontSize: '1.45rem', color: '#78350F', fontWeight: 900 }}>
-              Stage 2: Breaking Magnet
+              Stage 2: Breaking a Magnet
             </h3>
           </div>
           <span style={{

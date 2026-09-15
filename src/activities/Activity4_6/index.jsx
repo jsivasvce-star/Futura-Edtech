@@ -34,7 +34,7 @@ export default function Activity4_6({ onBackToDashboard, onComplete }) {
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
               <Compass size={24} style={{ color: 'var(--accent)' }} />
               <h1 style={{ margin: 0, fontSize: '1.5rem', color: 'var(--text-heading)' }}>
-                Activity 4.6: Compass & Bar Magnet
+                Activity 4.7: Compass & Bar Magnet
               </h1>
             </div>
             <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}>

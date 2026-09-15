@@ -145,7 +145,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
         <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
           <h2 style={{ margin: 0, fontSize: '1.42rem', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.65rem', color: '#064E3B', letterSpacing: '-0.02em' }}>
             <Compass size={28} style={{ color: '#D97706' }} />
-            Activity 4.5: Fun with Magnets
+            Activity 4.9: Fun with Magnets
           </h2>
           <span style={{ fontSize: '0.88rem', color: '#047857', fontWeight: 800 }}>Class 6 Science — 3D Magnetic Town Expedition & Magnet Care</span>
         </div>

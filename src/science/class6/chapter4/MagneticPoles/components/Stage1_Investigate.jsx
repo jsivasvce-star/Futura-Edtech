@@ -762,7 +762,7 @@ export default function Stage1_Investigate({ onComplete }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
             <BookOpen size={26} color="#D97706" />
             <h3 style={{ margin: 0, fontSize: '1.45rem', color: '#78350F', fontWeight: 900 }}>
-              Stage 1: Investigation
+              Stage 1: Let us Investigate
             </h3>
           </div>
           <span style={{

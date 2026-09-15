@@ -44,13 +44,13 @@ const MODULES_DATA = [
   {
     num: "07",
     id: "activity_4_6",
-    title: "COMPASS & MAGNET",
+    title: "COMPASS & BAR MAGNET",
     image: "/ch4_cards/img_7.jpg",
   },
   {
     num: "08",
     id: "activity_4_7",
-    title: "THROUGH MATERIALS",
+    title: "ATTRACTION & REPULSION BETWEEN MAGNETS",
     image: "/ch4_cards/img_8.jpg",
   },
   {
