@@ -246,7 +246,7 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
         .c-tab.solved .badge { background: var(--success-green); color: var(--white); }
 
         .c-stage {
-          padding: 24px 40px 16px 40px;
+          padding: 16px 40px 16px 40px;
           flex: 1;
           display: flex;
           flex-direction: column;
@@ -267,7 +267,7 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
         /* Clue 1: Two Column Layout */
         .clue1-layout {
           display: flex;
-          gap: 60px;
+          gap: 40px;
           flex: 1;
           min-height: 0;
         }
@@ -294,7 +294,7 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
           min-height: 0;
           border-radius: 16px;
           overflow: hidden;
-          margin-bottom: 24px;
+          margin-bottom: 16px;
           display: flex;
         }
 
@@ -328,8 +328,8 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
           background: var(--white);
           border: 1px solid var(--border-color);
           border-radius: 12px;
-          padding: 12px 16px;
-          margin-bottom: 12px;
+          padding: 10px 16px;
+          margin-bottom: 8px;
           display: flex;
           align-items: center;
           gap: 16px;
@@ -393,13 +393,13 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
           font-size: 28px;
           font-weight: 800;
           color: var(--title-dark);
-          margin-bottom: 4px;
+          margin: 8px 0 4px 0;
         }
 
         .chip-opts {
           display: flex;
           gap: 16px;
-          margin-bottom: 16px;
+          margin: 0;
         }
 
         .chip-btn {
@@ -498,8 +498,8 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
         <div className={`c-panel ${currentStep === 1 ? 'active' : ''}`}>
           <div className="clue1-layout">
             <div className="clue1-left">
-              <h2 style={{ marginBottom: '16px' }}>What makes something "matter"?</h2>
-              <p className="lead" style={{ margin: '0 0 24px 0' }}>
+              <h2 style={{ margin: '0 0 12px 0' }}>What makes something "matter"?</h2>
+              <p className="lead" style={{ margin: '0 0 16px 0' }}>
                 <span style={{ display: 'block', marginBottom: '8px' }}>Everything around us is made of <b>matter</b>.</span>
                 <span style={{ display: 'block' }}>Matter has two important properties:</span>
               </p>
@@ -639,7 +639,7 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
         {/* STEP 3: Sort Evidence */}
         <div className={`c-panel ${currentStep === 3 ? 'active' : ''}`}>
           <h2 className="gen">Evidence Tray: Sort the evidence</h2>
-          <p className="sub">Tap a unit, then file it as mass or volume.</p>
+          <p className="sub"><strong style={{ color: 'var(--lesson-primary)', fontSize: '1.1em', fontWeight: '900' }}>CLICK 👆</strong> a unit to sort it as MASS or VOLUME.</p>
           
           <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
             <div className="c-sort-tray">

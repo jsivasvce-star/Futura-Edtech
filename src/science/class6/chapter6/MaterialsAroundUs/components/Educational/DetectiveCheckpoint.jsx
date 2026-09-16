@@ -4,6 +4,14 @@ import { ShieldAlert, Check, X, ArrowRight, ArrowLeft, CheckCircle2, ClipboardLi
 import { motion } from 'framer-motion';
 import newChiefDetectiveImage from '../../../../../../assets/4.detective.png';
 import checkpointBg from '../../../../../../assets/detective_checkpoint_bg.png';
+import barrier2Bg from '../../../../../../assets/barrier2_checkpoint_bg.jpg';
+import stage6_3_1Bg from '../../../../../../assets/stage6_3_1_checkpoint_bg.png';
+import stage6_3_2Bg from '../../../../../../assets/stage6_3_2_checkpoint_bg.png';
+import stage6_3_3Bg from '../../../../../../assets/stage6_3_3_checkpoint_bg.png';
+import stage6_3_4Bg from '../../../../../../assets/stage6_3_4_checkpoint_bg.png';
+import stage6_3_5Bg from '../../../../../../assets/stage6_3_5_checkpoint_bg.png';
+import stage6_3_6Bg from '../../../../../../assets/stage6_3_6_checkpoint_bg.png';
+import barrier4Bg from '../../../../../../assets/barrier4_checkpoint_bg.png';
 
 export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed, onBack }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -335,9 +343,9 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
             right: 0,
             bottom: 0,
             width: '60%',
-            backgroundImage: `url(${checkpointBg})`,
+            backgroundImage: `url(${data?.title?.includes('Barrier 4') ? barrier4Bg : data?.title?.includes('6.3.6') ? stage6_3_6Bg : data?.title?.includes('6.3.5') ? stage6_3_5Bg : data?.title?.includes('6.3.4') ? stage6_3_4Bg : data?.title?.includes('6.3.3') ? stage6_3_3Bg : data?.title?.includes('6.3.2') ? stage6_3_2Bg : data?.title?.includes('6.3.1') ? stage6_3_1Bg : data?.title?.includes('Barrier 2') ? barrier2Bg : checkpointBg})`,
             backgroundSize: 'cover',
-            backgroundPosition: 'right center',
+            backgroundPosition: '80% center',
             maskImage: 'linear-gradient(to right, transparent 20%, black 60%)',
             WebkitMaskImage: 'linear-gradient(to right, transparent 20%, black 60%)',
             pointerEvents: 'none',
@@ -372,7 +380,17 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
 
         {/* Content */}
         {!quizComplete ? (
-          <div style={{ padding: '1rem 2rem 90px 2rem', flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative', zIndex: 1, width: '60%' }}>
+          <div style={{ 
+            padding: data?.title?.includes('6.3.6') ? '3rem 2rem 90px 2rem' : '1rem 2rem 90px 2rem', 
+            flex: 1, 
+            overflow: 'hidden', 
+            display: 'flex', 
+            flexDirection: 'column', 
+            justifyContent: data?.title?.includes('6.3.6') ? 'flex-start' : 'center', 
+            position: 'relative', 
+            zIndex: 1, 
+            width: '60%' 
+          }}>
             <h3 style={{ margin: '0 0 1rem 0', fontSize: 'clamp(34px, 4vw, 40px)', fontWeight: '800', color: 'var(--lesson-text)', display: 'flex', gap: '12px', fontFamily: "'Merriweather', Georgia, serif", lineHeight: '1.3' }}>
               <div style={{ background: 'var(--lesson-primary)', color: 'white', width: '48px', height: '48px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '1.5rem' }}>
                 Q
