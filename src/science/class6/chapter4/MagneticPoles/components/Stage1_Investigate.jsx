@@ -518,20 +518,28 @@ export default function Stage1_Investigate({ onComplete }) {
       </div>
 
       {/* Control Panel (Unified Warm Orange Theme) */}
-      <div style={{ 
-        flex: '1.15', 
-        background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
-        border: '1.5px solid #FDE68A', 
-        borderRadius: '24px', 
-        padding: '1.25rem 1.35rem', 
-        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)', 
-        display: 'flex', 
-        flexDirection: 'column', 
-        gap: '1rem', 
-        minWidth: 0,
-        overflowY: 'auto',
-        fontFamily: 'system-ui, -apple-system, sans-serif'
-      }}>
+      <div 
+        className="custom-scrollbar"
+        style={{ 
+          flex: '1.15', 
+          height: '100%',
+          maxHeight: '100%',
+          minHeight: 0,
+          boxSizing: 'border-box',
+          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
+          border: '1.5px solid #FDE68A', 
+          borderRadius: '24px', 
+          padding: '1.25rem 1.35rem', 
+          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: '1rem', 
+          minWidth: 0, 
+          overflowY: 'auto', 
+          overflowX: 'hidden',
+          fontFamily: 'system-ui, -apple-system, sans-serif'
+        }}
+      >
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>

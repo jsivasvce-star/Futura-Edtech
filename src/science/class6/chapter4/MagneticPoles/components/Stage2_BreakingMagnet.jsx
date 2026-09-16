@@ -277,8 +277,6 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
         overflow: 'hidden',
         boxSizing: 'border-box',
         position: 'relative',
-        alignItems: 'center',
-        justifyContent: 'center',
         background: 'transparent',
       }}
     >
@@ -319,8 +317,13 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
 
       {/* Right Side: Control Panel (Unified Warm Orange Theme) */}
       <div
+        className="custom-scrollbar"
         style={{
           flex: '1.15',
+          height: '100%',
+          maxHeight: '100%',
+          minHeight: 0,
+          boxSizing: 'border-box',
           background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
           border: '1.5px solid #FDE68A',
           borderRadius: '24px',
@@ -331,6 +334,7 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
           gap: '1rem',
           minWidth: 0,
           overflowY: 'auto',
+          overflowX: 'hidden',
           fontFamily: 'system-ui, -apple-system, sans-serif'
         }}
       >
