@@ -525,6 +525,19 @@ export default function Chapter2SloganPage({
     }
   };
 
+  // Force-hide global floating music / volume button while slogan page is mounted
+  useEffect(() => {
+    const musicControls = document.getElementById('global-theme-music-controls');
+    if (musicControls) {
+      musicControls.style.setProperty('display', 'none', 'important');
+    }
+    return () => {
+      if (musicControls) {
+        musicControls.style.display = '';
+      }
+    };
+  }, []);
+
   const handleNext = () => {
     if (currentPage < TOTAL_PAGES) {
       setCurrentPage(prev => prev + 1);
@@ -568,6 +581,13 @@ export default function Chapter2SloganPage({
         }
         .animate-bio-stage {
           animation: biologyFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        /* Force-hide global floating music / volume controls to prevent any corner overlap */
+        #global-theme-music-controls {
+          display: none !important;
+          visibility: hidden !important;
+          pointer-events: none !important;
+          opacity: 0 !important;
         }
         .bio-nav-btn {
           background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%);
@@ -860,7 +880,7 @@ export default function Chapter2SloganPage({
         )}
       </div>
 
-      {/* Floating Fullscreen Button for Page 1 (where title header is hidden) */}
+      {/* Floating Fullscreen Control for Page 1 (Top-Right) */}
       {currentPage === 1 && (
         <div style={{
           position: 'absolute',
@@ -899,6 +919,55 @@ export default function Chapter2SloganPage({
             }}
           >
             {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+          </button>
+        </div>
+      )}
+
+      {/* Page 1 Bottom-Left: Back Button */}
+      {currentPage === 1 && (
+        <div style={{
+          position: 'absolute',
+          bottom: '12px',
+          left: '24px',
+          zIndex: 35
+        }}>
+          <button
+            type="button"
+            className="bio-nav-btn"
+            onClick={onBack}
+            aria-label="Back to Cover"
+            style={{
+              padding: '7px 20px',
+              fontSize: '14px',
+              borderRadius: '10px'
+            }}
+          >
+            ← Back
+          </button>
+        </div>
+      )}
+
+      {/* Page 1 Bottom-Right: Next Page Button */}
+      {currentPage === 1 && (
+        <div style={{
+          position: 'absolute',
+          bottom: '12px',
+          right: '24px',
+          zIndex: 35
+        }}>
+          <button
+            type="button"
+            className="bio-cta-btn"
+            onClick={handleNext}
+            aria-label="Next Page"
+            style={{
+              padding: '7px 22px',
+              fontSize: '14px',
+              borderRadius: '10px'
+            }}
+          >
+            <span>Next Page</span>
+            <ArrowRight size={16} strokeWidth={2.5} />
           </button>
         </div>
       )}
@@ -1063,79 +1132,10 @@ export default function Chapter2SloganPage({
             flex: '1 1 auto',
             minHeight: 0,
             overflow: 'hidden',
-            zIndex: 10
+            zIndex: 10,
+            pointerEvents: 'none'
           }}
-        >
-          {/* Sanskrit Shloka Audio Hotspot Button over the image button */}
-          <button
-            type="button"
-            onClick={toggleSloganAudio}
-            title={isPlayingSloganAudio ? "Click to Pause Sanskrit Recitation" : "Click to Listen to Sanskrit Shloka"}
-            aria-label="Play Sanskrit Shloka Audio"
-            style={{
-              position: 'absolute',
-              left: '63.0%',
-              top: '7.2%',
-              width: '26.0%',
-              height: '5.8%',
-              borderRadius: '30px',
-              background: isPlayingSloganAudio ? 'rgba(245, 158, 11, 0.22)' : 'transparent',
-              border: isPlayingSloganAudio ? '2px solid rgba(254, 240, 138, 0.9)' : '2px solid transparent',
-              boxShadow: isPlayingSloganAudio ? '0 0 22px rgba(245, 158, 11, 0.7), inset 0 0 10px rgba(254, 240, 138, 0.4)' : 'none',
-              cursor: 'pointer',
-              zIndex: 25,
-              transition: 'all 0.25s ease',
-              outline: 'none'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.border = '2px solid rgba(254, 240, 138, 0.8)';
-              e.currentTarget.style.boxShadow = '0 0 16px rgba(245, 158, 11, 0.5)';
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
-            }}
-            onMouseLeave={(e) => {
-              if (!isPlayingSloganAudio) {
-                e.currentTarget.style.border = '2px solid transparent';
-                e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.style.background = 'transparent';
-              }
-            }}
-          />
-
-          {/* English Meaning Audio Hotspot Button over the image button */}
-          <button
-            type="button"
-            onClick={toggleMeaningAudio}
-            title={isPlayingMeaningAudio ? "Click to Pause English Meaning Narration" : "Click to Listen to English Meaning"}
-            aria-label="Play English Meaning Audio"
-            style={{
-              position: 'absolute',
-              left: '63.0%',
-              top: '49.2%',
-              width: '26.0%',
-              height: '5.8%',
-              borderRadius: '30px',
-              background: isPlayingMeaningAudio ? 'rgba(245, 158, 11, 0.22)' : 'transparent',
-              border: isPlayingMeaningAudio ? '2px solid rgba(254, 240, 138, 0.9)' : '2px solid transparent',
-              boxShadow: isPlayingMeaningAudio ? '0 0 22px rgba(245, 158, 11, 0.7), inset 0 0 10px rgba(254, 240, 138, 0.4)' : 'none',
-              cursor: 'pointer',
-              zIndex: 25,
-              transition: 'all 0.25s ease',
-              outline: 'none'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.border = '2px solid rgba(254, 240, 138, 0.8)';
-              e.currentTarget.style.boxShadow = '0 0 16px rgba(245, 158, 11, 0.5)';
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
-            }}
-            onMouseLeave={(e) => {
-              if (!isPlayingMeaningAudio) {
-                e.currentTarget.style.border = '2px solid transparent';
-                e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.style.background = 'transparent';
-              }
-            }}
-          />
-        </div>
+        />
       )}
 
       {/* ============================================================ */}
@@ -1349,55 +1349,51 @@ export default function Chapter2SloganPage({
       )}
 
       {/* ============================================================ */}
-      {/* BOTTOM NAVIGATION BAR: MATCHING REFERENCE POSTER DESIGN      */}
+      {/* BOTTOM NAVIGATION BAR: VISIBLE ONLY ON PAGES 2 & 3           */}
       {/* ============================================================ */}
-      <div style={{
-        width: currentPage === 1 ? 'calc(100% - 48px)' : '100%',
-        maxWidth: '1380px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexShrink: 0,
-        marginTop: currentPage === 1 ? '0' : 'clamp(6px, 1.2vh, 12px)',
-        padding: '0 4px',
-        boxSizing: 'border-box',
-        position: currentPage === 1 ? 'absolute' : 'relative',
-        bottom: currentPage === 1 ? '16px' : 'auto',
-        left: currentPage === 1 ? '50%' : 'auto',
-        transform: currentPage === 1 ? 'translateX(-50%)' : 'none',
-        zIndex: 25
-      }}>
-        {/* Left Navigation Buttons */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <button
-            type="button"
-            className="bio-nav-btn"
-            onClick={onBack}
-            aria-label="Back to Cover"
-          >
-            ← Back
-          </button>
-
-          <button
-            type="button"
-            className="bio-nav-btn"
-            disabled={currentPage === 1}
-            onClick={handlePrev}
-            aria-label="Previous Page"
-          >
-            ← Previous Page
-          </button>
-        </div>
-
-        {/* Center Page Indicator with Globe & Leaves Motif (matching reference image) */}
+      {currentPage > 1 && (
         <div style={{
+          width: '100%',
+          maxWidth: '1380px',
           display: 'flex',
-          flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
-          gap: '2px'
+          justifyContent: 'space-between',
+          flexShrink: 0,
+          marginTop: 'clamp(6px, 1.2vh, 12px)',
+          padding: '0 4px',
+          boxSizing: 'border-box',
+          position: 'relative',
+          zIndex: 25
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
+          {/* Left Navigation Buttons */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <button
+              type="button"
+              className="bio-nav-btn"
+              onClick={onBack}
+              aria-label="Back to Cover"
+            >
+              ← Back
+            </button>
+
+            <button
+              type="button"
+              className="bio-nav-btn"
+              disabled={currentPage === 1}
+              onClick={handlePrev}
+              aria-label="Previous Page"
+            >
+              ← Previous Page
+            </button>
+          </div>
+
+          {/* Center Decorative Leaves Motif (Clean & elegant, without page text) */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px'
+          }}>
             <svg width="22" height="15" viewBox="0 0 24 16" fill="none" style={{ transform: 'scaleX(-1)', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))' }}>
               <path d="M2 14 C8 12, 16 10, 22 2 C18 8, 12 12, 2 14 Z" fill="#D97706" />
               <path d="M6 10 C10 6, 16 4, 22 2 C18 8, 12 10, 6 10 Z" fill="#F59E0B" />
@@ -1406,8 +1402,8 @@ export default function Chapter2SloganPage({
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: '26px',
-              height: '26px',
+              width: '28px',
+              height: '28px',
               borderRadius: '50%',
               background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.08) 100%)',
               backdropFilter: 'blur(16px)',
@@ -1415,7 +1411,7 @@ export default function Chapter2SloganPage({
               border: '1.8px solid rgba(255, 255, 255, 0.45)',
               boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5), 0 0 10px rgba(245, 158, 11, 0.3)'
             }}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FEF3C7" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FEF3C7" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10" />
                 <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
                 <path d="M2 12h20" />
@@ -1427,50 +1423,32 @@ export default function Chapter2SloganPage({
             </svg>
           </div>
 
-          <div style={{
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-            color: '#FFFBEB',
-            border: '1.5px solid rgba(255, 255, 255, 0.35)',
-            borderRadius: '20px',
-            padding: '4px 22px',
-            fontFamily: '"Outfit", sans-serif',
-            fontWeight: 900,
-            fontSize: '16px',
-            letterSpacing: '0.05em',
-            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.35), 0 0 12px rgba(245, 158, 11, 0.25)',
-            textShadow: '0 1px 3px rgba(0, 0, 0, 0.65)'
-          }}>
-            Page {currentPage} / {TOTAL_PAGES}
+          {/* Right Navigation Button */}
+          <div>
+            {currentPage === TOTAL_PAGES ? (
+              <button
+                type="button"
+                className="bio-cta-btn"
+                onClick={handleNext}
+                aria-label="Explore Diversity in the Living World"
+              >
+                <span>🌿 Explore the Living World!</span>
+                <ArrowRight size={18} strokeWidth={2.5} />
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="bio-cta-btn"
+                onClick={handleNext}
+                aria-label="Next Page"
+              >
+                <span>Next Page</span>
+                <ArrowRight size={17} strokeWidth={2.5} />
+              </button>
+            )}
           </div>
         </div>
-
-        {/* Right Navigation Button */}
-        <div>
-          {currentPage === TOTAL_PAGES ? (
-            <button
-              type="button"
-              className="bio-cta-btn"
-              onClick={handleNext}
-              aria-label="Explore Diversity in the Living World"
-            >
-              <span>🌿 Explore the Living World!</span>
-              <ArrowRight size={18} strokeWidth={2.5} />
-            </button>
-          ) : (
-            <button
-              type="button"
-              className="bio-cta-btn"
-              onClick={handleNext}
-              aria-label="Next Page"
-            >
-              <span>Next Page</span>
-              <ArrowRight size={17} strokeWidth={2.5} />
-            </button>
-          )}
-        </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -184,11 +184,11 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
     setIsSpeaking(false);
   }, [currentStep, viewMode, section1SubTab, venationSubTab, habitatSubTab, tab10ViewMode]);
 
-  // Hide global floating sound button when in interactive activities so it doesn't overlap UI
+  // Hide global floating sound button when on slogan page or in interactive activities so it doesn't overlap UI
   useEffect(() => {
-    const isIntroOrCover = viewMode === 'cover' || (viewMode === 'activity' && currentStep === 1);
+    const isIntroOrCover = viewMode === 'cover' || (viewMode === 'activity' && currentStep === 1 && section1SubTab === 'scenes');
     onSoundButtonVisibilityChange?.(isIntroOrCover);
-  }, [viewMode, currentStep, onSoundButtonVisibilityChange]);
+  }, [viewMode, currentStep, section1SubTab, onSoundButtonVisibilityChange]);
 
   useEffect(() => {
     return () => {
