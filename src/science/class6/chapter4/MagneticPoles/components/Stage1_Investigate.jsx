@@ -375,15 +375,7 @@ export default function Stage1_Investigate({ onComplete }) {
   const hasArrivedRef = useRef(false);
 
   const handleVideoPhaseChange = useCallback((phase, progress) => {
-    if (phase === 'sprinkle') {
-      setStep('scattering');
-    } else if (phase === 'tap') {
-      setStep('scattered');
-      setTapCount((prev) => Math.max(prev, 1));
-    } else if (phase === 'poles') {
-      setStep('tapped');
-      setTapCount((prev) => Math.max(prev, 1));
-    }
+    // Video demonstration is visual; do not modify right-side contents or colors
   }, []);
 
   const [isPaused, setIsPaused] = useState(false);
@@ -549,15 +541,15 @@ export default function Stage1_Investigate({ onComplete }) {
             </h3>
           </div>
           <span style={{
-            background: step === 'complete' ? '#DCFCE7' : '#FEF3C7',
-            color: step === 'complete' ? '#15803D' : '#92400E',
+            background: '#FEF3C7',
+            color: '#92400E',
             fontWeight: 900,
             fontSize: '0.88rem',
             padding: '0.35rem 0.8rem',
             borderRadius: '12px',
-            border: step === 'complete' ? '1.5px solid #86EFAC' : '1.5px solid #F59E0B'
+            border: '1.5px solid #F59E0B'
           }}>
-            Step {step === 'tapped' || step === 'complete' ? 3 : (step === 'scattered' || isVibrating) ? 2 : 1} of 3
+            Step 1 of 3
           </span>
         </div>
 
@@ -597,9 +589,7 @@ export default function Stage1_Investigate({ onComplete }) {
                 desc: 'Observe where filings cluster the most and answer the observation question.'
               }
             ].map((s) => {
-              const currentStepNum = (step === 'tapped' || step === 'complete') ? 3 : (step === 'scattered' || isVibrating) ? 2 : 1;
-              const isCurrent = currentStepNum === s.stepNum;
-              const isPast = currentStepNum > s.stepNum || (s.stepNum === 3 && step === 'complete');
+              const isFirst = s.stepNum === 1;
 
               return (
                 <div
@@ -607,11 +597,9 @@ export default function Stage1_Investigate({ onComplete }) {
                   style={{
                     padding: '0.65rem 0.85rem',
                     borderRadius: '14px',
-                    background: isPast ? '#DCFCE7' : isCurrent ? '#FEF3C7' : 'rgba(255, 255, 255, 0.7)',
-                    border: isPast ? '1.5px solid #86EFAC' : isCurrent ? '1.5px solid #F59E0B' : '1.5px solid transparent',
-                    boxShadow: isPast 
-                      ? '0 3px 10px rgba(16, 185, 129, 0.1)' 
-                      : isCurrent 
+                    background: isFirst ? '#FEF3C7' : 'rgba(255, 255, 255, 0.7)',
+                    border: isFirst ? '1.5px solid #F59E0B' : '1.5px solid transparent',
+                    boxShadow: isFirst 
                       ? '0 3px 10px rgba(245, 158, 11, 0.12)' 
                       : 'none',
                     display: 'flex',
@@ -626,9 +614,9 @@ export default function Stage1_Investigate({ onComplete }) {
                         width: '28px',
                         height: '28px',
                         borderRadius: '50%',
-                        background: isPast ? '#059669' : '#FEF3C7',
-                        border: isPast ? '2px solid #059669' : '2px solid #F59E0B',
-                        color: isPast ? '#FFFFFF' : '#92400E',
+                        background: '#FEF3C7',
+                        border: '2px solid #F59E0B',
+                        color: '#92400E',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -641,14 +629,13 @@ export default function Stage1_Investigate({ onComplete }) {
                       <span style={{ 
                         fontWeight: 900, 
                         fontSize: '1.1rem', 
-                        color: isPast ? '#15803D' : isCurrent ? '#92400E' : '#78350F' 
+                        color: isFirst ? '#92400E' : '#78350F' 
                       }}>
                         {s.title}
                       </span>
                     </div>
-                    {isPast && <CheckCircle size={20} color="#16A34A" />}
                   </div>
-                  <p style={{ margin: '0.15rem 0 0 2.3rem', fontSize: '0.96rem', color: isPast ? '#166534' : '#065F46', lineHeight: 1.5, fontWeight: 600 }}>
+                  <p style={{ margin: '0.15rem 0 0 2.3rem', fontSize: '0.96rem', color: '#065F46', lineHeight: 1.5, fontWeight: 600 }}>
                     {s.desc}
                   </p>
                 </div>
@@ -715,19 +702,19 @@ export default function Stage1_Investigate({ onComplete }) {
 
         {/* CONTAINER 2: Observation Question */}
         <div style={{ 
-          background: (quizAnswer === 'ends' || step === 'complete') ? '#DCFCE7' : 'rgba(255, 255, 255, 0.96)',
-          border: (quizAnswer === 'ends' || step === 'complete') ? '1.5px solid #86EFAC' : '1.5px solid #FDE68A',
+          background: 'rgba(255, 255, 255, 0.96)',
+          border: '1.5px solid #FDE68A',
           borderRadius: '20px',
           padding: '1.1rem 1.2rem',
-          boxShadow: (quizAnswer === 'ends' || step === 'complete') ? '0 4px 14px rgba(16, 185, 129, 0.12)' : '0 4px 14px rgba(217, 119, 6, 0.05)',
+          boxShadow: '0 4px 14px rgba(217, 119, 6, 0.05)',
           display: 'flex', 
           flexDirection: 'column', 
           gap: '0.85rem'
         }}>
-          <h4 style={{ color: (quizAnswer === 'ends' || step === 'complete') ? '#15803D' : '#78350F', margin: 0, fontSize: '1.2rem', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-            <AlertCircle size={22} color={(quizAnswer === 'ends' || step === 'complete') ? '#16A34A' : '#D97706'} /> Observation Question
+          <h4 style={{ color: '#78350F', margin: 0, fontSize: '1.2rem', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+            <AlertCircle size={22} color="#D97706" /> Observation Question
           </h4>
-          <p style={{ margin: 0, color: (quizAnswer === 'ends' || step === 'complete') ? '#166534' : '#065F46', fontSize: '1.02rem', lineHeight: 1.55, fontWeight: 600 }}>
+          <p style={{ margin: 0, color: '#065F46', fontSize: '1.02rem', lineHeight: 1.55, fontWeight: 600 }}>
             Do the iron filings stick uniformly all over the magnet, or do they stick more at specific places?
           </p>
 
@@ -785,7 +772,7 @@ export default function Stage1_Investigate({ onComplete }) {
 
           {/* Always-visible Proceed Button */}
           {(() => {
-            const isReadyToProceed = tapCount >= 1 && (quizAnswer === 'ends' || step === 'complete');
+            const isReadyToProceed = quizAnswer === 'ends';
             return (
               <button
                 onClick={onComplete}

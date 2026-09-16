@@ -41,10 +41,7 @@ export default function RingMagnetVideoPlayer({
     if (videoRef.current) {
       videoRef.current.pause();
     }
-    if (onPhaseChange) {
-      onPhaseChange('poles', 1.0);
-    }
-  }, [onPhaseChange]);
+  }, []);
 
   // Sync with external paused state
   useEffect(() => {
@@ -168,17 +165,6 @@ export default function RingMagnetVideoPlayer({
     const total = video.duration || duration || 29;
 
     setCurrentTime(curr);
-
-    if (total > 0 && onPhaseChange) {
-      const progress = curr / total;
-      if (progress < 0.33) {
-        onPhaseChange('sprinkle', progress);
-      } else if (progress < 0.66) {
-        onPhaseChange('tap', progress);
-      } else {
-        onPhaseChange('poles', progress);
-      }
-    }
   };
 
   const handleSeek = (e) => {

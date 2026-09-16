@@ -43,10 +43,7 @@ export default function MagneticPolesVideoPlayer({
     if (videoRef.current) {
       videoRef.current.pause();
     }
-    if (onPhaseChange) {
-      onPhaseChange('poles', 1.0);
-    }
-  }, [onPhaseChange]);
+  }, []);
 
   // Sync with external paused state from Stage 1 control panel
   useEffect(() => {
@@ -162,18 +159,6 @@ export default function MagneticPolesVideoPlayer({
     const total = video.duration || duration;
 
     setCurrentTime(curr);
-
-    // Dynamic phase identification
-    if (total > 0 && onPhaseChange) {
-      const progress = curr / total;
-      if (progress < 0.32) {
-        onPhaseChange('sprinkle', progress);
-      } else if (progress < 0.65) {
-        onPhaseChange('tap', progress);
-      } else {
-        onPhaseChange('poles', progress);
-      }
-    }
   };
 
   const handleSeek = (e) => {

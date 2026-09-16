@@ -42,10 +42,7 @@ export default function BreakingMagnetVideoPlayer({
     if (videoRef.current) {
       videoRef.current.pause();
     }
-    if (onPhaseChange) {
-      onPhaseChange('dipoles', 1.0);
-    }
-  }, [onPhaseChange]);
+  }, []);
 
   // Initialize playback and duration
   useEffect(() => {
@@ -181,17 +178,6 @@ export default function BreakingMagnetVideoPlayer({
     const total = video.duration || duration || 22;
 
     setCurrentTime(curr);
-    const progress = total > 0 ? curr / total : 0;
-
-    if (total > 0 && onPhaseChange) {
-      if (progress < 0.33) {
-        onPhaseChange('intact', progress);
-      } else if (progress < 0.66) {
-        onPhaseChange('broken', progress);
-      } else {
-        onPhaseChange('dipoles', progress);
-      }
-    }
   };
 
   const handleSeek = (e) => {

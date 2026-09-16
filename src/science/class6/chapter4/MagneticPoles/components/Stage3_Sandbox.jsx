@@ -531,23 +531,8 @@ export default function Stage3_Sandbox({ onComplete }) {
 
   // Synchronize phase with RingMagnetVideoPlayer
   const handleVideoPhaseChange = useCallback((phaseName, progress) => {
-    if (shape !== 'ring') return;
-    if (phaseName === 'sprinkle') {
-      setStep('initial');
-      setIsSprinkling(true);
-      setIsVibrating(false);
-    } else if (phaseName === 'tap') {
-      setStep('scattered');
-      setIsSprinkling(false);
-      setIsVibrating(true);
-      setTapCount((prev) => Math.max(prev, 1));
-    } else if (phaseName === 'poles') {
-      setStep('tapped');
-      setIsSprinkling(false);
-      setIsVibrating(false);
-      setTapCount((prev) => Math.max(prev, 2));
-    }
-  }, [shape]);
+    // Video demonstration is visual; do not modify right-side contents or colors
+  }, []);
 
   // Rotation and tilt controls for the magnet & iron filings
   const rotationRef = useRef({ x: 0, y: 0 });
@@ -921,15 +906,15 @@ export default function Stage3_Sandbox({ onComplete }) {
             </h3>
           </div>
           <span style={{
-            background: step === 'tapped' ? '#DCFCE7' : '#FEF3C7',
-            color: step === 'tapped' ? '#15803D' : '#92400E',
+            background: '#FEF3C7',
+            color: '#92400E',
             fontWeight: 900,
             fontSize: '0.88rem',
             padding: '0.35rem 0.8rem',
             borderRadius: '12px',
-            border: step === 'tapped' ? '1.5px solid #86EFAC' : '1.5px solid #F59E0B'
+            border: '1.5px solid #F59E0B'
           }}>
-            Step {step === 'tapped' ? 3 : (step === 'scattered' || isVibrating) ? 2 : 1} of 3
+            Step 1 of 3
           </span>
         </div>
 
@@ -969,9 +954,7 @@ export default function Stage3_Sandbox({ onComplete }) {
                 desc: 'Observe that filings cluster at magnetic poles regardless of shape.'
               }
             ].map((s) => {
-              const currentStepNum = step === 'tapped' ? 3 : (step === 'scattered' || isVibrating) ? 2 : 1;
-              const isCurrent = currentStepNum === s.stepNum;
-              const isPast = currentStepNum > s.stepNum || (s.stepNum === 3 && step === 'tapped');
+              const isFirst = s.stepNum === 1;
 
               return (
                 <div
@@ -979,11 +962,9 @@ export default function Stage3_Sandbox({ onComplete }) {
                   style={{
                     padding: '0.65rem 0.85rem',
                     borderRadius: '14px',
-                    background: isPast ? '#DCFCE7' : isCurrent ? '#FEF3C7' : 'rgba(255, 255, 255, 0.7)',
-                    border: isPast ? '1.5px solid #86EFAC' : isCurrent ? '1.5px solid #F59E0B' : '1.5px solid transparent',
-                    boxShadow: isPast 
-                      ? '0 3px 10px rgba(16, 185, 129, 0.1)' 
-                      : isCurrent 
+                    background: isFirst ? '#FEF3C7' : 'rgba(255, 255, 255, 0.7)',
+                    border: isFirst ? '1.5px solid #F59E0B' : '1.5px solid transparent',
+                    boxShadow: isFirst 
                       ? '0 3px 10px rgba(245, 158, 11, 0.12)' 
                       : 'none',
                     display: 'flex',
@@ -998,9 +979,9 @@ export default function Stage3_Sandbox({ onComplete }) {
                         width: '28px',
                         height: '28px',
                         borderRadius: '50%',
-                        background: isPast ? '#059669' : '#FEF3C7',
-                        border: isPast ? '2px solid #059669' : '2px solid #F59E0B',
-                        color: isPast ? '#FFFFFF' : '#92400E',
+                        background: '#FEF3C7',
+                        border: '2px solid #F59E0B',
+                        color: '#92400E',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -1013,14 +994,13 @@ export default function Stage3_Sandbox({ onComplete }) {
                       <span style={{ 
                         fontWeight: 900, 
                         fontSize: '1.1rem', 
-                        color: isPast ? '#15803D' : isCurrent ? '#92400E' : '#78350F' 
+                        color: isFirst ? '#92400E' : '#78350F' 
                       }}>
                         {s.title}
                       </span>
                     </div>
-                    {isPast && <CheckCircle size={20} color="#16A34A" />}
                   </div>
-                  <p style={{ margin: '0.15rem 0 0 2.3rem', fontSize: '0.96rem', color: isPast ? '#166534' : '#065F46', lineHeight: 1.5, fontWeight: 600 }}>
+                  <p style={{ margin: '0.15rem 0 0 2.3rem', fontSize: '0.96rem', color: '#065F46', lineHeight: 1.5, fontWeight: 600 }}>
                     {s.desc}
                   </p>
                 </div>

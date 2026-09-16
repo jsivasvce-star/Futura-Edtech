@@ -235,12 +235,7 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
   const [quizAnswer, setQuizAnswer] = useState(null);
 
   const handleVideoPhaseChange = useCallback((phase, progress) => {
-    if (phase === 'broken') {
-      setBroken(true);
-    } else if (phase === 'dipoles') {
-      setBroken(true);
-      setShowPoles(true);
-    }
+    // Video demonstration is visual; do not modify right-side contents or colors
   }, []);
 
 
@@ -347,15 +342,15 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
             </h3>
           </div>
           <span style={{
-            background: (broken && showPoles && quizAnswer === 'no') ? '#DCFCE7' : '#FEF3C7',
-            color: (broken && showPoles && quizAnswer === 'no') ? '#15803D' : '#92400E',
+            background: '#FEF3C7',
+            color: '#92400E',
             fontWeight: 900,
             fontSize: '0.88rem',
             padding: '0.35rem 0.8rem',
             borderRadius: '12px',
-            border: (broken && showPoles && quizAnswer === 'no') ? '1.5px solid #86EFAC' : '1.5px solid #F59E0B'
+            border: '1.5px solid #F59E0B'
           }}>
-            Step {broken && showPoles ? 3 : broken ? 2 : 1} of 3
+            Step 1 of 3
           </span>
         </div>
 
@@ -395,9 +390,7 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
                 desc: 'Notice that each half automatically forms a complete magnet with North (N) and South (S) poles.'
               }
             ].map((s) => {
-              const currentStepNum = broken && showPoles ? 3 : broken ? 2 : 1;
-              const isCurrent = currentStepNum === s.stepNum;
-              const isPast = currentStepNum > s.stepNum || (s.stepNum === 3 && broken && showPoles && quizAnswer === 'no');
+              const isFirst = s.stepNum === 1;
 
               return (
                 <div
@@ -405,11 +398,9 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
                   style={{
                     padding: '0.65rem 0.85rem',
                     borderRadius: '14px',
-                    background: isPast ? '#DCFCE7' : isCurrent ? '#FEF3C7' : 'rgba(255, 255, 255, 0.7)',
-                    border: isPast ? '1.5px solid #86EFAC' : isCurrent ? '1.5px solid #F59E0B' : '1.5px solid transparent',
-                    boxShadow: isPast 
-                      ? '0 3px 10px rgba(16, 185, 129, 0.1)' 
-                      : isCurrent 
+                    background: isFirst ? '#FEF3C7' : 'rgba(255, 255, 255, 0.7)',
+                    border: isFirst ? '1.5px solid #F59E0B' : '1.5px solid transparent',
+                    boxShadow: isFirst 
                       ? '0 3px 10px rgba(245, 158, 11, 0.12)' 
                       : 'none',
                     display: 'flex',
@@ -424,9 +415,9 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
                         width: '28px',
                         height: '28px',
                         borderRadius: '50%',
-                        background: isPast ? '#059669' : '#FEF3C7',
-                        border: isPast ? '2px solid #059669' : '2px solid #F59E0B',
-                        color: isPast ? '#FFFFFF' : '#92400E',
+                        background: '#FEF3C7',
+                        border: '2px solid #F59E0B',
+                        color: '#92400E',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -439,14 +430,13 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
                       <span style={{ 
                         fontWeight: 900, 
                         fontSize: '1.1rem', 
-                        color: isPast ? '#15803D' : isCurrent ? '#92400E' : '#78350F' 
+                        color: isFirst ? '#92400E' : '#78350F' 
                       }}>
                         {s.title}
                       </span>
                     </div>
-                    {isPast && <CheckCircle size={20} color="#16A34A" />}
                   </div>
-                  <p style={{ margin: '0.15rem 0 0 2.3rem', fontSize: '0.96rem', color: isPast ? '#166534' : '#065F46', lineHeight: 1.5, fontWeight: 600 }}>
+                  <p style={{ margin: '0.15rem 0 0 2.3rem', fontSize: '0.96rem', color: '#065F46', lineHeight: 1.5, fontWeight: 600 }}>
                     {s.desc}
                   </p>
                 </div>
@@ -458,18 +448,15 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
           <div style={{ width: '100%', display: 'flex', gap: '0.65rem', marginTop: '0.35rem', paddingTop: '0.5rem', borderTop: '1px solid #FEF3C7' }}>
             <button
               onClick={handleBreak}
-              disabled={broken}
-              className={!broken ? 'gold-glow-btn' : ''}
+              className="gold-glow-btn"
               style={{
                 flex: 1,
                 padding: '0.85rem 0.5rem',
                 fontSize: '0.98rem',
                 fontWeight: 900,
                 borderRadius: '14px',
-                background: !broken ? undefined : '#F1F5F9',
-                color: !broken ? '#FFFFFF' : '#94A3B8',
                 border: 'none',
-                cursor: !broken ? 'pointer' : 'not-allowed',
+                cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -482,31 +469,6 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
 
             <button
               onClick={handleShowPoles}
-              disabled={!broken || showPoles}
-              className={broken && !showPoles ? 'gold-glow-btn' : ''}
-              style={{
-                flex: 1,
-                padding: '0.85rem 0.5rem',
-                fontSize: '0.98rem',
-                fontWeight: 900,
-                borderRadius: '14px',
-                background: broken && !showPoles ? undefined : '#F1F5F9',
-                color: broken && !showPoles ? '#FFFFFF' : '#94A3B8',
-                border: 'none',
-                cursor: broken && !showPoles ? 'pointer' : 'not-allowed',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '5px',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              🧲 {showPoles ? 'Poles Shown ✓' : '2. Show Poles'}
-            </button>
-
-            <button
-              onClick={handleReset}
-              disabled={!broken}
               style={{
                 flex: 1,
                 padding: '0.85rem 0.5rem',
@@ -514,14 +476,37 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
                 fontWeight: 800,
                 borderRadius: '14px',
                 background: '#FFFFFF',
-                color: broken ? '#92400E' : '#94A3B8',
+                color: '#92400E',
                 border: '1.5px solid #FDE68A',
-                cursor: broken ? 'pointer' : 'not-allowed',
+                cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '5px',
-                boxShadow: broken ? '0 2px 6px rgba(0,0,0,0.03)' : 'none',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              🧲 2. Show Poles
+            </button>
+
+            <button
+              onClick={handleReset}
+              style={{
+                flex: 1,
+                padding: '0.85rem 0.5rem',
+                fontSize: '0.98rem',
+                fontWeight: 800,
+                borderRadius: '14px',
+                background: '#FFFFFF',
+                color: '#92400E',
+                border: '1.5px solid #FDE68A',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '5px',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
                 transition: 'all 0.2s ease',
               }}
             >
@@ -533,11 +518,11 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
         {/* CONTAINER 2: Observation & Conclusion Quiz */}
         <div
           style={{
-            background: quizAnswer === 'no' ? '#DCFCE7' : 'rgba(255, 255, 255, 0.96)',
-            border: quizAnswer === 'no' ? '1.5px solid #86EFAC' : '1.5px solid #FDE68A',
+            background: 'rgba(255, 255, 255, 0.96)',
+            border: '1.5px solid #FDE68A',
             borderRadius: '20px',
             padding: '1.1rem 1.2rem',
-            boxShadow: quizAnswer === 'no' ? '0 4px 14px rgba(16, 185, 129, 0.12)' : '0 4px 14px rgba(217, 119, 6, 0.05)',
+            boxShadow: '0 4px 14px rgba(217, 119, 6, 0.05)',
             display: 'flex',
             flexDirection: 'column',
             gap: '0.85rem'
@@ -545,7 +530,7 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
         >
           <h4
             style={{
-              color: quizAnswer === 'no' ? '#15803D' : '#78350F',
+              color: '#78350F',
               margin: 0,
               fontSize: '1.2rem',
               fontWeight: 900,
@@ -554,9 +539,9 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
               gap: '0.55rem',
             }}
           >
-            <AlertCircle size={22} color={quizAnswer === 'no' ? '#16A34A' : '#D97706'} /> Observation & Conclusion
+            <AlertCircle size={22} color="#D97706" /> Observation & Conclusion
           </h4>
-          <p style={{ margin: 0, color: quizAnswer === 'no' ? '#166534' : '#065F46', fontSize: '1.02rem', lineHeight: 1.55, fontWeight: 600 }}>
+          <p style={{ margin: 0, color: '#065F46', fontSize: '1.02rem', lineHeight: 1.55, fontWeight: 600 }}>
             Based on what happens when a magnet breaks, is it possible to obtain a magnet with only a single pole?
           </p>
 
@@ -614,7 +599,7 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
 
           {/* Proceed Button */}
           {(() => {
-            const isReadyToProceed = broken && showPoles && quizAnswer === 'no';
+            const isReadyToProceed = quizAnswer === 'no';
             return (
               <button
                 onClick={handleNextSection}
