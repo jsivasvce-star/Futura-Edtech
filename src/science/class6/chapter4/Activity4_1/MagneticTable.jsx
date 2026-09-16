@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import confetti from 'canvas-confetti';
 import { 
   Search, 
   RotateCcw, 
@@ -190,6 +191,19 @@ function playSound(type, soundEnabled = true) {
         osc.start(ctx.currentTime + i * 0.09);
         osc.stop(ctx.currentTime + i * 0.09 + 0.3);
       });
+    } else if (type === 'celebration') {
+      [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.12);
+        gain.gain.setValueAtTime(0.18, ctx.currentTime + i * 0.12);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 0.6);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(ctx.currentTime + i * 0.12);
+        osc.stop(ctx.currentTime + i * 0.12 + 0.6);
+      });
     }
   } catch (err) {
     // Audio context may be restricted by autoplay policy
@@ -214,14 +228,15 @@ async function removeWhiteBg(src) {
       ctx.drawImage(img, 0, 0);
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       const data = imageData.data;
-      const THRESHOLD = 235; // pixels brighter than this are considered white bg
-      const FEATHER = 20;    // smooth transition zone width
+      const THRESHOLD = 220; // Lower threshold to cleanly eliminate off-white / gray shaded backgrounds
+      const FEATHER = 25;    // smooth transition zone width
       for (let i = 0; i < data.length; i += 4) {
+        if (data[i + 3] === 0) continue; // Already fully transparent cutout
         const r = data[i], g = data[i + 1], b = data[i + 2];
-        // Only treat as background if ALL channels are near-white
+        // Only treat as background if ALL channels are near-white / light neutral
         const minChannel = Math.min(r, g, b);
         if (minChannel >= THRESHOLD) {
-          // Linear ramp: 235 → alpha=255 (fully opaque edge), 250+ → alpha=0 (fully transparent bg)
+          // Linear ramp: THRESHOLD → alpha=255, THRESHOLD+FEATHER → alpha=0
           const t = Math.min(1, (minChannel - THRESHOLD) / FEATHER);
           data[i + 3] = Math.round((1 - t) * data[i + 3]);
         }
@@ -242,6 +257,7 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
   const [scanProgress, setScanProgress] = useState(0);
   const [scannedMap, setScannedMap] = useState({}); // { [id]: boolean }
   const [showTableModal, setShowTableModal] = useState(false);
+  const [showProceedModal, setShowProceedModal] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   // Stores canvas-processed transparent versions of each item image
   const [transparentImgs, setTransparentImgs] = useState({});
@@ -307,7 +323,24 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
 
       if (progress >= 100) {
         clearInterval(interval);
-        setScannedMap(prev => ({ ...prev, [item.id]: true }));
+        setScannedMap(prev => {
+          const next = { ...prev, [item.id]: true };
+          if (Object.keys(next).length === EVIDENCE_ITEMS.length) {
+            // All objects are scanned! Delay briefly so the user sees the 9th item scan, then pop up modal
+            setTimeout(() => {
+              setShowProceedModal(true);
+              playSound('celebration', soundEnabled);
+              try {
+                confetti({
+                  particleCount: 90,
+                  spread: 70,
+                  origin: { y: 0.6 }
+                });
+              } catch (e) {}
+            }, 700);
+          }
+          return next;
+        });
         setScanState('complete');
         setScanProgress(100);
 
@@ -327,6 +360,7 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
     setSelectedItem(null);
     setScanState('idle');
     setScanProgress(0);
+    setShowProceedModal(false);
     if (onTableCompleted) {
       onTableCompleted(false);
     }
@@ -636,6 +670,33 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
               }}>
                 {scannedCount} / 9 SCANNED
               </span>
+
+              {/* Proceed to Quiz HUD Button */}
+              {isAllComplete && (
+                <button
+                  onClick={() => {
+                    setShowProceedModal(false);
+                    if (onComplete) onComplete();
+                  }}
+                  className="gold-glow-btn"
+                  style={{
+                    padding: '4px 11px',
+                    fontSize: '0.78rem',
+                    fontWeight: 900,
+                    borderRadius: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    cursor: 'pointer',
+                    color: '#FFFFFF',
+                    border: 'none',
+                  }}
+                  title="Proceed to Knowledge Quiz"
+                >
+                  <span>Proceed to Quiz</span>
+                  <ArrowRight size={13} color="#FFFFFF" />
+                </button>
+              )}
             </div>
           </div>
 
@@ -990,6 +1051,33 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
                         {selectedItem.explanation}
                       </p>
                     </div>
+
+                    {/* Proceed to Quiz Button on Telemetry Card when All Scanned */}
+                    {isAllComplete && (
+                      <button
+                        onClick={() => {
+                          if (onComplete) onComplete();
+                        }}
+                        className="gold-glow-btn"
+                        style={{
+                          width: '100%',
+                          padding: '0.85rem 1.25rem',
+                          borderRadius: '12px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.6rem',
+                          fontSize: '1.02rem',
+                          fontWeight: 900,
+                          cursor: 'pointer',
+                          marginTop: '0.2rem',
+                        }}
+                      >
+                        <Sparkles size={18} color="#FFFFFF" />
+                        <span>Proceed to Knowledge Quiz</span>
+                        <ArrowRight size={18} color="#FFFFFF" />
+                      </button>
+                    )}
                   </motion.div>
                 </motion.div>
               )}
@@ -997,6 +1085,202 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
           </div>
         </div>
       </div>
+
+      {/* ========================================================================= */}
+      {/* ALL OBJECTS SCANNED — PROCEED TO QUIZ CENTERED POP-UP MODAL               */}
+      {/* ========================================================================= */}
+      <AnimatePresence>
+        {showProceedModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              backgroundColor: 'rgba(15, 23, 42, 0.72)',
+              backdropFilter: 'blur(8px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 999999,
+              padding: '1.5rem',
+              boxSizing: 'border-box',
+            }}
+            onClick={() => setShowProceedModal(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.86, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.86, y: -15 }}
+              transition={{ type: 'spring', damping: 24, stiffness: 320 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                background: '#FFFFFF',
+                borderRadius: '24px',
+                border: '2px solid #A7F3D0',
+                boxShadow: '0 25px 60px rgba(0, 0, 0, 0.35), 0 0 35px rgba(16, 185, 129, 0.2)',
+                maxWidth: '520px',
+                width: '100%',
+                padding: '2.2rem 2.2rem',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+                gap: '1.25rem',
+                position: 'relative',
+                boxSizing: 'border-box',
+              }}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setShowProceedModal(false)}
+                style={{
+                  position: 'absolute',
+                  top: '16px',
+                  right: '16px',
+                  background: '#F1F5F9',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: '32px',
+                  height: '32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#64748B',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease',
+                }}
+                title="Close to review evidence"
+              >
+                <X size={18} />
+              </button>
+
+              {/* Celebration Icon */}
+              <div style={{
+                width: '72px',
+                height: '72px',
+                borderRadius: '24px',
+                background: 'linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%)',
+                border: '2.5px solid #10B981',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 10px 25px rgba(16, 185, 129, 0.3)',
+              }}>
+                <Sparkles size={38} color="#059669" />
+              </div>
+
+              {/* Title & Badge */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', alignItems: 'center' }}>
+                <span style={{
+                  fontSize: '0.8rem',
+                  fontWeight: 800,
+                  letterSpacing: '1px',
+                  textTransform: 'uppercase',
+                  color: '#059669',
+                  background: '#ECFDF5',
+                  padding: '4px 12px',
+                  borderRadius: '12px',
+                  border: '1px solid #A7F3D0',
+                }}>
+                  All 9 Items Scanned
+                </span>
+                <h2 style={{
+                  margin: 0,
+                  fontSize: '1.65rem',
+                  fontWeight: 900,
+                  color: '#064E3B',
+                  letterSpacing: '-0.02em',
+                }}>
+                  Evidence Collection Complete! 🎉
+                </h2>
+              </div>
+
+              {/* Summary Description Box */}
+              <div style={{
+                background: '#F8FAFC',
+                borderRadius: '14px',
+                border: '1.5px solid #E2E8F0',
+                padding: '0.85rem 1.15rem',
+                width: '100%',
+                boxSizing: 'border-box',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.4rem',
+              }}>
+                <p style={{
+                  margin: 0,
+                  fontSize: '1rem',
+                  lineHeight: 1.5,
+                  fontWeight: 600,
+                  color: '#334155',
+                }}>
+                  You have tested all 9 classroom items and determined which materials are attracted by a magnet.
+                </p>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '0.35rem' }}>
+                  <span style={{ fontSize: '0.84rem', fontWeight: 800, color: '#15803D', background: '#DCFCE7', padding: '3px 10px', borderRadius: '8px' }}>
+                    🧲 3 Magnetic
+                  </span>
+                  <span style={{ fontSize: '0.84rem', fontWeight: 800, color: '#B91C1C', background: '#FEE2E2', padding: '3px 10px', borderRadius: '8px' }}>
+                    🛡️ 6 Non-Magnetic
+                  </span>
+                </div>
+              </div>
+
+              {/* Prominent Proceed Button */}
+              <button
+                onClick={() => {
+                  setShowProceedModal(false);
+                  if (onComplete) onComplete();
+                }}
+                className="gold-glow-btn"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.75rem',
+                  width: '100%',
+                  padding: '1rem 2rem',
+                  fontSize: '1.15rem',
+                  fontWeight: 900,
+                  color: '#FFFFFF',
+                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                  borderRadius: '16px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  boxShadow: '0 6px 20px rgba(217, 119, 6, 0.45)',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <span>Proceed to Knowledge Quiz</span>
+                <ArrowRight size={22} color="#FFFFFF" />
+              </button>
+
+              {/* Secondary option to review */}
+              <button
+                onClick={() => {
+                  setShowProceedModal(false);
+                  setShowTableModal(true);
+                }}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: '#059669',
+                  fontSize: '0.88rem',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  textDecoration: 'underline',
+                  padding: '4px',
+                }}
+              >
+                View NCERT Table 4.1 Summary First
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ========================================================================= */}
       {/* NCERT TABLE 4.1 POP-UP MODAL                                              */}

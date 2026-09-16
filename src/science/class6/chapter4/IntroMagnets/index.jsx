@@ -545,114 +545,12 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
         {currentPage === 6 ? (
           /* Scene 6: Educational Summary Cards */
           <>
-            {/* Top Right Controls in top bar */}
-            <div style={{ 
-              position: 'absolute', 
-              top: '1.25rem', 
-              right: '1.75rem', 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '0.85rem', 
-              zIndex: 99999 
-            }}>
-              <button
-                onClick={() => playSceneAudio(currentPage)}
-                style={{
-                  padding: '0.85rem 1.5rem',
-                  borderRadius: '35px',
-                  border: '1.5px solid rgba(255,255,255,0.4)',
-                  background: 'rgba(0,0,0,0.75)',
-                  backdropFilter: 'blur(8px)',
-                  color: 'white',
-                  cursor: 'pointer',
-                  fontWeight: 800,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  fontSize: '1.05rem',
-                  boxShadow: '0 6px 20px rgba(0,0,0,0.45)',
-                  transition: 'all 0.2s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.05)';
-                  e.currentTarget.style.background = 'rgba(0,0,0,0.85)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'scale(1)';
-                  e.currentTarget.style.background = 'rgba(0,0,0,0.75)';
-                }}
-                title="Replay Voiceover"
-              >
-                <RotateCcw size={20} /> Replay Audio
-              </button>
-
-              <button
-                onClick={toggleMute}
-                style={{
-                  padding: '0.85rem 1.5rem',
-                  borderRadius: '35px',
-                  border: '1.5px solid rgba(255,255,255,0.4)',
-                  background: isMuted ? 'rgba(239, 68, 68, 0.85)' : 'rgba(16, 185, 129, 0.85)',
-                  backdropFilter: 'blur(8px)',
-                  color: 'white',
-                  cursor: 'pointer',
-                  fontWeight: 800,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  fontSize: '1.05rem',
-                  boxShadow: '0 6px 20px rgba(0,0,0,0.45)',
-                  transition: 'all 0.2s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.05)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'scale(1)';
-                }}
-                title={isMuted ? 'Unmute Voiceover' : 'Mute Voiceover'}
-              >
-                {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-                {isMuted ? 'Voice Muted' : 'Voice ON'}
-              </button>
-
-              <button
-                onClick={handleFinish}
-                style={{
-                  padding: '0.85rem 1.85rem',
-                  borderRadius: '35px',
-                  border: 'none',
-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                  color: '#ffffff',
-                  cursor: 'pointer',
-                  fontWeight: 800,
-                  fontSize: '1.05rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  boxShadow: '0 6px 22px rgba(217, 119, 6, 0.5)',
-                  transition: 'all 0.2s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.05)';
-                  e.currentTarget.style.boxShadow = '0 8px 26px rgba(217, 119, 6, 0.7)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'scale(1)';
-                  e.currentTarget.style.boxShadow = '0 6px 22px rgba(217, 119, 6, 0.5)';
-                }}
-                title="Finish Story"
-              >
-                Finish Story <ArrowRight size={20} color="#ffffff" />
-              </button>
-            </div>
-
-            {/* Summary Cards Grid */}
+            {/* Summary Cards Grid — Positioned at the top of the page */}
             <div style={{
               position: 'absolute',
-              top: '10.5rem',
-              left: '4%',
-              right: '4%',
+              top: '1.25rem',
+              left: '3%',
+              right: '3%',
               zIndex: 20
             }}>
               <div style={{
@@ -697,6 +595,111 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
                 );
               })}
             </div>
+          </div>
+
+          {/* Bottom Right Controls for Scene 6 — Finish Story matches Back button styling */}
+          <div style={{ 
+            position: 'absolute', 
+            bottom: '1.25rem', 
+            right: '1.25rem', 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '0.85rem', 
+            zIndex: 99999 
+          }}>
+            <button
+              onClick={() => playSceneAudio(currentPage)}
+              style={{
+                padding: '0.85rem 1.5rem',
+                borderRadius: '35px',
+                border: '1.5px solid rgba(255,255,255,0.3)',
+                background: 'rgba(0,0,0,0.65)',
+                backdropFilter: 'blur(6px)',
+                color: 'white',
+                cursor: 'pointer',
+                fontWeight: 800,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                fontSize: '1.05rem',
+                boxShadow: '0 6px 20px rgba(0,0,0,0.45)',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.background = 'rgba(0,0,0,0.85)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.background = 'rgba(0,0,0,0.65)';
+              }}
+              title="Replay Voiceover"
+            >
+              <RotateCcw size={20} /> Replay Audio
+            </button>
+
+            <button
+              onClick={toggleMute}
+              style={{
+                padding: '0.85rem 1.5rem',
+                borderRadius: '35px',
+                border: '1.5px solid rgba(255,255,255,0.3)',
+                background: isMuted ? 'rgba(239, 68, 68, 0.85)' : 'rgba(0,0,0,0.65)',
+                backdropFilter: 'blur(6px)',
+                color: 'white',
+                cursor: 'pointer',
+                fontWeight: 800,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                fontSize: '1.05rem',
+                boxShadow: '0 6px 20px rgba(0,0,0,0.45)',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+                if (!isMuted) e.currentTarget.style.background = 'rgba(0,0,0,0.85)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                if (!isMuted) e.currentTarget.style.background = 'rgba(0,0,0,0.65)';
+              }}
+              title={isMuted ? 'Unmute Voiceover' : 'Mute Voiceover'}
+            >
+              {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+              {isMuted ? 'Voice Muted' : 'Voice ON'}
+            </button>
+
+            <button
+              onClick={handleFinish}
+              style={{
+                padding: '0.85rem 2.2rem',
+                borderRadius: '35px',
+                border: '1.5px solid rgba(255,255,255,0.3)',
+                background: 'rgba(0,0,0,0.65)',
+                backdropFilter: 'blur(6px)',
+                color: 'white',
+                cursor: 'pointer',
+                fontWeight: 800,
+                fontSize: '1.05rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.6rem',
+                boxShadow: '0 6px 20px rgba(0,0,0,0.45)',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.background = 'rgba(0,0,0,0.85)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.background = 'rgba(0,0,0,0.65)';
+              }}
+              title="Finish Story"
+            >
+              Finish Story <ArrowRight size={20} color="#ffffff" />
+            </button>
           </div>
         </>
         ) : (
