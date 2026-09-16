@@ -35,35 +35,37 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
-      background: '#FAF8F2',
+      background: 'rgba(15, 23, 42, 0.50)',
+      backdropFilter: 'blur(18px)',
+      WebkitBackdropFilter: 'blur(18px)',
       borderRadius: '20px',
-      border: '2px solid #14452F',
+      border: '2px solid #D4AF37',
       padding: '16px 22px 14px',
       boxSizing: 'border-box',
       overflow: 'hidden',
-      boxShadow: '0 10px 30px rgba(20, 69, 47, 0.08)'
+      boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)'
     }}>
       {/* Header & Sub-Navigation */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        borderBottom: '2px solid #14452F',
+        borderBottom: '2px solid rgba(212, 175, 55, 0.45)',
         paddingBottom: '12px',
         flexShrink: 0
       }}>
         <div>
-          <div style={{ fontSize: '16px', fontWeight: '900', letterSpacing: '0.06em', color: '#14452F', textTransform: 'uppercase', marginBottom: '3px' }}>
+          <div style={{ fontSize: '16px', fontWeight: '900', letterSpacing: '0.06em', color: '#FDE68A', textTransform: 'uppercase', marginBottom: '3px' }}>
             Section 2.3 · Morphological &amp; Behavioral Traits (Pages 24–27)
           </div>
-          <h2 style={{ margin: 0, fontSize: '24px', fontWeight: '900', color: '#14452F', lineHeight: 1.2, fontFamily: '"Fraunces", Georgia, serif' }}>
+          <h2 style={{ margin: 0, fontSize: '24px', fontWeight: '900', color: '#FBBF24', lineHeight: 1.2, fontFamily: '"Fraunces", Georgia, serif' }}>
             🌵 Adaptations: Surviving Extreme Surroundings
           </h2>
         </div>
 
         {/* Mode Toggles */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div style={{ display: 'flex', background: '#F5F1E5', padding: '4px', borderRadius: '12px', border: '1.8px solid #14452F', gap: '4px' }}>
+          <div style={{ display: 'flex', background: 'rgba(15, 23, 42, 0.45)', padding: '4px', borderRadius: '12px', border: '1.8px solid #D4AF37', gap: '4px' }}>
             <button
               onClick={() => setActiveTab('camel')}
               style={{
@@ -73,7 +75,7 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
                 fontWeight: '800',
                 border: 'none',
                 cursor: 'pointer',
-                background: activeTab === 'camel' ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)' : 'transparent',
+                background: activeTab === 'camel' ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'transparent',
                 color: activeTab === 'camel' ? '#ffffff' : '#14452F',
                 transition: 'all 0.15s ease',
                 boxShadow: activeTab === 'camel' ? '0 2px 8px rgba(20, 69, 47, 0.3)' : 'none'
@@ -90,7 +92,7 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
                 fontWeight: '800',
                 border: 'none',
                 cursor: 'pointer',
-                background: activeTab === 'mountain' ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)' : 'transparent',
+                background: activeTab === 'mountain' ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'transparent',
                 color: activeTab === 'mountain' ? '#ffffff' : '#14452F',
                 transition: 'all 0.15s ease',
                 boxShadow: activeTab === 'mountain' ? '0 2px 8px rgba(20, 69, 47, 0.3)' : 'none'
@@ -107,7 +109,7 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
                 fontWeight: '800',
                 border: 'none',
                 cursor: 'pointer',
-                background: activeTab === 'aquatic' ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)' : 'transparent',
+                background: activeTab === 'aquatic' ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'transparent',
                 color: activeTab === 'aquatic' ? '#ffffff' : '#14452F',
                 transition: 'all 0.15s ease',
                 boxShadow: activeTab === 'aquatic' ? '0 2px 8px rgba(20, 69, 47, 0.3)' : 'none'
@@ -130,7 +132,7 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
               alignItems: 'center',
               gap: '6px',
               padding: '7px 16px',
-              background: isSpeaking ? '#fee2e2' : '#FAF8F2',
+              background: isSpeaking ? '#fee2e2' : 'rgba(250, 248, 242, 0.55)',
               border: `1.8px solid ${isSpeaking ? '#ef4444' : '#14452F'}`,
               borderRadius: '10px',
               color: isSpeaking ? '#991b1b' : '#14452F',
@@ -163,7 +165,7 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
             <div 
               onClick={() => setSelectedCamel('hot')}
               style={{
-                background: selectedCamel === 'hot' ? '#F5F1E5' : '#FAF8F2',
+                background: selectedCamel === 'hot' ? '#F5F1E5' : 'rgba(250, 248, 242, 0.55)',
                 border: `2px solid #14452F`,
                 borderRadius: '16px',
                 padding: '16px 18px',
@@ -178,14 +180,14 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
             >
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                  <span style={{ fontSize: '16px', fontWeight: '900', color: '#14452F', textTransform: 'uppercase' }}>
+                  <span style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC', textTransform: 'uppercase' }}>
                     Rajasthan Thar Desert
                   </span>
-                  <span style={{ background: '#EDE7D8', color: '#14452F', fontSize: '16px', fontWeight: '800', padding: '3px 10px', borderRadius: '8px', border: '1px solid #14452F' }}>
+                  <span style={{ background: '#EDE7D8', color: '#F8FAFC', fontSize: '16px', fontWeight: '800', padding: '3px 10px', borderRadius: '8px', border: '1px solid #14452F' }}>
                     1 Hump
                   </span>
                 </div>
-                <h3 style={{ margin: '0 0 8px 0', fontSize: '20px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif' }}>
+                <h3 style={{ margin: '0 0 8px 0', fontSize: '20px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                   🐪 Hot Desert Dromedary Camel
                 </h3>
                 <p style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#2A3B2C', lineHeight: 1.5, fontWeight: '500' }}>
@@ -193,22 +195,22 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
                 </p>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ background: '#FAF8F2', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid #14452F', fontSize: '16px', color: '#14452F', lineHeight: 1.45 }}>
-                    <b style={{ color: '#14452F' }}>• Single Hump:</b> Concentrates fat reserves for energy conversion during food scarcity.
+                  <div style={{ background: 'rgba(15, 23, 42, 0.50)', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid rgba(212, 175, 55, 0.6)', fontSize: '16px', color: '#F8FAFC', lineHeight: 1.45 }}>
+                    <b style={{ color: '#F8FAFC' }}>• Single Hump:</b> Concentrates fat reserves for energy conversion during food scarcity.
                   </div>
-                  <div style={{ background: '#FAF8F2', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid #14452F', fontSize: '16px', color: '#14452F', lineHeight: 1.45 }}>
-                    <b style={{ color: '#14452F' }}>• Elevated Long Legs:</b> Lifts torso far above the scorching hot desert surface.
+                  <div style={{ background: 'rgba(15, 23, 42, 0.50)', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid rgba(212, 175, 55, 0.6)', fontSize: '16px', color: '#F8FAFC', lineHeight: 1.45 }}>
+                    <b style={{ color: '#F8FAFC' }}>• Elevated Long Legs:</b> Lifts torso far above the scorching hot desert surface.
                   </div>
-                  <div style={{ background: '#FAF8F2', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid #14452F', fontSize: '16px', color: '#14452F', lineHeight: 1.45 }}>
-                    <b style={{ color: '#14452F' }}>• Wide Padded Hooves:</b> Spreads body mass so feet do not sink into shifting sand.
+                  <div style={{ background: 'rgba(15, 23, 42, 0.50)', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid rgba(212, 175, 55, 0.6)', fontSize: '16px', color: '#F8FAFC', lineHeight: 1.45 }}>
+                    <b style={{ color: '#F8FAFC' }}>• Wide Padded Hooves:</b> Spreads body mass so feet do not sink into shifting sand.
                   </div>
-                  <div style={{ background: '#FAF8F2', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid #14452F', fontSize: '16px', color: '#14452F', lineHeight: 1.45 }}>
-                    <b style={{ color: '#14452F' }}>• Water Conservation:</b> Excretes dry dung, minimal urine, and does not sweat.
+                  <div style={{ background: 'rgba(15, 23, 42, 0.50)', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid rgba(212, 175, 55, 0.6)', fontSize: '16px', color: '#F8FAFC', lineHeight: 1.45 }}>
+                    <b style={{ color: '#F8FAFC' }}>• Water Conservation:</b> Excretes dry dung, minimal urine, and does not sweat.
                   </div>
                 </div>
               </div>
 
-              <div style={{ background: selectedCamel === 'hot' ? '#EDE7D8' : '#FAF8F2', border: '1px solid #14452F', padding: '6px 12px', borderRadius: '8px', fontSize: '16px', color: '#14452F', fontWeight: '800', textAlign: 'center', marginTop: '10px' }}>
+              <div style={{ background: selectedCamel === 'hot' ? '#EDE7D8' : 'rgba(250, 248, 242, 0.55)', border: '1px solid #14452F', padding: '6px 12px', borderRadius: '8px', fontSize: '16px', color: '#F8FAFC', fontWeight: '800', textAlign: 'center', marginTop: '10px' }}>
                 {selectedCamel === 'hot' ? '✓ Currently Focused' : 'Click to inspect traits'}
               </div>
             </div>
@@ -217,7 +219,7 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
             <div 
               onClick={() => setSelectedCamel('cold')}
               style={{
-                background: selectedCamel === 'cold' ? '#F5F1E5' : '#FAF8F2',
+                background: selectedCamel === 'cold' ? '#F5F1E5' : 'rgba(250, 248, 242, 0.55)',
                 border: `2px solid #14452F`,
                 borderRadius: '16px',
                 padding: '16px 18px',
@@ -232,14 +234,14 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
             >
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                  <span style={{ fontSize: '16px', fontWeight: '900', color: '#14452F', textTransform: 'uppercase' }}>
+                  <span style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC', textTransform: 'uppercase' }}>
                     Ladakh High Altitude
                   </span>
-                  <span style={{ background: '#EDE7D8', color: '#14452F', fontSize: '16px', fontWeight: '800', padding: '3px 10px', borderRadius: '8px', border: '1px solid #14452F' }}>
+                  <span style={{ background: '#EDE7D8', color: '#F8FAFC', fontSize: '16px', fontWeight: '800', padding: '3px 10px', borderRadius: '8px', border: '1px solid #14452F' }}>
                     2 Humps
                   </span>
                 </div>
-                <h3 style={{ margin: '0 0 8px 0', fontSize: '20px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif' }}>
+                <h3 style={{ margin: '0 0 8px 0', fontSize: '20px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                   🐫 Cold Desert Bactrian Camel
                 </h3>
                 <p style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#2A3B2C', lineHeight: 1.5, fontWeight: '500' }}>
@@ -247,30 +249,30 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
                 </p>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ background: '#FAF8F2', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid #14452F', fontSize: '16px', color: '#14452F', lineHeight: 1.45 }}>
-                    <b style={{ color: '#14452F' }}>• Two Humps:</b> Double storage; these humps visibly shrink in late winter as stored fat is consumed.
+                  <div style={{ background: 'rgba(15, 23, 42, 0.50)', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid rgba(212, 175, 55, 0.6)', fontSize: '16px', color: '#F8FAFC', lineHeight: 1.45 }}>
+                    <b style={{ color: '#F8FAFC' }}>• Two Humps:</b> Double storage; these humps visibly shrink in late winter as stored fat is consumed.
                   </div>
-                  <div style={{ background: '#FAF8F2', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid #14452F', fontSize: '16px', color: '#14452F', lineHeight: 1.45 }}>
-                    <b style={{ color: '#14452F' }}>• Shorter Sturdy Legs:</b> Low center of gravity provides superior balance across jagged rocks.
+                  <div style={{ background: 'rgba(15, 23, 42, 0.50)', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid rgba(212, 175, 55, 0.6)', fontSize: '16px', color: '#F8FAFC', lineHeight: 1.45 }}>
+                    <b style={{ color: '#F8FAFC' }}>• Shorter Sturdy Legs:</b> Low center of gravity provides superior balance across jagged rocks.
                   </div>
-                  <div style={{ background: '#FAF8F2', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid #14452F', fontSize: '16px', color: '#14452F', lineHeight: 1.45 }}>
-                    <b style={{ color: '#14452F' }}>• Dense Shaggy Wool:</b> Grows thick dense hair from head to neck for warmth, molting in summer.
+                  <div style={{ background: 'rgba(15, 23, 42, 0.50)', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid rgba(212, 175, 55, 0.6)', fontSize: '16px', color: '#F8FAFC', lineHeight: 1.45 }}>
+                    <b style={{ color: '#F8FAFC' }}>• Dense Shaggy Wool:</b> Grows thick dense hair from head to neck for warmth, molting in summer.
                   </div>
-                  <div style={{ background: '#FAF8F2', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid #14452F', fontSize: '16px', color: '#14452F', lineHeight: 1.45 }}>
-                    <b style={{ color: '#14452F' }}>• Sleet Resistance:</b> Strong respiratory passages protect against icy mountain winds.
+                  <div style={{ background: 'rgba(15, 23, 42, 0.50)', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid rgba(212, 175, 55, 0.6)', fontSize: '16px', color: '#F8FAFC', lineHeight: 1.45 }}>
+                    <b style={{ color: '#F8FAFC' }}>• Sleet Resistance:</b> Strong respiratory passages protect against icy mountain winds.
                   </div>
                 </div>
               </div>
 
-              <div style={{ background: selectedCamel === 'cold' ? '#EDE7D8' : '#FAF8F2', border: '1px solid #14452F', padding: '6px 12px', borderRadius: '8px', fontSize: '16px', color: '#14452F', fontWeight: '800', textAlign: 'center', marginTop: '10px' }}>
+              <div style={{ background: selectedCamel === 'cold' ? '#EDE7D8' : 'rgba(250, 248, 242, 0.55)', border: '1px solid #14452F', padding: '6px 12px', borderRadius: '8px', fontSize: '16px', color: '#F8FAFC', fontWeight: '800', textAlign: 'center', marginTop: '10px' }}>
                 {selectedCamel === 'cold' ? '✓ Currently Focused' : 'Click to inspect traits'}
               </div>
             </div>
 
             {/* Scientific Synthesis Panel */}
             <div style={{
-              background: '#FAF8F2',
-              border: '2px solid #14452F',
+              background: 'rgba(15, 23, 42, 0.50)',
+              border: '2px solid #D4AF37',
               borderRadius: '16px',
               padding: '16px 18px',
               display: 'flex',
@@ -280,25 +282,25 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
             }}>
               <div>
                 {/* Realistic Photographic Comparison */}
-                <div style={{ width: '100%', height: '120px', borderRadius: '12px', overflow: 'hidden', border: '1.8px solid #14452F', marginBottom: '10px', boxShadow: '0 3px 10px rgba(20, 69, 47, 0.1)' }}>
+                <div style={{ width: '100%', height: '120px', borderRadius: '12px', overflow: 'hidden', border: '1.8px solid #D4AF37', marginBottom: '10px', boxShadow: '0 3px 10px rgba(20, 69, 47, 0.1)' }}>
                   <img src={ch2CamelAdaptations} alt="Hot vs Cold Desert Camel Split View" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
-                <div style={{ fontSize: '16px', fontWeight: '800', color: '#14452F', textAlign: 'center', marginBottom: '8px' }}>
+                <div style={{ fontSize: '16px', fontWeight: '800', color: '#F8FAFC', textAlign: 'center', marginBottom: '8px' }}>
                   🐪 Thar Dromedary (1 Hump) vs 🐫 Ladakh Bactrian (2 Humps)
                 </div>
 
-                <div style={{ fontSize: '16px', fontWeight: '900', color: '#14452F', textTransform: 'uppercase', marginBottom: '4px' }}>
+                <div style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC', textTransform: 'uppercase', marginBottom: '4px' }}>
                   🔬 NCERT Key Insight (Pages 25–26)
                 </div>
-                <h4 style={{ margin: '0 0 6px 0', fontSize: '20px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif' }}>
+                <h4 style={{ margin: '0 0 6px 0', fontSize: '20px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                   Adaptation vs Environment
                 </h4>
                 <p style={{ margin: '0 0 10px 0', fontSize: '16px', color: '#2A3B2C', lineHeight: 1.5 }}>
                   Even within the same animal family (camel), diverse climatic conditions forge entirely distinct physical traits to thrive.
                 </p>
 
-                <div style={{ background: '#F5F1E5', border: '1.8px solid #14452F', borderRadius: '12px', padding: '12px 14px', marginBottom: '10px' }}>
-                  <div style={{ fontSize: '16px', fontWeight: '900', color: '#14452F', marginBottom: '4px' }}>
+                <div style={{ background: 'rgba(15, 23, 42, 0.45)', border: '1.8px solid #D4AF37', borderRadius: '12px', padding: '12px 14px', marginBottom: '10px' }}>
+                  <div style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC', marginBottom: '4px' }}>
                     💡 Did You Know?
                   </div>
                   <div style={{ fontSize: '16px', color: '#2A3B2C', lineHeight: 1.5 }}>
@@ -307,7 +309,7 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
                 </div>
               </div>
 
-              <div style={{ background: '#EDE7D8', border: '1px solid #14452F', borderRadius: '10px', padding: '8px 12px', fontSize: '16px', color: '#14452F', fontWeight: '800' }}>
+              <div style={{ background: '#EDE7D8', border: '1px solid #14452F', borderRadius: '10px', padding: '8px 12px', fontSize: '16px', color: '#F8FAFC', fontWeight: '800' }}>
                 ✓ Textbook Activity 2.10 Analyzed
               </div>
             </div>
@@ -327,8 +329,8 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
           }}>
             {/* Deodar Tree Card */}
             <div style={{
-              background: '#FAF8F2',
-              border: '2px solid #14452F',
+              background: 'rgba(15, 23, 42, 0.50)',
+              border: '2px solid #D4AF37',
               borderRadius: '16px',
               padding: '16px 18px',
               display: 'flex',
@@ -337,10 +339,10 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
               boxSizing: 'border-box'
             }}>
               <div>
-                <div style={{ fontSize: '16px', fontWeight: '900', color: '#14452F', textTransform: 'uppercase', marginBottom: '4px' }}>
+                <div style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC', textTransform: 'uppercase', marginBottom: '4px' }}>
                   Himalayan Conifer · Page 24
                 </div>
-                <h3 style={{ margin: '0 0 8px 0', fontSize: '20px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif' }}>
+                <h3 style={{ margin: '0 0 8px 0', fontSize: '20px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                   🌲 Himalayan Deodar (Cedrus deodara)
                 </h3>
                 <p style={{ margin: '0 0 10px 0', fontSize: '16px', color: '#2A3B2C', lineHeight: 1.5, fontWeight: '500' }}>
@@ -348,27 +350,27 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
                 </p>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ background: '#F5F1E5', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid #14452F', fontSize: '16px', color: '#14452F', lineHeight: 1.45 }}>
-                    <b style={{ color: '#14452F' }}>• Conical Pyramid Architecture:</b> Tapers toward top, shedding snow naturally instead of trapping it.
+                  <div style={{ background: 'rgba(15, 23, 42, 0.45)', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid rgba(212, 175, 55, 0.6)', fontSize: '16px', color: '#F8FAFC', lineHeight: 1.45 }}>
+                    <b style={{ color: '#F8FAFC' }}>• Conical Pyramid Architecture:</b> Tapers toward top, shedding snow naturally instead of trapping it.
                   </div>
-                  <div style={{ background: '#F5F1E5', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid #14452F', fontSize: '16px', color: '#14452F', lineHeight: 1.45 }}>
-                    <b style={{ color: '#14452F' }}>• Sloping Flexible Branches:</b> Bends gently under snow accumulation so branches never snap.
+                  <div style={{ background: 'rgba(15, 23, 42, 0.45)', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid rgba(212, 175, 55, 0.6)', fontSize: '16px', color: '#F8FAFC', lineHeight: 1.45 }}>
+                    <b style={{ color: '#F8FAFC' }}>• Sloping Flexible Branches:</b> Bends gently under snow accumulation so branches never snap.
                   </div>
-                  <div style={{ background: '#F5F1E5', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid #14452F', fontSize: '16px', color: '#14452F', lineHeight: 1.45 }}>
-                    <b style={{ color: '#14452F' }}>• Needle-like Waxy Foliage:</b> Prevents freezing of internal fluids and minimizes moisture loss.
+                  <div style={{ background: 'rgba(15, 23, 42, 0.45)', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid rgba(212, 175, 55, 0.6)', fontSize: '16px', color: '#F8FAFC', lineHeight: 1.45 }}>
+                    <b style={{ color: '#F8FAFC' }}>• Needle-like Waxy Foliage:</b> Prevents freezing of internal fluids and minimizes moisture loss.
                   </div>
                 </div>
               </div>
 
-              <div style={{ background: '#EDE7D8', border: '1px solid #14452F', padding: '6px 12px', borderRadius: '8px', fontSize: '16px', color: '#14452F', fontWeight: '800', marginTop: '10px' }}>
+              <div style={{ background: '#EDE7D8', border: '1px solid #14452F', padding: '6px 12px', borderRadius: '8px', fontSize: '16px', color: '#F8FAFC', fontWeight: '800', marginTop: '10px' }}>
                 ✓ Adapted for Heavy Snow Loads
               </div>
             </div>
 
             {/* Rhododendron Variation Card */}
             <div style={{
-              background: '#FAF8F2',
-              border: '2px solid #14452F',
+              background: 'rgba(15, 23, 42, 0.50)',
+              border: '2px solid #D4AF37',
               borderRadius: '16px',
               padding: '16px 18px',
               display: 'flex',
@@ -377,10 +379,10 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
               boxSizing: 'border-box'
             }}>
               <div>
-                <div style={{ fontSize: '16px', fontWeight: '900', color: '#14452F', textTransform: 'uppercase', marginBottom: '4px' }}>
+                <div style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC', textTransform: 'uppercase', marginBottom: '4px' }}>
                   Regional Variation · Page 26
                 </div>
-                <h3 style={{ margin: '0 0 8px 0', fontSize: '20px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif' }}>
+                <h3 style={{ margin: '0 0 8px 0', fontSize: '20px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                   🌺 Rhododendron Across India
                 </h3>
                 <p style={{ margin: '0 0 10px 0', fontSize: '16px', color: '#2A3B2C', lineHeight: 1.5, fontWeight: '500' }}>
@@ -388,27 +390,27 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
                 </p>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ background: '#F5F1E5', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid #14452F', fontSize: '16px', color: '#14452F', lineHeight: 1.45 }}>
-                    <b style={{ color: '#14452F' }}>• Nilgiri Sholas (South India):</b> Stunted shrub height with small, thick leaves to resist violent winds.
+                  <div style={{ background: 'rgba(15, 23, 42, 0.45)', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid rgba(212, 175, 55, 0.6)', fontSize: '16px', color: '#F8FAFC', lineHeight: 1.45 }}>
+                    <b style={{ color: '#F8FAFC' }}>• Nilgiri Sholas (South India):</b> Stunted shrub height with small, thick leaves to resist violent winds.
                   </div>
-                  <div style={{ background: '#F5F1E5', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid #14452F', fontSize: '16px', color: '#14452F', lineHeight: 1.45 }}>
-                    <b style={{ color: '#14452F' }}>• Sikkim Himalayas (East India):</b> Grows into towering tree forms in sheltered, high-rainfall valleys.
+                  <div style={{ background: 'rgba(15, 23, 42, 0.45)', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid rgba(212, 175, 55, 0.6)', fontSize: '16px', color: '#F8FAFC', lineHeight: 1.45 }}>
+                    <b style={{ color: '#F8FAFC' }}>• Sikkim Himalayas (East India):</b> Grows into towering tree forms in sheltered, high-rainfall valleys.
                   </div>
-                  <div style={{ background: '#F5F1E5', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid #14452F', fontSize: '16px', color: '#14452F', lineHeight: 1.45 }}>
-                    <b style={{ color: '#14452F' }}>• Bright Bell Flowers:</b> Attracts high-altitude bird and insect pollinators during spring.
+                  <div style={{ background: 'rgba(15, 23, 42, 0.45)', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid rgba(212, 175, 55, 0.6)', fontSize: '16px', color: '#F8FAFC', lineHeight: 1.45 }}>
+                    <b style={{ color: '#F8FAFC' }}>• Bright Bell Flowers:</b> Attracts high-altitude bird and insect pollinators during spring.
                   </div>
                 </div>
               </div>
 
-              <div style={{ background: '#EDE7D8', border: '1px solid #14452F', padding: '6px 12px', borderRadius: '8px', fontSize: '16px', color: '#14452F', fontWeight: '800', marginTop: '10px' }}>
+              <div style={{ background: '#EDE7D8', border: '1px solid #14452F', padding: '6px 12px', borderRadius: '8px', fontSize: '16px', color: '#F8FAFC', fontWeight: '800', marginTop: '10px' }}>
                 ✓ Altitude &amp; Wind Pressure Adaptation
               </div>
             </div>
 
             {/* Scientific Rule */}
             <div style={{
-              background: '#FAF8F2',
-              border: '2px solid #14452F',
+              background: 'rgba(15, 23, 42, 0.50)',
+              border: '2px solid #D4AF37',
               borderRadius: '16px',
               padding: '16px 18px',
               display: 'flex',
@@ -417,10 +419,10 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
               boxSizing: 'border-box'
             }}>
               <div>
-                <div style={{ fontSize: '16px', fontWeight: '900', color: '#14452F', textTransform: 'uppercase', marginBottom: '6px' }}>
+                <div style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC', textTransform: 'uppercase', marginBottom: '6px' }}>
                   📌 Biological Law
                 </div>
-                <h4 style={{ margin: '0 0 8px 0', fontSize: '20px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif' }}>
+                <h4 style={{ margin: '0 0 8px 0', fontSize: '20px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                   What is an Adaptation?
                 </h4>
                 <p style={{ margin: 0, fontSize: '16px', color: '#2A3B2C', lineHeight: 1.55 }}>
@@ -428,8 +430,8 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
                 </p>
               </div>
 
-              <div style={{ background: '#F5F1E5', padding: '12px 14px', borderRadius: '12px', border: '1.8px solid #14452F', marginTop: '10px' }}>
-                <div style={{ fontSize: '16px', fontWeight: '900', color: '#14452F', marginBottom: '4px' }}>
+              <div style={{ background: 'rgba(15, 23, 42, 0.45)', padding: '12px 14px', borderRadius: '12px', border: '1.8px solid #D4AF37', marginTop: '10px' }}>
+                <div style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC', marginBottom: '4px' }}>
                   Habitat Interdependence:
                 </div>
                 <div style={{ fontSize: '16px', color: '#2A3B2C', lineHeight: 1.5 }}>
@@ -452,8 +454,8 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
             alignItems: 'stretch'
           }}>
             <div style={{
-              background: '#FAF8F2',
-              border: '2px solid #14452F',
+              background: 'rgba(15, 23, 42, 0.50)',
+              border: '2px solid #D4AF37',
               borderRadius: '16px',
               padding: '16px 18px',
               display: 'flex',
@@ -462,34 +464,34 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
               boxSizing: 'border-box'
             }}>
               <div>
-                <div style={{ fontSize: '16px', fontWeight: '900', color: '#14452F', textTransform: 'uppercase', marginBottom: '4px' }}>
+                <div style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC', textTransform: 'uppercase', marginBottom: '4px' }}>
                   Aquatic Locomotion · Page 26
                 </div>
-                <h3 style={{ margin: '0 0 8px 0', fontSize: '20px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif' }}>
+                <h3 style={{ margin: '0 0 8px 0', fontSize: '20px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                   🌊 Streamlined Body Dynamics
                 </h3>
                 <p style={{ margin: '0 0 10px 0', fontSize: '16px', color: '#2A3B2C', lineHeight: 1.5, fontWeight: '500' }}>
                   As observed by Sagar in the Andaman and Nicobar Islands, both giant whales and agile river fishes share a spindle-like contour that tapers at both ends.
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ background: '#F5F1E5', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid #14452F', fontSize: '16px', color: '#14452F', lineHeight: 1.45 }}>
-                    <b style={{ color: '#14452F' }}>• Spindle Geometry:</b> Narrow head and tail minimize fluid friction (drag) as water flows around.
+                  <div style={{ background: 'rgba(15, 23, 42, 0.45)', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid rgba(212, 175, 55, 0.6)', fontSize: '16px', color: '#F8FAFC', lineHeight: 1.45 }}>
+                    <b style={{ color: '#F8FAFC' }}>• Spindle Geometry:</b> Narrow head and tail minimize fluid friction (drag) as water flows around.
                   </div>
-                  <div style={{ background: '#F5F1E5', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid #14452F', fontSize: '16px', color: '#14452F', lineHeight: 1.45 }}>
-                    <b style={{ color: '#14452F' }}>• Caudal &amp; Pectoral Fins:</b> Provide dynamic propulsion, steering, and lateral balance.
+                  <div style={{ background: 'rgba(15, 23, 42, 0.45)', padding: '8px 12px', borderRadius: '10px', border: '1.5px solid rgba(212, 175, 55, 0.6)', fontSize: '16px', color: '#F8FAFC', lineHeight: 1.45 }}>
+                    <b style={{ color: '#F8FAFC' }}>• Caudal &amp; Pectoral Fins:</b> Provide dynamic propulsion, steering, and lateral balance.
                   </div>
                 </div>
               </div>
 
-              <div style={{ background: '#EDE7D8', border: '1px solid #14452F', padding: '6px 12px', borderRadius: '8px', fontSize: '16px', color: '#14452F', fontWeight: '800', marginTop: '10px' }}>
+              <div style={{ background: '#EDE7D8', border: '1px solid #14452F', padding: '6px 12px', borderRadius: '8px', fontSize: '16px', color: '#F8FAFC', fontWeight: '800', marginTop: '10px' }}>
                 ✓ Fluid Friction Reduction
               </div>
             </div>
 
             {/* Comparison Grid */}
             <div style={{
-              background: '#FAF8F2',
-              border: '2px solid #14452F',
+              background: 'rgba(15, 23, 42, 0.50)',
+              border: '2px solid #D4AF37',
               borderRadius: '16px',
               padding: '16px 18px',
               display: 'flex',
@@ -498,12 +500,12 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
               boxSizing: 'border-box'
             }}>
               <div>
-                <div style={{ fontSize: '16px', fontWeight: '900', color: '#14452F', textTransform: 'uppercase', marginBottom: '6px' }}>
+                <div style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC', textTransform: 'uppercase', marginBottom: '6px' }}>
                   Aquatic vs Terrestrial Locomotion
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '10px' }}>
-                  <div style={{ background: '#F5F1E5', border: '1.8px solid #14452F', borderRadius: '12px', padding: '12px' }}>
-                    <div style={{ fontSize: '18px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif', marginBottom: '4px' }}>
+                  <div style={{ background: 'rgba(15, 23, 42, 0.45)', border: '1.8px solid #D4AF37', borderRadius: '12px', padding: '12px' }}>
+                    <div style={{ fontSize: '18px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif', marginBottom: '4px' }}>
                       🐟 Fish in Water
                     </div>
                     <div style={{ fontSize: '16px', color: '#2A3B2C', lineHeight: 1.45 }}>
@@ -511,8 +513,8 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
                     </div>
                   </div>
 
-                  <div style={{ background: '#F5F1E5', border: '1.8px solid #14452F', borderRadius: '12px', padding: '12px' }}>
-                    <div style={{ fontSize: '18px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif', marginBottom: '4px' }}>
+                  <div style={{ background: 'rgba(15, 23, 42, 0.45)', border: '1.8px solid #D4AF37', borderRadius: '12px', padding: '12px' }}>
+                    <div style={{ fontSize: '18px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif', marginBottom: '4px' }}>
                       🐐 Goat on Grassland
                     </div>
                     <div style={{ fontSize: '16px', color: '#2A3B2C', lineHeight: 1.45 }}>
@@ -521,12 +523,12 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
                   </div>
                 </div>
 
-                <div style={{ background: '#F5F1E5', border: '1.5px solid #14452F', borderRadius: '10px', padding: '10px 14px', fontSize: '16px', color: '#2A3B2C', lineHeight: 1.5 }}>
-                  <b style={{ color: '#14452F' }}>Amphibian Dual Life:</b> Frogs bridge both worlds — using webbed hind feet to swim in water and strong muscular legs to leap on land (Page 28).
+                <div style={{ background: 'rgba(15, 23, 42, 0.45)', border: '1.5px solid rgba(212, 175, 55, 0.6)', borderRadius: '10px', padding: '10px 14px', fontSize: '16px', color: '#2A3B2C', lineHeight: 1.5 }}>
+                  <b style={{ color: '#F8FAFC' }}>Amphibian Dual Life:</b> Frogs bridge both worlds — using webbed hind feet to swim in water and strong muscular legs to leap on land (Page 28).
                 </div>
               </div>
 
-              <div style={{ background: '#EDE7D8', border: '1px solid #14452F', padding: '6px 12px', borderRadius: '8px', fontSize: '16px', color: '#14452F', fontWeight: '800', marginTop: '10px' }}>
+              <div style={{ background: '#EDE7D8', border: '1px solid #14452F', padding: '6px 12px', borderRadius: '8px', fontSize: '16px', color: '#F8FAFC', fontWeight: '800', marginTop: '10px' }}>
                 ✓ Habitat Shapes Locomotion Anatomy
               </div>
             </div>
@@ -539,7 +541,7 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        borderTop: '2px solid #14452F',
+        borderTop: '2px solid rgba(212, 175, 55, 0.45)',
         paddingTop: '10px',
         flexShrink: 0
       }}>
@@ -550,10 +552,10 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
             alignItems: 'center',
             gap: '8px',
             padding: '8px 16px',
-            background: '#FAF8F2',
-            border: '1.8px solid #14452F',
+            background: 'rgba(15, 23, 42, 0.50)',
+            border: '1.8px solid #D4AF37',
             borderRadius: '10px',
-            color: '#14452F',
+            color: '#F8FAFC',
             fontWeight: '800',
             fontSize: '16px',
             cursor: 'pointer',
@@ -564,7 +566,7 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
           <span>Back to Table 2.5 / 2.6</span>
         </button>
 
-        <div style={{ fontSize: '16px', color: '#14452F', fontWeight: '800' }}>
+        <div style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: '800' }}>
           NCERT Pages 24–27 Core Adaptation Module
         </div>
 
@@ -575,12 +577,12 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
             alignItems: 'center',
             gap: '8px',
             padding: '8px 20px',
-            background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
             borderRadius: '10px',
             color: '#ffffff',
             fontWeight: '900',
             fontSize: '16px',
-            border: '1.5px solid #10B981',
+            border: '1.8px solid #FDE68A',
             cursor: 'pointer',
             boxShadow: '0 4px 14px rgba(20, 69, 47, 0.35)'
           }}

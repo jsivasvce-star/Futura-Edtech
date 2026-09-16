@@ -748,8 +748,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F0E4 50%, #ECE4D0 100%)',
-          border: '2.5px solid #14452F',
+          background: 'rgba(250, 248, 242, 0.55)',
+          border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           padding: '0.45rem 1.4rem 0.4rem',
           boxShadow: '0 16px 40px rgba(20, 69, 47, 0.15)',
@@ -779,8 +779,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
             <button
               onClick={onBackToDashboard}
               style={{
-                background: '#FAF8F2',
-                border: '2px solid #14452F',
+                background: 'rgba(250, 248, 242, 0.55)',
+                border: '2px solid rgba(20, 69, 47, 0.5)',
                 color: '#14452F',
                 borderRadius: '12px',
                 padding: '5px 14px',
@@ -840,8 +840,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                 type="button"
                 onClick={() => setIsMuted(m => !m)}
                 style={{
-                  background: '#FAF8F2',
-                  border: '2px solid #14452F',
+                  background: 'rgba(250, 248, 242, 0.55)',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   color: '#14452F',
                   padding: '5px 12px',
                   borderRadius: '12px',
@@ -861,8 +861,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
               <button
                 onClick={handleReset}
                 style={{
-                  background: '#FAF8F2',
-                  border: '2px solid #14452F',
+                  background: 'rgba(250, 248, 242, 0.55)',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   color: '#14452F',
                   padding: '5px 14px',
                   borderRadius: '12px',
@@ -886,8 +886,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
             display: 'flex',
             alignItems: 'center',
             gap: '14px',
-            background: '#FAF8F2',
-            border: '2px solid #14452F',
+            background: 'rgba(250, 248, 242, 0.55)',
+            border: '2px solid rgba(20, 69, 47, 0.5)',
             borderRadius: '16px',
             padding: '7px 14px',
             margin: '0.3rem 0 0.4rem 0',
@@ -1392,8 +1392,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
-          border: '2.5px solid #14452F',
+          background: 'rgba(250, 248, 242, 0.55)',
+          border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           boxShadow: '0 16px 40px rgba(20, 69, 47, 0.15)',
           boxSizing: 'border-box',
@@ -1422,8 +1422,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                 type="button"
                 onClick={() => { rootLabAudio.playSwitch(isMuted); setSubPage(1); }}
                 style={{
-                  background: '#FAF8F2',
-                  border: '2px solid #14452F',
+                  background: 'rgba(250, 248, 242, 0.55)',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   color: '#14452F',
                   cursor: 'pointer',
                   display: 'flex',
@@ -1460,8 +1460,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                 type="button"
                 onClick={() => setIsMuted(m => !m)}
                 style={{
-                  background: '#FAF8F2',
-                  border: '2px solid #14452F',
+                  background: 'rgba(250, 248, 242, 0.55)',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   color: '#14452F',
                   padding: '5px 12px',
                   borderRadius: '12px',
@@ -1527,10 +1527,10 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           }}>
             {/* Left Column: Interactive Excavation Pit */}
             <div style={{
-              background: '#FAF8F2',
+              background: 'rgba(250, 248, 242, 0.55)',
               borderRadius: '18px',
               padding: '0.85rem 1rem',
-              border: '2px solid #14452F',
+              border: '2px solid rgba(20, 69, 47, 0.5)',
               boxShadow: '0 6px 20px rgba(20,69,47,0.08)',
               display: 'flex',
               flexDirection: 'column',
@@ -1589,10 +1589,10 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
 
             {/* Right Column: Magnifying Loupe & Root Classification */}
             <div style={{
-              background: '#FAF8F2',
+              background: 'rgba(250, 248, 242, 0.55)',
               borderRadius: '18px',
               padding: '0.85rem 1rem',
-              border: '2px solid #14452F',
+              border: '2px solid rgba(20, 69, 47, 0.5)',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
@@ -1752,7 +1752,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                           }
                         }}
                         style={{
-                          background: isSelected ? '#14452F' : '#FAF8F2',
+                          background: isSelected ? '#14452F' : 'rgba(250, 248, 242, 0.55)',
                           border: isSelected ? '2.5px solid #10B981' : '1.8px solid #14452F',
                           color: isSelected ? '#FFFFFF' : '#14452F',
                           padding: '6px 14px',
@@ -1845,8 +1845,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
       {allDone && (
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(250, 248, 242, 0.96)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', zIndex: 50, textAlign: 'center', padding: '2rem' }}>
           <div style={{
-            background: '#FAF8F2',
-            border: '2px solid #14452F',
+            background: 'rgba(250, 248, 242, 0.55)',
+            border: '2px solid rgba(20, 69, 47, 0.5)',
             borderRadius: '24px',
             padding: '2.5rem 3rem',
             boxShadow: '0 16px 40px rgba(20, 69, 47, 0.2)',
@@ -1865,7 +1865,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
               <span style={{ fontSize: '16px', color: '#4B5563', fontStyle: 'italic' }}>Notice the pattern? Continue to Activity 2.7 to discover how this connects to leaf venation!</span>
             </p>
             <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
-              <button onClick={handleReset} style={{ background: '#FAF8F2', border: '1.8px solid #14452F', color: '#14452F', padding: '0.75rem 1.85rem', borderRadius: '12px', cursor: 'pointer', fontSize: '16px', fontWeight: '800' }}>Redo Lab</button>
+              <button onClick={handleReset} style={{ background: 'rgba(250, 248, 242, 0.55)', border: '1.8px solid #14452F', color: '#14452F', padding: '0.75rem 1.85rem', borderRadius: '12px', cursor: 'pointer', fontSize: '16px', fontWeight: '800' }}>Redo Lab</button>
               <button onClick={() => onBackToDashboard('next_activity')} style={{ background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)', border: '1.5px solid #10B981', color: '#ffffff', padding: '0.75rem 1.85rem', borderRadius: '12px', cursor: 'pointer', fontSize: '16px', fontWeight: '900', boxShadow: '0 4px 14px rgba(20, 69, 47, 0.35)' }}>Next: Relate &amp; Analyse ➔</button>
             </div>
           </div>

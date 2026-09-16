@@ -264,7 +264,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
   };
 
   return (
-    <div style={{ flex: 1, minHeight: 0, height: '100%', display: 'flex', flexDirection: 'column', background: 'transparent', color: '#14452F', fontFamily: 'var(--geo-font)', overflow: 'hidden', padding: '0.6rem', boxSizing: 'border-box' }}>
+    <div style={{ flex: 1, minHeight: 0, height: '100%', display: 'flex', flexDirection: 'column', background: 'transparent', color: '#F8FAFC', fontFamily: 'var(--geo-font)', overflow: 'hidden', padding: '0.6rem', boxSizing: 'border-box' }}>
       <style>{`
         /* Botanical Slogan-Style Bottom Navigation Buttons */
         .bio-nav-btn {
@@ -329,7 +329,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
         }
 
         .bench-tool-btn {
-          background: #FAF8F2;
+          background: rgba(250, 248, 242, 0.55); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
           color: #14452F;
           border: 1.8px solid #14452F;
           border-radius: 12px;
@@ -417,11 +417,13 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F0E4 50%, #ECE4D0 100%)',
-          border: '2.5px solid #14452F',
+          background: 'rgba(15, 23, 42, 0.50)',
+          backdropFilter: 'blur(18px)',
+          WebkitBackdropFilter: 'blur(18px)',
+          border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           padding: '0.45rem 1.4rem 0.4rem',
-          boxShadow: '0 16px 40px rgba(20, 69, 47, 0.15)',
+          boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',
           boxSizing: 'border-box',
           overflow: 'hidden',
           position: 'relative'
@@ -448,9 +450,9 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
             <button
               onClick={onBackToDashboard}
               style={{
-                background: '#FAF8F2',
-                border: '2px solid #14452F',
-                color: '#14452F',
+                background: 'rgba(15, 23, 42, 0.50)',
+                border: '2px solid #D4AF37',
+                color: '#F8FAFC',
                 borderRadius: '12px',
                 padding: '5px 14px',
                 fontSize: '16px',
@@ -474,7 +476,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
                 <div style={{
                   fontSize: '24px',
                   fontWeight: '900',
-                  color: '#14452F',
+                  color: '#FBBF24',
                   fontFamily: '"Fraunces", Georgia, serif',
                   textAlign: 'center',
                   letterSpacing: '-0.3px',
@@ -507,9 +509,9 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
             <button
               onClick={handleReset}
               style={{
-                background: '#FAF8F2',
-                border: '2px solid #14452F',
-                color: '#14452F',
+                background: 'rgba(15, 23, 42, 0.50)',
+                border: '2px solid #D4AF37',
+                color: '#F8FAFC',
                 padding: '7px 14px',
                 borderRadius: '12px',
                 cursor: 'pointer',
@@ -610,7 +612,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
                       <div style={{
                         fontSize: '18px',
                         fontWeight: '900',
-                        color: '#14452F',
+                        color: '#F8FAFC',
                         fontFamily: '"Fraunces", Georgia, serif',
                         display: 'flex',
                         alignItems: 'center',
@@ -892,7 +894,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
                   height: '24px',
                   borderRadius: '50%',
                   background: '#EAF7EE',
-                  border: '1.8px solid #14452F',
+                  border: '1.8px solid #D4AF37',
                   boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
                 }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#14452F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -922,7 +924,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
                 gap: '8px'
               }}>
                 <span>Activity 2.5 · {doneCount} / {LEAVES.length} Leaves Identified</span>
-                <div style={{ width: '60px', height: 6, background: 'rgba(255, 255, 255, 0.25)', borderRadius: 3, overflow: 'hidden' }}>
+                <div style={{ width: '60px', height: 6, background: 'rgba(15, 23, 42, 0.45)', borderRadius: 3, overflow: 'hidden' }}>
                   <div style={{ height: '100%', background: '#34D399', width: `${(doneCount / LEAVES.length) * 100}%`, transition: 'width 0.4s' }} />
                 </div>
               </div>
@@ -955,10 +957,12 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
-          border: '2.5px solid #14452F',
+          background: 'rgba(15, 23, 42, 0.50)',
+          backdropFilter: 'blur(18px)',
+          WebkitBackdropFilter: 'blur(18px)',
+          border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
-          boxShadow: '0 16px 40px rgba(20, 69, 47, 0.15)',
+          boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',
           padding: '0.45rem 1.4rem 0.4rem',
           boxSizing: 'border-box',
           overflow: 'hidden',
@@ -983,9 +987,9 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
               <button
                 onClick={() => setSubPage(1)}
                 style={{
-                  background: '#FAF8F2',
-                  border: '2px solid #14452F',
-                  color: '#14452F',
+                  background: 'rgba(15, 23, 42, 0.50)',
+                  border: '2px solid #D4AF37',
+                  color: '#F8FAFC',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
@@ -1003,7 +1007,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <span style={{ fontSize: '24px' }}>{leaf.emoji}</span>
-                <span style={{ fontSize: '24px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif' }}>
+                <span style={{ fontSize: '24px', fontWeight: '900', color: '#FBBF24', fontFamily: '"Fraunces", Georgia, serif' }}>
                   {leaf.name} Inspection Bench
                 </span>
               </div>
@@ -1015,9 +1019,9 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
                 onClick={toggleMute}
                 title={isMuted ? 'Unmute Lab Sounds' : 'Mute Lab Sounds'}
                 style={{
-                  background: '#FAF8F2',
-                  border: '2px solid #14452F',
-                  color: '#14452F',
+                  background: 'rgba(15, 23, 42, 0.50)',
+                  border: '2px solid #D4AF37',
+                  color: '#F8FAFC',
                   padding: '7px 14px',
                   borderRadius: '12px',
                   cursor: 'pointer',
@@ -1032,15 +1036,15 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
                 <span>{isMuted ? 'Muted' : 'Sound ON'}</span>
               </button>
 
-              <span style={{ fontSize: '20px', color: '#14452F', fontWeight: '900' }}>
+              <span style={{ fontSize: '20px', color: '#F8FAFC', fontWeight: '900' }}>
                 Progress: {doneCount} / {LEAVES.length}
               </span>
 
               <button
                 onClick={handleNextLeaf}
                 style={{
-                  background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                  border: '1.5px solid #10B981',
+                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                  border: '1.8px solid #FDE68A',
                   color: '#ffffff',
                   padding: '8px 18px',
                   borderRadius: '12px',
@@ -1112,8 +1116,8 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
             {/* Right: Botanical Diagnosis & NCERT Lab Notebook (Fully Covers Space) */}
             {/* Right: Botanical Diagnosis & NCERT Lab Notebook (Fully Fits With Zero Scroll) */}
             <div style={{
-              background: '#FAF8F2',
-              border: '2.5px solid #14452F',
+              background: 'rgba(15, 23, 42, 0.50)',
+              border: '2.5px solid rgba(20, 69, 47, 0.5)',
               borderRadius: '18px',
               padding: '14px 18px',
               display: 'flex',
@@ -1133,7 +1137,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
                   paddingBottom: '8px'
                 }}>
                   <div>
-                    <div style={{ fontSize: '24px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif', lineHeight: '1.2' }}>
+                    <div style={{ fontSize: '24px', fontWeight: '900', color: '#FBBF24', fontFamily: '"Fraunces", Georgia, serif', lineHeight: '1.2' }}>
                       {leaf.name}
                     </div>
                     <div style={{ fontSize: '16px', color: '#047857', fontWeight: '800', marginTop: '2px' }}>
@@ -1164,7 +1168,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
                   padding: '8px 12px'
                 }}>
                   <div>
-                    <div style={{ fontSize: '16px', fontWeight: '900', color: '#14452F' }}>
+                    <div style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC' }}>
                       🌿 Plant Group:
                     </div>
                     <div style={{ fontSize: '16px', color: '#047857', fontWeight: '800', marginTop: '2px' }}>
@@ -1172,7 +1176,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
                     </div>
                   </div>
                   <div>
-                    <div style={{ fontSize: '16px', fontWeight: '900', color: '#14452F' }}>
+                    <div style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC' }}>
                       🌱 Root System:
                     </div>
                     <div style={{ fontSize: '16px', color: '#047857', fontWeight: '800', marginTop: '2px' }}>
@@ -1184,7 +1188,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
 
               {/* NCERT Classification Question & Buttons */}
               <div style={{ borderTop: '2px solid rgba(20,69,47,0.2)', paddingTop: '10px' }}>
-                <div style={{ fontSize: '20px', fontWeight: '900', color: '#14452F', marginBottom: '8px' }}>
+                <div style={{ fontSize: '20px', fontWeight: '900', color: '#F8FAFC', marginBottom: '8px' }}>
                   What venation pattern do you see in this leaf?
                 </div>
 
@@ -1197,7 +1201,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
                         key={opt.id}
                         onClick={() => !checked[selectedLeaf] && setAnswers(a => ({ ...a, [selectedLeaf]: opt.id }))}
                         style={{
-                          background: isSelected ? '#14452F' : '#FAF8F2',
+                          background: isSelected ? '#14452F' : 'rgba(250, 248, 242, 0.55)',
                           border: isSelected ? '2.5px solid #10B981' : '2px solid #14452F',
                           color: isSelected ? '#FFFFFF' : '#14452F',
                           padding: '10px 12px',
@@ -1225,8 +1229,8 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
                     onClick={() => handleCheck(selectedLeaf)}
                     style={{
                       width: '100%',
-                      background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                      border: '1.5px solid #10B981',
+                      background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                      border: '1.8px solid #FDE68A',
                       color: '#ffffff',
                       padding: '10px 0',
                       borderRadius: '12px',
@@ -1345,7 +1349,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
               gap: '8px'
             }}>
               <span>Activity 2.5 · {doneCount} / {LEAVES.length} Leaves Identified</span>
-              <div style={{ width: '60px', height: 6, background: 'rgba(255, 255, 255, 0.25)', borderRadius: 3, overflow: 'hidden' }}>
+              <div style={{ width: '60px', height: 6, background: 'rgba(15, 23, 42, 0.45)', borderRadius: 3, overflow: 'hidden' }}>
                 <div style={{ height: '100%', background: '#34D399', width: `${(doneCount / LEAVES.length) * 100}%`, transition: 'width 0.4s' }} />
               </div>
             </div>
@@ -1371,13 +1375,13 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
 
       {/* All done overlay */}
       {allDone && (
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(250, 248, 242, 0.96)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.25rem', zIndex: 50, textAlign: 'center', padding: '2rem' }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(15, 23, 42, 0.50)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.25rem', zIndex: 50, textAlign: 'center', padding: '2rem' }}>
           <div style={{
-            background: '#FAF8F2',
-            border: '2px solid #14452F',
+            background: 'rgba(15, 23, 42, 0.50)',
+            border: '2px solid #D4AF37',
             borderRadius: '24px',
             padding: '2.5rem 3rem',
-            boxShadow: '0 16px 40px rgba(20, 69, 47, 0.2)',
+            boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',
             maxWidth: '560px',
             display: 'flex',
             flexDirection: 'column',
@@ -1385,23 +1389,23 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
             gap: '1.25rem'
           }}>
             <Award size={68} color="#14452F" style={{ filter: 'drop-shadow(0 4px 12px rgba(20,69,47,0.3))' }} />
-            <h2 style={{ color: '#14452F', margin: 0, fontSize: '24px', fontWeight: '900', fontFamily: '"Fraunces", Georgia, serif' }}>Venation Expert Badge!</h2>
+            <h2 style={{ color: '#FBBF24', margin: 0, fontSize: '24px', fontWeight: '900', fontFamily: '"Fraunces", Georgia, serif' }}>Venation Expert Badge!</h2>
             <p style={{ color: '#2A3B2C', maxWidth: 480, lineHeight: 1.6, fontSize: '16px', fontWeight: '600', textAlign: 'center' }}>
               You correctly identified all 5 leaf venation patterns!<br />
-              <strong style={{ color: '#14452F' }}>Hibiscus, Rose</strong> → Reticulate (net-like)<br />
-              <strong style={{ color: '#14452F' }}>Banana, Grass, Maize</strong> → Parallel (straight lines)
+              <strong style={{ color: '#F8FAFC' }}>Hibiscus, Rose</strong> → Reticulate (net-like)<br />
+              <strong style={{ color: '#F8FAFC' }}>Banana, Grass, Maize</strong> → Parallel (straight lines)
             </p>
             <p style={{ color: '#4B5563', fontSize: '16px', maxWidth: 460, fontStyle: 'italic', lineHeight: 1.5, textAlign: 'center' }}>
               Remember: Plants with reticulate venation usually have taproots. Plants with parallel venation usually have fibrous roots!
             </p>
             <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
-              <button onClick={handleReset} style={{ background: '#FAF8F2', border: '1.8px solid #14452F', color: '#14452F', padding: '0.75rem 1.85rem', borderRadius: '12px', cursor: 'pointer', fontSize: '16px', fontWeight: '800' }}>Redo Lab</button>
+              <button onClick={handleReset} style={{ background: 'rgba(15, 23, 42, 0.50)', border: '1.8px solid #D4AF37', color: '#F8FAFC', padding: '0.75rem 1.85rem', borderRadius: '12px', cursor: 'pointer', fontSize: '16px', fontWeight: '800' }}>Redo Lab</button>
               <button
                 onClick={() => {
                   if (onNext) onNext();
                   else if (onBackToDashboard) onBackToDashboard('next_activity');
                 }}
-                style={{ background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)', border: '1.5px solid #10B981', color: '#fff', padding: '0.75rem 1.85rem', borderRadius: '12px', cursor: 'pointer', fontSize: '16px', fontWeight: '900', boxShadow: '0 4px 12px rgba(20, 69, 47, 0.35)' }}
+                style={{ background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)', border: '1.8px solid #FDE68A', color: '#fff', padding: '0.75rem 1.85rem', borderRadius: '12px', cursor: 'pointer', fontSize: '16px', fontWeight: '900', boxShadow: '0 4px 12px rgba(20, 69, 47, 0.35)' }}
               >
                 Next: Act 2.6 Root Systems ➔
               </button>

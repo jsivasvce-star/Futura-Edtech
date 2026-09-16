@@ -411,7 +411,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
         width: '100%',
         height: '100vh',
         maxHeight: '100vh',
-        background: 'linear-gradient(180deg, #D6EDFA 0%, #E8F7EE 16%, #F3FAF5 48%, #E5F5EB 82%, #D5EFE0 100%)',
+        background: 'transparent',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -421,7 +421,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
         overflow: 'hidden',
         userSelect: 'none',
         fontFamily: '"Plus Jakarta Sans", "Inter", system-ui, sans-serif',
-        color: '#1F2937'
+        color: '#F8FAFC'
       }}
     >
       <TopCornerFoliage side="left" />
@@ -432,6 +432,13 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,600;1,9..144,700&family=Outfit:wght@700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
 
+        /* Justified text formatting */
+        p, .bio-desc-text, .bio-info-text {
+          text-align: justify !important;
+          text-justify: inter-word !important;
+          hyphens: auto;
+        }
+
         @keyframes biologyFadeIn {
           from { opacity: 0; transform: scale(0.992) translateY(4px); }
           to { opacity: 1; transform: scale(1) translateY(0); }
@@ -441,29 +448,30 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
         }
 
         .bio-nav-btn {
-          background: #14452F;
-          color: #D1FAE5;
-          border: 1.5px solid #2D6A4F;
-          border-radius: 12px;
-          padding: 10px 20px;
+          background: rgba(15, 23, 42, 0.65);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          color: #F1F5F9;
+          border: 1.8px solid rgba(255, 255, 255, 0.25);
+          border-radius: 10px;
+          padding: 7px 18px;
           font-size: 16px;
           font-weight: 800;
           font-family: 'Outfit', sans-serif;
           cursor: pointer;
           display: inline-flex;
           align-items: center;
-          gap: 8px;
+          gap: 6px;
           transition: all 0.2s ease;
-          box-shadow: 0 3px 10px rgba(20, 69, 47, 0.25);
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
           position: relative;
           z-index: 10;
         }
         .bio-nav-btn:hover:not(:disabled) {
-          background: #1B5E3C;
-          color: #FFFFFF;
-          border-color: #10B981;
+          background: rgba(245, 158, 11, 0.25);
+          color: #FBBF24;
+          border-color: #F59E0B;
           transform: translateY(-1px);
-          box-shadow: 0 5px 14px rgba(20, 69, 47, 0.35);
         }
         .bio-nav-btn:disabled {
           opacity: 0.35;
@@ -474,9 +482,9 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
         .bio-cta-btn {
           background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
           color: #FFFFFF;
-          border: 1.5px solid #FCD34D;
-          border-radius: 12px;
-          padding: 11px 24px;
+          border: 1.8px solid #FDE68A;
+          border-radius: 10px;
+          padding: 8px 24px;
           font-size: 16px;
           font-weight: 900;
           font-family: 'Outfit', sans-serif;
@@ -491,18 +499,27 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
         }
         .bio-cta-btn:hover {
           background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+          border-color: #FFFFFF;
           transform: translateY(-1px);
-          box-shadow: 0 6px 20px rgba(217, 119, 6, 0.48);
+          box-shadow: 0 6px 20px rgba(217, 119, 6, 0.55);
         }
 
         .bio-parchment-card {
-          background: linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%);
-          border: 2px solid #194720;
+          background: rgba(15, 23, 42, 0.50);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+          border: 1.8px solid rgba(245, 158, 11, 0.4);
           border-radius: 20px;
-          box-shadow: 0 10px 28px rgba(15, 74, 50, 0.14), inset 0 0 0 2px rgba(45, 106, 79, 0.10);
+          box-shadow: 0 10px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
           position: relative;
           box-sizing: border-box;
           overflow: hidden;
+          color: #F8FAFC;
+          transition: all 0.22s ease;
+        }
+        .bio-parchment-card:hover {
+          border-color: rgba(245, 158, 11, 0.65);
+          box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), 0 0 18px rgba(245, 158, 11, 0.25);
         }
 
         .bio-step-pill {
@@ -591,7 +608,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
                   fontSize: '16px',
                   letterSpacing: '0.05em',
                   textTransform: 'uppercase',
-                  border: '1.5px solid #10B981',
+                  border: '1.8px solid #FDE68A',
                   boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
                 }}
               >
@@ -606,7 +623,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
                   fontFamily: '"Fraunces", Georgia, serif',
                   fontWeight: 900,
                   fontSize: '20px',
-                  color: '#0A3B24',
+                  color: '#F8FAFC',
                   margin: 0,
                   lineHeight: 1.15,
                   letterSpacing: '-0.02em',
@@ -763,7 +780,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
                         margin: 0,
                         fontSize: '18px',
                         fontWeight: 900,
-                        color: '#0A3B24',
+                        color: '#F8FAFC',
                         fontFamily: '"Fraunces", Georgia, serif',
                         whiteSpace: 'nowrap'
                       }}
@@ -859,7 +876,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
                       margin: '3px 0 1px 0',
                       fontSize: '18px',
                       fontWeight: 900,
-                      color: '#0A3B24',
+                      color: '#F8FAFC',
                       fontFamily: '"Fraunces", Georgia, serif'
                     }}
                   >
@@ -921,7 +938,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
                 {/* TELEMETRY READOUTS */}
                 <div
                   style={{
-                    background: 'rgba(255, 255, 255, 0.82)',
+                    background: 'rgba(15, 23, 42, 0.45)',
                     border: '1.5px solid #2D6A4F',
                     borderRadius: '10px',
                     padding: '8px 12px',
@@ -934,7 +951,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ fontSize: '16px', color: '#1B4D3E', fontWeight: 700 }}>Water Mass Absorbed:</span>
-                    <span style={{ fontSize: '18px', fontWeight: 900, color: '#0A3B24', fontFamily: "'Outfit', sans-serif" }}>
+                    <span style={{ fontSize: '18px', fontWeight: 900, color: '#F8FAFC', fontFamily: "'Outfit', sans-serif" }}>
                       +{waterAbsorbedGrams} g / seed
                     </span>
                   </div>
@@ -948,7 +965,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
 
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ fontSize: '16px', color: '#1B4D3E', fontWeight: 700 }}>Testa Elasticity:</span>
-                    <span style={{ fontSize: '16px', fontWeight: 800, color: '#0A3B24' }}>
+                    <span style={{ fontSize: '16px', fontWeight: 800, color: '#F8FAFC' }}>
                       {testaElasticity}
                     </span>
                   </div>
@@ -1029,7 +1046,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
                         margin: 0,
                         fontSize: '18px',
                         fontWeight: 900,
-                        color: '#0A3B24',
+                        color: '#F8FAFC',
                         fontFamily: '"Fraunces", Georgia, serif',
                         whiteSpace: 'nowrap'
                       }}
@@ -1125,7 +1142,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
                       style={{
                         fontSize: '16px',
                         fontWeight: 800,
-                        color: '#14452F',
+                        color: '#F8FAFC',
                         fontFamily: "'Outfit', sans-serif"
                       }}
                     >
@@ -1365,7 +1382,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
                       margin: '3px 0 1px 0',
                       fontSize: '18px',
                       fontWeight: 900,
-                      color: '#0A3B24',
+                      color: '#F8FAFC',
                       fontFamily: '"Fraunces", Georgia, serif'
                     }}
                   >
@@ -1452,7 +1469,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
                           onClick={handleSplitChickpea}
                           disabled={chickpeaSplitProgress >= 100}
                           className="bio-cta-btn"
-                          style={{ width: '100%', justifyContent: 'center', background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)', borderColor: '#10B981', padding: '6px 12px', fontSize: '16px' }}
+                          style={{ width: '100%', justifyContent: 'center', background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)', borderColor: '#10B981', padding: '6px 12px', fontSize: '16px' }}
                         >
                           <Layers size={18} />
                           <span>{chickpeaSplitProgress >= 100 ? 'Cotyledons Parted' : 'Part Cotyledons Along Axis'}</span>
@@ -1548,7 +1565,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
                         margin: 0,
                         fontSize: '18px',
                         fontWeight: 900,
-                        color: '#0A3B24',
+                        color: '#F8FAFC',
                         fontFamily: '"Fraunces", Georgia, serif',
                         whiteSpace: 'nowrap'
                       }}
@@ -1665,7 +1682,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <span style={{ fontSize: '16px', fontWeight: 800, color: '#14452F', marginRight: '2px' }}>Zoom:</span>
+                    <span style={{ fontSize: '16px', fontWeight: 800, color: '#F8FAFC', marginRight: '2px' }}>Zoom:</span>
                     {[2.0, 3.5, 5.0].map((z) => (
                       <button
                         key={z}
@@ -1812,7 +1829,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
                       margin: '3px 0 1px 0',
                       fontSize: '18px',
                       fontWeight: 900,
-                      color: '#0A3B24',
+                      color: '#F8FAFC',
                       fontFamily: '"Fraunces", Georgia, serif'
                     }}
                   >
@@ -1832,7 +1849,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
                     <div
                       style={{
                         background: '#FFFFFF',
-                        border: '1.5px solid #14452F',
+                        border: '1.5px solid rgba(212, 175, 55, 0.6)',
                         borderRadius: '12px',
                         padding: '8px 12px',
                         display: 'flex',
@@ -1862,7 +1879,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
                           {activePin.num}
                         </div>
                         <div>
-                          <div style={{ fontSize: '18px', fontWeight: 900, color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif' }}>
+                          <div style={{ fontSize: '18px', fontWeight: 900, color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                             {activePin.name}
                           </div>
                           <div style={{ fontSize: '16px', fontWeight: 700, color: '#10B981' }}>
@@ -1891,7 +1908,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
 
                 {/* PIN LIST BUTTONS */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', position: 'relative', zIndex: 5 }}>
-                  <h4 style={{ margin: '1px 0', fontSize: '16px', fontWeight: 800, color: '#0A3B24' }}>
+                  <h4 style={{ margin: '1px 0', fontSize: '16px', fontWeight: 800, color: '#F8FAFC' }}>
                     All Visible Structures:
                   </h4>
                   {(loupeSpecimen === 'chickpea' ? CHICKPEA_PINS : MAIZE_PINS).map((p) => {
@@ -1998,7 +2015,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
                 height: '24px',
                 borderRadius: '50%',
                 background: '#EAF7EE',
-                border: '1.8px solid #14452F',
+                border: '1.8px solid #D4AF37',
                 boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
               }}
             >

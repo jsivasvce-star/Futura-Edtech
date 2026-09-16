@@ -59,7 +59,7 @@ export default function CompareStage({ currentLeaf, allLeaves }) {
           <button
             onClick={toggleLight}
             style={{
-              background: syncLight ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#FAF8F2',
+              background: syncLight ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'rgba(250, 248, 242, 0.55)',
               color: syncLight ? '#FFFFFF' : '#14452F',
               border: '1.8px solid #D97706',
               borderRadius: '10px',
@@ -170,7 +170,7 @@ export default function CompareStage({ currentLeaf, allLeaves }) {
               value={compareId}
               onChange={(e) => setCompareId(e.target.value)}
               style={{
-                background: '#FAF8F2',
+                background: 'rgba(250, 248, 242, 0.55)',
                 color: '#14452F',
                 border: '1.5px solid #14452F',
                 borderRadius: '8px',
@@ -228,7 +228,7 @@ export default function CompareStage({ currentLeaf, allLeaves }) {
       {/* Contrast Banner at Bottom */}
       <div style={{
         marginTop: '6px',
-        background: syncLight ? 'rgba(15, 23, 42, 0.85)' : '#FAF8F2',
+        background: syncLight ? 'rgba(15, 23, 42, 0.85)' : 'rgba(250, 248, 242, 0.55)',
         border: '1.5px solid #14452F',
         borderRadius: '10px',
         padding: '5px 12px',

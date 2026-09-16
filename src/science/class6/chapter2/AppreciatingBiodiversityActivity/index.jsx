@@ -1255,7 +1255,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
       width: '100%',
       height: '100%',
       minHeight: 0,
-      background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
+      background: 'rgba(250, 248, 242, 0.55)',
       fontFamily: '"Outfit", "Plus Jakarta Sans", sans-serif',
       color: '#14452F',
       display: 'flex',
@@ -1280,7 +1280,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
         position: 'relative',
         width: '100%',
         padding: '0.45rem 1.4rem',
-        background: '#FAF8F2',
+        background: 'rgba(250, 248, 242, 0.55)',
         borderBottom: '2.5px solid #14452F',
         boxShadow: '0 4px 14px rgba(20, 69, 47, 0.08)',
         display: 'flex',
@@ -1381,8 +1381,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
               fontSize: '17px', 
               padding: '0.5rem 1.15rem',
               borderRadius: '12px',
-              border: '2px solid #14452F',
-              background: '#FAF8F2',
+              border: '2px solid rgba(20, 69, 47, 0.5)',
+              background: 'rgba(250, 248, 242, 0.55)',
               cursor: 'pointer',
               color: '#14452F',
               fontWeight: '900',
@@ -1417,8 +1417,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
         {(phase !== 'pick' && activeTab !== 'quiz') && (
           <div style={{
             position: 'relative',
-            background: '#FAF8F2',
-            border: '2.5px solid #14452F',
+            background: 'rgba(250, 248, 242, 0.55)',
+            border: '2.5px solid rgba(20, 69, 47, 0.5)',
             borderRadius: '24px 6px 24px 6px',
             padding: '0.85rem 1rem',
             boxShadow: '0 10px 30px rgba(20, 69, 47, 0.12)',
@@ -1500,8 +1500,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
                     <div style={{
-                      background: 'linear-gradient(135deg, #FAF8F2 0%, #F5F1E5 100%)',
-                      border: '2px solid #14452F',
+                      background: 'rgba(250, 248, 242, 0.55)',
+                      border: '2px solid rgba(20, 69, 47, 0.5)',
                       borderRadius: '12px 4px 12px 4px',
                       padding: '6px 10px',
                       boxShadow: '0 2px 6px rgba(20, 69, 47, 0.06)'
@@ -1514,8 +1514,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     </div>
 
                     <div style={{
-                      background: 'linear-gradient(135deg, #FAF8F2 0%, #F5F1E5 100%)',
-                      border: '2px solid #14452F',
+                      background: 'rgba(250, 248, 242, 0.55)',
+                      border: '2px solid rgba(20, 69, 47, 0.5)',
                       borderRadius: '12px 4px 12px 4px',
                       padding: '6px 10px',
                       boxShadow: '0 2px 6px rgba(20, 69, 47, 0.06)'
@@ -1530,8 +1530,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 </div>
               ) : (
                 <div style={{
-                  background: 'linear-gradient(135deg, #FAF8F2 0%, #F0FDF4 100%)',
-                  border: '2px solid #14452F',
+                  background: 'rgba(250, 248, 242, 0.55)',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   borderLeftWidth: '6px',
                   borderLeftColor: '#10B981',
                   borderRadius: '16px 4px 16px 4px',
@@ -1606,8 +1606,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
           flex: 1, 
           width: '100%', 
           maxWidth: '100%',
-          background: '#FAF8F2',
-          border: '2.5px solid #14452F',
+          background: 'rgba(250, 248, 242, 0.55)',
+          border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px 6px 24px 6px',
           padding: '0.75rem 1rem',
           boxShadow: '0 10px 30px rgba(20, 69, 47, 0.12)',
@@ -1647,7 +1647,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 justifyContent: 'center',
                 borderRadius: '12px 4px 12px 4px',
                 border: activeTab === 'board' ? '2.5px solid #14452F' : '2px solid #14452F',
-                background: activeTab === 'board' ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)' : '#FAF8F2',
+                background: activeTab === 'board' ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)' : 'rgba(250, 248, 242, 0.55)',
                 color: activeTab === 'board' ? '#ffffff' : '#14452F',
                 fontWeight: '900',
                 fontFamily: '"Outfit", sans-serif',
@@ -1680,7 +1680,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 justifyContent: 'center',
                 borderRadius: '12px 4px 12px 4px',
                 border: activeTab === 'quiz' ? '2.5px solid #14452F' : '2px solid #14452F',
-                background: activeTab === 'quiz' ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)' : '#FAF8F2',
+                background: activeTab === 'quiz' ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)' : 'rgba(250, 248, 242, 0.55)',
                 color: activeTab === 'quiz' ? '#ffffff' : '#14452F',
                 fontWeight: '900',
                 fontFamily: '"Outfit", sans-serif',
@@ -1731,7 +1731,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: '50%',
-                    background: '#FAF8F2',
+                    background: 'rgba(250, 248, 242, 0.55)',
                     boxShadow: timerRunning 
                       ? '0 0 28px rgba(16, 185, 129, 0.55)' 
                       : '0 8px 24px rgba(20, 69, 47, 0.15)',
@@ -1870,10 +1870,10 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   height: '100%',
                   flex: 1,
                   minHeight: 0,
-                  background: '#FAF8F2',
+                  background: 'rgba(250, 248, 242, 0.55)',
                   padding: 'clamp(10px, 1.2vh, 16px) clamp(12px, 1.4vw, 20px)',
                   borderRadius: '20px 4px 20px 4px',
-                  border: '2px solid #14452F',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
@@ -1899,7 +1899,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
-                        background: '#FAF8F2',
+                        background: 'rgba(250, 248, 242, 0.55)',
                         padding: '6px 12px',
                         borderRadius: '12px',
                         border: '1.5px solid #14452F',
@@ -2002,7 +2002,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                     padding: '6px',
                                     borderRadius: '20px',
                                     border: isSelected ? '4px solid #10B981' : '2px solid #14452F',
-                                    background: isSelected ? '#ECFDF5' : '#FAF8F2',
+                                    background: isSelected ? '#ECFDF5' : 'rgba(250, 248, 242, 0.55)',
                                     cursor: 'pointer',
                                     transition: 'all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1)',
                                     transform: isSelected ? 'scale(1.02)' : 'scale(1)',
@@ -2068,7 +2068,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                             alignItems: 'center',
                             justifyContent: 'space-between',
                             padding: '4px 14px',
-                            background: '#FAF8F2',
+                            background: 'rgba(250, 248, 242, 0.55)',
                             border: '1.5px solid #14452F',
                             borderRadius: '12px',
                             flexShrink: 0
@@ -2185,7 +2185,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                     padding: '6px',
                                     borderRadius: '20px',
                                     border: isSelected ? '4px solid #10B981' : '2px solid #14452F',
-                                    background: isSelected ? '#ECFDF5' : '#FAF8F2',
+                                    background: isSelected ? '#ECFDF5' : 'rgba(250, 248, 242, 0.55)',
                                     cursor: 'pointer',
                                     transition: 'all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1)',
                                     transform: isSelected ? 'scale(1.02)' : 'scale(1)',
@@ -2251,7 +2251,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                             alignItems: 'center',
                             justifyContent: 'space-between',
                             padding: '4px 14px',
-                            background: '#FAF8F2',
+                            background: 'rgba(250, 248, 242, 0.55)',
                             border: '1.5px solid #14452F',
                             borderRadius: '12px',
                             flexShrink: 0
@@ -2386,7 +2386,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                           padding: '4px 12px',
                           borderRadius: '8px',
                           border: boardFilter === 'all' ? '2.2px solid #14452F' : '1.8px solid #14452F',
-                          background: boardFilter === 'all' ? '#14452F' : '#FAF8F2',
+                          background: boardFilter === 'all' ? '#14452F' : 'rgba(250, 248, 242, 0.55)',
                           color: boardFilter === 'all' ? '#ffffff' : '#14452F',
                           fontSize: '16px',
                           fontWeight: '900',
@@ -2408,7 +2408,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                           padding: '4px 12px',
                           borderRadius: '8px',
                           border: boardFilter === 'me' ? '2.2px solid #14452F' : '1.8px solid #14452F',
-                          background: boardFilter === 'me' ? '#14452F' : '#FAF8F2',
+                          background: boardFilter === 'me' ? '#14452F' : 'rgba(250, 248, 242, 0.55)',
                           color: boardFilter === 'me' ? '#ffffff' : '#14452F',
                           fontSize: '16px',
                           fontWeight: '900',
@@ -2432,8 +2432,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                         style={{
                           padding: '4px 12px',
                           borderRadius: '8px',
-                          border: '2px solid #14452F',
-                          background: boardPage <= 1 ? '#EDE7D8' : '#FAF8F2',
+                          border: '2px solid rgba(20, 69, 47, 0.5)',
+                          background: boardPage <= 1 ? '#EDE7D8' : 'rgba(250, 248, 242, 0.55)',
                           color: boardPage <= 1 ? '#94A3B8' : '#14452F',
                           cursor: boardPage <= 1 ? 'not-allowed' : 'pointer',
                           fontSize: '16px',
@@ -2456,8 +2456,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                         style={{
                           padding: '4px 12px',
                           borderRadius: '8px',
-                          border: '2px solid #14452F',
-                          background: boardPage >= Math.ceil(filteredBoardCards.length / 2) ? '#EDE7D8' : '#FAF8F2',
+                          border: '2px solid rgba(20, 69, 47, 0.5)',
+                          background: boardPage >= Math.ceil(filteredBoardCards.length / 2) ? '#EDE7D8' : 'rgba(250, 248, 242, 0.55)',
                           color: boardPage >= Math.ceil(filteredBoardCards.length / 2) ? '#94A3B8' : '#14452F',
                           cursor: boardPage >= Math.ceil(filteredBoardCards.length / 2) ? 'not-allowed' : 'pointer',
                           fontSize: '16px',
@@ -2489,7 +2489,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                         <div 
                           key={i} 
                           style={{ 
-                            background: card.isMe ? 'linear-gradient(165deg, #F0FDF4 0%, #FAF8F2 100%)' : '#FAF8F2',
+                            background: card.isMe ? 'rgba(240, 253, 244, 0.6)' : 'rgba(250, 248, 242, 0.55)',
                             backgroundImage: 'radial-gradient(#14452F 0.55px, transparent 0.55px)',
                             backgroundSize: '16px 16px',
                             border: card.isMe ? '2.5px solid #10B981' : '2px solid #14452F',
@@ -2760,7 +2760,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                   display: 'inline-flex',
                                   alignItems: 'center',
                                   gap: '4px',
-                                  background: '#FAF8F2',
+                                  background: 'rgba(250, 248, 242, 0.55)',
                                   border: '1.5px solid #14452F',
                                   color: '#14452F',
                                   padding: '4px 10px',
@@ -2803,7 +2803,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 }}>
                   <div style={{
                     padding: '1.5rem',
-                    background: 'linear-gradient(135deg, #FAF8F2 0%, #F0FDF4 100%)',
+                    background: 'rgba(250, 248, 242, 0.55)',
                     borderRadius: '50%',
                     border: '3.5px solid #10B981',
                     boxShadow: '0 8px 26px rgba(16, 185, 129, 0.28)'
@@ -2859,12 +2859,12 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                       style={{
                         padding: '0.85rem 2.2rem',
                         borderRadius: '12px',
-                        border: '2px solid #14452F',
+                        border: '2px solid rgba(20, 69, 47, 0.5)',
                         color: '#14452F',
                         fontWeight: '900',
                         fontSize: '18px',
                         cursor: 'pointer',
-                        background: '#FAF8F2',
+                        background: 'rgba(250, 248, 242, 0.55)',
                         fontFamily: '"Outfit", sans-serif',
                         display: 'flex',
                         alignItems: 'center',
@@ -2892,7 +2892,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   <div style={{
                     position: 'relative',
                     borderRadius: '18px',
-                    border: '2.5px solid #14452F',
+                    border: '2.5px solid rgba(20, 69, 47, 0.5)',
                     overflow: 'hidden',
                     background: '#0D2818',
                     boxShadow: '0 8px 24px rgba(20, 69, 47, 0.18)',
@@ -2921,8 +2921,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
                   {/* RIGHT 30%: QUESTIONS & ANSWERS INTERACTIVE PANEL */}
                   <div style={{
-                    background: '#FAF8F2',
-                    border: '2.5px solid #14452F',
+                    background: 'rgba(250, 248, 242, 0.55)',
+                    border: '2.5px solid rgba(20, 69, 47, 0.5)',
                     borderRadius: '18px',
                     padding: '12px 14px',
                     boxShadow: '0 8px 24px rgba(20, 69, 47, 0.12)',
@@ -2973,7 +2973,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     {/* Question Prompt */}
                     <div style={{
                       background: '#FFFFFF',
-                      border: '2px solid #14452F',
+                      border: '2px solid rgba(20, 69, 47, 0.5)',
                       borderRadius: '12px',
                       padding: '10px 12px',
                       boxShadow: '0 2px 6px rgba(20, 69, 47, 0.06)',
@@ -3172,7 +3172,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
       <div style={{
         width: '100%',
         padding: '0.65rem 1.6rem',
-        background: '#FAF8F2',
+        background: 'rgba(250, 248, 242, 0.55)',
         borderTop: '2.5px solid #14452F',
         boxShadow: '0 -4px 16px rgba(20, 69, 47, 0.08)',
         display: 'flex',
@@ -3433,23 +3433,39 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
               <button
                 type="button"
+                id="btn-close-journal-modal"
                 onClick={() => setInspectCard(null)}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.15)',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  border: '1.5px solid rgba(255, 255, 255, 0.4)',
                   borderRadius: '50%',
-                  width: '34px',
-                  height: '34px',
+                  width: '36px',
+                  height: '36px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: '#ffffff',
                   cursor: 'pointer',
-                  transition: 'all 0.15s ease'
+                  transition: 'all 0.2s ease',
+                  padding: 0
                 }}
-                aria-label="Close"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(239, 68, 68, 0.85)';
+                  e.currentTarget.style.borderColor = '#EF4444';
+                  e.currentTarget.style.transform = 'scale(1.08)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+                aria-label="Close Journal Log"
+                title="Close"
               >
-                <X size={20} />
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block', pointerEvents: 'none' }}>
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
               </button>
             </div>
 
@@ -3466,7 +3482,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 {/* Plant Card */}
                 <div style={{
                   background: '#ffffff',
-                  border: '2px solid #14452F',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   borderRadius: '16px',
                   padding: '10px',
                   boxShadow: '0 4px 14px rgba(0, 0, 0, 0.06)',
@@ -3510,7 +3526,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 {/* Animal Card */}
                 <div style={{
                   background: '#ffffff',
-                  border: '2px solid #14452F',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   borderRadius: '16px',
                   padding: '10px',
                   boxShadow: '0 4px 14px rgba(0, 0, 0, 0.06)',
@@ -3617,7 +3633,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             <div style={{
               padding: '12px 20px',
               borderTop: '1.5px solid #14452F',
-              background: '#FAF8F2',
+              background: 'rgba(250, 248, 242, 0.55)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-end',

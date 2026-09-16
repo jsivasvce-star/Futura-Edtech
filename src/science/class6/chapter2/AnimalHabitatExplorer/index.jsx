@@ -596,8 +596,8 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
         }
 
         .bio-parchment-card {
-          background: linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%);
-          border: 2px solid #194720;
+          background: rgba(250, 248, 242, 0.55); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+          border: 2px solid rgba(25, 71, 32, 0.5);
           border-radius: 14px;
           box-shadow: 0 6px 20px rgba(15, 74, 50, 0.1), inset 0 0 0 1px rgba(45, 106, 79, 0.08);
           position: relative;
@@ -918,7 +918,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                   minHeight: 0,
                   background: '#0B291A',
                   borderRadius: '12px',
-                  border: '2px solid #14452F',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   position: 'relative',
                   overflow: 'hidden',
                   display: 'flex',
@@ -1158,7 +1158,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                   minHeight: 0,
                   background: '#0B291A',
                   borderRadius: '12px',
-                  border: '2px solid #14452F',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   position: 'relative',
                   overflow: 'hidden',
                   display: 'flex',

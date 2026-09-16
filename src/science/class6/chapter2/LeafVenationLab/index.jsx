@@ -329,7 +329,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
         }
 
         .bench-tool-btn {
-          background: #FAF8F2;
+          background: rgba(250, 248, 242, 0.55); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
           color: #14452F;
           border: 1.8px solid #14452F;
           border-radius: 12px;
@@ -417,8 +417,8 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F0E4 50%, #ECE4D0 100%)',
-          border: '2.5px solid #14452F',
+          background: 'rgba(250, 248, 242, 0.55)',
+          border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           padding: '0.45rem 1.4rem 0.4rem',
           boxShadow: '0 16px 40px rgba(20, 69, 47, 0.15)',
@@ -448,8 +448,8 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
             <button
               onClick={onBackToDashboard}
               style={{
-                background: '#FAF8F2',
-                border: '2px solid #14452F',
+                background: 'rgba(250, 248, 242, 0.55)',
+                border: '2px solid rgba(20, 69, 47, 0.5)',
                 color: '#14452F',
                 borderRadius: '12px',
                 padding: '5px 14px',
@@ -507,8 +507,8 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
             <button
               onClick={handleReset}
               style={{
-                background: '#FAF8F2',
-                border: '2px solid #14452F',
+                background: 'rgba(250, 248, 242, 0.55)',
+                border: '2px solid rgba(20, 69, 47, 0.5)',
                 color: '#14452F',
                 padding: '7px 14px',
                 borderRadius: '12px',
@@ -955,8 +955,8 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
-          border: '2.5px solid #14452F',
+          background: 'rgba(250, 248, 242, 0.55)',
+          border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           boxShadow: '0 16px 40px rgba(20, 69, 47, 0.15)',
           padding: '0.45rem 1.4rem 0.4rem',
@@ -983,8 +983,8 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
               <button
                 onClick={() => setSubPage(1)}
                 style={{
-                  background: '#FAF8F2',
-                  border: '2px solid #14452F',
+                  background: 'rgba(250, 248, 242, 0.55)',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   color: '#14452F',
                   cursor: 'pointer',
                   display: 'flex',
@@ -1015,8 +1015,8 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
                 onClick={toggleMute}
                 title={isMuted ? 'Unmute Lab Sounds' : 'Mute Lab Sounds'}
                 style={{
-                  background: '#FAF8F2',
-                  border: '2px solid #14452F',
+                  background: 'rgba(250, 248, 242, 0.55)',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   color: '#14452F',
                   padding: '7px 14px',
                   borderRadius: '12px',
@@ -1112,8 +1112,8 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
             {/* Right: Botanical Diagnosis & NCERT Lab Notebook (Fully Covers Space) */}
             {/* Right: Botanical Diagnosis & NCERT Lab Notebook (Fully Fits With Zero Scroll) */}
             <div style={{
-              background: '#FAF8F2',
-              border: '2.5px solid #14452F',
+              background: 'rgba(250, 248, 242, 0.55)',
+              border: '2.5px solid rgba(20, 69, 47, 0.5)',
               borderRadius: '18px',
               padding: '14px 18px',
               display: 'flex',
@@ -1197,7 +1197,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
                         key={opt.id}
                         onClick={() => !checked[selectedLeaf] && setAnswers(a => ({ ...a, [selectedLeaf]: opt.id }))}
                         style={{
-                          background: isSelected ? '#14452F' : '#FAF8F2',
+                          background: isSelected ? '#14452F' : 'rgba(250, 248, 242, 0.55)',
                           border: isSelected ? '2.5px solid #10B981' : '2px solid #14452F',
                           color: isSelected ? '#FFFFFF' : '#14452F',
                           padding: '10px 12px',
@@ -1373,8 +1373,8 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
       {allDone && (
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(250, 248, 242, 0.96)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.25rem', zIndex: 50, textAlign: 'center', padding: '2rem' }}>
           <div style={{
-            background: '#FAF8F2',
-            border: '2px solid #14452F',
+            background: 'rgba(250, 248, 242, 0.55)',
+            border: '2px solid rgba(20, 69, 47, 0.5)',
             borderRadius: '24px',
             padding: '2.5rem 3rem',
             boxShadow: '0 16px 40px rgba(20, 69, 47, 0.2)',
@@ -1395,7 +1395,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
               Remember: Plants with reticulate venation usually have taproots. Plants with parallel venation usually have fibrous roots!
             </p>
             <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
-              <button onClick={handleReset} style={{ background: '#FAF8F2', border: '1.8px solid #14452F', color: '#14452F', padding: '0.75rem 1.85rem', borderRadius: '12px', cursor: 'pointer', fontSize: '16px', fontWeight: '800' }}>Redo Lab</button>
+              <button onClick={handleReset} style={{ background: 'rgba(250, 248, 242, 0.55)', border: '1.8px solid #14452F', color: '#14452F', padding: '0.75rem 1.85rem', borderRadius: '12px', cursor: 'pointer', fontSize: '16px', fontWeight: '800' }}>Redo Lab</button>
               <button
                 onClick={() => {
                   if (onNext) onNext();

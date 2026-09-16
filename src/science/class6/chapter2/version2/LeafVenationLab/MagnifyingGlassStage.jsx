@@ -73,7 +73,7 @@ export default function MagnifyingGlassStage({ leaf, isLight }) {
         overflow: 'hidden',
         background: '#0F172A',
         borderRadius: '16px',
-        border: '2px solid #14452F',
+        border: '2px solid rgba(20, 69, 47, 0.5)',
         boxShadow: 'inset 0 4px 20px rgba(0,0,0,0.35)'
       }}
     >

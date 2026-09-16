@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Volume2, VolumeX, Maximize2, Minimize2, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Volume2, VolumeX, Maximize2, Minimize2, ArrowRight, ArrowLeft, X, Sparkles, Eye } from 'lucide-react';
 import { speakNaturalIndianMale, stopNarration } from '../../../../services/elevenLabsService';
 
-// Breathtaking true 8K UHD (3840x2558) Sanskrit Slogan & Living World Diversity image
-import sloganFamilyTree8kImage from './DiversityInTheLivingWorldNew/images/ch2_slogan_family_tree_8k.jpg';
+// Cinematic Real Living Nature Photograph (National Geographic Sanctuary)
+import cinematicLivingNatureImage from './DiversityInTheLivingWorldNew/images/ch2_cinematic_living_nature.jpg';
 
 // Individual 8K realistic assets for the 4 facts
 import biomesImage from './DiversityInTheLivingWorldNew/images/ch2_biodiversity_hero.jpg';
@@ -13,7 +13,7 @@ import conservationImage from './DiversityInTheLivingWorldNew/images/ch2_sacred_
 
 const TOTAL_PAGES = 3;
 
-// Leafy Vine Branch extending outwards flanking the main title (matching reference image)
+// Golden & Emerald Leafy Vine Branch extending outwards flanking the main title
 const TitleVineBranch = ({ side = 'left' }) => (
   <svg
     width="54"
@@ -23,31 +23,31 @@ const TitleVineBranch = ({ side = 'left' }) => (
     style={{
       transform: side === 'right' ? 'scaleX(-1)' : 'none',
       flexShrink: 0,
-      opacity: 0.95
+      filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 10px rgba(245, 158, 11, 0.45))'
     }}
   >
     <path
       d="M75 16 C55 14, 35 8, 8 2"
-      stroke="#1B4D3E"
+      stroke="#F59E0B"
       strokeWidth="2.6"
       strokeLinecap="round"
     />
-    <path d="M12 4 C16 1, 24 3, 26 8 C26 12, 20 14, 16 12 C12 10, 10 7, 12 4 Z" fill="#2D6A4F" />
-    <path d="M28 7 C34 4, 42 7, 43 13 C43 17, 37 19, 33 16 C29 13, 26 10, 28 7 Z" fill="#40916C" />
-    <path d="M46 11 C52 9, 60 12, 61 17 C61 21, 55 23, 51 20 C47 17, 44 14, 46 11 Z" fill="#52B788" />
-    <path d="M22 14 C26 18, 25 24, 21 26 C17 28, 13 25, 14 20 C15 16, 19 13, 22 14 Z" fill="#2D6A4F" />
-    <path d="M40 18 C44 22, 43 27, 39 29 C35 31, 31 28, 32 23 C33 20, 37 17, 40 18 Z" fill="#40916C" />
+    <path d="M12 4 C16 1, 24 3, 26 8 C26 12, 20 14, 16 12 C12 10, 10 7, 12 4 Z" fill="#D97706" />
+    <path d="M28 7 C34 4, 42 7, 43 13 C43 17, 37 19, 33 16 C29 13, 26 10, 28 7 Z" fill="#F59E0B" />
+    <path d="M46 11 C52 9, 60 12, 61 17 C61 21, 55 23, 51 20 C47 17, 44 14, 46 11 Z" fill="#34D399" />
+    <path d="M22 14 C26 18, 25 24, 21 26 C17 28, 13 25, 14 20 C15 16, 19 13, 22 14 Z" fill="#D97706" />
+    <path d="M40 18 C44 22, 43 27, 39 29 C35 31, 31 28, 32 23 C33 20, 37 17, 40 18 Z" fill="#10B981" />
   </svg>
 );
 
-// Botanical Sprout Motif directly beneath the title in the center (matching reference image)
+// Botanical Sprout Motif directly beneath the title in the center with golden glow
 const TitleSprout = () => (
-  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '-3px' }}>
-    <svg width="28" height="18" viewBox="0 0 32 20" fill="none">
-      <path d="M16 20 C16 12, 16 4, 16 2" stroke="#1B4D3E" strokeWidth="2.4" strokeLinecap="round" />
-      <path d="M16 8 C11 5, 4 8, 3 13 C4 17, 10 17, 14 13 C16 11, 16 9, 16 8 Z" fill="#2D6A4F" />
-      <path d="M16 8 C21 5, 28 8, 29 13 C28 17, 22 17, 18 13 C16 11, 16 9, 16 8 Z" fill="#40916C" />
-      <path d="M16 3 C14 1, 15 0, 16 0 C17 0, 18 1, 16 3 Z" fill="#52B788" />
+  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '2px' }}>
+    <svg width="32" height="20" viewBox="0 0 32 20" fill="none" style={{ filter: 'drop-shadow(0 0 8px rgba(245, 158, 11, 0.5))' }}>
+      <path d="M16 20 C16 12, 16 4, 16 2" stroke="#F59E0B" strokeWidth="2.4" strokeLinecap="round" />
+      <path d="M16 8 C11 5, 4 8, 3 13 C4 17, 10 17, 14 13 C16 11, 16 9, 16 8 Z" fill="#D97706" />
+      <path d="M16 8 C21 5, 28 8, 29 13 C28 17, 22 17, 18 13 C16 11, 16 9, 16 8 Z" fill="#34D399" />
+      <path d="M16 3 C14 1, 15 0, 16 0 C17 0, 18 1, 16 3 Z" fill="#FEF08A" />
     </svg>
   </div>
 );
@@ -163,6 +163,67 @@ const CardLeafDivider = () => (
   </div>
 );
 
+// Royal Burnished Gold Corner Filigree for Ancient Manuscript Scroll
+const RoyalCornerOrnament = ({ position = 'top-left' }) => {
+  const transforms = {
+    'top-left': 'none',
+    'top-right': 'scaleX(-1)',
+    'bottom-left': 'scaleY(-1)',
+    'bottom-right': 'scale(-1, -1)'
+  };
+  return (
+    <svg
+      width="50"
+      height="50"
+      viewBox="0 0 64 64"
+      fill="none"
+      style={{
+        position: 'absolute',
+        top: position.includes('top') ? '7px' : 'auto',
+        bottom: position.includes('bottom') ? '7px' : 'auto',
+        left: position.includes('left') ? '7px' : 'auto',
+        right: position.includes('right') ? '7px' : 'auto',
+        transform: transforms[position],
+        opacity: 0.42,
+        pointerEvents: 'none',
+        zIndex: 3
+      }}
+    >
+      <path d="M6 34 C6 18, 18 6, 34 6" stroke="rgba(254, 240, 138, 0.8)" strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M12 42 C12 24, 24 12, 42 12" stroke="rgba(255, 255, 255, 0.6)" strokeWidth="1.2" strokeLinecap="round" strokeDasharray="2 3" />
+      <polygon points="8,8 14,4 18,8 12,14" fill="rgba(254, 240, 138, 0.75)" />
+      <circle cx="8" cy="8" r="2.5" fill="rgba(217, 119, 6, 0.6)" />
+      <path d="M18 18 C24 12, 34 16, 36 24 C30 26, 22 22, 18 18 Z" fill="rgba(254, 240, 138, 0.65)" />
+      <path d="M18 18 C12 24, 16 34, 24 36 C26 30, 22 22, 18 18 Z" fill="rgba(255, 255, 255, 0.5)" />
+      <circle cx="34" cy="34" r="2" fill="rgba(254, 240, 138, 0.8)" />
+    </svg>
+  );
+};
+
+// Royal Centerpiece Lotus & Sunbeam Gold Divider
+const RoyalParchmentDivider = () => (
+  <div style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '12px',
+    width: '84%',
+    margin: 'clamp(6px, 1.2vh, 12px) auto'
+  }}>
+    <div style={{ flex: 1, height: '1.5px', background: 'linear-gradient(90deg, transparent, rgba(254, 240, 138, 0.6))' }} />
+    <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+      <span style={{ fontSize: '10px', color: '#FEF08A' }}>✦</span>
+      <svg width="32" height="18" viewBox="0 0 40 22" fill="none">
+        <path d="M20 2 C16 9, 8 13, 2 15 C8 17, 16 21, 20 21 C24 21, 32 17, 38 15 C32 13, 24 9, 20 2 Z" fill="#F59E0B" />
+        <circle cx="20" cy="13" r="3.2" fill="#78350F" />
+        <circle cx="20" cy="13" r="1.6" fill="#FEF3C7" />
+      </svg>
+      <span style={{ fontSize: '10px', color: '#FEF08A' }}>✦</span>
+    </div>
+    <div style={{ flex: 1, height: '1.5px', background: 'linear-gradient(90deg, rgba(254, 240, 138, 0.6), transparent)' }} />
+  </div>
+);
+
 // Bottom Nature Silhouette Panorama with trees, deer, birds, and meadow waves (matching reference poster)
 const BottomNatureSilhouettes = () => (
   <div style={{
@@ -272,6 +333,7 @@ export default function Chapter2SloganPage({
   const [isPlayingSloganAudio, setIsPlayingSloganAudio] = useState(false);
   const [isPlayingMeaningAudio, setIsPlayingMeaningAudio] = useState(false);
   const [isPlayingWhyStudyAudio, setIsPlayingWhyStudyAudio] = useState(false);
+  const [isSloganPopOpen, setIsSloganPopOpen] = useState(true);
   
   const sloganAudioRef = useRef(null);
   const meaningAudioRef = useRef(null);
@@ -484,29 +546,19 @@ export default function Chapter2SloganPage({
         position: 'relative',
         width: '100%',
         height: '100%',
-        minHeight: '100vh',
-        background: 'linear-gradient(180deg, #D6EDFA 0%, #E8F7EE 16%, #F3FAF5 48%, #E5F5EB 82%, #D5EFE0 100%)',
+        minHeight: '100%',
+        background: 'transparent',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: 'clamp(6px, 1.2vh, 16px) clamp(16px, 2.2vw, 32px)',
+        padding: currentPage === 1 ? '0px' : 'clamp(6px, 1.2vh, 16px) clamp(16px, 2.2vw, 32px)',
         boxSizing: 'border-box',
         overflow: 'hidden',
         userSelect: 'none',
         fontFamily: '"Plus Jakarta Sans", system-ui, -apple-system, sans-serif'
       }}
     >
-      {/* Hanging Lush Foliage in Top Corners (matching reference poster) */}
-      <TopCornerFoliage side="left" />
-      <TopCornerFoliage side="right" />
-
-      {/* Soft Mountain Ridge Backdrop behind Title */}
-      <TopMountainBackdrop />
-
-      {/* Nature Meadow Silhouette Panorama along bottom edge */}
-      <BottomNatureSilhouettes />
-
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,600;1,9..144,700&family=Outfit:wght@700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Tiro+Devanagari+Sanskrit:ital@0;1&display=swap');
 
@@ -518,11 +570,13 @@ export default function Chapter2SloganPage({
           animation: biologyFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
         .bio-nav-btn {
-          background: #14452F;
-          color: #D1FAE5;
-          border: 1.5px solid #2D6A4F;
-          border-radius: 10px;
-          padding: 9px 22px;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          color: #FFFFFF;
+          border: 1.8px solid rgba(255, 255, 255, 0.35);
+          border-radius: 12px;
+          padding: 9px 24px;
           font-size: 16px;
           font-weight: 800;
           font-family: 'Outfit', sans-serif;
@@ -530,32 +584,51 @@ export default function Chapter2SloganPage({
           display: inline-flex;
           align-items: center;
           gap: 6px;
-          transition: all 0.2s ease;
-          box-shadow: 0 3px 10px rgba(20, 69, 47, 0.25);
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 0 10px rgba(245, 158, 11, 0.15);
           position: relative;
+          overflow: hidden;
           z-index: 10;
+          text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
+        }
+        .bio-nav-btn::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 60%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+          transform: skewX(-20deg);
+          transition: 0.5s ease;
+          pointer-events: none;
+        }
+        .bio-nav-btn:hover:not(:disabled)::before {
+          left: 140%;
         }
         .bio-nav-btn:hover:not(:disabled) {
-          background: #1B5E3C;
-          color: #FFFFFF;
-          border-color: #10B981;
-          transform: translateY(-1px);
-          box-shadow: 0 5px 14px rgba(20, 69, 47, 0.35);
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.30) 0%, rgba(255, 255, 255, 0.14) 100%);
+          color: #FFFDF0;
+          border-color: #FBBF24;
+          transform: translateY(-2px) scale(1.02);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.42), inset 0 1px 2px rgba(255, 255, 255, 0.7), 0 0 20px rgba(245, 158, 11, 0.5);
         }
         .bio-nav-btn:active:not(:disabled) {
-          transform: translateY(1px);
+          transform: translateY(1px) scale(0.99);
         }
         .bio-nav-btn:disabled {
-          opacity: 0.32;
+          opacity: 0.28;
           cursor: not-allowed;
+          border-color: rgba(255, 255, 255, 0.15);
+          color: rgba(255, 255, 255, 0.45);
           box-shadow: none;
         }
         .bio-cta-btn {
-          background: linear-gradient(135deg, #14452F 0%, #064E3B 100%);
+          background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
           color: #FFFFFF;
-          border: 1.5px solid #10B981;
-          border-radius: 10px;
-          padding: 9px 26px;
+          border: 1.8px solid #FDE68A;
+          border-radius: 12px;
+          padding: 9px 28px;
           font-size: 16px;
           font-weight: 900;
           font-family: 'Outfit', sans-serif;
@@ -563,45 +636,122 @@ export default function Chapter2SloganPage({
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          transition: all 0.2s ease;
-          box-shadow: 0 4px 14px rgba(6, 78, 59, 0.32);
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 4px 18px rgba(217, 119, 6, 0.5), 0 0 16px rgba(245, 158, 11, 0.4);
           position: relative;
+          overflow: hidden;
           z-index: 10;
         }
+        .bio-cta-btn::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 60%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+          transform: skewX(-20deg);
+          transition: 0.5s ease;
+          pointer-events: none;
+        }
+        .bio-cta-btn:hover::before {
+          left: 140%;
+        }
         .bio-cta-btn:hover {
-          background: linear-gradient(135deg, #1B5E3C 0%, #047857 100%);
-          border-color: #34D399;
-          transform: translateY(-1px);
-          box-shadow: 0 6px 18px rgba(6, 78, 59, 0.42);
+          background: linear-gradient(135deg, #FBBF24 0%, #B45309 100%);
+          border-color: #FFFFFF;
+          transform: translateY(-2px) scale(1.02);
+          box-shadow: 0 6px 24px rgba(217, 119, 6, 0.7), 0 0 22px rgba(245, 158, 11, 0.6);
+        }
+        .bio-photo-box {
+          flex: 0 0 65%;
+          width: 65%;
+          height: 100%;
+          border-radius: 24px;
+          overflow: hidden;
+          box-shadow: 0 22px 55px rgba(0, 0, 0, 0.45), inset 0 0 0 2px rgba(212, 175, 55, 0.35);
+          border: 2.5px solid #D4AF37;
+          background: #071A11;
+          position: relative;
+          transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .bio-photo-box:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 28px 65px rgba(0, 0, 0, 0.55), 0 0 30px rgba(245, 158, 11, 0.35), inset 0 0 0 2.5px rgba(245, 158, 11, 0.6);
+          border-color: #F59E0B;
+        }
+        .bio-shloka-box {
+          flex: 0 0 clamp(380px, 35vw, 490px);
+          width: clamp(380px, 35vw, 490px);
+          max-height: 94%;
+          align-self: center;
+          background: rgba(15, 23, 42, 0.38);
+          border: 1.5px solid rgba(255, 255, 255, 0.35);
+          border-radius: 24px;
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), inset 0 1.5px 2px rgba(255, 255, 255, 0.50), 0 0 20px rgba(254, 240, 138, 0.15);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+          padding: clamp(16px, 2.2vh, 26px) clamp(18px, 2vw, 26px);
+          box-sizing: border-box;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          position: relative;
+          overflow: hidden;
+          transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .bio-shloka-box:hover {
+          transform: translateY(-2px);
+          background: rgba(15, 23, 42, 0.48);
+          border-color: rgba(254, 240, 138, 0.75);
+          box-shadow: 0 26px 60px rgba(0, 0, 0, 0.55), inset 0 1.5px 2px rgba(255, 255, 255, 0.65), 0 0 25px rgba(245, 158, 11, 0.30);
+        }
+        .bio-glass-glare {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 45%, rgba(255, 255, 255, 0.08) 100%);
+          pointer-events: none;
+          opacity: 0.4;
+          transition: opacity 0.35s ease;
+          border-radius: inherit;
+          z-index: 5;
+        }
+        .bio-shloka-box:hover .bio-glass-glare,
+        .bio-photo-box:hover .bio-glass-glare {
+          opacity: 0.95;
         }
         .bio-quote-pill {
-          background: #14452F;
-          color: #FFFFFF;
-          border: none;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          color: #FEF3C7;
+          border: 1.5px solid rgba(255, 255, 255, 0.35);
           border-radius: 22px;
           padding: 6px 24px;
           font-family: 'Outfit', sans-serif;
           font-weight: 900;
           font-size: 16px;
-          letter-spacing: 0.06em;
+          letterSpacing: 0.06em;
           text-transform: uppercase;
-          box-shadow: 0 3px 10px rgba(20, 69, 47, 0.28);
+          box-shadow: 0 3px 12px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4);
           display: inline-flex;
           align-items: center;
           justify-content: center;
           gap: 8px;
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: all 0.25s ease;
         }
         .bio-quote-pill:hover {
-          background: #0B3B24;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.12) 100%);
+          border-color: #F59E0B;
           transform: translateY(-1px);
-          box-shadow: 0 4px 14px rgba(20, 69, 47, 0.35);
+          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4), 0 0 16px rgba(245, 158, 11, 0.4);
         }
         .bio-voice-inline-btn {
-          background: #F59E0B;
+          background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
           color: #FFFFFF;
-          border: none;
+          border: 1.5px solid #FDE68A;
           border-radius: 18px;
           padding: 5px 14px;
           font-size: 16px;
@@ -611,12 +761,13 @@ export default function Chapter2SloganPage({
           display: inline-flex;
           align-items: center;
           gap: 6px;
-          box-shadow: 0 2px 8px rgba(217, 119, 6, 0.35);
-          transition: all 0.18s ease;
+          box-shadow: 0 2px 10px rgba(217, 119, 6, 0.4);
+          transition: all 0.2s ease;
         }
         .bio-voice-inline-btn:hover {
-          background: #d97706;
+          background: linear-gradient(135deg, #FBBF24 0%, #B45309 100%);
           transform: translateY(-1px);
+          box-shadow: 0 4px 14px rgba(217, 119, 6, 0.55);
         }
         .bio-fact-column {
           flex: 1 1 50%;
@@ -632,52 +783,149 @@ export default function Chapter2SloganPage({
           min-height: 150px;
           border-radius: 20px;
           overflow: hidden;
-          box-shadow: 0 12px 32px rgba(10, 59, 36, 0.18);
+          box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35), inset 0 0 0 2px rgba(212, 175, 55, 0.35);
           background: #0B3B24;
-          border: 2.5px solid #10B981;
+          border: 2px solid #D4AF37;
           position: relative;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .bio-fact-image-frame:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 20px 42px rgba(0, 0, 0, 0.45), 0 0 24px rgba(245, 158, 11, 0.35);
+          border-color: #F59E0B;
         }
         .bio-fact-card {
-          background: linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%);
-          border: 2px solid #194720;
+          background: rgba(15, 23, 42, 0.45);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+          border: 1.8px solid #D4AF37;
           border-radius: 20px;
-          box-shadow: 0 10px 28px rgba(15, 74, 50, 0.14), inset 0 0 0 2px rgba(45, 106, 79, 0.10);
+          box-shadow: 0 14px 36px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
           padding: clamp(12px, 1.6vh, 18px) clamp(16px, 1.8vw, 22px);
           display: flex;
           flex-direction: column;
-          justifyContent: space-between;
+          justify-content: space-between;
           flex: 0 0 auto;
           text-align: justify;
           text-justify: inter-word;
           box-sizing: border-box;
           position: relative;
           overflow: hidden;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .bio-fact-card:hover {
+          transform: translateY(-2px);
+          background: rgba(15, 23, 42, 0.55);
+          border-color: #F59E0B;
+          box-shadow: 0 20px 45px rgba(0, 0, 0, 0.55), 0 0 22px rgba(245, 158, 11, 0.35);
         }
       `}</style>
 
       {/* ============================================================ */}
-      {/* TOP HEADER: EXACT MATCH TO REFERENCE POSTER DESIGN           */}
+      {/* FULLSCREEN LIVING ECOSYSTEM BACKGROUND IMAGE                 */}
       {/* ============================================================ */}
       <div style={{
-        position: 'relative',
-        width: '100%',
-        maxWidth: '1380px',
-        textAlign: 'center',
-        flexShrink: 0,
-        marginBottom: 'clamp(3px, 0.7vh, 8px)',
-        zIndex: 20
+        position: 'absolute',
+        inset: 0,
+        zIndex: 0,
+        overflow: 'hidden',
+        pointerEvents: 'none',
+        backgroundColor: '#04130B'
       }}>
-        {/* Top Right Controls: Voiceover (Pages 2-3) & Fullscreen Button */}
+        <img
+          src={cinematicLivingNatureImage}
+          alt="Living Ecosystem - Diversity in the Living World"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center center',
+            display: 'block',
+            imageRendering: '-webkit-optimize-contrast',
+            imageRendering: 'high-quality',
+            transform: 'translateZ(0)',
+            backfaceVisibility: 'hidden'
+          }}
+        />
+        {/* Soft atmospheric gradient only on Pages 2 and 3 */}
+        {currentPage > 1 && (
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to right, rgba(0, 0, 0, 0.35) 0%, rgba(10, 20, 15, 0.6) 100%)',
+            pointerEvents: 'none'
+          }} />
+        )}
+      </div>
+
+      {/* Floating Fullscreen Button for Page 1 (where title header is hidden) */}
+      {currentPage === 1 && (
         <div style={{
           position: 'absolute',
-          right: 0,
-          top: '2px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          zIndex: 30
+          top: '16px',
+          right: '20px',
+          zIndex: 35
         }}>
-          {currentPage > 1 && (
+          <button
+            type="button"
+            onClick={toggleFullscreen}
+            title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+            style={{
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              color: '#FEF3C7',
+              border: '1.8px solid rgba(255, 255, 255, 0.35)',
+              borderRadius: '10px',
+              padding: '8px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 0 10px rgba(245, 158, 11, 0.15)',
+              transition: 'all 0.25s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = '#F59E0B';
+              e.currentTarget.style.boxShadow = '0 6px 20px rgba(245, 158, 11, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.7)';
+              e.currentTarget.style.transform = 'scale(1.06)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.35)';
+              e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 0 10px rgba(245, 158, 11, 0.15)';
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+          >
+            {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+          </button>
+        </div>
+      )}
+
+      {/* ============================================================ */}
+      {/* TOP HEADER: VISIBLE ON PAGES 2 & 3 ("Why Study This Chapter?")*/}
+      {/* ============================================================ */}
+      {currentPage > 1 && (
+        <div style={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: '1380px',
+          textAlign: 'center',
+          flexShrink: 0,
+          marginBottom: 'clamp(3px, 0.7vh, 8px)',
+          zIndex: 20
+        }}>
+          {/* Top Right Controls: Voiceover & Fullscreen Button */}
+          <div style={{
+            position: 'absolute',
+            right: 0,
+            top: '2px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            zIndex: 30
+          }}>
             <button
               type="button"
               className="bio-voice-inline-btn"
@@ -692,97 +940,118 @@ export default function Chapter2SloganPage({
               {isPlayingWhyStudyAudio ? <VolumeX size={16} /> : <Volume2 size={16} />}
               <span>{isPlayingWhyStudyAudio ? 'Stop' : 'Voiceover'}</span>
             </button>
-          )}
 
-          <button
-            type="button"
-            onClick={toggleFullscreen}
-            title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
-            style={{
-              background: 'rgba(6, 78, 59, 0.90)',
-              backdropFilter: 'blur(8px)',
-              color: '#D1FAE5',
-              border: '1.5px solid #10B981',
-              borderRadius: '10px',
-              padding: '8px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'all 0.18s ease'
-            }}
-          >
-            {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
-          </button>
-        </div>
-
-        {/* Top Badges: CLASS 6 • SCIENCE and CHAPTER 2 (matching reference image) */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '12px',
-          marginBottom: '2px'
-        }}>
-          <div style={{
-            background: '#14452F',
-            color: '#FFFFFF',
-            borderRadius: '22px',
-            padding: '4px 20px',
-            fontFamily: '"Outfit", sans-serif',
-            fontWeight: 900,
-            fontSize: '16px',
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            boxShadow: '0 2px 8px rgba(20, 69, 47, 0.28)'
-          }}>
-            CLASS 6 • SCIENCE
+            <button
+              type="button"
+              onClick={toggleFullscreen}
+              title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+              style={{
+                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                color: '#FEF3C7',
+                border: '1.8px solid rgba(255, 255, 255, 0.35)',
+                borderRadius: '10px',
+                padding: '8px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 0 10px rgba(245, 158, 11, 0.15)',
+                transition: 'all 0.25s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = '#F59E0B';
+                e.currentTarget.style.boxShadow = '0 6px 20px rgba(245, 158, 11, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.7)';
+                e.currentTarget.style.transform = 'scale(1.06)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.35)';
+                e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 0 10px rgba(245, 158, 11, 0.15)';
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
+            >
+              {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+            </button>
           </div>
+
+          {/* Top Badges: CLASS 6 • SCIENCE and CHAPTER 2 */}
           <div style={{
-            background: '#14452F',
-            color: '#FFFFFF',
-            borderRadius: '22px',
-            padding: '4px 20px',
-            fontFamily: '"Outfit", sans-serif',
-            fontWeight: 900,
-            fontSize: '16px',
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            boxShadow: '0 2px 8px rgba(20, 69, 47, 0.28)'
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '10px',
+            marginBottom: '6px'
           }}>
-            CHAPTER 2
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              color: '#FEF3C7',
+              border: '1.5px solid rgba(255, 255, 255, 0.35)',
+              borderRadius: '20px',
+              padding: '4px 18px',
+              fontFamily: '"Outfit", sans-serif',
+              fontWeight: 800,
+              fontSize: '13px',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 0 12px rgba(245, 158, 11, 0.2)',
+              textShadow: '0 1px 3px rgba(0, 0, 0, 0.65)'
+            }}>
+              CLASS 6 • SCIENCE
+            </div>
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              color: '#FEF3C7',
+              border: '1.5px solid rgba(255, 255, 255, 0.35)',
+              borderRadius: '20px',
+              padding: '4px 18px',
+              fontFamily: '"Outfit", sans-serif',
+              fontWeight: 800,
+              fontSize: '13px',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 0 12px rgba(245, 158, 11, 0.2)',
+              textShadow: '0 1px 3px rgba(0, 0, 0, 0.65)'
+            }}>
+              CHAPTER 2
+            </div>
           </div>
-        </div>
 
-        {/* Main Title flanked by graceful Leafy Vine Branches */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '14px'
-        }}>
-          <TitleVineBranch side="left" />
-          <h1 style={{
-            fontFamily: '"Fraunces", Georgia, serif',
-            fontWeight: 900,
-            fontSize: '24px',
-            color: '#0A3B24',
-            margin: 0,
-            lineHeight: 1.12,
-            letterSpacing: '-0.02em',
-            textShadow: '0 2px 6px rgba(10, 59, 36, 0.10)'
+          {/* Main Title Flanked by Golden Vines */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '12px'
           }}>
-            {currentPage === 1 ? title : "Why Study This Chapter?"}
-          </h1>
-          <TitleVineBranch side="right" />
+            <TitleVineBranch side="left" />
+            <h1 style={{
+              fontFamily: '"Fraunces", Georgia, serif',
+              fontWeight: 900,
+              fontSize: 'clamp(26px, 2.3vw, 34px)',
+              background: 'linear-gradient(135deg, #FFFFFF 0%, #FEF08A 25%, #F59E0B 65%, #D97706 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              margin: 0,
+              lineHeight: 1.15,
+              letterSpacing: '-0.02em',
+              filter: 'drop-shadow(0 2px 10px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 22px rgba(245, 158, 11, 0.45))'
+            }}>
+              Why Study This Chapter?
+            </h1>
+            <TitleVineBranch side="right" />
+          </div>
+          <TitleSprout />
         </div>
-
-        {/* Sprout motif centered below the title */}
-        <TitleSprout />
-      </div>
+      )}
 
       {/* ============================================================ */}
-      {/* PAGE 1: EXACT SLOGAN THEME MATCHING REFERENCE POSTER         */}
+      {/* PAGE 1: FULLSCREEN LIVING ECOSYSTEM WITH SANSKRIT SLOGAN     */}
+      {/* (NO POP-UP BOX, NO TITLE, INTERACTIVE AUDIO HOTSPOTS)        */}
       {/* ============================================================ */}
       {currentPage === 1 && (
         <div
@@ -790,163 +1059,82 @@ export default function Chapter2SloganPage({
           style={{
             position: 'relative',
             width: '100%',
-            maxWidth: '1380px',
+            height: '100%',
             flex: '1 1 auto',
             minHeight: 0,
-            display: 'flex',
-            alignItems: 'stretch',
-            gap: 'clamp(14px, 1.8vw, 24px)',
             overflow: 'hidden',
             zIndex: 10
           }}
         >
-          {/* LEFT 66%: PURE 8K REALISTIC LIVING WORLD & TREE VIGNETTES */}
-          <div style={{
-            flex: '0 0 66%',
-            width: '66%',
-            height: '100%',
-            borderRadius: '20px',
-            overflow: 'hidden',
-            boxShadow: '0 14px 38px rgba(10, 59, 36, 0.22)',
-            border: '2.5px solid #10B981',
-            background: '#0B3B24',
-            position: 'relative'
-          }}>
-            <img
-              src={sloganFamilyTree8kImage}
-              alt="Ancient fruit tree shading family, biodiversity vignettes, peacock, deer, kingfisher, and lotus pond"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                objectPosition: 'center center',
-                display: 'block',
-                imageRendering: 'high-quality'
-              }}
-            />
-          </div>
+          {/* Sanskrit Shloka Audio Hotspot Button over the image button */}
+          <button
+            type="button"
+            onClick={toggleSloganAudio}
+            title={isPlayingSloganAudio ? "Click to Pause Sanskrit Recitation" : "Click to Listen to Sanskrit Shloka"}
+            aria-label="Play Sanskrit Shloka Audio"
+            style={{
+              position: 'absolute',
+              left: '63.0%',
+              top: '7.2%',
+              width: '26.0%',
+              height: '5.8%',
+              borderRadius: '30px',
+              background: isPlayingSloganAudio ? 'rgba(245, 158, 11, 0.22)' : 'transparent',
+              border: isPlayingSloganAudio ? '2px solid rgba(254, 240, 138, 0.9)' : '2px solid transparent',
+              boxShadow: isPlayingSloganAudio ? '0 0 22px rgba(245, 158, 11, 0.7), inset 0 0 10px rgba(254, 240, 138, 0.4)' : 'none',
+              cursor: 'pointer',
+              zIndex: 25,
+              transition: 'all 0.25s ease',
+              outline: 'none'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.border = '2px solid rgba(254, 240, 138, 0.8)';
+              e.currentTarget.style.boxShadow = '0 0 16px rgba(245, 158, 11, 0.5)';
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+            }}
+            onMouseLeave={(e) => {
+              if (!isPlayingSloganAudio) {
+                e.currentTarget.style.border = '2px solid transparent';
+                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.background = 'transparent';
+              }
+            }}
+          />
 
-          {/* RIGHT 34%: BOTANICAL PARCHMENT SCROLL CARD EXACTLY LIKE IMAGE 2 */}
-          <div style={{
-            flex: '1 1 34%',
-            width: '34%',
-            height: '100%',
-            background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
-            border: '2px solid #194720',
-            borderRadius: '20px',
-            boxShadow: '0 12px 36px rgba(15, 74, 50, 0.18), inset 0 0 0 2px rgba(45, 106, 79, 0.12)',
-            padding: 'clamp(14px, 2vh, 22px) clamp(16px, 1.8vw, 22px)',
-            boxSizing: 'border-box',
-            textAlign: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            position: 'relative',
-            overflow: 'hidden'
-          }}>
-            {/* 4 Corner Leaf Sprigs matching the reference poster */}
-            <CardCornerLeaves position="top-left" />
-            <CardCornerLeaves position="top-right" />
-            <CardCornerLeaves position="bottom-left" />
-            <CardCornerLeaves position="bottom-right" />
-
-            {/* TOP SECTION: SANSKRIT QUOTE */}
-            <div style={{ position: 'relative', zIndex: 10 }}>
-              {/* Centered SANSKRIT QUOTE Pill with Book Icon */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '8px' }}>
-                <button
-                  type="button"
-                  className="bio-quote-pill"
-                  onClick={toggleSloganAudio}
-                  title="Click to Listen to Sanskrit Shloka recitation"
-                >
-                  <span>SANSKRIT QUOTE</span>
-                  <span style={{ fontSize: '18px' }}>📖</span>
-                  {isPlayingSloganAudio && <Volume2 size={16} color="#FDE68A" />}
-                </button>
-              </div>
-
-              {/* Sanskrit Verse in Authentic Devanagari */}
-              <div style={{
-                fontFamily: '"Tiro Devanagari Sanskrit", "Noto Serif Devanagari", Georgia, serif',
-                fontWeight: 800,
-                fontSize: '21px',
-                color: '#0A3B24',
-                letterSpacing: '0.01em',
-                lineHeight: 1.48,
-                marginTop: '4px',
-                marginBottom: '4px'
-              }}>
-                छायामन्यस्य कुर्वन्ति तिष्ठन्ति स्वयमातपे ।<br />
-                फलान्यपि परार्थाय वृक्षाः सत्पुरुषा इव ॥
-              </div>
-
-              {/* Subhashita reference */}
-              <div style={{
-                fontFamily: '"Tiro Devanagari Sanskrit", serif',
-                fontSize: '16px',
-                color: '#2D6A4F',
-                fontWeight: 700,
-                marginBottom: '4px'
-              }}>
-                (सुभाषितम्)
-              </div>
-            </div>
-
-            {/* ORNATE BOTANICAL DIVIDER (horizontal line with central leaves) */}
-            <div style={{ position: 'relative', zIndex: 10 }}>
-              <CardLeafDivider />
-            </div>
-
-            {/* BOTTOM SECTION: MEANING */}
-            <div style={{ position: 'relative', zIndex: 10 }}>
-              {/* Centered MEANING Pill with Book Icon */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '8px' }}>
-                <button
-                  type="button"
-                  className="bio-quote-pill"
-                  onClick={toggleMeaningAudio}
-                  title="Click to Listen to English Meaning narration"
-                >
-                  <span style={{ fontSize: '18px' }}>📖</span>
-                  <span>MEANING</span>
-                  {isPlayingMeaningAudio && <Volume2 size={16} color="#FDE68A" />}
-                </button>
-              </div>
-
-              {/* English Translation in Fraunces Italic */}
-              <div style={{
-                fontFamily: '"Fraunces", Georgia, serif',
-                fontStyle: 'italic',
-                fontWeight: 600,
-                fontSize: '18px',
-                color: '#0F3822',
-                lineHeight: 1.65,
-                margin: '6px 0 8px 0',
-                textAlign: 'justify',
-                textJustify: 'inter-word'
-              }}>
-                “Trees stand in the Sun and give shade to others. Their fruits are also for others. Likewise, good people bear all hardships and bring welfare to others. They give to others whatever they have earned.”
-              </div>
-            </div>
-
-            {/* FOOTER: (Wise saying) aligned to right matching reference image */}
-            <div style={{
-              position: 'relative',
-              zIndex: 10,
-              textAlign: 'right',
-              paddingRight: '6px',
-              fontFamily: '"Fraunces", Georgia, serif',
-              fontStyle: 'italic',
-              fontWeight: 700,
-              fontSize: '16px',
-              color: '#2D6A4F',
-              letterSpacing: '0.02em',
-              marginTop: '4px'
-            }}>
-              (Wise saying)
-            </div>
-          </div>
+          {/* English Meaning Audio Hotspot Button over the image button */}
+          <button
+            type="button"
+            onClick={toggleMeaningAudio}
+            title={isPlayingMeaningAudio ? "Click to Pause English Meaning Narration" : "Click to Listen to English Meaning"}
+            aria-label="Play English Meaning Audio"
+            style={{
+              position: 'absolute',
+              left: '63.0%',
+              top: '49.2%',
+              width: '26.0%',
+              height: '5.8%',
+              borderRadius: '30px',
+              background: isPlayingMeaningAudio ? 'rgba(245, 158, 11, 0.22)' : 'transparent',
+              border: isPlayingMeaningAudio ? '2px solid rgba(254, 240, 138, 0.9)' : '2px solid transparent',
+              boxShadow: isPlayingMeaningAudio ? '0 0 22px rgba(245, 158, 11, 0.7), inset 0 0 10px rgba(254, 240, 138, 0.4)' : 'none',
+              cursor: 'pointer',
+              zIndex: 25,
+              transition: 'all 0.25s ease',
+              outline: 'none'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.border = '2px solid rgba(254, 240, 138, 0.8)';
+              e.currentTarget.style.boxShadow = '0 0 16px rgba(245, 158, 11, 0.5)';
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+            }}
+            onMouseLeave={(e) => {
+              if (!isPlayingMeaningAudio) {
+                e.currentTarget.style.border = '2px solid transparent';
+                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.background = 'transparent';
+              }
+            }}
+          />
         </div>
       )}
 
@@ -997,8 +1185,9 @@ export default function Chapter2SloganPage({
                     marginBottom: '6px'
                   }}>
                     <span style={{
-                      background: '#14452F',
+                      background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                       color: '#FFFFFF',
+                      border: '1.2px solid #FDE68A',
                       padding: '4px 18px',
                       borderRadius: '20px',
                       fontFamily: '"Outfit", sans-serif',
@@ -1006,7 +1195,7 @@ export default function Chapter2SloganPage({
                       fontSize: '16px',
                       letterSpacing: '0.06em',
                       textTransform: 'uppercase',
-                      boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
+                      boxShadow: '0 2px 8px rgba(217, 119, 6, 0.4)'
                     }}>
                       {fact.badge}
                     </span>
@@ -1016,19 +1205,20 @@ export default function Chapter2SloganPage({
                   <h4 style={{
                     fontFamily: '"Fraunces", Georgia, serif',
                     fontWeight: 900,
-                    color: '#0A3B24',
+                    color: '#FBBF24',
                     fontSize: '22px',
                     margin: '6px 0 6px 0',
-                    lineHeight: 1.2
+                    lineHeight: 1.2,
+                    textShadow: '0 2px 8px rgba(0, 0, 0, 0.8)'
                   }}>
                     {fact.title}
                   </h4>
 
                   <div style={{
                     height: '1.5px',
-                    background: 'linear-gradient(90deg, transparent, #2D6A4F, transparent)',
+                    background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)',
                     margin: '6px 0 8px 0',
-                    opacity: 0.5
+                    opacity: 0.6
                   }} />
                 </div>
 
@@ -1037,12 +1227,13 @@ export default function Chapter2SloganPage({
                   zIndex: 5,
                   fontFamily: '"Plus Jakarta Sans", system-ui, -apple-system, sans-serif',
                   fontWeight: 600,
-                  color: '#0F3822',
+                  color: '#F8FAFC',
                   fontSize: '16px',
                   lineHeight: 1.55,
                   margin: 0,
                   textAlign: 'justify',
-                  textJustify: 'inter-word'
+                  textJustify: 'inter-word',
+                  textShadow: '0 1px 4px rgba(0, 0, 0, 0.8)'
                 }}>
                   {fact.desc}
                 </p>
@@ -1099,8 +1290,9 @@ export default function Chapter2SloganPage({
                     marginBottom: '6px'
                   }}>
                     <span style={{
-                      background: '#14452F',
+                      background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                       color: '#FFFFFF',
+                      border: '1.2px solid #FDE68A',
                       padding: '4px 18px',
                       borderRadius: '20px',
                       fontFamily: '"Outfit", sans-serif',
@@ -1108,7 +1300,7 @@ export default function Chapter2SloganPage({
                       fontSize: '16px',
                       letterSpacing: '0.06em',
                       textTransform: 'uppercase',
-                      boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
+                      boxShadow: '0 2px 8px rgba(217, 119, 6, 0.4)'
                     }}>
                       {fact.badge}
                     </span>
@@ -1118,19 +1310,20 @@ export default function Chapter2SloganPage({
                   <h4 style={{
                     fontFamily: '"Fraunces", Georgia, serif',
                     fontWeight: 900,
-                    color: '#0A3B24',
+                    color: '#FBBF24',
                     fontSize: '22px',
                     margin: '6px 0 6px 0',
-                    lineHeight: 1.2
+                    lineHeight: 1.2,
+                    textShadow: '0 2px 8px rgba(0, 0, 0, 0.8)'
                   }}>
                     {fact.title}
                   </h4>
 
                   <div style={{
                     height: '1.5px',
-                    background: 'linear-gradient(90deg, transparent, #2D6A4F, transparent)',
+                    background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)',
                     margin: '6px 0 8px 0',
-                    opacity: 0.5
+                    opacity: 0.6
                   }} />
                 </div>
 
@@ -1139,12 +1332,13 @@ export default function Chapter2SloganPage({
                   zIndex: 5,
                   fontFamily: '"Plus Jakarta Sans", system-ui, -apple-system, sans-serif',
                   fontWeight: 600,
-                  color: '#0F3822',
+                  color: '#F8FAFC',
                   fontSize: '16px',
                   lineHeight: 1.55,
                   margin: 0,
                   textAlign: 'justify',
-                  textJustify: 'inter-word'
+                  textJustify: 'inter-word',
+                  textShadow: '0 1px 4px rgba(0, 0, 0, 0.8)'
                 }}>
                   {fact.desc}
                 </p>
@@ -1158,17 +1352,20 @@ export default function Chapter2SloganPage({
       {/* BOTTOM NAVIGATION BAR: MATCHING REFERENCE POSTER DESIGN      */}
       {/* ============================================================ */}
       <div style={{
-        width: '100%',
+        width: currentPage === 1 ? 'calc(100% - 48px)' : '100%',
         maxWidth: '1380px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         flexShrink: 0,
-        marginTop: 'clamp(6px, 1.2vh, 12px)',
+        marginTop: currentPage === 1 ? '0' : 'clamp(6px, 1.2vh, 12px)',
         padding: '0 4px',
         boxSizing: 'border-box',
-        position: 'relative',
-        zIndex: 20
+        position: currentPage === 1 ? 'absolute' : 'relative',
+        bottom: currentPage === 1 ? '16px' : 'auto',
+        left: currentPage === 1 ? '50%' : 'auto',
+        transform: currentPage === 1 ? 'translateX(-50%)' : 'none',
+        zIndex: 25
       }}>
         {/* Left Navigation Buttons */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -1201,43 +1398,49 @@ export default function Chapter2SloganPage({
           gap: '2px'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
-            <svg width="22" height="15" viewBox="0 0 24 16" fill="none" style={{ transform: 'scaleX(-1)' }}>
-              <path d="M2 14 C8 12, 16 10, 22 2 C18 8, 12 12, 2 14 Z" fill="#2D6A4F" />
-              <path d="M6 10 C10 6, 16 4, 22 2 C18 8, 12 10, 6 10 Z" fill="#52B788" />
+            <svg width="22" height="15" viewBox="0 0 24 16" fill="none" style={{ transform: 'scaleX(-1)', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))' }}>
+              <path d="M2 14 C8 12, 16 10, 22 2 C18 8, 12 12, 2 14 Z" fill="#D97706" />
+              <path d="M6 10 C10 6, 16 4, 22 2 C18 8, 12 10, 6 10 Z" fill="#F59E0B" />
             </svg>
             <div style={{
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: '24px',
-              height: '24px',
+              width: '26px',
+              height: '26px',
               borderRadius: '50%',
-              background: '#EAF7EE',
-              border: '1.8px solid #14452F',
-              boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.08) 100%)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              border: '1.8px solid rgba(255, 255, 255, 0.45)',
+              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5), 0 0 10px rgba(245, 158, 11, 0.3)'
             }}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#14452F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FEF3C7" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10" />
                 <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
                 <path d="M2 12h20" />
               </svg>
             </div>
-            <svg width="22" height="15" viewBox="0 0 24 16" fill="none">
-              <path d="M2 14 C8 12, 16 10, 22 2 C18 8, 12 12, 2 14 Z" fill="#2D6A4F" />
-              <path d="M6 10 C10 6, 16 4, 22 2 C18 8, 12 10, 6 10 Z" fill="#52B788" />
+            <svg width="22" height="15" viewBox="0 0 24 16" fill="none" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))' }}>
+              <path d="M2 14 C8 12, 16 10, 22 2 C18 8, 12 12, 2 14 Z" fill="#D97706" />
+              <path d="M6 10 C10 6, 16 4, 22 2 C18 8, 12 10, 6 10 Z" fill="#F59E0B" />
             </svg>
           </div>
 
           <div style={{
-            background: '#14452F',
-            color: '#FFFFFF',
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            color: '#FFFBEB',
+            border: '1.5px solid rgba(255, 255, 255, 0.35)',
             borderRadius: '20px',
-            padding: '4px 20px',
+            padding: '4px 22px',
             fontFamily: '"Outfit", sans-serif',
             fontWeight: 900,
             fontSize: '16px',
             letterSpacing: '0.05em',
-            boxShadow: '0 3px 10px rgba(20, 69, 47, 0.32)'
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.35), 0 0 12px rgba(245, 158, 11, 0.25)',
+            textShadow: '0 1px 3px rgba(0, 0, 0, 0.65)'
           }}>
             Page {currentPage} / {TOTAL_PAGES}
           </div>

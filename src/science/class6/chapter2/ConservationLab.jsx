@@ -114,9 +114,9 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
-      background: '#FAF8F2',
+      background: 'rgba(250, 248, 242, 0.55)',
       borderRadius: '20px',
-      border: '2px solid #14452F',
+      border: '2px solid rgba(20, 69, 47, 0.5)',
       padding: '16px 22px 14px',
       boxSizing: 'border-box',
       overflow: 'hidden',
@@ -147,7 +147,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
             alignItems: 'center',
             gap: '6px',
             padding: '7px 16px',
-            background: isSpeaking ? '#fee2e2' : '#FAF8F2',
+            background: isSpeaking ? '#fee2e2' : 'rgba(250, 248, 242, 0.55)',
             border: `1.8px solid ${isSpeaking ? '#ef4444' : '#14452F'}`,
             borderRadius: '10px',
             color: isSpeaking ? '#991b1b' : '#14452F',
@@ -189,7 +189,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
                 padding: '8px 12px',
                 borderRadius: '12px',
                 border: `1.8px solid #14452F`,
-                background: isSelected ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)' : '#F5F1E5',
+                background: isSelected ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)' : 'rgba(245, 241, 229, 0.6)',
                 cursor: 'pointer',
                 textAlign: 'left',
                 boxShadow: isSelected ? '0 4px 14px rgba(20, 69, 47, 0.3)' : 'none',
@@ -219,8 +219,8 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
       }}>
         {/* Left Column: Visual Image Poster */}
         <div style={{
-          background: '#FAF8F2',
-          border: '2px solid #14452F',
+          background: 'rgba(250, 248, 242, 0.55)',
+          border: '2px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '16px',
           padding: '16px 18px',
           display: 'flex',
@@ -271,8 +271,8 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
 
         {/* Right Column: Detailed Scientific Highlights */}
         <div style={{
-          background: '#FAF8F2',
-          border: '2px solid #14452F',
+          background: 'rgba(250, 248, 242, 0.55)',
+          border: '2px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '16px',
           padding: '18px 20px',
           display: 'flex',
@@ -313,7 +313,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
                   <div
                     key={hIdx}
                     style={{
-                      background: '#F5F1E5',
+                      background: 'rgba(245, 241, 229, 0.6)',
                       border: '1.5px solid #14452F',
                       borderRadius: '10px',
                       padding: '10px 14px',
@@ -347,7 +347,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
                 fontSize: '16px',
                 fontWeight: '800',
                 border: '1.8px solid #14452F',
-                background: '#FAF8F2',
+                background: 'rgba(250, 248, 242, 0.55)',
                 color: activeTopicIndex === 0 ? '#94a3b8' : '#14452F',
                 cursor: activeTopicIndex === 0 ? 'default' : 'pointer'
               }}
@@ -364,7 +364,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
                 fontSize: '16px',
                 fontWeight: '800',
                 border: '1.8px solid #14452F',
-                background: '#FAF8F2',
+                background: 'rgba(250, 248, 242, 0.55)',
                 color: activeTopicIndex === CONSERVATION_TOPICS.length - 1 ? '#94a3b8' : '#14452F',
                 cursor: activeTopicIndex === CONSERVATION_TOPICS.length - 1 ? 'default' : 'pointer'
               }}
@@ -391,7 +391,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
             alignItems: 'center',
             gap: '8px',
             padding: '8px 16px',
-            background: '#FAF8F2',
+            background: 'rgba(250, 248, 242, 0.55)',
             border: '1.8px solid #14452F',
             borderRadius: '10px',
             color: '#14452F',

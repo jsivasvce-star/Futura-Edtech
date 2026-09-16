@@ -602,7 +602,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
 
 
   return (
-    <div style={{ flex: 1, minHeight: 0, height: '100%', display: 'flex', flexDirection: 'column', background: 'transparent', color: '#14452F', fontFamily: '"Outfit", sans-serif', overflow: 'hidden', padding: '0.6rem', boxSizing: 'border-box' }}>
+    <div style={{ flex: 1, minHeight: 0, height: '100%', display: 'flex', flexDirection: 'column', background: 'transparent', color: '#F8FAFC', fontFamily: '"Outfit", sans-serif', overflow: 'hidden', padding: '0.6rem', boxSizing: 'border-box' }}>
       <style>{`
         /* Botanical Slogan-Style Bottom Navigation Buttons */
         .bio-nav-btn {
@@ -748,11 +748,13 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F0E4 50%, #ECE4D0 100%)',
-          border: '2.5px solid #14452F',
+          background: 'rgba(15, 23, 42, 0.50)',
+          backdropFilter: 'blur(18px)',
+          WebkitBackdropFilter: 'blur(18px)',
+          border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           padding: '0.45rem 1.4rem 0.4rem',
-          boxShadow: '0 16px 40px rgba(20, 69, 47, 0.15)',
+          boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',
           boxSizing: 'border-box',
           overflow: 'hidden',
           position: 'relative'
@@ -779,9 +781,9 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
             <button
               onClick={onBackToDashboard}
               style={{
-                background: '#FAF8F2',
-                border: '2px solid #14452F',
-                color: '#14452F',
+                background: 'rgba(15, 23, 42, 0.50)',
+                border: '2px solid #D4AF37',
+                color: '#F8FAFC',
                 borderRadius: '12px',
                 padding: '5px 14px',
                 fontSize: '16px',
@@ -805,7 +807,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                 <div style={{
                   fontSize: '24px',
                   fontWeight: '900',
-                  color: '#14452F',
+                  color: '#FBBF24',
                   fontFamily: '"Fraunces", Georgia, serif',
                   textAlign: 'center',
                   letterSpacing: '-0.3px',
@@ -840,9 +842,9 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                 type="button"
                 onClick={() => setIsMuted(m => !m)}
                 style={{
-                  background: '#FAF8F2',
-                  border: '2px solid #14452F',
-                  color: '#14452F',
+                  background: 'rgba(15, 23, 42, 0.50)',
+                  border: '2px solid #D4AF37',
+                  color: '#F8FAFC',
                   padding: '5px 12px',
                   borderRadius: '12px',
                   cursor: 'pointer',
@@ -861,9 +863,9 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
               <button
                 onClick={handleReset}
                 style={{
-                  background: '#FAF8F2',
-                  border: '2px solid #14452F',
-                  color: '#14452F',
+                  background: 'rgba(15, 23, 42, 0.50)',
+                  border: '2px solid #D4AF37',
+                  color: '#F8FAFC',
                   padding: '5px 14px',
                   borderRadius: '12px',
                   cursor: 'pointer',
@@ -886,8 +888,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
             display: 'flex',
             alignItems: 'center',
             gap: '14px',
-            background: '#FAF8F2',
-            border: '2px solid #14452F',
+            background: 'rgba(15, 23, 42, 0.50)',
+            border: '2px solid #D4AF37',
             borderRadius: '16px',
             padding: '7px 14px',
             margin: '0.3rem 0 0.4rem 0',
@@ -901,7 +903,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
               height: '62px',
               borderRadius: '10px',
               overflow: 'hidden',
-              border: '1.8px solid #14452F',
+              border: '1.8px solid #D4AF37',
               flexShrink: 0,
               position: 'relative',
               boxShadow: '0 2px 8px rgba(0,0,0,0.12)'
@@ -945,7 +947,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                 }}
               >
                 <div>
-                  <div style={{ fontSize: '18px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif' }}>
+                  <div style={{ fontSize: '18px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                     🥕 Taproot System (Mustard, Hibiscus, Marigold)
                   </div>
                   <div style={{ fontSize: '16px', color: '#1E293B', fontWeight: '600', marginTop: '1px' }}>
@@ -955,7 +957,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                 <div style={{
                   background: activeFilter === 'taproot' ? '#10B981' : '#EAF7EE',
                   color: activeFilter === 'taproot' ? '#FFFFFF' : '#14452F',
-                  border: '1.5px solid #10B981',
+                  border: '1.8px solid #FDE68A',
                   borderRadius: '8px',
                   padding: '3px 8px',
                   fontSize: '16px',
@@ -988,7 +990,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                 }}
               >
                 <div>
-                  <div style={{ fontSize: '18px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif' }}>
+                  <div style={{ fontSize: '18px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                     🌾 Fibrous Root System (Common Grass, Wheat)
                   </div>
                   <div style={{ fontSize: '16px', color: '#1E293B', fontWeight: '600', marginTop: '1px' }}>
@@ -1085,7 +1087,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                       height: '118px',
                       borderRadius: '14px',
                       background: 'linear-gradient(180deg, #FAF4E8 0%, #EDE4D0 60%, #E2D7BE 100%)',
-                      border: '1.8px solid #14452F',
+                      border: '1.8px solid #D4AF37',
                       position: 'relative',
                       display: 'flex',
                       alignItems: 'center',
@@ -1164,7 +1166,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                         <span style={{
                           fontSize: '18px',
                           fontWeight: 900,
-                          color: '#14452F',
+                          color: '#F8FAFC',
                           fontFamily: '"Fraunces", Georgia, serif',
                           whiteSpace: 'nowrap'
                         }}>
@@ -1205,8 +1207,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                     {isCheckedTrue ? (
                       <div style={{
                         background: '#EAF7EE',
-                        color: '#14452F',
-                        border: '1.5px solid #10B981',
+                        color: '#F8FAFC',
+                        border: '1.8px solid #FDE68A',
                         padding: '7px 10px',
                         borderRadius: '10px',
                         fontSize: '16px',
@@ -1251,11 +1253,11 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                           width: '100%',
                           padding: '8px 0',
                           borderRadius: '10px',
-                          background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+                          background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                           color: '#ffffff',
                           fontWeight: '900',
                           fontSize: '16px',
-                          border: '1.5px solid #10B981',
+                          border: '1.8px solid #FDE68A',
                           cursor: 'pointer',
                           boxShadow: '0 3px 10px rgba(20, 69, 47, 0.3)',
                           display: 'flex',
@@ -1329,7 +1331,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                   height: '24px',
                   borderRadius: '50%',
                   background: '#EAF7EE',
-                  border: '1.8px solid #14452F',
+                  border: '1.8px solid #D4AF37',
                   boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
                 }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#14452F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -1359,7 +1361,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                 gap: '8px'
               }}>
                 <span>Activity 2.6 · {doneCount} of {PLANTS.length} Roots Identified</span>
-                <div style={{ width: '60px', height: 6, background: 'rgba(255, 255, 255, 0.25)', borderRadius: 3, overflow: 'hidden' }}>
+                <div style={{ width: '60px', height: 6, background: 'rgba(15, 23, 42, 0.45)', borderRadius: 3, overflow: 'hidden' }}>
                   <div style={{ height: '100%', background: '#34D399', width: `${(doneCount / PLANTS.length) * 100}%`, transition: 'width 0.4s' }} />
                 </div>
               </div>
@@ -1392,10 +1394,12 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
-          border: '2.5px solid #14452F',
+          background: 'rgba(15, 23, 42, 0.50)',
+          backdropFilter: 'blur(18px)',
+          WebkitBackdropFilter: 'blur(18px)',
+          border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
-          boxShadow: '0 16px 40px rgba(20, 69, 47, 0.15)',
+          boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',
           boxSizing: 'border-box',
           overflow: 'hidden',
           position: 'relative',
@@ -1422,9 +1426,9 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                 type="button"
                 onClick={() => { rootLabAudio.playSwitch(isMuted); setSubPage(1); }}
                 style={{
-                  background: '#FAF8F2',
-                  border: '2px solid #14452F',
-                  color: '#14452F',
+                  background: 'rgba(15, 23, 42, 0.50)',
+                  border: '2px solid #D4AF37',
+                  color: '#F8FAFC',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
@@ -1446,7 +1450,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                 <div style={{
                   fontSize: '20px',
                   fontWeight: '900',
-                  color: '#14452F',
+                  color: '#F8FAFC',
                   fontFamily: '"Fraunces", Georgia, serif',
                   whiteSpace: 'nowrap'
                 }}>
@@ -1460,9 +1464,9 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                 type="button"
                 onClick={() => setIsMuted(m => !m)}
                 style={{
-                  background: '#FAF8F2',
-                  border: '2px solid #14452F',
-                  color: '#14452F',
+                  background: 'rgba(15, 23, 42, 0.50)',
+                  border: '2px solid #D4AF37',
+                  color: '#F8FAFC',
                   padding: '5px 12px',
                   borderRadius: '12px',
                   cursor: 'pointer',
@@ -1480,7 +1484,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
 
               <span style={{
                 fontSize: '16px',
-                color: '#14452F',
+                color: '#F8FAFC',
                 fontWeight: '900',
                 background: 'rgba(20, 69, 47, 0.08)',
                 border: '1.5px solid rgba(20, 69, 47, 0.2)',
@@ -1494,8 +1498,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                 type="button"
                 onClick={handleNextPlant}
                 style={{
-                  background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                  border: '1.5px solid #10B981',
+                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                  border: '1.8px solid #FDE68A',
                   color: '#ffffff',
                   padding: '5px 14px',
                   borderRadius: '12px',
@@ -1527,10 +1531,10 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           }}>
             {/* Left Column: Interactive Excavation Pit */}
             <div style={{
-              background: '#FAF8F2',
+              background: 'rgba(15, 23, 42, 0.50)',
               borderRadius: '18px',
               padding: '0.85rem 1rem',
-              border: '2px solid #14452F',
+              border: '2px solid #D4AF37',
               boxShadow: '0 6px 20px rgba(20,69,47,0.08)',
               display: 'flex',
               flexDirection: 'column',
@@ -1544,7 +1548,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
               }}>
                 <div style={{
                   fontSize: '18px',
-                  color: '#14452F',
+                  color: '#F8FAFC',
                   fontWeight: '900',
                   fontFamily: '"Fraunces", Georgia, serif'
                 }}>
@@ -1589,10 +1593,10 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
 
             {/* Right Column: Magnifying Loupe & Root Classification */}
             <div style={{
-              background: '#FAF8F2',
+              background: 'rgba(15, 23, 42, 0.50)',
               borderRadius: '18px',
               padding: '0.85rem 1rem',
-              border: '2px solid #14452F',
+              border: '2px solid #D4AF37',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
@@ -1607,7 +1611,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
               }}>
                 <div style={{
                   fontSize: '18px',
-                  color: '#14452F',
+                  color: '#F8FAFC',
                   fontWeight: '900',
                   fontFamily: '"Fraunces", Georgia, serif'
                 }}>
@@ -1642,7 +1646,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                     gap: '10px'
                   }}>
                     <div style={{ fontSize: '24px' }}>🪣</div>
-                    <div style={{ fontSize: '18px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif' }}>
+                    <div style={{ fontSize: '18px', fontWeight: '900', color: '#FBBF24', fontFamily: '"Fraunces", Georgia, serif' }}>
                       Underground Soil Covering Roots
                     </div>
                     <div style={{ fontSize: '16px', color: '#2A3B2C', fontWeight: '700', maxWidth: '340px', lineHeight: '1.4' }}>
@@ -1682,9 +1686,9 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                           rootLabAudio.playTrowelDig(isMuted);
                         }}
                         style={{
-                          background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+                          background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                           color: '#FFFFFF',
-                          border: '1.5px solid #10B981',
+                          border: '1.8px solid #FDE68A',
                           borderRadius: '12px',
                           padding: '8px 18px',
                           fontSize: '16px',
@@ -1713,7 +1717,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
 
               {/* Classification Buttons */}
               <div style={{
-                borderTop: '2px solid #14452F',
+                borderTop: '2px solid rgba(212, 175, 55, 0.45)',
                 paddingTop: '0.6rem',
                 marginTop: '0.5rem'
               }}>
@@ -1723,8 +1727,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                   justifyContent: 'space-between',
                   marginBottom: '6px'
                 }}>
-                  <div style={{ fontSize: '16px', color: '#14452F', fontWeight: '800' }}>
-                    Classify root system of <strong style={{ color: '#14452F', fontSize: '18px' }}>{plant.name}</strong>:
+                  <div style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: '800' }}>
+                    Classify root system of <strong style={{ color: '#F8FAFC', fontSize: '18px' }}>{plant.name}</strong>:
                   </div>
                   {checked[selectedPlant] === true && (
                     <span style={{ color: '#15803D', fontWeight: '900', fontSize: '16px' }}>
@@ -1752,7 +1756,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                           }
                         }}
                         style={{
-                          background: isSelected ? '#14452F' : '#FAF8F2',
+                          background: isSelected ? '#14452F' : 'rgba(250, 248, 242, 0.55)',
                           border: isSelected ? '2.5px solid #10B981' : '1.8px solid #14452F',
                           color: isSelected ? '#FFFFFF' : '#14452F',
                           padding: '6px 14px',
@@ -1777,8 +1781,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
                       type="button"
                       onClick={() => handleCheck(selectedPlant)}
                       style={{
-                        background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                        border: '1.5px solid #10B981',
+                        background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                        border: '1.8px solid #FDE68A',
                         color: '#ffffff',
                         padding: '6px 16px',
                         borderRadius: '12px',
@@ -1843,13 +1847,13 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
 
       {/* All done overlay */}
       {allDone && (
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(250, 248, 242, 0.96)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', zIndex: 50, textAlign: 'center', padding: '2rem' }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(15, 23, 42, 0.50)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', zIndex: 50, textAlign: 'center', padding: '2rem' }}>
           <div style={{
-            background: '#FAF8F2',
-            border: '2px solid #14452F',
+            background: 'rgba(15, 23, 42, 0.50)',
+            border: '2px solid #D4AF37',
             borderRadius: '24px',
             padding: '2.5rem 3rem',
-            boxShadow: '0 16px 40px rgba(20, 69, 47, 0.2)',
+            boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',
             maxWidth: '560px',
             display: 'flex',
             flexDirection: 'column',
@@ -1857,16 +1861,16 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
             gap: '1.25rem'
           }}>
             <Award size={64} color="#14452F" style={{ filter: 'drop-shadow(0 4px 12px rgba(20, 69, 47, 0.3))' }} />
-            <h2 style={{ color: '#14452F', margin: 0, fontSize: '24px', fontWeight: '900', fontFamily: '"Fraunces", Georgia, serif' }}>Root Explorer Badge!</h2>
+            <h2 style={{ color: '#FBBF24', margin: 0, fontSize: '24px', fontWeight: '900', fontFamily: '"Fraunces", Georgia, serif' }}>Root Explorer Badge!</h2>
             <p style={{ color: '#2A3B2C', maxWidth: 460, lineHeight: 1.6, fontSize: '16px', fontWeight: '600', textAlign: 'center' }}>
               You correctly identified all 5 root systems!<br />
-              <strong style={{ color: '#14452F' }}>Mustard, Hibiscus, Marigold</strong> → Taproot System<br />
-              <strong style={{ color: '#14452F' }}>Grass, Wheat</strong> → Fibrous Root System<br /><br />
+              <strong style={{ color: '#F8FAFC' }}>Mustard, Hibiscus, Marigold</strong> → Taproot System<br />
+              <strong style={{ color: '#F8FAFC' }}>Grass, Wheat</strong> → Fibrous Root System<br /><br />
               <span style={{ fontSize: '16px', color: '#4B5563', fontStyle: 'italic' }}>Notice the pattern? Continue to Activity 2.7 to discover how this connects to leaf venation!</span>
             </p>
             <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
-              <button onClick={handleReset} style={{ background: '#FAF8F2', border: '1.8px solid #14452F', color: '#14452F', padding: '0.75rem 1.85rem', borderRadius: '12px', cursor: 'pointer', fontSize: '16px', fontWeight: '800' }}>Redo Lab</button>
-              <button onClick={() => onBackToDashboard('next_activity')} style={{ background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)', border: '1.5px solid #10B981', color: '#ffffff', padding: '0.75rem 1.85rem', borderRadius: '12px', cursor: 'pointer', fontSize: '16px', fontWeight: '900', boxShadow: '0 4px 14px rgba(20, 69, 47, 0.35)' }}>Next: Relate &amp; Analyse ➔</button>
+              <button onClick={handleReset} style={{ background: 'rgba(15, 23, 42, 0.50)', border: '1.8px solid #D4AF37', color: '#F8FAFC', padding: '0.75rem 1.85rem', borderRadius: '12px', cursor: 'pointer', fontSize: '16px', fontWeight: '800' }}>Redo Lab</button>
+              <button onClick={() => onBackToDashboard('next_activity')} style={{ background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)', border: '1.8px solid #FDE68A', color: '#ffffff', padding: '0.75rem 1.85rem', borderRadius: '12px', cursor: 'pointer', fontSize: '16px', fontWeight: '900', boxShadow: '0 4px 14px rgba(20, 69, 47, 0.35)' }}>Next: Relate &amp; Analyse ➔</button>
             </div>
           </div>
         </div>
