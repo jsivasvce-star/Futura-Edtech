@@ -291,6 +291,22 @@ body {
   opacity: 0.8;
 }
 
+/* Hide scrollbar utility for tab navigation and clean panels */
+.hide-scrollbar,
+.chapter2-nav-tabs,
+.tabs-nav-no-scrollbar {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.hide-scrollbar::-webkit-scrollbar,
+.chapter2-nav-tabs::-webkit-scrollbar,
+.tabs-nav-no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
 /* Typography Reset using Tokens */
 h1,
 h2,
@@ -1184,7 +1200,7 @@ body.focus-mode-active:has(.focus-trigger-top:hover) .lab-internal-header {
   gap: 1rem;
   width: 100%;
   flex: 1;
-  min-height: 560px;
+  min-height: 0;
   box-sizing: border-box;
   align-items: stretch;
 }

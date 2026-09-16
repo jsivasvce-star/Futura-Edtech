@@ -1265,6 +1265,7 @@ export default function FindingRoutePage({ onMissionUnlock, onBeginChapter, onBa
               <div style={{ position: 'absolute', inset: 0, paddingTop: '58px', background: '#F7F1E2' }}>
                 <TownMap3DExplorer
                   hideSidebar={false}
+                  showQuiz={showQuiz}
                   onComplete={(stats) => {
                     setWin3D(true);
                     setTownCompletion(stats);
@@ -1569,12 +1570,11 @@ export default function FindingRoutePage({ onMissionUnlock, onBeginChapter, onBa
                     </button>
                     <button
                       onClick={() => {
-                        setWin3D(false);
-                        if (onBeginChapter) onBeginChapter();
+                        setShowQuiz(true);
                       }}
                       style={{ fontFamily: '"Space Grotesk", sans-serif', fontWeight: 800, border: 'none', cursor: 'pointer', background: '#10B981', color: '#FFFFFF', padding: '10px 22px', borderRadius: '12px', fontSize: '13.5px', boxShadow: '0 4px 14px rgba(16, 185, 129, 0.4)' }}
                     >
-                      Next Activity →
+                      Answer Questions
                     </button>
                   </div>
                 </div>

@@ -459,43 +459,45 @@ const RealisticWalker = ({ pos, isWalking, walkProgress, angle, currentRoadName 
 
       {/* Realistic 3D Human Person Scaled to Road Dimensions */}
       <g transform={`translate(0, ${-16 - bodyBob}) scale(0.62) scale(${isMovingLeft ? -1 : 1}, 1)`}>
-        {/* BACK ARM (Red) */}
+        {/* BACKPACK */}
+        <rect x="-7" y="5" width="4.5" height="12" rx="2" fill="#D97706" stroke="#B45309" strokeWidth="0.8" />
+
+        {/* BACK ARM */}
         <g transform={`translate(4, 7) rotate(${armAngle})`}>
-          <rect x="-1.6" y="0" width="3.2" height="11" rx="1.6" fill="#EF4444" stroke="#B91C1C" strokeWidth="0.6" />
-          <circle cx="0" cy="11" r="1.8" fill="#EF4444" />
+          <rect x="-1.6" y="0" width="3.2" height="11" rx="1.6" fill="#F59E0B" stroke="#D97706" strokeWidth="0.6" />
+          <circle cx="0" cy="11" r="1.8" fill="#FCD34D" />
         </g>
 
-        {/* BACK LEG (Blue with Red boot) */}
+        {/* BACK LEG */}
         <g transform={`translate(-2.8, 16) rotate(${-legAngle})`}>
-          <rect x="-1.8" y="0" width="3.6" height="13" rx="1.4" fill="#1D4ED8" />
-          <rect x="-1.8" y="7" width="4.6" height="7" rx="1.2" fill="#EF4444" />
+          <rect x="-1.8" y="0" width="3.6" height="13" rx="1.4" fill="#1E293B" />
+          <rect x="-1.8" y="11" width="5.2" height="3.5" rx="1.2" fill="#DC2626" />
         </g>
 
-        {/* FRONT LEG (Blue with Red boot) */}
+        {/* FRONT LEG */}
         <g transform={`translate(2.8, 16) rotate(${legAngle})`}>
-          <rect x="-1.8" y="0" width="3.6" height="13" rx="1.4" fill="#2563EB" />
-          <rect x="-1.8" y="7" width="4.6" height="7" rx="1.2" fill="#EF4444" />
+          <rect x="-1.8" y="0" width="3.6" height="13" rx="1.4" fill="#334155" />
+          <rect x="-1.8" y="11" width="5.2" height="3.5" rx="1.2" fill="#DC2626" />
         </g>
 
-        {/* TORSO / SUIT (Blue sides, Red center) */}
+        {/* TORSO / JACKET */}
         <rect x="-5" y="4" width="10" height="13.5" rx="3" fill="#2563EB" stroke="#1D4ED8" strokeWidth="0.9" />
-        <rect x="-2.5" y="4" width="5" height="13.5" fill="#EF4444" />
-        {/* Spider Logo */}
-        <circle cx="0" cy="9" r="1.5" fill="#000000" />
-        <path d="M -1.5 8 L -3 7 M -1.5 10 L -3 11 M 1.5 8 L 3 7 M 1.5 10 L 3 11" stroke="#000000" strokeWidth="0.6" />
+        {/* Zipper */}
+        <line x1="0" y1="4" x2="0" y2="17.5" stroke="#FFFFFF" strokeWidth="0.7" />
 
-        {/* FRONT ARM (Red) */}
+        {/* FRONT ARM */}
         <g transform={`translate(-4, 7) rotate(${-armAngle})`}>
-          <rect x="-1.6" y="0" width="3.2" height="11" rx="1.6" fill="#EF4444" stroke="#B91C1C" strokeWidth="0.6" />
-          <circle cx="0" cy="11" r="1.8" fill="#EF4444" />
+          <rect x="-1.6" y="0" width="3.2" height="11" rx="1.6" fill="#3B82F6" stroke="#1D4ED8" strokeWidth="0.6" />
+          <circle cx="0" cy="11" r="1.8" fill="#FCD34D" />
         </g>
 
-        {/* HEAD (Red Mask) */}
-        <circle cx="0" cy="-3.5" r="5.5" fill="#EF4444" stroke="#B91C1C" strokeWidth="0.7" />
+        {/* HEAD */}
+        <circle cx="0" cy="-3.5" r="5.5" fill="#FCD34D" stroke="#D97706" strokeWidth="0.7" />
+        {/* Cap / Visor */}
+        <path d="M -5 -4 Q 0 -8 5 -4 L 6.5 -3 L 3 -2.5 Z" fill="#DC2626" />
 
-        {/* SPIDERMAN EYES */}
-        <path d="M 0.5 -4.5 Q 3 -6 4.5 -3.5 Q 3 -2 0.5 -2.5 Z" fill="#FFFFFF" stroke="#000000" strokeWidth="0.6" />
-        <path d="M -0.5 -4.5 Q -3 -6 -4.5 -3.5 Q -3 -2 -0.5 -2.5 Z" fill="#FFFFFF" stroke="#000000" strokeWidth="0.6" />
+        {/* EYES */}
+        <circle cx="1.8" cy="-3.5" r="0.9" fill="#1E293B" />
       </g>
     </g>
   );
@@ -1263,6 +1265,7 @@ export default function FindingRoutePage({ onMissionUnlock, onBeginChapter, onBa
               <div style={{ position: 'absolute', inset: 0, paddingTop: '58px', background: '#F7F1E2' }}>
                 <TownMap3DExplorer
                   hideSidebar={false}
+                  showQuiz={showQuiz}
                   onComplete={(stats) => {
                     setWin3D(true);
                     setTownCompletion(stats);
@@ -1567,12 +1570,11 @@ export default function FindingRoutePage({ onMissionUnlock, onBeginChapter, onBa
                     </button>
                     <button
                       onClick={() => {
-                        setWin3D(false);
-                        if (onBeginChapter) onBeginChapter();
+                        setShowQuiz(true);
                       }}
                       style={{ fontFamily: '"Space Grotesk", sans-serif', fontWeight: 800, border: 'none', cursor: 'pointer', background: '#10B981', color: '#FFFFFF', padding: '10px 22px', borderRadius: '12px', fontSize: '13.5px', boxShadow: '0 4px 14px rgba(16, 185, 129, 0.4)' }}
                     >
-                      Next Activity →
+                      Answer Questions
                     </button>
                   </div>
                 </div>

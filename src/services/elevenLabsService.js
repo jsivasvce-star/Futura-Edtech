@@ -6,9 +6,10 @@
  * 3. Fallback: Browser native Web Speech API (window.speechSynthesis) tuned for Indian English voices
  */
 
-// Default ElevenLabs Voice IDs (Configured with explicit high-conversational variance Voice IDs)
+// Default ElevenLabs Voice IDs (Configured with natural conversational Indian Male educator as default)
 export const ELEVENLABS_VOICES = {
-  teacher: 'Ps8lsQuJKZHMxxDU1tff',               // Bold & Clear Indian Lady (Teacher / Narrator)
+  indian_male: 'onwK4e9ZLuTAKqWW03F9',  // Natural Indian English Male Educator (Daniel / Kabir)
+  teacher: 'onwK4e9ZLuTAKqWW03F9',      // Default voice is Natural Indian Male
   young_indian_male: '4w024U7w6P92yq0716Qc',     // Natural, Warm & Realistic Young Indian Male (Kabir)
   indian_male_teacher: 'SOYHLrjzK2X1ezoPC6cr',   // Warm, Natural Indian English Male Teacher
   teacher_male: 'SOYHLrjzK2X1ezoPC6cr',          // Alias for Male Teacher
@@ -25,7 +26,7 @@ class VoiceService {
     this.fallbackTimer = null;
     this.audioCache = new Map();
     this.apiKey = import.meta.env?.VITE_ELEVENLABS_API_KEY || 'sk_89333167c269941029cede7412d8b1f9a0e6be96812de5cc';
-    this.defaultVoiceId = import.meta.env?.VITE_ELEVENLABS_VOICE_ID || ELEVENLABS_VOICES.teacher;
+    this.defaultVoiceId = import.meta.env?.VITE_ELEVENLABS_VOICE_ID || ELEVENLABS_VOICES.indian_male;
     this.sessionIdCounter = 0;
     this.currentSessionId = null;
   }
@@ -252,10 +253,10 @@ class VoiceService {
 
     // Determine role-specific settings for soft, warm, natural tone with clear pronunciation
     let voice_settings = {
-      stability: 0.60,
-      similarity_boost: 0.80,
-      style: 0.00,
-      use_speaker_boost: false
+      stability: 0.68,
+      similarity_boost: 0.85,
+      style: 0.05,
+      use_speaker_boost: true
     };
 
     if (role === 'girl' || voiceId === 'Dk3lflqf310KiWVmwB9F') {
@@ -263,13 +264,6 @@ class VoiceService {
         stability: 0.55,
         similarity_boost: 0.75,
         style: 0.05,
-        use_speaker_boost: false
-      };
-    } else if (role === 'teacher' || voiceId === 'Ps8lsQuJKZHMxxDU1tff') {
-      voice_settings = {
-        stability: 0.60,
-        similarity_boost: 0.80,
-        style: 0.00,
         use_speaker_boost: false
       };
     } else if (role === 'ancient_man' || voiceId === 'JBFqnCBsd6RMkjVDRZzb') {
@@ -300,11 +294,19 @@ class VoiceService {
         style: 0.12,     // Natural conversational classroom expression
         use_speaker_boost: true
       };
+    } else {
+      // Natural Indian Male Educator Voice settings (conversational, expressive, warm human resonance)
+      voice_settings = {
+        stability: 0.68,
+        similarity_boost: 0.85,
+        style: 0.05,
+        use_speaker_boost: true
+      };
     }
 
     const modelId = (role === 'did_you_know' || voiceId === 'nPczCjzI2devNBz1zQrb' || role === 'young_indian_male' || role === 'indian_male_teacher' || role === 'teacher_male')
       ? 'eleven_multilingual_v2'
-      : 'eleven_turbo_v2_5';
+      : 'eleven_multilingual_v2';
 
     const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream`, {
       method: 'POST',
@@ -332,9 +334,9 @@ class VoiceService {
 
   /**
    * High-Fidelity Browser Web Speech Engine (Approach C / Fallback)
-   * Tuned specifically with Indian English voices, slow educational cadence, and word-by-word karaoke
+   * Tuned specifically with Indian English Male Educator voice, slow educational cadence, and word-by-word karaoke
    */
-  speakBrowserWebSpeech({ text, role = 'teacher', onBoundary, onEnd, onError, sessionId }) {
+  speakBrowserWebSpeech({ text, role = 'indian_male', onBoundary, onEnd, onError, sessionId }) {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
       if (onEnd) onEnd();
       return;
@@ -345,7 +347,14 @@ class VoiceService {
     const synth = window.speechSynthesis;
     synth.cancel();
 
-    const utterance = new SpeechSynthesisUtterance(text);
+    // Natural punctuation pacing & educational pauses for Class 6 students
+    const cleanedText = text
+      .replace(/—/g, ', ')
+      .replace(/•/g, ', ')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    const utterance = new SpeechSynthesisUtterance(cleanedText);
     this.currentUtterance = utterance;
 
     const voices = synth.getVoices();
@@ -405,13 +414,33 @@ class VoiceService {
       utterance.pitch = 0.96; // Warm, natural Indian male teacher pitch
       utterance.rate = 0.70;  // Relaxed, slow educational pace suitable for Class 6
     } else {
-      selectedVoice = voices.find(v => {
-        const lang = (v.lang || '').toLowerCase();
-        const name = (v.name || '').toLowerCase();
-        return lang.includes('en-in') || lang.includes('hi-in') || name.includes('neerja') || name.includes('heera') || name.includes('kalyani') || name.includes('india');
-      }) || voices.find(v => (v.name || '').toLowerCase().includes('female'));
-      utterance.pitch = 1.0;
-      utterance.rate = 0.78;
+      // Natural Indian Male Educator Voice (same natural voice as IntroStoryteller)
+      const indianVoices = voices.filter(v => 
+        (v.lang && (v.lang.toLowerCase().includes('en-in') || v.lang.toLowerCase().includes('hi-in') || v.lang.toLowerCase().includes('in'))) ||
+        /india|indian|hindi|prabhat|ravi/i.test(v.name)
+      );
+
+      if (indianVoices.length > 0) {
+        selectedVoice = indianVoices.find(v => /prabhat|ravi|male|mohan/i.test(v.name) && !/female|heera|neerja|veena|kavya/i.test(v.name));
+        if (!selectedVoice) {
+          selectedVoice = indianVoices.find(v => !/female|heera|neerja|veena|kavya/i.test(v.name));
+        }
+        if (!selectedVoice) {
+          selectedVoice = indianVoices[0];
+        }
+      }
+
+      if (!selectedVoice) {
+        const englishMaleVoices = voices.filter(v => 
+          v.lang && v.lang.startsWith('en') &&
+          /male|david|mark|guy|james|george|alex|daniel|natural|online/i.test(v.name) &&
+          !/female|zira|samantha|victoria|susan|karen|jessica|jenny/i.test(v.name)
+        );
+        selectedVoice = englishMaleVoices[0] || voices.find(v => v.lang && v.lang.startsWith('en')) || voices[0];
+      }
+
+      utterance.pitch = 0.98; // Natural, resonant adult male educator pitch
+      utterance.rate = 0.85;  // Slower, unhurried, human conversational cadence for Class 6 comprehension (zero robotic feel)
     }
 
     if (selectedVoice) utterance.voice = selectedVoice;
@@ -503,3 +532,22 @@ class VoiceService {
 }
 
 export const voiceService = new VoiceService();
+
+/**
+ * Natural Indian Male Educator Voice Over (ElevenLabs + High-Fidelity Tuned Fallback)
+ * Same consistent, warm human voice across all pages and learning activities
+ */
+export function speakNaturalIndianMale({ text, onEnd, onError, onBoundary }) {
+  return voiceService.speak({
+    text,
+    role: 'indian_male',
+    voiceId: ELEVENLABS_VOICES.indian_male,
+    onEnd,
+    onError,
+    onBoundary
+  });
+}
+
+export function stopNarration() {
+  voiceService.stop();
+}

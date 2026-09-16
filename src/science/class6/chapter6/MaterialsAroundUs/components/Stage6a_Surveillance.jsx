@@ -6,6 +6,8 @@ export default function Stage6a_Surveillance({ onComplete, addXp }) {
   const [selectedSpot, setSelectedSpot] = useState(null);
   const [observations, setObservations] = useState({});
   const [overlayState, setOverlayState] = useState({ spotId: null, phase: null });
+  const [investigatingSpot, setInvestigatingSpot] = useState(null);
+  const [progress, setProgress] = useState(0);
   const activationTimerRef = useRef(null);
   const completionTimerRef = useRef(null);
 
@@ -53,25 +55,56 @@ export default function Stage6a_Surveillance({ onComplete, addXp }) {
   ];
 
   const handleSpotClick = (spot) => {
-    setSelectedSpot(spot);
-    if (!observations[spot.id]) {
-      setObservations(prev => ({ ...prev, [spot.id]: true }));
-      addXp(15);
+    if (investigatingSpot) return; // Prevent clicks while another is loading
+
+    if (observations[spot.id]) {
+      setSelectedSpot(spot);
+      if (activationTimerRef.current) clearInterval(activationTimerRef.current);
+      if (completionTimerRef.current) clearTimeout(completionTimerRef.current);
+      setOverlayState({ spotId: spot.id, phase: 'active' });
+      completionTimerRef.current = setTimeout(() => {
+        setOverlayState({ spotId: null, phase: null });
+      }, 3000);
+      return;
     }
 
-    if (activationTimerRef.current) clearTimeout(activationTimerRef.current);
-    if (completionTimerRef.current) clearTimeout(completionTimerRef.current);
+    setInvestigatingSpot(spot.id);
+    setProgress(0);
 
-    setOverlayState({ spotId: spot.id, phase: 'waiting' });
+    const startTime = Date.now();
+    const duration = 3000;
+
+    if (activationTimerRef.current) clearInterval(activationTimerRef.current);
     
-    activationTimerRef.current = setTimeout(() => {
-      setOverlayState({ spotId: spot.id, phase: 'active' });
-    }, 3000);
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const p = Math.min(100, Math.floor((elapsed / duration) * 100));
+      setProgress(p);
 
-    completionTimerRef.current = setTimeout(() => {
-      setOverlayState({ spotId: null, phase: null });
-    }, 6000);
+      if (p >= 100) {
+        clearInterval(interval);
+        setInvestigatingSpot(null);
+        setObservations(prev => ({ ...prev, [spot.id]: true }));
+        setSelectedSpot(spot);
+        addXp(15);
+        
+        if (completionTimerRef.current) clearTimeout(completionTimerRef.current);
+        setOverlayState({ spotId: spot.id, phase: 'active' });
+        completionTimerRef.current = setTimeout(() => {
+          setOverlayState({ spotId: null, phase: null });
+        }, 3000);
+      }
+    }, 30);
+    
+    activationTimerRef.current = interval;
   };
+
+  useEffect(() => {
+    return () => {
+      if (activationTimerRef.current) clearInterval(activationTimerRef.current);
+      if (completionTimerRef.current) clearTimeout(completionTimerRef.current);
+    };
+  }, []);
 
   const obsCount = Object.keys(observations).length;
   const isComplete = obsCount === spots.length;
@@ -132,9 +165,49 @@ export default function Stage6a_Surveillance({ onComplete, addXp }) {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                      style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}
                     >
                       <img src="/images/surveillance_unknown.jpg" alt="Unknown Target" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      
+                      {!investigatingSpot && (
+                        <motion.div
+                          animate={{ boxShadow: ['0 0 0px rgba(59,130,246,0)', '0 0 16px rgba(59,130,246,0.8)', '0 0 0px rgba(59,130,246,0)'] }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                          style={{
+                            position: 'absolute',
+                            bottom: '30px',
+                            background: 'rgba(15, 23, 42, 0.85)',
+                            color: '#60a5fa',
+                            padding: '10px 20px',
+                            borderRadius: '30px',
+                            fontWeight: 'bold',
+                            fontSize: '1.25rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '10px',
+                            border: '2px solid rgba(59,130,246,0.5)'
+                          }}
+                        >
+                          <Search size={20} /> Click to investigate
+                        </motion.div>
+                      )}
+
+                      {investigatingSpot === spot.id && (
+                        <div style={{
+                          position: 'absolute', inset: 0,
+                          background: 'rgba(15, 23, 42, 0.75)',
+                          backdropFilter: 'blur(6px)',
+                          display: 'flex', flexDirection: 'column',
+                          alignItems: 'center', justifyContent: 'center',
+                          gap: '16px', color: 'white', zIndex: 10
+                        }}>
+                          <div style={{ fontSize: '1.6rem', fontWeight: 'bold' }}>Analyzing visibility...</div>
+                          <div style={{ width: '60%', height: '10px', background: 'rgba(255,255,255,0.2)', borderRadius: '6px', overflow: 'hidden' }}>
+                            <div style={{ width: `${progress}%`, height: '100%', background: '#3b82f6', transition: 'width 0.1s linear' }} />
+                          </div>
+                          <div style={{ fontSize: '2.2rem', fontWeight: '900', color: '#60a5fa' }}>{progress}%</div>
+                        </div>
+                      )}
                     </motion.div>
                   ) : (
                     <motion.div

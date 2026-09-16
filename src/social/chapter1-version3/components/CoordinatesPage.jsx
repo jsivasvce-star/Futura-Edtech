@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Globe3D from './Globe3D';
 import CoordinatesMinigame from './CoordinatesMinigame';
+import ChessSeatMinigame from './ChessSeatMinigame';
 import './CoordinatesPageBook.css';
 import './CoordinatesPageDark.css';
 
@@ -678,7 +679,7 @@ const stepsData = [
 export default function CoordinatesPage({ onNextActivity, onBack }) {
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
   const totalGlobeSteps = 17;
-  const totalPages = totalGlobeSteps + 2; // 1 (intro) + 1 (minigame) + 17 (globe) = 19
+  const totalPages = totalGlobeSteps + 3; // 1 (intro) + 1 (chess/seat) + 1 (minigame) + 17 (globe) = 20
 
   const handleNext = () => {
     if (currentStepIdx < totalPages - 1) {
@@ -750,6 +751,15 @@ export default function CoordinatesPage({ onNextActivity, onBack }) {
 
   if (currentStepIdx === 1) {
     return (
+      <ChessSeatMinigame
+        onComplete={handleNext}
+        onBack={handlePrev}
+      />
+    );
+  }
+
+  if (currentStepIdx === 2) {
+    return (
       <CoordinatesMinigame
         onComplete={handleNext}
         onBack={handlePrev}
@@ -757,7 +767,7 @@ export default function CoordinatesPage({ onNextActivity, onBack }) {
     );
   }
 
-  const activeGlobeIdx = currentStepIdx - 2;
+  const activeGlobeIdx = currentStepIdx - 3;
 
   if (activeGlobeIdx === 9) {
     return <InfographicStep handleNext={handleNext} handlePrev={handlePrev} />;

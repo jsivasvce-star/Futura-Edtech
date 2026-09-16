@@ -6,6 +6,7 @@ import sunflowerImage from '../../../../assets/sunflower.png';
 import hibiscusImage from '../../../../assets/hibiscus.png';
 import tulsiImage from '../../../../assets/tulsi.png';
 import neemImage from '../../../../assets/neem.png';
+import waterLilyImage from '../../../../assets/water_lily.png';
 
 const PLANT_CROPPED_IMAGES = {
   p1: hibiscusImage,
@@ -20,12 +21,16 @@ const PLANT_CROPPED_IMAGES = {
   grass: grassImage,
   rose: roseImage,
   sunflower: sunflowerImage,
+  waterlily: waterLilyImage,
+  water_lily: waterLilyImage,
   Hibiscus: hibiscusImage,
   Tulsi: tulsiImage,
   Neem: neemImage,
   Grass: grassImage,
   Rose: roseImage,
   Sunflower: sunflowerImage,
+  'Water Lily': waterLilyImage,
+  'Pond Water Lilies': waterLilyImage,
 };
 
 // ─── DATA ───────────────────────────────────────────────────────────────────

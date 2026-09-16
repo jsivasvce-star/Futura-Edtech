@@ -51,20 +51,26 @@ export default function MapSymbols({ onComplete, onBack }) {
   const [questions, setQuestions] = useState([]);
   const [traySymbols, setTraySymbols] = useState([]);
   const [matched, setMatched] = useState({});
+  const [draggedItem, setDraggedItem] = useState(null);
   const [errorHighlight, setErrorHighlight] = useState(null);
   const [mainPage, setMainPage] = useState(1);
-  const [selectedTraySymbol, setSelectedTraySymbol] = useState(null);
 
   useEffect(() => {
     const selectedIds = ['railway', 'road', 'river', 'lake', 'forest', 'hospital'];
     const selectedSymbols = ALL_SYMBOLS.filter(s => selectedIds.includes(s.id));
     setQuestions(selectedSymbols);
-    setTraySymbols(shuffleArray(selectedSymbols));
+    
+    // Set a constant layout for the right-side symbols: Hospital, Lake, Railway, Forest, Road, River
+    const constantTrayIds = ['hospital', 'lake', 'railway', 'forest', 'road', 'river'];
+    const constantTraySymbols = constantTrayIds.map(id => ALL_SYMBOLS.find(s => s.id === id));
+    setTraySymbols(constantTraySymbols);
+    
     setMatched({});
   }, []);
 
-  const handleDragStart = (e, symbol) => {
-    e.dataTransfer.setData('application/json', JSON.stringify(symbol));
+  const handleDragStart = (e, symbolId) => {
+    setDraggedItem(symbolId);
+    e.dataTransfer.setData('text/plain', symbolId);
     e.dataTransfer.effectAllowed = 'move';
   };
 
@@ -73,36 +79,24 @@ export default function MapSymbols({ onComplete, onBack }) {
     e.dataTransfer.dropEffect = 'move';
   };
 
-  const executeMatch = (draggedSymbol, targetQuestion) => {
-    if (draggedSymbol.id === targetQuestion.id) {
+  const handleDrop = (e, targetId) => {
+    e.preventDefault();
+    const droppedSymbolId = e.dataTransfer.getData('text/plain');
+    if (!droppedSymbolId) return;
+
+    if (droppedSymbolId === targetId) {
       playSound('success');
-      setMatched(prev => ({ ...prev, [targetQuestion.id]: true }));
-      setTraySymbols(prev => prev.filter(s => s.id !== draggedSymbol.id));
-      setSelectedTraySymbol(null);
+      setMatched(prev => ({ ...prev, [targetId]: true }));
     } else {
       playSound('error');
-      setErrorHighlight(targetQuestion.id);
+      setErrorHighlight(targetId);
       setTimeout(() => setErrorHighlight(null), 500);
     }
+    setDraggedItem(null);
   };
 
-  const handleDrop = (e, targetQuestion) => {
-    e.preventDefault();
-    try {
-      const draggedStr = e.dataTransfer.getData('application/json');
-      if (!draggedStr) return;
-      const draggedSymbol = JSON.parse(draggedStr);
-      executeMatch(draggedSymbol, targetQuestion);
-    } catch (err) {
-      console.error('Drop error', err);
-    }
-  };
-
-  const handleTargetClick = (targetQuestion) => {
-    if (matched[targetQuestion.id]) return;
-    if (selectedTraySymbol) {
-      executeMatch(selectedTraySymbol, targetQuestion);
-    }
+  const handleDragEnd = () => {
+    setDraggedItem(null);
   };
 
   const correctCount = Object.keys(matched).length;
@@ -290,12 +284,16 @@ export default function MapSymbols({ onComplete, onBack }) {
             </div>
           </div>
 
-          <AnimatePresence mode="wait">
-            {!isComplete ? (
-              <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '8px' }}>
+              <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'row', gap: '12px', position: 'relative' }}>
                 
-                {/* Top 6 Matching Target Boxes (Equal 50% Height) */}
-                <div style={{ flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gridTemplateRows: 'repeat(2, 1fr)', gap: '8px' }}>
+                {/* Left 6 Matching Target Boxes (Equal 50% Width) */}
+                <div style={{ flex: 1, minWidth: 0, background: '#FFF9F0', border: '1.5px solid #F2DFBC', borderRadius: '14px', padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: '8px', boxShadow: '0 3px 12px rgba(146, 64, 14, 0.05)' }}>
+                  <div style={{ fontFamily: '"Space Grotesk", sans-serif', fontSize: '14.3px', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#92400E', fontWeight: 900, textAlign: 'center', flexShrink: 0 }}>
+                    Target Boxes
+                    <div style={{ fontSize: '12px', fontWeight: 600, color: '#B45309', marginTop: '2px', textTransform: 'none' }}>(Drag symbols here)</div>
+                  </div>
+
+                  <div style={{ flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gridTemplateRows: 'repeat(3, 1fr)', gap: '8px' }}>
                   {questions.map((q) => {
                     const isMatched = matched[q.id];
                     const isError = errorHighlight === q.id;
@@ -303,22 +301,21 @@ export default function MapSymbols({ onComplete, onBack }) {
                     return (
                       <motion.div
                         key={q.id}
+                        onDragOver={handleDragOver}
+                        onDrop={(e) => handleDrop(e, q.id)}
                         animate={isError ? { x: [-4, 4, -4, 4, 0] } : {}}
                         transition={{ duration: 0.3 }}
-                        onClick={() => handleTargetClick(q)}
-                        onDragOver={handleDragOver}
-                        onDrop={(e) => handleDrop(e, q)}
                         style={{
+                          position: 'relative',
                           background: isMatched ? '#DCFCE7' : isError ? '#FEE2E2' : '#FFFFFF',
-                          border: `1.5px ${isMatched ? 'solid #16A34A' : isError ? 'solid #EF4444' : 'dashed #E2D2B8'}`,
+                          border: `1.5px ${isMatched ? 'solid #16A34A' : isError ? 'solid #EF4444' : 'solid #E2D2B8'}`,
                           borderRadius: '12px',
                           padding: '6px 8px',
                           display: 'flex',
-                          flexDirection: 'column',
+                          flexDirection: 'row',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          gap: '3px',
-                          cursor: selectedTraySymbol && !isMatched ? 'pointer' : 'default',
+                          gap: '12px',
                           transition: 'all 0.2s',
                           boxShadow: isMatched ? '0 3px 8px rgba(22,163,74,0.12)' : '0 1px 4px rgba(60,40,20,0.03)'
                         }}
@@ -326,57 +323,58 @@ export default function MapSymbols({ onComplete, onBack }) {
                         <div style={{ fontSize: '15.6px', fontWeight: 900, color: isMatched ? '#166534' : '#78350F', textAlign: 'center', lineHeight: 1.2 }}>
                           {q.name}
                         </div>
-
-                        {isMatched ? (
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#166534' }}>
-                            <SymbolDisplay Icon={q.Icon} width={54} height={26} />
-                            <CheckCircle2 size={14} color="#16A34A" />
-                          </div>
-                        ) : (
-                          <div style={{ fontSize: '13px', color: isError ? '#991B1B' : '#B45309', fontWeight: 700 }}>
-                            {isError ? 'Wrong symbol' : selectedTraySymbol ? 'Tap to place' : 'Drop symbol'}
-                          </div>
+                        {isMatched && (
+                          <>
+                            <div style={{ width: '1.5px', height: '24px', background: '#86EFAC' }}></div>
+                            <SymbolDisplay Icon={q.Icon} width={60} height={35} />
+                          </>
                         )}
                       </motion.div>
                     );
                   })}
+                  </div>
                 </div>
 
-                {/* Bottom 6 Available Symbols Tray (Equal 50% Height) */}
-                <div style={{ flex: 1, minHeight: 0, background: '#FFF9F0', border: '1.5px solid #F2DFBC', borderRadius: '14px', padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: '5px', boxShadow: '0 3px 12px rgba(146, 64, 14, 0.05)' }}>
+                {/* Right 6 Available Symbols Tray (Equal 50% Width) */}
+                <div style={{ flex: 1, minWidth: 0, background: '#FFF9F0', border: '1.5px solid #F2DFBC', borderRadius: '14px', padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: '8px', boxShadow: '0 3px 12px rgba(146, 64, 14, 0.05)' }}>
                   <div style={{ fontFamily: '"Space Grotesk", sans-serif', fontSize: '14.3px', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#92400E', fontWeight: 900, textAlign: 'center', flexShrink: 0 }}>
-                    Available Symbols (Drag or Tap to Select)
+                    Available Symbols
+                    <div style={{ fontSize: '12px', fontWeight: 600, color: '#B45309', marginTop: '2px', textTransform: 'none' }}>(Drag these to target boxes)</div>
                   </div>
 
-                  <div style={{ flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gridTemplateRows: 'repeat(2, 1fr)', gap: '8px' }}>
+                  <div style={{ flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'repeat(3, 1fr)', gap: '8px' }}>
                     <AnimatePresence>
                       {traySymbols.map((symbol) => {
-                        const isSelected = selectedTraySymbol?.id === symbol.id;
+                        const isMatched = matched[symbol.id];
+                        
+                        if (isMatched) return null;
 
                         return (
                           <motion.div
                             key={symbol.id}
                             layout
+                            draggable
+                            onDragStart={(e) => handleDragStart(e, symbol.id)}
+                            onDragEnd={handleDragEnd}
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.5 }}
-                            draggable
-                            onDragStart={(e) => handleDragStart(e, symbol)}
-                            onClick={() => setSelectedTraySymbol(isSelected ? null : symbol)}
                             style={{
+                              position: 'relative',
                               background: '#FFFFFF',
                               padding: '6px 8px',
                               borderRadius: '12px',
-                              border: `2px solid ${isSelected ? '#D97706' : '#F2DFBC'}`,
-                              cursor: 'grab',
+                              border: `2px solid #F2DFBC`,
                               display: 'flex',
                               flexDirection: 'column',
                               alignItems: 'center',
                               justifyContent: 'center',
-                              boxShadow: isSelected ? '0 0 0 2.5px rgba(217,119,6,0.3), 0 3px 8px rgba(217,119,6,0.12)' : '0 2px 6px rgba(60,40,20,0.04)',
-                              transition: 'all 0.15s'
+                              boxShadow: '0 2px 6px rgba(60,40,20,0.04)',
+                              transition: 'all 0.15s',
+                              cursor: 'grab'
                             }}
                             whileHover={{ scale: 1.05 }}
+                            whileTap={{ cursor: 'grabbing' }}
                           >
                             <SymbolDisplay Icon={symbol.Icon} width={90} height={45} />
                           </motion.div>
@@ -387,38 +385,6 @@ export default function MapSymbols({ onComplete, onBack }) {
                 </div>
 
               </div>
-            ) : (
-              <motion.div
-                key="completion"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                style={{
-                  flex: 1,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  background: 'linear-gradient(160deg, #FFF9F0 0%, #FBF3E3 100%)',
-                  padding: '1.5rem',
-                  borderRadius: '16px',
-                  border: '2px solid #86EFAC',
-                  textAlign: 'center',
-                  gap: '10px'
-                }}
-              >
-                <div style={{ width: '52px', height: '52px', background: '#16A34A', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 20px rgba(22, 163, 74, 0.4)' }}>
-                  <Award size={28} color="white" />
-                </div>
-                
-                <div>
-                  <h3 style={{ fontSize: '1.95rem', color: '#166534', margin: '0 0 4px 0', fontFamily: '"Fraunces", serif', fontWeight: 900 }}>All Symbols Matched!</h3>
-                  <p style={{ fontSize: '16.9px', color: '#3D2E24', maxWidth: '340px', margin: '0 auto', lineHeight: 1.45, fontWeight: 700, textAlign: 'justify', textJustify: 'inter-word' }}>
-                    You now understand standard map symbols and how they represent real geographical features clearly across all types of maps.
-                  </p>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
 
         </div>
         </div>

@@ -19,9 +19,20 @@ export default class ErrorBoundary extends React.Component {
   componentDidCatch(error, errorInfo) {
     console.error("Interactive Activity Error Caught by Boundary:", error, errorInfo);
     this.setState({ errorInfo });
+    try {
+      fetch('http://localhost:9999/error', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ error: error.toString(), stack: errorInfo.componentStack })
+      });
+    } catch (e) {}
   }
 
   handleReset = () => {
+    if (this.state.error?.message?.includes('dynamically imported module') || this.state.error?.message?.includes('Failed to fetch')) {
+      window.location.reload();
+      return;
+    }
     this.setState({ hasError: false, error: null, errorInfo: null, showDetails: false });
     if (this.props.onReset) {
       this.props.onReset();
