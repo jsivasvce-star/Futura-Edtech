@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Text, OrbitControls, ContactShadows, Environment, useTexture } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Scissors, AlertCircle, CheckCircle, XCircle, ArrowRight, BookOpen, RotateCcw, Hand } from 'lucide-react';
+import { Scissors, AlertCircle, CheckCircle, XCircle, ArrowRight, BookOpen, RotateCcw, Hand, Video, Microscope } from 'lucide-react';
 import * as THREE from 'three';
 import '../MagneticPoles.css';
+import BreakingMagnetDemoPlayer from './BreakingMagnetDemoPlayer';
 
 // ---------------------------------------------------------
 
@@ -233,11 +234,27 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
   const [showPoles, setShowPoles] = useState(false);
   const [quizAnswer, setQuizAnswer] = useState(null);
 
+  // Mode switcher: 'video' = 3D Demo Animation, 'canvas' = Interactive 3D WebGL
+  const [viewMode, setViewMode] = useState('video');
+  const [isPaused, setIsPaused] = useState(false);
+
   // Rotation and tilt controls matching Stage 1
   const rotationRef = useRef({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const isDraggingRef = useRef(false);
   const lastPointerRef = useRef({ x: 0, y: 0 });
+
+  // Sync video phase with broken/showPoles state for right-panel quiz
+  const handleVideoPhaseChange = (phaseId, progress) => {
+    if (phaseId === 'break' && progress > 0.5 && !broken) {
+      setBroken(true);
+    }
+    if (phaseId === 'dipoles' && progress > 0.35 && !showPoles) {
+      setShowPoles(true);
+    }
+  };
+
+  const handleTogglePause = () => setIsPaused(p => !p);
 
   const handlePointerDown = (e) => {
     if (e.target.closest('button')) return;
@@ -313,7 +330,7 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
         background: 'transparent',
       }}
     >
-      {/* Left Side: 3D Canvas Interactive Area matching Stage 1 background and sizing */}
+      {/* Left Side: Mode-Switcher + 3D Demo Video or Interactive 3D Lab */}
       <div
         style={{
           flex: '1.8',
@@ -322,120 +339,171 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
           minWidth: 0,
           height: '100%',
           boxSizing: 'border-box',
+          gap: '0.65rem',
         }}
       >
-        <div
-          style={{
-            position: 'relative',
-            width: '100%',
-            flex: 1,
-            minHeight: '380px',
-            borderRadius: '24px',
-            overflow: 'hidden',
-            border: '1.5px solid #A7F3D0',
-            boxShadow: '0 12px 30px rgba(6, 78, 59, 0.12)',
-            backgroundImage: `url('/MagneticPoles/classroom_sunset_bg.jpg')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center center',
-            cursor: isDragging ? 'grabbing' : 'grab',
-            touchAction: 'none',
-            userSelect: 'none'
-          }}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerUp}
-        >
-          {/* 3D Canvas Scene matching Stage 1 Camera, Lighting, and Controls */}
-          <Canvas
-            shadows
-            gl={{ alpha: true, antialias: true }}
-            camera={{ position: [0.1, 6.0, 22], fov: 38 }}
-            style={{ width: '100%', height: '100%' }}
-          >
-            <Suspense fallback={null}>
-              <ambientLight intensity={1.1} color="#FFF7ED" />
-              <directionalLight
-                position={[-8, 16, 14]}
-                intensity={2.0}
-                color="#FED7AA"
-                castShadow
-                shadow-mapSize={[2048, 2048]}
-                shadow-bias={-0.0001}
-              />
-              <directionalLight position={[10, 10, 10]} intensity={0.8} color="#E0F2FE" />
-              <Environment preset="sunset" />
-
-              <AnimatedLabGroup>
-                <RotatableMagnetGroup rotationRef={rotationRef}>
-                  <BreakingMagnet3D broken={broken} showPoles={showPoles} />
-                </RotatableMagnetGroup>
-                <ContactShadows position={[0, -0.02, 0]} opacity={0.48} scale={18} blur={2.0} far={2.5} color="#251605" />
-              </AnimatedLabGroup>
-              <OrbitControls
-                makeDefault
-                target={[0.1, 4.4, 0]}
-                enableZoom={false}
-                enableRotate={false}
-                enablePan={false}
-              />
-            </Suspense>
-          </Canvas>
-
-          {/* Interaction Controls & Hint Overlay matching Stage 1 */}
+        {/* Mode Switcher Bar */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexShrink: 0,
+          padding: '0 2px',
+        }}>
           <div style={{
-            position: 'absolute',
-            bottom: '14px',
-            left: '16px',
-            right: '16px',
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            pointerEvents: 'none',
-            zIndex: 10
+            gap: '6px',
+            background: 'rgba(255,255,255,0.92)',
+            border: '1.5px solid #A7F3D0',
+            borderRadius: '18px',
+            padding: '4px',
+            boxShadow: '0 2px 10px rgba(6,78,59,0.08)',
           }}>
-            <div style={{
-              background: 'rgba(6, 78, 59, 0.86)',
-              backdropFilter: 'blur(8px)',
-              color: '#FFFFFF',
-              padding: '6px 14px',
-              borderRadius: '20px',
-              fontSize: '0.78rem',
-              fontWeight: 700,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              border: '1px solid rgba(167, 243, 208, 0.45)',
-              boxShadow: '0 4px 14px rgba(0,0,0,0.18)',
-            }}>
-              <Hand size={14} color="#FDE68A" />
-              <span>Hold & drag anywhere to rotate & tilt magnet</span>
-            </div>
-
             <button
-              onClick={handleResetRotation}
+              onClick={() => setViewMode('video')}
               style={{
-                pointerEvents: 'auto',
-                background: 'rgba(255, 255, 255, 0.94)',
-                border: '1.5px solid #A7F3D0',
-                borderRadius: '16px',
-                padding: '6px 12px',
-                fontSize: '0.76rem',
-                fontWeight: 800,
-                color: '#065F46',
+                padding: '6px 16px',
+                borderRadius: '14px',
+                border: 'none',
+                background: viewMode === 'video' ? 'linear-gradient(135deg,#F59E0B 0%,#D97706 100%)' : 'transparent',
+                color: viewMode === 'video' ? '#FFFFFF' : '#065F46',
+                fontWeight: 900,
+                fontSize: '0.84rem',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
-                transition: 'all 0.2s'
+                boxShadow: viewMode === 'video' ? '0 3px 10px rgba(217,119,6,0.35)' : 'none',
+                transition: 'all 0.2s ease',
               }}
-              title="Reset view angle"
             >
-              <RotateCcw size={13} color="#059669" />
-              <span>Reset View</span>
+              <span>🎬 3D Demonstration Video</span>
+            </button>
+            <button
+              onClick={() => setViewMode('canvas')}
+              style={{
+                padding: '6px 16px',
+                borderRadius: '14px',
+                border: 'none',
+                background: viewMode === 'canvas' ? 'linear-gradient(135deg,#059669 0%,#047857 100%)' : 'transparent',
+                color: viewMode === 'canvas' ? '#FFFFFF' : '#065F46',
+                fontWeight: 900,
+                fontSize: '0.84rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              <span>🔬 Interactive 3D Lab</span>
             </button>
           </div>
+          <span style={{ fontSize: '0.78rem', color: '#047857', fontWeight: 800 }}>
+            {viewMode === 'video' ? 'Cinematic Demonstration' : 'Free 3D Exploration Lab'}
+          </span>
+        </div>
+
+        {/* Display Container: Demo Player or Interactive 3D Canvas */}
+        <div style={{ position: 'relative', width: '100%', flex: 1, minHeight: '380px', overflow: 'hidden', borderRadius: '24px' }}>
+          {viewMode === 'video' ? (
+            <BreakingMagnetDemoPlayer
+              externalIsPaused={isPaused}
+              onExternalTogglePause={handleTogglePause}
+              onExternalReset={handleReset}
+              onPhaseChange={handleVideoPhaseChange}
+              autoPlay={true}
+              loop={true}
+            />
+          ) : (
+            <div
+              style={{
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+                borderRadius: '24px',
+                overflow: 'hidden',
+                border: '1.5px solid #A7F3D0',
+                boxShadow: '0 12px 30px rgba(6, 78, 59, 0.12)',
+                backgroundImage: `url('/MagneticPoles/classroom_sunset_bg.jpg')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center center',
+                cursor: isDragging ? 'grabbing' : 'grab',
+                touchAction: 'none',
+                userSelect: 'none'
+              }}
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerCancel={handlePointerUp}
+            >
+              <Canvas
+                shadows
+                gl={{ alpha: true, antialias: true }}
+                camera={{ position: [0.1, 6.0, 22], fov: 38 }}
+                style={{ width: '100%', height: '100%' }}
+              >
+                <Suspense fallback={null}>
+                  <ambientLight intensity={1.1} color="#FFF7ED" />
+                  <directionalLight
+                    position={[-8, 16, 14]}
+                    intensity={2.0}
+                    color="#FED7AA"
+                    castShadow
+                    shadow-mapSize={[2048, 2048]}
+                    shadow-bias={-0.0001}
+                  />
+                  <directionalLight position={[10, 10, 10]} intensity={0.8} color="#E0F2FE" />
+                  <Environment preset="sunset" />
+
+                  <AnimatedLabGroup>
+                    <RotatableMagnetGroup rotationRef={rotationRef}>
+                      <BreakingMagnet3D broken={broken} showPoles={showPoles} />
+                    </RotatableMagnetGroup>
+                    <ContactShadows position={[0, -0.02, 0]} opacity={0.48} scale={18} blur={2.0} far={2.5} color="#251605" />
+                  </AnimatedLabGroup>
+                  <OrbitControls
+                    makeDefault
+                    target={[0.1, 4.4, 0]}
+                    enableZoom={false}
+                    enableRotate={false}
+                    enablePan={false}
+                  />
+                </Suspense>
+              </Canvas>
+
+              {/* Interaction Controls Hint */}
+              <div style={{
+                position: 'absolute', bottom: '14px', left: '16px', right: '16px',
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                pointerEvents: 'none', zIndex: 10
+              }}>
+                <div style={{
+                  background: 'rgba(6, 78, 59, 0.86)', backdropFilter: 'blur(8px)',
+                  color: '#FFFFFF', padding: '6px 14px', borderRadius: '20px',
+                  fontSize: '0.78rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px',
+                  border: '1px solid rgba(167, 243, 208, 0.45)', boxShadow: '0 4px 14px rgba(0,0,0,0.18)',
+                }}>
+                  <Hand size={14} color="#FDE68A" />
+                  <span>Hold &amp; drag anywhere to rotate &amp; tilt magnet</span>
+                </div>
+                <button
+                  onClick={handleResetRotation}
+                  style={{
+                    pointerEvents: 'auto', background: 'rgba(255,255,255,0.94)',
+                    border: '1.5px solid #A7F3D0', borderRadius: '16px', padding: '6px 12px',
+                    fontSize: '0.76rem', fontWeight: 800, color: '#065F46', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', gap: '6px',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.12)', transition: 'all 0.2s'
+                  }}
+                  title="Reset view angle"
+                >
+                  <RotateCcw size={13} color="#059669" />
+                  <span>Reset View</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
