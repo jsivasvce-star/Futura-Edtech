@@ -363,20 +363,20 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
           flexDirection: 'column',
           height: '100%',
           minHeight: 0,
-          background: '#FAF8F5',
-          border: '2px solid #D9C9A3',
+          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+          border: '1.5px solid #FDE68A',
           borderRadius: '16px',
-          boxShadow: 'inset 0 0 40px rgba(226, 211, 185, 0.35), 0 4px 16px rgba(0,0,0,0.06)',
+          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
           padding: '0.85rem',
           boxSizing: 'border-box',
           position: 'relative',
           overflow: 'hidden',
         }}>
           {/* Subtle Corner Registration Ticks */}
-          <div style={{ position: 'absolute', top: 8, left: 8, width: 10, height: 10, borderTop: '2px solid #D9C9A3', borderLeft: '2px solid #D9C9A3', pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', top: 8, right: 8, width: 10, height: 10, borderTop: '2px solid #D9C9A3', borderRight: '2px solid #D9C9A3', pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', bottom: 8, left: 8, width: 10, height: 10, borderBottom: '2px solid #D9C9A3', borderLeft: '2px solid #D9C9A3', pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', bottom: 8, right: 8, width: 10, height: 10, borderBottom: '2px solid #D9C9A3', borderRight: '2px solid #D9C9A3', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', top: 8, left: 8, width: 10, height: 10, borderTop: '2px solid #FDE68A', borderLeft: '2px solid #FDE68A', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', top: 8, right: 8, width: 10, height: 10, borderTop: '2px solid #FDE68A', borderRight: '2px solid #FDE68A', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', bottom: 8, left: 8, width: 10, height: 10, borderBottom: '2px solid #FDE68A', borderLeft: '2px solid #FDE68A', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', bottom: 8, right: 8, width: 10, height: 10, borderBottom: '2px solid #FDE68A', borderRight: '2px solid #FDE68A', pointerEvents: 'none' }} />
 
           {/* Object Cards Grid: 9 Items in strict 3×3 layout */}
           <div
@@ -639,7 +639,7 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
             </div>
           </div>
 
-          {/* Central Scanner Chamber — Violet / Indigo / Amber Plasma */}
+          {/* Central Scanner Chamber / Radar Pad */}
           <div style={{
             flex: 1,
             minHeight: 0,
@@ -648,464 +648,354 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'radial-gradient(ellipse at 50% 30%, #1C0A3A 0%, #0D0B1E 50%, #07050F 100%)',
+            backgroundImage: "url('/Activity4_1/science_lab_bg.jpg')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
             overflow: 'hidden',
           }}>
-            {/* Ambient star-field particles */}
-            {[...Array(18)].map((_, i) => (
-              <div key={i} style={{
-                position: 'absolute',
-                width: `${1 + (i % 3)}px`,
-                height: `${1 + (i % 3)}px`,
-                borderRadius: '50%',
-                background: i % 4 === 0 ? '#FBBF24' : '#A78BFA',
-                opacity: 0.2 + (i % 5) * 0.08,
-                top: `${(i * 17 + 5) % 95}%`,
-                left: `${(i * 23 + 8) % 92}%`,
-                pointerEvents: 'none',
-                animation: `energy-ring-pulse ${2 + (i % 3)}s ease-in-out infinite`,
-                animationDelay: `${(i * 0.3) % 2}s`,
-              }} />
-            ))}
+            {/* Subtle Sunlight & Depth Overlay */}
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, rgba(15, 23, 42, 0.2) 100%)',
+              zIndex: 1,
+              pointerEvents: 'none',
+            }} />
 
             {/* Circular Radar Chamber Container */}
             <div style={{
               position: 'relative',
-              width: 'min(310px, 68vw)',
-              height: 'min(310px, 68vw)',
+              width: 'min(395px, 82vw)',
+              height: 'min(395px, 82vw)',
+              borderRadius: '50%',
+              background: 'radial-gradient(circle at center, rgba(11, 23, 48, 0.90) 0%, rgba(7, 13, 27, 0.96) 80%, rgba(15, 23, 42, 0.98) 100%)',
+              border: '7px solid #1E293B',
+              outline: '3px solid #38BDF8',
+              outlineOffset: '3px',
+              boxShadow: '0 0 24px rgba(56, 189, 248, 0.45), 0 20px 50px rgba(0, 0, 0, 0.65), inset 0 0 40px rgba(56, 189, 248, 0.22)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               zIndex: 2,
             }}>
-              {/* Spinning Conic Gradient Ring */}
-              <div className="scanner-ring-outer" />
-
-              {/* Inner dark chamber disc */}
+              {/* Radar Rotating Sweep Beam */}
               <div style={{
                 position: 'absolute',
-                inset: '4px',
+                inset: 0,
                 borderRadius: '50%',
-                background: 'radial-gradient(circle at 40% 35%, #1A0A35 0%, #0D0720 55%, #060410 100%)',
-                zIndex: 2,
+                background: 'conic-gradient(from 0deg, rgba(56, 189, 248, 0) 0deg, rgba(56, 189, 248, 0.18) 45deg, rgba(56, 189, 248, 0) 46deg)',
+                animation: 'radar-sweep 4s linear infinite',
+                pointerEvents: 'none',
               }} />
 
-              {/* Active scan glow ring */}
-              {scanState === 'scanning' && (
-                <div className="scanner-active-glow" style={{ zIndex: 1 }} />
-              )}
-
-              {/* Energy rings — violet palette */}
-              <div className="scanner-energy-ring" style={{
-                width: '88%', height: '88%',
-                border: scanState === 'scanning'
-                  ? '1.5px solid rgba(251, 191, 36, 0.6)'
-                  : '1px solid rgba(139, 92, 246, 0.5)',
-                animationDuration: '2s',
-                zIndex: 3,
-              }} />
-              <div className="scanner-energy-ring" style={{
-                width: '68%', height: '68%',
-                border: scanState === 'scanning'
-                  ? '1px dashed rgba(251, 191, 36, 0.4)'
-                  : '1px dashed rgba(139, 92, 246, 0.35)',
-                animationDuration: '2.8s',
-                animationDelay: '0.4s',
-                zIndex: 3,
-              }} />
-              <div className="scanner-energy-ring" style={{
-                width: '44%', height: '44%',
-                border: scanState === 'scanning'
-                  ? '1px solid rgba(245, 158, 11, 0.55)'
-                  : '1px solid rgba(167, 139, 250, 0.3)',
-                animationDuration: '1.6s',
-                animationDelay: '0.8s',
-                zIndex: 3,
-              }} />
-
-              {/* Crosshair axes */}
+              {/* Concentric Cyan Radar Circles */}
               <div style={{
                 position: 'absolute',
-                width: '80%', height: '1px',
-                background: scanState === 'scanning'
-                  ? 'linear-gradient(90deg, transparent 0%, rgba(251, 191, 36, 0.5) 50%, transparent 100%)'
-                  : 'linear-gradient(90deg, transparent 0%, rgba(139, 92, 246, 0.45) 50%, transparent 100%)',
-                zIndex: 4, pointerEvents: 'none',
+                width: '78%',
+                height: '78%',
+                borderRadius: '50%',
+                border: '1px solid rgba(56, 189, 248, 0.35)',
+                pointerEvents: 'none',
               }} />
               <div style={{
                 position: 'absolute',
-                height: '80%', width: '1px',
-                background: scanState === 'scanning'
-                  ? 'linear-gradient(180deg, transparent 0%, rgba(251, 191, 36, 0.5) 50%, transparent 100%)'
-                  : 'linear-gradient(180deg, transparent 0%, rgba(139, 92, 246, 0.45) 50%, transparent 100%)',
-                zIndex: 4, pointerEvents: 'none',
+                width: '52%',
+                height: '52%',
+                borderRadius: '50%',
+                border: '1px dashed rgba(56, 189, 248, 0.3)',
+                pointerEvents: 'none',
+              }} />
+              <div style={{
+                position: 'absolute',
+                width: '26%',
+                height: '26%',
+                borderRadius: '50%',
+                border: '1px solid rgba(56, 189, 248, 0.25)',
+                pointerEvents: 'none',
               }} />
 
-              {/* Corner bracket decorators */}
-              {[
-                { top: '8%', left: '8%',   borderTop: true,  borderLeft: true  },
-                { top: '8%', right: '8%',  borderTop: true,  borderRight: true },
-                { bottom: '8%', left: '8%',  borderBottom: true, borderLeft: true  },
-                { bottom: '8%', right: '8%', borderBottom: true, borderRight: true },
-              ].map((pos, i) => (
-                <div key={i} style={{
-                  position: 'absolute',
-                  width: 14, height: 14,
-                  borderTop:    pos.borderTop    ? `2px solid ${scanState === 'scanning' ? '#FBBF24' : '#8B5CF6'}` : 'none',
-                  borderBottom: pos.borderBottom ? `2px solid ${scanState === 'scanning' ? '#FBBF24' : '#8B5CF6'}` : 'none',
-                  borderLeft:   pos.borderLeft   ? `2px solid ${scanState === 'scanning' ? '#FBBF24' : '#8B5CF6'}` : 'none',
-                  borderRight:  pos.borderRight  ? `2px solid ${scanState === 'scanning' ? '#FBBF24' : '#8B5CF6'}` : 'none',
-                  zIndex: 5,
-                  pointerEvents: 'none',
-                  ...pos,
-                }} />
-              ))}
+              {/* Crosshair Axes */}
+              <div style={{
+                position: 'absolute',
+                width: '88%',
+                height: '1px',
+                background: 'linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.4) 50%, transparent 100%)',
+                pointerEvents: 'none',
+              }} />
+              <div style={{
+                position: 'absolute',
+                height: '88%',
+                width: '1px',
+                background: 'linear-gradient(180deg, transparent 0%, rgba(56, 189, 248, 0.4) 50%, transparent 100%)',
+                pointerEvents: 'none',
+              }} />
 
               {/* ACTIVE ITEM ON RADAR PAD */}
               {selectedItem ? (
                 <div style={{
-                  position: 'absolute',
-                  inset: '4px',
-                  borderRadius: '50%',
+                  position: 'relative',
+                  width: '92%',
+                  height: '92%',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  zIndex: 5,
+                  zIndex: 4,
                 }}>
-                  {/* Object image — noticeably larger during scan via transform scale */}
+                  {/* Object Image — canvas-processed transparent PNG, floats on dark radar */}
                   <img
                     src={getImgSrc(selectedItem)}
                     alt={selectedItem.name}
                     style={{
-                      maxWidth: scanState === 'scanning' ? '82%' : '65%',
-                      maxHeight: scanState === 'scanning' ? '82%' : '65%',
+                      position: 'relative',
+                      zIndex: 5,
+                      maxWidth: '92%',
+                      maxHeight: '92%',
                       objectFit: 'contain',
-                      transform: scanState === 'scanning' ? 'scale(1.18)' : 'scale(1)',
-                      transition: 'max-width 0.35s ease, max-height 0.35s ease, transform 0.35s ease, filter 0.4s ease',
                       filter: scanState === 'scanning'
-                        ? 'drop-shadow(0 0 32px rgba(251, 191, 36, 0.95)) drop-shadow(0 0 16px rgba(167,139,250,0.7)) brightness(1.12)'
+                        ? 'drop-shadow(0 0 28px rgba(56, 189, 248, 0.9)) drop-shadow(0 0 12px rgba(56,189,248,0.6)) brightness(1.1)'
                         : selectedItem.isMagnetic
                         ? 'drop-shadow(0 0 24px rgba(34, 197, 94, 0.85)) drop-shadow(0 0 10px rgba(34,197,94,0.5))'
                         : 'drop-shadow(0 0 20px rgba(239, 68, 68, 0.75)) drop-shadow(0 0 8px rgba(239,68,68,0.4))',
+                      transition: 'filter 0.4s ease, transform 0.3s ease',
                       animation: scanState === 'scanning' ? 'holographic-pulse 1.8s ease-in-out infinite' : 'none',
-                      zIndex: 6,
                     }}
                   />
 
-                  {/* Amber scan beam */}
+                  {/* Vertical Laser Sweep Line */}
                   {scanState === 'scanning' && (
                     <div style={{
                       position: 'absolute',
-                      left: '8%', right: '8%',
+                      left: '5%',
+                      right: '5%',
                       height: '3px',
-                      background: 'linear-gradient(90deg, transparent, #FBBF24, #F59E0B, #FBBF24, transparent)',
-                      boxShadow: '0 0 12px #FBBF24, 0 0 28px #F59E0B, 0 0 6px #FEF3C7',
-                      zIndex: 8,
-                      animation: 'amber-scan-sweep 1.6s ease-in-out infinite',
+                      background: '#38BDF8',
+                      boxShadow: '0 0 14px #38BDF8, 0 0 24px #0284C7',
+                      zIndex: 6,
+                      animation: 'laser-sweep-vertical 1.35s ease-in-out infinite',
                       pointerEvents: 'none',
-                      borderRadius: '2px',
                     }} />
                   )}
                 </div>
               ) : (
-                /* IDLE STATE */
+                /* IDLE STATE IN SCANNER RADAR */
                 <div style={{
-                  position: 'absolute', inset: 0,
-                  display: 'flex', flexDirection: 'column',
-                  alignItems: 'center', justifyContent: 'center',
-                  textAlign: 'center', gap: '0.5rem',
-                  zIndex: 5, pointerEvents: 'none',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  padding: '1rem',
+                  gap: '0.45rem',
+                  zIndex: 4,
+                  pointerEvents: 'none',
                 }}>
-                  <div style={{
-                    width: 52, height: 52,
-                    borderRadius: '50%',
-                    background: 'radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, transparent 70%)',
-                    border: '2px solid rgba(139, 92, 246, 0.55)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    boxShadow: '0 0 24px rgba(139, 92, 246, 0.4)',
-                    animation: 'energy-ring-pulse 2s ease-in-out infinite',
+                  <Search size={48} color="#38BDF8" style={{ filter: 'drop-shadow(0 0 14px rgba(56, 189, 248, 0.6))' }} />
+                  <span style={{
+                    fontSize: '1.45rem',
+                    fontWeight: 900,
+                    color: '#E0F2FE',
+                    letterSpacing: '0.4px',
+                    textShadow: '0 0 12px rgba(56, 189, 248, 0.6)',
                   }}>
-                    <Search size={22} color="#A78BFA" style={{ filter: 'drop-shadow(0 0 8px rgba(167,139,250,0.8))' }} />
+                    Scanner Active
+                  </span>
+                  <span style={{
+                    fontSize: '0.88rem',
+                    color: '#94A3B8',
+                    maxWidth: '220px',
+                    lineHeight: 1.4,
+                    fontWeight: 700,
+                  }}>
+                    Click any object on the left to scan it!
+                  </span>
+                </div>
+              )}
+
+              {/* Progress HUD Badge while scanning */}
+              {scanState === 'scanning' && (
+                <div style={{
+                  position: 'absolute',
+                  top: '12px',
+                  background: 'rgba(15, 23, 42, 0.92)',
+                  border: '1.5px solid #38BDF8',
+                  borderRadius: '12px',
+                  padding: '6px 16px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '4px',
+                  zIndex: 10,
+                  boxShadow: '0 8px 24px rgba(2, 132, 199, 0.35)',
+                  minWidth: '180px',
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                    <span style={{ fontSize: '0.74rem', fontWeight: 900, color: '#38BDF8', letterSpacing: '0.6px' }}>
+                      SCANNING...
+                    </span>
+                    <span style={{ fontSize: '0.88rem', fontWeight: 900, color: '#FFFFFF' }}>
+                      {scanProgress}%
+                    </span>
                   </div>
-                  <span style={{
-                    fontSize: '1.15rem', fontWeight: 900,
-                    background: 'linear-gradient(135deg, #A78BFA, #FBBF24)',
-                    WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                    letterSpacing: '0.5px',
+
+                  {/* Progress Bar */}
+                  <div style={{
+                    width: '100%',
+                    height: '5px',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    borderRadius: '3px',
+                    overflow: 'hidden',
                   }}>
-                    PLASMA SCANNER
-                  </span>
-                  <span style={{
-                    fontSize: '0.8rem', color: '#6D6A85',
-                    maxWidth: '180px', lineHeight: 1.4, fontWeight: 600,
-                  }}>
-                    Click an object to begin scan
-                  </span>
+                    <div style={{
+                      width: `${scanProgress}%`,
+                      height: '100%',
+                      background: '#38BDF8',
+                      boxShadow: '0 0 10px #38BDF8',
+                      transition: 'width 0.08s linear',
+                    }} />
+                  </div>
                 </div>
               )}
             </div>
 
-            {/* Scanning Progress HUD — amber themed */}
-            {scanState === 'scanning' && (
-              <div style={{
-                position: 'absolute',
-                bottom: '12px',
-                background: 'rgba(13, 7, 30, 0.95)',
-                border: '1.5px solid rgba(251, 191, 36, 0.6)',
-                borderRadius: '12px',
-                padding: '7px 18px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '5px',
-                zIndex: 10,
-                boxShadow: '0 4px 20px rgba(251, 191, 36, 0.25)',
-                minWidth: '190px',
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                  <span style={{ fontSize: '0.72rem', fontWeight: 900, color: '#FBBF24', letterSpacing: '0.8px' }}>
-                    ⚡ SCANNING...
-                  </span>
-                  <span style={{ fontSize: '0.9rem', fontWeight: 900, color: '#FFFFFF' }}>
-                    {scanProgress}%
-                  </span>
-                </div>
-                <div style={{
-                  width: '100%', height: '4px',
-                  background: 'rgba(255,255,255,0.08)',
-                  borderRadius: '3px', overflow: 'hidden',
-                }}>
-                  <div style={{
-                    width: `${scanProgress}%`, height: '100%',
-                    background: 'linear-gradient(90deg, #7C3AED, #FBBF24)',
-                    boxShadow: '0 0 10px #FBBF24',
-                    transition: 'width 0.08s linear',
-                    borderRadius: '3px',
-                  }} />
-                </div>
-              </div>
-            )}
-
-            {/* SCAN RESULTS TELEMETRY CARD (WHEN A SCAN IS COMPLETED) */}
-            {selectedItem && scanState === 'complete' && (
-              <motion.div
-                initial={{ opacity: 0, y: 12, scale: 0.96 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.25 }}
-                style={{
-                  position: 'absolute',
-                  bottom: '10px',
-                  left: '12px',
-                  right: '12px',
-                  background: 'rgba(15, 23, 42, 0.94)',
-                  backdropFilter: 'blur(10px)',
-                  border: selectedItem.isMagnetic ? '1.5px solid #22C55E' : '1.5px solid #EF4444',
-                  borderRadius: '14px',
-                  padding: '0.75rem 1rem',
-                  boxShadow: selectedItem.isMagnetic 
-                    ? '0 8px 25px rgba(34, 197, 94, 0.25)' 
-                    : '0 8px 25px rgba(239, 68, 68, 0.2)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '0.35rem',
-                  zIndex: 10,
-                  boxSizing: 'border-box',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <span style={{ fontSize: '1.05rem', fontWeight: 900, color: '#FFFFFF' }}>
-                      {selectedItem.name}
-                    </span>
-                    <span style={{
-                      fontSize: '0.72rem',
-                      fontWeight: 800,
-                      padding: '2px 8px',
-                      borderRadius: '6px',
-                      background: 'rgba(255, 255, 255, 0.1)',
-                      color: '#94A3B8',
-                    }}>
-                      {selectedItem.material}
-                    </span>
-                  </div>
-
-                  {/* Status Banner */}
-                  <div style={{
-                    display: 'inline-flex',
+            {/* SCAN RESULTS TELEMETRY CARD - MUCH LARGER & CENTERED IN SCANNING AREA */}
+            <AnimatePresence>
+              {selectedItem && scanState === 'complete' && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex',
                     alignItems: 'center',
-                    gap: '4px',
-                    padding: '3px 10px',
-                    borderRadius: '8px',
-                    background: selectedItem.isMagnetic ? '#16A34A' : '#DC2626',
-                    color: '#FFFFFF',
-                    fontSize: '0.78rem',
-                    fontWeight: 900,
-                    letterSpacing: '0.3px',
-                    boxShadow: selectedItem.isMagnetic 
-                      ? '0 2px 10px rgba(22, 163, 74, 0.4)' 
-                      : '0 2px 10px rgba(220, 38, 38, 0.4)',
-                  }}>
-                    {selectedItem.isMagnetic ? <CheckCircle2 size={13} /> : <XCircle size={13} />}
-                    <span>{selectedItem.isMagnetic ? 'FERROMAGNETIC' : 'NON-MAGNETIC'}</span>
-                  </div>
-                </div>
+                    justifyContent: 'center',
+                    padding: '1.25rem',
+                    background: 'rgba(11, 17, 32, 0.72)',
+                    backdropFilter: 'blur(8px)',
+                    zIndex: 25,
+                  }}
+                >
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.84, y: 15 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.84, y: -10 }}
+                    transition={{ type: 'spring', damping: 22, stiffness: 280 }}
+                    style={{
+                      width: '100%',
+                      maxWidth: '440px',
+                      background: 'linear-gradient(150deg, #0F172A 0%, #1E293B 100%)',
+                      border: selectedItem.isMagnetic
+                        ? '2px solid #22C55E'
+                        : '2px solid #EF4444',
+                      borderRadius: '20px',
+                      padding: '1.6rem 1.8rem',
+                      boxShadow: selectedItem.isMagnetic
+                        ? '0 20px 50px rgba(0, 0, 0, 0.65), 0 0 32px rgba(34, 197, 94, 0.3)'
+                        : '0 20px 50px rgba(0, 0, 0, 0.65), 0 0 32px rgba(239, 68, 68, 0.25)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '1.1rem',
+                      boxSizing: 'border-box',
+                      position: 'relative',
+                    }}
+                  >
+                    {/* Object Header: Image Thumbnail + Name + Material */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                      <div style={{
+                        width: '60px',
+                        height: '60px',
+                        borderRadius: '14px',
+                        background: 'rgba(255, 255, 255, 0.07)',
+                        border: '1.5px solid rgba(255, 255, 255, 0.12)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                        padding: '6px',
+                      }}>
+                        <img
+                          src={getImgSrc(selectedItem)}
+                          alt={selectedItem.name}
+                          style={{
+                            maxWidth: '100%',
+                            maxHeight: '100%',
+                            objectFit: 'contain',
+                            filter: selectedItem.isMagnetic
+                              ? 'drop-shadow(0 0 8px rgba(34, 197, 94, 0.6))'
+                              : 'drop-shadow(0 0 8px rgba(239, 68, 68, 0.5))',
+                          }}
+                        />
+                      </div>
 
-                <p style={{
-                  margin: 0,
-                  fontSize: '0.78rem',
-                  color: '#CBD5E1',
-                  lineHeight: 1.35,
-                  fontWeight: 600,
-                }}>
-                  {selectedItem.explanation}
-                </p>
-              </motion.div>
-            )}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', minWidth: 0, flex: 1 }}>
+                        <h3 style={{
+                          margin: 0,
+                          fontSize: '1.5rem',
+                          fontWeight: 900,
+                          color: '#FFFFFF',
+                          letterSpacing: '-0.01em',
+                          lineHeight: 1.2,
+                        }}>
+                          {selectedItem.name}
+                        </h3>
+                        <span style={{
+                          fontSize: '0.88rem',
+                          fontWeight: 700,
+                          color: '#94A3B8',
+                        }}>
+                          {selectedItem.material}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Prominent Status Banner */}
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      padding: '0.75rem 1.2rem',
+                      borderRadius: '12px',
+                      background: selectedItem.isMagnetic
+                        ? 'linear-gradient(135deg, #16A34A 0%, #15803D 100%)'
+                        : 'linear-gradient(135deg, #DC2626 0%, #B91C1C 100%)',
+                      color: '#FFFFFF',
+                      fontSize: '1.1rem',
+                      fontWeight: 900,
+                      letterSpacing: '0.8px',
+                      boxShadow: selectedItem.isMagnetic
+                        ? '0 4px 16px rgba(22, 163, 74, 0.45)'
+                        : '0 4px 16px rgba(220, 38, 38, 0.45)',
+                    }}>
+                      {selectedItem.isMagnetic ? <CheckCircle2 size={22} /> : <XCircle size={22} />}
+                      <span>{selectedItem.isMagnetic ? 'MAGNETIC' : 'NON-MAGNETIC'}</span>
+                    </div>
+
+                    {/* Scientific Explanation Box */}
+                    <div style={{
+                      background: 'rgba(0, 0, 0, 0.3)',
+                      border: '1px solid rgba(255, 255, 255, 0.08)',
+                      borderRadius: '12px',
+                      padding: '1rem 1.15rem',
+                    }}>
+                      <p style={{
+                        margin: 0,
+                        fontSize: '0.98rem',
+                        color: '#E2E8F0',
+                        lineHeight: 1.55,
+                        fontWeight: 600,
+                      }}>
+                        {selectedItem.explanation}
+                      </p>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-
-          {/* Device Bottom Summary Stats */}
-          <div style={{
-            padding: '0.55rem 0.9rem',
-            background: '#0B1120',
-            borderTop: '1.5px solid #1E293B',
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '0.5rem',
-            flexShrink: 0,
-            zIndex: 10,
-          }}>
-            <div style={{
-              background: 'rgba(34, 197, 94, 0.12)',
-              border: '1px solid rgba(34, 197, 94, 0.3)',
-              borderRadius: '8px',
-              padding: '0.35rem 0.65rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-              <span style={{ fontSize: '0.78rem', color: '#86EFAC', fontWeight: 800 }}>🧲 Magnetic:</span>
-              <strong style={{ fontSize: '0.92rem', color: '#4ADE80', fontWeight: 900 }}>{magneticCount}</strong>
-            </div>
-
-            <div style={{
-              background: 'rgba(239, 68, 68, 0.12)',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
-              borderRadius: '8px',
-              padding: '0.35rem 0.65rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-              <span style={{ fontSize: '0.78rem', color: '#FCA5A5', fontWeight: 800 }}>🛡️ Non-Magnetic:</span>
-              <strong style={{ fontSize: '0.92rem', color: '#F87171', fontWeight: 900 }}>{nonMagneticCount}</strong>
-            </div>
-          </div>
         </div>
-      </div>
-
-      {/* ========================================================================= */}
-      {/* BOTTOM ACTION BAR (Reset Activity, Status & Proceed to Quiz)             */}
-      {/* ========================================================================= */}
-      <div style={{
-        padding: '0.55rem 0.85rem',
-        background: '#FFFFFF',
-        border: '1.5px solid #E2E8F0',
-        borderRadius: '14px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexShrink: 0,
-        gap: '0.75rem',
-      }}>
-        {/* Left: Reset Button & Table 4.1 Button */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <button
-            onClick={handleResetActivity}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '0.6rem 1.15rem',
-              fontSize: '0.86rem',
-              fontWeight: 800,
-              borderRadius: '12px',
-              background: '#F8FAFC',
-              border: '1.5px solid #CBD5E1',
-              color: '#475569',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-            }}
-            title="Reset scanned materials to test again"
-          >
-            <RotateCcw size={15} color="#475569" />
-            <span>Reset Activity</span>
-          </button>
-
-          <button
-            onClick={() => setShowTableModal(true)}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '0.6rem 1.15rem',
-              fontSize: '0.86rem',
-              fontWeight: 800,
-              borderRadius: '12px',
-              background: '#F8FAFC',
-              border: '1.5px solid #CBD5E1',
-              color: '#064E3B',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-            }}
-            title="View NCERT Table 4.1 Material Log"
-          >
-            <TableIcon size={15} color="#064E3B" />
-            <span>NCERT Table 4.1</span>
-          </button>
-        </div>
-
-        {/* Center: Activity Status Feedback */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          {isAllComplete ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#16A34A' }}>
-              <CheckCircle2 size={18} />
-              <span style={{ fontSize: '0.92rem', fontWeight: 900 }}>
-                All 10 Materials Classified! Ready for Knowledge Quiz.
-              </span>
-            </div>
-          ) : (
-            <span style={{ fontSize: '0.86rem', fontWeight: 700, color: '#64748B' }}>
-              Click items to scan ({scannedCount}/10 completed)
-            </span>
-          )}
-        </div>
-
-        {/* Right: Proceed to Knowledge Quiz */}
-        <button
-          onClick={isAllComplete ? onComplete : undefined}
-          disabled={!isAllComplete}
-          className={isAllComplete ? 'gold-glow-btn' : ''}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.6rem',
-            padding: '0.65rem 1.45rem',
-            fontSize: '0.92rem',
-            fontWeight: 900,
-            borderRadius: '12px',
-            background: isAllComplete ? undefined : '#F1F5F9',
-            color: isAllComplete ? '#FFFFFF' : '#94A3B8',
-            border: isAllComplete ? 'none' : '1.5px solid #CBD5E1',
-            cursor: isAllComplete ? 'pointer' : 'not-allowed',
-            opacity: isAllComplete ? 1 : 0.65,
-            transition: 'all 0.25s ease',
-          }}
-          title={isAllComplete ? 'Proceed to Knowledge Quiz' : 'Scan all 10 objects to unlock the quiz'}
-        >
-          {!isAllComplete && <Lock size={15} color="#94A3B8" />}
-          <span>Proceed to next</span>
-          <ArrowRight size={17} color={isAllComplete ? '#FFFFFF' : '#94A3B8'} />
-        </button>
       </div>
 
       {/* ========================================================================= */}
