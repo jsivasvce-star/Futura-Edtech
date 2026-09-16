@@ -11,71 +11,38 @@ import '../MagneticPoles.css';
 // ---------------------------------------------------------
 // Rotatable System for Magnet
 // ---------------------------------------------------------
-function RotatableMagnetGroup({ children }) {
+// ---------------------------------------------------------
+// Rotatable System for Magnet (2-Axis Pitch & Yaw centered at y = 4.2)
+// ---------------------------------------------------------
+function RotatableMagnetGroup({ children, rotationRef }) {
   const groupRef = useRef();
-  const targetRotationY = useRef(0);
-  const currentRotationY = useRef(0);
-  const isPointerDown = useRef(false);
-  const startX = useRef(0);
-
-  useEffect(() => {
-    const onPointerMove = (e) => {
-      if (!isPointerDown.current) return;
-      const deltaX = e.clientX - startX.current;
-      startX.current = e.clientX;
-      targetRotationY.current += deltaX * 0.012;
-    };
-
-    const onPointerUp = () => {
-      isPointerDown.current = false;
-      document.body.style.cursor = 'auto';
-    };
-
-    window.addEventListener('pointermove', onPointerMove);
-    window.addEventListener('pointerup', onPointerUp);
-    return () => {
-      window.removeEventListener('pointermove', onPointerMove);
-      window.removeEventListener('pointerup', onPointerUp);
-    };
-  }, []);
+  const currentRotation = useRef({ x: 0, y: 0 });
 
   useFrame((state, delta) => {
     if (!groupRef.current) return;
     const dt = Math.min(delta, 0.1);
-    currentRotationY.current = THREE.MathUtils.lerp(currentRotationY.current, targetRotationY.current, dt * 12);
-    groupRef.current.rotation.y = currentRotationY.current;
+    const targetY = rotationRef ? rotationRef.current.y : 0;
+    const targetX = rotationRef ? rotationRef.current.x : 0;
+
+    currentRotation.current.y = THREE.MathUtils.lerp(currentRotation.current.y, targetY, dt * 10);
+    currentRotation.current.x = THREE.MathUtils.lerp(currentRotation.current.x, targetX, dt * 10);
+
+    groupRef.current.rotation.y = currentRotation.current.y;
+    groupRef.current.rotation.x = currentRotation.current.x;
   });
 
   return (
-    <group 
-      ref={groupRef}
-      onPointerDown={(e) => {
-        e.stopPropagation();
-        isPointerDown.current = true;
-        startX.current = e.clientX;
-        document.body.style.cursor = 'grabbing';
-      }}
-      onPointerOver={(e) => {
-        e.stopPropagation();
-        document.body.style.cursor = 'grab';
-      }}
-      onPointerOut={() => {
-        if (!isPointerDown.current) {
-          document.body.style.cursor = 'auto';
-        }
-      }}
-    >
-      {/* Invisible hit cylinder around magnet to catch drag gestures */}
-      <mesh visible={false} position={[0, 4.0, 0]}>
-        <cylinderGeometry args={[12, 12, 5.5, 32]} />
-        <meshBasicMaterial transparent opacity={0} />
-      </mesh>
-      {children}
+    <group position={[0, 4.2, 0]}>
+      <group ref={groupRef}>
+        <group position={[0, -4.2, 0]}>
+          {children}
+        </group>
+      </group>
     </group>
   );
 }
 
-// 3D Breaking Magnet Component exactly matching Stage 1 Magnet (14.0 x 1.5 x 2.2) and Paper (30 x 0.04 x 18)
+// 3D Breaking Magnet Component exactly matching Stage 1 Magnet (Colors: #DC2626 & #2563EB, No dark lines)
 function BreakingMagnet3D({ broken, showPoles }) {
   const leftGroupRef = useRef();
   const rightGroupRef = useRef();
@@ -102,101 +69,149 @@ function BreakingMagnet3D({ broken, showPoles }) {
     }
   });
 
+  // Solid, vibrant colors exactly matching Stage 1
+  const RED = '#DC2626';
+  const BLUE = '#2563EB';
+
   return (
     <group position={[0, 4.2, 0]} scale={[1.35, 2.2, 1.35]}>
       {/* ---------------- LEFT PIECE (Length: 6.0, Height: 1.3, Depth: 1.9) ---------------- */}
       <group ref={leftGroupRef} position={[0, 0, 0]}>
-        {/* Left Sub-Half: North Pole (3.0 length) */}
-        <mesh position={[-4.5, 0, 0]} castShadow receiveShadow>
+        {/* Left Sub-Half: North Pole (3.0 length) - Bold Red */}
+        <mesh position={[-4.5, 0, 0]} castShadow receiveShadow={false}>
           <boxGeometry args={[3.0, 1.3, 1.9]} />
-          <meshStandardMaterial color="#124982" roughness={0.4} metalness={0.25} />
+          <meshStandardMaterial color={RED} roughness={0.4} metalness={0.1} />
         </mesh>
-        
-        {/* North Pole Letter */}
-        <Text
-          position={[-4.2, 0.66, 0]}
-          rotation={[-Math.PI / 2, 0, 0]}
-          fontSize={0.95}
-          color="#FFFFFF"
-          fontWeight="bold"
-        >
-          N
-        </Text>
 
         {/* Left Sub-Half: Body turns into South Pole upon reveal (3.0 length) */}
-        <mesh position={[-1.5, 0, 0]} castShadow receiveShadow>
+        <mesh position={[-1.5, 0, 0]} castShadow receiveShadow={false}>
           <boxGeometry args={[3.0, 1.3, 1.9]} />
           <meshStandardMaterial
-            color={showPoles ? '#A31820' : '#124982'}
+            color={showPoles ? BLUE : RED}
             roughness={0.4}
-            metalness={0.25}
+            metalness={0.1}
           />
         </mesh>
 
-        {/* New South Pole Letter on Left Piece cut edge */}
+        {/* North Pole Text on Front and Top */}
+        <Text
+          position={[showPoles ? -4.5 : -3.0, 0, 0.965]}
+          fontSize={showPoles ? 0.52 : 0.65}
+          color="#FFFFFF"
+          fontWeight="bold"
+          anchorX="center"
+          anchorY="middle"
+        >
+          North
+        </Text>
+        <Text
+          position={[showPoles ? -4.5 : -3.0, 0.665, 0]}
+          rotation={[-Math.PI / 2, 0, 0]}
+          fontSize={showPoles ? 0.52 : 0.65}
+          color="#FFFFFF"
+          fontWeight="bold"
+          anchorX="center"
+          anchorY="middle"
+        >
+          North
+        </Text>
+
+        {/* New South Pole Text on Left Piece cut edge upon reveal */}
         {showPoles && (
-          <Text
-            position={[-1.5, 0.66, 0]}
-            rotation={[-Math.PI / 2, 0, 0]}
-            fontSize={0.95}
-            color="#FFFFFF"
-            fontWeight="bold"
-          >
-            S
-          </Text>
+          <>
+            <Text
+              position={[-1.5, 0, 0.965]}
+              fontSize={0.52}
+              color="#FFFFFF"
+              fontWeight="bold"
+              anchorX="center"
+              anchorY="middle"
+            >
+              South
+            </Text>
+            <Text
+              position={[-1.5, 0.665, 0]}
+              rotation={[-Math.PI / 2, 0, 0]}
+              fontSize={0.52}
+              color="#FFFFFF"
+              fontWeight="bold"
+              anchorX="center"
+              anchorY="middle"
+            >
+              South
+            </Text>
+          </>
         )}
       </group>
 
       {/* ---------------- RIGHT PIECE (Length: 6.0, Height: 1.3, Depth: 1.9) ---------------- */}
       <group ref={rightGroupRef} position={[0, 0, 0]}>
         {/* Right Sub-Half: Body turns into North Pole upon reveal (3.0 length) */}
-        <mesh position={[1.5, 0, 0]} castShadow receiveShadow>
+        <mesh position={[1.5, 0, 0]} castShadow receiveShadow={false}>
           <boxGeometry args={[3.0, 1.3, 1.9]} />
           <meshStandardMaterial
-            color={showPoles ? '#124982' : '#A31820'}
+            color={showPoles ? RED : BLUE}
             roughness={0.4}
-            metalness={0.25}
+            metalness={0.1}
           />
         </mesh>
 
-        {/* New North Pole Letter on Right Piece cut edge */}
+        {/* New North Pole Text on Right Piece cut edge upon reveal */}
         {showPoles && (
-          <Text
-            position={[1.5, 0.66, 0]}
-            rotation={[-Math.PI / 2, 0, 0]}
-            fontSize={0.95}
-            color="#FFFFFF"
-            fontWeight="bold"
-          >
-            N
-          </Text>
+          <>
+            <Text
+              position={[1.5, 0, 0.965]}
+              fontSize={0.52}
+              color="#FFFFFF"
+              fontWeight="bold"
+              anchorX="center"
+              anchorY="middle"
+            >
+              North
+            </Text>
+            <Text
+              position={[1.5, 0.665, 0]}
+              rotation={[-Math.PI / 2, 0, 0]}
+              fontSize={0.52}
+              color="#FFFFFF"
+              fontWeight="bold"
+              anchorX="center"
+              anchorY="middle"
+            >
+              North
+            </Text>
+          </>
         )}
 
-        {/* Right Sub-Half: South Pole (3.0 length) */}
-        <mesh position={[4.5, 0, 0]} castShadow receiveShadow>
+        {/* Right Sub-Half: South Pole (3.0 length) - Deep Ocean Blue */}
+        <mesh position={[4.5, 0, 0]} castShadow receiveShadow={false}>
           <boxGeometry args={[3.0, 1.3, 1.9]} />
-          <meshStandardMaterial color="#A31820" roughness={0.4} metalness={0.25} />
+          <meshStandardMaterial color={BLUE} roughness={0.4} metalness={0.1} />
         </mesh>
 
-        {/* South Pole Letter */}
+        {/* South Pole Text on Front and Top */}
         <Text
-          position={[4.2, 0.66, 0]}
-          rotation={[-Math.PI / 2, 0, 0]}
-          fontSize={0.95}
+          position={[showPoles ? 4.5 : 3.0, 0, 0.965]}
+          fontSize={showPoles ? 0.52 : 0.65}
           color="#FFFFFF"
           fontWeight="bold"
+          anchorX="center"
+          anchorY="middle"
         >
-          S
+          South
+        </Text>
+        <Text
+          position={[showPoles ? 4.5 : 3.0, 0.665, 0]}
+          rotation={[-Math.PI / 2, 0, 0]}
+          fontSize={showPoles ? 0.52 : 0.65}
+          color="#FFFFFF"
+          fontWeight="bold"
+          anchorX="center"
+          anchorY="middle"
+        >
+          South
         </Text>
       </group>
-
-      {/* Center Dividing Seam (Exact dimension: 0.06 x 1.31 x 1.91) */}
-      {!broken && (
-        <mesh position={[0, 0, 0]}>
-          <boxGeometry args={[0.06, 1.31, 1.91]} />
-          <meshStandardMaterial color="#111827" roughness={0.7} />
-        </mesh>
-      )}
     </group>
   );
 }
@@ -207,7 +222,7 @@ function BreakingMagnet3D({ broken, showPoles }) {
 function AnimatedLabGroup({ children }) {
   const FIXED_SCALE = 0.36;
   return (
-    <group position={[0.5, 0.3, 0]} scale={[FIXED_SCALE, FIXED_SCALE, FIXED_SCALE]}>
+    <group position={[0.1, 5.2, 0]} scale={[FIXED_SCALE, FIXED_SCALE, FIXED_SCALE]}>
       {children}
     </group>
   );
@@ -217,6 +232,46 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
   const [broken, setBroken] = useState(false);
   const [showPoles, setShowPoles] = useState(false);
   const [quizAnswer, setQuizAnswer] = useState(null);
+
+  // Rotation and tilt controls matching Stage 1
+  const rotationRef = useRef({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const isDraggingRef = useRef(false);
+  const lastPointerRef = useRef({ x: 0, y: 0 });
+
+  const handlePointerDown = (e) => {
+    if (e.target.closest('button')) return;
+    isDraggingRef.current = true;
+    setIsDragging(true);
+    lastPointerRef.current = { x: e.clientX, y: e.clientY };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const handlePointerMove = (e) => {
+    if (!isDraggingRef.current) return;
+    const deltaX = e.clientX - lastPointerRef.current.x;
+    const deltaY = e.clientY - lastPointerRef.current.y;
+    lastPointerRef.current = { x: e.clientX, y: e.clientY };
+
+    rotationRef.current.y += deltaX * 0.009;
+    rotationRef.current.x += deltaY * 0.007;
+    rotationRef.current.x = Math.max(-0.35, Math.min(1.25, rotationRef.current.x));
+  };
+
+  const handlePointerUp = (e) => {
+    if (!isDraggingRef.current) return;
+    isDraggingRef.current = false;
+    setIsDragging(false);
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch (_) {}
+  };
+
+  const handleResetRotation = (e) => {
+    e.stopPropagation();
+    rotationRef.current.x = 0;
+    rotationRef.current.y = 0;
+  };
 
   const handleBreak = () => {
     setBroken(true);
@@ -230,6 +285,8 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
     setBroken(false);
     setShowPoles(false);
     setQuizAnswer(null);
+    rotationRef.current.x = 0;
+    rotationRef.current.y = 0;
   };
 
   const handleQuizAnswer = (answer) => {
@@ -280,37 +337,44 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
             backgroundImage: `url('/MagneticPoles/classroom_sunset_bg.jpg')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center center',
+            cursor: isDragging ? 'grabbing' : 'grab',
+            touchAction: 'none',
+            userSelect: 'none'
           }}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
         >
           {/* 3D Canvas Scene matching Stage 1 Camera, Lighting, and Controls */}
           <Canvas
             shadows
             gl={{ alpha: true, antialias: true }}
-            camera={{ position: [0, 10.6, 24], fov: 40 }}
+            camera={{ position: [0.1, 6.0, 22], fov: 38 }}
             style={{ width: '100%', height: '100%' }}
           >
             <Suspense fallback={null}>
-              <ambientLight intensity={0.9} color="#FFF7ED" />
+              <ambientLight intensity={1.1} color="#FFF7ED" />
               <directionalLight
-                position={[-12, 18, 10]}
-                intensity={2.2}
+                position={[-8, 16, 14]}
+                intensity={2.0}
                 color="#FED7AA"
                 castShadow
                 shadow-mapSize={[2048, 2048]}
                 shadow-bias={-0.0001}
               />
-              <directionalLight position={[12, 10, -5]} intensity={0.5} color="#E0F2FE" />
+              <directionalLight position={[10, 10, 10]} intensity={0.8} color="#E0F2FE" />
               <Environment preset="sunset" />
 
               <AnimatedLabGroup>
-                <RotatableMagnetGroup>
+                <RotatableMagnetGroup rotationRef={rotationRef}>
                   <BreakingMagnet3D broken={broken} showPoles={showPoles} />
                 </RotatableMagnetGroup>
                 <ContactShadows position={[0, -0.02, 0]} opacity={0.48} scale={18} blur={2.0} far={2.5} color="#251605" />
               </AnimatedLabGroup>
               <OrbitControls
                 makeDefault
-                target={[0, -1.4, 0]}
+                target={[0.1, 4.4, 0]}
                 enableZoom={false}
                 enableRotate={false}
                 enablePan={false}
@@ -318,28 +382,59 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
             </Suspense>
           </Canvas>
 
-          {/* Passive Interaction Hint Overlay */}
+          {/* Interaction Controls & Hint Overlay matching Stage 1 */}
           <div style={{
             position: 'absolute',
             bottom: '14px',
             left: '16px',
-            background: 'rgba(6, 78, 59, 0.82)',
-            backdropFilter: 'blur(8px)',
-            color: '#FFFFFF',
-            padding: '6px 14px',
-            borderRadius: '20px',
-            fontSize: '0.78rem',
-            fontWeight: 700,
+            right: '16px',
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
-            border: '1px solid rgba(167, 243, 208, 0.45)',
+            justifyContent: 'space-between',
             pointerEvents: 'none',
-            boxShadow: '0 4px 14px rgba(0,0,0,0.18)',
             zIndex: 10
           }}>
-            <Hand size={14} color="#FDE68A" />
-            <span>Drag magnet to rotate</span>
+            <div style={{
+              background: 'rgba(6, 78, 59, 0.86)',
+              backdropFilter: 'blur(8px)',
+              color: '#FFFFFF',
+              padding: '6px 14px',
+              borderRadius: '20px',
+              fontSize: '0.78rem',
+              fontWeight: 700,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              border: '1px solid rgba(167, 243, 208, 0.45)',
+              boxShadow: '0 4px 14px rgba(0,0,0,0.18)',
+            }}>
+              <Hand size={14} color="#FDE68A" />
+              <span>Hold & drag anywhere to rotate & tilt magnet</span>
+            </div>
+
+            <button
+              onClick={handleResetRotation}
+              style={{
+                pointerEvents: 'auto',
+                background: 'rgba(255, 255, 255, 0.94)',
+                border: '1.5px solid #A7F3D0',
+                borderRadius: '16px',
+                padding: '6px 12px',
+                fontSize: '0.76rem',
+                fontWeight: 800,
+                color: '#065F46',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
+                transition: 'all 0.2s'
+              }}
+              title="Reset view angle"
+            >
+              <RotateCcw size={13} color="#059669" />
+              <span>Reset View</span>
+            </button>
           </div>
         </div>
       </div>
@@ -366,7 +461,7 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
             <Scissors size={26} color="#D97706" />
             <h3 style={{ margin: 0, fontSize: '1.45rem', color: '#78350F', fontWeight: 900 }}>
-              Stage 2: Breaking Magnet
+              Stage 2: Breaking a Magnet
             </h3>
           </div>
           <span style={{

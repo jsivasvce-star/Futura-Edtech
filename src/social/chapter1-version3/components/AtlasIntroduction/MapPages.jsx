@@ -6,7 +6,7 @@ import politicalImg from './assets/political.png';
 import thematicMapImg from './assets/thematic-map.jpeg';
 import ContentScrollNav, { useScrollNav } from '../ContentScrollNav';
 import IndiaMountainsMapExplorer from './IndiaMountainsMapExplorer';
-
+import { theme } from './theme';
 // The interactive 3D globe (physical / political / thematic modes) lives as a
 // static asset so it can be dropped into an iframe from anywhere in the app.
 const GLOBE_URL = '/atlas-globe.html';
@@ -246,23 +246,23 @@ const PageLayout = ({
   }, [leftPage, LEFT_PAGES, onFullyViewed]);
 
   // shared card chrome
-  const pageCol = { display: 'flex', flexDirection: 'column', gap: 'clamp(6px, 1.4vh, 10px)', flex: 1, minHeight: 0 };
-  const cardBase = { border: '1.5px solid #F2DFBC', borderRadius: '14px', boxShadow: '0 2px 8px rgba(60,40,20,0.03)' };
-  const headStyle = { fontSize: 'clamp(13px, 2.3vh, 15.5px)', color: '#78350F', marginTop: 0, fontWeight: 900, fontFamily: '"Fraunces", serif', flexShrink: 0 };
+  const pageCol = { display: 'flex', flexDirection: 'column', gap: theme.spacing.fluid.md, flex: 1, minHeight: 0 };
+  const cardBase = { border: `1.5px solid ${theme.colors.border}`, borderRadius: theme.radius.md, boxShadow: theme.shadows.card };
+  const headStyle = { fontSize: theme.typography.sizes.sectionHeading, color: theme.colors.primary, marginTop: 0, fontWeight: 900, fontFamily: theme.typography.fonts.heading, flexShrink: 0 };
 
   const renderBlock = (block, i, probe) => {
     if (block.type === 'whatIs') {
       return (
-        <div key={i} data-p={probe} style={{ ...cardBase, background: '#FFFFFF', padding: 'clamp(8px, 1.5vh, 12px) 14px', flexShrink: 0 }}>
-          <h3 style={{ ...headStyle, marginBottom: '6px' }}>{whatIsTitle}</h3>
+        <div key={i} data-p={probe} style={{ ...cardBase, background: theme.colors.card, padding: `${theme.spacing.fluid.md} ${theme.spacing.fluid.lg}`, flexShrink: 0 }}>
+          <h3 style={{ ...headStyle, marginBottom: theme.spacing.s2 }}>{whatIsTitle}</h3>
           {whatIs.map((p, k) => (
             <p
               key={k}
               style={{
-                margin: k > 0 ? '6px 0 0 0' : 0,
-                color: '#3D2E24',
-                fontSize: 'clamp(11.5px, 2.0vh, 14px)',
-                lineHeight: 1.5,
+                margin: k > 0 ? theme.spacing.s2 : 0,
+                color: theme.colors.text,
+                fontSize: theme.typography.sizes.body,
+                lineHeight: 1.6,
                 fontWeight: 600,
                 textAlign: 'justify',
                 textJustify: 'inter-word'
@@ -277,11 +277,11 @@ const PageLayout = ({
 
     if (block.type === 'features') {
       return (
-        <div key={i} data-p={probe} style={{ ...cardBase, background: '#FFF9F0', padding: 'clamp(8px, 1.5vh, 12px) 12px', flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
-          <h3 style={{ ...headStyle, marginBottom: 'clamp(5px, 1.1vh, 8px)' }}>
+        <div key={i} data-p={probe} style={{ ...cardBase, background: theme.colors.paper, padding: `${theme.spacing.fluid.md} ${theme.spacing.fluid.md}`, flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
+          <h3 style={{ ...headStyle, marginBottom: theme.spacing.s3 }}>
             {block.continued ? `${featuresTitle} (continued)` : featuresTitle}
           </h3>
-          <div data-grid="1" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(165px, 1fr))', gap: 'clamp(4px, 0.95vh, 7px)', alignContent: 'start' }}>
+          <div data-grid="1" style={{ display: 'flex', flexDirection: 'column', gap: theme.spacing.fluid.sm }}>
             {block.list.map((f, k) => {
               const featureCategoryMap = {
                 'Mountains': 'mountains',
@@ -305,31 +305,31 @@ const PageLayout = ({
                   }}
                   style={{
                     display: 'flex',
-                    gap: '9px',
-                    alignItems: 'flex-start',
+                    gap: theme.spacing.s3,
+                    alignItems: 'center',
                     background: isInteractive ? 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)' : '#FFFFFF',
-                    padding: 'clamp(5px, 1.05vh, 9px) 10px',
-                    borderRadius: '10px',
+                    padding: theme.spacing.fluid.md,
+                    borderRadius: '12px',
                     border: isInteractive ? '1.5px solid #F59E0B' : '1.5px solid #F2DFBC',
                     minWidth: 0,
                     cursor: isInteractive ? 'pointer' : 'default',
-                    boxShadow: isInteractive ? '0 2px 8px rgba(217, 119, 6, 0.12)' : 'none',
+                    boxShadow: isInteractive ? '0 4px 12px rgba(217, 119, 6, 0.12)' : '0 2px 6px rgba(0,0,0,0.02)',
                     transition: 'all 0.15s'
                   }}
                   onMouseOver={(e) => {
-                    if (isInteractive) e.currentTarget.style.transform = 'translateY(-1px)';
+                    if (isInteractive) e.currentTarget.style.transform = 'translateY(-2px)';
                   }}
                   onMouseOut={(e) => {
                     if (isInteractive) e.currentTarget.style.transform = 'translateY(0)';
                   }}
                 >
-                  <div style={{ fontSize: 'clamp(0.98rem, 2.2vh, 1.35rem)', lineHeight: 1.15, flexShrink: 0 }}>{f.icon}</div>
-                  <div style={{ minWidth: 0, flex: 1 }}>
-                    <div style={{ fontWeight: 800, color: isInteractive ? '#92400E' : '#78350F', fontSize: 'clamp(11.5px, 2.0vh, 14px)', lineHeight: 1.2, overflowWrap: 'anywhere', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <div style={{ fontSize: '36px', lineHeight: 1.15, flexShrink: 0 }}>{f.icon}</div>
+                  <div style={{ minWidth: 0, flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                    <div style={{ fontWeight: 800, color: isInteractive ? theme.colors.primaryActive : theme.colors.primary, fontSize: 'clamp(18px, 3vh, 22px)', lineHeight: 1.25, display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: theme.spacing.s1, marginBottom: theme.spacing.s2 }}>
                       {f.title}
-                      {isInteractive && <span style={{ fontSize: '8.5px', background: '#D97706', color: '#FFF', padding: '1px 5px', borderRadius: '4px', fontWeight: 800 }}>3D Map ➔</span>}
+                      {isInteractive && <span style={{ fontSize: '11px', background: theme.colors.buttonOrange, color: '#FFF', padding: '2px 8px', borderRadius: '6px', fontWeight: 800, whiteSpace: 'nowrap', boxShadow: '0 2px 4px rgba(217, 119, 6, 0.3)' }}>3D Map ➔</span>}
                     </div>
-                    <div style={{ fontSize: 'clamp(10.5px, 1.85vh, 12.5px)', color: '#3D2E24', lineHeight: 1.35, fontWeight: 600, overflowWrap: 'anywhere', textAlign: 'justify', textJustify: 'inter-word' }}>{f.desc}</div>
+                    <div style={{ fontSize: 'clamp(15.5px, 2.5vh, 18px)', color: theme.colors.text, lineHeight: 1.5, fontWeight: 600, overflowWrap: 'anywhere', textAlign: 'justify', textJustify: 'inter-word' }}>{f.desc}</div>
                   </div>
                 </div>
               );
@@ -341,13 +341,20 @@ const PageLayout = ({
 
     if (block.type === 'colors') {
       return (
-        <div key={i} data-p={probe} style={{ ...cardBase, background: '#FFFFFF', padding: 'clamp(8px, 1.5vh, 12px) 14px', flexShrink: 0 }}>
-          <h3 style={{ ...headStyle, marginBottom: '6px' }}>{colorsTitle}</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(165px, 1fr))', gap: 'clamp(4px, 0.95vh, 7px)' }}>
+        <div key={i} data-p={probe} style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+          <h3 style={{ ...headStyle, marginBottom: theme.spacing.s3 }}>{colorsTitle}</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gridAutoRows: '1fr', gap: theme.spacing.fluid.md, flex: 1 }}>
             {colors.map((c, k) => (
-              <div key={k} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', minWidth: 0 }}>
-                <span style={{ fontSize: 'clamp(13px, 2.3vh, 15.5px)', lineHeight: 1.3, flexShrink: 0 }}>{c.color}</span>
-                <span style={{ fontSize: 'clamp(11.5px, 2.0vh, 14px)', color: '#3D2E24', fontWeight: 600, lineHeight: 1.35, overflowWrap: 'anywhere', textAlign: 'justify', textJustify: 'inter-word' }}>{c.desc}</span>
+              <div 
+                key={k} 
+                style={{ ...cardBase, padding: theme.spacing.s6, border: `1px solid ${theme.colors.borderLight}`, display: 'flex', alignItems: 'flex-start', gap: theme.spacing.s4 }}
+              >
+                {c.hexCode ? (
+                  <div style={{ width: '26px', height: '26px', borderRadius: '6px', backgroundColor: c.hexCode, flexShrink: 0, marginTop: '1px', border: '1.5px solid rgba(0,0,0,0.08)', boxShadow: 'inset 0 2px 4px rgba(255,255,255,0.15)' }}></div>
+                ) : (
+                  <span style={{ fontSize: '26px', lineHeight: 1.2, flexShrink: 0 }}>{c.color}</span>
+                )}
+                <span style={{ fontSize: theme.typography.sizes.body, color: theme.colors.text, fontWeight: 600, lineHeight: 1.5, overflowWrap: 'anywhere', textAlign: 'justify', textJustify: 'inter-word' }}>{c.desc}</span>
               </div>
             ))}
           </div>
@@ -356,17 +363,17 @@ const PageLayout = ({
     }
 
     return (
-      <div key={i} data-p={probe} style={{ ...cardBase, background: '#FFF9F0', padding: 'clamp(8px, 1.5vh, 12px) 14px', flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
-        <h3 style={{ ...headStyle, marginBottom: '6px' }}>{whyUseTitle}</h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(4px, 0.9vh, 7px)' }}>
+      <div key={i} data-p={probe} style={{ ...cardBase, background: theme.colors.paper, padding: `${theme.spacing.fluid.md} ${theme.spacing.fluid.lg}`, flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
+        <h3 style={{ ...headStyle, marginBottom: theme.spacing.s3 }}>{whyUseTitle}</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: theme.spacing.fluid.sm }}>
           {whyUse.map((w, k) => (
-            <div key={k} style={{ background: '#FFFFFF', border: '1.5px solid #F2DFBC', padding: 'clamp(5px, 1.1vh, 9px) 10px', borderRadius: '8px', display: 'flex', alignItems: 'flex-start', gap: '10px', minWidth: 0 }}>
-              <span style={{ fontSize: 'clamp(13px, 2.3vh, 15.5px)', lineHeight: 1.3, flexShrink: 0 }}>{w.icon}</span>
-              <span style={{ fontSize: 'clamp(11.5px, 2.0vh, 14px)', color: '#3D2E24', fontWeight: 600, lineHeight: 1.35, overflowWrap: 'anywhere', textAlign: 'justify', textJustify: 'inter-word' }}>{w.desc}</span>
+            <div key={k} style={{ background: theme.colors.card, border: `1.5px solid ${theme.colors.border}`, padding: `${theme.spacing.fluid.sm} ${theme.spacing.fluid.md}`, borderRadius: theme.radius.sm, display: 'flex', alignItems: 'flex-start', gap: theme.spacing.s3, minWidth: 0 }}>
+              <span style={{ fontSize: '24px', lineHeight: 1.3, flexShrink: 0 }}>{w.icon}</span>
+              <span style={{ fontSize: theme.typography.sizes.body, color: theme.colors.text, fontWeight: 600, lineHeight: 1.45, overflowWrap: 'anywhere', textAlign: 'justify', textJustify: 'inter-word' }}>{w.desc}</span>
             </div>
           ))}
         </div>
-        <div style={{ marginTop: 'clamp(6px, 1.3vh, 10px)', paddingTop: '8px', borderTop: '1.5px dashed #F2DFBC', color: '#92400E', fontSize: 'clamp(11px, 1.9vh, 13px)', lineHeight: 1.4, fontWeight: 700, flexShrink: 0, textAlign: 'justify', textJustify: 'inter-word' }}>
+        <div style={{ marginTop: theme.spacing.fluid.md, paddingTop: theme.spacing.s3, borderTop: `1.5px dashed ${theme.colors.border}`, color: theme.colors.primaryActive, fontSize: theme.typography.sizes.body, lineHeight: 1.5, fontWeight: 700, flexShrink: 0, textAlign: 'justify', textJustify: 'inter-word' }}>
           💡 {funFact}
         </div>
       </div>
@@ -378,15 +385,15 @@ const PageLayout = ({
       <div style={{ display: 'flex', width: '100%', height: '100%', padding: 0, boxSizing: 'border-box', minHeight: 0 }}>
       
       {/* Left Page (Text) — Parallel Symmetrical Padding matching Right Page */}
-      <div style={{ flex: '1 1 50%', minWidth: 0, minHeight: 0, display: 'flex', flexDirection: 'column', borderRight: '2px solid #F2DFBC', padding: '1rem 1.25rem 3.6rem 1.25rem', boxSizing: 'border-box', overflow: 'hidden', justifyContent: 'space-between', background: 'linear-gradient(160deg, #FFF9F0 0%, #FBF3E3 100%)' }}>
+      <div style={{ flex: '1 1 50%', minWidth: 0, minHeight: 0, display: 'flex', flexDirection: 'column', borderRight: `2px solid ${theme.colors.border}`, padding: `${theme.spacing.fluid.lg} ${theme.spacing.fluid.lg} 4.5rem ${theme.spacing.fluid.lg}`, boxSizing: 'border-box', overflow: 'hidden', justifyContent: 'space-between', background: `linear-gradient(160deg, ${theme.colors.paper} 0%, ${theme.colors.paperDark} 100%)` }}>
         
         {/* Header */}
-        <div style={{ flexShrink: 0, marginBottom: '6px' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#FEF3C7', border: '1px solid #FDE68A', padding: '3px 10px', borderRadius: '999px', color: '#92400E', fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '4px' }}>
+        <div style={{ flexShrink: 0, marginBottom: theme.spacing.fluid.sm }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: theme.spacing.s1, background: theme.colors.accentLight, border: `1px solid ${theme.colors.borderLight}`, padding: '4px 12px', borderRadius: theme.radius.full, color: theme.colors.primaryActive, fontSize: theme.typography.sizes.badge, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: theme.spacing.s2 }}>
             Chapter 1 • Atlas Introduction
           </div>
-          <h2 style={{ fontSize: 'clamp(1.2rem, 2.7vh, 1.65rem)', color: '#78350F', margin: '0 0 0.2rem 0', fontFamily: '"Fraunces", serif', fontWeight: 900, lineHeight: 1.15 }}>{title}</h2>
-          <div style={{ fontSize: 'clamp(11.5px, 2.0vh, 14px)', color: '#92400E', fontWeight: 700, lineHeight: 1.35, textAlign: 'justify', textJustify: 'inter-word' }}>{subtitle}</div>
+          <h2 style={{ fontSize: theme.typography.sizes.title, color: theme.colors.primary, margin: `0 0 ${theme.spacing.s1} 0`, fontFamily: theme.typography.fonts.heading, fontWeight: 900, lineHeight: 1.15 }}>{title}</h2>
+          <div style={{ fontSize: theme.typography.sizes.subtitle, color: theme.colors.primaryActive, fontWeight: 700, lineHeight: 1.4, textAlign: 'justify', textJustify: 'inter-word' }}>{subtitle}</div>
         </div>
 
         {/* Page Content Viewport — packed sub-pages, never scrolls */}
@@ -410,29 +417,29 @@ const PageLayout = ({
 
         {/* Sub-Page Navigation Bar — only when there is more than one page */}
         {LEFT_PAGES > 1 && (
-        <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1.5px solid #F2DFBC', paddingTop: '6px', marginTop: '4px' }}>
+        <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: `1.5px solid ${theme.colors.border}`, paddingTop: theme.spacing.s2, marginTop: theme.spacing.s1 }}>
           <button
             onClick={() => setLeftPage(n => Math.max(1, n - 1))}
             disabled={leftPage === 1}
             style={{
-              fontFamily: '"Space Grotesk", sans-serif', fontWeight: 800, fontSize: 'clamp(11.5px, 1.9vh, 13px)',
-              background: '#FFF9F0', color: '#78350F', border: '1.5px solid #F2DFBC', borderRadius: '999px',
-              padding: '5px 14px', cursor: leftPage === 1 ? 'not-allowed' : 'pointer',
+              fontFamily: theme.typography.fonts.body, fontWeight: 800, fontSize: '15px',
+              background: theme.colors.paper, color: theme.colors.primary, border: `1.5px solid ${theme.colors.border}`, borderRadius: theme.radius.full,
+              padding: `10px 20px`, cursor: leftPage === 1 ? 'not-allowed' : 'pointer',
               opacity: leftPage === 1 ? 0.35 : 1, transition: 'all 0.2s', whiteSpace: 'nowrap'
             }}
           >
             ◀ Back
           </button>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: theme.spacing.s2 }}>
             {Array.from({ length: LEFT_PAGES }).map((_, i) => (
               <span
                 key={i}
                 style={{
                   width: i + 1 === leftPage ? '18px' : '7px',
                   height: '7px',
-                  borderRadius: '999px',
-                  background: i + 1 === leftPage ? '#D97706' : '#F2DFBC',
+                  borderRadius: theme.radius.full,
+                  background: i + 1 === leftPage ? theme.colors.borderActive : theme.colors.border,
                   transition: 'all 0.2s'
                 }}
               />
@@ -443,10 +450,10 @@ const PageLayout = ({
             onClick={() => setLeftPage(n => Math.min(LEFT_PAGES, n + 1))}
             disabled={leftPage === LEFT_PAGES}
             style={{
-              fontFamily: '"Space Grotesk", sans-serif', fontWeight: 800, fontSize: 'clamp(11.5px, 1.9vh, 13px)',
-              background: leftPage === LEFT_PAGES ? '#F7F1E2' : '#F59E0B', color: leftPage === LEFT_PAGES ? '#78350F' : '#FFFFFF',
-              border: `1.5px solid ${leftPage === LEFT_PAGES ? '#F2DFBC' : '#F59E0B'}`, borderRadius: '999px',
-              padding: '5px 14px', cursor: leftPage === LEFT_PAGES ? 'not-allowed' : 'pointer',
+              fontFamily: theme.typography.fonts.body, fontWeight: 800, fontSize: '15px',
+              background: leftPage === LEFT_PAGES ? theme.colors.paperDark : theme.colors.buttonOrange, color: leftPage === LEFT_PAGES ? theme.colors.primary : '#FFFFFF',
+              border: `1.5px solid ${leftPage === LEFT_PAGES ? theme.colors.border : theme.colors.buttonOrange}`, borderRadius: theme.radius.full,
+              padding: `10px 20px`, cursor: leftPage === LEFT_PAGES ? 'not-allowed' : 'pointer',
               opacity: leftPage === LEFT_PAGES ? 0.35 : 1, transition: 'all 0.2s', whiteSpace: 'nowrap'
             }}
           >
@@ -458,7 +465,7 @@ const PageLayout = ({
       </div>
 
       {/* Right Page (Printed Map View & Activities) — Parallel Symmetrical Padding 3.6rem */}
-      <div style={{ flex: '1 1 50%', minWidth: 0, padding: '1rem 1.25rem 3.6rem 1.25rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', minHeight: 0, overflow: 'hidden', boxSizing: 'border-box', background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)' }}>
+      <div style={{ flex: '1 1 50%', minWidth: 0, padding: `${theme.spacing.fluid.lg} ${theme.spacing.fluid.lg} 4.5rem ${theme.spacing.fluid.lg}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', minHeight: 0, overflow: 'hidden', boxSizing: 'border-box', background: `linear-gradient(160deg, ${theme.colors.paperDark} 0%, #EFE6D2 100%)` }}>
         
         {/* PRINTED MAP CONTAINER */}
         <div
@@ -469,15 +476,15 @@ const PageLayout = ({
             flex: 1,
             minHeight: 0,
             position: 'relative',
-            borderRadius: '16px',
+            borderRadius: theme.radius.lg,
             overflow: 'hidden',
-            border: '2px solid #F2DFBC',
-            boxShadow: '0 8px 30px rgba(60,40,20,0.08)',
-            background: '#FFFFFF',
+            border: `2px solid ${theme.colors.border}`,
+            boxShadow: theme.shadows.container,
+            background: theme.colors.card,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '8px',
+            padding: theme.spacing.s2,
             boxSizing: 'border-box',
             transition: 'all 0.2s ease'
           }}
@@ -512,23 +519,6 @@ const PageLayout = ({
             <ImageIcon size={11} /> Printed {currentMapTitle}
           </div>
 
-          <div style={{
-            position: 'absolute',
-            bottom: '8px',
-            right: '8px',
-            background: 'rgba(15, 23, 42, 0.75)',
-            color: '#FFF',
-            padding: '2px 7px',
-            borderRadius: '5px',
-            fontSize: '8px',
-            fontWeight: 700,
-            zIndex: 10,
-            display: 'flex',
-            alignItems: 'center',
-            gap: '3px'
-          }}>
-            <Maximize2 size={10} /> Click to Enlarge
-          </div>
 
           <img
             src={currentImageSrc}
@@ -551,8 +541,7 @@ const PageLayout = ({
         </div>
 
         {/* INTERACTIVE CONTROLS */}
-        <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.45rem', flexShrink: 0, width: '100%' }}>
-
+        <div style={{ marginTop: theme.spacing.s2, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: theme.spacing.s2, flexShrink: 0, width: '100%' }}>
 
           {/* Parallel Side-by-Side Action Buttons */}
           <div style={{
@@ -560,7 +549,7 @@ const PageLayout = ({
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '0.6rem',
+            gap: theme.spacing.s2,
             width: '100%',
             maxWidth: '380px'
           }}>
@@ -571,24 +560,24 @@ const PageLayout = ({
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '0.4rem',
-                background: '#0E3556',
+                gap: theme.spacing.s1,
+                background: theme.colors.buttonNavy,
                 color: '#fff',
                 border: 'none',
-                borderRadius: '999px',
-                padding: '0.42rem 0.6rem',
-                fontSize: '11px',
+                borderRadius: theme.radius.full,
+                padding: `${theme.spacing.s2} ${theme.spacing.s3}`,
+                fontSize: theme.typography.sizes.small,
                 fontWeight: 800,
                 cursor: 'pointer',
-                boxShadow: '0 2px 8px rgba(14, 53, 86, 0.2)',
+                boxShadow: '0 4px 12px rgba(14, 53, 86, 0.25)',
                 transition: 'all 0.2s ease',
                 whiteSpace: 'nowrap',
-                fontFamily: '"Space Grotesk", sans-serif'
+                fontFamily: theme.typography.fonts.body
               }}
-              onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-1px)'}
-              onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+              onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.background = theme.colors.buttonNavyHover; }}
+              onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.background = theme.colors.buttonNavy; }}
             >
-              <Globe2 size={15} /> View on 3D Globe
+              <Globe2 size={16} /> View on 3D Globe
             </button>
             <button
               onClick={() => setIsImageOpen(true)}
@@ -597,24 +586,24 @@ const PageLayout = ({
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '0.4rem',
-                background: '#D97706',
+                gap: theme.spacing.s1,
+                background: theme.colors.buttonOrange,
                 color: '#fff',
                 border: 'none',
-                borderRadius: '999px',
-                padding: '0.42rem 0.6rem',
-                fontSize: '11px',
+                borderRadius: theme.radius.full,
+                padding: `${theme.spacing.s2} ${theme.spacing.s3}`,
+                fontSize: theme.typography.sizes.small,
                 fontWeight: 800,
                 cursor: 'pointer',
-                boxShadow: '0 2px 8px rgba(217, 119, 6, 0.3)',
+                boxShadow: '0 4px 12px rgba(217, 119, 6, 0.35)',
                 transition: 'all 0.2s ease',
                 whiteSpace: 'nowrap',
-                fontFamily: '"Space Grotesk", sans-serif'
+                fontFamily: theme.typography.fonts.body
               }}
-              onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-1px)'}
-              onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+              onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.background = theme.colors.buttonOrangeHover; }}
+              onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.background = theme.colors.buttonOrange; }}
             >
-              <ImageIcon size={15} /> View Full Printed Map
+              <ImageIcon size={16} /> View Full Printed Map
             </button>
           </div>
         </div>
@@ -871,8 +860,8 @@ export const PhysicalMapPage = ({ onFullyViewed }) => (
     whatIsTitle="What is a Physical Map?"
     featuresTitle="Natural Features on a Physical Map"
     features={[
-      { icon: '🏔', title: 'Mountains', desc: 'Very tall and large rocky hills rising high above the land.' },
       { icon: '🏞', title: 'Plains', desc: 'Large flat areas of land that are great for farming and building houses.' },
+      { icon: '🏔', title: 'Mountains', desc: 'Very tall and large rocky hills rising high above the land.' },
       { icon: '🌊', title: 'Rivers', desc: 'Natural streams of flowing water moving across the land into the sea.' },
       { icon: '🏜', title: 'Deserts', desc: 'Very dry and sandy lands that get almost no rain all year.' },
       { icon: '🌳', title: 'Forests', desc: 'Large areas completely covered with lots of trees and plants.' },
@@ -880,10 +869,10 @@ export const PhysicalMapPage = ({ onFullyViewed }) => (
     ]}
     colorsTitle="Colours Used on Physical Maps"
     colors={[
-      { color: '🟢', desc: 'Green represents plains, river valleys, and low flat lands.' },
-      { color: '🟤', desc: 'Brown is used for high mountains and tall hills.' },
-      { color: '🔵', desc: 'Blue shows water like rivers, lakes, seas, and oceans.' },
-      { color: '🟡', desc: 'Yellow is used to show high flat lands called plateaus.' }
+      { hexCode: '#22c55e', desc: 'Green represents plains, river valleys, and low flat lands.' },
+      { hexCode: '#854d0e', desc: 'Brown is used for high mountains and tall hills.' },
+      { hexCode: '#3b82f6', desc: 'Blue shows water like rivers, lakes, seas, and oceans.' },
+      { hexCode: '#eab308', desc: 'Yellow is used to show high flat lands called plateaus.' }
     ]}
     whyUseTitle="Why are Physical Maps Useful?"
     whyUse={[
@@ -977,18 +966,14 @@ export const ThematicMapPage = ({ onFullyViewed }) => (
       { icon: '🌱', title: 'Soil Types', desc: 'Shows where different kinds of soil are found for farming.' },
       { icon: '🌧', title: 'Rainfall', desc: 'Shows how much rain falls in different areas across the year.' },
       { icon: '🌡', title: 'Temperature', desc: 'Shows how hot or cold different regions get.' },
-      { icon: '🌾', title: 'Crops & Agriculture', desc: 'Shows where crops like rice, wheat, and cotton grow best.' },
-      { icon: '🌳', title: 'Forests & Wildlife', desc: 'Shows where different types of forests and animals are located.' }
+      { icon: '🌾', title: 'Crops & Agriculture', desc: 'Shows where crops like rice, wheat, and cotton grow best.' }
     ]}
     colorsTitle="Colours and Legends"
     colors={[
       { color: '📊', desc: 'The legend box explains what each color or pattern means on the map.' },
-      { color: '🟩', desc: 'Light green shows good soil for farming near rivers.' },
-      { color: '⬛️', desc: 'Dark grey shows black soil that is great for growing cotton.' },
-      { color: '🟥', desc: 'Red and yellow colors show older, rocky soils.' },
-      { color: '🌲', desc: 'Deep green shows forest soils found on mountains.' },
-      { color: '🟨', desc: 'Yellow shows soils found in areas with very heavy rain.' },
-      { color: '🏜️', desc: 'Beige colors show dry and sandy soils in deserts.' }
+      { hexCode: '#86efac', desc: 'Light green shows good soil for farming near rivers.' },
+      { hexCode: '#4b5563', desc: 'Dark grey shows black soil that is great for growing cotton.' },
+      { hexCode: '#ef4444', desc: 'Red and yellow colors show older, rocky soils.' }
     ]}
     whyUseTitle="Why Do We Use Thematic Maps?"
     whyUse={[

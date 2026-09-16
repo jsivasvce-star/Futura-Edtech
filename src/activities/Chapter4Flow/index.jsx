@@ -4,14 +4,14 @@ import './Chapter4Flow.css';
 
 const LABS = [
   { key: "opening", id: "intro_magnets", n: "Intro", title: "The Opening", sub: "Reshma's storm & the compass mystery", tag: "Pages 61\u201362", icon: "🧲", accent: "#7C9EFF", steps: 7, group: "journey" }, 
-  { key: "s41", id: "activity_4_1", n: "4.1", title: "Magnetic & Non-magnetic", sub: "Predict-then-test Table 4.1", tag: "Activity 4.1", icon: "🧲", accent: "#5CE1B9", steps: 7, group: "journey" }, 
-  { key: "s42", id: "magnetic_poles", n: "4.2", title: "Poles of Magnet", sub: "Iron filings & poles-in-pairs", tag: "Activity 4.2", icon: "⚡", accent: "#FFC24D", steps: 8, group: "journey" }, 
-  { key: "s43", id: "suspended_magnet", n: "4.3", title: "Finding Directions", sub: "A hanging magnet points North\u2013South", tag: "Activity 4.3", icon: "🌍", accent: "#5D9BF0", steps: 7, group: "journey" }, 
-  { key: "s44", id: "magnetic_compass", n: "4.4", title: "Make a Compass", sub: "Magnetise & float your own needle", tag: "Activity 4.4", icon: "🧭", accent: "#FF7A6E", steps: 7, group: "journey" }, 
-  { key: "s45", id: "magnet_interaction", n: "4.5", title: "Attraction & Repulsion", sub: "Unlike attract, like repel", tag: "Activity 4.5", icon: "↔️", accent: "#7C9EFF", steps: 6, group: "journey" }, 
-  { key: "s46", id: "activity_4_6", n: "4.6", title: "Compass & Magnet", sub: "Deflect the needle live", tag: "Activity 4.6", icon: "🎯", accent: "#5CE1B9", steps: 6, group: "journey" }, 
-  { key: "s47", id: "activity_4_7", n: "4.7", title: "Through Materials", sub: "Magnetism passes through barriers", tag: "Activity 4.7", icon: "🚧", accent: "#FFC24D", steps: 6, group: "journey" }, 
-  { key: "fun", id: "sci6-ch4-sec45-fun-with-magnets", n: "Fun", title: "Fun with Magnets", sub: "Maze, runaway cars & magnet care", tag: "Section 4.5", icon: "🎮", accent: "#FF7A6E", steps: 7, group: "journey" }, 
+  { key: "s41", id: "activity_4_1", n: "4.1", title: "Magnetic & Non-magnetic", sub: "Predict-then-test Table 4.1", tag: "Activity 4.1 & 4.2", icon: "🧲", accent: "#5CE1B9", steps: 7, group: "journey" }, 
+  { key: "s42", id: "magnetic_poles", n: "4.3", title: "Poles of Magnet", sub: "Iron filings & poles-in-pairs", tag: "Activity 4.3", icon: "⚡", accent: "#FFC24D", steps: 8, group: "journey" }, 
+  { key: "s43", id: "suspended_magnet", n: "4.4", title: "Finding Directions", sub: "A hanging magnet points North\u2013South", tag: "Activity 4.4", icon: "🌍", accent: "#5D9BF0", steps: 7, group: "journey" }, 
+  { key: "s44", id: "magnetic_compass", n: "4.5", title: "Make a Compass", sub: "Magnetise & float your own needle", tag: "Activity 4.5", icon: "🧭", accent: "#FF7A6E", steps: 7, group: "journey" }, 
+  { key: "s45", id: "magnet_interaction", n: "4.6", title: "Attraction & Repulsion", sub: "Unlike attract, like repel", tag: "Activity 4.6", icon: "↔️", accent: "#7C9EFF", steps: 6, group: "journey" }, 
+  { key: "s46", id: "activity_4_6", n: "4.7", title: "Compass & Bar Magnet", sub: "Deflect the needle live", tag: "Activity 4.7", icon: "🎯", accent: "#5CE1B9", steps: 6, group: "journey" }, 
+  { key: "s47", id: "activity_4_7", n: "4.8", title: "Attraction & Repulsion Between Magnets", sub: "Magnetism passes through barriers", tag: "Activity 4.8", icon: "↔️", accent: "#FFC24D", steps: 6, group: "journey" }, 
+  { key: "fun", id: "sci6-ch4-sec45-fun-with-magnets", n: "4.9", title: "Fun with Magnets", sub: "Maze, runaway cars & magnet care", tag: "Activity 4.9", icon: "🎮", accent: "#FF7A6E", steps: 7, group: "journey" }, 
   { key: "complete", id: "sci6-ch4-exploring-magnets-full", n: "All", title: "Full Chapter \u2014 12 Sections", sub: "The complete page-by-page lab in one flow", tag: "Combined edition", icon: "📖", accent: "#7C9EFF", steps: 12, group: "combined" }, 
   { key: "flagship", id: "sci6-ch4-exploring-magnets-flagship", n: "Flag", title: "Flagship \u2014 9 Steps", sub: "Condensed all-activities flagship build", tag: "Combined edition", icon: "⭐", accent: "#FFC24D", steps: 9, group: "combined" }
 ];

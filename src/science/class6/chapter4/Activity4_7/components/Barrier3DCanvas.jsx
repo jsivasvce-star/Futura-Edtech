@@ -26,10 +26,7 @@ function CinematicCameraController({ stage, type }) {
       else if (stage === 3) { targetY = -0.70; targetZ = 4.9; targetFov = 42; }
       else if (stage === 4) { targetY = -0.55; targetZ = 7.4; targetFov = 50; }
     } else if (type === 'plastic') {
-      if (stage === 1) { targetY = -0.80; targetZ = 4.3; targetFov = 40; }
-      else if (stage === 2) { targetY = -0.70; targetZ = 4.8; targetFov = 41; }
-      else if (stage === 3) { targetY = -0.70; targetZ = 5.2; targetFov = 42; }
-      else if (stage === 4) { targetY = -0.65; targetZ = 5.6; targetFov = 44; }
+      targetY = -0.58; targetZ = 5.2; targetFov = 42;
     } else if (type === 'glass') {
       if (stage === 1) { targetY = -0.75; targetZ = 4.3; targetFov = 40; }
       else if (stage === 2) { targetY = -0.70; targetZ = 4.9; targetFov = 42; }
@@ -81,10 +78,10 @@ const BADGE_CONFIG = {
     4: { title: '🌳 Part 4: Living Oak Tree (Full Tree)', bg: 'linear-gradient(135deg, #065F46 0%, #064E3B 100%)', border: '#6EE7B7' }
   },
   plastic: {
-    1: { title: '🧴 Part 1: 200 mL Pocket Bottle (PET)', bg: 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)', border: '#7DD3FC' },
-    2: { title: '🧴 Part 2: 500 mL Spring Water (PET)', bg: 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)', border: '#7DD3FC' },
-    3: { title: '🍶 Part 3: 1 Litre Sports Bottle (PET)', bg: 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)', border: '#7DD3FC' },
-    4: { title: '🧴 Part 4: Reusable Plastic Bottle', bg: 'linear-gradient(135deg, #0369A1 0%, #075985 100%)', border: '#38BDF8' }
+    1: { title: '🍱 Part 1: Plastic Food Box (BPA-Free)', bg: 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)', border: '#7DD3FC' },
+    2: { title: '🍱 Part 2: Clear Kitchen Container', bg: 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)', border: '#7DD3FC' },
+    3: { title: '🍱 Part 3: Sealed Meal Container', bg: 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)', border: '#7DD3FC' },
+    4: { title: '🍱 Part 4: Airtight Plastic Kitchen Container', bg: 'linear-gradient(135deg, #0369A1 0%, #075985 100%)', border: '#38BDF8' }
   },
   glass: {
     1: { title: '🥃 Part 1: Small Shot Glass (Silicate)', bg: 'linear-gradient(135deg, #0F766E 0%, #115E59 100%)', border: '#5EEAD4' },

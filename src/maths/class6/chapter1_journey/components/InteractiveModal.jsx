@@ -3,6 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 import ErrorBoundary from '../../../../components/ErrorBoundary';
 import PatternWhyExperience from './PatternWhyExperience';
 import FigureItOutExperience from './FigureItOutExperience';
+import PatternsInNumbersExplore from './PatternsInNumbersExplore';
 
 import traffic1 from '../../../../assets/traffic_1.jpeg';
 import traffic2 from '../../../../assets/traffic_2.jpeg';
@@ -2209,6 +2210,16 @@ export default function InteractiveModal({
       <ErrorBoundary>
         <Suspense fallback={null}>
           <FullscreenExplore1_1 onClose={onClose} onCompleteNode={onCompleteNode} />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+
+  if (node.id === '1.2') {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={null}>
+          <PatternsInNumbersExplore onClose={onClose} onCompleteNode={onCompleteNode} />
         </Suspense>
       </ErrorBoundary>
     );

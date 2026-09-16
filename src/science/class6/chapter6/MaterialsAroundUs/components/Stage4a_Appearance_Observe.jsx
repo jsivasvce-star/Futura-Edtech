@@ -275,30 +275,64 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <button
+              <motion.button
                 onClick={() => handleToggle(true)}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.95 }}
+                animate={{
+                  boxShadow: [
+                    "0 0 4px rgba(0,229,255,0.3), inset 0 2px 0 rgba(255,255,255,0.1)",
+                    "0 0 36px rgba(0,229,255,1), 0 0 12px rgba(255,255,255,0.8), inset 0 2px 0 rgba(255,255,255,0.4)",
+                    "0 0 4px rgba(0,229,255,0.3), inset 0 2px 0 rgba(255,255,255,0.1)"
+                  ],
+                  filter: [
+                    "brightness(1)",
+                    "brightness(1.25)",
+                    "brightness(1)"
+                  ]
+                }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
                 style={{
                   padding: "0.6rem", borderRadius: 8,
-                  background: "#4a3525",
-                  color: "#fdfbf7", border: torchOn ? "3px solid #d1a25a" : "3px solid #6b5c51",
-                  fontSize: "1.65rem", fontWeight: 900, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, transition: "all 0.2s",
-                  boxShadow: torchOn ? "0 0 16px rgba(209,162,90,0.5)" : "none"
+                  background: torchOn ? "linear-gradient(135deg, #d1a25a 0%, #a0744e 100%)" : "linear-gradient(135deg, #6b5c51 0%, #4a3525 100%)",
+                  color: "#fdfbf7", 
+                  border: torchOn ? "3px solid #fdfbf7" : "3px solid #d1a25a",
+                  fontSize: "1.65rem", fontWeight: 900, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+                  textShadow: "0 2px 4px rgba(0,0,0,0.3)",
+                  outline: "none"
                 }}
               >
                 🔦 TORCH ON
-              </button>
-              <button
+              </motion.button>
+              <motion.button
                 onClick={() => handleToggle(false)}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.95 }}
+                animate={{
+                  boxShadow: [
+                    "0 0 4px rgba(0,229,255,0.3), inset 0 2px 0 rgba(255,255,255,0.1)",
+                    "0 0 36px rgba(0,229,255,1), 0 0 12px rgba(255,255,255,0.8), inset 0 2px 0 rgba(255,255,255,0.4)",
+                    "0 0 4px rgba(0,229,255,0.3), inset 0 2px 0 rgba(255,255,255,0.1)"
+                  ],
+                  filter: [
+                    "brightness(1)",
+                    "brightness(1.25)",
+                    "brightness(1)"
+                  ]
+                }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 1.25 }}
                 style={{
                   padding: "0.6rem", borderRadius: 8,
-                  background: "#4a3525",
-                  color: "#fdfbf7", border: !torchOn ? "3px solid #d1a25a" : "3px solid #6b5c51",
-                  fontSize: "1.65rem", fontWeight: 900, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, transition: "all 0.2s",
-                  boxShadow: !torchOn ? "0 0 16px rgba(209,162,90,0.5)" : "none"
+                  background: !torchOn ? "linear-gradient(135deg, #d1a25a 0%, #a0744e 100%)" : "linear-gradient(135deg, #6b5c51 0%, #4a3525 100%)",
+                  color: "#fdfbf7", 
+                  border: !torchOn ? "3px solid #fdfbf7" : "3px solid #d1a25a",
+                  fontSize: "1.65rem", fontWeight: 900, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+                  textShadow: "0 2px 4px rgba(0,0,0,0.3)",
+                  outline: "none"
                 }}
               >
                 <FlashlightOff size={22} /> TORCH OFF
-              </button>
+              </motion.button>
             </div>
           </div>
 

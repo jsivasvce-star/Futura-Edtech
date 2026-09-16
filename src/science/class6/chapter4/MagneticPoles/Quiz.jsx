@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { CheckCircle, XCircle } from 'lucide-react';
+import { CheckCircle, XCircle, HelpCircle } from 'lucide-react';
 import './MagneticPoles.css';
 
 const quizData = [
   {
     id: 1,
-    title: "Quiz 1",
+    title: "Question 1",
     question: "Where do most iron filings stick on a bar magnet?",
     options: [
       "At the centre",
@@ -18,7 +18,7 @@ const quizData = [
   },
   {
     id: 2,
-    title: "Quiz 2",
+    title: "Question 2",
     question: "What do iron filings help us observe?",
     options: [
       "The colour of the magnet",
@@ -31,7 +31,7 @@ const quizData = [
   },
   {
     id: 3,
-    title: "Quiz 3",
+    title: "Question 3",
     question: "Which part of a bar magnet attracts the maximum number of iron filings?",
     options: [
       "Middle",
@@ -44,7 +44,7 @@ const quizData = [
   },
   {
     id: 4,
-    title: "Quiz 4",
+    title: "Question 4",
     question: "Can a magnet have only one pole?",
     options: [
       "Yes, only North Pole",
@@ -57,7 +57,7 @@ const quizData = [
   },
   {
     id: 5,
-    title: "Quiz 5",
+    title: "Question 5",
     question: "If a bar magnet is broken into two pieces, what will each piece become?",
     options: [
       "One piece with N pole, one with S pole",
@@ -158,7 +158,12 @@ export default function Quiz({ onComplete }) {
     }}>
       <div style={{ width: '100%', maxWidth: '1100px', display: 'flex', flexDirection: 'column' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.65rem', padding: '0 0.5rem', flexShrink: 0 }}>
-          <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.25rem', fontWeight: 900 }}>Test Your Knowledge</h3>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+            <HelpCircle size={26} color="#D97706" />
+            <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.4rem', fontWeight: 900 }}>
+              Stage 4: Quiz
+            </h3>
+          </div>
           <div style={{ color: '#047857', fontSize: '1.02rem', fontWeight: 800 }}>
             Question {currentQuestion + 1} of {quizData.length}
           </div>

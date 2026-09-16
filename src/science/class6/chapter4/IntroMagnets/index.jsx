@@ -13,8 +13,13 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
   const [visibleLineCount, setVisibleLineCount] = useState(1);
   const [spokenCharIndex, setSpokenCharIndex] = useState(-1);
   const [hasFinishedAudio, setHasFinishedAudio] = useState(false);
+  const [scrollState, setScrollState] = useState('rolled'); // 'rolled' | 'unrolled' | 'rolling-up'
 
   const delayTimerRef = useRef(null);
+  const isTransitioningRef = useRef(false);
+  const unrollTimerRef = useRef(null);
+  const rollUpTimerRef = useRef(null);
+  const autoAdvanceTimerRef = useRef(null);
 
   const scenes = [
     {
@@ -196,6 +201,10 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
       clearTimeout(delayTimerRef.current);
       delayTimerRef.current = null;
     }
+    if (autoAdvanceTimerRef.current) {
+      clearTimeout(autoAdvanceTimerRef.current);
+      autoAdvanceTimerRef.current = null;
+    }
     voiceService.stop();
     setIsPlaying(false);
     setHasFinishedAudio(false);
@@ -250,6 +259,66 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
         </React.Fragment>
       );
     });
+  };
+
+  const triggerRollUpAndNavigate = (actionCallback) => {
+    if (isTransitioningRef.current) return;
+
+    stopSpeech();
+    if (unrollTimerRef.current) {
+      clearTimeout(unrollTimerRef.current);
+      unrollTimerRef.current = null;
+    }
+    if (rollUpTimerRef.current) {
+      clearTimeout(rollUpTimerRef.current);
+      rollUpTimerRef.current = null;
+    }
+    if (autoAdvanceTimerRef.current) {
+      clearTimeout(autoAdvanceTimerRef.current);
+      autoAdvanceTimerRef.current = null;
+    }
+
+    // If current scene has a story scroll and is currently unrolled, roll it up first
+    if (currentPage <= 4 && scrollState === 'unrolled') {
+      isTransitioningRef.current = true;
+      setScrollState('rolling-up');
+      rollUpTimerRef.current = setTimeout(() => {
+        isTransitioningRef.current = false;
+        if (actionCallback) actionCallback();
+      }, 650);
+    } else {
+      if (actionCallback) actionCallback();
+    }
+  };
+
+  // Interactive toggle-on-click: Clicking parchment rolls it up if unrolled, or unrolls it if rolled up
+  const handleToggleScroll = (e) => {
+    if (e) e.stopPropagation();
+    if (isTransitioningRef.current) return;
+
+    if (unrollTimerRef.current) {
+      clearTimeout(unrollTimerRef.current);
+      unrollTimerRef.current = null;
+    }
+    if (rollUpTimerRef.current) {
+      clearTimeout(rollUpTimerRef.current);
+      rollUpTimerRef.current = null;
+    }
+    if (autoAdvanceTimerRef.current) {
+      clearTimeout(autoAdvanceTimerRef.current);
+      autoAdvanceTimerRef.current = null;
+    }
+
+    if (scrollState === 'unrolled') {
+      // Smoothly roll the bottom dowel back up to meet top dowel
+      setScrollState('rolling-up');
+      rollUpTimerRef.current = setTimeout(() => {
+        setScrollState('rolled');
+      }, 650);
+    } else {
+      // If closed/rolled or currently rolling up, trigger downward unrolling animation
+      setScrollState('unrolled');
+    }
   };
 
   // Play audio lines sequentially: Next bubble pops up FIRST, then speech & highlighting start!
@@ -308,6 +377,15 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
             setIsPlaying(false);
             setHasFinishedAudio(true);
             setSpokenCharIndex(-1);
+
+            // Auto Close (Roll-Up Sequence) when narration audio finishes playing
+            if (sceneIndex <= 4) {
+              autoAdvanceTimerRef.current = setTimeout(() => {
+                triggerRollUpAndNavigate(() => {
+                  setCurrentPage(p => Math.min(scenes.length, p + 1));
+                });
+              }, 2500);
+            }
           }
         },
         onError: () => {
@@ -326,31 +404,66 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
       return;
     }
 
-    // Reset line visibility on scene change
+    // Reset transitioning flag & line visibility on scene change
+    isTransitioningRef.current = false;
     setVisibleLineCount(1);
 
-    const timer = setTimeout(() => {
-      if (!isCompleted) {
-        playSceneAudio(currentPage);
-      }
-    }, 1500);
+    if (unrollTimerRef.current) {
+      clearTimeout(unrollTimerRef.current);
+      unrollTimerRef.current = null;
+    }
+    if (rollUpTimerRef.current) {
+      clearTimeout(rollUpTimerRef.current);
+      rollUpTimerRef.current = null;
+    }
+    if (autoAdvanceTimerRef.current) {
+      clearTimeout(autoAdvanceTimerRef.current);
+      autoAdvanceTimerRef.current = null;
+    }
+
+    if (currentPage <= 4) {
+      // Initial state: Rolled up upon initial page load / scene change
+      setScrollState('rolled');
+
+      // Trigger downward unrolling animation automatically only after a 2-second delay from entering the page
+      unrollTimerRef.current = setTimeout(() => {
+        setScrollState('unrolled');
+      }, 2000);
+
+      // Start narration audio once parchment has smoothly unrolled (2000ms delay + ~850ms unroll animation = 2850ms)
+      delayTimerRef.current = setTimeout(() => {
+        if (!isCompleted) {
+          playSceneAudio(currentPage);
+        }
+      }, 2850);
+    } else {
+      delayTimerRef.current = setTimeout(() => {
+        if (!isCompleted) {
+          playSceneAudio(currentPage);
+        }
+      }, 1000);
+    }
 
     return () => {
-      clearTimeout(timer);
+      if (unrollTimerRef.current) clearTimeout(unrollTimerRef.current);
+      if (rollUpTimerRef.current) clearTimeout(rollUpTimerRef.current);
+      if (autoAdvanceTimerRef.current) clearTimeout(autoAdvanceTimerRef.current);
       stopSpeech();
     };
   }, [currentPage, isMuted, isCompleted]);
 
   const handleNext = () => {
-    stopSpeech();
-    setCurrentPage(p => Math.min(scenes.length, p + 1));
+    triggerRollUpAndNavigate(() => {
+      setCurrentPage(p => Math.min(scenes.length, p + 1));
+    });
   };
 
   const handleBack = () => {
-    stopSpeech();
-    if (currentPage > 1) {
-      setCurrentPage(p => p - 1);
-    }
+    triggerRollUpAndNavigate(() => {
+      if (currentPage > 1) {
+        setCurrentPage(p => p - 1);
+      }
+    });
   };
 
   const handleFinish = () => {
@@ -604,14 +717,24 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
                 return (
                   <div
                     key={idx}
-                    className="parchment-scroll-assembly"
+                    onClick={handleToggleScroll}
+                    title={scrollState === 'unrolled' ? 'Click to roll up scroll' : 'Click to unroll scroll'}
+                    className={`parchment-scroll-assembly ${
+                      scrollState === 'unrolled' 
+                        ? 'is-unrolled' 
+                        : scrollState === 'rolling-up' 
+                          ? 'is-rolling-up' 
+                          : 'is-rolled'
+                    }`}
                     style={{
                       position: 'absolute',
                       top: pos.top,
                       left: pos.left,
                       width: 'clamp(280px, 26vw, 400px)',
                       maxWidth: '400px',
-                      zIndex: isActive ? 30 : 22
+                      zIndex: isActive ? 30 : 22,
+                      cursor: 'pointer',
+                      pointerEvents: 'auto'
                     }}
                   >
                     {/* Top Wooden Dowel with Turned Teak Rod & Carved Finials */}
@@ -631,22 +754,25 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
                       {/* Aged Fibrous Papyrus Texture & Crease Grain */}
                       <div className="parchment-fiber-grain" />
 
-                      {/* Reading Content Pane with Tight Compact Padding */}
-                      <div className="parchment-content">
-                        {/* Antique Story Header (Label removed) */}
-                        <div className="parchment-story-header">
-                          <h2 className="parchment-story-title">{currentScene.subtitle}</h2>
-                          <div className="parchment-header-ornament">
-                            <span className="ornament-line" />
-                            <span className="ornament-gem">✦</span>
-                            <span className="ornament-line" />
+                      {/* Unroll Clip Container for Synchronized Text Reveal */}
+                      <div className="scroll-parchment-unroll-clip">
+                        {/* Reading Content Pane with Tight Compact Padding */}
+                        <div className="parchment-content">
+                          {/* Antique Story Header (Label removed) */}
+                          <div className="parchment-story-header">
+                            <h2 className="parchment-story-title">{currentScene.subtitle}</h2>
+                            <div className="parchment-header-ornament">
+                              <span className="ornament-line" />
+                              <span className="ornament-gem">✦</span>
+                              <span className="ornament-line" />
+                            </div>
                           </div>
-                        </div>
 
-                        {/* Narrative Paragraph with Maximized Typography Scale & High Readability */}
-                        <p className="parchment-narrative-text">
-                          {renderWordByWordText(line.text, idx, activeLineIndex, spokenCharIndex, false, true)}
-                        </p>
+                          {/* Narrative Paragraph with Maximized Typography Scale & High Readability */}
+                          <p className="parchment-narrative-text">
+                            {renderWordByWordText(line.text, idx, activeLineIndex, spokenCharIndex, false, true)}
+                          </p>
+                        </div>
                       </div>
                     </div>
 
@@ -726,7 +852,16 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
       {currentPage !== 6 && (
         <div style={{ position: 'absolute', top: '1.25rem', right: '1.75rem', display: 'flex', gap: '0.85rem', zIndex: 99999 }}>
           <button
-            onClick={() => playSceneAudio(currentPage)}
+            onClick={() => {
+              if (autoAdvanceTimerRef.current) {
+                clearTimeout(autoAdvanceTimerRef.current);
+                autoAdvanceTimerRef.current = null;
+              }
+              if (scrollState !== 'unrolled') {
+                setScrollState('unrolled');
+              }
+              playSceneAudio(currentPage);
+            }}
             style={{
               padding: '0.85rem 1.5rem',
               borderRadius: '35px',
@@ -782,11 +917,12 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
       }}>
         <button
           onClick={() => {
-            stopSpeech();
             if (currentPage > 1) {
               handleBack();
             } else if (onBackToDashboard) {
-              onBackToDashboard();
+              triggerRollUpAndNavigate(() => {
+                onBackToDashboard();
+              });
             }
           }}
           style={{ 

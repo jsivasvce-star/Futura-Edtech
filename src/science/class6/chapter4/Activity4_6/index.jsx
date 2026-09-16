@@ -71,7 +71,7 @@ export default function Activity4_6({ onBackToDashboard, onComplete }) {
         <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
           <h2 style={{ margin: 0, fontSize: '1.35rem', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.55rem', color: '#064E3B', letterSpacing: '-0.01em' }}>
             <Compass size={24} style={{ color: '#D97706' }} />
-            Activity 4.6: Compass & Bar Magnet
+            Activity 4.7: Compass & Bar Magnet
           </h2>
           <span style={{ fontSize: '0.85rem', color: '#047857', fontWeight: 700 }}>Class 6 Science — Make Your Own Magnet & Explore Induction</span>
         </div>
