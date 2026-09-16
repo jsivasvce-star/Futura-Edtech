@@ -1,5 +1,6 @@
 import React from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Volume2, VolumeX } from "lucide-react";
+import { speakNaturalIndianMale, stopNarration } from "../services/elevenLabsService";
 
 export default function CoverPage({
   classNum,
@@ -15,7 +16,28 @@ export default function CoverPage({
 }) {
   const [gifFailed, setGifFailed] = React.useState(false);
   const [isBtnHovered, setIsBtnHovered] = React.useState(false);
+  const [isSpeaking, setIsSpeaking] = React.useState(false);
   const gifSrc = `/activities/cover_ch${chapterNum}.gif`;
+
+  React.useEffect(() => {
+    return () => {
+      stopNarration();
+    };
+  }, []);
+
+  const toggleCoverVoice = () => {
+    if (isSpeaking) {
+      stopNarration();
+      setIsSpeaking(false);
+      return;
+    }
+    setIsSpeaking(true);
+    speakNaturalIndianMale({
+      text: `Welcome to Class ${classNum} Science, Chapter ${chapterNum}: ${title}. In this interactive module, we explore ${topics}. Click Begin Chapter to start your journey!`,
+      onEnd: () => setIsSpeaking(false),
+      onError: () => setIsSpeaking(false)
+    });
+  };
 
   // Generate stable random bubble positions
   const bubbles = React.useMemo(() => {
@@ -575,6 +597,36 @@ export default function CoverPage({
       >
         <ArrowLeft size={16} /> Back to Chapters
       </button>
+
+      {chapterNum === 2 && (
+        <button 
+          type="button"
+          onClick={toggleCoverVoice}
+          style={{
+            position: 'absolute',
+            top: 'clamp(18px, 3vw, 36px)',
+            right: 'clamp(18px, 3vw, 36px)',
+            zIndex: 20,
+            color: isSpeaking ? '#ffffff' : '#000000',
+            background: isSpeaking ? '#10b981' : '#fbbf24',
+            padding: '8px 16px',
+            borderRadius: '8px',
+            fontWeight: '800',
+            boxShadow: isSpeaking ? '0 0 14px rgba(16, 185, 129, 0.6)' : '0 4px 15px rgba(0, 0, 0, 0.6), 0 0 10px rgba(251, 191, 36, 0.4)',
+            border: isSpeaking ? '1px solid #059669' : '1px solid #f59e0b',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            cursor: 'pointer',
+            fontSize: 'clamp(11px, 1.1vw, 13px)',
+            transition: 'all 0.2s ease'
+          }}
+          title={isSpeaking ? "Stop Voice Over" : "Listen to Chapter Introduction"}
+        >
+          {isSpeaking ? <VolumeX size={16} /> : <Volume2 size={16} />}
+          <span>{isSpeaking ? 'Stop Voice' : 'Voice Over'}</span>
+        </button>
+      )}
 
       <div className={(bgImage || bgVideo) ? "layout-grid-centered" : "layout-grid"}>
         {!(bgImage || bgVideo) && (

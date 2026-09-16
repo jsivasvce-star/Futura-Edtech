@@ -1,250 +1,1515 @@
-import React, { useState } from 'react';
-import { ArrowLeft, RefreshCw, Award } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import {
+  ArrowLeft,
+  ArrowRight,
+  RefreshCw,
+  Award,
+  Volume2,
+  VolumeX,
+  Maximize2,
+  Minimize2,
+  Eye,
+  CheckCircle2,
+  Sparkles,
+  Layers,
+  ChevronRight
+} from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { useTheme } from '../../../../ThemeContext';
-import darkForestBg from '../../../../assets/dark_forest_bg.jpg';
+import { correlationAudio } from './correlationAudio';
 
-const TABLE_PLANTS = [
-  { id: 'lemongrass',  name: 'Lemon Grass',   emoji: '🌿', venation: 'parallel',   root: 'fibrous', hint: 'Grass-family plant — narrow leaves, grows in clumps.' },
-  { id: 'marigold',    name: 'Marigold',       emoji: '🌼', venation: 'reticulate', root: 'taproot', hint: 'Broad leaf with a visible midrib and net pattern.' },
-  { id: 'sadabahar',   name: 'Sadabahar',      emoji: '🌸', venation: 'reticulate', root: 'taproot', hint: 'Periwinkle — shiny oval leaves, net venation.' },
-  { id: 'mustard',     name: 'Mustard',        emoji: '🟡', venation: 'reticulate', root: 'taproot', hint: 'Broad wavy leaves with a prominent midrib.' },
-  { id: 'chickpea',    name: 'Chickpea',       emoji: '🫘', venation: 'reticulate', root: 'taproot', hint: 'Compound leaves with net venation — dicot plant.' },
+// High-Resolution Botanical Photographic Assets
+// 1. Lemon Grass
+import grassPlantImg from '../../../../assets/grass_1.png';
+import lemongrassLeafImg from '../../../../assets/lemongrass_leaf.png';
+import lemongrassRootImg from '../../../../assets/lemongrass_root.png';
+
+// 2. Marigold
+import marigoldPlantImg from '../../../../assets/marigold_1.png';
+import marigoldLeafImg from '../../../../assets/marigold_leaf.png';
+import marigoldRootImg from '../../../../assets/marigold_root.png';
+
+// 3. Sadabahar (Periwinkle)
+import sadabaharPlantImg from '../../../../assets/sadabahar_plant.png';
+import sadabaharLeafImg from '../../../../assets/sadabahar_leaf.png';
+import sadabaharRootImg from '../../../../assets/sadabahar_root.png';
+
+// 4. Mustard
+import mustardPlantImg from '../../../../assets/mustard_1.png';
+import mustardLeafImg from '../../../../assets/mustard_leaf.png';
+import mustardRootImg from '../../../../assets/mustard_root.png';
+
+// 5. Chickpea (Gram)
+import chickpeaPlantImg from '../../../../assets/chickpea_plant.png';
+import chickpeaLeafImg from '../../../../assets/chickpea_leaf.png';
+import chickpeaRootImg from '../../../../assets/chickpea_root.png';
+
+// ============================================================
+// ORNATE BOTANICAL SVG ELEMENTS (EXACT MATCH TO SLOGAN PAGE)
+// ============================================================
+
+const TitleVineBranch = ({ side = 'left' }) => (
+  <svg
+    width="54"
+    height="26"
+    viewBox="0 0 80 32"
+    fill="none"
+    style={{
+      transform: side === 'right' ? 'scaleX(-1)' : 'none',
+      flexShrink: 0,
+      opacity: 0.95
+    }}
+  >
+    <path
+      d="M75 16 C55 14, 35 8, 8 2"
+      stroke="#1B4D3E"
+      strokeWidth="2.6"
+      strokeLinecap="round"
+    />
+    <path d="M12 4 C16 1, 24 3, 26 8 C26 12, 20 14, 16 12 C12 10, 10 7, 12 4 Z" fill="#2D6A4F" />
+    <path d="M28 7 C34 4, 42 7, 43 13 C43 17, 37 19, 33 16 C29 13, 26 10, 28 7 Z" fill="#40916C" />
+    <path d="M46 11 C52 9, 60 12, 61 17 C61 21, 55 23, 51 20 C47 17, 44 14, 46 11 Z" fill="#52B788" />
+    <path d="M22 14 C26 18, 25 24, 21 26 C17 28, 13 25, 14 20 C15 16, 19 13, 22 14 Z" fill="#2D6A4F" />
+    <path d="M40 18 C44 22, 43 27, 39 29 C35 31, 31 28, 32 23 C33 20, 37 17, 40 18 Z" fill="#40916C" />
+  </svg>
+);
+
+const TitleSprout = () => (
+  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '-2px', marginBottom: '4px' }}>
+    <svg width="28" height="18" viewBox="0 0 32 20" fill="none">
+      <path d="M16 20 C16 12, 16 4, 16 2" stroke="#1B4D3E" strokeWidth="2.4" strokeLinecap="round" />
+      <path d="M16 8 C11 5, 4 8, 3 13 C4 17, 10 17, 14 13 C16 11, 16 9, 16 8 Z" fill="#2D6A4F" />
+      <path d="M16 8 C21 5, 28 8, 29 13 C28 17, 22 17, 18 13 C16 11, 16 9, 16 8 Z" fill="#40916C" />
+      <path d="M16 3 C14 1, 15 0, 16 0 C17 0, 18 1, 16 3 Z" fill="#52B788" />
+    </svg>
+  </div>
+);
+
+const TopCornerFoliage = ({ side = 'left' }) => (
+  <div
+    style={{
+      position: 'absolute',
+      top: 0,
+      [side]: 0,
+      width: 'clamp(130px, 13vw, 200px)',
+      height: 'clamp(70px, 8vh, 100px)',
+      pointerEvents: 'none',
+      zIndex: 4,
+      overflow: 'hidden',
+      transform: side === 'right' ? 'scaleX(-1)' : 'none',
+      opacity: 0.95
+    }}
+  >
+    <svg width="100%" height="100%" viewBox="0 0 200 110" preserveAspectRatio="none" fill="none">
+      <path d="M0 0 C45 22, 100 38, 155 32 C175 30, 192 24, 200 18" stroke="#0D3B24" strokeWidth="4.5" strokeLinecap="round" />
+      <path d="M65 28 C88 50, 122 66, 150 70" stroke="#1B4D3E" strokeWidth="2.8" strokeLinecap="round" />
+      <path d="M35 16 C50 38, 72 65, 88 86" stroke="#1B4D3E" strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M38 12 C54 2, 74 10, 80 24 C68 31, 48 26, 38 12 Z" fill="#2D6A4F" />
+      <path d="M75 22 C96 14, 118 22, 124 38 C110 45, 88 38, 75 22 Z" fill="#14452F" />
+      <path d="M118 28 C140 20, 162 27, 168 43 C154 50, 132 43, 118 28 Z" fill="#40916C" />
+      <path d="M150 28 C172 22, 188 30, 194 43 C180 49, 164 43, 150 28 Z" fill="#2D6A4F" />
+      <path d="M55 33 C72 27, 88 38, 90 52 C76 57, 60 49, 55 33 Z" fill="#52B788" />
+      <path d="M92 44 C108 38, 125 48, 126 62 C112 67, 97 59, 92 44 Z" fill="#40916C" />
+    </svg>
+  </div>
+);
+
+const TopMountainBackdrop = () => (
+  <div
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: '8%',
+      right: '8%',
+      height: '90px',
+      pointerEvents: 'none',
+      zIndex: 1,
+      opacity: 0.16,
+      overflow: 'hidden'
+    }}
+  >
+    <svg width="100%" height="90" viewBox="0 0 1000 90" preserveAspectRatio="none" fill="none">
+      <path d="M0 80 Q160 36 260 62 T520 32 T760 58 T1000 42 L1000 90 L0 90 Z" fill="#52B788" />
+      <path d="M100 85 Q290 42 440 68 T720 46 T1000 62 L1000 90 L0 90 Z" fill="#2D6A4F" />
+    </svg>
+  </div>
+);
+
+const CardCornerLeaves = ({ position = 'top-left' }) => {
+  const transforms = {
+    'top-left': 'scale(1, 1)',
+    'top-right': 'scale(-1, 1)',
+    'bottom-left': 'scale(1, -1)',
+    'bottom-right': 'scale(-1, -1)'
+  };
+  return (
+    <svg
+      width="36"
+      height="36"
+      viewBox="0 0 52 52"
+      fill="none"
+      style={{
+        position: 'absolute',
+        top: position.includes('top') ? '6px' : 'auto',
+        bottom: position.includes('bottom') ? '6px' : 'auto',
+        left: position.includes('left') ? '6px' : 'auto',
+        right: position.includes('right') ? '6px' : 'auto',
+        transform: transforms[position],
+        opacity: 0.85,
+        pointerEvents: 'none',
+        zIndex: 2
+      }}
+    >
+      <path d="M6 6 C18 9, 28 18, 32 30 C34 36, 32 44, 28 50" stroke="#1B4D3E" strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M12 12 C18 9, 25 12, 26 18 C27 23, 21 26, 16 23 C12 20, 9 15, 12 12 Z" fill="#1B4D3E" />
+      <path d="M22 22 C29 19, 36 22, 37 28 C37 33, 31 36, 26 33 C21 30, 19 25, 22 22 Z" fill="#2D6A4F" />
+      <path d="M8 25 C13 22, 19 24, 20 29 C20 33, 15 36, 11 34 C7 32, 6 27, 8 25 Z" fill="#40916C" />
+    </svg>
+  );
+};
+
+const BottomNatureSilhouettes = () => (
+  <div
+    style={{
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      height: '48px',
+      overflow: 'hidden',
+      pointerEvents: 'none',
+      opacity: 0.28,
+      zIndex: 1
+    }}
+  >
+    <svg width="100%" height="48" viewBox="0 0 1200 48" preserveAspectRatio="none" fill="none">
+      <path d="M0 36 Q220 22 440 32 T880 26 T1200 34 L1200 48 L0 48 Z" fill="#52B788" />
+      <path d="M0 40 Q320 28 640 38 T1200 32 L1200 48 L0 48 Z" fill="#2D6A4F" />
+      <circle cx="110" cy="30" r="12" fill="#1B4D3E" />
+      <circle cx="124" cy="26" r="9" fill="#1B4D3E" />
+      <rect x="115" y="34" width="4" height="12" fill="#1B4D3E" />
+      <path d="M210 20 Q215 16 220 20 Q225 16 230 20" stroke="#1B4D3E" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M820 18 Q825 14 830 18 Q835 14 840 18" stroke="#1B4D3E" strokeWidth="1.6" strokeLinecap="round" />
+      <circle cx="1020" cy="26" r="14" fill="#1B4D3E" />
+      <circle cx="1036" cy="22" r="10" fill="#1B4D3E" />
+      <rect x="1025" y="32" width="4" height="14" fill="#1B4D3E" />
+    </svg>
+  </div>
+);
+
+// ============================================================
+// BOTANICAL SPECIMEN DATA (5 PLANTS FROM NCERT TABLE 2.4)
+// ============================================================
+
+const PLANTS_DATA = [
+  {
+    id: 'lemongrass',
+    num: '01',
+    name: 'Lemon Grass',
+    family: 'Poaceae (Monocot)',
+    venation: 'parallel',
+    root: 'fibrous',
+    plantImg: grassPlantImg,
+    leafImg: lemongrassLeafImg,
+    rootImg: lemongrassRootImg,
+    hint: 'Slender lemon grass blade with parallel longitudinal veins. Uprooting shows a dense cluster of fibrous roots originating from the stem base.',
+    botanicalNote: 'Monocot plant: parallel venation channels sap through parallel vascular bundles, supported by adventitious fibrous roots.'
+  },
+  {
+    id: 'marigold',
+    num: '02',
+    name: 'Marigold',
+    family: 'Asteraceae (Dicot)',
+    venation: 'reticulate',
+    root: 'taproot',
+    plantImg: marigoldPlantImg,
+    leafImg: marigoldLeafImg,
+    rootImg: marigoldRootImg,
+    hint: 'Serrated pinnate marigold leaf with a distinct central midrib and branching vein network. Excavation reveals a stout central taproot with lateral branch rootlets.',
+    botanicalNote: 'Dicot plant: the reticulate vein network delivers water efficiently from the deep central taproot across every serrated leaf lobe.'
+  },
+  {
+    id: 'sadabahar',
+    num: '03',
+    name: 'Sadabahar (Periwinkle)',
+    family: 'Apocynaceae (Dicot)',
+    venation: 'reticulate',
+    root: 'taproot',
+    plantImg: sadabaharPlantImg,
+    leafImg: sadabaharLeafImg,
+    rootImg: sadabaharRootImg,
+    hint: 'Glossy oval leaves with prominent pale midrib and fine net-like veins. Ground excavation reveals a deep, woody primary taproot.',
+    botanicalNote: 'Evergreen dicot shrub: sturdy taproot system allows it to reach deep water tables, reflected in glossy reticulate foliage.'
+  },
+  {
+    id: 'mustard',
+    num: '04',
+    name: 'Mustard',
+    family: 'Brassicaceae (Dicot)',
+    venation: 'reticulate',
+    root: 'taproot',
+    plantImg: mustardPlantImg,
+    leafImg: mustardLeafImg,
+    rootImg: mustardRootImg,
+    hint: 'Broad wavy mustard leaf with a stout central vein and intricate netted side-veins. Excavation exposes a thick conical primary taproot.',
+    botanicalNote: 'Classic dicot herb: central primary taproot elongates directly from the embryo radicle during seed germination.'
+  },
+  {
+    id: 'chickpea',
+    num: '05',
+    name: 'Chickpea (Gram)',
+    family: 'Fabaceae (Dicot)',
+    venation: 'reticulate',
+    root: 'taproot',
+    plantImg: chickpeaPlantImg,
+    leafImg: chickpeaLeafImg,
+    rootImg: chickpeaRootImg,
+    hint: 'Feathery compound leaves with delicate oval leaflets showing fine net venation. Supported by a conical taproot with lateral feeder roots.',
+    botanicalNote: 'Leguminous dicot: taproot system penetrates deeply to anchor the plant and host nitrogen-fixing nodules.'
+  }
 ];
 
-const VENATION_OPTIONS = [
-  { id: 'reticulate', label: 'Reticulate (Net)', icon: '🕸️', color: '#7c3aed' },
-  { id: 'parallel',   label: 'Parallel (Lines)', icon: '📏', color: '#0891b2' },
-];
-const ROOT_OPTIONS = [
-  { id: 'taproot',  label: 'Taproot',  icon: '🥕', color: '#f59e0b' },
-  { id: 'fibrous',  label: 'Fibrous',  icon: '🌾', color: '#84cc16' },
-];
+export default function VenationRootCorrelationLab({ onBackToDashboard, onPreviousPage, onNext }) {
+  const containerRef = useRef(null);
+  const [isMuted, setIsMuted] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
-export default function VenationRootCorrelationLab({ onBackToDashboard }) {
-  const { theme } = useTheme();
-  const isLight = theme === 'light';
+  // Active Specimen Selection
+  const [selectedPlantIndex, setSelectedPlantIndex] = useState(0);
+  const [inspectionView, setInspectionView] = useState('plant'); // 'plant' | 'leaf' | 'root'
 
-  // Activity 2.6 Design Tokens
-  const containerBg = `url(${darkForestBg}) center/cover no-repeat fixed`;
-  const textColor = '#0f172a';
-  const headerBg = 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 253, 244, 0.96) 100%)';
-  const borderCol = 'rgba(167, 243, 208, 0.95)';
-  const sidebarBorder = 'rgba(167, 243, 208, 0.95)';
-  const textMuted = '#334155';
-  const textFaint = '#475569';
-  const cardBg = '#ffffff';
-  const cardBorder = 'rgba(167, 243, 208, 0.95)';
-  const optBgDefault = '#ffffff';
-  const optBorderDefault = 'rgba(167, 243, 208, 0.95)';
-  const optTextDefault = '#0f172a';
-  const rowOddBg = 'rgba(240, 253, 244, 0.6)';
-  const rowEvenBg = '#ffffff';
-  const eurekaBg = 'rgba(248, 250, 252, 0.98)';
-  const ruleBoxBg = '#ffffff';
-  const checkBtnBorder = 'rgba(167, 243, 208, 0.95)';
-
-  const [answers, setAnswers] = useState(() => Object.fromEntries(TABLE_PLANTS.map(p => [p.id, { venation: null, root: null }])));
+  // Table 2.4 Answers State
+  const [answers, setAnswers] = useState(() =>
+    Object.fromEntries(PLANTS_DATA.map((p) => [p.id, { venation: null, root: null }]))
+  );
   const [checked, setChecked] = useState(false);
   const [results, setResults] = useState({});
-  const [showEureka, setShowEureka] = useState(false);
+  const [showEurekaModal, setShowEurekaModal] = useState(false);
 
-  const allFilled = TABLE_PLANTS.every(p => answers[p.id].venation && answers[p.id].root);
-  const allCorrect = TABLE_PLANTS.every(p => results[p.id]?.venation && results[p.id]?.root);
+  const activePlant = PLANTS_DATA[selectedPlantIndex];
+  const allFilled = PLANTS_DATA.every((p) => answers[p.id].venation && answers[p.id].root);
 
-  const handleSet = (plantId, field, value) => {
-    if (checked) return;
-    setAnswers(prev => ({ ...prev, [plantId]: { ...prev[plantId], [field]: value } }));
+  const toggleMute = () => {
+    const next = !isMuted;
+    setIsMuted(next);
+    correlationAudio.setMuted(next);
   };
 
-  const handleCheck = () => {
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      if (containerRef.current) {
+        containerRef.current.requestFullscreen().catch(() => {});
+      } else {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen().catch(() => {});
+      setIsFullscreen(false);
+    }
+  };
+
+  const handleSelectPlant = (index) => {
+    correlationAudio.playSpecimenSelect(isMuted);
+    setSelectedPlantIndex(index);
+    setInspectionView('plant');
+  };
+
+  const handleNextPlant = () => {
+    correlationAudio.playSwitch(isMuted);
+    setSelectedPlantIndex((prev) => (prev + 1) % PLANTS_DATA.length);
+    setInspectionView('plant');
+  };
+
+  const handlePrevPlant = () => {
+    correlationAudio.playSwitch(isMuted);
+    setSelectedPlantIndex((prev) => (prev - 1 + PLANTS_DATA.length) % PLANTS_DATA.length);
+    setInspectionView('plant');
+  };
+
+  const handleToggleInspectionView = (view) => {
+    correlationAudio.playToggleView(isMuted);
+    setInspectionView(view);
+  };
+
+  const handleSetAnswer = (plantId, field, value) => {
+    if (checked) return;
+    correlationAudio.playOptionSelect(isMuted);
+    setAnswers((prev) => ({
+      ...prev,
+      [plantId]: { ...prev[plantId], [field]: value }
+    }));
+  };
+
+  const handleCheckAnswers = () => {
+    correlationAudio.playSwitch(isMuted);
     const res = {};
-    TABLE_PLANTS.forEach(p => {
+    PLANTS_DATA.forEach((p) => {
       res[p.id] = {
         venation: answers[p.id].venation === p.venation,
-        root: answers[p.id].root === p.root,
+        root: answers[p.id].root === p.root
       };
     });
     setResults(res);
     setChecked(true);
-    const allRight = TABLE_PLANTS.every(p => res[p.id].venation && res[p.id].root);
-    if (allRight) {
+
+    const isAllCorrect = PLANTS_DATA.every((p) => res[p.id].venation && res[p.id].root);
+    if (isAllCorrect) {
+      correlationAudio.playSuccessChime(isMuted);
+      confetti({
+        particleCount: 160,
+        spread: 90,
+        origin: { y: 0.55 }
+      });
       setTimeout(() => {
-        setShowEureka(true);
-        confetti({ particleCount: 200, spread: 100, origin: { y: 0.4 } });
-      }, 600);
+        setShowEurekaModal(true);
+      }, 700);
     }
   };
 
-  const handleReset = () => {
-    setAnswers(Object.fromEntries(TABLE_PLANTS.map(p => [p.id, { venation: null, root: null }])));
-    setChecked(false); setResults({}); setShowEureka(false);
+  const handleResetLab = () => {
+    correlationAudio.playSwitch(isMuted);
+    setAnswers(Object.fromEntries(PLANTS_DATA.map((p) => [p.id, { venation: null, root: null }])));
+    setChecked(false);
+    setResults({});
+    setShowEurekaModal(false);
+    setSelectedPlantIndex(0);
+    setInspectionView('plant');
   };
 
-  const CellPicker = ({ options, value, isCorrect, isWrong, onChange }) => (
-    <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', alignItems: 'center' }}>
-      {options.map(opt => (
-        <button key={opt.id} onClick={() => onChange(opt.id)} style={{ background: value === opt.id ? `${opt.color}25` : '#ffffff', border: `2.5px solid ${value === opt.id ? opt.color : 'rgba(167, 243, 208, 0.95)'}`, color: value === opt.id ? opt.color : '#0f172a', padding: '0.6rem 1.05rem', borderRadius: '10px', cursor: checked ? 'default' : 'pointer', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '0.45rem', transition: 'all 0.15s', fontWeight: '800', boxShadow: value === opt.id ? `0 4px 12px ${opt.color}40` : '0 2px 6px rgba(0,0,0,0.04)' }}>
-          <span style={{ fontSize: '1.25rem' }}>{opt.icon}</span> {opt.label}
-        </button>
-      ))}
-      {checked && isCorrect && <span style={{ color: '#16a34a', fontSize: '1.2rem', fontWeight: '900' }}>✅</span>}
-      {checked && isWrong && <span style={{ color: '#dc2626', fontSize: '1.2rem', fontWeight: '900' }}>❌</span>}
-    </div>
-  );
-
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: containerBg, color: textColor, fontFamily: 'system-ui, sans-serif', overflow: 'hidden' }}>
-      {/* Header */}
-      <div style={{ background: headerBg, backdropFilter: 'blur(16px)', borderBottom: `2px solid ${sidebarBorder}`, padding: '0.9rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.12)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <button onClick={onBackToDashboard} style={{ background: '#ffffff', border: '1.5px solid rgba(167, 243, 208, 0.95)', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '1rem', fontWeight: '800', padding: '0.45rem 0.9rem', borderRadius: '8px', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}>
-            <ArrowLeft size={18} color="#0f172a" /> Back
+    <div
+      ref={containerRef}
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100vh',
+        maxHeight: '100vh',
+        background: 'linear-gradient(180deg, #D6EDFA 0%, #E8F7EE 16%, #F3FAF5 48%, #E5F5EB 82%, #D5EFE0 100%)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: 'clamp(4px, 0.8vh, 8px) clamp(10px, 1.2vw, 20px)',
+        boxSizing: 'border-box',
+        overflow: 'hidden',
+        userSelect: 'none',
+        fontFamily: '"Outfit", "Plus Jakarta Sans", system-ui, sans-serif',
+        color: '#1F2937'
+      }}
+    >
+      <TopCornerFoliage side="left" />
+      <TopCornerFoliage side="right" />
+      <TopMountainBackdrop />
+      <BottomNatureSilhouettes />
+
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,600;1,9..144,700&family=Outfit:wght@700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+        .bio-nav-btn {
+          background: #14452F;
+          color: #D1FAE5;
+          border: 1.5px solid #2D6A4F;
+          border-radius: 10px;
+          padding: 6px 14px;
+          font-size: 16px;
+          font-weight: 800;
+          font-family: 'Outfit', sans-serif;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          transition: all 0.2s ease;
+          box-shadow: 0 2px 8px rgba(20, 69, 47, 0.20);
+          position: relative;
+          z-index: 10;
+        }
+        .bio-nav-btn:hover:not(:disabled) {
+          background: #1B5E3C;
+          color: #FFFFFF;
+          border-color: #10B981;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(20, 69, 47, 0.30);
+        }
+        .bio-nav-btn:disabled {
+          opacity: 0.35;
+          cursor: not-allowed;
+          box-shadow: none;
+        }
+
+        .bio-cta-btn {
+          background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+          color: #FFFFFF;
+          border: 1.5px solid #FCD34D;
+          border-radius: 10px;
+          padding: 8px 18px;
+          font-size: 16px;
+          font-weight: 900;
+          font-family: 'Outfit', sans-serif;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.2s ease;
+          box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+          position: relative;
+          z-index: 10;
+        }
+        .bio-cta-btn:hover:not(:disabled) {
+          background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+          transform: translateY(-1px);
+          box-shadow: 0 5px 18px rgba(217, 119, 6, 0.45);
+        }
+        .bio-cta-btn:disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+          box-shadow: none;
+        }
+
+        .bio-parchment-card {
+          background: rgba(250, 248, 242, 0.55); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+          border: 2px solid rgba(25, 71, 32, 0.5);
+          border-radius: 16px;
+          box-shadow: 0 8px 24px rgba(15, 74, 50, 0.12), inset 0 0 0 2px rgba(45, 106, 79, 0.08);
+          position: relative;
+          box-sizing: border-box;
+          overflow: hidden;
+        }
+      `}</style>
+
+      {/* ============================================================ */}
+      {/* 1. COMPACT STREAMLINED HEADER SECTION (ZERO SCROLL FIT)      */}
+      {/* ============================================================ */}
+      <header
+        style={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: '1540px',
+          textAlign: 'center',
+          flexShrink: 0,
+          marginBottom: 'clamp(2px, 0.5vh, 6px)',
+          zIndex: 20
+        }}
+      >
+        {/* TOP CONTROLS BAR: DASHBOARD (LEFT) & TOOLS (RIGHT) */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          {/* LEFT: DASHBOARD BUTTON */}
+          <button
+            type="button"
+            className="bio-nav-btn"
+            onClick={onBackToDashboard}
+            aria-label="Back to Dashboard"
+          >
+            <ArrowLeft size={16} strokeWidth={2.4} />
+            <span>Dashboard</span>
           </button>
-          <div>
-            <div style={{ fontSize: '0.95rem', color: '#0284c7', textTransform: 'uppercase', fontWeight: '900', letterSpacing: '0.06em', background: 'rgba(14, 165, 233, 0.18)', padding: '0.35rem 0.8rem', borderRadius: '8px', border: '1.5px solid rgba(56, 189, 248, 0.4)', display: 'inline-block', marginBottom: '0.35rem', boxShadow: '0 2px 10px rgba(14, 165, 233, 0.25)' }}>Activity 2.7 — Table 2.4</div>
-            <div style={{ fontSize: '1.45rem', fontWeight: '900', color: '#0f172a', letterSpacing: '0.01em' }}>🔗 Venation ↔ Root Correlation Lab</div>
+
+          {/* CENTER: BADGES & MAIN TITLE */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
+              <span
+                style={{
+                  background: '#14452F',
+                  color: '#FFFFFF',
+                  borderRadius: '16px',
+                  padding: '2px 14px',
+                  fontFamily: '"Outfit", sans-serif',
+                  fontWeight: 900,
+                  fontSize: '16px',
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase',
+                  boxShadow: '0 2px 6px rgba(20, 69, 47, 0.24)'
+                }}
+              >
+                CLASS 6 • SCIENCE
+              </span>
+
+              <span
+                style={{
+                  background: '#14452F',
+                  color: '#34D399',
+                  borderRadius: '16px',
+                  padding: '2px 14px',
+                  fontFamily: '"Outfit", sans-serif',
+                  fontWeight: 900,
+                  fontSize: '16px',
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase',
+                  border: '1.5px solid #10B981',
+                  boxShadow: '0 2px 6px rgba(20, 69, 47, 0.24)'
+                }}
+              >
+                ACTIVITY 2.7 • BOTANY LAB
+              </span>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+              <TitleVineBranch side="left" />
+              <h1
+                style={{
+                  fontFamily: '"Fraunces", Georgia, serif',
+                  fontWeight: 900,
+                  fontSize: '22px',
+                  color: '#0A3B24',
+                  margin: 0,
+                  lineHeight: 1.15,
+                  letterSpacing: '-0.01em',
+                  textShadow: '0 1px 4px rgba(10, 59, 36, 0.10)'
+                }}
+              >
+                Venation ↔ Root Correlation Lab
+              </h1>
+              <TitleVineBranch side="right" />
+            </div>
+            <TitleSprout />
           </div>
-        </div>
-        <button onClick={handleReset} style={{ background: '#ffffff', border: '2px solid rgba(167, 243, 208, 0.95)', color: '#0f172a', padding: '0.55rem 1rem', borderRadius: '8px', cursor: 'pointer', fontSize: '0.95rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '0.4rem', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}>
-          <RefreshCw size={15} color="#0f172a" /> Reset Lab
-        </button>
-      </div>
 
-      {/* Instruction */}
-      <div style={{ background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 253, 244, 0.96) 100%)', backdropFilter: 'blur(16px)', borderBottom: `2px solid rgba(167, 243, 208, 0.95)`, padding: '1rem 1.75rem', fontSize: '1.12rem', color: '#0f172a', fontWeight: '700', lineHeight: 1.6, boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
-        <strong style={{ color: '#0284c7', fontWeight: '900', fontSize: '1.2rem', background: 'rgba(14, 165, 233, 0.18)', padding: '0.25rem 0.75rem', borderRadius: '8px', border: '1.5px solid rgba(56, 189, 248, 0.4)', marginRight: '0.65rem' }}>Task:</strong> Fill in Table 2.4 below. For each plant, select its leaf venation type AND root system type. Use what you learned from Activities 2.5 and 2.6! Hints are available if you need them.
-      </div>
+          {/* RIGHT: SOUND, RESET, FULLSCREEN ROW */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <button
+              type="button"
+              onClick={toggleMute}
+              style={{
+                background: isMuted ? 'rgba(239, 68, 68, 0.15)' : 'rgba(20, 69, 47, 0.92)',
+                color: isMuted ? '#DC2626' : '#D1FAE5',
+                border: `1.5px solid ${isMuted ? '#EF4444' : '#2D6A4F'}`,
+                borderRadius: '8px',
+                padding: '6px 12px',
+                fontSize: '16px',
+                fontWeight: 800,
+                fontFamily: "'Outfit', sans-serif",
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                boxShadow: '0 2px 6px rgba(20, 69, 47, 0.18)'
+              }}
+            >
+              {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+              <span>{isMuted ? 'Muted' : 'Sound On'}</span>
+            </button>
 
-      {/* Table */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '1.75rem' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed', background: '#ffffff', borderRadius: '18px', overflow: 'hidden', border: `2px solid ${cardBorder}`, boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}>
-          <colgroup>
-            <col style={{ width: '24%' }} />
-            <col style={{ width: '10%' }} />
-            <col style={{ width: '33%' }} />
-            <col style={{ width: '33%' }} />
-          </colgroup>
-          <thead>
-            <tr>
-              {['Plant Name', '#', 'Leaf Venation', 'Root System'].map((h, i) => (
-                <th key={i} style={{ background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 253, 244, 0.96) 100%)', color: '#0284c7', fontSize: '1.08rem', fontWeight: '900', textTransform: 'uppercase', padding: '1.1rem 1.35rem', borderBottom: `3px solid rgba(167, 243, 208, 0.95)`, textAlign: 'left', letterSpacing: '0.04em' }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody style={{ background: '#ffffff' }}>
-            {TABLE_PLANTS.map((plant, idx) => {
-              const ans = answers[plant.id];
-              const res = results[plant.id];
-              const rowOk = res?.venation && res?.root;
-              const rowWrong = checked && (!res?.venation || !res?.root);
-              const rowBg = rowOk 
-                ? 'rgba(220, 252, 231, 0.7)' 
-                : rowWrong 
-                  ? 'rgba(254, 226, 226, 0.7)' 
-                  : idx % 2 === 0 
-                    ? '#ffffff' 
-                    : 'rgba(240, 253, 244, 0.5)';
-              return (
-                <tr key={plant.id} style={{ background: rowBg, borderBottom: `1.5px solid ${borderCol}`, transition: 'background 0.3s' }}>
-                  {/* Plant name */}
-                  <td style={{ padding: '1.35rem 1.35rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-                      <span style={{ fontSize: '1.8rem', filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.15))' }}>{plant.emoji}</span>
-                      <div>
-                        <div style={{ fontSize: '1.22rem', fontWeight: 900, color: '#0f172a' }}>{plant.name}</div>
-                        <div style={{ fontSize: '0.98rem', color: '#334155', fontStyle: 'italic', fontWeight: '700', marginTop: '0.2rem' }}>{plant.hint}</div>
-                      </div>
-                    </div>
-                  </td>
-                  {/* Row number */}
-                  <td style={{ padding: '1.35rem 0.5rem', textAlign: 'center', fontSize: '1.2rem', color: '#0284c7', fontWeight: '900' }}>{idx + 1}</td>
-                  {/* Venation */}
-                  <td style={{ padding: '1.35rem 1.35rem' }}>
-                    <CellPicker options={VENATION_OPTIONS} value={ans.venation} isCorrect={res?.venation} isWrong={checked && !res?.venation} onChange={v => handleSet(plant.id, 'venation', v)} />
-                  </td>
-                  {/* Root */}
-                  <td style={{ padding: '1.35rem 1.35rem' }}>
-                    <CellPicker options={ROOT_OPTIONS} value={ans.root} isCorrect={res?.root} isWrong={checked && !res?.root} onChange={v => handleSet(plant.id, 'root', v)} />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+            <button
+              type="button"
+              onClick={handleResetLab}
+              title="Reset Observations"
+              style={{
+                background: 'rgba(20, 69, 47, 0.92)',
+                color: '#D1FAE5',
+                border: '1.5px solid #2D6A4F',
+                borderRadius: '8px',
+                padding: '6px 12px',
+                fontSize: '16px',
+                fontWeight: 800,
+                fontFamily: "'Outfit', sans-serif",
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                boxShadow: '0 2px 6px rgba(20, 69, 47, 0.18)'
+              }}
+            >
+              <RefreshCw size={15} />
+              <span>Reset</span>
+            </button>
 
-        {/* Check button */}
-        {!checked && (
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2.2rem' }}>
-            <button onClick={handleCheck} disabled={!allFilled} style={{ background: allFilled ? 'linear-gradient(135deg, #0284c7, #0369a1)' : '#cbd5e1', border: 'none', color: allFilled ? '#ffffff' : '#475569', opacity: 1, padding: '1rem 3.5rem', borderRadius: '14px', cursor: allFilled ? 'pointer' : 'not-allowed', fontSize: '1.18rem', fontWeight: '900', boxShadow: allFilled ? '0 8px 28px rgba(2, 132, 199, 0.4)' : 'none', transition: 'all 0.3s' }}>
-              {allFilled ? '🔍 Check My Table' : `Fill all rows to continue (${TABLE_PLANTS.filter(p => answers[p.id].venation && answers[p.id].root).length}/${TABLE_PLANTS.length} done)`}
+            <button
+              type="button"
+              onClick={toggleFullscreen}
+              title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+              style={{
+                background: 'rgba(20, 69, 47, 0.92)',
+                color: '#D1FAE5',
+                border: '1.5px solid #2D6A4F',
+                borderRadius: '8px',
+                padding: '6px 8px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 2px 6px rgba(20, 69, 47, 0.18)'
+              }}
+            >
+              {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
             </button>
           </div>
-        )}
+        </div>
 
-        {/* Partial error */}
-        {checked && !allCorrect && (
-          <div style={{ marginTop: '1.75rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.85rem' }}>
-            <div style={{ color: '#991b1b', fontSize: '1.08rem', fontWeight: '900', textAlign: 'center', background: '#fee2e2', padding: '0.75rem 1.6rem', borderRadius: '12px', border: '2px solid #ef4444', boxShadow: '0 4px 14px rgba(239, 68, 68, 0.15)' }}>Some entries are incorrect. Check the highlighted rows and try again!</div>
-            <button onClick={handleReset} style={{ background: '#ffffff', border: '2px solid #dc2626', color: '#dc2626', padding: '0.6rem 1.8rem', borderRadius: '10px', cursor: 'pointer', fontSize: '1.02rem', fontWeight: '900', boxShadow: '0 2px 6px rgba(0,0,0,0.05)' }}>Try Again</button>
-          </div>
-        )}
-      </div>
-
-      {/* EUREKA OVERLAY */}
-      {showEureka && (
-        <div style={{ position: 'absolute', inset: 0, background: eurekaBg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', zIndex: 50, padding: '2rem', overflowY: 'auto' }}>
-          <div style={{ fontSize: '4rem', filter: 'drop-shadow(0 4px 12px rgba(245,158,11,0.3))' }}>💡</div>
-          <div style={{ textAlign: 'center' }}>
-            <h2 style={{ color: '#0f172a', margin: '0 0 0.4rem 0', fontWeight: '900', fontSize: '1.85rem' }}>Eureka! You discovered the Rule!</h2>
-            <p style={{ color: '#334155', margin: 0, fontSize: '1.12rem', fontWeight: '700' }}>Table 2.4 is complete — and look at the pattern that emerged!</p>
-          </div>
-
-          {/* Rule diagram */}
-          <div style={{ background: ruleBoxBg, borderRadius: '22px', padding: '2rem', border: `2px solid ${cardBorder}`, maxWidth: 580, width: '100%', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
-            <h4 style={{ color: '#0284c7', margin: '0 0 1.5rem 0', textAlign: 'center', fontSize: '1.35rem', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.04em' }}>🔑 The Correlation Rule</h4>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: '1.25rem', alignItems: 'center' }}>
-              {/* Reticulate → Taproot */}
-              <div style={{ background: '#f5f3ff', borderRadius: '14px', padding: '1.2rem 1rem', textAlign: 'center', border: '2px solid #ddd6fe', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-                <div style={{ fontSize: '2rem', marginBottom: '0.4rem' }}>🕸️</div>
-                <div style={{ color: '#6d28d9', fontWeight: '900', fontSize: '1.05rem' }}>Reticulate Venation</div>
-                <div style={{ color: '#334155', fontSize: '0.88rem', fontWeight: '700', marginTop: '0.25rem' }}>Net-like pattern</div>
-              </div>
-              <div style={{ textAlign: 'center', color: '#f59e0b', fontSize: '2rem', fontWeight: '900' }}>⟺</div>
-              <div style={{ background: '#fffbeb', borderRadius: '14px', padding: '1.2rem 1rem', textAlign: 'center', border: '2px solid #fde68a', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-                <div style={{ fontSize: '2rem', marginBottom: '0.4rem' }}>🥕</div>
-                <div style={{ color: '#b45309', fontWeight: '900', fontSize: '1.05rem' }}>Taproot System</div>
-                <div style={{ color: '#334155', fontSize: '0.88rem', fontWeight: '700', marginTop: '0.25rem' }}>One main root</div>
-              </div>
-
-              {/* Parallel → Fibrous */}
-              <div style={{ background: '#f0f9ff', borderRadius: '14px', padding: '1.2rem 1rem', textAlign: 'center', border: '2px solid #bae6fd', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-                <div style={{ fontSize: '2rem', marginBottom: '0.4rem' }}>📏</div>
-                <div style={{ color: '#0369a1', fontWeight: '900', fontSize: '1.05rem' }}>Parallel Venation</div>
-                <div style={{ color: '#334155', fontSize: '0.88rem', fontWeight: '700', marginTop: '0.25rem' }}>Straight parallel lines</div>
-              </div>
-              <div style={{ textAlign: 'center', color: '#f59e0b', fontSize: '2rem', fontWeight: '900' }}>⟺</div>
-              <div style={{ background: '#f7fee7', borderRadius: '14px', padding: '1.2rem 1rem', textAlign: 'center', border: '2px solid #d9f99d', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-                <div style={{ fontSize: '2rem', marginBottom: '0.4rem' }}>🌾</div>
-                <div style={{ color: '#4d7c0f', fontWeight: '900', fontSize: '1.05rem' }}>Fibrous Root System</div>
-                <div style={{ color: '#334155', fontSize: '0.88rem', fontWeight: '700', marginTop: '0.25rem' }}>Many thin equal roots</div>
-              </div>
+        {/* INSTRUCTIONAL BANNER (STREAMLINED & JUSTIFIED) */}
+        <div
+          className="bio-parchment-card"
+          style={{
+            padding: '6px 16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '12px',
+            width: '100%',
+            maxWidth: '1540px',
+            margin: '4px auto 0',
+            boxSizing: 'border-box'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, minWidth: 0 }}>
+            <div
+              style={{
+                width: '32px',
+                height: '32px',
+                borderRadius: '8px',
+                background: '#14452F',
+                color: '#34D399',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0
+              }}
+            >
+              <Eye size={18} />
+            </div>
+            <div style={{ fontSize: '16px', color: '#1B4D3E', fontWeight: 600, textAlign: 'justify', lineHeight: 1.35, flex: 1, minWidth: 0 }}>
+              <strong style={{ color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif', marginRight: '6px', fontSize: '16px' }}>
+                NCERT Correlation Task:
+              </strong>
+              Select a plant specimen from the dock, inspect its <strong>[Leaf Venation]</strong> and <strong>[Root System]</strong> in the 70% botanical viewer, then record observations in Table 2.4.
             </div>
           </div>
 
-          <div style={{ background: ruleBoxBg, borderRadius: '14px', padding: '1.25rem 1.75rem', border: `2px solid ${cardBorder}`, maxWidth: 540, fontSize: '1.05rem', color: '#0f172a', lineHeight: 1.6, textAlign: 'center', fontWeight: '700', boxShadow: '0 4px 14px rgba(0,0,0,0.06)' }}>
-            <strong style={{ color: '#b45309', fontWeight: '900', fontSize: '1.15rem' }}>Why does this happen?</strong><br />
-            Plants with reticulate venation are called <strong style={{ color: '#6d28d9', fontWeight: '900' }}>Dicots</strong> — they have two cotyledons in their seeds and develop a main taproot. Plants with parallel venation are <strong style={{ color: '#0369a1', fontWeight: '900' }}>Monocots</strong> — one cotyledon, fibrous roots. This is how nature keeps things consistent!
+          <div
+            style={{
+              background: '#14452F',
+              color: '#FDE68A',
+              padding: '4px 14px',
+              borderRadius: '14px',
+              fontSize: '16px',
+              fontWeight: 800,
+              fontFamily: "'Outfit', sans-serif",
+              flexShrink: 0,
+              whiteSpace: 'nowrap'
+            }}
+          >
+            {PLANTS_DATA.filter((p) => answers[p.id].venation && answers[p.id].root).length} / {PLANTS_DATA.length} Recorded
+          </div>
+        </div>
+      </header>
+
+      {/* ========================================================================= */}
+      {/* 2. MAIN 2-COLUMN WORKSPACE: 70% IMAGE ALLOCATION + 30% CONTENT ALLOCATION */}
+      {/* ========================================================================= */}
+      <main
+        style={{
+          width: '100%',
+          maxWidth: '1540px',
+          flex: 1,
+          minHeight: 0,
+          display: 'grid',
+          gridTemplateColumns: 'calc(70% - clamp(6px, 0.8vw, 10px)) calc(30% - clamp(6px, 0.8vw, 10px))',
+          gap: 'clamp(10px, 1.2vw, 18px)',
+          alignItems: 'stretch',
+          position: 'relative',
+          zIndex: 10,
+          boxSizing: 'border-box',
+          overflow: 'hidden'
+        }}
+      >
+        {/* ========================================================== */}
+        {/* LEFT COLUMN (70%): BOTANICAL SPECIMEN DISPLAY WORKBENCH    */}
+        {/* ========================================================== */}
+        {/* LEFT COLUMN (70%): BOTANICAL SPECIMEN DISPLAY WORKBENCH    */}
+        {/* ========================================================== */}
+        <section
+          className="bio-parchment-card"
+          style={{
+            padding: 'clamp(6px, 0.9vh, 10px) clamp(8px, 1vw, 12px)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 'clamp(4px, 0.6vh, 6px)',
+            height: '100%',
+            minHeight: 0,
+            boxSizing: 'border-box'
+          }}
+        >
+          <CardCornerLeaves position="top-left" />
+          <CardCornerLeaves position="bottom-right" />
+
+          {/* TOP TOOLBAR: ACTIVE SPECIMEN TITLE, 3-WAY VIEW SWITCHER & NEXT/PREV NAVIGATION */}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              background: '#FFFFFF',
+              borderRadius: '10px',
+              padding: '4px 10px',
+              border: '1.5px solid #2D6A4F',
+              position: 'relative',
+              zIndex: 5,
+              flexShrink: 0,
+              gap: '8px'
+            }}
+          >
+            {/* SPECIMEN COUNTER & NAME */}
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', minWidth: 0, flexShrink: 1 }}>
+              <span
+                style={{
+                  background: '#14452F',
+                  color: '#FFFFFF',
+                  padding: '2px 8px',
+                  borderRadius: '6px',
+                  fontSize: '16px',
+                  fontWeight: 900,
+                  fontFamily: "'Outfit', sans-serif",
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                {selectedPlantIndex + 1} / {PLANTS_DATA.length}
+              </span>
+              <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 900, color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif', whiteSpace: 'nowrap' }}>
+                {activePlant.name}
+              </h2>
+              <span style={{ fontSize: '16px', fontWeight: 700, color: '#10B981', fontFamily: "'Outfit', sans-serif", whiteSpace: 'nowrap' }}>
+                ({activePlant.family})
+              </span>
+            </div>
+
+            {/* 3-WAY VIEW SWITCHER */}
+            <div style={{ display: 'flex', gap: '4px', flexShrink: 0 }}>
+              <button
+                type="button"
+                onClick={() => handleToggleInspectionView('plant')}
+                style={{
+                  padding: '4px 10px',
+                  borderRadius: '7px',
+                  background: inspectionView === 'plant' ? '#14452F' : 'rgba(255, 255, 255, 0.85)',
+                  border: inspectionView === 'plant' ? '2px solid #10B981' : '1.5px solid #2D6A4F',
+                  color: inspectionView === 'plant' ? '#FFFFFF' : '#14452F',
+                  fontSize: '16px',
+                  fontWeight: 800,
+                  fontFamily: "'Outfit', sans-serif",
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                🌱 Whole Plant
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleToggleInspectionView('leaf')}
+                style={{
+                  padding: '4px 10px',
+                  borderRadius: '7px',
+                  background: inspectionView === 'leaf' ? '#14452F' : 'rgba(255, 255, 255, 0.85)',
+                  border: inspectionView === 'leaf' ? '2px solid #10B981' : '1.5px solid #2D6A4F',
+                  color: inspectionView === 'leaf' ? '#FFFFFF' : '#14452F',
+                  fontSize: '16px',
+                  fontWeight: 800,
+                  fontFamily: "'Outfit', sans-serif",
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                🍃 Leaf Macro
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleToggleInspectionView('root')}
+                style={{
+                  padding: '4px 10px',
+                  borderRadius: '7px',
+                  background: inspectionView === 'root' ? '#14452F' : 'rgba(255, 255, 255, 0.85)',
+                  border: inspectionView === 'root' ? '2px solid #10B981' : '1.5px solid #2D6A4F',
+                  color: inspectionView === 'root' ? '#FFFFFF' : '#14452F',
+                  fontSize: '16px',
+                  fontWeight: 800,
+                  fontFamily: "'Outfit', sans-serif",
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                🥕 Root System
+              </button>
+            </div>
+
+            {/* SPECIMEN NAVIGATION: PREV & NEXT BUTTONS */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
+              <button
+                type="button"
+                onClick={handlePrevPlant}
+                aria-label="Previous Specimen"
+                style={{
+                  padding: '4px 10px',
+                  borderRadius: '7px',
+                  background: 'rgba(255, 255, 255, 0.92)',
+                  border: '1.5px solid #2D6A4F',
+                  color: '#14452F',
+                  fontSize: '16px',
+                  fontWeight: 800,
+                  fontFamily: "'Outfit', sans-serif",
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                ← Prev
+              </button>
+
+              <button
+                type="button"
+                onClick={handleNextPlant}
+                aria-label="Next Specimen"
+                style={{
+                  padding: '4px 14px',
+                  borderRadius: '7px',
+                  background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                  border: '2px solid #047857',
+                  color: '#FFFFFF',
+                  fontSize: '16px',
+                  fontWeight: 900,
+                  fontFamily: "'Outfit', sans-serif",
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  boxShadow: '0 2px 8px rgba(16, 185, 129, 0.35)',
+                  whiteSpace: 'nowrap',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                <span>Next Specimen</span>
+                <span style={{ fontSize: '18px', lineHeight: 1 }}>→</span>
+              </button>
+            </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '1.25rem' }}>
-            <button onClick={handleReset} style={{ background: '#cbd5e1', border: 'none', color: '#0f172a', padding: '0.75rem 1.75rem', borderRadius: '10px', cursor: 'pointer', fontSize: '1.02rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-              <RefreshCw size={16} /> Redo
+          {/* 8K SPECIMEN PHOTOGRAPHIC DISPLAY VIEWPORT (70% ALLOCATION, ZERO EMPTY SPACE) */}
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              flex: 1,
+              minHeight: 0,
+              borderRadius: '12px',
+              background: '#0B291A',
+              border: '2px solid rgba(20, 69, 47, 0.5)',
+              boxShadow: '0 4px 20px rgba(10, 59, 36, 0.15)',
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 5
+            }}
+          >
+            <img
+              key={`${activePlant.id}-${inspectionView}`}
+              src={
+                inspectionView === 'plant'
+                  ? activePlant.plantImg
+                  : inspectionView === 'leaf'
+                  ? activePlant.leafImg
+                  : activePlant.rootImg
+              }
+              alt={`${activePlant.name} ${inspectionView}`}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+                filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25))',
+                transition: 'transform 0.25s ease'
+              }}
+            />
+
+            {/* VIEW IDENTIFIER BADGE */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                background: 'rgba(20, 69, 47, 0.88)',
+                backdropFilter: 'blur(6px)',
+                color: '#D1FAE5',
+                borderRadius: '8px',
+                padding: '4px 12px',
+                fontSize: '16px',
+                fontWeight: 800,
+                fontFamily: "'Outfit', sans-serif",
+                boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                border: '1px solid rgba(52, 211, 153, 0.3)',
+                zIndex: 6
+              }}
+            >
+              {inspectionView === 'plant'
+                ? 'Specimen Portrait'
+                : inspectionView === 'leaf'
+                ? `8K Leaf Macro (${activePlant.venation === 'parallel' ? 'Parallel' : 'Reticulate'})`
+                : `8K Excavated Root (${activePlant.root === 'taproot' ? 'Taproot' : 'Fibrous'})`}
+            </div>
+
+            {/* INTEGRATED OBSERVATION GUIDE DOCKED AT BOTTOM OF IMAGE */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                background: 'linear-gradient(180deg, rgba(10, 42, 26, 0) 0%, rgba(10, 42, 26, 0.82) 28%, rgba(10, 42, 26, 0.95) 100%)',
+                backdropFilter: 'blur(6px)',
+                padding: '10px 16px 8px 16px',
+                color: '#E6F9EE',
+                fontSize: '16px',
+                lineHeight: 1.35,
+                textAlign: 'justify',
+                borderTop: '1px solid rgba(52, 211, 153, 0.25)',
+                zIndex: 6
+              }}
+            >
+              <strong style={{ color: '#6EE7B7' }}>Observation Guide:</strong> {activePlant.hint}
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================================== */}
+        {/* RIGHT COLUMN (30%): TABLE 2.4 BOTANICAL FIELD NOTEBOOK     */}
+        {/* ========================================================== */}
+        <section
+          className="bio-parchment-card"
+          style={{
+            padding: 'clamp(8px, 1.1vh, 12px) clamp(10px, 1.2vw, 14px)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            gap: 'clamp(4px, 0.6vh, 6px)',
+            height: '100%',
+            minHeight: 0,
+            boxSizing: 'border-box'
+          }}
+        >
+          <CardCornerLeaves position="top-right" />
+          <CardCornerLeaves position="bottom-left" />
+
+          {/* NOTEBOOK HEADER */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 5, flexShrink: 0 }}>
+            <div>
+              <span
+                style={{
+                  background: '#14452F',
+                  color: '#FFFFFF',
+                  padding: '2px 10px',
+                  borderRadius: '10px',
+                  fontFamily: '"Outfit", sans-serif',
+                  fontWeight: 900,
+                  fontSize: '16px',
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase'
+                }}
+              >
+                FIELD NOTEBOOK
+              </span>
+              <h2 style={{ margin: '2px 0 0 0', fontSize: '18px', fontWeight: 900, color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif' }}>
+                Table 2.4 · Venation & Root
+              </h2>
+            </div>
+
+            <div style={{ fontSize: '16px', fontWeight: 800, color: '#14452F', fontFamily: "'Outfit', sans-serif" }}>
+              5 Specimens
+            </div>
+          </div>
+
+          {/* MINI COLUMN LEGEND */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '6px',
+              padding: '0 4px',
+              fontSize: '16px',
+              fontWeight: 800,
+              color: '#14452F',
+              flexShrink: 0
+            }}
+          >
+            <div style={{ textAlign: 'center', borderBottom: '1.5px solid rgba(20, 69, 47, 0.25)', paddingBottom: '1px' }}>
+              🍃 Leaf Venation
+            </div>
+            <div style={{ textAlign: 'center', borderBottom: '1.5px solid rgba(20, 69, 47, 0.25)', paddingBottom: '1px' }}>
+              🥕 Root System
+            </div>
+          </div>
+
+          {/* 5 COMPACT PLANT ROWS IN TABLE 2.4 (FIT ON SCREEN WITHOUT SCROLL) */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              gap: 'clamp(3px, 0.5vh, 6px)',
+              position: 'relative',
+              zIndex: 5,
+              flex: 1,
+              minHeight: 0
+            }}
+          >
+            {PLANTS_DATA.map((plant, idx) => {
+              const isSelected = selectedPlantIndex === idx;
+              const plantAns = answers[plant.id];
+              const plantRes = results[plant.id];
+              const isAnswered = plantAns.venation && plantAns.root;
+
+              return (
+                <div
+                  key={plant.id}
+                  onClick={() => handleSelectPlant(idx)}
+                  style={{
+                    background: isSelected ? '#FFFFFF' : 'rgba(255, 255, 255, 0.82)',
+                    border: isSelected ? '2px solid #10B981' : '1.5px solid #2D6A4F',
+                    borderRadius: '10px',
+                    padding: '4px 8px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '3px',
+                    boxShadow: isSelected ? '0 2px 10px rgba(16, 185, 129, 0.20)' : '0 1px 3px rgba(0,0,0,0.04)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                    flexShrink: 0
+                  }}
+                >
+                  {/* PLANT NAME & NUMBER WITH COMPLETION STATUS */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span
+                        style={{
+                          width: '20px',
+                          height: '20px',
+                          borderRadius: '50%',
+                          background: isSelected ? '#10B981' : '#14452F',
+                          color: isSelected ? '#064E3B' : '#FFFFFF',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '16px',
+                          fontWeight: 900,
+                          fontFamily: "'Outfit', sans-serif"
+                        }}
+                      >
+                        {idx + 1}
+                      </span>
+                      <span style={{ fontSize: '16px', fontWeight: 800, color: '#0A3B24' }}>
+                        {plant.name}
+                      </span>
+                    </div>
+
+                    {isAnswered && (
+                      <span style={{ fontSize: '16px', color: '#10B981', fontWeight: 900 }}>
+                        {checked ? (plantRes?.venation && plantRes?.root ? '✅ 100%' : '⚠️ Review') : '✓ Done'}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* 2-COLUMN BUTTONS: VENATION (LEFT) | ROOT SYSTEM (RIGHT) */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
+                    {/* LEAF VENATION PAIR */}
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3px' }}>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSetAnswer(plant.id, 'venation', 'reticulate');
+                        }}
+                        style={{
+                          padding: '3px 2px',
+                          borderRadius: '6px',
+                          background: plantAns.venation === 'reticulate' ? '#14452F' : 'rgba(255, 255, 255, 0.9)',
+                          border: plantAns.venation === 'reticulate' ? '2px solid #10B981' : '1.2px solid #2D6A4F',
+                          color: plantAns.venation === 'reticulate' ? '#FFFFFF' : '#14452F',
+                          fontSize: '16px',
+                          fontWeight: 800,
+                          fontFamily: "'Outfit', sans-serif",
+                          cursor: checked ? 'default' : 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '2px',
+                          whiteSpace: 'nowrap'
+                        }}
+                        title="Reticulate Venation"
+                      >
+                        <span>Reticulate</span>
+                        {checked && plantAns.venation === 'reticulate' && (
+                          <span>{plantRes?.venation ? '✅' : '❌'}</span>
+                        )}
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSetAnswer(plant.id, 'venation', 'parallel');
+                        }}
+                        style={{
+                          padding: '3px 2px',
+                          borderRadius: '6px',
+                          background: plantAns.venation === 'parallel' ? '#14452F' : 'rgba(255, 255, 255, 0.9)',
+                          border: plantAns.venation === 'parallel' ? '2px solid #10B981' : '1.2px solid #2D6A4F',
+                          color: plantAns.venation === 'parallel' ? '#FFFFFF' : '#14452F',
+                          fontSize: '16px',
+                          fontWeight: 800,
+                          fontFamily: "'Outfit', sans-serif",
+                          cursor: checked ? 'default' : 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '2px',
+                          whiteSpace: 'nowrap'
+                        }}
+                        title="Parallel Venation"
+                      >
+                        <span>Parallel</span>
+                        {checked && plantAns.venation === 'parallel' && (
+                          <span>{plantRes?.venation ? '✅' : '❌'}</span>
+                        )}
+                      </button>
+                    </div>
+
+                    {/* ROOT SYSTEM PAIR */}
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3px' }}>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSetAnswer(plant.id, 'root', 'taproot');
+                        }}
+                        style={{
+                          padding: '3px 2px',
+                          borderRadius: '6px',
+                          background: plantAns.root === 'taproot' ? '#14452F' : 'rgba(255, 255, 255, 0.9)',
+                          border: plantAns.root === 'taproot' ? '2px solid #10B981' : '1.2px solid #2D6A4F',
+                          color: plantAns.root === 'taproot' ? '#FFFFFF' : '#14452F',
+                          fontSize: '16px',
+                          fontWeight: 800,
+                          fontFamily: "'Outfit', sans-serif",
+                          cursor: checked ? 'default' : 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '2px',
+                          whiteSpace: 'nowrap'
+                        }}
+                        title="Taproot System"
+                      >
+                        <span>Taproot</span>
+                        {checked && plantAns.root === 'taproot' && (
+                          <span>{plantRes?.root ? '✅' : '❌'}</span>
+                        )}
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSetAnswer(plant.id, 'root', 'fibrous');
+                        }}
+                        style={{
+                          padding: '3px 2px',
+                          borderRadius: '6px',
+                          background: plantAns.root === 'fibrous' ? '#14452F' : 'rgba(255, 255, 255, 0.9)',
+                          border: plantAns.root === 'fibrous' ? '2px solid #10B981' : '1.2px solid #2D6A4F',
+                          color: plantAns.root === 'fibrous' ? '#FFFFFF' : '#14452F',
+                          fontSize: '16px',
+                          fontWeight: 800,
+                          fontFamily: "'Outfit', sans-serif",
+                          cursor: checked ? 'default' : 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '2px',
+                          whiteSpace: 'nowrap'
+                        }}
+                        title="Fibrous Root System"
+                      >
+                        <span>Fibrous</span>
+                        {checked && plantAns.root === 'fibrous' && (
+                          <span>{plantRes?.root ? '✅' : '❌'}</span>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* CHECK / SUBMIT BUTTON */}
+          <div style={{ position: 'relative', zIndex: 5, flexShrink: 0 }}>
+            <button
+              type="button"
+              onClick={handleCheckAnswers}
+              disabled={!allFilled}
+              className="bio-cta-btn"
+              style={{ width: '100%', justifyContent: 'center', padding: '7px 16px', fontSize: '16px' }}
+            >
+              <Sparkles size={18} />
+              <span>{allFilled ? 'Verify & Check Table 2.4' : 'Fill All 5 Rows to Check'}</span>
             </button>
-            <button onClick={() => onBackToDashboard('go_to_quiz')} style={{ background: '#f59e0b', border: 'none', color: '#1a0f05', padding: '0.75rem 1.75rem', borderRadius: '10px', cursor: 'pointer', fontSize: '1.05rem', fontWeight: '900', boxShadow: '0 4px 16px rgba(245,158,11,0.3)' }}>Next: Take Quiz ➜</button>
+          </div>
+        </section>
+      </main>
+
+      {/* ============================================================ */}
+      {/* 3. GOLDEN BOTANICAL CORRELATION LAW SYNTHESIS (EUREKA MODAL) */}
+      {/* ============================================================ */}
+      {showEurekaModal && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(10, 45, 30, 0.72)',
+            backdropFilter: 'blur(6px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 100,
+            padding: '20px'
+          }}
+        >
+          <div
+            className="bio-parchment-card"
+            style={{
+              width: '100%',
+              maxWidth: '820px',
+              padding: '32px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '18px',
+              boxShadow: '0 24px 60px rgba(0, 0, 0, 0.45)',
+              position: 'relative'
+            }}
+          >
+            <CardCornerLeaves position="top-left" />
+            <CardCornerLeaves position="top-right" />
+            <CardCornerLeaves position="bottom-left" />
+            <CardCornerLeaves position="bottom-right" />
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', position: 'relative', zIndex: 5 }}>
+              <div
+                style={{
+                  width: '56px',
+                  height: '56px',
+                  borderRadius: '16px',
+                  background: '#14452F',
+                  color: '#FCD34D',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0
+                }}
+              >
+                <Award size={36} />
+              </div>
+              <div>
+                <div
+                  style={{
+                    display: 'inline-block',
+                    background: '#14452F',
+                    color: '#34D399',
+                    borderRadius: '16px',
+                    padding: '3px 14px',
+                    fontSize: '16px',
+                    fontWeight: 800,
+                    fontFamily: "'Outfit', sans-serif",
+                    marginBottom: '4px'
+                  }}
+                >
+                  EUREKA! THE GRAND DISCOVERY
+                </div>
+                <h2 style={{ margin: 0, fontSize: '24px', fontWeight: 900, color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif' }}>
+                  The Golden Law of Botanical Correlation
+                </h2>
+              </div>
+            </div>
+
+            <p style={{ margin: 0, fontSize: '16px', color: '#1B4D3E', fontWeight: 600, lineHeight: 1.5, position: 'relative', zIndex: 5 }}>
+              Congratulations! By analyzing Table 2.4, you discovered the fundamental botanical rule connecting plant leaves to their root systems:
+            </p>
+
+            {/* 2-COLUMN SYNTHESIS CARDS */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', position: 'relative', zIndex: 5 }}>
+              {/* DICOT LAW */}
+              <div
+                style={{
+                  background: '#FFFFFF',
+                  borderRadius: '14px',
+                  padding: '16px',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px'
+                }}
+              >
+                <div style={{ fontSize: '18px', fontWeight: 900, color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif' }}>
+                  🕸️ Reticulate Venation
+                </div>
+                <div style={{ fontSize: '20px', fontWeight: 900, color: '#10B981', fontFamily: "'Outfit', sans-serif" }}>
+                  ALWAYS HAS ➔ 🥕 Taproot
+                </div>
+                <div style={{ fontSize: '16px', color: '#374151' }}>
+                  Marigold, Sadabahar, Mustard, Chickpea (Dicots)
+                </div>
+              </div>
+
+              {/* MONOCOT LAW */}
+              <div
+                style={{
+                  background: '#FFFFFF',
+                  borderRadius: '14px',
+                  padding: '16px',
+                  border: '2px solid #D97706',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px'
+                }}
+              >
+                <div style={{ fontSize: '18px', fontWeight: 900, color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif' }}>
+                  📏 Parallel Venation
+                </div>
+                <div style={{ fontSize: '20px', fontWeight: 900, color: '#D97706', fontFamily: "'Outfit', sans-serif" }}>
+                  ALWAYS HAS ➔ 🌾 Fibrous Roots
+                </div>
+                <div style={{ fontSize: '16px', color: '#374151' }}>
+                  Lemon Grass, Wheat, Maize, Grass (Monocots)
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                background: '#EAF7EE',
+                borderLeft: '4px solid #10B981',
+                borderRadius: '8px',
+                padding: '12px 16px',
+                fontSize: '16px',
+                color: '#0F3822',
+                lineHeight: 1.5,
+                position: 'relative',
+                zIndex: 5
+              }}
+            >
+              💡 <strong>Botanist’s Superpower:</strong> You NEVER need to pull out a plant from the soil to know its root system! Just inspect its leaf venation, and you can reliably predict whether it has a taproot or fibrous root system!
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', position: 'relative', zIndex: 5, marginTop: '6px' }}>
+              <button
+                type="button"
+                className="bio-cta-btn"
+                onClick={() => {
+                  setShowEurekaModal(false);
+                  if (onNext) onNext();
+                }}
+              >
+                <span>Advance to Activity 2.8: Seed Dissection</span>
+                <ChevronRight size={20} strokeWidth={2.5} />
+              </button>
+            </div>
           </div>
         </div>
       )}
+
+      {/* ============================================================ */}
+      {/* 4. BOTTOM NAVIGATION BAR (MATCHING SLOGAN PAGE EXACTLY)      */}
+      {/* ============================================================ */}
+      <footer
+        style={{
+          width: '100%',
+          maxWidth: '1540px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexShrink: 0,
+          padding: 'clamp(2px, 0.4vh, 4px) 4px',
+          boxSizing: 'border-box',
+          position: 'relative',
+          zIndex: 20
+        }}
+      >
+        <button
+          type="button"
+          className="bio-nav-btn"
+          onClick={onPreviousPage}
+          aria-label="Previous Activity"
+        >
+          ← Previous Activity
+        </button>
+
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '2px'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
+            <svg width="22" height="15" viewBox="0 0 24 16" fill="none" style={{ transform: 'scaleX(-1)' }}>
+              <path d="M2 14 C8 12, 16 10, 22 2 C18 8, 12 12, 2 14 Z" fill="#2D6A4F" />
+              <path d="M6 10 C10 6, 16 4, 22 2 C18 8, 12 10, 6 10 Z" fill="#52B788" />
+            </svg>
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '24px',
+                height: '24px',
+                borderRadius: '50%',
+                background: '#EAF7EE',
+                border: '1.8px solid #14452F',
+                boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
+              }}
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#14452F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+                <path d="M2 12h20" />
+              </svg>
+            </div>
+            <svg width="22" height="15" viewBox="0 0 24 16" fill="none">
+              <path d="M2 14 C8 12, 16 10, 22 2 C18 8, 12 10, 6 10 Z" fill="#2D6A4F" />
+              <path d="M6 10 C10 6, 16 4, 22 2 C18 8, 12 10, 6 10 Z" fill="#52B788" />
+            </svg>
+          </div>
+
+          <div
+            style={{
+              background: '#14452F',
+              color: '#FFFFFF',
+              borderRadius: '20px',
+              padding: '4px 20px',
+              fontFamily: '"Outfit", sans-serif',
+              fontWeight: 900,
+              fontSize: '16px',
+              letterSpacing: '0.05em',
+              boxShadow: '0 3px 10px rgba(20, 69, 47, 0.32)'
+            }}
+          >
+            Activity 2.7 · Table 2.4 Correlation Lab
+          </div>
+        </div>
+
+        <button
+          type="button"
+          className="bio-cta-btn"
+          onClick={onNext}
+          aria-label="Next Activity"
+        >
+          <span>Next: Act 2.8 Seed Dissection</span>
+          <ArrowRight size={17} strokeWidth={2.5} />
+        </button>
+      </footer>
     </div>
   );
 }

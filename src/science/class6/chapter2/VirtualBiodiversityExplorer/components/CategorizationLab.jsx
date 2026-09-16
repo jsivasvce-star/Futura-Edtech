@@ -79,37 +79,97 @@ export default function CategorizationLab({
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-slate-900/90 backdrop-blur-xl border-2 border-emerald-500/30 rounded-3xl p-6 md:p-8 shadow-2xl animate-fade-in text-white my-6">
+    <div style={{
+      width: '100%',
+      maxWidth: '56rem',
+      margin: '1.5rem auto',
+      background: 'rgba(250, 248, 242, 0.55)',
+      border: '2px solid rgba(20, 69, 47, 0.5)',
+      borderRadius: '24px',
+      padding: '2rem',
+      boxShadow: '0 16px 36px rgba(20, 69, 47, 0.12)',
+      color: '#14452F'
+    }}>
       
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: '1rem',
+        paddingBottom: '1.5rem',
+        borderBottom: '2px solid rgba(20, 69, 47, 0.2)'
+      }}>
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+          <span style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            fontSize: '15px',
+            fontWeight: 800,
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em',
+            background: '#14452F',
+            color: '#FFFFFF',
+            padding: '4px 12px',
+            borderRadius: '999px',
+            border: '1.5px solid #10B981'
+          }}>
             <Sparkles className="w-4 h-4" /> CBSE Class 6 Table 2.1 & 2.2 Lab
           </span>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-white mt-1">
+          <h2 style={{
+            fontFamily: '"Fraunces", Georgia, serif',
+            fontSize: '24px',
+            fontWeight: 900,
+            color: '#14452F',
+            margin: '0.5rem 0 0.25rem'
+          }}>
             Categorize Nature Discoveries 📊
           </h2>
-          <p className="text-sm text-slate-300 mt-1">
+          <p style={{
+            fontSize: '16px',
+            color: '#2D3748',
+            margin: 0,
+            lineHeight: 1.5
+          }}>
             Help Prof. Buddy fill the observation tables by classifying stems, heights, and habitats.
           </p>
         </div>
 
         {/* Tab Selector */}
-        <div className="flex items-center bg-slate-800 p-1.5 rounded-2xl border border-slate-700">
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          background: 'rgba(20, 69, 47, 0.08)',
+          padding: '6px',
+          borderRadius: '16px',
+          border: '1.5px solid #14452F',
+          gap: '6px'
+        }}>
           <button
             onClick={() => {
               sounds.playClick();
               setActiveTab('plants');
             }}
-            className={`px-4 py-2.5 rounded-xl font-bold text-xs md:text-sm transition flex items-center gap-2 ${
-              activeTab === 'plants'
-                ? 'bg-emerald-500 text-slate-950 shadow-lg'
-                : 'text-slate-300 hover:text-white'
-            }`}
+            style={{
+              padding: '0.6rem 1.2rem',
+              borderRadius: '12px',
+              fontWeight: 800,
+              fontSize: '16px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              border: activeTab === 'plants' ? '1.5px solid #10B981' : '1px solid transparent',
+              background: activeTab === 'plants' ? '#14452F' : 'transparent',
+              color: activeTab === 'plants' ? '#FFFFFF' : '#14452F',
+              boxShadow: activeTab === 'plants' ? '0 4px 12px rgba(20, 69, 47, 0.25)' : 'none',
+              transition: 'all 0.15s ease'
+            }}
           >
             <span>🌿 Table 2.1: Plants</span>
-            {completedPlantTable && <CheckCircle2 className="w-4 h-4 text-emerald-950" />}
+            {completedPlantTable && <CheckCircle2 className="w-5 h-5 text-emerald-400" />}
           </button>
 
           <button
@@ -117,35 +177,62 @@ export default function CategorizationLab({
               sounds.playClick();
               setActiveTab('animals');
             }}
-            className={`px-4 py-2.5 rounded-xl font-bold text-xs md:text-sm transition flex items-center gap-2 ${
-              activeTab === 'animals'
-                ? 'bg-emerald-500 text-slate-950 shadow-lg'
-                : 'text-slate-300 hover:text-white'
-            }`}
+            style={{
+              padding: '0.6rem 1.2rem',
+              borderRadius: '12px',
+              fontWeight: 800,
+              fontSize: '16px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              border: activeTab === 'animals' ? '1.5px solid #10B981' : '1px solid transparent',
+              background: activeTab === 'animals' ? '#14452F' : 'transparent',
+              color: activeTab === 'animals' ? '#FFFFFF' : '#14452F',
+              boxShadow: activeTab === 'animals' ? '0 4px 12px rgba(20, 69, 47, 0.25)' : 'none',
+              transition: 'all 0.15s ease'
+            }}
           >
             <span>🐾 Table 2.2: Animals</span>
-            {completedAnimalTable && <CheckCircle2 className="w-4 h-4 text-emerald-950" />}
+            {completedAnimalTable && <CheckCircle2 className="w-5 h-5 text-emerald-400" />}
           </button>
         </div>
       </div>
 
       {/* Tab 1: Table 2.1 Plants */}
       {activeTab === 'plants' && (
-        <div className="py-6 space-y-6">
-          <div className="bg-emerald-950/40 border border-emerald-500/30 p-4 rounded-2xl text-xs md:text-sm text-emerald-200">
+        <div style={{ padding: '1.5rem 0', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <div style={{
+            background: 'rgba(20, 69, 47, 0.08)',
+            border: '1.5px solid #14452F',
+            padding: '1rem 1.25rem',
+            borderRadius: '16px',
+            fontSize: '16px',
+            color: '#14452F',
+            lineHeight: 1.5
+          }}>
             💡 <strong>Guide:</strong> Classify each plant into <strong>Herb</strong> (soft stem), <strong>Shrub</strong> (woody, multiple stems), or <strong>Tree</strong> (thick trunk).
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
             {/* Tulsi */}
-            <div className="bg-slate-800/80 border border-slate-700 rounded-2xl p-4 flex flex-col justify-between">
-              <div className="text-center pb-3 border-b border-slate-700">
-                <span className="text-4xl">🌿</span>
-                <h3 className="font-bold text-base mt-2">Tulsi & Soft Herbs</h3>
-                <p className="text-xs text-slate-400 mt-0.5">Stem: Soft & tender green stem</p>
+            <div style={{
+              background: 'rgba(250, 248, 242, 0.55)',
+              border: '1.8px solid #14452F',
+              borderRadius: '18px',
+              padding: '1.25rem',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              boxShadow: '0 4px 14px rgba(20, 69, 47, 0.08)'
+            }}>
+              <div style={{ textAlign: 'center', paddingBottom: '0.75rem', borderBottom: '1px solid rgba(20, 69, 47, 0.15)' }}>
+                <span style={{ fontSize: '2.5rem' }}>🌿</span>
+                <h3 style={{ fontFamily: '"Fraunces", Georgia, serif', fontWeight: 800, fontSize: '18px', color: '#14452F', margin: '0.5rem 0 0.25rem' }}>Tulsi &amp; Soft Herbs</h3>
+                <p style={{ fontSize: '16px', color: '#4A5568', margin: 0 }}>Stem: Soft &amp; tender green stem</p>
               </div>
 
-              <div className="mt-4 space-y-2">
+              <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
                 {['herb', 'shrub', 'tree'].map((cat) => {
                   const selected = plantAnswers.tulsi === cat;
                   const isCorrect = cat === 'herb';
@@ -153,13 +240,19 @@ export default function CategorizationLab({
                     <button
                       key={cat}
                       onClick={() => handlePlantSelect('tulsi', cat)}
-                      className={`w-full py-2.5 px-3 rounded-xl text-xs font-bold capitalize border transition ${
-                        selected
-                          ? isCorrect
-                            ? 'bg-emerald-500 text-slate-950 border-emerald-300 shadow-md'
-                            : 'bg-rose-500 text-white border-rose-300'
-                          : 'bg-slate-900/60 text-slate-300 border-slate-700 hover:bg-slate-700'
-                      }`}
+                      style={{
+                        width: '100%',
+                        padding: '0.65rem 0.75rem',
+                        borderRadius: '12px',
+                        fontSize: '16px',
+                        fontWeight: 800,
+                        textTransform: 'capitalize',
+                        cursor: 'pointer',
+                        border: selected ? (isCorrect ? '1.8px solid #10B981' : '1.8px solid #EF4444') : '1.5px solid rgba(20, 69, 47, 0.3)',
+                        background: selected ? (isCorrect ? '#14452F' : '#DC2626') : 'rgba(20, 69, 47, 0.06)',
+                        color: selected ? '#FFFFFF' : '#14452F',
+                        transition: 'all 0.15s ease'
+                      }}
                     >
                       {cat === 'herb' ? '🌱 Herb (Soft)' : cat === 'shrub' ? '🌳 Shrub (Bushy)' : '🌲 Tree (Trunk)'}
                     </button>
@@ -169,14 +262,23 @@ export default function CategorizationLab({
             </div>
 
             {/* Hibiscus / Rose */}
-            <div className="bg-slate-800/80 border border-slate-700 rounded-2xl p-4 flex flex-col justify-between">
-              <div className="text-center pb-3 border-b border-slate-700">
-                <span className="text-4xl">🌺</span>
-                <h3 className="font-bold text-base mt-2">Rose & Hibiscus</h3>
-                <p className="text-xs text-slate-400 mt-0.5">Stem: Hard woody stems branching near ground</p>
+            <div style={{
+              background: 'rgba(250, 248, 242, 0.55)',
+              border: '1.8px solid #14452F',
+              borderRadius: '18px',
+              padding: '1.25rem',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              boxShadow: '0 4px 14px rgba(20, 69, 47, 0.08)'
+            }}>
+              <div style={{ textAlign: 'center', paddingBottom: '0.75rem', borderBottom: '1px solid rgba(20, 69, 47, 0.15)' }}>
+                <span style={{ fontSize: '2.5rem' }}>🌺</span>
+                <h3 style={{ fontFamily: '"Fraunces", Georgia, serif', fontWeight: 800, fontSize: '18px', color: '#14452F', margin: '0.5rem 0 0.25rem' }}>Rose &amp; Hibiscus</h3>
+                <p style={{ fontSize: '16px', color: '#4A5568', margin: 0 }}>Stem: Hard woody stems branching near ground</p>
               </div>
 
-              <div className="mt-4 space-y-2">
+              <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
                 {['herb', 'shrub', 'tree'].map((cat) => {
                   const selected = plantAnswers.rose_plants === cat;
                   const isCorrect = cat === 'shrub';
@@ -184,13 +286,19 @@ export default function CategorizationLab({
                     <button
                       key={cat}
                       onClick={() => handlePlantSelect('rose_plants', cat)}
-                      className={`w-full py-2.5 px-3 rounded-xl text-xs font-bold capitalize border transition ${
-                        selected
-                          ? isCorrect
-                            ? 'bg-emerald-500 text-slate-950 border-emerald-300 shadow-md'
-                            : 'bg-rose-500 text-white border-rose-300'
-                          : 'bg-slate-900/60 text-slate-300 border-slate-700 hover:bg-slate-700'
-                      }`}
+                      style={{
+                        width: '100%',
+                        padding: '0.65rem 0.75rem',
+                        borderRadius: '12px',
+                        fontSize: '16px',
+                        fontWeight: 800,
+                        textTransform: 'capitalize',
+                        cursor: 'pointer',
+                        border: selected ? (isCorrect ? '1.8px solid #10B981' : '1.8px solid #EF4444') : '1.5px solid rgba(20, 69, 47, 0.3)',
+                        background: selected ? (isCorrect ? '#14452F' : '#DC2626') : 'rgba(20, 69, 47, 0.06)',
+                        color: selected ? '#FFFFFF' : '#14452F',
+                        transition: 'all 0.15s ease'
+                      }}
                     >
                       {cat === 'herb' ? '🌱 Herb (Soft)' : cat === 'shrub' ? '🌳 Shrub (Bushy)' : '🌲 Tree (Trunk)'}
                     </button>
@@ -200,14 +308,23 @@ export default function CategorizationLab({
             </div>
 
             {/* Tree */}
-            <div className="bg-slate-800/80 border border-slate-700 rounded-2xl p-4 flex flex-col justify-between">
-              <div className="text-center pb-3 border-b border-slate-700">
-                <span className="text-4xl">🌳</span>
-                <h3 className="font-bold text-base mt-2">Banyan & Mango</h3>
-                <p className="text-xs text-slate-400 mt-0.5">Stem: Very thick main brown trunk</p>
+            <div style={{
+              background: 'rgba(250, 248, 242, 0.55)',
+              border: '1.8px solid #14452F',
+              borderRadius: '18px',
+              padding: '1.25rem',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              boxShadow: '0 4px 14px rgba(20, 69, 47, 0.08)'
+            }}>
+              <div style={{ textAlign: 'center', paddingBottom: '0.75rem', borderBottom: '1px solid rgba(20, 69, 47, 0.15)' }}>
+                <span style={{ fontSize: '2.5rem' }}>🌳</span>
+                <h3 style={{ fontFamily: '"Fraunces", Georgia, serif', fontWeight: 800, fontSize: '18px', color: '#14452F', margin: '0.5rem 0 0.25rem' }}>Banyan &amp; Mango</h3>
+                <p style={{ fontSize: '16px', color: '#4A5568', margin: 0 }}>Stem: Very thick main brown trunk</p>
               </div>
 
-              <div className="mt-4 space-y-2">
+              <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
                 {['herb', 'shrub', 'tree'].map((cat) => {
                   const selected = plantAnswers.tree === cat;
                   const isCorrect = cat === 'tree';
@@ -215,13 +332,19 @@ export default function CategorizationLab({
                     <button
                       key={cat}
                       onClick={() => handlePlantSelect('tree', cat)}
-                      className={`w-full py-2.5 px-3 rounded-xl text-xs font-bold capitalize border transition ${
-                        selected
-                          ? isCorrect
-                            ? 'bg-emerald-500 text-slate-950 border-emerald-300 shadow-md'
-                            : 'bg-rose-500 text-white border-rose-300'
-                          : 'bg-slate-900/60 text-slate-300 border-slate-700 hover:bg-slate-700'
-                      }`}
+                      style={{
+                        width: '100%',
+                        padding: '0.65rem 0.75rem',
+                        borderRadius: '12px',
+                        fontSize: '16px',
+                        fontWeight: 800,
+                        textTransform: 'capitalize',
+                        cursor: 'pointer',
+                        border: selected ? (isCorrect ? '1.8px solid #10B981' : '1.8px solid #EF4444') : '1.5px solid rgba(20, 69, 47, 0.3)',
+                        background: selected ? (isCorrect ? '#14452F' : '#DC2626') : 'rgba(20, 69, 47, 0.06)',
+                        color: selected ? '#FFFFFF' : '#14452F',
+                        transition: 'all 0.15s ease'
+                      }}
                     >
                       {cat === 'herb' ? '🌱 Herb (Soft)' : cat === 'shrub' ? '🌳 Shrub (Bushy)' : '🌲 Tree (Trunk)'}
                     </button>
@@ -235,12 +358,20 @@ export default function CategorizationLab({
 
       {/* Tab 2: Table 2.2 Animals */}
       {activeTab === 'animals' && (
-        <div className="py-6 space-y-6">
-          <div className="bg-teal-950/40 border border-teal-500/30 p-4 rounded-2xl text-xs md:text-sm text-teal-200">
+        <div style={{ padding: '1.5rem 0', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <div style={{
+            background: 'rgba(20, 69, 47, 0.08)',
+            border: '1.5px solid #14452F',
+            padding: '1rem 1.25rem',
+            borderRadius: '16px',
+            fontSize: '16px',
+            color: '#14452F',
+            lineHeight: 1.5
+          }}>
             💡 <strong>Guide:</strong> Classify animal habitats into <strong>Land</strong>, <strong>Water</strong>, <strong>Both (Amphibian)</strong>, or <strong>Air (Flying)</strong>.
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: '1.25rem' }}>
             {[
               { id: 'frog', name: 'Indian Pond Frog', emoji: '🐸', hint: 'Jumps & swims near pond' },
               { id: 'squirrel', name: 'Palm Squirrel', emoji: '🐿️', hint: 'Climbs tree trunks & land' },
@@ -249,14 +380,23 @@ export default function CategorizationLab({
               { id: 'sparrow', name: 'House Sparrow', emoji: '🐦', hint: 'Perches & flies' },
               { id: 'crow', name: 'House Crow', emoji: '🐦‍⬛', hint: 'Soars in clear sky' }
             ].map((anim) => (
-              <div key={anim.id} className="bg-slate-800/80 border border-slate-700 rounded-2xl p-4 flex flex-col justify-between">
-                <div className="text-center pb-2 border-b border-slate-700">
-                  <span className="text-3xl">{anim.emoji}</span>
-                  <h4 className="font-bold text-sm mt-1">{anim.name}</h4>
-                  <p className="text-[11px] text-slate-400">{anim.hint}</p>
+              <div key={anim.id} style={{
+                background: 'rgba(250, 248, 242, 0.55)',
+                border: '1.8px solid #14452F',
+                borderRadius: '18px',
+                padding: '1.25rem',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                boxShadow: '0 4px 14px rgba(20, 69, 47, 0.08)'
+              }}>
+                <div style={{ textAlign: 'center', paddingBottom: '0.5rem', borderBottom: '1px solid rgba(20, 69, 47, 0.15)' }}>
+                  <span style={{ fontSize: '2.5rem' }}>{anim.emoji}</span>
+                  <h4 style={{ fontFamily: '"Fraunces", Georgia, serif', fontWeight: 800, fontSize: '18px', color: '#14452F', margin: '0.25rem 0 0.1rem' }}>{anim.name}</h4>
+                  <p style={{ fontSize: '15px', color: '#4A5568', margin: 0 }}>{anim.hint}</p>
                 </div>
 
-                <div className="mt-3 grid grid-cols-2 gap-1.5">
+                <div style={{ marginTop: '0.75rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
                   {[
                     { id: 'land', label: '🏞️ Land' },
                     { id: 'water', label: '🌊 Water' },
@@ -269,13 +409,17 @@ export default function CategorizationLab({
                       <button
                         key={hab.id}
                         onClick={() => handleAnimalSelect(anim.id, hab.id)}
-                        className={`py-2 px-1.5 rounded-lg text-[11px] font-bold border transition ${
-                          selected
-                            ? isCorrect
-                              ? 'bg-emerald-500 text-slate-950 border-emerald-300'
-                              : 'bg-rose-500 text-white border-rose-300'
-                            : 'bg-slate-900/60 text-slate-300 border-slate-700 hover:bg-slate-700'
-                        }`}
+                        style={{
+                          padding: '0.5rem',
+                          borderRadius: '10px',
+                          fontSize: '15px',
+                          fontWeight: 800,
+                          cursor: 'pointer',
+                          border: selected ? (isCorrect ? '1.8px solid #10B981' : '1.8px solid #EF4444') : '1.5px solid rgba(20, 69, 47, 0.25)',
+                          background: selected ? (isCorrect ? '#14452F' : '#DC2626') : 'rgba(20, 69, 47, 0.06)',
+                          color: selected ? '#FFFFFF' : '#14452F',
+                          transition: 'all 0.15s ease'
+                        }}
                       >
                         {hab.label}
                       </button>
@@ -289,23 +433,43 @@ export default function CategorizationLab({
       )}
 
       {/* Footer Navigation */}
-      <div className="pt-6 border-t border-slate-800 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-xs font-semibold text-slate-400">
-          <Award className="w-4 h-4 text-amber-400" />
+      <div style={{
+        paddingTop: '1.5rem',
+        borderTop: '2px solid rgba(20, 69, 47, 0.2)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '1rem'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '16px', fontWeight: 700, color: '#14452F' }}>
+          <Award className="w-5 h-5 text-amber-500" />
           <span>Earn 75 XP per table completed!</span>
         </div>
 
         <button
           onClick={handleProceedToQuiz}
           disabled={!completedPlantTable && !completedAnimalTable}
-          className={`px-6 py-3 rounded-2xl font-extrabold text-sm flex items-center gap-2 transition shadow-xl ${
-            completedPlantTable || completedAnimalTable
-              ? 'bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 hover:from-emerald-400 hover:to-teal-300 active:scale-95 shadow-emerald-500/20'
-              : 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed'
-          }`}
+          style={{
+            padding: '0.75rem 1.6rem',
+            borderRadius: '16px',
+            fontWeight: 800,
+            fontSize: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            transition: 'all 0.15s ease',
+            border: completedPlantTable || completedAnimalTable ? '1.5px solid #10B981' : '1.5px solid #CBD5E1',
+            background: completedPlantTable || completedAnimalTable
+              ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)'
+              : '#E2E8F0',
+            color: completedPlantTable || completedAnimalTable ? '#FFFFFF' : '#94A3B8',
+            cursor: completedPlantTable || completedAnimalTable ? 'pointer' : 'not-allowed',
+            boxShadow: completedPlantTable || completedAnimalTable ? '0 4px 14px rgba(20, 69, 47, 0.3)' : 'none'
+          }}
         >
           <span>Proceed to Science Quiz</span>
-          <ArrowRight className="w-4 h-4" />
+          <ArrowRight className="w-5 h-5" />
         </button>
       </div>
 

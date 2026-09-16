@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BookOpen, ChevronRight, Award, Volume2, VolumeX, ArrowRight, HelpCircle } from 'lucide-react';
 import { useTheme } from '../../../../ThemeContext.jsx';
+import { speakNaturalIndianMale, stopNarration } from '../../../../services/elevenLabsService';
 
 export default function GroupingBasicsBookSpread({ onBackToDashboard }) {
   const { theme } = useTheme();
@@ -14,28 +15,35 @@ export default function GroupingBasicsBookSpread({ onBackToDashboard }) {
   const [checked, setChecked] = useState({ q1: false, q2: false });
   const [correct, setCorrect] = useState({ q1: false, q2: false });
 
+  useEffect(() => {
+    return () => {
+      stopNarration();
+    };
+  }, []);
+
   const handleReadAloud = () => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const text = `
-        Chapter 2, Section 2.2: How to Group Plants and Animals?
-        Grouping, also known as classification, is the scientific method of sorting living things into groups based on their similarities and differences.
-        This makes it much easier to understand, compare, and study the vast diversity of life.
-        Scientists use key criteria like flowers, stems, eating habits, and the place they live.
-      `;
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.95;
-      utterance.onend = () => setIsSpeaking(false);
-      setIsSpeaking(true);
-      window.speechSynthesis.speak(utterance);
+    if (isSpeaking) {
+      stopNarration();
+      setIsSpeaking(false);
+      return;
     }
+    const text = `
+      Chapter 2, Section 2.2: How to Group Plants and Animals?
+      Grouping, also known as classification, is the scientific method of sorting living things into groups based on their similarities and differences.
+      This makes it much easier to understand, compare, and study the vast diversity of life.
+      Scientists use key criteria like flowers, stems, eating habits, and the place they live.
+    `;
+    setIsSpeaking(true);
+    speakNaturalIndianMale({
+      text,
+      onEnd: () => setIsSpeaking(false),
+      onError: () => setIsSpeaking(false)
+    });
   };
 
   const handleStopSpeech = () => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      setIsSpeaking(false);
-    }
+    stopNarration();
+    setIsSpeaking(false);
   };
 
   const q1Correct = answers.q1 === 1;
@@ -49,7 +57,7 @@ export default function GroupingBasicsBookSpread({ onBackToDashboard }) {
         {/* ============ LEFT PAGE ============ */}
         <div className="book-page-left">
           <div className="textbook-eyebrow">Lesson 2.2 · Class 6 Science</div>
-          <h1 className="textbook-title" style={{ fontFamily: 'var(--serif-font)' }}>
+          <h1 className="textbook-title" style={{ fontFamily: 'var(--serif-font)', color: '#064e3b' }}>
             How to Group<br />Plants &amp; Animals?
           </h1>
 
@@ -133,44 +141,46 @@ export default function GroupingBasicsBookSpread({ onBackToDashboard }) {
             {activeTab === 'criteria' && (
               <>
                 <div className="textbook-hero">
-                  <h3>The Purpose of Classification</h3>
-                  <p>Grouping (classification) is the method of sorting things into groups based on their similarities and differences. It makes it easier to understand, compare, and study the vast diversity of living beings systematically.</p>
+                  <h3 style={{ color: '#064e3b', fontWeight: '900', fontSize: '1.25rem', margin: '0 0 0.5rem 0' }}>The Purpose of Classification</h3>
+                  <p style={{ color: '#000000', fontSize: '13.5px', lineHeight: '1.55', margin: 0, fontWeight: '500' }}>
+                    Grouping (classification) is the method of sorting things into groups based on their similarities and differences. It makes it easier to understand, compare, and study the vast diversity of living beings systematically.
+                  </p>
                 </div>
 
-                <div style={{ fontSize: '12.5px', fontWeight: 'bold', color: 'var(--navy)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                <div style={{ fontSize: '13px', fontWeight: '800', color: '#064e3b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   📊 Keys for Scientific Grouping
                 </div>
 
                 <div className="textbook-grid">
                   <div className="textbook-fact">
-                    <div className="lab" style={{ color: 'var(--blue)' }}>🌸 Flowers</div>
-                    <div className="v">Flowering/Non-flowering</div>
-                    <div className="note">Classifying plants based on the presence of seeds/flowers.</div>
+                    <div className="lab" style={{ color: '#047857', fontWeight: '800', fontSize: '13px' }}>🌸 Flowers</div>
+                    <div className="v" style={{ color: '#000000', fontWeight: '700', fontSize: '13px' }}>Flowering/Non-flowering</div>
+                    <div className="note" style={{ color: '#000000', fontSize: '12px' }}>Classifying plants based on the presence of seeds/flowers.</div>
                   </div>
 
                   <div className="textbook-fact">
-                    <div className="lab" style={{ color: 'var(--violet)' }}>🌿 Stems</div>
-                    <div className="v">Soft vs Woody stems</div>
-                    <div className="note">Separating herbs (soft green stems) from shrubs and trees.</div>
+                    <div className="lab" style={{ color: '#047857', fontWeight: '800', fontSize: '13px' }}>🌿 Stems</div>
+                    <div className="v" style={{ color: '#000000', fontWeight: '700', fontSize: '13px' }}>Soft vs Woody stems</div>
+                    <div className="note" style={{ color: '#000000', fontSize: '12px' }}>Separating herbs (soft green stems) from shrubs and trees.</div>
                   </div>
 
                   <div className="textbook-fact">
-                    <div className="lab" style={{ color: 'var(--green)' }}>🥗 Eating Habits</div>
-                    <div className="v">What they eat</div>
-                    <div className="note">Classifying animals based on herbivore, carnivore, or omnivore diets.</div>
+                    <div className="lab" style={{ color: '#047857', fontWeight: '800', fontSize: '13px' }}>🥗 Eating Habits</div>
+                    <div className="v" style={{ color: '#000000', fontWeight: '700', fontSize: '13px' }}>What they eat</div>
+                    <div className="note" style={{ color: '#000000', fontSize: '12px' }}>Classifying animals based on herbivore, carnivore, or omnivore diets.</div>
                   </div>
 
                   <div className="textbook-fact">
-                    <div className="lab" style={{ color: 'var(--orange)' }}>📍 Habitat</div>
-                    <div className="v">Place they live</div>
-                    <div className="note">Grouping by environment: aquatic, terrestrial, or aerial.</div>
+                    <div className="lab" style={{ color: '#047857', fontWeight: '800', fontSize: '13px' }}>📍 Habitat</div>
+                    <div className="v" style={{ color: '#000000', fontWeight: '700', fontSize: '13px' }}>Place they live</div>
+                    <div className="note" style={{ color: '#000000', fontSize: '12px' }}>Grouping by environment: aquatic, terrestrial, or aerial.</div>
                   </div>
                 </div>
 
                 <div className="textbook-connect">
-                  <h4>◎ Why we group</h4>
-                  <div className="lk"><span className="dot"></span><span>Helps in <b>systematic cataloging</b> of million of species.</span></div>
-                  <div className="lk"><span className="dot"></span><span>Reveals <b>evolutionary relationships</b> between different groups.</span></div>
+                  <h4 style={{ color: '#064e3b', fontWeight: '800', fontSize: '13px' }}>◎ Why we group</h4>
+                  <div className="lk" style={{ color: '#000000', fontSize: '13px' }}><span className="dot"></span><span>Helps in <b>systematic cataloging</b> of million of species.</span></div>
+                  <div className="lk" style={{ color: '#000000', fontSize: '13px' }}><span className="dot"></span><span>Reveals <b>evolutionary relationships</b> between different groups.</span></div>
                 </div>
               </>
             )}
@@ -181,7 +191,7 @@ export default function GroupingBasicsBookSpread({ onBackToDashboard }) {
                 
                 {/* Q1 */}
                 <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '10px', border: '1px solid var(--cardline)' }}>
-                  <p style={{ margin: '0 0 0.6rem 0', fontSize: '13px', fontWeight: 'bold', color: 'var(--ink)' }}>
+                  <p style={{ margin: '0 0 0.6rem 0', fontSize: '13.5px', fontWeight: '800', color: '#000000' }}>
                     Q1. Why do we group plants and animals in science?
                   </p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
@@ -200,7 +210,7 @@ export default function GroupingBasicsBookSpread({ onBackToDashboard }) {
                       }
                       return (
                         <button key={i} disabled={checked.q1} onClick={() => setAnswers(prev => ({ ...prev, q1: i }))}
-                          style={{ textAlign: 'left', padding: '0.5rem 0.75rem', borderRadius: '6px', border, background: bg, fontSize: '12px', cursor: checked.q1 ? 'default' : 'pointer' }}>
+                          style={{ textAlign: 'left', padding: '0.55rem 0.85rem', borderRadius: '8px', border, background: bg, fontSize: '13px', color: '#000000', fontWeight: '500', cursor: checked.q1 ? 'default' : 'pointer' }}>
                           {opt}
                         </button>
                       );
@@ -208,12 +218,12 @@ export default function GroupingBasicsBookSpread({ onBackToDashboard }) {
                   </div>
                   {!checked.q1 && answers.q1 !== null && (
                     <button onClick={() => setChecked(prev => ({ ...prev, q1: true })) || setCorrect(prev => ({ ...prev, q1: q1Correct }))}
-                      style={{ marginTop: '0.5rem', padding: '0.25rem 0.65rem', borderRadius: '6px', fontSize: '11px', background: 'var(--accent)', color: '#fff', border: 'none', cursor: 'pointer' }}>
+                      style={{ marginTop: '0.5rem', padding: '0.35rem 0.85rem', borderRadius: '6px', fontSize: '12px', fontWeight: '800', background: '#059669', color: '#fff', border: 'none', cursor: 'pointer' }}>
                       Verify
                     </button>
                   )}
                   {checked.q1 && (
-                    <div style={{ fontSize: '11.5px', marginTop: '0.4rem', fontWeight: 'bold', color: correct.q1 ? '#10b981' : '#ef4444' }}>
+                    <div style={{ fontSize: '12px', marginTop: '0.4rem', fontWeight: 'bold', color: correct.q1 ? '#10b981' : '#ef4444' }}>
                       {correct.q1 ? '✅ Correct!' : '❌ Incorrect, try again by resetting.'}
                     </div>
                   )}
@@ -221,7 +231,7 @@ export default function GroupingBasicsBookSpread({ onBackToDashboard }) {
 
                 {/* Q2 */}
                 <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '10px', border: '1px solid var(--cardline)' }}>
-                  <p style={{ margin: '0 0 0.6rem 0', fontSize: '13px', fontWeight: 'bold', color: 'var(--ink)' }}>
+                  <p style={{ margin: '0 0 0.6rem 0', fontSize: '13.5px', fontWeight: '800', color: '#000000' }}>
                     Q2. Which of these is a valid scientific basis for grouping plants?
                   </p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
@@ -240,7 +250,7 @@ export default function GroupingBasicsBookSpread({ onBackToDashboard }) {
                       }
                       return (
                         <button key={i} disabled={checked.q2} onClick={() => setAnswers(prev => ({ ...prev, q2: i }))}
-                          style={{ textAlign: 'left', padding: '0.5rem 0.75rem', borderRadius: '6px', border, background: bg, fontSize: '12px', cursor: checked.q2 ? 'default' : 'pointer' }}>
+                          style={{ textAlign: 'left', padding: '0.55rem 0.85rem', borderRadius: '8px', border, background: bg, fontSize: '13px', color: '#000000', fontWeight: '500', cursor: checked.q2 ? 'default' : 'pointer' }}>
                           {opt}
                         </button>
                       );
@@ -248,12 +258,12 @@ export default function GroupingBasicsBookSpread({ onBackToDashboard }) {
                   </div>
                   {!checked.q2 && answers.q2 !== null && (
                     <button onClick={() => setChecked(prev => ({ ...prev, q2: true })) || setCorrect(prev => ({ ...prev, q2: q2Correct }))}
-                      style={{ marginTop: '0.5rem', padding: '0.25rem 0.65rem', borderRadius: '6px', fontSize: '11px', background: 'var(--accent)', color: '#fff', border: 'none', cursor: 'pointer' }}>
+                      style={{ marginTop: '0.5rem', padding: '0.35rem 0.85rem', borderRadius: '6px', fontSize: '12px', fontWeight: '800', background: '#059669', color: '#fff', border: 'none', cursor: 'pointer' }}>
                       Verify
                     </button>
                   )}
                   {checked.q2 && (
-                    <div style={{ fontSize: '11.5px', marginTop: '0.4rem', fontWeight: 'bold', color: correct.q2 ? '#10b981' : '#ef4444' }}>
+                    <div style={{ fontSize: '12px', marginTop: '0.4rem', fontWeight: 'bold', color: correct.q2 ? '#10b981' : '#ef4444' }}>
                       {correct.q2 ? '✅ Correct!' : '❌ Incorrect, try again.'}
                     </div>
                   )}

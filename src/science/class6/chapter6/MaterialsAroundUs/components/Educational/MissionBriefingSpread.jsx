@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ShieldAlert, Check, X, ArrowRight, ArrowLeft } from 'lucide-react';
 import newChiefDetectiveImage from '../../../../../../assets/4.detective.png';
-import mbDecorativeImage from '../../../../../../assets/4.MBimage.png';
-
+import mb1 from '../../../../../../assets/MB1.png';
+import mb2 from '../../../../../../assets/MB2.png';
+import mb3 from '../../../../../../assets/MB3.png';
+import mb4 from '../../../../../../assets/MB4.png';
+import mb5 from '../../../../../../assets/MB5.png';
 export default function MissionBriefingSpread({ data, onContinue, onBack }) {
   const [currentPage, setCurrentPage] = useState(1);
   const BLAKE_IMG_URL = '/images/chief_detective_blake.png';
@@ -29,6 +32,24 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
   const colorBodyText = isUserPage ? '#3E2723' : '#3b4560'; // or 'var(--lesson-text)' depending on usage
   const colorHighlight = isUserPage ? '#A94727' : 'var(--lesson-danger)';
   const colorSubHeading = isUserPage ? '#4A3B5C' : 'var(--lesson-primary)';
+
+  const getDecorativeImage = (title) => {
+    if (!title) return mb1;
+    const t = title.toLowerCase();
+    
+    if (t.includes('appearance')) return mb3;
+    if (t.includes('hardness')) return mb4;
+    if (t.includes('transparency') || t.includes('transparent')) return mb5;
+    if (t.includes('solubility') || t.includes('soluble')) return mb1;
+    if (t.includes('mass')) return mb2;
+    if (t.includes('space') || t.includes('volume')) return mb3;
+    if (t.includes('quiz') || t.includes('final')) return mb4;
+    if (t.includes('grouping') || t.includes('barrier 2') || t.includes('barrier\u00A02')) return mb2;
+    
+    return mb1;
+  };
+  
+  const mbDecorativeImage = getDecorativeImage(displayTitle);
 
   return (
     <div style={{
@@ -115,10 +136,18 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
             object-fit: contain;
             pointer-events: none;
             z-index: 0;
-            mix-blend-mode: multiply;
-            opacity: 0.85;
-            -webkit-mask-image: linear-gradient(to top left, black 50%, transparent 100%);
-            mask-image: linear-gradient(to top left, black 50%, transparent 100%);
+          }
+          
+          .right-page::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            background: 
+              linear-gradient(to right, #f6f1e4 0%, #f6f1e4 25%, transparent 60%),
+              linear-gradient(to bottom, #f6f1e4 0%, transparent 12%),
+              linear-gradient(to top, #f6f1e4 0%, transparent 12%);
           }
           .right-page-content {
             width: 100%;
