@@ -7,12 +7,12 @@ import {
   Volume2, 
   VolumeX, 
   Maximize2, 
-  Minimize2
+  Minimize2 
 } from 'lucide-react';
 
-export default function MagneticPolesVideoPlayer({
-  videoSrc = '/MagneticPoles/Barmagnet.mp4',
-  fallbackSrc = '/assets/Barmagnet.mp4',
+export default function RingMagnetVideoPlayer({
+  videoSrc = '/MagneticPoles/Ringmagnet.mp4',
+  fallbackSrc = '/assets/Ringmagnet.mp4',
   externalIsPaused = false,
   onExternalTogglePause,
   onExternalReset,
@@ -29,10 +29,8 @@ export default function MagneticPolesVideoPlayer({
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
-  const [isLooping, setIsLooping] = useState(loop);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showControls, setShowControls] = useState(true);
-  const [showAnnotations, setShowAnnotations] = useState(true);
   const [isEnded, setIsEnded] = useState(false);
   const controlsTimeoutRef = useRef(null);
 
@@ -44,7 +42,7 @@ export default function MagneticPolesVideoPlayer({
     if (video) {
       try {
         video.pause();
-        const total = video.duration || duration;
+        const total = video.duration || duration || 29;
         if (total && Number.isFinite(total) && total > 0.1) {
           video.currentTime = Math.max(0, total - 0.04);
         }
@@ -55,7 +53,7 @@ export default function MagneticPolesVideoPlayer({
     }
   }, [duration, onPhaseChange]);
 
-  // Sync with external paused state from Stage 1 control panel
+  // Sync with external paused state
   useEffect(() => {
     if (!videoRef.current) return;
     if (externalIsPaused && !videoRef.current.paused) {
@@ -65,13 +63,13 @@ export default function MagneticPolesVideoPlayer({
     }
   }, [externalIsPaused, isPlaying]);
 
-  // Initial autoplay setup
+  // Autoplay and duration setup
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     const handleLoadedMetadata = () => {
-      setDuration(video.duration || 0);
+      setDuration(video.duration || 29);
       if (autoPlay) {
         video.play().then(() => {
           setIsPlaying(true);
@@ -87,12 +85,19 @@ export default function MagneticPolesVideoPlayer({
     };
 
     video.addEventListener('loadedmetadata', handleLoadedMetadata);
+    if (video.readyState >= 1) {
+      handleLoadedMetadata();
+    }
+
     return () => {
       video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      if (controlsTimeoutRef.current) {
+        clearTimeout(controlsTimeoutRef.current);
+      }
     };
   }, [autoPlay]);
 
-  // Auto-hide controls after inactivity
+  // Auto-hide controls timer
   const handleMouseMove = useCallback(() => {
     setShowControls(true);
     if (controlsTimeoutRef.current) {
@@ -102,7 +107,7 @@ export default function MagneticPolesVideoPlayer({
       if (videoRef.current && !videoRef.current.paused) {
         setShowControls(false);
       }
-    }, 3200);
+    }, 2800);
   }, []);
 
   const togglePlay = () => {
@@ -165,11 +170,12 @@ export default function MagneticPolesVideoPlayer({
   const handleTimeUpdate = () => {
     const video = videoRef.current;
     if (!video) return;
+
     const curr = video.currentTime;
-    const total = video.duration || duration;
+    const total = video.duration || duration || 29;
 
     // Freeze strictly on last frame when video completes
-    if (!isLooping && total > 0 && curr >= total - 0.08 && !isEnded) {
+    if (!loop && total > 0 && curr >= total - 0.08 && !isEnded) {
       setCurrentTime(total);
       handleEnded();
       return;
@@ -177,12 +183,11 @@ export default function MagneticPolesVideoPlayer({
 
     setCurrentTime(curr);
 
-    // Dynamic phase identification
     if (total > 0 && onPhaseChange) {
       const progress = curr / total;
-      if (progress < 0.32) {
+      if (progress < 0.33) {
         onPhaseChange('sprinkle', progress);
-      } else if (progress < 0.65) {
+      } else if (progress < 0.66) {
         onPhaseChange('tap', progress);
       } else {
         onPhaseChange('poles', progress);
@@ -191,32 +196,39 @@ export default function MagneticPolesVideoPlayer({
   };
 
   const handleSeek = (e) => {
-    if (!progressScrubberRef.current || !videoRef.current || duration <= 0) return;
-    const rect = progressScrubberRef.current.getBoundingClientRect();
+    const video = videoRef.current;
+    const bar = progressScrubberRef.current;
+    const total = video?.duration || duration || 29;
+    if (!video || !bar || total <= 0) return;
+
+    const rect = bar.getBoundingClientRect();
     const clickX = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
     const newRatio = clickX / rect.width;
-    const targetTime = newRatio * duration;
-    videoRef.current.currentTime = targetTime;
+    const targetTime = newRatio * total;
+    video.currentTime = targetTime;
     setCurrentTime(targetTime);
   };
 
   const formatTime = (secs) => {
-    if (isNaN(secs) || secs < 0) return '0:00';
-    const m = Math.floor(secs / 60);
-    const s = Math.floor(secs % 60);
+    const validSecs = isNaN(secs) || secs < 0 ? 0 : Math.floor(secs);
+    const m = Math.floor(validSecs / 60);
+    const s = validSecs % 60;
     return `${m}:${s < 10 ? '0' : ''}${s}`;
   };
 
-  const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
+  const totalDuration = duration || 29;
+  const progressPercent = totalDuration > 0 ? (currentTime / totalDuration) * 100 : 0;
 
-  // Phase indicator based on current timeline
-  const currentPhaseIndex = progressPercent < 33 ? 1 : progressPercent < 68 ? 2 : 3;
+  // Determine active phase index: 1 = Sprinkle, 2 = Tap & Align, 3 = Circular Poles
+  const currentPhaseIndex = progressPercent < 33 ? 1 : progressPercent < 66 ? 2 : 3;
 
   return (
     <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      onMouseLeave={() => setShowControls(false)}
+      onMouseLeave={() => {
+        if (isPlaying) setShowControls(false);
+      }}
       style={{
         position: 'relative',
         width: '100%',
@@ -224,7 +236,7 @@ export default function MagneticPolesVideoPlayer({
         minHeight: '380px',
         borderRadius: isFullscreen ? '0' : '24px',
         overflow: 'hidden',
-        background: '#0B1120',
+        backgroundColor: '#070C18',
         border: isFullscreen ? 'none' : '1.5px solid #A7F3D0',
         boxShadow: isFullscreen ? 'none' : '0 12px 30px rgba(6, 78, 59, 0.16)',
         display: 'flex',
@@ -237,8 +249,7 @@ export default function MagneticPolesVideoPlayer({
       {/* HTML5 Video Element */}
       <video
         ref={videoRef}
-        loop={isLooping}
-        muted={isMuted}
+        loop={loop}
         playsInline
         onTimeUpdate={handleTimeUpdate}
         onPlay={() => {
@@ -258,12 +269,12 @@ export default function MagneticPolesVideoPlayer({
       >
         <source src={videoSrc} type="video/mp4" />
         <source src={fallbackSrc} type="video/mp4" />
-        <source src="/MagneticPoles/Barmagnet.mp4" type="video/mp4" />
-        <source src="/assets/Barmagnet.mp4" type="video/mp4" />
+        <source src="/MagneticPoles/Ringmagnet.mp4" type="video/mp4" />
+        <source src="/assets/Ringmagnet.mp4" type="video/mp4" />
         Your browser does not support HTML5 video playback.
       </video>
 
-      {/* Top HUD: Phase Badges */}
+      {/* Top HUD: Phase Badges (Pinned at top right) */}
       <div style={{
         position: 'absolute',
         top: '12px',
@@ -273,8 +284,6 @@ export default function MagneticPolesVideoPlayer({
         zIndex: 20,
         pointerEvents: 'none',
       }}>
-
-        {/* Phase Pill */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -284,11 +293,12 @@ export default function MagneticPolesVideoPlayer({
           border: '1px solid rgba(245, 158, 11, 0.35)',
           borderRadius: '14px',
           padding: '4px 10px',
+          boxShadow: '0 4px 14px rgba(0,0,0,0.3)',
         }}>
           {[
             { num: 1, label: 'Sprinkle' },
             { num: 2, label: 'Tap & Align' },
-            { num: 3, label: 'Poles Cluster' }
+            { num: 3, label: 'Circular Poles' }
           ].map((p) => {
             const isStepActive = currentPhaseIndex === p.num;
             return (
@@ -312,9 +322,9 @@ export default function MagneticPolesVideoPlayer({
         </div>
       </div>
 
-      {/* Scientific Field Annotations HUD (Displays when in Phase 3 or when toggled) */}
+      {/* Scientific Field Annotations HUD (Displays when in Phase 3) */}
       <AnimatePresence>
-        {showAnnotations && progressPercent >= 45 && (
+        {progressPercent >= 55 && (
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -322,7 +332,7 @@ export default function MagneticPolesVideoPlayer({
             transition={{ duration: 0.3 }}
             style={{
               position: 'absolute',
-              bottom: '80px',
+              bottom: '76px',
               left: '16px',
               right: '16px',
               display: 'flex',
@@ -332,76 +342,74 @@ export default function MagneticPolesVideoPlayer({
               zIndex: 15,
             }}
           >
-            {/* North Pole Badge */}
+            {/* Top Face Badge */}
             <div style={{
-              background: 'rgba(220, 38, 38, 0.88)',
-              backdropFilter: 'blur(6px)',
-              border: '1.5px solid #FCA5A5',
+              background: 'rgba(15, 23, 42, 0.88)',
+              backdropFilter: 'blur(8px)',
+              border: '1.5px solid #38BDF8',
               borderRadius: '12px',
               padding: '6px 12px',
-              color: '#FFFFFF',
-              boxShadow: '0 4px 16px rgba(220, 38, 38, 0.45)',
+              boxShadow: '0 4px 14px rgba(56, 189, 248, 0.35)',
               display: 'flex',
               flexDirection: 'column',
               gap: '2px',
               textAlign: 'center',
             }}>
-              <span style={{ fontSize: '0.74rem', fontWeight: 900, letterSpacing: '0.5px' }}>
-                NORTH POLE (N)
+              <span style={{ fontSize: '0.74rem', fontWeight: 900, color: '#38BDF8' }}>
+                Circular Face
               </span>
-              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#FEE2E2' }}>
-                Maximum Attraction
+              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#E2E8F0' }}>
+                Strong Magnetic Attraction
               </span>
             </div>
 
-            {/* Neutral Zone Badge */}
+            {/* Center Hole Tag */}
             <div style={{
-              background: 'rgba(30, 41, 59, 0.86)',
-              backdropFilter: 'blur(6px)',
-              border: '1.5px solid #94A3B8',
+              background: 'rgba(15, 23, 42, 0.88)',
+              backdropFilter: 'blur(8px)',
+              border: '1.5px solid #F59E0B',
               borderRadius: '12px',
-              padding: '5px 12px',
-              color: '#F1F5F9',
-              boxShadow: '0 4px 14px rgba(0,0,0,0.3)',
+              padding: '6px 14px',
+              boxShadow: '0 4px 14px rgba(245, 158, 11, 0.35)',
               display: 'flex',
               flexDirection: 'column',
+              alignItems: 'center',
               gap: '2px',
               textAlign: 'center',
             }}>
-              <span style={{ fontSize: '0.74rem', fontWeight: 900, letterSpacing: '0.5px', color: '#FDE68A' }}>
-                NEUTRAL ZONE
+              <span style={{ fontSize: '0.74rem', fontWeight: 900, color: '#FBBF24' }}>
+                Center Hole
               </span>
-              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#CBD5E1' }}>
-                Minimum Attraction
+              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#F8FAFC' }}>
+                Zero force — no filings gather in opening
               </span>
             </div>
 
-            {/* South Pole Badge */}
+            {/* Opposite Face Badge */}
             <div style={{
-              background: 'rgba(37, 99, 235, 0.88)',
-              backdropFilter: 'blur(6px)',
-              border: '1.5px solid #93C5FD',
+              background: 'rgba(15, 23, 42, 0.88)',
+              backdropFilter: 'blur(8px)',
+              border: '1.5px solid #38BDF8',
               borderRadius: '12px',
               padding: '6px 12px',
-              color: '#FFFFFF',
-              boxShadow: '0 4px 16px rgba(37, 99, 235, 0.45)',
+              boxShadow: '0 4px 14px rgba(56, 189, 248, 0.35)',
               display: 'flex',
               flexDirection: 'column',
               gap: '2px',
               textAlign: 'center',
             }}>
-              <span style={{ fontSize: '0.74rem', fontWeight: 900, letterSpacing: '0.5px' }}>
-                SOUTH POLE (S)
+              <span style={{ fontSize: '0.74rem', fontWeight: 900, color: '#38BDF8' }}>
+                Opposite Face
               </span>
-              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#DBEAFE' }}>
-                Maximum Attraction
+              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#E2E8F0' }}>
+                Opposite Magnetic Pole
               </span>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Large Center Play / Replay Button Overlay */}
+      {/* Large Center Play / Replay Overlay Button */}
       <AnimatePresence>
         {(!isPlaying || isEnded) && (
           <motion.div
@@ -463,17 +471,20 @@ export default function MagneticPolesVideoPlayer({
                 }}
                 title="Play Demonstration"
               >
-                <Play size={34} color="#FFFFFF" style={{ marginLeft: '4px' }} fill="#FFFFFF" />
+                <Play size={34} color="#FFFFFF" fill="#FFFFFF" style={{ marginLeft: '4px' }} />
               </motion.button>
             )}
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Bottom Floating Control Bar */}
+      {/* Bottom Streamlined Controls Bar */}
       <motion.div
         initial={false}
-        animate={{ opacity: showControls || !isPlaying ? 1 : 0, y: showControls || !isPlaying ? 0 : 15 }}
+        animate={{
+          opacity: showControls || !isPlaying ? 1 : 0,
+          y: showControls || !isPlaying ? 0 : 15,
+        }}
         transition={{ duration: 0.25 }}
         style={{
           position: 'absolute',
@@ -493,7 +504,7 @@ export default function MagneticPolesVideoPlayer({
           pointerEvents: showControls || !isPlaying ? 'auto' : 'none',
         }}
       >
-        {/* Progress Bar Scrubber */}
+        {/* Progress Scrubber Bar */}
         <div
           ref={progressScrubberRef}
           onClick={handleSeek}
@@ -506,7 +517,6 @@ export default function MagneticPolesVideoPlayer({
             cursor: 'pointer',
             overflow: 'hidden',
           }}
-          title="Click to seek"
         >
           <div
             style={{
@@ -515,9 +525,8 @@ export default function MagneticPolesVideoPlayer({
               left: 0,
               height: '100%',
               width: `${progressPercent}%`,
-              background: 'linear-gradient(90deg, #38BDF8 0%, #F59E0B 100%)',
+              background: 'linear-gradient(90deg, #38BDF8 0%, #22C55E 50%, #F59E0B 100%)',
               borderRadius: '4px',
-              boxShadow: '0 0 10px rgba(56, 189, 248, 0.8)',
               transition: 'width 0.1s linear',
             }}
           />
@@ -572,7 +581,6 @@ export default function MagneticPolesVideoPlayer({
 
           {/* Right: Audio, Fullscreen */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-
             {/* Audio Toggle */}
             <button
               onClick={toggleMute}

@@ -3,6 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Text, OrbitControls, ContactShadows, Environment, useTexture } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Hand, RotateCcw, Shapes, Flag, BookOpen, CheckCircle, ArrowRight, Play, Pause } from 'lucide-react';
+import RingMagnetVideoPlayer from './RingMagnetVideoPlayer';
 import * as THREE from 'three';
 import { createCustomMagnetTextures } from './magnetTextureGenerator';
 import '../MagneticPoles.css';
@@ -523,10 +524,30 @@ export default function Stage3_Sandbox({ onComplete }) {
   const [step, setStep] = useState('waiting');
   const [cycleKey, setCycleKey] = useState(0);
   const [tapCount, setTapCount] = useState(0);
-  const [shape, setShape] = useState('horseshoe'); // 'horseshoe', 'ring', 'bar'
+  const [shape, setShape] = useState('ring'); // 'horseshoe', 'ring', 'bar'
   const [isSprinkling, setIsSprinkling] = useState(false);
   const [isVibrating, setIsVibrating] = useState(false);
   const hasArrivedRef = useRef(false);
+
+  // Synchronize phase with RingMagnetVideoPlayer
+  const handleVideoPhaseChange = useCallback((phaseName, progress) => {
+    if (shape !== 'ring') return;
+    if (phaseName === 'sprinkle') {
+      setStep('initial');
+      setIsSprinkling(true);
+      setIsVibrating(false);
+    } else if (phaseName === 'tap') {
+      setStep('scattered');
+      setIsSprinkling(false);
+      setIsVibrating(true);
+      setTapCount((prev) => Math.max(prev, 1));
+    } else if (phaseName === 'poles') {
+      setStep('tapped');
+      setIsSprinkling(false);
+      setIsVibrating(false);
+      setTapCount((prev) => Math.max(prev, 2));
+    }
+  }, [shape]);
 
   // Rotation and tilt controls for the magnet & iron filings
   const rotationRef = useRef({ x: 0, y: 0 });
@@ -659,28 +680,34 @@ export default function Stage3_Sandbox({ onComplete }) {
     setIsPaused(false);
     isPausedRef.current = false;
     setTapCount(0);
-    executePhase('sprinkle', 1800);
+    if (newShape !== 'ring') {
+      executePhase('sprinkle', 1800);
+    } else {
+      setStep('initial');
+    }
   };
 
   const handleTogglePause = () => {
     if (!isPaused) {
-      // Pausing: calculate remaining time for current phase
-      clearLoopTimers();
-      const elapsed = Date.now() - phaseStartTimeRef.current;
-      remainingMsRef.current = Math.max(50, remainingMsRef.current - elapsed);
+      if (shape !== 'ring') {
+        clearLoopTimers();
+        const elapsed = Date.now() - phaseStartTimeRef.current;
+        remainingMsRef.current = Math.max(50, remainingMsRef.current - elapsed);
+      }
       setIsPaused(true);
       isPausedRef.current = true;
     } else {
-      // Resuming: continue remaining time of current phase
       setIsPaused(false);
       isPausedRef.current = false;
-      phaseStartTimeRef.current = Date.now();
-      const currentPhase = phaseRef.current;
-      const rem = remainingMsRef.current;
+      if (shape !== 'ring') {
+        phaseStartTimeRef.current = Date.now();
+        const currentPhase = phaseRef.current;
+        const rem = remainingMsRef.current;
 
-      timeoutRef.current = setTimeout(() => {
-        advanceToNextPhase(currentPhase);
-      }, rem);
+        timeoutRef.current = setTimeout(() => {
+          advanceToNextPhase(currentPhase);
+        }, rem);
+      }
     }
   };
 
@@ -689,7 +716,11 @@ export default function Stage3_Sandbox({ onComplete }) {
     setIsPaused(false);
     isPausedRef.current = false;
     setTapCount(0);
-    executePhase('sprinkle', 1800);
+    if (shape === 'ring') {
+      setStep('initial');
+    } else {
+      executePhase('sprinkle', 1800);
+    }
   };
 
   return (
@@ -704,7 +735,7 @@ export default function Stage3_Sandbox({ onComplete }) {
         boxSizing: 'border-box',
       }}
     >
-      {/* Left Side: 3D Scene Interactive Area */}
+      {/* Left Side: 3D Scene Interactive Area / Ring Magnet Video Area */}
       <div
         style={{
           flex: '1.8',
@@ -715,120 +746,145 @@ export default function Stage3_Sandbox({ onComplete }) {
           boxSizing: 'border-box',
         }}
       >
-        <div
-          style={{
-            position: 'relative',
-            width: '100%',
-            flex: 1,
-            minHeight: '380px',
-            borderRadius: '24px',
-            overflow: 'hidden',
-            border: '1.5px solid #A7F3D0',
-            boxShadow: '0 12px 30px rgba(6, 78, 59, 0.12)',
-            backgroundImage: `url('/MagneticPoles/classroom_sunset_bg.jpg')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center center',
-            cursor: isDragging ? 'grabbing' : 'grab',
-            touchAction: 'none',
-            userSelect: 'none'
-          }}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerUp}
-        >
-          {/* 3D Canvas Scene matching Stage 1 Camera & Lights */}
-          <Canvas
-            shadows
-            gl={{ alpha: true, antialias: true }}
-            camera={{ position: [0.1, 6.0, 22], fov: 38 }}
-            style={{ width: '100%', height: '100%' }}
+        {shape === 'ring' ? (
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              flex: 1,
+              minHeight: '380px',
+              overflow: 'hidden',
+              borderRadius: '24px',
+            }}
           >
-            <Suspense fallback={null}>
-              <ambientLight intensity={1.1} color="#FFF7ED" />
-              <directionalLight
-                position={[-8, 16, 14]}
-                intensity={2.0}
-                color="#FED7AA"
-                castShadow
-                shadow-mapSize={[2048, 2048]}
-                shadow-bias={-0.0001}
-              />
-              <directionalLight position={[10, 10, 10]} intensity={0.8} color="#E0F2FE" />
-              <Environment preset="sunset" />
+            <RingMagnetVideoPlayer
+              videoSrc="/MagneticPoles/Ringmagnet.mp4"
+              fallbackSrc="/assets/Ringmagnet.mp4"
+              externalIsPaused={isPaused}
+              onExternalTogglePause={handleTogglePause}
+              onExternalReset={handleReset}
+              onPhaseChange={handleVideoPhaseChange}
+              currentStep={step}
+              autoPlay={true}
+              loop={false}
+            />
+          </div>
+        ) : (
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              flex: 1,
+              minHeight: '380px',
+              borderRadius: '24px',
+              overflow: 'hidden',
+              border: '1.5px solid #A7F3D0',
+              boxShadow: '0 12px 30px rgba(6, 78, 59, 0.12)',
+              backgroundImage: `url('/MagneticPoles/classroom_sunset_bg.jpg')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center center',
+              cursor: isDragging ? 'grabbing' : 'grab',
+              touchAction: 'none',
+              userSelect: 'none'
+            }}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
+          >
+            {/* 3D Canvas Scene matching Stage 1 Camera & Lights */}
+            <Canvas
+              shadows
+              gl={{ alpha: true, antialias: true }}
+              camera={{ position: [0.1, 6.0, 22], fov: 38 }}
+              style={{ width: '100%', height: '100%' }}
+            >
+              <Suspense fallback={null}>
+                <ambientLight intensity={1.1} color="#FFF7ED" />
+                <directionalLight
+                  position={[-8, 16, 14]}
+                  intensity={2.0}
+                  color="#FED7AA"
+                  castShadow
+                  shadow-mapSize={[2048, 2048]}
+                  shadow-bias={-0.0001}
+                />
+                <directionalLight position={[10, 10, 10]} intensity={0.8} color="#E0F2FE" />
+                <Environment preset="sunset" />
 
-              <AnimatedLabGroup onArrival={handleArrival}>
-                <RotatableMagnetGroup rotationRef={rotationRef}>
-                  <ChosenMagnet3D shape={shape} />
-                  <FilingsSystem step={step} isSprinkling={isSprinkling} isVibrating={isVibrating} shape={shape} cycleKey={cycleKey} isPaused={isPaused} />
-                </RotatableMagnetGroup>
-                <ContactShadows position={[0, -0.02, 0]} opacity={0.48} scale={18} blur={2.0} far={2.5} color="#251605" />
-              </AnimatedLabGroup>
-              <OrbitControls
-                makeDefault
-                target={[0.1, 4.4, 0]}
-                enableZoom={false}
-                enableRotate={false}
-                enablePan={false}
-              />
-            </Suspense>
-          </Canvas>
+                <AnimatedLabGroup onArrival={handleArrival}>
+                  <RotatableMagnetGroup rotationRef={rotationRef}>
+                    <ChosenMagnet3D shape={shape} />
+                    <FilingsSystem step={step} isSprinkling={isSprinkling} isVibrating={isVibrating} shape={shape} cycleKey={cycleKey} isPaused={isPaused} />
+                  </RotatableMagnetGroup>
+                  <ContactShadows position={[0, -0.02, 0]} opacity={0.48} scale={18} blur={2.0} far={2.5} color="#251605" />
+                </AnimatedLabGroup>
+                <OrbitControls
+                  makeDefault
+                  target={[0.1, 4.4, 0]}
+                  enableZoom={false}
+                  enableRotate={false}
+                  enablePan={false}
+                />
+              </Suspense>
+            </Canvas>
 
-          {/* Interaction Controls & Hint Overlay */}
-          <div style={{
-            position: 'absolute',
-            bottom: '14px',
-            left: '16px',
-            right: '16px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            pointerEvents: 'none',
-            zIndex: 10
-          }}>
+            {/* Interaction Controls & Hint Overlay */}
             <div style={{
-              background: 'rgba(6, 78, 59, 0.86)',
-              backdropFilter: 'blur(8px)',
-              color: '#FFFFFF',
-              padding: '6px 14px',
-              borderRadius: '20px',
-              fontSize: '0.78rem',
-              fontWeight: 700,
+              position: 'absolute',
+              bottom: '14px',
+              left: '16px',
+              right: '16px',
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
-              border: '1px solid rgba(167, 243, 208, 0.45)',
-              boxShadow: '0 4px 14px rgba(0,0,0,0.18)',
+              justifyContent: 'space-between',
+              pointerEvents: 'none',
+              zIndex: 10
             }}>
-              <Hand size={14} color="#FDE68A" />
-              <span>Hold & drag anywhere to rotate & tilt magnet</span>
-            </div>
-
-            <button
-              onClick={handleResetRotation}
-              style={{
-                pointerEvents: 'auto',
-                background: 'rgba(255, 255, 255, 0.94)',
-                border: '1.5px solid #A7F3D0',
-                borderRadius: '16px',
-                padding: '6px 12px',
-                fontSize: '0.76rem',
-                fontWeight: 800,
-                color: '#065F46',
-                cursor: 'pointer',
+              <div style={{
+                background: 'rgba(6, 78, 59, 0.86)',
+                backdropFilter: 'blur(8px)',
+                color: '#FFFFFF',
+                padding: '6px 14px',
+                borderRadius: '20px',
+                fontSize: '0.78rem',
+                fontWeight: 700,
                 display: 'flex',
                 alignItems: 'center',
-                gap: '6px',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
-                transition: 'all 0.2s'
-              }}
-              title="Reset view angle"
-            >
-              <RotateCcw size={13} color="#059669" />
-              <span>Reset View</span>
-            </button>
+                gap: '8px',
+                border: '1px solid rgba(167, 243, 208, 0.45)',
+                boxShadow: '0 4px 14px rgba(0,0,0,0.18)',
+              }}>
+                <Hand size={14} color="#FDE68A" />
+                <span>Hold & drag anywhere to rotate & tilt magnet</span>
+              </div>
+
+              <button
+                onClick={handleResetRotation}
+                style={{
+                  pointerEvents: 'auto',
+                  background: 'rgba(255, 255, 255, 0.94)',
+                  border: '1.5px solid #A7F3D0',
+                  borderRadius: '16px',
+                  padding: '6px 12px',
+                  fontSize: '0.76rem',
+                  fontWeight: 800,
+                  color: '#065F46',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
+                  transition: 'all 0.2s'
+                }}
+                title="Reset view angle"
+              >
+                <RotateCcw size={13} color="#059669" />
+                <span>Reset View</span>
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Right Side: Control Panel (Unified Warm Orange Theme) */}
