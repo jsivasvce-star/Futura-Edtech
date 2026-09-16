@@ -35,23 +35,16 @@ export default function RingMagnetVideoPlayer({
   const controlsTimeoutRef = useRef(null);
 
   const handleEnded = useCallback(() => {
-    const video = videoRef.current;
     setIsPlaying(false);
     setIsEnded(true);
     setShowControls(true);
-    if (video) {
-      try {
-        video.pause();
-        const total = video.duration || duration || 29;
-        if (total && Number.isFinite(total) && total > 0.1) {
-          video.currentTime = Math.max(0, total - 0.04);
-        }
-      } catch (_) {}
+    if (videoRef.current) {
+      videoRef.current.pause();
     }
     if (onPhaseChange) {
       onPhaseChange('poles', 1.0);
     }
-  }, [duration, onPhaseChange]);
+  }, [onPhaseChange]);
 
   // Sync with external paused state
   useEffect(() => {
@@ -174,13 +167,6 @@ export default function RingMagnetVideoPlayer({
     const curr = video.currentTime;
     const total = video.duration || duration || 29;
 
-    // Freeze strictly on last frame when video completes
-    if (!loop && total > 0 && curr >= total - 0.08 && !isEnded) {
-      setCurrentTime(total);
-      handleEnded();
-      return;
-    }
-
     setCurrentTime(curr);
 
     if (total > 0 && onPhaseChange) {
@@ -249,7 +235,8 @@ export default function RingMagnetVideoPlayer({
       {/* HTML5 Video Element */}
       <video
         ref={videoRef}
-        loop={loop}
+        src={videoSrc}
+        loop={false}
         playsInline
         onTimeUpdate={handleTimeUpdate}
         onPlay={() => {
@@ -409,48 +396,87 @@ export default function RingMagnetVideoPlayer({
         )}
       </AnimatePresence>
 
-      {/* Large Center Play / Replay Overlay Button */}
+      {/* Large Center Replay Button Overlay (when video finishes) */}
       <AnimatePresence>
-        {(!isPlaying || isEnded) && (
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-            transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+        {isEnded && (
+          <div
             style={{
               position: 'absolute',
-              zIndex: 25,
-              pointerEvents: 'auto',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 35,
+              pointerEvents: 'none',
             }}
           >
-            {isEnded ? (
+            <motion.div
+              initial={{ scale: 0.6, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.6, opacity: 0 }}
+              transition={{ type: 'spring', damping: 22, stiffness: 350 }}
+              style={{ pointerEvents: 'auto' }}
+            >
               <motion.button
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.94 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.93 }}
                 onClick={handleReplay}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '6px',
-                  padding: '14px 26px',
-                  borderRadius: '22px',
+                  gap: '8px',
+                  padding: '16px 32px',
+                  borderRadius: '24px',
                   background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                  border: '3px solid rgba(255, 255, 255, 0.95)',
-                  boxShadow: '0 8px 32px rgba(217, 119, 6, 0.65), 0 0 30px rgba(245, 158, 11, 0.45)',
+                  border: '3.5px solid #FFFFFF',
+                  boxShadow: '0 10px 35px rgba(217, 119, 6, 0.75), 0 0 35px rgba(245, 158, 11, 0.5)',
                   cursor: 'pointer',
                   color: '#FFFFFF',
                   outline: 'none',
                 }}
                 title="Replay Demonstration"
               >
-                <RotateCcw size={32} color="#FFFFFF" strokeWidth={2.6} />
-                <span style={{ fontSize: '0.85rem', fontWeight: 900, letterSpacing: '0.6px', textTransform: 'uppercase' }}>
+                <RotateCcw size={38} color="#FFFFFF" strokeWidth={2.8} />
+                <span
+                  style={{
+                    fontSize: '0.95rem',
+                    fontWeight: 900,
+                    letterSpacing: '0.8px',
+                    textTransform: 'uppercase',
+                    color: '#FFFFFF',
+                  }}
+                >
                   Replay
                 </span>
               </motion.button>
-            ) : (
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Center Play Button Overlay (when paused mid-video) */}
+      <AnimatePresence>
+        {!isPlaying && !isEnded && (
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 25,
+              pointerEvents: 'none',
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+              style={{ pointerEvents: 'auto' }}
+            >
               <motion.button
                 whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 0.94 }}
@@ -460,7 +486,7 @@ export default function RingMagnetVideoPlayer({
                   height: '74px',
                   borderRadius: '50%',
                   background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                  border: '3px solid rgba(255, 255, 255, 0.85)',
+                  border: '3px solid rgba(255, 255, 255, 0.9)',
                   boxShadow: '0 8px 30px rgba(217, 119, 6, 0.6), 0 0 30px rgba(245, 158, 11, 0.4)',
                   cursor: 'pointer',
                   display: 'flex',
@@ -473,8 +499,8 @@ export default function RingMagnetVideoPlayer({
               >
                 <Play size={34} color="#FFFFFF" fill="#FFFFFF" style={{ marginLeft: '4px' }} />
               </motion.button>
-            )}
-          </motion.div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
 

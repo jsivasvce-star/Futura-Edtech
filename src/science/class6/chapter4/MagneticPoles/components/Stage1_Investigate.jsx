@@ -390,112 +390,18 @@ export default function Stage1_Investigate({ onComplete }) {
   const isPausedRef = useRef(false);
   isPausedRef.current = isPaused;
 
-  const phaseRef = useRef('sprinkle'); // 'sprinkle', 'scattered', 'tapping', 'observing'
-  const phaseStartTimeRef = useRef(Date.now());
-  const remainingMsRef = useRef(1800);
-  const timeoutRef = useRef(null);
-
-  const clearLoopTimers = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-  };
-
-  const advanceToNextPhase = (completedPhase) => {
-    if (isPausedRef.current) return;
-    if (completedPhase === 'sprinkle') {
-      executePhase('scattered', 800);
-    } else if (completedPhase === 'scattered') {
-      executePhase('tapping', 750);
-    } else if (completedPhase === 'tapping') {
-      executePhase('observing', 3500);
-    } else if (completedPhase === 'observing') {
-      executePhase('sprinkle', 1800);
-    }
-  };
-
-  const executePhase = (phase, duration) => {
-    clearLoopTimers();
-    phaseRef.current = phase;
-    remainingMsRef.current = duration;
-    phaseStartTimeRef.current = Date.now();
-
-    if (phase === 'sprinkle') {
-      setCycleKey((k) => k + 1);
-      setStep('initial');
-      setIsSprinkling(true);
-      setIsVibrating(false);
-    } else if (phase === 'scattered') {
-      setStep('scattered');
-      setIsSprinkling(false);
-      setIsVibrating(false);
-    } else if (phase === 'tapping') {
-      setStep('tapped');
-      setIsSprinkling(false);
-      setIsVibrating(true);
-      setTapCount((prev) => Math.max(prev, 1));
-    } else if (phase === 'observing') {
-      setStep('tapped');
-      setIsSprinkling(false);
-      setIsVibrating(false);
-    }
-
-    timeoutRef.current = setTimeout(() => {
-      advanceToNextPhase(phase);
-    }, duration);
-  };
-
-  // Only start pouring iron filings once the tray and magnet arrive at the center
-  const handleArrival = useCallback(() => {
-    if (hasArrivedRef.current) return;
-    hasArrivedRef.current = true;
-    executePhase('sprinkle', 1800);
-  }, []);
-
-  // Safety fallback in case of background tab throttling
-  useEffect(() => {
-    const fallbackTimer = setTimeout(() => {
-      if (!hasArrivedRef.current) {
-        handleArrival();
-      }
-    }, 2200);
-    return () => {
-      clearTimeout(fallbackTimer);
-      clearLoopTimers();
-    };
-  }, [handleArrival]);
-
   const handleTogglePause = () => {
-    if (!isPaused) {
-      // Pausing: calculate remaining time for current phase
-      clearLoopTimers();
-      const elapsed = Date.now() - phaseStartTimeRef.current;
-      remainingMsRef.current = Math.max(50, remainingMsRef.current - elapsed);
-      setIsPaused(true);
-      isPausedRef.current = true;
-    } else {
-      // Resuming: continue remaining time of current phase
-      setIsPaused(false);
-      isPausedRef.current = false;
-      phaseStartTimeRef.current = Date.now();
-      const currentPhase = phaseRef.current;
-      const rem = remainingMsRef.current;
-
-      timeoutRef.current = setTimeout(() => {
-        advanceToNextPhase(currentPhase);
-      }, rem);
-    }
+    setIsPaused((prev) => !prev);
+    isPausedRef.current = !isPausedRef.current;
   };
 
   const handleReset = () => {
-    clearLoopTimers();
     setIsPaused(false);
     isPausedRef.current = false;
     setTapCount(0);
     setQuizAnswer(null);
     setShowFeedbackModal(false);
-    executePhase('sprinkle', 1800);
+    setStep('scattering');
   };
 
   const handleQuizAnswer = (answer) => {

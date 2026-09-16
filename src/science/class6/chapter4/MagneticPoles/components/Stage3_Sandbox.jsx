@@ -654,15 +654,17 @@ export default function Stage3_Sandbox({ onComplete }) {
     }, duration);
   };
 
-  // Only start pouring iron filings once the tray and magnet arrive at the center
+  // Only start pouring iron filings once the tray and magnet arrive at the center (3D Canvas only)
   const handleArrival = useCallback(() => {
+    if (shape === 'ring') return;
     if (hasArrivedRef.current) return;
     hasArrivedRef.current = true;
     executePhase('sprinkle', 1800);
-  }, []);
+  }, [shape]);
 
   // Safety fallback in case of background tab throttling
   useEffect(() => {
+    if (shape === 'ring') return;
     const fallbackTimer = setTimeout(() => {
       if (!hasArrivedRef.current) {
         handleArrival();
@@ -672,7 +674,7 @@ export default function Stage3_Sandbox({ onComplete }) {
       clearTimeout(fallbackTimer);
       clearLoopTimers();
     };
-  }, [handleArrival]);
+  }, [handleArrival, shape]);
 
   const handleShapeChange = (newShape) => {
     setShape(newShape);
