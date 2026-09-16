@@ -99,18 +99,18 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
   };
 
   return (
-    <div className="case-wrap" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: '80px', overflow: 'hidden' }}>
+    <div className="case-wrap" style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', borderRadius: '16px', border: '2px solid var(--border-color)', background: 'var(--bg-cream)' }}>
       <style>{`
         .case-wrap {
-          --bg-cream: #F4F1E1;
-          --border-color: #D2C4A7;
-          --title-dark: #43372B;
-          --subtitle-orange: #B84C23;
-          --card-bg: #FCFAF5;
-          --ink: #43372B;
-          --ink-light: #5A4E3C;
-          --white: #FFFFFF;
-          --success-green: #38763E;
+          --bg-cream: #FDFBF7;
+          --border-color: #D9C9A3;
+          --title-dark: #3B2A1F;
+          --subtitle-orange: #A64B27;
+          --card-bg: #FDFBF7;
+          --ink: #3B2A1F;
+          --ink-light: #7A6A52;
+          --white: #FDFBF7;
+          --success-green: #4B7A2A;
 
           background-color: var(--bg-cream);
           color: var(--ink);
@@ -225,13 +225,13 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
           width: 32px;
           height: 32px;
           border-radius: 6px;
-          background: #5A4E3C;
+          background: #7A6A52;
           display: flex;
           align-items: center;
           justify-content: center;
           font-size: 16px;
           font-weight: 700;
-          color: var(--white);
+          color: #FFFFFF;
           flex: none;
         }
         
@@ -246,7 +246,7 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
         .c-tab.solved .badge { background: var(--success-green); color: var(--white); }
 
         .c-stage {
-          padding: 12px 40px 16px 40px;
+          padding: 24px 40px 16px 40px;
           flex: 1;
           display: flex;
           flex-direction: column;
@@ -294,7 +294,7 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
           min-height: 0;
           border-radius: 16px;
           overflow: hidden;
-          margin-bottom: 20px;
+          margin-bottom: 24px;
           display: flex;
         }
 
@@ -328,11 +328,11 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
           background: var(--white);
           border: 1px solid var(--border-color);
           border-radius: 12px;
-          padding: 8px 12px;
-          margin-bottom: 6px;
+          padding: 12px 16px;
+          margin-bottom: 12px;
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 16px;
           box-shadow: 0 2px 8px rgba(0,0,0,0.03);
           border-left: 6px solid var(--subtitle-orange);
         }
@@ -399,7 +399,7 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
         .chip-opts {
           display: flex;
           gap: 16px;
-          margin-bottom: 8px;
+          margin-bottom: 16px;
         }
 
         .chip-btn {
@@ -482,11 +482,11 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
         .c-final-evidence h3 { font-size: 26px; color: var(--title-dark); margin: 0 0 16px; font-family: 'Playfair Display', serif; }
         .c-final-evidence ul { margin: 0; padding-left: 24px; list-style-type: square; color: var(--ink); font-size: 22px; display: flex; flex-direction: column; gap: 12px; }
 
-        .c-btn-green { padding: 20px 40px; font-size: 24px; font-weight: 700; color: #fff; background: var(--success-green); border: none; border-radius: 12px; box-shadow: 0 6px 0 #2D6334; cursor: pointer; transition: all 0.15s ease; font-family: 'Inter', sans-serif; }
-        .c-btn-green:hover:not(:disabled) { transform: translateY(2px); box-shadow: 0 4px 0 #2D6334; }
+        .c-btn-green { padding: 20px 40px; font-size: 24px; font-weight: 700; color: #fff; background: var(--success-green); border: none; border-radius: 12px; box-shadow: 0 6px 0 #395E20; cursor: pointer; transition: all 0.15s ease; font-family: 'Inter', sans-serif; }
+        .c-btn-green:hover:not(:disabled) { transform: translateY(2px); box-shadow: 0 4px 0 #395E20; }
         .c-btn-green:disabled { opacity: 0.5; transform: translateY(6px); box-shadow: none; cursor: not-allowed; }
 
-        .c-closed-overlay { position: absolute; inset: 0; background: rgba(244,241,225,0.96); display: none; align-items: center; justify-content: center; flex-direction: column; gap: 32px; text-align: center; z-index: 20; }
+        .c-closed-overlay { position: absolute; inset: 0; background: rgba(253,251,247,0.96); display: none; align-items: center; justify-content: center; flex-direction: column; gap: 32px; text-align: center; z-index: 20; }
         .c-closed-overlay.show { display: flex; }
         .c-stamp-big { font-family: 'Playfair Display', serif; font-size: 80px; color: var(--success-green); border: 8px solid var(--success-green); padding: 20px 60px; border-radius: 16px; transform: rotate(-4deg); font-weight: 700; box-shadow: inset 0 0 0 4px rgba(255,255,255,0.5); }
       `}</style>
@@ -498,15 +498,7 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
         <div className={`c-panel ${currentStep === 1 ? 'active' : ''}`}>
           <div className="clue1-layout">
             <div className="clue1-left">
-              <div className="c-header-left" style={{ padding: '0', marginBottom: '24px' }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path><path d="M8 7h6"></path><path d="M8 11h8"></path></svg>
-                <div>
-                  <h1>Case File 6.4 — The Mystery of Matter</h1>
-                  <p>Follow the clues to crack what "matter" really means.</p>
-                </div>
-              </div>
-
-              <h2 style={{ marginBottom: '8px' }}>What makes something "matter"?</h2>
+              <h2 style={{ marginBottom: '16px' }}>What makes something "matter"?</h2>
               <p className="lead" style={{ margin: '0 0 24px 0' }}>
                 <span style={{ display: 'block', marginBottom: '8px' }}>Everything around us is made of <b>matter</b>.</span>
                 <span style={{ display: 'block' }}>Matter has two important properties:</span>
