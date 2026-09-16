@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ChevronRight, CheckCircle, MapPin, Award, Navigation, 
   Map as MapIcon, Compass, HelpCircle, Sparkles, Plane, 
@@ -809,7 +810,7 @@ export default function ExploreIndiaActivity({ onBeginChapter, onBack }) {
             </div>
           </div>
         ) : (
-          <div style={{ flexShrink: 0, marginTop: '10px' }}>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', marginTop: '10px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#78350F', fontSize: '22px', fontWeight: 900, marginBottom: '20px', fontFamily: '"Space Grotesk", sans-serif', lineHeight: 1.3 }}>
               <HelpCircle size={28} color="#D97706" style={{ flexShrink: 0 }} /> {mission.question}
             </div>
@@ -869,7 +870,7 @@ export default function ExploreIndiaActivity({ onBeginChapter, onBack }) {
             {/* Insert Mission Tip here */}
             {!animating && !feedback?.type && (
               <div style={{
-                marginTop: '16px',
+                margin: 'auto 0',
                 background: '#FFFDF9',
                 border: '1.2px solid #FDE68A',
                 borderRadius: '12px',
@@ -879,82 +880,117 @@ export default function ExploreIndiaActivity({ onBeginChapter, onBack }) {
                 gap: '12px',
                 boxShadow: '0 2px 8px rgba(60,40,20,0.03)'
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#78350F', fontSize: '14px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#78350F', fontSize: '18px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   💡 MISSION TIP
                 </div>
                 
-                <div style={{ color: '#3D2E24', fontSize: '15.5px', lineHeight: 1.4, fontFamily: '"Space Grotesk", sans-serif', fontWeight: 600 }}>
+                <div style={{ color: '#3D2E24', fontSize: '20px', lineHeight: 1.4, fontFamily: '"Space Grotesk", sans-serif', fontWeight: 600 }}>
                   <div style={{ marginBottom: '6px' }}>"Look at the map, not the distance."</div>
                   <div>"Find <strong style={{ color: '#15803D' }}>Chennai</strong> and <strong style={{ color: '#1D4ED8' }}>{mission.destination}</strong>, then compare where {mission.destination} lies relative to Chennai."</div>
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '6px' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <div style={{ fontSize: '14px', fontWeight: 800, color: '#15803D' }}>📍 Chennai</div>
-                      <div style={{ fontSize: '10px', fontWeight: 800, color: '#64748B', letterSpacing: '0.05em' }}>START</div>
+                      <div style={{ fontSize: '18px', fontWeight: 800, color: '#15803D' }}>📍 Chennai</div>
+                      <div style={{ fontSize: '13px', fontWeight: 800, color: '#64748B', letterSpacing: '0.05em' }}>START</div>
                     </div>
                     
                     <div style={{ flex: 1, height: '1.2px', background: '#D1D5DB', position: 'relative', margin: '0 8px', top: '-6px' }} />
 
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <div style={{ fontSize: '14px', fontWeight: 800, color: '#1D4ED8' }}>📍 {mission.destination}</div>
-                      <div style={{ fontSize: '10px', fontWeight: 800, color: '#64748B', letterSpacing: '0.05em' }}>DESTINATION</div>
+                      <div style={{ fontSize: '18px', fontWeight: 800, color: '#1D4ED8' }}>📍 {mission.destination}</div>
+                      <div style={{ fontSize: '13px', fontWeight: 800, color: '#64748B', letterSpacing: '0.05em' }}>DESTINATION</div>
                     </div>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '8px' }}>
-                    <div style={{ 
-                      display: 'grid', 
-                      gridTemplateColumns: '26px 26px 26px', 
-                      gridTemplateRows: '26px 26px 26px', 
-                      alignItems: 'center', 
-                      justifyItems: 'center',
-                      fontSize: '13px',
-                      fontWeight: 900,
-                      color: '#78350F',
-                      opacity: 0.8
-                    }}>
-                      <div style={{ gridColumn: 2, gridRow: 1 }}>N</div>
-                      <div style={{ gridColumn: 2, gridRow: 1, transform: 'translateY(14px)', fontSize: '11px' }}>↑</div>
-                      
-                      <div style={{ gridColumn: 1, gridRow: 2 }}>W</div>
-                      <div style={{ gridColumn: 1, gridRow: 2, transform: 'translateX(14px)', fontSize: '11px' }}>←</div>
-                      
-                      <div style={{ gridColumn: 3, gridRow: 2 }}>E</div>
-                      <div style={{ gridColumn: 3, gridRow: 2, transform: 'translateX(-14px)', fontSize: '11px' }}>→</div>
 
-                      <div style={{ gridColumn: 2, gridRow: 3, transform: 'translateY(-14px)', fontSize: '11px' }}>↓</div>
-                      <div style={{ gridColumn: 2, gridRow: 3 }}>S</div>
-                    </div>
-                </div>
               </div>
             )}
           </div>
         )}
 
+        <AnimatePresence>
         {feedback && (
-          <div style={{ 
-            background: feedback.type === 'success' ? '#F0FDF4' : '#FEF2F2', 
-            border: `1.2px solid ${feedback.type === 'success' ? '#86EFAC' : '#FECACA'}`, 
-            padding: '10px 14px', 
-            borderRadius: '8px',
-            marginBottom: '4px',
-            flexShrink: 0
-          }}>
-            <div style={{ color: feedback.type === 'success' ? '#166534' : '#991B1B', fontWeight: 800, fontSize: '13.5px', display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
-              {feedback.type === 'success' ? <Award size={18} color="#16A34A" style={{ flexShrink: 0, marginTop: '2px' }} /> : <Navigation size={18} color="#EF4444" style={{ flexShrink: 0, transform: 'rotate(180deg)', marginTop: '2px' }} />}
-              <div style={{ whiteSpace: 'pre-line', lineHeight: 1.45, fontFamily: '"Space Grotesk", sans-serif', textAlign: 'justify', textJustify: 'inter-word' }}>
-                {feedback.text}
+          <motion.div 
+            initial={{ opacity: 0, y: 15, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            style={{ 
+              background: feedback.type === 'success' ? '#F0FDF4' : '#FEF2F2', 
+              border: `2px solid ${feedback.type === 'success' ? '#22C55E' : '#EF4444'}`,
+              boxShadow: feedback.type === 'success' ? '0 8px 24px rgba(34,197,94,0.15)' : '0 8px 24px rgba(239,68,68,0.15)',
+              padding: '16px 20px', 
+              borderRadius: '12px',
+              marginTop: '8px',
+              marginBottom: '4px',
+              flexShrink: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px',
+              position: 'relative',
+              overflow: 'hidden'
+            }}
+          >
+            {/* Background Icon Watermark */}
+            <div style={{ position: 'absolute', right: '-10px', top: '-10px', opacity: 0.05, transform: feedback.type === 'success' ? 'rotate(10deg)' : 'rotate(-10deg)', pointerEvents: 'none' }}>
+              {feedback.type === 'success' ? <CheckCircle size={100} color="#16A34A" /> : <Navigation size={100} color="#EF4444" style={{ transform: 'rotate(180deg)' }} />}
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', zIndex: 1 }}>
+              <div style={{ 
+                background: feedback.type === 'success' ? '#22C55E' : '#EF4444',
+                color: 'white',
+                borderRadius: '50%',
+                padding: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+                flexShrink: 0
+              }}>
+                {feedback.type === 'success' ? <CheckCircle size={24} strokeWidth={2.5} /> : <Navigation size={24} strokeWidth={2.5} style={{ transform: 'rotate(180deg)' }} />}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: '14px', fontWeight: 900, color: feedback.type === 'success' ? '#166534' : '#991B1B', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '2px' }}>
+                  {feedback.type === 'success' ? 'Correct Answer!' : 'Incorrect'}
+                </div>
+                <div style={{ color: feedback.type === 'success' ? '#14532D' : '#7F1D1D', fontWeight: 700, fontSize: '16px', lineHeight: 1.4, fontFamily: '"Space Grotesk", sans-serif' }}>
+                  {feedback.text}
+                </div>
               </div>
             </div>
             
             {feedback.type === 'error' && (
-              <button onClick={() => setFeedback(null)} style={{ marginTop: '8px', background: '#EF4444', color: '#FFFFFF', border: 'none', padding: '5px 12px', borderRadius: '5px', fontSize: '12px', fontWeight: 800, cursor: 'pointer' }}>
-                Try Another Option
-              </button>
+              <motion.button 
+                whileHover={{ scale: 1.02, backgroundColor: '#DC2626' }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setFeedback(null)} 
+                style={{ 
+                  alignSelf: 'flex-start',
+                  marginTop: '4px',
+                  background: '#EF4444', 
+                  color: '#FFFFFF', 
+                  border: 'none', 
+                  padding: '10px 20px', 
+                  borderRadius: '8px', 
+                  fontSize: '15px', 
+                  fontWeight: 900, 
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(239,68,68,0.25)',
+                  zIndex: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontFamily: '"Space Grotesk", sans-serif'
+                }}
+              >
+                Try Another Option <ArrowUpRight size={16} strokeWidth={2.5} />
+              </motion.button>
             )}
-          </div>
+          </motion.div>
         )}
+        </AnimatePresence>
         
         </div>
 

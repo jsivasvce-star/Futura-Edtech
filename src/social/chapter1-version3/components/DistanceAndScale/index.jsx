@@ -99,7 +99,7 @@ export default function DistanceAndScale({ onComplete, onBack }) {
         }
         .ds-eyebrow {
           font-family: var(--geo);
-          font-size: 15px;
+          font-size: 22px;
           letter-spacing: .08em;
           text-transform: uppercase;
           color: var(--amber);
@@ -110,7 +110,7 @@ export default function DistanceAndScale({ onComplete, onBack }) {
           font-family: var(--serif);
           font-weight: 900;
           color: var(--navy);
-          font-size: clamp(28px, 3.1999999999999997vw, 40px);
+          font-size: clamp(40px, 4.5vw, 52px);
           line-height: 1.15;
           margin: 0 0 2px 0;
         }
@@ -118,14 +118,14 @@ export default function DistanceAndScale({ onComplete, onBack }) {
           font-family: var(--serif);
           font-style: italic;
           color: #92400E;
-          font-size: clamp(19px, 2.0vw, 21px);
+          font-size: clamp(23px, 2.5vw, 26px);
           margin-bottom: 4px;
           line-height: 1.35;
           text-align: justify;
           text-justify: inter-word;
         }
         .ds-left p {
-          font-size: 17px;
+          font-size: 19px;
           line-height: 1.45;
           color: var(--ink);
           margin-bottom: 8px;
@@ -137,17 +137,17 @@ export default function DistanceAndScale({ onComplete, onBack }) {
         .ds-left p b { color:var(--navy); font-weight:800; }
         
         .ds-comp { display:flex; gap:8px; margin:4px 0 14px; flex-wrap:wrap; }
-        .ds-comp span { cursor: pointer; font-family:var(--geo); font-size: 16px; font-weight:700; padding:6px 14px; border-radius:8px; border:1.5px solid #F2DFBC; background:#FFF9F0; color:#92400E; user-select: none; }
+        .ds-comp span { cursor: pointer; font-family:var(--geo); font-size: 18px; font-weight:700; padding:6px 14px; border-radius:8px; border:1.5px solid #F2DFBC; background:#FFF9F0; color:#92400E; user-select: none; }
         .ds-comp span.ds-on { background:#92400E; color:#fff; border-color:#92400E; }
         
         .ds-scaleex { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:6px 0 14px; }
         .ds-scaleex .ds-e { background:#FFFFFF; border:1.5px solid #F2DFBC; border-radius:10px; padding:11px 13px; }
-        .ds-scaleex .ds-e .ds-k { font-family:var(--geo); font-size: 15px; letter-spacing:.06em; color:#92400E; text-transform:uppercase; margin-bottom:0; font-weight:800; }
-        .ds-scaleex .ds-e .ds-v { font-weight:800; color:var(--navy); font-size: clamp(19px, 2.1vw, 22px); margin-top:3px; margin-bottom:0; }
+        .ds-scaleex .ds-e .ds-k { font-family:var(--geo); font-size: 17px; letter-spacing:.06em; color:#92400E; text-transform:uppercase; margin-bottom:0; font-weight:800; }
+        .ds-scaleex .ds-e .ds-v { font-weight:800; color:var(--navy); font-size: clamp(22px, 2.5vw, 26px); margin-top:3px; margin-bottom:0; }
         
         .ds-dyk { margin-top:auto; background:#FEF3C7; border:1.5px solid #FDE68A; border-left:5px solid var(--amber); border-radius:10px; padding:clamp(10px,1.4vw,14px); }
-        .ds-dyk h4 { display:flex; gap:7px; align-items:center; color:#92400E; font-weight:800; font-size: 17px; margin-bottom:4px; margin-top:0; }
-        .ds-dyk p { color:#78350F; font-size: 16px; lineHeight:1.45; margin:0; font-weight:600; text-align: justify; text-justify: inter-word; }
+        .ds-dyk h4 { display:flex; gap:7px; align-items:center; color:#92400E; font-weight:800; font-size: 19px; margin-bottom:4px; margin-top:0; }
+        .ds-dyk p { color:#78350F; font-size: 18px; lineHeight:1.45; margin:0; font-weight:600; text-align: justify; text-justify: inter-word; }
         
         .ds-right {
           background: linear-gradient(160deg, #FFF9F0 0%, #FBF3E3 100%);
@@ -166,14 +166,14 @@ export default function DistanceAndScale({ onComplete, onBack }) {
           color: var(--navy);
           font-family: var(--serif);
           font-weight: 900;
-          font-size: clamp(28px, 3.1999999999999997vw, 40px);
+          font-size: clamp(36px, 4vw, 48px);
           line-height: 1.15;
           margin: 0 0 2px 0;
         }
         .ds-rsub {
           font-family: var(--serif);
           font-style: italic;
-          font-size: clamp(19px, 2.0vw, 21px);
+          font-size: clamp(23px, 2.5vw, 26px);
           color: #92400E;
           margin-bottom: 4px;
           line-height: 1.35;
@@ -185,8 +185,12 @@ export default function DistanceAndScale({ onComplete, onBack }) {
         .ds-scroll { flex:1; min-height:0; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; position: relative; }
 
         .ds-step-card {
-          background: #FFFFFF;
-          border: 1.5px solid #F2DFBC;
+          background: #fff;
+          background-image: 
+            linear-gradient(rgba(242, 223, 188, 0.4) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(242, 223, 188, 0.4) 1px, transparent 1px);
+          background-size: 20px 20px;
+          border: 2px solid var(--cardline);
           border-radius: 16px;
           padding: clamp(12px, 1.8vh, 18px);
           box-shadow: 0 4px 12px rgba(60,40,20,0.03);
@@ -195,6 +199,8 @@ export default function DistanceAndScale({ onComplete, onBack }) {
           flex-direction: column;
           justify-content: flex-start;
           min-height: 0;
+          position: relative;
+          overflow: hidden;
         }
         .ds-step-card > :nth-child(2) {
           margin-top: auto;
@@ -204,7 +210,7 @@ export default function DistanceAndScale({ onComplete, onBack }) {
         .ds-step-title {
           font-family: var(--geo);
           font-weight: 800;
-          font-size: 28px;
+          font-size: 36px;
           color: var(--navy);
           margin-bottom: 12px;
           display: flex;
@@ -213,7 +219,7 @@ export default function DistanceAndScale({ onComplete, onBack }) {
         }
         .ds-step-title-num {
           font-family: var(--geo);
-          font-size: 20px;
+          font-size: 24px;
           color: var(--amber);
           text-transform: uppercase;
           letter-spacing: 0.08em;
@@ -548,9 +554,9 @@ export default function DistanceAndScale({ onComplete, onBack }) {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: space-between;
-          padding: 2px 16px;
-          overflow-y: auto;
+          justify-content: space-evenly;
+          padding: 10px 16px;
+          overflow-y: hidden;
           overflow-x: hidden;
         }
         
@@ -596,7 +602,7 @@ export default function DistanceAndScale({ onComplete, onBack }) {
         }
         .ds-what-text {
           font-family: var(--geo);
-          font-size: 17px;
+          font-size: 19px;
           font-weight: 600;
           color: var(--ink);
           line-height: 1.35;
@@ -652,7 +658,7 @@ export default function DistanceAndScale({ onComplete, onBack }) {
           align-items: center;
           justify-content: center;
           position: relative;
-          transform: translateY(10px);
+          transform: translateY(-10px);
         }
 
         .ds-ruler {
@@ -893,7 +899,7 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                     <div className="ds-rw-zone">
                       <div className="ds-zone-badge">Real World</div>
                       <div className="ds-scene">
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', width: '33%', maxWidth: '175px', minWidth: '80px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', width: '33%', maxWidth: '145px', minWidth: '80px' }}>
                           <img src="/photorealistic_temple_nobg.png?v=2" alt="Temple" style={{ width: '100%', height: 'auto', aspectRatio: '1/1', objectFit: 'contain', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))', transform: 'translateY(-5px)' }} />
                           <span style={{ fontSize: 'clamp(12px, 1.5vw, 15px)', fontWeight: 800, color: 'var(--amber)', fontFamily: 'var(--geo)', background: '#FFFBEB', padding: '2px 8px', borderRadius: '6px', border: '1.5px solid var(--amber)', marginTop: '-15px' }}>Temple</span>
                         </div>
@@ -902,7 +908,7 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                             <div className="ds-ruler-label">500 metres</div>
                           </div>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', width: '33%', maxWidth: '175px', minWidth: '80px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', width: '33%', maxWidth: '145px', minWidth: '80px' }}>
                           <img src="/photorealistic_home_nobg.png?v=2" alt="Home" style={{ width: '100%', height: 'auto', aspectRatio: '1/1', objectFit: 'contain', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))', transform: 'translateY(-5px)' }} />
                           <span style={{ fontSize: 'clamp(12px, 1.5vw, 15px)', fontWeight: 800, color: 'var(--amber)', fontFamily: 'var(--geo)', background: '#FFFBEB', padding: '2px 8px', borderRadius: '6px', border: '1.5px solid var(--amber)', marginTop: '-15px' }}>Home</span>
                         </div>
@@ -910,14 +916,14 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                     </div>
 
                     {/* Zone 2: Scale Badge */}
-                    <div className="ds-scale-hero" style={{ marginTop: '-55px', marginBottom: '-5px', position: 'relative', zIndex: 10 }}>
+                    <div className="ds-scale-hero" style={{ marginTop: '-75px', marginBottom: '-5px', position: 'relative', zIndex: 10 }}>
                       <div className="ds-hero-badge">1 cm = 500 m</div>
                       <div className="ds-hero-caption">Map Scale</div>
                     </div>
 
                     {/* Zone 3: Map */}
                     <div className="ds-rw-zone" style={{ width: '50%', maxWidth: '350px' }}>
-                      <div className="ds-zone-badge ds-zone-badge-green">Map</div>
+                      <div className="ds-zone-badge ds-zone-badge-green" style={{ marginTop: '10px' }}>Map</div>
                       <div className="ds-scene">
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', width: '40%', maxWidth: '100px', minWidth: '50px' }}>
                           <img src="/photorealistic_temple_nobg.png?v=2" alt="Temple" style={{ width: '100%', height: 'auto', aspectRatio: '1/1', objectFit: 'contain', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))', transform: 'translateY(-2px)' }} />
@@ -961,13 +967,16 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                 {/* Step 1: Know the Scale */}
                 {rightPage === 1 && (
                   <div className="ds-step-card">
-                    <div className="ds-step-title">
+                    <div style={{ position: 'absolute', opacity: 0.05, right: '-20px', top: '-20px', pointerEvents: 'none' }}>
+                      <Map size={240} strokeWidth={1.5} />
+                    </div>
+                    <div className="ds-step-title" style={{ position: 'relative', zIndex: 1 }}>
                       <span className="ds-step-title-num">Step 1</span>
                       Know the Scale
                     </div>
-                    <div className="ds-step1-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '32px', padding: '24px 0' }}>
+                    <div className="ds-step1-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '32px', padding: '24px 0', position: 'relative', zIndex: 1 }}>
                       <div style={{ textAlign: 'center', marginBottom: '-10px' }}>
-                        <h3 style={{ fontSize: '22px', fontWeight: 900, color: '#D97706', margin: 0, display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}><Map size={24} /> From Real World to Map</h3>
+                        <h3 style={{ fontSize: '26px', fontWeight: 900, color: '#D97706', margin: 0, display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}><Map size={28} /> From Real World to Map</h3>
                       </div>
 
                       <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', gap: '16px' }}>
@@ -978,16 +987,16 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                           onMouseLeave={() => setHoveredConcept(null)}
                           style={{ flex: 1, background: hoveredConcept === 'size' ? '#FFFBEB' : '#FFF9F0', border: hoveredConcept === 'size' ? '2px solid #F59E0B' : '2px solid #F2DFBC', borderRadius: '16px', padding: '16px', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s', boxShadow: hoveredConcept === 'size' ? '0 8px 24px rgba(217, 119, 6, 0.15)' : 'none' }}
                         >
-                          <div style={{ fontSize: '14px', fontWeight: 900, color: '#92400E', letterSpacing: '0.5px', marginBottom: '8px' }}>BIG → SMALL</div>
-                          <div style={{ fontSize: '13.5px', color: '#78350F', lineHeight: 1.4, fontWeight: 500 }}>A real place is much bigger than its map drawing.</div>
+                          <div style={{ fontSize: '19px', fontWeight: 900, color: '#92400E', letterSpacing: '0.5px', marginBottom: '8px' }}>BIG → SMALL</div>
+                          <div style={{ fontSize: '17px', color: '#78350F', lineHeight: 1.4, fontWeight: 500 }}>A real place is much bigger than its map drawing.</div>
                         </div>
 
                         {/* DISTANCE Card */}
                         <div 
                           style={{ flex: 1, background: '#FFF9F0', border: '2px solid #F2DFBC', borderRadius: '16px', padding: '16px', textAlign: 'center', transition: 'all 0.2s' }}
                         >
-                          <div style={{ fontSize: '14px', fontWeight: 900, color: '#2F6DF0', letterSpacing: '0.5px', marginBottom: '8px' }}>DISTANCE → REPRESENTED</div>
-                          <div style={{ fontSize: '13.5px', color: '#1E3A8A', lineHeight: 1.4, fontWeight: 500 }}>A long real distance is shown as a shorter map distance.</div>
+                          <div style={{ fontSize: '19px', fontWeight: 900, color: '#2F6DF0', letterSpacing: '0.5px', marginBottom: '8px' }}>DISTANCE → REPRESENTED</div>
+                          <div style={{ fontSize: '17px', color: '#1E3A8A', lineHeight: 1.4, fontWeight: 500 }}>A long real distance is shown as a shorter map distance.</div>
                         </div>
 
                         {/* POSITION Card */}
@@ -996,54 +1005,12 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                           onMouseLeave={() => setHoveredConcept(null)}
                           style={{ flex: 1, background: hoveredConcept === 'position' ? '#F0FDF4' : '#FFF9F0', border: hoveredConcept === 'position' ? '2px solid #22C55E' : '2px solid #F2DFBC', borderRadius: '16px', padding: '16px', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s', boxShadow: hoveredConcept === 'position' ? '0 8px 24px rgba(34, 197, 94, 0.15)' : 'none' }}
                         >
-                          <div style={{ fontSize: '14px', fontWeight: 900, color: '#166534', letterSpacing: '0.5px', marginBottom: '8px' }}>POSITION STAYS</div>
-                          <div style={{ fontSize: '13.5px', color: '#14532D', lineHeight: 1.4, fontWeight: 500 }}>Places keep their relative positions on the map.</div>
+                          <div style={{ fontSize: '19px', fontWeight: 900, color: '#166534', letterSpacing: '0.5px', marginBottom: '8px' }}>POSITION STAYS</div>
+                          <div style={{ fontSize: '17px', color: '#14532D', lineHeight: 1.4, fontWeight: 500 }}>Places keep their relative positions on the map.</div>
                         </div>
                       </div>
 
-                      {/* Central Transformation Visual */}
-                      <div style={{ position: 'relative', width: '100%', padding: '24px', background: 'linear-gradient(to bottom, #FFFFFF, #FFF9F0)', borderRadius: '24px', border: '2px dashed #E2D3B8', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        
-                        {/* REAL PLACE */}
-                        <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', maxWidth: '300px', alignItems: 'flex-end', position: 'relative' }}>
-                          <motion.div animate={{ scale: hoveredConcept === 'size' ? 0.4 : 1, y: hoveredConcept === 'size' ? 122 : 0 }} transition={{ duration: 0.5, type: 'spring' }} style={{ transformOrigin: 'bottom center', zIndex: 2 }}>
-                            <img src="/photorealistic_temple_nobg.png?v=1" alt="Temple" style={{ width: 80, height: 80, objectFit: 'contain', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))' }} />
-                          </motion.div>
-                          
-                          {hoveredConcept === 'position' && (
-                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ position: 'absolute', top: '50%', left: '40px', right: '40px', height: '2px', borderTop: '2px dashed #22C55E', zIndex: 1 }} />
-                          )}
 
-                          <motion.div animate={{ scale: hoveredConcept === 'size' ? 0.4 : 1, y: hoveredConcept === 'size' ? 122 : 0 }} transition={{ duration: 0.5, type: 'spring' }} style={{ transformOrigin: 'bottom center', zIndex: 2 }}>
-                            <img src="/photorealistic_home_nobg.png?v=1" alt="Home" style={{ width: 80, height: 80, objectFit: 'contain', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))' }} />
-                          </motion.div>
-                        </div>
-                        <div style={{ color: '#D97706', fontWeight: 800, fontSize: '14px', marginTop: '12px', letterSpacing: '1px' }}>REAL PLACE</div>
-
-                        {/* Arrow */}
-                        <div style={{ margin: '20px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-                          <div style={{ width: '2px', height: '20px', background: '#D1D5DB' }} />
-                          <div style={{ background: '#F3F4F6', color: '#4B5563', padding: '4px 16px', borderRadius: '100px', fontSize: '13px', fontWeight: 700 }}>represented on a map</div>
-                          <ArrowRight color="#9CA3AF" size={24} style={{ transform: 'rotate(90deg)' }} />
-                        </div>
-
-                        {/* MAP */}
-                        <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', maxWidth: '300px', alignItems: 'flex-end', position: 'relative' }}>
-                          <div style={{ zIndex: 2 }}>
-                            <img src="/photorealistic_temple_nobg.png?v=1" alt="Temple" style={{ width: 32, height: 32, objectFit: 'contain', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))', opacity: hoveredConcept === 'size' ? 0 : 1, transition: 'opacity 0.2s' }} />
-                          </div>
-                          
-                          {hoveredConcept === 'position' && (
-                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ position: 'absolute', top: '50%', left: '16px', right: '16px', height: '2px', borderTop: '2px dashed #22C55E', zIndex: 1 }} />
-                          )}
-
-                          <div style={{ zIndex: 2 }}>
-                            <img src="/photorealistic_home_nobg.png?v=1" alt="Home" style={{ width: 32, height: 32, objectFit: 'contain', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))', opacity: hoveredConcept === 'size' ? 0 : 1, transition: 'opacity 0.2s' }} />
-                          </div>
-                        </div>
-                        <div style={{ color: '#2F6DF0', fontWeight: 800, fontSize: '14px', marginTop: '12px', letterSpacing: '1px' }}>MAP</div>
-
-                      </div>
                     </div>
                   </div>
                 )}
@@ -1051,11 +1018,14 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                 {/* Step 2: Measure the Road */}
                 {rightPage === 2 && (
                   <div className="ds-step-card">
-                    <div className="ds-step-title">
+                    <div style={{ position: 'absolute', opacity: 0.05, right: '-20px', top: '-20px', pointerEvents: 'none' }}>
+                      <Target size={240} strokeWidth={1.5} />
+                    </div>
+                    <div className="ds-step-title" style={{ position: 'relative', zIndex: 1 }}>
                       <div className="ds-step-title-num">Step 2</div>
                       <div>Measure the Road</div>
                     </div>
-                    <div className="ds-step2-content">
+                    <div className="ds-step2-content" style={{ position: 'relative', zIndex: 1 }}>
                       <div className="ds-scene" style={{ width: `${selectedDistance * 15}%`, minWidth: '120px', transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)', margin: '0 auto', marginBottom: '8px' }}>
                         <img src="/photorealistic_temple_nobg.png?v=1" alt="Temple" style={{ width: 45, height: 45, objectFit: 'contain', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))', transform: 'translateY(-2px)' }} />
                         <div className="ds-ruler-container" style={{ paddingBottom: '10px' }}>
@@ -1088,12 +1058,14 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                 {/* Step 3: Calculate */}
                 {rightPage === 3 && (
                   <div className="ds-step-card">
-                    <div className="ds-step-title">
-                      <span className="ds-step-title-num">Step 3</span>
-                      Let's Calculate
+                    <div style={{ position: 'absolute', opacity: 0.05, right: '-20px', top: '-20px', pointerEvents: 'none' }}>
+                      <MapPin size={240} strokeWidth={1.5} />
                     </div>
-
-                    <div className="ds-calc-box">
+                    <div className="ds-step-title" style={{ position: 'relative', zIndex: 1 }}>
+                      <span className="ds-step-title-num">Step 3</span>
+                      Calculate
+                    </div>
+                    <div className="ds-calc-box" style={{ position: 'relative', zIndex: 1 }}>
                       <div className="ds-calc-row">
                         <div className="ds-calc-item">
                           <span className="ds-calc-label">Map Distance</span>
@@ -1160,11 +1132,11 @@ export default function DistanceAndScale({ onComplete, onBack }) {
               </div>
               
               {/* Remember Callout moved to right side */}
-              <div className="ds-callout ds-callout-right">
-                <div className="ds-callout-title">
-                  <Lightbulb size={16} strokeWidth={3} /> Remember
+              <div className="ds-callout ds-callout-right" style={{ padding: '16px 20px' }}>
+                <div className="ds-callout-title" style={{ fontSize: '24px' }}>
+                  <Lightbulb size={28} strokeWidth={3} /> Remember
                 </div>
-                <p className="ds-callout-text">Maps are smaller, but the scale tells us the real distance.</p>
+                <p className="ds-callout-text" style={{ fontSize: '22px' }}>Maps are smaller, but the scale tells us the real distance.</p>
               </div>
 
               {/* Sub-page navigation — Parallel Symmetrical Baseline */}
@@ -1181,7 +1153,7 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                 >
                   ◀ Prev
                 </button>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '15px', fontWeight: 700, color: '#92400E' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '19px', fontWeight: 700, color: '#92400E' }}>
                   <span>Step {rightPage} of {isCalculated ? 4 : 3}</span>
                   {[1, 2, 3, ...(isCalculated ? [4] : [])].map(step => (
                     <span key={step} style={{ width: '9px', height: '9px', borderRadius: '50%', background: rightPage === step ? '#D97706' : '#F2DFBC' }} />
