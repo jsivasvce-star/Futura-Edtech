@@ -2,14 +2,16 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Search, Lightbulb, RefreshCw, Lock, CheckCircle2, ChevronRight, Check, Folder } from 'lucide-react';
 import classroomBg from '../images/clean_classroom.jpg';
 
+// Placeholders ready for the exact purpose-made thumbnail assets once generated.
+const placeholderImg = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+
 const CLASSROOM_OBJECTS = [
-  { id: 'bottle', emoji: '🍶', name: 'Water Bottle', material: 'Metal', desc: 'Strong, durable, and keeps liquids contained without breaking easily.', xPos: 36, yPos: 46, hitbox: 'rect', w: 5, h: 14 },
-  { id: 'window', emoji: '🪟', name: 'Window Pane', material: 'Glass', desc: 'Transparent material that allows light to pass through while keeping weather out.', xPos: 4, yPos: 30, hitbox: 'rect', w: 8, h: 30 },
-  { id: 'backpack', emoji: '🎒', name: 'Backpack', material: 'Fabric', desc: 'Soft, flexible, and strong material that can hold heavy books without tearing.', xPos: 88, yPos: 63, hitbox: 'rect', w: 14, h: 18 },
-  { id: 'notebook', emoji: '📓', name: 'Notebook', material: 'Paper', desc: 'Light and easy to carry. Smooth to write on. Can be folded. Made from plant-based material.', xPos: 42.5, yPos: 65, hitbox: 'rect', w: 14, h: 8 },
-  { id: 'pen', emoji: '🖊️', name: 'Pen', material: 'Metal', desc: 'Combines a strong barrel for grip and a metal tip for precision ink flow.', xPos: 54.5, yPos: 65, hitbox: 'rect', w: 5, h: 3 },
-  { id: 'blackboard', emoji: '⬛', name: 'Blackboard', material: 'Slate', desc: 'A hard, dark rock material that is flat and holds chalk marks easily.', xPos: 50, yPos: 25 },
-  { id: 'duster', emoji: '🧽', name: 'Duster', material: 'Wood', desc: 'A hard wooden back provides a strong grip for the soft felt underneath.', xPos: 58.5, yPos: 37.5, hitbox: 'rect', w: 5, h: 3 }
+  { id: 'duster', image: placeholderImg, name: 'Duster', material: 'Wood', desc: 'A hard wooden back provides a strong grip for the soft felt underneath.', xPos: 58.5, yPos: 37.5, hitbox: 'rect', w: 5, h: 3 },
+  { id: 'bottle', image: placeholderImg, name: 'Metal water bottle', material: 'Metal', desc: 'A strong and durable material that keeps water cold.', xPos: 36, yPos: 46, hitbox: 'rect', w: 5, h: 14 },
+  { id: 'window', image: placeholderImg, name: 'Window pane', material: 'Glass', desc: 'Transparent material that allows light to pass through while keeping weather out.', xPos: 4, yPos: 30, hitbox: 'rect', w: 8, h: 30 },
+  { id: 'backpack', image: placeholderImg, name: 'Bag', material: 'Fabric', desc: 'Soft, flexible, and strong material that can hold heavy books without tearing.', xPos: 88, yPos: 63, hitbox: 'rect', w: 14, h: 18 },
+  { id: 'notebook', image: placeholderImg, name: 'Notebook', material: 'Paper', desc: 'Light and easy to carry. Smooth to write on. Can be folded. Made from plant-based material.', xPos: 42.5, yPos: 65, hitbox: 'rect', w: 14, h: 8 },
+  { id: 'blackboard', image: placeholderImg, name: 'Blackboard', material: 'Slate', desc: 'A hard, dark rock material that is flat and holds chalk marks easily.', xPos: 50, yPos: 25 }
 ];
 
 const MAGNIFIER_RADIUS = 140;
@@ -45,6 +47,8 @@ export default function Stage1_Intro({ onComplete, addXp }) {
   const holdTimerRef = useRef(null);
   const progressIntervalRef = useRef(null);
   const glassRef = useRef({ x: 300, y: 300 });
+  const clipLayerRef = useRef(null);
+  const physicalGlassRef = useRef(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -122,8 +126,17 @@ export default function Stage1_Intro({ onComplete, addXp }) {
       x = Math.max(0, Math.min(rect.width, x));
       y = Math.max(0, Math.min(rect.height, y));
       
-      setGlassPos({ x, y });
       glassRef.current = { x, y };
+      
+      if (clipLayerRef.current) {
+        clipLayerRef.current.style.clipPath = `circle(${MAGNIFIER_RADIUS / 1.3}px at ${x}px ${y}px)`;
+        clipLayerRef.current.style.transformOrigin = `${x}px ${y}px`;
+      }
+      
+      if (physicalGlassRef.current) {
+        physicalGlassRef.current.style.top = `${y - MAGNIFIER_RADIUS}px`;
+        physicalGlassRef.current.style.left = `${x - MAGNIFIER_RADIUS}px`;
+      }
       
       checkCollisions(x, y, rect.width, rect.height);
     }
@@ -533,12 +546,14 @@ export default function Stage1_Intro({ onComplete, addXp }) {
 
             {/* Clear Mask Layer (Magnified) */}
             {viewState === 'explore' && (
-              <div style={{
+              <div
+                ref={clipLayerRef}
+                style={{
                 position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
                 backgroundImage: `url(${classroomBg})`,
                 backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',
-                clipPath: `circle(${MAGNIFIER_RADIUS / 1.3}px at ${glassPos.x}px ${glassPos.y}px)`,
-                transformOrigin: `${glassPos.x}px ${glassPos.y}px`,
+                clipPath: `circle(${MAGNIFIER_RADIUS / 1.3}px at ${glassRef.current.x}px ${glassRef.current.y}px)`,
+                transformOrigin: `${glassRef.current.x}px ${glassRef.current.y}px`,
                 transform: 'scale(1.3)',
                 pointerEvents: 'none',
                 zIndex: 5
@@ -579,10 +594,12 @@ export default function Stage1_Intro({ onComplete, addXp }) {
 
             {/* Physical Magnifying Glass Overlay */}
             {viewState === 'explore' && (
-              <div style={{
+              <div 
+                ref={physicalGlassRef}
+                style={{
                 position: 'absolute',
-                top: glassPos.y - MAGNIFIER_RADIUS,
-                left: glassPos.x - MAGNIFIER_RADIUS,
+                top: glassRef.current.y - MAGNIFIER_RADIUS,
+                left: glassRef.current.x - MAGNIFIER_RADIUS,
                 width: MAGNIFIER_RADIUS * 2,
                 height: MAGNIFIER_RADIUS * 2,
                 pointerEvents: 'none',
@@ -651,7 +668,7 @@ export default function Stage1_Intro({ onComplete, addXp }) {
                    </div>
                    <h2 style={{ fontSize: '3rem', fontWeight: '900', color: 'var(--lesson-primary)', margin: '0 0 1rem 0' }}>CASE SOLVED!</h2>
                    <p style={{ fontSize: '1.25rem', color: 'var(--lesson-secondary)', margin: '0 0 2rem 0', lineHeight: '1.5', fontWeight: '700' }}>
-                     Excellent work, Detective! You discovered what all the everyday objects are made of. Objects are made from materials!
+                    Excellent work! You discovered what all the everyday objects are made of. Objects are made from materials!
                    </p>
                  <button onClick={() => { addXp(30); onComplete(); }} style={{ background: 'var(--lesson-accent)', color: 'white', padding: '16px 40px', fontSize: '1.3rem', fontWeight: '900', borderRadius: '16px', border: 'none', cursor: 'pointer', boxShadow: '0 8px 20px rgba(60,36,21,0.4)' }}>
                    PROCEED TO LAB &rarr;
@@ -667,112 +684,72 @@ export default function Stage1_Intro({ onComplete, addXp }) {
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: 'var(--lesson-card)', border: '2px solid var(--lesson-border)', borderRadius: '0px', overflow: 'hidden', boxShadow: '0 8px 25px rgba(0,0,0,0.04)' }}>
             
             {/* Header */}
-            <div style={{ padding: '24px 24px 16px 24px', borderBottom: '2px dashed var(--lesson-border)' }}>
+            <div style={{ padding: '24px 24px 16px 24px' }}>
               <h3 style={{ margin: 0, fontSize: '1.9rem', fontWeight: '900', color: 'var(--heading-main)', display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <Folder size={32} fill="var(--lesson-primary)" /> CASE FILE
               </h3>
             </div>
             
-            <div style={{ padding: '8px 24px', flex: 1, display: 'flex', flexDirection: 'column', gap: '8px', overflow: 'hidden' }}>
-              
-              {viewState === 'explore' || viewState === 'completed' ? (
-                // --- INITIAL / SEARCHING STATE ---
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', background: 'var(--lesson-surface)', padding: '20px', borderRadius: '16px', border: '2px dashed var(--lesson-border)', justifyContent: 'center', alignItems: 'center', textAlign: 'center', opacity: 0.8 }}>
-                  <Search size={36} color="var(--lesson-muted)" />
-                  <h4 style={{ margin: 0, fontSize: '1.4rem', fontWeight: '900', color: 'var(--lesson-secondary)' }}>SEARCHING...</h4>
-                  <p style={{ margin: 0, fontSize: '1.3rem', color: 'var(--lesson-secondary)', fontWeight: '600' }}>Search the classroom to discover an object.</p>
-                </div>
-              ) : (
-                // --- MATERIAL EXPLANATION (Visible only during zoom) ---
-                <div style={{ background: '#FFFFFF', padding: '12px 20px', borderRadius: '16px', border: '2px solid var(--lesson-border)', animation: 'fadeIn 0.3s ease-out' }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '8px' }}>
-                     <div>
-                        <div style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--lesson-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>OBJECT</div>
-                        <div style={{ fontSize: '2rem', fontWeight: '700', color: '#3B2A1F', lineHeight: '1.1' }}>{activeObject?.name}</div>
-                     </div>
-                     <div>
-                        <div style={{ fontSize: '1.2rem', fontWeight: '600', color: '#7A6A52', textTransform: 'uppercase', letterSpacing: '0.5px' }}>MATERIAL</div>
-                        <div style={{ fontSize: '1.8rem', fontWeight: '700', color: '#A64B27', lineHeight: '1.1' }}>{activeObject?.material}</div>
-                    </div>
-                </div>
-                <div style={{ marginTop: '8px' }}>
-                  <div style={{ display: 'inline-block', background: '#A64B27', color: 'white', padding: '6px 14px', borderRadius: '8px', fontSize: '1.2rem', fontWeight: '900', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '0.5px' }}>
-                    IDENTIFIED
-                  </div>                </div>
-                  <ul style={{ margin: 0, paddingLeft: '24px', color: '#3B2A1F', fontSize: '1.5rem', lineHeight: '1.2', fontWeight: '600', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                     {activeObject?.desc.split('. ').filter(Boolean).map((pt, idx) => (
-                       <li key={idx} style={{ paddingLeft: '4px' }}>{pt.trim()}{pt.endsWith('.') ? '' : '.'}</li>
-                     ))}
-                  </ul>
-                </div>
-              )}
+            <p style={{ margin: '0 24px', fontSize: '1.3rem', color: 'var(--lesson-secondary)', fontWeight: '600', lineHeight: '1.4' }}>
+              Move the magnifying glass around the classroom to find objects and identify their materials.
+            </p>
 
-              {/* PROGRESS LIST (Always visible) */}
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-                <h4 style={{ margin: '0 0 4px 0', fontSize: '1.7rem', fontWeight: '900', color: 'var(--heading-section)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Folder size={28} /> Case File Progress
-                </h4>
-                
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                  {CLASSROOM_OBJECTS.map((obj, i) => {
-                    const isFound = discovered.includes(obj.id);
-                    const isCurrentActive = isFound && activeObject?.id === obj.id && viewState === 'zoom';
-                    const isCompleted = isFound && !isCurrentActive;
-                    
-                    return (
-                      <div
-                        key={i}
-                        onClick={() => {
-                          if (isFound) {
-                            setActiveObject(obj);
-                          }
-                        }}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          padding: '6px 12px',
-                          background: isCurrentActive ? 'var(--lesson-surface)' : 'transparent',
-                          border: isCurrentActive ? '2px solid var(--lesson-border)' : '2px solid transparent',
-                          borderRadius: '12px',
-                          transition: 'all 0.3s ease',
-                          opacity: !isFound ? 0.6 : 1,
-                          cursor: isFound ? 'pointer' : 'default'
-                        }}
-                      >
-                        <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '12px', fontSize: '1.5rem', fontWeight: '700', color: isFound ? '#3B2A1F' : 'var(--lesson-muted)' }}>
-                          <span>{i + 1}.</span>
-                          {isCompleted ? (
-                            <>
-                              <span>{obj.name}</span>
-                              <span style={{ color: '#A64B27' }}>&rarr;</span>
-                              <span style={{ color: '#A64B27' }}>{obj.material}</span>
-                            </>
-                          ) : isCurrentActive ? (
-                            <>
-                              <span>{obj.name}</span>
-                              <span style={{ color: 'var(--lesson-border)' }}>&rarr;</span>
-                              <span style={{ color: 'var(--lesson-muted)', fontSize: '1.35rem', fontWeight: '600' }}>???</span>
-                            </>
-                          ) : (
-                            <span style={{ fontSize: '1.35rem', fontWeight: '600' }}>???</span>
-                          )}
-                        </div>
-
-                        {isCompleted && (
-                          <div style={{ background: '#A64B27', color: 'white', borderRadius: '50%', padding: '4px', display: 'flex' }}>
-                            <Check size={16} strokeWidth={4} />
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
+            <div style={{ margin: '16px 24px', background: '#F9F4EB', borderRadius: '16px', padding: '20px', border: '2px dashed #E8DCC8', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <Search size={48} color="#3B2A1F" strokeWidth={2.5} />
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#3B2A1F', lineHeight: '1' }}>
+                    {discovered.length} / {CLASSROOM_OBJECTS.length}
+                  </div>
+                  <div style={{ fontSize: '1.1rem', fontWeight: '700', color: '#7A6A52', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    clues discovered
+                  </div>
                 </div>
               </div>
-
+              
+              <div style={{ display: 'flex', width: '100%', gap: '4px', height: '12px', marginTop: '8px' }}>
+                {CLASSROOM_OBJECTS.map((_, i) => (
+                  <div key={i} style={{ flex: 1, borderRadius: '6px', background: i < discovered.length ? 'var(--lesson-success)' : '#E8DCC8' }} />
+                ))}
+              </div>
             </div>
 
-            {/* Bottom Actions */}
-            {viewState === 'zoom' && (
+            <div style={{ padding: '0 24px', flex: 1, display: 'flex', flexDirection: 'column', gap: '16px', overflow: 'hidden' }}>
+              <h4 style={{ margin: '0', fontSize: '1.4rem', fontWeight: '900', color: '#3B2A1F', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{color: "#3B2A1F"}}><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                DISCOVERED CLUES
+              </h4>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', paddingBottom: '16px' }}>
+                {CLASSROOM_OBJECTS.map((obj, i) => {
+                  const isFound = discovered.includes(obj.id);
+                  
+                  if (isFound) {
+                    return (
+                      <div key={i} style={{ background: '#F9F4EB', border: '2px solid #E8DCC8', borderRadius: '12px', padding: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
+                        <div style={{ width: '100%', height: '60px', borderRadius: '8px', overflow: 'hidden', marginBottom: '8px', background: '#E8DCC8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <img src={obj.image} alt={obj.name} style={{ width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'multiply' }} />
+                        </div>
+                        <div style={{ fontSize: '1rem', fontWeight: '800', color: '#3B2A1F', textAlign: 'center' }}>{obj.material}</div>
+                        <div style={{ position: 'absolute', top: '-6px', right: '-6px', background: 'var(--lesson-success)', color: 'white', borderRadius: '50%', padding: '4px', display: 'flex' }}>
+                          <Check size={16} strokeWidth={4} />
+                        </div>
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div key={i} style={{ background: '#F9F4EB', border: '2px solid #E8DCC8', borderRadius: '12px', padding: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '90px' }}>
+                        <div style={{ width: '40px', height: '40px', borderRadius: '50%', border: '2px dashed #D9C9A3', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#D9C9A3', fontSize: '1.5rem', fontWeight: '900' }}>
+                          ?
+                        </div>
+                      </div>
+                    );
+                  }
+                })}
+              </div>
+            </div>
+
+            {viewState === 'zoom' ? (
               <div style={{ padding: '12px 24px', background: '#FFFFFF', borderTop: '2px solid var(--lesson-border)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <button onClick={returnToClassroom} className={isPopActive ? "attention-btn-pulse" : ""} style={{ 
                    width: '100%', padding: '12px', background: '#A64B27', color: '#FFFFFF', border: '2px solid var(--lesson-primary)', fontSize: '1.5rem', fontWeight: '900', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', borderRadius: '16px', cursor: 'pointer', 
@@ -782,6 +759,13 @@ export default function Stage1_Intro({ onComplete, addXp }) {
                    {isPopActive ? '✨ RETURN TO CLASSROOM' : 'RETURN TO CLASSROOM'}
                  <ChevronRight size={28} />
                  </button>
+              </div>
+            ) : (
+              <div style={{ margin: '16px 24px', background: '#F9F4EB', borderRadius: '16px', padding: '16px', border: '2px solid #E8DCC8', display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <Lightbulb size={32} color="#D9A05B" fill="#FDE68A" />
+                <p style={{ margin: 0, fontSize: '1.1rem', color: '#3B2A1F', fontWeight: '600', lineHeight: '1.4' }}>
+                  Look carefully at different objects.<br/>They are made of different materials!
+                </p>
               </div>
             )}
           </div>
