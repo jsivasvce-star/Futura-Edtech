@@ -450,7 +450,7 @@ const COMPASS_DIRECTIONS = [
   { dir: 'NW', label: 'North-West', deg: 315, states: 'Maharashtra (Mumbai), Rajasthan (Jaipur), Gujarat' }
 ];
 
-export default function ExploreIndiaActivity({ onBeginChapter, onBack }) {
+export default React.memo(function ExploreIndiaActivity({ onBeginChapter, onBack }) {
   const [missionIndex, setMissionIndex] = useState(-1);
   const [feedback, setFeedback] = useState(null);
   const [animating, setAnimating] = useState(false);
@@ -633,73 +633,47 @@ export default function ExploreIndiaActivity({ onBeginChapter, onBack }) {
       overflow: 'hidden'
     }}>
       {/* Top Header */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-        <h2 style={{ fontFamily: '"Fraunces", serif', color: '#78350F', fontSize: '32px', fontWeight: 900, margin: '8px 0 16px 0', lineHeight: 1.15 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '8px' }}>
+        <h2 style={{ fontFamily: '"Fraunces", serif', color: '#78350F', fontSize: '42px', fontWeight: 900, margin: '8px 0 12px 0', lineHeight: 1.15 }}>
           Travel Across India!
         </h2>
         
-        <p style={{ margin: 0, fontFamily: '"Space Grotesk", sans-serif', color: '#3D2E24', fontSize: '16.5px', fontWeight: 600, lineHeight: 1.5, textAlign: 'justify', textJustify: 'inter-word' }}>
-          Learn how a compass points to <span style={{ color: '#92400E', background: '#FEF3C7', padding: '2px 6px', borderRadius: '6px', fontWeight: 800, border: '1.5px solid #FDE68A' }}>Main Directions (N, S, E, W)</span> and <span style={{ color: '#1D4ED8', background: '#DBEAFE', padding: '2px 6px', borderRadius: '6px', fontWeight: 800, border: '1.5px solid #BFDBFE' }}>In-Between Directions (NE, NW, SE, SW)</span> by travelling to 6 real places across India, starting from Chennai.
+        <p style={{ margin: 0, fontFamily: '"Space Grotesk", sans-serif', color: '#3D2E24', fontSize: '20px', fontWeight: 600, lineHeight: 1.6, textAlign: 'justify', textJustify: 'inter-word' }}>
+          Learn how a compass points to <span style={{ color: '#92400E', background: '#FEF3C7', padding: '2px 8px', borderRadius: '8px', fontWeight: 800, border: '1.5px solid #FDE68A' }}>Main Directions (N, S, E, W)</span> and <span style={{ color: '#1D4ED8', background: '#DBEAFE', padding: '2px 8px', borderRadius: '8px', fontWeight: 800, border: '1.5px solid #BFDBFE' }}>In-Between Directions (NE, NW, SE, SW)</span> by travelling to 6 real places across India, starting from Chennai.
         </p>
       </div>
 
       {/* 6 Missions Roadmap Grid */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontSize: '16px', fontWeight: 900, color: '#78350F', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Journey Plan (6 Stops)</span>
-          <span style={{ fontSize: '14px', fontWeight: 700, color: '#166534', background: '#DCFCE7', padding: '4px 10px', borderRadius: '6px' }}>Total ~8,350 km</span>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', flex: 1, justifyContent: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
+          <span style={{ fontSize: '20px', fontWeight: 900, color: '#78350F', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Journey Plan (6 Stops)</span>
+          <span style={{ fontSize: '16px', fontWeight: 700, color: '#166534', background: '#DCFCE7', padding: '6px 14px', borderRadius: '8px' }}>Total ~8,350 km</span>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
           {MISSIONS.map((m, idx) => (
             <div key={m.id} style={{
               background: '#FFFFFF',
-              border: '2px solid #F2DFBC',
-              borderRadius: '12px',
-              padding: '12px 16px',
+              border: '2.5px solid #F2DFBC',
+              borderRadius: '16px',
+              padding: '16px 20px',
               display: 'flex',
               alignItems: 'center',
-              gap: '12px',
-              boxShadow: '0 2px 8px rgba(60,40,20,0.04)'
+              gap: '16px',
+              boxShadow: '0 4px 12px rgba(60,40,20,0.04)'
             }}>
-              <span style={{ fontSize: '28px' }}>{m.landmarkIcon}</span>
+              <span style={{ fontSize: '38px' }}>{m.landmarkIcon}</span>
               <div style={{ minWidth: 0, flex: 1 }}>
-                <div style={{ fontSize: '16px', fontWeight: 800, color: '#0F172A', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: '2px' }}>
+                <div style={{ fontSize: '19px', fontWeight: 900, color: '#0F172A', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: '4px' }}>
                   {idx + 1}. {m.destination}
                 </div>
-                <div style={{ fontSize: '14px', color: '#92400E', fontWeight: 700 }}>
+                <div style={{ fontSize: '16px', color: '#92400E', fontWeight: 800 }}>
                   {m.direction} • {m.distance} km
                 </div>
               </div>
             </div>
           ))}
         </div>
-      </div>
-
-
-      {/* Start Button */}
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <button 
-          onClick={handleStart}
-          style={{
-            background: 'linear-gradient(135deg, #16A34A 0%, #15803D 100%)',
-            color: '#FFFFFF',
-            border: 'none',
-            padding: '14px 32px',
-            borderRadius: '32px',
-            fontSize: '18px',
-            fontWeight: 800,
-            cursor: 'pointer',
-            boxShadow: '0 6px 20px rgba(22, 163, 74, 0.35)',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '10px',
-            fontFamily: '"Space Grotesk", sans-serif',
-            transition: 'all 0.2s'
-          }}
-        >
-          Begin Journey (6 Missions) <ChevronRight size={20} strokeWidth={3} />
-        </button>
       </div>
     </div>
   );
@@ -792,21 +766,6 @@ export default function ExploreIndiaActivity({ onBeginChapter, onBack }) {
                   {travelMode === 'plane' ? mission.flightTime : mission.trainTime}
                 </div>
               </div>
-            </div>
-
-            <div style={{
-              background: 'rgba(0, 0, 0, 0.5)',
-              border: '1px solid rgba(56, 189, 248, 0.4)',
-              borderRadius: '6px',
-              padding: '6px 10px',
-              fontSize: '12px',
-              color: '#F0F9FF',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px'
-            }}>
-              <span style={{ fontSize: '14px' }}>🪟</span>
-              <span><strong style={{ color: '#38BDF8' }}>Window View:</strong> {mission.windowScene}</span>
             </div>
           </div>
         ) : (
@@ -1056,10 +1015,19 @@ export default function ExploreIndiaActivity({ onBeginChapter, onBack }) {
       </div>
 
       <ChapterBackFooter
-        onBack={onBack}
+        onBack={
+          missionIndex === -1
+            ? onBack
+            : () => {
+                setFeedback(null);
+                setActiveRoute(null);
+                setLiveDistance(0);
+                setMissionIndex(prev => prev - 1);
+              }
+        }
         nextLabel={
           missionIndex === -1
-            ? 'Start Journey (Mission 1)'
+            ? 'Start Journey'
             : missionIndex === MISSIONS.length - 1
               ? 'Next Activity'
               : 'Next Destination'
@@ -1075,4 +1043,4 @@ export default function ExploreIndiaActivity({ onBeginChapter, onBack }) {
       />
     </div>
   );
-}
+});

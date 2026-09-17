@@ -64,28 +64,6 @@ export default function Earth3DGlobe() {
           <span>ANCIENT INDIAN ASTRONOMY</span>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setIsFullScreen(!isFullScreen)}
-          title={isFullScreen ? 'Exit Full Screen (Esc)' : 'View Full Screen'}
-          aria-label={isFullScreen ? 'Exit Full Screen' : 'View Full Screen'}
-          style={{
-            background: 'rgba(255,255,255,0.92)',
-            color: '#0F172A',
-            border: 'none',
-            borderRadius: '50%',
-            width: '32px',
-            height: '32px',
-            display: 'grid',
-            placeItems: 'center',
-            cursor: 'pointer',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-            pointerEvents: 'auto',
-            transition: 'transform 0.15s'
-          }}
-        >
-          {isFullScreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
-        </button>
       </div>
 
       {/* Embed Interactive 3D Globe Folder Model */}
@@ -102,33 +80,6 @@ export default function Earth3DGlobe() {
         }}
       />
 
-      {/* Bottom Caption matching Screenshot */}
-      <div style={{
-        position: 'absolute',
-        bottom: '10px',
-        left: '14px',
-        right: '14px',
-        zIndex: 10,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        color: '#ffffff',
-        fontFamily: '"Fraunces", Georgia, serif',
-        fontWeight: 700,
-        fontSize: '13.5px',
-        textShadow: '0 2px 8px rgba(0,0,0,0.95)',
-        pointerEvents: 'none'
-      }}>
-        <span style={{
-          fontFamily: '"Space Grotesk", sans-serif',
-          fontSize: '11.5px',
-          fontWeight: 600,
-          color: '#FEF08A',
-          opacity: 0.95
-        }}>
-          💡 Drag to Rotate · Scroll to Zoom
-        </span>
-      </div>
     </div>
   );
 }

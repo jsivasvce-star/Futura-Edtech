@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Ticket, ArrowRight, ArrowLeft, CheckCircle2, AlertCircle } from 'lucide-react';
 import ChapterBackFooter from './ChapterBackFooter';
+import { CHESS_PIECES } from './chess_pieces';
 
 export default function ChessSeatMinigame({ onComplete, onBack }) {
   const [progress, setProgress] = useState(0);
@@ -93,7 +94,8 @@ export default function ChessSeatMinigame({ onComplete, onBack }) {
                 {/* Grid */}
                 <div style={{
                   display: 'grid', gridTemplateColumns: 'repeat(8, 28px)',
-                  gridTemplateRows: 'repeat(8, 28px)', border: '1px solid #CBD5E1'
+                  gridTemplateRows: 'repeat(8, 28px)', border: 'none',
+                  borderRadius: '4px', overflow: 'hidden'
                 }}>
                   {Array.from({ length: 64 }).map((_, i) => {
                     const r = 7 - Math.floor(i / 8);
@@ -104,16 +106,39 @@ export default function ChessSeatMinigame({ onComplete, onBack }) {
                     const isHighlightedRow = r === target.row;
                     const isTarget = isHighlightedCol && isHighlightedRow;
 
-                    let bg = isDark ? '#38BDF8' : '#BAE6FD';
-                    if (isHighlightedCol || isHighlightedRow) bg = '#FDE68A';
-                    if (isTarget) bg = '#F59E0B';
+                    let bg = isDark ? '#6BAAB7' : '#EBF2F4'; // Icy Sea colors
+                    if (isTarget) bg = '#FDE047'; // Target highlight
+
+                    const getPieceSrc = (row, col) => {
+                      if (row === 7) return [CHESS_PIECES.br, CHESS_PIECES.bn, CHESS_PIECES.bb, CHESS_PIECES.bq, CHESS_PIECES.bk, CHESS_PIECES.bb, CHESS_PIECES.bn, CHESS_PIECES.br][col];
+                      if (row === 6) return CHESS_PIECES.bp;
+                      if (row === 1) return CHESS_PIECES.wp;
+                      if (row === 0) return [CHESS_PIECES.wr, CHESS_PIECES.wn, CHESS_PIECES.wb, CHESS_PIECES.wq, CHESS_PIECES.wk, CHESS_PIECES.wb, CHESS_PIECES.wn, CHESS_PIECES.wr][col];
+                      return null;
+                    };
+                    
+                    const pieceSrc = getPieceSrc(r, c);
 
                     return (
                       <div key={i} style={{
                         background: bg,
                         display: 'flex', alignItems: 'center', justifyContent: 'center'
                       }}>
-                        {isTarget && <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#FFFFFF', border: '2px solid #B45309' }} />}
+                        {pieceSrc ? (
+                          <img 
+                            src={pieceSrc} 
+                            alt="chess-piece" 
+                            style={{ 
+                              width: '24px', 
+                              height: '24px', 
+                              filter: 'drop-shadow(0px 2px 2px rgba(0,0,0,0.4))',
+                              userSelect: 'none',
+                              pointerEvents: 'none'
+                            }} 
+                          />
+                        ) : (
+                          isTarget && <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#FFFFFF', border: '2px solid #B45309' }} />
+                        )}
                       </div>
                     );
                   })}
@@ -255,7 +280,7 @@ export default function ChessSeatMinigame({ onComplete, onBack }) {
         onBack={onBack}
         onNext={onComplete}
         nextLabel="Next Activity"
-        nextDisabled={!isComplete}
+        nextDisabled={false}
         nextVariant="orange"
       />
     </div>
