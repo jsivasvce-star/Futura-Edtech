@@ -266,7 +266,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
               {currentTopic.badge}
             </span>
             <span style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: '700' }}>
-              NCERT Spotlight
+              Spotlight
             </span>
           </div>
         </div>
@@ -428,7 +428,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
             boxShadow: '0 4px 14px rgba(20, 69, 47, 0.35)'
           }}
         >
-          <span>Summary &amp; NCERT Exercises ➔</span>
+          <span>Summary &amp; Exercises ➔</span>
         </button>
       </div>
     </div>

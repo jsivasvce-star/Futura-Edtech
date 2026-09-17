@@ -21,6 +21,26 @@ import habitatIconBoth from '../../../../../assets/habitat_icon_both.png';
 // ASSET PATH CONSTANTS
 // =========================================================================
 const BG_MOUNTAIN = '/activities/class6_chapter2/grouping/background image.png';
+const BG_TABLE_GARDEN = '/activities/class6_chapter2/grouping/table2_3_garden_bg.jpg';
+
+// Table 2.3: Grouping of plants based on height and nature of stem
+const TABLE_2_3_ROWS = [
+  { id: 'mango', name: 'Mango' },
+  { id: 'rose', name: 'Rose' },
+  { id: 'tomato', name: 'Tomato' },
+  { id: 'sunflower', name: 'Sunflower' },
+  { id: 'hibiscus', name: 'Hibiscus' }
+];
+
+const TABLE_2_3_COLUMNS = [
+  { id: 'height', label: 'Height', group: 'Height', options: ['Short', 'Medium', 'Tall'] },
+  { id: 'stemColor', label: 'Green / Brown', group: 'Nature of stem', options: ['Green', 'Brown'] },
+  { id: 'stemTexture', label: 'Tender / Hard', group: 'Nature of stem', options: ['Tender', 'Hard'] },
+  { id: 'stemThickness', label: 'Thick / Thin', group: 'Nature of stem', options: ['Thick', 'Thin'] },
+  { id: 'branchLow', label: 'Close to the ground', group: 'Appearance of branches', options: ['Yes', 'No'] },
+  { id: 'branchHigh', label: 'Higher up on the stem', group: 'Appearance of branches', options: ['Yes', 'No'] },
+  { id: 'plantGroup', label: 'Name of plant group', group: null, options: ['Herb', 'Shrub', 'Tree'] }
+];
 
 // Fullscreen Specimen Slides 1-9 (Exact complete images from directory)
 const SPECIMEN_SLIDES = [
@@ -499,6 +519,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
 
   // Selected card ready to be placed via click
   const [selectedCardId, setSelectedCardId] = useState(null);
+  const [draggedCardId, setDraggedCardId] = useState(null);
+  const [dragOverGroupId, setDragOverGroupId] = useState(null);
 
   // Inspection modal card
   const [inspectedCard, setInspectedCard] = useState(null);
@@ -508,6 +530,36 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
 
   // Completed tabs tracker
   const [completedTabs, setCompletedTabs] = useState([]);
+
+  // Table 2.3 answers: { [rowId]: { [columnId]: value } }
+  const [table23Answers, setTable23Answers] = useState({});
+  const [table23Checked, setTable23Checked] = useState(false);
+
+  const handleTable23Select = (rowId, columnId, value) => {
+    playTone('click');
+    setTable23Answers(prev => ({
+      ...prev,
+      [rowId]: { ...prev[rowId], [columnId]: value }
+    }));
+    setTable23Checked(false);
+  };
+
+  const handleTable23Reset = () => {
+    playTone('click');
+    setTable23Answers({});
+    setTable23Checked(false);
+  };
+
+  const handleTable23Check = () => {
+    playTone('click');
+    setTable23Checked(true);
+    const allFilled = TABLE_2_3_ROWS.every(row =>
+      TABLE_2_3_COLUMNS.every(col => !!(table23Answers[row.id] && table23Answers[row.id][col.id]))
+    );
+    if (allFilled) {
+      confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
+    }
+  };
 
   const activeTab = CRITERIA_TABS.find(t => t.id === activeTabId) || CRITERIA_TABS[0];
   const currentTabPlacements = placements[activeTab.id] || {};
@@ -731,7 +783,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             onClick={onBackToDashboard}
             style={{
               position: 'absolute',
-              top: '18px',
+              bottom: '20px',
               left: '24px',
               display: 'flex',
               alignItems: 'center',
@@ -752,18 +804,18 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
             onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
           >
-            <ArrowLeft size={20} /> Exit to Lab
+            <ArrowLeft size={20} /> Back
           </button>
 
           {/* Floating Top Right Control: Proceed to Grouping Lab */}
           <button
             onClick={() => {
               playTone('click');
-              setPhase('grouping');
+              setPhase('table23');
             }}
             style={{
               position: 'absolute',
-              top: '18px',
+              bottom: '20px',
               right: '24px',
               display: 'flex',
               alignItems: 'center',
@@ -783,7 +835,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
             onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
           >
-            Start Grouping Activity <ArrowRight size={20} />
+            Next <ArrowRight size={20} />
           </button>
 
           {/* Left Arrow Floating Button */}
@@ -844,6 +896,287 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             title="Next Specimen"
           >
             <ChevronRight size={30} />
+          </button>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* PHASE 1.5: TABLE 2.3 - GROUPING OF PLANTS BASED ON HEIGHT & STEM         */}
+      {/* ========================================================================= */}
+      {phase === 'table23' && (
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          backgroundImage: `url('${BG_TABLE_GARDEN}')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '18px 24px',
+          boxSizing: 'border-box',
+          overflow: 'hidden'
+        }}>
+          {/* Header: Wood Sign Title */}
+          <div style={{
+            position: 'absolute',
+            top: '18px',
+            left: '24px',
+            background: 'linear-gradient(180deg, #B07D48 0%, #7F4F24 100%)',
+            border: '3px solid #5C3A1A',
+            borderRadius: '14px',
+            padding: '10px 26px',
+            boxShadow: '0 6px 16px rgba(0,0,0,0.35)',
+            transform: 'rotate(-1.5deg)'
+          }}>
+            <h1 style={{
+              margin: 0,
+              fontFamily: '"Outfit", sans-serif',
+              fontSize: '24px',
+              fontWeight: 900,
+              color: '#FFFFFF',
+              textShadow: '0 2px 4px rgba(0,0,0,0.5)'
+            }}>
+              Let's Explore <span style={{ color: '#FDE047' }}>Plants!</span>
+            </h1>
+            <p style={{
+              margin: '2px 0 0',
+              fontFamily: '"Outfit", sans-serif',
+              fontSize: '16px',
+              fontWeight: 700,
+              color: '#FEF3C7',
+              letterSpacing: '0.04em'
+            }}>
+              Observe &bull; Think &bull; Group
+            </p>
+          </div>
+
+          {/* Main Table Card */}
+          <div style={{
+            width: 'min(96vw, 1500px)',
+            maxWidth: '100%',
+            maxHeight: '86vh',
+            overflow: 'hidden',
+            boxSizing: 'border-box',
+            background: 'rgba(240, 253, 244, 0.85)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            border: '2px solid rgba(255,255,255,0.6)',
+            borderRadius: '22px',
+            padding: '18px 22px',
+            boxShadow: '0 20px 50px rgba(0,0,0,0.3)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
+            boxSizing: 'border-box'
+          }}>
+            {/* Table Title Bar */}
+            <div style={{
+              background: 'linear-gradient(135deg, #14532D 0%, #166534 100%)',
+              borderRadius: '14px',
+              padding: '10px 20px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '10px',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.25)'
+            }}>
+              <span style={{ fontSize: '20px' }}>🌿</span>
+              <h2 style={{
+                margin: 0,
+                fontFamily: '"Outfit", sans-serif',
+                fontSize: '20px',
+                fontWeight: 800,
+                color: '#FFFFFF',
+                textAlign: 'center'
+              }}>
+                Table 2.3: <span style={{ color: '#FDE047' }}>Grouping of plants based on height and nature of stem</span>
+              </h2>
+              <span style={{ fontSize: '20px' }}>🌿</span>
+            </div>
+
+            {/* Table */}
+            <div style={{ overflowX: 'auto', width: '100%', boxSizing: 'border-box' }}>
+              <table style={{
+                width: '100%',
+                tableLayout: 'fixed',
+                borderCollapse: 'separate',
+                borderSpacing: 0,
+                fontFamily: '"Inter", sans-serif'
+              }}>
+                <thead>
+                  <tr>
+                    <th rowSpan={2} style={{
+                      background: '#BBF7D0', padding: '8px 4px', fontSize: '16px', fontWeight: 800,
+                      color: '#14532D', border: '1px solid #86EFAC', width: '5%'
+                    }}>S. no.</th>
+                    <th rowSpan={2} style={{
+                      background: '#BBF7D0', padding: '8px 6px', fontSize: '16px', fontWeight: 800,
+                      color: '#14532D', border: '1px solid #86EFAC', width: '11%'
+                    }}>Name of the plant</th>
+                    <th style={{
+                      background: '#86EFAC', padding: '6px 4px', fontSize: '16px', fontWeight: 800,
+                      color: '#14532D', border: '1px solid #4ADE80', width: '11%'
+                    }}>Height</th>
+                    <th colSpan={3} style={{
+                      background: '#86EFAC', padding: '6px 4px', fontSize: '16px', fontWeight: 800,
+                      color: '#14532D', border: '1px solid #4ADE80', width: '33%'
+                    }}>Nature of stem</th>
+                    <th colSpan={2} style={{
+                      background: '#86EFAC', padding: '6px 4px', fontSize: '16px', fontWeight: 800,
+                      color: '#14532D', border: '1px solid #4ADE80', width: '26%'
+                    }}>Appearance of branches</th>
+                    <th rowSpan={2} style={{
+                      background: '#BBF7D0', padding: '8px 6px', fontSize: '16px', fontWeight: 800,
+                      color: '#14532D', border: '1px solid #86EFAC', width: '14%'
+                    }}>Name of plant group</th>
+                  </tr>
+                  <tr>
+                    <th style={{ background: '#DCFCE7', padding: '4px 3px', fontSize: '16px', fontWeight: 700, color: '#166534', border: '1px solid #86EFAC', width: '11%' }}>Short / Medium / Tall</th>
+                    <th style={{ background: '#DCFCE7', padding: '4px 3px', fontSize: '16px', fontWeight: 700, color: '#166534', border: '1px solid #86EFAC', width: '11%' }}>Green / Brown</th>
+                    <th style={{ background: '#DCFCE7', padding: '4px 3px', fontSize: '16px', fontWeight: 700, color: '#166534', border: '1px solid #86EFAC', width: '11%' }}>Tender / Hard</th>
+                    <th style={{ background: '#DCFCE7', padding: '4px 3px', fontSize: '16px', fontWeight: 700, color: '#166534', border: '1px solid #86EFAC', width: '11%' }}>Thick / Thin</th>
+                    <th style={{ background: '#DCFCE7', padding: '4px 3px', fontSize: '16px', fontWeight: 700, color: '#166534', border: '1px solid #86EFAC', width: '13%' }}>Close to the ground</th>
+                    <th style={{ background: '#DCFCE7', padding: '4px 3px', fontSize: '16px', fontWeight: 700, color: '#166534', border: '1px solid #86EFAC', width: '13%' }}>Higher up on the stem</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {TABLE_2_3_ROWS.map((row, rowIdx) => (
+                    <tr key={row.id} style={{ background: rowIdx % 2 === 0 ? 'rgba(255,255,255,0.7)' : 'rgba(220,252,231,0.5)' }}>
+                      <td style={{ padding: '8px', fontSize: '16px', fontWeight: 700, color: '#1E293B', border: '1px solid #D1FAE5', textAlign: 'center' }}>
+                        {rowIdx + 1}.
+                      </td>
+                      <td style={{ padding: '8px', fontSize: '16px', fontWeight: 800, color: '#0F172A', border: '1px solid #D1FAE5' }}>
+                        {row.name}
+                      </td>
+                      {TABLE_2_3_COLUMNS.map(col => {
+                        const value = (table23Answers[row.id] && table23Answers[row.id][col.id]) || '';
+                        return (
+                          <td key={col.id} style={{ padding: '5px 4px', border: '1px solid #D1FAE5', overflow: 'hidden' }}>
+                            <select
+                              value={value}
+                              onChange={(e) => handleTable23Select(row.id, col.id, e.target.value)}
+                              style={{
+                                width: '100%',
+                                maxWidth: '100%',
+                                boxSizing: 'border-box',
+                                padding: '6px 2px 6px 6px',
+                                borderRadius: '8px',
+                                border: table23Checked
+                                  ? (value ? '2px solid #22C55E' : '2px solid #F87171')
+                                  : '1.5px solid #CBD5E1',
+                                background: '#FFFFFF',
+                                color: '#1E293B',
+                                fontSize: '16px',
+                                fontFamily: '"Inter", sans-serif',
+                                fontWeight: 600,
+                                cursor: 'pointer'
+                              }}
+                            >
+                              <option value="">Select</option>
+                              {col.options.map(opt => (
+                                <option key={opt} value={opt}>{opt}</option>
+                              ))}
+                            </select>
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Action Buttons */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', paddingTop: '4px' }}>
+              <button
+                onClick={handleTable23Check}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '8px',
+                  background: 'linear-gradient(135deg, #16A34A 0%, #15803D 100%)',
+                  border: '2px solid #86EFAC',
+                  borderRadius: '24px',
+                  padding: '10px 28px',
+                  fontSize: '18px',
+                  fontWeight: 800,
+                  color: '#FFFFFF',
+                  cursor: 'pointer',
+                  boxShadow: '0 6px 16px rgba(21, 128, 61, 0.4)',
+                  fontFamily: '"Outfit", sans-serif'
+                }}
+              >
+                <Check size={20} /> Check Answer
+              </button>
+              <button
+                onClick={handleTable23Reset}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '8px',
+                  background: 'linear-gradient(135deg, #F97316 0%, #EA580C 100%)',
+                  border: '2px solid #FDBA74',
+                  borderRadius: '24px',
+                  padding: '10px 28px',
+                  fontSize: '18px',
+                  fontWeight: 800,
+                  color: '#FFFFFF',
+                  cursor: 'pointer',
+                  boxShadow: '0 6px 16px rgba(234, 88, 12, 0.4)',
+                  fontFamily: '"Outfit", sans-serif'
+                }}
+              >
+                <RefreshCw size={18} /> Reset
+              </button>
+            </div>
+          </div>
+
+          {/* Back / Next Nav */}
+          <button
+            onClick={() => { playTone('click'); setPhase('specimens'); }}
+            style={{
+              position: 'absolute',
+              bottom: '20px',
+              left: '24px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: 'rgba(255, 255, 255, 0.92)',
+              border: '2px solid #CBD5E1',
+              borderRadius: '26px',
+              padding: '10px 22px',
+              fontSize: '18px',
+              fontWeight: 800,
+              color: '#1E293B',
+              cursor: 'pointer',
+              boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
+              zIndex: 50
+            }}
+          >
+            <ArrowLeft size={20} /> Back
+          </button>
+          <button
+            onClick={() => { playTone('click'); setPhase('grouping'); }}
+            style={{
+              position: 'absolute',
+              bottom: '20px',
+              right: '24px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              background: 'linear-gradient(135deg, #15803D 0%, #166534 100%)',
+              border: '2px solid #86EFAC',
+              borderRadius: '28px',
+              padding: '11px 26px',
+              fontSize: '18px',
+              fontWeight: 900,
+              color: '#FFFFFF',
+              cursor: 'pointer',
+              boxShadow: '0 6px 22px rgba(22, 101, 52, 0.5)',
+              zIndex: 50
+            }}
+          >
+            Next <ArrowRight size={20} />
           </button>
         </div>
       )}
@@ -916,7 +1249,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
 
                 <h2 style={{
                   margin: 0,
-                  fontFamily: 'Georgia, serif',
+                  fontFamily: '"Outfit", sans-serif',
                   fontSize: '18px',
                   fontWeight: 900,
                   color: '#2B1705',
@@ -926,9 +1259,10 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 </h2>
                 <p style={{
                   margin: '1px 0 0 0',
-                  fontSize: '14px',
+                  fontSize: '16px',
                   fontWeight: 700,
                   fontStyle: 'italic',
+                  fontFamily: '"Inter", sans-serif',
                   color: '#3F2309',
                   display: 'flex',
                   alignItems: 'center',
@@ -997,7 +1331,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                     <div style={{ fontSize: '16px', fontWeight: 900, color: '#FEF08A', lineHeight: 1 }}>
                       {completedTabs.length} / {CRITERIA_TABS.length}
                     </div>
-                    <div style={{ fontSize: '14px', fontWeight: 700, color: '#E2E8F0', marginTop: '1px' }}>
+                    <div style={{ fontSize: '16px', fontWeight: 700, fontFamily: '"Inter", sans-serif', color: '#E2E8F0', marginTop: '1px' }}>
                       challenges complete
                     </div>
                   </div>
@@ -1005,9 +1339,10 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
 
                 {/* Sky Script Quote */}
                 <div style={{
-                  fontFamily: 'cursive, Georgia, serif',
-                  fontSize: '14px',
+                  fontFamily: '"Inter", sans-serif',
+                  fontSize: '16px',
                   fontWeight: 700,
+                  fontStyle: 'italic',
                   color: '#1E293B',
                   textAlign: 'right',
                   whiteSpace: 'nowrap',
@@ -1153,6 +1488,14 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   return (
                     <div
                       key={card.id}
+                      draggable
+                      onDragStart={(e) => {
+                        setDraggedCardId(card.id);
+                        setSelectedCardId(card.id);
+                        e.dataTransfer.effectAllowed = 'move';
+                        try { e.dataTransfer.setData('text/plain', String(card.id)); } catch (err) {}
+                      }}
+                      onDragEnd={() => setDraggedCardId(null)}
                       onClick={() => {
                         playTone('click');
                         setSelectedCardId(isSelected ? null : card.id);
@@ -1166,12 +1509,13 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                             : '1.5px solid #E2E8F0',
                         borderRadius: '12px',
                         overflow: 'hidden',
-                        cursor: 'pointer',
+                        cursor: draggedCardId === card.id ? 'grabbing' : 'grab',
                         transition: 'all 0.15s ease',
                         boxShadow: isSelected 
                           ? '0 6px 18px rgba(245, 158, 11, 0.35)' 
                           : '0 2px 6px rgba(0,0,0,0.05)',
                         transform: isSelected ? 'scale(1.02)' : 'scale(1)',
+                        opacity: draggedCardId === card.id ? 0.5 : 1,
                         position: 'relative',
                         display: 'flex',
                         flexDirection: 'column',
@@ -1309,7 +1653,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   margin: 0,
                   fontSize: '22px',
                   fontWeight: 900,
-                  fontFamily: 'Georgia, serif',
+                  fontFamily: '"Outfit", sans-serif',
                   color: '#0F172A'
                 }}>
                   Your groups
@@ -1343,14 +1687,30 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                           handlePlaceCard(selectedCardId, group.id);
                         }
                       }}
+                      onDragOver={(e) => {
+                        e.preventDefault();
+                        e.dataTransfer.dropEffect = 'move';
+                        if (dragOverGroupId !== group.id) setDragOverGroupId(group.id);
+                      }}
+                      onDragLeave={() => {
+                        setDragOverGroupId(prev => (prev === group.id ? null : prev));
+                      }}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        const cid = draggedCardId || e.dataTransfer.getData('text/plain');
+                        if (cid) handlePlaceCard(cid, group.id);
+                        setDraggedCardId(null);
+                        setDragOverGroupId(null);
+                      }}
                       style={{
                         background: group.bgImg ? `url('${group.bgImg}') no-repeat center right / cover` : group.bg,
-                        border: `1.5px solid ${group.border}`,
+                        border: dragOverGroupId === group.id ? `2.5px dashed ${group.border}` : `1.5px solid ${group.border}`,
                         borderRadius: '16px',
                         padding: isCompact ? '6px 14px' : '8px 14px',
                         transition: 'all 0.15s ease',
                         cursor: selectedCardId ? 'pointer' : 'default',
-                        boxShadow: selectedCardId ? '0 4px 14px rgba(0,0,0,0.08)' : '0 2px 6px rgba(0,0,0,0.02)',
+                        boxShadow: (selectedCardId || dragOverGroupId === group.id) ? '0 4px 14px rgba(0,0,0,0.08)' : '0 2px 6px rgba(0,0,0,0.02)',
+                        transform: dragOverGroupId === group.id ? 'scale(1.015)' : 'scale(1)',
                         flex: '1 1 0',
                         display: 'flex',
                         flexDirection: 'column',
@@ -1386,15 +1746,16 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                             <div style={{
                               fontSize: isCompact ? '19px' : '22px',
                               fontWeight: 900,
-                              fontFamily: 'Georgia, serif',
+                              fontFamily: '"Outfit", sans-serif',
                               color: group.headerColor || '#0F172A',
                               lineHeight: 1.15
                             }}>
                               {group.title}
                             </div>
                             <div style={{
-                              fontSize: isCompact ? '13px' : '15px',
+                              fontSize: isCompact ? '16px' : '17px',
                               fontWeight: 600,
+                              fontFamily: '"Inter", sans-serif',
                               color: '#475569',
                               marginTop: '2px'
                             }}>
@@ -1403,8 +1764,9 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                           </div>
                         </div>
                         <span style={{
-                          fontSize: isCompact ? '13px' : '15px',
+                          fontSize: isCompact ? '16px' : '17px',
                           fontWeight: 600,
+                          fontFamily: '"Inter", sans-serif',
                           color: '#475569',
                           background: group.bgImg ? 'transparent' : 'rgba(255,255,255,0.7)',
                           padding: '2px 8px',
@@ -1450,7 +1812,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                                   objectFit: 'cover'
                                 }}
                               />
-                              <span style={{ fontSize: isCompact ? '14px' : '16px', fontWeight: 800, color: '#1E293B' }}>
+                              <span style={{ fontSize: isCompact ? '16px' : '16px', fontWeight: 800, fontFamily: '"Inter", sans-serif', color: '#1E293B' }}>
                                 {card.name}
                               </span>
                               <button
@@ -1466,7 +1828,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                                   justifyContent: 'center',
                                   cursor: 'pointer',
                                   color: '#64748B',
-                                  fontSize: isCompact ? '13px' : '16px',
+                                  fontSize: isCompact ? '16px' : '16px',
                                   marginLeft: '2px'
                                 }}
                                 title="Remove from group"
@@ -1484,7 +1846,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                         borderRadius: '12px',
                         padding: isCompact ? '4px 8px' : '6px 12px',
                         textAlign: 'center',
-                        fontSize: isCompact ? '13px' : '15px',
+                        fontSize: isCompact ? '16px' : '17px',
                         fontWeight: 600,
                         fontFamily: '"Outfit", sans-serif',
                         color: selectedCardId ? (group.dropColor || group.headerColor) : (group.dropColor || '#64748B'),
@@ -1534,15 +1896,21 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
           </div>
 
           {/* ===================================================================== */}
-          {/* BOTTOM BAR: GARDEN SIGN, HELPER NOTE, CLEAR & CHECK BUTTONS           */}
+          {/* BOTTOM BAR: NAV ROW (BACK / NEXT) + GARDEN SIGN, HELPER, CLEAR/CHECK */}
           {/* ===================================================================== */}
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '6px',
+            flexShrink: 0,
+            paddingTop: '2px'
+          }}>
           <div style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             gap: '10px',
-            flexShrink: 0,
-            paddingTop: '2px'
+            flexShrink: 0
           }}>
             {/* Bottom Left Angled Wood Sign */}
             <div style={{
@@ -1557,7 +1925,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             }}>
               <p style={{
                 margin: 0,
-                fontFamily: 'Georgia, serif',
+                fontFamily: '"Outfit", sans-serif',
                 fontSize: '16px',
                 fontWeight: 800,
                 color: '#2B1705',
@@ -1652,6 +2020,58 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               </button>
             </div>
           </div>
+
+          {/* Nav Row: Back (left) / Next (right) */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '10px',
+            flexShrink: 0
+          }}>
+            <button
+              onClick={() => { playTone('click'); setPhase('specimens'); }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'rgba(255, 255, 255, 0.92)',
+                border: '2px solid #CBD5E1',
+                borderRadius: '20px',
+                padding: '8px 18px',
+                fontSize: '16px',
+                fontWeight: 800,
+                color: '#1E293B',
+                cursor: 'pointer',
+                boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              <ArrowLeft size={18} /> Back
+            </button>
+
+            <button
+              onClick={() => { playTone('click'); if (onNextActivity) onNextActivity(); }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'linear-gradient(135deg, #15803D 0%, #166534 100%)',
+                border: '2px solid #86EFAC',
+                borderRadius: '20px',
+                padding: '8px 22px',
+                fontSize: '16px',
+                fontWeight: 900,
+                color: '#FFFFFF',
+                cursor: 'pointer',
+                boxShadow: '0 4px 14px rgba(22, 101, 52, 0.45)',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              Next <ArrowRight size={18} />
+            </button>
+          </div>
+        </div>
         </div>
       )}
 

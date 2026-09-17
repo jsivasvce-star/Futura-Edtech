@@ -2688,29 +2688,43 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     </div>
                   ) : (
                     <div style={{
-                      background: 'rgba(250, 248, 242, 0.55)',
-                      border: '2px solid rgba(20, 69, 47, 0.5)',
-                      borderLeftWidth: '6px',
+                      background: 'rgba(6, 44, 28, 0.75)',
+                      border: '1.5px solid rgba(110, 231, 183, 0.45)',
+                      borderLeftWidth: '5px',
                       borderLeftColor: '#10B981',
-                      borderRadius: '16px 4px 16px 4px',
-                      padding: '1.15rem',
+                      borderRadius: '16px',
+                      padding: '12px 14px',
                       fontFamily: '"Outfit", sans-serif',
-                      boxShadow: '0 4px 14px rgba(20, 69, 47, 0.08)'
+                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '8px'
                     }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                        <span style={{ fontSize: '20px' }}>✍️</span>
-                        <span style={{ color: '#A7F3D0', textShadow: '0 1px 3px rgba(0,0,0,0.8)', fontSize: '19px', fontWeight: '900', fontFamily: '"Outfit", sans-serif' }}>
-                          Reflection Challenge:
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontSize: '18px' }}>📋</span>
+                        <span style={{ color: '#FEF3C7', fontSize: '16px', fontWeight: '900', fontFamily: '"Outfit", sans-serif' }}>
+                          Textbook Reflection (NCERT p.13-14):
                         </span>
                       </div>
                       <div style={{
-                        color: '#2D5A43',
-                        fontSize: '18px',
-                        fontWeight: '700',
-                        lineHeight: '1.6',
-                        textAlign: 'left'
+                        color: '#ECFDF5',
+                        fontSize: '13.5px',
+                        lineHeight: '1.4',
+                        textAlign: 'left',
+                        fontFamily: '"Inter", sans-serif'
                       }}>
-                        Close your eyes for 10 seconds, then choose one plant and one animal from your nature walk to contribute to the memory wall.
+                        <p style={{ margin: '0 0 4px' }}>
+                          <strong>• Close your eyes:</strong> Think of 1 plant and 1 animal you observed and appreciated.
+                        </p>
+                        <p style={{ margin: '0 0 4px' }}>
+                          <strong>• Observations:</strong> Look at all the different plants and animals drawn on our shared board.
+                        </p>
+                        <p style={{ margin: '0 0 4px' }}>
+                          <strong>• Biodiversity:</strong> The variety of plants and animals found in a particular region contributes to the <em>biodiversity</em> of that region.
+                        </p>
+                        <p style={{ margin: 0 }}>
+                          <strong>• Interdependence:</strong> Plants and animals depend on each other — trees provide food and shelter, while animals help spread seeds!
+                        </p>
                       </div>
                     </div>
                   )}
@@ -3395,20 +3409,23 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   )}
 
 
-                  {/* PHASE 3: CLASS MEMORY WALL — 6 SPECIMENS WITH TAMIL CLASSMATE NAMES */}
+                  {/* PHASE 3: CLASS MEMORY WALL — 6 STUDENTS EACH WITH 1 PLANT & 1 ANIMAL */}
                   {boardCards.length > 0 && (() => {
-                    const chosenPlant = selectedPlant || 'Neem';
+                    const chosenPlant = selectedPlant || 'Tulsi';
                     const chosenAnimal = selectedAnimal || 'Cow';
-                    const otherPlants = ['Tulsi', 'Rose', 'Peepal', 'Jasmine', 'Grass'].filter(p => p !== chosenPlant);
-                    const otherAnimals = ['Crow', 'Squirrel', 'Frog', 'Sparrow', 'Ant'].filter(a => a !== chosenAnimal);
+                    const allPlants = ['Tulsi', 'Rose', 'Grass', 'Neem', 'Peepal', 'Jasmine'];
+                    const allAnimals = ['Crow', 'Cow', 'Frog', 'Squirrel', 'Ant', 'Sparrow'];
+
+                    const remainingPlants = allPlants.filter(p => p !== chosenPlant);
+                    const remainingAnimals = allAnimals.filter(a => a !== chosenAnimal);
 
                     const wallItems = [
-                      { studentName: 'Tamizh', name: chosenPlant, plant: chosenPlant, animal: chosenAnimal, img: PLANT_WIDE_IMAGES[chosenPlant] || PLANT_IMAGES[chosenPlant] },
-                      { studentName: 'Gopal', name: chosenAnimal, plant: chosenPlant, animal: chosenAnimal, img: ANIMAL_WIDE_IMAGES[chosenAnimal] || ANIMAL_IMAGES[chosenAnimal] },
-                      { studentName: 'Priya', name: otherPlants[0] || 'Tulsi', plant: otherPlants[0] || 'Tulsi', animal: otherAnimals[0] || 'Crow', img: PLANT_WIDE_IMAGES[otherPlants[0]] || PLANT_IMAGES[otherPlants[0] || 'Tulsi'] },
-                      { studentName: 'Vijay', name: otherAnimals[0] || 'Crow', plant: otherPlants[0] || 'Tulsi', animal: otherAnimals[0] || 'Crow', img: ANIMAL_WIDE_IMAGES[otherAnimals[0]] || ANIMAL_IMAGES[otherAnimals[0] || 'Crow'] },
-                      { studentName: 'Lavanya', name: otherPlants[1] || 'Rose', plant: otherPlants[1] || 'Rose', animal: otherAnimals[1] || 'Squirrel', img: PLANT_WIDE_IMAGES[otherPlants[1]] || PLANT_IMAGES[otherPlants[1] || 'Rose'] },
-                      { studentName: 'Iniyan', name: otherAnimals[1] || 'Squirrel', plant: otherPlants[1] || 'Rose', animal: otherAnimals[1] || 'Squirrel', img: ANIMAL_WIDE_IMAGES[otherAnimals[1]] || ANIMAL_IMAGES[otherAnimals[1] || 'Squirrel'] }
+                      { studentName: 'Tamizh (You)', plant: chosenPlant, animal: chosenAnimal },
+                      { studentName: 'Gopal', plant: remainingPlants[0] || 'Neem', animal: remainingAnimals[0] || 'Ant' },
+                      { studentName: 'Priya', plant: remainingPlants[1] || 'Tulsi', animal: remainingAnimals[1] || 'Crow' },
+                      { studentName: 'Vijay', plant: remainingPlants[2] || 'Rose', animal: remainingAnimals[2] || 'Frog' },
+                      { studentName: 'Lavanya', plant: remainingPlants[3] || 'Peepal', animal: remainingAnimals[3] || 'Squirrel' },
+                      { studentName: 'Iniyan', plant: remainingPlants[4] || 'Jasmine', animal: remainingAnimals[4] || 'Sparrow' }
                     ];
 
                     return (
@@ -3431,7 +3448,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                           }
                         `}</style>
 
-                        {/* 6-Image Grid: 3 columns x 2 rows */}
+                        {/* 6-Student Grid: 3 columns x 2 rows, each card containing 1 Plant & 1 Animal */}
                         <div style={{
                           display: 'grid',
                           gridTemplateColumns: 'repeat(3, 1fr)',
@@ -3444,17 +3461,19 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                         }}>
                           {wallItems.map((specimen, idx) => (
                             <div
-                              key={`mem-wall-${specimen.name}-${idx}`}
+                              key={`mem-wall-${specimen.studentName}-${idx}`}
                               className="memory-wall-img-card"
                               style={{
                                 borderRadius: '16px',
                                 overflow: 'hidden',
                                 border: '2px solid rgba(167, 243, 208, 0.45)',
                                 boxShadow: '0 6px 20px rgba(0, 0, 0, 0.25)',
-                                background: '#0F2922',
+                                background: '#042419',
                                 aspectRatio: '16 / 10',
                                 position: 'relative',
-                                cursor: 'pointer'
+                                cursor: 'pointer',
+                                display: 'flex',
+                                flexDirection: 'column'
                               }}
                               onClick={() => {
                                 if (!isMuted) sounds.playClick();
@@ -3465,46 +3484,137 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                 });
                               }}
                             >
-                              <img
-                                src={specimen.img}
-                                alt={specimen.name}
-                                style={{
-                                  width: '100%',
-                                  height: '100%',
-                                  objectFit: 'cover',
-                                  display: 'block'
-                                }}
-                              />
-
-                              {/* Overlaid Tamil Classmate Name Badge */}
+                              {/* Overlaid Student Name Badge */}
                               <div style={{
                                 position: 'absolute',
-                                top: '10px',
-                                left: '10px',
-                                background: 'rgba(6, 44, 28, 0.82)',
+                                top: '8px',
+                                left: '8px',
+                                background: 'rgba(6, 44, 28, 0.90)',
                                 backdropFilter: 'blur(8px)',
                                 WebkitBackdropFilter: 'blur(8px)',
                                 border: '1.2px solid rgba(110, 231, 183, 0.7)',
-                                borderRadius: '20px',
-                                padding: '4px 12px',
+                                borderRadius: '16px',
+                                padding: '3px 10px',
                                 display: 'inline-flex',
                                 alignItems: 'center',
                                 gap: '6px',
                                 boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
-                                zIndex: 4,
+                                zIndex: 6,
                                 pointerEvents: 'none'
                               }}>
                                 <span style={{ fontSize: '13px' }}>👤</span>
                                 <span style={{
                                   color: '#FEF3C7',
                                   fontWeight: 800,
-                                  fontSize: '15px',
+                                  fontSize: '14px',
                                   fontFamily: '"Outfit", sans-serif',
                                   letterSpacing: '0.02em',
                                   textShadow: '0 1px 3px rgba(0,0,0,0.9)'
                                 }}>
                                   {specimen.studentName}
                                 </span>
+                              </div>
+
+                              {/* Split Card: TWO IMAGES — 1 Plant (Left) & 1 Animal (Right) with slight space */}
+                              <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: '1fr 1fr',
+                                width: '100%',
+                                height: '100%',
+                                gap: '6px',
+                                padding: '5px',
+                                boxSizing: 'border-box',
+                                background: 'rgba(2, 20, 14, 0.7)'
+                              }}>
+                                {/* Left Image: 1 Plant */}
+                                <div style={{
+                                  position: 'relative',
+                                  width: '100%',
+                                  height: '100%',
+                                  borderRadius: '10px',
+                                  overflow: 'hidden',
+                                  border: '1px solid rgba(167, 243, 208, 0.35)',
+                                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
+                                }}>
+                                  <img
+                                    src={PLANT_WIDE_IMAGES[specimen.plant] || PLANT_IMAGES[specimen.plant]}
+                                    alt={specimen.plant}
+                                    style={{
+                                      width: '100%',
+                                      height: '100%',
+                                      objectFit: 'cover',
+                                      display: 'block'
+                                    }}
+                                  />
+                                  <div style={{
+                                    position: 'absolute',
+                                    bottom: '6px',
+                                    left: '6px',
+                                    background: 'rgba(6, 44, 28, 0.90)',
+                                    backdropFilter: 'blur(6px)',
+                                    WebkitBackdropFilter: 'blur(6px)',
+                                    border: '1px solid rgba(110, 231, 183, 0.6)',
+                                    color: '#FFFFFF',
+                                    borderRadius: '8px',
+                                    padding: '2px 7px',
+                                    fontSize: '12px',
+                                    fontWeight: 800,
+                                    fontFamily: '"Outfit", sans-serif',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '4px',
+                                    boxShadow: '0 2px 6px rgba(0,0,0,0.45)',
+                                    pointerEvents: 'none'
+                                  }}>
+                                    <span>{PLANT_EMOJIS[specimen.plant]}</span>
+                                    <span>{specimen.plant}</span>
+                                  </div>
+                                </div>
+
+                                {/* Right Image: 1 Animal */}
+                                <div style={{
+                                  position: 'relative',
+                                  width: '100%',
+                                  height: '100%',
+                                  borderRadius: '10px',
+                                  overflow: 'hidden',
+                                  border: '1px solid rgba(253, 224, 71, 0.35)',
+                                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
+                                }}>
+                                  <img
+                                    src={ANIMAL_WIDE_IMAGES[specimen.animal] || ANIMAL_IMAGES[specimen.animal]}
+                                    alt={specimen.animal}
+                                    style={{
+                                      width: '100%',
+                                      height: '100%',
+                                      objectFit: 'cover',
+                                      display: 'block'
+                                    }}
+                                  />
+                                  <div style={{
+                                    position: 'absolute',
+                                    bottom: '6px',
+                                    right: '6px',
+                                    background: 'rgba(40, 26, 12, 0.90)',
+                                    backdropFilter: 'blur(6px)',
+                                    WebkitBackdropFilter: 'blur(6px)',
+                                    border: '1px solid rgba(253, 224, 71, 0.6)',
+                                    color: '#FFFFFF',
+                                    borderRadius: '8px',
+                                    padding: '2px 7px',
+                                    fontSize: '12px',
+                                    fontWeight: 800,
+                                    fontFamily: '"Outfit", sans-serif',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '4px',
+                                    boxShadow: '0 2px 6px rgba(0,0,0,0.45)',
+                                    pointerEvents: 'none'
+                                  }}>
+                                    <span>{ANIMAL_EMOJIS[specimen.animal]}</span>
+                                    <span>{specimen.animal}</span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           ))}

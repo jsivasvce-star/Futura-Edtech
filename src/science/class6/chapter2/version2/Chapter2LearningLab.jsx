@@ -128,7 +128,7 @@ const CHAPTER_TABS = [
   { id: 7, title: 'Act 2.5–2.7', subtitle: 'Leaf & Roots' },
   { id: 8, title: 'Act 2.8 Seeds', subtitle: 'Cotyledons' },
   { id: 9, title: 'Act 2.9–2.10', subtitle: 'Adaptations' },
-  { id: 10, title: 'Summary', subtitle: 'NCERT Q&A' },
+  { id: 10, title: 'Summary', subtitle: 'Q&A' },
 ];
 
 const SUMMARY_QUIZ = [
@@ -980,7 +980,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
 
                     <div style={{ background: 'rgba(245, 158, 11, 0.18)', padding: '9px 14px', borderRadius: '10px', border: '1.5px solid rgba(245, 158, 11, 0.5)' }}>
                       <div style={{ fontSize: '16px', fontWeight: '800', color: '#FDE68A', fontFamily: '"Outfit", sans-serif' }}>
-                        ✓ NCERT Chapter 2 Learning Standards Fulfilled
+                        ✓ Chapter 2 Learning Standards Fulfilled
                       </div>
                     </div>
                   </div>

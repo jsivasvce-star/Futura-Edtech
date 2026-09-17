@@ -379,17 +379,17 @@ const PAGE_4_LESSONS = [
       {
         icon: '🍅',
         title: 'Herbs (Tomato Plant)',
-        desc: 'Short plants with soft, tender, and green stems that bend easily without breaking.'
+        desc: 'Short plants with soft, green stems that bend easily.'
       },
       {
         icon: '🌹',
         title: 'Shrubs (Rose Bush)',
-        desc: 'Medium-height plants with many hard woody stems branching out very close to the ground.'
+        desc: 'Medium plants with woody stems branching near the ground.'
       },
       {
         icon: '🥭',
         title: 'Trees (Mango Tree)',
-        desc: 'Tall plants with a single thick, hard brown woody trunk branching high up in the air.'
+        desc: 'Tall plants with one thick trunk branching high up.'
       }
     ],
     desc: 'Plants are classified into herbs with soft green stems, shrubs branching near the ground, and tall woody trees.',
@@ -405,17 +405,17 @@ const PAGE_4_LESSONS = [
       {
         icon: '🕸️',
         title: 'Reticulate & Taproots',
-        desc: 'Net-like leaf veins (hibiscus, mustard) always develop a deep central main taproot with side roots.'
+        desc: 'Net-like veins pair with a deep central taproot.'
       },
       {
         icon: '🌾',
         title: 'Parallel & Fibrous Roots',
-        desc: 'Parallel leaf veins (grass, wheat) always develop a cluster of thin fibrous roots from the stem base.'
+        desc: 'Parallel veins pair with thin, fibrous root clusters.'
       },
       {
         icon: '🪴',
         title: 'Climbers & Creepers',
-        desc: 'Weak-stemmed plants that climb walls with support (climbers) or creep flat along soil (creepers).'
+        desc: 'Weak-stemmed plants that climb with support or creep along soil.'
       }
     ],
     desc: 'Leaf venation links directly to root systems: reticulate leaves have taproots, and parallel leaves have fibrous roots.',
@@ -431,17 +431,17 @@ const PAGE_4_LESSONS = [
       {
         icon: '🌰',
         title: 'Dicotyledon (Chickpea)',
-        desc: 'Seeds split into two cotyledons; dicot plants feature net-like reticulate venation and taproots.'
+        desc: 'Splits into two cotyledons; has net-veined leaves and a taproot.'
       },
       {
         icon: '🌽',
         title: 'Monocotyledon (Maize)',
-        desc: 'Seeds have only a single cotyledon; monocot plants feature parallel leaf venation and fibrous roots.'
+        desc: 'Has one cotyledon; leaves show parallel veins, roots are fibrous.'
       },
       {
         icon: '🌱',
         title: 'The Botanical Triad Rule',
-        desc: 'Seed cotyledon count, leaf vein pattern, and root type are completely interconnected across nature.'
+        desc: 'Cotyledon count, vein pattern, and root type are all linked.'
       }
     ],
     desc: 'Dicot seeds have two cotyledons and taproots; monocot seeds have one cotyledon and fibrous roots.',
@@ -461,17 +461,17 @@ const PAGE_5_LESSONS = [
       {
         icon: '🌳',
         title: 'Undisturbed Forests',
-        desc: 'Virgin forest patches across India protected by local communities through cultural reverence.'
+        desc: 'Virgin forests kept safe by local communities’ cultural reverence.'
       },
       {
         icon: '🌿',
         title: 'Medicinal Plant Haven',
-        desc: 'Home to diverse native wildlife and numerous valuable medicinal plants shielded from harm.'
+        desc: 'Shelters native wildlife and valuable medicinal plants.'
       },
       {
         icon: '🤝',
         title: 'Community Conservation',
-        desc: 'Local rules strictly prohibit cutting trees or harming animals, preserving community biodiversity treasures.'
+        desc: 'Local rules ban cutting trees or harming animals here.'
       }
     ],
     desc: 'Sacred groves are community-protected virgin forest patches across India safeguarding rare medicinal flora.',
@@ -487,17 +487,17 @@ const PAGE_5_LESSONS = [
       {
         icon: '🧬',
         title: 'Pioneering Indian Botanist',
-        desc: 'Renowned botanist (1897–1984) who headed the Botanical Survey of India to document native flora.'
+        desc: 'Botanist (1897–1984) who led the Botanical Survey of India.'
       },
       {
         icon: '🏞️',
         title: 'Save Silent Valley Movement',
-        desc: 'Played a key role in the grassroots movement that saved Kerala’s pristine tropical rainforest.'
+        desc: 'Helped save Kerala’s pristine Silent Valley rainforest.'
       },
       {
         icon: '🌾',
         title: 'Protecting Wild Gene Pools',
-        desc: 'Conducted seminal research on chromosomes of sugarcane and wild flora to conserve Indian biodiversity.'
+        desc: 'Studied sugarcane and wild-plant chromosomes to protect biodiversity.'
       }
     ],
     desc: 'Dr. E.K. Janaki Ammal documented India’s plant wealth and championed the Save Silent Valley movement.',
@@ -513,17 +513,17 @@ const PAGE_5_LESSONS = [
       {
         icon: '🌍',
         title: 'What is Biodiversity?',
-        desc: 'The rich variety of plants and animals coexisting and interacting across our shared planet Earth.'
+        desc: 'The rich variety of plants and animals sharing our planet.'
       },
       {
         icon: '🛡️',
         title: 'Protecting Habitats',
-        desc: 'Every organism depends on its habitat for food, water, and shelter; damaged habitats threaten survival.'
+        desc: 'Every organism needs its habitat for food, water, and shelter.'
       },
       {
         icon: '📜',
         title: 'Ensuring Life Thrives',
-        desc: 'We must protect biodiversity to ensure our planet stays full of life, allowing all species to thrive.'
+        desc: 'Protecting biodiversity keeps our planet full of thriving life.'
       }
     ],
     desc: 'We must protect habitats and biodiversity to ensure our planet remains vibrant and full of living wonders.',
@@ -630,13 +630,13 @@ export default function Chapter2SloganPage({
     }
   }, [currentPage]);
 
-  // Page 3: Trigger attractive popup message after 6 seconds of full-image viewing
+  // Page 3: Trigger attractive popup message after 5 seconds of full-image viewing
   useEffect(() => {
     if (currentPage === 3) {
       setShowPage3Popup(false);
       const timer = setTimeout(() => {
         setShowPage3Popup(true);
-      }, 6000);
+      }, 5000);
       return () => clearTimeout(timer);
     } else {
       setShowPage3Popup(false);
@@ -1573,11 +1573,12 @@ export default function Chapter2SloganPage({
                 position: 'absolute',
                 top: '16px',
                 left: '16px',
-                bottom: '16px',
                 width: 'min(420px, 36vw)',
-                maxHeight: 'calc(100vh - 32px)',
+                maxHeight: '78vh',
                 zIndex: 40,
-                background: 'linear-gradient(145deg, rgba(8, 28, 18, 0.16) 0%, rgba(3, 18, 10, 0.10) 100%)',
+                background: 'linear-gradient(145deg, rgba(8, 28, 18, 0.38) 0%, rgba(3, 18, 10, 0.30) 100%)',
+                backdropFilter: 'blur(16px) saturate(160%)',
+                WebkitBackdropFilter: 'blur(16px) saturate(160%)',
                 border: '1.5px solid rgba(167, 243, 208, 0.35)',
                 borderRadius: '24px',
                 boxShadow: '0 16px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.20), 0 0 15px rgba(16, 185, 129, 0.10)',
@@ -1596,7 +1597,7 @@ export default function Chapter2SloganPage({
                 justifyContent: 'space-between',
                 flex: 1,
                 padding: 'clamp(14px, 2vh, 20px) clamp(16px, 2vw, 22px)',
-                gap: 'clamp(8px, 1.4vh, 14px)',
+                gap: 'clamp(6px, 1vh, 10px)',
                 position: 'relative',
                 zIndex: 5,
                 overflowY: 'auto',
@@ -1610,9 +1611,9 @@ export default function Chapter2SloganPage({
                   justifyContent: 'space-between'
                 }}>
                   <span style={{
-                    background: 'linear-gradient(135deg, rgba(6, 28, 18, 0.58) 0%, rgba(2, 18, 10, 0.50) 100%)',
-                    backdropFilter: 'blur(18px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(18px) saturate(180%)',
+                    background: 'linear-gradient(135deg, rgba(6, 28, 18, 0.32) 0%, rgba(2, 18, 10, 0.26) 100%)',
+                    backdropFilter: 'blur(20px) saturate(180%)',
+                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                     color: '#A7F3D0',
                     border: '1.2px solid rgba(110, 231, 183, 0.50)',
                     boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
@@ -1629,8 +1630,6 @@ export default function Chapter2SloganPage({
                     textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                   }}>
                     <span style={{ fontSize: '18px' }}>🌿</span>
-                    <span style={{ color: '#E2E8F0' }}>NCERT CLASS 6</span>
-                    <span style={{ color: '#F59E0B' }}>•</span>
                     <span style={{ color: '#6EE7B7' }}>HABITATS</span>
                   </span>
 
@@ -1674,24 +1673,17 @@ export default function Chapter2SloganPage({
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '5px',
-                  background: 'linear-gradient(135deg, rgba(4, 24, 15, 0.62) 0%, rgba(2, 14, 9, 0.54) 100%)',
-                  backdropFilter: 'blur(20px) saturate(180%)',
-                  WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                  padding: '12px 18px',
-                  borderRadius: '18px',
-                  border: '1.5px solid rgba(110, 231, 183, 0.35)',
-                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.45), inset 0 1px 1.5px rgba(255, 255, 255, 0.25)'
+                  gap: '5px'
                 }}>
                   <h3 style={{
                     fontFamily: '"Outfit", sans-serif',
                     fontWeight: 900,
                     fontSize: '24px',
                     margin: 0,
-                    color: '#FFFDF0',
+                    color: '#6EE7B7',
                     lineHeight: 1.25,
                     letterSpacing: '-0.01em',
-                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.95), 0 0 14px rgba(254, 240, 138, 0.35)'
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 18px rgba(110, 231, 183, 0.55)'
                   }}>
                     Living Habitats &amp; Biosphere
                   </h3>
@@ -1709,16 +1701,9 @@ export default function Chapter2SloganPage({
 
                 {/* Info Panel: SINGLE unified glass panel (blur applied only to text/content area) */}
                 <div style={{
-                  background: 'linear-gradient(145deg, rgba(6, 32, 22, 0.42) 0%, rgba(2, 18, 12, 0.34) 100%)',
-                  backdropFilter: 'blur(20px) saturate(180%)',
-                  WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                  borderRadius: '18px',
-                  border: '1.5px solid rgba(167, 243, 208, 0.35)',
-                  boxShadow: '0 8px 26px rgba(0, 0, 0, 0.40), inset 0 1px 1.5px rgba(255, 255, 255, 0.20)',
-                  padding: 'clamp(12px, 1.8vh, 18px) clamp(14px, 1.6vw, 20px)',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 'clamp(10px, 1.6vh, 16px)'
+                  gap: '10px'
                 }}>
                   {/* Row 1: Habitat */}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
@@ -1730,7 +1715,7 @@ export default function Chapter2SloganPage({
                       alignItems: 'center',
                       gap: '8px',
                       fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.95)'
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                     }}>
                       <span style={{ fontSize: '20px' }}>🏡</span>
                       <span>What is a Habitat?</span>
@@ -1738,12 +1723,13 @@ export default function Chapter2SloganPage({
                     <div style={{
                       fontSize: '16px',
                       color: '#F8FAFC',
-                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
                       fontWeight: 500,
                       lineHeight: 1.55,
-                      fontFamily: '"Inter", sans-serif'
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify'
                     }}>
-                      The place where plants and animals live, providing food, water, air, and shelter needed for survival.
+                      Where plants and animals live, finding food, water, air, and shelter.
                     </div>
                   </div>
 
@@ -1759,7 +1745,7 @@ export default function Chapter2SloganPage({
                       alignItems: 'center',
                       gap: '8px',
                       fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.95)'
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                     }}>
                       <span style={{ fontSize: '20px' }}>🌍</span>
                       <span>The Biosphere</span>
@@ -1767,13 +1753,13 @@ export default function Chapter2SloganPage({
                     <div style={{
                       fontSize: '16px',
                       color: '#FFFBEB',
-                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
                       fontWeight: 500,
                       lineHeight: 1.55,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify'
                     }}>
-                      The narrow zone of Earth where land, water, and air interact together to sustain all diverse living forms.
+                      Earth’s thin life zone, where land, water, and air sustain living things.
                     </div>
                   </div>
 
@@ -1789,7 +1775,7 @@ export default function Chapter2SloganPage({
                       alignItems: 'center',
                       gap: '8px',
                       fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.95)'
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                     }}>
                       <span style={{ fontSize: '20px' }}>🦌</span>
                       <span>Coexistence in This Scene</span>
@@ -1797,13 +1783,13 @@ export default function Chapter2SloganPage({
                     <div style={{
                       fontSize: '16px',
                       color: '#F0FDFA',
-                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
                       fontWeight: 500,
                       lineHeight: 1.55,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify'
                     }}>
-                      Deer and peafowl drink freshwater stream water, squirrels forage in trees, and plants thrive on sunlight!
+                      Deer drink stream water, squirrels forage in trees, plants soak up sunlight!
                     </div>
                   </div>
                 </div>
@@ -2047,11 +2033,12 @@ export default function Chapter2SloganPage({
                 position: 'absolute',
                 top: '16px',
                 left: '16px',
-                bottom: '16px',
                 width: 'min(420px, 36vw)',
-                maxHeight: 'calc(100vh - 32px)',
+                maxHeight: '78vh',
                 zIndex: 40,
-                background: 'linear-gradient(145deg, rgba(28, 18, 5, 0.22) 0%, rgba(18, 10, 2, 0.16) 100%)',
+                background: 'linear-gradient(145deg, rgba(28, 18, 5, 0.42) 0%, rgba(18, 10, 2, 0.34) 100%)',
+                backdropFilter: 'blur(16px) saturate(160%)',
+                WebkitBackdropFilter: 'blur(16px) saturate(160%)',
                 border: '1.5px solid rgba(251, 191, 36, 0.35)',
                 borderRadius: '24px',
                 boxShadow: '0 16px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.20), 0 0 15px rgba(245, 158, 11, 0.10)',
@@ -2070,7 +2057,7 @@ export default function Chapter2SloganPage({
                 justifyContent: 'space-between',
                 flex: 1,
                 padding: 'clamp(14px, 2vh, 20px) clamp(16px, 2vw, 22px)',
-                gap: 'clamp(8px, 1.4vh, 14px)',
+                gap: 'clamp(6px, 1vh, 10px)',
                 position: 'relative',
                 zIndex: 5,
                 overflowY: 'auto',
@@ -2084,9 +2071,9 @@ export default function Chapter2SloganPage({
                   justifyContent: 'space-between'
                 }}>
                   <span style={{
-                    background: 'rgba(0, 0, 0, 0.32)',
-                    backdropFilter: 'blur(8px)',
-                    WebkitBackdropFilter: 'blur(8px)',
+                    background: 'linear-gradient(135deg, rgba(40, 24, 6, 0.32) 0%, rgba(20, 12, 3, 0.26) 100%)',
+                    backdropFilter: 'blur(20px) saturate(180%)',
+                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                     color: '#FDE68A',
                     border: '1.2px solid rgba(251, 191, 36, 0.45)',
                     boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
@@ -2103,8 +2090,6 @@ export default function Chapter2SloganPage({
                     textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                   }}>
                     <span style={{ fontSize: '18px' }}>🌵</span>
-                    <span>NCERT CLASS 6</span>
-                    <span style={{ opacity: 0.6 }}>•</span>
                     <span>ADAPTATION</span>
                   </span>
 
@@ -2114,9 +2099,9 @@ export default function Chapter2SloganPage({
                     aria-label="Close message and view full scenery"
                     title="View full scenery photo"
                     style={{
-                      background: 'rgba(28, 16, 4, 0.55)',
-                      backdropFilter: 'blur(18px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(18px) saturate(180%)',
+                      background: 'rgba(28, 16, 4, 0.30)',
+                      backdropFilter: 'blur(20px) saturate(180%)',
+                      WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                       border: '1.2px solid rgba(255, 255, 255, 0.25)',
                       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                       borderRadius: '10px',
@@ -2135,7 +2120,7 @@ export default function Chapter2SloganPage({
                       e.currentTarget.style.color = '#FFFFFF';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(28, 16, 4, 0.55)';
+                      e.currentTarget.style.background = 'rgba(28, 16, 4, 0.30)';
                       e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
                       e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
                     }}
@@ -2148,24 +2133,17 @@ export default function Chapter2SloganPage({
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '5px',
-                  background: 'linear-gradient(135deg, rgba(38, 22, 6, 0.65) 0%, rgba(20, 10, 2, 0.58) 100%)',
-                  backdropFilter: 'blur(20px) saturate(180%)',
-                  WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                  padding: '12px 18px',
-                  borderRadius: '18px',
-                  border: '1.5px solid rgba(251, 191, 36, 0.40)',
-                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.45), inset 0 1px 1.5px rgba(255, 255, 255, 0.25)'
+                  gap: '5px'
                 }}>
                   <h3 style={{
                     fontFamily: '"Outfit", sans-serif',
                     fontWeight: 900,
                     fontSize: '24px',
                     margin: 0,
-                    color: '#FFFDF0',
+                    color: '#FCD34D',
                     lineHeight: 1.25,
                     letterSpacing: '-0.01em',
-                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.95), 0 0 14px rgba(254, 240, 138, 0.35)'
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 18px rgba(251, 191, 36, 0.55)'
                   }}>
                     Desert & Surrounding Adaptations
                   </h3>
@@ -2181,24 +2159,14 @@ export default function Chapter2SloganPage({
                   </div>
                 </div>
 
-                {/* Info Cards: Font Area Blur with Warm Desert Sand & Golden Sunset Harmony */}
+                {/* Info Panel: SINGLE unified glass panel (blur applied only to text/content area) */}
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 'clamp(8px, 1.4vh, 12px)'
+                  gap: '10px'
                 }}>
-                  {/* Card 1: Camel Adaptations */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(48, 28, 6, 0.68) 0%, rgba(26, 14, 3, 0.58) 100%)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                    borderRadius: '16px',
-                    padding: 'clamp(10px, 1.4vh, 14px) clamp(13px, 1.6vw, 17px)',
-                    border: '1.5px solid rgba(251, 191, 36, 0.45)',
-                    borderLeft: '4.5px solid #F59E0B',
-                    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 0 14px rgba(245, 158, 11, 0.15)',
-                    transition: 'all 0.25s ease'
-                  }}>
+                  {/* Row 1: Camel Adaptations */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <div style={{
                       fontSize: '20px',
                       fontWeight: 800,
@@ -2207,7 +2175,7 @@ export default function Chapter2SloganPage({
                       alignItems: 'center',
                       gap: '8px',
                       fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.5)'
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 12px rgba(0, 0, 0, 0.65)'
                     }}>
                       <span style={{ fontSize: '20px' }}>🐪</span>
                       <span>The Ship of the Desert</span>
@@ -2215,28 +2183,20 @@ export default function Chapter2SloganPage({
                     <div style={{
                       fontSize: '16px',
                       color: '#FFFBEB',
-                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
                       fontWeight: 500,
-                      marginTop: '5px',
                       lineHeight: 1.55,
-                      fontFamily: '"Inter", sans-serif'
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify'
                     }}>
-                      Wide padded feet prevent sinking in sand. Long eyelashes and sealable nostrils block windblown dust.
+                      Padded feet stop it sinking in sand; long lashes block blowing dust.
                     </div>
                   </div>
 
-                  {/* Card 2: Water Conservation */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(42, 22, 6, 0.68) 0%, rgba(22, 10, 2, 0.58) 100%)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                    borderRadius: '16px',
-                    padding: 'clamp(10px, 1.4vh, 14px) clamp(13px, 1.6vw, 17px)',
-                    border: '1.5px solid rgba(245, 158, 11, 0.45)',
-                    borderLeft: '4.5px solid #D97706',
-                    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 0 14px rgba(217, 119, 6, 0.15)',
-                    transition: 'all 0.25s ease'
-                  }}>
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Row 2: Water Conservation */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <div style={{
                       fontSize: '20px',
                       fontWeight: 800,
@@ -2245,7 +2205,7 @@ export default function Chapter2SloganPage({
                       alignItems: 'center',
                       gap: '8px',
                       fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.5)'
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 12px rgba(0, 0, 0, 0.65)'
                     }}>
                       <span style={{ fontSize: '20px' }}>💧</span>
                       <span>Extreme Water Retention</span>
@@ -2253,13 +2213,13 @@ export default function Chapter2SloganPage({
                     <div style={{
                       fontSize: '16px',
                       color: '#FFFBEB',
-                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
                       fontWeight: 500,
-                      marginTop: '5px',
                       lineHeight: 1.55,
-                      fontFamily: '"Inter", sans-serif'
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify'
                     }}>
-                      Excretes concentrated urine, completely dry dung, and does not sweat, surviving weeks without surface water.
+                      Barely sweats or urinates, surviving weeks without drinking water.
                     </div>
                   </div>
                 </div>
@@ -2503,11 +2463,12 @@ export default function Chapter2SloganPage({
                 position: 'absolute',
                 top: '16px',
                 left: '16px',
-                bottom: '16px',
                 width: 'min(420px, 36vw)',
-                maxHeight: 'calc(100vh - 32px)',
+                maxHeight: '78vh',
                 zIndex: 40,
-                background: 'linear-gradient(145deg, rgba(8, 28, 18, 0.22) 0%, rgba(3, 18, 10, 0.16) 100%)',
+                background: 'linear-gradient(145deg, rgba(8, 28, 18, 0.42) 0%, rgba(3, 18, 10, 0.34) 100%)',
+                backdropFilter: 'blur(16px) saturate(160%)',
+                WebkitBackdropFilter: 'blur(16px) saturate(160%)',
                 border: '1.5px solid rgba(167, 243, 208, 0.35)',
                 borderRadius: '24px',
                 boxShadow: '0 16px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.20), 0 0 15px rgba(16, 185, 129, 0.10)',
@@ -2528,7 +2489,7 @@ export default function Chapter2SloganPage({
                 justifyContent: 'center',
                 flex: 1,
                 padding: 'clamp(14px, 2.2vh, 26px) clamp(16px, 2.2vw, 26px)',
-                gap: 'clamp(8px, 1.4vh, 14px)',
+                gap: 'clamp(6px, 1vh, 10px)',
                 position: 'relative',
                 zIndex: 5,
                 overflowY: 'auto',
@@ -2541,9 +2502,9 @@ export default function Chapter2SloganPage({
                   justifyContent: 'space-between'
                 }}>
                   <span style={{
-                    background: 'linear-gradient(135deg, rgba(6, 30, 20, 0.62) 0%, rgba(2, 18, 10, 0.52) 100%)',
-                    backdropFilter: 'blur(18px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(18px) saturate(180%)',
+                    background: 'linear-gradient(135deg, rgba(6, 30, 20, 0.32) 0%, rgba(2, 18, 10, 0.26) 100%)',
+                    backdropFilter: 'blur(20px) saturate(180%)',
+                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                     color: '#A7F3D0',
                     border: '1.2px solid rgba(110, 231, 183, 0.50)',
                     boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
@@ -2560,8 +2521,6 @@ export default function Chapter2SloganPage({
                     textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                   }}>
                     <span style={{ fontSize: '18px' }}>🌱</span>
-                    <span style={{ color: '#E2E8F0' }}>NCERT CLASS 6</span>
-                    <span style={{ color: '#F59E0B' }}>•</span>
                     <span style={{ color: '#6EE7B7' }}>BOTANY</span>
                   </span>
 
@@ -2571,9 +2530,9 @@ export default function Chapter2SloganPage({
                     aria-label="Close message and view full scenery"
                     title="View full scenery photo"
                     style={{
-                      background: 'rgba(2, 18, 10, 0.55)',
-                      backdropFilter: 'blur(18px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(18px) saturate(180%)',
+                      background: 'rgba(2, 18, 10, 0.30)',
+                      backdropFilter: 'blur(20px) saturate(180%)',
+                      WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                       border: '1.2px solid rgba(255, 255, 255, 0.25)',
                       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                       borderRadius: '10px',
@@ -2592,7 +2551,7 @@ export default function Chapter2SloganPage({
                       e.currentTarget.style.color = '#FFFFFF';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(2, 18, 10, 0.55)';
+                      e.currentTarget.style.background = 'rgba(2, 18, 10, 0.30)';
                       e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
                       e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
                     }}
@@ -2601,76 +2560,21 @@ export default function Chapter2SloganPage({
                   </button>
                 </div>
 
-                {/* Lesson Tabs Selector (Font Area Blur, 16px font) */}
-                <div style={{
-                  display: 'flex',
-                  gap: '8px',
-                  flexWrap: 'wrap'
-                }}>
-                  {PAGE_4_LESSONS.map((lesson, idx) => {
-                    const isActive = page4ActiveTab === idx;
-                    return (
-                      <button
-                        key={lesson.id}
-                        type="button"
-                        onClick={() => {
-                          setPage4ActiveTab(idx);
-                          if (isPlayingBotanyAudio) {
-                            stopNarration();
-                            setIsPlayingBotanyAudio(false);
-                          }
-                        }}
-                        style={{
-                          background: isActive
-                            ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.65) 0%, rgba(5, 150, 105, 0.52) 100%)'
-                            : 'rgba(4, 22, 14, 0.55)',
-                          backdropFilter: 'blur(18px) saturate(180%)',
-                          WebkitBackdropFilter: 'blur(18px) saturate(180%)',
-                          color: isActive ? '#FFFDF0' : '#A7F3D0',
-                          border: isActive ? '1.5px solid #A7F3D0' : '1.2px solid rgba(167, 243, 208, 0.25)',
-                          borderRadius: '16px',
-                          padding: '6px 14px',
-                          fontSize: '16px',
-                          fontWeight: 800,
-                          fontFamily: '"Outfit", sans-serif',
-                          cursor: 'pointer',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                          transition: 'all 0.2s ease',
-                          boxShadow: isActive ? '0 4px 12px rgba(16, 185, 129, 0.4)' : '0 2px 6px rgba(0, 0, 0, 0.2)',
-                          textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
-                        }}
-                      >
-                        <span style={{ fontSize: '16px' }}>{lesson.icon}</span>
-                        <span>{lesson.shortTab}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-
                 {/* Title Section: Font Area Blur, 24px Title, 16px Subtitle */}
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '5px',
-                  background: 'linear-gradient(135deg, rgba(6, 30, 20, 0.65) 0%, rgba(2, 18, 12, 0.58) 100%)',
-                  backdropFilter: 'blur(20px) saturate(180%)',
-                  WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                  padding: '12px 18px',
-                  borderRadius: '18px',
-                  border: '1.5px solid rgba(110, 231, 183, 0.40)',
-                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.45), inset 0 1px 1.5px rgba(255, 255, 255, 0.25)'
+                  gap: '5px'
                 }}>
                   <h3 style={{
                     fontFamily: '"Outfit", sans-serif',
                     fontWeight: 900,
                     fontSize: '24px',
                     margin: 0,
-                    color: '#FFFDF0',
+                    color: '#6EE7B7',
                     lineHeight: 1.25,
                     letterSpacing: '-0.01em',
-                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.95), 0 0 14px rgba(110, 231, 183, 0.35)'
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 18px rgba(110, 231, 183, 0.55)'
                   }}>
                     {PAGE_4_LESSONS[page4ActiveTab]?.title}
                   </h3>
@@ -2690,79 +2594,46 @@ export default function Chapter2SloganPage({
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 'clamp(8px, 1.3vh, 12px)'
+                  gap: '10px'
                 }}>
                   {PAGE_4_LESSONS[page4ActiveTab]?.cards?.map((card, idx) => {
                     const themeIdx = idx % 3;
-                    const cardTheme = themeIdx === 0
-                      ? {
-                          // Fresh Mint & Herb Emerald (Tomato Plant & Tender Herbs)
-                          bg: 'linear-gradient(135deg, rgba(6, 42, 24, 0.68) 0%, rgba(2, 22, 14, 0.58) 100%)',
-                          border: '1.5px solid rgba(52, 211, 153, 0.45)',
-                          borderLeft: '4.5px solid #10B981',
-                          titleColor: '#A7F3D0',
-                          descColor: '#F0FDF4',
-                          shadowGlow: '0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 0 14px rgba(16, 185, 129, 0.15)'
-                        }
-                      : themeIdx === 1
-                      ? {
-                          // Rose Blossom Pink & Terracotta Rose (Rose Bush & Lady Emma Hamilton)
-                          bg: 'linear-gradient(135deg, rgba(46, 16, 26, 0.68) 0%, rgba(26, 8, 16, 0.58) 100%)',
-                          border: '1.5px solid rgba(251, 113, 133, 0.45)',
-                          borderLeft: '4.5px solid #F43F5E',
-                          titleColor: '#FECDD3',
-                          descColor: '#FFF1F2',
-                          shadowGlow: '0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 0 14px rgba(244, 63, 94, 0.15)'
-                        }
-                      : {
-                          // Sunlit Amber Gold & Honey Wood (Mango Tree & Antique Brass Workbench)
-                          bg: 'linear-gradient(135deg, rgba(45, 28, 6, 0.68) 0%, rgba(25, 14, 3, 0.58) 100%)',
-                          border: '1.5px solid rgba(251, 191, 36, 0.45)',
-                          borderLeft: '4.5px solid #F59E0B',
-                          titleColor: '#FDE68A',
-                          descColor: '#FFFBEB',
-                          shadowGlow: '0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 0 14px rgba(245, 158, 11, 0.15)'
-                        };
+                    const accentColor = themeIdx === 0 ? '#10B981' : themeIdx === 1 ? '#F43F5E' : '#F59E0B';
+                    const titleColor = themeIdx === 0 ? '#A7F3D0' : themeIdx === 1 ? '#FECDD3' : '#FDE68A';
+                    const descColor = themeIdx === 0 ? '#F0FDF4' : themeIdx === 1 ? '#FFF1F2' : '#FFFBEB';
+                    const isLast = idx === (PAGE_4_LESSONS[page4ActiveTab]?.cards?.length ?? 0) - 1;
                     return (
-                      <div
-                        key={idx}
-                        style={{
-                          background: cardTheme.bg,
-                          backdropFilter: 'blur(20px) saturate(180%)',
-                          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                          borderRadius: '16px',
-                          padding: 'clamp(9px, 1.3vh, 13px) clamp(13px, 1.6vw, 17px)',
-                          border: cardTheme.border,
-                          borderLeft: cardTheme.borderLeft,
-                          boxShadow: cardTheme.shadowGlow,
-                          transition: 'all 0.25s ease'
-                        }}
-                      >
-                        <div style={{
-                          fontSize: '20px',
-                          fontWeight: 800,
-                          color: cardTheme.titleColor,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 2px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.5)'
-                        }}>
-                          <span style={{ fontSize: '20px' }}>{card.icon}</span>
-                          <span>{card.title}</span>
+                      <React.Fragment key={idx}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', borderLeft: `4.5px solid ${accentColor}`, paddingLeft: '12px' }}>
+                          <div style={{
+                            fontSize: '20px',
+                            fontWeight: 800,
+                            color: titleColor,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            fontFamily: '"Outfit", sans-serif',
+                            textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 12px rgba(0, 0, 0, 0.65)'
+                          }}>
+                            <span style={{ fontSize: '20px' }}>{card.icon}</span>
+                            <span>{card.title}</span>
+                          </div>
+                          <div style={{
+                            fontSize: '16px',
+                            color: descColor,
+                            textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
+                            fontWeight: 500,
+                            lineHeight: 1.55,
+                            fontFamily: '"Inter", sans-serif',
+                            textAlign: 'justify'
+                          }}>
+                            {card.desc}
+                          </div>
                         </div>
-                        <div style={{
-                          fontSize: '16px',
-                          color: cardTheme.descColor,
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
-                          fontWeight: 500,
-                          marginTop: '4px',
-                          lineHeight: 1.55,
-                          fontFamily: '"Inter", sans-serif'
-                        }}>
-                          {card.desc}
-                        </div>
-                      </div>
+                        {!isLast && (
+                          <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+                        )}
+                      </React.Fragment>
                     );
                   })}
                 </div>
@@ -3006,11 +2877,12 @@ export default function Chapter2SloganPage({
                 position: 'absolute',
                 top: '16px',
                 left: '16px',
-                bottom: '16px',
                 width: 'min(420px, 36vw)',
-                maxHeight: 'calc(100vh - 32px)',
+                maxHeight: '78vh',
                 zIndex: 40,
-                background: 'linear-gradient(145deg, rgba(8, 28, 18, 0.22) 0%, rgba(3, 18, 10, 0.16) 100%)',
+                background: 'linear-gradient(145deg, rgba(8, 28, 18, 0.42) 0%, rgba(3, 18, 10, 0.34) 100%)',
+                backdropFilter: 'blur(16px) saturate(160%)',
+                WebkitBackdropFilter: 'blur(16px) saturate(160%)',
                 border: '1.5px solid rgba(167, 243, 208, 0.35)',
                 borderRadius: '24px',
                 boxShadow: '0 16px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.20), 0 0 15px rgba(16, 185, 129, 0.10)',
@@ -3031,7 +2903,7 @@ export default function Chapter2SloganPage({
                 justifyContent: 'center',
                 flex: 1,
                 padding: 'clamp(14px, 2.2vh, 26px) clamp(16px, 2.2vw, 26px)',
-                gap: 'clamp(8px, 1.4vh, 14px)',
+                gap: 'clamp(6px, 1vh, 10px)',
                 position: 'relative',
                 zIndex: 5,
                 overflowY: 'auto',
@@ -3044,9 +2916,9 @@ export default function Chapter2SloganPage({
                   justifyContent: 'space-between'
                 }}>
                   <span style={{
-                    background: 'linear-gradient(135deg, rgba(30, 20, 4, 0.62) 0%, rgba(18, 10, 2, 0.52) 100%)',
-                    backdropFilter: 'blur(18px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(18px) saturate(180%)',
+                    background: 'linear-gradient(135deg, rgba(30, 20, 4, 0.32) 0%, rgba(18, 10, 2, 0.26) 100%)',
+                    backdropFilter: 'blur(20px) saturate(180%)',
+                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                     color: '#FDE68A',
                     border: '1.2px solid rgba(251, 191, 36, 0.50)',
                     boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
@@ -3063,8 +2935,6 @@ export default function Chapter2SloganPage({
                     textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                   }}>
                     <span style={{ fontSize: '18px' }}>🕊️</span>
-                    <span style={{ color: '#E2E8F0' }}>NCERT CLASS 6</span>
-                    <span style={{ color: '#10B981' }}>•</span>
                     <span style={{ color: '#FDE68A' }}>CONSERVATION</span>
                   </span>
 
@@ -3074,9 +2944,9 @@ export default function Chapter2SloganPage({
                     aria-label="Close message and view full scenery"
                     title="View full scenery photo"
                     style={{
-                      background: 'rgba(18, 10, 2, 0.55)',
-                      backdropFilter: 'blur(18px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(18px) saturate(180%)',
+                      background: 'rgba(18, 10, 2, 0.30)',
+                      backdropFilter: 'blur(20px) saturate(180%)',
+                      WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                       border: '1.2px solid rgba(255, 255, 255, 0.25)',
                       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                       borderRadius: '10px',
@@ -3095,7 +2965,7 @@ export default function Chapter2SloganPage({
                       e.currentTarget.style.color = '#FFFFFF';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(18, 10, 2, 0.55)';
+                      e.currentTarget.style.background = 'rgba(18, 10, 2, 0.30)';
                       e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
                       e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
                     }}
@@ -3104,76 +2974,21 @@ export default function Chapter2SloganPage({
                   </button>
                 </div>
 
-                {/* Lesson Tabs Selector (Font Area Blur, 16px font) */}
-                <div style={{
-                  display: 'flex',
-                  gap: '8px',
-                  flexWrap: 'wrap'
-                }}>
-                  {PAGE_5_LESSONS.map((lesson, idx) => {
-                    const isActive = page5ActiveTab === idx;
-                    return (
-                      <button
-                        key={lesson.id}
-                        type="button"
-                        onClick={() => {
-                          setPage5ActiveTab(idx);
-                          if (isPlayingConservationAudio) {
-                            stopNarration();
-                            setIsPlayingConservationAudio(false);
-                          }
-                        }}
-                        style={{
-                          background: isActive
-                            ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.65) 0%, rgba(217, 119, 6, 0.52) 100%)'
-                            : 'rgba(28, 16, 4, 0.55)',
-                          backdropFilter: 'blur(18px) saturate(180%)',
-                          WebkitBackdropFilter: 'blur(18px) saturate(180%)',
-                          color: isActive ? '#FFFDF0' : '#FDE68A',
-                          border: isActive ? '1.5px solid #FDE68A' : '1.2px solid rgba(251, 191, 36, 0.25)',
-                          borderRadius: '16px',
-                          padding: '6px 14px',
-                          fontSize: '16px',
-                          fontWeight: 800,
-                          fontFamily: '"Outfit", sans-serif',
-                          cursor: 'pointer',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                          transition: 'all 0.2s ease',
-                          boxShadow: isActive ? '0 4px 12px rgba(245, 158, 11, 0.4)' : '0 2px 6px rgba(0, 0, 0, 0.2)',
-                          textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
-                        }}
-                      >
-                        <span style={{ fontSize: '16px' }}>{lesson.icon}</span>
-                        <span>{lesson.shortTab}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-
                 {/* Title Section: Font Area Blur, 24px Title, 16px Subtitle */}
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '5px',
-                  background: 'linear-gradient(135deg, rgba(30, 18, 4, 0.65) 0%, rgba(16, 8, 2, 0.58) 100%)',
-                  backdropFilter: 'blur(20px) saturate(180%)',
-                  WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                  padding: '12px 18px',
-                  borderRadius: '18px',
-                  border: '1.5px solid rgba(251, 191, 36, 0.40)',
-                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.45), inset 0 1px 1.5px rgba(255, 255, 255, 0.25)'
+                  gap: '5px'
                 }}>
                   <h3 style={{
                     fontFamily: '"Outfit", sans-serif',
                     fontWeight: 900,
                     fontSize: '24px',
                     margin: 0,
-                    color: '#FFFDF0',
+                    color: '#FCD34D',
                     lineHeight: 1.25,
                     letterSpacing: '-0.01em',
-                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.95), 0 0 14px rgba(254, 240, 138, 0.35)'
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 18px rgba(251, 191, 36, 0.55)'
                   }}>
                     {PAGE_5_LESSONS[page5ActiveTab]?.title}
                   </h3>
@@ -3185,7 +3000,7 @@ export default function Chapter2SloganPage({
                     fontFamily: '"Outfit", sans-serif',
                     textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)'
                   }}>
-                    {page5ActiveTab === 0 ? 'Traditionally Protected Forests (NCERT p.29)' : page5ActiveTab === 1 ? 'Dr. Janaki Ammal & Silent Valley (p.22-23)' : 'Protecting Biodiversity for Future (p.29)'}
+                    {page5ActiveTab === 0 ? 'Traditionally Protected Forests (p.29)' : page5ActiveTab === 1 ? 'Dr. Janaki Ammal & Silent Valley (p.22-23)' : 'Protecting Biodiversity for Future (p.29)'}
                   </div>
                 </div>
 
@@ -3193,79 +3008,46 @@ export default function Chapter2SloganPage({
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 'clamp(8px, 1.3vh, 12px)'
+                  gap: '10px'
                 }}>
                   {PAGE_5_LESSONS[page5ActiveTab]?.cards?.map((card, idx) => {
                     const themeIdx = idx % 3;
-                    const cardTheme = themeIdx === 0
-                      ? {
-                          // Sunlit Amber Gold (Sacred Groves & Ancient Canopy)
-                          bg: 'linear-gradient(135deg, rgba(45, 28, 6, 0.68) 0%, rgba(25, 14, 3, 0.58) 100%)',
-                          border: '1.5px solid rgba(251, 191, 36, 0.45)',
-                          borderLeft: '4.5px solid #F59E0B',
-                          titleColor: '#FDE68A',
-                          descColor: '#FFFBEB',
-                          shadowGlow: '0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 0 14px rgba(245, 158, 11, 0.15)'
-                        }
-                      : themeIdx === 1
-                      ? {
-                          // Deep Forest Emerald (Silent Valley & Botanical Heritage)
-                          bg: 'linear-gradient(135deg, rgba(6, 42, 24, 0.68) 0%, rgba(2, 22, 14, 0.58) 100%)',
-                          border: '1.5px solid rgba(52, 211, 153, 0.45)',
-                          borderLeft: '4.5px solid #10B981',
-                          titleColor: '#A7F3D0',
-                          descColor: '#F0FDF4',
-                          shadowGlow: '0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 0 14px rgba(16, 185, 129, 0.15)'
-                        }
-                      : {
-                          // Radiant River Topaz (Biosphere Ecosystems & Clean Waters)
-                          bg: 'linear-gradient(135deg, rgba(6, 36, 45, 0.68) 0%, rgba(2, 20, 26, 0.58) 100%)',
-                          border: '1.5px solid rgba(103, 232, 249, 0.45)',
-                          borderLeft: '4.5px solid #06B6D4',
-                          titleColor: '#67E8F9',
-                          descColor: '#F0FDFA',
-                          shadowGlow: '0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 0 14px rgba(6, 182, 212, 0.15)'
-                        };
+                    const accentColor = themeIdx === 0 ? '#F59E0B' : themeIdx === 1 ? '#10B981' : '#06B6D4';
+                    const titleColor = themeIdx === 0 ? '#FDE68A' : themeIdx === 1 ? '#A7F3D0' : '#67E8F9';
+                    const descColor = themeIdx === 0 ? '#FFFBEB' : themeIdx === 1 ? '#F0FDF4' : '#F0FDFA';
+                    const isLast = idx === (PAGE_5_LESSONS[page5ActiveTab]?.cards?.length ?? 0) - 1;
                     return (
-                      <div
-                        key={idx}
-                        style={{
-                          background: cardTheme.bg,
-                          backdropFilter: 'blur(20px) saturate(180%)',
-                          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                          borderRadius: '16px',
-                          padding: 'clamp(9px, 1.3vh, 13px) clamp(13px, 1.6vw, 17px)',
-                          border: cardTheme.border,
-                          borderLeft: cardTheme.borderLeft,
-                          boxShadow: cardTheme.shadowGlow,
-                          transition: 'all 0.25s ease'
-                        }}
-                      >
-                        <div style={{
-                          fontSize: '20px',
-                          fontWeight: 800,
-                          color: cardTheme.titleColor,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 2px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.5)'
-                        }}>
-                          <span style={{ fontSize: '20px' }}>{card.icon}</span>
-                          <span>{card.title}</span>
+                      <React.Fragment key={idx}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', borderLeft: `4.5px solid ${accentColor}`, paddingLeft: '12px' }}>
+                          <div style={{
+                            fontSize: '20px',
+                            fontWeight: 800,
+                            color: titleColor,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            fontFamily: '"Outfit", sans-serif',
+                            textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 12px rgba(0, 0, 0, 0.65)'
+                          }}>
+                            <span style={{ fontSize: '20px' }}>{card.icon}</span>
+                            <span>{card.title}</span>
+                          </div>
+                          <div style={{
+                            fontSize: '16px',
+                            color: descColor,
+                            textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
+                            fontWeight: 500,
+                            lineHeight: 1.55,
+                            fontFamily: '"Inter", sans-serif',
+                            textAlign: 'justify'
+                          }}>
+                            {card.desc}
+                          </div>
                         </div>
-                        <div style={{
-                          fontSize: '16px',
-                          color: cardTheme.descColor,
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
-                          fontWeight: 500,
-                          marginTop: '4px',
-                          lineHeight: 1.55,
-                          fontFamily: '"Inter", sans-serif'
-                        }}>
-                          {card.desc}
-                        </div>
-                      </div>
+                        {!isLast && (
+                          <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+                        )}
+                      </React.Fragment>
                     );
                   })}
                 </div>

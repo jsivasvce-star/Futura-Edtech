@@ -606,7 +606,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
               boxShadow: '0 2px 6px rgba(20, 69, 47, 0.2)'
             }}
           >
-            NCERT EVALUATION · PAGES 29–34
+            EVALUATION · PAGES 29–34
           </span>
         </div>
 
@@ -1272,7 +1272,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                 <span style={{ fontSize: '22px' }}>📖</span>
                 <div>
                   <div style={{ fontSize: '20px', fontWeight: 900, color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif', lineHeight: 1.15 }}>
-                    NCERT Chapter 2 Essential Scientific Glossary
+                    Chapter 2 Essential Scientific Glossary
                   </div>
                   <div style={{ fontSize: '16px', color: '#2D6A4F', fontWeight: 700 }}>
                     Master key botanical terms, root architectures &amp; ecological adaptations
@@ -1419,7 +1419,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                       <span>Pronounce</span>
                     </button>
                     <span style={{ fontSize: '16px', color: '#16A34A', fontWeight: 800 }}>
-                      ✓ NCERT Core
+                      ✓ Core
                     </span>
                   </div>
                 </div>
@@ -1623,7 +1623,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                       🇮🇳 National Conservation Impact
                     </span>
                     <span style={{ fontSize: '16px', color: '#16A34A', fontWeight: 800 }}>
-                      ✓ NCERT Reference
+                      ✓ Reference
                     </span>
                   </div>
                 </div>
@@ -1672,7 +1672,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
             boxShadow: '0 2px 8px rgba(20, 69, 47, 0.25)'
           }}
         >
-          ✓ Complete 10-Question NCERT Learning Assessment
+          ✓ Complete 10-Question Learning Assessment
         </div>
 
         <button

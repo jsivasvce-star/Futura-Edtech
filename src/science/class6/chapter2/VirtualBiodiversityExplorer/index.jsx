@@ -962,7 +962,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
         setIsCrawlerSpeaking(false);
       } else {
         window.speechSynthesis.cancel();
-        const text = "Garden Snail. An animal that crawls on the ground. It moves slowly using a muscular foot, leaving a moist slimy trail to glide safely over rough ground. It carries a hard spiral shell on its back for protection. It lives in damp places under flowerpots and feeds on tender leaves.";
+        const text = "Garden Snail. It glides slowly on a soft muscular foot, leaving a slimy trail. It pulls inside its hard spiral shell for safety, and feeds on tender green leaves.";
         const utter = new SpeechSynthesisUtterance(text);
         utter.rate = 0.88;
         utter.pitch = 1.0;
@@ -984,7 +984,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
         setIsAerialSpeaking(false);
       } else {
         window.speechSynthesis.cancel();
-        const text = "Aerial animals and birds. Birds have hollow bones and light feathers that make flying easy. Insects like butterflies and bees flap thin wings to steer between flowers. While sipping sweet nectar, they carry pollen to help plants make seeds.";
+        const text = "Aerial animals and birds. Birds have hollow bones and light feathers to fly easily. Butterflies and bees flap thin wings, sipping nectar and helping flowers make seeds.";
         const utter = new SpeechSynthesisUtterance(text);
         utter.rate = 0.88;
         utter.pitch = 1.0;
@@ -1031,7 +1031,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
         setIsWalkerSpeaking(false);
       } else {
         window.speechSynthesis.cancel();
-        const text = "Walkers and aquatic swimmers. Terrestrial animals like cows and dogs have four sturdy limbs adapted to walk, run, and graze. Agile climbers like the striped palm squirrel use sharp claws and a bushy tail for balance. Amphibians like the Indian pond frog have powerful hind legs to leap on land and webbed feet to swim smoothly in fresh water ponds!";
+        const text = "Walkers and swimmers. Cows and dogs walk on four strong legs with hooves or paws. Squirrels climb trees with sharp claws and balance with bushy tails. Frogs leap on land with long hind legs and swim with webbed feet.";
         const utter = new SpeechSynthesisUtterance(text);
         utter.rate = 0.88;
         utter.pitch = 1.0;
@@ -3379,14 +3379,14 @@ const natureAudioRef = useRef(null);
                       border: '1.2px solid rgba(110, 231, 183, 0.35)',
                       borderLeft: '4px solid #10B981',
                       borderRadius: '10px',
-                      padding: '8px 12px',
+                      padding: '6px 10px',
                       boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
                     }}>
-                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🦶 Single Muscular Foot</span>
+                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        <span>🦶 Muscular Foot</span>
                       </div>
-                      <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 600, marginTop: '3px', lineHeight: 1.4, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Moves by slow muscle waves. It leaves a moist slimy trail to glide safely over rough stones.
+                      <div style={{ fontSize: '14px', color: '#F0FDF4', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        Glides slowly on a soft muscular foot, leaving a slimy trail.
                       </div>
                     </div>
 
@@ -3395,14 +3395,14 @@ const natureAudioRef = useRef(null);
                       border: '1.2px solid rgba(252, 211, 77, 0.35)',
                       borderLeft: '4px solid #F59E0B',
                       borderRadius: '10px',
-                      padding: '8px 12px',
+                      padding: '6px 10px',
                       boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
                     }}>
-                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#FDE68A', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🐚 Protective Spiral Shell</span>
+                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#FDE68A', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        <span>🐚 Protective Shell</span>
                       </div>
-                      <div style={{ fontSize: '16px', color: '#FEF3C7', fontWeight: 600, marginTop: '3px', lineHeight: 1.4, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Carries a hard shell on its back. When touched or facing heat, it pulls its head and body inside for safety.
+                      <div style={{ fontSize: '14px', color: '#FEF3C7', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        Pulls its whole body inside its spiral shell for safety.
                       </div>
                     </div>
 
@@ -3411,14 +3411,14 @@ const natureAudioRef = useRef(null);
                       border: '1.2px solid rgba(147, 197, 253, 0.35)',
                       borderLeft: '4px solid #3B82F6',
                       borderRadius: '10px',
-                      padding: '8px 12px',
+                      padding: '6px 10px',
                       boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
                     }}>
-                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🌿 Moist Garden Habitat</span>
+                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        <span>🌿 Damp Habitat</span>
                       </div>
-                      <div style={{ fontSize: '16px', color: '#EFF6FF', fontWeight: 600, marginTop: '3px', lineHeight: 1.4, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Lives in cool, damp soil under flowerpots and stones. It feeds on tender green leaves.
+                      <div style={{ fontSize: '14px', color: '#EFF6FF', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        Lives in cool, damp soil and feeds on tender leaves.
                       </div>
                     </div>
                   </div>
@@ -3695,20 +3695,20 @@ const natureAudioRef = useRef(null);
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', zIndex: 5, position: 'relative' }}>
                     {/* Item 1: Birds - Hollow Bones (Emerald & Leaf Theme) */}
                     <div style={{
-                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, rgba(6, 78, 59, 0.32) 100%)',
+                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, rgba(5, 150, 105, 0.32) 100%)',
                       backdropFilter: 'blur(6px)',
                       WebkitBackdropFilter: 'blur(6px)',
                       border: '1.2px solid rgba(110, 231, 183, 0.35)',
                       borderLeft: '4px solid #10B981',
-                      borderRadius: '12px',
-                      padding: '8px 12px',
+                      borderRadius: '10px',
+                      padding: '6px 10px',
                       boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
                     }}>
-                      <div style={{ fontSize: '15.5px', fontWeight: 800, color: '#34D399', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🪶 Hollow Bones & Light Feathers</span>
+                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#34D399', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        <span>🪶 Hollow Bones & Feathers</span>
                       </div>
-                      <div style={{ fontSize: '15px', color: '#ECFDF5', fontWeight: 600, marginTop: '3px', lineHeight: 1.4, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Birds have hollow bones and light feathers that make their body light for flying.
+                      <div style={{ fontSize: '14px', color: '#ECFDF5', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        Light feathers and hollow bones help birds fly easily.
                       </div>
                     </div>
 
@@ -3719,15 +3719,15 @@ const natureAudioRef = useRef(null);
                       WebkitBackdropFilter: 'blur(6px)',
                       border: '1.2px solid rgba(252, 211, 77, 0.35)',
                       borderLeft: '4px solid #F59E0B',
-                      borderRadius: '12px',
-                      padding: '8px 12px',
+                      borderRadius: '10px',
+                      padding: '6px 10px',
                       boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
                     }}>
-                      <div style={{ fontSize: '15.5px', fontWeight: 800, color: '#FBBF24', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🦋 Thin Flight Wings</span>
+                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#FBBF24', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        <span>🦋 Insect Wings</span>
                       </div>
-                      <div style={{ fontSize: '15px', color: '#FFFBEB', fontWeight: 600, marginTop: '3px', lineHeight: 1.4, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Insects like butterflies and bees flap thin wings rapidly to steer between flowers.
+                      <div style={{ fontSize: '14px', color: '#FFFBEB', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        Flap thin, delicate wings rapidly to steer between flowers.
                       </div>
                     </div>
 
@@ -3738,15 +3738,15 @@ const natureAudioRef = useRef(null);
                       WebkitBackdropFilter: 'blur(6px)',
                       border: '1.2px solid rgba(244, 114, 182, 0.35)',
                       borderLeft: '4px solid #EC4899',
-                      borderRadius: '12px',
-                      padding: '8px 12px',
+                      borderRadius: '10px',
+                      padding: '6px 10px',
                       boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
                     }}>
-                      <div style={{ fontSize: '15.5px', fontWeight: 800, color: '#F472B6', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🌸 Flower Pollination</span>
+                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#F472B6', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        <span>🌸 Pollination</span>
                       </div>
-                      <div style={{ fontSize: '15px', color: '#FDF2F8', fontWeight: 600, marginTop: '3px', lineHeight: 1.4, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        While sipping sweet nectar, they carry yellow pollen between flowers to help plants make seeds.
+                      <div style={{ fontSize: '14px', color: '#FDF2F8', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        Sip sweet nectar and carry pollen to help flowers make seeds.
                       </div>
                     </div>
                   </div>
@@ -4016,14 +4016,14 @@ const natureAudioRef = useRef(null);
                       border: '1.2px solid rgba(110, 231, 183, 0.35)',
                       borderLeft: '4px solid #10B981',
                       borderRadius: '10px',
-                      padding: '8px 12px',
+                      padding: '6px 10px',
                       boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
                     }}>
-                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '5px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🐄 Four Sturdy Limbs for Walking</span>
+                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '5px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        <span>🐄 Four Sturdy Limbs</span>
                       </div>
-                      <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Cows and dogs have four strong limbs with hooves or padded paws to walk, run, and graze across grassy school fields and meadows.
+                      <div style={{ fontSize: '14px', color: '#F0FDF4', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        Walk and run on 4 strong legs with hooves or paws.
                       </div>
                     </div>
 
@@ -4032,14 +4032,14 @@ const natureAudioRef = useRef(null);
                       border: '1.2px solid rgba(252, 211, 77, 0.35)',
                       borderLeft: '4px solid #F59E0B',
                       borderRadius: '10px',
-                      padding: '8px 12px',
+                      padding: '6px 10px',
                       boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
                     }}>
-                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#FDE68A', display: 'flex', alignItems: 'center', gap: '5px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🐿️ Nimble Claws & Balancing Tail</span>
+                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#FDE68A', display: 'flex', alignItems: 'center', gap: '5px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        <span>🐿️ Claws & Balancing Tail</span>
                       </div>
-                      <div style={{ fontSize: '16px', color: '#FEF3C7', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Striped palm squirrels scamper with sharp claws to grip stone ledges and bark, using their bushy tails for rapid balance.
+                      <div style={{ fontSize: '14px', color: '#FEF3C7', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        Climb trees using sharp claws and balance with bushy tails.
                       </div>
                     </div>
 
@@ -4048,14 +4048,14 @@ const natureAudioRef = useRef(null);
                       border: '1.2px solid rgba(147, 197, 253, 0.35)',
                       borderLeft: '4px solid #3B82F6',
                       borderRadius: '10px',
-                      padding: '8px 12px',
+                      padding: '6px 10px',
                       boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
                     }}>
-                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '5px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🐸 Amphibian Leaping & Webbed Feet</span>
+                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '5px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        <span>🐸 Hind Legs & Webbed Feet</span>
                       </div>
-                      <div style={{ fontSize: '16px', color: '#EFF6FF', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Frogs possess long muscular hind legs to leap onto floating water lily pads and webbed toes to paddle swiftly in pond water.
+                      <div style={{ fontSize: '14px', color: '#EFF6FF', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        Leap on land with long hind legs and swim with webbed feet.
                       </div>
                     </div>
                   </div>

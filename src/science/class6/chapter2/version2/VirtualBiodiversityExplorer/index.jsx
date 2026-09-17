@@ -213,7 +213,7 @@ export const PLANT_CATEGORIES = [
       { label: 'Stem Texture', value: 'Soft, green, non-woody, tender; bends smoothly without snapping' },
       { label: 'Plant Height', value: 'Usually very short (typically under 1 meter in height)' },
       { label: 'Branching Habit', value: 'Few or delicate branches; tender stems arise near the base' },
-      { label: 'NCERT Examples', value: 'Tulsi (Holy Basil), Mint, Tomato, Grass, Wheat, Coriander' }
+      { label: 'Examples', value: 'Tulsi (Holy Basil), Mint, Tomato, Grass, Wheat, Coriander' }
     ],
     didYouKnow: 'Table 2.1 in your science textbook helps you record whether a plant is short, green, and tender-stemmed to classify it as a Herb.'
   },
@@ -231,7 +231,7 @@ export const PLANT_CATEGORIES = [
       { label: 'Stem Texture', value: 'Hard and woody, but relatively thin (not a thick single trunk)' },
       { label: 'Plant Height', value: 'Medium height (about human height, roughly 1 to 3 meters)' },
       { label: 'Branching Habit', value: 'Branches arise profusely right near the base of the stem' },
-      { label: 'NCERT Examples', value: 'Rose, Hibiscus (China Rose), Lemon, Mehndi (Henna), Jasmine' }
+      { label: 'Examples', value: 'Rose, Hibiscus (China Rose), Lemon, Mehndi (Henna), Jasmine' }
     ],
     didYouKnow: 'Unlike trees, shrubs have branches starting very close to the soil line, giving them their characteristic bushy appearance.'
   },
@@ -249,7 +249,7 @@ export const PLANT_CATEGORIES = [
       { label: 'Stem Texture', value: 'Single, massive, hard brown woody trunk protected by rough bark' },
       { label: 'Plant Height', value: 'Tall and grand, towering many meters into the sky' },
       { label: 'Branching Habit', value: 'Branches arise high up on the trunk, far above ground level' },
-      { label: 'NCERT Examples', value: 'Banyan (National Tree), Peepal, Neem, Mango, Gulmohar, Teak' }
+      { label: 'Examples', value: 'Banyan (National Tree), Peepal, Neem, Mango, Gulmohar, Teak' }
     ],
     didYouKnow: 'Trees live for decades or centuries. Their deep taproots anchor the massive crown and pull water from deep subterranean aquifers.'
   }
@@ -270,7 +270,7 @@ export const ANIMAL_CATEGORIES = [
       { label: 'Primary Habitat', value: 'Moist topsoil, leaf litter, decaying bark, garden pathways' },
       { label: 'Locomotion Mode', value: 'Crawls with multiple jointed legs, creeps by muscle waves, or slithers' },
       { label: 'Ecological Role', value: 'Soil aeration, organic decomposition, garden pollination' },
-      { label: 'NCERT Examples', value: 'Black Garden Ant, Earthworm, Garden Snail, Beetle, Millipede' }
+      { label: 'Examples', value: 'Black Garden Ant, Earthworm, Garden Snail, Beetle, Millipede' }
     ],
     didYouKnow: 'Table 2.2 in your science textbook helps you observe how soil organisms crawl and enrich garden biodiversity.'
   },
@@ -288,7 +288,7 @@ export const ANIMAL_CATEGORIES = [
       { label: 'Primary Habitat', value: 'Open airspace, leafy crowns, high tree perches, garden flowers' },
       { label: 'Locomotion Mode', value: 'Flies using aerodynamic feathered wings or membranous insect wings' },
       { label: 'Ecological Role', value: 'Flower nectar pollination, seed dispersal, natural insect control' },
-      { label: 'NCERT Examples', value: 'House Sparrow, Common Crow, Butterfly, Honeybee, Dragon-fly' }
+      { label: 'Examples', value: 'House Sparrow, Common Crow, Butterfly, Honeybee, Dragon-fly' }
     ],
     didYouKnow: 'Birds have lightweight hollow bones and aerodynamic feathers that minimize drag while soaring between trees.'
   },
@@ -306,7 +306,7 @@ export const ANIMAL_CATEGORIES = [
       { label: 'Primary Habitat', value: 'Grassy school fields, meadows, garden fences, freshwater pond edges' },
       { label: 'Locomotion Mode', value: 'Walks or runs on four legs, leaps with hind legs, swims with webbed feet' },
       { label: 'Ecological Role', value: 'Herbivorous grazing, amphibious pest control, seed distribution' },
-      { label: 'NCERT Examples', value: 'Desi Cow, Indian Pond Frog, Striped Palm Squirrel, Garden Lizard' }
+      { label: 'Examples', value: 'Desi Cow, Indian Pond Frog, Striped Palm Squirrel, Garden Lizard' }
     ],
     didYouKnow: 'Frogs are amphibians: they breathe with gills in water as tadpoles, and breathe through moist skin and lungs on land as adults!'
   }
@@ -957,14 +957,14 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
 
   const openAnimalModal = (animal) => {
     setModalAnimalPage(1);
-    setShowAnimalDetailPopup(true);
+    setShowAnimalDetailPopup(false);
     setInfoCardAnimal(animal);
   };
   const [zoomLevel, setZoomLevel] = useState(2.4); // 2.4x Field Scanner or 4.8x Macro Lens
   const [isSoundscapePlaying, setIsSoundscapePlaying] = useState(false);
   const [polaroidSnap, setPolaroidSnap] = useState(null);
   const [discoveryStarToast, setDiscoveryStarToast] = useState(null);
-  const [showHerbsPopup, setShowHerbsPopup] = useState(true);
+  const [showHerbsPopup, setShowHerbsPopup] = useState(false);
   const [isHerbsSpeaking, setIsHerbsSpeaking] = useState(false);
 
   const toggleHerbsSpeech = () => {
@@ -986,7 +986,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
     }
   };
 
-  const [showShrubsPopup, setShowShrubsPopup] = useState(true);
+  const [showShrubsPopup, setShowShrubsPopup] = useState(false);
   const [isShrubsSpeaking, setIsShrubsSpeaking] = useState(false);
 
   const toggleShrubsSpeech = () => {
@@ -1008,7 +1008,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
     }
   };
 
-  const [showTreesPopup, setShowTreesPopup] = useState(true);
+  const [showTreesPopup, setShowTreesPopup] = useState(false);
   const [isTreesSpeaking, setIsTreesSpeaking] = useState(false);
 
   const toggleTreesSpeech = () => {
@@ -1040,7 +1040,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
         setIsCrawlerSpeaking(false);
       } else {
         window.speechSynthesis.cancel();
-        const text = "Garden Snail. An animal that crawls on the ground. It moves slowly using a muscular foot, leaving a moist slimy trail to glide safely over rough ground. It carries a hard spiral shell on its back for protection. It lives in damp places under flowerpots and feeds on tender leaves.";
+        const text = "Garden Snail. It glides slowly on a soft muscular foot, leaving a slimy trail. It pulls inside its hard spiral shell for safety, and feeds on tender green leaves.";
         const utter = new SpeechSynthesisUtterance(text);
         utter.rate = 0.88;
         utter.pitch = 1.0;
@@ -1062,7 +1062,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
         setIsAerialSpeaking(false);
       } else {
         window.speechSynthesis.cancel();
-        const text = "Aerial animals and birds. Birds have hollow bones and light feathers that make flying easy. Insects like butterflies and bees flap thin wings to steer between flowers. While sipping sweet nectar, they carry pollen to help plants make seeds.";
+        const text = "Aerial animals and birds. Birds have hollow bones and light feathers to fly easily. Butterflies and bees flap thin wings, sipping nectar and helping flowers make seeds.";
         const utter = new SpeechSynthesisUtterance(text);
         utter.rate = 0.88;
         utter.pitch = 1.0;
@@ -1102,6 +1102,31 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
     }
   }, [typeFilter, categoryStep]);
 
+  // Auto-display observation popups after 5 seconds of viewing the full-screen nature image (plants)
+  useEffect(() => {
+    if (typeFilter === 'plant') {
+      if (categoryStep === 0) {
+        setShowHerbsPopup(false);
+        const timer = setTimeout(() => {
+          setShowHerbsPopup(true);
+        }, 5000);
+        return () => clearTimeout(timer);
+      } else if (categoryStep === 1) {
+        setShowShrubsPopup(false);
+        const timer = setTimeout(() => {
+          setShowShrubsPopup(true);
+        }, 5000);
+        return () => clearTimeout(timer);
+      } else if (categoryStep === 2) {
+        setShowTreesPopup(false);
+        const timer = setTimeout(() => {
+          setShowTreesPopup(true);
+        }, 5000);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [typeFilter, categoryStep]);
+
   const toggleWalkerSpeech = () => {
     if ('speechSynthesis' in window) {
       if (isWalkerSpeaking) {
@@ -1109,7 +1134,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
         setIsWalkerSpeaking(false);
       } else {
         window.speechSynthesis.cancel();
-        const text = "Walkers and aquatic swimmers. Terrestrial animals like cows and dogs have four sturdy limbs adapted to walk, run, and graze. Agile climbers like the striped palm squirrel use sharp claws and a bushy tail for balance. Amphibians like the Indian pond frog have powerful hind legs to leap on land and webbed feet to swim smoothly in fresh water ponds!";
+        const text = "Walkers and swimmers. Cows and dogs walk on four strong legs with hooves or paws. Squirrels climb trees with sharp claws and balance with bushy tails. Frogs leap on land with long hind legs and swim with webbed feet.";
         const utter = new SpeechSynthesisUtterance(text);
         utter.rate = 0.88;
         utter.pitch = 1.0;
@@ -1212,8 +1237,21 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
     setInfoCardPlant(null);
   };
 
-  const [showAnimalDetailPopup, setShowAnimalDetailPopup] = useState(true);
+  const [showAnimalDetailPopup, setShowAnimalDetailPopup] = useState(false);
   const [isAnimalSpeaking, setIsAnimalSpeaking] = useState(false);
+
+  // Auto-display NCERT Observation Popup after 5 seconds of viewing the full-screen specimen
+  useEffect(() => {
+    if (infoCardAnimal) {
+      setShowAnimalDetailPopup(false);
+      const timer = setTimeout(() => {
+        setShowAnimalDetailPopup(true);
+      }, 5000);
+      return () => clearTimeout(timer);
+    } else {
+      setShowAnimalDetailPopup(false);
+    }
+  }, [infoCardAnimal]);
 
   const toggleAnimalSpeech = (animal) => {
     if (!animal) return;
@@ -2021,7 +2059,9 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   right: '20px',
                   width: 'min(415px, calc(100vw - 40px))',
                   maxHeight: 'calc(100% - 85px)',
-                  background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.60) 0%, rgba(4, 28, 16, 0.60) 45%, rgba(2, 18, 11, 0.62) 100%)',
+                  background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.30) 0%, rgba(4, 28, 16, 0.30) 45%, rgba(2, 18, 11, 0.32) 100%)',
+                  backdropFilter: 'blur(22px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(22px) saturate(180%)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
                   borderRadius: '24px',
@@ -2071,17 +2111,15 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         borderRadius: '22px',
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 800,
-                        fontSize: '12px',
-                        letterSpacing: '0.08em',
+                        fontSize: '16px',
+                        letterSpacing: '0.06em',
                         textTransform: 'uppercase',
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '6px',
                         textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                       }}>
-                        <span style={{ fontSize: '14px' }}>🌿</span>
-                        <span>NCERT CLASS 6</span>
-                        <span style={{ opacity: 0.6 }}>•</span>
+                        <span style={{ fontSize: '16px' }}>🌿</span>
                         <span>HERBS</span>
                       </span>
 
@@ -2102,13 +2140,13 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             display: 'flex',
                             alignItems: 'center',
                             gap: '5px',
-                            fontSize: '12px',
+                            fontSize: '16px',
                             fontWeight: 800,
                             fontFamily: '"Outfit", sans-serif',
                             transition: 'all 0.2s ease'
                           }}
                         >
-                          <Volume2 size={15} />
+                          <Volume2 size={16} />
                           <span>{isHerbsSpeaking ? 'Stop' : 'Listen'}</span>
                         </button>
 
@@ -2143,22 +2181,22 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
                           }}
                         >
-                          <span style={{ fontSize: '15px', fontWeight: 900, lineHeight: 1 }}>✕</span>
+                          <span style={{ fontSize: '16px', fontWeight: 900, lineHeight: 1 }}>✕</span>
                         </button>
                       </div>
                     </div>
 
-                    {/* Title Section: 22px-24px Title, 16px Subtitle */}
+                    {/* Title Section: 20px-24px Title, 16px Subtitle */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
                       <h3 style={{
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 900,
                         fontSize: 'clamp(21px, 2.1vw, 24px)',
                         margin: 0,
-                        color: '#FFFFFF',
+                        color: '#FCD34D',
                         lineHeight: 1.25,
                         letterSpacing: '-0.01em',
-                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000, 0 0 16px rgba(252, 211, 77, 0.5)'
                       }}>
                         Tender Green Herbs
                       </h3>
@@ -2174,18 +2212,14 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       </div>
                     </div>
 
-                    {/* 3 Detail Cards: 16px-24px Typography */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(8px, 1.2vh, 11px)' }}>
+                    {/* Info Panel: single unified glass panel (blur applied only to text/content area) */}
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 'clamp(10px, 1.5vh, 14px)'
+                    }}>
                       {/* Card 1: Soft Green Stem */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                        borderRadius: '14px',
-                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
-                        border: '1.2px solid rgba(110, 231, 183, 0.35)',
-                        borderLeft: '4px solid #10B981',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
-                        transition: 'all 0.25s ease'
-                      }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', borderLeft: `4.5px solid #10B981`, paddingLeft: '12px' }}>
                         <div style={{
                           fontSize: '18px',
                           fontWeight: 800,
@@ -2194,7 +2228,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           alignItems: 'center',
                           gap: '7px',
                           fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
                           <span>🌱</span>
                           <span>Soft Green Stem</span>
@@ -2202,26 +2236,18 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         <div style={{
                           fontSize: '16px',
                           color: '#FFFFFF',
-                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
                           fontWeight: 450,
-                          marginTop: '5px',
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
                           Tender, non-woody green stems that bend easily with the wind without breaking or snapping.
                         </div>
                       </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* Card 2: Short Stature */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                        borderRadius: '14px',
-                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
-                        border: '1.2px solid rgba(252, 211, 77, 0.35)',
-                        borderLeft: '4px solid #F59E0B',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
-                        transition: 'all 0.25s ease'
-                      }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', borderLeft: `4.5px solid #F59E0B`, paddingLeft: '12px' }}>
                         <div style={{
                           fontSize: '18px',
                           fontWeight: 800,
@@ -2230,7 +2256,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           alignItems: 'center',
                           gap: '7px',
                           fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
                           <span>📏</span>
                           <span>Short Stature & Few Branches</span>
@@ -2238,26 +2264,18 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         <div style={{
                           fontSize: '16px',
                           color: '#FFFFFF',
-                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
                           fontWeight: 450,
-                          marginTop: '5px',
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
                           Usually grow less than 1 metre high and branch close to the ground rather than spreading into crowns.
                         </div>
                       </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* Card 3: 1-2 Season Life Cycle & Examples */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.14) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                        borderRadius: '14px',
-                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
-                        border: '1.2px solid rgba(147, 197, 253, 0.35)',
-                        borderLeft: '4px solid #3B82F6',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
-                        transition: 'all 0.25s ease'
-                      }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', borderLeft: `4.5px solid #3B82F6`, paddingLeft: '12px' }}>
                         <div style={{
                           fontSize: '18px',
                           fontWeight: 800,
@@ -2266,7 +2284,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           alignItems: 'center',
                           gap: '7px',
                           fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
                           <span>🌾</span>
                           <span>1–2 Season Life Cycle & Examples</span>
@@ -2274,9 +2292,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         <div style={{
                           fontSize: '16px',
                           color: '#FFFFFF',
-                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
                           fontWeight: 450,
-                          marginTop: '5px',
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
@@ -2298,7 +2315,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       gap: '8px',
                       padding: '8px 18px',
                       borderRadius: '12px',
-                      fontSize: '15px',
+                      fontSize: '16px',
                       fontWeight: 800,
                       background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.85) 0%, rgba(2, 18, 11, 0.9) 100%)',
                       border: '1.5px solid rgba(16, 185, 129, 0.5)',
@@ -2453,7 +2470,9 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   right: '20px',
                   width: 'min(415px, calc(100vw - 40px))',
                   maxHeight: 'calc(100% - 85px)',
-                  background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.60) 0%, rgba(4, 28, 16, 0.60) 45%, rgba(2, 18, 11, 0.62) 100%)',
+                  background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.30) 0%, rgba(4, 28, 16, 0.30) 45%, rgba(2, 18, 11, 0.32) 100%)',
+                  backdropFilter: 'blur(22px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(22px) saturate(180%)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
                   borderRadius: '24px',
@@ -2503,17 +2522,15 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         borderRadius: '22px',
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 800,
-                        fontSize: '12px',
-                        letterSpacing: '0.08em',
+                        fontSize: '16px',
+                        letterSpacing: '0.06em',
                         textTransform: 'uppercase',
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '6px',
                         textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                       }}>
-                        <span style={{ fontSize: '14px' }}>🌿</span>
-                        <span>NCERT CLASS 6</span>
-                        <span style={{ opacity: 0.6 }}>•</span>
+                        <span style={{ fontSize: '16px' }}>🌿</span>
                         <span>SHRUBS</span>
                       </span>
 
@@ -2534,13 +2551,13 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             display: 'flex',
                             alignItems: 'center',
                             gap: '5px',
-                            fontSize: '12px',
+                            fontSize: '16px',
                             fontWeight: 800,
                             fontFamily: '"Outfit", sans-serif',
                             transition: 'all 0.2s ease'
                           }}
                         >
-                          <Volume2 size={15} />
+                          <Volume2 size={16} />
                           <span>{isShrubsSpeaking ? 'Stop' : 'Listen'}</span>
                         </button>
 
@@ -2575,22 +2592,22 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
                           }}
                         >
-                          <span style={{ fontSize: '15px', fontWeight: 900, lineHeight: 1 }}>✕</span>
+                          <span style={{ fontSize: '16px', fontWeight: 900, lineHeight: 1 }}>✕</span>
                         </button>
                       </div>
                     </div>
 
-                    {/* Title Section: 22px-24px Title, 16px Subtitle */}
+                    {/* Title Section: 20px-24px Title, 16px Subtitle */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
                       <h3 style={{
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 900,
                         fontSize: 'clamp(21px, 2.1vw, 24px)',
                         margin: 0,
-                        color: '#FFFFFF',
+                        color: '#FB7185',
                         lineHeight: 1.25,
                         letterSpacing: '-0.01em',
-                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000, 0 0 16px rgba(251, 113, 133, 0.5)'
                       }}>
                         Bushy Woody Shrubs
                       </h3>
@@ -2606,18 +2623,14 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       </div>
                     </div>
 
-                    {/* 3 Detail Cards: 16px-24px Typography */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(8px, 1.2vh, 11px)' }}>
+                    {/* Info Panel: single unified glass panel (blur applied only to text/content area) */}
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 'clamp(10px, 1.5vh, 14px)'
+                    }}>
                       {/* Card 1: Hard Thin Woody Stems */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                        borderRadius: '14px',
-                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
-                        border: '1.2px solid rgba(110, 231, 183, 0.35)',
-                        borderLeft: '4px solid #10B981',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
-                        transition: 'all 0.25s ease'
-                      }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', borderLeft: `4.5px solid #10B981`, paddingLeft: '12px' }}>
                         <div style={{
                           fontSize: '18px',
                           fontWeight: 800,
@@ -2626,7 +2639,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           alignItems: 'center',
                           gap: '7px',
                           fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
                           <span>🪵</span>
                           <span>Hard Thin Woody Stems</span>
@@ -2634,26 +2647,18 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         <div style={{
                           fontSize: '16px',
                           color: '#FFFFFF',
-                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
                           fontWeight: 450,
-                          marginTop: '5px',
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
                           Hard and woody stems, but relatively thin (not a thick single trunk) that cannot be bent easily.
                         </div>
                       </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* Card 2: Branching from Base */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                        borderRadius: '14px',
-                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
-                        border: '1.2px solid rgba(252, 211, 77, 0.35)',
-                        borderLeft: '4px solid #F59E0B',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
-                        transition: 'all 0.25s ease'
-                      }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', borderLeft: `4.5px solid #F59E0B`, paddingLeft: '12px' }}>
                         <div style={{
                           fontSize: '18px',
                           fontWeight: 800,
@@ -2662,7 +2667,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           alignItems: 'center',
                           gap: '7px',
                           fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
                           <span>🌿</span>
                           <span>Branching at Ground Base</span>
@@ -2670,26 +2675,18 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         <div style={{
                           fontSize: '16px',
                           color: '#FFFFFF',
-                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
                           fontWeight: 450,
-                          marginTop: '5px',
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
                           Branches arise profusely right near the base of the stem close to the soil line, giving a bushy appearance.
                         </div>
                       </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* Card 3: Medium Stature & Examples */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.14) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                        borderRadius: '14px',
-                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
-                        border: '1.2px solid rgba(147, 197, 253, 0.35)',
-                        borderLeft: '4px solid #3B82F6',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
-                        transition: 'all 0.25s ease'
-                      }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', borderLeft: `4.5px solid #3B82F6`, paddingLeft: '12px' }}>
                         <div style={{
                           fontSize: '18px',
                           fontWeight: 800,
@@ -2698,7 +2695,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           alignItems: 'center',
                           gap: '7px',
                           fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
                           <span>🌺</span>
                           <span>Medium Height & Examples</span>
@@ -2706,9 +2703,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         <div style={{
                           fontSize: '16px',
                           color: '#FFFFFF',
-                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
                           fontWeight: 450,
-                          marginTop: '5px',
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
@@ -2730,7 +2726,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       gap: '8px',
                       padding: '8px 18px',
                       borderRadius: '12px',
-                      fontSize: '15px',
+                      fontSize: '16px',
                       fontWeight: 800,
                       background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.85) 0%, rgba(2, 18, 11, 0.9) 100%)',
                       border: '1.5px solid rgba(16, 185, 129, 0.5)',
@@ -2883,7 +2879,9 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   right: '20px',
                   width: 'min(415px, calc(100vw - 40px))',
                   maxHeight: 'calc(100% - 85px)',
-                  background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.60) 0%, rgba(4, 28, 16, 0.60) 45%, rgba(2, 18, 11, 0.62) 100%)',
+                  background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.30) 0%, rgba(4, 28, 16, 0.30) 45%, rgba(2, 18, 11, 0.32) 100%)',
+                  backdropFilter: 'blur(22px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(22px) saturate(180%)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
                   borderRadius: '24px',
@@ -2933,17 +2931,15 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         borderRadius: '22px',
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 800,
-                        fontSize: '12px',
-                        letterSpacing: '0.08em',
+                        fontSize: '16px',
+                        letterSpacing: '0.06em',
                         textTransform: 'uppercase',
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '6px',
                         textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                       }}>
-                        <span style={{ fontSize: '14px' }}>🌳</span>
-                        <span>NCERT CLASS 6</span>
-                        <span style={{ opacity: 0.6 }}>•</span>
+                        <span style={{ fontSize: '16px' }}>🌳</span>
                         <span>TREES</span>
                       </span>
 
@@ -2964,13 +2960,13 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             display: 'flex',
                             alignItems: 'center',
                             gap: '5px',
-                            fontSize: '12px',
+                            fontSize: '16px',
                             fontWeight: 800,
                             fontFamily: '"Outfit", sans-serif',
                             transition: 'all 0.2s ease'
                           }}
                         >
-                          <Volume2 size={15} />
+                          <Volume2 size={16} />
                           <span>{isTreesSpeaking ? 'Stop' : 'Listen'}</span>
                         </button>
 
@@ -3005,22 +3001,22 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
                           }}
                         >
-                          <span style={{ fontSize: '15px', fontWeight: 900, lineHeight: 1 }}>✕</span>
+                          <span style={{ fontSize: '16px', fontWeight: 900, lineHeight: 1 }}>✕</span>
                         </button>
                       </div>
                     </div>
 
-                    {/* Title Section: 22px-24px Title, 16px Subtitle */}
+                    {/* Title Section: 20px-24px Title, 16px Subtitle */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
                       <h3 style={{
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 900,
                         fontSize: 'clamp(21px, 2.1vw, 24px)',
                         margin: 0,
-                        color: '#FFFFFF',
+                        color: '#FBBF24',
                         lineHeight: 1.25,
                         letterSpacing: '-0.01em',
-                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000, 0 0 16px rgba(251, 191, 36, 0.5)'
                       }}>
                         Towering Woody Trees
                       </h3>
@@ -3036,18 +3032,14 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       </div>
                     </div>
 
-                    {/* 3 Detail Cards: 16px-24px Typography */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(8px, 1.2vh, 11px)' }}>
+                    {/* Info Panel: single unified glass panel (blur applied only to text/content area) */}
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 'clamp(10px, 1.5vh, 14px)'
+                    }}>
                       {/* Card 1: Single Thick Woody Trunk */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                        borderRadius: '14px',
-                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
-                        border: '1.2px solid rgba(110, 231, 183, 0.35)',
-                        borderLeft: '4px solid #10B981',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
-                        transition: 'all 0.25s ease'
-                      }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', borderLeft: `4.5px solid #10B981`, paddingLeft: '12px' }}>
                         <div style={{
                           fontSize: '18px',
                           fontWeight: 800,
@@ -3056,7 +3048,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           alignItems: 'center',
                           gap: '7px',
                           fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
                           <span>🌳</span>
                           <span>Single Thick Woody Trunk</span>
@@ -3064,26 +3056,18 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         <div style={{
                           fontSize: '16px',
                           color: '#FFFFFF',
-                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
                           fontWeight: 450,
-                          marginTop: '5px',
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
                           A single, massive, hard brown woody trunk protected by rough bark that firmly supports the plant.
                         </div>
                       </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* Card 2: Branches High Up */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                        borderRadius: '14px',
-                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
-                        border: '1.2px solid rgba(252, 211, 77, 0.35)',
-                        borderLeft: '4px solid #F59E0B',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
-                        transition: 'all 0.25s ease'
-                      }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', borderLeft: `4.5px solid #F59E0B`, paddingLeft: '12px' }}>
                         <div style={{
                           fontSize: '18px',
                           fontWeight: 800,
@@ -3092,7 +3076,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           alignItems: 'center',
                           gap: '7px',
                           fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
                           <span>🍃</span>
                           <span>Branches High Up in Canopy</span>
@@ -3100,26 +3084,18 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         <div style={{
                           fontSize: '16px',
                           color: '#FFFFFF',
-                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
                           fontWeight: 450,
-                          marginTop: '5px',
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
                           Branches arise high up on the trunk, far above the ground, spreading into an expansive green canopy.
                         </div>
                       </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* Card 3: Long Lifespan & Examples */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.14) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                        borderRadius: '14px',
-                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
-                        border: '1.2px solid rgba(147, 197, 253, 0.35)',
-                        borderLeft: '4px solid #3B82F6',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
-                        transition: 'all 0.25s ease'
-                      }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', borderLeft: `4.5px solid #3B82F6`, paddingLeft: '12px' }}>
                         <div style={{
                           fontSize: '18px',
                           fontWeight: 800,
@@ -3128,7 +3104,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           alignItems: 'center',
                           gap: '7px',
                           fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
                           <span>⏳</span>
                           <span>Long Lifespan & Examples</span>
@@ -3136,9 +3112,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         <div style={{
                           fontSize: '16px',
                           color: '#FFFFFF',
-                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
                           fontWeight: 450,
-                          marginTop: '5px',
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
@@ -3160,7 +3135,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       gap: '8px',
                       padding: '8px 18px',
                       borderRadius: '12px',
-                      fontSize: '15px',
+                      fontSize: '16px',
                       fontWeight: 800,
                       background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.85) 0%, rgba(2, 18, 11, 0.9) 100%)',
                       border: '1.5px solid rgba(16, 185, 129, 0.5)',
@@ -3309,7 +3284,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 }}
               />
 
-              {/* Slogan Page Style: Frosted Translucent Glass Panel (15% opacity, blur 8px) */}
+              {/* Slogan Page Style: Frosted Translucent Glass Panel (bumped opacity/blur for legibility now that Info Panel is flattened) */}
               {showCrawlerPopup ? (
                 <div style={{
                   position: 'absolute',
@@ -3317,9 +3292,9 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   right: '20px',
                   width: 'min(30vw, 360px)',
                   minWidth: '270px',
-                  background: 'rgba(255, 255, 255, 0.15)',
-                  backdropFilter: 'blur(8px)',
-                  WebkitBackdropFilter: 'blur(8px)',
+                  background: 'rgba(6, 38, 22, 0.34)',
+                  backdropFilter: 'blur(22px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(22px) saturate(180%)',
                   border: '1.5px solid rgba(255, 255, 255, 0.50)',
                   borderRadius: '24px',
                   padding: 'clamp(12px, 1.8vh, 18px) clamp(14px, 1.6vw, 18px)',
@@ -3361,7 +3336,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
                       padding: '4px 12px',
                       borderRadius: '12px',
-                      fontSize: '14px',
+                      fontSize: '16px',
                       fontWeight: 800,
                       letterSpacing: '0.04em',
                       textTransform: 'uppercase',
@@ -3369,7 +3344,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
                       whiteSpace: 'nowrap'
                     }}>
-                      <span>🐌 NCERT 2.2 • CRAWLERS</span>
+                      <span>🐌 2.2 • CRAWLERS</span>
                     </div>
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -3430,10 +3405,10 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       margin: '2px 0 0',
                       fontSize: '24px',
                       fontWeight: 900,
-                      color: '#FFFFFF',
+                      color: '#FCD34D',
                       fontFamily: '"Outfit", sans-serif',
                       lineHeight: 1.2,
-                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.95)'
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 16px rgba(252, 211, 77, 0.5)'
                     }}>
                       Garden Snail
                     </h3>
@@ -3442,53 +3417,40 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     </div>
                   </div>
 
-                  {/* Short and Crisp NCERT Table 2.2 Cards for Grade 6 (16px) */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', zIndex: 5, position: 'relative' }}>
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                      border: '1.2px solid rgba(110, 231, 183, 0.35)',
-                      borderLeft: '4px solid #10B981',
-                      borderRadius: '10px',
-                      padding: '8px 12px',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                    }}>
-                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🦶 Single Muscular Foot</span>
+                  {/* Info Panel: single unified glass panel (blur applied only to text/content area) */}
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '10px',
+                    zIndex: 5,
+                    position: 'relative'
+                  }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '4px solid #10B981', paddingLeft: '8px' }}>
+                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: '"Outfit", sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.85)' }}>
+                        <span>🦶 Muscular Foot</span>
                       </div>
-                      <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 600, marginTop: '3px', lineHeight: 1.4, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Moves by slow muscle waves. It leaves a moist slimy trail to glide safely over rough stones.
-                      </div>
-                    </div>
-
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                      border: '1.2px solid rgba(252, 211, 77, 0.35)',
-                      borderLeft: '4px solid #F59E0B',
-                      borderRadius: '10px',
-                      padding: '8px 12px',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                    }}>
-                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#FDE68A', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🐚 Protective Spiral Shell</span>
-                      </div>
-                      <div style={{ fontSize: '16px', color: '#FEF3C7', fontWeight: 600, marginTop: '3px', lineHeight: 1.4, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Carries a hard shell on its back. When touched or facing heat, it pulls its head and body inside for safety.
+                      <div style={{ fontSize: '14.5px', color: '#F0FDF4', fontWeight: 500, lineHeight: 1.4, fontFamily: '"Inter", sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.85)' }}>
+                        Glides slowly on a soft muscular foot, leaving a slimy trail.
                       </div>
                     </div>
+                    <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                      border: '1.2px solid rgba(147, 197, 253, 0.35)',
-                      borderLeft: '4px solid #3B82F6',
-                      borderRadius: '10px',
-                      padding: '8px 12px',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                    }}>
-                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🌿 Moist Garden Habitat</span>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '4px solid #F59E0B', paddingLeft: '8px' }}>
+                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#FDE68A', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: '"Outfit", sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.85)' }}>
+                        <span>🐚 Protective Shell</span>
                       </div>
-                      <div style={{ fontSize: '16px', color: '#EFF6FF', fontWeight: 600, marginTop: '3px', lineHeight: 1.4, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Lives in cool, damp soil under flowerpots and stones. It feeds on tender green leaves.
+                      <div style={{ fontSize: '14.5px', color: '#FEF3C7', fontWeight: 500, lineHeight: 1.4, fontFamily: '"Inter", sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.85)' }}>
+                        Pulls its whole body inside its spiral shell for safety.
+                      </div>
+                    </div>
+                    <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '4px solid #3B82F6', paddingLeft: '8px' }}>
+                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: '"Outfit", sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.85)' }}>
+                        <span>🌿 Damp Habitat</span>
+                      </div>
+                      <div style={{ fontSize: '14.5px', color: '#EFF6FF', fontWeight: 500, lineHeight: 1.4, fontFamily: '"Inter", sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.85)' }}>
+                        Lives in cool, damp soil and feeds on tender leaves.
                       </div>
                     </div>
                   </div>
@@ -3631,9 +3593,9 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   right: '20px',
                   width: 'min(32vw, 380px)',
                   minWidth: '280px',
-                  background: 'linear-gradient(145deg, rgba(10, 31, 24, 0.88) 0%, rgba(13, 27, 42, 0.90) 100%)',
-                  backdropFilter: 'blur(16px)',
-                  WebkitBackdropFilter: 'blur(16px)',
+                  background: 'linear-gradient(145deg, rgba(10, 31, 24, 0.30) 0%, rgba(13, 27, 42, 0.30) 100%)',
+                  backdropFilter: 'blur(22px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(22px) saturate(180%)',
                   border: '1.5px solid rgba(167, 243, 208, 0.45)',
                   borderRadius: '24px',
                   padding: 'clamp(14px, 2vh, 18px) clamp(16px, 1.8vw, 20px)',
@@ -3675,7 +3637,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
                       padding: '5px 14px',
                       borderRadius: '12px',
-                      fontSize: '13.5px',
+                      fontSize: '16px',
                       fontWeight: 800,
                       letterSpacing: '0.04em',
                       textTransform: 'uppercase',
@@ -3683,7 +3645,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
                       whiteSpace: 'nowrap'
                     }}>
-                      <span>🐦 NCERT 2.2 • AERIAL</span>
+                      <span>🐦 2.2 • AERIAL</span>
                     </div>
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -3749,74 +3711,52 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       margin: '2px 0 0',
                       fontSize: '24px',
                       fontWeight: 900,
-                      color: '#FFFFFF',
+                      color: '#5EEAD4',
                       fontFamily: '"Outfit", sans-serif',
                       lineHeight: 1.2,
-                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.95)'
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 16px rgba(94, 234, 212, 0.5)'
                     }}>
                       Aerial Animals & Birds
                     </h3>
-                    <div style={{ fontSize: '15px', color: '#FDE047', fontWeight: 700, fontStyle: 'italic', textShadow: '0 1px 4px rgba(0, 0, 0, 0.9)', marginTop: '2px' }}>
+                    <div style={{ fontSize: '16px', color: '#FDE047', fontWeight: 700, fontStyle: 'italic', textShadow: '0 1px 4px rgba(0, 0, 0, 0.9)', marginTop: '2px' }}>
                       Fly in Air • Birds, Butterflies & Bees
                     </div>
                   </div>
 
-                  {/* Short and Crisp NCERT Table 2.2 Cards with Nature Complementary Colors */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', zIndex: 5, position: 'relative' }}>
-                    {/* Item 1: Birds - Hollow Bones (Emerald & Leaf Theme) */}
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, rgba(6, 78, 59, 0.32) 100%)',
-                      backdropFilter: 'blur(6px)',
-                      WebkitBackdropFilter: 'blur(6px)',
-                      border: '1.2px solid rgba(110, 231, 183, 0.35)',
-                      borderLeft: '4px solid #10B981',
-                      borderRadius: '12px',
-                      padding: '8px 12px',
-                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
-                    }}>
-                      <div style={{ fontSize: '15.5px', fontWeight: 800, color: '#34D399', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🪶 Hollow Bones & Light Feathers</span>
+                  {/* Info Panel: single unified glass panel (blur applied only to text/content area) */}
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '10px',
+                    zIndex: 5,
+                    position: 'relative'
+                  }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '4px solid #10B981', paddingLeft: '8px' }}>
+                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#34D399', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: '"Outfit", sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.85)' }}>
+                        <span>🪶 Hollow Bones & Feathers</span>
                       </div>
-                      <div style={{ fontSize: '15px', color: '#ECFDF5', fontWeight: 600, marginTop: '3px', lineHeight: 1.4, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Birds have hollow bones and light feathers that make their body light for flying.
+                      <div style={{ fontSize: '14.5px', color: '#ECFDF5', fontWeight: 500, lineHeight: 1.4, fontFamily: '"Inter", sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.85)' }}>
+                        Light feathers and hollow bones help birds fly easily.
                       </div>
                     </div>
+                    <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
-                    {/* Item 2: Insects - Flight Wings (Monarch Gold & Amber Theme) */}
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.18) 0%, rgba(180, 83, 9, 0.32) 100%)',
-                      backdropFilter: 'blur(6px)',
-                      WebkitBackdropFilter: 'blur(6px)',
-                      border: '1.2px solid rgba(252, 211, 77, 0.35)',
-                      borderLeft: '4px solid #F59E0B',
-                      borderRadius: '12px',
-                      padding: '8px 12px',
-                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
-                    }}>
-                      <div style={{ fontSize: '15.5px', fontWeight: 800, color: '#FBBF24', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🦋 Thin Flight Wings</span>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '4px solid #F59E0B', paddingLeft: '8px' }}>
+                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#FBBF24', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: '"Outfit", sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.85)' }}>
+                        <span>🦋 Insect Wings</span>
                       </div>
-                      <div style={{ fontSize: '15px', color: '#FFFBEB', fontWeight: 600, marginTop: '3px', lineHeight: 1.4, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Insects like butterflies and bees flap thin wings rapidly to steer between flowers.
+                      <div style={{ fontSize: '14.5px', color: '#FFFBEB', fontWeight: 500, lineHeight: 1.4, fontFamily: '"Inter", sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.85)' }}>
+                        Flap thin, delicate wings rapidly to steer between flowers.
                       </div>
                     </div>
+                    <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
-                    {/* Item 3: Flower Pollination (Apple Blossom Rose & Petal Theme) */}
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(244, 114, 182, 0.18) 0%, rgba(190, 24, 93, 0.30) 100%)',
-                      backdropFilter: 'blur(6px)',
-                      WebkitBackdropFilter: 'blur(6px)',
-                      border: '1.2px solid rgba(244, 114, 182, 0.35)',
-                      borderLeft: '4px solid #EC4899',
-                      borderRadius: '12px',
-                      padding: '8px 12px',
-                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
-                    }}>
-                      <div style={{ fontSize: '15.5px', fontWeight: 800, color: '#F472B6', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🌸 Flower Pollination</span>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '4px solid #EC4899', paddingLeft: '8px' }}>
+                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#F472B6', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: '"Outfit", sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.85)' }}>
+                        <span>🌸 Pollination</span>
                       </div>
-                      <div style={{ fontSize: '15px', color: '#FDF2F8', fontWeight: 600, marginTop: '3px', lineHeight: 1.4, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        While sipping sweet nectar, they carry yellow pollen between flowers to help plants make seeds.
+                      <div style={{ fontSize: '14.5px', color: '#FDF2F8', fontWeight: 500, lineHeight: 1.4, fontFamily: '"Inter", sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.85)' }}>
+                        Sip sweet nectar and carry pollen to help flowers make seeds.
                       </div>
                     </div>
                   </div>
@@ -3948,7 +3888,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 }}
               />
 
-              {/* Slogan Page Style: Frosted Translucent Glass Panel (15% opacity, blur 8px) */}
+              {/* Slogan Page Style: Frosted Translucent Glass Panel (bumped opacity/blur for legibility now that Info Panel is flattened) */}
               {showWalkerPopup ? (
                 <div style={{
                   position: 'absolute',
@@ -3956,9 +3896,9 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   right: '20px',
                   width: 'min(30vw, 360px)',
                   minWidth: '270px',
-                  background: 'rgba(255, 255, 255, 0.15)',
-                  backdropFilter: 'blur(8px)',
-                  WebkitBackdropFilter: 'blur(8px)',
+                  background: 'rgba(6, 38, 22, 0.34)',
+                  backdropFilter: 'blur(22px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(22px) saturate(180%)',
                   border: '1.5px solid rgba(255, 255, 255, 0.50)',
                   borderRadius: '24px',
                   padding: 'clamp(12px, 1.8vh, 18px) clamp(14px, 1.6vw, 18px)',
@@ -4001,7 +3941,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
                         padding: '4px 12px',
                         borderRadius: '12px',
-                        fontSize: '14px',
+                        fontSize: '16px',
                         fontWeight: 800,
                         letterSpacing: '0.04em',
                         textTransform: 'uppercase',
@@ -4009,16 +3949,16 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
                         whiteSpace: 'nowrap'
                       }}>
-                        <span>🐾 NCERT 2.2 • WALKERS</span>
+                        <span>🐾 2.2 • WALKERS</span>
                       </div>
                       <h3 style={{
                         margin: '6px 0 0',
                         fontSize: '24px',
                         fontWeight: 900,
-                        color: '#FFFFFF',
+                        color: '#FCD34D',
                         fontFamily: '"Outfit", sans-serif',
                         lineHeight: 1.2,
-                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95)'
+                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 16px rgba(252, 211, 77, 0.5)'
                       }}>
                         Walkers & Swimmers
                       </h3>
@@ -4044,13 +3984,13 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           display: 'flex',
                           alignItems: 'center',
                           gap: '5px',
-                          fontSize: '12px',
+                          fontSize: '16px',
                           fontWeight: 800,
                           fontFamily: '"Outfit", sans-serif',
                           transition: 'all 0.2s ease'
                         }}
                       >
-                        <Volume2 size={15} />
+                        <Volume2 size={16} />
                         <span>{isWalkerSpeaking ? 'Stop' : 'Listen'}</span>
                       </button>
 
@@ -4079,53 +4019,40 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     </div>
                   </div>
 
-                  {/* Simple, Short, Crisp NCERT Detail Cards in Slogan Style (16px) */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', zIndex: 5, position: 'relative' }}>
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                      border: '1.2px solid rgba(110, 231, 183, 0.35)',
-                      borderLeft: '4px solid #10B981',
-                      borderRadius: '10px',
-                      padding: '8px 12px',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                    }}>
-                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '5px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🐄 Four Sturdy Limbs for Walking</span>
+                  {/* Info Panel: single unified glass panel (blur applied only to text/content area) */}
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '10px',
+                    zIndex: 5,
+                    position: 'relative'
+                  }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '4px solid #10B981', paddingLeft: '8px' }}>
+                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '5px', fontFamily: '"Outfit", sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.85)' }}>
+                        <span>🐄 Four Sturdy Limbs</span>
                       </div>
-                      <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Cows and dogs have four strong limbs with hooves or padded paws to walk, run, and graze across grassy school fields and meadows.
-                      </div>
-                    </div>
-
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                      border: '1.2px solid rgba(252, 211, 77, 0.35)',
-                      borderLeft: '4px solid #F59E0B',
-                      borderRadius: '10px',
-                      padding: '8px 12px',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                    }}>
-                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#FDE68A', display: 'flex', alignItems: 'center', gap: '5px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🐿️ Nimble Claws & Balancing Tail</span>
-                      </div>
-                      <div style={{ fontSize: '16px', color: '#FEF3C7', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Striped palm squirrels scamper with sharp claws to grip stone ledges and bark, using their bushy tails for rapid balance.
+                      <div style={{ fontSize: '14.5px', color: '#F0FDF4', fontWeight: 500, lineHeight: 1.4, fontFamily: '"Inter", sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.85)' }}>
+                        Walk and run on 4 strong legs with hooves or paws.
                       </div>
                     </div>
+                    <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                      border: '1.2px solid rgba(147, 197, 253, 0.35)',
-                      borderLeft: '4px solid #3B82F6',
-                      borderRadius: '10px',
-                      padding: '8px 12px',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                    }}>
-                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '5px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🐸 Amphibian Leaping & Webbed Feet</span>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '4px solid #F59E0B', paddingLeft: '8px' }}>
+                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#FDE68A', display: 'flex', alignItems: 'center', gap: '5px', fontFamily: '"Outfit", sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.85)' }}>
+                        <span>🐿️ Claws & Balancing Tail</span>
                       </div>
-                      <div style={{ fontSize: '16px', color: '#EFF6FF', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Frogs possess long muscular hind legs to leap onto floating water lily pads and webbed toes to paddle swiftly in pond water.
+                      <div style={{ fontSize: '14.5px', color: '#FEF3C7', fontWeight: 500, lineHeight: 1.4, fontFamily: '"Inter", sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.85)' }}>
+                        Climb trees using sharp claws and balance with bushy tails.
+                      </div>
+                    </div>
+                    <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '4px solid #3B82F6', paddingLeft: '8px' }}>
+                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '5px', fontFamily: '"Outfit", sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.85)' }}>
+                        <span>🐸 Hind Legs & Webbed Feet</span>
+                      </div>
+                      <div style={{ fontSize: '14.5px', color: '#EFF6FF', fontWeight: 500, lineHeight: 1.4, fontFamily: '"Inter", sans-serif', textShadow: '0 1px 3px rgba(0,0,0,0.85)' }}>
+                        Leap on land with long hind legs and swim with webbed feet.
                       </div>
                     </div>
                   </div>
@@ -4465,7 +4392,9 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 {/* Right: Botanical Scientific Profile Card in Slogan Page 60% Translucent Emerald Glass Style */}
                 <div style={{
                   position: 'relative',
-                  background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.60) 0%, rgba(4, 28, 16, 0.60) 45%, rgba(2, 18, 11, 0.62) 100%)',
+                  background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.30) 0%, rgba(4, 28, 16, 0.30) 45%, rgba(2, 18, 11, 0.32) 100%)',
+                  backdropFilter: 'blur(22px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(22px) saturate(180%)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
                   borderRadius: '24px',
@@ -4518,15 +4447,15 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           borderRadius: '22px',
                           fontFamily: '"Outfit", sans-serif',
                           fontWeight: 800,
-                          fontSize: '12px',
-                          letterSpacing: '0.08em',
+                          fontSize: '16px',
+                          letterSpacing: '0.06em',
                           textTransform: 'uppercase',
                           display: 'inline-flex',
                           alignItems: 'center',
                           gap: '7px',
                           textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                         }}>
-                          <RealisticCategoryIcon categoryId={currentCat.id} size={15} />
+                          <RealisticCategoryIcon categoryId={currentCat.id} size={16} />
                           <span>{currentCat.tag}</span>
                         </span>
                       </div>
@@ -4687,7 +4616,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         gap: '7px'
                       }}>
                         <span style={{ fontSize: '16px', fontWeight: 900, color: '#93C5FD', fontFamily: '"Outfit", sans-serif', flexShrink: 0, textShadow: '0 1px 3px rgba(0,0,0,0.9)' }}>
-                          📚 NCERT:
+                          📚 Examples:
                         </span>
                         <span style={{ fontSize: '16px', fontWeight: 600, color: '#FFFFFF', fontFamily: '"Outfit", sans-serif', lineHeight: '1.3', textShadow: '0 1px 3px rgba(0,0,0,0.9)' }}>
                           {currentCat.traits[currentCat.traits.length - 1]?.value || ''}
@@ -6068,9 +5997,9 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
               width: 'min(30vw, 380px)',
               minWidth: '270px',
               maxHeight: 'calc(100vh - clamp(85px, 11vh, 100px))',
-              background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.52) 0%, rgba(4, 28, 16, 0.55) 45%, rgba(2, 18, 11, 0.58) 100%)',
-              backdropFilter: 'blur(8px)',
-              WebkitBackdropFilter: 'blur(8px)',
+              background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.26) 0%, rgba(4, 28, 16, 0.28) 45%, rgba(2, 18, 11, 0.30) 100%)',
+              backdropFilter: 'blur(22px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(22px) saturate(180%)',
               border: '1.5px solid rgba(16, 185, 129, 0.45)',
               borderLeft: '1.5px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '24px',
@@ -6127,7 +6056,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     gap: '6px'
                   }}>
                     <span>🌿</span>
-                    <span>NCERT TABLE 2.1</span>
+                    <span>TABLE 2.1</span>
                   </span>
 
                   {/* Minimize Button */}
@@ -6184,8 +6113,9 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       fontWeight: 900,
                       fontSize: '24px',
                       margin: 0,
-                      color: '#FFFFFF',
-                      lineHeight: 1.2
+                      color: '#FCD34D',
+                      lineHeight: 1.2,
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.85), 0 0 16px rgba(252, 211, 77, 0.5)'
                     }}>
                       {infoCardPlant.popupName || infoCardPlant.name}
                     </h3>
@@ -6201,72 +6131,51 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   </div>
                 </div>
 
-                {/* 4 Detail Cards */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {/* Info Panel: single unified glass panel (blur applied only to text/content area) */}
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px'
+                }}>
                   {/* STEM */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.35) 100%)',
-                    border: '1.2px solid rgba(110, 231, 183, 0.35)',
-                    borderLeft: '4px solid #10B981',
-                    borderRadius: '10px',
-                    padding: '8px 12px',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                  }}>
-                    <div style={{ fontSize: '16px', fontWeight: 800, color: '#6EE7B7', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: '4px solid #10B981', paddingLeft: '10px' }}>
+                    <div style={{ fontSize: '18px', fontWeight: 800, color: '#6EE7B7', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: '"Outfit", sans-serif' }}>
                       <span>🌱 STEM</span>
                     </div>
-                    <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 600, marginTop: '3px', lineHeight: 1.4 }}>
+                    <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 500, lineHeight: 1.5, fontFamily: '"Inter", sans-serif' }}>
                       {infoCardPlant.tableInfo?.stem || '—'}
                     </div>
                   </div>
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                   {/* LEAVES */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(52, 211, 153, 0.16) 0%, rgba(0, 0, 0, 0.35) 100%)',
-                    border: '1.2px solid rgba(167, 243, 208, 0.35)',
-                    borderLeft: '4px solid #34D399',
-                    borderRadius: '10px',
-                    padding: '8px 12px',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                  }}>
-                    <div style={{ fontSize: '16px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: '4px solid #34D399', paddingLeft: '10px' }}>
+                    <div style={{ fontSize: '18px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: '"Outfit", sans-serif' }}>
                       <span>🍃 LEAVES</span>
                     </div>
-                    <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 600, marginTop: '3px', lineHeight: 1.4 }}>
+                    <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 500, lineHeight: 1.5, fontFamily: '"Inter", sans-serif' }}>
                       {infoCardPlant.tableInfo?.leaves || '—'}
                     </div>
                   </div>
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                   {/* FLOWERS */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(244, 114, 182, 0.16) 0%, rgba(0, 0, 0, 0.35) 100%)',
-                    border: '1.2px solid rgba(249, 168, 212, 0.35)',
-                    borderLeft: '4px solid #F472B6',
-                    borderRadius: '10px',
-                    padding: '8px 12px',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                  }}>
-                    <div style={{ fontSize: '16px', fontWeight: 800, color: '#FBCFE8', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: '4px solid #F472B6', paddingLeft: '10px' }}>
+                    <div style={{ fontSize: '18px', fontWeight: 800, color: '#FBCFE8', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: '"Outfit", sans-serif' }}>
                       <span>🌸 FLOWERS</span>
                     </div>
-                    <div style={{ fontSize: '16px', color: '#FDF2F8', fontWeight: 600, marginTop: '3px', lineHeight: 1.4 }}>
+                    <div style={{ fontSize: '16px', color: '#FDF2F8', fontWeight: 500, lineHeight: 1.5, fontFamily: '"Inter", sans-serif' }}>
                       {infoCardPlant.tableInfo?.flowers || '—'}
                     </div>
                   </div>
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                   {/* OTHER OBSERVATIONS */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.16) 0%, rgba(0, 0, 0, 0.35) 100%)',
-                    border: '1.2px solid rgba(147, 197, 253, 0.35)',
-                    borderLeft: '4px solid #3B82F6',
-                    borderRadius: '10px',
-                    padding: '8px 12px',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                  }}>
-                    <div style={{ fontSize: '16px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: '4px solid #3B82F6', paddingLeft: '10px' }}>
+                    <div style={{ fontSize: '18px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: '"Outfit", sans-serif' }}>
                       <span>📖 OTHER OBSERVATIONS</span>
                     </div>
-                    <div style={{ fontSize: '16px', color: '#EFF6FF', fontWeight: 600, marginTop: '3px', lineHeight: 1.4 }}>
+                    <div style={{ fontSize: '16px', color: '#EFF6FF', fontWeight: 500, lineHeight: 1.5, fontFamily: '"Inter", sans-serif' }}>
                       {infoCardPlant.tableInfo?.notes || '—'}
                     </div>
                   </div>
@@ -6441,9 +6350,9 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
               width: 'min(30vw, 390px)',
               minWidth: '280px',
               maxHeight: 'calc(100vh - clamp(85px, 11vh, 100px))',
-              background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.55) 0%, rgba(4, 28, 16, 0.58) 45%, rgba(2, 18, 11, 0.62) 100%)',
-              backdropFilter: 'blur(10px)',
-              WebkitBackdropFilter: 'blur(10px)',
+              background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.26) 0%, rgba(4, 28, 16, 0.28) 45%, rgba(2, 18, 11, 0.30) 100%)',
+              backdropFilter: 'blur(22px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(22px) saturate(180%)',
               border: '1.5px solid rgba(16, 185, 129, 0.45)',
               borderLeft: '1.5px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '24px',
@@ -6500,7 +6409,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     gap: '6px'
                   }}>
                     <span>🐾</span>
-                    <span>NCERT TABLE 2.2</span>
+                    <span>TABLE 2.2</span>
                   </span>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -6518,13 +6427,13 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         alignItems: 'center',
                         gap: '4px',
                         color: '#FEF3C7',
-                        fontSize: '14px',
+                        fontSize: '16px',
                         fontWeight: 800,
                         cursor: 'pointer',
                         transition: 'all 0.2s ease'
                       }}
                     >
-                      <Volume2 size={15} />
+                      <Volume2 size={16} />
                       <span>{isAnimalSpeaking ? 'Stop' : 'Listen'}</span>
                     </button>
 
@@ -6611,98 +6520,68 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   const factText = ncert.fact || infoCardAnimal.fact || '—';
 
                   return (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <div style={{
+                      background: 'linear-gradient(145deg, rgba(6, 24, 16, 0.24) 0%, rgba(2, 14, 9, 0.18) 100%)',
+                      backdropFilter: 'blur(22px) saturate(180%)',
+                      WebkitBackdropFilter: 'blur(22px) saturate(180%)',
+                      border: '1.2px solid rgba(167, 243, 208, 0.28)',
+                      borderRadius: '14px',
+                      padding: '10px 14px',
+                      boxShadow: '0 6px 20px rgba(0, 0, 0, 0.28)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '10px'
+                    }}>
                       {/* WHERE FOUND / HABITAT */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.35) 100%)',
-                        backdropFilter: 'blur(6px)',
-                        WebkitBackdropFilter: 'blur(6px)',
-                        border: '1.2px solid rgba(110, 231, 183, 0.35)',
-                        borderLeft: '4px solid #10B981',
-                        borderRadius: '10px',
-                        padding: '8px 12px',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                      }}>
-                        <div style={{ fontSize: '16px', fontWeight: 800, color: '#6EE7B7', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: '4px solid #10B981', paddingLeft: '10px' }}>
+                        <div style={{ fontSize: '18px', fontWeight: 800, color: '#6EE7B7', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: '"Outfit", sans-serif' }}>
                           <span>🏡 WHERE FOUND / HABITAT</span>
                         </div>
-                        <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 600, marginTop: '3px', lineHeight: 1.4 }}>
+                        <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 500, lineHeight: 1.5, fontFamily: '"Inter", sans-serif' }}>
                           {habitatText}
                         </div>
                       </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* LOCOMOTION / MOVEMENT */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(52, 211, 153, 0.16) 0%, rgba(0, 0, 0, 0.35) 100%)',
-                        backdropFilter: 'blur(6px)',
-                        WebkitBackdropFilter: 'blur(6px)',
-                        border: '1.2px solid rgba(167, 243, 208, 0.35)',
-                        borderLeft: '4px solid #34D399',
-                        borderRadius: '10px',
-                        padding: '8px 12px',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                      }}>
-                        <div style={{ fontSize: '16px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: '4px solid #34D399', paddingLeft: '10px' }}>
+                        <div style={{ fontSize: '18px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: '"Outfit", sans-serif' }}>
                           <span>🐾 MOVEMENT &amp; LOCOMOTION</span>
                         </div>
-                        <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 600, marginTop: '3px', lineHeight: 1.4 }}>
+                        <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 500, lineHeight: 1.5, fontFamily: '"Inter", sans-serif' }}>
                           {movementText}
                         </div>
                       </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* BODY ADAPTATIONS */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(244, 114, 182, 0.16) 0%, rgba(0, 0, 0, 0.35) 100%)',
-                        backdropFilter: 'blur(6px)',
-                        WebkitBackdropFilter: 'blur(6px)',
-                        border: '1.2px solid rgba(249, 168, 212, 0.35)',
-                        borderLeft: '4px solid #F472B6',
-                        borderRadius: '10px',
-                        padding: '8px 12px',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                      }}>
-                        <div style={{ fontSize: '16px', fontWeight: 800, color: '#FBCFE8', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: '4px solid #F472B6', paddingLeft: '10px' }}>
+                        <div style={{ fontSize: '18px', fontWeight: 800, color: '#FBCFE8', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: '"Outfit", sans-serif' }}>
                           <span>🔬 BODY ADAPTATIONS</span>
                         </div>
-                        <div style={{ fontSize: '16px', color: '#FDF2F8', fontWeight: 600, marginTop: '3px', lineHeight: 1.4 }}>
+                        <div style={{ fontSize: '16px', color: '#FDF2F8', fontWeight: 500, lineHeight: 1.5, fontFamily: '"Inter", sans-serif' }}>
                           {adaptationText}
                         </div>
                       </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* DESCRIPTION & BEHAVIOR */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.16) 0%, rgba(0, 0, 0, 0.35) 100%)',
-                        backdropFilter: 'blur(6px)',
-                        WebkitBackdropFilter: 'blur(6px)',
-                        border: '1.2px solid rgba(147, 197, 253, 0.35)',
-                        borderLeft: '4px solid #3B82F6',
-                        borderRadius: '10px',
-                        padding: '8px 12px',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                      }}>
-                        <div style={{ fontSize: '16px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: '4px solid #3B82F6', paddingLeft: '10px' }}>
+                        <div style={{ fontSize: '18px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: '"Outfit", sans-serif' }}>
                           <span>📖 DESCRIPTION &amp; BEHAVIOR</span>
                         </div>
-                        <div style={{ fontSize: '16px', color: '#EFF6FF', fontWeight: 600, marginTop: '3px', lineHeight: 1.4 }}>
+                        <div style={{ fontSize: '16px', color: '#EFF6FF', fontWeight: 500, lineHeight: 1.5, fontFamily: '"Inter", sans-serif' }}>
                           {behaviorText}
                         </div>
                       </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* DID YOU KNOW? */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(0, 0, 0, 0.35) 100%)',
-                        backdropFilter: 'blur(6px)',
-                        WebkitBackdropFilter: 'blur(6px)',
-                        border: '1.2px solid rgba(252, 211, 77, 0.35)',
-                        borderLeft: '4px solid #F59E0B',
-                        borderRadius: '10px',
-                        padding: '8px 12px',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                      }}>
-                        <div style={{ fontSize: '16px', fontWeight: 800, color: '#FDE68A', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: '4px solid #F59E0B', paddingLeft: '10px' }}>
+                        <div style={{ fontSize: '18px', fontWeight: 800, color: '#FDE68A', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: '"Outfit", sans-serif' }}>
                           <span>💡 DID YOU KNOW?</span>
                         </div>
-                        <div style={{ fontSize: '16px', color: '#FEF3C7', fontWeight: 600, marginTop: '3px', lineHeight: 1.4 }}>
+                        <div style={{ fontSize: '16px', color: '#FEF3C7', fontWeight: 500, lineHeight: 1.5, fontFamily: '"Inter", sans-serif' }}>
                           {factText}
                         </div>
                       </div>
