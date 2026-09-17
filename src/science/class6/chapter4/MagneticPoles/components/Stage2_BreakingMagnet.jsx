@@ -311,29 +311,29 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
       </div>
 
       {/* Right Column: Fullscreen non-scrolling, Halfscreen scrolling */}
-      <div 
+      <div
         className="stage-right-column custom-scrollbar"
-        style={{ 
-          flex: '1.15', 
+        style={{
+          flex: '1.15',
           height: '100%',
           maxHeight: '100%',
           minHeight: 0,
           boxSizing: 'border-box',
-          display: 'flex', 
-          flexDirection: 'column', 
-          gap: '1.65rem', 
-          minWidth: 0, 
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1.65rem',
+          minWidth: 0,
           fontFamily: 'system-ui, -apple-system, sans-serif'
         }}
       >
         {/* CONTAINER 1: Steps of Instructions */}
-        <div 
+        <div
           className="stage-container-1"
           style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
-            border: '1.5px solid #FDE68A', 
-            borderRadius: '24px', 
-            padding: '1.25rem 1.45rem', 
+            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+            border: '1.5px solid #FDE68A',
+            borderRadius: '24px',
+            padding: '1.25rem 1.45rem',
             boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
             display: 'flex',
             flexDirection: 'column',
@@ -456,16 +456,17 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
 
         {/* CONTAINER 2: Observation & Conclusion Quiz */}
         <div
-          className="stage-container-2"
           style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
-            border: '1.5px solid #FDE68A', 
-            borderRadius: '24px', 
-            padding: '1.25rem 1.45rem', 
+            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+            border: '1.5px solid #FDE68A',
+            borderRadius: '24px',
+            padding: '1.25rem 1.45rem',
             boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
+            flex: 1.15,
+            minHeight: 0,
             boxSizing: 'border-box'
           }}
         >

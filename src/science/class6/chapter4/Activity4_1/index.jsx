@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Compass, Lock, Sparkles, ArrowRight, X } from 'lucide-react';
+import { ArrowLeft, Compass, Lock, Sparkles, ArrowRight, CheckCircle, HelpCircle, Table } from 'lucide-react';
 import MagneticTable from './MagneticTable';
 import DidYouKnow from './DidYouKnow';
 import Quiz from './Quiz';
@@ -9,7 +9,8 @@ import './Activity4_1.css';
 export default function Activity4_1({ onBackToDashboard, onComplete, onNext }) {
   const [stage, setStage] = useState('table');
   const [isTableCompleted, setIsTableCompleted] = useState(false);
-  const [showIntroModal, setShowIntroModal] = useState(true);
+  const [isQuizCompleted, setIsQuizCompleted] = useState(false);
+  const [showIntroModal, setShowIntroModal] = useState(false);
 
   const handleTableComplete = () => {
     setIsTableCompleted(true);
@@ -17,188 +18,48 @@ export default function Activity4_1({ onBackToDashboard, onComplete, onNext }) {
   };
 
   const handleQuizComplete = () => {
+    setIsQuizCompleted(true);
+    setStage('didyouknow');
+  };
+
+  const handleDidYouKnowComplete = () => {
     if (onComplete) onComplete();
     if (onNext) onNext();
   };
 
+  const tabs = [
+    { id: 'table', label: '1. Classification Table', icon: Table, done: isTableCompleted },
+    { id: 'quiz', label: '2. Knowledge Quiz', icon: HelpCircle, done: isQuizCompleted, disabled: !isTableCompleted },
+    { id: 'didyouknow', label: '3. Did You Know?', icon: Sparkles, done: false, disabled: !isQuizCompleted }
+  ];
+
   return (
     <div style={{ 
-      width: '100%', 
-      height: 'calc(100vh - 16px)', 
-      maxHeight: '100vh', 
-      margin: '0 auto', 
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100vw', 
+      height: '100vh', 
+      zIndex: 101,
       display: 'flex', 
       flexDirection: 'column', 
       overflow: 'hidden',
       boxSizing: 'border-box',
       padding: '0.65rem 0.85rem',
       backgroundColor: '#FFFFFF',
-      position: 'relative',
       fontFamily: 'system-ui, -apple-system, sans-serif'
     }}>
-      {/* Introductory Pop-Up Modal */}
-      <AnimatePresence>
-        {showIntroModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            style={{
-              position: 'fixed',
-              inset: 0,
-              backgroundColor: 'rgba(15, 23, 42, 0.65)',
-              backdropFilter: 'blur(8px)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              zIndex: 999999,
-              padding: '1.5rem',
-              boxSizing: 'border-box',
-            }}
-            onClick={() => setShowIntroModal(false)}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.88, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.88, y: -10 }}
-              transition={{ type: 'spring', damping: 24, stiffness: 300 }}
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                background: '#FFFFFF',
-                borderRadius: '24px',
-                border: '2px solid #A7F3D0',
-                boxShadow: '0 25px 60px rgba(0, 0, 0, 0.25), 0 0 35px rgba(16, 185, 129, 0.15)',
-                maxWidth: '520px',
-                width: '100%',
-                padding: '2rem 2.2rem',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                textAlign: 'center',
-                gap: '1.25rem',
-                position: 'relative',
-                boxSizing: 'border-box',
-              }}
-            >
-              {/* Close Button */}
-              <button
-                onClick={() => setShowIntroModal(false)}
-                style={{
-                  position: 'absolute',
-                  top: '16px',
-                  right: '16px',
-                  background: '#F1F5F9',
-                  border: 'none',
-                  borderRadius: '50%',
-                  width: '32px',
-                  height: '32px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#64748B',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                }}
-                title="Close"
-              >
-                <X size={18} />
-              </button>
-
-              {/* Icon / Badge */}
-              <div style={{
-                width: '64px',
-                height: '64px',
-                borderRadius: '20px',
-                background: 'linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%)',
-                border: '2px solid #A7F3D0',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 8px 20px rgba(16, 185, 129, 0.2)',
-              }}>
-                <Sparkles size={32} color="#059669" />
-              </div>
-
-              {/* Title & Badge */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', alignItems: 'center' }}>
-                <span style={{
-                  fontSize: '0.78rem',
-                  fontWeight: 800,
-                  letterSpacing: '1px',
-                  textTransform: 'uppercase',
-                  color: '#059669',
-                  background: '#ECFDF5',
-                  padding: '3px 10px',
-                  borderRadius: '12px',
-                  border: '1px solid #A7F3D0',
-                }}>
-                  Activity 4.2 · Exploration
-                </span>
-                <h2 style={{
-                  margin: 0,
-                  fontSize: '1.5rem',
-                  fontWeight: 900,
-                  color: '#064E3B',
-                  letterSpacing: '-0.02em',
-                }}>
-                  Magnetic & Non-Magnetic Materials
-                </h2>
-              </div>
-
-              {/* Single Line Explanation */}
-              <p style={{
-                margin: 0,
-                fontSize: '1.05rem',
-                lineHeight: 1.55,
-                fontWeight: 600,
-                color: '#334155',
-                padding: '0.75rem 1rem',
-                background: '#F8FAFC',
-                borderRadius: '14px',
-                border: '1px solid #E2E8F0',
-                width: '100%',
-                boxSizing: 'border-box',
-              }}>
-                Click any item from the evidence board to test whether it is attracted by a magnet.
-              </p>
-
-              {/* Proceed Button */}
-              <button
-                onClick={() => setShowIntroModal(false)}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '0.65rem',
-                  width: '100%',
-                  padding: '0.85rem 1.75rem',
-                  fontSize: '1.05rem',
-                  fontWeight: 900,
-                  color: '#FFFFFF',
-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                  borderRadius: '14px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 16px rgba(217, 119, 6, 0.4)',
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                <span>Proceed</span>
-                <ArrowRight size={19} />
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Top Header Bar */}
+      {/* Top Header Bar (Standard Enclosing Golden Card) */}
       <div style={{ 
         display: 'grid', 
         gridTemplateColumns: 'auto 1fr auto', 
         alignItems: 'center', 
-        padding: '0.25rem 0.5rem',
-        marginBottom: '0.5rem',
+        padding: '0.65rem 1.25rem',
+        marginBottom: '0.45rem',
+        background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+        border: '1.5px solid #FDE68A',
+        borderRadius: '24px',
+        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
         flexShrink: 0,
         position: 'relative',
         zIndex: 100
@@ -210,9 +71,15 @@ export default function Activity4_1({ onBackToDashboard, onComplete, onNext }) {
           style={{ 
             position: 'relative', zIndex: 100,
             padding: '0.6rem 1.25rem', 
-            fontSize: '0.9rem', 
-            borderRadius: '14px',
-            textDecoration: 'none'
+            fontSize: '0.92rem', 
+            gap: '0.5rem',
+            borderRadius: '16px',
+            border: 'none',
+            fontWeight: 900,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            transition: 'all 0.2s ease'
           }}
         >
           <ArrowLeft size={18} color="#FFFFFF" /> Back to Chapter 4
@@ -220,83 +87,123 @@ export default function Activity4_1({ onBackToDashboard, onComplete, onNext }) {
 
         {/* Center Column: Title */}
         <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <h2 style={{ margin: 0, fontSize: '1.3rem', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.55rem', color: '#064E3B', letterSpacing: '-0.01em' }}>
-            <Compass size={24} style={{ color: '#D97706' }} />
-            Activity 4.1 & 4.2: Magnetic & Non-Magnetic Materials
+          <h2 style={{ margin: 0, fontSize: '1.42rem', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.65rem', color: '#064E3B', letterSpacing: '-0.02em' }}>
+            <Compass size={26} style={{ color: '#D97706' }} />
+            Activity 4.1: Magnetic & Non-Magnetic Materials
           </h2>
-          <span style={{ fontSize: '0.8rem', color: '#047857', fontWeight: 700 }}>Class 6 Science — Finding Magnetic Materials & Sorting Objects</span>
+          <span style={{ fontSize: '0.88rem', color: '#047857', fontWeight: 800 }}>Class 6 Science — Finding Magnetic Materials & Sorting Objects</span>
         </div>
 
-        {/* Right Column: Stage Navigation Pill */}
-        <div style={{ display: 'flex', gap: '0.5rem', margin: 0 }}>
-          <button
-            onClick={() => setStage('table')}
-            className={stage === 'table' ? 'gold-glow-btn' : ''}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              padding: '0.55rem 1.15rem',
-              fontSize: '0.88rem',
-              fontWeight: 800,
-              borderRadius: '25px',
-              background: stage === 'table' ? undefined : '#F8FAFC',
-              color: stage === 'table' ? '#FFFFFF' : '#334155',
-              border: stage === 'table' ? 'none' : '1.5px solid #CBD5E1',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease'
-            }}
-          >
-            1. Classification Table
-          </button>
-          <button
-            onClick={() => isTableCompleted && setStage('quiz')}
-            disabled={!isTableCompleted}
-            className={stage === 'quiz' ? 'gold-glow-btn' : ''}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              padding: '0.55rem 1.15rem',
-              fontSize: '0.88rem',
-              fontWeight: 800,
-              borderRadius: '25px',
-              background: stage === 'quiz' ? undefined : isTableCompleted ? '#F8FAFC' : '#F1F5F9',
-              color: stage === 'quiz' ? '#FFFFFF' : isTableCompleted ? '#334155' : '#94A3B8',
-              border: stage === 'quiz' ? 'none' : isTableCompleted ? '1.5px solid #CBD5E1' : '1.5px dashed #CBD5E1',
-              cursor: isTableCompleted ? 'pointer' : 'not-allowed',
-              opacity: isTableCompleted ? 1 : 0.65,
-              transition: 'all 0.2s ease'
-            }}
-            title={isTableCompleted ? '2. Knowledge Quiz' : 'Complete the classification table first to unlock the quiz'}
-          >
-            {!isTableCompleted && <Lock size={14} color="#94A3B8" />}
-            2. Knowledge Quiz
-          </button>
-        </div>
+        {/* Right Column: Stage Navigation Pill Tabs */}
+        <nav className="tabs-container" style={{ 
+          display: 'flex', 
+          gap: '0.5rem', 
+          margin: 0,
+          background: '#FFFFFF',
+          padding: '0.35rem 0.5rem',
+          borderRadius: '30px',
+          border: '1.5px solid #FDE68A',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+        }}>
+          {tabs.map(tab => {
+            const Icon = tab.icon;
+            const isActive = stage === tab.id;
+
+            return (
+              <button
+                key={tab.id}
+                onClick={() => !tab.disabled && setStage(tab.id)}
+                disabled={tab.disabled}
+                className={isActive ? 'gold-glow-btn' : ''}
+                style={{
+                  opacity: tab.disabled ? 0.45 : 1,
+                  cursor: tab.disabled ? 'not-allowed' : 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  padding: '0.55rem 1.05rem',
+                  fontSize: '0.92rem',
+                  fontWeight: 900,
+                  borderRadius: '20px',
+                  background: isActive ? undefined : 'transparent',
+                  color: isActive ? '#FFFFFF' : tab.disabled ? '#94A3B8' : '#78350F',
+                  border: 'none',
+                  boxShadow: 'none',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <Icon size={17} color={isActive ? '#FFFFFF' : tab.disabled ? '#94A3B8' : '#78350F'} />
+                <span>{tab.label}</span>
+                {tab.done && (
+                  <CheckCircle size={15} style={{ color: isActive ? '#FFFFFF' : '#10B981', marginLeft: '0.2rem' }} />
+                )}
+              </button>
+            );
+          })}
+        </nav>
       </div>
 
       {/* Main Content Area */}
-      <main style={{ width: '100%', flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative', zIndex: 10 }}>
-        {stage === 'table' ? (
-          <MagneticTable 
-            onComplete={handleTableComplete}
-            onTableCompleted={(completed) => setIsTableCompleted(completed)}
-          />
-        ) : (
-          <Quiz 
-            onComplete={handleQuizComplete} 
-            onBack={() => setStage('table')} 
-          />
-        )}
-      </main>
+      <main style={{ 
+        width: '100%', 
+        flex: 1, 
+        minHeight: 0, 
+        display: 'flex', 
+        flexDirection: 'column', 
+        overflow: 'hidden', 
+        position: 'relative', 
+        zIndex: 10 
+      }}>
+        <AnimatePresence mode="wait">
+          {stage === 'table' && (
+            <motion.div
+              key="table"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
+            >
+              <MagneticTable 
+                onComplete={handleTableComplete}
+                onTableCompleted={(completed) => setIsTableCompleted(completed)}
+              />
+            </motion.div>
+          )}
 
-      {/* Bottom Footer Bar */}
-      {stage !== 'quiz' && (
-        <footer style={{ marginTop: '0.4rem', width: '100%', flexShrink: 0, position: 'relative', zIndex: 99999 }}>
-          <DidYouKnow />
-        </footer>
-      )}
+          {stage === 'quiz' && (
+            <motion.div
+              key="quiz"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
+            >
+              <Quiz 
+                onComplete={handleQuizComplete} 
+                onBack={() => setStage('table')} 
+              />
+            </motion.div>
+          )}
+
+          {stage === 'didyouknow' && (
+            <motion.div
+              key="didyouknow"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
+            >
+              <DidYouKnow 
+                onComplete={handleDidYouKnowComplete} 
+                onBackToQuiz={() => setStage('quiz')} 
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </main>
     </div>
   );
 }

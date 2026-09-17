@@ -30,3 +30,86 @@
 .gold-glow-btn:active {
   transform: translateY(0) scale(0.98) !important;
 }
+
+/* Custom Amber Scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #F59E0B rgba(254, 243, 199, 0.7);
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 7px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(254, 243, 199, 0.5);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #F59E0B 0%, #D97706 100%) !important;
+  border-radius: 10px !important;
+  border: 1.5px solid rgba(254, 243, 199, 0.8) !important;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #B45309 !important;
+}
+
+/* Right Column Layout: Fullscreen non-scrolling, Halfscreen scrolling */
+.stage-right-column {
+  flex: 1.15;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1.65rem;
+  min-width: 0;
+  overflow-x: hidden;
+  font-family: system-ui, -apple-system, sans-serif;
+  scrollbar-width: thin;
+  scrollbar-color: #F59E0B rgba(254, 243, 199, 0.7);
+}
+
+.stage-right-column::-webkit-scrollbar {
+  width: 7px;
+}
+.stage-right-column::-webkit-scrollbar-track {
+  background: rgba(254, 243, 199, 0.5);
+  border-radius: 10px;
+}
+.stage-right-column::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #F59E0B 0%, #D97706 100%);
+  border-radius: 10px;
+}
+.stage-right-column::-webkit-scrollbar-thumb:hover {
+  background: #B45309;
+}
+
+/* Fullscreen: non-scrolling, containers expand gracefully to fill height */
+@media (min-width: 1367px) and (min-height: 821px) {
+  .stage-right-column {
+    overflow-y: hidden !important;
+  }
+  .stage-right-column .stage-container-1 {
+    flex: 1 !important;
+    min-height: 0 !important;
+  }
+  .stage-right-column .stage-container-2 {
+    flex: 1.15 !important;
+    min-height: 0 !important;
+  }
+}
+
+/* Halfscreen or smaller viewports: Enable smooth scrolling and prevent container squishing */
+@media (max-width: 1366px), (max-height: 820px) {
+  .stage-right-column {
+    overflow-y: auto !important;
+    padding-right: 0.45rem !important;
+  }
+  .stage-right-column .stage-container-1,
+  .stage-right-column .stage-container-2 {
+    flex: none !important;
+    flex-shrink: 0 !important;
+    min-height: fit-content !important;
+  }
+}
+

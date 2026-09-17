@@ -321,187 +321,177 @@ export default function Stage2_Floating({ onComplete }) {
       </div>
 
       {/* Right Side: Step-by-Step Guide & Observations (Filled spacious typography) */}
-      {/* Right Side: Step-by-Step Interactive Guide (Warm Amber Theme with Spacious Typography) */}
-      <div style={{ 
-        flex: '1.15', 
-        background: 'linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 50%, #FEF3C7 100%)',
-        border: '1.5px solid #FDE68A',
-        borderRadius: '24px',
-        padding: '1.45rem 1.6rem',
-        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
-        display: 'flex', 
-        flexDirection: 'column', 
-        justifyContent: 'space-between', 
-        minWidth: 0, 
-        height: '100%',
-        boxSizing: 'border-box',
-        overflowY: 'auto',
-        gap: '0.9rem'
-      }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
-          {/* Header */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <Compass size={28} color="#D97706" />
-              <h3 style={{ margin: 0, fontSize: '1.48rem', color: '#064E3B', fontWeight: 900 }}>
-                Stage 2: Make a Compass
-              </h3>
-            </div>
-            <span style={{
-              background: '#DCFCE7',
-              color: '#15803D',
-              fontWeight: 900,
-              fontSize: '0.96rem',
-              padding: '0.38rem 0.95rem',
-              borderRadius: '14px',
-              border: '1.5px solid #86EFAC'
-            }}>
-              Step {step === 'settled' ? (spinCount > 0 ? 3 : 2) : 1} of 3
-            </span>
-          </div>
-          
-          {/* Step Cards Visible from Initial Load */}
+      {/* Right Side: Step-by-Step Interactive Guide */}
+      <div className="stage-right-column">
+        {/* Container 1: Steps of Instructions & Action Controls */}
+        <div 
+          className="stage-container-1"
+          style={{
+            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+            border: '1.5px solid #FDE68A',
+            borderRadius: '24px',
+            boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
+            padding: '1.25rem 1.45rem',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            gap: '0.85rem',
+            boxSizing: 'border-box'
+          }}
+        >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {[
-              {
-                stepNum: 1,
-                title: '1. Float Cork on Water',
-                desc: 'Insert the magnetized needle into the light cork and place it gently in the water bowl.'
-              },
-              {
-                stepNum: 2,
-                title: '2. Observe Natural Alignment',
-                desc: 'The floating needle freely rotates on the water surface and settles pointing North-South.'
-              },
-              {
-                stepNum: 3,
-                title: '3. Rotate & Verify Stability',
-                desc: 'Spin the needle in random directions — it always returns steadily to the North-South line!'
-              }
-            ].map((s) => {
-              const currentStepNum = step === 'settled' ? (spinCount > 0 ? 3 : 2) : 1;
-              const isCurrent = currentStepNum === s.stepNum;
-              const isPast = currentStepNum > s.stepNum || (s.stepNum === 1 && step !== 'initial') || (s.stepNum === 2 && step === 'settled');
-
-              return (
+            {/* Header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                <Compass size={24} color="#D97706" />
+                <h3 style={{ margin: 0, fontSize: '19.5px', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.01em' }}>
+                  Stage 2: Make a Compass
+                </h3>
+              </div>
+              <span style={{
+                background: step === 'settled' ? '#DCFCE7' : 'rgba(217, 119, 6, 0.12)',
+                color: step === 'settled' ? '#15803D' : '#B45309',
+                fontWeight: 900,
+                fontSize: '0.88rem',
+                padding: '0.3rem 0.8rem',
+                borderRadius: '12px',
+                border: step === 'settled' ? '1.5px solid #86EFAC' : '1.5px solid #FDE68A'
+              }}>
+                Step {step === 'settled' ? (spinCount > 0 ? 3 : 2) : 1} of 3
+              </span>
+            </div>
+            
+            {/* Step Bullet Cards */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+              {[
+                {
+                  id: 'step1',
+                  desc: 'Insert the magnetized needle into the light cork and place it gently in the water bowl.'
+                },
+                {
+                  id: 'step2',
+                  desc: 'The floating needle freely rotates on the water surface and settles pointing North-South.'
+                },
+                {
+                  id: 'step3',
+                  desc: 'Spin the needle in random directions — it always returns steadily to the North-South line!'
+                }
+              ].map((s) => (
                 <div
-                  key={s.stepNum}
+                  key={s.id}
                   style={{
-                    padding: '0.95rem 1.15rem',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '0.75rem',
+                    background: '#FFFFFF',
+                    border: '1.5px solid #FDE68A',
                     borderRadius: '16px',
-                    background: isCurrent ? '#FEF3C7' : isPast ? '#DCFCE7' : '#FFFFFF',
-                    border: isCurrent 
-                      ? '2px solid #F59E0B' 
-                      : isPast 
-                      ? '1.5px solid #86EFAC' 
-                      : '1.5px solid #FDE68A',
-                    boxShadow: isCurrent 
-                      ? '0 4px 14px rgba(245, 158, 11, 0.18)' 
-                      : '0 2px 8px rgba(0,0,0,0.03)',
-                    transition: 'all 0.3s ease'
+                    padding: '0.75rem 1rem',
+                    boxShadow: '0 2px 8px rgba(217, 119, 6, 0.05)'
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem' }}>
-                      <span style={{
-                        width: '28px',
-                        height: '28px',
-                        borderRadius: '50%',
-                        background: isCurrent ? '#D97706' : isPast ? '#059669' : '#CBD5E1',
-                        color: '#FFFFFF',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '0.92rem',
-                        fontWeight: 900,
-                        flexShrink: 0
-                      }}>
-                        {s.stepNum}
-                      </span>
-                      <span style={{ fontWeight: 900, fontSize: '1.18rem', color: isCurrent ? '#064E3B' : isPast ? '#065F46' : '#064E3B' }}>
-                        {s.title}
-                      </span>
-                    </div>
-                    {isPast && <CheckCircle size={20} color="#10B981" />}
-                  </div>
-                  <p style={{ margin: '0.4rem 0 0 0', fontSize: '1.02rem', color: '#065F46', lineHeight: 1.55, fontWeight: 700 }}>
+                  <span style={{
+                    width: '9px',
+                    height: '9px',
+                    borderRadius: '50%',
+                    background: '#D97706',
+                    marginTop: '0.48rem',
+                    flexShrink: 0
+                  }} />
+                  <p style={{
+                    margin: 0,
+                    fontSize: '17.5px',
+                    color: '#78350F',
+                    fontWeight: 600,
+                    lineHeight: 1.45
+                  }}>
                     {s.desc}
                   </p>
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
 
-          {/* Observation Alert Card */}
-          <div style={{ 
-            background: '#FFFFFF', 
-            border: '1.5px solid #FDE68A', 
-            padding: '1.25rem 1.4rem', 
-            borderRadius: '20px',
-            boxShadow: '0 4px 14px rgba(217, 119, 6, 0.05)'
-          }}>
-            <h5 style={{ margin: '0 0 0.45rem 0', color: '#064E3B', fontSize: '1.22rem', fontWeight: 900 }}>
-              🔍 Scientific Observation
-            </h5>
-            <p style={{ margin: 0, fontSize: '1.02rem', color: '#065F46', lineHeight: 1.6, fontWeight: 700 }}>
-              {step === 'settled'
-                ? "The magnetized needle always comes to rest pointing North-South, working just like a real magnetic navigation compass!"
-                : "Rotate the needle in different directions and let it settle to observe."}
-            </p>
+          {/* Action Button */}
+          <div style={{ marginTop: '0.2rem' }}>
+            <button
+              onClick={step === 'initial' ? handlePlaceCork : handleSpin}
+              className="gold-glow-btn"
+              style={{
+                width: '100%',
+                padding: '0.8rem 1.4rem',
+                fontSize: '17.5px',
+                fontWeight: 900,
+                borderRadius: '18px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '0.65rem',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              {step === 'initial' ? (
+                <>
+                  <Flag size={20} color="#FFFFFF" /> Float Cork on Water
+                </>
+              ) : (
+                <>
+                  <RotateCcw size={20} color="#FFFFFF" /> Spin Needle in Water 🔄
+                </>
+              )}
+            </button>
           </div>
         </div>
 
-        {/* Action Controls Section on Right */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.3rem' }}>
-          <button
-            onClick={step === 'initial' ? handlePlaceCork : handleSpin}
-            className="gold-glow-btn"
-            style={{
-              width: '100%',
-              padding: '0.95rem 1.6rem',
-              fontSize: '1.08rem',
-              fontWeight: 900,
-              borderRadius: '20px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: '0.65rem',
-            }}
-          >
-            {step === 'initial' ? (
-              <>
-                <Flag size={20} color="#FFFFFF" /> Float Cork on Water
-              </>
-            ) : (
-              <>
-                <RotateCcw size={20} color="#FFFFFF" /> Spin Needle Fast! 🔄
-              </>
-            )}
-          </button>
+        {/* Container 2: Scientific Observation & Proceed */}
+        <div 
+          className="stage-container-2"
+          style={{
+            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+            border: '1.5px solid #FDE68A',
+            borderRadius: '24px',
+            boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
+            padding: '1.25rem 1.45rem',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            gap: '0.85rem',
+            boxSizing: 'border-box'
+          }}
+        >
+          <div>
+            <h5 style={{ margin: '0 0 0.4rem 0', color: '#1E1B4B', fontSize: '19.5px', fontWeight: 900, letterSpacing: '-0.01em' }}>
+              🔍 Scientific Observation
+            </h5>
+            <p style={{ margin: 0, fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 600 }}>
+              {step === 'settled'
+                ? "The magnetized needle always comes to rest pointing along the North-South direction, working just like a real navigational compass!"
+                : "Rotate the needle in different directions and let it settle to observe its natural alignment."}
+            </p>
+          </div>
 
-          {/* Completion Proceed Button */}
           <button 
             onClick={handleFinish} 
             disabled={step !== 'settled'}
             className={step === 'settled' ? 'gold-glow-btn' : ''}
             style={{ 
               width: '100%', 
-              padding: '0.95rem 1.6rem', 
-              fontSize: '1.08rem', 
+              padding: '0.8rem 1.6rem', 
+              fontSize: '17.5px', 
               fontWeight: 900, 
               borderRadius: '20px', 
               display: 'flex', 
               justifyContent: 'center', 
               alignItems: 'center', 
               gap: '0.65rem',
-              background: step === 'settled' ? undefined : '#F1F5F9',
+              background: step === 'settled' ? undefined : '#E2E8F0',
               color: step === 'settled' ? '#FFFFFF' : '#94A3B8',
-              border: step === 'settled' ? undefined : '1.5px solid #E2E8F0',
+              border: 'none',
               cursor: step === 'settled' ? 'pointer' : 'not-allowed',
               transition: 'all 0.25s ease'
             }}
           >
-            <CheckCircle size={20} color={step === 'settled' ? "#FFFFFF" : "#94A3B8"} /> Finish Activity & Proceed to Quiz
+            <CheckCircle size={20} color={step === 'settled' ? "#FFFFFF" : "#94A3B8"} /> Proceed to Quiz <ArrowRight size={20} color={step === 'settled' ? "#FFFFFF" : "#94A3B8"} />
           </button>
         </div>
       </div>

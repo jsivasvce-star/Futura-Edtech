@@ -63,20 +63,20 @@ function BarMagnet3D() {
       {/* 1. North Pole Core Half (Left, X: -6 to 0) - Bold Red */}
       <mesh position={[-3.0, 0, 0]} castShadow receiveShadow={false}>
         <boxGeometry args={[6.0, 1.3, 1.9]} />
-        <meshStandardMaterial 
-          color="#DC2626" 
-          roughness={0.4} 
-          metalness={0.1} 
+        <meshStandardMaterial
+          color="#DC2626"
+          roughness={0.4}
+          metalness={0.1}
         />
       </mesh>
 
       {/* 2. South Pole Core Half (Right, X: 0 to +6) - Deep Ocean Blue */}
       <mesh position={[3.0, 0, 0]} castShadow receiveShadow={false}>
         <boxGeometry args={[6.0, 1.3, 1.9]} />
-        <meshStandardMaterial 
-          color="#2563EB" 
-          roughness={0.4} 
-          metalness={0.1} 
+        <meshStandardMaterial
+          color="#2563EB"
+          roughness={0.4}
+          metalness={0.1}
         />
       </mesh>
 
@@ -570,7 +570,7 @@ export default function Stage3_Sandbox({ onComplete }) {
     setIsDragging(false);
     try {
       e.currentTarget.releasePointerCapture(e.pointerId);
-    } catch (_) {}
+    } catch (_) { }
   };
 
   const handleResetRotation = (e) => {
@@ -875,29 +875,29 @@ export default function Stage3_Sandbox({ onComplete }) {
       </div>
 
       {/* Right Column: Fullscreen non-scrolling, Halfscreen scrolling */}
-      <div 
+      <div
         className="stage-right-column custom-scrollbar"
-        style={{ 
-          flex: '1.15', 
+        style={{
+          flex: '1.15',
           height: '100%',
           maxHeight: '100%',
           minHeight: 0,
           boxSizing: 'border-box',
-          display: 'flex', 
-          flexDirection: 'column', 
-          gap: '1.65rem', 
-          minWidth: 0, 
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1.65rem',
+          minWidth: 0,
           fontFamily: 'system-ui, -apple-system, sans-serif'
         }}
       >
         {/* CONTAINER 1: Steps of Instructions */}
-        <div 
+        <div
           className="stage-container-1"
           style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
-            border: '1.5px solid #FDE68A', 
-            borderRadius: '24px', 
-            padding: '1.25rem 1.45rem', 
+            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+            border: '1.5px solid #FDE68A',
+            borderRadius: '24px',
+            padding: '1.25rem 1.45rem',
             boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
             display: 'flex',
             flexDirection: 'column',
@@ -1096,10 +1096,10 @@ export default function Stage3_Sandbox({ onComplete }) {
         <div
           className="stage-container-2"
           style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
-            border: '1.5px solid #FDE68A', 
-            borderRadius: '24px', 
-            padding: '1.25rem 1.45rem', 
+            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+            border: '1.5px solid #FDE68A',
+            borderRadius: '24px',
+            padding: '1.25rem 1.45rem',
             boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
             display: 'flex',
             flexDirection: 'column',

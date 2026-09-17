@@ -128,11 +128,11 @@ export default function Stage4_Quiz({ onComplete }) {
       overflow: 'hidden',
       fontFamily: 'system-ui, -apple-system, sans-serif'
     }}>
-      <div style={{ width: '100%', maxWidth: '1100px', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ width: '100%', maxWidth: '1250px', display: 'flex', flexDirection: 'column' }}>
         {/* Top Bar */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.65rem', padding: '0 0.5rem', flexShrink: 0 }}>
-          <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.25rem', fontWeight: 900 }}>Test Your Knowledge</h3>
-          <div style={{ color: '#047857', fontSize: '1.02rem', fontWeight: 800 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', padding: '0 0.5rem', flexShrink: 0 }}>
+          <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.5rem', fontWeight: 900 }}>Test Your Knowledge</h3>
+          <div style={{ color: '#047857', fontSize: '1.25rem', fontWeight: 800 }}>
             Question {currentQ + 1} of {QUESTIONS.length}
           </div>
         </div>
@@ -141,27 +141,27 @@ export default function Stage4_Quiz({ onComplete }) {
         <div className="glass-panel" style={{ 
           background: 'linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 50%, #FEF3C7 100%)', 
           border: '1.5px solid #FDE68A',
-          borderRadius: '24px', 
-          padding: '1.8rem 2.4rem', 
+          borderRadius: '28px', 
+          padding: '2.4rem 3.2rem', 
           boxShadow: '0 8px 30px rgba(217, 119, 6, 0.08)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '1.1rem',
+          gap: '1.4rem',
           width: '100%',
           boxSizing: 'border-box'
         }}>
           {/* Title */}
-          <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.45rem', fontWeight: 900 }}>
+          <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.75rem', fontWeight: 900 }}>
             {question.title}
           </h3>
 
           {/* Question Text */}
-          <p style={{ margin: 0, fontSize: '1.16rem', lineHeight: '1.6', fontWeight: 600, color: '#065F46' }}>
+          <p style={{ margin: 0, fontSize: '1.38rem', lineHeight: '1.6', fontWeight: 600, color: '#065F46' }}>
             {question.question}
           </p>
 
           {/* Option Buttons */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
             {question.options.map((opt) => {
               const isSelected = selectedOption === opt;
               const isCorrect = opt === question.correctAnswer;
@@ -176,12 +176,12 @@ export default function Stage4_Quiz({ onComplete }) {
                   bgColor = '#DCFCE7';
                   borderColor = '#10B981';
                   textColor = '#064E3B';
-                  icon = <CheckCircle size={22} color="#10B981" />;
+                  icon = <CheckCircle size={26} color="#10B981" />;
                 } else if (isSelected) {
                   bgColor = '#FEE2E2';
                   borderColor = '#EF4444';
                   textColor = '#991B1B';
-                  icon = <XCircle size={22} color="#EF4444" />;
+                  icon = <XCircle size={26} color="#EF4444" />;
                 }
               } else if (isSelected) {
                 borderColor = '#10B981';
@@ -199,15 +199,15 @@ export default function Stage4_Quiz({ onComplete }) {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    padding: '1.05rem 1.5rem',
-                    borderRadius: '16px',
+                    padding: '1.25rem 1.85rem',
+                    borderRadius: '20px',
                     background: bgColor,
                     border: `1.5px solid ${borderColor}`,
                     color: textColor,
                     cursor: showResult ? 'default' : 'pointer',
                     textAlign: 'left',
-                    fontSize: '1.06rem',
-                    fontWeight: 700,
+                    fontSize: '1.25rem',
+                    fontWeight: 800,
                     transition: 'all 0.2s ease',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
                     opacity: showResult && !isCorrect && !isSelected ? 0.6 : 1
@@ -223,9 +223,9 @@ export default function Stage4_Quiz({ onComplete }) {
           {/* Explanation & Next Question Button */}
           {showResult && (
             <div style={{ marginTop: '0.6rem', display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
-              <div style={{ padding: '1rem 1.4rem', background: '#F0FDF4', borderRadius: '16px', border: '1.5px solid #A7F3D0', borderLeft: '5px solid #059669' }}>
-                <h4 style={{ margin: '0 0 0.35rem 0', fontSize: '1.05rem', fontWeight: 900, color: '#064E3B' }}>Explanation</h4>
-                <p style={{ margin: 0, color: '#065F46', fontSize: '1rem', lineHeight: '1.55', fontWeight: 600 }}>{question.explanation}</p>
+              <div style={{ padding: '1.1rem 1.6rem', background: '#F0FDF4', borderRadius: '18px', border: '1.5px solid #A7F3D0', borderLeft: '6px solid #059669' }}>
+                <h4 style={{ margin: '0 0 0.35rem 0', fontSize: '1.2rem', fontWeight: 900, color: '#064E3B' }}>Explanation</h4>
+                <p style={{ margin: 0, color: '#065F46', fontSize: '1.18rem', lineHeight: '1.55', fontWeight: 600 }}>{question.explanation}</p>
               </div>
               
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -233,9 +233,9 @@ export default function Stage4_Quiz({ onComplete }) {
                   onClick={handleNextQuestion}
                   className="gold-glow-btn"
                   style={{
-                    padding: '0.9rem 2.4rem',
-                    borderRadius: '30px',
-                    fontSize: '1.05rem',
+                    padding: '1.1rem 3rem',
+                    borderRadius: '32px',
+                    fontSize: '1.25rem',
                     fontWeight: 900,
                     cursor: 'pointer'
                   }}
