@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Compass, ArrowRight, Sunrise, Sunset, Navigation, CheckCircle2, ArrowLeft, ArrowUp, ArrowDown, Map, Lightbulb, MapPin, Sun, HelpCircle, BookOpen, Globe } from 'lucide-react';
 import ChapterBackFooter from '../ChapterBackFooter';
@@ -89,6 +89,7 @@ const DIRECTIONS = [
 ];
 
 export default function Directions({ onComplete, onBack }) {
+  const handleExploreBack = useCallback(() => setActiveTab('compass'), []);
   const [activeTab, setActiveTab] = useState('compass'); // 'compass' | 'india-map'
   const [currentScreen, setCurrentScreen] = useState('text'); // 'text' | 'compass'
   const [activeDir, setActiveDir] = useState(null);
@@ -126,23 +127,21 @@ export default function Directions({ onComplete, onBack }) {
     return `M 50 50 L ${x1} ${y1} A 50 50 0 0 1 ${x2} ${y2} Z`;
   };
 
-  // If India Map Activity is active
-  if (activeTab === 'india-map') {
-    return (
-      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', minHeight: 0, background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)', borderRadius: '16px', border: '2px solid #F2DFBC', boxShadow: '0 8px 30px rgba(60,40,20,0.06)', overflow: 'hidden' }}>
+  return (
+    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+      
+      {/* If India Map Activity is active */}
+      <div style={{ position: 'absolute', inset: 0, opacity: activeTab === 'india-map' ? 1 : 0, pointerEvents: activeTab === 'india-map' ? 'auto' : 'none', zIndex: activeTab === 'india-map' ? 10 : 1, transition: 'opacity 0.2s ease', display: 'flex', flexDirection: 'column', minHeight: 0, background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)', borderRadius: '16px', border: '2px solid #F2DFBC', boxShadow: '0 8px 30px rgba(60,40,20,0.06)', overflow: 'hidden' }}>
         {/* The 6-Location India Map Mission */}
         <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
           <ExploreIndiaActivity 
             onBeginChapter={onComplete} 
-            onBack={() => setActiveTab('compass')} 
+            onBack={handleExploreBack} 
           />
         </div>
       </div>
-    );
-  }
 
-  return (
-    <div style={{ width: '100%', height: '100%', minHeight: 0, display: 'flex', flexDirection: 'column', background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)', overflow: 'hidden', borderRadius: '16px', border: '2px solid #F2DFBC', boxShadow: '0 8px 30px rgba(60,40,20,0.06)' }}>
+      <div style={{ position: 'absolute', inset: 0, opacity: activeTab === 'compass' ? 1 : 0, pointerEvents: activeTab === 'compass' ? 'auto' : 'none', zIndex: activeTab === 'compass' ? 10 : 1, transition: 'opacity 0.2s ease', display: 'flex', flexDirection: 'column', minHeight: 0, background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)', overflow: 'hidden', borderRadius: '16px', border: '2px solid #F2DFBC', boxShadow: '0 8px 30px rgba(60,40,20,0.06)' }}>
       
       {/* Top Bar (Only shown on compass to provide Back to Reading) */}
       {currentScreen === 'compass' && (
@@ -194,10 +193,7 @@ export default function Directions({ onComplete, onBack }) {
                         {/* Section 2 - The Four Cardinal Directions & Sun */}
                         <div style={{ background: '#FFFFFF', borderRadius: '16px', padding: '20px 24px', border: '1.5px solid #F2DFBC', boxShadow: '0 4px 12px rgba(60,40,20,0.04)' }}>
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                            <h3 style={{ color: '#78350F', fontSize: '23px', margin: 0, fontWeight: 900, fontFamily: '"Fraunces", serif' }}>Main Directions & the Sun</h3>
-                            <span style={{ fontSize: '14.5px', background: '#FEF3C7', color: '#92400E', padding: '4px 10px', borderRadius: '8px', fontWeight: 800, border: '1px solid #FDE68A', display: 'flex', gap: '6px', alignItems: 'center' }}>
-                              <Sun size={16} color="#D97706" /> Face the Sunrise
-                            </span>
+                            <h3 style={{ color: '#78350F', fontSize: '23px', margin: 0, fontWeight: 900, fontFamily: '"Fraunces", serif' }}>Main Directions</h3>
                           </div>
                           
                           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
@@ -297,7 +293,18 @@ export default function Directions({ onComplete, onBack }) {
               </div>              </div>
 
               {/* Footer for Text View */}
-              <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', borderTop: '2px solid #F2DFBC', paddingTop: '16px', marginTop: 'auto', marginBottom: '10px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '2px solid #F2DFBC', paddingTop: '16px', marginTop: 'auto', marginBottom: '10px' }}>
+                <button
+                  onClick={onBack}
+                  style={{
+                    fontFamily: '"Space Grotesk", sans-serif', fontWeight: 800, fontSize: '15px',
+                    background: '#FFFFFF', color: '#78350F', border: '1.5px solid #F2DFBC',
+                    borderRadius: '999px', padding: '10px 24px', cursor: 'pointer',
+                    transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px'
+                  }}
+                >
+                  <ArrowLeft size={18} /> Previous
+                </button>
                 <button
                   onClick={() => {
                     setCurrentScreen('compass');
@@ -524,6 +531,11 @@ export default function Directions({ onComplete, onBack }) {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '2px solid #F2DFBC', padding: '16px 24px', background: '#FFF9F0', zIndex: 10 }}>
                   <button
                     onClick={() => {
+                      if (activeDir === 'N') {
+                        setCurrentScreen('text');
+                        setActiveDir(null);
+                        return;
+                      }
                       const currentIndex = DIRECTIONS.findIndex(d => d.id === activeDir);
                       const prevIndex = (currentIndex - 1 + DIRECTIONS.length) % DIRECTIONS.length;
                       handleDirClick(DIRECTIONS[prevIndex].id);
@@ -564,6 +576,7 @@ export default function Directions({ onComplete, onBack }) {
         </AnimatePresence>
 
       </div>
+    </div>
     </div>
   );
 }

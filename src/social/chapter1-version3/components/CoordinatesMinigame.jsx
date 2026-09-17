@@ -100,15 +100,6 @@ export default function CoordinatesMinigame({ onComplete, onBack }) {
     <div className="coords-minigame-container">
       {/* Left Pane - Map */}
       <div className="coords-mini-left">
-        <div className="coords-mini-header">
-          {onBack && (
-            <button className="coords-mini-back" onClick={onBack}>
-              &larr; Back to Globe
-            </button>
-          )}
-          <div className="coords-mini-chapter">CHAPTER 1 &bull; CLASS 6 SOCIAL SCIENCE</div>
-          <div className="coords-mini-title">Locating Places on the Earth</div>
-        </div>
         
         <div 
           className={`coords-mini-map-box ${isFullscreen ? 'fullscreen' : ''}`}
@@ -117,7 +108,7 @@ export default function CoordinatesMinigame({ onComplete, onBack }) {
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
-          style={{ touchAction: 'none', cursor: 'crosshair' }}
+          style={{ touchAction: 'none', cursor: 'crosshair', marginBottom: '60px' }}
         >
           <button 
             className="fullscreen-btn" 
@@ -165,10 +156,37 @@ export default function CoordinatesMinigame({ onComplete, onBack }) {
           <div className={`coords-mini-vline ${tempClass}`} style={{ left: getLeft(userLon) }}></div>
           <div className={`coords-mini-user-point ${tempClass}`} style={{ top: getTop(userLat), left: getLeft(userLon) }}></div>
         </div>
+
+        {/* Previous Button (Left Pane Footer) */}
+        <div style={{ position: 'absolute', bottom: '12px', left: '40px' }}>
+          <button 
+            onClick={() => { if (onBack) onBack(); }}
+            style={{
+              background: '#FFFFFF',
+              color: '#78350F',
+              border: '1.5px solid #F2DFBC',
+              padding: '10px 24px',
+              borderRadius: '999px',
+              cursor: 'pointer',
+              fontWeight: 800,
+              fontSize: '15px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              boxShadow: '0 4px 12px rgba(60,40,20,0.06)',
+              transition: 'all 0.2s ease',
+              fontFamily: 'inherit'
+            }}
+            onMouseOver={(e) => { e.currentTarget.style.background = '#FDF8F0'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
+            onMouseOut={(e) => { e.currentTarget.style.background = '#FFFFFF'; e.currentTarget.style.transform = 'translateY(0)'; }}
+          >
+            ◀ Previous
+          </button>
+        </div>
       </div>
 
       {/* Right Pane - Controls */}
-      <div className="coords-mini-right">
+      <div className="coords-mini-right" style={{ position: 'relative' }}>
         <div className="coords-mini-task-header">
           <svg className="compass-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
           TASK 3: FIND THE PLACE
@@ -230,10 +248,39 @@ export default function CoordinatesMinigame({ onComplete, onBack }) {
           </div>
         </div>
 
-        <button className="coords-mini-confirm-btn" onClick={handleConfirm}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path><path d="M13 13l6 6"></path></svg>
-          Confirm Coordinates
-        </button>
+        <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '60px' }}>
+          <button className="coords-mini-confirm-btn" onClick={handleConfirm}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path><path d="M13 13l6 6"></path></svg>
+            Confirm Coordinates
+          </button>
+        </div>
+
+        {/* Global Footer (Absolute Positioned Next Button) */}
+        <div style={{ position: 'absolute', bottom: '12px', right: '12px', display: 'flex', justifyContent: 'flex-end' }}>
+          <button 
+            onClick={() => { if (onComplete) onComplete(); }}
+            style={{
+              background: '#d97706',
+              color: '#FFFFFF',
+              border: 'none',
+              padding: '10px 24px',
+              borderRadius: '999px',
+              cursor: 'pointer',
+              fontWeight: 800,
+              fontSize: '15px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              boxShadow: '0 4px 12px rgba(245,158,11,0.38)',
+              transition: 'all 0.2s ease',
+              fontFamily: 'inherit'
+            }}
+            onMouseOver={(e) => { e.currentTarget.style.background = '#b45309'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
+            onMouseOut={(e) => { e.currentTarget.style.background = '#d97706'; e.currentTarget.style.transform = 'translateY(0)'; }}
+          >
+            Next ▶
+          </button>
+        </div>
       </div>
 
       {/* Modal */}
