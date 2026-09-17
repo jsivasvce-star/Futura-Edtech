@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle, XCircle } from 'lucide-react';
+import { CheckCircle, XCircle, HelpCircle } from 'lucide-react';
 
 const quizData = [
   {
@@ -120,8 +120,8 @@ export default function Quiz({ onComplete }) {
       flexDirection: 'column', 
       alignItems: 'center', 
       justifyContent: 'center', 
-      padding: '0.5rem 1rem', 
-      overflow: 'hidden',
+      padding: '0.75rem 1rem', 
+      overflowY: 'auto',
       boxSizing: 'border-box',
       fontFamily: "'Inter', system-ui, -apple-system, sans-serif"
     }}>

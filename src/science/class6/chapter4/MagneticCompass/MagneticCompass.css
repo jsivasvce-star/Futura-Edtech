@@ -87,15 +87,15 @@
 /* Fullscreen: non-scrolling, containers expand gracefully to fill height */
 @media (min-width: 1367px) and (min-height: 821px) {
   .stage-right-column {
-    overflow-y: hidden !important;
+    overflow-y: auto !important;
   }
   .stage-right-column .stage-container-1 {
-    flex: 1 !important;
-    min-height: 0 !important;
+    flex: 1.35 !important;
+    min-height: fit-content !important;
   }
   .stage-right-column .stage-container-2 {
-    flex: 1.15 !important;
-    min-height: 0 !important;
+    flex: 1 !important;
+    min-height: fit-content !important;
   }
 }
 

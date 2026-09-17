@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Compass, CheckCircle, RotateCcw, Flag } from 'lucide-react';
+import { Compass, CheckCircle, RotateCcw, Flag, ArrowRight } from 'lucide-react';
 import MagneticNeedleShape from './MagneticNeedleShape';
 
 export default function Stage2_Floating({ onComplete }) {
@@ -362,7 +362,8 @@ export default function Stage2_Floating({ onComplete }) {
             </div>
             
             {/* Step Bullet Cards */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+            {/* Steps of Instructions - Dot Bullets, Single-Line Brown Text */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
               {[
                 {
                   id: 'step1',
@@ -381,29 +382,28 @@ export default function Stage2_Floating({ onComplete }) {
                   key={s.id}
                   style={{
                     display: 'flex',
-                    alignItems: 'flex-start',
+                    alignItems: 'baseline',
                     gap: '0.75rem',
-                    background: '#FFFFFF',
-                    border: '1.5px solid #FDE68A',
-                    borderRadius: '16px',
-                    padding: '0.75rem 1rem',
-                    boxShadow: '0 2px 8px rgba(217, 119, 6, 0.05)'
+                    padding: '0.1rem 0'
                   }}
                 >
-                  <span style={{
-                    width: '9px',
-                    height: '9px',
-                    borderRadius: '50%',
-                    background: '#D97706',
-                    marginTop: '0.48rem',
-                    flexShrink: 0
-                  }} />
+                  <span
+                    style={{
+                      width: '9px',
+                      height: '9px',
+                      borderRadius: '50%',
+                      background: '#D97706',
+                      display: 'inline-block',
+                      flexShrink: 0,
+                      transform: 'translateY(-2px)'
+                    }}
+                  />
                   <p style={{
                     margin: 0,
                     fontSize: '17.5px',
                     color: '#78350F',
                     fontWeight: 600,
-                    lineHeight: 1.45
+                    lineHeight: 1.5
                   }}>
                     {s.desc}
                   </p>

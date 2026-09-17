@@ -38,9 +38,9 @@ export default function SuspendedMagnetActivity({ onBackToDashboard, onComplete 
 
   const tabs = [
     { id: 'experiment', name: '1. Let us Experiment', icon: RotateCw, component: <Stage1_Experiment onComplete={handleStage1Complete} /> },
-    { id: 'conclusion', name: '2. Conclusion', icon: Compass, component: <Stage2_Conclusion onComplete={handleStage2Complete} />, locked: !progress.experiment },
-    { id: 'quiz', name: '3. Quiz', icon: HelpCircle, component: <Quiz onComplete={handleQuizComplete} />, locked: !progress.conclusion },
-    { id: 'didyouknow', name: '4. Did You Know?', icon: Sparkles, component: <DidYouKnow onComplete={handleDidYouKnowComplete} onBackToQuiz={() => setActiveTab('quiz')} />, locked: !progress.quiz }
+    { id: 'conclusion', name: '2. Conclusion', icon: Compass, component: <Stage2_Conclusion onComplete={handleStage2Complete} /> },
+    { id: 'quiz', name: '3. Quiz', icon: HelpCircle, component: <Quiz onComplete={handleQuizComplete} /> },
+    { id: 'didyouknow', name: '4. Did You Know?', icon: Sparkles, component: <DidYouKnow onComplete={handleDidYouKnowComplete} onBackToQuiz={() => setActiveTab('quiz')} /> }
   ];
 
   return (
@@ -117,7 +117,7 @@ export default function SuspendedMagnetActivity({ onBackToDashboard, onComplete 
         </div>
 
         {/* Right: Tab Navigation Bar */}
-        <nav style={{ display: 'flex', gap: '0.5rem', margin: 0, background: 'rgba(255, 255, 255, 0.75)', border: '1.5px solid #FDE68A', borderRadius: '28px', padding: '0.28rem' }}>
+        <nav style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0, background: 'rgba(255, 255, 255, 0.75)', border: '1.5px solid #FDE68A', borderRadius: '28px', padding: '0.28rem' }}>
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isCompleted = progress[tab.id];
@@ -126,12 +126,10 @@ export default function SuspendedMagnetActivity({ onBackToDashboard, onComplete 
             return (
               <button
                 key={tab.id}
-                onClick={() => !tab.locked && setActiveTab(tab.id)}
-                disabled={tab.locked}
+                onClick={() => setActiveTab(tab.id)}
                 className={isActive ? 'gold-glow-btn' : ''}
                 style={{
-                  opacity: tab.locked ? 0.45 : 1,
-                  cursor: tab.locked ? 'not-allowed' : 'pointer',
+                  cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.45rem',
@@ -140,12 +138,13 @@ export default function SuspendedMagnetActivity({ onBackToDashboard, onComplete 
                   fontWeight: 800,
                   borderRadius: '24px',
                   background: isActive ? undefined : 'transparent',
-                  color: isActive ? '#FFFFFF' : tab.locked ? '#A8A29E' : '#78350F',
+                  color: isActive ? '#FFFFFF' : '#78350F',
                   border: 'none',
+                  whiteSpace: 'nowrap',
                   transition: 'all 0.2s ease'
                 }}
               >
-                <Icon size={16} color={isActive ? '#FFFFFF' : tab.locked ? '#A8A29E' : '#D97706'} />
+                <Icon size={16} color={isActive ? '#FFFFFF' : '#D97706'} />
                 <span>{tab.name}</span>
                 {isCompleted && !isActive && <CheckCircle size={14} color="#10B981" />}
               </button>

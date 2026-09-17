@@ -38,9 +38,9 @@ export default function MagneticCompassActivity({ onBackToDashboard, onComplete 
 
   const tabs = [
     { id: 'magnetize', name: '1. Magnetize', icon: Magnet, component: <Stage1_Magnetize onComplete={handleStage1Complete} /> },
-    { id: 'floating', name: '2. Make a Compass', icon: Compass, component: <Stage2_Floating onComplete={handleStage2Complete} />, locked: !progress.magnetize },
-    { id: 'quiz', name: '3. Quiz', icon: HelpCircle, component: <Quiz onComplete={handleQuizComplete} />, locked: !progress.floating },
-    { id: 'didyouknow', name: '4. Did You Know?', icon: Sparkles, component: <DidYouKnow onComplete={handleDidYouKnowComplete} onBackToQuiz={() => setActiveTab('quiz')} />, locked: !progress.quiz }
+    { id: 'floating', name: '2. Make a Compass', icon: Compass, component: <Stage2_Floating onComplete={handleStage2Complete} /> },
+    { id: 'quiz', name: '3. Quiz', icon: HelpCircle, component: <Quiz onComplete={handleQuizComplete} /> },
+    { id: 'didyouknow', name: '4. Did You Know?', icon: Sparkles, component: <DidYouKnow onComplete={handleDidYouKnowComplete} onBackToQuiz={() => setActiveTab('quiz')} /> }
   ];
 
   return (
@@ -84,23 +84,24 @@ export default function MagneticCompassActivity({ onBackToDashboard, onComplete 
             padding: '0.6rem 1.25rem', 
             fontSize: '0.9rem', 
             gap: '0.5rem',
-            borderRadius: '14px'
+            borderRadius: '14px',
+            whiteSpace: 'nowrap'
           }}
         >
           <ArrowLeft size={18} color="#FFFFFF" /> Back to Chapter 4
         </button>
 
         {/* Center: Title & Subtitle */}
-        <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <h2 style={{ margin: 0, fontSize: '1.35rem', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.65rem', color: '#1E1B4B', letterSpacing: '-0.01em' }}>
-            <Compass size={26} style={{ color: '#D97706' }} />
+        <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 0.5rem' }}>
+          <h2 style={{ margin: 0, fontSize: '1.3rem', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.65rem', color: '#1E1B4B', letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
+            <Compass size={24} style={{ color: '#D97706' }} />
             Activity 4.4: Making a Simple Magnetic Compass
           </h2>
-          <span style={{ fontSize: '0.82rem', color: '#78350F', fontWeight: 800 }}>Class 6 Science — Constructing a Floating Compass</span>
+          <span style={{ fontSize: '0.82rem', color: '#78350F', fontWeight: 800, whiteSpace: 'nowrap' }}>Class 6 Science — Constructing a Floating Compass</span>
         </div>
 
         {/* Right: Tabbed Navigation Bar */}
-        <nav style={{ display: 'flex', gap: '0.5rem', margin: 0, background: 'rgba(255, 255, 255, 0.75)', border: '1.5px solid #FDE68A', borderRadius: '28px', padding: '0.28rem' }}>
+        <nav style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', margin: 0, background: 'rgba(255, 255, 255, 0.75)', border: '1.5px solid #FDE68A', borderRadius: '28px', padding: '0.28rem' }}>
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isCompleted = progress[tab.id];
@@ -109,26 +110,25 @@ export default function MagneticCompassActivity({ onBackToDashboard, onComplete 
             return (
               <button
                 key={tab.id}
-                onClick={() => !tab.locked && setActiveTab(tab.id)}
-                disabled={tab.locked}
+                onClick={() => setActiveTab(tab.id)}
                 className={isActive ? 'gold-glow-btn' : ''}
                 style={{
-                  opacity: tab.locked ? 0.45 : 1,
-                  cursor: tab.locked ? 'not-allowed' : 'pointer',
+                  cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.45rem',
-                  padding: '0.55rem 1.15rem',
-                  fontSize: '0.9rem',
+                  padding: '0.55rem 1.05rem',
+                  fontSize: '0.88rem',
                   fontWeight: 800,
                   borderRadius: '24px',
                   background: isActive ? undefined : 'transparent',
-                  color: isActive ? '#FFFFFF' : tab.locked ? '#A8A29E' : '#78350F',
+                  color: isActive ? '#FFFFFF' : '#78350F',
                   border: 'none',
+                  whiteSpace: 'nowrap',
                   transition: 'all 0.2s ease'
                 }}
               >
-                <Icon size={16} color={isActive ? '#FFFFFF' : tab.locked ? '#A8A29E' : '#D97706'} />
+                <Icon size={16} color={isActive ? '#FFFFFF' : '#D97706'} />
                 <span>{tab.name}</span>
                 {isCompleted && !isActive && <CheckCircle size={14} color="#10B981" />}
               </button>
