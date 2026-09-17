@@ -4,6 +4,7 @@ import { Text, OrbitControls, ContactShadows, Environment, useTexture } from '@r
 import { motion, AnimatePresence } from 'framer-motion';
 import { Hand, RotateCcw, Shapes, Flag, BookOpen, CheckCircle, ArrowRight, Play, Pause } from 'lucide-react';
 import RingMagnetVideoPlayer from './RingMagnetVideoPlayer';
+import MagneticPolesVideoPlayer from './MagneticPolesVideoPlayer';
 import * as THREE from 'three';
 import { createCustomMagnetTextures } from './magnetTextureGenerator';
 import '../MagneticPoles.css';
@@ -641,7 +642,7 @@ export default function Stage3_Sandbox({ onComplete }) {
 
   // Only start pouring iron filings once the tray and magnet arrive at the center (3D Canvas only)
   const handleArrival = useCallback(() => {
-    if (shape === 'ring') return;
+    if (shape === 'ring' || shape === 'bar') return;
     if (hasArrivedRef.current) return;
     hasArrivedRef.current = true;
     executePhase('sprinkle', 1800);
@@ -649,7 +650,7 @@ export default function Stage3_Sandbox({ onComplete }) {
 
   // Safety fallback in case of background tab throttling
   useEffect(() => {
-    if (shape === 'ring') return;
+    if (shape === 'ring' || shape === 'bar') return;
     const fallbackTimer = setTimeout(() => {
       if (!hasArrivedRef.current) {
         handleArrival();
@@ -667,7 +668,7 @@ export default function Stage3_Sandbox({ onComplete }) {
     setIsPaused(false);
     isPausedRef.current = false;
     setTapCount(0);
-    if (newShape !== 'ring') {
+    if (newShape === 'horseshoe') {
       executePhase('sprinkle', 1800);
     } else {
       setStep('initial');
@@ -676,7 +677,7 @@ export default function Stage3_Sandbox({ onComplete }) {
 
   const handleTogglePause = () => {
     if (!isPaused) {
-      if (shape !== 'ring') {
+      if (shape === 'horseshoe') {
         clearLoopTimers();
         const elapsed = Date.now() - phaseStartTimeRef.current;
         remainingMsRef.current = Math.max(50, remainingMsRef.current - elapsed);
@@ -686,7 +687,7 @@ export default function Stage3_Sandbox({ onComplete }) {
     } else {
       setIsPaused(false);
       isPausedRef.current = false;
-      if (shape !== 'ring') {
+      if (shape === 'horseshoe') {
         phaseStartTimeRef.current = Date.now();
         const currentPhase = phaseRef.current;
         const rem = remainingMsRef.current;
@@ -703,10 +704,10 @@ export default function Stage3_Sandbox({ onComplete }) {
     setIsPaused(false);
     isPausedRef.current = false;
     setTapCount(0);
-    if (shape === 'ring') {
-      setStep('initial');
-    } else {
+    if (shape === 'horseshoe') {
       executePhase('sprinkle', 1800);
+    } else {
+      setStep('initial');
     }
   };
 
@@ -722,7 +723,7 @@ export default function Stage3_Sandbox({ onComplete }) {
         boxSizing: 'border-box',
       }}
     >
-      {/* Left Side: 3D Scene Interactive Area / Ring Magnet Video Area */}
+      {/* Left Side: 3D Scene Interactive Area / Video Area */}
       <div
         style={{
           flex: '1.8',
@@ -747,6 +748,29 @@ export default function Stage3_Sandbox({ onComplete }) {
             <RingMagnetVideoPlayer
               videoSrc="/MagneticPoles/Ringmagnet.mp4"
               fallbackSrc="/assets/Ringmagnet.mp4"
+              externalIsPaused={isPaused}
+              onExternalTogglePause={handleTogglePause}
+              onExternalReset={handleReset}
+              onPhaseChange={handleVideoPhaseChange}
+              currentStep={step}
+              autoPlay={true}
+              loop={false}
+            />
+          </div>
+        ) : shape === 'bar' ? (
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              flex: 1,
+              minHeight: '380px',
+              overflow: 'hidden',
+              borderRadius: '24px',
+            }}
+          >
+            <MagneticPolesVideoPlayer
+              videoSrc="/MagneticPoles/Barmagnet.mp4"
+              fallbackSrc="/assets/Barmagnet.mp4"
               externalIsPaused={isPaused}
               onExternalTogglePause={handleTogglePause}
               onExternalReset={handleReset}

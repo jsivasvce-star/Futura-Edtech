@@ -100,13 +100,13 @@ export default function Questions({ onComplete, onNext }) {
 
   if (isFinished) {
     return (
-      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box' }}>
+      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: '#FFFFFF' }}>
         <div style={{ 
           maxWidth: '520px', 
           width: '90%', 
           padding: '2.5rem 3rem', 
           textAlign: 'center', 
-          background: 'linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 50%, #FEF3C7 100%)', 
+          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
           borderRadius: '30px', 
           border: '1.5px solid #FDE68A',
           boxShadow: '0 15px 40px rgba(217, 119, 6, 0.12)',
@@ -153,7 +153,8 @@ export default function Questions({ onComplete, onNext }) {
       justifyContent: 'center', 
       padding: '0.5rem', 
       overflow: 'hidden',
-      boxSizing: 'border-box' 
+      boxSizing: 'border-box',
+      backgroundColor: '#FFFFFF'
     }}>
       <div style={{ width: '100%', maxWidth: '1250px', display: 'flex', flexDirection: 'column' }}>
         {/* Top Bar */}
@@ -166,7 +167,7 @@ export default function Questions({ onComplete, onNext }) {
 
         {/* Main Quiz Card */}
         <div className="glass-panel" style={{ 
-          background: 'linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 50%, #FEF3C7 100%)', 
+          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
           border: '1.5px solid #FDE68A',
           borderRadius: '28px', 
           padding: '2.4rem 3.2rem', 

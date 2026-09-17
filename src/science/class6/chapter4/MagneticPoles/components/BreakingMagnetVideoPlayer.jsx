@@ -501,24 +501,31 @@ export default function BreakingMagnetVideoPlayer({
         {/* Buttons Row */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           {/* Left: Play/Pause, Replay, Time */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <button
               onClick={togglePlay}
               style={{
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: 'none',
+                background: 'rgba(255, 255, 255, 0.22)',
+                border: '1.5px solid rgba(255, 255, 255, 0.45)',
                 borderRadius: '8px',
-                width: '32px',
-                height: '32px',
+                width: '34px',
+                height: '34px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: '#FFFFFF',
                 cursor: 'pointer',
+                transition: 'all 0.15s ease',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
               }}
-              title={isPlaying ? 'Pause' : 'Play'}
+              title={isPlaying ? 'Pause (⏸)' : 'Play / Start (▶)'}
+              aria-label={isPlaying ? 'Pause video' : 'Play / Start video'}
             >
-              {isPlaying ? <Pause size={16} fill="#FFFFFF" /> : <Play size={16} fill="#FFFFFF" />}
+              {isPlaying ? (
+                <Pause size={17} fill="#FFFFFF" color="#FFFFFF" strokeWidth={0} />
+              ) : (
+                <Play size={17} fill="#FFFFFF" color="#FFFFFF" strokeWidth={0} style={{ marginLeft: '2px' }} />
+              )}
             </button>
 
             <button
@@ -534,13 +541,15 @@ export default function BreakingMagnetVideoPlayer({
                 justifyContent: 'center',
                 color: '#CBD5E1',
                 cursor: 'pointer',
+                transition: 'all 0.15s ease',
               }}
-              title="Restart Demonstration"
+              title="Restart Demonstration (↺)"
+              aria-label="Restart demonstration"
             >
               <RotateCcw size={16} />
             </button>
 
-            <span style={{ fontSize: '0.8rem', fontWeight: 800, color: '#E2E8F0', letterSpacing: '0.3px' }}>
+            <span style={{ fontSize: '0.82rem', fontWeight: 800, color: '#E2E8F0', letterSpacing: '0.3px', userSelect: 'none', marginLeft: '2px' }}>
               {formatTime(currentTime)} / {formatTime(duration)}
             </span>
           </div>

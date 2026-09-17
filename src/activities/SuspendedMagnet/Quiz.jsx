@@ -1,86 +1,62 @@
 import React, { useState } from 'react';
-import { CheckCircle, XCircle } from 'lucide-react';
+import { CheckCircle, XCircle, HelpCircle } from 'lucide-react';
 
 const quizData = [
   {
     id: 1,
     title: "Quiz 1",
-    question: "When a bar magnet is freely suspended, it always comes to rest in which direction?",
+    question: "When a bar magnet is suspended freely, which direction does its North pole point towards?",
     options: [
-      "East–West",
-      "North–South",
-      "Northeast–Southwest",
-      "Any direction"
+      "Geographic North",
+      "Geographic South",
+      "Geographic East",
+      "Geographic West"
     ],
-    correctIndex: 1,
-    explanation: "A freely suspended magnet always aligns itself in the North–South direction."
+    correctIndex: 0,
+    explanation: "A freely suspended bar magnet always aligns itself along the Earth's North-South magnetic axis. The North-seeking pole points toward Geographic North."
   },
   {
     id: 2,
     title: "Quiz 2",
-    question: "What is the end of a freely suspended magnet that points towards the North called?",
+    question: "If you rotate a freely suspended magnet and let it settle, where will it point?",
     options: [
-      "South Pole",
-      "East Pole",
-      "North Pole",
-      "Magnetic End"
+      "Random direction every time",
+      "Always along the North-South direction",
+      "Always towards the Sun",
+      "Always along the East-West direction"
     ],
-    correctIndex: 2,
-    explanation: "The end of the magnet that points towards the north is called the North Pole."
+    correctIndex: 1,
+    explanation: "No matter how many times you spin or disturb a freely suspended magnet, it will always come to rest along the exact same North-South line."
   },
   {
     id: 3,
     title: "Quiz 3",
-    question: "Why is a bar magnet tied with a thread in this activity?",
+    question: "Which ancient device used a freely suspended magnet or magnetic needle to find directions?",
     options: [
-      "To make it heavier",
-      "To allow it to rotate freely",
-      "To increase its magnetic strength",
-      "To keep it clean"
+      "Sundial",
+      "Magnetic Compass",
+      "Astrolabe",
+      "Telescope"
     ],
     correctIndex: 1,
-    explanation: "The thread allows the magnet to rotate freely until it settles in the North–South direction."
-  },
-  {
-    id: 4,
-    title: "Quiz 4",
-    question: "Which instrument is based on the property of a freely suspended magnet?",
-    options: [
-      "Thermometer",
-      "Compass",
-      "Balance",
-      "Magnifying glass"
-    ],
-    correctIndex: 1,
-    explanation: "A magnetic compass works because its needle is a small freely suspended magnet."
-  },
-  {
-    id: 5,
-    title: "Quiz 5",
-    question: "If the direction in which the suspended magnet comes to rest is marked, it can help us to identify the ________.",
-    options: [
-      "Colour of the magnet",
-      "Weight of the magnet",
-      "North and South directions",
-      "Length of the magnet"
-    ],
-    correctIndex: 2,
-    explanation: "A freely suspended magnet points towards the North and South, helping us find directions."
+    explanation: "A magnetic compass contains a light magnetized needle pivoted on a pin that rotates freely to indicate directions."
   }
 ];
 
 export default function Quiz({ onComplete }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(0);
+  const [showResult, setShowResult] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
+
+  const currentQ = quizData[currentQuestion];
 
   const handleOptionSelect = (index) => {
     if (showResult) return;
     setSelectedOption(index);
     setShowResult(true);
-    
-    if (index === quizData[currentQuestion].correctIndex) {
+    if (index === currentQ.correctIndex) {
       setScore(prev => prev + 1);
     }
   };
@@ -91,101 +67,185 @@ export default function Quiz({ onComplete }) {
       setSelectedOption(null);
       setShowResult(false);
     } else {
-      if (onComplete) onComplete(score);
+      setIsFinished(true);
     }
   };
 
-  const currentQ = quizData[currentQuestion];
-  const isFinished = currentQuestion >= quizData.length - 1 && showResult;
+  if (isFinished) {
+    return (
+      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', borderRadius: '24px', border: '1.5px solid #FDE68A', background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)' }}>
+        <div style={{ 
+          maxWidth: '520px', 
+          width: '90%', 
+          padding: '2.5rem 3rem', 
+          textAlign: 'center', 
+          background: 'linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 50%, #FEF3C7 100%)', 
+          borderRadius: '24px', 
+          border: '1.5px solid #FDE68A',
+          boxShadow: '0 8px 30px rgba(217, 119, 6, 0.08)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '1.25rem',
+          fontFamily: "'Inter', system-ui, -apple-system, sans-serif"
+        }}>
+          <h2 style={{ fontSize: '1.8rem', margin: 0, color: '#064E3B', fontWeight: 900 }}>Quiz Completed! 🎉</h2>
+          
+          <p style={{ color: '#065F46', margin: 0, fontSize: '1.2rem', fontWeight: 600 }}>
+            You scored <strong style={{ color: '#D97706' }}>{score}</strong> out of {quizData.length}
+          </p>
 
-  return (
-    <div style={{ maxWidth: '100%', margin: '0 auto', padding: '1rem' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <h3 style={{ margin: 0, color: 'var(--text-muted)' }}>Test Your Knowledge</h3>
-        <div style={{ color: 'var(--text-muted)' }}>
-          Question {currentQuestion + 1} of {quizData.length}
+          <button
+            onClick={() => { if (onComplete) onComplete(score); }}
+            className="gold-glow-btn"
+            style={{
+              padding: '0.9rem 2.8rem',
+              fontSize: '1.1rem',
+              marginTop: '0.6rem',
+              fontFamily: "'Inter', system-ui, -apple-system, sans-serif"
+            }}
+          >
+            Finish Activity
+          </button>
         </div>
       </div>
+    );
+  }
 
-      <div className="glass-panel" style={{ background: 'var(--surface)', padding: '2rem', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
-        <h3 style={{ margin: '0 0 0.5rem 0', color: 'var(--accent)' }}>{currentQ.title}</h3>
-        <p style={{ fontSize: '1.25rem', marginBottom: '2rem', lineHeight: '1.5' }}>{currentQ.question}</p>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {currentQ.options.map((option, index) => {
-            let bgColor = 'var(--bg)';
-            let borderColor = 'var(--border)';
-            let icon = null;
-
-            if (showResult) {
-              if (index === currentQ.correctIndex) {
-                bgColor = 'rgba(16, 185, 129, 0.1)';
-                borderColor = '#10b981';
-                icon = <CheckCircle size={20} color="#10b981" />;
-              } else if (index === selectedOption) {
-                bgColor = 'rgba(239, 68, 68, 0.1)';
-                borderColor = '#ef4444';
-                icon = <XCircle size={20} color="#ef4444" />;
-              }
-            } else if (index === selectedOption) {
-              borderColor = 'var(--accent)';
-            }
-
-            return (
-              <button
-                key={index}
-                onClick={() => handleOptionSelect(index)}
-                disabled={showResult}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '1rem',
-                  borderRadius: '8px',
-                  background: bgColor,
-                  border: `2px solid ${borderColor}`,
-                  color: 'var(--text)',
-                  cursor: showResult ? 'default' : 'pointer',
-                  textAlign: 'left',
-                  fontSize: '1rem',
-                  transition: 'all 0.2s ease',
-                  opacity: showResult && index !== currentQ.correctIndex && index !== selectedOption ? 0.6 : 1
-                }}
-              >
-                <span>{option}</span>
-                {icon}
-              </button>
-            );
-          })}
+  return (
+    <div style={{ 
+      width: '100%', 
+      height: '100%',
+      display: 'flex', 
+      flexDirection: 'column', 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      padding: '0.85rem 1.25rem', 
+      overflowY: 'auto',
+      boxSizing: 'border-box',
+      borderRadius: '24px',
+      border: '1.5px solid #FDE68A',
+      background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+      boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
+      fontFamily: "'Inter', system-ui, -apple-system, sans-serif"
+    }}>
+      <div style={{ width: '100%', maxWidth: '1250px', display: 'flex', flexDirection: 'column' }}>
+        {/* Top Bar */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', padding: '0 0.5rem', flexShrink: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <HelpCircle size={30} color="#D97706" />
+            <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.65rem', fontWeight: 900 }}>
+              Stage 3: Quiz
+            </h3>
+          </div>
+          <div style={{ color: '#047857', fontSize: '1.18rem', fontWeight: 800 }}>
+            Question {currentQuestion + 1} of {quizData.length}
+          </div>
         </div>
 
-        {showResult && (
-          <div style={{ marginTop: '2rem', animation: 'fadeIn 0.5s ease' }}>
-            <div style={{ padding: '1.5rem', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', borderLeft: '4px solid var(--accent)' }}>
-              <h4 style={{ margin: '0 0 0.5rem 0' }}>Explanation</h4>
-              <p style={{ margin: 0, color: 'var(--text-secondary)', lineHeight: '1.5' }}>{currentQ.explanation}</p>
-            </div>
-            
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1.5rem' }}>
-              <button
-                onClick={handleNext}
-                style={{
-                  padding: '0.75rem 2rem',
-                  background: 'var(--accent)',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '8px',
-                  fontSize: '1.1rem',
-                  fontWeight: 'bold',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
-                }}
-              >
-                {isFinished ? 'Finish Quiz' : 'Next Question'}
-              </button>
-            </div>
+        {/* Main Quiz Card */}
+        <div style={{ 
+          background: 'linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 50%, #FEF3C7 100%)', 
+          border: '1.5px solid #FDE68A',
+          borderRadius: '28px', 
+          padding: '2.4rem 3.2rem', 
+          boxShadow: '0 10px 35px rgba(217, 119, 6, 0.1)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1.4rem',
+          width: '100%',
+          boxSizing: 'border-box'
+        }}>
+          {/* Title */}
+          <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.75rem', fontWeight: 900 }}>
+            {currentQ.title}
+          </h3>
+
+          {/* Question Text Area */}
+          <p style={{ margin: 0, fontSize: '1.38rem', lineHeight: 1.6, fontWeight: 700, color: '#065F46' }}>
+            {currentQ.question}
+          </p>
+
+          {/* Option Buttons */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
+            {currentQ.options.map((option, index) => {
+              let bgColor = '#FFFFFF';
+              let borderColor = '#FDE68A';
+              let textColor = '#064E3B';
+              let icon = null;
+
+              if (showResult) {
+                if (index === currentQ.correctIndex) {
+                  bgColor = '#DCFCE7';
+                  borderColor = '#16A34A';
+                  textColor = '#064E3B';
+                  icon = <CheckCircle size={26} color="#16A34A" />;
+                } else if (index === selectedOption) {
+                  bgColor = '#FEE2E2';
+                  borderColor = '#EF4444';
+                  textColor = '#991B1B';
+                  icon = <XCircle size={26} color="#EF4444" />;
+                }
+              } else if (index === selectedOption) {
+                borderColor = '#D97706';
+                bgColor = '#FEF3C7';
+                textColor = '#92400E';
+              }
+
+              return (
+                <button
+                  key={index}
+                  onClick={() => handleOptionSelect(index)}
+                  disabled={showResult}
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '1.25rem 1.85rem',
+                    borderRadius: '18px',
+                    background: bgColor,
+                    border: `1.5px solid ${borderColor}`,
+                    color: textColor,
+                    cursor: showResult ? 'default' : 'pointer',
+                    textAlign: 'left',
+                    fontSize: '1.25rem',
+                    fontWeight: 800,
+                    transition: 'all 0.2s ease',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.03)',
+                    opacity: showResult && index !== currentQ.correctIndex && index !== selectedOption ? 0.65 : 1
+                  }}
+                >
+                  <span>{option}</span>
+                  {icon}
+                </button>
+              );
+            })}
           </div>
-        )}
+
+          {showResult && (
+            <div style={{ marginTop: '0.6rem', animation: 'fadeIn 0.35s ease' }}>
+              <div style={{ padding: '1.1rem 1.6rem', background: '#FFFBEB', borderRadius: '18px', borderLeft: '5px solid #D97706', border: '1.5px solid #FDE68A', borderLeftWidth: '5px' }}>
+                <h4 style={{ margin: '0 0 0.4rem 0', fontSize: '1.18rem', fontWeight: 900, color: '#064E3B' }}>Explanation</h4>
+                <p style={{ margin: 0, color: '#065F46', fontSize: '1.15rem', lineHeight: 1.6, fontWeight: 600 }}>{currentQ.explanation}</p>
+              </div>
+              
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
+                <button
+                  onClick={handleNext}
+                  className="gold-glow-btn"
+                  style={{
+                    padding: '0.9rem 2.6rem',
+                    borderRadius: '30px',
+                    fontSize: '1.2rem'
+                  }}
+                >
+                  {currentQuestion === quizData.length - 1 ? 'Finish Quiz' : 'Next Question'}
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
