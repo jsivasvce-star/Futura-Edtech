@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { X, RefreshCw, Volume2, VolumeX, CheckCircle, ChevronRight, ChevronLeft, Award, ArrowLeft, BookOpen, Target, Eye, ArrowRight, Sprout, Leaf, Flower2, Sparkles, Footprints, Lightbulb, Maximize2, Minimize2, ZoomIn, ZoomOut } from 'lucide-react';
+import { X, RefreshCw, Volume2, VolumeX, CheckCircle, ChevronRight, ChevronLeft, Award, ArrowLeft, BookOpen, Target, Eye, EyeOff, ArrowRight, Sprout, Leaf, Flower2, Sparkles, Footprints, Lightbulb, Maximize2, Minimize2, ZoomIn, ZoomOut } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import activityPlantsImage from '../../../../assets/2.1_plant.png';
 import activityAnimalsImage from '../../../../assets/activity_2.1 animals.png';
@@ -10,6 +10,13 @@ import ch2CrawlersHabitat from '../../../../assets/ch2_crawlers_habitat.jpg';
 import ch2AerialHabitat from '../../../../assets/ch2_aerial_habitat.jpg';
 import ch2WalkersHabitat from '../../../../assets/ch2_walkers_habitat.jpg';
 import ch2HerbsHabitat from '../../../../assets/ch2_herbs_habitat_8k.jpg';
+import activity21HerbsImg from '../../../../assets/activity_2.1_herbs.png';
+import activity21ShrubsImg from '../../../../assets/activity_2.1_shrubs.png';
+import activity21TreesImg from '../../../../assets/activity_2.1_trees.png';
+import activity21FieldScannerImg from '../../../../assets/activity_2.1_field_scanner.png';
+import activity21CrawlersImg from '../../../../assets/activity_2.1_crawlers.png';
+import activity21AerialImg from '../../../../assets/activity_2.1_aerial.png';
+import activity21WalkersImg from '../../../../assets/activity_2.1_walkers.png';
 import ch2ShrubsHabitat from '../../../../assets/ch2_shrubs_habitat_8k.jpg';
 import ch2TreesHabitat from '../../../../assets/ch2_trees_habitat_8k.jpg';
 import grassImage from '../../../../assets/grass.png';
@@ -121,7 +128,7 @@ export const PLANT_CATEGORIES = [
     icon: '🌿',
     tag: 'Tender Green Stem',
     quote: 'Herbs are short, non-woody plants with soft green tender stems that bend easily without snapping.',
-    image: ch2HerbsHabitat,
+    image: activity21HerbsImg,
     alt: 'Tulsi, Mint, Tomato, Grass, and Wheat herbs growing with soft green stems',
     caption: '🌿 Tulsi • Mint • Tomato • Grass • Wheat',
     captionTag: 'Soft Tender Stems',
@@ -139,7 +146,7 @@ export const PLANT_CATEGORIES = [
     icon: '🌺',
     tag: 'Hard Woody Base',
     quote: 'Shrubs are bushy plants with hard, thin woody stems branching out right from near the ground base.',
-    image: ch2ShrubsHabitat,
+    image: activity21ShrubsImg,
     alt: 'Rose, Hibiscus, Lemon, and Henna shrubs growing with woody branches near ground',
     caption: '🌺 Rose • Hibiscus • Lemon • Mehndi',
     captionTag: 'Hard Woody Base',
@@ -157,7 +164,7 @@ export const PLANT_CATEGORIES = [
     icon: '🌳',
     tag: 'Massive Woody Trunk',
     quote: 'Trees are tall, grand plants with a single thick, hard brown woody trunk and leafy canopy spreading high above.',
-    image: ch2TreesHabitat,
+    image: activity21TreesImg,
     alt: 'Banyan, Peepal, Neem, Mango, and Gulmohar trees with massive woody trunks and high crowns',
     caption: '🌳 Banyan • Peepal • Neem • Mango • Gulmohar',
     captionTag: 'Massive Woody Trunk',
@@ -178,7 +185,7 @@ export const ANIMAL_CATEGORIES = [
     icon: '🐜',
     tag: 'Crawls / Creeps',
     quote: 'Ground dwellers live in garden soil, leaf litter, and beneath stones, moving by crawling, creeping, or burrowing.',
-    image: ch2CrawlersHabitat,
+    image: activity21CrawlersImg,
     alt: 'Ants, Earthworms, Snails, and Grasshoppers in rich garden humus and soil',
     caption: '🐜 Ant • 🪱 Earthworm • 🐌 Snail • 🦗 Grasshopper',
     captionTag: 'Moist Soil & Humus',
@@ -196,7 +203,7 @@ export const ANIMAL_CATEGORIES = [
     icon: '🐦',
     tag: 'Can Fly in Air',
     quote: 'Aerial animals are winged birds and flying insects that navigate the open sky and tree canopies.',
-    image: ch2AerialHabitat,
+    image: activity21AerialImg,
     alt: 'House Sparrow, Crow, Butterfly, and Honeybee in tree canopy and blossoms habitat',
     caption: '🐦 Sparrow • 🪶 Crow • 🦋 Butterfly • 🐝 Bee',
     captionTag: 'Canopies & Blossoms',
@@ -214,7 +221,7 @@ export const ANIMAL_CATEGORIES = [
     icon: '🐾',
     tag: 'Limbs & Fins',
     quote: 'Walkers and aquatic creatures possess adapted limbs to walk, hop, leap across pastures, or swim in ponds.',
-    image: ch2WalkersHabitat,
+    image: activity21WalkersImg,
     alt: 'Gir Cow, Indian Pond Frog, Squirrel, and Dog in meadows, garden path, and pond habitat',
     caption: '🐄 Cow • 🐸 Frog • 🐿️ Squirrel • 🐕 Dog',
     captionTag: 'Meadows & Ponds',
@@ -530,6 +537,64 @@ const BottomNatureSilhouettes = () => (
   </div>
 );
 
+// Realistic Detailed Botanical Leaf Cluster for the 4 corners of the popup box
+const RealisticCornerBotanical = ({ position = 'top-left' }) => {
+  const isTop = position.includes('top');
+  const isLeft = position.includes('left');
+  
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: isTop ? '-3px' : 'auto',
+        bottom: !isTop ? '-3px' : 'auto',
+        left: isLeft ? '-3px' : 'auto',
+        right: !isLeft ? '-3px' : 'auto',
+        width: '68px',
+        height: '68px',
+        pointerEvents: 'none',
+        zIndex: 12,
+        transform: `scale(${isLeft ? 1 : -1}, ${isTop ? 1 : -1})`,
+        filter: 'drop-shadow(0 3px 6px rgba(0, 0, 0, 0.28))'
+      }}
+    >
+      <svg width="68" height="68" viewBox="0 0 68 68" fill="none">
+        {/* Main curved vine branch */}
+        <path d="M4 4 C18 8, 38 18, 54 38 C58 44, 62 52, 64 62" stroke="#14532D" strokeWidth="2.8" strokeLinecap="round" />
+        <path d="M4 4 C18 8, 38 18, 54 38" stroke="#16A34A" strokeWidth="1.2" strokeLinecap="round" opacity="0.75" />
+
+        {/* Primary Leaf 1 - Extending along top edge */}
+        <path d="M12 6 C24 2, 42 6, 52 16 C38 20, 24 18, 12 6 Z" fill="#15803D" />
+        <path d="M14 7 C26 3, 40 7, 50 15 C42 16, 28 14, 14 7 Z" fill="#22C55E" opacity="0.65" />
+        <path d="M12 6 C28 10, 38 13, 52 16" stroke="#BBF7D0" strokeWidth="1.1" strokeLinecap="round" />
+        <path d="M22 8 L26 13 M32 10 L38 15 M42 12 L46 16" stroke="rgba(255, 255, 255, 0.45)" strokeWidth="0.8" strokeLinecap="round" />
+
+        {/* Primary Leaf 2 - Extending along left edge */}
+        <path d="M6 12 C2 24, 6 42, 16 52 C20 38, 18 24, 6 12 Z" fill="#166534" />
+        <path d="M7 14 C3 26, 7 40, 15 50 C16 42, 14 28, 7 14 Z" fill="#4ADE80" opacity="0.6" />
+        <path d="M6 12 C10 28, 13 38, 16 52" stroke="#BBF7D0" strokeWidth="1.1" strokeLinecap="round" />
+        <path d="M8 22 L13 26 M10 32 L15 38 M12 42 L16 46" stroke="rgba(255, 255, 255, 0.45)" strokeWidth="0.8" strokeLinecap="round" />
+
+        {/* Central Corner Tropical Leaf - Diagonally protruding with organic shading */}
+        <path d="M16 16 C28 20, 38 32, 44 48 C34 46, 22 36, 16 16 Z" fill="#14532D" />
+        <path d="M18 18 C28 22, 36 32, 42 46 C35 44, 25 35, 18 18 Z" fill="#15803D" />
+        <path d="M16 16 C26 26, 34 36, 44 48" stroke="#86EFAC" strokeWidth="1.3" strokeLinecap="round" />
+        <path d="M24 24 L30 25 M28 29 L35 32 M33 35 L39 39" stroke="rgba(254, 240, 138, 0.6)" strokeWidth="0.9" strokeLinecap="round" />
+
+        {/* Small tender sprout leaves */}
+        <path d="M26 14 C34 11, 42 16, 43 23 C36 24, 29 20, 26 14 Z" fill="#86EFAC" />
+        <path d="M14 26 C11 34, 16 42, 23 43 C24 36, 20 29, 14 26 Z" fill="#4ADE80" />
+
+        {/* Golden dewdrops / botanical spores */}
+        <circle cx="16" cy="16" r="2.2" fill="#F59E0B" />
+        <circle cx="16" cy="16" r="1.1" fill="#FEF3C7" />
+        <circle cx="28" cy="10" r="1.5" fill="#FEF08A" opacity="0.85" />
+        <circle cx="10" cy="28" r="1.5" fill="#FEF08A" opacity="0.85" />
+      </svg>
+    </div>
+  );
+};
+
 // Realistic Photographic Category Icon
 const RealisticCategoryIcon = ({ categoryId, size = 28 }) => {
   switch (categoryId) {
@@ -808,6 +873,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
 
   const openPlantModal = (plant) => {
     setModalPlantPage(1);
+    setShowPlantDetailPopup(false);
     setInfoCardPlant(plant);
   };
 
@@ -819,7 +885,301 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
   const [isSoundscapePlaying, setIsSoundscapePlaying] = useState(false);
   const [polaroidSnap, setPolaroidSnap] = useState(null);
   const [discoveryStarToast, setDiscoveryStarToast] = useState(null);
-  const natureAudioRef = useRef(null);
+  const [showHerbsPopup, setShowHerbsPopup] = useState(true);
+  const [isHerbsSpeaking, setIsHerbsSpeaking] = useState(false);
+
+  const toggleHerbsSpeech = () => {
+    if ('speechSynthesis' in window) {
+      if (isHerbsSpeaking) {
+        window.speechSynthesis.cancel();
+        setIsHerbsSpeaking(false);
+      } else {
+        window.speechSynthesis.cancel();
+        const text = "Herbs and tender green stem plants. Herbs are short plants with soft, tender, and flexible green stems that bend easily in the wind without snapping. They usually do not have woody stems and produce branches close to the ground. Herbs have a short life cycle, completing their growth within one or two seasons. Examples in NCERT include Tulsi, mint, tomato, wheat, and grass.";
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.rate = 0.88;
+        utter.pitch = 1.0;
+        utter.onend = () => setIsHerbsSpeaking(false);
+        utter.onerror = () => setIsHerbsSpeaking(false);
+        setIsHerbsSpeaking(true);
+        window.speechSynthesis.speak(utter);
+      }
+    }
+  };
+
+  const [showShrubsPopup, setShowShrubsPopup] = useState(true);
+  const [isShrubsSpeaking, setIsShrubsSpeaking] = useState(false);
+
+  const toggleShrubsSpeech = () => {
+    if ('speechSynthesis' in window) {
+      if (isShrubsSpeaking) {
+        window.speechSynthesis.cancel();
+        setIsShrubsSpeaking(false);
+      } else {
+        window.speechSynthesis.cancel();
+        const text = "Shrubs and bushy woody plants. Shrubs are medium-sized plants with hard, thin woody stems that do not bend easily. Unlike trees, their branches arise profusely right near the ground base rather than high up on a trunk, giving them a dense, bushy appearance. They typically grow about one to three metres tall. Common NCERT examples include Rose, Hibiscus, Lemon, Mehndi, and Jasmine.";
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.rate = 0.88;
+        utter.pitch = 1.0;
+        utter.onend = () => setIsShrubsSpeaking(false);
+        utter.onerror = () => setIsShrubsSpeaking(false);
+        setIsShrubsSpeaking(true);
+        window.speechSynthesis.speak(utter);
+      }
+    }
+  };
+
+  const [showTreesPopup, setShowTreesPopup] = useState(true);
+  const [isTreesSpeaking, setIsTreesSpeaking] = useState(false);
+
+  const toggleTreesSpeech = () => {
+    if ('speechSynthesis' in window) {
+      if (isTreesSpeaking) {
+        window.speechSynthesis.cancel();
+        setIsTreesSpeaking(false);
+      } else {
+        window.speechSynthesis.cancel();
+        const text = "Trees and towering canopy giants. Trees are tall, grand plants with a single thick, hard brown woody trunk covered in rough bark. Their branches arise high up on the trunk, spreading out into wide green canopies far above the ground. Trees live for decades or centuries, supported by deep taproots. Famous NCERT examples include the Banyan, Peepal, Neem, Mango, and Gulmohar.";
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.rate = 0.88;
+        utter.pitch = 1.0;
+        utter.onend = () => setIsTreesSpeaking(false);
+        utter.onerror = () => setIsTreesSpeaking(false);
+        setIsTreesSpeaking(true);
+        window.speechSynthesis.speak(utter);
+      }
+    }
+  };
+
+  const [showCrawlerPopup, setShowCrawlerPopup] = useState(false);
+  const [isCrawlerSpeaking, setIsCrawlerSpeaking] = useState(false);
+
+  const toggleCrawlerSpeech = () => {
+    if ('speechSynthesis' in window) {
+      if (isCrawlerSpeaking) {
+        window.speechSynthesis.cancel();
+        setIsCrawlerSpeaking(false);
+      } else {
+        window.speechSynthesis.cancel();
+        const text = "Garden Snail. An animal that crawls on the ground. It moves slowly using a muscular foot, leaving a moist slimy trail to glide safely over rough ground. It carries a hard spiral shell on its back for protection. It lives in damp places under flowerpots and feeds on tender leaves.";
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.rate = 0.88;
+        utter.pitch = 1.0;
+        utter.onend = () => setIsCrawlerSpeaking(false);
+        utter.onerror = () => setIsCrawlerSpeaking(false);
+        setIsCrawlerSpeaking(true);
+        window.speechSynthesis.speak(utter);
+      }
+    }
+  };
+
+  const [showAerialPopup, setShowAerialPopup] = useState(false);
+  const [isAerialSpeaking, setIsAerialSpeaking] = useState(false);
+
+  const toggleAerialSpeech = () => {
+    if ('speechSynthesis' in window) {
+      if (isAerialSpeaking) {
+        window.speechSynthesis.cancel();
+        setIsAerialSpeaking(false);
+      } else {
+        window.speechSynthesis.cancel();
+        const text = "Aerial animals and birds. Birds have hollow bones and light feathers that make flying easy. Insects like butterflies and bees flap thin wings to steer between flowers. While sipping sweet nectar, they carry pollen to help plants make seeds.";
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.rate = 0.88;
+        utter.pitch = 1.0;
+        utter.onend = () => setIsAerialSpeaking(false);
+        utter.onerror = () => setIsAerialSpeaking(false);
+        setIsAerialSpeaking(true);
+        window.speechSynthesis.speak(utter);
+      }
+    }
+  };
+
+  const [showWalkerPopup, setShowWalkerPopup] = useState(false);
+  const [isWalkerSpeaking, setIsWalkerSpeaking] = useState(false);
+
+  // Auto-display observation popups after 5 seconds of viewing the full-screen nature image
+  useEffect(() => {
+    if (typeFilter === 'animal') {
+      if (categoryStep === 0) {
+        setShowCrawlerPopup(false);
+        const timer = setTimeout(() => {
+          setShowCrawlerPopup(true);
+        }, 5000);
+        return () => clearTimeout(timer);
+      } else if (categoryStep === 1) {
+        setShowAerialPopup(false);
+        const timer = setTimeout(() => {
+          setShowAerialPopup(true);
+        }, 5000);
+        return () => clearTimeout(timer);
+      } else if (categoryStep === 2) {
+        setShowWalkerPopup(false);
+        const timer = setTimeout(() => {
+          setShowWalkerPopup(true);
+        }, 5000);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [typeFilter, categoryStep]);
+
+  const toggleWalkerSpeech = () => {
+    if ('speechSynthesis' in window) {
+      if (isWalkerSpeaking) {
+        window.speechSynthesis.cancel();
+        setIsWalkerSpeaking(false);
+      } else {
+        window.speechSynthesis.cancel();
+        const text = "Walkers and aquatic swimmers. Terrestrial animals like cows and dogs have four sturdy limbs adapted to walk, run, and graze. Agile climbers like the striped palm squirrel use sharp claws and a bushy tail for balance. Amphibians like the Indian pond frog have powerful hind legs to leap on land and webbed feet to swim smoothly in fresh water ponds!";
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.rate = 0.88;
+        utter.pitch = 1.0;
+        utter.onend = () => setIsWalkerSpeaking(false);
+        utter.onerror = () => setIsWalkerSpeaking(false);
+        setIsWalkerSpeaking(true);
+        window.speechSynthesis.speak(utter);
+      }
+    }
+  };
+    const [showWildlifePopup, setShowWildlifePopup] = useState(true);
+  const [isWildlifeSpeaking, setIsWildlifeSpeaking] = useState(false);
+
+  const toggleWildlifeSpeech = () => {
+    if ('speechSynthesis' in window) {
+      if (isWildlifeSpeaking) {
+        window.speechSynthesis.cancel();
+        setIsWildlifeSpeaking(false);
+      } else {
+        window.speechSynthesis.cancel();
+        const text = "Wildlife field observation. Look closely at how different animals adapt to their natural surroundings. Birds like crows and sparrows use lightweight hollow bones, flight feathers, and sharp beaks to feed and fly. Climbing squirrels scamper rapidly on trees using sharp curved claws and a bushy balancing tail. Gentle cows graze peacefully on green pastures with four sturdy limbs. Tiny ants crawl together in scent trails, and pond frogs use webbed feet to swim swiftly and strong legs to jump on land!";
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.rate = 0.88;
+        utter.pitch = 1.0;
+        utter.onend = () => setIsWildlifeSpeaking(false);
+        utter.onerror = () => setIsWildlifeSpeaking(false);
+        setIsWildlifeSpeaking(true);
+        window.speechSynthesis.speak(utter);
+      }
+    }
+  };
+
+  const [showBotanicalPopup, setShowBotanicalPopup] = useState(true);
+  const [isBotanicalSpeaking, setIsBotanicalSpeaking] = useState(false);
+
+  const toggleBotanicalSpeech = () => {
+    if ('speechSynthesis' in window) {
+      if (isBotanicalSpeaking) {
+        window.speechSynthesis.cancel();
+        setIsBotanicalSpeaking(false);
+      } else {
+        window.speechSynthesis.cancel();
+        const text = "Botanical field observation. Move your magnifying scanner lens over the garden to inspect and catalog different plants into Table 2.1. Observe tender herbs like Tulsi and grass with soft flexible stems. Examine bushy shrubs like Rose and Hibiscus with thin woody stems branching right at ground level. Inspect towering trees like the Neem with thick woody trunks and high canopies, and observe floating water lilies adapted to fresh water ponds!";
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.rate = 0.88;
+        utter.pitch = 1.0;
+        utter.onend = () => setIsBotanicalSpeaking(false);
+        utter.onerror = () => setIsBotanicalSpeaking(false);
+        setIsBotanicalSpeaking(true);
+        window.speechSynthesis.speak(utter);
+      }
+    }
+  };
+
+  const [showPlantDetailPopup, setShowPlantDetailPopup] = useState(false);
+  const [isPlantSpeaking, setIsPlantSpeaking] = useState(false);
+
+  // Auto-display NCERT Observation Popup after 5 seconds of viewing the full-screen specimen
+  useEffect(() => {
+    if (infoCardPlant) {
+      setShowPlantDetailPopup(false);
+      const timer = setTimeout(() => {
+        setShowPlantDetailPopup(true);
+      }, 5000);
+      return () => clearTimeout(timer);
+    } else {
+      setShowPlantDetailPopup(false);
+    }
+  }, [infoCardPlant]);
+
+  const togglePlantSpeech = (plant) => {
+    if ('speechSynthesis' in window) {
+      if (isPlantSpeaking) {
+        window.speechSynthesis.cancel();
+        setIsPlantSpeaking(false);
+      } else {
+        window.speechSynthesis.cancel();
+        const pName = plant.popupName || plant.name || 'Plant';
+        const stemText = plant.tableInfo?.stem ? `Stem: ${plant.tableInfo.stem}. ` : '';
+        const leavesText = plant.tableInfo?.leaves ? `Leaves: ${plant.tableInfo.leaves}. ` : '';
+        const flowersText = plant.tableInfo?.flowers ? `Flowers: ${plant.tableInfo.flowers}. ` : '';
+        const notesText = plant.tableInfo?.notes ? `Other observations: ${plant.tableInfo.notes}. ` : '';
+        const text = `${pName} Botanical Field Specimen. ${stemText}${leavesText}${flowersText}${notesText}`;
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.rate = 0.88;
+        utter.pitch = 1.0;
+        utter.onend = () => setIsPlantSpeaking(false);
+        utter.onerror = () => setIsPlantSpeaking(false);
+        setIsPlantSpeaking(true);
+        window.speechSynthesis.speak(utter);
+      }
+    }
+  };
+
+  const closePlantModal = () => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    setIsPlantSpeaking(false);
+    setInfoCardPlant(null);
+  };
+
+  const [showAnimalDetailPopup, setShowAnimalDetailPopup] = useState(true);
+  const [isAnimalSpeaking, setIsAnimalSpeaking] = useState(false);
+
+  useEffect(() => {
+    if (infoCardAnimal) {
+      setShowAnimalDetailPopup(true);
+    } else {
+      setShowAnimalDetailPopup(false);
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      setIsAnimalSpeaking(false);
+    }
+  }, [infoCardAnimal]);
+
+  const closeAnimalModal = () => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    setIsAnimalSpeaking(false);
+    setInfoCardAnimal(null);
+  };
+
+  const toggleAnimalSpeech = (animal) => {
+    if ('speechSynthesis' in window && animal) {
+      if (isAnimalSpeaking) {
+        window.speechSynthesis.cancel();
+        setIsAnimalSpeaking(false);
+      } else {
+        window.speechSynthesis.cancel();
+        const aName = animal.popupName || animal.name || 'Animal';
+        const catText = animal.category ? `Classification: ${animal.category}. ` : '';
+        const locomotionText = animal.tactileTrait ? `Locomotion: ${animal.tactileTrait}. ` : '';
+        const detailsText = animal.details ? `Description: ${animal.details}. ` : '';
+        const factText = animal.fact ? `Fascinating fact: ${animal.fact}. ` : '';
+        const utter = new SpeechSynthesisUtterance(`${aName}. ${catText}${locomotionText}${detailsText}${factText}`);
+        utter.rate = 0.88;
+        utter.pitch = 1.0;
+        utter.onend = () => setIsAnimalSpeaking(false);
+        utter.onerror = () => setIsAnimalSpeaking(false);
+        setIsAnimalSpeaking(true);
+        window.speechSynthesis.speak(utter);
+      }
+    }
+  };
+
+const natureAudioRef = useRef(null);
 
   const startAllSoundscape = useCallback(() => {
     try {
@@ -1420,18 +1780,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
       return;
     }
 
-    // Instant realistic camera snapshot for plants
+    // Version 1 Field Scanner behavior for plants (no camera lens or snap)
     if (typeFilter === 'plant') {
-      sounds.playCameraShutter();
-      setCameraFlash(true);
-      setTimeout(() => setCameraFlash(false), 240);
-      setPolaroidSnap({
-        data,
-        x: mousePosRef.current.x,
-        y: mousePosRef.current.y
-      });
-      setTimeout(() => setPolaroidSnap(null), 1600);
-
       const isAlreadyLogged = isBonus 
         ? bonusLog.includes(data.id) 
         : notebook.includes(data.id);
@@ -1567,22 +1917,2269 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
       }}>
         {/* ============ PAGE 1: BOTANICAL CATEGORY SPOTLIGHT (HERBS / SHRUBS / TREES SINGLE PAGE EACH LIKE SLOGAN PAGE) ============ */}
         {subPage === 1 && (
-          <div style={{
+          (typeFilter === 'plant' && categoryStep === 0) ? (
+            /* FULLSCREEN HERBS PAGE 1 WITH REALISTIC CORNER CREAM POPUP */
+            <div style={{
               position: 'relative',
               flex: 1,
               minHeight: 0,
               width: '100%',
               height: '100%',
+              overflow: 'hidden',
               display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              padding: 'clamp(8px, 1vh, 12px) clamp(16px, 2.2vw, 32px) clamp(12px, 1.6vh, 18px)',
-              background: 'rgba(250, 248, 242, 0.55)',
-              borderRadius: 0,
-              border: 'none',
-              boxSizing: 'border-box',
-              overflow: 'hidden'
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#0B3B24'
             }}>
+              <img
+                src={activity21HerbsImg}
+                alt="Activity 2.1 - Herbs"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                  display: 'block'
+                }}
+              />
+
+              {/* Slogan Page Style: 60% Translucent Dark Emerald Glossy Forest Panel */}
+              {showHerbsPopup ? (
+                <div style={{
+                  position: 'absolute',
+                  top: '16px',
+                  right: '20px',
+                  width: 'min(415px, calc(100vw - 40px))',
+                  maxHeight: 'calc(100% - 85px)',
+                  background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.60) 0%, rgba(4, 28, 16, 0.60) 45%, rgba(2, 18, 11, 0.62) 100%)',
+                  border: '1.5px solid rgba(16, 185, 129, 0.35)',
+                  borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
+                  borderRadius: '24px',
+                  boxShadow: 'inset 1px 1px 2px rgba(255, 255, 255, 0.22), inset -1px -1px 2px rgba(0, 0, 0, 0.25), 0 16px 45px rgba(0, 0, 0, 0.55), 0 0 35px rgba(16, 185, 129, 0.15)',
+                  zIndex: 35,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  overflow: 'hidden',
+                  boxSizing: 'border-box',
+                  animation: 'fadeIn 0.25s ease-out'
+                }}>
+                  {/* Glossy specular top shine reflection without blur */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: '36%',
+                      background: 'linear-gradient(175deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%)',
+                      pointerEvents: 'none',
+                      zIndex: 2,
+                      borderRadius: '24px 24px 0 0'
+                    }}
+                  />
+
+                  {/* Inner Content Wrapper */}
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    flex: 1,
+                    padding: 'clamp(14px, 2vh, 22px) clamp(16px, 2vw, 22px)',
+                    gap: 'clamp(10px, 1.5vh, 14px)',
+                    position: 'relative',
+                    zIndex: 5,
+                    overflowY: 'auto'
+                  }}>
+                    {/* Header Row: Badge & Audio/Close Controls */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                      <span style={{
+                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(5, 150, 105, 0.2) 100%)',
+                        color: '#A7F3D0',
+                        border: '1.2px solid rgba(110, 231, 183, 0.45)',
+                        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                        padding: '5px 14px',
+                        borderRadius: '22px',
+                        fontFamily: '"Outfit", sans-serif',
+                        fontWeight: 800,
+                        fontSize: '12px',
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
+                      }}>
+                        <span style={{ fontSize: '14px' }}>🌿</span>
+                        <span>NCERT CLASS 6</span>
+                        <span style={{ opacity: 0.6 }}>•</span>
+                        <span>HERBS</span>
+                      </span>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        {/* Audio Narration Toggle */}
+                        <button
+                          type="button"
+                          onClick={toggleHerbsSpeech}
+                          title={isHerbsSpeaking ? 'Stop voice' : 'Listen to explanation'}
+                          style={{
+                            background: isHerbsSpeaking ? '#10B981' : 'rgba(255, 255, 255, 0.12)',
+                            color: isHerbsSpeaking ? '#FFFFFF' : '#FEF3C7',
+                            border: '1.2px solid rgba(255, 255, 255, 0.3)',
+                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+                            borderRadius: '10px',
+                            padding: '5px 10px',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            fontSize: '12px',
+                            fontWeight: 800,
+                            fontFamily: '"Outfit", sans-serif',
+                            transition: 'all 0.2s ease'
+                          }}
+                        >
+                          <Volume2 size={15} />
+                          <span>{isHerbsSpeaking ? 'Stop' : 'Listen'}</span>
+                        </button>
+
+                        {/* Close popup button */}
+                        <button
+                          type="button"
+                          onClick={() => setShowHerbsPopup(false)}
+                          aria-label="Close popup and view full scenery"
+                          title="View full scenery photo"
+                          style={{
+                            background: 'rgba(255, 255, 255, 0.1)',
+                            border: '1.2px solid rgba(255, 255, 255, 0.22)',
+                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+                            borderRadius: '10px',
+                            width: '30px',
+                            height: '30px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'rgba(255, 255, 255, 0.9)',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background = 'rgba(239, 68, 68, 0.35)';
+                            e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.65)';
+                            e.currentTarget.style.color = '#FFFFFF';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.22)';
+                            e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
+                          }}
+                        >
+                          <span style={{ fontSize: '15px', fontWeight: 900, lineHeight: 1 }}>✕</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Title Section: 22px-24px Title, 16px Subtitle */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                      <h3 style={{
+                        fontFamily: '"Outfit", sans-serif',
+                        fontWeight: 900,
+                        fontSize: 'clamp(21px, 2.1vw, 24px)',
+                        margin: 0,
+                        color: '#FFFFFF',
+                        lineHeight: 1.25,
+                        letterSpacing: '-0.01em',
+                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                      }}>
+                        Tender Green Herbs
+                      </h3>
+                      <div style={{
+                        fontSize: '16px',
+                        color: '#6EE7B7',
+                        fontWeight: 600,
+                        fontStyle: 'italic',
+                        fontFamily: '"Outfit", sans-serif',
+                        textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)'
+                      }}>
+                        Non-woody • Flexible Stems
+                      </div>
+                    </div>
+
+                    {/* 3 Detail Cards: 16px-24px Typography */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(8px, 1.2vh, 11px)' }}>
+                      {/* Card 1: Soft Green Stem */}
+                      <div style={{
+                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                        borderRadius: '14px',
+                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
+                        border: '1.2px solid rgba(110, 231, 183, 0.35)',
+                        borderLeft: '4px solid #10B981',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
+                        transition: 'all 0.25s ease'
+                      }}>
+                        <div style={{
+                          fontSize: '18px',
+                          fontWeight: 800,
+                          color: '#A7F3D0',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '7px',
+                          fontFamily: '"Outfit", sans-serif',
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                        }}>
+                          <span>🌱</span>
+                          <span>Soft Green Stem</span>
+                        </div>
+                        <div style={{
+                          fontSize: '16px',
+                          color: '#FFFFFF',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          fontWeight: 450,
+                          marginTop: '5px',
+                          lineHeight: 1.45,
+                          fontFamily: '"Inter", sans-serif'
+                        }}>
+                          Tender, non-woody green stems that bend easily with the wind without breaking or snapping.
+                        </div>
+                      </div>
+
+                      {/* Card 2: Short Stature */}
+                      <div style={{
+                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                        borderRadius: '14px',
+                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
+                        border: '1.2px solid rgba(252, 211, 77, 0.35)',
+                        borderLeft: '4px solid #F59E0B',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
+                        transition: 'all 0.25s ease'
+                      }}>
+                        <div style={{
+                          fontSize: '18px',
+                          fontWeight: 800,
+                          color: '#FDE68A',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '7px',
+                          fontFamily: '"Outfit", sans-serif',
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                        }}>
+                          <span>📏</span>
+                          <span>Short Stature & Few Branches</span>
+                        </div>
+                        <div style={{
+                          fontSize: '16px',
+                          color: '#FFFFFF',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          fontWeight: 450,
+                          marginTop: '5px',
+                          lineHeight: 1.45,
+                          fontFamily: '"Inter", sans-serif'
+                        }}>
+                          Usually grow less than 1 metre high and branch close to the ground rather than spreading into crowns.
+                        </div>
+                      </div>
+
+                      {/* Card 3: 1-2 Season Life Cycle & Examples */}
+                      <div style={{
+                        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.14) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                        borderRadius: '14px',
+                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
+                        border: '1.2px solid rgba(147, 197, 253, 0.35)',
+                        borderLeft: '4px solid #3B82F6',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
+                        transition: 'all 0.25s ease'
+                      }}>
+                        <div style={{
+                          fontSize: '18px',
+                          fontWeight: 800,
+                          color: '#BFDBFE',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '7px',
+                          fontFamily: '"Outfit", sans-serif',
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                        }}>
+                          <span>🌾</span>
+                          <span>1–2 Season Life Cycle & Examples</span>
+                        </div>
+                        <div style={{
+                          fontSize: '16px',
+                          color: '#FFFFFF',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          fontWeight: 450,
+                          marginTop: '5px',
+                          lineHeight: 1.45,
+                          fontFamily: '"Inter", sans-serif'
+                        }}>
+                          Complete their life cycle in 1–2 seasons. Familiar examples: <strong style={{ color: '#FEF08A' }}>Tulsi, Mint, Tomato, Wheat, & Grass</strong>.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* Re-open Button if closed */
+                <div style={{ position: 'absolute', top: '18px', right: '70px', zIndex: 35 }}>
+                  <button
+                    type="button"
+                    onClick={() => setShowHerbsPopup(true)}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '8px 18px',
+                      borderRadius: '12px',
+                      fontSize: '15px',
+                      fontWeight: 800,
+                      background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.85) 0%, rgba(2, 18, 11, 0.9) 100%)',
+                      border: '1.5px solid rgba(16, 185, 129, 0.5)',
+                      color: '#D1FAE5',
+                      cursor: 'pointer',
+                      fontFamily: '"Outfit", sans-serif',
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                      transition: 'all 0.2s ease'
+                    }}
+                    title="View Herbs Details"
+                  >
+                    <span>🌿</span>
+                    <span>Show Herbs Details</span>
+                  </button>
+                </div>
+              )}
+
+              {/* Fullscreen Button at Top-Right */}
+              <div style={{
+                position: 'absolute',
+                top: '18px',
+                right: showHerbsPopup ? '440px' : '20px',
+                zIndex: 35,
+                transition: 'all 0.2s ease'
+              }}>
+                <button
+                  type="button"
+                  onClick={toggleFullscreen}
+                  title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+                  style={{
+                    background: 'rgba(20, 69, 47, 0.85)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    color: '#FEF3C7',
+                    border: '1.8px solid rgba(255, 255, 255, 0.35)',
+                    borderRadius: '10px',
+                    padding: '8px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                    transition: 'all 0.25s ease'
+                  }}
+                >
+                  {fsActive ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+                </button>
+              </div>
+
+              {/* Bottom-Left: Previous Page */}
+              {onBackToDashboard && (
+                <div style={{
+                  position: 'absolute',
+                  bottom: '16px',
+                  left: '24px',
+                  zIndex: 35
+                }}>
+                  <button
+                    type="button"
+                    onClick={onBackToDashboard}
+                    style={{
+                      padding: '8px 22px',
+                      fontSize: '16px',
+                      fontWeight: 800,
+                      borderRadius: '10px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      background: 'rgba(250, 248, 242, 0.85)',
+                      backdropFilter: 'blur(12px)',
+                      WebkitBackdropFilter: 'blur(12px)',
+                      border: '1.8px solid #14452F',
+                      color: '#14452F',
+                      cursor: 'pointer',
+                      fontFamily: '"Outfit", sans-serif',
+                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                      transition: 'all 0.18s ease'
+                    }}
+                    title="Return to Previous Page"
+                    aria-label="Previous Page"
+                  >
+                    <ChevronLeft size={18} /> Previous Page
+                  </button>
+                </div>
+              )}
+
+              {/* Bottom-Right: Next Page (Advance to Shrubs) */}
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                right: '24px',
+                zIndex: 35
+              }}>
+                <button
+                  type="button"
+                  onClick={() => setCategoryStep(1)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '8px 24px',
+                    borderRadius: '10px',
+                    fontSize: '17px',
+                    fontWeight: 900,
+                    background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+                    border: '1.5px solid #10B981',
+                    color: '#ffffff',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                    fontFamily: '"Outfit", sans-serif',
+                    transition: 'all 0.18s ease'
+                  }}
+                  title="Advance to Shrubs"
+                  aria-label="Next Page"
+                >
+                  <span>Next: Shrubs</span>
+                  <ChevronRight size={18} strokeWidth={2.6} />
+                </button>
+              </div>
+            </div>
+          ) : (typeFilter === 'plant' && categoryStep === 1) ? (
+            /* FULLSCREEN SHRUBS PAGE 2 WITH SLOGAN-STYLE TRANSLUCENT EMERALD POPUP */
+            <div style={{
+              position: 'relative',
+              flex: 1,
+              minHeight: 0,
+              width: '100%',
+              height: '100%',
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#0B3B24'
+            }}>
+              <img
+                src={activity21ShrubsImg}
+                alt="Activity 2.1 - Shrubs"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                  display: 'block'
+                }}
+              />
+
+              {/* Slogan Page Style: 60% Translucent Dark Emerald Glossy Forest Panel */}
+              {showShrubsPopup ? (
+                <div style={{
+                  position: 'absolute',
+                  top: '16px',
+                  right: '20px',
+                  width: 'min(415px, calc(100vw - 40px))',
+                  maxHeight: 'calc(100% - 85px)',
+                  background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.60) 0%, rgba(4, 28, 16, 0.60) 45%, rgba(2, 18, 11, 0.62) 100%)',
+                  border: '1.5px solid rgba(16, 185, 129, 0.35)',
+                  borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
+                  borderRadius: '24px',
+                  boxShadow: 'inset 1px 1px 2px rgba(255, 255, 255, 0.22), inset -1px -1px 2px rgba(0, 0, 0, 0.25), 0 16px 45px rgba(0, 0, 0, 0.55), 0 0 35px rgba(16, 185, 129, 0.15)',
+                  zIndex: 35,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  overflow: 'hidden',
+                  boxSizing: 'border-box',
+                  animation: 'fadeIn 0.25s ease-out'
+                }}>
+                  {/* Glossy specular top shine reflection without blur */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: '36%',
+                      background: 'linear-gradient(175deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%)',
+                      pointerEvents: 'none',
+                      zIndex: 2,
+                      borderRadius: '24px 24px 0 0'
+                    }}
+                  />
+
+                  {/* Inner Content Wrapper */}
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    flex: 1,
+                    padding: 'clamp(14px, 2vh, 22px) clamp(16px, 2vw, 22px)',
+                    gap: 'clamp(10px, 1.5vh, 14px)',
+                    position: 'relative',
+                    zIndex: 5,
+                    overflowY: 'auto'
+                  }}>
+                    {/* Header Row: Badge & Audio/Close Controls */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                      <span style={{
+                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(5, 150, 105, 0.2) 100%)',
+                        color: '#A7F3D0',
+                        border: '1.2px solid rgba(110, 231, 183, 0.45)',
+                        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                        padding: '5px 14px',
+                        borderRadius: '22px',
+                        fontFamily: '"Outfit", sans-serif',
+                        fontWeight: 800,
+                        fontSize: '12px',
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
+                      }}>
+                        <span style={{ fontSize: '14px' }}>🌿</span>
+                        <span>NCERT CLASS 6</span>
+                        <span style={{ opacity: 0.6 }}>•</span>
+                        <span>SHRUBS</span>
+                      </span>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        {/* Audio Narration Toggle */}
+                        <button
+                          type="button"
+                          onClick={toggleShrubsSpeech}
+                          title={isShrubsSpeaking ? 'Stop voice' : 'Listen to explanation'}
+                          style={{
+                            background: isShrubsSpeaking ? '#10B981' : 'rgba(255, 255, 255, 0.12)',
+                            color: isShrubsSpeaking ? '#FFFFFF' : '#FEF3C7',
+                            border: '1.2px solid rgba(255, 255, 255, 0.3)',
+                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+                            borderRadius: '10px',
+                            padding: '5px 10px',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            fontSize: '12px',
+                            fontWeight: 800,
+                            fontFamily: '"Outfit", sans-serif',
+                            transition: 'all 0.2s ease'
+                          }}
+                        >
+                          <Volume2 size={15} />
+                          <span>{isShrubsSpeaking ? 'Stop' : 'Listen'}</span>
+                        </button>
+
+                        {/* Close popup button */}
+                        <button
+                          type="button"
+                          onClick={() => setShowShrubsPopup(false)}
+                          aria-label="Close popup and view full scenery"
+                          title="View full scenery photo"
+                          style={{
+                            background: 'rgba(255, 255, 255, 0.1)',
+                            border: '1.2px solid rgba(255, 255, 255, 0.22)',
+                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+                            borderRadius: '10px',
+                            width: '30px',
+                            height: '30px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'rgba(255, 255, 255, 0.9)',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background = 'rgba(239, 68, 68, 0.35)';
+                            e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.65)';
+                            e.currentTarget.style.color = '#FFFFFF';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.22)';
+                            e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
+                          }}
+                        >
+                          <span style={{ fontSize: '15px', fontWeight: 900, lineHeight: 1 }}>✕</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Title Section: 22px-24px Title, 16px Subtitle */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                      <h3 style={{
+                        fontFamily: '"Outfit", sans-serif',
+                        fontWeight: 900,
+                        fontSize: 'clamp(21px, 2.1vw, 24px)',
+                        margin: 0,
+                        color: '#FFFFFF',
+                        lineHeight: 1.25,
+                        letterSpacing: '-0.01em',
+                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                      }}>
+                        Bushy Woody Shrubs
+                      </h3>
+                      <div style={{
+                        fontSize: '16px',
+                        color: '#6EE7B7',
+                        fontWeight: 600,
+                        fontStyle: 'italic',
+                        fontFamily: '"Outfit", sans-serif',
+                        textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)'
+                      }}>
+                        Hard Thin Stems • Base Branching
+                      </div>
+                    </div>
+
+                    {/* 3 Detail Cards: 16px-24px Typography */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(8px, 1.2vh, 11px)' }}>
+                      {/* Card 1: Hard Thin Woody Stems */}
+                      <div style={{
+                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                        borderRadius: '14px',
+                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
+                        border: '1.2px solid rgba(110, 231, 183, 0.35)',
+                        borderLeft: '4px solid #10B981',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
+                        transition: 'all 0.25s ease'
+                      }}>
+                        <div style={{
+                          fontSize: '18px',
+                          fontWeight: 800,
+                          color: '#A7F3D0',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '7px',
+                          fontFamily: '"Outfit", sans-serif',
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                        }}>
+                          <span>🪵</span>
+                          <span>Hard Thin Woody Stems</span>
+                        </div>
+                        <div style={{
+                          fontSize: '16px',
+                          color: '#FFFFFF',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          fontWeight: 450,
+                          marginTop: '5px',
+                          lineHeight: 1.45,
+                          fontFamily: '"Inter", sans-serif'
+                        }}>
+                          Hard and woody stems, but relatively thin (not a thick single trunk) that cannot be bent easily.
+                        </div>
+                      </div>
+
+                      {/* Card 2: Branching from Base */}
+                      <div style={{
+                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                        borderRadius: '14px',
+                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
+                        border: '1.2px solid rgba(252, 211, 77, 0.35)',
+                        borderLeft: '4px solid #F59E0B',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
+                        transition: 'all 0.25s ease'
+                      }}>
+                        <div style={{
+                          fontSize: '18px',
+                          fontWeight: 800,
+                          color: '#FDE68A',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '7px',
+                          fontFamily: '"Outfit", sans-serif',
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                        }}>
+                          <span>🌿</span>
+                          <span>Branching at Ground Base</span>
+                        </div>
+                        <div style={{
+                          fontSize: '16px',
+                          color: '#FFFFFF',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          fontWeight: 450,
+                          marginTop: '5px',
+                          lineHeight: 1.45,
+                          fontFamily: '"Inter", sans-serif'
+                        }}>
+                          Branches arise profusely right near the base of the stem close to the soil line, giving a bushy appearance.
+                        </div>
+                      </div>
+
+                      {/* Card 3: Medium Stature & Examples */}
+                      <div style={{
+                        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.14) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                        borderRadius: '14px',
+                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
+                        border: '1.2px solid rgba(147, 197, 253, 0.35)',
+                        borderLeft: '4px solid #3B82F6',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
+                        transition: 'all 0.25s ease'
+                      }}>
+                        <div style={{
+                          fontSize: '18px',
+                          fontWeight: 800,
+                          color: '#BFDBFE',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '7px',
+                          fontFamily: '"Outfit", sans-serif',
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                        }}>
+                          <span>🌺</span>
+                          <span>Medium Height & Examples</span>
+                        </div>
+                        <div style={{
+                          fontSize: '16px',
+                          color: '#FFFFFF',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          fontWeight: 450,
+                          marginTop: '5px',
+                          lineHeight: 1.45,
+                          fontFamily: '"Inter", sans-serif'
+                        }}>
+                          Medium stature (1 to 3 metres). Familiar examples: <strong style={{ color: '#FEF08A' }}>Rose, Hibiscus, Lemon, Mehndi, & Jasmine</strong>.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* Re-open Button if closed */
+                <div style={{ position: 'absolute', top: '18px', right: '70px', zIndex: 35 }}>
+                  <button
+                    type="button"
+                    onClick={() => setShowShrubsPopup(true)}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '8px 18px',
+                      borderRadius: '12px',
+                      fontSize: '15px',
+                      fontWeight: 800,
+                      background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.85) 0%, rgba(2, 18, 11, 0.9) 100%)',
+                      border: '1.5px solid rgba(16, 185, 129, 0.5)',
+                      color: '#D1FAE5',
+                      cursor: 'pointer',
+                      fontFamily: '"Outfit", sans-serif',
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                      transition: 'all 0.2s ease'
+                    }}
+                    title="View Shrubs Details"
+                  >
+                    <span>🌿</span>
+                    <span>Show Shrubs Details</span>
+                  </button>
+                </div>
+              )}
+
+              {/* Fullscreen Button at Top-Right */}
+              <div style={{
+                position: 'absolute',
+                top: '18px',
+                right: showShrubsPopup ? '440px' : '20px',
+                zIndex: 35,
+                transition: 'all 0.2s ease'
+              }}>
+                <button
+                  type="button"
+                  onClick={toggleFullscreen}
+                  title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+                  style={{
+                    background: 'rgba(20, 69, 47, 0.85)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    color: '#FEF3C7',
+                    border: '1.8px solid rgba(255, 255, 255, 0.35)',
+                    borderRadius: '10px',
+                    padding: '8px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                    transition: 'all 0.25s ease'
+                  }}
+                >
+                  {fsActive ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+                </button>
+              </div>
+
+              {/* Bottom-Left: Back to Herbs */}
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                left: '24px',
+                zIndex: 35
+              }}>
+                <button
+                  type="button"
+                  onClick={() => setCategoryStep(0)}
+                  style={{
+                    padding: '8px 22px',
+                    fontSize: '16px',
+                    fontWeight: 800,
+                    borderRadius: '10px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    background: 'rgba(250, 248, 242, 0.85)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    border: '1.8px solid #14452F',
+                    color: '#14452F',
+                    cursor: 'pointer',
+                    fontFamily: '"Outfit", sans-serif',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                    transition: 'all 0.18s ease'
+                  }}
+                  title="Return to Herbs"
+                  aria-label="Previous Page"
+                >
+                  <ChevronLeft size={18} /> Back: Herbs
+                </button>
+              </div>
+
+              {/* Bottom-Right: Next Page (Advance to Trees) */}
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                right: '24px',
+                zIndex: 35
+              }}>
+                <button
+                  type="button"
+                  onClick={() => setCategoryStep(2)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '8px 24px',
+                    borderRadius: '10px',
+                    fontSize: '17px',
+                    fontWeight: 900,
+                    background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+                    border: '1.5px solid #10B981',
+                    color: '#ffffff',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                    fontFamily: '"Outfit", sans-serif',
+                    transition: 'all 0.18s ease'
+                  }}
+                  title="Advance to Trees"
+                  aria-label="Next Page"
+                >
+                  <span>Next: Trees</span>
+                  <ChevronRight size={18} strokeWidth={2.6} />
+                </button>
+              </div>
+            </div>
+          ) : (typeFilter === 'plant' && categoryStep === 2) ? (
+            /* FULLSCREEN TREES PAGE 3 WITH SLOGAN-STYLE TRANSLUCENT EMERALD POPUP */
+            <div style={{
+              position: 'relative',
+              flex: 1,
+              minHeight: 0,
+              width: '100%',
+              height: '100%',
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#0B3B24'
+            }}>
+              <img
+                src={activity21TreesImg}
+                alt="Activity 2.1 - Trees"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                  display: 'block'
+                }}
+              />
+
+              {/* Slogan Page Style: 60% Translucent Dark Emerald Glossy Forest Panel */}
+              {showTreesPopup ? (
+                <div style={{
+                  position: 'absolute',
+                  top: '16px',
+                  right: '20px',
+                  width: 'min(415px, calc(100vw - 40px))',
+                  maxHeight: 'calc(100% - 85px)',
+                  background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.60) 0%, rgba(4, 28, 16, 0.60) 45%, rgba(2, 18, 11, 0.62) 100%)',
+                  border: '1.5px solid rgba(16, 185, 129, 0.35)',
+                  borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
+                  borderRadius: '24px',
+                  boxShadow: 'inset 1px 1px 2px rgba(255, 255, 255, 0.22), inset -1px -1px 2px rgba(0, 0, 0, 0.25), 0 16px 45px rgba(0, 0, 0, 0.55), 0 0 35px rgba(16, 185, 129, 0.15)',
+                  zIndex: 35,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  overflow: 'hidden',
+                  boxSizing: 'border-box',
+                  animation: 'fadeIn 0.25s ease-out'
+                }}>
+                  {/* Glossy specular top shine reflection without blur */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: '36%',
+                      background: 'linear-gradient(175deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%)',
+                      pointerEvents: 'none',
+                      zIndex: 2,
+                      borderRadius: '24px 24px 0 0'
+                    }}
+                  />
+
+                  {/* Inner Content Wrapper */}
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    flex: 1,
+                    padding: 'clamp(14px, 2vh, 22px) clamp(16px, 2vw, 22px)',
+                    gap: 'clamp(10px, 1.5vh, 14px)',
+                    position: 'relative',
+                    zIndex: 5,
+                    overflowY: 'auto'
+                  }}>
+                    {/* Header Row: Badge & Audio/Close Controls */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                      <span style={{
+                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(5, 150, 105, 0.2) 100%)',
+                        color: '#A7F3D0',
+                        border: '1.2px solid rgba(110, 231, 183, 0.45)',
+                        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                        padding: '5px 14px',
+                        borderRadius: '22px',
+                        fontFamily: '"Outfit", sans-serif',
+                        fontWeight: 800,
+                        fontSize: '12px',
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
+                      }}>
+                        <span style={{ fontSize: '14px' }}>🌳</span>
+                        <span>NCERT CLASS 6</span>
+                        <span style={{ opacity: 0.6 }}>•</span>
+                        <span>TREES</span>
+                      </span>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        {/* Audio Narration Toggle */}
+                        <button
+                          type="button"
+                          onClick={toggleTreesSpeech}
+                          title={isTreesSpeaking ? 'Stop voice' : 'Listen to explanation'}
+                          style={{
+                            background: isTreesSpeaking ? '#10B981' : 'rgba(255, 255, 255, 0.12)',
+                            color: isTreesSpeaking ? '#FFFFFF' : '#FEF3C7',
+                            border: '1.2px solid rgba(255, 255, 255, 0.3)',
+                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+                            borderRadius: '10px',
+                            padding: '5px 10px',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            fontSize: '12px',
+                            fontWeight: 800,
+                            fontFamily: '"Outfit", sans-serif',
+                            transition: 'all 0.2s ease'
+                          }}
+                        >
+                          <Volume2 size={15} />
+                          <span>{isTreesSpeaking ? 'Stop' : 'Listen'}</span>
+                        </button>
+
+                        {/* Close popup button */}
+                        <button
+                          type="button"
+                          onClick={() => setShowTreesPopup(false)}
+                          aria-label="Close popup and view full scenery"
+                          title="View full scenery photo"
+                          style={{
+                            background: 'rgba(255, 255, 255, 0.1)',
+                            border: '1.2px solid rgba(255, 255, 255, 0.22)',
+                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+                            borderRadius: '10px',
+                            width: '30px',
+                            height: '30px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'rgba(255, 255, 255, 0.9)',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background = 'rgba(239, 68, 68, 0.35)';
+                            e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.65)';
+                            e.currentTarget.style.color = '#FFFFFF';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.22)';
+                            e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
+                          }}
+                        >
+                          <span style={{ fontSize: '15px', fontWeight: 900, lineHeight: 1 }}>✕</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Title Section: 22px-24px Title, 16px Subtitle */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                      <h3 style={{
+                        fontFamily: '"Outfit", sans-serif',
+                        fontWeight: 900,
+                        fontSize: 'clamp(21px, 2.1vw, 24px)',
+                        margin: 0,
+                        color: '#FFFFFF',
+                        lineHeight: 1.25,
+                        letterSpacing: '-0.01em',
+                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                      }}>
+                        Towering Woody Trees
+                      </h3>
+                      <div style={{
+                        fontSize: '16px',
+                        color: '#6EE7B7',
+                        fontWeight: 600,
+                        fontStyle: 'italic',
+                        fontFamily: '"Outfit", sans-serif',
+                        textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)'
+                      }}>
+                        Massive Trunk • Elevated Canopy
+                      </div>
+                    </div>
+
+                    {/* 3 Detail Cards: 16px-24px Typography */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(8px, 1.2vh, 11px)' }}>
+                      {/* Card 1: Single Thick Woody Trunk */}
+                      <div style={{
+                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                        borderRadius: '14px',
+                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
+                        border: '1.2px solid rgba(110, 231, 183, 0.35)',
+                        borderLeft: '4px solid #10B981',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
+                        transition: 'all 0.25s ease'
+                      }}>
+                        <div style={{
+                          fontSize: '18px',
+                          fontWeight: 800,
+                          color: '#A7F3D0',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '7px',
+                          fontFamily: '"Outfit", sans-serif',
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                        }}>
+                          <span>🌳</span>
+                          <span>Single Thick Woody Trunk</span>
+                        </div>
+                        <div style={{
+                          fontSize: '16px',
+                          color: '#FFFFFF',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          fontWeight: 450,
+                          marginTop: '5px',
+                          lineHeight: 1.45,
+                          fontFamily: '"Inter", sans-serif'
+                        }}>
+                          A single, massive, hard brown woody trunk protected by rough bark that firmly supports the plant.
+                        </div>
+                      </div>
+
+                      {/* Card 2: Branches High Up */}
+                      <div style={{
+                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                        borderRadius: '14px',
+                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
+                        border: '1.2px solid rgba(252, 211, 77, 0.35)',
+                        borderLeft: '4px solid #F59E0B',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
+                        transition: 'all 0.25s ease'
+                      }}>
+                        <div style={{
+                          fontSize: '18px',
+                          fontWeight: 800,
+                          color: '#FDE68A',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '7px',
+                          fontFamily: '"Outfit", sans-serif',
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                        }}>
+                          <span>🍃</span>
+                          <span>Branches High Up in Canopy</span>
+                        </div>
+                        <div style={{
+                          fontSize: '16px',
+                          color: '#FFFFFF',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          fontWeight: 450,
+                          marginTop: '5px',
+                          lineHeight: 1.45,
+                          fontFamily: '"Inter", sans-serif'
+                        }}>
+                          Branches arise high up on the trunk, far above the ground, spreading into an expansive green canopy.
+                        </div>
+                      </div>
+
+                      {/* Card 3: Long Lifespan & Examples */}
+                      <div style={{
+                        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.14) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                        borderRadius: '14px',
+                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
+                        border: '1.2px solid rgba(147, 197, 253, 0.35)',
+                        borderLeft: '4px solid #3B82F6',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
+                        transition: 'all 0.25s ease'
+                      }}>
+                        <div style={{
+                          fontSize: '18px',
+                          fontWeight: 800,
+                          color: '#BFDBFE',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '7px',
+                          fontFamily: '"Outfit", sans-serif',
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                        }}>
+                          <span>⏳</span>
+                          <span>Long Lifespan & Examples</span>
+                        </div>
+                        <div style={{
+                          fontSize: '16px',
+                          color: '#FFFFFF',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          fontWeight: 450,
+                          marginTop: '5px',
+                          lineHeight: 1.45,
+                          fontFamily: '"Inter", sans-serif'
+                        }}>
+                          Tower many metres into the sky and live for decades. Familiar examples: <strong style={{ color: '#FEF08A' }}>Banyan, Peepal, Neem, Mango, & Gulmohar</strong>.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* Re-open Button if closed */
+                <div style={{ position: 'absolute', top: '18px', right: '70px', zIndex: 35 }}>
+                  <button
+                    type="button"
+                    onClick={() => setShowTreesPopup(true)}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '8px 18px',
+                      borderRadius: '12px',
+                      fontSize: '15px',
+                      fontWeight: 800,
+                      background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.85) 0%, rgba(2, 18, 11, 0.9) 100%)',
+                      border: '1.5px solid rgba(16, 185, 129, 0.5)',
+                      color: '#D1FAE5',
+                      cursor: 'pointer',
+                      fontFamily: '"Outfit", sans-serif',
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                      transition: 'all 0.2s ease'
+                    }}
+                    title="View Trees Details"
+                  >
+                    <span>🌳</span>
+                    <span>Show Trees Details</span>
+                  </button>
+                </div>
+              )}
+
+              {/* Fullscreen Button at Top-Right */}
+              <div style={{
+                position: 'absolute',
+                top: '18px',
+                right: showTreesPopup ? '440px' : '20px',
+                zIndex: 35,
+                transition: 'all 0.2s ease'
+              }}>
+                <button
+                  type="button"
+                  onClick={toggleFullscreen}
+                  title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+                  style={{
+                    background: 'rgba(20, 69, 47, 0.85)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    color: '#FEF3C7',
+                    border: '1.8px solid rgba(255, 255, 255, 0.35)',
+                    borderRadius: '10px',
+                    padding: '8px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                    transition: 'all 0.25s ease'
+                  }}
+                >
+                  {fsActive ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+                </button>
+              </div>
+
+              {/* Bottom-Left: Back to Shrubs */}
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                left: '24px',
+                zIndex: 35
+              }}>
+                <button
+                  type="button"
+                  onClick={() => setCategoryStep(1)}
+                  style={{
+                    padding: '8px 22px',
+                    fontSize: '16px',
+                    fontWeight: 800,
+                    borderRadius: '10px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    background: 'rgba(250, 248, 242, 0.85)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    border: '1.8px solid #14452F',
+                    color: '#14452F',
+                    cursor: 'pointer',
+                    fontFamily: '"Outfit", sans-serif',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                    transition: 'all 0.18s ease'
+                  }}
+                  title="Return to Shrubs"
+                  aria-label="Previous Page"
+                >
+                  <ChevronLeft size={18} /> Back: Shrubs
+                </button>
+              </div>
+
+              {/* Bottom-Right: Next Page (Advance to Botanical Field Scanner) */}
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                right: '24px',
+                zIndex: 35
+              }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setViewMode('garden_walk');
+                    setSubPage(2);
+                    startAllSoundscape();
+                  }}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '8px 24px',
+                    borderRadius: '10px',
+                    fontSize: '17px',
+                    fontWeight: 900,
+                    background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+                    border: '1.5px solid #10B981',
+                    color: '#ffffff',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                    fontFamily: '"Outfit", sans-serif',
+                    transition: 'all 0.18s ease'
+                  }}
+                  title="Explore Botanical Field Scanner"
+                  aria-label="Next Page"
+                >
+                  <span>Next: Field Scanner</span>
+                  <ArrowRight size={18} strokeWidth={2.6} />
+                </button>
+              </div>
+            </div>
+          ) : (typeFilter === 'animal' && categoryStep === 0) ? (
+            /* FULLSCREEN ANIMALS CRAWLERS PAGE 1 WITH REALISTIC CORNER CREAM POPUP */
+            <div style={{
+              position: 'relative',
+              flex: 1,
+              minHeight: 0,
+              width: '100%',
+              height: '100%',
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#0B3B24'
+            }}>
+              <img
+                src={activity21CrawlersImg}
+                alt="Activity 2.1 - Crawlers"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                  display: 'block'
+                }}
+              />
+
+              {/* Slogan Page Style: Frosted Translucent Glass Panel (15% opacity, blur 8px) */}
+              {showCrawlerPopup ? (
+                <div style={{
+                  position: 'absolute',
+                  top: '18px',
+                  right: '20px',
+                  width: 'min(30vw, 360px)',
+                  minWidth: '270px',
+                  background: 'rgba(255, 255, 255, 0.15)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
+                  border: '1.5px solid rgba(255, 255, 255, 0.50)',
+                  borderRadius: '24px',
+                  padding: 'clamp(12px, 1.8vh, 18px) clamp(14px, 1.6vw, 18px)',
+                  boxShadow: '0 16px 40px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.60)',
+                  zIndex: 35,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px',
+                  overflow: 'hidden',
+                  boxSizing: 'border-box',
+                  animation: 'fadeIn 0.25s ease-out'
+                }}>
+                  {/* Glossy specular top shine reflection */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: '36%',
+                      background: 'linear-gradient(175deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.04) 50%, transparent 100%)',
+                      pointerEvents: 'none',
+                      zIndex: 2,
+                      borderRadius: '24px 24px 0 0'
+                    }}
+                  />
+
+                  {/* Header Row: Badge & Action Buttons */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', zIndex: 5, position: 'relative' }}>
+                    <div style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      background: 'rgba(255, 255, 255, 0.18)',
+                      backdropFilter: 'blur(8px)',
+                      WebkitBackdropFilter: 'blur(8px)',
+                      color: '#FEF3C7',
+                      border: '1.2px solid rgba(255, 255, 255, 0.45)',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
+                      padding: '4px 12px',
+                      borderRadius: '12px',
+                      fontSize: '14px',
+                      fontWeight: 800,
+                      letterSpacing: '0.04em',
+                      textTransform: 'uppercase',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
+                      whiteSpace: 'nowrap'
+                    }}>
+                      <span>🐌 NCERT 2.2 • CRAWLERS</span>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      {/* Audio Narration Toggle */}
+                      <button
+                        type="button"
+                        onClick={toggleCrawlerSpeech}
+                        title={isCrawlerSpeaking ? 'Stop voice' : 'Listen to explanation'}
+                        style={{
+                          background: isCrawlerSpeaking ? '#10B981' : 'rgba(255, 255, 255, 0.12)',
+                          color: isCrawlerSpeaking ? '#FFFFFF' : '#FEF3C7',
+                          border: '1.2px solid rgba(255, 255, 255, 0.3)',
+                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+                          borderRadius: '10px',
+                          padding: '5px 12px',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          fontSize: '15px',
+                          fontWeight: 800,
+                          fontFamily: '"Outfit", sans-serif',
+                          transition: 'all 0.2s ease'
+                        }}
+                      >
+                        <Volume2 size={15} />
+                        <span>{isCrawlerSpeaking ? 'Stop' : 'Listen'}</span>
+                      </button>
+
+                      {/* Close popup button to view 100% full screen */}
+                      <button
+                        type="button"
+                        onClick={() => setShowCrawlerPopup(false)}
+                        title="Close popup to view full image"
+                        style={{
+                          background: 'rgba(255, 255, 255, 0.1)',
+                          border: '1.2px solid rgba(255, 255, 255, 0.22)',
+                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+                          borderRadius: '10px',
+                          width: '32px',
+                          height: '32px',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#A7F3D0',
+                          transition: 'all 0.18s ease'
+                        }}
+                      >
+                        <X size={17} strokeWidth={2.5} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Title & Subtitle */}
+                  <div style={{ zIndex: 5, position: 'relative' }}>
+                    <h3 style={{
+                      margin: '2px 0 0',
+                      fontSize: '24px',
+                      fontWeight: 900,
+                      color: '#FFFFFF',
+                      fontFamily: '"Outfit", sans-serif',
+                      lineHeight: 1.2,
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.95)'
+                    }}>
+                      Garden Snail
+                    </h3>
+                    <div style={{ fontSize: '16px', color: '#6EE7B7', fontWeight: 600, fontStyle: 'italic', textShadow: '0 1px 4px rgba(0, 0, 0, 0.8)', marginTop: '2px' }}>
+                      Crawls on Ground • Moist Habitat
+                    </div>
+                  </div>
+
+                  {/* Short and Crisp NCERT Table 2.2 Cards for Grade 6 (16px) */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', zIndex: 5, position: 'relative' }}>
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                      border: '1.2px solid rgba(110, 231, 183, 0.35)',
+                      borderLeft: '4px solid #10B981',
+                      borderRadius: '10px',
+                      padding: '8px 12px',
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
+                    }}>
+                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        <span>🦶 Single Muscular Foot</span>
+                      </div>
+                      <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 600, marginTop: '3px', lineHeight: 1.4, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        Moves by slow muscle waves. It leaves a moist slimy trail to glide safely over rough stones.
+                      </div>
+                    </div>
+
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                      border: '1.2px solid rgba(252, 211, 77, 0.35)',
+                      borderLeft: '4px solid #F59E0B',
+                      borderRadius: '10px',
+                      padding: '8px 12px',
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
+                    }}>
+                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#FDE68A', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        <span>🐚 Protective Spiral Shell</span>
+                      </div>
+                      <div style={{ fontSize: '16px', color: '#FEF3C7', fontWeight: 600, marginTop: '3px', lineHeight: 1.4, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        Carries a hard shell on its back. When touched or facing heat, it pulls its head and body inside for safety.
+                      </div>
+                    </div>
+
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                      border: '1.2px solid rgba(147, 197, 253, 0.35)',
+                      borderLeft: '4px solid #3B82F6',
+                      borderRadius: '10px',
+                      padding: '8px 12px',
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
+                    }}>
+                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        <span>🌿 Moist Garden Habitat</span>
+                      </div>
+                      <div style={{ fontSize: '16px', color: '#EFF6FF', fontWeight: 600, marginTop: '3px', lineHeight: 1.4, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        Lives in cool, damp soil under flowerpots and stones. It feeds on tender green leaves.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* Re-open Button if closed */
+                <div style={{ position: 'absolute', top: '18px', right: '70px', zIndex: 35 }}>
+                  <button
+                    type="button"
+                    onClick={() => setShowCrawlerPopup(true)}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '8px 18px',
+                      borderRadius: '12px',
+                      fontSize: '16px',
+                      fontWeight: 800,
+                      background: 'rgba(250, 248, 242, 0.92)',
+                      backdropFilter: 'blur(4px)',
+                      WebkitBackdropFilter: 'blur(4px)',
+                      border: '1.8px solid #14452F',
+                      color: '#14452F',
+                      cursor: 'pointer',
+                      fontFamily: '"Outfit", sans-serif',
+                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                      transition: 'all 0.18s ease'
+                    }}
+                    title="View Crawler Details"
+                  >
+                    <span>🐌 Show Snail Details</span>
+                  </button>
+                </div>
+              )}
+
+              {/* Bottom-Left: Back to Plants / Field Scanner */}
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                left: '24px',
+                zIndex: 35
+              }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (onBackToDashboard) {
+                      onBackToDashboard();
+                    }
+                  }}
+                  style={{
+                    padding: '8px 22px',
+                    fontSize: '16px',
+                    fontWeight: 800,
+                    borderRadius: '10px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    background: 'rgba(250, 248, 242, 0.85)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    border: '1.8px solid #14452F',
+                    color: '#14452F',
+                    cursor: 'pointer',
+                    fontFamily: '"Outfit", sans-serif',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                    transition: 'all 0.18s ease'
+                  }}
+                  title="Return to Previous Page"
+                  aria-label="Previous Page"
+                >
+                  <ChevronLeft size={18} /> Previous Page
+                </button>
+              </div>
+
+              {/* Bottom-Right: Next Page (Advance to Aerial & Birds) */}
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                right: '24px',
+                zIndex: 35
+              }}>
+                <button
+                  type="button"
+                  onClick={() => setCategoryStep(1)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '8px 24px',
+                    borderRadius: '10px',
+                    fontSize: '17px',
+                    fontWeight: 900,
+                    background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+                    border: '1.5px solid #10B981',
+                    color: '#ffffff',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                    fontFamily: '"Outfit", sans-serif',
+                    transition: 'all 0.18s ease'
+                  }}
+                  title="Advance to Aerial Birds"
+                  aria-label="Next Page"
+                >
+                  <span>Next: Aerial (Birds)</span>
+                  <ChevronRight size={18} strokeWidth={2.6} />
+                </button>
+              </div>
+            </div>
+          ) : (typeFilter === 'animal' && categoryStep === 1) ? (
+            /* FULLSCREEN ANIMALS AERIAL PAGE 2 WITH REALISTIC CORNER CREAM POPUP */
+            <div style={{
+              position: 'relative',
+              flex: 1,
+              minHeight: 0,
+              width: '100%',
+              height: '100%',
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#0B3B24'
+            }}>
+              <img
+                src={activity21AerialImg}
+                alt="Activity 2.1 - Aerial Animals & Birds"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                  display: 'block'
+                }}
+              />
+
+              {/* Aerial Animals & Birds Fullscreen View: High-Contrast Complementary Nature Glassmorphism Card */}
+              {showAerialPopup ? (
+                <div style={{
+                  position: 'absolute',
+                  top: '18px',
+                  right: '20px',
+                  width: 'min(32vw, 380px)',
+                  minWidth: '280px',
+                  background: 'linear-gradient(145deg, rgba(10, 31, 24, 0.88) 0%, rgba(13, 27, 42, 0.90) 100%)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  border: '1.5px solid rgba(167, 243, 208, 0.45)',
+                  borderRadius: '24px',
+                  padding: 'clamp(14px, 2vh, 18px) clamp(16px, 1.8vw, 20px)',
+                  boxShadow: '0 20px 50px rgba(0, 0, 0, 0.45), 0 0 30px rgba(16, 185, 129, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.3)',
+                  zIndex: 35,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px',
+                  overflow: 'hidden',
+                  boxSizing: 'border-box',
+                  animation: 'fadeIn 0.35s ease-out'
+                }}>
+                  {/* Glossy specular top shine reflection */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: '36%',
+                      background: 'linear-gradient(175deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.04) 50%, transparent 100%)',
+                      pointerEvents: 'none',
+                      zIndex: 2,
+                      borderRadius: '24px 24px 0 0'
+                    }}
+                  />
+
+                  {/* Header Row: Badge & Action Buttons */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', zIndex: 5, position: 'relative' }}>
+                    <div style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(5, 150, 105, 0.18) 100%)',
+                      backdropFilter: 'blur(8px)',
+                      WebkitBackdropFilter: 'blur(8px)',
+                      color: '#A7F3D0',
+                      border: '1.2px solid rgba(52, 211, 153, 0.55)',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
+                      padding: '5px 14px',
+                      borderRadius: '12px',
+                      fontSize: '13.5px',
+                      fontWeight: 800,
+                      letterSpacing: '0.04em',
+                      textTransform: 'uppercase',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
+                      whiteSpace: 'nowrap'
+                    }}>
+                      <span>🐦 NCERT 2.2 • AERIAL</span>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      {/* Audio Narration Toggle */}
+                      <button
+                        type="button"
+                        onClick={toggleAerialSpeech}
+                        title={isAerialSpeaking ? 'Stop voice' : 'Listen to explanation'}
+                        style={{
+                          background: isAerialSpeaking ? '#10B981' : 'rgba(255, 255, 255, 0.16)',
+                          backdropFilter: 'blur(8px)',
+                          WebkitBackdropFilter: 'blur(8px)',
+                          color: '#FFFFFF',
+                          border: '1.2px solid rgba(255, 255, 255, 0.45)',
+                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
+                          borderRadius: '10px',
+                          padding: '5px 12px',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          fontSize: '15px',
+                          fontWeight: 800,
+                          fontFamily: '"Outfit", sans-serif',
+                          textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
+                          transition: 'all 0.2s ease'
+                        }}
+                      >
+                        <Volume2 size={15} />
+                        <span>{isAerialSpeaking ? 'Stop' : 'Listen'}</span>
+                      </button>
+
+                      {/* Close popup button to view 100% full screen */}
+                      <button
+                        type="button"
+                        onClick={() => setShowAerialPopup(false)}
+                        title="Close popup to view full image"
+                        style={{
+                          background: 'rgba(255, 255, 255, 0.14)',
+                          backdropFilter: 'blur(8px)',
+                          WebkitBackdropFilter: 'blur(8px)',
+                          border: '1.2px solid rgba(255, 255, 255, 0.35)',
+                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
+                          borderRadius: '10px',
+                          width: '32px',
+                          height: '32px',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#A7F3D0',
+                          transition: 'all 0.18s ease'
+                        }}
+                      >
+                        <X size={17} strokeWidth={2.5} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Title & Subtitle */}
+                  <div style={{ zIndex: 5, position: 'relative' }}>
+                    <h3 style={{
+                      margin: '2px 0 0',
+                      fontSize: '24px',
+                      fontWeight: 900,
+                      color: '#FFFFFF',
+                      fontFamily: '"Outfit", sans-serif',
+                      lineHeight: 1.2,
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.95)'
+                    }}>
+                      Aerial Animals & Birds
+                    </h3>
+                    <div style={{ fontSize: '15px', color: '#FDE047', fontWeight: 700, fontStyle: 'italic', textShadow: '0 1px 4px rgba(0, 0, 0, 0.9)', marginTop: '2px' }}>
+                      Fly in Air • Birds, Butterflies & Bees
+                    </div>
+                  </div>
+
+                  {/* Short and Crisp NCERT Table 2.2 Cards with Nature Complementary Colors */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', zIndex: 5, position: 'relative' }}>
+                    {/* Item 1: Birds - Hollow Bones (Emerald & Leaf Theme) */}
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, rgba(6, 78, 59, 0.32) 100%)',
+                      backdropFilter: 'blur(6px)',
+                      WebkitBackdropFilter: 'blur(6px)',
+                      border: '1.2px solid rgba(110, 231, 183, 0.35)',
+                      borderLeft: '4px solid #10B981',
+                      borderRadius: '12px',
+                      padding: '8px 12px',
+                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
+                    }}>
+                      <div style={{ fontSize: '15.5px', fontWeight: 800, color: '#34D399', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        <span>🪶 Hollow Bones & Light Feathers</span>
+                      </div>
+                      <div style={{ fontSize: '15px', color: '#ECFDF5', fontWeight: 600, marginTop: '3px', lineHeight: 1.4, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        Birds have hollow bones and light feathers that make their body light for flying.
+                      </div>
+                    </div>
+
+                    {/* Item 2: Insects - Flight Wings (Monarch Gold & Amber Theme) */}
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.18) 0%, rgba(180, 83, 9, 0.32) 100%)',
+                      backdropFilter: 'blur(6px)',
+                      WebkitBackdropFilter: 'blur(6px)',
+                      border: '1.2px solid rgba(252, 211, 77, 0.35)',
+                      borderLeft: '4px solid #F59E0B',
+                      borderRadius: '12px',
+                      padding: '8px 12px',
+                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
+                    }}>
+                      <div style={{ fontSize: '15.5px', fontWeight: 800, color: '#FBBF24', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        <span>🦋 Thin Flight Wings</span>
+                      </div>
+                      <div style={{ fontSize: '15px', color: '#FFFBEB', fontWeight: 600, marginTop: '3px', lineHeight: 1.4, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        Insects like butterflies and bees flap thin wings rapidly to steer between flowers.
+                      </div>
+                    </div>
+
+                    {/* Item 3: Flower Pollination (Apple Blossom Rose & Petal Theme) */}
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(244, 114, 182, 0.18) 0%, rgba(190, 24, 93, 0.30) 100%)',
+                      backdropFilter: 'blur(6px)',
+                      WebkitBackdropFilter: 'blur(6px)',
+                      border: '1.2px solid rgba(244, 114, 182, 0.35)',
+                      borderLeft: '4px solid #EC4899',
+                      borderRadius: '12px',
+                      padding: '8px 12px',
+                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
+                    }}>
+                      <div style={{ fontSize: '15.5px', fontWeight: 800, color: '#F472B6', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        <span>🌸 Flower Pollination</span>
+                      </div>
+                      <div style={{ fontSize: '15px', color: '#FDF2F8', fontWeight: 600, marginTop: '3px', lineHeight: 1.4, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        While sipping sweet nectar, they carry yellow pollen between flowers to help plants make seeds.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* Re-open Button if closed */
+                <div style={{ position: 'absolute', top: '18px', right: '20px', zIndex: 35 }}>
+                  <button
+                    type="button"
+                    onClick={() => setShowAerialPopup(true)}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '8px 18px',
+                      borderRadius: '12px',
+                      fontSize: '16px',
+                      fontWeight: 800,
+                      background: 'rgba(10, 31, 24, 0.85)',
+                      backdropFilter: 'blur(14px)',
+                      WebkitBackdropFilter: 'blur(14px)',
+                      border: '1.5px solid rgba(167, 243, 208, 0.60)',
+                      color: '#A7F3D0',
+                      cursor: 'pointer',
+                      fontFamily: '"Outfit", sans-serif',
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
+                      transition: 'all 0.18s ease'
+                    }}
+                    title="View Aerial Details"
+                  >
+                    <span>🐦 Show Aerial Details</span>
+                  </button>
+                </div>
+              )}
+
+              {/* Bottom-Left: Back to Crawlers */}
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                left: '24px',
+                zIndex: 35
+              }}>
+                <button
+                  type="button"
+                  onClick={() => setCategoryStep(0)}
+                  style={{
+                    padding: '8px 22px',
+                    fontSize: '16px',
+                    fontWeight: 800,
+                    borderRadius: '10px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    background: 'rgba(250, 248, 242, 0.85)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    border: '1.8px solid #14452F',
+                    color: '#14452F',
+                    cursor: 'pointer',
+                    fontFamily: '"Outfit", sans-serif',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                    transition: 'all 0.18s ease'
+                  }}
+                  title="Return to Crawlers"
+                  aria-label="Previous Page"
+                >
+                  <ChevronLeft size={18} /> Previous: Crawlers
+                </button>
+              </div>
+
+              {/* Bottom-Right: Next Page (Advance to Walkers) */}
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                right: '24px',
+                zIndex: 35
+              }}>
+                <button
+                  type="button"
+                  onClick={() => setCategoryStep(2)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '8px 24px',
+                    borderRadius: '10px',
+                    fontSize: '17px',
+                    fontWeight: 900,
+                    background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+                    border: '1.5px solid #10B981',
+                    color: '#ffffff',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                    fontFamily: '"Outfit", sans-serif',
+                    transition: 'all 0.18s ease'
+                  }}
+                  title="Advance to Walkers"
+                  aria-label="Next Page"
+                >
+                  <span>Next: Walkers</span>
+                  <ChevronRight size={18} strokeWidth={2.6} />
+                </button>
+              </div>
+            </div>
+          ) : (typeFilter === 'animal' && categoryStep === 2) ? (
+            /* FULLSCREEN ANIMALS WALKERS PAGE 3 WITH REALISTIC CORNER CREAM POPUP */
+            <div style={{
+              position: 'relative',
+              flex: 1,
+              minHeight: 0,
+              width: '100%',
+              height: '100%',
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#0B3B24'
+            }}>
+              <img
+                src={activity21WalkersImg}
+                alt="Activity 2.1 - Walkers & Swimmers"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                  display: 'block'
+                }}
+              />
+
+              {/* Slogan Page Style: Frosted Translucent Glass Panel (15% opacity, blur 8px) */}
+              {showWalkerPopup ? (
+                <div style={{
+                  position: 'absolute',
+                  top: '18px',
+                  right: '20px',
+                  width: 'min(30vw, 360px)',
+                  minWidth: '270px',
+                  background: 'rgba(255, 255, 255, 0.15)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
+                  border: '1.5px solid rgba(255, 255, 255, 0.50)',
+                  borderRadius: '24px',
+                  padding: 'clamp(12px, 1.8vh, 18px) clamp(14px, 1.6vw, 18px)',
+                  boxShadow: '0 16px 40px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.60)',
+                  zIndex: 35,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px',
+                  overflow: 'hidden',
+                  boxSizing: 'border-box',
+                  animation: 'fadeIn 0.25s ease-out'
+                }}>
+                  {/* Glossy specular top shine reflection */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: '36%',
+                      background: 'linear-gradient(175deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.04) 50%, transparent 100%)',
+                      pointerEvents: 'none',
+                      zIndex: 2,
+                      borderRadius: '24px 24px 0 0'
+                    }}
+                  />
+
+                  {/* Header Row: Badge, Title & Close Button */}
+                  <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px', zIndex: 5, position: 'relative' }}>
+                    <div>
+                      <div style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        background: 'rgba(255, 255, 255, 0.18)',
+                        backdropFilter: 'blur(8px)',
+                        WebkitBackdropFilter: 'blur(8px)',
+                        color: '#FEF3C7',
+                        border: '1.2px solid rgba(255, 255, 255, 0.45)',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
+                        padding: '4px 12px',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        fontWeight: 800,
+                        letterSpacing: '0.04em',
+                        textTransform: 'uppercase',
+                        fontFamily: '"Outfit", sans-serif',
+                        textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
+                        whiteSpace: 'nowrap'
+                      }}>
+                        <span>🐾 NCERT 2.2 • WALKERS</span>
+                      </div>
+                      <h3 style={{
+                        margin: '6px 0 0',
+                        fontSize: '24px',
+                        fontWeight: 900,
+                        color: '#FFFFFF',
+                        fontFamily: '"Outfit", sans-serif',
+                        lineHeight: 1.2,
+                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95)'
+                      }}>
+                        Walkers & Swimmers
+                      </h3>
+                      <div style={{ fontSize: '16px', color: '#6EE7B7', fontWeight: 600, fontStyle: 'italic', textShadow: '0 1px 4px rgba(0, 0, 0, 0.8)', marginTop: '2px' }}>
+                        Cow, Dog, Squirrel & Frog • Land & Pond Life
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      {/* Audio Narration Toggle */}
+                      <button
+                        type="button"
+                        onClick={toggleWalkerSpeech}
+                        title={isWalkerSpeaking ? 'Stop voice' : 'Listen to explanation'}
+                        style={{
+                          background: isWalkerSpeaking ? '#10B981' : 'rgba(255, 255, 255, 0.12)',
+                          color: isWalkerSpeaking ? '#FFFFFF' : '#FEF3C7',
+                          border: '1.2px solid rgba(255, 255, 255, 0.3)',
+                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+                          borderRadius: '10px',
+                          padding: '5px 10px',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          fontSize: '12px',
+                          fontWeight: 800,
+                          fontFamily: '"Outfit", sans-serif',
+                          transition: 'all 0.2s ease'
+                        }}
+                      >
+                        <Volume2 size={15} />
+                        <span>{isWalkerSpeaking ? 'Stop' : 'Listen'}</span>
+                      </button>
+
+                      {/* Close popup button to view 100% full screen */}
+                      <button
+                        type="button"
+                        onClick={() => setShowWalkerPopup(false)}
+                        title="Close popup to view full image"
+                        style={{
+                          background: 'rgba(255, 255, 255, 0.1)',
+                          border: '1.2px solid rgba(255, 255, 255, 0.22)',
+                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+                          borderRadius: '10px',
+                          width: '30px',
+                          height: '30px',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#A7F3D0',
+                          transition: 'all 0.18s ease'
+                        }}
+                      >
+                        <X size={16} strokeWidth={2.5} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Simple, Short, Crisp NCERT Detail Cards in Slogan Style (16px) */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', zIndex: 5, position: 'relative' }}>
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                      border: '1.2px solid rgba(110, 231, 183, 0.35)',
+                      borderLeft: '4px solid #10B981',
+                      borderRadius: '10px',
+                      padding: '8px 12px',
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
+                    }}>
+                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '5px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        <span>🐄 Four Sturdy Limbs for Walking</span>
+                      </div>
+                      <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        Cows and dogs have four strong limbs with hooves or padded paws to walk, run, and graze across grassy school fields and meadows.
+                      </div>
+                    </div>
+
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                      border: '1.2px solid rgba(252, 211, 77, 0.35)',
+                      borderLeft: '4px solid #F59E0B',
+                      borderRadius: '10px',
+                      padding: '8px 12px',
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
+                    }}>
+                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#FDE68A', display: 'flex', alignItems: 'center', gap: '5px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        <span>🐿️ Nimble Claws & Balancing Tail</span>
+                      </div>
+                      <div style={{ fontSize: '16px', color: '#FEF3C7', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        Striped palm squirrels scamper with sharp claws to grip stone ledges and bark, using their bushy tails for rapid balance.
+                      </div>
+                    </div>
+
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                      border: '1.2px solid rgba(147, 197, 253, 0.35)',
+                      borderLeft: '4px solid #3B82F6',
+                      borderRadius: '10px',
+                      padding: '8px 12px',
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
+                    }}>
+                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '5px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        <span>🐸 Amphibian Leaping & Webbed Feet</span>
+                      </div>
+                      <div style={{ fontSize: '16px', color: '#EFF6FF', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                        Frogs possess long muscular hind legs to leap onto floating water lily pads and webbed toes to paddle swiftly in pond water.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* Re-open Button if closed */
+                <div style={{ position: 'absolute', top: '18px', right: '70px', zIndex: 35 }}>
+                  <button
+                    type="button"
+                    onClick={() => setShowWalkerPopup(true)}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '8px 16px',
+                      borderRadius: '10px',
+                      fontSize: '15px',
+                      fontWeight: 800,
+                      background: 'rgba(250, 248, 242, 0.92)',
+                      backdropFilter: 'blur(12px)',
+                      border: '1.8px solid #14452F',
+                      color: '#14452F',
+                      cursor: 'pointer',
+                      fontFamily: '"Outfit", sans-serif',
+                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                      transition: 'all 0.18s ease'
+                    }}
+                    title="View Walker Details"
+                  >
+                    <span>🐾 Show Walker Details</span>
+                  </button>
+                </div>
+              )}
+
+              {/* Bottom-Left: Back to Aerial (Birds) */}
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                left: '24px',
+                zIndex: 35
+              }}>
+                <button
+                  type="button"
+                  onClick={() => setCategoryStep(1)}
+                  style={{
+                    padding: '8px 22px',
+                    fontSize: '16px',
+                    fontWeight: 800,
+                    borderRadius: '10px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    background: 'rgba(250, 248, 242, 0.85)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    border: '1.8px solid #14452F',
+                    color: '#14452F',
+                    cursor: 'pointer',
+                    fontFamily: '"Outfit", sans-serif',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                    transition: 'all 0.18s ease'
+                  }}
+                  title="Return to Aerial Birds"
+                  aria-label="Previous Page"
+                >
+                  <ChevronLeft size={18} /> Previous: Aerial (Birds)
+                </button>
+              </div>
+
+              {/* Bottom-Right: Advance to Animal Field Scanner */}
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                right: '24px',
+                zIndex: 35
+              }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setViewMode('garden_walk');
+                    setSubPage(2);
+                    startAllSoundscape();
+                  }}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '8px 24px',
+                    borderRadius: '10px',
+                    fontSize: '17px',
+                    fontWeight: 900,
+                    background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+                    border: '1.5px solid #10B981',
+                    color: '#ffffff',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                    fontFamily: '"Outfit", sans-serif',
+                    transition: 'all 0.18s ease'
+                  }}
+                  title="Explore Wildlife & Animal Field Scanner"
+                  aria-label="Next Page"
+                >
+                  <span>Next: Animal Field Scanner</span>
+                  <ArrowRight size={18} strokeWidth={2.6} />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div style={{
+                position: 'relative',
+                flex: 1,
+                minHeight: 0,
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                padding: 'clamp(8px, 1vh, 12px) clamp(16px, 2.2vw, 32px) clamp(12px, 1.6vh, 18px)',
+                background: 'rgba(250, 248, 242, 0.55)',
+                borderRadius: 0,
+                border: 'none',
+                boxSizing: 'border-box',
+                overflow: 'hidden'
+              }}>
               {/* Hanging Lush Corner Foliage (matching Slogan Page) */}
               <TopCornerFoliage side="left" />
               <TopCornerFoliage side="right" />
@@ -1793,22 +4390,38 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
 
                 </div>
 
-                {/* Right: Botanical Scientific Profile Card (30% allocation, zero scroll, 16px-24px fonts, no overlap) */}
+                {/* Right: Botanical Scientific Profile Card in Slogan Page 60% Translucent Emerald Glass Style */}
                 <div style={{
-                  background: 'rgba(250, 248, 242, 0.55)',
-                  border: '2px solid rgba(20, 69, 47, 0.5)',
-                  borderRadius: '20px',
-                  padding: 'clamp(6px, 1vh, 12px) clamp(8px, 1.1vw, 14px)',
+                  position: 'relative',
+                  background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.60) 0%, rgba(4, 28, 16, 0.60) 45%, rgba(2, 18, 11, 0.62) 100%)',
+                  border: '1.5px solid rgba(16, 185, 129, 0.35)',
+                  borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
+                  borderRadius: '24px',
+                  padding: 'clamp(8px, 1.2vh, 14px) clamp(10px, 1.2vw, 16px)',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
                   height: '100%',
                   minHeight: 0,
                   overflow: 'hidden',
-                  boxShadow: '0 12px 32px rgba(20, 69, 47, 0.14)',
-                  position: 'relative',
+                  boxShadow: 'inset 1px 1px 2px rgba(255, 255, 255, 0.22), inset -1px -1px 2px rgba(0, 0, 0, 0.25), 0 16px 45px rgba(0, 0, 0, 0.55), 0 0 35px rgba(16, 185, 129, 0.15)',
                   boxSizing: 'border-box'
                 }}>
+                  {/* Glossy specular top shine reflection without blur */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: '36%',
+                      background: 'linear-gradient(175deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%)',
+                      pointerEvents: 'none',
+                      zIndex: 2,
+                      borderRadius: '24px 24px 0 0'
+                    }}
+                  />
+
                   {/* Card Content Framed with clean layout, zero overlap, zero scroll, and 16px-24px fonts */}
                   <div style={{
                     position: 'relative',
@@ -1817,96 +4430,113 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     flexDirection: 'column',
                     justifyContent: 'space-between',
                     height: '100%',
-                    minHeight: 0
+                    minHeight: 0,
+                    gap: 'clamp(6px, 1vh, 10px)'
                   }}>
-                    {/* Top Group: Pill Badge, Title, Leaf Divider & Description Quote */}
-                    <div style={{ display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
-                      {/* Top Pill Badge matching Header & Footer Buttons with Realistic Photographic Icon */}
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2px' }}>
-                        <div style={{
+                    {/* Top Group: Pill Badge, Title, Subtitle, Leaf Divider & Description Quote */}
+                    <div style={{ display: 'flex', flexDirection: 'column', flexShrink: 0, gap: '4px' }}>
+                      {/* Top Pill Badge matching Slogan Page with Realistic Photographic Icon */}
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <span style={{
+                          background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(5, 150, 105, 0.2) 100%)',
+                          color: '#A7F3D0',
+                          border: '1.2px solid rgba(110, 231, 183, 0.45)',
+                          boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                          padding: '4px 16px',
+                          borderRadius: '22px',
+                          fontFamily: '"Outfit", sans-serif',
+                          fontWeight: 800,
+                          fontSize: '12px',
+                          letterSpacing: '0.08em',
+                          textTransform: 'uppercase',
                           display: 'inline-flex',
                           alignItems: 'center',
-                          gap: '6px',
-                          background: '#14452F',
-                          color: '#FFFFFF',
-                          borderRadius: '22px',
-                          padding: '2px 14px',
-                          border: '1.5px solid #10B981',
-                          fontFamily: '"Outfit", sans-serif',
-                          fontWeight: 900,
-                          fontSize: '16px',
-                          letterSpacing: '0.04em',
-                          textTransform: 'uppercase',
-                          boxShadow: '0 2px 8px rgba(20, 69, 47, 0.28)'
+                          gap: '7px',
+                          textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                         }}>
-                          <RealisticCategoryIcon categoryId={currentCat.id} size={18} />
+                          <RealisticCategoryIcon categoryId={currentCat.id} size={15} />
                           <span>{currentCat.tag}</span>
-                        </div>
+                        </span>
                       </div>
 
-                      {/* Category Heading in Fraunces Serif (24px) */}
-                      <h2 style={{
-                        margin: '1px 0 2px 0',
-                        fontFamily: '"Fraunces", Georgia, serif',
-                        fontSize: '24px',
-                        color: '#14452F',
-                        fontWeight: 900,
-                        textAlign: 'center',
-                        lineHeight: '1.15'
-                      }}>
-                        {currentCat.name}
-                      </h2>
-
-                      {/* Ornate Leaf Divider matching Slogan Page */}
-                      <CardLeafDivider />
+                      {/* Category Heading (24px) & Subtitle (16px) */}
+                      <div style={{ textAlign: 'center' }}>
+                        <h2 style={{
+                          margin: '2px 0 0 0',
+                          fontFamily: '"Outfit", sans-serif',
+                          fontSize: 'clamp(22px, 2.2vw, 25px)',
+                          color: '#FFFFFF',
+                          fontWeight: 900,
+                          lineHeight: '1.2',
+                          letterSpacing: '-0.01em',
+                          textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                        }}>
+                          {currentCat.name}
+                        </h2>
+                        <div style={{
+                          fontSize: '16px',
+                          color: '#6EE7B7',
+                          fontWeight: 600,
+                          fontStyle: 'italic',
+                          fontFamily: '"Outfit", sans-serif',
+                          textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)',
+                          marginTop: '1px'
+                        }}>
+                          {currentCat.id === 'herbs' ? 'Non-woody • Flexible Tender Stems' :
+                           currentCat.id === 'shrubs' ? 'Hard Thin Woody Stems • Bushy Structure' :
+                           currentCat.id === 'trees' ? 'Single Massive Woody Trunk • Towering Canopy' :
+                           'Specialized Survival Adaptations'}
+                        </div>
+                      </div>
 
                       {/* Slogan-Style Descriptive Quote Card (16px) */}
                       <div style={{
                         position: 'relative',
-                        background: 'rgba(255, 255, 255, 0.92)',
-                        backdropFilter: 'blur(6px)',
-                        border: '1.5px solid #14452F',
-                        borderLeft: '4.5px solid #10B981',
-                        padding: '4px 10px',
-                        borderRadius: '9px',
-                        marginTop: '2px',
-                        boxShadow: '0 2px 8px rgba(20, 69, 47, 0.06)'
+                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                        border: '1.2px solid rgba(110, 231, 183, 0.35)',
+                        borderLeft: '4px solid #10B981',
+                        padding: 'clamp(8px, 1.1vh, 10px) clamp(10px, 1.2vw, 14px)',
+                        borderRadius: '12px',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
+                        marginTop: '2px'
                       }}>
                         <p style={{
                           margin: 0,
                           fontFamily: '"Fraunces", Georgia, serif',
                           fontSize: '16px',
-                          color: '#14452F',
-                          lineHeight: '1.3',
+                          color: '#F0FDF4',
+                          lineHeight: '1.38',
                           fontStyle: 'italic',
-                          fontWeight: 700,
-                          padding: '0 2px'
+                          fontWeight: 600,
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)'
                         }}>
                           "{currentCat.quote}"
                         </p>
                       </div>
                     </div>
 
-                    {/* Middle Group: Concise NCERT Field Observation to cover vertical space without overlap */}
+                    {/* Middle Group: Concise NCERT Field Observation in Amber Glass Card (16px) */}
                     <div style={{
                       position: 'relative',
-                      background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-                      border: '1.5px solid #F59E0B',
-                      borderRadius: '10px',
-                      padding: '4px 10px',
-                      boxShadow: '0 2px 8px rgba(245, 158, 11, 0.08)',
+                      background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                      border: '1.2px solid rgba(252, 211, 77, 0.35)',
+                      borderLeft: '4px solid #F59E0B',
+                      borderRadius: '12px',
+                      padding: 'clamp(6px, 1vh, 10px) clamp(10px, 1.2vw, 14px)',
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '7px',
+                      gap: '8px',
                       flexShrink: 0
                     }}>
                       <span style={{ fontSize: '18px', flexShrink: 0 }}>💡</span>
                       <span style={{
                         fontFamily: '"Outfit", sans-serif',
                         fontSize: '16px',
-                        color: '#78350F',
-                        fontWeight: 700,
-                        lineHeight: '1.25'
+                        color: '#FEF3C7',
+                        fontWeight: 600,
+                        lineHeight: '1.35',
+                        textShadow: '0 1px 3px rgba(0, 0, 0, 0.95)'
                       }}>
                         {currentCat.id === 'herbs' ? 'Tender green stems bend easily; life cycle spans 1–2 seasons.' :
                          currentCat.id === 'shrubs' ? 'Woody stems branch near the base giving a bushy structure.' :
@@ -1917,75 +4547,77 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       </span>
                     </div>
 
-                    {/* Bottom Group: Visual Classification Pictogram Badges & NCERT Examples Box */}
+                    {/* Bottom Group: Visual Classification Badges & NCERT Examples Box */}
                     <div style={{
                       position: 'relative',
-                      background: 'rgba(255, 255, 255, 0.96)',
-                      backdropFilter: 'blur(6px)',
-                      border: '1.5px solid #14452F',
-                      borderRadius: '12px',
-                      padding: '5px 8px',
-                      boxShadow: '0 4px 12px rgba(20, 69, 47, 0.07)',
+                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(0, 0, 0, 0.38) 100%)',
+                      border: '1.2px solid rgba(110, 231, 183, 0.3)',
+                      borderRadius: '14px',
+                      padding: 'clamp(6px, 1vh, 9px) clamp(8px, 1.1vw, 12px)',
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: '5px',
+                      gap: '6px',
                       flexShrink: 0
                     }}>
                       {/* Row of 3 Realistic Icon Badges: Perfectly 3-column grid without wrapping */}
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '5px', alignItems: 'stretch' }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px', alignItems: 'stretch' }}>
                         {/* Height / Specimen Realistic Badge */}
                         <div style={{
                           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '3px',
-                          background: 'linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%)',
-                          border: '1.5px solid #10B981', borderRadius: '9px',
-                          padding: '4px 2px', minWidth: 0,
-                          boxShadow: '0 2px 5px rgba(16, 185, 129, 0.12)'
+                          background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(6, 78, 59, 0.35) 100%)',
+                          border: '1.2px solid rgba(110, 231, 183, 0.45)', borderRadius: '10px',
+                          padding: '5px 3px', minWidth: 0,
+                          boxShadow: '0 2px 6px rgba(0, 0, 0, 0.25)'
                         }}>
-                          <RealisticSpecimenMedallion categoryId={currentCat.id} size={24} />
-                          <span style={{ fontSize: '16px', fontWeight: 800, color: '#064E3B', fontFamily: '"Outfit", sans-serif', textAlign: 'center', lineHeight: '1.15', wordBreak: 'break-word' }}>
+                          <RealisticSpecimenMedallion categoryId={currentCat.id} size={22} />
+                          <span style={{ fontSize: '16px', fontWeight: 800, color: '#A7F3D0', fontFamily: '"Outfit", sans-serif', textAlign: 'center', lineHeight: '1.15', textShadow: '0 1px 3px rgba(0,0,0,0.9)', wordBreak: 'break-word' }}>
                             {currentCat.id === 'herbs' ? 'Short' : currentCat.id === 'shrubs' ? 'Medium' : currentCat.id === 'trees' ? 'Tall' : currentCat.traits[0]?.value?.split(',')[0] || ''}
                           </span>
                         </div>
                         {/* Stem / Habitat Realistic Badge */}
                         <div style={{
                           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '3px',
-                          background: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)',
-                          border: '1.5px solid #F59E0B', borderRadius: '9px',
-                          padding: '4px 2px', minWidth: 0,
-                          boxShadow: '0 2px 5px rgba(245, 158, 11, 0.12)'
+                          background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.28) 0%, rgba(120, 53, 15, 0.35) 100%)',
+                          border: '1.2px solid rgba(252, 211, 77, 0.45)', borderRadius: '10px',
+                          padding: '5px 3px', minWidth: 0,
+                          boxShadow: '0 2px 6px rgba(0, 0, 0, 0.25)'
                         }}>
-                          <RealisticTextureMedallion categoryId={currentCat.id} size={24} />
-                          <span style={{ fontSize: '16px', fontWeight: 800, color: '#78350F', fontFamily: '"Outfit", sans-serif', textAlign: 'center', lineHeight: '1.15', wordBreak: 'break-word' }}>
+                          <RealisticTextureMedallion categoryId={currentCat.id} size={22} />
+                          <span style={{ fontSize: '16px', fontWeight: 800, color: '#FDE68A', fontFamily: '"Outfit", sans-serif', textAlign: 'center', lineHeight: '1.15', textShadow: '0 1px 3px rgba(0,0,0,0.9)', wordBreak: 'break-word' }}>
                             {currentCat.id === 'herbs' ? 'Soft Stem' : currentCat.id === 'shrubs' ? 'Woody Base' : currentCat.id === 'trees' ? 'Thick Trunk' : currentCat.traits[1]?.value?.split(',')[0] || ''}
                           </span>
                         </div>
                         {/* Branching / Role Realistic Badge */}
                         <div style={{
                           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '3px',
-                          background: 'linear-gradient(135deg, #E0E7FF 0%, #C7D2FE 100%)',
-                          border: '1.5px solid #6366F1', borderRadius: '9px',
-                          padding: '4px 2px', minWidth: 0,
-                          boxShadow: '0 2px 5px rgba(99, 102, 241, 0.12)'
+                          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.28) 0%, rgba(49, 46, 129, 0.35) 100%)',
+                          border: '1.2px solid rgba(165, 180, 252, 0.45)', borderRadius: '10px',
+                          padding: '5px 3px', minWidth: 0,
+                          boxShadow: '0 2px 6px rgba(0, 0, 0, 0.25)'
                         }}>
-                          <RealisticRoleMedallion categoryId={currentCat.id} size={24} />
-                          <span style={{ fontSize: '16px', fontWeight: 800, color: '#3730A3', fontFamily: '"Outfit", sans-serif', textAlign: 'center', lineHeight: '1.15', wordBreak: 'break-word' }}>
+                          <RealisticRoleMedallion categoryId={currentCat.id} size={22} />
+                          <span style={{ fontSize: '16px', fontWeight: 800, color: '#C7D2FE', fontFamily: '"Outfit", sans-serif', textAlign: 'center', lineHeight: '1.15', textShadow: '0 1px 3px rgba(0,0,0,0.9)', wordBreak: 'break-word' }}>
                             {currentCat.id === 'herbs' ? 'Few Branches' : currentCat.id === 'shrubs' ? 'Bushy Base' : currentCat.id === 'trees' ? 'High Crown' : currentCat.traits[2]?.value?.split(',')[0] || ''}
                           </span>
                         </div>
                       </div>
 
-                      {/* NCERT Examples Tag Cloud (16px) */}
+                      {/* NCERT Examples Box */}
                       <div style={{
-                        background: 'rgba(250, 248, 242, 0.98)',
-                        border: '1.4px solid #14452F',
-                        borderRadius: '8px',
-                        padding: '4px 8px',
+                        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                        border: '1.2px solid rgba(147, 197, 253, 0.35)',
+                        borderLeft: '4px solid #3B82F6',
+                        borderRadius: '10px',
+                        padding: '5px 10px',
                         display: 'flex',
                         alignItems: 'baseline',
-                        gap: '6px'
+                        gap: '7px'
                       }}>
-                        <span style={{ fontSize: '16px', fontWeight: 900, color: '#14452F', fontFamily: '"Outfit", sans-serif', flexShrink: 0 }}>📚 NCERT:</span>
-                        <span style={{ fontSize: '16px', fontWeight: 700, color: '#0F3822', fontFamily: '"Outfit", sans-serif', lineHeight: '1.25' }}>
+                        <span style={{ fontSize: '16px', fontWeight: 900, color: '#93C5FD', fontFamily: '"Outfit", sans-serif', flexShrink: 0, textShadow: '0 1px 3px rgba(0,0,0,0.9)' }}>
+                          📚 NCERT:
+                        </span>
+                        <span style={{ fontSize: '16px', fontWeight: 600, color: '#FFFFFF', fontFamily: '"Outfit", sans-serif', lineHeight: '1.3', textShadow: '0 1px 3px rgba(0,0,0,0.9)' }}>
                           {currentCat.traits[currentCat.traits.length - 1]?.value || ''}
                         </span>
                       </div>
@@ -2133,7 +4765,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <span>Next: {categories[categoryStep + 1]?.name.split(' ')[0]}</span>
                       <ChevronRight size={18} strokeWidth={2.6} />
                     </button>
-                  ) : typeFilter === 'plant' ? (
+                  ) : (
                     <button
                       type="button"
                       onClick={() => {
@@ -2158,1618 +4790,839 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         transition: 'all 0.18s ease',
                         whiteSpace: 'nowrap'
                       }}
-                      title="Explore Botanical Field Scanner"
+                      title={typeFilter === 'plant' ? "Explore Botanical Field Scanner" : "Explore Animal Field Scanner"}
                       aria-label="Field Scanner"
                     >
-                      <span>Next: Field Scanner</span>
+                      <span>{typeFilter === 'plant' ? 'Next: Field Scanner' : 'Next: Animal Field Scanner'}</span>
                       <ArrowRight size={18} strokeWidth={2.5} />
                     </button>
-                  ) : onNextActivity ? (
-                    <button
-                      type="button"
-                      onClick={onNextActivity}
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        padding: '8px 24px',
-                        borderRadius: '10px',
-                        fontSize: '18px',
-                        fontWeight: 900,
-                        background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                        border: '1.5px solid #10B981',
-                        color: '#ffffff',
-                        cursor: 'pointer',
-                        boxShadow: '0 4px 14px rgba(20, 69, 47, 0.35)',
-                        fontFamily: '"Outfit", sans-serif',
-                        transition: 'all 0.18s ease',
-                        whiteSpace: 'nowrap'
-                      }}
-                      title="Advance to next activity"
-                    >
-                      <span>Complete &amp; Next Activity</span>
-                      <ArrowRight size={18} strokeWidth={2.5} />
-                    </button>
-                  ) : null}
+                  )}
                 </div>
               </div>
             </div>
-          )}
+          )
+        )}
 
         {/* ============ PAGE 2: BOTANICAL GARDEN FIELD SCANNER (MATCHING LEAVES SLOGAN PAGE DESIGN) ============ */}
         {(subPage === 2 || subPage === 3) && (
-          <div style={{
-            position: 'relative',
-            flex: 1,
-            minHeight: 0,
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            padding: 'clamp(6px, 1vh, 10px) clamp(10px, 1.4vw, 18px) clamp(10px, 1.4vh, 16px)',
-            background: 'rgba(250, 248, 242, 0.55)',
-            borderRadius: 0,
-            border: 'none',
-            boxSizing: 'border-box',
-            overflow: 'hidden'
-          }}>
-            {/* Hanging Lush Corner Foliage (matching Slogan Page) */}
-            <TopCornerFoliage side="left" />
-            <TopCornerFoliage side="right" />
-
-            {/* Soft Mountain Ridge Backdrop behind Title */}
-            <TopMountainBackdrop />
-
-            {/* Bottom Nature Silhouette Panorama along bottom edge */}
-            <BottomNatureSilhouettes />
-
-            {/* Header: Slogan Page Authentic Botanical Design (Center-aligned, Flanked by Vines, Badges) */}
-            <div style={{
-              position: 'relative',
-              zIndex: 10,
-              flexShrink: 0,
-              textAlign: 'center',
-              borderBottom: '2px solid #14452F',
-              paddingBottom: 'clamp(4px, 0.8vh, 8px)',
-              marginBottom: 'clamp(6px, 0.9vh, 8px)'
-            }}>
-              {/* Fullscreen Button at Top-Right */}
-              <button
-                type="button"
-                onClick={toggleFullscreen}
-                title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
-                style={{
-                  position: 'absolute',
-                  right: 0,
-                  top: '2px',
-                  background: 'rgba(6, 78, 59, 0.90)',
-                  backdropFilter: 'blur(8px)',
-                  color: '#D1FAE5',
-                  border: '1.5px solid #10B981',
-                  borderRadius: '10px',
-                  padding: '8px',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  transition: 'all 0.18s ease',
-                  zIndex: 30
-                }}
-              >
-                {fsActive ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
-              </button>
-
-              {/* Top Badges: CLASS 6 • SCIENCE and ACTIVITY 2.1 */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '10px',
-                marginBottom: '4px'
-              }}>
-                <div style={{
-                  background: '#14452F',
-                  color: '#FFFFFF',
-                  borderRadius: '22px',
-                  padding: '3px 18px',
-                  fontFamily: '"Outfit", sans-serif',
-                  fontWeight: 900,
-                  fontSize: '16px',
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase',
-                  boxShadow: '0 2px 8px rgba(20, 69, 47, 0.28)'
-                }}>
-                  CLASS 6 • SCIENCE
-                </div>
-                <div style={{
-                  background: '#14452F',
-                  color: '#FFFFFF',
-                  borderRadius: '22px',
-                  padding: '3px 18px',
-                  fontFamily: '"Outfit", sans-serif',
-                  fontWeight: 900,
-                  fontSize: '16px',
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase',
-                  boxShadow: '0 2px 8px rgba(20, 69, 47, 0.28)'
-                }}>
-                  {typeFilter === 'plant' ? 'ACTIVITY 2.1 · BOTANICAL FIELD SCANNER' : 'ACTIVITY 2.1 · ZOOLOGICAL FIELD SCANNER'}
-                </div>
-              </div>
-
-              {/* Main Title flanked by graceful Leafy Vine Branches (24px Fraunces) */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '12px'
-              }}>
-                <TitleVineBranch side="left" />
-                <h1 style={{
-                  fontFamily: '"Fraunces", Georgia, serif',
-                  color: '#14452F',
-                  fontSize: '24px',
-                  fontWeight: 900,
-                  lineHeight: '1.2',
-                  margin: 0,
-                  textShadow: '0 2px 6px rgba(10, 59, 36, 0.10)'
-                }}>
-                  {typeFilter === 'plant' ? '🌿 Botanical Garden Field Walk & Scanner' : '🐾 Wildlife Field Walk & Scanner'}
-                </h1>
-                <TitleVineBranch side="right" />
-              </div>
-
-              {/* Botanical Sprout Motif directly beneath the title */}
-              <TitleSprout />
-            </div>
-
-            {/* Navigation & Status Toolbar matching Slogan Page (18px typography, no text wrapping) */}
-            <div style={{
-              position: 'relative',
-              zIndex: 10,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBottom: 'clamp(6px, 1vh, 8px)',
-              flexShrink: 0,
-              gap: 'clamp(6px, 0.8vw, 12px)',
-              overflowX: 'auto',
-              scrollbarWidth: 'none',
-              width: '100%',
-              boxSizing: 'border-box'
-            }}>
-              {/* Left: Back to Overview Button */}
-              <button
-                type="button"
-                onClick={() => setSubPage(1)}
-                style={{
-                  padding: '7px 18px',
-                  fontSize: '18px',
-                  fontWeight: 800,
-                  borderRadius: '10px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  background: 'rgba(250, 248, 242, 0.55)',
-                  border: '1.8px solid #14452F',
-                  color: '#14452F',
-                  cursor: 'pointer',
-                  fontFamily: '"Outfit", sans-serif',
-                  boxShadow: '0 2px 6px rgba(20, 69, 47, 0.08)',
-                  transition: 'all 0.18s ease',
-                  whiteSpace: 'nowrap',
-                  flexShrink: 0
-                }}
-              >
-                <ChevronLeft size={20} /> Back: Overview
-              </button>
-
-              {/* Visual Emoji Progress Bar — Each specimen shown as a segment */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '3px',
-                background: 'rgba(250, 248, 242, 0.55)',
-                border: '1.8px solid #14452F',
-                borderRadius: '22px',
-                padding: '4px 12px',
-                boxShadow: notebook.length >= filteredTargets.length 
-                  ? '0 0 16px rgba(16, 185, 129, 0.5), 0 2px 8px rgba(20, 69, 47, 0.12)'
-                  : '0 2px 6px rgba(20, 69, 47, 0.08)',
-                flexShrink: 0,
-                transition: 'box-shadow 0.5s ease'
-              }}>
-                <span style={{ fontSize: '16px', fontWeight: 900, color: '#14452F', fontFamily: '"Outfit", sans-serif', marginRight: '6px' }}>
-                  📷
-                </span>
-                {filteredTargets.map((t, idx) => {
-                  const found = notebook.includes(t.id);
-                  return (
-                    <div key={t.id} style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: '32px',
-                      height: '32px',
-                      borderRadius: '50%',
-                      background: found 
-                        ? 'linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%)'
-                        : 'rgba(226, 232, 240, 0.5)',
-                      border: found ? '2px solid #059669' : '1.5px dashed #94A3B8',
-                      fontSize: '16px',
-                      transition: 'all 0.4s ease',
-                      transform: found ? 'scale(1)' : 'scale(0.85)',
-                      opacity: found ? 1 : 0.45,
-                      boxShadow: found ? '0 2px 8px rgba(5, 150, 105, 0.3)' : 'none',
-                      animation: found ? 'starPop 0.4s ease-out' : 'none',
-                      position: 'relative'
-                    }}>
-                      <span style={{ filter: found ? 'none' : 'grayscale(1)' }}>{t.emoji}</span>
-                      {found && (
-                        <div style={{
-                          position: 'absolute', bottom: '-2px', right: '-2px',
-                          width: '12px', height: '12px', borderRadius: '50%',
-                          background: '#059669', border: '1.5px solid #ffffff',
-                          display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          fontSize: '8px', color: '#ffffff', fontWeight: 900
-                        }}>✓</div>
-                      )}
-                    </div>
-                  );
-                })}
-                <span style={{ fontSize: '15px', fontWeight: 900, color: '#14452F', fontFamily: '"Outfit", sans-serif', marginLeft: '8px', whiteSpace: 'nowrap' }}>
-                  {notebook.length}/{filteredTargets.length}
-                </span>
-                {notebook.length >= filteredTargets.length && (
-                  <span style={{ fontSize: '18px', marginLeft: '4px', animation: 'starPop 0.5s ease-out' }}>🌟</span>
-                )}
-              </div>
-
-              {/* Right: Show Rings & Reset Controls */}
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexShrink: 0 }}>
-                {/* Macro Zoom Switcher (18px font) */}
-                <button
-                  type="button"
-                  onClick={() => setZoomLevel(z => z === 2.4 ? 4.8 : 2.4)}
-                  style={{
-                    padding: '7px 16px',
-                    fontSize: '18px',
-                    fontWeight: 800,
-                    borderRadius: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    background: zoomLevel > 3 ? '#ECFDF5' : 'rgba(250, 248, 242, 0.55)',
-                    border: zoomLevel > 3 ? '1.8px solid #10B981' : '1.8px solid #14452F',
-                    color: zoomLevel > 3 ? '#065F46' : '#14452F',
-                    cursor: 'pointer',
-                    fontFamily: '"Outfit", sans-serif',
-                    boxShadow: '0 2px 6px rgba(20, 69, 47, 0.08)',
-                    transition: 'all 0.18s ease',
-                    whiteSpace: 'nowrap',
-                    flexShrink: 0
-                  }}
-                  title="Toggle between 2.4x Field Overview and 4.8x Macro Venation Zoom"
-                >
-                  {zoomLevel > 3 ? <ZoomIn size={20} color="#10B981" /> : <ZoomOut size={20} color="#14452F" />}
-                  <span>{zoomLevel > 3 ? 'Macro 4.8x' : 'Field 2.4x'}</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setShowHints(h => !h)}
-                  style={{
-                    padding: '7px 16px',
-                    fontSize: '18px',
-                    fontWeight: 800,
-                    borderRadius: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    background: 'rgba(250, 248, 242, 0.55)',
-                    border: '1.8px solid #14452F',
-                    color: '#14452F',
-                    cursor: 'pointer',
-                    fontFamily: '"Outfit", sans-serif',
-                    boxShadow: '0 2px 6px rgba(20, 69, 47, 0.08)',
-                    transition: 'all 0.18s ease',
-                    whiteSpace: 'nowrap',
-                    flexShrink: 0
-                  }}
-                >
-                  <Eye size={20} /> {showHints ? 'Hide Rings' : 'Show Rings'}
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleReset}
-                  style={{
-                    padding: '7px 16px',
-                    fontSize: '18px',
-                    fontWeight: 800,
-                    borderRadius: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    background: 'rgba(250, 248, 242, 0.55)',
-                    border: '1.8px solid #14452F',
-                    color: '#14452F',
-                    cursor: 'pointer',
-                    fontFamily: '"Outfit", sans-serif',
-                    boxShadow: '0 2px 6px rgba(20, 69, 47, 0.08)',
-                    transition: 'all 0.18s ease',
-                    whiteSpace: 'nowrap',
-                    flexShrink: 0
-                  }}
-                >
-                  <RefreshCw size={18} /> Reset
-                </button>
-
-                {/* Looping ambient nature sound audio element */}
-                <audio ref={natureAudioRef} src={natureForestAudio} loop preload="auto" />
-
-                {notebook.length >= filteredTargets.length && (
-                  <button
-                    type="button"
-                    onClick={onNextActivity || onNextSection || onBackToDashboard}
-                    style={{
-                      padding: '8px 24px',
-                      borderRadius: '10px',
-                      fontSize: '19px',
-                      fontWeight: 900,
-                      background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                      border: '1.5px solid #10B981',
-                      color: '#ffffff',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      boxShadow: '0 4px 14px rgba(20, 69, 47, 0.35)',
-                      fontFamily: '"Outfit", sans-serif',
-                      whiteSpace: 'nowrap',
-                      flexShrink: 0
-                    }}
-                  >
-                    {typeFilter === 'plant' ? (
-                      <>Table 2.1 Complete! Continue <ChevronRight size={20} /></>
-                    ) : (
-                      <>🎉 Walk Completed! Proceed <ArrowRight size={20} /></>
-                    )}
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {/* Photographic Garden Scanner Stage Flanked by Slogan-Page Botanical Cards */}
-            <div style={{ 
-              flex: 1, 
-              minHeight: 0, 
-              position: 'relative', 
-              display: 'flex',
-              alignItems: 'stretch',
-              justifyContent: 'center',
-              gap: 'clamp(8px, 1.2vw, 16px)',
-              overflow: 'hidden',
-              zIndex: 10,
-              width: '100%',
-              boxSizing: 'border-box'
-            }}>
-
-              {/* CENTER / MAIN: Exact-Aspect Interactive Scanner Board (100% Fully Visible — Crow & All Organisms Completely Shown) */}
-              <div
-                ref={containerRef}
-                onMouseMove={handleMouseMove}
-                onMouseDown={startHolding}
-                onMouseUp={stopHolding}
-                onMouseLeave={() => { setIsInsideImage(false); stopHolding(); setHoveredTarget(null); }}
-                onMouseEnter={() => setIsInsideImage(true)}
-                style={{ 
-                  height: '100%',
-                  width: 'auto',
-                  aspectRatio: typeFilter === 'plant' ? '1538 / 1023' : '1643 / 957',
-                  maxWidth: 'calc(100% - clamp(250px, 24vw, 310px))',
-                  maxHeight: '100%',
-                  cursor: 'none', 
-                  userSelect: 'none', 
-                  position: 'relative',
-                  overflow: 'hidden',
-                  borderRadius: '20px',
-                  border: '2px solid rgba(20, 69, 47, 0.5)',
-                  background: '#041d13',
-                  boxShadow: '0 12px 32px rgba(20, 69, 47, 0.18)',
-                  flexShrink: 1
-                }}
-              >
-                {/* Inline keyframe animations for living garden atmosphere & DSLR optics */}
-                <style>{`
-                  @keyframes pollenFloat {
-                    0% { transform: translateY(0px) translateX(0px) scale(0.9); opacity: 0.35; }
-                    50% { transform: translateY(-16px) translateX(10px) scale(1.15); opacity: 0.85; }
-                    100% { transform: translateY(-30px) translateX(-6px) scale(0.95); opacity: 0.4; }
-                  }
-                  @keyframes pollenDrift {
-                    0% { transform: translateY(0px) translateX(0px) rotate(0deg); opacity: 0.2; }
-                    30% { transform: translateY(-12px) translateX(8px) rotate(40deg); opacity: 0.7; }
-                    60% { transform: translateY(-22px) translateX(-4px) rotate(80deg); opacity: 0.5; }
-                    100% { transform: translateY(-36px) translateX(6px) rotate(120deg); opacity: 0.15; }
-                  }
-                  @keyframes dandelionSeed {
-                    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
-                    10% { opacity: 0.7; }
-                    50% { transform: translateY(-40px) translateX(20px) rotate(180deg); opacity: 0.5; }
-                    90% { opacity: 0.2; }
-                    100% { transform: translateY(-70px) translateX(-10px) rotate(360deg); opacity: 0; }
-                  }
-                  @keyframes realisticLeafDrift1 {
-                    0% {
-                      transform: translateY(-35px) translateX(0px) rotateZ(-25deg) rotateY(0deg) rotateX(15deg);
-                      opacity: 0;
-                    }
-                    8% {
-                      opacity: 0.85;
-                    }
-                    22% {
-                      transform: translateY(110px) translateX(32px) rotateZ(30deg) rotateY(85deg) rotateX(-10deg);
-                    }
-                    44% {
-                      transform: translateY(240px) translateX(-18px) rotateZ(-35deg) rotateY(190deg) rotateX(25deg);
-                      opacity: 0.9;
-                    }
-                    66% {
-                      transform: translateY(390px) translateX(40px) rotateZ(28deg) rotateY(290deg) rotateX(-18deg);
-                    }
-                    88% {
-                      transform: translateY(540px) translateX(-5px) rotateZ(-20deg) rotateY(345deg) rotateX(12deg);
-                      opacity: 0.7;
-                    }
-                    100% {
-                      transform: translateY(700px) translateX(25px) rotateZ(45deg) rotateY(420deg) rotateX(-5deg);
-                      opacity: 0;
-                    }
-                  }
-                  @keyframes realisticLeafDrift2 {
-                    0% {
-                      transform: translateY(-35px) translateX(0px) rotateZ(20deg) rotateX(0deg) rotateY(0deg);
-                      opacity: 0;
-                    }
-                    10% {
-                      opacity: 0.85;
-                    }
-                    25% {
-                      transform: translateY(120px) translateX(-38px) rotateZ(-40deg) rotateX(50deg) rotateY(95deg);
-                    }
-                    48% {
-                      transform: translateY(270px) translateX(30px) rotateZ(32deg) rotateX(-40deg) rotateY(210deg);
-                      opacity: 0.88;
-                    }
-                    70% {
-                      transform: translateY(430px) translateX(-28px) rotateZ(-30deg) rotateX(35deg) rotateY(310deg);
-                    }
-                    90% {
-                      transform: translateY(580px) translateX(15px) rotateZ(22deg) rotateX(-20deg) rotateY(380deg);
-                      opacity: 0.65;
-                    }
-                    100% {
-                      transform: translateY(700px) translateX(-8px) rotateZ(-35deg) rotateX(25deg) rotateY(440deg);
-                      opacity: 0;
-                    }
-                  }
-                  @keyframes fireflyGlow {
-                    0%, 100% { opacity: 0; transform: scale(0.6); }
-                    20% { opacity: 0.9; transform: scale(1.2); }
-                    50% { opacity: 0.4; transform: scale(0.9); }
-                    80% { opacity: 0.95; transform: scale(1.1); }
-                  }
-                  @keyframes cameraFlashAnim {
-                    0% { opacity: 0.85; }
-                    100% { opacity: 0; }
-                  }
-                  @keyframes microShake {
-                    0%, 100% { transform: translate(0, 0); }
-                    20% { transform: translate(-2px, 1px); }
-                    40% { transform: translate(2px, -1px); }
-                    60% { transform: translate(-1px, 2px); }
-                    80% { transform: translate(1px, -1px); }
-                  }
-                  @keyframes beaconGlow {
-                    0% { transform: translate(-50%, -50%) scale(0.88); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-                    70% { transform: translate(-50%, -50%) scale(1.22); box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); }
-                    100% { transform: translate(-50%, -50%) scale(0.88); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-                  }
-                  @keyframes sunbeamBreathe {
-                    0%, 100% { opacity: 0.5; transform: rotate(-24deg) scaleY(1); }
-                    50% { opacity: 0.85; transform: rotate(-23deg) scaleY(1.06); }
-                  }
-                  @keyframes waterRipplePulse {
-                    0% { transform: scale(0.6); opacity: 0.85; }
-                    60% { opacity: 0.45; }
-                    100% { transform: scale(2.4); opacity: 0; }
-                  }
-                  @keyframes waterCaustics {
-                    0% { opacity: 0.35; transform: scale(1) translateY(0); }
-                    50% { opacity: 0.7; transform: scale(1.05) translateY(-3px); }
-                    100% { opacity: 0.35; transform: scale(1) translateY(0); }
-                  }
-                  @keyframes grassBreeze {
-                    0%, 100% { transform: rotate(0deg); }
-                    50% { transform: rotate(3deg) skewX(2deg); }
-                  }
-                  @keyframes autofocusLock {
-                    0% { transform: scale(1.4); opacity: 0.3; }
-                    100% { transform: scale(1); opacity: 1; }
-                  }
-                  @keyframes polaroidFly {
-                    0% { transform: translate(-50%, -50%) scale(0.35) rotate(-12deg); opacity: 0; }
-                    20% { transform: translate(-50%, -50%) scale(1.08) rotate(2deg); opacity: 1; }
-                    45% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
-                    80% { transform: translate(140px, 90px) scale(0.65) rotate(10deg); opacity: 0.9; }
-                    100% { transform: translate(280px, 180px) scale(0.18) rotate(22deg); opacity: 0; }
-                  }
-                  @keyframes starPop {
-                    0% { transform: scale(0) rotate(-30deg); opacity: 0; }
-                    50% { transform: scale(1.3) rotate(10deg); opacity: 1; }
-                    100% { transform: scale(1) rotate(0deg); opacity: 1; }
-                  }
-                  @keyframes breathingHint {
-                    0%, 100% { transform: translate(-50%, -50%) scale(0.92); opacity: 0.7; box-shadow: 0 0 14px rgba(255, 213, 74, 0.7), inset 0 0 6px rgba(255, 213, 74, 0.3); }
-                    50% { transform: translate(-50%, -50%) scale(1.12); opacity: 1; box-shadow: 0 0 28px rgba(255, 213, 74, 1), inset 0 0 14px rgba(255, 213, 74, 0.6); }
-                  }
-                  @keyframes nameSpringBounce {
-                    0% { transform: translateX(-50%) scale(0.75); opacity: 0; }
-                    60% { transform: translateX(-50%) scale(1.08); opacity: 1; }
-                    100% { transform: translateX(-50%) scale(1); opacity: 1; }
-                  }
-                  @keyframes goldenHourShift {
-                    0%, 100% { opacity: 0.12; }
-                    50% { opacity: 0.28; }
-                  }
-                  @keyframes discoveryStarFloat {
-                    0% { transform: translateX(-50%) scale(0.6) translateY(8px); opacity: 0; }
-                    20% { transform: translateX(-50%) scale(1.08) translateY(-6px); opacity: 1; }
-                    35% { transform: translateX(-50%) scale(1) translateY(-10px); opacity: 1; }
-                    80% { transform: translateX(-50%) scale(1) translateY(-26px); opacity: 0.95; }
-                    100% { transform: translateX(-50%) scale(0.9) translateY(-42px); opacity: 0; }
-                  }
-                `}</style>
-
-                {/* Nature Walk Scene Background */}
-                <img
-                  src={typeFilter === 'plant' ? activityPlantsImage : activityAnimalsImage}
-                  alt="Nature Walk Scene"
-                  style={{ 
-                    width: '100%', 
-                    height: '100%', 
-                    objectFit: 'cover', 
-                    objectPosition: 'center',
-                    display: 'block', 
-                    pointerEvents: 'none', 
-                    userSelect: 'none' 
-                  }}
-                  draggable={false}
-                />
-
-                {/* 1. Volumetric Golden Sunbeams (God Rays) */}
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  pointerEvents: 'none',
-                  overflow: 'hidden',
-                  zIndex: 4,
-                  mixBlendMode: 'screen'
-                }}>
-                  <div style={{
-                    position: 'absolute',
-                    top: '-40%',
-                    left: '-20%',
-                    width: '140%',
-                    height: '140%',
-                    background: 'radial-gradient(ellipse at 15% 15%, rgba(254, 240, 138, 0.28) 0%, rgba(253, 224, 71, 0.12) 35%, transparent 70%)',
-                    transformOrigin: 'top left',
-                    animation: 'sunbeamBreathe 9s ease-in-out infinite'
-                  }} />
-                  <div style={{
-                    position: 'absolute',
-                    top: '-20%',
-                    left: '10%',
-                    width: '140px',
-                    height: '150%',
-                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(254, 240, 138, 0.12) 40%, transparent 80%)',
-                    transform: 'rotate(-26deg)',
-                    transformOrigin: 'top left',
-                    filter: 'blur(16px)'
-                  }} />
-                  <div style={{
-                    position: 'absolute',
-                    top: '-20%',
-                    left: '32%',
-                    width: '180px',
-                    height: '150%',
-                    background: 'linear-gradient(135deg, rgba(254, 240, 138, 0.18) 0%, rgba(253, 224, 71, 0.08) 45%, transparent 85%)',
-                    transform: 'rotate(-24deg)',
-                    transformOrigin: 'top left',
-                    filter: 'blur(20px)'
-                  }} />
-                </div>
-
-                {/* 2. Pond Water Caustics & Animated Ripples (Bottom-Left Pond) */}
-                {typeFilter === 'plant' && (
-                  <div style={{
-                    position: 'absolute',
-                    left: 0,
-                    bottom: 0,
-                    width: '38%',
-                    height: '42%',
-                    pointerEvents: 'none',
-                    zIndex: 4,
-                    overflow: 'hidden'
-                  }}>
-                    {/* Water Caustics Light Glimmer */}
-                    <div style={{
-                      position: 'absolute',
-                      inset: 0,
-                      background: 'radial-gradient(ellipse at 45% 65%, rgba(186, 230, 253, 0.35) 0%, rgba(56, 189, 248, 0.14) 50%, transparent 80%)',
-                      mixBlendMode: 'screen',
-                      animation: 'waterCaustics 6.5s ease-in-out infinite alternate'
-                    }} />
-
-                    {/* Concentric Ripple Waves over Water Lilies */}
-                    <div style={{
-                      position: 'absolute',
-                      left: '42%',
-                      top: '64%',
-                      width: '56px',
-                      height: '28px',
-                      borderRadius: '50%',
-                      border: '1.8px solid rgba(255, 255, 255, 0.75)',
-                      boxShadow: '0 0 8px rgba(186, 230, 253, 0.6)',
-                      animation: 'waterRipplePulse 4.2s ease-out infinite'
-                    }} />
-                    <div style={{
-                      position: 'absolute',
-                      left: '42%',
-                      top: '64%',
-                      width: '56px',
-                      height: '28px',
-                      borderRadius: '50%',
-                      border: '1.8px solid rgba(186, 230, 253, 0.8)',
-                      animation: 'waterRipplePulse 4.2s ease-out infinite',
-                      animationDelay: '2.1s'
-                    }} />
-
-                    {/* Secondary gentle ripple near edge */}
-                    <div style={{
-                      position: 'absolute',
-                      left: '20%',
-                      top: '48%',
-                      width: '42px',
-                      height: '22px',
-                      borderRadius: '50%',
-                      border: '1.6px solid rgba(224, 242, 254, 0.7)',
-                      animation: 'waterRipplePulse 5s ease-out infinite',
-                      animationDelay: '1.2s'
-                    }} />
-                  </div>
-                )}
-
-                {/* Living Breeze Grass Sway Aura (Bottom-Right Corner) */}
-                <div style={{
-                  position: 'absolute',
-                  right: '4%',
-                  bottom: '4%',
-                  width: '72px',
-                  height: '72px',
-                  pointerEvents: 'none',
-                  zIndex: 5,
-                  transformOrigin: 'bottom center',
-                  animation: 'grassBreeze 5s ease-in-out infinite alternate'
-                }} />
-
-                {/* Living Garden Nature Motes — Golden Pollen, Green Spores, White Dandelion Seeds, Fireflies */}
-                <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden', zIndex: 5 }}>
-                  {/* Golden Pollen Dust (warm, floating upward) */}
-                  {[
-                    { x: '24%', y: '28%', delay: '0s', size: 5, dur: '6s' },
-                    { x: '42%', y: '18%', delay: '1.4s', size: 7, dur: '7.2s' },
-                    { x: '56%', y: '32%', delay: '0.8s', size: 6, dur: '6.5s' },
-                    { x: '72%', y: '22%', delay: '3.1s', size: 5, dur: '8s' },
-                    { x: '84%', y: '38%', delay: '1.9s', size: 4, dur: '6.2s' },
-                    { x: '30%', y: '58%', delay: '1.1s', size: 5, dur: '7.5s' },
-                    { x: '64%', y: '62%', delay: '3.4s', size: 6, dur: '8.5s' },
-                    { x: '48%', y: '46%', delay: '2.2s', size: 4, dur: '7s' },
-                    { x: '12%', y: '52%', delay: '4.0s', size: 5, dur: '9s' },
-                    { x: '90%', y: '55%', delay: '0.5s', size: 4, dur: '6.8s' }
-                  ].map((p, idx) => (
-                    <div key={`pollen-${idx}`} style={{
-                      position: 'absolute', left: p.x, top: p.y,
-                      width: `${p.size}px`, height: `${p.size}px`, borderRadius: '50%',
-                      background: 'radial-gradient(circle, rgba(255, 255, 220, 0.95) 0%, rgba(254, 240, 138, 0.5) 60%, transparent 100%)',
-                      boxShadow: '0 0 8px rgba(254, 240, 138, 0.7)',
-                      animation: `pollenFloat ${p.dur} ease-in-out infinite alternate`,
-                      animationDelay: p.delay
-                    }} />
-                  ))}
-                  {/* Green Spore Particles (organic, drifting) */}
-                  {[
-                    { x: '18%', y: '65%', delay: '0.6s', size: 4, dur: '8s' },
-                    { x: '38%', y: '72%', delay: '2.8s', size: 5, dur: '9.5s' },
-                    { x: '62%', y: '48%', delay: '1.5s', size: 3, dur: '7.2s' },
-                    { x: '78%', y: '68%', delay: '3.8s', size: 4, dur: '8.8s' },
-                    { x: '8%', y: '34%', delay: '4.5s', size: 3, dur: '10s' }
-                  ].map((p, idx) => (
-                    <div key={`spore-${idx}`} style={{
-                      position: 'absolute', left: p.x, top: p.y,
-                      width: `${p.size}px`, height: `${p.size}px`, borderRadius: '50%',
-                      background: 'radial-gradient(circle, rgba(134, 239, 172, 0.9) 0%, rgba(34, 197, 94, 0.4) 60%, transparent 100%)',
-                      boxShadow: '0 0 6px rgba(34, 197, 94, 0.5)',
-                      animation: `pollenDrift ${p.dur} ease-in-out infinite alternate`,
-                      animationDelay: p.delay
-                    }} />
-                  ))}
-                  {/* White Dandelion Seed Wisps (delicate, rising slowly) */}
-                  {[
-                    { x: '28%', y: '80%', delay: '0s', dur: '12s' },
-                    { x: '52%', y: '75%', delay: '4s', dur: '14s' },
-                    { x: '74%', y: '82%', delay: '7s', dur: '11s' },
-                    { x: '40%', y: '88%', delay: '2s', dur: '13s' }
-                  ].map((p, idx) => (
-                    <div key={`seed-${idx}`} style={{
-                      position: 'absolute', left: p.x, top: p.y,
-                      width: '3px', height: '3px', borderRadius: '50%',
-                      background: 'rgba(255, 255, 255, 0.9)',
-                      boxShadow: '0 0 6px rgba(255, 255, 255, 0.7), 0 0 12px rgba(255, 255, 255, 0.3)',
-                      animation: `dandelionSeed ${p.dur} ease-in-out infinite`,
-                      animationDelay: p.delay
-                    }} />
-                  ))}
-                  {/* Firefly Glow Points (warm evening ambiance) */}
-                  {[
-                    { x: '15%', y: '45%', delay: '1s', dur: '4s' },
-                    { x: '68%', y: '35%', delay: '2.5s', dur: '5s' },
-                    { x: '82%', y: '60%', delay: '0s', dur: '3.5s' },
-                    { x: '45%', y: '70%', delay: '3.5s', dur: '4.5s' },
-                    { x: '25%', y: '20%', delay: '5s', dur: '3.8s' }
-                  ].map((p, idx) => (
-                    <div key={`firefly-${idx}`} style={{
-                      position: 'absolute', left: p.x, top: p.y,
-                      width: '6px', height: '6px', borderRadius: '50%',
-                      background: 'radial-gradient(circle, rgba(250, 240, 137, 1) 0%, rgba(250, 204, 21, 0.6) 40%, transparent 70%)',
-                      boxShadow: '0 0 12px rgba(250, 204, 21, 0.8), 0 0 24px rgba(250, 204, 21, 0.3)',
-                      animation: `fireflyGlow ${p.dur} ease-in-out infinite`,
-                      animationDelay: p.delay
-                    }} />
-                  ))}
-                </div>
-
-                {/* Gentle Drifting Leaf Rain — Realistic 3D Tumbling Botanical Foliage */}
-                <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden', zIndex: 5, perspective: '800px' }}>
-                  <svg style={{ position: 'absolute', width: 0, height: 0 }}>
-                    <defs>
-                      <linearGradient id="leafGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#2D6A4F" />
-                        <stop offset="60%" stopColor="#1B4332" />
-                        <stop offset="100%" stopColor="#081C15" />
-                      </linearGradient>
-                      <linearGradient id="leafGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#52B788" />
-                        <stop offset="50%" stopColor="#40916C" />
-                        <stop offset="100%" stopColor="#1B4332" />
-                      </linearGradient>
-                      <linearGradient id="leafGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#74C69D" />
-                        <stop offset="65%" stopColor="#52B788" />
-                        <stop offset="100%" stopColor="#2D6A4F" />
-                      </linearGradient>
-                      <linearGradient id="leafGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#D4A373" />
-                        <stop offset="40%" stopColor="#CCD5AE" />
-                        <stop offset="100%" stopColor="#52796F" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                  {[
-                    { x: '9%', delay: '0s', dur: '12.5s', w: 18, h: 25, grad: 'url(#leafGrad1)', anim: 'realisticLeafDrift1', type: 'rose' },
-                    { x: '24%', delay: '4.2s', dur: '14s', w: 15, h: 28, grad: 'url(#leafGrad2)', anim: 'realisticLeafDrift2', type: 'slender' },
-                    { x: '41%', delay: '8.5s', dur: '13s', w: 20, h: 26, grad: 'url(#leafGrad3)', anim: 'realisticLeafDrift1', type: 'broad' },
-                    { x: '58%', delay: '1.8s', dur: '15.5s', w: 16, h: 24, grad: 'url(#leafGrad4)', anim: 'realisticLeafDrift2', type: 'rose' },
-                    { x: '73%', delay: '6.5s', dur: '13.5s', w: 14, h: 27, grad: 'url(#leafGrad2)', anim: 'realisticLeafDrift1', type: 'slender' },
-                    { x: '88%', delay: '3.1s', dur: '16s', w: 19, h: 25, grad: 'url(#leafGrad1)', anim: 'realisticLeafDrift2', type: 'broad' },
-                    { x: '33%', delay: '10.2s', dur: '14.5s', w: 17, h: 23, grad: 'url(#leafGrad3)', anim: 'realisticLeafDrift1', type: 'rose' },
-                    { x: '67%', delay: '11.8s', dur: '15s', w: 15, h: 26, grad: 'url(#leafGrad4)', anim: 'realisticLeafDrift2', type: 'slender' }
-                  ].map((leaf, idx) => (
-                    <div
-                      key={`leaf-${idx}`}
-                      style={{
-                        position: 'absolute',
-                        left: leaf.x,
-                        top: '-35px',
-                        width: `${leaf.w}px`,
-                        height: `${leaf.h}px`,
-                        animation: `${leaf.anim} ${leaf.dur} cubic-bezier(0.4, 0, 0.6, 1) infinite`,
-                        animationDelay: leaf.delay,
-                        transformStyle: 'preserve-3d',
-                        filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.22))',
-                        willChange: 'transform, opacity'
-                      }}
-                    >
-                      {leaf.type === 'rose' && (
-                        <svg viewBox="0 0 24 32" width="100%" height="100%" fill="none">
-                          <path
-                            d="M12 2 C7 7, 2 15, 4 23 C5 27, 9 29, 12 30 C15 29, 19 27, 20 23 C22 15, 17 7, 12 2 Z"
-                            fill={leaf.grad}
-                          />
-                          <path d="M12 30 C12 24, 12 12, 12 3" stroke="rgba(255,255,255,0.45)" strokeWidth="1" strokeLinecap="round" />
-                          <path d="M12 11 C8 9, 5 12, 5 15" stroke="rgba(255,255,255,0.25)" strokeWidth="0.75" strokeLinecap="round" />
-                          <path d="M12 17 C8 15, 6 18, 6 21" stroke="rgba(255,255,255,0.25)" strokeWidth="0.75" strokeLinecap="round" />
-                          <path d="M12 11 C16 9, 19 12, 19 15" stroke="rgba(255,255,255,0.25)" strokeWidth="0.75" strokeLinecap="round" />
-                          <path d="M12 17 C16 15, 18 18, 18 21" stroke="rgba(255,255,255,0.25)" strokeWidth="0.75" strokeLinecap="round" />
-                          <path d="M12 30 L12 32" stroke="rgba(255,255,255,0.5)" strokeWidth="1.2" strokeLinecap="round" />
-                        </svg>
-                      )}
-                      {leaf.type === 'slender' && (
-                        <svg viewBox="0 0 20 34" width="100%" height="100%" fill="none">
-                          <path
-                            d="M10 1 C6 7, 3 16, 5 26 C6 30, 8 32, 10 33 C12 32, 14 30, 15 26 C17 16, 14 7, 10 1 Z"
-                            fill={leaf.grad}
-                          />
-                          <path d="M10 33 C10 26, 10 12, 10 2" stroke="rgba(255,255,255,0.4)" strokeWidth="0.9" strokeLinecap="round" />
-                          <path d="M10 12 C7 10, 5 13, 6 16" stroke="rgba(255,255,255,0.2)" strokeWidth="0.65" strokeLinecap="round" />
-                          <path d="M10 19 C7 17, 5 20, 6 23" stroke="rgba(255,255,255,0.2)" strokeWidth="0.65" strokeLinecap="round" />
-                          <path d="M10 12 C13 10, 15 13, 14 16" stroke="rgba(255,255,255,0.2)" strokeWidth="0.65" strokeLinecap="round" />
-                          <path d="M10 19 C13 17, 15 20, 14 23" stroke="rgba(255,255,255,0.2)" strokeWidth="0.65" strokeLinecap="round" />
-                        </svg>
-                      )}
-                      {leaf.type === 'broad' && (
-                        <svg viewBox="0 0 26 32" width="100%" height="100%" fill="none">
-                          <path
-                            d="M13 2 C7 6, 2 13, 3 21 C4 26, 9 29, 13 30 C17 29, 22 26, 23 21 C24 13, 19 6, 13 2 Z"
-                            fill={leaf.grad}
-                          />
-                          <path d="M13 30 C13 22, 13 10, 13 3" stroke="rgba(255,255,255,0.45)" strokeWidth="1.1" strokeLinecap="round" />
-                          <path d="M13 9 C8 7, 5 10, 5 14" stroke="rgba(255,255,255,0.25)" strokeWidth="0.8" strokeLinecap="round" />
-                          <path d="M13 16 C8 14, 5 17, 6 21" stroke="rgba(255,255,255,0.25)" strokeWidth="0.8" strokeLinecap="round" />
-                          <path d="M13 9 C18 7, 21 10, 21 14" stroke="rgba(255,255,255,0.25)" strokeWidth="0.8" strokeLinecap="round" />
-                          <path d="M13 16 C18 14, 21 17, 20 21" stroke="rgba(255,255,255,0.25)" strokeWidth="0.8" strokeLinecap="round" />
-                        </svg>
-                      )}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Golden Hour Warm Ambient Light Shift */}
-                <div style={{
-                  position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 3,
-                  background: 'radial-gradient(ellipse at 30% 20%, rgba(254, 243, 199, 0.18) 0%, transparent 60%)',
-                  animation: 'goldenHourShift 12s ease-in-out infinite alternate'
-                }} />
-
-                {/* Smart Beacon Highlight when located from bottom buttons */}
-                {beaconTargetId && (
-                  (() => {
-                    const bTarget = filteredTargets.find(t => t.id === beaconTargetId);
-                    if (!bTarget) return null;
-                    return (
-                      <div style={{
-                        position: 'absolute',
-                        left: `${bTarget.x}%`,
-                        top: `${bTarget.y}%`,
-                        transform: 'translate(-50%, -50%)',
-                        width: '64px',
-                        height: '64px',
-                        borderRadius: '50%',
-                        border: '3px solid #10B981',
-                        animation: 'beaconGlow 1.2s infinite ease-in-out',
-                        pointerEvents: 'none',
-                        zIndex: 18,
-                        boxShadow: '0 0 25px #10B981, inset 0 0 15px #34D399'
-                      }}>
-                        <div style={{
-                          position: 'absolute',
-                          bottom: '105%',
-                          left: '50%',
-                          transform: 'translateX(-50%)',
-                          background: 'rgba(6, 78, 59, 0.95)',
-                          color: '#ffffff',
-                          border: '1.5px solid #34D399',
-                          borderRadius: '8px',
-                          padding: '4px 12px',
-                          fontSize: '16px',
-                          fontWeight: 900,
-                          fontFamily: '"Outfit", sans-serif',
-                          whiteSpace: 'nowrap',
-                          boxShadow: '0 4px 12px rgba(0,0,0,0.35)',
-                          pointerEvents: 'none'
-                        }}>
-                          🎯 {bTarget.popupName || bTarget.name}
-                        </div>
-                      </div>
-                    );
-                  })()
-                )}
-
-                {/* Breathing Gold Hint Rings with Spring-Bounce Specimen Names */}
-                {showHints && filteredTargets.map(t => {
-                  const isAnimal = typeFilter === 'animal';
-                  const ringSize = isAnimal 
-                    ? { width: '60px', height: '60px' }
-                    : { width: '42px', height: '42px' };
-                  const isHovered = hoveredTarget && hoveredTarget.data.id === t.id;
-                  return (
-                    <div
-                      key={`hint-${t.id}`}
-                      style={{
-                        position: 'absolute',
-                        left: `${t.x}%`,
-                        top: `${t.y}%`,
-                        transform: 'translate(-50%, -50%)',
-                        borderRadius: '50%',
-                        border: isHovered ? '3.5px solid #34D399' : '3px solid #FFD54A',
-                        boxShadow: isHovered 
-                          ? '0 0 24px rgba(52, 211, 153, 1), inset 0 0 12px rgba(52, 211, 153, 0.5), 0 0 40px rgba(52, 211, 153, 0.3)'
-                          : '0 0 16px rgba(255, 213, 74, 0.9), inset 0 0 8px rgba(255, 213, 74, 0.4)',
-                        animation: isHovered ? 'none' : 'breathingHint 2.2s infinite ease-in-out',
-                        pointerEvents: 'none',
-                        zIndex: 8,
-                        transition: 'border 0.3s ease, box-shadow 0.3s ease',
-                        ...ringSize
-                      }}
-                    >
-                      {/* Specimen Name Tag — Spring-Bounce on Hover */}
-                      <div style={{
-                        position: 'absolute',
-                        bottom: '112%',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        background: isHovered ? 'rgba(6, 78, 59, 0.96)' : 'rgba(15, 23, 42, 0.88)',
-                        color: '#ffffff',
-                        border: isHovered ? '2px solid #34D399' : '1.5px solid #fde047',
-                        borderRadius: '10px',
-                        padding: isHovered ? '5px 14px' : '3px 10px',
-                        fontSize: isHovered ? '18px' : '16px',
-                        fontWeight: '800',
-                        fontFamily: '"Outfit", sans-serif',
-                        whiteSpace: 'nowrap',
-                        boxShadow: isHovered ? '0 4px 16px rgba(0,0,0,0.5)' : '0 2px 8px rgba(0,0,0,0.35)',
-                        pointerEvents: 'none',
-                        animation: isHovered ? 'nameSpringBounce 0.35s ease-out forwards' : 'none',
-                        transition: 'all 0.25s ease'
-                      }}>
-                        {t.emoji} {t.popupName || t.name.split(' ')[0]} {isHovered && '🎯'}
-                      </div>
-                    </div>
-                  );
-                })}
-
-                {/* Scanned target badges with Specimen Names (16px Font) */}
-                {typeFilter === 'plant' && filteredTargets.map(t => {
-                  const logged = notebook.includes(t.id);
-                  if (!logged) return null;
-                  return (
-                    <div key={`chk-${t.id}`} style={{
-                      position: 'absolute',
-                      left: `${t.x}%`,
-                      top: `${t.y}%`,
-                      transform: 'translate(-50%, -50%)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      background: 'rgba(5, 150, 105, 0.95)',
-                      border: '1.5px solid #ffffff',
-                      borderRadius: '12px',
-                      padding: '3px 10px',
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.35)',
-                      pointerEvents: 'none',
-                      zIndex: 10,
-                    }}>
-                      <CheckCircle size={16} color="#ffffff" strokeWidth={3} />
-                      <span style={{ fontSize: '16px', fontWeight: '800', color: '#ffffff', fontFamily: '"Outfit", sans-serif', whiteSpace: 'nowrap' }}>
-                        {t.emoji} {t.popupName || t.name.split(' ')[0]}
-                      </span>
-                    </div>
-                  );
-                })}
-
-                {/* Camera Shutter Flash Effect with Micro-Shake */}
-                {cameraFlash && (
-                  <div style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: '#ffffff',
-                    pointerEvents: 'none',
-                    zIndex: 50,
-                    animation: 'cameraFlashAnim 0.24s ease-out forwards'
-                  }} />
-                )}
-
-                {/* Specimen target notification float (16px Font) */}
-                {missMessage && (
-                  <div style={{ 
-                    position: 'absolute', 
-                    left: `${missPos.x}px`, 
-                    top: `${Math.max(16, missPos.y - 40)}px`, 
-                    transform: 'translateX(-50%)', 
-                    background: 'rgba(6, 78, 59, 0.96)', 
-                    border: '1.5px solid #34D399',
-                    color: '#ffffff', 
-                    padding: '0.4rem 1rem', 
-                    borderRadius: '10px', 
-                    fontSize: '16px', 
-                    fontWeight: '800', 
-                    fontFamily: '"Outfit", sans-serif', 
-                    pointerEvents: 'none', 
-                    zIndex: 35,
-                    boxShadow: '0 4px 14px rgba(0,0,0,0.35)',
-                    whiteSpace: 'nowrap'
-                  }}>
-                    {missMessage}
-                  </div>
-                )}
-
-                {/* Flying Polaroid Journal Snap Animation on Discovery */}
-                {polaroidSnap && (
-                  <div style={{
-                    position: 'absolute',
-                    left: '50%',
-                    top: '50%',
-                    pointerEvents: 'none',
-                    zIndex: 60,
-                    animation: 'polaroidFly 2.2s ease-in-out forwards'
-                  }}>
-                    <div style={{
-                      background: '#ffffff',
-                      padding: '10px 10px 18px 10px',
-                      borderRadius: '8px',
-                      boxShadow: '0 20px 45px rgba(0,0,0,0.45), 0 0 0 2px #10B981',
-                      width: '200px',
-                      textAlign: 'center'
-                    }}>
-                      <div style={{
-                        width: '180px',
-                        height: '140px',
-                        borderRadius: '6px',
-                        overflow: 'hidden',
-                        background: '#064E3B',
-                        margin: '0 auto 8px auto'
-                      }}>
-                        {(polaroidSnap.data?.specimenPhoto || (typeFilter === 'plant' ? PLANT_CROPPED_IMAGES[polaroidSnap.data?.id] : ANIMAL_IMAGE_ASSETS[polaroidSnap.data?.id])) ? (
-                          <img
-                            src={polaroidSnap.data?.specimenPhoto || (typeFilter === 'plant' ? PLANT_CROPPED_IMAGES[polaroidSnap.data?.id] : ANIMAL_IMAGE_ASSETS[polaroidSnap.data?.id])}
-                            alt=""
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                          />
-                        ) : (
-                          <div style={{ fontSize: '48px', lineHeight: '140px' }}>{polaroidSnap.data?.emoji}</div>
-                        )}
-                      </div>
-                      <div style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        background: '#D1FAE5',
-                        color: '#065F46',
-                        padding: '3px 10px',
-                        borderRadius: '12px',
-                        fontSize: '16px',
-                        fontWeight: 900,
-                        fontFamily: '"Outfit", sans-serif',
-                        marginBottom: '4px'
-                      }}>
-                        <span>✓ VERIFIED</span>
-                      </div>
-                      <div style={{
-                        fontSize: '16px',
-                        fontWeight: 900,
-                        color: '#1F2937',
-                        fontFamily: '"Outfit", sans-serif'
-                      }}>
-                        {polaroidSnap.data?.popupName || polaroidSnap.data?.name}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Floating Discovery Star Toast ("✨ +1 Discovered!") */}
-                {discoveryStarToast && (
-                  <div style={{
-                    position: 'absolute',
-                    left: `${discoveryStarToast.x}px`,
-                    top: `${Math.max(20, discoveryStarToast.y - 48)}px`,
-                    transform: 'translateX(-50%)',
-                    background: 'linear-gradient(135deg, #064E3B 0%, #065F46 100%)',
-                    border: '2px solid #34D399',
-                    borderRadius: '24px',
-                    padding: '6px 16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.45), 0 0 16px rgba(52, 211, 153, 0.4)',
-                    pointerEvents: 'none',
-                    zIndex: 65,
-                    animation: 'discoveryStarFloat 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards'
-                  }}>
-                    <span style={{ fontSize: '20px' }}>🌟</span>
-                    <span style={{
-                      fontSize: '16px',
-                      fontWeight: 900,
-                      color: '#FDE047',
-                      fontFamily: '"Outfit", sans-serif',
-                      whiteSpace: 'nowrap'
-                    }}>
-                      +1 Cataloged!
-                    </span>
-                    <span style={{
-                      fontSize: '15px',
-                      fontWeight: 700,
-                      color: '#A7F3D0',
-                      fontFamily: '"Outfit", sans-serif',
-                      whiteSpace: 'nowrap'
-                    }}>
-                      {discoveryStarToast.emoji} {discoveryStarToast.name}
-                    </span>
-                  </div>
-                )}
-
-                {/* State-of-the-Art Pro DSLR Field Camera Loupe */}
-                {isInsideImage && (
-                  <div style={{
-                    position: 'absolute',
-                    left: `${mousePos.x}px`,
-                    top: `${mousePos.y}px`,
-                    transform: 'translate(-50%, -50%)',
-                    width: '144px',
-                    height: '144px',
-                    borderRadius: '50%',
-                    border: hoveredTarget ? '3.5px solid #10B981' : '3px solid #059669',
-                    pointerEvents: 'none',
-                    zIndex: 25,
-                    overflow: 'hidden',
-                    boxShadow: hoveredTarget 
-                      ? '0 0 0 4px rgba(16, 185, 129, 0.5), 0 14px 34px rgba(0, 0, 0, 0.55), inset 0 0 24px rgba(16, 185, 129, 0.4)' 
-                      : '0 0 0 3px rgba(5, 150, 105, 0.35), 0 10px 26px rgba(0, 0, 0, 0.45)',
-                    background: '#041d13'
-                  }}>
-                    {/* Optical Magnified Viewport with Variable Zoom (2.4x Field / 4.8x Macro) */}
-                    {containerSize.width > 0 && containerSize.height > 0 && (
-                      <div style={{
-                        position: 'absolute',
-                        width: `${containerSize.width * zoomLevel}px`,
-                        height: `${containerSize.height * zoomLevel}px`,
-                        left: `${-(mousePos.x * zoomLevel) + 72}px`,
-                        top: `${-(mousePos.y * zoomLevel) + 72}px`,
-                        pointerEvents: 'none'
-                      }}>
-                        <img
-                          src={typeFilter === 'plant' ? activityPlantsImage : activityAnimalsImage}
-                          alt=""
-                          style={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'contain',
-                            objectPosition: 'center',
-                            display: 'block'
-                          }}
-                        />
-                      </div>
-                    )}
-
-                    {/* DSLR Outer Bezel Ring & Knurled Lens Markings */}
-                    <div style={{
-                      position: 'absolute',
-                      inset: 0,
-                      borderRadius: '50%',
-                      border: '5px solid rgba(15, 23, 42, 0.75)',
-                      pointerEvents: 'none'
-                    }} />
-
-                    {/* Lens Bezel Printed Telemetry */}
-                    <div style={{
-                      position: 'absolute',
-                      top: '4px',
-                      left: '50%',
-                      transform: 'translateX(-50%)',
-                      fontSize: '16px',
-                      fontFamily: '"JetBrains Mono", monospace',
-                      fontWeight: 800,
-                      color: 'rgba(255, 255, 255, 0.92)',
-                      letterSpacing: '1px',
-                      textShadow: '0 1px 3px rgba(0,0,0,0.85)',
-                      whiteSpace: 'nowrap'
-                    }}>
-                      {zoomLevel}x · f/2.8
-                    </div>
-
-                    {/* Optical Lens Glass Reflection Shimmer */}
-                    <div style={{
-                      position: 'absolute',
-                      inset: 0,
-                      borderRadius: '50%',
-                      background: 'radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.06) 52%, rgba(0, 0, 0, 0.45) 100%)',
-                      pointerEvents: 'none'
-                    }} />
-
-                    {/* Reticle Crosshairs */}
-                    <div style={{ position: 'absolute', left: '50%', top: '16px', bottom: '16px', width: '1.5px', background: 'rgba(255, 255, 255, 0.55)', transform: 'translateX(-50%)', pointerEvents: 'none' }} />
-                    <div style={{ position: 'absolute', top: '50%', left: '16px', right: '16px', height: '1.5px', background: 'rgba(255, 255, 255, 0.55)', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
-
-                    {/* 4 Autofocus Lock Brackets snapping inward when Target Locked */}
-                    {hoveredTarget ? (
-                      <div style={{
-                        position: 'absolute',
-                        left: '50%',
-                        top: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: '42px',
-                        height: '42px',
-                        pointerEvents: 'none',
-                        animation: 'autofocusLock 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
-                      }}>
-                        {/* Top-Left Bracket */}
-                        <div style={{ position: 'absolute', top: 0, left: 0, width: '10px', height: '10px', borderTop: '2.5px solid #34D399', borderLeft: '2.5px solid #34D399' }} />
-                        {/* Top-Right Bracket */}
-                        <div style={{ position: 'absolute', top: 0, right: 0, width: '10px', height: '10px', borderTop: '2.5px solid #34D399', borderRight: '2.5px solid #34D399' }} />
-                        {/* Bottom-Left Bracket */}
-                        <div style={{ position: 'absolute', bottom: 0, left: 0, width: '10px', height: '10px', borderBottom: '2.5px solid #34D399', borderLeft: '2.5px solid #34D399' }} />
-                        {/* Bottom-Right Bracket */}
-                        <div style={{ position: 'absolute', bottom: 0, right: 0, width: '10px', height: '10px', borderBottom: '2.5px solid #34D399', borderRight: '2.5px solid #34D399' }} />
-                        {/* Center Target Dot */}
-                        <div style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', width: '6px', height: '6px', borderRadius: '50%', background: '#34D399', boxShadow: '0 0 8px #34D399' }} />
-                      </div>
-                    ) : (
-                      <div style={{
-                        position: 'absolute',
-                        left: '50%',
-                        top: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: '28px',
-                        height: '28px',
-                        borderRadius: '50%',
-                        border: '1.5px dashed rgba(255,255,255,0.7)',
-                        pointerEvents: 'none'
-                      }} />
-                    )}
-
-                    {/* Scanner In-Lens Action Badge with Specimen Name (18px Font) */}
-                    {hoveredTarget && (
-                      <div style={{
-                        position: 'absolute',
-                        bottom: '8px',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        background: 'rgba(6, 78, 59, 0.96)',
-                        backdropFilter: 'blur(4px)',
-                        border: '1.5px solid #34D399',
-                        borderRadius: '12px',
-                        padding: '4px 14px',
-                        fontSize: '18px',
-                        fontWeight: 900,
-                        fontFamily: '"Outfit", sans-serif',
-                        color: '#ffffff',
-                        whiteSpace: 'nowrap',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.55)'
-                      }}>
-                        <span>📸 SNAP · {hoveredTarget.data.emoji} {hoveredTarget.data.popupName || hoveredTarget.data.name}</span>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {/* Floating Target Identification Tag above Loupe (20px Font) */}
-                {isInsideImage && hoveredTarget && (
-                  <div style={{
-                    position: 'absolute',
-                    left: `${mousePos.x}px`,
-                    top: `${Math.max(14, mousePos.y - 88)}px`,
-                    transform: 'translateX(-50%)',
-                    background: 'rgba(6, 78, 59, 0.98)',
-                    border: '2px solid #34D399',
-                    borderRadius: '12px',
-                    padding: '5px 16px',
-                    fontSize: '20px',
-                    fontWeight: 900,
-                    fontFamily: '"Outfit", sans-serif',
-                    color: '#ffffff',
-                    whiteSpace: 'nowrap',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    boxShadow: '0 4px 16px rgba(0,0,0,0.45)',
-                    pointerEvents: 'none',
-                    zIndex: 28
-                  }}>
-                    <span>🎯 {hoveredTarget.data.emoji} {hoveredTarget.data.popupName || hoveredTarget.data.name} Locked</span>
-                  </div>
-                )}
-
-
-              </div>
-
-              {/* RIGHT WING: Vertical Specimen Directory Panel (16px to 24px Typography) */}
-              <div style={{
-                flex: '0 0 clamp(240px, 23vw, 295px)',
-                width: 'clamp(240px, 23vw, 295px)',
-                height: '100%',
-                background: 'rgba(250, 248, 242, 0.55)',
-                border: '2px solid rgba(20, 69, 47, 0.5)',
-                borderRadius: '20px',
-                boxShadow: '0 10px 28px rgba(20, 69, 47, 0.12), inset 0 0 0 1.5px rgba(20, 69, 47, 0.08)',
-                padding: '14px 12px',
-                boxSizing: 'border-box',
-                display: 'flex',
-                flexDirection: 'column',
+          typeFilter === 'plant' ? (
+            /* FULLSCREEN BOTANICAL FIELD SCANNER WITH HIGH-PRECISION RETICLE LOUPE & SLOGAN POPUP */
+            <div
+              ref={containerRef}
+              onMouseMove={handleMouseMove}
+              onMouseDown={startHolding}
+              onMouseUp={stopHolding}
+              onMouseLeave={() => { setIsInsideImage(false); stopHolding(); setHoveredTarget(null); }}
+              onMouseEnter={() => setIsInsideImage(true)}
+              style={{
                 position: 'relative',
+                flex: 1,
+                minHeight: 0,
+                width: '100%',
+                height: '100%',
                 overflow: 'hidden',
-                gap: '10px'
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: '#041d13',
+                cursor: isInsideImage ? 'none' : 'default',
+                userSelect: 'none'
+              }}
+            >
+              {/* Fullscreen High-Resolution Botanical Garden Scene Background */}
+              <img
+                src={activity21FieldScannerImg}
+                alt="Activity 2.1 - Botanical Garden Field Scanner"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                  display: 'block',
+                  pointerEvents: 'none',
+                  userSelect: 'none',
+                  imageRendering: '-webkit-optimize-contrast',
+                  filter: 'contrast(1.05) saturate(1.08) brightness(1.02)'
+                }}
+                draggable={false}
+              />
+
+              {/* 1. Volumetric Golden Sunbeams (God Rays) */}
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                pointerEvents: 'none',
+                overflow: 'hidden',
+                zIndex: 4,
+                mixBlendMode: 'screen'
               }}>
-                {/* Corner Leaf Sprigs */}
-                <CardCornerLeaves position="top-right" />
-                <CardCornerLeaves position="bottom-right" />
-
-                {/* Header: Title & Progress Count */}
                 <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  paddingBottom: '10px',
-                  borderBottom: '1.5px solid rgba(20, 69, 47, 0.15)',
-                  flexShrink: 0,
-                  position: 'relative',
-                  zIndex: 5
-                }}>
-                  <div>
-                    <div style={{
-                      fontSize: '20px',
-                      fontWeight: 900,
-                      color: '#14452F',
-                      fontFamily: '"Fraunces", Georgia, serif',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px'
-                    }}>
-                      <span>{typeFilter === 'plant' ? '🌿' : '🐾'}</span>
-                      <span>{typeFilter === 'plant' ? 'Specimens' : 'Wildlife'}</span>
-                    </div>
-                    <div style={{
-                      fontSize: '16px',
-                      fontWeight: 600,
-                      color: '#4B5563',
-                      fontFamily: '"Outfit", sans-serif',
-                      marginTop: '2px'
-                    }}>
-                      Tap to locate on canvas
-                    </div>
-                  </div>
-
-                  {/* Discovered Counter Badge */}
-                  <div style={{
-                    fontSize: '16px',
-                    fontWeight: 900,
-                    fontFamily: '"Outfit", sans-serif',
-                    color: '#065F46',
-                    background: '#D1FAE5',
-                    border: '1.5px solid #10B981',
-                    borderRadius: '14px',
-                    padding: '4px 10px',
-                    whiteSpace: 'nowrap'
-                  }}>
-                    {notebook.length}/{filteredTargets.length}
-                  </div>
-                </div>
-
-                {/* Vertical Scrollable List of Specimen Buttons (Hibiscus, Neem, Grass, Rose, etc.) */}
+                  position: 'absolute',
+                  top: '-30%',
+                  left: '-20%',
+                  width: '140%',
+                  height: '140%',
+                  background: 'radial-gradient(ellipse at 15% 15%, rgba(254, 240, 138, 0.28) 0%, rgba(253, 224, 71, 0.12) 35%, transparent 70%)',
+                  transformOrigin: 'top left',
+                  animation: 'sunbeamBreathe 9s ease-in-out infinite'
+                }} />
                 <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '8px',
-                  flex: 1,
-                  overflowY: 'auto',
-                  paddingRight: '2px',
-                  position: 'relative',
-                  zIndex: 5
-                }}>
-                  {filteredTargets.map((t) => {
-                    const logged = notebook.includes(t.id);
-                    const isHovered = hoveredTarget && hoveredTarget.data?.id === t.id;
-                    const isSelected = activeSpecimenId === t.id || beaconTargetId === t.id || isHovered;
-
-                    return (
-                      <button
-                        key={t.id}
-                        type="button"
-                        onClick={() => locateSpecimen(t)}
-                        style={{
-                          fontSize: '18px',
-                          fontFamily: '"Outfit", sans-serif',
-                          padding: '10px 14px',
-                          borderRadius: '12px',
-                          border: isSelected ? '2px solid #10B981' : (logged ? '1.8px solid #A7F3D0' : '1.8px solid #14452F'),
-                          background: isSelected
-                            ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)'
-                            : (logged ? 'linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%)' : '#FFFFFF'),
-                          color: isSelected ? '#FFFFFF' : '#14452F',
-                          boxShadow: isSelected
-                            ? '0 4px 14px rgba(20, 69, 47, 0.35)'
-                            : '0 2px 6px rgba(20, 69, 47, 0.06)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          fontWeight: isSelected ? '900' : '800',
-                          cursor: 'pointer',
-                          transition: 'all 0.18s ease',
-                          outline: 'none',
-                          userSelect: 'none',
-                          textAlign: 'left',
-                          width: '100%',
-                          boxSizing: 'border-box'
-                        }}
-                      >
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', overflow: 'hidden' }}>
-                          <span style={{ fontSize: '24px', flexShrink: 0 }}>{t.emoji}</span>
-                          <span style={{
-                            fontSize: '18px',
-                            fontWeight: isSelected ? '900' : '800',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap'
-                          }}>
-                            {t.popupName || t.name}
-                          </span>
-                        </div>
-                        <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0, marginLeft: '6px' }}>
-                          {logged ? (
-                            <CheckCircle size={20} color={isSelected ? '#34D399' : '#059669'} strokeWidth={2.8} />
-                          ) : isSelected ? (
-                            <span style={{
-                              fontSize: '13px',
-                              background: '#10B981',
-                              color: '#FFFFFF',
-                              padding: '2px 8px',
-                              borderRadius: '10px',
-                              fontWeight: 900
-                            }}>
-                              LOCKED
-                            </span>
-                          ) : null}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
+                  position: 'absolute',
+                  top: '-20%',
+                  left: '10%',
+                  width: '160px',
+                  height: '150%',
+                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(254, 240, 138, 0.12) 40%, transparent 80%)',
+                  transform: 'rotate(-26deg)',
+                  transformOrigin: 'top left',
+                  filter: 'blur(16px)'
+                }} />
+                <div style={{
+                  position: 'absolute',
+                  top: '-20%',
+                  left: '32%',
+                  width: '180px',
+                  height: '150%',
+                  background: 'linear-gradient(135deg, rgba(254, 240, 138, 0.18) 0%, rgba(253, 224, 71, 0.08) 45%, transparent 85%)',
+                  transform: 'rotate(-24deg)',
+                  transformOrigin: 'top left',
+                  filter: 'blur(20px)'
+                }} />
               </div>
-            </div>
 
-            {/* BOTTOM NAVIGATION BAR: Next, Previous Page & Back Buttons without overlap (16px to 24px Typography) */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              borderTop: '1.8px solid #14452F',
-              paddingTop: 'clamp(6px, 0.8vh, 10px)',
-              marginTop: 'clamp(6px, 0.8vh, 10px)',
-              flexShrink: 0,
-              position: 'relative',
-              zIndex: 20,
-              gap: '10px',
-              flexWrap: 'nowrap',
-              boxSizing: 'border-box'
-            }}>
-              {/* Left Group: Previous Page & Back to Overview */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-                {onBackToDashboard ? (
-                  <button
-                    type="button"
-                    onClick={onBackToDashboard}
-                    style={{
-                      padding: '8px 18px',
-                      fontSize: '16px',
-                      fontWeight: 800,
-                      borderRadius: '10px',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      background: 'rgba(250, 248, 242, 0.55)',
-                      border: '1.8px solid #14452F',
-                      color: '#14452F',
-                      cursor: 'pointer',
-                      fontFamily: '"Outfit", sans-serif',
-                      boxShadow: '0 2px 6px rgba(20, 69, 47, 0.10)',
-                      transition: 'all 0.18s ease',
-                      whiteSpace: 'nowrap'
-                    }}
-                    title="Return to Previous Page"
-                    aria-label="Previous Page"
-                  >
-                    <ArrowLeft size={18} strokeWidth={2.4} /> Previous Page
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => setSubPage(1)}
-                    style={{
-                      padding: '8px 18px',
-                      fontSize: '16px',
-                      fontWeight: 800,
-                      borderRadius: '10px',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      background: 'rgba(250, 248, 242, 0.55)',
-                      border: '1.8px solid #14452F',
-                      color: '#14452F',
-                      cursor: 'pointer',
-                      fontFamily: '"Outfit", sans-serif',
-                      boxShadow: '0 2px 6px rgba(20, 69, 47, 0.10)',
-                      transition: 'all 0.18s ease',
-                      whiteSpace: 'nowrap'
-                    }}
-                    title="Return to Previous Page"
-                    aria-label="Previous Page"
-                  >
-                    <ArrowLeft size={18} strokeWidth={2.4} /> Previous Page
-                  </button>
-                )}
+              {/* 2. Gold Hint Rings - Version 1 Style */}
+              {showHints && filteredTargets.map(t => (
+                <div
+                  key={`hint-${t.id}`}
+                  style={{
+                    position: 'absolute',
+                    left: `${t.x}%`,
+                    top: `${t.y}%`,
+                    transform: 'translate(-50%, -50%)',
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '50%',
+                    border: '3px solid #FFD54A',
+                    boxShadow: '0 0 16px rgba(255, 213, 74, 0.9), inset 0 0 8px rgba(255, 213, 74, 0.4)',
+                    animation: 'hintGlow 1.5s infinite ease-in-out',
+                    pointerEvents: 'none',
+                    zIndex: 8
+                  }}
+                />
+              ))}
 
+              {/* 3. Clickable Hotspots for Plants - Version 1 Style */}
+              {filteredTargets.map(t => (
+                <div
+                  key={`click-area-${t.id}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openPlantModal(t);
+                    if (!notebook.includes(t.id)) {
+                      logToNotebookDirect(t.id);
+                    }
+                  }}
+                  title={`Click to inspect ${t.name}`}
+                  style={{
+                    position: 'absolute',
+                    left: `${t.x}%`,
+                    top: `${t.y}%`,
+                    transform: 'translate(-50%, -50%)',
+                    width: `${t.w || 20}%`,
+                    height: `${t.h || 20}%`,
+                    cursor: 'pointer',
+                    borderRadius: '8px',
+                    zIndex: 20
+                  }}
+                />
+              ))}
+
+
+              {/* 5. Field Scanner Reticle - Version 1 Style (No camera lens) */}
+              {isInsideImage && (
+                <div style={{
+                  position: 'absolute',
+                  left: `${mousePos.x}px`,
+                  top: `${mousePos.y}px`,
+                  transform: 'translate(-50%, -50%)',
+                  width: '90px',
+                  height: '60px',
+                  border: hoveredTarget ? '2.5px solid #22d3ee' : '2px solid #3b82f6',
+                  borderRadius: '8px',
+                  pointerEvents: 'none',
+                  zIndex: 25,
+                  background: hoveredTarget ? 'rgba(34, 211, 238, 0.25)' : 'rgba(59, 130, 246, 0.15)',
+                  boxShadow: hoveredTarget ? '0 0 18px rgba(34, 211, 238, 0.6)' : '0 0 10px rgba(59, 130, 246, 0.3)',
+                  transition: 'border 0.15s ease, background 0.15s ease'
+                }}>
+                  {isHolding && (
+                    <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '3px', background: 'rgba(0,0,0,0.3)', borderRadius: '0 0 6px 6px', overflow: 'hidden' }}>
+                      <div style={{ height: '100%', background: '#22d3ee', width: `${holdProgress}%` }} />
+                    </div>
+                  )}
+                  {/* Crosshairs */}
+                  {[['0px','0px','borderTop','borderLeft'],['0px','auto','borderTop','borderRight'],['auto','0px','borderBottom','borderLeft'],['auto','auto','borderBottom','borderRight']].map(([top,right,b1,b2],i) => (
+                    <div
+                      key={i}
+                      style={{
+                        position: 'absolute',
+                        top: top !== 'auto' ? top : undefined,
+                        right: right !== 'auto' ? right : undefined,
+                        bottom: top === 'auto' ? '0px' : undefined,
+                        left: right === 'auto' ? '0px' : undefined,
+                        width: '8px',
+                        height: '8px',
+                        [b1]: '2px solid #fff',
+                        [b2]: '2px solid #fff',
+                        opacity: 0.85
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* 6. Hovered Target Popup Label - Version 1 Style */}
+              {isInsideImage && hoveredTarget && (
+                <div style={{
+                  position: 'absolute',
+                  left: `${mousePos.x}px`,
+                  top: `${mousePos.y - 48}px`,
+                  transform: 'translateX(-50%)',
+                  background: 'rgba(15, 23, 42, 0.95)',
+                  color: '#ffffff',
+                  padding: '0.35rem 0.85rem',
+                  borderRadius: '6px',
+                  fontSize: '13.5px',
+                  fontWeight: 'bold',
+                  border: '1.5px solid #22d3ee',
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.4), 0 0 12px rgba(34,211,238,0.5)',
+                  pointerEvents: 'none',
+                  zIndex: 35,
+                  whiteSpace: 'nowrap',
+                  letterSpacing: '0.4px',
+                  fontFamily: '"Outfit", sans-serif',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}>
+                  <span>{hoveredTarget.data.emoji}</span>
+                  <span>{hoveredTarget.data.popupName || hoveredTarget.data.name}</span>
+                </div>
+              )}
+
+              {/* Top-Right Utility Bar: Target Rings & Fullscreen Controls */}
+              <div style={{
+                position: 'absolute',
+                top: '18px',
+                right: '20px',
+                zIndex: 35,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+
+                {/* Rings Hint Toggle */}
                 <button
                   type="button"
-                  onClick={() => setSubPage(1)}
+                  onClick={() => setShowHints(prev => !prev)}
+                  title={showHints ? 'Hide Target Rings' : 'Show Target Rings'}
                   style={{
-                    padding: '8px 18px',
+                    background: 'rgba(20, 69, 47, 0.85)',
+                    backdropFilter: 'blur(12px)',
+                    color: '#FEF3C7',
+                    border: '1.8px solid rgba(255, 255, 255, 0.35)',
+                    borderRadius: '10px',
+                    padding: '8px 12px',
+                    fontSize: '13px',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                    fontFamily: '"Outfit", sans-serif'
+                  }}
+                >
+                  {showHints ? <EyeOff size={15} /> : <Eye size={15} />}
+                  <span>{showHints ? 'Hide Rings' : 'Show Rings'}</span>
+                </button>
+
+                {/* Fullscreen Button */}
+                <button
+                  type="button"
+                  onClick={toggleFullscreen}
+                  title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+                  style={{
+                    background: 'rgba(20, 69, 47, 0.85)',
+                    backdropFilter: 'blur(12px)',
+                    color: '#FEF3C7',
+                    border: '1.8px solid rgba(255, 255, 255, 0.35)',
+                    borderRadius: '10px',
+                    padding: '8px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                    transition: 'all 0.25s ease'
+                  }}
+                >
+                  {fsActive ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+                </button>
+              </div>
+
+
+              {/* 9. Bottom-Left: Back to Trees */}
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                left: '24px',
+                zIndex: 35
+              }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSubPage(1);
+                    setCategoryStep(2);
+                  }}
+                  style={{
+                    padding: '8px 22px',
                     fontSize: '16px',
                     fontWeight: 800,
                     borderRadius: '10px',
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '6px',
-                    background: 'rgba(250, 248, 242, 0.55)',
-                    border: '1.8px solid #2D6A4F',
-                    color: '#2D6A4F',
+                    background: 'rgba(250, 248, 242, 0.85)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    border: '1.8px solid #14452F',
+                    color: '#14452F',
                     cursor: 'pointer',
                     fontFamily: '"Outfit", sans-serif',
-                    boxShadow: '0 2px 6px rgba(20, 69, 47, 0.08)',
-                    transition: 'all 0.18s ease',
-                    whiteSpace: 'nowrap'
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                    transition: 'all 0.18s ease'
                   }}
-                  title="Back to Overview"
-                  aria-label="Back to Overview"
+                  title="Return to Trees"
+                  aria-label="Previous Page"
                 >
-                  <ChevronLeft size={18} strokeWidth={2.6} /> Back: Overview
+                  <ChevronLeft size={18} /> Back: Trees
                 </button>
               </div>
 
-              {/* Right Group: Next Page */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-                {onNextActivity && (
+              {/* 10. Bottom-Right: Advance to Animals Habitat */}
+              {(onNextActivity || onNextSection || onBackToDashboard) && (
+                <div style={{
+                  position: 'absolute',
+                  bottom: '16px',
+                  right: '24px',
+                  zIndex: 35
+                }}>
                   <button
                     type="button"
-                    onClick={onNextActivity}
+                    onClick={onNextActivity || onNextSection || onBackToDashboard}
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '8px',
-                      padding: '8px 22px',
+                      padding: '8px 24px',
                       borderRadius: '10px',
-                      fontSize: '16px',
+                      fontSize: '17px',
                       fontWeight: 900,
                       background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
                       border: '1.5px solid #10B981',
                       color: '#ffffff',
                       cursor: 'pointer',
-                      boxShadow: '0 4px 14px rgba(20, 69, 47, 0.35)',
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
                       fontFamily: '"Outfit", sans-serif',
-                      transition: 'all 0.18s ease',
-                      whiteSpace: 'nowrap'
+                      transition: 'all 0.18s ease'
                     }}
-                    title="Advance to Next Page"
+                    title="Advance to Next Activity"
                     aria-label="Next Page"
                   >
-                    <span>{typeFilter === 'plant' ? 'Next Page: Act 2.1 Animals' : 'Next Page: Act 2.2 Appreciating'}</span>
-                    <ArrowRight size={18} strokeWidth={2.5} />
+                    <span>Next: Animals Habitat</span>
+                    <ArrowRight size={18} strokeWidth={2.6} />
                   </button>
-                )}
-              </div>
+                </div>
+              )}
             </div>
+                    ) : (
+            /* FULLSCREEN ANIMALS ZOOLOGICAL FIELD SCANNER WITH REALISTIC CREAM CORNER POPUP */
+            <div
+              ref={containerRef}
+              onMouseMove={handleMouseMove}
+              onMouseDown={startHolding}
+              onMouseUp={stopHolding}
+              onMouseLeave={() => { setIsInsideImage(false); stopHolding(); setHoveredTarget(null); }}
+              onMouseEnter={() => setIsInsideImage(true)}
+              style={{
+                position: 'relative',
+                flex: 1,
+                minHeight: 0,
+                width: '100%',
+                height: '100%',
+                overflow: 'hidden',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: '#041d13',
+                cursor: isInsideImage ? 'none' : 'default',
+                userSelect: 'none'
+              }}
+            >
+              {/* Fullscreen High-Resolution Animals Scene Background */}
+              <img
+                src={activityAnimalsImage}
+                alt="Activity 2.1 - Wildlife & Animals Field Scanner"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                  display: 'block',
+                  pointerEvents: 'none',
+                  userSelect: 'none',
+                  imageRendering: '-webkit-optimize-contrast',
+                  filter: 'contrast(1.05) saturate(1.08) brightness(1.02)'
+                }}
+                draggable={false}
+              />
+
+              {/* 1. Volumetric Golden Sunbeams (God Rays) */}
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                pointerEvents: 'none',
+                overflow: 'hidden',
+                zIndex: 4,
+                mixBlendMode: 'screen'
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  top: '-40%',
+                  left: '-20%',
+                  width: '140%',
+                  height: '140%',
+                  background: 'radial-gradient(ellipse at 15% 15%, rgba(254, 240, 138, 0.28) 0%, rgba(253, 224, 71, 0.12) 35%, transparent 70%)',
+                  transformOrigin: 'top left',
+                  animation: 'sunbeamBreathe 9s ease-in-out infinite'
+                }} />
+                <div style={{
+                  position: 'absolute',
+                  top: '-20%',
+                  left: '10%',
+                  width: '140px',
+                  height: '150%',
+                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(254, 240, 138, 0.12) 40%, transparent 80%)',
+                  transform: 'rotate(-26deg)',
+                  transformOrigin: 'top left',
+                  filter: 'blur(16px)'
+                }} />
+                <div style={{
+                  position: 'absolute',
+                  top: '-20%',
+                  left: '32%',
+                  width: '180px',
+                  height: '150%',
+                  background: 'linear-gradient(135deg, rgba(254, 240, 138, 0.18) 0%, rgba(253, 224, 71, 0.08) 45%, transparent 85%)',
+                  transform: 'rotate(-24deg)',
+                  transformOrigin: 'top left',
+                  filter: 'blur(20px)'
+                }} />
+              </div>
+
+              {/* 2. Gold Hint Rings - Version 1 Style */}
+              {showHints && filteredTargets.map(t => (
+                <div
+                  key={`hint-${t.id}`}
+                  style={{
+                    position: 'absolute',
+                    left: `${t.x}%`,
+                    top: `${t.y}%`,
+                    transform: 'translate(-50%, -50%)',
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '50%',
+                    border: '3px solid #FFD54A',
+                    boxShadow: '0 0 16px rgba(255, 213, 74, 0.9), inset 0 0 8px rgba(255, 213, 74, 0.4)',
+                    animation: 'hintGlow 1.5s infinite ease-in-out',
+                    pointerEvents: 'none',
+                    zIndex: 8
+                  }}
+                />
+              ))}
+
+              {/* 3. Clickable Hotspots for Animals - Version 1 Style */}
+              {filteredTargets.map(t => (
+                <div
+                  key={`click-area-${t.id}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openAnimalModal(t);
+                    if (!notebook.includes(t.id)) {
+                      setNotebook(prev => [...prev, t.id]);
+                      sounds.playStar();
+                      confetti({
+                        particleCount: 25,
+                        spread: 50,
+                        origin: { x: t.x / 100, y: t.y / 100 },
+                        colors: ['#10B981', '#F59E0B', '#3B82F6', '#EC4899', '#FBBF24']
+                      });
+                    }
+                  }}
+                  title={`Click to inspect ${t.name}`}
+                  style={{
+                    position: 'absolute',
+                    left: `${t.x}%`,
+                    top: `${t.y}%`,
+                    transform: 'translate(-50%, -50%)',
+                    width: `${t.w || 18}%`,
+                    height: `${t.h || 18}%`,
+                    cursor: 'pointer',
+                    borderRadius: '8px',
+                    zIndex: 20
+                  }}
+                />
+              ))}
+
+              {/* 4. Field Scanner Reticle - Version 1 Style (No camera lens) */}
+              {isInsideImage && (
+                <div style={{
+                  position: 'absolute',
+                  left: `${mousePos.x}px`,
+                  top: `${mousePos.y}px`,
+                  transform: 'translate(-50%, -50%)',
+                  width: '90px',
+                  height: '60px',
+                  border: hoveredTarget ? '2.5px solid #22d3ee' : '2px solid #3b82f6',
+                  borderRadius: '8px',
+                  pointerEvents: 'none',
+                  zIndex: 25,
+                  background: hoveredTarget ? 'rgba(34, 211, 238, 0.25)' : 'rgba(59, 130, 246, 0.15)',
+                  boxShadow: hoveredTarget ? '0 0 18px rgba(34, 211, 238, 0.6)' : '0 0 10px rgba(59, 130, 246, 0.3)',
+                  transition: 'border 0.15s ease, background 0.15s ease'
+                }}>
+                  {isHolding && (
+                    <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '3px', background: 'rgba(0,0,0,0.3)', borderRadius: '0 0 6px 6px', overflow: 'hidden' }}>
+                      <div style={{ height: '100%', background: '#22d3ee', width: `${holdProgress}%` }} />
+                    </div>
+                  )}
+                  {/* Crosshairs */}
+                  {[['0px','0px','borderTop','borderLeft'],['0px','auto','borderTop','borderRight'],['auto','0px','borderBottom','borderLeft'],['auto','auto','borderBottom','borderRight']].map(([top,right,b1,b2],i) => (
+                    <div
+                      key={i}
+                      style={{
+                        position: 'absolute',
+                        top: top !== 'auto' ? top : undefined,
+                        right: right !== 'auto' ? right : undefined,
+                        bottom: top === 'auto' ? '0px' : undefined,
+                        left: right === 'auto' ? '0px' : undefined,
+                        width: '8px',
+                        height: '8px',
+                        [b1]: '2px solid #fff',
+                        [b2]: '2px solid #fff',
+                        opacity: 0.85
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* 5. Hovered Target Popup Label - Version 1 Style */}
+              {isInsideImage && hoveredTarget && (
+                <div style={{
+                  position: 'absolute',
+                  left: `${mousePos.x}px`,
+                  top: `${mousePos.y - 48}px`,
+                  transform: 'translateX(-50%)',
+                  background: 'rgba(15, 23, 42, 0.95)',
+                  color: '#ffffff',
+                  padding: '0.35rem 0.85rem',
+                  borderRadius: '6px',
+                  fontSize: '13.5px',
+                  fontWeight: 'bold',
+                  border: '1.5px solid #22d3ee',
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.4), 0 0 12px rgba(34,211,238,0.5)',
+                  pointerEvents: 'none',
+                  zIndex: 35,
+                  whiteSpace: 'nowrap',
+                  letterSpacing: '0.4px',
+                  fontFamily: '"Outfit", sans-serif',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}>
+                  <span>{hoveredTarget.data.emoji}</span>
+                  <span>{hoveredTarget.data.popupName || hoveredTarget.data.name}</span>
+                </div>
+              )}
+
+              {/* Top-Right Utility Bar: Target Rings & Fullscreen Controls */}
+              <div style={{
+                position: 'absolute',
+                top: '18px',
+                right: '20px',
+                zIndex: 35,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                {/* Rings Hint Toggle */}
+                <button
+                  type="button"
+                  onClick={() => setShowHints(prev => !prev)}
+                  title={showHints ? 'Hide Target Rings' : 'Show Target Rings'}
+                  style={{
+                    background: 'rgba(20, 69, 47, 0.85)',
+                    backdropFilter: 'blur(12px)',
+                    color: '#FEF3C7',
+                    border: '1.8px solid rgba(255, 255, 255, 0.35)',
+                    borderRadius: '10px',
+                    padding: '8px 12px',
+                    fontSize: '13px',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                    fontFamily: '"Outfit", sans-serif'
+                  }}
+                >
+                  {showHints ? <EyeOff size={15} /> : <Eye size={15} />}
+                  <span>{showHints ? 'Hide Rings' : 'Show Rings'}</span>
+                </button>
+
+                {/* Fullscreen Button */}
+                <button
+                  type="button"
+                  onClick={toggleFullscreen}
+                  title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+                  style={{
+                    background: 'rgba(20, 69, 47, 0.85)',
+                    backdropFilter: 'blur(12px)',
+                    color: '#FEF3C7',
+                    border: '1.8px solid rgba(255, 255, 255, 0.35)',
+                    borderRadius: '10px',
+                    padding: '8px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                    transition: 'all 0.25s ease'
+                  }}
+                >
+                  {fsActive ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+                </button>
+              </div>
+
+              {/* Bottom-Left: Navigation Back */}
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                left: '24px',
+                zIndex: 35
+              }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSubPage(1);
+                    setCategoryStep(2);
+                  }}
+                  style={{
+                    padding: '8px 20px',
+                    fontSize: '15px',
+                    fontWeight: 800,
+                    borderRadius: '10px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    background: 'rgba(250, 248, 242, 0.90)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    border: '1.8px solid #14452F',
+                    color: '#14452F',
+                    cursor: 'pointer',
+                    fontFamily: '"Outfit", sans-serif',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                    transition: 'all 0.18s ease'
+                  }}
+                  title="Return to Walkers (Animals)"
+                  aria-label="Previous Page"
+                >
+                  <ChevronLeft size={18} /> Previous: Walkers
+                </button>
+              </div>
+
+              {/* 8. Bottom-Right: Advance to Next Activity */}
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                right: '24px',
+                zIndex: 35
+              }}>
+                <button
+                  type="button"
+                  onClick={onNextActivity || onNextSection || onBackToDashboard}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '8px 24px',
+                    borderRadius: '10px',
+                    fontSize: '17px',
+                    fontWeight: 900,
+                    background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+                    border: '1.5px solid #10B981',
+                    color: '#ffffff',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                    fontFamily: '"Outfit", sans-serif',
+                    transition: 'all 0.18s ease'
+                  }}
+                  title="Advance to Activity 2.2 (Appreciating Biodiversity)"
+                  aria-label="Next Activity"
+                >
+                  <span>{notebook.length >= filteredTargets.length ? '🎉 Walk Complete! Next Activity' : 'Next Page: Act 2.2 Appreciating'}</span>
+                  <ArrowRight size={18} strokeWidth={2.6} />
+                </button>
+              </div>
+
+              {/* Looping ambient nature sound audio element */}
+              <audio ref={natureAudioRef} src={natureForestAudio} loop preload="auto" />
+
+              {/* Camera Shutter Flash Effect with Micro-Shake */}
+              {cameraFlash && (
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: '#ffffff',
+                  pointerEvents: 'none',
+                  zIndex: 50,
+                  animation: 'cameraFlashAnim 0.24s ease-out forwards'
+                }} />
+              )}
+
+              {/* Specimen target notification float */}
+              {missMessage && (
+                <div style={{ 
+                  position: 'absolute', 
+                  left: `${missPos.x}px`, 
+                  top: `${Math.max(16, missPos.y - 40)}px`, 
+                  transform: 'translateX(-50%)', 
+                  background: 'rgba(6, 78, 59, 0.96)', 
+                  border: '1.5px solid #34D399',
+                  color: '#ffffff', 
+                  padding: '0.4rem 1rem', 
+                  borderRadius: '10px', 
+                  fontSize: '16px', 
+                  fontWeight: '800', 
+                  fontFamily: '"Outfit", sans-serif', 
+                  pointerEvents: 'none', 
+                  zIndex: 35,
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.35)',
+                  whiteSpace: 'nowrap'
+                }}>
+                  {missMessage}
+                </div>
+              )}
+
+              {/* Flying Polaroid Journal Snap Animation on Discovery */}
+              {polaroidSnap && (
+                <div style={{
+                  position: 'absolute',
+                  left: '50%',
+                  top: '50%',
+                  pointerEvents: 'none',
+                  zIndex: 60,
+                  animation: 'polaroidFly 2.2s ease-in-out forwards'
+                }}>
+                  <div style={{
+                    background: '#ffffff',
+                    padding: '10px 10px 18px 10px',
+                    borderRadius: '8px',
+                    boxShadow: '0 20px 45px rgba(0,0,0,0.45), 0 0 0 2px #10B981',
+                    width: '200px',
+                    textAlign: 'center'
+                  }}>
+                    <div style={{
+                      width: '180px',
+                      height: '140px',
+                      borderRadius: '6px',
+                      overflow: 'hidden',
+                      background: '#064E3B',
+                      margin: '0 auto 8px auto'
+                    }}>
+                      {(polaroidSnap.data?.specimenPhoto || ANIMAL_IMAGE_ASSETS[polaroidSnap.data?.id]) ? (
+                        <img
+                          src={polaroidSnap.data?.specimenPhoto || ANIMAL_IMAGE_ASSETS[polaroidSnap.data?.id]}
+                          alt=""
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      ) : (
+                        <div style={{ fontSize: '48px', lineHeight: '140px' }}>{polaroidSnap.data?.emoji}</div>
+                      )}
+                    </div>
+                    <div style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      background: '#D1FAE5',
+                      color: '#065F46',
+                      padding: '3px 10px',
+                      borderRadius: '12px',
+                      fontSize: '16px',
+                      fontWeight: 900,
+                      fontFamily: '"Outfit", sans-serif',
+                      marginBottom: '4px'
+                    }}>
+                      <span>✓ VERIFIED</span>
+                    </div>
+                    <div style={{
+                      fontSize: '16px',
+                      fontWeight: 900,
+                      color: '#1F2937',
+                      fontFamily: '"Outfit", sans-serif'
+                    }}>
+                      {polaroidSnap.data?.popupName || polaroidSnap.data?.name}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Floating Discovery Star Toast ("✨ +1 Discovered!") */}
+              {discoveryStarToast && (
+                <div style={{
+                  position: 'absolute',
+                  left: `${discoveryStarToast.x}px`,
+                  top: `${Math.max(20, discoveryStarToast.y - 48)}px`,
+                  transform: 'translateX(-50%)',
+                  background: 'linear-gradient(135deg, #064E3B 0%, #065F46 100%)',
+                  border: '2px solid #34D399',
+                  borderRadius: '24px',
+                  padding: '6px 16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.45), 0 0 16px rgba(52, 211, 153, 0.4)',
+                  pointerEvents: 'none',
+                  zIndex: 65,
+                  animation: 'discoveryStarFloat 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+                }}>
+                  <span style={{ fontSize: '20px' }}>🌟</span>
+                  <span style={{
+                    fontSize: '16px',
+                    fontWeight: 900,
+                    color: '#FDE047',
+                    fontFamily: '"Outfit", sans-serif',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    +1 Cataloged!
+                  </span>
+                </div>
+              )}
+
 
 
             {/* SCANNED SPECIMEN VERIFICATION MODAL OVERLAY (Slogan theme, strictly 16px to 24px typography) */}
@@ -4009,10 +5862,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
               </div>
             )}
           </div>
-        )}
+        )
+      )}
       </div>
 
-      {/* Textbook Table 2.1 Plant Observations Popup Modal (Unified Single-Page Layout: 70% Image & 30% Content) */}
+      {/* Fullscreen High-Resolution Plant Specimen View with Slogan-Style Translucent Observation Popup */}
       {infoCardPlant && (
         <div 
           style={{
@@ -4021,581 +5875,356 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
             width: '100vw',
             height: '100vh',
             zIndex: 99999999,
-            background: 'rgba(20, 69, 47, 0.45)',
-            backdropFilter: 'blur(10px)',
+            background: '#04160E',
+            overflow: 'hidden',
+            fontFamily: '"Outfit", sans-serif',
+            animation: 'fadeIn 0.25s ease-out'
+          }}
+        >
+          {/* 1. Edge-to-Edge Fullscreen Specimen Image - ZERO Blank Space, ZERO Cropping of Inset Cards */}
+          <img 
+            src={PLANT_CROPPED_IMAGES[infoCardPlant.id] || PLANT_CROPPED_IMAGES[infoCardPlant.name]} 
+            alt={infoCardPlant.name} 
+            style={{ 
+              position: 'absolute',
+              inset: 0,
+              width: '100vw',
+              height: '100vh',
+              objectFit: 'fill',
+              display: 'block',
+              zIndex: 1
+            }} 
+          />
+
+          {/* 2. Bottom-Center Minimalist Floating Glass Pill */}
+          <div style={{
+            position: 'absolute',
+            bottom: 'clamp(14px, 2.5vh, 22px)',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 40,
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            padding: '1rem',
-            boxSizing: 'border-box',
-            overflow: 'hidden',
-            animation: 'fadeIn 0.2s ease-out'
-          }}
-          onClick={() => setInfoCardPlant(null)}
-        >
-          <div 
-            style={{
-              position: 'relative',
-              width: '100%',
-              maxWidth: '1360px',
-              height: '92vh',
-              maxHeight: '740px',
-              background: 'rgba(250, 248, 242, 0.55)',
-              borderRadius: '20px',
-              border: '2px solid rgba(20, 69, 47, 0.5)',
-              boxShadow: '0 25px 60px rgba(20, 69, 47, 0.35)',
+            gap: '12px',
+            background: 'rgba(3, 20, 12, 0.85)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '1.5px solid rgba(16, 185, 129, 0.45)',
+            borderRadius: '32px',
+            padding: '6px 10px',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.75), 0 0 24px rgba(16, 185, 129, 0.3)',
+            boxSizing: 'border-box'
+          }}>
+            {/* Back to Garden Button */}
+            <button
+              type="button"
+              onClick={closePlantModal}
+              style={{
+                background: 'rgba(250, 248, 242, 0.95)',
+                color: '#14452F',
+                border: '1.6px solid #14452F',
+                borderRadius: '24px',
+                padding: '8px 22px',
+                fontSize: '16px',
+                fontWeight: 900,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+                fontFamily: '"Outfit", sans-serif',
+                transition: 'all 0.18s ease',
+                whiteSpace: 'nowrap'
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'scale(1.03)';
+                e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.4)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+              }}
+              title="Return to Botanical Garden"
+            >
+              <ChevronLeft size={18} strokeWidth={3} />
+              <span>Back to Garden</span>
+            </button>
+
+            {/* Show / Hide Observations Button */}
+            <button
+              type="button"
+              onClick={() => setShowPlantDetailPopup(!showPlantDetailPopup)}
+              style={{
+                background: showPlantDetailPopup ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)' : 'rgba(250, 248, 242, 0.95)',
+                color: showPlantDetailPopup ? '#FFFFFF' : '#14452F',
+                border: '1.6px solid ' + (showPlantDetailPopup ? '#34D399' : '#14452F'),
+                borderRadius: '24px',
+                padding: '8px 22px',
+                fontSize: '16px',
+                fontWeight: 900,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+                fontFamily: '"Outfit", sans-serif',
+                transition: 'all 0.18s ease',
+                whiteSpace: 'nowrap'
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'scale(1.03)';
+                e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.4)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+              }}
+              title={showPlantDetailPopup ? 'Hide observations and view full specimen image' : 'Show botanical observation details'}
+            >
+              <span>{showPlantDetailPopup ? '✕ Hide Observations' : '📋 Show Observations'}</span>
+            </button>
+          </div>
+
+          {/* 3. Slogan Page Style Translucent Observation Popup (30% width, gentle 8px blur) */}
+          {showPlantDetailPopup && (
+            <div style={{
+              position: 'absolute',
+              top: 'clamp(18px, 2.8vh, 28px)',
+              right: 'clamp(14px, 2vw, 24px)',
+              width: 'min(30vw, 380px)',
+              minWidth: '270px',
+              maxHeight: 'calc(100vh - clamp(85px, 11vh, 100px))',
+              background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.52) 0%, rgba(4, 28, 16, 0.55) 45%, rgba(2, 18, 11, 0.58) 100%)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              border: '1.5px solid rgba(16, 185, 129, 0.45)',
+              borderLeft: '1.5px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '24px',
+              boxShadow: 'inset 1px 1px 2px rgba(255, 255, 255, 0.25), inset -1px -1px 2px rgba(0, 0, 0, 0.3), 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(16, 185, 129, 0.2)',
+              zIndex: 35,
               display: 'flex',
               flexDirection: 'column',
-              color: '#14452F',
-              fontFamily: '"Outfit", sans-serif',
               overflow: 'hidden',
-              boxSizing: 'border-box'
-            }}
-            onClick={e => e.stopPropagation()}
-          >
-            {/* Top Bar Header (Slogan Page Botanical Design) */}
-            <div style={{
-              position: 'relative',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '0.85rem 1.75rem',
-              borderBottom: '2.5px solid #14452F',
-              background: 'rgba(250, 248, 242, 0.55)',
-              flexShrink: 0,
-              overflow: 'hidden'
-            }}>
-              {/* Corner Hanging Foliage (matching Slogan Page) */}
-              <TopCornerFoliage side="left" />
-              <TopCornerFoliage side="right" />
-
-              {/* Mountain Backdrop */}
-              <TopMountainBackdrop />
-
-              {/* Title Content Flanked by Vines & Badges */}
-              <div style={{ 
-                position: 'relative', 
-                zIndex: 5, 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: '1rem' 
-              }}>
-                <div style={{
-                  width: '46px',
-                  height: '46px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                  border: '2px solid #10B981',
-                  boxShadow: '0 4px 12px rgba(20, 69, 47, 0.25)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '24px',
-                  lineHeight: '1',
-                  flexShrink: 0
-                }}>
-                  {infoCardPlant.emoji}
-                </div>
-
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <TitleVineBranch side="left" />
-                    <h2 style={{ 
-                      margin: 0, 
-                      fontSize: '24px', 
-                      fontWeight: '900', 
-                      color: '#14452F', 
-                      fontFamily: '"Fraunces", Georgia, serif', 
-                      lineHeight: '1.2',
-                      letterSpacing: '-0.01em'
-                    }}>
-                      {infoCardPlant.popupName || infoCardPlant.name}
-                    </h2>
-                    <TitleVineBranch side="right" />
-                    
-                    <span style={{
-                      fontSize: '16px',
-                      color: 'rgba(250, 248, 242, 0.55)',
-                      fontWeight: '900',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.06em',
-                      background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                      padding: '4px 16px',
-                      borderRadius: '16px',
-                      border: '1.5px solid #10B981',
-                      boxShadow: '0 2px 8px rgba(20, 69, 47, 0.2)',
-                      fontFamily: '"Outfit", sans-serif'
-                    }}>
-                      Textbook Table 2.1
-                    </span>
-                  </div>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>
-                    <TitleSprout />
-                    <span style={{ fontSize: '16px', color: '#064E3B', fontWeight: '800', fontFamily: '"Outfit", sans-serif' }}>
-                      Botanical Field Observations &amp; High-Resolution Specimen
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Close Button matching Slogan Page */}
-              <button 
-                onClick={() => setInfoCardPlant(null)}
-                style={{
-                  position: 'relative',
-                  zIndex: 10,
-                  background: 'rgba(250, 248, 242, 0.55)',
-                  border: '2px solid rgba(20, 69, 47, 0.5)',
-                  color: '#14452F',
-                  width: '40px',
-                  height: '40px',
-                  borderRadius: '12px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  fontSize: '20px',
-                  fontWeight: 'bold',
-                  transition: 'all 0.2s ease',
-                  boxShadow: '0 3px 10px rgba(20, 69, 47, 0.15)'
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = '#14452F';
-                  e.currentTarget.style.color = '#ffffff';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = 'rgba(250, 248, 242, 0.55)';
-                  e.currentTarget.style.color = '#14452F';
-                }}
-                title="Close Modal"
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* Single Page Layout: 70% Image & 30% Content Allocation */}
-            <div style={{
-              flex: 1,
-              minHeight: 0,
-              display: 'grid',
-              gridTemplateColumns: '7fr 3fr',
-              gap: '16px',
-              padding: '1rem 1.5rem',
               boxSizing: 'border-box',
-              alignItems: 'stretch',
-              overflow: 'hidden'
+              animation: 'fadeIn 0.25s ease-out'
             }}>
-              {/* Left 70%: High-Resolution Photographic Specimen Image Framed in Slogan Theme */}
-              <div style={{
-                position: 'relative',
-                height: '100%',
-                borderRadius: '20px',
-                border: '2.5px solid rgba(20, 69, 47, 0.5)',
-                background: '#ffffff',
-                overflow: 'hidden',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '10px',
-                boxShadow: '0 8px 24px rgba(20, 69, 47, 0.12)'
-              }}>
-                {/* Botanical Leaf Corner Accents */}
-                <CardCornerLeaves position="top-left" />
-                <CardCornerLeaves position="top-right" />
-                <CardCornerLeaves position="bottom-left" />
-                <CardCornerLeaves position="bottom-right" />
+              {/* Glossy specular reflection */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: '34%',
+                  background: 'linear-gradient(175deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%)',
+                  pointerEvents: 'none',
+                  zIndex: 2,
+                  borderRadius: '24px 24px 0 0'
+                }}
+              />
 
-                <img 
-                  src={PLANT_CROPPED_IMAGES[infoCardPlant.id] || PLANT_CROPPED_IMAGES[infoCardPlant.name]} 
-                  alt={infoCardPlant.name} 
-                  style={{ 
-                    position: 'relative',
-                    zIndex: 2,
-                    width: '100%',
-                    height: '100%',
-                    maxWidth: '100%', 
-                    maxHeight: '100%', 
-                    objectFit: 'contain', 
-                    objectPosition: 'center',
-                    filter: 'drop-shadow(0 14px 28px rgba(20, 69, 47, 0.15))'
-                  }} 
-                />
-              </div>
-
-              {/* Right 30%: NCERT Table 2.1 Field Observations Stack (Leaf-Designed Boxes) */}
+              {/* Inner Scrollable Content */}
               <div style={{
-                height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-between',
-                gap: '8px',
-                overflowY: 'auto'
-              }}>
-                {/* 1. STEM CARD (Leaf-Designed Box) */}
-                <div style={{ 
-                  position: 'relative',
-                  background: 'linear-gradient(135deg, #ffffff 0%, #F4FBF7 50%, #E8F8EE 100%)', 
-                  padding: '8px 12px', 
-                  borderRadius: '24px 6px 24px 6px', 
-                  border: '2px solid rgba(20, 69, 47, 0.5)', 
-                  boxShadow: '0 4px 14px rgba(20, 69, 47, 0.10), inset 0 0 10px rgba(16, 185, 129, 0.08)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '4px',
-                  overflow: 'hidden'
-                }}>
-                  {/* Decorative Leaf Vein Corner Motif */}
-                  <svg width="32" height="32" viewBox="0 0 36 36" fill="none" style={{ position: 'absolute', top: 2, right: 4, opacity: 0.85, pointerEvents: 'none' }}>
-                    <path d="M4 32 C12 26, 20 18, 30 6" stroke="#10B981" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M14 22 C18 18, 24 18, 28 12" stroke="#2D6A4F" strokeWidth="1.2" strokeLinecap="round" />
-                    <path d="M20 16 C24 12, 28 10, 30 6" stroke="#2D6A4F" strokeWidth="1.2" strokeLinecap="round" />
-                    <path d="M28 8 C22 6, 16 10, 14 16 C20 16, 26 12, 28 8 Z" fill="#D1FAE5" stroke="#10B981" strokeWidth="1" />
-                  </svg>
-
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    zIndex: 2
-                  }}>
-                    <div style={{
-                      width: '28px',
-                      height: '28px',
-                      borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                      border: '1.5px solid #10B981',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      boxShadow: '0 2px 6px rgba(20, 69, 47, 0.2)',
-                      flexShrink: 0
-                    }}>
-                      <Sprout color="#34D399" size={16} strokeWidth={2.6} />
-                    </div>
-                    <span style={{
-                      fontSize: '16px',
-                      color: '#14452F',
-                      fontWeight: '900',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.06em',
-                      fontFamily: '"Outfit", sans-serif'
-                    }}>
-                      • STEM
-                    </span>
-                  </div>
-
-                  <div style={{
-                    position: 'relative',
-                    zIndex: 2,
-                    background: 'rgba(250, 248, 242, 0.96)',
-                    border: '1.4px solid #14452F',
-                    borderRadius: '14px 4px 14px 4px',
-                    padding: '6px 10px',
-                    color: '#14452F',
-                    fontWeight: '600',
-                    fontSize: '16px',
-                    fontFamily: '"Outfit", sans-serif',
-                    lineHeight: '1.38',
-                    textAlign: 'justify',
-                    textJustify: 'inter-word',
-                    boxShadow: 'inset 0 1px 3px rgba(20, 69, 47, 0.05)'
-                  }}>
-                    {infoCardPlant.tableInfo?.stem || '—'}
-                  </div>
-                </div>
-
-                {/* 2. LEAVES CARD (Leaf-Designed Box) */}
-                <div style={{ 
-                  position: 'relative',
-                  background: 'linear-gradient(135deg, #ffffff 0%, #F4FBF7 50%, #E8F8EE 100%)', 
-                  padding: '8px 12px', 
-                  borderRadius: '24px 6px 24px 6px', 
-                  border: '2px solid rgba(20, 69, 47, 0.5)', 
-                  boxShadow: '0 4px 14px rgba(20, 69, 47, 0.10), inset 0 0 10px rgba(16, 185, 129, 0.08)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '4px',
-                  overflow: 'hidden'
-                }}>
-                  {/* Decorative Leaf Vein Corner Motif */}
-                  <svg width="32" height="32" viewBox="0 0 36 36" fill="none" style={{ position: 'absolute', top: 2, right: 4, opacity: 0.85, pointerEvents: 'none' }}>
-                    <path d="M4 32 C12 26, 20 18, 30 6" stroke="#10B981" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M14 22 C18 18, 24 18, 28 12" stroke="#2D6A4F" strokeWidth="1.2" strokeLinecap="round" />
-                    <path d="M20 16 C24 12, 28 10, 30 6" stroke="#2D6A4F" strokeWidth="1.2" strokeLinecap="round" />
-                    <path d="M28 8 C22 6, 16 10, 14 16 C20 16, 26 12, 28 8 Z" fill="#D1FAE5" stroke="#10B981" strokeWidth="1" />
-                  </svg>
-
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    zIndex: 2
-                  }}>
-                    <div style={{
-                      width: '28px',
-                      height: '28px',
-                      borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                      border: '1.5px solid #10B981',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      boxShadow: '0 2px 6px rgba(20, 69, 47, 0.2)',
-                      flexShrink: 0
-                    }}>
-                      <Leaf color="#34D399" size={16} strokeWidth={2.6} />
-                    </div>
-                    <span style={{
-                      fontSize: '16px',
-                      color: '#14452F',
-                      fontWeight: '900',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.06em',
-                      fontFamily: '"Outfit", sans-serif'
-                    }}>
-                      • LEAVES
-                    </span>
-                  </div>
-
-                  <div style={{
-                    position: 'relative',
-                    zIndex: 2,
-                    background: 'rgba(250, 248, 242, 0.96)',
-                    border: '1.4px solid #14452F',
-                    borderRadius: '14px 4px 14px 4px',
-                    padding: '6px 10px',
-                    color: '#14452F',
-                    fontWeight: '600',
-                    fontSize: '16px',
-                    fontFamily: '"Outfit", sans-serif',
-                    lineHeight: '1.38',
-                    textAlign: 'justify',
-                    textJustify: 'inter-word',
-                    boxShadow: 'inset 0 1px 3px rgba(20, 69, 47, 0.05)'
-                  }}>
-                    {infoCardPlant.tableInfo?.leaves || '—'}
-                  </div>
-                </div>
-
-                {/* 3. FLOWERS CARD (Leaf-Designed Box) */}
-                <div style={{ 
-                  position: 'relative',
-                  background: 'linear-gradient(135deg, #ffffff 0%, #F4FBF7 50%, #E8F8EE 100%)', 
-                  padding: '8px 12px', 
-                  borderRadius: '24px 6px 24px 6px', 
-                  border: '2px solid rgba(20, 69, 47, 0.5)', 
-                  boxShadow: '0 4px 14px rgba(20, 69, 47, 0.10), inset 0 0 10px rgba(16, 185, 129, 0.08)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '4px',
-                  overflow: 'hidden'
-                }}>
-                  {/* Decorative Leaf Vein Corner Motif */}
-                  <svg width="32" height="32" viewBox="0 0 36 36" fill="none" style={{ position: 'absolute', top: 2, right: 4, opacity: 0.85, pointerEvents: 'none' }}>
-                    <path d="M4 32 C12 26, 20 18, 30 6" stroke="#10B981" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M14 22 C18 18, 24 18, 28 12" stroke="#2D6A4F" strokeWidth="1.2" strokeLinecap="round" />
-                    <path d="M20 16 C24 12, 28 10, 30 6" stroke="#2D6A4F" strokeWidth="1.2" strokeLinecap="round" />
-                    <path d="M28 8 C22 6, 16 10, 14 16 C20 16, 26 12, 28 8 Z" fill="#D1FAE5" stroke="#10B981" strokeWidth="1" />
-                  </svg>
-
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    zIndex: 2
-                  }}>
-                    <div style={{
-                      width: '28px',
-                      height: '28px',
-                      borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                      border: '1.5px solid #10B981',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      boxShadow: '0 2px 6px rgba(20, 69, 47, 0.2)',
-                      flexShrink: 0
-                    }}>
-                      <Flower2 color="#34D399" size={16} strokeWidth={2.6} />
-                    </div>
-                    <span style={{
-                      fontSize: '16px',
-                      color: '#14452F',
-                      fontWeight: '900',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.06em',
-                      fontFamily: '"Outfit", sans-serif'
-                    }}>
-                      • FLOWERS
-                    </span>
-                  </div>
-
-                  <div style={{
-                    position: 'relative',
-                    zIndex: 2,
-                    background: 'rgba(250, 248, 242, 0.96)',
-                    border: '1.4px solid #14452F',
-                    borderRadius: '14px 4px 14px 4px',
-                    padding: '6px 10px',
-                    color: '#14452F',
-                    fontWeight: '600',
-                    fontSize: '16px',
-                    fontFamily: '"Outfit", sans-serif',
-                    lineHeight: '1.38',
-                    textAlign: 'justify',
-                    textJustify: 'inter-word',
-                    boxShadow: 'inset 0 1px 3px rgba(20, 69, 47, 0.05)'
-                  }}>
-                    {infoCardPlant.tableInfo?.flowers || '—'}
-                  </div>
-                </div>
-
-                {/* 4. OTHER OBSERVATIONS CARD (Leaf-Designed Box) */}
-                <div style={{ 
-                  position: 'relative',
-                  background: 'linear-gradient(135deg, #ffffff 0%, #F4FBF7 50%, #E8F8EE 100%)', 
-                  padding: '8px 12px', 
-                  borderRadius: '24px 6px 24px 6px', 
-                  border: '2px solid rgba(20, 69, 47, 0.5)', 
-                  boxShadow: '0 4px 14px rgba(20, 69, 47, 0.10), inset 0 0 10px rgba(16, 185, 129, 0.08)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '4px',
-                  overflow: 'hidden'
-                }}>
-                  {/* Decorative Leaf Vein Corner Motif */}
-                  <svg width="32" height="32" viewBox="0 0 36 36" fill="none" style={{ position: 'absolute', top: 2, right: 4, opacity: 0.85, pointerEvents: 'none' }}>
-                    <path d="M4 32 C12 26, 20 18, 30 6" stroke="#10B981" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M14 22 C18 18, 24 18, 28 12" stroke="#2D6A4F" strokeWidth="1.2" strokeLinecap="round" />
-                    <path d="M20 16 C24 12, 28 10, 30 6" stroke="#2D6A4F" strokeWidth="1.2" strokeLinecap="round" />
-                    <path d="M28 8 C22 6, 16 10, 14 16 C20 16, 26 12, 28 8 Z" fill="#D1FAE5" stroke="#10B981" strokeWidth="1" />
-                  </svg>
-
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    zIndex: 2
-                  }}>
-                    <div style={{
-                      width: '28px',
-                      height: '28px',
-                      borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                      border: '1.5px solid #10B981',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      boxShadow: '0 2px 6px rgba(20, 69, 47, 0.2)',
-                      flexShrink: 0
-                    }}>
-                      <BookOpen color="#34D399" size={16} strokeWidth={2.6} />
-                    </div>
-                    <span style={{
-                      fontSize: '16px',
-                      color: '#14452F',
-                      fontWeight: '900',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.06em',
-                      fontFamily: '"Outfit", sans-serif'
-                    }}>
-                      • OTHER OBSERVATIONS
-                    </span>
-                  </div>
-
-                  <div style={{
-                    position: 'relative',
-                    zIndex: 2,
-                    background: 'rgba(250, 248, 242, 0.96)',
-                    border: '1.4px solid #14452F',
-                    borderRadius: '14px 4px 14px 4px',
-                    padding: '6px 10px',
-                    color: '#14452F',
-                    fontWeight: '600',
-                    fontSize: '16px',
-                    fontFamily: '"Outfit", sans-serif',
-                    lineHeight: '1.38',
-                    textAlign: 'justify',
-                    textJustify: 'inter-word',
-                    boxShadow: 'inset 0 1px 3px rgba(20, 69, 47, 0.05)'
-                  }}>
-                    {infoCardPlant.tableInfo?.notes || '—'}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom Bar: Slogan Page Aesthetic with Silhouettes & Controls */}
-            <div style={{
-              position: 'relative',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '0.65rem 1.75rem',
-              borderTop: '2.5px solid #14452F',
-              background: 'rgba(250, 248, 242, 0.55)',
-              flexShrink: 0,
-              overflow: 'hidden'
-            }}>
-              {/* Bottom Nature Silhouette Panorama */}
-              <BottomNatureSilhouettes />
-
-              {/* Left Subtitle Badge in Slogan Theme */}
-              <div style={{
+                flex: 1,
+                padding: 'clamp(12px, 1.8vh, 18px) clamp(14px, 1.8vw, 20px)',
+                gap: 'clamp(8px, 1.2vh, 12px)',
                 position: 'relative',
                 zIndex: 5,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                background: 'rgba(250, 248, 242, 0.9)',
-                backdropFilter: 'blur(4px)',
-                padding: '4px 14px',
-                borderRadius: '12px',
-                border: '1.2px solid #14452F'
+                overflowY: 'auto'
               }}>
-                <Sprout color="#10B981" size={18} strokeWidth={2.6} />
-                <span style={{
-                  fontSize: '16px',
-                  color: '#14452F',
-                  fontWeight: '800',
-                  fontFamily: '"Outfit", sans-serif'
-                }}>
-                  Living World Diversity · Table 2.1 Botanical Record
-                </span>
-              </div>
+                {/* Header Row */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                  <span style={{
+                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(5, 150, 105, 0.2) 100%)',
+                    color: '#A7F3D0',
+                    border: '1.2px solid rgba(110, 231, 183, 0.45)',
+                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25)',
+                    padding: '5px 14px',
+                    borderRadius: '20px',
+                    fontFamily: '"Outfit", sans-serif',
+                    fontWeight: 800,
+                    fontSize: '16px',
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}>
+                    <span>🌿</span>
+                    <span>NCERT TABLE 2.1</span>
+                  </span>
 
-              {/* Close Button matching Slogan Page */}
-              <button
-                onClick={() => setInfoCardPlant(null)}
-                style={{
-                  position: 'relative',
-                  zIndex: 5,
-                  padding: '8px 28px',
-                  borderRadius: '12px',
-                  background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                  border: '2px solid #10B981',
-                  color: '#ffffff',
-                  fontWeight: '900',
-                  fontSize: '16px',
-                  fontFamily: '"Outfit", sans-serif',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 16px rgba(20, 69, 47, 0.35)',
-                  transition: 'all 0.18s ease'
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.transform = 'translateY(-1px)';
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(20, 69, 47, 0.45)';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.transform = 'none';
-                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(20, 69, 47, 0.35)';
-                }}
-              >
-                ✓ Close &amp; Continue Exploring
-              </button>
+                  {/* Minimize Button */}
+                  <button
+                    type="button"
+                    onClick={() => setShowPlantDetailPopup(false)}
+                    title="Hide observations and view full specimen image"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.12)',
+                      border: '1.2px solid rgba(255, 255, 255, 0.25)',
+                      borderRadius: '10px',
+                      padding: '5px 12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      color: '#FEF3C7',
+                      fontSize: '16px',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.4)';
+                      e.currentTarget.style.color = '#FFFFFF';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)';
+                      e.currentTarget.style.color = '#FEF3C7';
+                    }}
+                  >
+                    <span>✕ Close</span>
+                  </button>
+                </div>
+
+                {/* Title */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{
+                    width: '44px',
+                    height: '44px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.35) 0%, rgba(5, 150, 105, 0.25) 100%)',
+                    border: '2px solid #10B981',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '24px',
+                    flexShrink: 0
+                  }}>
+                    {infoCardPlant.emoji}
+                  </div>
+                  <div>
+                    <h3 style={{
+                      fontFamily: '"Outfit", sans-serif',
+                      fontWeight: 900,
+                      fontSize: '24px',
+                      margin: 0,
+                      color: '#FFFFFF',
+                      lineHeight: 1.2
+                    }}>
+                      {infoCardPlant.popupName || infoCardPlant.name}
+                    </h3>
+                    <div style={{
+                      fontSize: '16px',
+                      color: '#6EE7B7',
+                      fontWeight: 600,
+                      fontStyle: 'italic',
+                      marginTop: '2px'
+                    }}>
+                      Botanical Field Specimen Record
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4 Detail Cards */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {/* STEM */}
+                  <div style={{
+                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.35) 100%)',
+                    border: '1.2px solid rgba(110, 231, 183, 0.35)',
+                    borderLeft: '4px solid #10B981',
+                    borderRadius: '10px',
+                    padding: '8px 12px',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
+                  }}>
+                    <div style={{ fontSize: '16px', fontWeight: 800, color: '#6EE7B7', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span>🌱 STEM</span>
+                    </div>
+                    <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 600, marginTop: '3px', lineHeight: 1.4 }}>
+                      {infoCardPlant.tableInfo?.stem || '—'}
+                    </div>
+                  </div>
+
+                  {/* LEAVES */}
+                  <div style={{
+                    background: 'linear-gradient(135deg, rgba(52, 211, 153, 0.16) 0%, rgba(0, 0, 0, 0.35) 100%)',
+                    border: '1.2px solid rgba(167, 243, 208, 0.35)',
+                    borderLeft: '4px solid #34D399',
+                    borderRadius: '10px',
+                    padding: '8px 12px',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
+                  }}>
+                    <div style={{ fontSize: '16px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span>🍃 LEAVES</span>
+                    </div>
+                    <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 600, marginTop: '3px', lineHeight: 1.4 }}>
+                      {infoCardPlant.tableInfo?.leaves || '—'}
+                    </div>
+                  </div>
+
+                  {/* FLOWERS */}
+                  <div style={{
+                    background: 'linear-gradient(135deg, rgba(244, 114, 182, 0.16) 0%, rgba(0, 0, 0, 0.35) 100%)',
+                    border: '1.2px solid rgba(249, 168, 212, 0.35)',
+                    borderLeft: '4px solid #F472B6',
+                    borderRadius: '10px',
+                    padding: '8px 12px',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
+                  }}>
+                    <div style={{ fontSize: '16px', fontWeight: 800, color: '#FBCFE8', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span>🌸 FLOWERS</span>
+                    </div>
+                    <div style={{ fontSize: '16px', color: '#FDF2F8', fontWeight: 600, marginTop: '3px', lineHeight: 1.4 }}>
+                      {infoCardPlant.tableInfo?.flowers || '—'}
+                    </div>
+                  </div>
+
+                  {/* OTHER OBSERVATIONS */}
+                  <div style={{
+                    background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.16) 0%, rgba(0, 0, 0, 0.35) 100%)',
+                    border: '1.2px solid rgba(147, 197, 253, 0.35)',
+                    borderLeft: '4px solid #3B82F6',
+                    borderRadius: '10px',
+                    padding: '8px 12px',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
+                  }}>
+                    <div style={{ fontSize: '16px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span>📖 OTHER OBSERVATIONS</span>
+                    </div>
+                    <div style={{ fontSize: '16px', color: '#EFF6FF', fontWeight: 600, marginTop: '3px', lineHeight: 1.4 }}>
+                      {infoCardPlant.tableInfo?.notes || '—'}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Button to view full image without panel */}
+                <button
+                  type="button"
+                  onClick={() => setShowPlantDetailPopup(false)}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.15)',
+                    border: '1.2px solid rgba(255, 255, 255, 0.3)',
+                    color: '#FFFFFF',
+                    borderRadius: '12px',
+                    padding: '10px 16px',
+                    fontSize: '16px',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '6px',
+                    fontFamily: '"Outfit", sans-serif',
+                    marginTop: '2px',
+                    transition: 'all 0.18s ease'
+                  }}
+                >
+                  <span>🖼️ View Full Specimen Image</span>
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       )}
 
