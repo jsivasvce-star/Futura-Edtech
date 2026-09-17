@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ArrowLeft, Compass, CheckCircle2, XCircle, ArrowRight, Trophy, Sparkles, AlertCircle, MapPin, Milestone, Maximize2, Minimize2, RotateCcw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './FunWithMagnets.css';
 import MazeGame, { getAvailableDirections, NODES_MAP, playElectricLightningSound } from './MazeGame';
+import DidYouKnow from './DidYouKnow';
 import { useTheme } from '../../../../ThemeContext.jsx';
-import DidYouKnow from '../MagneticPoles/DidYouKnow';
 
 const STEPS_NAV = [
   { id: 0, label: "1. Predict" },
   { id: 1, label: "2. Magnetic Town Expedition" },
-  { id: 2, label: "3. Magnet Care & Quiz" }
+  { id: 2, label: "3. Magnet Care & Quiz" },
+  { id: 3, label: "4. Did You Know?" }
 ];
 
 export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
@@ -22,7 +23,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
   const [showFinalCompletionModal, setShowFinalCompletionModal] = useState(false);
 
   const [mazeVisitedCount, setMazeVisitedCount] = useState({ count: 1, total: 14 });
-  const [currentNodeId, setCurrentNodeId] = useState('node_start');
+  const [currentNodeId, setCurrentNodeId] = useState('node_0_0');
   const [isMoving, setIsMoving] = useState(false);
   const [hintDir, setHintDir] = useState(null);
 
@@ -37,6 +38,26 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
   const go = (i) => {
     setStep(i);
   };
+
+  // Stable MazeGame callbacks — defined at top level to satisfy rules of hooks
+  const handleMazeSolve = useCallback(() => {
+    setExt(prev => ({ ...prev, maze: true }));
+    setXp(prev => prev + 200);
+    setShowMazeSolveModal(true);
+  }, []);
+
+  const handleVisitedCountChange = useCallback((count, total) => {
+    setMazeVisitedCount({ count, total });
+  }, []);
+
+  const handleNodeChange = useCallback((nodeId, moving) => {
+    setCurrentNodeId(nodeId);
+    setIsMoving(moving);
+  }, []);
+
+  const handleRegisterReset = useCallback((fn) => { mazeResetRef.current = fn; }, []);
+  const handleRegisterDirectionMove = useCallback((fn) => { mazeDirectionMoveRef.current = fn; }, []);
+  const handleRegisterHint = useCallback((fn) => { mazeHintRef.current = fn; }, []);
 
   const [predictAns, setPredictAns] = useState(null);
   const [qHard, setQHard] = useState(null);
@@ -73,35 +94,10 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
       overflow: 'hidden',
       boxSizing: 'border-box',
       padding: '0.4rem 0.75rem',
-      backgroundColor: '#ECFDF5',
+      backgroundColor: '#FFFFFF',
       position: 'relative',
       fontFamily: 'system-ui, -apple-system, sans-serif'
     }}>
-      {/* Soft Ambient Background Glows */}
-      <div 
-        style={{
-          position: 'absolute',
-          top: '-10%',
-          left: '10%',
-          width: '500px',
-          height: '500px',
-          background: 'radial-gradient(circle, rgba(167, 243, 208, 0.45) 0%, rgba(236, 253, 245, 0) 70%)',
-          pointerEvents: 'none',
-          zIndex: 0
-        }}
-      />
-      <div 
-        style={{
-          position: 'absolute',
-          bottom: '-10%',
-          right: '10%',
-          width: '500px',
-          height: '500px',
-          background: 'radial-gradient(circle, rgba(253, 230, 138, 0.35) 0%, rgba(236, 253, 245, 0) 70%)',
-          pointerEvents: 'none',
-          zIndex: 0
-        }}
-      />
 
       {/* Top Header Bar */}
       <div style={{ 
@@ -110,10 +106,10 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
         alignItems: 'center', 
         padding: '0.65rem 1.25rem',
         marginBottom: '0.65rem',
-        background: '#FFFFFF',
-        border: '2px solid #A7F3D0',
+        background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+        border: '1.5px solid #FDE68A',
         borderRadius: '24px',
-        boxShadow: '0 6px 24px rgba(6, 78, 59, 0.07)',
+        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
         flexShrink: 0,
         position: 'relative',
         zIndex: 100
@@ -197,7 +193,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
         {/* STEP 0: PREDICT */}
         {step === 0 && (
           <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxSizing: 'border-box' }}>
-            <div style={{ width: '100%', maxWidth: '1000px', maxHeight: '100%', overflowY: 'auto', background: '#FFFFFF', border: '2px solid #A7F3D0', borderRadius: '24px', padding: '2rem 2.5rem', boxShadow: '0 10px 32px rgba(6, 78, 59, 0.08)', boxSizing: 'border-box', margin: '0 auto' }}>
+            <div style={{ width: '100%', maxWidth: '1000px', maxHeight: '100%', overflowY: 'auto', background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', border: '1.5px solid #FDE68A', borderRadius: '24px', padding: '2rem 2.5rem', boxShadow: '0 10px 32px rgba(217, 119, 6, 0.08)', boxSizing: 'border-box', margin: '0 auto' }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', background: '#D1FAE5', color: '#065F46', padding: '0.4rem 0.95rem', borderRadius: '18px', fontSize: '0.85rem', fontWeight: 800, letterSpacing: '1.2px', marginBottom: '0.75rem' }}>
                 <Sparkles size={16} color="#065F46" /> SECTION 4.5 · FUN WITH MAGNETS
               </div>
@@ -328,21 +324,14 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                 }}
               >
                 <MazeGame 
-                  onSolve={() => {
-                    setExt({ ...ext, maze: true });
-                    addXP(200);
-                    setShowMazeSolveModal(true);
-                  }}
+                  onSolve={handleMazeSolve}
                   isSolved={ext.maze}
-                  onVisitedCountChange={(count, total) => setMazeVisitedCount({ count, total })}
-                  onNodeChange={(nodeId, moving) => {
-                    setCurrentNodeId(nodeId);
-                    setIsMoving(moving);
-                  }}
+                  onVisitedCountChange={handleVisitedCountChange}
+                  onNodeChange={handleNodeChange}
                   hintDir={hintDir}
-                  registerReset={(fn) => { mazeResetRef.current = fn; }}
-                  registerDirectionMove={(fn) => { mazeDirectionMoveRef.current = fn; }}
-                  registerHint={(fn) => { mazeHintRef.current = fn; }}
+                  registerReset={handleRegisterReset}
+                  registerDirectionMove={handleRegisterDirectionMove}
+                  registerHint={handleRegisterHint}
                 />
 
                 {/* Fullscreen Button */}
@@ -384,14 +373,14 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.9, opacity: 0 }}
                         style={{ 
-                          backgroundColor: '#FFFFFF', 
+                          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
                           borderRadius: '24px', 
                           padding: '2.5rem 3rem', 
                           maxWidth: '520px', 
                           width: '90%',
                           textAlign: 'center', 
-                          border: '1.5px solid #A7F3D0',
-                          boxShadow: '0 20px 50px rgba(6, 78, 59, 0.2)',
+                          border: '1.5px solid #FDE68A',
+                          boxShadow: '0 20px 50px rgba(217, 119, 6, 0.2)',
                           display: 'flex',
                           flexDirection: 'column',
                           alignItems: 'center',
@@ -435,11 +424,11 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
             {/* Right: Control & Observation Panel */}
             <div style={{ 
               flex: '1.05', 
-              background: '#FFFFFF', 
-              border: '2px solid #A7F3D0', 
+              background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
+              border: '1.5px solid #FDE68A', 
               borderRadius: '24px', 
               padding: '1.4rem 1.5rem', 
-              boxShadow: '0 10px 32px rgba(6, 78, 59, 0.08)', 
+              boxShadow: '0 10px 32px rgba(217, 119, 6, 0.08)', 
               display: 'flex', 
               flexDirection: 'column', 
               justifyContent: 'space-between', 
@@ -449,35 +438,32 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
             }}>
               {/* Magnetic Principles Explanation Box */}
               <div style={{
-                background: '#F8FAFC',
-                border: '2px solid #CBD5E1',
+                background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+                border: '1.5px solid #FDE68A',
                 borderRadius: '20px',
                 padding: '1.2rem 1.35rem',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '0.75rem',
-                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.04)'
+                boxShadow: '0 4px 14px rgba(217, 119, 6, 0.08)'
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: '#064E3B', fontWeight: 900, fontSize: '1.18rem' }}>
-                  <Sparkles size={22} color="#D97706" />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: '#78350F', fontWeight: 900, fontSize: '1.25rem' }}>
+                  <Sparkles size={24} color="#D97706" />
                   <span>How Electromagnetic Control Works:</span>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem', color: '#334155', fontSize: '0.94rem', lineHeight: 1.55, fontWeight: 600 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', color: '#78350F', fontSize: '1.08rem', lineHeight: 1.5, fontWeight: 700 }}>
                   <p style={{ margin: 0 }}>
-                    • Miniature electromagnetic poles emerge at connected junction track nodes.
+                    • Electromagnetic poles activate at nearby track junctions.
                   </p>
                   <p style={{ margin: 0 }}>
-                    • Selecting a destination pole triggers a high-energy yellow electrifying lightning line.
+                    • Selecting a pole fires an attractive magnetic lightning tether.
                   </p>
                   <p style={{ margin: 0 }}>
-                    • The yellow lightning tether attaches directly to the locomotive's front magnetic sensor.
+                    • Magnetic pull glides your train smoothly to that station!
                   </p>
                   <p style={{ margin: 0 }}>
-                    • This magnetic lightning energy line exerts strong attraction, pulling the train smoothly along the railway tracks!
-                  </p>
-                  <p style={{ margin: 0 }}>
-                    • Use the on-screen poles or the D-Pad to guide your expedition all the way to the destination beacon 🎯!
+                    • Use the poles or D-Pad to reach the destination beacon 🎯!
                   </p>
                 </div>
               </div>
@@ -489,22 +475,22 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
 
                 return (
                   <div style={{ 
-                    background: '#0F172A', 
-                    border: '2.5px solid #38BDF8', 
+                    background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
+                    border: '1.5px solid #FDE68A', 
                     borderRadius: '20px', 
                     padding: '1.15rem 1.25rem', 
                     display: 'flex', 
                     flexDirection: 'column', 
                     gap: '0.8rem',
-                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.55)'
+                    boxShadow: '0 4px 16px rgba(217, 119, 6, 0.08)'
                   }}>
                     {/* Header */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.15)', paddingBottom: '0.55rem' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#BAE6FD', fontWeight: 900, fontSize: '0.92rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-                        <Compass size={18} color="#38BDF8" />
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #FDE68A', paddingBottom: '0.55rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#78350F', fontWeight: 900, fontSize: '0.92rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                        <Compass size={18} color="#D97706" />
                         <span>D-PAD HUD CONTROLS</span>
                       </div>
-                      <div style={{ fontSize: '0.82rem', color: '#38BDF8', fontWeight: 900, background: 'rgba(56, 189, 248, 0.15)', padding: '3px 10px', borderRadius: '10px', border: '1.5px solid rgba(56, 189, 248, 0.35)' }}>
+                      <div style={{ fontSize: '0.82rem', color: '#78350F', fontWeight: 900, background: '#FEF3C7', padding: '3px 10px', borderRadius: '10px', border: '1.5px solid #FDE68A' }}>
                         Station: {currentStationName}
                       </div>
                     </div>
@@ -529,9 +515,9 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                         }}
                         style={{
                           gridColumn: 2,
-                          background: availableDirs['N'] ? '#1E293B' : '#0B1120',
-                          color: availableDirs['N'] ? '#FFFFFF' : '#475569',
-                          border: `2px solid ${hintDir === 'N' ? '#F59E0B' : (availableDirs['N'] ? '#38BDF8' : '#334155')}`,
+                          background: availableDirs['N'] ? '#FFFFFF' : '#FEF3C7',
+                          color: availableDirs['N'] ? '#78350F' : '#D1D5DB',
+                          border: `2px solid ${hintDir === 'N' ? '#F59E0B' : (availableDirs['N'] ? '#F59E0B' : '#E5E7EB')}`,
                           borderRadius: '16px',
                           fontSize: '14px',
                           fontWeight: 900,
@@ -540,7 +526,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                           alignItems: 'center',
                           justifyContent: 'center',
                           cursor: (isMoving || !availableDirs['N']) ? 'not-allowed' : 'pointer',
-                          boxShadow: hintDir === 'N' ? '0 0 14px #F59E0B' : (availableDirs['N'] ? '0 4px 10px rgba(56,189,248,0.25)' : 'none'),
+                          boxShadow: hintDir === 'N' ? '0 0 14px #F59E0B' : (availableDirs['N'] ? '0 4px 10px rgba(217, 119, 6, 0.2)' : 'none'),
                           transition: 'all 0.2s ease'
                         }}
                       >
@@ -559,9 +545,9 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                         style={{
                           gridColumn: 1,
                           gridRow: 2,
-                          background: availableDirs['W'] ? '#1E293B' : '#0B1120',
-                          color: availableDirs['W'] ? '#FFFFFF' : '#475569',
-                          border: `2px solid ${hintDir === 'W' ? '#F59E0B' : (availableDirs['W'] ? '#38BDF8' : '#334155')}`,
+                          background: availableDirs['W'] ? '#FFFFFF' : '#FEF3C7',
+                          color: availableDirs['W'] ? '#78350F' : '#D1D5DB',
+                          border: `2px solid ${hintDir === 'W' ? '#F59E0B' : (availableDirs['W'] ? '#F59E0B' : '#E5E7EB')}`,
                           borderRadius: '16px',
                           fontSize: '14px',
                           fontWeight: 900,
@@ -570,7 +556,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                           alignItems: 'center',
                           justifyContent: 'center',
                           cursor: (isMoving || !availableDirs['W']) ? 'not-allowed' : 'pointer',
-                          boxShadow: hintDir === 'W' ? '0 0 14px #F59E0B' : (availableDirs['W'] ? '0 4px 10px rgba(56,189,248,0.25)' : 'none'),
+                          boxShadow: hintDir === 'W' ? '0 0 14px #F59E0B' : (availableDirs['W'] ? '0 4px 10px rgba(217, 119, 6, 0.2)' : 'none'),
                           transition: 'all 0.2s ease'
                         }}
                       >
@@ -582,7 +568,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                       <div style={{
                         gridColumn: 2,
                         gridRow: 2,
-                        background: 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)',
+                        background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                         borderRadius: '16px',
                         display: 'grid',
                         placeItems: 'center',
@@ -591,7 +577,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                         color: '#FFFFFF',
                         textAlign: 'center',
                         padding: '2px',
-                        boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.2), 0 4px 10px rgba(2,132,199,0.3)'
+                        boxShadow: '0 4px 10px rgba(217, 119, 6, 0.35)'
                       }}>
                         {currentStationName}
                       </div>
@@ -607,9 +593,9 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                         style={{
                           gridColumn: 3,
                           gridRow: 2,
-                          background: availableDirs['E'] ? '#1E293B' : '#0B1120',
-                          color: availableDirs['E'] ? '#FFFFFF' : '#475569',
-                          border: `2px solid ${hintDir === 'E' ? '#F59E0B' : (availableDirs['E'] ? '#38BDF8' : '#334155')}`,
+                          background: availableDirs['E'] ? '#FFFFFF' : '#FEF3C7',
+                          color: availableDirs['E'] ? '#78350F' : '#D1D5DB',
+                          border: `2px solid ${hintDir === 'E' ? '#F59E0B' : (availableDirs['E'] ? '#F59E0B' : '#E5E7EB')}`,
                           borderRadius: '16px',
                           fontSize: '14px',
                           fontWeight: 900,
@@ -618,7 +604,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                           alignItems: 'center',
                           justifyContent: 'center',
                           cursor: (isMoving || !availableDirs['E']) ? 'not-allowed' : 'pointer',
-                          boxShadow: hintDir === 'E' ? '0 0 14px #F59E0B' : (availableDirs['E'] ? '0 4px 10px rgba(56,189,248,0.25)' : 'none'),
+                          boxShadow: hintDir === 'E' ? '0 0 14px #F59E0B' : (availableDirs['E'] ? '0 4px 10px rgba(217, 119, 6, 0.2)' : 'none'),
                           transition: 'all 0.2s ease'
                         }}
                       >
@@ -637,9 +623,9 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                         style={{
                           gridColumn: 2,
                           gridRow: 3,
-                          background: availableDirs['S'] ? '#1E293B' : '#0B1120',
-                          color: availableDirs['S'] ? '#FFFFFF' : '#475569',
-                          border: `2px solid ${hintDir === 'S' ? '#F59E0B' : (availableDirs['S'] ? '#38BDF8' : '#334155')}`,
+                          background: availableDirs['S'] ? '#FFFFFF' : '#FEF3C7',
+                          color: availableDirs['S'] ? '#78350F' : '#D1D5DB',
+                          border: `2px solid ${hintDir === 'S' ? '#F59E0B' : (availableDirs['S'] ? '#F59E0B' : '#E5E7EB')}`,
                           borderRadius: '16px',
                           fontSize: '14px',
                           fontWeight: 900,
@@ -648,7 +634,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                           alignItems: 'center',
                           justifyContent: 'center',
                           cursor: (isMoving || !availableDirs['S']) ? 'not-allowed' : 'pointer',
-                          boxShadow: hintDir === 'S' ? '0 0 14px #F59E0B' : (availableDirs['S'] ? '0 4px 10px rgba(56,189,248,0.25)' : 'none'),
+                          boxShadow: hintDir === 'S' ? '0 0 14px #F59E0B' : (availableDirs['S'] ? '0 4px 10px rgba(217, 119, 6, 0.2)' : 'none'),
                           transition: 'all 0.2s ease'
                         }}
                       >
@@ -667,19 +653,20 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                       disabled={isMoving}
                       style={{
                         width: '100%',
-                        background: '#334155',
-                        border: '1px solid rgba(255,255,255,0.15)',
+                        background: '#FFFFFF',
+                        border: '1.5px solid #FDE68A',
                         padding: '10px 14px',
-                        borderRadius: '12px',
+                        borderRadius: '14px',
                         fontSize: '0.92rem',
-                        color: '#FFFFFF',
-                        fontWeight: 800,
+                        color: '#78350F',
+                        fontWeight: 900,
                         cursor: isMoving ? 'not-allowed' : 'pointer',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         gap: '8px',
-                        marginTop: '0.2rem'
+                        marginTop: '0.2rem',
+                        boxShadow: '0 2px 6px rgba(217, 119, 6, 0.1)'
                       }}
                     >
                       <RotateCcw size={16} /> Reset Expedition
@@ -695,9 +682,9 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                         fontSize: '1.05rem', 
                         fontWeight: 900, 
                         borderRadius: '16px', 
-                        background: ext.maze ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#1E293B', 
-                        color: ext.maze ? '#FFFFFF' : '#64748B', 
-                        border: ext.maze ? 'none' : '1px solid #334155', 
+                        background: ext.maze ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#F1F5F9', 
+                        color: ext.maze ? '#FFFFFF' : '#94A3B8', 
+                        border: ext.maze ? 'none' : '1.5px solid #E2E8F0', 
                         cursor: ext.maze ? 'pointer' : 'not-allowed', 
                         display: 'flex', 
                         alignItems: 'center', 
@@ -708,7 +695,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                         marginTop: '0.25rem'
                       }}
                     >
-                      Proceed to Magnet Care <ArrowRight size={18} color={ext.maze ? '#FFFFFF' : '#64748B'} />
+                      Proceed to Magnet Care <ArrowRight size={18} color={ext.maze ? '#FFFFFF' : '#94A3B8'} />
                     </button>
                   </div>
                 );
@@ -720,7 +707,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
         {/* STEP 2: MAGNET CARE & ASSESSMENT */}
         {step === 2 && (
           <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxSizing: 'border-box' }}>
-            <div style={{ width: '100%', maxWidth: '1000px', maxHeight: '100%', overflowY: 'auto', background: '#FFFFFF', border: '2px solid #A7F3D0', borderRadius: '24px', padding: '2rem 2.5rem', boxShadow: '0 10px 32px rgba(6, 78, 59, 0.08)', boxSizing: 'border-box' }}>
+            <div style={{ width: '100%', maxWidth: '1000px', maxHeight: '100%', overflowY: 'auto', background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', border: '1.5px solid #FDE68A', borderRadius: '24px', padding: '2rem 2.5rem', boxShadow: '0 10px 32px rgba(217, 119, 6, 0.08)', boxSizing: 'border-box' }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', background: '#D1FAE5', color: '#065F46', padding: '0.4rem 0.95rem', borderRadius: '18px', fontSize: '0.85rem', fontWeight: 800, letterSpacing: '1.2px', marginBottom: '0.75rem' }}>
                 <Sparkles size={16} color="#065F46" /> MAGNET CARE & ASSESSMENT
               </div>
@@ -741,9 +728,9 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                   const isSelected = qHard && qHard.selectedIndex === idx;
                   const isCorrect = c.ok;
                   
-                  let bgColor = '#F8FAFC';
-                  let borderColor = '#CBD5E1';
-                  let textColor = '#1E293B';
+                  let bgColor = '#FFFFFF';
+                  let borderColor = '#FDE68A';
+                  let textColor = '#78350F';
                   let icon = null;
 
                   if (qHard) {
@@ -786,7 +773,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <span className="key" style={{ marginRight: '0.75rem', padding: '0.2rem 0.6rem', borderRadius: '8px', background: '#E2E8F0', fontSize: '0.88rem', color: '#0F172A', fontWeight: 900 }}>{['A','B','C','D'][idx]}</span>
+                        <span className="key" style={{ marginRight: '0.75rem', padding: '0.2rem 0.6rem', borderRadius: '8px', background: '#FEF3C7', fontSize: '0.88rem', color: '#78350F', fontWeight: 900 }}>{['A','B','C','D'][idx]}</span>
                         {c.label}
                       </div>
                       {icon}
@@ -802,10 +789,10 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                   </div>
                   <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', justifyContent: 'center' }}>
                     <button 
-                      onClick={() => setShowFinalCompletionModal(true)}
+                      onClick={() => go(3)}
                       style={{ padding: '0.95rem 2.6rem', borderRadius: '30px', border: 'none', background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)', color: '#FFFFFF', fontWeight: 900, fontSize: '1.08rem', cursor: 'pointer', boxShadow: '0 6px 20px rgba(217, 119, 6, 0.45)', display: 'flex', alignItems: 'center', gap: '0.6rem', transition: 'all 0.25s ease' }}
                     >
-                      Finish Activity <Trophy size={20} color="#FFFFFF" />
+                      Continue to Did You Know <ArrowRight size={20} color="#FFFFFF" />
                     </button>
                   </div>
                 </div>
@@ -820,14 +807,14 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0.9, opacity: 0 }}
                     style={{ 
-                      backgroundColor: '#FFFFFF', 
+                      background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
                       borderRadius: '24px', 
                       padding: '2.5rem 3rem', 
                       maxWidth: '520px', 
                       width: '90%',
                       textAlign: 'center', 
-                      border: '1.5px solid #A7F3D0',
-                      boxShadow: '0 20px 50px rgba(6, 78, 59, 0.2)',
+                      border: '1.5px solid #FDE68A',
+                      boxShadow: '0 20px 50px rgba(217, 119, 6, 0.2)',
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
@@ -841,8 +828,8 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
 
                     <button
                       onClick={() => {
-                        if (onComplete) onComplete();
-                        else if (onBackToDashboard) onBackToDashboard();
+                        setShowFinalCompletionModal(false);
+                        go(3);
                       }}
                       style={{
                         padding: '1.1rem 3rem',
@@ -861,7 +848,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                         gap: '0.75rem'
                       }}
                     >
-                      Return to Chapter Flow <ArrowRight size={22} color="#FFFFFF" />
+                      Continue to Did You Know <ArrowRight size={22} color="#FFFFFF" />
                     </button>
                   </motion.div>
                 </div>
@@ -871,10 +858,25 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
         )}
       </main>
 
-      {/* Bottom Footer Bar */}
-      <footer style={{ marginTop: '0.4rem', width: '100%', flexShrink: 0, position: 'relative', zIndex: 99999 }}>
-        <DidYouKnow />
-      </footer>
+      {/* STEP 3: DID YOU KNOW */}
+      {step === 3 && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: '#FFFFFF' }}>
+          {/* Compact header for Did You Know step */}
+          <div style={{ padding: '0.55rem 1.25rem', background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', border: '1.5px solid #FDE68A', borderRadius: '0 0 20px 20px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 4px 16px rgba(217,119,6,0.08)' }}>
+            <span style={{ fontSize: '1.1rem', fontWeight: 900, color: '#064E3B' }}>✨ Did You Know? — Fascinating Magnetism Facts</span>
+            <button onClick={() => go(2)} style={{ padding: '0.5rem 1.15rem', background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)', color: '#FFFFFF', border: 'none', borderRadius: '14px', fontWeight: 900, fontSize: '0.92rem', cursor: 'pointer', boxShadow: '0 3px 10px rgba(217,119,6,0.3)' }}>← Back to Magnet Care</button>
+          </div>
+          <div style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
+            <DidYouKnow
+              onComplete={() => {
+                if (onComplete) onComplete();
+                else if (onBackToDashboard) onBackToDashboard();
+              }}
+              onBackToQuiz={() => go(2)}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -532,8 +532,8 @@ export default function Stage2_Identify({ onComplete, addXp }) {
               ) : !selectedObj ? (
                 <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', minHeight: 0, overflow: 'hidden', gap: '0.75rem', position: 'relative', alignItems: 'center', justifyContent: 'center', color: 'var(--scanner-subtext)', textAlign: 'center', padding: '1.5rem', zIndex: 2 }}>
                   <Search size={64} />
-                  <span style={{ fontWeight: 'bold', fontSize: '2rem' }}>Scanner Active</span>
-                  <span style={{ fontSize: '1.5rem', opacity: 0.8, maxWidth: '400px', lineHeight: '1.5' }}>
+                  <span style={{ fontWeight: 'bold', fontSize: '2rem', color: '#f6f1e4', textShadow: '0 2px 6px rgba(0,0,0,0.8), 0 1px 2px rgba(0,0,0,0.9)' }}>Scanner Active</span>
+                  <span style={{ fontSize: '1.5rem', maxWidth: '400px', lineHeight: '1.5', color: '#f6f1e4', textShadow: '0 2px 6px rgba(0,0,0,0.8), 0 1px 2px rgba(0,0,0,0.9)' }}>
                     Drag an object from the Evidence Tray and drop it here to scan it!
                   </span>
                 </div>
@@ -589,18 +589,18 @@ export default function Stage2_Identify({ onComplete, addXp }) {
                   }
                 `}</style>
                 <div className="scanner-glass-panel" style={{
-                  background: 'rgba(255, 255, 255, 0.75)',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
-                  border: '1px solid rgba(0, 0, 0, 0.1)',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
+                  background: scanState === 'correct' ? '#FAF6F0' : 'rgba(255, 255, 255, 0.75)',
+                  backdropFilter: scanState === 'correct' ? 'none' : 'blur(12px)',
+                  WebkitBackdropFilter: scanState === 'correct' ? 'none' : 'blur(12px)',
+                  border: scanState === 'correct' ? '2px solid #D9C9A3' : '1px solid rgba(0, 0, 0, 0.1)',
+                  boxShadow: scanState === 'correct' ? '0 12px 40px rgba(0,0,0,0.15)' : '0 8px 32px rgba(0,0,0,0.15)',
                   borderRadius: '16px',
                   padding: '1.5rem 2rem',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   width: '100%',
-                  maxWidth: '420px'
+                  maxWidth: scanState === 'correct' ? '550px' : '420px'
                 }}>
                 
                 {scanState !== 'correct' ? (
@@ -679,27 +679,27 @@ export default function Stage2_Identify({ onComplete, addXp }) {
                     )}
                   </motion.div>
                 ) : (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%', maxWidth: '500px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid var(--lesson-border)', paddingBottom: '0.75rem' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#A94727', fontSize: 'clamp(28px, 3.5vw, 34px)', fontWeight: 900, letterSpacing: '1px' }}>
-                        <Check size={40} /> CORRECT
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '100%' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '2px solid #D9C9A3', paddingBottom: '1rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#556B2F', fontFamily: 'var(--lesson-font-serif, "Georgia", serif)', fontSize: 'clamp(28px, 3.5vw, 36px)', fontWeight: 900, letterSpacing: '1px' }}>
+                        <Check size={40} /> CORRECT MATCH
                       </div>
                     </div>
                     
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginTop: '0.5rem' }}>
-                      <div>
-                        <div style={{ color: '#4A3B5C', fontSize: 'clamp(22px, 2.5vw, 26px)', letterSpacing: '1px', marginBottom: '0.25rem', fontWeight: 800 }}>OBJECT</div>
-                        <div style={{ color: '#2C4E3D', fontSize: 'clamp(32px, 4vw, 40px)', fontWeight: 900, letterSpacing: '0.5px' }}>{selectedObj.name.toUpperCase()}</div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', padding: '1.5rem', background: '#FFFFFF', borderRadius: '12px', border: '1px solid #D9C9A3', boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.03)' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                        <div style={{ color: '#A94727', fontSize: 'clamp(16px, 2vw, 20px)', letterSpacing: '2px', marginBottom: '0.75rem', fontWeight: 800, borderBottom: '1px solid #D9C9A3', paddingBottom: '0.25rem', width: '80%' }}>OBJECT</div>
+                        <div style={{ color: '#3E2723', fontFamily: 'var(--lesson-font-serif, "Georgia", serif)', fontSize: 'clamp(28px, 3.5vw, 38px)', fontWeight: 900, letterSpacing: '0.5px' }}>{selectedObj.name.toUpperCase()}</div>
                       </div>
-                      <div>
-                        <div style={{ color: '#4A3B5C', fontSize: 'clamp(22px, 2.5vw, 26px)', letterSpacing: '1px', marginBottom: '0.25rem', fontWeight: 800 }}>MATERIAL</div>
-                        <div style={{ color: '#A94727', fontSize: 'clamp(32px, 4vw, 40px)', fontWeight: 900, letterSpacing: '1px' }}>{selectedMaterialOption.toUpperCase()}</div>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', borderLeft: '1px solid #D9C9A3', paddingLeft: '2rem' }}>
+                        <div style={{ color: '#A94727', fontSize: 'clamp(16px, 2vw, 20px)', letterSpacing: '2px', marginBottom: '0.75rem', fontWeight: 800, borderBottom: '1px solid #D9C9A3', paddingBottom: '0.25rem', width: '80%' }}>MATERIAL</div>
+                        <div style={{ color: '#3E2723', fontFamily: 'var(--lesson-font-serif, "Georgia", serif)', fontSize: 'clamp(28px, 3.5vw, 38px)', fontWeight: 900, letterSpacing: '1px' }}>{selectedMaterialOption.toUpperCase()}</div>
                       </div>
                     </div>
     
-                    <div style={{ marginTop: '1rem' }}>
-                      <div style={{ color: '#4A3B5C', fontSize: 'clamp(22px, 2.5vw, 26px)', letterSpacing: '1px', fontWeight: 800 }}>PROPERTIES</div>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', fontSize: 'clamp(22px, 3vw, 26px)', color: '#3E2723' }}>
+                    <div style={{ marginTop: '0.5rem' }}>
+                      <div style={{ color: '#8B4513', fontSize: 'clamp(18px, 2.5vw, 22px)', letterSpacing: '1.5px', fontWeight: 800, marginBottom: '1rem', textAlign: 'center' }}>OBSERVED PROPERTIES</div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.75rem', fontSize: 'clamp(18px, 2.5vw, 22px)' }}>
                         {(() => {
                           let text = selectedObj.explanations[selectedMaterialOption];
                           const prefix = selectedMaterialOption + ' is ';
@@ -709,28 +709,33 @@ export default function Stage2_Identify({ onComplete, addXp }) {
                           if (text.endsWith('.')) text = text.substring(0, text.length - 1);
                           const parts = text.split(/,\s*and\s+|,\s*|\s+and\s+/).map(p => p.trim()).filter(p => p.length > 0);
                           return parts.map((part, i) => (
-                            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: '#FFFFFF', border: '1px solid var(--lesson-border)', padding: '0.4rem 0.75rem', borderRadius: '4px', fontWeight: 700 }}>
-                              <span style={{ color: '#A94727' }}>✓</span> {part.charAt(0).toUpperCase() + part.slice(1)}
+                            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#FFFFFF', border: '1px solid #D9C9A3', color: '#3E2723', padding: '0.6rem 1.25rem', borderRadius: '8px', fontWeight: 700, boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+                              <span style={{ color: '#556B2F', fontWeight: 900 }}>✓</span> {part.charAt(0).toUpperCase() + part.slice(1)}
                             </div>
                           ));
                         })()}
                       </div>
                     </div>
     
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1.5rem' }}>
                       <button
                         onClick={() => {
                           setSelectedObj((prev) => prev?.id === selectedObj.id ? null : prev);
                           setScanState((prev) => prev === 'correct' ? 'idle' : prev);
                           setSelectedMaterialOption((prev) => prev === selectedMaterialOption ? null : prev);
                         }}
-                        className="primary"
                         style={{
-                          padding: '1rem 2rem',
-                          fontSize: 'clamp(24px, 3vw, 28px)',
+                          background: 'linear-gradient(135deg, #D97706 0%, #B45309 100%)',
+                          color: '#FFFFFF',
+                          border: 'none',
+                          boxShadow: '0 4px 14px rgba(217, 119, 6, 0.35)',
+                          padding: '1rem 3rem',
+                          fontSize: 'clamp(20px, 2.5vw, 24px)',
                           fontWeight: 800,
                           borderRadius: '8px',
-                          cursor: 'pointer'
+                          cursor: 'pointer',
+                          letterSpacing: '1px',
+                          textTransform: 'uppercase'
                         }}
                       >
                         OK, GOT IT

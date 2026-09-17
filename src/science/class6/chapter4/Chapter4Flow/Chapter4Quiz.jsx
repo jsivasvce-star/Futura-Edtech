@@ -294,16 +294,16 @@ export default function Chapter4Quiz({ onComplete }) {
 
   if (isFinished) {
     return (
-      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box' }}>
+      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: '#FFFFFF' }}>
         <div style={{ 
           maxWidth: '520px', 
           width: '90%', 
           padding: '2.5rem 3rem', 
           textAlign: 'center', 
-          background: '#ffffff', 
+          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
           borderRadius: '30px', 
-          border: '1px solid #cbd5e1',
-          boxShadow: '0 15px 40px rgba(0,0,0,0.18)',
+          border: '1.5px solid #FDE68A',
+          boxShadow: '0 12px 40px rgba(217, 119, 6, 0.12)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -356,7 +356,8 @@ export default function Chapter4Quiz({ onComplete }) {
       justifyContent: 'center', 
       padding: '0.5rem', 
       boxSizing: 'border-box',
-      overflowY: 'auto'
+      overflowY: 'auto',
+      backgroundColor: '#FFFFFF'
     }}>
       <div style={{ width: '100%', maxWidth: '1050px', display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
         {/* Top Bar */}
@@ -369,11 +370,11 @@ export default function Chapter4Quiz({ onComplete }) {
 
         {/* Main Quiz Card */}
         <div className="glass-panel" style={{ 
-          background: '#FFFFFF', 
-          border: '1.5px solid #A7F3D0', 
+          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
+          border: '1.5px solid #FDE68A', 
           borderRadius: '20px', 
           padding: '1.25rem 1.75rem', 
-          boxShadow: '0 6px 20px rgba(6, 78, 59, 0.08)',
+          boxShadow: '0 10px 35px rgba(217, 119, 6, 0.1)',
           display: 'flex',
           flexDirection: 'column',
           gap: '0.85rem',

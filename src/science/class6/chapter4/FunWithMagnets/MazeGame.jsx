@@ -929,8 +929,18 @@ export default function MazeGame({
     if (onVisitedCountChange) onVisitedCountChange(visitedCount, WAYPOINT_NODES.length);
   }, [visitedCount, onVisitedCountChange]);
 
+  // Change guard: only fire onNodeChange when the actual node ID or moving state changes
+  const lastNotifiedNodeRef = useRef(null);
+  const lastNotifiedMovingRef = useRef(null);
+
   useEffect(() => {
-    if (onNodeChange) onNodeChange(currentNodeIdRef.current, isMovingRef.current);
+    const nodeId = currentNodeIdRef.current;
+    const moving = isMovingRef.current;
+    if (onNodeChange && (nodeId !== lastNotifiedNodeRef.current || moving !== lastNotifiedMovingRef.current)) {
+      lastNotifiedNodeRef.current = nodeId;
+      lastNotifiedMovingRef.current = moving;
+      onNodeChange(nodeId, moving);
+    }
   }, [onNodeChange]);
 
   // Reset Handler
