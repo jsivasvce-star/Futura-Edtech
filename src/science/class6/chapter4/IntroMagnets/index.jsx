@@ -608,69 +608,6 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
             zIndex: 99999 
           }}>
             <button
-              onClick={() => playSceneAudio(currentPage)}
-              style={{
-                padding: '0.85rem 1.5rem',
-                borderRadius: '35px',
-                border: '1.5px solid rgba(255,255,255,0.3)',
-                background: 'rgba(0,0,0,0.65)',
-                backdropFilter: 'blur(6px)',
-                color: 'white',
-                cursor: 'pointer',
-                fontWeight: 800,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                fontSize: '1.05rem',
-                boxShadow: '0 6px 20px rgba(0,0,0,0.45)',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.05)';
-                e.currentTarget.style.background = 'rgba(0,0,0,0.85)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.background = 'rgba(0,0,0,0.65)';
-              }}
-              title="Replay Voiceover"
-            >
-              <RotateCcw size={20} /> Replay Audio
-            </button>
-
-            <button
-              onClick={toggleMute}
-              style={{
-                padding: '0.85rem 1.5rem',
-                borderRadius: '35px',
-                border: '1.5px solid rgba(255,255,255,0.3)',
-                background: isMuted ? 'rgba(239, 68, 68, 0.85)' : 'rgba(0,0,0,0.65)',
-                backdropFilter: 'blur(6px)',
-                color: 'white',
-                cursor: 'pointer',
-                fontWeight: 800,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                fontSize: '1.05rem',
-                boxShadow: '0 6px 20px rgba(0,0,0,0.45)',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.05)';
-                if (!isMuted) e.currentTarget.style.background = 'rgba(0,0,0,0.85)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                if (!isMuted) e.currentTarget.style.background = 'rgba(0,0,0,0.65)';
-              }}
-              title={isMuted ? 'Unmute Voiceover' : 'Mute Voiceover'}
-            >
-              {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-              {isMuted ? 'Voice Muted' : 'Voice ON'}
-            </button>
-
-            <button
               onClick={handleFinish}
               style={{
                 padding: '0.85rem 2.2rem',

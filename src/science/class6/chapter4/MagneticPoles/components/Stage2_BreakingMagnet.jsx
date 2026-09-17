@@ -310,149 +310,88 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
         </div>
       </div>
 
-      {/* Right Side: Control Panel (Unified Warm Orange Theme) */}
-      <div
-        className="custom-scrollbar"
-        style={{
-          flex: '1.15',
+      {/* Right Column: Fullscreen non-scrolling, Halfscreen scrolling */}
+      <div 
+        className="stage-right-column custom-scrollbar"
+        style={{ 
+          flex: '1.15', 
           height: '100%',
           maxHeight: '100%',
           minHeight: 0,
           boxSizing: 'border-box',
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-          border: '1.5px solid #FDE68A',
-          borderRadius: '24px',
-          padding: '1.25rem 1.35rem',
-          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1rem',
-          minWidth: 0,
-          overflowY: 'auto',
-          overflowX: 'hidden',
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: '1.65rem', 
+          minWidth: 0, 
           fontFamily: 'system-ui, -apple-system, sans-serif'
         }}
       >
-        {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-            <Scissors size={26} color="#D97706" />
-            <h3 style={{ margin: 0, fontSize: '1.45rem', color: '#78350F', fontWeight: 900 }}>
-              Stage 2: Breaking a Magnet
-            </h3>
-          </div>
-          <span style={{
-            background: '#FEF3C7',
-            color: '#92400E',
-            fontWeight: 900,
-            fontSize: '0.88rem',
-            padding: '0.35rem 0.8rem',
-            borderRadius: '12px',
-            border: '1.5px solid #F59E0B'
-          }}>
-            Step 1 of 3
-          </span>
-        </div>
-
         {/* CONTAINER 1: Steps of Instructions */}
-        <div style={{
-          background: 'rgba(255, 255, 255, 0.96)',
-          border: '1.5px solid #FDE68A',
-          borderRadius: '20px',
-          padding: '1.1rem 1.2rem',
-          boxShadow: '0 4px 14px rgba(217, 119, 6, 0.06)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '0.85rem'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #FEF3C7', paddingBottom: '0.5rem' }}>
-            <h4 style={{ margin: 0, fontSize: '1.15rem', color: '#78350F', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-              <span>📋</span> Steps of Instructions
-            </h4>
-          </div>
+        <div 
+          className="stage-container-1"
+          style={{
+            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
+            border: '1.5px solid #FDE68A', 
+            borderRadius: '24px', 
+            padding: '1.25rem 1.45rem', 
+            boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            boxSizing: 'border-box'
+          }}
+        >
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)', paddingBottom: '0.6rem', marginBottom: '0.75rem' }}>
+              <h4 style={{ margin: 0, fontSize: '19.5px', color: '#78350F', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                <span>📋</span> Steps of Instructions
+              </h4>
+            </div>
 
-          {/* All 3 Steps */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {[
-              {
-                stepNum: 1,
-                title: '1. Break the Bar Magnet',
-                desc: 'Click "1. Break" to cut the 3D bar magnet directly in half.'
-              },
-              {
-                stepNum: 2,
-                title: '2. Reveal New Magnetic Poles',
-                desc: 'Click "2. Show Poles" to reveal magnetic polarity at the newly cut inner ends.'
-              },
-              {
-                stepNum: 3,
-                title: '3. Observe Magnetic Dipoles',
-                desc: 'Notice that each half automatically forms a complete magnet with North (N) and South (S) poles.'
-              }
-            ].map((s) => {
-              const isFirst = s.stepNum === 1;
-
-              return (
+            {/* Bullet Points - Single-line brown instructions */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+              {[
+                'Click "1. Break" to cut the 3D bar magnet directly in half.',
+                'Click "2. Show Poles" to reveal magnetic polarity at the cut ends.',
+                'Notice each half forms a complete magnet with N and S poles.'
+              ].map((instruction, idx) => (
                 <div
-                  key={s.stepNum}
+                  key={idx}
                   style={{
-                    padding: '0.65rem 0.85rem',
-                    borderRadius: '14px',
-                    background: isFirst ? '#FEF3C7' : 'rgba(255, 255, 255, 0.7)',
-                    border: isFirst ? '1.5px solid #F59E0B' : '1.5px solid transparent',
-                    boxShadow: isFirst 
-                      ? '0 3px 10px rgba(245, 158, 11, 0.12)' 
-                      : 'none',
                     display: 'flex',
-                    flexDirection: 'column',
-                    gap: '0.2rem',
-                    transition: 'all 0.3s ease'
+                    alignItems: 'baseline',
+                    gap: '0.75rem',
+                    padding: '0.1rem 0'
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                      <span style={{
-                        width: '28px',
-                        height: '28px',
-                        borderRadius: '50%',
-                        background: '#FEF3C7',
-                        border: '2px solid #F59E0B',
-                        color: '#92400E',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '0.92rem',
-                        fontWeight: 900,
-                        flexShrink: 0
-                      }}>
-                        {s.stepNum}
-                      </span>
-                      <span style={{ 
-                        fontWeight: 900, 
-                        fontSize: '1.1rem', 
-                        color: isFirst ? '#92400E' : '#78350F' 
-                      }}>
-                        {s.title}
-                      </span>
-                    </div>
-                  </div>
-                  <p style={{ margin: '0.15rem 0 0 2.3rem', fontSize: '0.96rem', color: '#065F46', lineHeight: 1.5, fontWeight: 600 }}>
-                    {s.desc}
+                  <span
+                    style={{
+                      width: '9px',
+                      height: '9px',
+                      borderRadius: '50%',
+                      background: '#D97706',
+                      display: 'inline-block',
+                      flexShrink: 0,
+                      transform: 'translateY(-2px)'
+                    }}
+                  />
+                  <p style={{ margin: 0, fontSize: '17.5px', lineHeight: 1.5, color: '#78350F', fontWeight: 600 }}>
+                    {instruction}
                   </p>
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
 
           {/* Action Controls */}
-          <div style={{ width: '100%', display: 'flex', gap: '0.65rem', marginTop: '0.35rem', paddingTop: '0.5rem', borderTop: '1px solid #FEF3C7' }}>
+          <div style={{ width: '100%', display: 'flex', gap: '0.65rem', marginTop: 'auto', paddingTop: '0.85rem', borderTop: '1px solid rgba(217, 119, 6, 0.2)' }}>
             <button
               onClick={handleBreak}
               className="gold-glow-btn"
               style={{
                 flex: 1,
-                padding: '0.85rem 0.5rem',
-                fontSize: '0.98rem',
+                padding: '0.8rem 0.5rem',
+                fontSize: '17px',
                 fontWeight: 900,
                 borderRadius: '14px',
                 border: 'none',
@@ -471,8 +410,8 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
               onClick={handleShowPoles}
               style={{
                 flex: 1,
-                padding: '0.85rem 0.5rem',
-                fontSize: '0.98rem',
+                padding: '0.8rem 0.5rem',
+                fontSize: '17px',
                 fontWeight: 800,
                 borderRadius: '14px',
                 background: '#FFFFFF',
@@ -494,8 +433,8 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
               onClick={handleReset}
               style={{
                 flex: 1,
-                padding: '0.85rem 0.5rem',
-                fontSize: '0.98rem',
+                padding: '0.8rem 0.5rem',
+                fontSize: '17px',
                 fontWeight: 800,
                 borderRadius: '14px',
                 background: '#FFFFFF',
@@ -517,116 +456,124 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
 
         {/* CONTAINER 2: Observation & Conclusion Quiz */}
         <div
+          className="stage-container-2"
           style={{
-            background: 'rgba(255, 255, 255, 0.96)',
-            border: '1.5px solid #FDE68A',
-            borderRadius: '20px',
-            padding: '1.1rem 1.2rem',
-            boxShadow: '0 4px 14px rgba(217, 119, 6, 0.05)',
+            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
+            border: '1.5px solid #FDE68A', 
+            borderRadius: '24px', 
+            padding: '1.25rem 1.45rem', 
+            boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
             display: 'flex',
             flexDirection: 'column',
-            gap: '0.85rem'
+            justifyContent: 'space-between',
+            boxSizing: 'border-box'
           }}
         >
-          <h4
-            style={{
-              color: '#78350F',
-              margin: 0,
-              fontSize: '1.2rem',
-              fontWeight: 900,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.55rem',
-            }}
-          >
-            <AlertCircle size={22} color="#D97706" /> Observation & Conclusion
-          </h4>
-          <p style={{ margin: 0, color: '#065F46', fontSize: '1.02rem', lineHeight: 1.55, fontWeight: 600 }}>
-            Based on what happens when a magnet breaks, is it possible to obtain a magnet with only a single pole?
-          </p>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-            <button
-              onClick={() => handleQuizAnswer('yes')}
+          <div>
+            <h4
               style={{
-                padding: '0.85rem 1.1rem',
-                textAlign: 'left',
-                fontSize: '0.98rem',
-                fontWeight: 700,
-                borderRadius: '14px',
-                cursor: 'pointer',
-                background: quizAnswer === 'yes' ? '#FEE2E2' : '#F8FAFC',
-                borderColor: quizAnswer === 'yes' ? '#EF4444' : '#E2E8F0',
-                borderWidth: '1.5px',
-                borderStyle: 'solid',
-                color: quizAnswer === 'yes' ? '#991B1B' : '#065F46',
+                color: '#78350F',
+                margin: 0,
+                fontSize: '19.5px',
+                fontWeight: 900,
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-between',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
-                transition: 'all 0.2s ease',
+                gap: '0.55rem',
+                paddingBottom: '0.55rem',
+                borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)'
               }}
             >
-              <span>A) Yes, we can isolate a single North or South pole</span>
-              {quizAnswer === 'yes' && <XCircle size={20} color="#EF4444" />}
-            </button>
+              <AlertCircle size={22} color="#D97706" /> Observation & Conclusion
+            </h4>
+            <p style={{ margin: '0.75rem 0', color: '#78350F', fontSize: '17.5px', lineHeight: 1.5, fontWeight: 700 }}>
+              Based on what happens when a magnet breaks, is it possible to obtain a magnet with only a single pole?
+            </p>
 
-            <button
-              onClick={() => handleQuizAnswer('no')}
-              style={{
-                padding: '0.85rem 1.1rem',
-                textAlign: 'left',
-                fontSize: '0.98rem',
-                fontWeight: 700,
-                borderRadius: '14px',
-                cursor: 'pointer',
-                background: quizAnswer === 'no' ? '#DCFCE7' : '#F8FAFC',
-                borderColor: quizAnswer === 'no' ? '#10B981' : '#E2E8F0',
-                borderWidth: '1.5px',
-                borderStyle: 'solid',
-                color: quizAnswer === 'no' ? '#064E3B' : '#065F46',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              <span>B) No, a single isolated pole cannot exist</span>
-              {quizAnswer === 'no' && <CheckCircle size={20} color="#10B981" />}
-            </button>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.65rem' }}>
+              <button
+                onClick={() => handleQuizAnswer('yes')}
+                style={{
+                  padding: '0.85rem 1.15rem',
+                  textAlign: 'left',
+                  fontSize: '17px',
+                  fontWeight: 700,
+                  borderRadius: '14px',
+                  cursor: 'pointer',
+                  background: quizAnswer === 'yes' ? '#FEE2E2' : '#FFFFFF',
+                  borderColor: quizAnswer === 'yes' ? '#EF4444' : '#FDE68A',
+                  borderWidth: '1.5px',
+                  borderStyle: 'solid',
+                  color: quizAnswer === 'yes' ? '#991B1B' : '#78350F',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <span>A) Yes, we can isolate a single North or South pole</span>
+                {quizAnswer === 'yes' && <XCircle size={20} color="#EF4444" />}
+              </button>
+
+              <button
+                onClick={() => handleQuizAnswer('no')}
+                style={{
+                  padding: '0.85rem 1.15rem',
+                  textAlign: 'left',
+                  fontSize: '17px',
+                  fontWeight: 700,
+                  borderRadius: '14px',
+                  cursor: 'pointer',
+                  background: quizAnswer === 'no' ? '#DCFCE7' : '#FFFFFF',
+                  borderColor: quizAnswer === 'no' ? '#10B981' : '#FDE68A',
+                  borderWidth: '1.5px',
+                  borderStyle: 'solid',
+                  color: quizAnswer === 'no' ? '#064E3B' : '#78350F',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <span>B) No, a single isolated pole cannot exist</span>
+                {quizAnswer === 'no' && <CheckCircle size={20} color="#10B981" />}
+              </button>
+            </div>
           </div>
 
           {/* Proceed Button */}
           {(() => {
             const isReadyToProceed = quizAnswer === 'no';
             return (
-              <button
-                onClick={handleNextSection}
-                disabled={!isReadyToProceed}
-                className={isReadyToProceed ? 'gold-glow-btn' : ''}
-                style={{
-                  width: '100%',
-                  padding: '0.95rem',
-                  fontSize: '1.05rem',
-                  fontWeight: 900,
-                  borderRadius: '14px',
-                  background: isReadyToProceed
-                    ? undefined
-                    : '#F1F5F9',
-                  color: isReadyToProceed ? '#FFFFFF' : '#94A3B8',
-                  border: isReadyToProceed ? 'none' : '1.5px solid #CBD5E1',
-                  cursor: isReadyToProceed ? 'pointer' : 'not-allowed',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '0.6rem',
-                  transition: 'all 0.25s ease',
-                }}
-              >
-                Proceed to Stage 3{' '}
-                <ArrowRight size={18} color={isReadyToProceed ? '#FFFFFF' : '#94A3B8'} />
-              </button>
+              <div style={{ paddingTop: '0.75rem', marginTop: 'auto' }}>
+                <button
+                  onClick={handleNextSection}
+                  disabled={!isReadyToProceed}
+                  className={isReadyToProceed ? 'gold-glow-btn' : ''}
+                  style={{
+                    width: '100%',
+                    padding: '0.85rem 1.25rem',
+                    fontSize: '17.5px',
+                    fontWeight: 900,
+                    borderRadius: '14px',
+                    background: isReadyToProceed
+                      ? undefined
+                      : '#F1F5F9',
+                    color: isReadyToProceed ? '#FFFFFF' : '#94A3B8',
+                    border: isReadyToProceed ? 'none' : '1.5px solid #CBD5E1',
+                    cursor: isReadyToProceed ? 'pointer' : 'not-allowed',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.6rem',
+                    transition: 'all 0.25s ease',
+                  }}
+                >
+                  Proceed to Stage 3{' '}
+                  <ArrowRight size={18} color={isReadyToProceed ? '#FFFFFF' : '#94A3B8'} />
+                </button>
+              </div>
             );
           })()}
         </div>

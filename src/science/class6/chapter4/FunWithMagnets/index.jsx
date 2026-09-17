@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import './FunWithMagnets.css';
 import MazeGame, { getAvailableDirections, NODES_MAP, playElectricLightningSound } from './MazeGame';
 import { useTheme } from '../../../../ThemeContext.jsx';
-import DidYouKnow from '../MagneticPoles/DidYouKnow';
 
 const STEPS_NAV = [
   { id: 0, label: "1. Predict" },

@@ -373,65 +373,7 @@ export default function MagneticPolesVideoPlayer({
         )}
       </AnimatePresence>
 
-      {/* Large Center Replay Button Overlay (when video finishes) */}
-      <AnimatePresence>
-        {isEnded && (
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              zIndex: 35,
-              pointerEvents: 'none',
-            }}
-          >
-            <motion.div
-              initial={{ scale: 0.6, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.6, opacity: 0 }}
-              transition={{ type: 'spring', damping: 22, stiffness: 350 }}
-              style={{ pointerEvents: 'auto' }}
-            >
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.93 }}
-                onClick={handleReplay}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  padding: '16px 32px',
-                  borderRadius: '24px',
-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                  border: '3.5px solid #FFFFFF',
-                  boxShadow: '0 10px 35px rgba(217, 119, 6, 0.75), 0 0 35px rgba(245, 158, 11, 0.5)',
-                  cursor: 'pointer',
-                  color: '#FFFFFF',
-                  outline: 'none',
-                }}
-                title="Replay Demonstration"
-              >
-                <RotateCcw size={38} color="#FFFFFF" strokeWidth={2.8} />
-                <span
-                  style={{
-                    fontSize: '0.95rem',
-                    fontWeight: 900,
-                    letterSpacing: '0.8px',
-                    textTransform: 'uppercase',
-                    color: '#FFFFFF',
-                  }}
-                >
-                  Replay
-                </span>
-              </motion.button>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+
 
       {/* Center Play Button Overlay (when paused mid-video) */}
       <AnimatePresence>
