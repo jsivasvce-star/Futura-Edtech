@@ -4,6 +4,14 @@ import { ShieldAlert, Check, X, ArrowRight, ArrowLeft, CheckCircle2, ClipboardLi
 import { motion } from 'framer-motion';
 import newChiefDetectiveImage from '../../../../../../assets/4.detective.png';
 import checkpointBg from '../../../../../../assets/detective_checkpoint_bg.png';
+import barrier2Bg from '../../../../../../assets/barrier2_checkpoint_bg.jpg';
+import stage6_3_1Bg from '../../../../../../assets/stage6_3_1_checkpoint_bg.png';
+import stage6_3_2Bg from '../../../../../../assets/stage6_3_2_checkpoint_bg.png';
+import stage6_3_3Bg from '../../../../../../assets/stage6_3_3_checkpoint_bg.png';
+import stage6_3_4Bg from '../../../../../../assets/stage6_3_4_checkpoint_bg.png';
+import stage6_3_5Bg from '../../../../../../assets/stage6_3_5_checkpoint_bg.png';
+import stage6_3_6Bg from '../../../../../../assets/stage6_3_6_checkpoint_bg.png';
+import barrier4Bg from '../../../../../../assets/barrier4_checkpoint_bg.png';
 
 export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed, onBack }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -86,7 +94,7 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
       right: 0,
       bottom: 0,
       background: '#FFFFFF',
-      fontFamily: '"Times New Roman", serif',
+      fontFamily: "'Merriweather', Georgia, serif",
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -140,7 +148,7 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
           display: block;
         }
         .mission-header {
-          font-family: Arial, Helvetica, sans-serif;
+          font-family: 'Merriweather', Georgia, serif;
           font-size: 20px;
           font-weight: 700;
           letter-spacing: 1.8px;
@@ -156,7 +164,7 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
           color: var(--lesson-primary);
           font-weight: 700;
           margin: 0 0 16px 0;
-          font-family: Georgia, "Times New Roman", serif;
+          font-family: 'Merriweather', Georgia, serif;
           word-break: keep-all;
         }
         .speech-bubble-chk {
@@ -205,7 +213,7 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
           color: white;
           padding: 5px 18px;
           border-radius: 8px;
-          font-family: Arial, Helvetica, sans-serif;
+          font-family: 'Merriweather', Georgia, serif;
           font-size: 30px;
           font-weight: bold;
           letter-spacing: 1px;
@@ -226,7 +234,7 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
           border: 2px solid #FDE68A;
           padding: 16px 42px; /* Adjusted to compensate for 2px border */
           border-radius: 42px;
-          font-family: Arial, Helvetica, sans-serif;
+          font-family: 'Merriweather', Georgia, serif;
           font-size: 24.2px;
           font-weight: 700;
           cursor: pointer;
@@ -255,7 +263,7 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
           display: flex;
           align-items: center;
           gap: 10px;
-          font-family: Arial, Helvetica, sans-serif;
+          font-family: 'Merriweather', Georgia, serif;
           font-size: 20.9px;
           font-weight: bold;
           cursor: pointer;
@@ -283,7 +291,7 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
             <h1 className="mission-title" style={{ fontSize: '42px', marginTop: 0, marginBottom: '8px' }}>
               {data.title || "Detective Checkpoint"}
             </h1>
-            <p style={{ margin: 0, fontSize: '28px', fontWeight: '500', color: 'var(--lesson-muted)', fontFamily: 'Arial, Helvetica, sans-serif' }}>
+            <p style={{ margin: 0, fontSize: '28px', fontWeight: '500', color: 'var(--lesson-muted)', fontFamily: "'Merriweather', Georgia, serif" }}>
               Verify your understanding to record our findings.
             </p>
           </div>
@@ -304,10 +312,10 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
           >
             <div className="speech-speaker-chk">CHIEF BLAKE</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <p style={{ margin: 0, fontSize: '28px', color: 'var(--lesson-text)', lineHeight: '1.45', fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif' }}>
+              <p style={{ margin: 0, fontSize: '28px', color: 'var(--lesson-text)', lineHeight: '1.45', fontWeight: '600', fontFamily: "'Merriweather', Georgia, serif" }}>
                 {data.dialogue || "Well done, detective! You've explored the Barrier. Now let's verify your understanding and log our discoveries."}
               </p>
-              <p style={{ margin: 0, fontSize: '28px', color: 'var(--lesson-secondary)', lineHeight: '1.45', fontWeight: '600', fontFamily: 'Arial, Helvetica, sans-serif' }}>
+              <p style={{ margin: 0, fontSize: '28px', color: 'var(--lesson-secondary)', lineHeight: '1.45', fontWeight: '600', fontFamily: "'Merriweather', Georgia, serif" }}>
                 Answer each question carefully. Correct answers will be added to our Case Log.
               </p>
             </div>
@@ -335,11 +343,11 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
             right: 0,
             bottom: 0,
             width: '60%',
-            backgroundImage: `url(${checkpointBg})`,
+            backgroundImage: `url(${data?.title?.includes('Barrier 4') ? barrier4Bg : data?.title?.includes('6.3.6') ? stage6_3_6Bg : data?.title?.includes('6.3.5') ? stage6_3_5Bg : data?.title?.includes('6.3.4') ? stage6_3_4Bg : data?.title?.includes('6.3.3') ? stage6_3_3Bg : data?.title?.includes('6.3.2') ? stage6_3_2Bg : data?.title?.includes('6.3.1') ? stage6_3_1Bg : data?.title?.includes('Barrier 2') ? barrier2Bg : checkpointBg})`,
             backgroundSize: 'cover',
-            backgroundPosition: 'right center',
-            maskImage: 'linear-gradient(to right, transparent, black 40%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent, black 40%)',
+            backgroundPosition: '80% center',
+            maskImage: 'linear-gradient(to right, transparent 20%, black 60%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 20%, black 60%)',
             pointerEvents: 'none',
             zIndex: 0
           }} />
@@ -357,16 +365,13 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
           </button>
 
           {/* Header */}
-          <div style={{ padding: '2rem 2.5rem', borderBottom: '1px solid var(--lesson-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.5)' }}>
+          <div style={{ padding: '0.5rem 2.5rem 0.5rem 1.5rem', borderBottom: '1px solid var(--lesson-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.5)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <div style={{ background: '#FFFFFF', padding: '10px', borderRadius: '12px', color: 'var(--lesson-primary)' }}>
-                <ShieldAlert size={42} />
-              </div>
               <div>
                 <h1 className="mission-title" style={{ fontSize: '54px', margin: 0, marginBottom: '8px' }}>
                   {data.title || "Detective Checkpoint"}
                 </h1>
-                <p style={{ margin: 0, fontSize: '28px', fontWeight: '600', color: 'var(--lesson-muted)', fontFamily: 'Arial, Helvetica, sans-serif' }}>
+                <p style={{ margin: 0, fontSize: '28px', fontWeight: '600', color: 'var(--lesson-muted)', fontFamily: "'Merriweather', Georgia, serif" }}>
                   Verify your understanding to record our findings.
                 </p>
               </div>
@@ -375,15 +380,25 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
 
         {/* Content */}
         {!quizComplete ? (
-          <div style={{ padding: '2rem', flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1, width: '55%' }}>
-            <h3 style={{ margin: '0 0 2rem 0', fontSize: 'clamp(34px, 4vw, 40px)', fontWeight: '800', color: 'var(--lesson-text)', display: 'flex', gap: '12px', fontFamily: 'Arial, Helvetica, sans-serif', lineHeight: '1.3' }}>
+          <div style={{ 
+            padding: data?.title?.includes('6.3.6') ? '3rem 2rem 90px 2rem' : '1rem 2rem 90px 2rem', 
+            flex: 1, 
+            overflow: 'hidden', 
+            display: 'flex', 
+            flexDirection: 'column', 
+            justifyContent: data?.title?.includes('6.3.6') ? 'flex-start' : 'center', 
+            position: 'relative', 
+            zIndex: 1, 
+            width: '60%' 
+          }}>
+            <h3 style={{ margin: '0 0 1rem 0', fontSize: 'clamp(34px, 4vw, 40px)', fontWeight: '800', color: 'var(--lesson-text)', display: 'flex', gap: '12px', fontFamily: "'Merriweather', Georgia, serif", lineHeight: '1.3' }}>
               <div style={{ background: 'var(--lesson-primary)', color: 'white', width: '48px', height: '48px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '1.5rem' }}>
                 Q
               </div>
               {q.question}
             </h3>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '40px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '0.75rem' }}>
               {q.options.map((opt, idx) => {
                 const isSelected = selected === idx;
                 let bg = 'white';
@@ -419,7 +434,7 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
                     disabled={isVerified}
                     style={{
                       display: 'flex', alignItems: 'center', gap: '1rem',
-                      padding: '1.2rem 1.5rem', borderRadius: '12px',
+                      padding: '0.75rem 1.25rem', borderRadius: '12px',
                       background: bg, border: border,
                       cursor: isVerified ? 'default' : 'pointer',
                       textAlign: 'left', transition: 'all 0.2s',
@@ -429,7 +444,7 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
                     <div style={{ width: '42px', height: '42px', borderRadius: '50%', border: `2px solid ${iconColor}`, color: iconColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '1.4rem', flexShrink: 0 }}>
                       {String.fromCharCode(65 + idx)}
                     </div>
-                    <span style={{ fontSize: 'clamp(28px, 3.5vw, 32px)', fontWeight: '700', color: 'var(--lesson-text)', flex: 1, fontFamily: 'Arial, Helvetica, sans-serif', lineHeight: '1.3' }}>{opt}</span>
+                    <span style={{ fontSize: 'clamp(28px, 3.5vw, 32px)', fontWeight: '700', color: 'var(--lesson-text)', flex: 1, fontFamily: "'Merriweather', Georgia, serif", lineHeight: '1.3' }}>{opt}</span>
                     {isVerified && idx === q.correct && (
                       <div style={{ background: 'var(--lesson-success-border)', color: 'white', borderRadius: '50%', padding: '6px' }}>
                         <Check size={20} strokeWidth={3} />
@@ -446,26 +461,26 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
             </div>
 
             {/* Feedback & Actions */}
-            <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {isVerified ? (
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', background: isCorrect ? 'var(--lesson-success-bg)' : 'var(--lesson-danger-bg)', padding: '1.25rem 1.5rem', borderRadius: '12px', border: `1px solid ${isCorrect ? 'var(--lesson-success-border)' : 'var(--lesson-danger-border)'}` }}>
-                  <div style={{ background: isCorrect ? '#A64B27' : 'var(--lesson-danger)', color: 'white', padding: '8px', borderRadius: '50%', flexShrink: 0, marginTop: '2px' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', background: '#FDFBF7', padding: '0.75rem 1rem', borderRadius: '12px', border: '2px solid #D9C9A3' }}>
+                  <div style={{ background: isCorrect ? '#4B7A2A' : '#A64B27', color: 'white', padding: '8px', borderRadius: '50%', flexShrink: 0, marginTop: '2px' }}>
                     {isCorrect ? <Check size={20} strokeWidth={3} /> : <X size={20} strokeWidth={3} />}
                   </div>
-                  <div style={{ width: '100%' }}>
-                    <div style={{ fontSize: 'clamp(18px, 2.5vw, 21px)', fontWeight: '800', color: isCorrect ? '#A64B27' : '#991b1b', marginBottom: '4px' }}>
+                  <div style={{ width: '100%', fontFamily: "'Merriweather', Georgia, serif" }}>
+                    <div style={{ fontSize: 'clamp(18px, 2.5vw, 21px)', fontWeight: '800', color: isCorrect ? '#4B7A2A' : '#A64B27', marginBottom: '4px' }}>
                       {isCorrect ? '✓ Correct! Great job, Detective.' : '✕ Not quite.'}
                     </div>
                     
                     {!isCorrect && (
-                      <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <div style={{ fontSize: 'clamp(18px, 2.5vw, 21px)', color: '#991b1b' }}>
-                          <span style={{ fontWeight: '500' }}>Correct answer:</span> <span style={{ fontWeight: '800' }}>{q.options[q.correct]}</span>
+                      <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                        <div style={{ fontSize: 'clamp(18px, 2.5vw, 21px)', color: '#3B2A1F' }}>
+                          <span style={{ fontWeight: '500' }}>Correct answer:</span> <span style={{ fontWeight: '800', color: '#A64B27' }}>{q.options[q.correct]}</span>
                         </div>
-                        <div style={{ fontSize: '18px', fontWeight: '800', color: 'var(--lesson-danger)', marginTop: '8px' }}>
+                        <div style={{ fontSize: '18px', fontWeight: '800', color: '#7A6A52', marginTop: '4px' }}>
                           Why?
                         </div>
-                        <div style={{ fontSize: '17px', fontWeight: '500', color: '#991b1b', lineHeight: '1.5' }}>
+                        <div style={{ fontSize: '17px', fontWeight: '500', color: '#3B2A1F', lineHeight: '1.5' }}>
                           {q.explanation || "Please review the properties of materials again."}
                         </div>
                       </div>
@@ -473,7 +488,7 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
                   </div>
                 </div>
               ) : (
-                <div style={{ flex: 1 }}>
+                <div>
                   {!showHint ? (
                     <button
                       onClick={() => setShowHint(true)}
@@ -496,15 +511,15 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
 
           </div>
         ) : (
-          <div style={{ padding: '3rem', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', position: 'relative', zIndex: 1, width: '55%' }}>
-            <div style={{ width: '80px', height: '80px', background: '#A64B27', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: 'white' }}>
+          <div style={{ padding: '3rem', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', position: 'relative', zIndex: 1, width: '55%', fontFamily: "'Merriweather', Georgia, serif" }}>
+            <div style={{ width: '80px', height: '80px', background: '#4B7A2A', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: 'white' }}>
               <CheckCircle2 size={48} />
             </div>
-            <h2 style={{ color: 'var(--lesson-text)', margin: '0 0 1rem 0', fontSize: 'clamp(30px, 3.5vw, 36px)', fontWeight: '900' }}>Checkpoint Complete!</h2>
-            <p style={{ color: 'var(--lesson-secondary)', fontSize: 'clamp(18px, 2.5vw, 21px)', fontWeight: '600', maxWidth: '400px', marginBottom: '2rem' }}>
+            <h2 style={{ color: '#3B2A1F', margin: '0 0 1rem 0', fontSize: 'clamp(30px, 3.5vw, 36px)', fontWeight: '900' }}>Checkpoint Complete!</h2>
+            <p style={{ color: '#7A6A52', fontSize: 'clamp(18px, 2.5vw, 21px)', fontWeight: '600', maxWidth: '400px', marginBottom: '2rem' }}>
               Excellent work! All discoveries have been securely logged to the Case File.
               <br/><br/>
-              <span style={{ fontSize: '0.9rem', color: 'var(--lesson-muted)' }}>Click "Next" in the bottom right corner to continue.</span>
+              <span style={{ fontSize: '0.9rem', color: '#7A6A52' }}>Click "Next" in the bottom right corner to continue.</span>
             </p>
           </div>
         )}
@@ -527,28 +542,29 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.3 }}
             style={{
-              background: 'rgba(255, 255, 255, 0.98)',
-              border: '2px solid var(--lesson-border)',
-              borderRadius: '20px',
+              background: '#F4EBDD',
+              border: '6px solid #3E2723',
+              borderRadius: '0',
               padding: '2.5rem',
-              maxWidth: '680px',
+              maxWidth: '900px',
               width: '90%',
               boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-              textAlign: 'center'
+              textAlign: 'center',
+              fontFamily: "'Merriweather', Georgia, serif"
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem', color: 'var(--lesson-primary)' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem', color: '#A64B27' }}>
               <ClipboardList size={40} />
             </div>
-            <h2 style={{ margin: '0 0 0.5rem 0', color: 'var(--lesson-text)', fontSize: '2rem', fontWeight: 800 }}>✓ CASE LOG UPDATED</h2>
-            <p style={{ margin: '0 0 2rem 0', color: 'var(--lesson-secondary)', fontSize: '1.2rem', fontWeight: 600 }}>
+            <h2 style={{ margin: '0 0 0.5rem 0', color: '#3B2A1F', fontSize: '3rem', fontWeight: 900 }}>✓ CASE LOG UPDATED</h2>
+            <p style={{ margin: '0 0 2rem 0', color: '#7A6A52', fontSize: '1.6rem', fontWeight: 600 }}>
               Checkpoint completed. Your findings have been securely recorded.
             </p>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', textAlign: 'left', marginBottom: '2.5rem' }}>
               {data.discoveries.map((discovery, idx) => (
-                <div key={idx} style={{ display: 'flex', gap: '12px', fontSize: '20px', fontWeight: 600, color: 'var(--lesson-text)', lineHeight: '1.5', background: '#f6f1e4', padding: '1.2rem', borderRadius: '12px', border: '1px solid var(--lesson-border)' }}>
-                  <div style={{ color: 'var(--lesson-primary)', flexShrink: 0, marginTop: '2px' }}><CheckCircle2 size={24} /></div>
+                <div key={idx} style={{ display: 'flex', gap: '12px', fontSize: '26px', fontWeight: 600, color: '#3B2A1F', lineHeight: '1.5', background: '#FDFBF7', padding: '1.2rem', borderRadius: '12px', border: '1px solid #D9C9A3' }}>
+                  <div style={{ color: '#4B7A2A', flexShrink: 0, marginTop: '2px' }}><CheckCircle2 size={24} /></div>
                   <div>{discovery}</div>
                 </div>
               ))}
@@ -557,16 +573,17 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
             <button
               onClick={() => setShowCaseLog(false)}
               style={{
-                background: 'var(--lesson-primary)',
+                background: '#A64B27',
                 color: '#FFFFFF',
                 border: 'none',
                 padding: '1rem 3rem',
                 borderRadius: '10px',
-                fontSize: '20px',
+                fontSize: '28px',
                 fontWeight: 800,
                 cursor: 'pointer',
                 transition: 'background 0.2s',
-                boxShadow: '0 4px 6px -1px rgba(64, 82, 160, 0.3)'
+                boxShadow: '0 4px 15px rgba(166, 75, 39, 0.4)',
+                fontFamily: "'Merriweather', Georgia, serif"
               }}
             >
               Continue

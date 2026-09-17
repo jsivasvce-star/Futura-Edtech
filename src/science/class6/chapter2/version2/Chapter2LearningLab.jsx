@@ -12,6 +12,44 @@ import Chapter2SloganPage from './Chapter2SloganPage';
 import IntroStoryteller from './IntroStoryteller';
 import coverBgImage from '../../../../assets/cover_page_ch2.png';
 import coverBgVideo from '../../../../assets/in_this_video_just_add_those_b (1).mp4';
+import natureGreeneryBg from '../../../../assets/nature_greenery_bg.jpg';
+
+// 14 Distinct 8K Realistic Photographic Backgrounds (Zero Duplicates Across Activities)
+import ch2GardenPanorama from './DiversityInTheLivingWorldNew/images/ch2_garden_panorama.jpg';
+import ch2AerialHabitat from './DiversityInTheLivingWorldNew/images/ch2_aerial_habitat.jpg';
+import ch2GardenBiodiversity from './DiversityInTheLivingWorldNew/images/ch2_garden_biodiversity.jpg';
+import ch2LivingWorldDiversity from './DiversityInTheLivingWorldNew/images/ch2_living_world_diversity_8k.jpg';
+import ch2PlantDetective from './DiversityInTheLivingWorldNew/images/ch2_plant_detective.jpg';
+import ch2LeafVenation from './DiversityInTheLivingWorldNew/images/ch2_leaf_venation.jpg';
+import ch2RootSystems from './DiversityInTheLivingWorldNew/images/ch2_root_systems.jpg';
+import ch2HerbsHabitat from './DiversityInTheLivingWorldNew/images/ch2_herbs_habitat_8k.jpg';
+import ch2SeedDissection from './DiversityInTheLivingWorldNew/images/ch2_seed_dissection.jpg';
+import ch2HabitatsClassification from './DiversityInTheLivingWorldNew/images/ch2_habitats_classification_8k.jpg';
+import ch2AnimalLocomotion from './DiversityInTheLivingWorldNew/images/ch2_animal_locomotion.jpg';
+import ch2ExtremeAdaptations from './DiversityInTheLivingWorldNew/images/ch2_extreme_adaptations.jpg';
+import ch2SilentValley from './DiversityInTheLivingWorldNew/images/ch2_silent_valley.jpg';
+import ch2SacredGrove from './DiversityInTheLivingWorldNew/images/ch2_sacred_grove.jpg';
+import cinematicLivingNatureImage from './DiversityInTheLivingWorldNew/images/ch2_cinematic_living_nature.jpg';
+
+// Unified Nature Greenery Background (Living Ecosystem on Slogan Page)
+export const getActiveBackground = (step = 1, section1SubTab = 'slogan') => {
+  if (step === 1 && section1SubTab === 'slogan') {
+    return cinematicLivingNatureImage;
+  }
+  return natureGreeneryBg;
+};
+
+// Unified Theme & Font Colors (Identical to Slogan Page across ALL pages & activities)
+export const getActiveTheme = () => ({
+  titleColor: '#FBBF24',
+  accentGlow: 'rgba(245, 158, 11, 0.45)',
+  btnGradient: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+  btnBorder: '#FDE68A',
+  btnText: '#FFFFFF',
+  btnShadow: '0 4px 18px rgba(217, 119, 6, 0.5), 0 0 16px rgba(245, 158, 11, 0.4)',
+  cardBg: 'rgba(15, 23, 42, 0.50)',
+  cardBorder: '1.5px solid rgba(255, 255, 255, 0.35)'
+});
 
 // Science Chapter 2 Activity Modules
 import VirtualBiodiversityExplorer from './VirtualBiodiversityExplorer';
@@ -146,11 +184,11 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
     setIsSpeaking(false);
   }, [currentStep, viewMode, section1SubTab, venationSubTab, habitatSubTab, tab10ViewMode]);
 
-  // Hide global floating sound button when in interactive activities so it doesn't overlap UI
+  // Hide global floating sound button when on slogan page or in interactive activities so it doesn't overlap UI
   useEffect(() => {
-    const isIntroOrCover = viewMode === 'cover' || (viewMode === 'activity' && currentStep === 1);
+    const isIntroOrCover = viewMode === 'cover' || (viewMode === 'activity' && currentStep === 1 && section1SubTab === 'scenes');
     onSoundButtonVisibilityChange?.(isIntroOrCover);
-  }, [viewMode, currentStep, onSoundButtonVisibilityChange]);
+  }, [viewMode, currentStep, section1SubTab, onSoundButtonVisibilityChange]);
 
   useEffect(() => {
     return () => {
@@ -452,6 +490,9 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
     );
   }
 
+  const activeBg = getActiveBackground(currentStep, section1SubTab, venationSubTab, habitatSubTab);
+  const activeTheme = getActiveTheme(currentStep, section1SubTab, venationSubTab, habitatSubTab);
+
   return (
     <div style={{
       position: 'fixed',
@@ -461,313 +502,128 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
       height: '100vh',
       zIndex: 101,
       boxSizing: 'border-box',
-      padding: showProgressBar ? '6px 14px 4px 14px' : '0px',
+      padding: '0px',
       display: 'flex',
       flexDirection: 'column',
-      background: 'linear-gradient(180deg, #D6EDFA 0%, #E8F7EE 16%, #F3FAF5 48%, #E5F5EB 82%, #D5EFE0 100%)',
+      backgroundImage: `url(${getActiveBackground(currentStep, section1SubTab)})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      backgroundAttachment: 'fixed',
       overflow: 'hidden',
       fontFamily: '"Plus Jakarta Sans", system-ui, -apple-system, sans-serif'
     }}>
+      {/* Dark nature overlay for maximum readability and vibrant glass contrast (only for activities and story scenes) */}
+      {!(currentStep === 1 && section1SubTab === 'slogan') && (
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(180deg, rgba(2,15,8,0.54) 0%, rgba(5,30,15,0.38) 40%, rgba(2,18,8,0.50) 100%)',
+          zIndex: 0,
+          pointerEvents: 'none'
+        }} />
+      )}
       <style>{`
+        /* Global Text Justification per user instruction */
+        p, .content-text, .desc-text, .glossary-text, .fact-text {
+          text-align: justify !important;
+          text-justify: inter-word !important;
+          hyphens: auto;
+        }
+
+        /* Strict font size between 16px to 24px and zero scrollbar */
+        html, body, #root {
+          overflow: hidden !important;
+          height: 100vh !important;
+          max-height: 100vh !important;
+        }
+
+        /* Frosted Crystal Glass Panel with Translucent Glass Rim */
+        .glass-panel, .bio-parchment-card, .bio-card-box {
+          background: rgba(15, 23, 42, 0.45) !important;
+          backdrop-filter: blur(20px) saturate(180%) !important;
+          -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+          border: 1.5px solid rgba(255, 255, 255, 0.35) !important;
+          border-radius: 20px !important;
+          box-shadow: 0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1.5px 2px rgba(255, 255, 255, 0.45), 0 0 20px rgba(254, 240, 138, 0.12) !important;
+          color: #F8FAFC !important;
+          transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+        .glass-panel:hover, .bio-parchment-card:hover, .bio-card-box:hover {
+          background: rgba(15, 23, 42, 0.55) !important;
+          border-color: rgba(254, 240, 138, 0.70) !important;
+          box-shadow: 0 22px 55px rgba(0, 0, 0, 0.55), 0 0 25px rgba(245, 158, 11, 0.30), inset 0 1.5px 2px rgba(255, 255, 255, 0.60) !important;
+          transform: translateY(-2px) !important;
+        }
+
+        /* Frosted Crystal Glass Navigation Button (Exact match to Slogan Page) */
         .bio-nav-btn {
-          background: #14452F;
-          color: #D1FAE5;
-          border: 1.5px solid #2D6A4F;
-          border-radius: 10px;
-          padding: 8px 20px;
-          font-size: 16px;
-          font-weight: 800;
-          font-family: 'Outfit', sans-serif;
-          cursor: pointer;
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          transition: all 0.2s ease;
-          box-shadow: 0 3px 10px rgba(20, 69, 47, 0.25);
-          position: relative;
-          z-index: 10;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%) !important;
+          backdrop-filter: blur(16px) !important;
+          -webkit-backdrop-filter: blur(16px) !important;
+          color: #FFFFFF !important;
+          border: 1.8px solid rgba(255, 255, 255, 0.35) !important;
+          border-radius: 12px !important;
+          padding: 9px 24px !important;
+          font-size: 16px !important;
+          font-weight: 800 !important;
+          font-family: 'Outfit', sans-serif !important;
+          cursor: pointer !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          gap: 6px !important;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+          box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 0 10px rgba(245, 158, 11, 0.15) !important;
+          position: relative !important;
+          overflow: hidden !important;
+          z-index: 10 !important;
+          text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65) !important;
         }
         .bio-nav-btn:hover:not(:disabled) {
-          background: #1B5E3C;
-          color: #FFFFFF;
-          border-color: #10B981;
-          transform: translateY(-1px);
-          box-shadow: 0 5px 14px rgba(20, 69, 47, 0.35);
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.30) 0%, rgba(255, 255, 255, 0.14) 100%) !important;
+          color: #FFFDF0 !important;
+          border-color: #FBBF24 !important;
+          transform: translateY(-2px) scale(1.02) !important;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.42), inset 0 1px 2px rgba(255, 255, 255, 0.7), 0 0 20px rgba(245, 158, 11, 0.5) !important;
         }
         .bio-nav-btn:active:not(:disabled) {
-          transform: translateY(1px);
+          transform: translateY(1px) scale(0.99) !important;
         }
         .bio-nav-btn:disabled {
-          opacity: 0.32;
-          cursor: not-allowed;
-          box-shadow: none;
+          opacity: 0.28 !important;
+          cursor: not-allowed !important;
+          border-color: rgba(255, 255, 255, 0.15) !important;
+          color: rgba(255, 255, 255, 0.45) !important;
+          box-shadow: none !important;
         }
+
+        /* High-Contrast Gold Action Button (Exact match to Slogan Page) */
         .bio-cta-btn {
-          background: linear-gradient(135deg, #14452F 0%, #064E3B 100%);
-          color: #FFFFFF;
-          border: 1.5px solid #10B981;
-          border-radius: 10px;
-          padding: 8px 24px;
-          font-size: 16px;
-          font-weight: 900;
-          font-family: 'Outfit', sans-serif;
-          cursor: pointer;
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          transition: all 0.2s ease;
-          box-shadow: 0 4px 14px rgba(6, 78, 59, 0.32);
-          position: relative;
-          z-index: 10;
+          background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
+          color: #FFFFFF !important;
+          border: 1.8px solid #FDE68A !important;
+          border-radius: 12px !important;
+          padding: 9px 28px !important;
+          font-size: 16px !important;
+          font-weight: 900 !important;
+          font-family: 'Outfit', sans-serif !important;
+          cursor: pointer !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          gap: 8px !important;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+          box-shadow: 0 4px 18px rgba(217, 119, 6, 0.5), 0 0 16px rgba(245, 158, 11, 0.4) !important;
+          position: relative !important;
+          overflow: hidden !important;
+          z-index: 10 !important;
         }
-        .bio-cta-btn:hover {
-          background: linear-gradient(135deg, #1B5E3C 0%, #047857 100%);
-          border-color: #34D399;
-          transform: translateY(-1px);
-          box-shadow: 0 6px 18px rgba(6, 78, 59, 0.42);
+        .bio-cta-btn:hover:not(:disabled) {
+          background: linear-gradient(135deg, #FBBF24 0%, #B45309 100%) !important;
+          border-color: #FFFFFF !important;
+          transform: translateY(-2px) scale(1.02) !important;
+          box-shadow: 0 6px 24px rgba(217, 119, 6, 0.7), 0 0 22px rgba(245, 158, 11, 0.6) !important;
         }
       `}</style>
-
-      {/* Top Hover Sensor */}
-      <div
-        onMouseEnter={() => setShowProgressBar(true)}
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '12px',
-          zIndex: 9998,
-          pointerEvents: showProgressBar ? 'none' : 'auto'
-        }}
-      />
-
-      {/* Collapsible Top Workflow Header with Toggle Arrow Button */}
-      <div
-        onMouseEnter={() => setShowProgressBar(true)}
-        onMouseLeave={() => setShowProgressBar(false)}
-        style={{
-          flexShrink: 0,
-          width: '100%',
-          minWidth: 0,
-          zIndex: 9997,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          position: 'relative',
-          marginBottom: showProgressBar ? '0.45rem' : '0px',
-          transition: 'margin-bottom 0.28s cubic-bezier(0.16, 1, 0.3, 1)'
-        }}
-      >
-        {/* Animated Workflow Bar */}
-        <div
-          style={{
-            width: '100%',
-            minWidth: 0,
-            maxHeight: showProgressBar ? '80px' : '0px',
-            opacity: showProgressBar ? 1 : 0,
-            transform: showProgressBar ? 'translateY(0)' : 'translateY(-14px)',
-            overflow: showProgressBar ? 'visible' : 'hidden',
-            pointerEvents: showProgressBar ? 'auto' : 'none',
-            transition: 'all 0.28s cubic-bezier(0.16, 1, 0.3, 1)',
-            marginBottom: showProgressBar ? '6px' : '0'
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'stretch', gap: '0.45rem', width: '100%', minWidth: 0 }}>
-          {/* Back to Chapter Cover Button */}
-          <button
-            type="button"
-            onClick={() => setViewMode('cover')}
-            title="Back to Chapter Cover"
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '0.15rem',
-              padding: '0.35rem 0.45rem',
-              fontSize: '16px',
-              fontWeight: '800',
-              color: '#14452F',
-              border: '1.8px solid #14452F',
-              borderRadius: '12px',
-              background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 100%)',
-              cursor: 'pointer',
-              flexShrink: 0,
-              minHeight: '62px',
-              width: '84px',
-              boxSizing: 'border-box',
-              lineHeight: 1.15,
-              textAlign: 'center',
-              boxShadow: '0 2px 8px rgba(20, 69, 47, 0.10)',
-              transition: 'all 0.2s ease',
-              fontFamily: '"Outfit", sans-serif'
-            }}
-          >
-            <ArrowLeft size={16} color="#14452F" strokeWidth={2.4} />
-            <span style={{ color: '#14452F', fontWeight: '800', fontSize: '16px' }}>Chapter</span>
-            <span style={{ color: '#14452F', fontWeight: '800', fontSize: '16px' }}>Cover</span>
-          </button>
-
-          {/* Universal Natural Indian Male Voice Over Controller */}
-          <button
-            type="button"
-            onClick={toggleVoiceOver}
-            title={isSpeaking ? "Stop Voice Over" : "Listen to Natural Indian Educator Voice Over"}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '0.15rem',
-              padding: '0.35rem 0.45rem',
-              fontSize: '16px',
-              fontWeight: '800',
-              color: isSpeaking ? '#ffffff' : '#14452F',
-              border: isSpeaking ? '1.8px solid #10B981' : '1.8px solid #14452F',
-              borderRadius: '12px',
-              background: isSpeaking ? 'linear-gradient(135deg, #14452F 0%, #047857 100%)' : 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 100%)',
-              cursor: 'pointer',
-              flexShrink: 0,
-              minHeight: '62px',
-              width: '84px',
-              boxSizing: 'border-box',
-              lineHeight: 1.15,
-              textAlign: 'center',
-              boxShadow: isSpeaking ? '0 0 12px rgba(16, 185, 129, 0.35)' : '0 2px 8px rgba(20, 69, 47, 0.10)',
-              transition: 'all 0.2s ease',
-              fontFamily: '"Outfit", sans-serif'
-            }}
-          >
-            {isSpeaking ? <VolumeX size={16} color="#ffffff" /> : <Volume2 size={16} color="#14452F" strokeWidth={2.4} />}
-            <span style={{ color: isSpeaking ? '#ffffff' : '#14452F', fontWeight: '800', fontSize: '16px' }}>
-              {isSpeaking ? 'Stop' : 'Voice'}
-            </span>
-            <span style={{ color: isSpeaking ? '#D1FAE5' : '#2D6A4F', fontWeight: '700', fontSize: '16px' }}>
-              {isSpeaking ? 'Audio' : 'Over'}
-            </span>
-          </button>
-
-          {/* Workflow Step Tabs Bar - Completely hidden scrollbar */}
-          <nav
-            ref={navRef}
-            className="chapter2-nav-tabs hide-scrollbar"
-            onWheel={(e) => {
-              if (navRef.current && Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-                navRef.current.scrollLeft += e.deltaY;
-              }
-            }}
-            style={{
-              flex: 1,
-              minWidth: 0,
-              display: 'grid',
-              gridTemplateColumns: 'repeat(10, minmax(0, 1fr))',
-              gap: '0.35rem',
-              overflowX: 'auto',
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-              WebkitOverflowScrolling: 'touch',
-              paddingBottom: '2px'
-            }}
-          >
-            {CHAPTER_TABS.map((tab) => {
-              const isActive = currentStep === tab.id;
-              const isCompleted = currentStep > tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  data-active={isActive}
-                  onClick={() => setCurrentStep(tab.id)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.45rem',
-                    padding: '0.35rem 0.5rem',
-                    background: isActive ? '#14452F' : 'linear-gradient(175deg, #FAF8F2 0%, #F4EFE5 100%)',
-                    border: `1.8px solid ${isActive ? '#10B981' : '#2D6A4F'}`,
-                    borderRadius: '12px',
-                    width: '100%',
-                    minHeight: '58px',
-                    minWidth: 'clamp(100px, 8.5vw, 124px)',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
-                    boxShadow: isActive ? '0 4px 16px rgba(20, 69, 47, 0.35)' : '0 2px 6px rgba(20, 69, 47, 0.06)',
-                    textAlign: 'left',
-                    boxSizing: 'border-box',
-                    flexShrink: 0
-                  }}
-                >
-                  <div style={{
-                    width: '24px',
-                    height: '24px',
-                    borderRadius: '7px',
-                    background: isActive ? '#10b981' : (isCompleted ? '#14452F' : '#64748b'),
-                    color: '#ffffff',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '16px',
-                    fontWeight: '900',
-                    flexShrink: 0,
-                    fontFamily: '"Outfit", sans-serif'
-                  }}>
-                    {isCompleted ? <CheckCircle size={14} /> : tab.id}
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', minWidth: 0, flex: 1 }}>
-                    <span style={{ fontSize: '16px', fontWeight: '900', color: isActive ? '#ffffff' : '#0A3B24', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%', fontFamily: '"Outfit", sans-serif' }}>
-                      {tab.title}
-                    </span>
-                    <span style={{ fontSize: '16px', color: isActive ? '#D1FAE5' : '#2D6A4F', lineHeight: 1.15, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%', fontWeight: '700', fontFamily: '"Outfit", sans-serif' }}>
-                      {tab.subtitle}
-                    </span>
-                  </div>
-                </button>
-              );
-            })}
-          </nav>
-        </div>
-      </div>
-
-      {/* Small Arrow Pill to Toggle / Show / Hide Progress Bar - hidden per user request */}
-      <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          setShowProgressBar(prev => !prev);
-        }}
-        title={showProgressBar ? "Hide Section Progress Bar" : "Click to view Section Progress Bar"}
-        style={{
-          display: 'none',
-          background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-          color: '#ffffff',
-          border: '1.8px solid #10B981',
-          borderRadius: '24px',
-          padding: '4px 18px',
-          cursor: 'pointer',
-          alignItems: 'center',
-          gap: '8px',
-          boxShadow: '0 4px 14px rgba(20, 69, 47, 0.30)',
-          transition: 'all 0.22s ease',
-          fontFamily: '"Outfit", sans-serif',
-          fontSize: '16px',
-          fontWeight: 800,
-          letterSpacing: '0.02em',
-          pointerEvents: 'auto'
-        }}
-      >
-        {showProgressBar ? (
-          <>
-            <ChevronUp size={18} strokeWidth={2.5} color="#D1FAE5" />
-            <span>Hide Sections</span>
-          </>
-        ) : (
-          <>
-            <ChevronDown size={18} strokeWidth={2.5} color="#D1FAE5" />
-            <span>Show Sections</span>
-          </>
-        )}
-      </button>
-    </div>
 
       {/* Main Content Area (Spacious Book Spread Layout) */}
       <div style={{
@@ -778,7 +634,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         flexDirection: 'column',
         minHeight: 0,
         overflow: 'hidden',
-        position: 'relative'
+        position: 'relative',
+        zIndex: 1
       }}>
         {/* ============================================================ */}
         {/* TAB 1: SECTION 1 — SLOGAN PAGE & STORY SCENES                */}
@@ -790,15 +647,15 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
             minHeight: 0,
             display: 'flex',
             flexDirection: 'column',
-            background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
+            background: 'transparent',
             borderRadius: '20px',
-            border: '2px solid #14452F',
+            border: 'none',
             overflow: 'hidden',
             boxSizing: 'border-box',
             position: 'relative'
           }}>
             {section1SubTab === 'slogan' && (
-              <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
                 <Chapter2SloganPage
                   chapterNum={2}
                   title="Diversity in the Living World"
@@ -975,10 +832,12 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 padding: 'clamp(10px, 1.5vh, 16px) clamp(14px, 1.8vw, 20px)',
-                background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
+                background: 'rgba(15, 23, 42, 0.45)',
+                backdropFilter: 'blur(20px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                 borderRadius: '20px',
-                border: '2px solid #14452F',
-                boxShadow: '0 12px 36px rgba(20, 69, 47, 0.12)',
+                border: '2px solid rgba(245, 158, 11, 0.45)',
+                boxShadow: '0 12px 40px rgba(0, 0, 0, 0.4)',
                 boxSizing: 'border-box',
                 overflow: 'hidden'
               }}>
@@ -987,15 +846,15 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  borderBottom: '2px solid #14452F',
+                  borderBottom: '2px solid rgba(245, 158, 11, 0.35)',
                   paddingBottom: 'clamp(6px, 1vh, 10px)',
                   flexShrink: 0
                 }}>
                   <div>
-                    <div style={{ fontSize: '16px', fontWeight: '800', letterSpacing: '0.06em', color: '#14452F', textTransform: 'uppercase', fontFamily: '"Outfit", sans-serif' }}>
+                    <div style={{ fontSize: '16px', fontWeight: '800', letterSpacing: '0.06em', color: '#FDE68A', textTransform: 'uppercase', fontFamily: '"Outfit", sans-serif' }}>
                       Chapter 2 · Final Review &amp; Self-Assessment
                     </div>
-                    <h1 style={{ margin: '2px 0 0 0', fontSize: '24px', fontWeight: '900', color: '#0A3B24', lineHeight: 1.2, fontFamily: '"Fraunces", Georgia, serif' }}>
+                    <h1 style={{ margin: '2px 0 0 0', fontSize: '24px', fontWeight: '900', color: '#FBBF24', lineHeight: 1.2, fontFamily: '"Fraunces", Georgia, serif', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
                       🏆 Diversity in the Living World — Mastery Challenge
                     </h1>
                   </div>
@@ -1009,15 +868,16 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                         alignItems: 'center',
                         gap: '8px',
                         padding: '8px 18px',
-                        background: isSpeaking ? '#10b981' : 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 100%)',
-                        border: '1.8px solid #14452F',
+                        background: isSpeaking ? '#10b981' : 'rgba(15, 23, 42, 0.65)',
+                        border: '1.8px solid #F59E0B',
                         borderRadius: '10px',
-                        color: isSpeaking ? '#ffffff' : '#14452F',
+                        color: isSpeaking ? '#ffffff' : '#FDE68A',
                         fontWeight: '800',
                         fontSize: '16px',
                         cursor: 'pointer',
-                        boxShadow: '0 2px 8px rgba(20, 69, 47, 0.12)',
-                        fontFamily: '"Outfit", sans-serif'
+                        boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35)',
+                        fontFamily: '"Outfit", sans-serif',
+                        backdropFilter: 'blur(12px)'
                       }}
                     >
                       {isSpeaking ? <VolumeX size={17} /> : <Volume2 size={17} />}
@@ -1031,14 +891,14 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                         alignItems: 'center',
                         gap: '8px',
                         padding: '8px 20px',
-                        background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+                        background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                         borderRadius: '10px',
                         color: '#ffffff',
                         fontWeight: '900',
                         fontSize: '16px',
-                        border: '1.5px solid #10B981',
+                        border: '1.8px solid #FDE68A',
                         cursor: 'pointer',
-                        boxShadow: '0 4px 14px rgba(20, 69, 47, 0.35)',
+                        boxShadow: '0 4px 14px rgba(217, 119, 6, 0.45)',
                         fontFamily: '"Outfit", sans-serif'
                       }}
                     >
@@ -1050,13 +910,13 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                         display: 'flex',
                         alignItems: 'center',
                         gap: '8px',
-                        background: '#EAF7EE',
-                        border: '1.8px solid #14452F',
+                        background: 'rgba(16, 185, 129, 0.25)',
+                        border: '1.8px solid #10B981',
                         borderRadius: '10px',
                         padding: '6px 16px'
                       }}>
-                        <Award size={20} color="#14452F" />
-                        <span style={{ fontSize: '16px', fontWeight: '900', color: '#0A3B24', fontFamily: '"Outfit", sans-serif' }}>
+                        <Award size={20} color="#34D399" />
+                        <span style={{ fontSize: '16px', fontWeight: '900', color: '#6EE7B7', fontFamily: '"Outfit", sans-serif' }}>
                           Score: {calculateScore()} / {SUMMARY_QUIZ.length} Correct
                         </span>
                       </div>
@@ -1076,47 +936,49 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 }}>
                   {/* Left Column: Key Concept Synthesis Cards */}
                   <div style={{
-                    background: '#FAF8F2',
-                    border: '1.8px solid #14452F',
+                    background: 'rgba(15, 23, 42, 0.52)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    border: '1.8px solid rgba(245, 158, 11, 0.4)',
                     borderRadius: '16px',
                     padding: 'clamp(10px, 1.4vh, 16px)',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    boxShadow: '0 4px 14px rgba(20, 69, 47, 0.08)',
+                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)',
                     boxSizing: 'border-box'
                   }}>
                     <div>
-                      <div style={{ fontSize: '18px', fontWeight: '900', color: '#0A3B24', textTransform: 'uppercase', marginBottom: '10px', fontFamily: '"Outfit", sans-serif' }}>
+                      <div style={{ fontSize: '18px', fontWeight: '900', color: '#FBBF24', textTransform: 'uppercase', marginBottom: '10px', fontFamily: '"Outfit", sans-serif', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
                         📌 Core Scientific Correlations
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                        <div style={{ background: '#F5F1E5', border: '1.5px solid #2D6A4F', borderRadius: '12px', padding: '10px 14px' }}>
-                          <div style={{ fontSize: '18px', fontWeight: '800', color: '#0A3B24', marginBottom: '4px', fontFamily: '"Outfit", sans-serif' }}>🌱 Plant Classification</div>
-                          <div style={{ fontSize: '16px', color: '#0F3822', lineHeight: 1.55, fontWeight: '600' }}>
+                        <div style={{ background: 'rgba(255, 255, 255, 0.08)', border: '1.5px solid rgba(245, 158, 11, 0.3)', borderRadius: '12px', padding: '10px 14px' }}>
+                          <div style={{ fontSize: '18px', fontWeight: '800', color: '#FCD34D', marginBottom: '4px', fontFamily: '"Outfit", sans-serif' }}>🌱 Plant Classification</div>
+                          <div style={{ fontSize: '16px', color: '#F1F5F9', lineHeight: 1.55, fontWeight: '500', textAlign: 'justify', textJustify: 'inter-word' }}>
                             Herbs have soft tender green stems; Shrubs have thin woody stems branching near the base; Trees have tall, thick, hard trunks with high canopies.
                           </div>
                         </div>
 
-                        <div style={{ background: '#F5F1E5', border: '1.5px solid #2D6A4F', borderRadius: '12px', padding: '10px 14px' }}>
-                          <div style={{ fontSize: '18px', fontWeight: '800', color: '#0A3B24', marginBottom: '4px', fontFamily: '"Outfit", sans-serif' }}>🍃 The Grand Triad Correlation</div>
-                          <div style={{ fontSize: '16px', color: '#0F3822', lineHeight: 1.55, fontWeight: '600' }}>
-                            <b>Reticulate Venation ↔ Taproot System ↔ 2 Cotyledons (Dicot)</b><br />
-                            <b>Parallel Venation ↔ Fibrous Roots ↔ 1 Cotyledon (Monocot)</b>
+                        <div style={{ background: 'rgba(255, 255, 255, 0.08)', border: '1.5px solid rgba(245, 158, 11, 0.3)', borderRadius: '12px', padding: '10px 14px' }}>
+                          <div style={{ fontSize: '18px', fontWeight: '800', color: '#FCD34D', marginBottom: '4px', fontFamily: '"Outfit", sans-serif' }}>🍃 The Grand Triad Correlation</div>
+                          <div style={{ fontSize: '16px', color: '#F1F5F9', lineHeight: 1.55, fontWeight: '500', textAlign: 'justify', textJustify: 'inter-word' }}>
+                            <b style={{ color: '#6EE7B7' }}>Reticulate Venation ↔ Taproot System ↔ 2 Cotyledons (Dicot)</b><br />
+                            <b style={{ color: '#93C5FD' }}>Parallel Venation ↔ Fibrous Roots ↔ 1 Cotyledon (Monocot)</b>
                           </div>
                         </div>
 
-                        <div style={{ background: '#F5F1E5', border: '1.5px solid #2D6A4F', borderRadius: '12px', padding: '10px 14px' }}>
-                          <div style={{ fontSize: '18px', fontWeight: '800', color: '#0A3B24', marginBottom: '4px', fontFamily: '"Outfit", sans-serif' }}>🐾 Habitats &amp; Adaptation</div>
-                          <div style={{ fontSize: '16px', color: '#0F3822', lineHeight: 1.55, fontWeight: '600' }}>
+                        <div style={{ background: 'rgba(255, 255, 255, 0.08)', border: '1.5px solid rgba(245, 158, 11, 0.3)', borderRadius: '12px', padding: '10px 14px' }}>
+                          <div style={{ fontSize: '18px', fontWeight: '800', color: '#FCD34D', marginBottom: '4px', fontFamily: '"Outfit", sans-serif' }}>🐾 Habitats &amp; Adaptation</div>
+                          <div style={{ fontSize: '16px', color: '#F1F5F9', lineHeight: 1.55, fontWeight: '500', textAlign: 'justify', textJustify: 'inter-word' }}>
                             Living organisms adapt their locomotion and physical structure to thrive across forests, grasslands, freshwater ponds, and tree canopies.
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    <div style={{ background: '#EAF7EE', padding: '9px 14px', borderRadius: '10px', border: '1.5px solid #2D6A4F' }}>
-                      <div style={{ fontSize: '16px', fontWeight: '800', color: '#0A3B24', fontFamily: '"Outfit", sans-serif' }}>
+                    <div style={{ background: 'rgba(245, 158, 11, 0.18)', padding: '9px 14px', borderRadius: '10px', border: '1.5px solid rgba(245, 158, 11, 0.5)' }}>
+                      <div style={{ fontSize: '16px', fontWeight: '800', color: '#FDE68A', fontFamily: '"Outfit", sans-serif' }}>
                         ✓ NCERT Chapter 2 Learning Standards Fulfilled
                       </div>
                     </div>
@@ -1124,14 +986,16 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
 
                   {/* Right Column: 3 Interactive NCERT Questions */}
                   <div style={{
-                    background: '#FAF8F2',
-                    border: '1.8px solid #14452F',
+                    background: 'rgba(15, 23, 42, 0.52)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    border: '1.8px solid rgba(245, 158, 11, 0.4)',
                     borderRadius: '16px',
                     padding: 'clamp(10px, 1.4vh, 16px)',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    boxShadow: '0 4px 14px rgba(20, 69, 47, 0.08)',
+                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)',
                     boxSizing: 'border-box'
                   }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -1143,37 +1007,37 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                           <div 
                             key={qIdx}
                             style={{
-                              background: '#F5F1E5',
-                              border: `1.8px solid ${quizSubmitted ? (isCorrect ? '#10B981' : '#EF4444') : '#2D6A4F'}`,
+                              background: 'rgba(255, 255, 255, 0.08)',
+                              border: `1.8px solid ${quizSubmitted ? (isCorrect ? '#10B981' : '#EF4444') : 'rgba(245, 158, 11, 0.35)'}`,
                               borderRadius: '12px',
                               padding: '10px 14px'
                             }}
                           >
-                            <div style={{ fontSize: '18px', fontWeight: '800', color: '#0A3B24', marginBottom: '8px', lineHeight: 1.35, fontFamily: '"Outfit", sans-serif' }}>
+                            <div style={{ fontSize: '18px', fontWeight: '800', color: '#FDE68A', marginBottom: '8px', lineHeight: 1.35, fontFamily: '"Outfit", sans-serif' }}>
                               {qIdx + 1}. {item.q}
                             </div>
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
                               {item.opts.map((opt, oIdx) => {
                                 const isSelected = chosen === oIdx;
-                                let btnBg = '#FAF8F2';
-                                let btnBorder = '#2D6A4F';
-                                let btnColor = '#0A3B24';
+                                let btnBg = 'rgba(255, 255, 255, 0.08)';
+                                let btnBorder = 'rgba(255, 255, 255, 0.25)';
+                                let btnColor = '#F8FAFC';
 
                                 if (isSelected) {
-                                  btnBg = '#14452F';
-                                  btnBorder = '#10B981';
+                                  btnBg = 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)';
+                                  btnBorder = '#FDE68A';
                                   btnColor = '#ffffff';
                                 }
 
                                 if (quizSubmitted) {
                                   if (oIdx === item.correct) {
-                                    btnBg = '#10B981';
-                                    btnBorder = '#059669';
+                                    btnBg = 'linear-gradient(135deg, #10B981 0%, #059669 100%)';
+                                    btnBorder = '#A7F3D0';
                                     btnColor = '#ffffff';
                                   } else if (isSelected && !isCorrect) {
-                                    btnBg = '#FEE2E2';
-                                    btnBorder = '#EF4444';
-                                    btnColor = '#991B1B';
+                                    btnBg = 'rgba(220, 38, 38, 0.85)';
+                                    btnBorder = '#FCA5A5';
+                                    btnColor = '#ffffff';
                                   }
                                 }
 
@@ -1206,15 +1070,17 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                               <div style={{
                                 marginTop: '8px',
                                 fontSize: '16px',
-                                fontWeight: '600',
-                                color: '#0F3822',
-                                background: isCorrect ? '#EAF7EE' : '#FEF2F2',
+                                fontWeight: '500',
+                                color: '#FFFFFF',
+                                background: isCorrect ? 'rgba(16, 185, 129, 0.25)' : 'rgba(239, 68, 68, 0.25)',
                                 border: `1.5px solid ${isCorrect ? '#10B981' : '#FCA5A5'}`,
                                 padding: '8px 12px',
                                 borderRadius: '10px',
-                                lineHeight: 1.5
+                                lineHeight: 1.5,
+                                textAlign: 'justify',
+                                textJustify: 'inter-word'
                               }}>
-                                <b style={{ color: isCorrect ? '#047857' : '#B91C1C' }}>{isCorrect ? '✓ Correct! ' : '✕ Review Note: '}</b>
+                                <b style={{ color: isCorrect ? '#6EE7B7' : '#FCA5A5' }}>{isCorrect ? '✓ Correct! ' : '✕ Review Note: '}</b>
                                 {item.explanation}
                               </div>
                             )}
@@ -1235,10 +1101,10 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                           alignItems: 'center',
                           gap: '6px',
                           padding: '9px 18px',
-                          background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 100%)',
-                          border: '1.8px solid #14452F',
+                          background: 'rgba(15, 23, 42, 0.65)',
+                          border: '1.8px solid #F59E0B',
                           borderRadius: '10px',
-                          color: '#14452F',
+                          color: '#FDE68A',
                           fontWeight: '800',
                           fontSize: '16px',
                           cursor: 'pointer',
@@ -1256,15 +1122,15 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                           style={{
                             padding: '10px 24px',
                             background: Object.keys(selectedAnswers).length === SUMMARY_QUIZ.length
-                              ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)'
-                              : '#94A3B8',
+                              ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)'
+                              : '#64748B',
                             color: '#ffffff',
                             fontWeight: '900',
                             fontSize: '16px',
                             borderRadius: '10px',
-                            border: '1.5px solid #10B981',
+                            border: '1.8px solid #FDE68A',
                             cursor: Object.keys(selectedAnswers).length === SUMMARY_QUIZ.length ? 'pointer' : 'not-allowed',
-                            boxShadow: '0 4px 14px rgba(20, 69, 47, 0.35)',
+                            boxShadow: '0 4px 14px rgba(217, 119, 6, 0.45)',
                             fontFamily: '"Outfit", sans-serif'
                           }}
                         >
@@ -1275,14 +1141,14 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                           onClick={onBack}
                           style={{
                             padding: '10px 24px',
-                            background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+                            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                             color: '#ffffff',
                             fontWeight: '900',
                             fontSize: '16px',
                             borderRadius: '10px',
-                            border: '1.5px solid #10B981',
+                            border: '1.8px solid #FDE68A',
                             cursor: 'pointer',
-                            boxShadow: '0 4px 14px rgba(20, 69, 47, 0.35)',
+                            boxShadow: '0 4px 14px rgba(217, 119, 6, 0.45)',
                             fontFamily: '"Outfit", sans-serif'
                           }}
                         >

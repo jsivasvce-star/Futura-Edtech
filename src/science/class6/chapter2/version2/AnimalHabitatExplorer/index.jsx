@@ -521,7 +521,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
         position: 'relative',
         width: '100%',
         height: '100%',
-        background: 'linear-gradient(180deg, #D6EDFA 0%, #E8F7EE 18%, #F3FAF5 50%, #E5F5EB 85%, #D5EFE0 100%)',
+        background: 'transparent',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -531,7 +531,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
         overflow: 'hidden', // ZERO SCROLL
         userSelect: 'none',
         fontFamily: '"Plus Jakarta Sans", "Inter", system-ui, sans-serif',
-        color: '#1F2937'
+        color: '#F8FAFC'
       }}
     >
       <TopCornerFoliage side="left" />
@@ -542,10 +542,19 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,600;1,9..144,700&family=Outfit:wght@700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
 
+        /* Justified text formatting */
+        p, .bio-desc-text, .bio-habitat-info {
+          text-align: justify !important;
+          text-justify: inter-word !important;
+          hyphens: auto;
+        }
+
         .bio-nav-btn {
-          background: #14452F;
-          color: #D1FAE5;
-          border: 1.5px solid #2D6A4F;
+          background: rgba(15, 23, 42, 0.65);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          color: #F1F5F9;
+          border: 1.8px solid rgba(255, 255, 255, 0.25);
           border-radius: 9px;
           padding: 6px 14px;
           font-size: 16px;
@@ -556,12 +565,12 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
           align-items: center;
           gap: 6px;
           transition: all 0.15s ease;
-          box-shadow: 0 2px 6px rgba(20, 69, 47, 0.2);
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
         }
         .bio-nav-btn:hover:not(:disabled) {
-          background: #1B5E3C;
-          color: #FFFFFF;
-          border-color: #10B981;
+          background: rgba(245, 158, 11, 0.25);
+          color: #FBBF24;
+          border-color: #F59E0B;
           transform: translateY(-1px);
         }
         .bio-nav-btn:disabled {
@@ -572,7 +581,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
         .bio-cta-btn {
           background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
           color: #FFFFFF;
-          border: 1.5px solid #FCD34D;
+          border: 1.8px solid #FDE68A;
           border-radius: 9px;
           padding: 7px 18px;
           font-size: 16px;
@@ -583,12 +592,13 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
           align-items: center;
           gap: 6px;
           transition: all 0.15s ease;
-          box-shadow: 0 3px 12px rgba(217, 119, 6, 0.35);
+          box-shadow: 0 4px 14px rgba(217, 119, 6, 0.42);
         }
         .bio-cta-btn:hover:not(:disabled) {
           background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+          border-color: #FFFFFF;
           transform: translateY(-1px);
-          box-shadow: 0 5px 16px rgba(217, 119, 6, 0.45);
+          box-shadow: 0 6px 18px rgba(217, 119, 6, 0.55);
         }
         .bio-cta-btn:disabled {
           opacity: 0.45;
@@ -596,13 +606,21 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
         }
 
         .bio-parchment-card {
-          background: linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%);
-          border: 2px solid #194720;
+          background: rgba(15, 23, 42, 0.50);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+          border: 1.8px solid rgba(56, 189, 248, 0.4);
           border-radius: 14px;
-          box-shadow: 0 6px 20px rgba(15, 74, 50, 0.1), inset 0 0 0 1px rgba(45, 106, 79, 0.08);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
           position: relative;
           box-sizing: border-box;
           overflow: hidden;
+          color: #F8FAFC;
+          transition: all 0.22s ease;
+        }
+        .bio-parchment-card:hover {
+          border-color: rgba(56, 189, 248, 0.7);
+          box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), 0 0 18px rgba(56, 189, 248, 0.25);
         }
       `}</style>
 
@@ -671,7 +689,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                   fontSize: '16px',
                   letterSpacing: '0.05em',
                   textTransform: 'uppercase',
-                  border: '1.5px solid #10B981',
+                  border: '1.8px solid #FDE68A',
                   boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
                 }}
               >
@@ -686,7 +704,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                   fontFamily: '"Fraunces", Georgia, serif',
                   fontWeight: 900,
                   fontSize: '20px',
-                  color: '#0A3B24',
+                  color: '#F8FAFC',
                   margin: 0,
                   lineHeight: 1.15,
                   letterSpacing: '-0.02em',
@@ -885,7 +903,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                       margin: 0,
                       fontSize: '20px',
                       fontWeight: 900,
-                      color: '#0A3B24',
+                      color: '#F8FAFC',
                       fontFamily: '"Fraunces", Georgia, serif',
                       lineHeight: 1.15
                     }}
@@ -898,7 +916,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                   style={{
                     background: '#EAF7EE',
                     color: '#064E3B',
-                    border: '1.5px solid #10B981',
+                    border: '1.8px solid #FDE68A',
                     borderRadius: '8px',
                     padding: '2px 10px',
                     fontSize: '16px',
@@ -918,7 +936,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                   minHeight: 0,
                   background: '#0B291A',
                   borderRadius: '12px',
-                  border: '2px solid #14452F',
+                  border: '2px solid #D4AF37',
                   position: 'relative',
                   overflow: 'hidden',
                   display: 'flex',
@@ -1041,7 +1059,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                 {/* SCIENTIFIC TELEMETRY READOUT */}
                 <div
                   style={{
-                    background: 'rgba(255, 255, 255, 0.90)',
+                    background: 'rgba(15, 23, 42, 0.45)',
                     border: '1.5px solid #2D6A4F',
                     borderRadius: '8px',
                     padding: '6px 12px',
@@ -1051,8 +1069,8 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                     gap: '10px'
                   }}
                 >
-                  <div style={{ fontSize: '16px', color: '#0A3B24', lineHeight: 1.3, fontWeight: 700 }}>
-                    <strong style={{ color: '#14452F' }}>Adaptation:</strong> {currentAnimal.adaptationNote}
+                  <div style={{ fontSize: '16px', color: '#F8FAFC', lineHeight: 1.3, fontWeight: 700 }}>
+                    <strong style={{ color: '#F8FAFC' }}>Adaptation:</strong> {currentAnimal.adaptationNote}
                   </div>
                   <div style={{ display: 'flex', gap: '4px', flexShrink: 0 }}>
                     <button
@@ -1125,7 +1143,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                       margin: 0,
                       fontSize: '20px',
                       fontWeight: 900,
-                      color: '#0A3B24',
+                      color: '#F8FAFC',
                       fontFamily: '"Fraunces", Georgia, serif',
                       lineHeight: 1.15
                     }}
@@ -1158,7 +1176,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                   minHeight: 0,
                   background: '#0B291A',
                   borderRadius: '12px',
-                  border: '2px solid #14452F',
+                  border: '2px solid #D4AF37',
                   position: 'relative',
                   overflow: 'hidden',
                   display: 'flex',
@@ -1360,7 +1378,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                 <span style={{ background: '#14452F', color: '#FFFFFF', padding: '2px 10px', borderRadius: '12px', fontFamily: "'Outfit', sans-serif", fontWeight: 900, fontSize: '16px' }}>
                   NUTRITIONAL DIETS (5)
                 </span>
-                <span style={{ fontSize: '16px', fontWeight: 800, color: '#14452F' }}>
+                <span style={{ fontSize: '16px', fontWeight: 800, color: '#F8FAFC' }}>
                   Click food then feed species
                 </span>
               </div>
@@ -1406,7 +1424,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                         ) : isSelected ? (
                           <span style={{ color: '#FCD34D', fontSize: '16px', fontWeight: 900 }}>Selected ➔</span>
                         ) : (
-                          <span style={{ color: '#14452F', fontSize: '16px', fontWeight: 800 }}>Pick</span>
+                          <span style={{ color: '#F8FAFC', fontSize: '16px', fontWeight: 800 }}>Pick</span>
                         )}
                       </div>
                     </div>
@@ -1432,7 +1450,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                 <span style={{ background: '#14452F', color: '#FFFFFF', padding: '2px 10px', borderRadius: '12px', fontFamily: "'Outfit', sans-serif", fontWeight: 900, fontSize: '16px' }}>
                   SPECIES NUTRITION STATIONS
                 </span>
-                <span style={{ fontSize: '16px', fontWeight: 800, color: '#14452F' }}>
+                <span style={{ fontSize: '16px', fontWeight: 800, color: '#F8FAFC' }}>
                   {Object.values(feedingMatches).filter(Boolean).length} / 5 Species Fed
                 </span>
               </div>
@@ -1478,7 +1496,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                         </div>
 
                         <div>
-                          <div style={{ fontSize: '17px', fontWeight: 900, color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif', lineHeight: 1.1 }}>
+                          <div style={{ fontSize: '17px', fontWeight: 900, color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif', lineHeight: 1.1 }}>
                             {animal.name}
                           </div>
                           <div style={{ fontSize: '16px', color: '#059669', fontWeight: 800, lineHeight: 1.1 }}>
@@ -1502,7 +1520,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                             style={{
                               background: '#14452F',
                               color: '#FFFFFF',
-                              border: '1.5px solid #10B981',
+                              border: '1.8px solid #FDE68A',
                               borderRadius: '8px',
                               padding: '4px 10px',
                               fontSize: '16px',
@@ -1577,7 +1595,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                   Select the anatomical adaptation that enables each animal to move effectively.
                 </span>
               </div>
-              <span style={{ fontSize: '16px', fontWeight: 800, color: '#14452F' }}>
+              <span style={{ fontSize: '16px', fontWeight: 800, color: '#F8FAFC' }}>
                 {Object.values(locomotionMatches).filter(Boolean).length} / 5 Classified
               </span>
             </div>
@@ -1621,7 +1639,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                         />
                       </div>
                       <div>
-                        <div style={{ fontSize: '17px', fontWeight: 900, color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif', lineHeight: 1.1 }}>
+                        <div style={{ fontSize: '17px', fontWeight: 900, color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif', lineHeight: 1.1 }}>
                           {animal.name}
                         </div>
                         <div style={{ fontSize: '16px', color: '#10B981', fontWeight: 800, lineHeight: 1.1 }}>
@@ -1774,7 +1792,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                 >
                   FIELD EXPEDITION COMPLETE
                 </div>
-                <h2 style={{ margin: 0, fontSize: '23px', fontWeight: 900, color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif' }}>
+                <h2 style={{ margin: 0, fontSize: '23px', fontWeight: 900, color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                   Field Biologist Certification · Habitats &amp; Adaptations
                 </h2>
               </div>
@@ -1791,10 +1809,10 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                   background: '#FFFFFF',
                   borderRadius: '10px',
                   padding: '10px 14px',
-                  border: '1.5px solid #14452F'
+                  border: '1.5px solid rgba(212, 175, 55, 0.6)'
                 }}
               >
-                <div style={{ fontSize: '18px', fontWeight: 900, color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif', marginBottom: '2px' }}>
+                <div style={{ fontSize: '18px', fontWeight: 900, color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif', marginBottom: '2px' }}>
                   🏡 What is a Habitat?
                 </div>
                 <div style={{ fontSize: '16px', color: '#374151', lineHeight: 1.35 }}>
@@ -1810,7 +1828,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                   border: '1.5px solid #D97706'
                 }}
               >
-                <div style={{ fontSize: '18px', fontWeight: 900, color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif', marginBottom: '2px' }}>
+                <div style={{ fontSize: '18px', fontWeight: 900, color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif', marginBottom: '2px' }}>
                   ⚡ What is an Adaptation?
                 </div>
                 <div style={{ fontSize: '16px', color: '#374151', lineHeight: 1.35 }}>

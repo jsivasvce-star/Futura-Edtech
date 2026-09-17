@@ -153,7 +153,7 @@ export default function AnatomyStage({ leaf }) {
           left: '14px',
           maxWidth: '320px',
           background: 'rgba(250, 248, 242, 0.98)',
-          border: '2px solid #14452F',
+          border: '2px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '14px',
           padding: '10px 14px',
           boxShadow: '0 8px 24px rgba(20, 69, 47, 0.25)',

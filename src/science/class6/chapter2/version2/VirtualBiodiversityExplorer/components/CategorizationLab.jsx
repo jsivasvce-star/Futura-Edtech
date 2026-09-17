@@ -83,8 +83,8 @@ export default function CategorizationLab({
       width: '100%',
       maxWidth: '56rem',
       margin: '1.5rem auto',
-      background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
-      border: '2px solid #14452F',
+      background: 'rgba(250, 248, 242, 0.55)',
+      border: '2px solid rgba(20, 69, 47, 0.5)',
       borderRadius: '24px',
       padding: '2rem',
       boxShadow: '0 16px 36px rgba(20, 69, 47, 0.12)',
@@ -217,7 +217,7 @@ export default function CategorizationLab({
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
             {/* Tulsi */}
             <div style={{
-              background: '#FAF8F2',
+              background: 'rgba(250, 248, 242, 0.65)',
               border: '1.8px solid #14452F',
               borderRadius: '18px',
               padding: '1.25rem',
@@ -263,7 +263,7 @@ export default function CategorizationLab({
 
             {/* Hibiscus / Rose */}
             <div style={{
-              background: '#FAF8F2',
+              background: 'rgba(250, 248, 242, 0.65)',
               border: '1.8px solid #14452F',
               borderRadius: '18px',
               padding: '1.25rem',
@@ -309,7 +309,7 @@ export default function CategorizationLab({
 
             {/* Tree */}
             <div style={{
-              background: '#FAF8F2',
+              background: 'rgba(250, 248, 242, 0.65)',
               border: '1.8px solid #14452F',
               borderRadius: '18px',
               padding: '1.25rem',
@@ -381,7 +381,7 @@ export default function CategorizationLab({
               { id: 'crow', name: 'House Crow', emoji: '🐦‍⬛', hint: 'Soars in clear sky' }
             ].map((anim) => (
               <div key={anim.id} style={{
-                background: '#FAF8F2',
+                background: 'rgba(250, 248, 242, 0.65)',
                 border: '1.8px solid #14452F',
                 borderRadius: '18px',
                 padding: '1.25rem',

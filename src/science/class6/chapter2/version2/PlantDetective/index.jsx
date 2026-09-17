@@ -715,7 +715,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        background: 'var(--page-bg)',
+        background: 'transparent',
         color: 'var(--ink)',
         fontFamily: '"Outfit", sans-serif',
         overflow: 'hidden',
@@ -726,8 +726,15 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Outfit:wght@700;800;900&family=JetBrains+Mono:wght@700;800&display=swap');
 
+        /* Text Justification & Font Size Constraint */
+        p, .detective-desc, .leaf-info-text {
+          text-align: justify !important;
+          text-justify: inter-word !important;
+          hyphens: auto;
+        }
+
         .detective-tool-tab {
-          background: #FAF8F2;
+          background: rgba(250, 248, 242, 0.55); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
           border: 2px solid #14452F;
           color: #14452F;
           font-size: 16px;
@@ -742,7 +749,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
           font-family: 'Outfit', sans-serif;
         }
         .detective-tool-tab.active {
-          background: linear-gradient(135deg, #14452F 0%, #064E3B 100%);
+          background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
           color: #FFFFFF;
           border-color: #10B981;
           box-shadow: 0 4px 12px rgba(20, 69, 47, 0.25);
@@ -879,11 +886,13 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F0E4 50%, #ECE4D0 100%)',
-          border: '2.5px solid #14452F',
+          background: 'rgba(15, 23, 42, 0.50)',
+          backdropFilter: 'blur(18px)',
+          WebkitBackdropFilter: 'blur(18px)',
+          border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           padding: '0.45rem 1.4rem 0.4rem',
-          boxShadow: '0 16px 40px rgba(20, 69, 47, 0.15)',
+          boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',
           boxSizing: 'border-box',
           overflow: 'hidden',
           position: 'relative'
@@ -910,9 +919,9 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
             <button
               onClick={onBackToDashboard}
               style={{
-                background: '#FAF8F2',
-                border: '2px solid #14452F',
-                color: '#14452F',
+                background: 'rgba(15, 23, 42, 0.50)',
+                border: '2px solid #D4AF37',
+                color: '#F8FAFC',
                 borderRadius: '12px',
                 padding: '5px 14px',
                 fontSize: '16px',
@@ -936,7 +945,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                 <div style={{
                   fontSize: '22px',
                   fontWeight: '900',
-                  color: '#14452F',
+                  color: '#F8FAFC',
                   fontFamily: '"Fraunces", Georgia, serif',
                   textAlign: 'center',
                   letterSpacing: '-0.3px',
@@ -967,7 +976,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
 
             {/* Right: Solved Cases Trophy Pill */}
             <div style={{
-              background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+              background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
               color: '#FFFFFF',
               padding: '5px 16px',
               borderRadius: '999px',
@@ -1007,7 +1016,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                 <div
                   key={plant.id}
                   style={{
-                    background: '#FAF8F2',
+                    background: 'rgba(15, 23, 42, 0.50)',
                     border: `2.4px solid ${isSolved ? '#059669' : '#14452F'}`,
                     borderRadius: '18px',
                     padding: '0.75rem 1rem',
@@ -1055,7 +1064,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                     </div>
 
                     {/* Plant Case Title */}
-                    <div style={{ fontSize: '20px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif', margin: '2px 0' }}>
+                    <div style={{ fontSize: '20px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif', margin: '2px 0' }}>
                       {plant.displayName}
                     </div>
 
@@ -1064,7 +1073,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                       height: '215px',
                       background: 'linear-gradient(180deg, #FFFFFF 0%, #F0FDF4 100%)',
                       borderRadius: '14px',
-                      border: '2px solid #14452F',
+                      border: '2px solid #D4AF37',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -1227,7 +1236,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                       borderRadius: '10px',
                       padding: '6px 12px'
                     }}>
-                      <span style={{ fontSize: '16px', fontWeight: '800', color: '#14452F', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span style={{ fontSize: '16px', fontWeight: '800', color: '#F8FAFC', display: 'flex', alignItems: 'center', gap: '6px' }}>
                         <span>🔬</span> Classification Target:
                       </span>
                       <span style={{
@@ -1330,7 +1339,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                   height: '24px',
                   borderRadius: '50%',
                   background: '#EAF7EE',
-                  border: '1.8px solid #14452F',
+                  border: '1.8px solid #D4AF37',
                   boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
                 }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#14452F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -1388,10 +1397,12 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
           minHeight: 0,
           display: 'flex',
           flexDirection: 'column',
-          background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
-          border: '2.5px solid #14452F',
+          background: 'rgba(15, 23, 42, 0.50)',
+          backdropFilter: 'blur(18px)',
+          WebkitBackdropFilter: 'blur(18px)',
+          border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
-          boxShadow: '0 16px 40px rgba(20, 69, 47, 0.15)',
+          boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',
           boxSizing: 'border-box',
           overflow: 'hidden'
         }}>
@@ -1401,7 +1412,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '0.55rem 1.2rem',
-            background: '#FAF8F2',
+            background: 'rgba(15, 23, 42, 0.50)',
             borderBottom: '2.5px solid rgba(20, 69, 47, 0.2)'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -1411,9 +1422,9 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                   playSound('click');
                 }}
                 style={{
-                  background: '#FAF8F2',
-                  border: '2px solid #14452F',
-                  color: '#14452F',
+                  background: 'rgba(15, 23, 42, 0.50)',
+                  border: '2px solid #D4AF37',
+                  color: '#F8FAFC',
                   borderRadius: '10px',
                   padding: '5px 12px',
                   fontSize: '16px',
@@ -1509,8 +1520,8 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
               <div style={{
                 display: 'flex',
                 gap: '8px',
-                background: '#FAF8F2',
-                border: '2px solid #14452F',
+                background: 'rgba(15, 23, 42, 0.50)',
+                border: '2px solid #D4AF37',
                 borderRadius: '14px',
                 padding: '5px 8px'
               }}>
@@ -1533,9 +1544,9 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                 flex: 1,
                 minHeight: 0,
                 position: 'relative',
-                background: 'radial-gradient(circle at 50% 45%, #FFFFFF 0%, #FAF8F2 65%, #EBE3CF 100%)',
+                background: 'radial-gradient(circle at 50% 45%, rgba(255,255,255,0.7) 0%, rgba(250,248,242,0.5) 65%, rgba(235,227,207,0.4) 100%)',
                 borderRadius: '20px',
-                border: '2.5px solid #14452F',
+                border: '2.5px solid rgba(20, 69, 47, 0.5)',
                 overflow: 'hidden',
                 display: 'flex',
                 flexDirection: 'column',
@@ -1880,9 +1891,9 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                           position: 'absolute',
                           top: '12px',
                           left: '14px',
-                          background: 'rgba(255, 255, 255, 0.94)',
+                          background: 'rgba(15, 23, 42, 0.45)',
                           backdropFilter: 'blur(8px)',
-                          border: '2px solid #14452F',
+                          border: '2px solid #D4AF37',
                           borderRadius: '16px',
                           padding: '10px 14px',
                           boxShadow: '0 8px 24px rgba(20, 69, 47, 0.14)',
@@ -1894,7 +1905,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                           pointerEvents: 'none'
                         }}>
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
-                            <span style={{ fontSize: '16px', fontWeight: '900', color: '#14452F' }}>
+                            <span style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC' }}>
                               Deflection:
                             </span>
                             <span style={{
@@ -1911,7 +1922,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                             <span style={{ fontSize: '16px', fontWeight: '800', color: '#4B5563' }}>
                               Applied Force:
                             </span>
-                            <span style={{ fontSize: '16px', fontWeight: '900', color: '#14452F' }}>
+                            <span style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC' }}>
                               {appliedForce}
                             </span>
                           </div>
@@ -2050,7 +2061,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
 
                 {/* 3. BOTTOM TACTILE CONTROL STRIP (Always In View) */}
                 <div style={{
-                  background: '#FAF8F2',
+                  background: 'rgba(15, 23, 42, 0.50)',
                   borderTop: '2px solid rgba(20, 69, 47, 0.2)',
                   padding: '8px 14px',
                   display: 'flex',
@@ -2060,14 +2071,14 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                 }}>
                   {activeTool === 'loupe' && (
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: '12px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '16px', fontWeight: '900', color: '#14452F' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '16px', fontWeight: '900', color: '#F8FAFC' }}>
                         <Eye size={18} color="#D97706" />
                         <span>Inspecting: {activePlant.loupeFindings[loupeZone].title}</span>
                       </div>
 
                       {/* Optical Zoom Controls */}
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <span style={{ fontSize: '16px', fontWeight: '900', color: '#14452F' }}>Zoom:</span>
+                        <span style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC' }}>Zoom:</span>
                         <button
                           onClick={() => { setZoomLevel(2.8); playSound('click'); }}
                           style={{
@@ -2110,7 +2121,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: '14px' }}>
                       {/* Interactive Applied Force Slider */}
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1 }}>
-                        <span style={{ fontSize: '16px', fontWeight: '900', color: '#14452F', whiteSpace: 'nowrap' }}>
+                        <span style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC', whiteSpace: 'nowrap' }}>
                           Force: {Math.round(bendLevel)}%
                         </span>
                         <input
@@ -2144,7 +2155,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                           style={{
                             background: bendLevel === 35 ? '#14452F' : '#FFFFFF',
                             color: bendLevel === 35 ? '#FFFFFF' : '#14452F',
-                            border: '1.8px solid #14452F',
+                            border: '1.8px solid #D4AF37',
                             borderRadius: '8px',
                             padding: '4px 10px',
                             fontSize: '16px',
@@ -2160,7 +2171,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                           style={{
                             background: bendLevel === 100 ? '#14452F' : '#FFFFFF',
                             color: bendLevel === 100 ? '#FFFFFF' : '#14452F',
-                            border: '1.8px solid #14452F',
+                            border: '1.8px solid #D4AF37',
                             borderRadius: '8px',
                             padding: '4px 10px',
                             fontSize: '16px',
@@ -2205,8 +2216,8 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
             {/* RIGHT 32%: COMPACT DETECTIVE EVIDENCE LOG (ZERO SCROLLBAR)                */}
             {/* ========================================================================= */}
             <div style={{
-              background: '#FAF8F2',
-              border: '2.5px solid #14452F',
+              background: 'rgba(15, 23, 42, 0.50)',
+              border: '2.5px solid rgba(20, 69, 47, 0.5)',
               borderRadius: '20px',
               padding: '12px 14px',
               display: 'flex',
@@ -2223,18 +2234,18 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                   </span>
                   <span style={{ fontSize: '18px' }}>{activePlant.emoji}</span>
                 </div>
-                <div style={{ fontSize: '20px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif' }}>
+                <div style={{ fontSize: '20px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                   {activePlant.displayName}
                 </div>
               </div>
 
               {/* DETECTIVE CLUE CARD (MOVED TO RIGHT EVIDENCE LOG) */}
               <div style={{
-                background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                 color: '#FFFFFF',
                 borderRadius: '12px',
                 padding: '8px 10px',
-                border: '1.5px solid #10B981',
+                border: '1.8px solid #FDE68A',
                 boxShadow: '0 3px 10px rgba(20, 69, 47, 0.16)',
                 display: 'flex',
                 flexDirection: 'column',
@@ -2269,7 +2280,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
               {/* Clue 1: Stem Texture */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '16px', fontWeight: '900', color: '#14452F' }}>
+                  <span style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC' }}>
                     1. Stem Texture
                   </span>
                   {currentAnswers.stem !== null && <span style={{ fontSize: '16px', color: '#059669', fontWeight: '900' }}>✓ Logged</span>}
@@ -2290,7 +2301,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
               {/* Clue 2: Branching Position */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '16px', fontWeight: '900', color: '#14452F' }}>
+                  <span style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC' }}>
                     2. Branching Habit
                   </span>
                   {currentAnswers.branch !== null && <span style={{ fontSize: '16px', color: '#059669', fontWeight: '900' }}>✓ Logged</span>}
@@ -2311,7 +2322,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
               {/* Clue 3: Stem Flexibility (Bend Test) */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '16px', fontWeight: '900', color: '#14452F' }}>
+                  <span style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC' }}>
                     3. Stem Flexibility
                   </span>
                   {currentAnswers.flex !== null && <span style={{ fontSize: '16px', color: '#059669', fontWeight: '900' }}>✓ Logged</span>}
@@ -2337,7 +2348,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                 flexDirection: 'column',
                 gap: '6px'
               }}>
-                <span style={{ fontSize: '16px', fontWeight: '900', color: '#14452F' }}>
+                <span style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC' }}>
                   Final Deduction: What Category Is It?
                 </span>
 
@@ -2418,7 +2429,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
           zIndex: 50
         }}>
           <div style={{
-            background: '#FAF8F2',
+            background: 'rgba(15, 23, 42, 0.50)',
             border: '2.8px solid #14452F',
             borderRadius: '24px',
             padding: '2rem',
@@ -2444,7 +2455,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
               <Award size={42} />
             </div>
 
-            <div style={{ fontSize: '24px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif', marginBottom: '6px' }}>
+            <div style={{ fontSize: '24px', fontWeight: '900', color: '#FBBF24', fontFamily: '"Fraunces", Georgia, serif', marginBottom: '6px' }}>
               Detective Badge Earned! 🏆
             </div>
             <div style={{ fontSize: '18px', fontWeight: '900', color: '#059669', marginBottom: '10px' }}>
@@ -2469,9 +2480,9 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                   setSelectedPlantId('plantA');
                 }}
                 style={{
-                  background: '#FAF8F2',
-                  border: '2px solid #14452F',
-                  color: '#14452F',
+                  background: 'rgba(15, 23, 42, 0.50)',
+                  border: '2px solid #D4AF37',
+                  color: '#F8FAFC',
                   padding: '10px 18px',
                   borderRadius: '12px',
                   fontSize: '16px',
@@ -2484,7 +2495,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
               <button
                 onClick={onBackToDashboard}
                 style={{
-                  background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                   color: '#FFFFFF',
                   border: 'none',
                   padding: '10px 20px',

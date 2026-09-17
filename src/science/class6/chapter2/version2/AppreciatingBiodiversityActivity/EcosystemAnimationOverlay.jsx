@@ -45,9 +45,10 @@ const LEAF_COLORS = [
 ];
 
 const BUTTERFLY_SPECIES = [
-  { name: 'Swallowtail', primary: '#10B981', secondary: '#047857', accent: '#34D399', edge: '#064E3B' },
-  { name: 'Monarch', primary: '#F97316', secondary: '#EA580C', accent: '#FED7AA', edge: '#1E293B' },
-  { name: 'Azure', primary: '#0EA5E9', secondary: '#0284C7', accent: '#BAE6FD', edge: '#0C4A6E' }
+  { name: 'Swallowtail', primary: '#10B981', secondary: '#047857', accent: '#6EE7B7', edge: '#064E3B' },
+  { name: 'Monarch', primary: '#F97316', secondary: '#C2410C', accent: '#FFEDD5', edge: '#0F172A' },
+  { name: 'Azure', primary: '#0284C7', secondary: '#0369A1', accent: '#7DD3FC', edge: '#0F172A' },
+  { name: 'Sulphur', primary: '#F59E0B', secondary: '#D97706', accent: '#FEF08A', edge: '#78350F' }
 ];
 
 const getBotanicalTypesForPlant = (plantName) => {
@@ -277,18 +278,84 @@ const EcosystemAnimationOverlay = forwardRef(({ selectedPlant, selectedAnimal },
     }
   };
 
-  const spawnButterflies = (count = 8, origin = null) => {
+  // Dedicated Realistic Ecosystem Quiz Answer Animation Burst
+  // Spawns exactly 3 to 6 leaves, 3 to 6 flower petals, and 3 to 6 realistic butterflies tailored to the question answer!
+  const triggerQuizEcosystemBurst = ({
+    leafTypes = ['peepal', 'neem'],
+    leafCount = 4,
+    petalTypes = ['rose_petal', 'jasmine_petal'],
+    petalCount = 4,
+    butterflyCount = 4,
+    butterflySpecies = BUTTERFLY_SPECIES,
+    origin = null
+  }) => {
+    resizeCanvas();
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    if (plantStopTimerRef.current) {
+      clearTimeout(plantStopTimerRef.current);
+      plantStopTimerRef.current = null;
+    }
+
     const dpr = getDPR();
     const width = canvas.width / dpr || window.innerWidth;
     const height = canvas.height / dpr || window.innerHeight;
 
+    // Reset particles cleanly to showcase the dedicated 3-6 items burst
+    particlesRef.current = [];
     const newParticles = [];
-    for (let i = 0; i < count; i++) {
-      const species = BUTTERFLY_SPECIES[Math.floor(Math.random() * BUTTERFLY_SPECIES.length)];
-      const startX = origin ? origin.x + (Math.random() - 0.5) * 60 : width * 0.1 + Math.random() * (width * 0.8);
-      const startY = origin ? origin.y + (Math.random() - 0.5) * 40 : height + 20 + Math.random() * 60;
+
+    // 1. Exactly 3 to 6 Realistic Leaves (Peepal, Neem, Tulsi)
+    const finalLeafCount = Math.min(6, Math.max(3, leafCount));
+    if (leafTypes && leafTypes.length > 0) {
+      for (let i = 0; i < finalLeafCount; i++) {
+        const leafType = leafTypes[i % leafTypes.length];
+        const p = createBotanicalParticle(leafType, width, height, false, origin);
+        // Distribute gracefully across the screen
+        p.x = origin 
+          ? origin.x + (Math.random() - 0.5) * 140 
+          : width * 0.12 + (i / Math.max(1, finalLeafCount - 1)) * (width * 0.76) + (Math.random() - 0.5) * 50;
+        p.y = origin ? origin.y + (Math.random() - 0.5) * 50 : -25 - Math.random() * 80;
+        p.size = (p.size || 22) * (1.0 + Math.random() * 0.2);
+        p.glideSpeed = 1.1 + Math.random() * 0.5;
+        p.baseDescent = 0.85 + Math.random() * 0.4;
+        p.maxLife = 320 + Math.random() * 60;
+        p.isAmbient = false;
+        newParticles.push(p);
+      }
+    }
+
+    // 2. Exactly 3 to 6 Realistic Flower Petals / Blossoms (Rose, Jasmine)
+    const finalPetalCount = Math.min(6, Math.max(3, petalCount));
+    if (petalTypes && petalTypes.length > 0) {
+      for (let i = 0; i < finalPetalCount; i++) {
+        const petalType = petalTypes[i % petalTypes.length];
+        const p = createBotanicalParticle(petalType, width, height, false, origin);
+        p.x = origin 
+          ? origin.x + (Math.random() - 0.5) * 160 
+          : width * 0.1 + (i / Math.max(1, finalPetalCount - 1)) * (width * 0.8) + (Math.random() - 0.5) * 60;
+        p.y = origin ? origin.y + (Math.random() - 0.5) * 60 : -30 - Math.random() * 70;
+        p.size = (p.size || 18) * (1.05 + Math.random() * 0.25);
+        p.flutterSpeed = 0.038 + Math.random() * 0.02;
+        p.flutterAmp = 0.52 + Math.random() * 0.2;
+        p.baseDescent = 0.75 + Math.random() * 0.35; // Petals drift more gently
+        p.maxLife = 340 + Math.random() * 60;
+        p.isAmbient = false;
+        newParticles.push(p);
+      }
+    }
+
+    // 3. Exactly 3 to 6 Realistic Fluttering Butterflies
+    const finalButterflyCount = Math.min(6, Math.max(3, butterflyCount));
+    for (let i = 0; i < finalButterflyCount; i++) {
+      const species = butterflySpecies[i % butterflySpecies.length];
+      const startX = origin 
+        ? origin.x + (Math.random() - 0.5) * 120 
+        : width * 0.15 + (i / Math.max(1, finalButterflyCount - 1)) * (width * 0.7) + (Math.random() - 0.5) * 70;
+      const startY = origin 
+        ? origin.y + (Math.random() - 0.5) * 60 
+        : height * 0.65 + (Math.random() - 0.5) * (height * 0.3);
 
       newParticles.push({
         type: 'butterfly',
@@ -296,20 +363,31 @@ const EcosystemAnimationOverlay = forwardRef(({ selectedPlant, selectedAnimal },
         x: startX,
         y: startY,
         vx: (Math.random() - 0.5) * 2.2,
-        vy: -2.0 - Math.random() * 2.0,
-        wingSpan: 18 + Math.random() * 10,
-        flapPhase: Math.random() * Math.PI * 2,
-        flapSpeed: 0.28 + Math.random() * 0.16,
+        vy: -1.3 - Math.random() * 1.4,
+        wingSpan: 24 + Math.random() * 8,
+        flapPhase: (i * Math.PI / 2) + Math.random() * 0.4,
+        flapSpeed: 0.24 + Math.random() * 0.12,
         swoopPhase: Math.random() * Math.PI * 2,
-        swoopSpeed: 0.04 + Math.random() * 0.03,
+        swoopSpeed: 0.032 + Math.random() * 0.02,
         opacity: 1,
         life: 0,
-        maxLife: 240 + Math.random() * 90
+        maxLife: 320 + Math.random() * 60
       });
     }
 
-    particlesRef.current.push(...newParticles);
+    particlesRef.current = newParticles;
     startAnimationLoop();
+  };
+
+  const spawnButterflies = (count = 5, origin = null) => {
+    triggerQuizEcosystemBurst({
+      leafTypes: [],
+      leafCount: 0,
+      petalTypes: ['rose_petal', 'jasmine_petal'],
+      petalCount: 4,
+      butterflyCount: Math.min(6, Math.max(3, count)),
+      origin
+    });
   };
 
   // Public Imperative API
@@ -357,53 +435,140 @@ const EcosystemAnimationOverlay = forwardRef(({ selectedPlant, selectedAnimal },
           setSpecimenAnimal('Ant');
           break;
         case 'butterfly_swarm':
-          spawnButterflies(count || 10, origin);
+          spawnButterflies(count || 5, origin);
           break;
-        // Question-Specific Ecosystem Quiz Realistic Animation Triggers:
+
+        // -------------------------------------------------------------
+        // QUESTION-SPECIFIC REALISTIC ECOSYSTEM QUIZ ANIMATIONS
+        // Exactly 3 to 6 leaves, 3 to 6 flower petals, and 3 to 6 butterflies
+        // Perfectly related to each question's ecological answer!
+        // -------------------------------------------------------------
         case 'quiz_q1_biodiversity':
         case 'biodiversity_celebration':
-          setSpecimenRain('Peepal');
-          spawnButterflies(8, origin);
+          // Answer: The region has high biodiversity
+          // 4 diverse forest leaves (Peepal & Neem) + 4 flower petals + 4 multi-species butterflies
+          triggerQuizEcosystemBurst({
+            leafTypes: ['peepal', 'neem'],
+            leafCount: 4,
+            petalTypes: ['jasmine_petal', 'rose_petal'],
+            petalCount: 4,
+            butterflyCount: 4,
+            origin
+          });
           break;
+
         case 'quiz_q2_pollinators':
         case 'petal_shower':
-          setSpecimenRain('Rose');
-          spawnButterflies(6, origin);
+          // Answer: Butterflies & nectar feeders affected first
+          // 3 leaves + 5 fragrant flower petals & blossoms + 5 butterflies visiting for nectar
+          triggerQuizEcosystemBurst({
+            leafTypes: ['tulsi'],
+            leafCount: 3,
+            petalTypes: ['rose_petal', 'jasmine', 'jasmine_petal'],
+            petalCount: 5,
+            butterflyCount: 5,
+            origin
+          });
           break;
+
         case 'quiz_q3_seed_dispersal':
         case 'seed_dispersal':
-          setSpecimenAnimal('Sparrow');
-          setSpecimenRain('Peepal');
+          // Answer: Spread seeds to new fertile grounds
+          // 5 aerodynamic glider leaves (Peepal & Neem) + 3 petals + 4 guiding butterflies
+          triggerQuizEcosystemBurst({
+            leafTypes: ['peepal', 'neem'],
+            leafCount: 5,
+            petalTypes: ['jasmine_petal'],
+            petalCount: 3,
+            butterflyCount: 4,
+            origin
+          });
           break;
+
         case 'quiz_q4_school_garden':
         case 'garden_wildlife_rush':
-          setSpecimenAnimal('Squirrel');
-          setSpecimenRain('Tulsi');
+          // Answer: Diverse campus garden (Tulsi, Neem, Rose, Butterflies)
+          // 4 school garden leaves (Tulsi & Neem) + 4 fresh flower petals + 4 cheerful butterflies
+          triggerQuizEcosystemBurst({
+            leafTypes: ['tulsi', 'neem'],
+            leafCount: 4,
+            petalTypes: ['rose_petal', 'jasmine'],
+            petalCount: 4,
+            butterflyCount: 4,
+            origin
+          });
           break;
+
         case 'quiz_q5_insect_pollination':
-          setSpecimenRain('Jasmine');
-          spawnButterflies(6, origin);
+          // Answer: Insect pollination transferring pollen for seeds
+          // 3 floral leaves + 5 blooming Jasmine flowers & Rose petals + 5 pollinators
+          triggerQuizEcosystemBurst({
+            leafTypes: ['tulsi'],
+            leafCount: 3,
+            petalTypes: ['jasmine', 'rose_petal'],
+            petalCount: 5,
+            butterflyCount: 5,
+            origin
+          });
           break;
+
         case 'quiz_q6_interdependence':
         case 'meadow_interdependence':
-          setSpecimenAnimal('Cow');
-          setSpecimenRain('Neem');
+          // Answer: Mutual interdependence (Food, shelter, seeds)
+          // 4 symbiotic leaves + 4 velvety petals + 4 butterflies swirling in harmony
+          triggerQuizEcosystemBurst({
+            leafTypes: ['neem', 'peepal'],
+            leafCount: 4,
+            petalTypes: ['rose_petal', 'jasmine_petal'],
+            petalCount: 4,
+            butterflyCount: 4,
+            origin
+          });
           break;
+
         case 'quiz_q7_wetland_park':
         case 'wetland_frog_hop':
-          setSpecimenAnimal('Frog');
-          setSpecimenRain('Tulsi');
+          // Answer: Green park with 15 plant species & diverse life
+          // 4 moisture-fresh leaves (Peepal & Tulsi) + 4 rose/jasmine petals + 4 azure & emerald butterflies
+          triggerQuizEcosystemBurst({
+            leafTypes: ['peepal', 'tulsi'],
+            leafCount: 4,
+            petalTypes: ['rose_petal', 'jasmine_petal'],
+            petalCount: 4,
+            butterflyCount: 4,
+            origin
+          });
           break;
+
         case 'quiz_q8_food_chain':
         case 'insect_food_web':
-          setSpecimenAnimal('Ant');
-          spawnButterflies(5, origin);
+          // Answer: Insect-eating birds face food shortages (protecting insect base)
+          // 4 resilient canopy leaves + 3 flower petals + 5 butterflies soaring upward
+          triggerQuizEcosystemBurst({
+            leafTypes: ['neem', 'peepal'],
+            leafCount: 4,
+            petalTypes: ['jasmine_petal', 'rose_petal'],
+            petalCount: 3,
+            butterflyCount: 5,
+            origin
+          });
           break;
+
+        case 'click_burst':
+        case 'gentle_autumn':
+          // Micro gentle organic flutter on option selection
+          triggerQuizEcosystemBurst({
+            leafTypes: ['tulsi', 'neem'],
+            leafCount: 3,
+            petalTypes: ['jasmine_petal'],
+            petalCount: 3,
+            butterflyCount: 3,
+            origin
+          });
+          break;
+
         case 'leaf_rain':
           setSpecimenRain('Neem');
-          break;
-        case 'gentle_autumn':
-          setSpecimenRain('Peepal');
           break;
         default:
           if (activeTypesRef.current && activeTypesRef.current.length > 0) {
@@ -865,29 +1030,99 @@ const EcosystemAnimationOverlay = forwardRef(({ selectedPlant, selectedAnimal },
     const { species, wingSpan, flapPhase } = p;
     ctx.save();
     const flapWidth = Math.cos(flapPhase);
+    const absFlap = Math.max(0.12, Math.abs(flapWidth));
 
+    // Butterfly body: segmented thorax and abdomen
     ctx.beginPath();
-    ctx.ellipse(0, 0, wingSpan * 0.09, wingSpan * 0.42, 0, 0, Math.PI * 2);
+    ctx.ellipse(0, 0, wingSpan * 0.07, wingSpan * 0.38, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#0F172A';
+    ctx.fill();
+
+    // Head
+    ctx.beginPath();
+    ctx.arc(0, -wingSpan * 0.38, wingSpan * 0.08, 0, Math.PI * 2);
     ctx.fillStyle = '#1E293B';
     ctx.fill();
 
+    // Delicate antennae with curved tips
+    ctx.strokeStyle = '#0F172A';
+    ctx.lineWidth = 0.9;
+    ctx.beginPath();
+    ctx.moveTo(0, -wingSpan * 0.42);
+    ctx.quadraticCurveTo(-wingSpan * 0.12, -wingSpan * 0.65, -wingSpan * 0.22, -wingSpan * 0.7);
+    ctx.moveTo(0, -wingSpan * 0.42);
+    ctx.quadraticCurveTo(wingSpan * 0.12, -wingSpan * 0.65, wingSpan * 0.22, -wingSpan * 0.7);
+    ctx.stroke();
+
+    // Antenna clubs
+    ctx.fillStyle = '#0F172A';
+    ctx.beginPath();
+    ctx.arc(-wingSpan * 0.22, -wingSpan * 0.7, 1.3, 0, Math.PI * 2);
+    ctx.arc(wingSpan * 0.22, -wingSpan * 0.7, 1.3, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Double wings with realistic curvature, veins and margin accents
     const drawHalfWings = (dir) => {
       ctx.save();
       ctx.scale(dir * flapWidth, 1);
 
+      // 1. Hindwing (lower wing)
       ctx.beginPath();
-      ctx.moveTo(0, -wingSpan * 0.1);
-      ctx.bezierCurveTo(wingSpan * 0.35, -wingSpan * 0.65, wingSpan * 0.9, -wingSpan * 0.5, wingSpan * 0.8, -wingSpan * 0.05);
-      ctx.bezierCurveTo(wingSpan * 0.7, wingSpan * 0.2, wingSpan * 0.25, wingSpan * 0.15, 0, wingSpan * 0.05);
+      ctx.moveTo(0, wingSpan * 0.05);
+      ctx.bezierCurveTo(wingSpan * 0.38, wingSpan * 0.12, wingSpan * 0.65, wingSpan * 0.42, wingSpan * 0.48, wingSpan * 0.68);
+      ctx.bezierCurveTo(wingSpan * 0.28, wingSpan * 0.75, wingSpan * 0.08, wingSpan * 0.52, 0, wingSpan * 0.22);
       ctx.closePath();
 
-      const foreGrad = ctx.createRadialGradient(0, 0, 2, wingSpan * 0.4, -wingSpan * 0.2, wingSpan * 0.8);
-      foreGrad.addColorStop(0, species.accent);
-      foreGrad.addColorStop(0.5, species.primary);
-      foreGrad.addColorStop(1, species.edge);
+      const hindGrad = ctx.createRadialGradient(0, wingSpan * 0.2, 1, wingSpan * 0.3, wingSpan * 0.4, wingSpan * 0.65);
+      hindGrad.addColorStop(0, species.accent || '#FDE68A');
+      hindGrad.addColorStop(0.48, species.primary);
+      hindGrad.addColorStop(1, species.edge || '#0F172A');
+      ctx.fillStyle = hindGrad;
+      ctx.fill();
+      ctx.strokeStyle = species.edge || '#0F172A';
+      ctx.lineWidth = 0.6;
+      ctx.stroke();
+
+      // 2. Forewing (upper curved leading edge)
+      ctx.beginPath();
+      ctx.moveTo(0, -wingSpan * 0.12);
+      ctx.bezierCurveTo(wingSpan * 0.38, -wingSpan * 0.78, wingSpan * 0.98, -wingSpan * 0.58, wingSpan * 0.88, -wingSpan * 0.06);
+      ctx.bezierCurveTo(wingSpan * 0.72, wingSpan * 0.22, wingSpan * 0.26, wingSpan * 0.16, 0, wingSpan * 0.06);
+      ctx.closePath();
+
+      const foreGrad = ctx.createRadialGradient(0, -wingSpan * 0.1, 2, wingSpan * 0.42, -wingSpan * 0.28, wingSpan * 0.88);
+      foreGrad.addColorStop(0, species.accent || '#FEF08A');
+      foreGrad.addColorStop(0.42, species.primary);
+      foreGrad.addColorStop(0.82, species.secondary || species.primary);
+      foreGrad.addColorStop(1, species.edge || '#0F172A');
       ctx.fillStyle = foreGrad;
       ctx.fill();
+      ctx.strokeStyle = species.edge || '#0F172A';
+      ctx.lineWidth = 0.7;
       ctx.stroke();
+
+      // Delicate natural wing veins
+      ctx.strokeStyle = 'rgba(15, 23, 42, 0.35)';
+      ctx.lineWidth = 0.55;
+      ctx.beginPath();
+      ctx.moveTo(0, -wingSpan * 0.1);
+      ctx.quadraticCurveTo(wingSpan * 0.38, -wingSpan * 0.32, wingSpan * 0.78, -wingSpan * 0.16);
+      ctx.moveTo(0, -wingSpan * 0.1);
+      ctx.quadraticCurveTo(wingSpan * 0.42, -wingSpan * 0.48, wingSpan * 0.68, -wingSpan * 0.52);
+      ctx.stroke();
+
+      // Crisp margin spots for Monarch and Swallowtail authenticity
+      if (species.name === 'Monarch' || species.name === 'Swallowtail') {
+        ctx.fillStyle = '#FFFFFF';
+        for (let s = 1; s <= 3; s++) {
+          const t = s / 4;
+          const sx = wingSpan * (0.7 + t * 0.14);
+          const sy = -wingSpan * (0.12 + t * 0.32);
+          ctx.beginPath();
+          ctx.arc(sx, sy, 1.2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
 
       ctx.restore();
     };

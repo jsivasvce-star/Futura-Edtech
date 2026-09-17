@@ -565,62 +565,82 @@ export default function Simulation({ onComplete, onNext }) {
       position: 'relative'
     }}>
 
-      {/* Left Column: Automatic Object Selection & Testing Hub */}
-      <div className="custom-scroll" style={{
-        background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-        backdropFilter: 'blur(14px)',
-        borderRadius: '24px',
-        border: '1.5px solid #FDE68A',
-        padding: '1.5rem 1.45rem',
+      {/* Left Column: Two Golden Containers (Instructions & Controls) */}
+      <div className="stage-right-column" style={{
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
-        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
-        zIndex: 10,
-        overflowY: 'auto'
+        gap: '1.65rem',
+        height: '100%',
+        minHeight: 0,
+        boxSizing: 'border-box'
       }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.15rem', height: '100%', justifyContent: 'space-between' }}>
+        {/* Container 1: Steps of Instructions */}
+        <div className="stage-container-1" style={{
+          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+          border: '1.5px solid #FDE68A',
+          borderRadius: '24px',
+          padding: '1.4rem 1.6rem',
+          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.85rem'
+        }}>
+          <h3 style={{ margin: 0, fontSize: '19.5px', fontWeight: 900, color: '#1E1B4B' }}>
+            Steps of Instructions
+          </h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
+              <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+                Select or auto-play barrier items: Glass, Plastic, Cardboard, and Wood.
+              </span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
+              <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+                Observe the compass needle deflect through each non-magnetic barrier.
+              </span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
+              <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+                Click 'Flip Magnet' to switch polarity and reverse needle deflection.
+              </span>
+            </div>
+          </div>
+        </div>
 
-          {/* Header */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <ShieldCheck size={32} color="#D97706" />
-            <h3 style={{ margin: 0, fontSize: '1.65rem', color: '#78350F', fontWeight: 900, letterSpacing: '-0.02em' }}>
-              Material Barrier Testing
+        {/* Container 2: Barrier Items & Controls */}
+        <div className="stage-container-2" style={{
+          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+          border: '1.5px solid #FDE68A',
+          borderRadius: '24px',
+          padding: '1.4rem 1.6rem',
+          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.85rem',
+          flex: 1,
+          minHeight: 0
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h3 style={{ margin: 0, fontSize: '19.5px', fontWeight: 900, color: '#1E1B4B' }}>
+              Barrier Items
             </h3>
-          </div>
-
-          {/* Step 1 Individual Card */}
-          <div style={{
-            background: 'rgba(255, 255, 255, 0.96)',
-            border: '1.5px solid #FDE68A',
-            borderRadius: '18px',
-            padding: '0.95rem 1.15rem',
-            boxShadow: '0 3px 10px rgba(217, 119, 6, 0.05)',
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: '0.75rem'
-          }}>
-            <div style={{
-              width: '28px',
-              height: '28px',
-              borderRadius: '50%',
-              background: '#FEF3C7',
-              border: '2px solid #F59E0B',
-              color: '#92400E',
-              fontSize: '0.92rem',
+            <span style={{
+              background: '#DCFCE7',
+              color: '#15803D',
               fontWeight: 900,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
-              marginTop: '2px'
-            }}>1</div>
-            <p style={{ margin: 0, fontSize: '1.05rem', color: '#065F46', lineHeight: 1.5, fontWeight: 600 }}>
-              <strong>Select or Auto-Play:</strong> Barriers advance in order: <strong>Crystal glass ➔ Plastic container ➔ Cardboard ➔ Tree</strong> (or click any item below to test manually).
-            </p>
+              fontSize: '15px',
+              padding: '0.35rem 0.8rem',
+              borderRadius: '12px',
+              border: '1.5px solid #86EFAC'
+            }}>
+              4 Materials
+            </span>
           </div>
 
-          {/* Standalone Material Barrier Cards (Full Width 2x2 Grid, No Wrapper Container) */}
+          {/* Standalone Material Barrier Cards (2x2 Grid) */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(2, 1fr)',
@@ -703,90 +723,27 @@ export default function Simulation({ onComplete, onNext }) {
             })}
           </div>
 
-          {/* Step 2 Individual Card */}
-          <div style={{
-            background: 'rgba(255, 255, 255, 0.96)',
-            border: '1.5px solid #FDE68A',
-            borderRadius: '18px',
-            padding: '0.95rem 1.15rem',
-            boxShadow: '0 3px 10px rgba(217, 119, 6, 0.05)',
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: '0.75rem'
-          }}>
-            <div style={{
-              width: '28px',
-              height: '28px',
-              borderRadius: '50%',
-              background: '#FEF3C7',
-              border: '2px solid #F59E0B',
-              color: '#92400E',
-              fontSize: '0.92rem',
+          {/* Proceed Button */}
+          <button
+            onClick={onNext}
+            className="gold-glow-btn"
+            style={{
+              width: '100%',
+              padding: '0.85rem 1.4rem',
+              borderRadius: '16px',
+              fontSize: '17.5px',
               fontWeight: 900,
+              cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              flexShrink: 0,
-              marginTop: '2px'
-            }}>2</div>
-            <p style={{ margin: 0, fontSize: '1.05rem', color: '#065F46', lineHeight: 1.5, fontWeight: 600 }}>
-              <strong>Observe Deflection:</strong> Watch the <strong>Red North Needle</strong> deflect as each barrier arrives, proving magnetic fields easily pass through non-magnetic matter.
-            </p>
-          </div>
-
-          {/* Step 3 Individual Card */}
-          <div style={{
-            background: 'rgba(255, 255, 255, 0.96)',
-            border: '1.5px solid #FDE68A',
-            borderRadius: '18px',
-            padding: '0.95rem 1.15rem',
-            boxShadow: '0 3px 10px rgba(217, 119, 6, 0.05)',
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: '0.75rem'
-          }}>
-            <div style={{
-              width: '28px',
-              height: '28px',
-              borderRadius: '50%',
-              background: '#FEF3C7',
-              border: '2px solid #F59E0B',
-              color: '#92400E',
-              fontSize: '0.92rem',
-              fontWeight: 900,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
-              marginTop: '2px'
-            }}>3</div>
-            <p style={{ margin: 0, fontSize: '1.05rem', color: '#065F46', lineHeight: 1.5, fontWeight: 600 }}>
-              <strong>Reverse Magnet Polarity:</strong> Click the <strong>Bar Magnet</strong> or the <strong>Flip button</strong> to switch between [N][S] and [S][N], reversing the needle's deflection direction.
-            </p>
-          </div>
-
-          {/* Bottom Summary & Proceed Action - Always Visible from Starting */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', marginTop: '0.35rem' }}>
-            <button
-              onClick={onNext}
-              className="gold-glow-btn"
-              style={{
-                width: '100%',
-                padding: '0.95rem 1.4rem',
-                borderRadius: '16px',
-                fontSize: '1.05rem',
-                fontWeight: 900,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.5rem',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              <Sparkles size={18} /> Proceed to Concept Check <ArrowRight size={18} />
-            </button>
-          </div>
+              gap: '0.5rem',
+              marginTop: 'auto',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            <Sparkles size={18} /> Proceed to Concept Check <ArrowRight size={18} />
+          </button>
         </div>
       </div>
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Box, Droplet, CheckCircle2, AlertCircle,
-  RefreshCw, Hand, Info, HelpCircle, LayoutGrid, Play
+  RefreshCw, Hand, Info, HelpCircle, LayoutGrid, Play, Pause
 } from 'lucide-react';
 import pourActivityVideo from '../../../../../assets/pour_activity.mp4';
 
@@ -418,6 +418,53 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
                   </div>
                 </div>
               )}
+
+              {/* Pause and Replay Controls */}
+              <div style={{ position: 'absolute', bottom: '16px', right: '16px', display: 'flex', gap: '16px', zIndex: 20, pointerEvents: 'none' }}>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (videoRef.current) {
+                      videoRef.current.pause();
+                      setIsPlaying(false);
+                    }
+                  }}
+                  style={{
+                    pointerEvents: 'auto', background: '#A64B27', border: '3px solid #FDFBF7',
+                    color: 'white', width: '64px', height: '64px', borderRadius: '50%',
+                    display: 'flex', justifyContent: 'center', alignItems: 'center',
+                    cursor: 'pointer', boxShadow: '0 4px 15px rgba(166, 75, 39, 0.5)',
+                    transition: 'transform 0.1s ease',
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                  title="Pause"
+                >
+                  <Pause size={32} strokeWidth={3} />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    resetActivity();
+                    if (videoRef.current) {
+                      videoRef.current.play();
+                      setIsPlaying(true);
+                    }
+                  }}
+                  style={{
+                    pointerEvents: 'auto', background: '#A64B27', border: '3px solid #FDFBF7',
+                    color: 'white', width: '64px', height: '64px', borderRadius: '50%',
+                    display: 'flex', justifyContent: 'center', alignItems: 'center',
+                    cursor: 'pointer', boxShadow: '0 4px 15px rgba(166, 75, 39, 0.5)',
+                    transition: 'transform 0.1s ease',
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                  title="Replay"
+                >
+                  <RefreshCw size={32} strokeWidth={3} />
+                </button>
+              </div>
             </div>
 
 

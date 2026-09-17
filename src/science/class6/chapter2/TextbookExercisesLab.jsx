@@ -483,8 +483,8 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
         }
 
         .bio-parchment-card {
-          background: linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%);
-          border: 2px solid #194720;
+          background: rgba(250, 248, 242, 0.55); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+          border: 2px solid rgba(25, 71, 32, 0.5);
           border-radius: 14px;
           box-shadow: 0 6px 20px rgba(15, 74, 50, 0.1), inset 0 0 0 1px rgba(45, 106, 79, 0.08);
           position: relative;
@@ -525,7 +525,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
         }
 
         .bio-cat-pill {
-          background: #FAF8F2;
+          background: rgba(250, 248, 242, 0.55); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
           border: 1.5px solid #2D6A4F;
           border-radius: 8px;
           padding: 3px 10px;
@@ -613,7 +613,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
 
         {/* RIGHT: MODE TOGGLES & LISTEN */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <div style={{ display: 'flex', background: '#FAF8F2', padding: '2px', borderRadius: '10px', border: '1.5px solid #14452F' }}>
+          <div style={{ display: 'flex', background: 'rgba(250, 248, 242, 0.55)', padding: '2px', borderRadius: '10px', border: '1.5px solid #14452F' }}>
             <button
               onClick={() => setViewMode('exercises')}
               style={{
@@ -853,7 +853,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                           width: '100%',
                           borderRadius: '12px',
                           overflow: 'hidden',
-                          border: '2px solid #14452F',
+                          border: '2px solid rgba(20, 69, 47, 0.5)',
                           background: '#F8FAFC',
                           position: 'relative',
                           boxShadow: '0 4px 16px rgba(20, 69, 47, 0.1)',
@@ -999,7 +999,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                       <button
                         type="button"
                         onClick={handleResetVenn}
-                        style={{ background: '#FAF8F2', border: '1.5px solid #14452F', borderRadius: '6px', padding: '2px 8px', fontSize: '16px', fontWeight: 800, cursor: 'pointer' }}
+                        style={{ background: 'rgba(250, 248, 242, 0.55)', border: '1.5px solid #14452F', borderRadius: '6px', padding: '2px 8px', fontSize: '16px', fontWeight: 800, cursor: 'pointer' }}
                       >
                         Reset
                       </button>
@@ -1069,7 +1069,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                             type="button"
                             onClick={() => handlePlaceVennAnimal(animal.id, animal.correctArea)}
                             style={{
-                              background: '#FAF8F2',
+                              background: 'rgba(250, 248, 242, 0.55)',
                               border: '1px solid #2D6A4F',
                               borderRadius: '5px',
                               padding: '2px 6px',
@@ -1601,7 +1601,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '4px', borderTop: '1px solid rgba(45, 106, 79, 0.15)' }}>
-                    <span style={{ background: '#FAF8F2', border: '1px solid #2D6A4F', padding: '1px 8px', borderRadius: '6px', fontSize: '16px', fontWeight: 800, color: '#14452F' }}>
+                    <span style={{ background: 'rgba(250, 248, 242, 0.55)', border: '1px solid #2D6A4F', padding: '1px 8px', borderRadius: '6px', fontSize: '16px', fontWeight: 800, color: '#14452F' }}>
                       🇮🇳 National Conservation Impact
                     </span>
                     <span style={{ fontSize: '16px', color: '#16A34A', fontWeight: 800 }}>

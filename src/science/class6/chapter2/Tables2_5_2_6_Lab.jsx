@@ -50,9 +50,9 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
-      background: '#FAF8F2',
+      background: 'rgba(250, 248, 242, 0.55)',
       borderRadius: '20px',
-      border: '2px solid #14452F',
+      border: '2px solid rgba(20, 69, 47, 0.5)',
       padding: '16px 22px 14px',
       boxSizing: 'border-box',
       overflow: 'hidden',
@@ -77,7 +77,7 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div style={{ display: 'flex', background: '#F5F1E5', padding: '4px', borderRadius: '12px', border: '1.8px solid #14452F', gap: '4px' }}>
+          <div style={{ display: 'flex', background: 'rgba(245, 241, 229, 0.6)', padding: '4px', borderRadius: '12px', border: '1.8px solid #14452F', gap: '4px' }}>
             <button
               onClick={() => setActiveTable('2.5')}
               style={{
@@ -125,7 +125,7 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
               alignItems: 'center',
               gap: '6px',
               padding: '7px 16px',
-              background: isSpeaking ? '#fee2e2' : '#FAF8F2',
+              background: isSpeaking ? '#fee2e2' : 'rgba(250, 248, 242, 0.55)',
               border: `1.8px solid ${isSpeaking ? '#ef4444' : '#14452F'}`,
               borderRadius: '10px',
               color: isSpeaking ? '#991b1b' : '#14452F',
@@ -160,8 +160,8 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
             <div style={{
               flex: 1,
               minHeight: 0,
-              background: '#FAF8F2',
-              border: '2px solid #14452F',
+              background: 'rgba(250, 248, 242, 0.55)',
+              border: '2px solid rgba(20, 69, 47, 0.5)',
               borderRadius: '14px',
               overflowY: 'auto',
               display: 'flex',
@@ -169,7 +169,7 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
             }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '16px' }}>
                 <thead>
-                  <tr style={{ background: '#F5F1E5', borderBottom: '2px solid #14452F', color: '#14452F', fontWeight: '900', fontSize: '16px' }}>
+                  <tr style={{ background: 'rgba(245, 241, 229, 0.6)', borderBottom: '2px solid #14452F', color: '#14452F', fontWeight: '900', fontSize: '16px' }}>
                     <th style={{ padding: '10px 14px', width: '70px' }}>S.No.</th>
                     <th style={{ padding: '10px 14px' }}>Name of Animal</th>
                     <th style={{ padding: '10px 14px' }}>Type of Movement</th>
@@ -179,7 +179,7 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
                 </thead>
                 <tbody>
                   {TABLE_2_5_DATA.map((row) => (
-                    <tr key={row.sNo} style={{ borderBottom: '1px solid #EDE7D8', background: row.sNo % 2 === 0 ? '#F5F1E5' : '#FAF8F2' }}>
+                    <tr key={row.sNo} style={{ borderBottom: '1px solid #EDE7D8', background: row.sNo % 2 === 0 ? '#F5F1E5' : 'rgba(250, 248, 242, 0.55)' }}>
                       <td style={{ padding: '10px 14px', fontWeight: '800', color: '#14452F' }}>{row.sNo}</td>
                       <td style={{ padding: '10px 14px', fontWeight: '900', color: '#14452F' }}>{row.animal}</td>
                       <td style={{ padding: '10px 14px', color: '#2A3B2C', fontWeight: '600' }}>{row.movement}</td>
@@ -191,7 +191,7 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
               </table>
             </div>
 
-            <div style={{ background: '#F5F1E5', border: '1.8px solid #14452F', borderRadius: '12px', padding: '10px 16px', marginTop: '10px', flexShrink: 0 }}>
+            <div style={{ background: 'rgba(245, 241, 229, 0.6)', border: '1.8px solid #14452F', borderRadius: '12px', padding: '10px 16px', marginTop: '10px', flexShrink: 0 }}>
               <span style={{ fontSize: '16px', fontWeight: '900', color: '#14452F' }}>
                 📌 Textbook Inference (Page 22):
               </span>
@@ -229,8 +229,8 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
                 <div
                   key={eIdx}
                   style={{
-                    background: '#FAF8F2',
-                    border: '2px solid #14452F',
+                    background: 'rgba(250, 248, 242, 0.55)',
+                    border: '2px solid rgba(20, 69, 47, 0.5)',
                     borderRadius: '14px',
                     padding: '14px 18px',
                     display: 'flex',
@@ -269,7 +269,7 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
               ))}
             </div>
 
-            <div style={{ background: '#F5F1E5', border: '1.8px solid #14452F', borderRadius: '12px', padding: '10px 16px', marginTop: '10px', flexShrink: 0 }}>
+            <div style={{ background: 'rgba(245, 241, 229, 0.6)', border: '1.8px solid #14452F', borderRadius: '12px', padding: '10px 16px', marginTop: '10px', flexShrink: 0 }}>
               <span style={{ fontSize: '16px', fontWeight: '900', color: '#14452F' }}>
                 📌 Textbook Inference (Page 24):
               </span>
@@ -297,7 +297,7 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
             alignItems: 'center',
             gap: '8px',
             padding: '8px 16px',
-            background: '#FAF8F2',
+            background: 'rgba(250, 248, 242, 0.55)',
             border: '1.8px solid #14452F',
             borderRadius: '10px',
             color: '#14452F',

@@ -1003,7 +1003,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
     <div style={{
       width: '100%',
       height: '100%',
-      background: '#EAE5D9',
+      background: 'transparent',
       fontFamily: '"Outfit", "Plus Jakarta Sans", system-ui, sans-serif',
       color: '#0F3822',
       display: 'flex',
@@ -1013,9 +1013,16 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
       position: 'relative'
     }}>
       <style>{`
+        /* Text Justification & Font Size Constraint */
+        p, .guide-body-text, .nature-desc-text {
+          text-align: justify !important;
+          text-justify: inter-word !important;
+          hyphens: auto;
+        }
+
         /* Slogan Page Custom Buttons */
         .bio-slogan-btn {
-          background: linear-gradient(135deg, #14452F 0%, #064E3B 100%);
+          background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
           color: #FFFFFF;
           border: 1.5px solid #10B981;
           border-radius: 12px;
@@ -1055,7 +1062,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
           box-shadow: 0 6px 20px rgba(217, 119, 6, 0.50);
         }
         .bio-outline-btn {
-          background: #FAF8F2;
+          background: rgba(250, 248, 242, 0.55); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
           color: #14452F;
           border: 1.8px solid #14452F;
           border-radius: 12px;
@@ -1158,7 +1165,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
           position: relative;
           border-radius: 22px;
           overflow: hidden;
-          border: 2.5px solid #14452F;
+          border: 2.5px solid rgba(20, 69, 47, 0.5);
           box-shadow: 0 14px 34px rgba(0,0,0,0.25);
           display: flex;
           flex-direction: column;
@@ -1379,8 +1386,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
         gridTemplateColumns: 'minmax(190px, 1fr) auto minmax(190px, 1fr)',
         alignItems: 'center',
         padding: 'clamp(6px, 0.9vh, 10px) clamp(14px, 1.8vw, 26px)',
-        background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 100%)',
-        borderBottom: '2px solid #14452F',
+        background: 'rgba(15, 23, 42, 0.50)',
+        borderBottom: '2px solid rgba(212, 175, 55, 0.45)',
         width: '100%',
         boxSizing: 'border-box',
         zIndex: 50,
@@ -1447,7 +1454,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               fontFamily: '"Fraunces", Georgia, serif',
               fontSize: '24px',
               margin: 0,
-              color: '#0A3B24',
+              color: '#F8FAFC',
               fontWeight: 900,
               letterSpacing: '-0.01em',
               textShadow: '0 1px 3px rgba(10, 59, 36, 0.10)'
@@ -1502,13 +1509,13 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               onClick={handleReset}
               className="bio-outline-btn"
               style={{
-                background: '#FAF8F2',
-                border: '1.8px solid #14452F',
+                background: 'rgba(15, 23, 42, 0.50)',
+                border: '1.8px solid #D4AF37',
                 borderRadius: '10px',
                 padding: '6px 16px',
                 fontSize: '16px',
                 fontWeight: 800,
-                color: '#14452F',
+                color: '#F8FAFC',
                 boxShadow: '0 2px 8px rgba(20, 69, 47, 0.15)',
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -1540,8 +1547,10 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
           justifyContent: 'space-between',
           margin: 'clamp(6px, 1vh, 12px) clamp(14px, 1.8vw, 24px)',
           padding: 'clamp(10px, 1.3vh, 16px) clamp(16px, 1.8vw, 22px)',
-          background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
-          border: '2px solid #14452F',
+          background: 'rgba(15, 23, 42, 0.50)',
+          backdropFilter: 'blur(18px)',
+          WebkitBackdropFilter: 'blur(18px)',
+          border: '2px solid #D4AF37',
           borderRadius: '24px',
           boxShadow: '0 14px 38px rgba(10, 59, 36, 0.18)',
           boxSizing: 'border-box',
@@ -1613,8 +1622,10 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               flex: '0 0 30%',
               width: '30%',
               height: '100%',
-              background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
-              border: '2px solid #14452F',
+              background: 'rgba(15, 23, 42, 0.50)',
+              backdropFilter: 'blur(18px)',
+              WebkitBackdropFilter: 'blur(18px)',
+              border: '2px solid #D4AF37',
               borderRadius: '20px',
               boxShadow: '0 12px 36px rgba(15, 74, 50, 0.18), inset 0 0 0 1.5px rgba(45, 106, 79, 0.12)',
               padding: 'clamp(8px, 1.2vh, 12px) clamp(10px, 1.1vw, 14px)',
@@ -1642,7 +1653,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   fontFamily: '"Fraunces", Georgia, serif',
                   fontSize: '20px',
                   fontWeight: 900,
-                  color: '#0A3B24',
+                  color: '#F8FAFC',
                   margin: '1px 0',
                   lineHeight: 1.15
                 }}>
@@ -1651,7 +1662,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
 
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', margin: '2px 0' }}>
                   <div style={{ flex: 1, height: '1.2px', background: 'linear-gradient(90deg, transparent, #2D6A4F)' }} />
-                  <span style={{ fontSize: '16px', color: '#14452F' }}>🌿</span>
+                  <span style={{ fontSize: '16px', color: '#F8FAFC' }}>🌿</span>
                   <div style={{ flex: 1, height: '1.2px', background: 'linear-gradient(90deg, #2D6A4F, transparent)' }} />
                 </div>
               </div>
@@ -1685,7 +1696,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
 
                 <div style={{
                   background: '#FFFFFF',
-                  border: '1.8px solid #14452F',
+                  border: '1.8px solid #D4AF37',
                   borderRadius: '10px',
                   padding: '5px 8px',
                   boxShadow: '0 2px 6px rgba(20, 69, 47, 0.10)',
@@ -1693,7 +1704,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   flexDirection: 'column',
                   gap: '1px'
                 }}>
-                  <span style={{ fontSize: '16px', fontWeight: 900, color: '#14452F', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <span style={{ fontSize: '16px', fontWeight: 900, color: '#F8FAFC', display: 'flex', alignItems: 'center', gap: '4px' }}>
                     {currentGuide.rightGroup}
                   </span>
                   <span style={{ fontSize: '16px', fontWeight: 700, color: '#1F2937', lineHeight: 1.25 }}>
@@ -1705,7 +1716,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               {/* 3. What Students Observe in 8K */}
               <div style={{
                 background: 'rgba(20, 69, 47, 0.05)',
-                border: '1.8px solid #14452F',
+                border: '1.8px solid #D4AF37',
                 borderRadius: '11px',
                 padding: '6px 8px',
                 display: 'flex',
@@ -1718,7 +1729,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 <div style={{
                   fontSize: '16px',
                   fontWeight: 900,
-                  color: '#14452F',
+                  color: '#F8FAFC',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '5px'
@@ -1730,7 +1741,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   <div key={idx} style={{
                     fontFamily: '"Outfit", sans-serif',
                     fontSize: '16px',
-                    color: '#14452F',
+                    color: '#F8FAFC',
                     lineHeight: 1.3,
                     fontWeight: 700
                   }}>
@@ -1741,7 +1752,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
 
               {/* 4. Bottom Key Concept & Takeaway */}
               <div style={{
-                background: '#FAF8F2',
+                background: 'rgba(15, 23, 42, 0.50)',
                 border: '1.5px dashed #14452F',
                 borderRadius: '10px',
                 padding: '5px 8px',
@@ -1756,7 +1767,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 <div style={{
                   fontFamily: '"Outfit", sans-serif',
                   fontSize: '16px',
-                  color: '#14452F',
+                  color: '#F8FAFC',
                   fontWeight: 800,
                   lineHeight: 1.25
                 }}>
@@ -1844,10 +1855,12 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
-          border: '2px solid #14452F',
+          background: 'rgba(15, 23, 42, 0.50)',
+          backdropFilter: 'blur(18px)',
+          WebkitBackdropFilter: 'blur(18px)',
+          border: '2px solid #D4AF37',
           borderRadius: '24px',
-          boxShadow: '0 16px 40px rgba(20, 69, 47, 0.14)',
+          boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',
           padding: 'clamp(8px, 1.2vh, 14px) clamp(16px, 1.8vw, 24px)',
           margin: 'clamp(6px, 1vh, 12px) clamp(14px, 1.8vw, 24px)',
           boxSizing: 'border-box',
@@ -1878,7 +1891,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             </button>
 
             {/* 4 Criteria Selector Tabs */}
-            <div style={{ display: 'flex', gap: '8px', background: 'rgba(20, 69, 47, 0.08)', padding: '4px', borderRadius: '14px', border: '1.8px solid #14452F' }}>
+            <div style={{ display: 'flex', gap: '8px', background: 'rgba(20, 69, 47, 0.08)', padding: '4px', borderRadius: '14px', border: '1.8px solid #D4AF37' }}>
               {CRITERIA.map(crit => {
                 const isActive = selectedCriterionId === crit.id;
                 const isDone = completedCriteria.includes(crit.id);
@@ -1890,7 +1903,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                       padding: 'clamp(6px, 0.8vh, 8px) clamp(14px, 1.4vw, 18px)',
                       borderRadius: '10px',
                       border: isActive ? '2px solid #10B981' : isDone ? '1.5px solid #14452F' : '1px solid transparent',
-                      background: isActive ? '#14452F' : isDone ? '#D1FAE5' : '#FAF8F2',
+                      background: isActive ? '#14452F' : isDone ? '#D1FAE5' : 'rgba(250, 248, 242, 0.55)',
                       color: isActive ? '#FFFFFF' : '#14452F',
                       fontWeight: 900,
                       fontSize: '16px',
@@ -1911,12 +1924,12 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             </div>
 
             <div style={{
-              background: '#FAF8F2',
-              border: '1.8px solid #14452F',
+              background: 'rgba(15, 23, 42, 0.50)',
+              border: '1.8px solid #D4AF37',
               borderRadius: '12px',
               padding: '5px 16px',
               fontSize: '16px',
-              color: '#14452F',
+              color: '#F8FAFC',
               fontWeight: 900,
               boxShadow: '0 2px 8px rgba(20, 69, 47, 0.08)'
             }}>
@@ -1944,13 +1957,13 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   fontFamily: '"Fraunces", Georgia, serif',
                   fontSize: '18px',
                   fontWeight: 900,
-                  color: '#14452F'
+                  color: '#F8FAFC'
                 }}>
                   Select an Organism Photo: <span style={{ color: '#D97706' }}>"{currentCriterion.questionPrompt}"</span>
                 </span>
               </div>
 
-              <span style={{ fontSize: '16px', fontWeight: 800, color: '#14452F' }}>
+              <span style={{ fontSize: '16px', fontWeight: 800, color: '#F8FAFC' }}>
                 {selectedItem ? `Selected: ${selectedItem.name} 👉 Click a tray below!` : 'Click any specimen card to sort'}
               </span>
             </div>
@@ -2140,7 +2153,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
 
                     {/* Specimen Name Banner */}
                     <div style={{
-                      background: isSelected ? '#14452F' : '#FAF8F2',
+                      background: isSelected ? '#14452F' : 'rgba(250, 248, 242, 0.55)',
                       color: isSelected ? '#FFFFFF' : '#14452F',
                       padding: '4px 6px',
                       textAlign: 'center',
@@ -2186,7 +2199,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   fontFamily: '"Fraunces", Georgia, serif',
                   fontSize: '18px',
                   fontWeight: 900,
-                  color: '#14452F'
+                  color: '#F8FAFC'
                 }}>
                   Place Organisms into their 8K Habitat Diorama:
                 </span>
@@ -2199,7 +2212,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   onClick={() => setIsSimulatingEcosystem(s => !s)}
                   title={isSimulatingEcosystem ? 'Pause live nature simulation' : 'Run living ecosystem simulation with active animated organisms & audio'}
                   style={{
-                    background: isSimulatingEcosystem ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)' : '#FAF8F2',
+                    background: isSimulatingEcosystem ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'rgba(250, 248, 242, 0.55)',
                     color: isSimulatingEcosystem ? '#FFFFFF' : '#14452F',
                     border: '1.8px solid #10B981',
                     borderRadius: '10px',
@@ -2223,9 +2236,9 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   onClick={() => setShowClassificationTree(true)}
                   title="Open interactive NCERT branching classification tree"
                   style={{
-                    background: '#FAF8F2',
-                    color: '#14452F',
-                    border: '1.8px solid #14452F',
+                    background: 'rgba(15, 23, 42, 0.50)',
+                    color: '#F8FAFC',
+                    border: '1.8px solid #D4AF37',
                     borderRadius: '10px',
                     padding: '3px 12px',
                     fontSize: '16px',
@@ -2246,12 +2259,12 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   onClick={toggleSound}
                   title={isMuted ? 'Unmute nature sounds' : 'Mute nature sounds'}
                   style={{
-                    background: '#FAF8F2',
-                    border: '1.8px solid #14452F',
+                    background: 'rgba(15, 23, 42, 0.50)',
+                    border: '1.8px solid #D4AF37',
                     borderRadius: '10px',
                     padding: '3px 10px',
                     fontSize: '16px',
-                    color: '#14452F',
+                    color: '#F8FAFC',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center'
@@ -2395,8 +2408,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                       </div>
 
                       <span style={{
-                        background: '#FAF8F2',
-                        color: '#14452F',
+                        background: 'rgba(15, 23, 42, 0.50)',
+                        color: '#F8FAFC',
                         padding: '2px 10px',
                         borderRadius: '20px',
                         fontSize: '16px',
@@ -2483,7 +2496,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                                       height: '38px',
                                       borderRadius: '8px',
                                       objectFit: 'cover',
-                                      border: '1.5px solid #14452F',
+                                      border: '1.5px solid rgba(212, 175, 55, 0.6)',
                                       flexShrink: 0
                                     }}
                                   />
@@ -2492,7 +2505,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                                       fontFamily: '"Fraunces", Georgia, serif',
                                       fontSize: '16px',
                                       fontWeight: 900,
-                                      color: '#14452F',
+                                      color: '#F8FAFC',
                                       whiteSpace: 'nowrap',
                                       overflow: 'hidden',
                                       textOverflow: 'ellipsis'
@@ -2570,7 +2583,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                                     style={{
                                       background: 'rgba(20, 69, 47, 0.08)',
                                       border: '1px solid rgba(20, 69, 47, 0.25)',
-                                      color: '#14452F',
+                                      color: '#F8FAFC',
                                       borderRadius: '6px',
                                       padding: '2px 5px',
                                       fontSize: '16px',
@@ -2703,7 +2716,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             width: '92vw',
             maxWidth: '1350px',
             height: '88vh',
-            background: '#FAF8F2',
+            background: 'rgba(15, 23, 42, 0.50)',
             border: '2.5px solid #10B981',
             borderRadius: '24px',
             boxShadow: '0 24px 60px rgba(0, 0, 0, 0.45)',
@@ -2722,8 +2735,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               alignItems: 'center',
               justifyContent: 'space-between',
               padding: '12px 24px',
-              borderBottom: '2px solid #14452F',
-              background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 100%)',
+              borderBottom: '2px solid rgba(212, 175, 55, 0.45)',
+              background: 'rgba(15, 23, 42, 0.50)',
               zIndex: 20
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -2741,7 +2754,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   fontFamily: '"Fraunces", Georgia, serif',
                   fontSize: '22px',
                   fontWeight: 900,
-                  color: '#0A3B24'
+                  color: '#F8FAFC'
                 }}>
                   {activeZoomImage.title} · 8K Ultra-Definition View
                 </span>
@@ -2755,7 +2768,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   background: 'rgba(20, 69, 47, 0.10)',
                   borderRadius: '12px',
                   padding: '3px 8px',
-                  border: '1.5px solid #14452F'
+                  border: '1.5px solid rgba(212, 175, 55, 0.6)'
                 }}>
                   <button
                     onClick={() => setZoomScale(s => Math.max(1, s - 0.5))}
@@ -2777,7 +2790,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   <span style={{
                     fontSize: '16px',
                     fontWeight: 900,
-                    color: '#14452F',
+                    color: '#F8FAFC',
                     padding: '0 8px',
                     minWidth: '54px',
                     textAlign: 'center'
@@ -2825,7 +2838,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   style={{
                     background: '#14452F',
                     color: '#FFFFFF',
-                    border: '1.5px solid #10B981',
+                    border: '1.8px solid #FDE68A',
                     borderRadius: '12px',
                     padding: '8px 16px',
                     fontSize: '16px',
@@ -2876,14 +2889,14 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             {/* Modal Bottom Explanation Strip */}
             <div style={{
               padding: '10px 24px',
-              background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 100%)',
-              borderTop: '2px solid #14452F',
+              background: 'rgba(15, 23, 42, 0.50)',
+              borderTop: '2px solid rgba(212, 175, 55, 0.45)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
               zIndex: 20
             }}>
-              <span style={{ fontSize: '16px', color: '#14452F', fontWeight: 800 }}>
+              <span style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: 800 }}>
                 🔍 <strong>Pristine 8K Botanical Resolution:</strong> Zoom in up to 300% to inspect microscopic fern spores, tree bark lichen, sunlit leaf vein stomata, and freshwater ripples without pixelation!
               </span>
 
@@ -2891,9 +2904,9 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 <button
                   onClick={() => setZoomScale(1.5)}
                   style={{
-                    background: zoomScale === 1.5 ? '#14452F' : '#FAF8F2',
+                    background: zoomScale === 1.5 ? '#14452F' : 'rgba(250, 248, 242, 0.55)',
                     color: zoomScale === 1.5 ? '#FFFFFF' : '#14452F',
-                    border: '1.5px solid #14452F',
+                    border: '1.5px solid rgba(212, 175, 55, 0.6)',
                     borderRadius: '8px',
                     padding: '4px 12px',
                     fontSize: '16px',
@@ -2906,9 +2919,9 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 <button
                   onClick={() => setZoomScale(2)}
                   style={{
-                    background: zoomScale === 2 ? '#14452F' : '#FAF8F2',
+                    background: zoomScale === 2 ? '#14452F' : 'rgba(250, 248, 242, 0.55)',
                     color: zoomScale === 2 ? '#FFFFFF' : '#14452F',
-                    border: '1.5px solid #14452F',
+                    border: '1.5px solid rgba(212, 175, 55, 0.6)',
                     borderRadius: '8px',
                     padding: '4px 12px',
                     fontSize: '16px',
@@ -2921,9 +2934,9 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 <button
                   onClick={() => setZoomScale(3)}
                   style={{
-                    background: zoomScale === 3 ? '#14452F' : '#FAF8F2',
+                    background: zoomScale === 3 ? '#14452F' : 'rgba(250, 248, 242, 0.55)',
                     color: zoomScale === 3 ? '#FFFFFF' : '#14452F',
-                    border: '1.5px solid #14452F',
+                    border: '1.5px solid rgba(212, 175, 55, 0.6)',
                     borderRadius: '8px',
                     padding: '4px 12px',
                     fontSize: '16px',
@@ -2964,7 +2977,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             width: '90vw',
             maxWidth: '920px',
             maxHeight: '90vh',
-            background: '#FAF8F2',
+            background: 'rgba(15, 23, 42, 0.50)',
             border: '2.5px solid #10B981',
             borderRadius: '24px',
             boxShadow: '0 24px 60px rgba(0, 0, 0, 0.5)',
@@ -2983,8 +2996,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               alignItems: 'center',
               justifyContent: 'space-between',
               padding: '12px 24px',
-              borderBottom: '2px solid #14452F',
-              background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 100%)',
+              borderBottom: '2px solid rgba(212, 175, 55, 0.45)',
+              background: 'rgba(15, 23, 42, 0.50)',
               zIndex: 20
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -3002,7 +3015,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   fontFamily: '"Fraunces", Georgia, serif',
                   fontSize: '22px',
                   fontWeight: 900,
-                  color: '#0A3B24'
+                  color: '#F8FAFC'
                 }}>
                   {activeLoupeSpecimen.name} <em style={{ fontSize: '17px', fontWeight: 600, color: '#065F46' }}>({activeLoupeSpecimen.scientific})</em>
                 </span>
@@ -3012,7 +3025,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 onClick={() => setActiveLoupeSpecimen(null)}
                 style={{
                   background: 'rgba(20, 69, 47, 0.1)',
-                  border: '1.5px solid #14452F',
+                  border: '1.5px solid rgba(212, 175, 55, 0.6)',
                   borderRadius: '50%',
                   width: '36px',
                   height: '36px',
@@ -3021,7 +3034,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   justifyContent: 'center',
                   cursor: 'pointer',
                   fontSize: '18px',
-                  color: '#14452F',
+                  color: '#F8FAFC',
                   fontWeight: 900
                 }}
                 title="Close Loupe Inspector"
@@ -3044,7 +3057,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 position: 'relative',
                 borderRadius: '16px',
                 overflow: 'hidden',
-                border: '2px solid #14452F',
+                border: '2px solid #D4AF37',
                 background: '#072517',
                 minHeight: '260px',
                 display: 'flex',
@@ -3116,7 +3129,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                       <div style={{
                         background: 'rgba(20, 69, 47, 0.08)',
-                        border: '1.5px solid #14452F',
+                        border: '1.5px solid rgba(212, 175, 55, 0.6)',
                         borderRadius: '14px',
                         padding: '10px 14px'
                       }}>
@@ -3127,7 +3140,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                           fontFamily: '"Fraunces", Georgia, serif',
                           fontSize: '18px',
                           fontWeight: 900,
-                          color: '#14452F',
+                          color: '#F8FAFC',
                           marginTop: '2px'
                         }}>
                           {currentCriterion.icon} {currentCriterion.label}
@@ -3145,7 +3158,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                           fontFamily: '"Fraunces", Georgia, serif',
                           fontSize: '18px',
                           fontWeight: 900,
-                          color: '#0A3B24',
+                          color: '#F8FAFC',
                           marginBottom: '6px'
                         }}>
                           🔍 {adapt.title || 'Anatomical Feature'}
@@ -3234,7 +3247,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             width: '92vw',
             maxWidth: '1060px',
             maxHeight: '90vh',
-            background: '#FAF8F2',
+            background: 'rgba(15, 23, 42, 0.50)',
             border: '2.5px solid #10B981',
             borderRadius: '24px',
             boxShadow: '0 24px 60px rgba(0, 0, 0, 0.5)',
@@ -3253,8 +3266,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               alignItems: 'center',
               justifyContent: 'space-between',
               padding: '12px 24px',
-              borderBottom: '2px solid #14452F',
-              background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 100%)',
+              borderBottom: '2px solid rgba(212, 175, 55, 0.45)',
+              background: 'rgba(15, 23, 42, 0.50)',
               zIndex: 20
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -3272,7 +3285,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   fontFamily: '"Fraunces", Georgia, serif',
                   fontSize: '22px',
                   fontWeight: 900,
-                  color: '#0A3B24'
+                  color: '#F8FAFC'
                 }}>
                   Branching Classification Tree of Living Things
                 </span>
@@ -3282,7 +3295,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 onClick={() => setShowClassificationTree(false)}
                 style={{
                   background: 'rgba(20, 69, 47, 0.1)',
-                  border: '1.5px solid #14452F',
+                  border: '1.5px solid rgba(212, 175, 55, 0.6)',
                   borderRadius: '50%',
                   width: '36px',
                   height: '36px',
@@ -3291,7 +3304,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   justifyContent: 'center',
                   cursor: 'pointer',
                   fontSize: '18px',
-                  color: '#14452F',
+                  color: '#F8FAFC',
                   fontWeight: 900
                 }}
                 title="Close Classification Tree"
@@ -3362,7 +3375,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                     {/* Flowering Plants */}
                     <div style={{
                       background: '#FFFFFF',
-                      border: '1.5px solid #14452F',
+                      border: '1.5px solid rgba(212, 175, 55, 0.6)',
                       borderRadius: '12px',
                       padding: '8px',
                       display: 'flex',
@@ -3372,13 +3385,13 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                       <span style={{ fontSize: '16px', fontWeight: 900, color: '#D97706' }}>
                         🌸 Flowering Plants
                       </span>
-                      <span style={{ fontSize: '16px', color: '#14452F', fontWeight: 800 }}>
+                      <span style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: 800 }}>
                         • Mango Tree (Woody)
                       </span>
-                      <span style={{ fontSize: '16px', color: '#14452F', fontWeight: 800 }}>
+                      <span style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: 800 }}>
                         • Rose Plant (Woody)
                       </span>
-                      <span style={{ fontSize: '16px', color: '#14452F', fontWeight: 800 }}>
+                      <span style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: 800 }}>
                         • Lotus Plant (Soft Water)
                       </span>
                     </div>
@@ -3386,7 +3399,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                     {/* Non-Flowering Plants */}
                     <div style={{
                       background: '#FFFFFF',
-                      border: '1.5px solid #14452F',
+                      border: '1.5px solid rgba(212, 175, 55, 0.6)',
                       borderRadius: '12px',
                       padding: '8px',
                       display: 'flex',
@@ -3396,7 +3409,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                       <span style={{ fontSize: '16px', fontWeight: 900, color: '#059669' }}>
                         🌿 Spore-Bearing Plant
                       </span>
-                      <span style={{ fontSize: '16px', color: '#14452F', fontWeight: 800 }}>
+                      <span style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: 800 }}>
                         • Fern Plant
                       </span>
                       <span style={{ fontSize: '16px', color: '#6B7280', fontWeight: 600 }}>
@@ -3432,7 +3445,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                     {/* Terrestrial Animal */}
                     <div style={{
                       background: '#FFFFFF',
-                      border: '1.5px solid #14452F',
+                      border: '1.5px solid rgba(212, 175, 55, 0.6)',
                       borderRadius: '12px',
                       padding: '8px',
                       display: 'flex',
@@ -3442,7 +3455,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                       <span style={{ fontSize: '16px', fontWeight: 900, color: '#1E3A8A' }}>
                         🏞️ Terrestrial Mammal
                       </span>
-                      <span style={{ fontSize: '16px', color: '#14452F', fontWeight: 800 }}>
+                      <span style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: 800 }}>
                         • Indian Cow
                       </span>
                       <span style={{ fontSize: '16px', color: '#6B7280', fontWeight: 600 }}>
@@ -3453,7 +3466,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                     {/* Aquatic Animal */}
                     <div style={{
                       background: '#FFFFFF',
-                      border: '1.5px solid #14452F',
+                      border: '1.5px solid rgba(212, 175, 55, 0.6)',
                       borderRadius: '12px',
                       padding: '8px',
                       display: 'flex',
@@ -3463,7 +3476,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                       <span style={{ fontSize: '16px', fontWeight: 900, color: '#0284C7' }}>
                         🌊 Aquatic Swimmer
                       </span>
-                      <span style={{ fontSize: '16px', color: '#14452F', fontWeight: 800 }}>
+                      <span style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: 800 }}>
                         • Freshwater Fish
                       </span>
                       <span style={{ fontSize: '16px', color: '#6B7280', fontWeight: 600 }}>
@@ -3492,7 +3505,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                     }}
                     style={{
                       background: '#FFFFFF',
-                      border: '1.5px solid #14452F',
+                      border: '1.5px solid rgba(212, 175, 55, 0.6)',
                       borderRadius: '12px',
                       padding: '6px',
                       display: 'flex',
@@ -3520,7 +3533,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                       fontFamily: '"Fraunces", Georgia, serif',
                       fontSize: '16px',
                       fontWeight: 900,
-                      color: '#14452F',
+                      color: '#F8FAFC',
                       textAlign: 'center',
                       whiteSpace: 'nowrap',
                       overflow: 'hidden',

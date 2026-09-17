@@ -63,8 +63,8 @@ export default function Stage3_Explore({ onComplete, onNext }) {
     <div style={{ 
       padding: '0.5rem 1rem', 
       display: 'grid', 
-      gridTemplateColumns: '1fr 370px',
-      gap: '1rem', 
+      gridTemplateColumns: '1fr 440px',
+      gap: '1.25rem', 
       height: '100%', 
       minHeight: 0, 
       overflow: 'hidden', 
@@ -128,274 +128,197 @@ export default function Stage3_Explore({ onComplete, onNext }) {
         </div>
       </div>
 
-      {/* Right Side: Compact Flight Simulation Controls Container */}
-      <div style={{ 
-        width: "370px", 
-        background: "linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 50%, #FEF3C7 100%)",
-        border: "1.5px solid #FDE68A",
-        borderRadius: "24px",
-        padding: "1.25rem 1.4rem",
-        boxShadow: "0 6px 24px rgba(217, 119, 6, 0.08)",
-        display: "flex", 
-        flexDirection: "column", 
-        justifyContent: "flex-start", 
-        minWidth: 0, 
+      {/* Right Side: Two Golden Containers */}
+      <div className="stage-right-column" style={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        gap: '1.65rem',
         height: '100%',
-        boxSizing: 'border-box',
-        overflowY: "auto",
-        gap: "1rem",
-        fontFamily: "system-ui, -apple-system, sans-serif"
+        minHeight: 0,
+        boxSizing: 'border-box'
       }}>
-        {/* Header Title (Directly in panel, no wrapper box) */}
-        <div style={{
+        {/* Container 1: Steps of Instructions */}
+        <div className="stage-container-1" style={{
+          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+          border: '1.5px solid #FDE68A',
+          borderRadius: '24px',
+          padding: '1.4rem 1.6rem',
+          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
           display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '0.1rem 0',
-          flexShrink: 0
+          flexDirection: 'column',
+          gap: '0.85rem'
         }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
-            <h3 style={{ margin: 0, fontSize: '1.38rem', fontWeight: 900, color: '#064E3B' }}>
-              🧭 Explore Forces
-            </h3>
-            <span style={{ fontSize: '1.02rem', color: '#047857', fontWeight: 800 }}>
-              Attraction & Repulsion
-            </span>
-          </div>
-          <span style={{
-            background: '#DCFCE7',
-            color: '#15803D',
-            fontWeight: 900,
-            fontSize: '0.94rem',
-            padding: '0.35rem 0.8rem',
-            borderRadius: '12px',
-            border: '1.5px solid #86EFAC',
-            boxShadow: '0 2px 6px rgba(16, 185, 129, 0.12)'
-          }}>
-            Step {hasTestedSame && hasTestedDifferent ? '2' : '1'} of 2
-          </span>
-        </div>
-
-        {/* Instruction Steps Section (With Increased Font Sizes & User Instructions) */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.95rem' }}>
-          {/* Step 1: Same Poles */}
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.3rem',
-            padding: '0.15rem 0'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <span style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  background: interactionMode === 'same'
-                    ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' 
-                    : hasTestedSame ? '#059669' : '#64748B',
-                  color: '#FFFFFF',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '1.02rem',
-                  fontWeight: 900,
-                  flexShrink: 0
-                }}>
-                  1
-                </span>
-                <span style={{ 
-                  fontWeight: 900, 
-                  fontSize: '1.24rem', 
-                  color: interactionMode === 'same' ? '#064E3B' : hasTestedSame ? '#047857' : '#334155' 
-                }}>
-                  Like Poles (Repel)
-                </span>
-              </div>
-              {hasTestedSame && <CheckCircle size={22} color="#059669" />}
+          <h3 style={{ margin: 0, fontSize: '19.5px', fontWeight: 900, color: '#1E1B4B' }}>
+            Steps of Instructions
+          </h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
+              <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+                Select "1. Same Poles" to observe like poles (N + N) repelling apart.
+              </span>
             </div>
-            <p style={{ margin: '0.15rem 0 0 2.6rem', fontSize: '1.06rem', color: '#065F46', lineHeight: 1.55, fontWeight: 600 }}>
-              Click the <strong>"1. Same Poles"</strong> button below to observe how like poles (N + N) push aircraft apart into separate flight corridors.
-            </p>
-          </div>
-
-          {/* Step 2: Different Poles */}
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.3rem',
-            padding: '0.15rem 0'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <span style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  background: interactionMode === 'different'
-                    ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' 
-                    : hasTestedDifferent ? '#059669' : '#64748B',
-                  color: '#FFFFFF',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '1.02rem',
-                  fontWeight: 900,
-                  flexShrink: 0
-                }}>
-                  2
-                </span>
-                <span style={{ 
-                  fontWeight: 900, 
-                  fontSize: '1.24rem', 
-                  color: interactionMode === 'different' ? '#064E3B' : hasTestedDifferent ? '#047857' : '#334155' 
-                }}>
-                  Opposite Poles (Attract)
-                </span>
-              </div>
-              {hasTestedDifferent && <CheckCircle size={22} color="#059669" />}
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
+              <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+                Select "2. Different Poles" to observe opposite poles (N + S) attracting together.
+              </span>
             </div>
-            <p style={{ margin: '0.15rem 0 0 2.6rem', fontSize: '1.06rem', color: '#065F46', lineHeight: 1.55, fontWeight: 600 }}>
-              Click the <strong>"2. Different Poles"</strong> button below to observe how opposite poles (N + S) attract each other in a direct forward collision path.
-            </p>
           </div>
         </div>
 
-        {/* Action Buttons: Play/Pause and Poles Selection (Matching Previous Activity Standards) */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', marginTop: '0.2rem' }}>
-          {/* 1. Start / Pause Flight Animation Button */}
-          <button
-            onClick={() => setIsRunning(!isRunning)}
+        {/* Container 2: Controls & Actions */}
+        <div className="stage-container-2" style={{
+          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+          border: '1.5px solid #FDE68A',
+          borderRadius: '24px',
+          padding: '1.4rem 1.6rem',
+          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          flex: 1,
+          minHeight: 0
+        }}>
+          <h3 style={{ margin: 0, fontSize: '19.5px', fontWeight: 900, color: '#1E1B4B' }}>
+            Explore Controls
+          </h3>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+            {/* 1. Start / Pause Flight Animation Button */}
+            <button
+              onClick={() => setIsRunning(!isRunning)}
+              className="gold-glow-btn"
+              style={{
+                width: '100%',
+                padding: '0.85rem 1rem',
+                borderRadius: '16px',
+                color: '#FFFFFF',
+                fontWeight: 900,
+                fontSize: '17.5px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.6rem',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              {isRunning ? (
+                <>
+                  <Pause size={20} fill="#FFFFFF" color="#FFFFFF" /> Pause Flight
+                </>
+              ) : (
+                <>
+                  <Play size={20} fill="#FFFFFF" color="#FFFFFF" /> Resume Flight Animation
+                </>
+              )}
+            </button>
+
+            {/* 2. Same Poles Button */}
+            <button 
+              onClick={() => handleSelectMode("same")} 
+              className={interactionMode === "same" ? "gold-glow-btn" : ""}
+              style={{ 
+                width: "100%", 
+                padding: "0.85rem 1.15rem",
+                borderRadius: "16px",
+                fontSize: "17.5px",
+                fontWeight: 900,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                background: interactionMode === "same" 
+                  ? undefined 
+                  : "#FFFFFF",
+                color: interactionMode === "same" ? "#FFFFFF" : "#065F46",
+                border: interactionMode === "same" ? "none" : "1.5px solid #FDE68A",
+                boxShadow: interactionMode === "same" 
+                  ? undefined 
+                  : "0 2px 6px rgba(0,0,0,0.03)",
+                transition: "all 0.2s ease"
+              }}
+            >
+              <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                {hasTestedSame && <CheckCircle size={20} color={interactionMode === "same" ? "#FFFFFF" : "#059669"} />}
+                🛡️ 1. Same Poles
+              </span>
+              <span style={{ 
+                fontSize: "0.88rem", 
+                fontWeight: 800, 
+                background: interactionMode === "same" ? "rgba(255, 255, 255, 0.25)" : "#FEF3C7", 
+                color: interactionMode === "same" ? "#FFFFFF" : "#92400E", 
+                padding: "4px 10px", 
+                borderRadius: "10px" 
+              }}>
+                {hasTestedSame ? "Tested ✓" : "Repels Apart ⬅️ ➡️"}
+              </span>
+            </button>
+
+            {/* 3. Different Poles Button */}
+            <button 
+              onClick={() => handleSelectMode("different")} 
+              className={interactionMode === "different" ? "gold-glow-btn" : ""}
+              style={{ 
+                width: "100%", 
+                padding: "0.85rem 1.15rem",
+                borderRadius: "16px",
+                fontSize: "17.5px",
+                fontWeight: 900,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                background: interactionMode === "different" 
+                  ? undefined 
+                  : "#FFFFFF",
+                color: interactionMode === "different" ? "#FFFFFF" : "#065F46",
+                border: interactionMode === "different" ? "none" : "1.5px solid #FDE68A",
+                boxShadow: interactionMode === "different" 
+                  ? undefined 
+                  : "0 2px 6px rgba(0,0,0,0.03)",
+                transition: "all 0.2s ease"
+              }}
+            >
+              <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                {hasTestedDifferent && <CheckCircle size={20} color={interactionMode === "different" ? "#FFFFFF" : "#059669"} />}
+                💥 2. Different Poles
+              </span>
+              <span style={{ 
+                fontSize: "0.88rem", 
+                fontWeight: 800, 
+                background: interactionMode === "different" ? "rgba(255, 255, 255, 0.25)" : "#FEF3C7", 
+                color: interactionMode === "different" ? "#FFFFFF" : "#92400E", 
+                padding: "4px 10px", 
+                borderRadius: "10px" 
+              }}>
+                {hasTestedDifferent ? "Tested ✓" : "Attracts & Collides 💥"}
+              </span>
+            </button>
+          </div>
+
+          {/* Proceed to Quiz Button */}
+          <button 
+            onClick={handleFinish} 
             className="gold-glow-btn"
-            style={{
-              width: '100%',
-              padding: '0.95rem 1rem',
-              borderRadius: '16px',
-              color: '#FFFFFF',
-              fontWeight: 900,
-              fontSize: '1.08rem',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '0.6rem',
-              transition: 'all 0.2s ease'
-            }}
-          >
-            {isRunning ? (
-              <>
-                <Pause size={20} fill="#FFFFFF" color="#FFFFFF" /> Pause Flight
-              </>
-            ) : (
-              <>
-                <Play size={20} fill="#FFFFFF" color="#FFFFFF" /> Resume Flight Animation
-              </>
-            )}
-          </button>
-
-          {/* 2. Same Poles Button */}
-          <button 
-            onClick={() => handleSelectMode("same")} 
-            className={interactionMode === "same" ? "gold-glow-btn" : ""}
             style={{ 
               width: "100%", 
-              padding: "0.95rem 1.15rem",
-              borderRadius: "16px",
-              fontSize: "1.08rem",
-              fontWeight: 900,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              background: interactionMode === "same" 
-                ? undefined 
-                : "#FFFFFF",
-              color: interactionMode === "same" ? "#FFFFFF" : "#065F46",
-              border: interactionMode === "same" ? "none" : "1.5px solid #FDE68A",
-              boxShadow: interactionMode === "same" 
-                ? undefined 
-                : "0 2px 6px rgba(0,0,0,0.03)",
-              transition: "all 0.2s ease"
+              padding: "0.85rem 1.4rem", 
+              fontSize: "17.5px", 
+              fontWeight: 900, 
+              borderRadius: "16px", 
+              display: "flex", 
+              justifyContent: "center", 
+              alignItems: "center", 
+              gap: "0.6rem",
+              marginTop: "auto",
+              cursor: "pointer"
             }}
           >
-            <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              {hasTestedSame && <CheckCircle size={20} color={interactionMode === "same" ? "#FFFFFF" : "#059669"} />}
-              🛡️ 1. Same Poles
-            </span>
-            <span style={{ 
-              fontSize: "0.88rem", 
-              fontWeight: 800, 
-              background: interactionMode === "same" ? "rgba(255, 255, 255, 0.25)" : "#FEF3C7", 
-              color: interactionMode === "same" ? "#FFFFFF" : "#92400E", 
-              padding: "4px 10px", 
-              borderRadius: "10px" 
-            }}>
-              {hasTestedSame ? "Tested ✓" : "Repels Apart ⬅️ ➡️"}
-            </span>
-          </button>
-
-          {/* 3. Different Poles Button */}
-          <button 
-            onClick={() => handleSelectMode("different")} 
-            className={interactionMode === "different" ? "gold-glow-btn" : ""}
-            style={{ 
-              width: "100%", 
-              padding: "0.95rem 1.15rem",
-              borderRadius: "16px",
-              fontSize: "1.08rem",
-              fontWeight: 900,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              background: interactionMode === "different" 
-                ? undefined 
-                : "#FFFFFF",
-              color: interactionMode === "different" ? "#FFFFFF" : "#065F46",
-              border: interactionMode === "different" ? "none" : "1.5px solid #FDE68A",
-              boxShadow: interactionMode === "different" 
-                ? undefined 
-                : "0 2px 6px rgba(0,0,0,0.03)",
-              transition: "all 0.2s ease"
-            }}
-          >
-            <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              {hasTestedDifferent && <CheckCircle size={20} color={interactionMode === "different" ? "#FFFFFF" : "#059669"} />}
-              💥 2. Different Poles
-            </span>
-            <span style={{ 
-              fontSize: "0.88rem", 
-              fontWeight: 800, 
-              background: interactionMode === "different" ? "rgba(255, 255, 255, 0.25)" : "#FEF3C7", 
-              color: interactionMode === "different" ? "#FFFFFF" : "#92400E", 
-              padding: "4px 10px", 
-              borderRadius: "10px" 
-            }}>
-              {hasTestedDifferent ? "Tested ✓" : "Attracts & Collides 💥"}
-            </span>
+            <CheckCircle2 size={22} color="#FFFFFF" /> Proceed to Quiz
           </button>
         </div>
-
-        {/* Proceed to Quiz Button */}
-        <button 
-          onClick={handleFinish} 
-          className="gold-glow-btn"
-          style={{ 
-            width: "100%", 
-            padding: "1.05rem 1.5rem", 
-            fontSize: "1.15rem", 
-            fontWeight: 900, 
-            borderRadius: "20px", 
-            display: "flex", 
-            justifyContent: "center", 
-            alignItems: "center", 
-            gap: "0.6rem",
-            marginTop: "auto",
-            cursor: "pointer"
-          }}
-        >
-          <CheckCircle2 size={22} color="#FFFFFF" /> Proceed to Quiz
-        </button>
       </div>
       
       {/* Action Pop-up Modal (Displayed before activity starts) */}

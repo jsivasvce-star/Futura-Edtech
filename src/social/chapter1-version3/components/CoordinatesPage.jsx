@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Globe3D from './Globe3D';
 import CoordinatesMinigame from './CoordinatesMinigame';
+import ChessSeatMinigame from './ChessSeatMinigame';
 import './CoordinatesPageBook.css';
 import './CoordinatesPageDark.css';
 
@@ -39,6 +40,105 @@ const FadingLabel = ({ pos, color, text, textShadow = '0 2px 6px rgba(0,0,0,1)' 
 };
 
 
+
+const CentralOrange = () => {
+  const organicSections = React.useMemo(() => {
+    const sections = [];
+    const numSections = 9; 
+    for (let i = 0; i < numSections; i++) {
+      const angle = (i * Math.PI * 2) / numSections;
+      const nextAngle = ((i + 1) * Math.PI * 2) / numSections;
+      const s = new THREE.Shape();
+      
+      const rInner = 0.05;
+      const rOuter = 0.38;
+      
+      s.moveTo(Math.cos(angle + 0.05) * rInner, Math.sin(angle + 0.05) * rInner);
+      
+      // Wavy left boundary (NO straight lines!)
+      for(let k=1; k<=5; k++) {
+         let r = rInner + (rOuter-rInner)*(k/5);
+         let a = angle + 0.05 + Math.sin(r*25 + i)*0.03;
+         s.lineTo(Math.cos(a)*r, Math.sin(a)*r);
+      }
+      
+      // Organic outer boundary
+      for (let a = angle + 0.05; a <= nextAngle - 0.05; a += 0.05) {
+        const radius = 0.38 + Math.sin(a * 15) * 0.015 + Math.cos(a * 8) * 0.015 + Math.random() * 0.01;
+        s.lineTo(Math.cos(a) * radius, Math.sin(a) * radius);
+      }
+      
+      // Wavy right boundary back to center
+      for(let k=4; k>=0; k--) {
+         let r = rInner + (rOuter-rInner)*(k/5);
+         let a = nextAngle - 0.05 + Math.sin(r*25 + i)*0.03;
+         s.lineTo(Math.cos(a)*r, Math.sin(a)*r);
+      }
+      
+      const extrudeSettings = { depth: 0.06, bevelEnabled: true, bevelThickness: 0.015, bevelSize: 0.015, bevelSegments: 3 };
+      const geo = new THREE.ExtrudeGeometry(s, extrudeSettings);
+      geo.translate(0, 0, 0);
+      geo.computeVertexNormals();
+      
+      const tint = i % 2 === 0 ? "#ff8c00" : "#ff7f00";
+      sections.push(
+        <mesh key={`sec_${i}`} position={[0, 0.07, 0]} rotation={[-Math.PI/2, 0, 0]} geometry={geo}>
+          <meshStandardMaterial color={tint} roughness={0.6} />
+        </mesh>
+      );
+    }
+    return sections;
+  }, []);
+
+  const vesicles = React.useMemo(() => {
+    const v = [];
+    for(let i=0; i<100; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const r = 0.1 + Math.random() * 0.35;
+      v.push(
+        <mesh key={`v${i}`} position={[Math.cos(a)*r, 0.125 + Math.random()*0.005, Math.sin(a)*r]} rotation={[-Math.PI/2, 0, 0]}>
+          <circleGeometry args={[0.01 + Math.random()*0.015, 6]} />
+          <meshBasicMaterial color="#ffa500" opacity={0.7} transparent />
+        </mesh>
+      );
+    }
+    return v;
+  }, []);
+
+  const coreGeo = React.useMemo(() => {
+    const geo = new THREE.CircleGeometry(0.08, 16);
+    const pos = geo.attributes.position;
+    for(let i=1; i<pos.count; i++) {
+      let x = pos.getX(i); let y = pos.getY(i);
+      let a = Math.atan2(y, x);
+      let r = Math.sqrt(x*x + y*y);
+      r += Math.sin(a * 7) * 0.015;
+      pos.setXYZ(i, Math.cos(a)*r, Math.sin(a)*r, 0);
+    }
+    return geo;
+  }, []);
+
+  return (
+    <group position={[0, 0, 0]}>
+      {/* 3D Rind Hemisphere */}
+      <mesh position={[0, 0.05, 0]} rotation={[Math.PI, 0, 0]}>
+        <sphereGeometry args={[0.45, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2]} />
+        <meshStandardMaterial color="#b34700" roughness={0.9} />
+      </mesh>
+      {/* Pale inner pith */}
+      <mesh position={[0, 0.07, 0]} rotation={[-Math.PI/2, 0, 0]}>
+        <circleGeometry args={[0.43, 32]} />
+        <meshStandardMaterial color="#fffbeb" roughness={0.9} />
+      </mesh>
+      {organicSections}
+      {vesicles}
+      <mesh position={[0, 0.13, 0]} rotation={[-Math.PI/2, 0, 0]} geometry={coreGeo}>
+        <meshStandardMaterial color="#fffbeb" roughness={1.0} />
+      </mesh>
+    </group>
+  );
+};
+
 const CitrusDetails = () => {
   const lines = [];
   const numLines = 8;
@@ -47,69 +147,87 @@ const CitrusDetails = () => {
     const angleSpread = THREE.MathUtils.lerp(-0.35, 0.35, i / (numLines - 1));
     for (let j = 0; j <= 20; j++) {
       const t = j / 20;
-      const x = 0.05 + t * 1.0;
-      const curveY = Math.sin(t * Math.PI / 2) * angleSpread + (Math.sin(t * Math.PI) * 0.02 * (i % 2 === 0 ? 1 : -1));
+      const x = 0.05 + t * 1.0; 
+      
+      const curveY = Math.sin(t * Math.PI / 2) * angleSpread + (Math.sin(t * Math.PI) * 0.02 * (i % 2 === 0 ? 1 : -1)); 
+      
       const nx = x / 1.15;
       const scale = 0.1 + 0.9 * Math.pow(nx, 1.2);
+      
       let ny = Math.abs(curveY / 0.45);
       let bulge = (1 - Math.pow(nx - 0.6, 2)) * (1 - Math.pow(ny, 2)) * 0.25;
-      let z = (0.275 + 0.05) * scale + (bulge * nx) + 0.01;
+      
+      let z = (0.275 + 0.05) * scale + (bulge * nx) + 0.01; 
+      
       const wobbleY = (Math.sin(t * 30 + i) * 0.01);
-      points.push(new THREE.Vector3(x - 0.6, curveY + wobbleY, z));
+      points.push(new THREE.Vector3(x, curveY + wobbleY, z));
     }
-    lines.push(<Line key={i} points={points} color="#ffedd5" lineWidth={1.5 + (i % 2) * 0.5} transparent opacity={0.6} />);
+    lines.push(<Line key={i} points={points} color="#ffedd5" lineWidth={1.5 + (i%2)*0.5} transparent opacity={0.6} />);
   }
   return <>{lines}</>;
 };
 
-const RealisticWedge3D = () => {
-  const fleshTex = useLoader(THREE.TextureLoader, '/orange_flesh.jpg');
-  React.useMemo(() => {
-    fleshTex.wrapS = THREE.RepeatWrapping;
-    fleshTex.wrapT = THREE.RepeatWrapping;
-    fleshTex.repeat.set(1.2, 1.2);
-  }, [fleshTex]);
+const OrangeSlice = ({ index, rotY, isSelected, isHovered, onHover, onClick }) => {
+  const groupRef = React.useRef();
+  const fleshMatRef = React.useRef();
+  const basePull = 1.2;
+  const targetPull = isSelected ? 1.45 : basePull;
+  const targetScale = isHovered ? 1.05 : 1.0;
+  
+  useFrame((state, delta) => {
+    if (groupRef.current) {
+      groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, 0, delta * 5);
+      const currentPull = groupRef.current.position.length();
+      const newPull = THREE.MathUtils.lerp(currentPull || basePull, targetPull, delta * 8);
+      groupRef.current.position.set(Math.cos(rotY) * newPull, 0, -Math.sin(rotY) * newPull);
+      groupRef.current.scale.setScalar(THREE.MathUtils.lerp(groupRef.current.scale.x, targetScale, delta * 8));
+      
+      if (fleshMatRef.current) {
+        fleshMatRef.current.emissiveIntensity = THREE.MathUtils.lerp(fleshMatRef.current.emissiveIntensity, isHovered ? 0.2 : 0, 10 * delta);
+      }
+    }
+  });
 
   const customGeo = React.useMemo(() => {
     const s = new THREE.Shape();
     s.moveTo(0, 0.06);
-    s.bezierCurveTo(0.05, 0.12, 0.1, 0.15, 0.2, 0.18);
-    s.bezierCurveTo(0.5, 0.3, 0.7, 0.45, 0.9, 0.45);
-    s.bezierCurveTo(1.1, 0.45, 1.15, 0.2, 1.15, 0);
-    s.bezierCurveTo(1.15, -0.2, 1.1, -0.45, 0.9, -0.45);
-    s.bezierCurveTo(0.7, -0.45, 0.5, -0.3, 0.2, -0.18);
-    s.bezierCurveTo(0.1, -0.15, 0.05, -0.12, 0, -0.06);
-    s.bezierCurveTo(-0.04, -0.03, -0.04, 0.03, 0, 0.06);
-
-    const extrudeSettings = {
-      depth: 0.55,
-      bevelEnabled: true,
-      bevelThickness: 0.05,
-      bevelSize: 0.04,
+    s.bezierCurveTo(0.05, 0.12,  0.1, 0.15,  0.2, 0.18);
+    s.bezierCurveTo(0.5, 0.3,  0.7, 0.45,  0.9, 0.45);
+    s.bezierCurveTo(1.1, 0.45,  1.15, 0.2,  1.15, 0);
+    s.bezierCurveTo(1.15, -0.2,  1.1, -0.45,  0.9, -0.45);
+    s.bezierCurveTo(0.7, -0.45,  0.5, -0.3,  0.2, -0.18);
+    s.bezierCurveTo(0.1, -0.15,  0.05, -0.12,  0, -0.06);
+    s.bezierCurveTo(-0.04, -0.03,  -0.04, 0.03,  0, 0.06);
+    
+    const extrudeSettings = { 
+      depth: 0.55, 
+      bevelEnabled: true, 
+      bevelThickness: 0.05, 
+      bevelSize: 0.04, 
       bevelSegments: 8,
       curveSegments: 64
     };
-
+    
     const geo = new THREE.ExtrudeGeometry(s, extrudeSettings);
-    geo.translate(-0.6, 0, -0.275);
-
+    geo.translate(0, 0, -0.275); 
+    
     const pos = geo.attributes.position;
     for (let i = 0; i < pos.count; i++) {
       let x = pos.getX(i);
       let y = pos.getY(i);
       let z = pos.getZ(i);
-
-      let nx = Math.max(0, Math.min(1, (x + 0.6) / 1.15));
-      let scale = 0.1 + 0.9 * Math.pow(nx, 1.2);
-
-      let noise = Math.sin((x + 0.6) * 20) * Math.cos(y * 20) * 0.01;
-
+      
+      let nx = Math.max(0, Math.min(1, x / 1.15));
+      let scale = 0.1 + 0.9 * Math.pow(nx, 1.2); 
+      
+      let noise = Math.sin(x * 20) * Math.cos(y * 20) * 0.01;
+      
       z = (z * scale) + noise;
-
-      let ny = Math.abs(y / 0.45);
-      let bulge = (1 - Math.pow(nx - 0.6, 2)) * (1 - Math.pow(ny, 2)) * 0.25;
-      z += Math.sign(z) * bulge;
-
+      
+      let ny = Math.abs(y / 0.45); 
+      let bulge = (1 - Math.pow(nx - 0.6, 2)) * (1 - Math.pow(ny, 2)) * 0.25; 
+      z += Math.sign(z) * bulge; 
+      
       pos.setXYZ(i, x, y, z);
     }
     geo.computeVertexNormals();
@@ -118,24 +236,24 @@ const RealisticWedge3D = () => {
 
   const rindGeo = React.useMemo(() => {
     const s = new THREE.Shape();
-    s.moveTo(0.8, 0.45);
-    s.bezierCurveTo(1.1, 0.45, 1.15, 0.2, 1.15, 0);
-    s.bezierCurveTo(1.15, -0.2, 1.1, -0.45, 0.8, -0.45);
-    s.bezierCurveTo(0.9, -0.5, 1.2, -0.2, 1.2, 0);
-    s.bezierCurveTo(1.2, 0.2, 0.9, 0.5, 0.8, 0.45);
-
+    s.moveTo(0.8, 0.45); 
+    s.bezierCurveTo(1.1, 0.45,  1.15, 0.2,  1.15, 0);
+    s.bezierCurveTo(1.15, -0.2,  1.1, -0.45,  0.8, -0.45);
+    s.bezierCurveTo(0.9, -0.5,  1.2, -0.2,  1.2, 0);
+    s.bezierCurveTo(1.2, 0.2,  0.9, 0.5,  0.8, 0.45);
+    
     const geo = new THREE.ExtrudeGeometry(s, { depth: 0.57, bevelEnabled: true, bevelThickness: 0.03, bevelSize: 0.01, curveSegments: 32 });
-    geo.translate(-0.6, 0, -0.285);
-
+    geo.translate(0, 0, -0.285);
+    
     const pos = geo.attributes.position;
     for (let i = 0; i < pos.count; i++) {
       let x = pos.getX(i);
       let y = pos.getY(i);
       let z = pos.getZ(i);
-      let nx = Math.max(0, Math.min(1, (x + 0.6) / 1.15));
-      let ny = Math.abs(y / 0.45);
+      let nx = Math.max(0, Math.min(1, x / 1.15));
+      let ny = Math.abs(y / 0.45); 
       let bulge = (1 - Math.pow(nx - 0.6, 2)) * (1 - Math.pow(ny, 2)) * 0.25;
-      z += Math.sign(z) * bulge;
+      z += Math.sign(z) * bulge; 
       pos.setXYZ(i, x, y, z);
     }
     geo.computeVertexNormals();
@@ -143,34 +261,111 @@ const RealisticWedge3D = () => {
   }, []);
 
   return (
-    <group>
-      <mesh geometry={customGeo} rotation={[-Math.PI / 2, 0, 0]}>
-        <meshPhysicalMaterial attach="material-0" map={fleshTex} color="#ffb347" roughness={0.2} metalness={0.1} clearcoat={1.0} clearcoatRoughness={0.1} transmission={0.2} thickness={0.5} />
+    <group 
+      ref={groupRef} 
+      rotation={[0, rotY, 0]}
+      onPointerOver={(e) => { e.stopPropagation(); onHover(index); document.body.style.cursor = 'pointer'; }}
+      onPointerOut={(e) => { e.stopPropagation(); onHover(null); document.body.style.cursor = 'auto'; }}
+      onClick={(e) => { e.stopPropagation(); onClick(index); }}
+    >
+      <mesh geometry={customGeo} rotation={[-Math.PI/2, 0, 0]}>
+        <meshStandardMaterial attach="material-0" ref={fleshMatRef} color="#ff8c00" roughness={0.5} emissive="#ffaa00" emissiveIntensity={0} />
         <meshStandardMaterial attach="material-1" color="#e65c00" roughness={0.7} />
       </mesh>
-      <mesh geometry={rindGeo} rotation={[-Math.PI / 2, 0, 0]}>
+      <mesh geometry={rindGeo} rotation={[-Math.PI/2, 0, 0]}>
         <meshStandardMaterial color="#cc5500" roughness={0.9} />
       </mesh>
-      <group rotation={[-Math.PI / 2, 0, 0]}>
+      <group rotation={[-Math.PI/2, 0, 0]}>
         <CitrusDetails />
       </group>
     </group>
   );
 };
 
-const RotatingWedge = () => {
-  const ref = React.useRef();
-  useFrame((state, delta) => {
-    if (ref.current) {
-      ref.current.rotation.y += delta * 0.5;
-    }
-  });
+const LongitudeLabels = ({ segmentsData }) => {
   return (
-    <group ref={ref} rotation={[0.4, 0, 0.2]} scale={[1.8, 1.8, 1.8]}>
-      <RealisticWedge3D />
+    <group>
+      {segmentsData.map((seg, i) => {
+        const labelPull = 3.5;
+        const posX = seg.lx * labelPull;
+        const posZ = seg.lz * labelPull;
+        const arrowStart = [seg.lx * (labelPull - 0.5), 0.2, seg.lz * (labelPull - 0.5)];
+        const arrowEnd = [seg.lx * 2.5, 0.2, seg.lz * 2.5];
+        return (
+          <group key={i}>
+            <Html position={[posX, 0.2, posZ]} center style={{ pointerEvents: 'none', textAlign: 'center', whiteSpace: 'nowrap' }}>
+              <div style={{ color: seg.color, fontWeight: 'bold', fontSize: '15px', textShadow: '0 2px 6px rgba(0,0,0,0.9)' }}>
+                {seg.label}
+                {seg.subLabel && <div style={{ fontSize: '11px', fontWeight: 'normal', marginTop: '4px' }}>{seg.subLabel}</div>}
+              </div>
+            </Html>
+            <Line points={[arrowStart, arrowEnd]} color={seg.color} lineWidth={2} transparent opacity={0.7} />
+          </group>
+        );
+      })}
     </group>
   );
 };
+
+const OrangeLongitudeModel = () => {
+  const [hoveredSlice, setHoveredSlice] = React.useState(null);
+  const [selectedSlice, setSelectedSlice] = React.useState(null);
+
+  const segmentsData = [];
+  for (let i = 0; i < 12; i++) {
+    const screenAngleDeg = i * 30; 
+    const screenAngleRad = screenAngleDeg * (Math.PI / 180);
+    
+    const lx = Math.sin(screenAngleRad);
+    const lz = -Math.cos(screenAngleRad);
+    
+    const rotY = Math.atan2(-lz, lx);
+
+    let label = ''; let subLabel = ''; let color = '#ffffff'; let info = '';
+    
+    if (i === 0) { label = '0°'; subLabel = '(Prime Meridian)'; color = '#ffffff'; info = '0° — The Prime Meridian'; }
+    else if (i < 6) { label = `${i * 30}°E`; color = '#f97316'; info = `${i * 30}°E — ${i * 30} degrees east of the Prime Meridian`; }
+    else if (i === 6) { label = '180°'; color = '#ffffff'; info = '180° — The International Date Line'; }
+    else { label = `${(12 - i) * 30}°W`; color = '#60a5fa'; info = `${(12 - i) * 30}°W — ${(12 - i) * 30} degrees west of the Prime Meridian`; }
+    
+    segmentsData.push({ index: i, rotY, lx, lz, label, color, info, subLabel });
+  }
+
+  return (
+    <group position={[0, -0.15, 0]}>
+      <CentralOrange />
+      
+      {segmentsData.map((seg) => (
+        <OrangeSlice 
+          key={seg.index} index={seg.index} rotY={seg.rotY} label={seg.label}
+          isSelected={selectedSlice === seg.index}
+          isHovered={hoveredSlice === seg.index}
+          onHover={setHoveredSlice}
+          onClick={(idx) => setSelectedSlice(prev => prev === idx ? null : idx)}
+        />
+      ))}
+
+      <LongitudeLabels segmentsData={segmentsData} />
+
+      <Line points={[[0, -1.0, -4.5], [0, -1.0, 4.5]]} color="#ffffff" lineWidth={2} dashed={true} dashScale={5} dashSize={0.2} gapSize={0.2} transparent opacity={0.6} />
+
+      {selectedSlice !== null && (
+        <Html position={[0, 3.5, 0]} center>
+          <div style={{
+            background: 'rgba(15, 23, 42, 0.95)', border: `1px solid ${segmentsData[selectedSlice].color}`,
+            padding: '12px 24px', borderRadius: '12px', color: '#fff', whiteSpace: 'nowrap',
+            boxShadow: '0 10px 25px rgba(0,0,0,0.5)', fontSize: '15px', fontWeight: 'bold'
+          }}>
+            {segmentsData[selectedSlice].info}
+          </div>
+        </Html>
+      )}
+    </group>
+  );
+};
+
+
+
 
 const RealisticPeeledOrange = ({ selectedSegment, onSelect }) => {
   const peeledMap = useLoader(THREE.TextureLoader, '/src/assets/peeled_orange.jpg');
@@ -338,6 +533,8 @@ const DegLabel = ({ text, color, style }) => (
   </span>
 );
 
+
+
 const InfographicStep = ({ handleNext, handlePrev }) => {
   const [selectedSegment, setSelectedSegment] = React.useState(null);
   return (
@@ -400,63 +597,24 @@ const InfographicStep = ({ handleNext, handlePrev }) => {
         </div>
 
 
-        {/* COL 3: SELECTED WEDGE VIEW */}
+        {/* COL 3: ORANGE SEGMENTS TOP-DOWN */}
         <div style={{ flex: 0.85, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
           <div style={{ height: '60px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '8px' }}>
-            <div style={{ color: '#f97316', fontSize: '15px', fontWeight: '900', textAlign: 'center', marginBottom: '2px', letterSpacing: '0.5px' }}>Selected Longitude</div>
-            <div style={{ color: '#94a3b8', fontSize: '13px', fontWeight: 'bold', textAlign: 'center', minHeight: '32px' }}>
-              {selectedSegment !== null ? "View inside the Orange" : "Click a slice on the globe"}
-            </div>
+            <div style={{ color: '#f97316', fontSize: '15px', fontWeight: '900', textAlign: 'center', marginBottom: '2px', letterSpacing: '0.5px' }}>Order of Longitudes</div>
+            <div style={{ color: '#94a3b8', fontSize: '13px', fontWeight: 'bold', textAlign: 'center' }}>Measured Eastward from 0°<br/>and Westward from 0°</div>
           </div>
-          <div style={{ flex: 1, width: '100%', position: 'relative', minHeight: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            {selectedSegment !== null && (
-              <>
-                <img
-                  key={selectedSegment} // Forces re-render for animation on change
-                  src={`/wedges/${[
-                    "180.png",
-                    "150W.png",
-                    "120W.png",
-                    "90W.png",
-                    "60W.png",
-                    "30W.png",
-                    "0.png",
-                    "30E.png",
-                    "60E.png",
-                    "90E.png",
-                    "120E.png",
-                    "150E.png"
-                  ][selectedSegment]}`}
-                  alt="Selected Orange Wedge"
-                  style={{
-                    maxWidth: '100%',
-                    maxHeight: '100%',
-                    objectFit: 'contain',
-                    transform: 'rotate(-10deg)',
-                    animation: 'wedgeFloat 4s ease-in-out infinite'
-                  }}
-                />
-                <style>{`
-                  @keyframes wedgeFloat {
-                    0% { transform: translateY(0px) rotate(-10deg); filter: drop-shadow(0 10px 15px rgba(249,115,22,0.3)); }
-                    50% { transform: translateY(-15px) rotate(-8deg); filter: drop-shadow(0 25px 15px rgba(249,115,22,0.1)); }
-                    100% { transform: translateY(0px) rotate(-10deg); filter: drop-shadow(0 10px 15px rgba(249,115,22,0.3)); }
-                  }
-                `}</style>
-              </>
-            )}
+          <div style={{ flex: 1, width: '100%', position: 'relative', minHeight: 0 }}>
+            <Canvas camera={{ position: [0, 9.5, 0.1], fov: 45 }}>
+              <ambientLight intensity={1.2} />
+              <directionalLight position={[0, 8, 2]} intensity={2.0} color="#fff" />
+              <directionalLight position={[4, 3, 4]} intensity={0.8} color="#ffe0b2" />
+              <OrangeLongitudeModel />
+              <OrbitControls enableZoom={false} enablePan={false} minPolarAngle={0} maxPolarAngle={Math.PI / 2.2} />
+            </Canvas>
           </div>
-          <div style={{ height: '90px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', marginTop: '8px' }}>
-            {selectedSegment !== null && (
-              <div style={{ color: '#fbbf24', fontSize: '20px', fontWeight: '900', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
-                {[
-                  "180°", "150°W", "120°W", "90°W", "60°W", "30°W",
-                  "0° (Prime Meridian)", "30°E", "60°E", "90°E", "120°E", "150°E"
-                ][selectedSegment]}
-              </div>
-            )}
-          </div>
+          <div style={{ height: '90px' }}></div>
         </div>
+
       </div>
 
       {/* FOOTER */}
@@ -678,7 +836,7 @@ const stepsData = [
 export default function CoordinatesPage({ onNextActivity, onBack }) {
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
   const totalGlobeSteps = 17;
-  const totalPages = totalGlobeSteps + 2; // 1 (intro) + 1 (minigame) + 17 (globe) = 19
+  const totalPages = totalGlobeSteps + 3; // 1 (intro) + 1 (chess/seat) + 1 (minigame) + 17 (globe) = 20
 
   const handleNext = () => {
     if (currentStepIdx < totalPages - 1) {
@@ -750,6 +908,15 @@ export default function CoordinatesPage({ onNextActivity, onBack }) {
 
   if (currentStepIdx === 1) {
     return (
+      <ChessSeatMinigame
+        onComplete={handleNext}
+        onBack={handlePrev}
+      />
+    );
+  }
+
+  if (currentStepIdx === 2) {
+    return (
       <CoordinatesMinigame
         onComplete={handleNext}
         onBack={handlePrev}
@@ -757,7 +924,7 @@ export default function CoordinatesPage({ onNextActivity, onBack }) {
     );
   }
 
-  const activeGlobeIdx = currentStepIdx - 2;
+  const activeGlobeIdx = currentStepIdx - 3;
 
   if (activeGlobeIdx === 9) {
     return <InfographicStep handleNext={handleNext} handlePrev={handlePrev} />;

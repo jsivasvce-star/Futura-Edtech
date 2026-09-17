@@ -166,7 +166,7 @@ export default function ChallengeMode({ onComplete }) {
       padding: '1.5rem 1rem', 
       boxSizing: 'border-box' 
     }}>
-      <div style={{ width: '100%', maxWidth: '1180px' }}>
+      <div style={{ width: '100%', maxWidth: '1250px' }}>
         {/* Top Header */}
         <div style={{ 
           display: 'flex', 

@@ -1255,9 +1255,11 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
       width: '100%',
       height: '100%',
       minHeight: 0,
-      background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
+      background: 'rgba(15, 23, 42, 0.50)',
+      backdropFilter: 'blur(18px)',
+      WebkitBackdropFilter: 'blur(18px)',
       fontFamily: '"Outfit", "Plus Jakarta Sans", sans-serif',
-      color: '#14452F',
+      color: '#F8FAFC',
       display: 'flex',
       flexDirection: 'column',
       boxSizing: 'border-box',
@@ -1266,6 +1268,13 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
     }}>
       {/* Keyframe animations for slogan atmosphere */}
       <style>{`
+        /* Text Justification & Font Size Constraint */
+        p, .biodiversity-desc, .modal-text {
+          text-align: justify !important;
+          text-justify: inter-word !important;
+          hyphens: auto;
+        }
+
         @keyframes reflectionPulse {
           0% { transform: scale(0.96); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.45); }
           50% { transform: scale(1.06); box-shadow: 0 0 0 22px rgba(16, 185, 129, 0); }
@@ -1280,7 +1289,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
         position: 'relative',
         width: '100%',
         padding: '0.45rem 1.4rem',
-        background: '#FAF8F2',
+        background: 'rgba(15, 23, 42, 0.50)',
         borderBottom: '2.5px solid #14452F',
         boxShadow: '0 4px 14px rgba(20, 69, 47, 0.08)',
         display: 'flex',
@@ -1304,11 +1313,11 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             gap: '6px',
             fontSize: '16px',
             fontWeight: '900',
-            color: '#14452F',
+            color: '#F8FAFC',
             background: '#E2ECE6',
             padding: '0.45rem 1rem',
             borderRadius: '12px',
-            border: '1.5px solid #14452F',
+            border: '1.5px solid rgba(212, 175, 55, 0.6)',
             fontFamily: '"Outfit", sans-serif'
           }}>
             <span>🌿</span>
@@ -1334,7 +1343,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
             color: '#ffffff',
             padding: '3px 14px',
             borderRadius: '20px',
@@ -1357,7 +1366,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             fontFamily: '"Fraunces", Georgia, serif',
             fontSize: '24px',
             fontWeight: '900',
-            color: '#14452F',
+            color: '#FBBF24',
             letterSpacing: '-0.2px',
             lineHeight: 1.2,
             whiteSpace: 'nowrap',
@@ -1381,10 +1390,10 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
               fontSize: '17px', 
               padding: '0.5rem 1.15rem',
               borderRadius: '12px',
-              border: '2px solid #14452F',
-              background: '#FAF8F2',
+              border: '2px solid #D4AF37',
+              background: 'rgba(15, 23, 42, 0.50)',
               cursor: 'pointer',
-              color: '#14452F',
+              color: '#F8FAFC',
               fontWeight: '900',
               fontFamily: '"Outfit", sans-serif',
               boxShadow: '0 2px 6px rgba(0,0,0,0.06)',
@@ -1417,11 +1426,11 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
         {(phase !== 'pick' && activeTab !== 'quiz') && (
           <div style={{
             position: 'relative',
-            background: '#FAF8F2',
-            border: '2.5px solid #14452F',
+            background: 'rgba(15, 23, 42, 0.50)',
+            border: '2.5px solid rgba(20, 69, 47, 0.5)',
             borderRadius: '24px 6px 24px 6px',
             padding: '0.85rem 1rem',
-            boxShadow: '0 10px 30px rgba(20, 69, 47, 0.12)',
+            boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
@@ -1437,7 +1446,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
             <div style={{ position: 'relative', zIndex: 5 }}>
               <div style={{
-                color: '#14452F',
+                color: '#F8FAFC',
                 fontWeight: '900',
                 fontSize: '16px',
                 letterSpacing: '0.04em',
@@ -1453,7 +1462,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
               <h2 style={{
                 fontFamily: '"Fraunces", Georgia, serif',
-                color: '#14452F',
+                color: '#FBBF24',
                 fontWeight: '900',
                 fontSize: '22px',
                 margin: '0.2rem 0 0.35rem 0',
@@ -1490,7 +1499,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   <span style={{
                     fontSize: '16px',
                     fontWeight: '900',
-                    color: '#14452F',
+                    color: '#F8FAFC',
                     textTransform: 'uppercase',
                     letterSpacing: '0.04em',
                     fontFamily: '"Outfit", sans-serif'
@@ -1500,28 +1509,28 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
                     <div style={{
-                      background: 'linear-gradient(135deg, #FAF8F2 0%, #F5F1E5 100%)',
-                      border: '2px solid #14452F',
+                      background: 'rgba(15, 23, 42, 0.50)',
+                      border: '2px solid #D4AF37',
                       borderRadius: '12px 4px 12px 4px',
                       padding: '6px 10px',
                       boxShadow: '0 2px 6px rgba(20, 69, 47, 0.06)'
                     }}>
-                      <div style={{ color: '#14452F', fontWeight: '800', fontSize: '16px' }}>Total Logs</div>
-                      <div style={{ color: '#14452F', fontWeight: '900', fontSize: '24px', fontFamily: '"Fraunces", serif', lineHeight: 1.1 }}>
+                      <div style={{ color: '#F8FAFC', fontWeight: '800', fontSize: '16px' }}>Total Logs</div>
+                      <div style={{ color: '#F8FAFC', fontWeight: '900', fontSize: '24px', fontFamily: '"Fraunces", serif', lineHeight: 1.1 }}>
                         {totalCards}
                       </div>
                       <div style={{ color: '#2D5A43', fontWeight: '700', fontSize: '16px' }}>Class notes</div>
                     </div>
 
                     <div style={{
-                      background: 'linear-gradient(135deg, #FAF8F2 0%, #F5F1E5 100%)',
-                      border: '2px solid #14452F',
+                      background: 'rgba(15, 23, 42, 0.50)',
+                      border: '2px solid #D4AF37',
                       borderRadius: '12px 4px 12px 4px',
                       padding: '6px 10px',
                       boxShadow: '0 2px 6px rgba(20, 69, 47, 0.06)'
                     }}>
-                      <div style={{ color: '#14452F', fontWeight: '800', fontSize: '16px' }}>Biodiversity</div>
-                      <div style={{ color: '#14452F', fontWeight: '900', fontSize: '24px', fontFamily: '"Fraunces", serif', lineHeight: 1.1 }}>
+                      <div style={{ color: '#F8FAFC', fontWeight: '800', fontSize: '16px' }}>Biodiversity</div>
+                      <div style={{ color: '#F8FAFC', fontWeight: '900', fontSize: '24px', fontFamily: '"Fraunces", serif', lineHeight: 1.1 }}>
                         {uniquePlants + uniqueAnimals}
                       </div>
                       <div style={{ color: '#2D5A43', fontWeight: '700', fontSize: '16px' }}>P: {uniquePlants} | A: {uniqueAnimals}</div>
@@ -1530,8 +1539,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 </div>
               ) : (
                 <div style={{
-                  background: 'linear-gradient(135deg, #FAF8F2 0%, #F0FDF4 100%)',
-                  border: '2px solid #14452F',
+                  background: 'rgba(15, 23, 42, 0.50)',
+                  border: '2px solid #D4AF37',
                   borderLeftWidth: '6px',
                   borderLeftColor: '#10B981',
                   borderRadius: '16px 4px 16px 4px',
@@ -1541,7 +1550,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
                     <span style={{ fontSize: '20px' }}>✍️</span>
-                    <span style={{ color: '#14452F', fontSize: '19px', fontWeight: '900', fontFamily: '"Outfit", sans-serif' }}>
+                    <span style={{ color: '#F8FAFC', fontSize: '19px', fontWeight: '900', fontFamily: '"Outfit", sans-serif' }}>
                       Reflection Challenge:
                     </span>
                   </div>
@@ -1559,7 +1568,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             </div>
 
             {/* Bottom Progress Notification */}
-            <div style={{ position: 'relative', zIndex: 5, borderTop: '2px solid #14452F', paddingTop: '0.85rem' }}>
+            <div style={{ position: 'relative', zIndex: 5, borderTop: '2px solid rgba(212, 175, 55, 0.45)', paddingTop: '0.85rem' }}>
               {phase === 'completed' ? (
                 <div style={{
                   background: '#F0FDF4',
@@ -1570,7 +1579,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   flexDirection: 'column',
                   gap: '0.4rem'
                 }}>
-                  <span style={{ fontSize: '20px', fontWeight: '900', color: '#14452F', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontSize: '20px', fontWeight: '900', color: '#F8FAFC', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     🎉 Activity Completed!
                   </span>
                   <span style={{ fontSize: '17px', color: '#2D5A43', fontWeight: '700' }}>
@@ -1584,7 +1593,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   gap: '8px',
                   fontSize: '18px',
                   fontWeight: '800',
-                  color: '#14452F',
+                  color: '#F8FAFC',
                   fontFamily: '"Outfit", sans-serif'
                 }}>
                   <span>🌱</span>
@@ -1606,11 +1615,11 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
           flex: 1, 
           width: '100%', 
           maxWidth: '100%',
-          background: '#FAF8F2',
-          border: '2.5px solid #14452F',
+          background: 'rgba(15, 23, 42, 0.50)',
+          border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px 6px 24px 6px',
           padding: '0.75rem 1rem',
-          boxShadow: '0 10px 30px rgba(20, 69, 47, 0.12)',
+          boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',
           overflow: 'hidden',
           position: 'relative'
         }}>
@@ -1647,7 +1656,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 justifyContent: 'center',
                 borderRadius: '12px 4px 12px 4px',
                 border: activeTab === 'board' ? '2.5px solid #14452F' : '2px solid #14452F',
-                background: activeTab === 'board' ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)' : '#FAF8F2',
+                background: activeTab === 'board' ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'rgba(250, 248, 242, 0.55)',
                 color: activeTab === 'board' ? '#ffffff' : '#14452F',
                 fontWeight: '900',
                 fontFamily: '"Outfit", sans-serif',
@@ -1680,7 +1689,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 justifyContent: 'center',
                 borderRadius: '12px 4px 12px 4px',
                 border: activeTab === 'quiz' ? '2.5px solid #14452F' : '2px solid #14452F',
-                background: activeTab === 'quiz' ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)' : '#FAF8F2',
+                background: activeTab === 'quiz' ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'rgba(250, 248, 242, 0.55)',
                 color: activeTab === 'quiz' ? '#ffffff' : '#14452F',
                 fontWeight: '900',
                 fontFamily: '"Outfit", sans-serif',
@@ -1731,7 +1740,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: '50%',
-                    background: '#FAF8F2',
+                    background: 'rgba(15, 23, 42, 0.50)',
                     boxShadow: timerRunning 
                       ? '0 0 28px rgba(16, 185, 129, 0.55)' 
                       : '0 8px 24px rgba(20, 69, 47, 0.15)',
@@ -1764,7 +1773,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                       position: 'absolute',
                       fontSize: '24px',
                       fontWeight: '900',
-                      color: '#14452F',
+                      color: '#FBBF24',
                       fontFamily: '"Outfit", sans-serif',
                       letterSpacing: '-1px'
                     }}>
@@ -1778,7 +1787,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '8px',
-                      background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+                      background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                       color: '#ffffff',
                       padding: '5px 18px',
                       borderRadius: '20px',
@@ -1794,7 +1803,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
                     <h3 style={{
                       fontFamily: '"Fraunces", Georgia, serif',
-                      color: '#14452F',
+                      color: '#F8FAFC',
                       margin: '0 0 0.65rem 0',
                       fontSize: '24px',
                       fontWeight: '900'
@@ -1829,7 +1838,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                           gap: '12px', 
                           fontSize: '20px', 
                           fontWeight: '900', 
-                          background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)', 
+                          background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)', 
                           color: '#ffffff', 
                           border: '2px solid #10B981', 
                           boxShadow: '0 6px 18px rgba(16, 185, 129, 0.35)', 
@@ -1870,10 +1879,10 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   height: '100%',
                   flex: 1,
                   minHeight: 0,
-                  background: '#FAF8F2',
+                  background: 'rgba(15, 23, 42, 0.50)',
                   padding: 'clamp(10px, 1.2vh, 16px) clamp(12px, 1.4vw, 20px)',
                   borderRadius: '20px 4px 20px 4px',
-                  border: '2px solid #14452F',
+                  border: '2px solid #D4AF37',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
@@ -1899,10 +1908,10 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
-                        background: '#FAF8F2',
+                        background: 'rgba(15, 23, 42, 0.50)',
                         padding: '6px 12px',
                         borderRadius: '12px',
-                        border: '1.5px solid #14452F',
+                        border: '1.5px solid rgba(212, 175, 55, 0.6)',
                         flexShrink: 0
                       }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -1913,7 +1922,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                               padding: '6px 14px',
                               borderRadius: '10px',
                               border: pickStep === 1 ? '2px solid #14452F' : '1.5px solid #CBD5E1',
-                              background: pickStep === 1 ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)' : '#ffffff',
+                              background: pickStep === 1 ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#ffffff',
                               color: pickStep === 1 ? '#ffffff' : '#14452F',
                               fontWeight: 900,
                               fontSize: '16px',
@@ -1934,7 +1943,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                               padding: '6px 14px',
                               borderRadius: '10px',
                               border: pickStep === 2 ? '2px solid #14452F' : '1.5px solid #CBD5E1',
-                              background: pickStep === 2 ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)' : '#ffffff',
+                              background: pickStep === 2 ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#ffffff',
                               color: pickStep === 2 ? '#ffffff' : '#14452F',
                               fontWeight: 900,
                               fontSize: '16px',
@@ -2002,7 +2011,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                     padding: '6px',
                                     borderRadius: '20px',
                                     border: isSelected ? '4px solid #10B981' : '2px solid #14452F',
-                                    background: isSelected ? '#ECFDF5' : '#FAF8F2',
+                                    background: isSelected ? '#ECFDF5' : 'rgba(250, 248, 242, 0.55)',
                                     cursor: 'pointer',
                                     transition: 'all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1)',
                                     transform: isSelected ? 'scale(1.02)' : 'scale(1)',
@@ -2044,7 +2053,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                       width: '36px',
                                       height: '36px',
                                       borderRadius: '50%',
-                                      background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                                      background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                                       boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3), 0 0 0 2.5px #ffffff',
                                       display: 'flex',
                                       alignItems: 'center',
@@ -2068,8 +2077,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                             alignItems: 'center',
                             justifyContent: 'space-between',
                             padding: '4px 14px',
-                            background: '#FAF8F2',
-                            border: '1.5px solid #14452F',
+                            background: 'rgba(15, 23, 42, 0.50)',
+                            border: '1.5px solid rgba(212, 175, 55, 0.6)',
                             borderRadius: '12px',
                             flexShrink: 0
                           }}>
@@ -2083,7 +2092,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                 gap: '6px',
                                 padding: '5px 14px',
                                 borderRadius: '8px',
-                                border: '1.5px solid #14452F',
+                                border: '1.5px solid rgba(212, 175, 55, 0.6)',
                                 background: plantPage === 0 ? '#E2E8F0' : '#14452F',
                                 color: plantPage === 0 ? '#94A3B8' : '#ffffff',
                                 fontWeight: 800,
@@ -2098,7 +2107,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                             </button>
 
                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                              <span style={{ fontSize: '15px', fontWeight: 800, color: '#14452F', fontFamily: '"Outfit", sans-serif' }}>
+                              <span style={{ fontSize: '15px', fontWeight: 800, color: '#F8FAFC', fontFamily: '"Outfit", sans-serif' }}>
                                 Page {plantPage + 1} of 3
                               </span>
                               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -2132,7 +2141,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                 gap: '6px',
                                 padding: '5px 14px',
                                 borderRadius: '8px',
-                                border: '1.5px solid #14452F',
+                                border: '1.5px solid rgba(212, 175, 55, 0.6)',
                                 background: plantPage === 2 ? '#E2E8F0' : '#14452F',
                                 color: plantPage === 2 ? '#94A3B8' : '#ffffff',
                                 fontWeight: 800,
@@ -2185,7 +2194,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                     padding: '6px',
                                     borderRadius: '20px',
                                     border: isSelected ? '4px solid #10B981' : '2px solid #14452F',
-                                    background: isSelected ? '#ECFDF5' : '#FAF8F2',
+                                    background: isSelected ? '#ECFDF5' : 'rgba(250, 248, 242, 0.55)',
                                     cursor: 'pointer',
                                     transition: 'all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1)',
                                     transform: isSelected ? 'scale(1.02)' : 'scale(1)',
@@ -2227,7 +2236,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                       width: '36px',
                                       height: '36px',
                                       borderRadius: '50%',
-                                      background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                                      background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                                       boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3), 0 0 0 2.5px #ffffff',
                                       display: 'flex',
                                       alignItems: 'center',
@@ -2251,8 +2260,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                             alignItems: 'center',
                             justifyContent: 'space-between',
                             padding: '4px 14px',
-                            background: '#FAF8F2',
-                            border: '1.5px solid #14452F',
+                            background: 'rgba(15, 23, 42, 0.50)',
+                            border: '1.5px solid rgba(212, 175, 55, 0.6)',
                             borderRadius: '12px',
                             flexShrink: 0
                           }}>
@@ -2266,7 +2275,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                 gap: '6px',
                                 padding: '5px 14px',
                                 borderRadius: '8px',
-                                border: '1.5px solid #14452F',
+                                border: '1.5px solid rgba(212, 175, 55, 0.6)',
                                 background: animalPage === 0 ? '#E2E8F0' : '#14452F',
                                 color: animalPage === 0 ? '#94A3B8' : '#ffffff',
                                 fontWeight: 800,
@@ -2281,7 +2290,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                             </button>
 
                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                              <span style={{ fontSize: '15px', fontWeight: 800, color: '#14452F', fontFamily: '"Outfit", sans-serif' }}>
+                              <span style={{ fontSize: '15px', fontWeight: 800, color: '#F8FAFC', fontFamily: '"Outfit", sans-serif' }}>
                                 Page {animalPage + 1} of 3
                               </span>
                               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -2315,7 +2324,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                 gap: '6px',
                                 padding: '5px 14px',
                                 borderRadius: '8px',
-                                border: '1.5px solid #14452F',
+                                border: '1.5px solid rgba(212, 175, 55, 0.6)',
                                 background: animalPage === 2 ? '#E2E8F0' : '#14452F',
                                 color: animalPage === 2 ? '#94A3B8' : '#ffffff',
                                 fontWeight: 800,
@@ -2341,7 +2350,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                         paddingTop: '6px',
                         borderTop: '1.5px solid #14452F'
                       }}>
-                        <span style={{ fontSize: '17px', fontWeight: 800, color: '#14452F', fontFamily: '"Outfit", sans-serif' }}>
+                        <span style={{ fontSize: '17px', fontWeight: 800, color: '#F8FAFC', fontFamily: '"Outfit", sans-serif' }}>
                           {pickStep === 1 
                             ? (selectedPlant ? '✓ Specimen selected! Proceed to Animal Selection' : 'Please pick 1 plant specimen image')
                             : (selectedAnimal ? '✓ Specimen selected! Click Next to create memory card' : 'Please pick 1 animal specimen image')}
@@ -2361,7 +2370,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     paddingBottom: '0.35rem',
-                    borderBottom: '2px solid #14452F',
+                    borderBottom: '2px solid rgba(212, 175, 55, 0.45)',
                     marginBottom: '0.15rem',
                     flexShrink: 0,
                     gap: '8px'
@@ -2370,7 +2379,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <span style={{
                         fontSize: '18px',
-                        color: '#14452F',
+                        color: '#F8FAFC',
                         fontWeight: '900',
                         fontFamily: '"Fraunces", Georgia, serif'
                       }}>
@@ -2386,7 +2395,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                           padding: '4px 12px',
                           borderRadius: '8px',
                           border: boardFilter === 'all' ? '2.2px solid #14452F' : '1.8px solid #14452F',
-                          background: boardFilter === 'all' ? '#14452F' : '#FAF8F2',
+                          background: boardFilter === 'all' ? '#14452F' : 'rgba(250, 248, 242, 0.55)',
                           color: boardFilter === 'all' ? '#ffffff' : '#14452F',
                           fontSize: '16px',
                           fontWeight: '900',
@@ -2408,7 +2417,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                           padding: '4px 12px',
                           borderRadius: '8px',
                           border: boardFilter === 'me' ? '2.2px solid #14452F' : '1.8px solid #14452F',
-                          background: boardFilter === 'me' ? '#14452F' : '#FAF8F2',
+                          background: boardFilter === 'me' ? '#14452F' : 'rgba(250, 248, 242, 0.55)',
                           color: boardFilter === 'me' ? '#ffffff' : '#14452F',
                           fontSize: '16px',
                           fontWeight: '900',
@@ -2432,8 +2441,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                         style={{
                           padding: '4px 12px',
                           borderRadius: '8px',
-                          border: '2px solid #14452F',
-                          background: boardPage <= 1 ? '#EDE7D8' : '#FAF8F2',
+                          border: '2px solid #D4AF37',
+                          background: boardPage <= 1 ? '#EDE7D8' : 'rgba(250, 248, 242, 0.55)',
                           color: boardPage <= 1 ? '#94A3B8' : '#14452F',
                           cursor: boardPage <= 1 ? 'not-allowed' : 'pointer',
                           fontSize: '16px',
@@ -2444,7 +2453,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                       >
                         ◀ Prev
                       </button>
-                      <span style={{ fontSize: '16px', color: '#14452F', fontWeight: '900', fontFamily: '"Outfit", sans-serif', whiteSpace: 'nowrap' }}>
+                      <span style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: '900', fontFamily: '"Outfit", sans-serif', whiteSpace: 'nowrap' }}>
                         Page {boardPage} of {Math.ceil(filteredBoardCards.length / 2) || 1}
                       </span>
                       <button
@@ -2456,8 +2465,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                         style={{
                           padding: '4px 12px',
                           borderRadius: '8px',
-                          border: '2px solid #14452F',
-                          background: boardPage >= Math.ceil(filteredBoardCards.length / 2) ? '#EDE7D8' : '#FAF8F2',
+                          border: '2px solid #D4AF37',
+                          background: boardPage >= Math.ceil(filteredBoardCards.length / 2) ? '#EDE7D8' : 'rgba(250, 248, 242, 0.55)',
                           color: boardPage >= Math.ceil(filteredBoardCards.length / 2) ? '#94A3B8' : '#14452F',
                           cursor: boardPage >= Math.ceil(filteredBoardCards.length / 2) ? 'not-allowed' : 'pointer',
                           fontSize: '16px',
@@ -2489,7 +2498,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                         <div 
                           key={i} 
                           style={{ 
-                            background: card.isMe ? 'linear-gradient(165deg, #F0FDF4 0%, #FAF8F2 100%)' : '#FAF8F2',
+                            background: card.isMe ? 'rgba(240, 253, 244, 0.6)' : 'rgba(250, 248, 242, 0.55)',
                             backgroundImage: 'radial-gradient(#14452F 0.55px, transparent 0.55px)',
                             backgroundSize: '16px 16px',
                             border: card.isMe ? '2.5px solid #10B981' : '2px solid #14452F',
@@ -2530,8 +2539,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                 height: '38px',
                                 borderRadius: '50%',
                                 background: card.isMe 
-                                  ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)' 
-                                  : 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+                                  ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' 
+                                  : 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                                 color: '#ffffff',
                                 display: 'flex',
                                 alignItems: 'center',
@@ -2547,7 +2556,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                 <span style={{
                                   fontSize: '22px',
                                   fontWeight: '900',
-                                  color: '#14452F',
+                                  color: '#F8FAFC',
                                   whiteSpace: 'nowrap',
                                   overflow: 'hidden',
                                   textOverflow: 'ellipsis',
@@ -2568,7 +2577,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                               fontWeight: '800',
                               color: card.isMe ? '#065F46' : '#14452F',
                               background: card.isMe ? '#D1FAE5' : '#EDE7D8',
-                              border: '1.5px solid #14452F',
+                              border: '1.5px solid rgba(212, 175, 55, 0.6)',
                               borderRadius: '8px',
                               padding: '2px 8px',
                               flexShrink: 0,
@@ -2586,7 +2595,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                               title={`Click to rain ${card.plant} leaves/petals`}
                               style={{
                                 background: '#ffffff',
-                                border: '1.8px solid #14452F',
+                                border: '1.8px solid #D4AF37',
                                 borderRadius: '10px',
                                 padding: '5px',
                                 boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
@@ -2672,8 +2681,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                             onClick={() => setInspectCard(card)}
                             title="Click to view full naturalist journal entry"
                             style={{
-                              background: 'rgba(255, 255, 255, 0.92)',
-                              border: '1.5px solid #14452F',
+                              background: 'rgba(15, 23, 42, 0.45)',
+                              border: '1.5px solid rgba(212, 175, 55, 0.6)',
                               borderRadius: '9px',
                               padding: '6px 10px',
                               display: 'flex',
@@ -2736,7 +2745,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                   alignItems: 'center',
                                   gap: '4px',
                                   background: '#ECFDF5',
-                                  border: '1.5px solid #10B981',
+                                  border: '1.8px solid #FDE68A',
                                   color: '#065F46',
                                   padding: '4px 10px',
                                   borderRadius: '8px',
@@ -2760,9 +2769,9 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                   display: 'inline-flex',
                                   alignItems: 'center',
                                   gap: '4px',
-                                  background: '#FAF8F2',
-                                  border: '1.5px solid #14452F',
-                                  color: '#14452F',
+                                  background: 'rgba(15, 23, 42, 0.50)',
+                                  border: '1.5px solid rgba(212, 175, 55, 0.6)',
+                                  color: '#F8FAFC',
                                   padding: '4px 10px',
                                   borderRadius: '8px',
                                   fontSize: '16px',
@@ -2803,7 +2812,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 }}>
                   <div style={{
                     padding: '1.5rem',
-                    background: 'linear-gradient(135deg, #FAF8F2 0%, #F0FDF4 100%)',
+                    background: 'rgba(15, 23, 42, 0.50)',
                     borderRadius: '50%',
                     border: '3.5px solid #10B981',
                     boxShadow: '0 8px 26px rgba(16, 185, 129, 0.28)'
@@ -2815,7 +2824,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     <h3 style={{
                       margin: 0,
                       fontFamily: '"Fraunces", Georgia, serif',
-                      color: '#14452F',
+                      color: '#F8FAFC',
                       fontSize: '24px',
                       fontWeight: '900'
                     }}>
@@ -2824,7 +2833,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
                     <p style={{
                       fontSize: '22px',
-                      color: '#14452F',
+                      color: '#F8FAFC',
                       fontWeight: '900',
                       margin: '0.75rem 0 0.45rem',
                       fontFamily: '"Fraunces", serif'
@@ -2859,12 +2868,12 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                       style={{
                         padding: '0.85rem 2.2rem',
                         borderRadius: '12px',
-                        border: '2px solid #14452F',
-                        color: '#14452F',
+                        border: '2px solid #D4AF37',
+                        color: '#F8FAFC',
                         fontWeight: '900',
                         fontSize: '18px',
                         cursor: 'pointer',
-                        background: '#FAF8F2',
+                        background: 'rgba(15, 23, 42, 0.50)',
                         fontFamily: '"Outfit", sans-serif',
                         display: 'flex',
                         alignItems: 'center',
@@ -2892,7 +2901,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   <div style={{
                     position: 'relative',
                     borderRadius: '18px',
-                    border: '2.5px solid #14452F',
+                    border: '2.5px solid rgba(20, 69, 47, 0.5)',
                     overflow: 'hidden',
                     background: '#0D2818',
                     boxShadow: '0 8px 24px rgba(20, 69, 47, 0.18)',
@@ -2921,8 +2930,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
                   {/* RIGHT 30%: QUESTIONS & ANSWERS INTERACTIVE PANEL */}
                   <div style={{
-                    background: '#FAF8F2',
-                    border: '2.5px solid #14452F',
+                    background: 'rgba(15, 23, 42, 0.50)',
+                    border: '2.5px solid rgba(20, 69, 47, 0.5)',
                     borderRadius: '18px',
                     padding: '12px 14px',
                     boxShadow: '0 8px 24px rgba(20, 69, 47, 0.12)',
@@ -2940,18 +2949,18 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                       alignItems: 'center',
                       justifyContent: 'space-between',
                       gap: '8px',
-                      borderBottom: '2px solid #14452F',
+                      borderBottom: '2px solid rgba(212, 175, 55, 0.45)',
                       paddingBottom: '8px',
                       flexShrink: 0
                     }}>
                       <span style={{
                         fontSize: '16px',
                         fontWeight: '900',
-                        color: '#14452F',
+                        color: '#F8FAFC',
                         background: '#EAE5D5',
                         padding: '4px 10px',
                         borderRadius: '8px',
-                        border: '1.5px solid #14452F',
+                        border: '1.5px solid rgba(212, 175, 55, 0.6)',
                         fontFamily: '"Outfit", sans-serif'
                       }}>
                         Question {currentQIndex + 1} of {QUIZ_QUESTIONS.length}
@@ -2963,7 +2972,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                         background: '#D1FAE5',
                         padding: '4px 10px',
                         borderRadius: '8px',
-                        border: '1.5px solid #10B981',
+                        border: '1.8px solid #FDE68A',
                         fontFamily: '"Outfit", sans-serif'
                       }}>
                         🏆 Score: {Object.values(quizAnswers).filter(Boolean).length} / {QUIZ_QUESTIONS.length}
@@ -2973,7 +2982,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     {/* Question Prompt */}
                     <div style={{
                       background: '#FFFFFF',
-                      border: '2px solid #14452F',
+                      border: '2px solid #D4AF37',
                       borderRadius: '12px',
                       padding: '10px 12px',
                       boxShadow: '0 2px 6px rgba(20, 69, 47, 0.06)',
@@ -2983,7 +2992,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                         margin: 0,
                         fontSize: '18px',
                         fontWeight: '900',
-                        color: '#14452F',
+                        color: '#F8FAFC',
                         lineHeight: '1.38',
                         fontFamily: '"Fraunces", Georgia, serif'
                       }}>
@@ -3137,7 +3146,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                             fontSize: '17px',
                             borderRadius: '12px',
                             background: currentQIndex < QUIZ_QUESTIONS.length - 1
-                              ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)'
+                              ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)'
                               : 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                             color: '#FFFFFF',
                             fontWeight: '900',
@@ -3172,7 +3181,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
       <div style={{
         width: '100%',
         padding: '0.65rem 1.6rem',
-        background: '#FAF8F2',
+        background: 'rgba(15, 23, 42, 0.50)',
         borderTop: '2.5px solid #14452F',
         boxShadow: '0 -4px 16px rgba(20, 69, 47, 0.08)',
         display: 'flex',
@@ -3218,7 +3227,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             box-shadow: none;
           }
           .bio-cta-btn {
-            background: linear-gradient(135deg, #14452F 0%, #064E3B 100%);
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
             color: #FFFFFF;
             border: 1.5px solid #10B981;
             border-radius: 10px;
@@ -3286,7 +3295,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
               height: '24px',
               borderRadius: '50%',
               background: '#EAF7EE',
-              border: '1.8px solid #14452F',
+              border: '1.8px solid #D4AF37',
               boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
             }}>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#14452F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -3396,8 +3405,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
               alignItems: 'center',
               justifyContent: 'space-between',
               padding: '14px 20px',
-              borderBottom: '2px solid #14452F',
-              background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+              borderBottom: '2px solid rgba(212, 175, 55, 0.45)',
+              background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
               color: '#ffffff'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -3433,23 +3442,39 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
               <button
                 type="button"
+                id="btn-close-journal-modal"
                 onClick={() => setInspectCard(null)}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.15)',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  background: 'rgba(15, 23, 42, 0.45)',
+                  border: '1.5px solid rgba(255, 255, 255, 0.4)',
                   borderRadius: '50%',
-                  width: '34px',
-                  height: '34px',
+                  width: '36px',
+                  height: '36px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: '#ffffff',
                   cursor: 'pointer',
-                  transition: 'all 0.15s ease'
+                  transition: 'all 0.2s ease',
+                  padding: 0
                 }}
-                aria-label="Close"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(239, 68, 68, 0.85)';
+                  e.currentTarget.style.borderColor = '#EF4444';
+                  e.currentTarget.style.transform = 'scale(1.08)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+                aria-label="Close Journal Log"
+                title="Close"
               >
-                <X size={20} />
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block', pointerEvents: 'none' }}>
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
               </button>
             </div>
 
@@ -3466,7 +3491,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 {/* Plant Card */}
                 <div style={{
                   background: '#ffffff',
-                  border: '2px solid #14452F',
+                  border: '2px solid #D4AF37',
                   borderRadius: '16px',
                   padding: '10px',
                   boxShadow: '0 4px 14px rgba(0, 0, 0, 0.06)',
@@ -3489,7 +3514,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   </div>
                   <div>
                     <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-                      <h4 style={{ margin: 0, fontSize: '20px', color: '#14452F', fontWeight: 900 }}>
+                      <h4 style={{ margin: 0, fontSize: '20px', color: '#F8FAFC', fontWeight: 900 }}>
                         {PLANT_EMOJIS[inspectCard.plant]} {inspectCard.plant}
                       </h4>
                       <span style={{ fontStyle: 'italic', color: '#047857', fontSize: '16px', fontWeight: 700 }}>
@@ -3510,7 +3535,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 {/* Animal Card */}
                 <div style={{
                   background: '#ffffff',
-                  border: '2px solid #14452F',
+                  border: '2px solid #D4AF37',
                   borderRadius: '16px',
                   padding: '10px',
                   boxShadow: '0 4px 14px rgba(0, 0, 0, 0.06)',
@@ -3533,7 +3558,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   </div>
                   <div>
                     <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-                      <h4 style={{ margin: 0, fontSize: '20px', color: '#14452F', fontWeight: 900 }}>
+                      <h4 style={{ margin: 0, fontSize: '20px', color: '#F8FAFC', fontWeight: 900 }}>
                         {ANIMAL_EMOJIS[inspectCard.animal]} {inspectCard.animal}
                       </h4>
                       <span style={{ fontStyle: 'italic', color: '#B45309', fontSize: '16px', fontWeight: 700 }}>
@@ -3601,7 +3626,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                       alignItems: 'center',
                       gap: '8px',
                       fontSize: '16px',
-                      color: '#14452F',
+                      color: '#F8FAFC',
                       fontWeight: 800,
                       marginTop: '4px'
                     }}>
@@ -3617,7 +3642,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             <div style={{
               padding: '12px 20px',
               borderTop: '1.5px solid #14452F',
-              background: '#FAF8F2',
+              background: 'rgba(15, 23, 42, 0.50)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-end',
@@ -3633,7 +3658,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     alignItems: 'center',
                     gap: '6px',
                     background: '#ECFDF5',
-                    border: '1.5px solid #10B981',
+                    border: '1.8px solid #FDE68A',
                     color: '#065F46',
                     padding: '8px 14px',
                     borderRadius: '10px',
@@ -3651,8 +3676,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   onClick={() => setInspectCard(null)}
                   style={{
                     background: '#EDE7D8',
-                    border: '1.5px solid #14452F',
-                    color: '#14452F',
+                    border: '1.5px solid rgba(212, 175, 55, 0.6)',
+                    color: '#F8FAFC',
                     padding: '8px 16px',
                     borderRadius: '10px',
                     fontWeight: 900,

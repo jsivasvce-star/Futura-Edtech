@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle, XCircle } from 'lucide-react';
+import { CheckCircle, XCircle, HelpCircle } from 'lucide-react';
 
 const quizData = [
   {
@@ -120,16 +120,21 @@ export default function Quiz({ onComplete }) {
       flexDirection: 'column', 
       alignItems: 'center', 
       justifyContent: 'center', 
-      padding: '0.5rem 1rem', 
-      overflow: 'hidden',
+      padding: '0.75rem 1rem', 
+      overflowY: 'auto',
       boxSizing: 'border-box',
       fontFamily: "'Inter', system-ui, -apple-system, sans-serif"
     }}>
-      <div style={{ width: '100%', maxWidth: '1100px', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ width: '100%', maxWidth: '1250px', display: 'flex', flexDirection: 'column' }}>
         {/* Top Bar */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.65rem', padding: '0 0.5rem', flexShrink: 0 }}>
-          <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.25rem', fontWeight: 900 }}>Test Your Knowledge</h3>
-          <div style={{ color: '#047857', fontSize: '1.05rem', fontWeight: 800 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', padding: '0 0.5rem', flexShrink: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <HelpCircle size={30} color="#D97706" />
+            <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.65rem', fontWeight: 900 }}>
+              Stage 3: Quiz
+            </h3>
+          </div>
+          <div style={{ color: '#047857', fontSize: '1.18rem', fontWeight: 800 }}>
             Question {currentQuestion + 1} of {quizData.length}
           </div>
         </div>
@@ -138,44 +143,44 @@ export default function Quiz({ onComplete }) {
         <div style={{ 
           background: 'linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 50%, #FEF3C7 100%)', 
           border: '1.5px solid #FDE68A',
-          borderRadius: '24px', 
-          padding: '1.8rem 2.4rem', 
-          boxShadow: '0 8px 30px rgba(217, 119, 6, 0.08)',
+          borderRadius: '28px', 
+          padding: '2.4rem 3.2rem', 
+          boxShadow: '0 10px 35px rgba(217, 119, 6, 0.1)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '1.1rem',
+          gap: '1.4rem',
           width: '100%',
           boxSizing: 'border-box'
         }}>
           {/* Title */}
-          <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.45rem', fontWeight: 900 }}>
+          <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.75rem', fontWeight: 900 }}>
             {currentQ.title}
           </h3>
 
           {/* Question Text Area */}
-          <p style={{ margin: 0, fontSize: '1.18rem', lineHeight: 1.6, fontWeight: 700, color: '#065F46' }}>
+          <p style={{ margin: 0, fontSize: '1.38rem', lineHeight: 1.6, fontWeight: 700, color: '#065F46' }}>
             {currentQ.question}
           </p>
 
           {/* Option Buttons */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
             {currentQ.options.map((option, index) => {
               let bgColor = '#FFFFFF';
               let borderColor = '#FDE68A';
-              let textColor = '#065F46';
+              let textColor = '#064E3B';
               let icon = null;
 
               if (showResult) {
                 if (index === currentQ.correctIndex) {
                   bgColor = '#DCFCE7';
                   borderColor = '#16A34A';
-                  textColor = '#065F46';
-                  icon = <CheckCircle size={22} color="#16A34A" />;
+                  textColor = '#064E3B';
+                  icon = <CheckCircle size={26} color="#16A34A" />;
                 } else if (index === selectedOption) {
                   bgColor = '#FEE2E2';
                   borderColor = '#EF4444';
                   textColor = '#991B1B';
-                  icon = <XCircle size={22} color="#EF4444" />;
+                  icon = <XCircle size={26} color="#EF4444" />;
                 }
               } else if (index === selectedOption) {
                 borderColor = '#D97706';
@@ -193,14 +198,14 @@ export default function Quiz({ onComplete }) {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    padding: '1.05rem 1.5rem',
-                    borderRadius: '16px',
+                    padding: '1.25rem 1.85rem',
+                    borderRadius: '18px',
                     background: bgColor,
                     border: `1.5px solid ${borderColor}`,
                     color: textColor,
                     cursor: showResult ? 'default' : 'pointer',
                     textAlign: 'left',
-                    fontSize: '1.08rem',
+                    fontSize: '1.25rem',
                     fontWeight: 800,
                     transition: 'all 0.2s ease',
                     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.03)',
@@ -216,19 +221,19 @@ export default function Quiz({ onComplete }) {
 
           {showResult && (
             <div style={{ marginTop: '0.6rem', animation: 'fadeIn 0.35s ease' }}>
-              <div style={{ padding: '1rem 1.4rem', background: '#FFFBEB', borderRadius: '16px', borderLeft: '5px solid #D97706', border: '1.5px solid #FDE68A', borderLeftWidth: '5px' }}>
-                <h4 style={{ margin: '0 0 0.35rem 0', fontSize: '1.05rem', fontWeight: 900, color: '#064E3B' }}>Explanation</h4>
-                <p style={{ margin: 0, color: '#065F46', fontSize: '1rem', lineHeight: 1.55, fontWeight: 600 }}>{currentQ.explanation}</p>
+              <div style={{ padding: '1.1rem 1.6rem', background: '#FFFBEB', borderRadius: '18px', borderLeft: '5px solid #D97706', border: '1.5px solid #FDE68A', borderLeftWidth: '5px' }}>
+                <h4 style={{ margin: '0 0 0.4rem 0', fontSize: '1.18rem', fontWeight: 900, color: '#064E3B' }}>Explanation</h4>
+                <p style={{ margin: 0, color: '#065F46', fontSize: '1.15rem', lineHeight: 1.6, fontWeight: 600 }}>{currentQ.explanation}</p>
               </div>
               
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.9rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
                 <button
                   onClick={handleNext}
                   className="gold-glow-btn"
                   style={{
-                    padding: '0.9rem 2.4rem',
+                    padding: '0.9rem 2.6rem',
                     borderRadius: '30px',
-                    fontSize: '1.05rem'
+                    fontSize: '1.2rem'
                   }}
                 >
                   {currentQuestion === quizData.length - 1 ? 'Finish Quiz' : 'Next Question'}

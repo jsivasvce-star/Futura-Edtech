@@ -466,8 +466,8 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
         }
 
         .bio-parchment-card {
-          background: linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%);
-          border: 2px solid #194720;
+          background: rgba(250, 248, 242, 0.55); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+          border: 2px solid rgba(25, 71, 32, 0.5);
           border-radius: 16px;
           box-shadow: 0 8px 24px rgba(15, 74, 50, 0.12), inset 0 0 0 2px rgba(45, 106, 79, 0.08);
           position: relative;
@@ -895,7 +895,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
               minHeight: 0,
               borderRadius: '12px',
               background: '#0B291A',
-              border: '2px solid #14452F',
+              border: '2px solid rgba(20, 69, 47, 0.5)',
               boxShadow: '0 4px 20px rgba(10, 59, 36, 0.15)',
               overflow: 'hidden',
               display: 'flex',
@@ -1344,7 +1344,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
                   background: '#FFFFFF',
                   borderRadius: '14px',
                   padding: '16px',
-                  border: '2px solid #14452F',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '8px'

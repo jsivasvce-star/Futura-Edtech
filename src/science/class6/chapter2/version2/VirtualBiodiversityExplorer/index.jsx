@@ -1535,7 +1535,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
     <div style={{
       width: '100%',
       height: '100%',
-      background: 'var(--page-bg)',
+      background: 'transparent',
       fontFamily: 'var(--geo-font)',
       color: 'var(--ink)',
       display: 'flex',
@@ -1577,7 +1577,9 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
               flexDirection: 'column',
               justifyContent: 'space-between',
               padding: 'clamp(8px, 1vh, 12px) clamp(16px, 2.2vw, 32px) clamp(12px, 1.6vh, 18px)',
-              background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
+              background: 'rgba(250, 248, 242, 0.55)',
+              backdropFilter: 'blur(18px)',
+              WebkitBackdropFilter: 'blur(18px)',
               borderRadius: 0,
               border: 'none',
               boxSizing: 'border-box',
@@ -1719,7 +1721,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   style={{
                     position: 'relative',
                     borderRadius: '20px',
-                    border: '2px solid #14452F',
+                    border: '2px solid rgba(20, 69, 47, 0.5)',
                     overflow: 'hidden',
                     boxShadow: '0 12px 32px rgba(20, 69, 47, 0.14)',
                     background: 'radial-gradient(ellipse at center, #0B3B24 0%, #03180F 100%)',
@@ -1795,8 +1797,10 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
 
                 {/* Right: Botanical Scientific Profile Card (30% allocation, zero scroll, 16px-24px fonts, no overlap) */}
                 <div style={{
-                  background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 50%, #ECE5D5 100%)',
-                  border: '2px solid #14452F',
+                  background: 'rgba(250, 248, 242, 0.55)',
+                  backdropFilter: 'blur(18px)',
+                  WebkitBackdropFilter: 'blur(18px)',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   borderRadius: '20px',
                   padding: 'clamp(6px, 1vh, 12px) clamp(8px, 1.1vw, 14px)',
                   display: 'flex',
@@ -2023,7 +2027,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '6px',
-                        background: '#FAF8F2',
+                        background: 'rgba(250, 248, 242, 0.65)',
                         border: '1.8px solid #14452F',
                         color: '#14452F',
                         cursor: 'pointer',
@@ -2050,7 +2054,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '5px',
-                        background: '#FAF8F2',
+                        background: 'rgba(250, 248, 242, 0.65)',
                         border: '1.5px solid #2D6A4F',
                         color: '#2D6A4F',
                         cursor: 'pointer',
@@ -2074,7 +2078,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '5px',
-                      background: '#FAF8F2',
+                      background: 'rgba(250, 248, 242, 0.65)',
                       border: '1.5px solid #14452F',
                       color: '#14452F',
                       cursor: 'pointer',
@@ -2094,7 +2098,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   fontWeight: 800,
                   color: '#14452F',
                   fontFamily: '"Outfit", sans-serif',
-                  background: '#FAF8F2',
+                  background: 'rgba(250, 248, 242, 0.65)',
                   border: '1.5px solid #14452F',
                   borderRadius: '20px',
                   padding: '5px 20px',
@@ -2208,7 +2212,9 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
             flexDirection: 'column',
             justifyContent: 'space-between',
             padding: 'clamp(6px, 1vh, 10px) clamp(10px, 1.4vw, 18px) clamp(10px, 1.4vh, 16px)',
-            background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
+            background: 'rgba(250, 248, 242, 0.55)',
+            backdropFilter: 'blur(18px)',
+            WebkitBackdropFilter: 'blur(18px)',
             borderRadius: 0,
             border: 'none',
             boxSizing: 'border-box',
@@ -2351,7 +2357,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
-                  background: '#FAF8F2',
+                  background: 'rgba(250, 248, 242, 0.65)',
                   border: '1.8px solid #14452F',
                   color: '#14452F',
                   cursor: 'pointer',
@@ -2370,7 +2376,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 display: 'flex',
                 alignItems: 'center',
                 gap: '3px',
-                background: '#FAF8F2',
+                background: 'rgba(250, 248, 242, 0.65)',
                 border: '1.8px solid #14452F',
                 borderRadius: '22px',
                 padding: '4px 12px',
@@ -2440,7 +2446,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     display: 'flex',
                     alignItems: 'center',
                     gap: '6px',
-                    background: zoomLevel > 3 ? '#ECFDF5' : '#FAF8F2',
+                    background: zoomLevel > 3 ? '#ECFDF5' : 'rgba(250, 248, 242, 0.55)',
                     border: zoomLevel > 3 ? '1.8px solid #10B981' : '1.8px solid #14452F',
                     color: zoomLevel > 3 ? '#065F46' : '#14452F',
                     cursor: 'pointer',
@@ -2467,7 +2473,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     display: 'flex',
                     alignItems: 'center',
                     gap: '6px',
-                    background: '#FAF8F2',
+                    background: 'rgba(250, 248, 242, 0.65)',
                     border: '1.8px solid #14452F',
                     color: '#14452F',
                     cursor: 'pointer',
@@ -2492,7 +2498,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     display: 'flex',
                     alignItems: 'center',
                     gap: '6px',
-                    background: '#FAF8F2',
+                    background: 'rgba(250, 248, 242, 0.65)',
                     border: '1.8px solid #14452F',
                     color: '#14452F',
                     cursor: 'pointer',
@@ -2575,7 +2581,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   position: 'relative',
                   overflow: 'hidden',
                   borderRadius: '20px',
-                  border: '2px solid #14452F',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   background: '#041d13',
                   boxShadow: '0 12px 32px rgba(20, 69, 47, 0.18)',
                   flexShrink: 1
@@ -3491,8 +3497,10 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 flex: '0 0 clamp(240px, 23vw, 295px)',
                 width: 'clamp(240px, 23vw, 295px)',
                 height: '100%',
-                background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
-                border: '2px solid #14452F',
+                background: 'rgba(250, 248, 242, 0.55)',
+                backdropFilter: 'blur(18px)',
+                WebkitBackdropFilter: 'blur(18px)',
+                border: '2px solid rgba(20, 69, 47, 0.5)',
                 borderRadius: '20px',
                 boxShadow: '0 10px 28px rgba(20, 69, 47, 0.12), inset 0 0 0 1.5px rgba(20, 69, 47, 0.08)',
                 padding: '14px 12px',
@@ -3669,7 +3677,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '6px',
-                      background: '#FAF8F2',
+                      background: 'rgba(250, 248, 242, 0.65)',
                       border: '1.8px solid #14452F',
                       color: '#14452F',
                       cursor: 'pointer',
@@ -3695,7 +3703,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '6px',
-                      background: '#FAF8F2',
+                      background: 'rgba(250, 248, 242, 0.65)',
                       border: '1.8px solid #14452F',
                       color: '#14452F',
                       cursor: 'pointer',
@@ -3722,7 +3730,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '6px',
-                    background: '#FAF8F2',
+                    background: 'rgba(250, 248, 242, 0.65)',
                     border: '1.8px solid #2D6A4F',
                     color: '#2D6A4F',
                     cursor: 'pointer',
@@ -3792,9 +3800,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   maxWidth: '580px',
                   width: '100%',
                   maxHeight: '90vh',
-                  background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 60%, #ECE5D5 100%)',
+                  background: 'rgba(250, 248, 242, 0.55)',
+                  backdropFilter: 'blur(18px)',
+                  WebkitBackdropFilter: 'blur(18px)',
                   borderRadius: '20px',
-                  border: '2px solid #14452F',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   boxShadow: '0 25px 50px -12px rgba(20, 69, 47, 0.4)',
                   padding: '1.5rem',
                   display: 'flex',
@@ -3818,7 +3828,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     <button
                       onClick={() => setScannedOrganism(null)}
                       style={{
-                        background: '#FAF8F2',
+                        background: 'rgba(250, 248, 242, 0.65)',
                         border: '1.8px solid #14452F',
                         color: '#14452F',
                         borderRadius: '10px',
@@ -3877,7 +3887,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.6rem' }}>
                         {scannedOrganism.verifyQ.opts.map((opt, i) => {
                           const isSelected = verifyAnswer === i;
-                          let bg = '#FAF8F2';
+                          let bg = 'rgba(250, 248, 242, 0.55)';
                           let border = '1.8px solid #14452F';
                           let color = '#14452F';
 
@@ -3934,7 +3944,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         fontSize: '18px',
                         fontWeight: '800',
                         fontFamily: '"Outfit", sans-serif',
-                        background: '#FAF8F2',
+                        background: 'rgba(250, 248, 242, 0.65)',
                         border: '1.8px solid #14452F',
                         color: '#14452F',
                         cursor: 'pointer',
@@ -4040,9 +4050,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
               maxWidth: '1360px',
               height: '92vh',
               maxHeight: '740px',
-              background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 60%, #ECE5D5 100%)',
+              background: 'rgba(250, 248, 242, 0.55)',
+              backdropFilter: 'blur(18px)',
+              WebkitBackdropFilter: 'blur(18px)',
               borderRadius: '20px',
-              border: '2px solid #14452F',
+              border: '2px solid rgba(20, 69, 47, 0.5)',
               boxShadow: '0 25px 60px rgba(20, 69, 47, 0.35)',
               display: 'flex',
               flexDirection: 'column',
@@ -4061,7 +4073,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
               justifyContent: 'space-between',
               padding: '0.85rem 1.75rem',
               borderBottom: '2.5px solid #14452F',
-              background: 'linear-gradient(180deg, #FAF8F2 0%, #F5EFE0 100%)',
+              background: 'rgba(250, 248, 242, 0.55)',
               flexShrink: 0,
               overflow: 'hidden'
             }}>
@@ -4115,7 +4127,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     
                     <span style={{
                       fontSize: '16px',
-                      color: '#FAF8F2',
+                      color: 'rgba(250, 248, 242, 0.55)',
                       fontWeight: '900',
                       textTransform: 'uppercase',
                       letterSpacing: '0.06em',
@@ -4145,8 +4157,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 style={{
                   position: 'relative',
                   zIndex: 10,
-                  background: '#FAF8F2',
-                  border: '2px solid #14452F',
+                  background: 'rgba(250, 248, 242, 0.65)',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   color: '#14452F',
                   width: '40px',
                   height: '40px',
@@ -4165,7 +4177,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   e.currentTarget.style.color = '#ffffff';
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.background = '#FAF8F2';
+                  e.currentTarget.style.background = 'rgba(250, 248, 242, 0.55)';
                   e.currentTarget.style.color = '#14452F';
                 }}
                 title="Close Modal"
@@ -4191,7 +4203,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 position: 'relative',
                 height: '100%',
                 borderRadius: '20px',
-                border: '2.5px solid #14452F',
+                border: '2.5px solid rgba(20, 69, 47, 0.5)',
                 background: '#ffffff',
                 overflow: 'hidden',
                 display: 'flex',
@@ -4238,7 +4250,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   background: 'linear-gradient(135deg, #ffffff 0%, #F4FBF7 50%, #E8F8EE 100%)', 
                   padding: '8px 12px', 
                   borderRadius: '24px 6px 24px 6px', 
-                  border: '2px solid #14452F', 
+                  border: '2px solid rgba(20, 69, 47, 0.5)', 
                   boxShadow: '0 4px 14px rgba(20, 69, 47, 0.10), inset 0 0 10px rgba(16, 185, 129, 0.08)',
                   display: 'flex',
                   flexDirection: 'column',
@@ -4311,7 +4323,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   background: 'linear-gradient(135deg, #ffffff 0%, #F4FBF7 50%, #E8F8EE 100%)', 
                   padding: '8px 12px', 
                   borderRadius: '24px 6px 24px 6px', 
-                  border: '2px solid #14452F', 
+                  border: '2px solid rgba(20, 69, 47, 0.5)', 
                   boxShadow: '0 4px 14px rgba(20, 69, 47, 0.10), inset 0 0 10px rgba(16, 185, 129, 0.08)',
                   display: 'flex',
                   flexDirection: 'column',
@@ -4384,7 +4396,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   background: 'linear-gradient(135deg, #ffffff 0%, #F4FBF7 50%, #E8F8EE 100%)', 
                   padding: '8px 12px', 
                   borderRadius: '24px 6px 24px 6px', 
-                  border: '2px solid #14452F', 
+                  border: '2px solid rgba(20, 69, 47, 0.5)', 
                   boxShadow: '0 4px 14px rgba(20, 69, 47, 0.10), inset 0 0 10px rgba(16, 185, 129, 0.08)',
                   display: 'flex',
                   flexDirection: 'column',
@@ -4457,7 +4469,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   background: 'linear-gradient(135deg, #ffffff 0%, #F4FBF7 50%, #E8F8EE 100%)', 
                   padding: '8px 12px', 
                   borderRadius: '24px 6px 24px 6px', 
-                  border: '2px solid #14452F', 
+                  border: '2px solid rgba(20, 69, 47, 0.5)', 
                   boxShadow: '0 4px 14px rgba(20, 69, 47, 0.10), inset 0 0 10px rgba(16, 185, 129, 0.08)',
                   display: 'flex',
                   flexDirection: 'column',
@@ -4534,7 +4546,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
               justifyContent: 'space-between',
               padding: '0.65rem 1.75rem',
               borderTop: '2.5px solid #14452F',
-              background: 'linear-gradient(180deg, #FAF8F2 0%, #ECE5D5 100%)',
+              background: 'rgba(250, 248, 242, 0.55)',
               flexShrink: 0,
               overflow: 'hidden'
             }}>
@@ -4627,9 +4639,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
               maxWidth: '1360px',
               height: '92vh',
               maxHeight: '740px',
-              background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 60%, #ECE5D5 100%)',
+              background: 'rgba(250, 248, 242, 0.55)',
+              backdropFilter: 'blur(18px)',
+              WebkitBackdropFilter: 'blur(18px)',
               borderRadius: '20px',
-              border: '2px solid #14452F',
+              border: '2px solid rgba(20, 69, 47, 0.5)',
               boxShadow: '0 25px 60px rgba(20, 69, 47, 0.35)',
               display: 'flex',
               flexDirection: 'column',
@@ -4648,7 +4662,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
               justifyContent: 'space-between',
               padding: '0.85rem 1.75rem',
               borderBottom: '2.5px solid #14452F',
-              background: 'linear-gradient(180deg, #FAF8F2 0%, #F5EFE0 100%)',
+              background: 'rgba(250, 248, 242, 0.55)',
               flexShrink: 0,
               overflow: 'hidden'
             }}>
@@ -4702,7 +4716,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     
                     <span style={{
                       fontSize: '16px',
-                      color: '#FAF8F2',
+                      color: 'rgba(250, 248, 242, 0.55)',
                       fontWeight: '900',
                       textTransform: 'uppercase',
                       letterSpacing: '0.06em',
@@ -4732,8 +4746,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 style={{
                   position: 'relative',
                   zIndex: 10,
-                  background: '#FAF8F2',
-                  border: '2px solid #14452F',
+                  background: 'rgba(250, 248, 242, 0.65)',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   color: '#14452F',
                   width: '40px',
                   height: '40px',
@@ -4752,7 +4766,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   e.currentTarget.style.color = '#ffffff';
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.background = '#FAF8F2';
+                  e.currentTarget.style.background = 'rgba(250, 248, 242, 0.55)';
                   e.currentTarget.style.color = '#14452F';
                 }}
                 title="Close Modal"
@@ -4778,7 +4792,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 position: 'relative',
                 height: '100%',
                 borderRadius: '20px',
-                border: '2.5px solid #14452F',
+                border: '2.5px solid rgba(20, 69, 47, 0.5)',
                 background: '#ffffff',
                 overflow: 'hidden',
                 display: 'flex',
@@ -4825,7 +4839,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   background: 'linear-gradient(135deg, #ffffff 0%, #F4FBF7 50%, #E8F8EE 100%)',
                   padding: '10px 14px',
                   borderRadius: '24px 6px 24px 6px',
-                  border: '2px solid #14452F',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   boxShadow: '0 4px 14px rgba(20, 69, 47, 0.10), inset 0 0 10px rgba(16, 185, 129, 0.08)',
                   display: 'flex',
                   flexDirection: 'column',
@@ -4886,7 +4900,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   background: 'linear-gradient(135deg, #ffffff 0%, #FFFDF5 50%, #FEF9E7 100%)',
                   padding: '10px 14px',
                   borderRadius: '24px 6px 24px 6px',
-                  border: '2px solid #14452F',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   boxShadow: '0 4px 14px rgba(20, 69, 47, 0.10), inset 0 0 10px rgba(245, 158, 11, 0.08)',
                   display: 'flex',
                   flexDirection: 'column',
@@ -4951,7 +4965,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
               justifyContent: 'space-between',
               padding: '0.65rem 1.75rem',
               borderTop: '2.5px solid #14452F',
-              background: 'linear-gradient(180deg, #FAF8F2 0%, #ECE5D5 100%)',
+              background: 'rgba(250, 248, 242, 0.55)',
               flexShrink: 0,
               overflow: 'hidden'
             }}>
