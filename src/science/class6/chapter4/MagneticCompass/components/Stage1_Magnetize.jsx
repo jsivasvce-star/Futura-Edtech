@@ -629,7 +629,9 @@ export default function Stage1_Magnetize({ onComplete }) {
             flexDirection: 'column',
             justifyContent: 'space-between',
             gap: '0.85rem',
-            boxSizing: 'border-box'
+            boxSizing: 'border-box',
+            overflowY: 'auto',
+            minHeight: 0
           }}
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>

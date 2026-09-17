@@ -117,7 +117,7 @@ export default function SuspendedMagnetActivity({ onBackToDashboard, onComplete 
         </div>
 
         {/* Right: Tab Navigation Bar */}
-        <nav style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0, background: 'rgba(255, 255, 255, 0.75)', border: '1.5px solid #FDE68A', borderRadius: '28px', padding: '0.28rem' }}>
+        <nav style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0 }}>
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isCompleted = progress[tab.id];

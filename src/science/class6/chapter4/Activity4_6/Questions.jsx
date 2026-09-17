@@ -136,7 +136,7 @@ export default function Questions({ onComplete, onNext }) {
               marginTop: '0.5rem'
             }}
           >
-            Proceed to Challenge
+            Proceed to Did You Know?
           </button>
         </div>
       </div>
@@ -268,7 +268,7 @@ export default function Questions({ onComplete, onNext }) {
                     transition: 'all 0.25s ease'
                   }}
                 >
-                  {currentQuestion === questions.length - 1 ? 'Proceed to Challenge Mode' : 'Next Question'}
+                  {currentQuestion === questions.length - 1 ? 'Proceed to Did You Know?' : 'Next Question'}
                 </button>
               </div>
             </div>

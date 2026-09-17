@@ -595,11 +595,7 @@ export default function Stage1_Experiment({ onComplete }) {
                     display: 'flex',
                     alignItems: 'flex-start',
                     gap: '0.75rem',
-                    background: '#FFFFFF',
-                    border: '1.5px solid #FDE68A',
-                    borderRadius: '16px',
-                    padding: '0.75rem 1rem',
-                    boxShadow: '0 2px 8px rgba(217, 119, 6, 0.05)'
+                    padding: '0.1rem 0'
                   }}
                 >
                   <span style={{

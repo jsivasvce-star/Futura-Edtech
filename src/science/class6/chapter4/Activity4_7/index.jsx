@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, BookOpen, Compass, TestTube2, Trophy, Sparkles, CheckCircle } from 'lucide-react';
+import { ArrowLeft, BookOpen, Compass, TestTube2, Sparkles, CheckCircle } from 'lucide-react';
 import Simulation from './Simulation';
 import Questions from './Questions';
-import ChallengeMode from './ChallengeMode';
 import DidYouKnow from './DidYouKnow';
 import './Activity4_7.css';
 
@@ -11,20 +10,13 @@ export default function Activity4_7({ onBackToDashboard, onComplete }) {
   const [activeTab, setActiveTab] = useState('simulation');
   const [simCompleted, setSimCompleted] = useState(false);
   const [questionsCompleted, setQuestionsCompleted] = useState(false);
-  const [challengeCompleted, setChallengeCompleted] = useState(false);
   const [didYouKnowCompleted, setDidYouKnowCompleted] = useState(false);
 
   const tabs = [
     { id: 'simulation', label: '1. Interactive Lab', icon: TestTube2, done: simCompleted },
     { id: 'questions', label: '2. Concept Check', icon: BookOpen, done: questionsCompleted, disabled: !simCompleted },
-    { id: 'challenge', label: '3. Challenge Mode', icon: Trophy, done: challengeCompleted, disabled: !questionsCompleted },
-    { id: 'didyouknow', label: '4. Did You Know?', icon: Sparkles, done: didYouKnowCompleted, disabled: !challengeCompleted }
+    { id: 'didyouknow', label: '3. Did You Know?', icon: Sparkles, done: didYouKnowCompleted, disabled: !questionsCompleted }
   ];
-
-  const handleChallengeComplete = () => {
-    setChallengeCompleted(true);
-    setActiveTab('didyouknow');
-  };
 
   const handleDidYouKnowComplete = () => {
     setDidYouKnowCompleted(true);
@@ -175,20 +167,7 @@ export default function Activity4_7({ onBackToDashboard, onComplete }) {
               transition={{ duration: 0.2 }}
               style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
             >
-              <Questions onComplete={() => setQuestionsCompleted(true)} onNext={() => setActiveTab('challenge')} />
-            </motion.div>
-          )}
-
-          {activeTab === 'challenge' && (
-            <motion.div
-              key="challenge"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-            >
-              <ChallengeMode onComplete={handleChallengeComplete} />
+              <Questions onComplete={() => setQuestionsCompleted(true)} onNext={() => setActiveTab('didyouknow')} />
             </motion.div>
           )}
 
@@ -201,7 +180,7 @@ export default function Activity4_7({ onBackToDashboard, onComplete }) {
               transition={{ duration: 0.2 }}
               style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
             >
-              <DidYouKnow onComplete={handleDidYouKnowComplete} onBackToQuiz={() => setActiveTab('challenge')} />
+              <DidYouKnow onComplete={handleDidYouKnowComplete} onBackToQuiz={() => setActiveTab('questions')} />
             </motion.div>
           )}
         </AnimatePresence>
