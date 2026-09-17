@@ -855,6 +855,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
   const [infoCardAnimal, setInfoCardAnimal] = useState(null);
   const [modalPlantPage, setModalPlantPage] = useState(1);
   const [modalAnimalPage, setModalAnimalPage] = useState(1);
+  const [categoryStep, setCategoryStep] = useState(0); // 0: Herbs, 1: Shrubs, 2: Trees
   const [fsActive, setFsActive] = useState(false);
 
   useEffect(() => {
@@ -1504,7 +1505,6 @@ const natureAudioRef = useRef(null);
 
   // Hints & Category Stepper (Single page per category like slogan page)
   const [showHints, setShowHints] = useState(true);
-  const [categoryStep, setCategoryStep] = useState(0); // 0: Herbs, 1: Shrubs, 2: Trees
   const [projectorZoom, setProjectorZoom] = useState(1); // 1 = 1x, 2 = 1.8x, 3 = 2.6x
   const [zoomOrigin, setZoomOrigin] = useState({ x: 50, y: 50 });
 

@@ -613,13 +613,13 @@ export default function Chapter2SloganPage({
     };
   }, [currentPage]);
 
-  // Page 2: Trigger attractive popup message after 6 seconds of full-image viewing
+  // Page 2: Trigger attractive popup message after 5 seconds of full-image viewing
   useEffect(() => {
     if (currentPage === 2) {
       setShowPage2Popup(false);
       const timer = setTimeout(() => {
         setShowPage2Popup(true);
-      }, 6000);
+      }, 5000);
       return () => clearTimeout(timer);
     } else {
       setShowPage2Popup(false);
@@ -1707,24 +1707,21 @@ export default function Chapter2SloganPage({
                   </div>
                 </div>
 
-                {/* Info Cards: Font Area with rich blur and nature-harmonized complementary colors */}
+                {/* Info Panel: SINGLE unified glass panel (blur applied only to text/content area) */}
                 <div style={{
+                  background: 'linear-gradient(145deg, rgba(6, 32, 22, 0.42) 0%, rgba(2, 18, 12, 0.34) 100%)',
+                  backdropFilter: 'blur(20px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                  borderRadius: '18px',
+                  border: '1.5px solid rgba(167, 243, 208, 0.35)',
+                  boxShadow: '0 8px 26px rgba(0, 0, 0, 0.40), inset 0 1px 1.5px rgba(255, 255, 255, 0.20)',
+                  padding: 'clamp(12px, 1.8vh, 18px) clamp(14px, 1.6vw, 20px)',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 'clamp(8px, 1.4vh, 12px)'
+                  gap: 'clamp(10px, 1.6vh, 16px)'
                 }}>
-                  {/* Card 1: Habitat (Forest Canopy & Mossy Green Harmony) */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(6, 40, 24, 0.58) 0%, rgba(2, 22, 14, 0.52) 100%)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                    borderRadius: '16px',
-                    padding: 'clamp(10px, 1.4vh, 14px) clamp(14px, 1.6vw, 18px)',
-                    border: '1.5px solid rgba(52, 211, 153, 0.40)',
-                    borderLeft: '4.5px solid #10B981',
-                    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
-                    transition: 'all 0.25s ease'
-                  }}>
+                  {/* Row 1: Habitat */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <div style={{
                       fontSize: '20px',
                       fontWeight: 800,
@@ -1743,7 +1740,6 @@ export default function Chapter2SloganPage({
                       color: '#F8FAFC',
                       textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
                       fontWeight: 500,
-                      marginTop: '6px',
                       lineHeight: 1.55,
                       fontFamily: '"Inter", sans-serif'
                     }}>
@@ -1751,18 +1747,10 @@ export default function Chapter2SloganPage({
                     </div>
                   </div>
 
-                  {/* Card 2: Biosphere (Golden Sunbeam & Earth Amber Harmony) */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(42, 24, 4, 0.58) 0%, rgba(20, 12, 2, 0.52) 100%)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                    borderRadius: '16px',
-                    padding: 'clamp(10px, 1.4vh, 14px) clamp(14px, 1.6vw, 18px)',
-                    border: '1.5px solid rgba(251, 191, 36, 0.40)',
-                    borderLeft: '4.5px solid #F59E0B',
-                    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
-                    transition: 'all 0.25s ease'
-                  }}>
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Row 2: Biosphere */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <div style={{
                       fontSize: '20px',
                       fontWeight: 800,
@@ -1781,7 +1769,6 @@ export default function Chapter2SloganPage({
                       color: '#FFFBEB',
                       textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
                       fontWeight: 500,
-                      marginTop: '6px',
                       lineHeight: 1.55,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify'
@@ -1790,18 +1777,10 @@ export default function Chapter2SloganPage({
                     </div>
                   </div>
 
-                  {/* Card 3: Coexistence (River Water & Peacock Turquoise Harmony) */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(6, 36, 38, 0.58) 0%, rgba(2, 20, 22, 0.52) 100%)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                    borderRadius: '16px',
-                    padding: 'clamp(10px, 1.4vh, 14px) clamp(14px, 1.6vw, 18px)',
-                    border: '1.5px solid rgba(34, 211, 238, 0.40)',
-                    borderLeft: '4.5px solid #06B6D4',
-                    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
-                    transition: 'all 0.25s ease'
-                  }}>
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Row 3: Coexistence */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <div style={{
                       fontSize: '20px',
                       fontWeight: 800,
@@ -1820,7 +1799,6 @@ export default function Chapter2SloganPage({
                       color: '#F0FDFA',
                       textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
                       fontWeight: 500,
-                      marginTop: '6px',
                       lineHeight: 1.55,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify'
