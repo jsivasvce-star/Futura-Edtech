@@ -863,7 +863,6 @@ export default function Chapter2SloganPage({
             objectFit: 'cover',
             objectPosition: 'center center',
             display: 'block',
-            imageRendering: '-webkit-optimize-contrast',
             imageRendering: 'high-quality',
             transform: 'translateZ(0)',
             backfaceVisibility: 'hidden'

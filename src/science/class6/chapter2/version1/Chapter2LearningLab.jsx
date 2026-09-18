@@ -8,28 +8,28 @@ import confetti from 'canvas-confetti';
 
 import sanskritSlogan from '../../../../assets/sanskrit_slogan.png';
 import CoverPage from '../../../../components/CoverPage';
-import Chapter2SloganPage from './Chapter2SloganPage';
-import IntroStoryteller from './IntroStoryteller';
+import Chapter2SloganPage from '../Chapter2SloganPage';
+import IntroStoryteller from '../IntroStoryteller';
 import coverBgImage from '../../../../assets/cover_page_ch2.png';
 import coverBgVideo from '../../../../assets/in_this_video_just_add_those_b (1).mp4';
 import natureGreeneryBg from '../../../../assets/nature_greenery_bg.jpg';
 
 // 14 Distinct 8K Realistic Photographic Backgrounds (Zero Duplicates Across Activities)
-import ch2GardenPanorama from './DiversityInTheLivingWorldNew/images/ch2_garden_panorama.jpg';
-import ch2AerialHabitat from './DiversityInTheLivingWorldNew/images/ch2_aerial_habitat.jpg';
-import ch2GardenBiodiversity from './DiversityInTheLivingWorldNew/images/ch2_garden_biodiversity.jpg';
-import ch2LivingWorldDiversity from './DiversityInTheLivingWorldNew/images/ch2_living_world_diversity_8k.jpg';
-import ch2PlantDetective from './DiversityInTheLivingWorldNew/images/ch2_plant_detective.jpg';
-import ch2LeafVenation from './DiversityInTheLivingWorldNew/images/ch2_leaf_venation.jpg';
-import ch2RootSystems from './DiversityInTheLivingWorldNew/images/ch2_root_systems.jpg';
-import ch2HerbsHabitat from './DiversityInTheLivingWorldNew/images/ch2_herbs_habitat_8k.jpg';
-import ch2SeedDissection from './DiversityInTheLivingWorldNew/images/ch2_seed_dissection.jpg';
-import ch2HabitatsClassification from './DiversityInTheLivingWorldNew/images/ch2_habitats_classification_8k.jpg';
-import ch2AnimalLocomotion from './DiversityInTheLivingWorldNew/images/ch2_animal_locomotion.jpg';
-import ch2ExtremeAdaptations from './DiversityInTheLivingWorldNew/images/ch2_extreme_adaptations.jpg';
-import ch2SilentValley from './DiversityInTheLivingWorldNew/images/ch2_silent_valley.jpg';
-import ch2SacredGrove from './DiversityInTheLivingWorldNew/images/ch2_sacred_grove.jpg';
-import cinematicLivingNatureImage from './DiversityInTheLivingWorldNew/images/ch2_cinematic_living_nature.jpg';
+import ch2GardenPanorama from '../DiversityInTheLivingWorldNew/images/ch2_garden_panorama.jpg';
+import ch2AerialHabitat from '../DiversityInTheLivingWorldNew/images/ch2_aerial_habitat.jpg';
+import ch2GardenBiodiversity from '../DiversityInTheLivingWorldNew/images/ch2_garden_biodiversity.jpg';
+import ch2LivingWorldDiversity from '../DiversityInTheLivingWorldNew/images/ch2_living_world_diversity_8k.jpg';
+import ch2PlantDetective from '../DiversityInTheLivingWorldNew/images/ch2_plant_detective.jpg';
+import ch2LeafVenation from '../DiversityInTheLivingWorldNew/images/ch2_leaf_venation.jpg';
+import ch2RootSystems from '../DiversityInTheLivingWorldNew/images/ch2_root_systems.jpg';
+import ch2HerbsHabitat from '../DiversityInTheLivingWorldNew/images/ch2_herbs_habitat_8k.jpg';
+import ch2SeedDissection from '../DiversityInTheLivingWorldNew/images/ch2_seed_dissection.jpg';
+import ch2HabitatsClassification from '../DiversityInTheLivingWorldNew/images/ch2_habitats_classification_8k.jpg';
+import ch2AnimalLocomotion from '../DiversityInTheLivingWorldNew/images/ch2_animal_locomotion.jpg';
+import ch2ExtremeAdaptations from '../DiversityInTheLivingWorldNew/images/ch2_extreme_adaptations.jpg';
+import ch2SilentValley from '../DiversityInTheLivingWorldNew/images/ch2_silent_valley.jpg';
+import ch2SacredGrove from '../DiversityInTheLivingWorldNew/images/ch2_sacred_grove.jpg';
+import cinematicLivingNatureImage from '../DiversityInTheLivingWorldNew/images/ch2_cinematic_living_nature.jpg';
 
 // Unified Nature Greenery Background (Living Ecosystem on Slogan Page)
 export const getActiveBackground = (step = 1, section1SubTab = 'slogan') => {
@@ -46,7 +46,7 @@ export const getActiveTheme = () => ({
   btnGradient: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
   btnBorder: '#FDE68A',
   btnText: '#FFFFFF',
-  btnShadow: '0 4px 18px rgba(217, 119, 6, 0.5), 0 0 16px rgba(245, 158, 11, 0.4)',
+  btnShadow: '0 4px 18px rgba(217, 119, 6, 0.5), 0 0 16px rgba(245, 119, 6, 0.4)',
   cardBg: 'rgba(15, 23, 42, 0.50)',
   cardBorder: '1.5px solid rgba(255, 255, 255, 0.35)'
 });
@@ -61,10 +61,10 @@ import RootSystemsLab from './RootSystemsLab';
 import VenationRootCorrelationLab from './VenationRootCorrelationLab';
 import SeedDissectionLab from './SeedDissectionLab';
 import AnimalHabitatExplorerActivity from './AnimalHabitatExplorer';
-import Tables2_5_2_6_Lab from './Tables2_5_2_6_Lab';
-import AdaptationsLab from './AdaptationsLab';
-import ConservationLab from './ConservationLab';
-import TextbookExercisesLab from './TextbookExercisesLab';
+import Tables2_5_2_6_Lab from '../Tables2_5_2_6_Lab';
+import AdaptationsLab from '../AdaptationsLab';
+import ConservationLab from '../ConservationLab';
+import TextbookExercisesLab from '../TextbookExercisesLab';
 import { speakNaturalIndianMale, stopNarration } from '../../../../services/elevenLabsService';
 
 const CHAPTER_TAB_NARRATIONS = {

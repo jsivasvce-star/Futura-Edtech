@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Volume2, VolumeX, Maximize2, Minimize2, ArrowRight, ArrowLeft, X, Sparkles, Eye } from 'lucide-react';
-import { speakNaturalIndianMale, stopNarration } from '../../../../services/elevenLabsService';
+import { Volume2, VolumeX, Sparkles, CheckCircle2, ChevronRight, ChevronLeft, RotateCcw, Maximize2, Minimize2, ArrowRight, ArrowLeft } from 'lucide-react';
+import { speakNaturalIndianMale, stopNarration } from '../../../services/elevenLabsService';
 
 // Cinematic Real Living Nature Photograph (National Geographic Sanctuary)
 import cinematicLivingNatureImage from './DiversityInTheLivingWorldNew/images/ch2_cinematic_living_nature.jpg';
@@ -863,7 +863,6 @@ export default function Chapter2SloganPage({
             objectFit: 'cover',
             objectPosition: 'center center',
             display: 'block',
-            imageRendering: '-webkit-optimize-contrast',
             imageRendering: 'high-quality',
             transform: 'translateZ(0)',
             backfaceVisibility: 'hidden'

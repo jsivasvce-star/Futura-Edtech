@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useImperativeHandle, forwardRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Play, 
@@ -10,16 +10,17 @@ import {
   Minimize2 
 } from 'lucide-react';
 
-export default function BreakingMagnetVideoPlayer({
+const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer({
   videoSrc = '/MagneticPoles/breaking_magnet_demonstration.mp4',
   fallbackSrc = '/assets/WhatsApp Video 2026-09-16 at 2.06.03 PM.mp4',
   broken = false,
   showPoles = false,
   onPhaseChange,
   onExternalReset,
+  onPlaybackStateChange,
   autoPlay = true,
   loop = false,
-}) {
+}, ref) {
   const videoRef = useRef(null);
   const containerRef = useRef(null);
   const progressScrubberRef = useRef(null);
@@ -42,7 +43,64 @@ export default function BreakingMagnetVideoPlayer({
     if (videoRef.current) {
       videoRef.current.pause();
     }
-  }, []);
+    if (onPlaybackStateChange) {
+      onPlaybackStateChange(false);
+    }
+  }, [onPlaybackStateChange]);
+
+  // Imperative handle for parent component control (Pause, Resume, Reset)
+  useImperativeHandle(ref, () => ({
+    pause: () => {
+      if (videoRef.current) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+        if (onPlaybackStateChange) onPlaybackStateChange(false);
+      }
+    },
+    resume: () => {
+      const video = videoRef.current;
+      if (!video) return;
+      if (video.ended) {
+        video.currentTime = 0;
+        setIsEnded(false);
+      }
+      video.play().then(() => {
+        setIsPlaying(true);
+        if (onPlaybackStateChange) onPlaybackStateChange(true);
+      }).catch(() => {});
+    },
+    play: () => {
+      const video = videoRef.current;
+      if (!video) return;
+      if (video.ended) {
+        video.currentTime = 0;
+        setIsEnded(false);
+      }
+      video.play().then(() => {
+        setIsPlaying(true);
+        if (onPlaybackStateChange) onPlaybackStateChange(true);
+      }).catch(() => {});
+    },
+    reset: () => {
+      const video = videoRef.current;
+      if (!video) return;
+      video.currentTime = 0;
+      setIsEnded(false);
+      video.play().then(() => {
+        setIsPlaying(true);
+        if (onPlaybackStateChange) onPlaybackStateChange(true);
+      }).catch(() => {
+        // In case audio autoplay restriction triggers, play muted
+        video.muted = true;
+        setIsMuted(true);
+        video.play().then(() => {
+          setIsPlaying(true);
+          if (onPlaybackStateChange) onPlaybackStateChange(true);
+        }).catch(() => {});
+      });
+    },
+    getIsPlaying: () => isPlaying
+  }), [isPlaying, onPlaybackStateChange]);
 
   // Initialize playback and duration
   useEffect(() => {
@@ -240,8 +298,12 @@ export default function BreakingMagnetVideoPlayer({
         onPlay={() => {
           setIsPlaying(true);
           setIsEnded(false);
+          if (onPlaybackStateChange) onPlaybackStateChange(true);
         }}
-        onPause={() => setIsPlaying(false)}
+        onPause={() => {
+          setIsPlaying(false);
+          if (onPlaybackStateChange) onPlaybackStateChange(false);
+        }}
         onEnded={handleEnded}
         onClick={isEnded ? handleReplay : togglePlay}
         style={{
@@ -598,4 +660,6 @@ export default function BreakingMagnetVideoPlayer({
       </motion.div>
     </div>
   );
-}
+});
+
+export default BreakingMagnetVideoPlayer;
