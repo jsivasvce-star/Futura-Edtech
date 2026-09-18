@@ -11,7 +11,7 @@ import CoverPage from '../../../../components/CoverPage';
 import Chapter2SloganPage from './Chapter2SloganPage';
 import IntroStoryteller from './IntroStoryteller';
 import coverBgImage from '../../../../assets/cover_page_ch2.png';
-import coverBgVideo from '../../../../assets/in_this_video_just_add_those_b (1).mp4';
+import coverBgVideo from './cover_video_upscale.mp4';
 import natureGreeneryBg from '../../../../assets/nature_greenery_bg.jpg';
 
 // 14 Distinct 8K Realistic Photographic Backgrounds (Zero Duplicates Across Activities)

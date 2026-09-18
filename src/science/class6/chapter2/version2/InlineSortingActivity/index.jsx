@@ -16,7 +16,15 @@ import habitatBothBgHd from '../../../../../assets/habitat_both_bg_hd.png';
 import habitatIconLand from '../../../../../assets/habitat_icon_land.png';
 import habitatIconWater from '../../../../../assets/habitat_icon_water.png';
 import habitatIconBoth from '../../../../../assets/habitat_icon_both.png';
+import specimen01MangoBlended from './specimen_01_mango_blended.png';
 import specimen02RoseBlended from './specimen_02_rose_blended.png';
+import specimen03TomatoBlended from './specimen_03_tomato_blended.png';
+import specimen04NeemBlended from './specimen_04_neem_blended.png';
+import specimen05HibiscusBlended from './specimen_05_hibiscus_blended.png';
+import specimen06MintBlended from './specimen_06_mint_blended.png';
+import specimen07BanyanBlended from './specimen_07_banyan_blended.png';
+import specimen08CottonBlended from './specimen_08_cotton_blended.png';
+import specimen09SunflowerBlended from './specimen_09_sunflower_blended.png';
 
 // =========================================================================
 // ASSET PATH CONSTANTS
@@ -50,63 +58,63 @@ const SPECIMEN_SLIDES = [
     num: '01',
     name: 'Mango',
     type: 'Tree',
-    image: '/activities/class6_chapter2/grouping/plant mystery activity 2.4 specimen 1.png'
+    image: specimen01MangoBlended // Ultra-HD 2.7K crisp blended specimen matching rose_fade
   },
   {
     id: 2,
     num: '02',
     name: 'Rose',
     type: 'Shrub',
-    image: specimen02RoseBlended
+    image: specimen02RoseBlended // Ultra-HD 2.7K crisp blended specimen without pixel break
   },
   {
     id: 3,
     num: '03',
     name: 'Tomato',
     type: 'Herb',
-    image: '/activities/class6_chapter2/grouping/plant mystery activity 2.4 specimen 3.png'
+    image: specimen03TomatoBlended // Ultra-HD 2.7K crisp blended specimen matching rose_fade
   },
   {
     id: 4,
     num: '04',
     name: 'Neem',
     type: 'Tree',
-    image: '/activities/class6_chapter2/grouping/plant mystery activity 2.4 specimen 4.png'
+    image: specimen04NeemBlended // Ultra-HD 2.7K crisp blended specimen matching rose_fade
   },
   {
     id: 5,
     num: '05',
     name: 'Hibiscus',
     type: 'Shrub',
-    image: '/activities/class6_chapter2/grouping/plant mystery activity 2.4 specimen 5.png'
+    image: specimen05HibiscusBlended // Ultra-HD 2.7K crisp blended specimen matching rose_fade
   },
   {
     id: 6,
     num: '06',
     name: 'Mint',
     type: 'Herb',
-    image: '/activities/class6_chapter2/grouping/plant mystery activity 2.4 specimen 6.png'
+    image: specimen06MintBlended // Ultra-HD 2.7K crisp blended specimen matching rose_fade
   },
   {
     id: 7,
     num: '07',
     name: 'Banyan',
     type: 'Tree',
-    image: '/activities/class6_chapter2/grouping/plant mystery activity 2.4 specimen 7.png'
+    image: specimen07BanyanBlended // Ultra-HD 2.7K crisp blended specimen matching rose_fade
   },
   {
     id: 8,
     num: '08',
     name: 'Cotton',
     type: 'Shrub',
-    image: '/activities/class6_chapter2/grouping/plant mystery activity 2.4 specimen 8.png'
+    image: specimen08CottonBlended // Ultra-HD 2.7K crisp blended specimen matching rose_fade
   },
   {
     id: 9,
     num: '09',
     name: 'Sunflower',
     type: 'Herb',
-    image: '/activities/class6_chapter2/grouping/plant mystery activity 2.4 speciman 9.png'
+    image: specimen09SunflowerBlended // Ultra-HD 2.7K crisp blended specimen matching rose_fade
   }
 ];
 

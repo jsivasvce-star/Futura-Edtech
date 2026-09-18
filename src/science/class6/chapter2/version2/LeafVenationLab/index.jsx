@@ -19,6 +19,8 @@ import { venationAudio } from './venationAudio';
 import specimen01HibiscusBlended from './specimen_01_hibiscus_blended.png';
 import specimen02BananaBlended from './specimen_02_banana_blended.png';
 import specimen03GrassBlended from './specimen_03_grass_blended.png';
+import specimen04NeemBlended from './specimen_04_neem_blended.png';
+import specimen05MangoBlended from './specimen_05_mango_blended.png';
 import specimen06RoseBlended from './specimen_06_rose_blended.png';
 import specimen07CompareBlended from './specimen_07_compare_blended.png';
 
@@ -52,14 +54,14 @@ const VENATION_SPECIMEN_SLIDES = [
     num: '04',
     name: 'Neem Leaf',
     venation: 'Reticulate',
-    image: '/activities/class6_chapter2/venation/specimen_04_neem.png'
+    image: specimen04NeemBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
   {
     id: 5,
     num: '05',
     name: 'Mango Leaf',
     venation: 'Reticulate',
-    image: '/activities/class6_chapter2/venation/specimen_05_mango.png'
+    image: specimen05MangoBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
   {
     id: 6,

@@ -29,6 +29,10 @@ import fib1Img from '../../../../../assets/fib_1.png';
 const PLANT_IMG_1 = { mustard: mustard1Img, grass: grass1Img, hibiscus: hib1Img, marigold: marigold1Img, wheat: wheat1Img };
 const PLANT_IMG_2 = { mustard: mustard2Img, grass: grass2Img, hibiscus: hib2Img, marigold: marigold2Img, wheat: wheat2Img };
 const ROOT_CLOSE_IMG = { taproot: tap1Img, fibrous: fib1Img };
+import specimen01TapBlended from './specimen_01_tap_blended.png';
+import specimen02CropsBlended from './specimen_02_crops_blended.png';
+import specimen03OnionBlended from './specimen_03_onion_blended.png';
+import specimen04GrassBlended from './specimen_04_grass_blended.png';
 
 // =========================================================================
 // FULLSCREEN SPECIMEN SLIDES (ACTIVITY 2.6) — EXACT 16:9 HD SPECIMENS
@@ -39,28 +43,28 @@ const ROOT_SPECIMEN_SLIDES = [
     num: '01',
     name: 'Taproot Vegetables (Mustard, Carrot, Radish, Beetroot, Turnip)',
     type: 'Taproot System',
-    image: '/activities/class6_chapter2/roots/root_01_tap_vegetables.png'
+    image: specimen01TapBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
   {
     id: 2,
     num: '02',
     name: 'Taproot Crops & Trees (Pea, Gram, Bean, Tomato, Sunflower, Hibiscus, Rose, Mango, Neem)',
     type: 'Taproot System',
-    image: '/activities/class6_chapter2/roots/root_02_tap_crops.png'
+    image: specimen02CropsBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
   {
     id: 3,
     num: '03',
     name: 'Onion Fibrous Root',
     type: 'Fibrous Root System',
-    image: '/activities/class6_chapter2/roots/root_03_fibrous_onion.png'
+    image: specimen03OnionBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
   {
     id: 4,
     num: '04',
     name: 'Grass Fibrous Root',
     type: 'Fibrous Root System',
-    image: '/activities/class6_chapter2/roots/root_04_fibrous_grass.png'
+    image: specimen04GrassBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
   {
     id: 5,
