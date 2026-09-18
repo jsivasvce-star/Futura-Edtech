@@ -716,179 +716,143 @@ export default function Simulation({ onComplete, onNext }) {
         position: 'relative'
       }}
     >
-      {/* Left Column: Activity Step Instructions & Controls */}
-      <div className="custom-scroll" style={{
-        background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-        backdropFilter: 'blur(14px)',
-        borderRadius: '24px',
-        border: '1.5px solid #FDE68A',
-        padding: '1.5rem 1.45rem',
+      {/* Left Column: Two Golden Containers (Instructions & Controls) */}
+      <div className="stage-right-column" style={{
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
-        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
-        zIndex: 10,
-        overflowY: 'auto'
+        gap: '1.65rem',
+        height: '100%',
+        minHeight: 0,
+        boxSizing: 'border-box'
       }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.05rem' }}>
-          {/* Header */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <CompassIcon size={34} color="#D97706" />
-              <h3 style={{ margin: 0, fontSize: '1.75rem', color: '#78350F', fontWeight: 900, letterSpacing: '-0.02em' }}>
-                Compass & Bar Magnet
-              </h3>
+        {/* Container 1: Steps of Instructions */}
+        <div className="stage-container-1" style={{
+          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+          border: '1.5px solid #FDE68A',
+          borderRadius: '24px',
+          padding: '1.4rem 1.6rem',
+          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.85rem'
+        }}>
+          <h3 style={{ margin: 0, fontSize: '19.5px', fontWeight: 900, color: '#1E1B4B' }}>
+            Steps of Instructions
+          </h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
+              <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+                Click 'Run the flow' at the bottom-right corner to begin observing compass deflection.
+              </span>
             </div>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
+              <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+                Watch the magnet move through the stations while the needle tracks its magnetic pole.
+              </span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
+              <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+                Observe the needle return naturally to 0° North as the magnet returns to start.
+              </span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
+              <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+                Click 'Flip Magnet' or drag the magnet to test opposite needle deflections anywhere.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Container 2: Activity Controls & Status */}
+        <div className="stage-container-2" style={{
+          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+          border: '1.5px solid #FDE68A',
+          borderRadius: '24px',
+          padding: '1.4rem 1.6rem',
+          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          flex: 1,
+          minHeight: 0
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h3 style={{ margin: 0, fontSize: '19.5px', fontWeight: 900, color: '#1E1B4B' }}>
+              Observation Status
+            </h3>
             <span style={{
-              background: '#FEF3C7',
-              color: '#92400E',
+              background: '#DCFCE7',
+              color: '#15803D',
               fontWeight: 900,
-              fontSize: '0.95rem',
-              padding: '0.4rem 0.9rem',
+              fontSize: '15px',
+              padding: '0.35rem 0.8rem',
               borderRadius: '12px',
-              border: '1.5px solid #F59E0B',
-              boxShadow: '0 2px 6px rgba(217, 119, 6, 0.12)'
+              border: '1.5px solid #86EFAC'
             }}>
               Step {currentStep} of 4
             </span>
           </div>
 
-          {/* Instruction Card Containers (Designed like Activity 4.7) */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-            {[
-              {
-                id: 'step1',
-                stepNum: 1,
-                badge: '1',
-                label: "Step 1 (Bottom-Left):",
-                content: <>Click <strong>'Run the flow'</strong> at bottom-right to begin. Magnet starts at rest; compass points naturally to <strong>Magnetic North (0° N)</strong>.</>,
-                isDone: currentStep > 1 || hasVisitedTopLeft || hasCompletedTour
-              },
-              {
-                id: 'step2',
-                stepNum: 2,
-                badge: '2',
-                label: "Step 2 (Top-Left):",
-                content: <>Watch the magnet move upward without flipping. Observe the compass needle deflect toward the magnet's pole.</>,
-                isDone: hasVisitedTopLeft
-              },
-              {
-                id: 'step3',
-                stepNum: 3,
-                badge: '3',
-                label: "Step 3 (Bottom-Right):",
-                content: <>Follow the magnet as it shifts across in the same orientation. Needle tracks the magnet's movement.</>,
-                isDone: hasVisitedBottomRight
-              },
-              {
-                id: 'step4',
-                stepNum: 4,
-                badge: '4',
-                label: "Step 4 (Return to Start):",
-                content: <>The magnet smoothly returns along the base to rest. Needle realigns naturally to <strong>0° North</strong>.</>,
-                isDone: hasCompletedTour
-              },
-              {
-                id: 'flip',
-                badge: <RefreshCw size={15} strokeWidth={2.5} />,
-                label: "Flip Magnet:",
-                content: <>Click <strong>'Flip Magnet'</strong> button or tap the magnet body: inverts polarity <strong>(N ↔ S)</strong> to test opposite needle deflections.</>,
-                isDone: hasFlippedOnce || isFlipped
-              },
-              {
-                id: 'drag',
-                badge: <Hand size={15} strokeWidth={2.5} />,
-                label: "Drag Magnet:",
-                content: <>Touch or click & drag: freely reposition the bar magnet anywhere around the compass to test custom magnetic positions.</>,
-                isDone: hasDraggedOnce
-              }
-            ].map((card) => {
-              const isCurrentActive = card.stepNum === currentStep && isAnimating;
+          {/* Status Details */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', flex: 1 }}>
+            <div style={{
+              background: '#FFFFFF',
+              border: '1.5px solid #FDE68A',
+              borderRadius: '16px',
+              padding: '0.85rem 1.1rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.35rem'
+            }}>
+              <span style={{ fontSize: '14.5px', fontWeight: 800, color: '#78350F' }}>Active Position:</span>
+              <span style={{ fontSize: '16.5px', fontWeight: 900, color: '#064E3B' }}>{facingPoleName}</span>
+            </div>
 
-              return (
-                <div
-                  key={card.id}
-                  style={{
-                    background: card.isDone ? '#DCFCE7' : 'rgba(255, 255, 255, 0.96)',
-                    border: card.isDone 
-                      ? '1.5px solid #86EFAC' 
-                      : isCurrentActive
-                        ? '2px solid #F59E0B' 
-                        : '1.5px solid #FDE68A',
-                    borderRadius: '18px',
-                    padding: '1rem 1.25rem',
-                    boxShadow: card.isDone 
-                      ? '0 3px 10px rgba(16, 185, 129, 0.12)' 
-                      : isCurrentActive
-                        ? '0 4px 14px rgba(245, 158, 11, 0.16)'
-                        : '0 3px 10px rgba(217, 119, 6, 0.05)',
-                    transition: 'all 0.25s ease',
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: '0.85rem'
-                  }}
-                >
-                  <div style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '50%',
-                    background: card.isDone ? '#059669' : '#FEF3C7',
-                    border: card.isDone ? '2px solid #059669' : '2px solid #F59E0B',
-                    color: card.isDone ? '#FFFFFF' : '#92400E',
-                    fontSize: '1.02rem',
-                    fontWeight: 900,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                    marginTop: '2px'
-                  }}>
-                    {card.badge}
-                  </div>
-
-                  <p style={{ 
-                    margin: 0, 
-                    flex: 1, 
-                    fontSize: '1.14rem', 
-                    color: card.isDone ? '#166534' : '#065F46', 
-                    lineHeight: 1.55, 
-                    fontWeight: 600 
-                  }}>
-                    <strong style={{ 
-                      color: card.isDone ? '#14532D' : '#064E3B', 
-                      fontWeight: 900 
-                    }}>
-                      {card.label}
-                    </strong>{' '}
-                    {card.content}
-                  </p>
-
-                  {card.isDone && (
-                    <CheckCircle2 size={22} color="#16A34A" style={{ flexShrink: 0, marginTop: '3px' }} />
-                  )}
-                </div>
-              );
-            })}
+            <div style={{
+              background: '#FFFFFF',
+              border: '1.5px solid #FDE68A',
+              borderRadius: '16px',
+              padding: '0.85rem 1.1rem',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
+              <span style={{ fontSize: '16.5px', fontWeight: 800, color: '#78350F' }}>Magnet Polarity:</span>
+              <span style={{
+                background: isFlipped ? '#FEE2E2' : '#EFF6FF',
+                color: isFlipped ? '#991B1B' : '#1E40AF',
+                fontWeight: 900,
+                fontSize: '15px',
+                padding: '0.25rem 0.75rem',
+                borderRadius: '10px',
+                border: `1.5px solid ${isFlipped ? '#FCA5A5' : '#BFDBFE'}`
+              }}>
+                {isFlipped ? 'South ↔ North' : 'North ↔ South'}
+              </span>
+            </div>
           </div>
-        </div>
 
-        {/* Bottom Summary & Proceed Action - Always Accessible with Gold Glow Button */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', marginTop: '1rem' }}>
+          {/* Proceed Button */}
           <button
             type="button"
             onClick={onNext}
             className="gold-glow-btn"
             style={{
               width: '100%',
-              padding: '1rem 1.4rem',
+              padding: '0.85rem 1.4rem',
               borderRadius: '16px',
-              fontSize: '1.12rem',
+              fontSize: '17.5px',
               fontWeight: 900,
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '0.5rem',
+              marginTop: 'auto',
               transition: 'all 0.2s ease',
               color: '#FFFFFF'
             }}

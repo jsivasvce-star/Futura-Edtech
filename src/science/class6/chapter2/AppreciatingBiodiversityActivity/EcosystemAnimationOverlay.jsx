@@ -9,11 +9,11 @@ const squirrelImgSrc = '';
 
 import antImgSrc from '../../../../../assets/ant.png';
 
-import crowFrame1 from '../../../../../assets/anim_frames/crow_flight_frame_1.png';
-import crowFrame2 from '../../../../../assets/anim_frames/crow_flight_frame_2.png';
-import crowFrame3 from '../../../../../assets/anim_frames/crow_flight_frame_3.png';
-import crowFrame4 from '../../../../../assets/anim_frames/crow_flight_frame_4.png';
-import crowFrame5 from '../../../../../assets/anim_frames/crow_flight_frame_5.png';
+import crowFrame1 from '../../../../assets/anim_frames/crow_flight_frame_1.png';
+import crowFrame2 from '../../../../assets/anim_frames/crow_flight_frame_2.png';
+import crowFrame3 from '../../../../assets/anim_frames/crow_flight_frame_3.png';
+import crowFrame4 from '../../../../assets/anim_frames/crow_flight_frame_4.png';
+import crowFrame5 from '../../../../assets/anim_frames/crow_flight_frame_5.png';
 
 /**
  * EcosystemAnimationOverlay

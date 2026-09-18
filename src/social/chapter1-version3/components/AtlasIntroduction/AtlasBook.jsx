@@ -66,74 +66,11 @@ export default function AtlasBook({ isOpen, currentPage, onNext, onPrev, onFinis
           pointerEvents: isOpen ? 'auto' : 'none'
         }}>
             <div key={currentPage} style={{ width: '100%', height: '100%', animation: 'pageTurn 0.4s ease-out', boxSizing: 'border-box' }}>
-              {currentPage === 1 && <PhysicalMapPage />}
-              {currentPage === 2 && <PoliticalMapPage />}
-              {currentPage === 3 && <ThematicMapPage />}
+              {currentPage === 1 && <PhysicalMapPage onNextMap={onNext} onPrevMap={onPrev} currentPage={1} onFinish={onFinish} />}
+              {currentPage === 2 && <PoliticalMapPage onNextMap={onNext} onPrevMap={onPrev} currentPage={2} onFinish={onFinish} />}
+              {currentPage === 3 && <ThematicMapPage onNextMap={onNext} onPrevMap={onPrev} currentPage={3} onFinish={onFinish} />}
             </div>
-
-            <div style={{ position: 'absolute', bottom: '0.75rem', left: '50%', right: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: `0 ${theme.spacing.fluid.md}`, gap: theme.spacing.s2 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: theme.spacing.s1, color: theme.colors.primary, fontSize: '13px', fontWeight: 800, whiteSpace: 'nowrap', flexShrink: 0 }}>
-                <Compass size={16} color={theme.colors.borderActive} style={{ flexShrink: 0 }} />
-                <span>Page {currentPage} of 3</span>
-              </div>
-
-              <div style={{ display: 'flex', gap: theme.spacing.s2, alignItems: 'center', flexShrink: 0 }}>
-                <button onClick={onPrev} disabled={currentPage === 1} style={{ background: theme.colors.paper, border: `1.5px solid ${theme.colors.border}`, padding: `10px 20px`, borderRadius: theme.radius.full, display: 'flex', alignItems: 'center', gap: theme.spacing.s1, cursor: currentPage === 1 ? 'default' : 'pointer', opacity: currentPage === 1 ? 0 : 1, transition: 'all 0.2s', color: theme.colors.primary, fontSize: '15px', fontWeight: 800, whiteSpace: 'nowrap', fontFamily: theme.typography.fonts.body }}>
-                  <ChevronLeft size={16} /> Previous
-                </button>
-                {currentPage < 3 ? (
-                  <button
-                    onClick={onNext}
-                    style={{
-                      background: theme.colors.buttonOrange,
-                      color: 'white',
-                      border: '1.5px solid transparent',
-                      padding: `10px 20px`,
-                      borderRadius: theme.radius.full,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: theme.spacing.s1,
-                      cursor: 'pointer',
-                      boxShadow: '0 4px 12px rgba(245,158,11,0.38)',
-                      whiteSpace: 'nowrap',
-                      fontSize: '15px',
-                      fontWeight: 800,
-                      fontFamily: theme.typography.fonts.body,
-                      transition: 'background 0.2s'
-                    }}
-                    onMouseOver={(e) => e.currentTarget.style.background = theme.colors.buttonOrangeHover}
-                    onMouseOut={(e) => e.currentTarget.style.background = theme.colors.buttonOrange}
-                  >
-                    Next <ChevronRight size={16} />
-                  </button>
-                ) : (
-                  <button
-                    onClick={onFinish}
-                    style={{
-                      background: theme.colors.buttonGreen,
-                      color: 'white',
-                      border: '1.5px solid transparent',
-                      padding: `10px 20px`,
-                      borderRadius: theme.radius.full,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: theme.spacing.s1,
-                      cursor: 'pointer',
-                      boxShadow: '0 4px 12px rgba(22,163,74,0.3)',
-                      whiteSpace: 'nowrap',
-                      fontSize: '15px',
-                      fontWeight: 800,
-                      fontFamily: theme.typography.fonts.body,
-                      transition: 'background 0.2s'
-                    }}
-                    onMouseOver={(e) => e.currentTarget.style.background = theme.colors.buttonGreenHover}
-                    onMouseOut={(e) => e.currentTarget.style.background = theme.colors.buttonGreen}
-                  >
-                    Finish <CheckCircle2 size={16} />
-                  </button>
-                )}
-              </div>
-            </div>        </div>
+        </div>
 
         {/* FRONT COVER */}
         <div style={{

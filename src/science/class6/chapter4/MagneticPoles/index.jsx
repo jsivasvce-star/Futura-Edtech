@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Compass, Scissors, ArrowLeft, CheckCircle, Shapes, HelpCircle } from 'lucide-react';
+import { Compass, Scissors, ArrowLeft, CheckCircle, Shapes, HelpCircle, Sparkles } from 'lucide-react';
 import Stage1_Investigate from './components/Stage1_Investigate';
 import Stage2_BreakingMagnet from './components/Stage2_BreakingMagnet';
 import Stage3_Sandbox from './components/Stage3_Sandbox';
 import Quiz from './Quiz';
-import DidYouKnow from './DidYouKnow';
+import Stage5_DidYouKnowPage from './components/Stage5_DidYouKnowPage';
 import './MagneticPoles.css';
 
 export default function MagneticPolesActivity({ onBackToDashboard, onComplete }) {
@@ -14,7 +14,8 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
     investigate: false,
     breaking: false,
     sandbox: false,
-    quiz: false
+    quiz: false,
+    didyouknow: false
   });
 
   const handleStage1Complete = () => {
@@ -34,6 +35,11 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
 
   const handleQuizComplete = () => {
     setProgress(prev => ({ ...prev, quiz: true }));
+    setActiveTab('didyouknow');
+  };
+
+  const handleDidYouKnowComplete = () => {
+    setProgress(prev => ({ ...prev, didyouknow: true }));
     if (onComplete) onComplete();
   };
 
@@ -41,7 +47,8 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
     { id: 'investigate', name: '1. Let us Investigate', icon: Compass, component: <Stage1_Investigate onComplete={handleStage1Complete} /> },
     { id: 'breaking', name: '2. Breaking a Magnet', icon: Scissors, component: <Stage2_BreakingMagnet onComplete={handleStage2Complete} />, locked: !progress.investigate },
     { id: 'sandbox', name: '3. Other Magnet Shapes', icon: Shapes, component: <Stage3_Sandbox onComplete={handleStage3Complete} />, locked: !progress.breaking },
-    { id: 'quiz', name: '4. Quiz', icon: HelpCircle, component: <Quiz onComplete={handleQuizComplete} />, locked: !progress.sandbox }
+    { id: 'quiz', name: '4. Quiz', icon: HelpCircle, component: <Quiz onComplete={handleQuizComplete} />, locked: !progress.sandbox },
+    { id: 'didyouknow', name: '5. Did You Know?', icon: Sparkles, component: <Stage5_DidYouKnowPage onComplete={handleDidYouKnowComplete} onBackToQuiz={() => setActiveTab('quiz')} />, locked: !progress.quiz }
   ];
 
   return (
@@ -61,13 +68,17 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
       fontFamily: "system-ui, -apple-system, sans-serif"
     }}>
 
-      {/* Top Header Bar */}
+      {/* Top Header Bar Container (Single Unified Enclosing Container) */}
       <div style={{ 
         display: 'grid', 
         gridTemplateColumns: 'auto 1fr auto', 
         alignItems: 'center', 
-        padding: '0.2rem 0.5rem',
-        marginBottom: '0.5rem',
+        padding: '0.65rem 1.25rem',
+        marginBottom: '0.65rem',
+        background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+        border: '1.5px solid #FDE68A',
+        borderRadius: '24px',
+        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
         flexShrink: 0,
         position: 'relative',
         zIndex: 100
@@ -102,7 +113,7 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
             letterSpacing: '-0.01em' 
           }}>
             <Compass size={26} style={{ color: '#D97706' }} />
-            Activity 4.3: Poles of Magnet
+            Activity 4.2: Poles of Magnet
           </h2>
           <span style={{ 
             fontSize: '0.82rem', 
@@ -113,8 +124,8 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
           </span>
         </div>
 
-        {/* Right: Tabbed Navigation Bar */}
-        <nav className="tabs-container" style={{ display: 'flex', gap: '0.5rem', margin: 0, background: '#FFFBEB', border: '1.5px solid #FDE68A', borderRadius: '28px', padding: '0.25rem' }}>
+        {/* Right: Tabbed Navigation Bar (Without extra wrapping container) */}
+        <nav className="tabs-container" style={{ display: 'flex', gap: '0.5rem', margin: 0, background: 'transparent', border: 'none', padding: 0 }}>
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isCompleted = progress[tab.id];
@@ -175,13 +186,6 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
           </motion.div>
         </AnimatePresence>
       </main>
-
-      {/* Bottom Footer Bar */}
-      {activeTab !== 'quiz' && (
-        <footer style={{ marginTop: '0.4rem', width: '100%', flexShrink: 0, position: 'relative', zIndex: 99999 }}>
-          <DidYouKnow activeTab={activeTab} />
-        </footer>
-      )}
     </div>
   );
 }

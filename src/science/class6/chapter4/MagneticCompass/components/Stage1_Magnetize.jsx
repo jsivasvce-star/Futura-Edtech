@@ -614,177 +614,121 @@ export default function Stage1_Magnetize({ onComplete }) {
         </div>
       </div>
 
-      {/* Right Side: Instructions, Action Controls & Success Panel (Warm Amber Theme with Spacious Typography) */}
-      <div
-        style={{
-          flex: '1.15',
-          background: 'linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 50%, #FEF3C7 100%)',
-          border: '1.5px solid #FDE68A',
-          borderRadius: '24px',
-          padding: '1.45rem 1.6rem',
-          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          height: '100%',
-          minHeight: 0,
-          boxSizing: 'border-box',
-          overflowY: 'auto',
-          gap: '0.9rem',
-        }}
-      >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
-          {/* Header */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <Magnet size={28} color="#D97706" />
-              <h3 style={{ margin: 0, fontSize: '1.48rem', color: '#064E3B', fontWeight: 900 }}>
-                Stage 1: Magnetize
-              </h3>
-            </div>
-            <span style={{
-              background: '#DCFCE7',
-              color: '#15803D',
-              fontWeight: 900,
-              fontSize: '0.96rem',
-              padding: '0.38rem 0.95rem',
-              borderRadius: '14px',
-              border: '1.5px solid #86EFAC'
-            }}>
-              Step {testComplete ? 3 : isMagnetized ? 2 : 1} of 3
-            </span>
-          </div>
-
-          {/* All 3 Steps Visible From Initial Load with Explicit Button Guidance */}
+      {/* Right Side: Guide & Controls Panel */}
+      <div className="stage-right-column">
+        {/* Container 1: Steps of Instructions & Action Controls */}
+        <div 
+          className="stage-container-1"
+          style={{
+            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+            border: '1.5px solid #FDE68A',
+            borderRadius: '24px',
+            boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
+            padding: '1.25rem 1.45rem',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            gap: '0.85rem',
+            boxSizing: 'border-box',
+            overflowY: 'auto',
+            minHeight: 0
+          }}
+        >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {[
-              {
-                stepNum: 1,
-                title: '1. Place Sewing Needle',
-                desc: 'Place an iron sewing needle on the workspace paper base.'
-              },
-              {
-                stepNum: 2,
-                title: '2. Stroke with Bar Magnet',
-                desc: 'Stroke one pole of the bar magnet along the needle in one single direction. Click the "Auto Magnetize" button below to stroke the needle 30 times.'
-              },
-              {
-                stepNum: 3,
-                title: '3. Test Magnetization',
-                desc: 'Bring iron filings near the needle to test if it attracts them like a magnet. Click the "Test Magnetization" button below to verify magnetic attraction.'
-              }
-            ].map((s) => {
-              const currentStepNum = testComplete ? 3 : isMagnetized ? 2 : 1;
-              const isCurrent = currentStepNum === s.stepNum;
-              const isPast = currentStepNum > s.stepNum || (s.stepNum === 3 && testComplete);
-
-              return (
-                <div
-                  key={s.stepNum}
-                  style={{
-                    padding: '0.95rem 1.15rem',
-                    borderRadius: '16px',
-                    background: isCurrent ? '#FEF3C7' : isPast ? '#DCFCE7' : '#FFFFFF',
-                    border: isCurrent 
-                      ? '2px solid #F59E0B' 
-                      : isPast 
-                      ? '1.5px solid #86EFAC' 
-                      : '1.5px solid #FDE68A',
-                    boxShadow: isCurrent 
-                      ? '0 4px 14px rgba(245, 158, 11, 0.18)' 
-                      : '0 2px 8px rgba(0,0,0,0.03)',
-                    transition: 'all 0.3s ease'
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem' }}>
-                      <span style={{
-                        width: '28px',
-                        height: '28px',
-                        borderRadius: '50%',
-                        background: isCurrent ? '#D97706' : isPast ? '#059669' : '#CBD5E1',
-                        color: '#FFFFFF',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '0.92rem',
-                        fontWeight: 900,
-                        flexShrink: 0
-                      }}>
-                        {s.stepNum}
-                      </span>
-                      <span style={{ fontWeight: 900, fontSize: '1.18rem', color: isCurrent ? '#064E3B' : isPast ? '#065F46' : '#064E3B' }}>
-                        {s.title}
-                      </span>
-                    </div>
-                    {isPast && <CheckCircle size={20} color="#10B981" />}
-                  </div>
-                  <p style={{ margin: '0.4rem 0 0 0', fontSize: '1.02rem', color: '#065F46', lineHeight: 1.55, fontWeight: 700 }}>
-                    {s.desc}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Middle: Magnetization Progress & Action Controls */}
-          <div
-            style={{
-              background: '#FFFFFF',
-              border: '1.5px solid #FDE68A',
-              borderRadius: '20px',
-              padding: '1.1rem 1.3rem',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.85rem',
-              boxShadow: '0 4px 14px rgba(217, 119, 6, 0.05)'
-            }}
-          >
-            {/* Step Helper / Guidance Tip */}
-            <div style={{
-              background: testComplete ? '#DCFCE7' : isMagnetized ? '#FEF3C7' : '#FFFBEB',
-              border: `1.5px solid ${testComplete ? '#86EFAC' : isMagnetized ? '#F59E0B' : '#FDE68A'}`,
-              borderRadius: '14px',
-              padding: '0.65rem 0.95rem',
-              fontSize: '0.98rem',
-              fontWeight: 800,
-              color: testComplete ? '#15803D' : '#92400E',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.55rem',
-              lineHeight: 1.45
-            }}>
-              <span style={{ fontSize: '1.15rem' }}>{testComplete ? '🎉' : '👉'}</span>
-              <span>
-                {!isMagnetized
-                  ? 'Click "1. Auto Magnetize" to stroke the needle 30 times with the bar magnet.'
-                  : !testComplete
-                  ? 'Great job! Now click "2. Test Magnetization" to check if iron filings stick!'
-                  : 'Filings attracted! The needle is now magnetized. Click Next below.'}
+            {/* Header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                <Magnet size={24} color="#D97706" />
+                <h3 style={{ margin: 0, fontSize: '19.5px', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.01em' }}>
+                  Stage 1: Magnetize
+                </h3>
+              </div>
+              <span style={{
+                background: testComplete ? '#DCFCE7' : 'rgba(217, 119, 6, 0.12)',
+                color: testComplete ? '#15803D' : '#B45309',
+                fontWeight: 900,
+                fontSize: '0.88rem',
+                padding: '0.3rem 0.8rem',
+                borderRadius: '12px',
+                border: testComplete ? '1.5px solid #86EFAC' : '1.5px solid #FDE68A'
+              }}>
+                Step {testComplete ? 3 : isMagnetized ? 2 : 1} of 3
               </span>
             </div>
 
-            {/* Progress / Loading Action */}
+            {/* Steps of Instructions - Dot Bullets, Single-Line Brown Text */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+              {[
+                {
+                  id: 'step1',
+                  desc: 'Place an iron sewing needle on the workspace paper base.'
+                },
+                {
+                  id: 'step2',
+                  desc: 'Stroke one pole of the bar magnet along the needle 30 times in one single direction.'
+                },
+                {
+                  id: 'step3',
+                  desc: 'Test whether the needle attracts iron filings to verify it has become magnetized.'
+                }
+              ].map((s) => (
+                <div
+                  key={s.id}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'baseline',
+                    gap: '0.75rem',
+                    padding: '0.1rem 0'
+                  }}
+                >
+                  <span
+                    style={{
+                      width: '9px',
+                      height: '9px',
+                      borderRadius: '50%',
+                      background: '#D97706',
+                      display: 'inline-block',
+                      flexShrink: 0,
+                      transform: 'translateY(-2px)'
+                    }}
+                  />
+                  <p style={{
+                    margin: 0,
+                    fontSize: '17.5px',
+                    color: '#78350F',
+                    fontWeight: 600,
+                    lineHeight: 1.5
+                  }}>
+                    {s.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Stroke Progress & Controls Row */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.2rem' }}>
+            {/* Progress Indicator */}
             <div>
               <div
                 style={{
                   display: 'flex',
                   justifyContent: 'space-between',
-                  marginBottom: '0.45rem',
-                  fontSize: '1.02rem',
-                  color: '#064E3B',
-                  fontWeight: 900,
+                  marginBottom: '0.35rem',
+                  fontSize: '0.95rem',
+                  color: '#78350F',
+                  fontWeight: 800,
                 }}
               >
                 <span>Strokes: {strokeCount} / {maxStrokes}</span>
-                <span style={{ color: isMagnetized ? '#16A34A' : '#D97706', fontWeight: 900, fontSize: '1.05rem' }}>
+                <span style={{ color: isMagnetized ? '#16A34A' : '#D97706', fontWeight: 900 }}>
                   {Math.round((strokeCount / maxStrokes) * 100)}%
                 </span>
               </div>
               <div
                 style={{
                   width: '100%',
-                  height: '11px',
+                  height: '9px',
                   background: '#FEF3C7',
                   borderRadius: '6px',
                   overflow: 'hidden',
@@ -803,17 +747,16 @@ export default function Stage1_Magnetize({ onComplete }) {
               </div>
             </div>
 
-            {/* Action Buttons Row: Both Buttons Visible with Clear Sequential Guidance */}
+            {/* Buttons Row */}
             <div style={{ display: 'flex', gap: '0.65rem' }}>
-              {/* Button 1: Auto Magnetize */}
               <button
                 onClick={() => setIsAutoStroking(true)}
                 disabled={isAutoStroking || isMagnetized}
                 className={!isAutoStroking && !isMagnetized ? 'gold-glow-btn' : ''}
                 style={{
                   flex: 1.3,
-                  padding: '0.92rem 0.85rem',
-                  fontSize: '1.02rem',
+                  padding: '0.8rem 0.85rem',
+                  fontSize: '17.5px',
                   fontWeight: 900,
                   borderRadius: '16px',
                   display: 'flex',
@@ -834,15 +777,14 @@ export default function Stage1_Magnetize({ onComplete }) {
                 )}
               </button>
 
-              {/* Button 2: Test Magnetization */}
               <button
                 onClick={handleTest}
                 disabled={!isMagnetized || isTesting}
                 className={isMagnetized && !isTesting && !testComplete ? 'gold-glow-btn' : ''}
                 style={{
                   flex: 1.3,
-                  padding: '0.92rem 0.85rem',
-                  fontSize: '1.02rem',
+                  padding: '0.8rem 0.85rem',
+                  fontSize: '17.5px',
                   fontWeight: 900,
                   borderRadius: '16px',
                   display: 'flex',
@@ -863,14 +805,13 @@ export default function Stage1_Magnetize({ onComplete }) {
                 )}
               </button>
 
-              {/* Button 3: Reset */}
               <button
                 onClick={handleReset}
                 disabled={strokeCount === 0 && !isAutoStroking && !isTesting}
                 style={{
                   flex: 0.75,
-                  padding: '0.92rem 0.7rem',
-                  fontSize: '0.98rem',
+                  padding: '0.8rem 0.65rem',
+                  fontSize: '16.5px',
                   fontWeight: 900,
                   borderRadius: '16px',
                   display: 'flex',
@@ -895,42 +836,51 @@ export default function Stage1_Magnetize({ onComplete }) {
           </div>
         </div>
 
-        {/* Observation / Success Action Card */}
-        <div
+        {/* Container 2: Observation & Next Action Card */}
+        <div 
+          className="stage-container-2"
           style={{
-            background: testComplete ? '#DCFCE7' : '#FFFFFF',
-            border: `1.5px solid ${testComplete ? '#86EFAC' : '#FDE68A'}`,
-            padding: '1.25rem 1.4rem',
-            borderRadius: '20px',
-            boxShadow: '0 4px 14px rgba(217, 119, 6, 0.05)'
+            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+            border: testComplete ? '2px solid #86EFAC' : '1.5px solid #FDE68A',
+            borderRadius: '24px',
+            boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
+            padding: '1.25rem 1.45rem',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            gap: '0.85rem',
+            boxSizing: 'border-box'
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 0.45rem 0',
-              color: '#064E3B',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.55rem',
-              fontSize: '1.22rem',
-              fontWeight: 900,
-            }}
-          >
-            <CheckCircle size={22} color={testComplete ? '#15803D' : '#D97706'} /> {testComplete ? 'Magnetization Complete!' : 'Step 3: Test'}
-          </h4>
-          <p
-            style={{
-              margin: '0 0 0.95rem 0',
-              color: '#065F46',
-              fontSize: '1.02rem',
-              fontWeight: '700',
-              lineHeight: '1.6',
-            }}
-          >
-            {testComplete
-              ? 'The steel pins & iron filings are attracted to the needle! This means the needle has successfully become a magnet.'
-              : 'Click the "Test Magnetization" button to sprinkle iron filings and observe if the needle attracts them.'}
-          </p>
+          <div>
+            <h4
+              style={{
+                margin: '0 0 0.4rem 0',
+                color: '#1E1B4B',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.55rem',
+                fontSize: '19.5px',
+                fontWeight: 900,
+                letterSpacing: '-0.01em'
+              }}
+            >
+              <CheckCircle size={22} color={testComplete ? '#15803D' : '#D97706'} /> {testComplete ? 'Magnetization Complete!' : 'Observation Check'}
+            </h4>
+            <p
+              style={{
+                margin: 0,
+                color: '#78350F',
+                fontSize: '17.5px',
+                fontWeight: 600,
+                lineHeight: 1.45,
+              }}
+            >
+              {testComplete
+                ? 'Iron filings cling to the needle! Stroking has turned the ordinary steel sewing needle into an active magnet.'
+                : 'Click "1. Auto Magnetize" then "2. Test Filings" to stroke the needle and verify that iron filings stick.'}
+            </p>
+          </div>
 
           <button
             onClick={onComplete}
@@ -938,22 +888,22 @@ export default function Stage1_Magnetize({ onComplete }) {
             className={testComplete ? 'gold-glow-btn' : ''}
             style={{
               width: '100%',
-              padding: '0.95rem 1.6rem',
-              fontSize: '1.08rem',
+              padding: '0.8rem 1.6rem',
+              fontSize: '17.5px',
               fontWeight: 900,
               borderRadius: '20px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               gap: '0.65rem',
-              background: testComplete ? undefined : '#F1F5F9',
+              background: testComplete ? undefined : '#E2E8F0',
               color: testComplete ? '#FFFFFF' : '#94A3B8',
-              border: testComplete ? undefined : '1.5px solid #E2E8F0',
+              border: 'none',
               cursor: testComplete ? 'pointer' : 'not-allowed',
               transition: 'all 0.25s ease',
             }}
           >
-            Next Section: Make a Compass <ArrowRight size={20} color={testComplete ? '#FFFFFF' : '#94A3B8'} />
+            Next: Make a Compass <ArrowRight size={20} color={testComplete ? '#FFFFFF' : '#94A3B8'} />
           </button>
         </div>
       </div>

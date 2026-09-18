@@ -5,7 +5,6 @@ import Stage1_Investigate from './components/Stage1_Investigate';
 import Stage2_BreakingMagnet from './components/Stage2_BreakingMagnet';
 import Stage3_Sandbox from './components/Stage3_Sandbox';
 import Quiz from './Quiz';
-import DidYouKnow from './DidYouKnow';
 import { HelpCircle } from 'lucide-react';
 
 export default function MagneticPolesActivity({ onBackToDashboard, onComplete }) {
@@ -112,7 +111,7 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
 
       {/* Active Stage Panel */}
       <div style={{ display: 'flex', flexDirection: 'row', gap: '1.5rem', alignItems: 'stretch' }}>
-        <main style={{ flex: 1,  minHeight: '480px', marginBottom: '2rem' }}>
+        <main style={{ flex: 1, minHeight: '480px', marginBottom: '2rem' }}>
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -125,13 +124,6 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
           </motion.div>
         </AnimatePresence>
       </main>
-
-        {/* Right Sidebar (Educational Tip) */}
-        {activeTab !== 'quiz' && (
-          <aside style={{ width: '280px', flexShrink: 0 }}>
-            <DidYouKnow />
-          </aside>
-        )}
       </div>
     </div>
   );
