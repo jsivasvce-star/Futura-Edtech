@@ -38,9 +38,9 @@ export default function SuspendedMagnetActivity({ onBackToDashboard, onComplete 
 
   const tabs = [
     { id: 'experiment', name: '1. Let us Experiment', icon: RotateCw, component: <Stage1_Experiment onComplete={handleStage1Complete} /> },
-    { id: 'conclusion', name: '2. Conclusion', icon: Compass, component: <Stage2_Conclusion onComplete={handleStage2Complete} /> },
-    { id: 'quiz', name: '3. Quiz', icon: HelpCircle, component: <Quiz onComplete={handleQuizComplete} /> },
-    { id: 'didyouknow', name: '4. Did You Know?', icon: Sparkles, component: <DidYouKnow onComplete={handleDidYouKnowComplete} onBackToQuiz={() => setActiveTab('quiz')} /> }
+    { id: 'conclusion', name: '2. Conclusion', icon: Compass, component: <Stage2_Conclusion onComplete={handleStage2Complete} />, locked: !progress.experiment },
+    { id: 'quiz', name: '3. Quiz', icon: HelpCircle, component: <Quiz onComplete={handleQuizComplete} />, locked: !progress.conclusion },
+    { id: 'didyouknow', name: '4. Did You Know?', icon: Sparkles, component: <DidYouKnow onComplete={handleDidYouKnowComplete} onBackToQuiz={() => setActiveTab('quiz')} />, locked: !progress.quiz }
   ];
 
   return (
@@ -101,7 +101,7 @@ export default function SuspendedMagnetActivity({ onBackToDashboard, onComplete 
             alignItems: 'center', 
             justifyContent: 'center', 
             gap: '0.65rem', 
-            color: '#1E1B4B', 
+            color: '#064E3B', 
             letterSpacing: '-0.01em' 
           }}>
             <Compass size={26} style={{ color: '#D97706' }} />
@@ -109,15 +109,15 @@ export default function SuspendedMagnetActivity({ onBackToDashboard, onComplete 
           </h2>
           <span style={{ 
             fontSize: '0.82rem', 
-            color: '#78350F', 
-            fontWeight: 800 
+            color: '#047857', 
+            fontWeight: 700 
           }}>
             Class 6 Science — A Freely Suspended Bar Magnet
           </span>
         </div>
 
-        {/* Right: Tab Navigation Bar */}
-        <nav style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0 }}>
+        {/* Right: Tabbed Navigation Bar (Without extra wrapping container) */}
+        <nav className="tabs-container" style={{ display: 'flex', gap: '0.5rem', margin: 0, background: 'transparent', border: 'none', padding: 0 }}>
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isCompleted = progress[tab.id];
@@ -126,25 +126,26 @@ export default function SuspendedMagnetActivity({ onBackToDashboard, onComplete 
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => !tab.locked && setActiveTab(tab.id)}
+                disabled={tab.locked}
                 className={isActive ? 'gold-glow-btn' : ''}
                 style={{
-                  cursor: 'pointer',
+                  opacity: tab.locked ? 0.45 : 1,
+                  cursor: tab.locked ? 'not-allowed' : 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.45rem',
-                  padding: '0.55rem 1.15rem',
-                  fontSize: '0.9rem',
+                  padding: '0.55rem 1.1rem',
+                  fontSize: '0.88rem',
                   fontWeight: 800,
                   borderRadius: '24px',
-                  background: isActive ? undefined : 'transparent',
-                  color: isActive ? '#FFFFFF' : '#78350F',
-                  border: 'none',
-                  whiteSpace: 'nowrap',
+                  background: isActive ? undefined : '#FFFFFF',
+                  color: isActive ? '#FFFFFF' : tab.locked ? '#94A3B8' : '#334155',
+                  border: isActive ? 'none' : '1.5px solid #CBD5E1',
                   transition: 'all 0.2s ease'
                 }}
               >
-                <Icon size={16} color={isActive ? '#FFFFFF' : '#D97706'} />
+                <Icon size={16} color={isActive ? '#FFFFFF' : tab.locked ? '#94A3B8' : '#059669'} />
                 <span>{tab.name}</span>
                 {isCompleted && !isActive && <CheckCircle size={14} color="#10B981" />}
               </button>

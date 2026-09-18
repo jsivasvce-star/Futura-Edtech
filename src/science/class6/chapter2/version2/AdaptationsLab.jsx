@@ -290,7 +290,7 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
                 </div>
 
                 <div style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC', textTransform: 'uppercase', marginBottom: '4px' }}>
-                  🔬 NCERT Key Insight (Pages 25–26)
+                  🔬 Key Insight (Pages 25–26)
                 </div>
                 <h4 style={{ margin: '0 0 6px 0', fontSize: '20px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                   Adaptation vs Environment
@@ -567,7 +567,7 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
         </button>
 
         <div style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: '800' }}>
-          NCERT Pages 24–27 Core Adaptation Module
+          Pages 24–27 Core Adaptation Module
         </div>
 
         <button

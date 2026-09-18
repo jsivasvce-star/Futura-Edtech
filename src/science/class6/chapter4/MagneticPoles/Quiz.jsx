@@ -100,13 +100,13 @@ export default function Quiz({ onComplete }) {
 
   if (isFinished) {
     return (
-      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', fontFamily: "'Inter', sans-serif" }}>
+      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: '#FFFFFF', fontFamily: "'Inter', sans-serif" }}>
         <div style={{ 
           maxWidth: '620px', 
           width: '90%', 
           padding: '3rem 3.5rem', 
           textAlign: 'center', 
-          background: 'linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 50%, #FEF3C7 100%)', 
+          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
           borderRadius: '28px', 
           border: '1.5px solid #FDE68A',
           boxShadow: '0 12px 40px rgba(217, 119, 6, 0.12)',
@@ -150,11 +150,7 @@ export default function Quiz({ onComplete }) {
       boxSizing: 'border-box',
       overflow: 'hidden',
       borderRadius: '24px',
-      border: '1.5px solid #A7F3D0',
-      backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.88)), url('/MagneticPoles/classroom_sunset_bg.jpg')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center 40%',
-      boxShadow: '0 12px 30px rgba(6, 78, 59, 0.12)',
+      backgroundColor: '#FFFFFF',
       fontFamily: 'system-ui, -apple-system, sans-serif'
     }}>
       <div style={{ width: '100%', maxWidth: '1250px', display: 'flex', flexDirection: 'column' }}>
@@ -171,7 +167,7 @@ export default function Quiz({ onComplete }) {
         </div>
 
         <div className="glass-panel" style={{ 
-          background: 'linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 50%, #FEF3C7 100%)', 
+          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
           border: '1.5px solid #FDE68A',
           borderRadius: '28px', 
           padding: '2.4rem 3.2rem', 

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ChevronRight, ChevronLeft, BookOpen, Info, Link2, Layers, Sparkles } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { ChevronRight, ChevronLeft, BookOpen, Info, Link2, Layers, Sparkles, Volume2, VolumeX } from 'lucide-react';
 import Earth3DGlobe from './Earth3DGlobe';
 
 const NAVY = '#0A2540';
@@ -79,10 +79,117 @@ const cardBase = {
   boxSizing: 'border-box'
 };
 
+import { AUDIO_TRANSCRIPT } from './AryabhataTranscript';
+
+const WordRenderer = ({ text, idPrefix, defaultColor, highlightColor, activeWordId }) => {
+  const words = text.trim().split(/\s+/);
+  return (
+    <>
+      {words.map((word, index) => {
+        const wordId = `${idPrefix}-${index + 1}`;
+        const isHighlighted = activeWordId === wordId;
+        const hasNewline = word.includes('\n');
+        const cleanWord = word.replace('\n', '');
+
+        return (
+          <React.Fragment key={index}>
+            <span 
+              data-word-id={wordId}
+              style={{ 
+                color: isHighlighted ? highlightColor : defaultColor, 
+                background: isHighlighted ? 'rgba(180, 83, 9, 0.1)' : 'transparent',
+                borderRadius: '4px',
+                padding: '0 2px',
+                transition: 'all 0.15s ease-out' 
+              }}>
+              {cleanWord}
+            </span>
+            {hasNewline ? <br /> : ' '}
+          </React.Fragment>
+        );
+      })}
+    </>
+  );
+};
+
+const DEBUG_SYNC = false;
+
 export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
   const [slide, setSlide] = useState(0);
   const [turnDir, setTurnDir] = useState('fwd'); // 'fwd' | 'back'
   const isLast = slide === SLIDES.length - 1;
+
+  // Audio Karaoke State
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordId, setActiveWordId] = useState(null);
+  const [debugData, setDebugData] = useState(null);
+
+  useEffect(() => {
+    // Expose validation tool globally
+    window.validateNarrationSync = () => {
+      console.log("AUDIO WORD | START | END | PAGE WORD | MATCH TYPE");
+      console.log("--------------------------------------------------");
+      AUDIO_TRANSCRIPT.forEach(w => {
+        console.log(`${w.audioWord.padEnd(12)} | ${w.start.toFixed(2).padStart(5)} | ${w.end.toFixed(2).padStart(5)} | ${(w.pageWordId || '—').padEnd(12)} | ${w.matchType}`);
+      });
+    };
+    return () => { delete window.validateNarrationSync; };
+  }, []);
+
+  useEffect(() => {
+    // If the user leaves slide 0, stop the audio automatically
+    if (slide !== 0 && audioRef.current && isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    }
+  }, [slide, isPlaying]);
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      const time = audioRef.current.currentTime;
+      // Find the segment containing currentTime
+      const activeWord = AUDIO_TRANSCRIPT.find(w => time >= w.start && time < w.end);
+      
+      let newActiveId = null;
+      if (activeWord && activeWord.matchType === 'matched') {
+        newActiveId = activeWord.pageWordId;
+      }
+      
+      if (newActiveId !== activeWordId) {
+        setActiveWordId(newActiveId);
+      }
+
+      if (DEBUG_SYNC) {
+        setDebugData({
+          time: time,
+          word: activeWord ? activeWord.audioWord : 'NONE',
+          start: activeWord ? activeWord.start : 0,
+          end: activeWord ? activeWord.end : 0,
+          pageWord: (activeWord && activeWord.pageWordId) ? activeWord.pageWordId : 'NONE',
+          matchType: activeWord ? activeWord.matchType : 'NONE',
+          highlight: newActiveId ? 'ACTIVE' : 'NONE'
+        });
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordId(null);
+    if (DEBUG_SYNC) setDebugData(null);
+  };
 
   const goToSlide = (target) => {
     if (target < 0 || target >= SLIDES.length) return;
@@ -107,6 +214,31 @@ export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
         .book-slide-back { animation: bookTurnBack 0.38s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
       `}</style>
 
+      {/* Audio Element */}
+      <audio 
+        ref={audioRef}
+        src="/src/social/chapter1-version3/components/audio/page1.mpeg"
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
+
+      {DEBUG_SYNC && debugData && isPlaying && (
+        <div style={{ position: 'fixed', top: '20px', right: '20px', background: 'rgba(0,0,0,0.85)', color: '#0F0', padding: '16px', borderRadius: '8px', fontFamily: 'monospace', fontSize: '14px', zIndex: 9999, boxShadow: '0 4px 12px rgba(0,0,0,0.3)', minWidth: '250px' }}>
+          <div>Audio time: {debugData.time.toFixed(3)}s</div>
+          <div style={{ marginTop: '8px', color: '#FFF' }}>Audio word:</div>
+          <div style={{ color: '#0FF', fontSize: '16px', fontWeight: 'bold' }}>{debugData.word}</div>
+          {debugData.word !== 'NONE' && (
+            <div style={{ marginTop: '4px', color: '#AAA' }}>Timing:<br/>{debugData.start.toFixed(3)} → {debugData.end.toFixed(3)}</div>
+          )}
+          <div style={{ marginTop: '8px', color: '#FFF' }}>Matched page word:</div>
+          <div style={{ color: debugData.pageWord !== 'NONE' ? '#0F0' : '#F00' }}>{debugData.pageWord}</div>
+          <div style={{ marginTop: '8px', color: '#FFF' }}>Match type:</div>
+          <div style={{ color: debugData.matchType === 'matched' ? '#0F0' : '#FA0' }}>{debugData.matchType.toUpperCase()}</div>
+          <div style={{ marginTop: '8px', color: '#FFF' }}>Highlight:</div>
+          <div style={{ color: debugData.highlight === 'ACTIVE' ? '#0F0' : '#F00', fontWeight: 'bold' }}>{debugData.highlight}</div>
+        </div>
+      )}
+
       {/* Main Content Area */}
       <div style={{ flex: 1, minHeight: 0, overflow: 'hidden', position: 'relative', display: 'flex', flexDirection: 'column', padding: '24px 28px 10px' }}>
         <div key={slide} className={turnDir === 'fwd' ? 'book-slide-fwd' : 'book-slide-back'} style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -129,10 +261,10 @@ export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
               }}>
                 <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
                   <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: '32px', letterSpacing: '.12em', textTransform: 'uppercase', color: '#B45309', marginBottom: '6px' }}>
-                    Chapter 1 · Class 6 Social Science
+                    Chapter 1 · <WordRenderer text="Class 6 Social Science" idPrefix="ch" activeWordId={activeWordId} defaultColor="#B45309" highlightColor="#92400E" />
                   </div>
                   <h1 style={{ fontFamily: SERIF, fontWeight: 900, color: NAVY, fontSize: '32px', lineHeight: 1.2, margin: 0, letterSpacing: '-.01em' }}>
-                    Locating Places on the Earth
+                    <WordRenderer text="Locating Places on the Earth" idPrefix="ti" activeWordId={activeWordId} defaultColor={NAVY} highlightColor="#2563EB" />
                   </h1>
                 </div>
                 <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', flex: '1 1 auto', minHeight: 0 }}>
@@ -151,8 +283,22 @@ export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
                   display: 'flex',
                   flexDirection: 'column'
                 }}>
-                  <p style={{ fontFamily: SERIF, fontStyle: 'italic', fontWeight: 600, color: NAVY, fontSize: '20px', lineHeight: 1.6, margin: '0 0 12px', textAlign: 'left' }}>
-                    The globe of the Earth stands in space, made up of water, earth, fire and air and is spherical. … It is surrounded by all creatures.
+                  <p style={{ fontFamily: SANS, fontStyle: 'italic', fontWeight: 600, color: NAVY, fontSize: '21px', lineHeight: 1.5, margin: '0 0 12px', textAlign: 'left' }}>
+                    <WordRenderer 
+                      text="The globe of the Earth stands in space, made up of water, earth, fire and air and is spherical." 
+                      idPrefix="q1" 
+                      activeWordId={activeWordId} 
+                      defaultColor={NAVY} 
+                      highlightColor="#B45309" 
+                    />
+                    {' '}…{' '}
+                    <WordRenderer 
+                      text="It is surrounded by all creatures." 
+                      idPrefix="q2" 
+                      activeWordId={activeWordId} 
+                      defaultColor={NAVY} 
+                      highlightColor="#B45309" 
+                    />
                   </p>
                   <div style={{ textAlign: 'right' }}>
                     <div style={{ fontFamily: SANS, fontWeight: 800, color: NAVY, fontSize: '16px' }}>— Āryabhaṭa</div>
@@ -164,20 +310,55 @@ export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
                   ...cardBase, 
                   background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)', 
                   boxShadow: '0 8px 24px rgba(14,42,69,.08)', 
-                  padding: '24px 28px', 
+                  padding: '32px 32px', 
                   border: '1.5px solid #E5D5C0',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '12px'
+                  gap: '16px',
+                  flex: 1
                 }}>
-                  <h3 style={{ fontFamily: SERIF, fontWeight: 900, color: NAVY, fontSize: '24px', margin: 0 }}>Āryabhaṭa's Discoveries</h3>
-                  <ol style={{ fontFamily: SANS, color: NAVY, fontSize: '18px', fontWeight: 600, margin: 0, paddingLeft: '24px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <li>The Earth is a giant, round ball floating in space.</li>
-                    <li>The Earth spins around like a top, giving us day and night.</li>
-                    <li>He figured out almost exactly how big the Earth is!</li>
-                    <li>He explained that shadows from the Earth and Moon cause eclipses.</li>
-                    <li>He stated that the Moon and planets shine by reflecting sunlight.</li>
-                    <li>He calculated a highly accurate value for Pi (π) to measure circles.</li>
+                  <h3 style={{ fontFamily: SERIF, fontWeight: 900, color: NAVY, fontSize: '30px', margin: 0 }}>Āryabhaṭa's Discoveries</h3>
+                  <ol style={{ fontFamily: SANS, color: NAVY, fontSize: '21px', fontWeight: 600, margin: 0, paddingLeft: '28px', display: 'flex', flexDirection: 'column', gap: '20px', lineHeight: 1.5 }}>
+                    <li>
+                      <WordRenderer 
+                        text="The Earth is a giant, round ball floating in space." 
+                        idPrefix="f1a" 
+                        activeWordId={activeWordId} 
+                        defaultColor={NAVY} 
+                        highlightColor="#B45309" 
+                      /> <span style={{ fontWeight: 400, color: '#3D2E24' }}>
+                        <WordRenderer 
+                          text="This means that the Earth is not flat." 
+                          idPrefix="f1b" 
+                          activeWordId={activeWordId} 
+                          defaultColor="#3D2E24" 
+                          highlightColor="#B45309" 
+                        /> <WordRenderer 
+                          text="It is shaped like a ball, just like the globe we use in our classrooms." 
+                          idPrefix="f1c" 
+                          activeWordId={activeWordId} 
+                          defaultColor="#3D2E24" 
+                          highlightColor="#B45309" 
+                        />
+                      </span>
+                    </li>
+                    <li>
+                      <WordRenderer 
+                        text="The Earth spins around like a top, giving us day and night." 
+                        idPrefix="f2a" 
+                        activeWordId={activeWordId} 
+                        defaultColor={NAVY} 
+                        highlightColor="#B45309" 
+                      /> <span style={{ fontWeight: 400, color: '#3D2E24' }}>
+                        <WordRenderer 
+                          text="As the Earth spins, the side facing the Sun has daytime, while the side facing away from the Sun has nighttime." 
+                          idPrefix="f2b" 
+                          activeWordId={activeWordId} 
+                          defaultColor="#3D2E24" 
+                          highlightColor="#B45309" 
+                        />
+                      </span>
+                    </li>
                   </ol>
                 </div>
               </div>
@@ -297,6 +478,29 @@ export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
 
         {/* Nav Buttons parallel */}
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          
+          {/* Audio Speaker Button (Slide 0 only) */}
+          {slide === 0 && (
+            <button
+              type="button"
+              onClick={toggleAudio}
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                width: '46px', height: '46px', borderRadius: '50%',
+                background: isPlaying ? '#FEF3C7' : '#F1F5F9',
+                border: isPlaying ? '2px solid #F59E0B' : '2px solid #CBD5E1',
+                color: isPlaying ? '#D97706' : '#64748B',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                marginRight: '8px',
+                boxShadow: isPlaying ? '0 4px 12px rgba(245,158,11,0.2)' : 'none'
+              }}
+              title={isPlaying ? "Pause Narration" : "Play Narration"}
+            >
+              {isPlaying ? <Volume2 size={22} strokeWidth={2.5} /> : <VolumeX size={22} strokeWidth={2.5} />}
+            </button>
+          )}
+
           <button
             type="button"
             onClick={() => {

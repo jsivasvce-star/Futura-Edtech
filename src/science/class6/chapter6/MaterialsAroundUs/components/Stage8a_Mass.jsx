@@ -51,8 +51,8 @@ export default function Stage8a_Mass({ onComplete, addXp }) {
       {/* Main Content - 3 Column Grid */}
       <div style={{ 
         display: 'grid', 
-        gridTemplateColumns: 'minmax(280px, 1fr) minmax(400px, 1.25fr) minmax(280px, 1fr)', 
-        gap: '1rem', 
+        gridTemplateColumns: 'minmax(300px, auto) minmax(420px, auto) 1fr', 
+        gap: '1.5rem', 
         flex: 1, 
         minHeight: 0,
         alignItems: 'stretch'

@@ -11,7 +11,7 @@ import CoverPage from '../../../../components/CoverPage';
 import Chapter2SloganPage from './Chapter2SloganPage';
 import IntroStoryteller from './IntroStoryteller';
 import coverBgImage from '../../../../assets/cover_page_ch2.png';
-import coverBgVideo from '../../../../assets/in_this_video_just_add_those_b (1).mp4';
+import coverBgVideo from './cover_video_upscale.mp4';
 import natureGreeneryBg from '../../../../assets/nature_greenery_bg.jpg';
 
 // 14 Distinct 8K Realistic Photographic Backgrounds (Zero Duplicates Across Activities)
@@ -128,7 +128,7 @@ const CHAPTER_TABS = [
   { id: 7, title: 'Act 2.5–2.7', subtitle: 'Leaf & Roots' },
   { id: 8, title: 'Act 2.8 Seeds', subtitle: 'Cotyledons' },
   { id: 9, title: 'Act 2.9–2.10', subtitle: 'Adaptations' },
-  { id: 10, title: 'Summary', subtitle: 'NCERT Q&A' },
+  { id: 10, title: 'Summary', subtitle: 'Q&A' },
 ];
 
 const SUMMARY_QUIZ = [
@@ -184,10 +184,11 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
     setIsSpeaking(false);
   }, [currentStep, viewMode, section1SubTab, venationSubTab, habitatSubTab, tab10ViewMode]);
 
-  // Hide global floating sound button when on slogan page or in interactive activities so it doesn't overlap UI
+  // Hide global floating sound button when on scenes, slogan page or in interactive activities so it doesn't overlap UI
   useEffect(() => {
-    const isIntroOrCover = viewMode === 'cover' || (viewMode === 'activity' && currentStep === 1 && section1SubTab === 'scenes');
-    onSoundButtonVisibilityChange?.(isIntroOrCover);
+    const isScenes = viewMode === 'scenes' || (currentStep === 1 && section1SubTab === 'scenes');
+    const showSound = viewMode === 'cover' && !isScenes;
+    onSoundButtonVisibilityChange?.(showSound);
   }, [viewMode, currentStep, section1SubTab, onSoundButtonVisibilityChange]);
 
   useEffect(() => {
@@ -513,8 +514,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
       overflow: 'hidden',
       fontFamily: '"Plus Jakarta Sans", system-ui, -apple-system, sans-serif'
     }}>
-      {/* Dark nature overlay for maximum readability and vibrant glass contrast (only for activities and story scenes) */}
-      {!(currentStep === 1 && section1SubTab === 'slogan') && (
+      {/* Dark nature overlay for maximum readability and vibrant glass contrast (only for activities) */}
+      {!(currentStep === 1 && (section1SubTab === 'slogan' || section1SubTab === 'scenes')) && (
         <div style={{
           position: 'absolute',
           inset: 0,
@@ -979,7 +980,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
 
                     <div style={{ background: 'rgba(245, 158, 11, 0.18)', padding: '9px 14px', borderRadius: '10px', border: '1.5px solid rgba(245, 158, 11, 0.5)' }}>
                       <div style={{ fontSize: '16px', fontWeight: '800', color: '#FDE68A', fontFamily: '"Outfit", sans-serif' }}>
-                        ✓ NCERT Chapter 2 Learning Standards Fulfilled
+                        ✓ Chapter 2 Learning Standards Fulfilled
                       </div>
                     </div>
                   </div>

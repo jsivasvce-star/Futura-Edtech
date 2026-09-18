@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Magnet, Compass, ArrowLeft, Info, CheckCircle } from 'lucide-react';
+import { Magnet, Compass, ArrowLeft, CheckCircle, Sparkles, HelpCircle } from 'lucide-react';
 import Stage1_Magnetize from './components/Stage1_Magnetize';
 import Stage2_Floating from './components/Stage2_Floating';
 import Quiz from './Quiz';
 import DidYouKnow from './DidYouKnow';
-import { HelpCircle } from 'lucide-react';
+import './MagneticCompass.css';
 
 export default function MagneticCompassActivity({ onBackToDashboard, onComplete }) {
   const [activeTab, setActiveTab] = useState('magnetize');
   const [progress, setProgress] = useState({
     magnetize: false,
     floating: false,
-    quiz: false
+    quiz: false,
+    didyouknow: false
   });
 
   const handleStage1Complete = () => {
     setProgress(prev => ({ ...prev, magnetize: true }));
-    // Manual tab transition rule: do not transition automatically
     setActiveTab('floating');
   };
 
@@ -28,84 +28,129 @@ export default function MagneticCompassActivity({ onBackToDashboard, onComplete 
 
   const handleQuizComplete = () => {
     setProgress(prev => ({ ...prev, quiz: true }));
+    setActiveTab('didyouknow');
+  };
+
+  const handleDidYouKnowComplete = () => {
+    setProgress(prev => ({ ...prev, didyouknow: true }));
     if (onComplete) onComplete();
   };
 
   const tabs = [
     { id: 'magnetize', name: '1. Magnetize', icon: Magnet, component: <Stage1_Magnetize onComplete={handleStage1Complete} /> },
     { id: 'floating', name: '2. Make a Compass', icon: Compass, component: <Stage2_Floating onComplete={handleStage2Complete} />, locked: !progress.magnetize },
-    { id: 'quiz', name: '3. Quiz', icon: HelpCircle, component: <Quiz onComplete={handleQuizComplete} />, locked: !progress.floating }
+    { id: 'quiz', name: '3. Quiz', icon: HelpCircle, component: <Quiz onComplete={handleQuizComplete} />, locked: !progress.floating },
+    { id: 'didyouknow', name: '4. Did You Know?', icon: Sparkles, component: <DidYouKnow onComplete={handleDidYouKnowComplete} onBackToQuiz={() => setActiveTab('quiz')} />, locked: !progress.quiz }
   ];
 
   return (
-    <div>
-      {/* Subheader Navigation with Back Button */}
+    <div style={{ 
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100vw', 
+      height: '100vh', 
+      zIndex: 101,
+      display: 'flex', 
+      flexDirection: 'column', 
+      overflow: 'hidden',
+      boxSizing: 'border-box',
+      padding: '0.65rem 0.85rem',
+      backgroundColor: '#FFFFFF',
+      fontFamily: "system-ui, -apple-system, sans-serif"
+    }}>
+
+      {/* Top Header Bar Container (Single Unified Enclosing Container) */}
       <div style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
+        display: 'grid', 
+        gridTemplateColumns: 'auto 1fr auto', 
         alignItems: 'center', 
-        marginBottom: '2rem',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
-        paddingBottom: '1rem',
-        flexWrap: 'wrap',
-        gap: '1rem'
+        padding: '0.65rem 1.25rem',
+        marginBottom: '0.65rem',
+        background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+        border: '1.5px solid #FDE68A',
+        borderRadius: '24px',
+        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+        flexShrink: 0,
+        position: 'relative',
+        zIndex: 100
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <button 
-            onClick={onBackToDashboard} 
-            className="outline" 
-            style={{ 
-              position: 'relative', zIndex: 100,
-              padding: '0.4rem 0.8rem', 
-              fontSize: '0.8rem', 
-              gap: '0.35rem',
-              borderColor: 'var(--border)'
-            }}
-          >
-            <ArrowLeft size={14} /> Back to Class 6 Chapter 4
-          </button>
-          <div>
-            <h2 style={{ margin: 0, fontSize: '1.25rem' }}>Activity 4.4: Let us construct</h2>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Making a Simple Magnetic Compass</span>
-          </div>
+        {/* Left: Back Button */}
+        <button 
+          onClick={onBackToDashboard} 
+          className="gold-glow-btn"
+          style={{ 
+            position: 'relative', zIndex: 100,
+            padding: '0.6rem 1.25rem', 
+            fontSize: '0.9rem', 
+            gap: '0.5rem',
+            borderRadius: '14px',
+            textDecoration: 'none'
+          }}
+        >
+          <ArrowLeft size={18} color="#FFFFFF" /> Back to Chapter 4
+        </button>
+
+        {/* Center: Title & Subtitle */}
+        <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 0.5rem' }}>
+          <h2 style={{ margin: 0, fontSize: '1.3rem', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.65rem', color: '#1E1B4B', letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
+            <Compass size={24} style={{ color: '#D97706' }} />
+            Activity 4.4: Making a Simple Magnetic Compass
+          </h2>
+          <span style={{ fontSize: '0.82rem', color: '#78350F', fontWeight: 800, whiteSpace: 'nowrap' }}>Class 6 Science — Constructing a Floating Compass</span>
         </div>
 
-        {/* Tabbed Navigation Bar */}
-        <nav className="tabs-container">
+        {/* Right: Tabbed Navigation Bar */}
+        <nav className="tabs-container" style={{ display: 'flex', gap: '0.5rem', margin: 0, background: 'transparent', border: 'none', padding: 0 }}>
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isCompleted = progress[tab.id];
+            const isActive = activeTab === tab.id;
             
             return (
               <button
                 key={tab.id}
                 onClick={() => !tab.locked && setActiveTab(tab.id)}
                 disabled={tab.locked}
-                className={`tab-btn ${activeTab === tab.id ? 'active' : ''}`}
+                className={isActive ? 'gold-glow-btn' : ''}
                 style={{
-                  opacity: tab.locked ? 0.4 : 1,
+                  opacity: tab.locked ? 0.45 : 1,
                   cursor: tab.locked ? 'not-allowed' : 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.4rem',
-                  padding: '0.5rem 0.9rem',
-                  fontSize: '0.85rem'
+                  gap: '0.45rem',
+                  padding: '0.55rem 1.1rem',
+                  fontSize: '0.88rem',
+                  fontWeight: 800,
+                  borderRadius: '24px',
+                  background: isActive ? undefined : '#FFFFFF',
+                  color: isActive ? '#FFFFFF' : tab.locked ? '#94A3B8' : '#334155',
+                  border: isActive ? 'none' : '1.5px solid #CBD5E1',
+                  transition: 'all 0.2s ease'
                 }}
               >
-                <Icon size={14} />
+                <Icon size={16} color={isActive ? '#FFFFFF' : tab.locked ? '#94A3B8' : '#059669'} />
                 <span>{tab.name}</span>
-                {isCompleted && (
-                  <CheckCircle size={12} style={{ color: 'var(--success)', marginLeft: '0.15rem' }} />
-                )}
+                {isCompleted && !isActive && <CheckCircle size={14} color="#10B981" />}
               </button>
             );
           })}
         </nav>
       </div>
 
-      {/* Active Stage Panel */}
-      <div style={{ display: 'flex', flexDirection: 'row', gap: '1.5rem', alignItems: 'stretch' }}>
-        <main style={{ flex: 1,  minHeight: '480px', marginBottom: '2rem' }}>
+      {/* Main Active Stage Panel (Non-scrolling flex child) */}
+      <main style={{ 
+        width: '100%', 
+        flex: 1, 
+        minHeight: 0, 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden', 
+        position: 'relative', 
+        zIndex: 1 
+      }}>
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -113,19 +158,12 @@ export default function MagneticCompassActivity({ onBackToDashboard, onComplete 
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
+            style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
           >
             {tabs.find(t => t.id === activeTab)?.component}
           </motion.div>
         </AnimatePresence>
       </main>
-
-        {/* Right Sidebar (Educational Tip) */}
-        {activeTab !== 'quiz' && (
-          <aside style={{ width: '280px', flexShrink: 0 }}>
-            <DidYouKnow />
-          </aside>
-        )}
-      </div>
     </div>
   );
 }
