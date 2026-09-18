@@ -347,7 +347,7 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
                 {/* LEFT COLUMN – 65% */}
                 <div style={{ 
                   width: '65%', 
-                  padding: '24px 40px 24px 150px', 
+                  padding: '24px 40px 24px 175px', 
                   display: 'flex', 
                   flexDirection: 'column', 
                   gap: '10px', 
@@ -399,7 +399,7 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
                 </div>
 
                 {/* RIGHT COLUMN IMAGE (Absolute) */}
-                <div style={{ position: 'absolute', top: 0, bottom: 0, right: 0, width: '32%', zIndex: 1 }}>
+                <div style={{ position: 'absolute', top: 0, bottom: 0, right: 0, width: '35%', zIndex: 1 }}>
                   <img 
                     src={classroomObjectsImg} 
                     alt="Classroom Objects" 
