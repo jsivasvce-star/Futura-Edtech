@@ -139,11 +139,13 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
   return (
     <>
       <FullscreenButton />
-      {showCover ? (
+      <div style={{ display: showCover ? 'block' : 'none', width: '100%', height: '100%' }}>
         <ChapterCover onOpenBook={() => { setShowCover(false); setShowIntroSpread(true); }} onBack={onBackToDashboard} />
-      ) : showIntroSpread ? (
+      </div>
+      <div style={{ display: showIntroSpread ? 'block' : 'none', width: '100%', height: '100%' }}>
         <ChapterIntroSpread onContinue={() => setShowIntroSpread(false)} onBack={() => { setShowIntroSpread(false); setShowCover(true); }} />
-      ) : (
+      </div>
+      <div style={{ display: (!showCover && !showIntroSpread) ? 'block' : 'none', width: '100%', height: '100%' }}>
         <div className="activity-workspace materials-around-us-theme" style={{ 
           paddingTop: 0, 
           paddingBottom: 0, 
@@ -535,7 +537,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
       </div>
       )}
     </div>
-    )}
+      </div>
   </>
   );
 }
