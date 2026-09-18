@@ -127,7 +127,37 @@ export default function RotatingCompass() {
 
         <button
           type="button"
-          onClick={() => setIsAuto(!isAuto)}
+          onClick={() => {
+            if (!isAuto) {
+              const normalizedDeg = (targetDeg % 360 + 360) % 360;
+              let closestIdx = 0;
+              let minDiff = Infinity;
+              CARDINALS.forEach((c, idx) => {
+                const diff = Math.min(
+                  Math.abs(c.deg - normalizedDeg),
+                  Math.abs((c.deg + 360) - normalizedDeg),
+                  Math.abs(c.deg - (normalizedDeg + 360))
+                );
+                if (diff < minDiff) {
+                  minDiff = diff;
+                  closestIdx = idx;
+                }
+              });
+              const next = (closestIdx + 1) % CARDINALS.length;
+              setCardinalIdx(next);
+              
+              // We need to maintain continuous rotation so it doesn't spin backwards
+              // if we cross the 360 boundary.
+              let nextTarget = CARDINALS[next].deg;
+              while (nextTarget < targetDeg - 180) nextTarget += 360;
+              while (nextTarget > targetDeg + 180) nextTarget -= 360;
+              
+              setTargetDeg(nextTarget);
+              setIsAuto(true);
+            } else {
+              setIsAuto(false);
+            }
+          }}
           style={{
             display: 'inline-flex',
             alignItems: 'center',

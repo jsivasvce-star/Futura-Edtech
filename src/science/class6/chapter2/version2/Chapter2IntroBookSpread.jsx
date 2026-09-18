@@ -225,7 +225,7 @@ export default function Chapter2IntroBookSpread({ onNextActivity, onReadAloud, i
             color: '#047857',
             marginBottom: '4px'
           }}>
-            NCERT Class 6 Science · Chapter 2
+            Class 6 Science · Chapter 2
           </div>
           <h1 style={{
             fontFamily: SERIF,
@@ -626,7 +626,7 @@ export default function Chapter2IntroBookSpread({ onNextActivity, onReadAloud, i
                   color: '#059669',
                   fontWeight: 700
                 }}>
-                  — NCERT Class 6 Science Opening Subhashita (Page 9)
+                  — Class 6 Science Opening Subhashita (Page 9)
                 </div>
               </div>
 
@@ -753,7 +753,7 @@ export default function Chapter2IntroBookSpread({ onNextActivity, onReadAloud, i
               }}>
                 <span style={{ fontSize: '22px' }}>💡</span>
                 <span style={{ fontFamily: SANS, fontSize: '16px', color: '#334155', fontWeight: 600 }}>
-                  <b>NCERT Rule (Page 11):</b> "Take care of plants and animals. Do not disturb nests or pluck living leaves. Observe them thriving in their natural habitat."
+                  <b>Rule (Page 11):</b> "Take care of plants and animals. Do not disturb nests or pluck living leaves. Observe them thriving in their natural habitat."
                 </span>
               </div>
             </div>
@@ -781,7 +781,7 @@ export default function Chapter2IntroBookSpread({ onNextActivity, onReadAloud, i
                   letterSpacing: '0.08em',
                   marginBottom: '6px'
                 }}>
-                  Official NCERT Definition (Page 13)
+                  Official Definition (Page 13)
                 </div>
                 <h3 style={{
                   fontFamily: SERIF,
@@ -873,7 +873,7 @@ export default function Chapter2IntroBookSpread({ onNextActivity, onReadAloud, i
                   { step: 'Act 2.4', title: 'Plant Detective', desc: 'Classify herbs, shrubs, trees, climbers & creepers (Table 2.3).' },
                   { step: 'Act 2.5–2.8', title: 'Venation, Roots & Seeds', desc: 'Discover how leaf veins, taproots & cotyledons interlock.' },
                   { step: 'Act 2.9–2.10', title: 'Adaptations & Biomes', desc: 'Camels, deodars, and Indian conservation champions.' },
-                  { step: 'Summary', title: 'Exercises & Sacred Groves', desc: 'Solve all 10 NCERT textbook questions with instant feedback.' }
+                  { step: 'Summary', title: 'Exercises & Sacred Groves', desc: 'Solve all 10 textbook questions with instant feedback.' }
                 ].map((item, idx) => (
                   <div
                     key={idx}

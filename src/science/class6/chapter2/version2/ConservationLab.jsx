@@ -114,28 +114,30 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
-      background: '#FAF8F2',
+      background: 'rgba(15, 23, 42, 0.50)',
+      backdropFilter: 'blur(18px)',
+      WebkitBackdropFilter: 'blur(18px)',
       borderRadius: '20px',
-      border: '2px solid #14452F',
+      border: '2px solid #D4AF37',
       padding: '16px 22px 14px',
       boxSizing: 'border-box',
       overflow: 'hidden',
-      boxShadow: '0 10px 30px rgba(20, 69, 47, 0.08)'
+      boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)'
     }}>
       {/* Header */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        borderBottom: '2px solid #14452F',
+        borderBottom: '2px solid rgba(212, 175, 55, 0.45)',
         paddingBottom: '12px',
         flexShrink: 0
       }}>
         <div>
-          <div style={{ fontSize: '16px', fontWeight: '900', letterSpacing: '0.06em', color: '#14452F', textTransform: 'uppercase', marginBottom: '3px' }}>
+          <div style={{ fontSize: '16px', fontWeight: '900', letterSpacing: '0.06em', color: '#FDE68A', textTransform: 'uppercase', marginBottom: '3px' }}>
             Pages 22–29 · Biodiversity Conservation, Scientists &amp; Sacred Groves
           </div>
-          <h2 style={{ margin: 0, fontSize: '24px', fontWeight: '900', color: '#14452F', lineHeight: 1.2, fontFamily: '"Fraunces", Georgia, serif' }}>
+          <h2 style={{ margin: 0, fontSize: '24px', fontWeight: '900', color: '#FBBF24', lineHeight: 1.2, fontFamily: '"Fraunces", Georgia, serif' }}>
             🛡️ Guardians of Nature: Science, Movements &amp; Tradition
           </h2>
         </div>
@@ -147,7 +149,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
             alignItems: 'center',
             gap: '6px',
             padding: '7px 16px',
-            background: isSpeaking ? '#fee2e2' : '#FAF8F2',
+            background: isSpeaking ? '#fee2e2' : 'rgba(250, 248, 242, 0.55)',
             border: `1.8px solid ${isSpeaking ? '#ef4444' : '#14452F'}`,
             borderRadius: '10px',
             color: isSpeaking ? '#991b1b' : '#14452F',
@@ -189,7 +191,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
                 padding: '8px 12px',
                 borderRadius: '12px',
                 border: `1.8px solid #14452F`,
-                background: isSelected ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)' : '#F5F1E5',
+                background: isSelected ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'rgba(245, 241, 229, 0.6)',
                 cursor: 'pointer',
                 textAlign: 'left',
                 boxShadow: isSelected ? '0 4px 14px rgba(20, 69, 47, 0.3)' : 'none',
@@ -219,8 +221,8 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
       }}>
         {/* Left Column: Visual Image Poster */}
         <div style={{
-          background: '#FAF8F2',
-          border: '2px solid #14452F',
+          background: 'rgba(15, 23, 42, 0.50)',
+          border: '2px solid #D4AF37',
           borderRadius: '16px',
           padding: '16px 18px',
           display: 'flex',
@@ -237,7 +239,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
               maxHeight: '230px',
               borderRadius: '12px',
               overflow: 'hidden',
-              border: '1.8px solid #14452F',
+              border: '1.8px solid #D4AF37',
               background: '#0a1220',
               display: 'flex',
               alignItems: 'center',
@@ -254,25 +256,25 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
                 }}
               />
             </div>
-            <div style={{ fontSize: '18px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif', textAlign: 'center' }}>
+            <div style={{ fontSize: '18px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif', textAlign: 'center' }}>
               {currentTopic.subtitle}
             </div>
           </div>
 
-          <div style={{ background: '#EDE7D8', border: '1.5px solid #14452F', borderRadius: '10px', padding: '8px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '10px' }}>
-            <span style={{ fontSize: '16px', fontWeight: '900', color: '#14452F' }}>
+          <div style={{ background: '#EDE7D8', border: '1.5px solid rgba(212, 175, 55, 0.6)', borderRadius: '10px', padding: '8px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '10px' }}>
+            <span style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC' }}>
               {currentTopic.badge}
             </span>
-            <span style={{ fontSize: '16px', color: '#14452F', fontWeight: '700' }}>
-              NCERT Spotlight
+            <span style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: '700' }}>
+              Spotlight
             </span>
           </div>
         </div>
 
         {/* Right Column: Detailed Scientific Highlights */}
         <div style={{
-          background: '#FAF8F2',
-          border: '2px solid #14452F',
+          background: 'rgba(15, 23, 42, 0.50)',
+          border: '2px solid #D4AF37',
           borderRadius: '16px',
           padding: '18px 20px',
           display: 'flex',
@@ -284,15 +286,15 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
         }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
-              <span style={{ fontSize: '16px', fontWeight: '800', color: '#14452F', textTransform: 'uppercase' }}>
+              <span style={{ fontSize: '16px', fontWeight: '800', color: '#F8FAFC', textTransform: 'uppercase' }}>
                 {currentTopic.tag}
               </span>
-              <span style={{ fontSize: '16px', fontWeight: '800', color: '#14452F', background: '#EDE7D8', padding: '2px 8px', borderRadius: '6px', border: '1px solid #14452F' }}>
+              <span style={{ fontSize: '16px', fontWeight: '800', color: '#F8FAFC', background: '#EDE7D8', padding: '2px 8px', borderRadius: '6px', border: '1px solid #14452F' }}>
                 Topic {activeTopicIndex + 1} of 5
               </span>
             </div>
 
-            <h3 style={{ margin: '0 0 8px 0', fontSize: '22px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif' }}>
+            <h3 style={{ margin: '0 0 8px 0', fontSize: '22px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
               {currentTopic.title}
             </h3>
 
@@ -313,17 +315,17 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
                   <div
                     key={hIdx}
                     style={{
-                      background: '#F5F1E5',
-                      border: '1.5px solid #14452F',
+                      background: 'rgba(15, 23, 42, 0.45)',
+                      border: '1.5px solid rgba(212, 175, 55, 0.6)',
                       borderRadius: '10px',
                       padding: '10px 14px',
                       fontSize: '16px',
-                      color: '#14452F',
+                      color: '#F8FAFC',
                       lineHeight: 1.5,
                       textAlign: 'justify'
                     }}
                   >
-                    <b style={{ color: '#14452F' }}>{parts[0]}:</b>{parts.slice(1).join(':')}
+                    <b style={{ color: '#F8FAFC' }}>{parts[0]}:</b>{parts.slice(1).join(':')}
                   </div>
                 );
               })}
@@ -346,8 +348,8 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
                 borderRadius: '8px',
                 fontSize: '16px',
                 fontWeight: '800',
-                border: '1.8px solid #14452F',
-                background: '#FAF8F2',
+                border: '1.8px solid #D4AF37',
+                background: 'rgba(15, 23, 42, 0.50)',
                 color: activeTopicIndex === 0 ? '#94a3b8' : '#14452F',
                 cursor: activeTopicIndex === 0 ? 'default' : 'pointer'
               }}
@@ -363,8 +365,8 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
                 borderRadius: '8px',
                 fontSize: '16px',
                 fontWeight: '800',
-                border: '1.8px solid #14452F',
-                background: '#FAF8F2',
+                border: '1.8px solid #D4AF37',
+                background: 'rgba(15, 23, 42, 0.50)',
                 color: activeTopicIndex === CONSERVATION_TOPICS.length - 1 ? '#94a3b8' : '#14452F',
                 cursor: activeTopicIndex === CONSERVATION_TOPICS.length - 1 ? 'default' : 'pointer'
               }}
@@ -380,7 +382,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        borderTop: '2px solid #14452F',
+        borderTop: '2px solid rgba(212, 175, 55, 0.45)',
         paddingTop: '10px',
         flexShrink: 0
       }}>
@@ -391,10 +393,10 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
             alignItems: 'center',
             gap: '8px',
             padding: '8px 16px',
-            background: '#FAF8F2',
-            border: '1.8px solid #14452F',
+            background: 'rgba(15, 23, 42, 0.50)',
+            border: '1.8px solid #D4AF37',
             borderRadius: '10px',
-            color: '#14452F',
+            color: '#F8FAFC',
             fontWeight: '800',
             fontSize: '16px',
             cursor: 'pointer',
@@ -405,7 +407,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
           <span>Back to Adaptations Lab</span>
         </button>
 
-        <div style={{ fontSize: '16px', color: '#14452F', fontWeight: '800' }}>
+        <div style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: '800' }}>
           ✓ Environmental Conservation &amp; Cultural Heritage Module
         </div>
 
@@ -416,17 +418,17 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
             alignItems: 'center',
             gap: '8px',
             padding: '8px 20px',
-            background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
             borderRadius: '10px',
             color: '#ffffff',
             fontWeight: '900',
             fontSize: '16px',
-            border: '1.5px solid #10B981',
+            border: '1.8px solid #FDE68A',
             cursor: 'pointer',
             boxShadow: '0 4px 14px rgba(20, 69, 47, 0.35)'
           }}
         >
-          <span>Summary &amp; NCERT Exercises ➔</span>
+          <span>Summary &amp; Exercises ➔</span>
         </button>
       </div>
     </div>

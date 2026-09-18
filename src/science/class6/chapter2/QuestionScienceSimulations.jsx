@@ -82,7 +82,7 @@ export default function QuestionScienceSimulations({
         height: '100%',
         borderRadius: '12px',
         overflow: 'hidden',
-        border: '2px solid #14452F',
+        border: '2px solid rgba(20, 69, 47, 0.5)',
         background: '#04130C',
         boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
         boxSizing: 'border-box',

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import { ArrowRight } from 'lucide-react';
-import classroomObjectsImg from '../../../../../../assets/classroom_objects.jpg';
+import classroomObjectsImg from '../../../../../../assets/handbook_right_illustration.jpg';
 import ancientPotteryImg from '../../../../../../assets/ancient_pottery_fragments.jpg';
 import potterShapingImg from '../../../../../../assets/potter_shaping_clay.jpg';
 import potteryPatternsImg from '../../../../../../assets/traditional_pottery_patterns.jpg';
@@ -290,10 +290,71 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
           // ================= BARRIER 1 PAGES =================
           <>
             {b1Page === 1 && (
-              <div style={{ flex: 1, minHeight: 0, padding: '24px 48px', position: 'relative', display: 'flex', flexDirection: 'row', gap: '48px', overflow: 'hidden' }}>
+              <div style={{ flex: 1, minHeight: 0, padding: 0, position: 'relative', display: 'flex', flexDirection: 'row', overflow: 'hidden', background: '#FFFCF8' }}>
                 {/* ================= PAGE 1 ================= */}
-                {/* LEFT COLUMN – 58% */}
-                <div style={{ width: 'calc(58% - 24px)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                
+                {/* Left Edge Decorations */}
+                <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '220px', zIndex: 5, pointerEvents: 'none' }}>
+                  {/* Curved pastel shapes & Dotted Path */}
+                  <svg viewBox="0 0 150 800" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} preserveAspectRatio="none">
+                    <path d="M0,0 L80,0 C120,150 30,300 90,450 C150,600 40,750 80,800 L0,800 Z" fill="#F4EBDD" />
+                    <path d="M0,0 L50,0 C80,150 20,300 60,450 C100,600 20,750 50,800 L0,800 Z" fill="#E8F1EA" />
+                    <path d="M45,0 C85,150 15,300 75,450 C135,600 25,750 65,800" fill="none" stroke="#D3B895" strokeWidth="2" strokeDasharray="6 6" />
+                  </svg>
+                  
+                  {/* Science / Botanical Doodles */}
+                  
+                  {/* Lightbulb */}
+                  <svg style={{ position: 'absolute', top: '12%', left: '45px', opacity: 0.9, transform: 'rotate(-10deg)' }} width="48" height="48" viewBox="0 0 24 24" fill="#FFF9C4" stroke="#3E2723" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 18h6"/><path d="M10 22h4"/>
+                    <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.2 1.5 1.5 2.5"/>
+                    <path d="M12 2v2"/><path d="M4 6l1.5 1.5"/><path d="M20 6l-1.5 1.5"/>
+                  </svg>
+                  
+                  {/* Leaf */}
+                  <svg style={{ position: 'absolute', top: '35%', left: '30px', opacity: 0.9, transform: 'rotate(15deg)' }} width="42" height="42" viewBox="0 0 24 24" fill="#E8F1EA" stroke="#2E7D32" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+                    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+                  </svg>
+
+                  {/* Atom */}
+                  <svg style={{ position: 'absolute', top: '58%', left: '35px', opacity: 0.9, transform: 'rotate(-5deg)' }} width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#3E2723" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="2.5" fill="#C0392B" stroke="none"/>
+                    <path d="M19 12c0 3.8-3.1 7-7 7s-7-3.1-7-7 3.1-7 7-7 7 3.1 7 7z" transform="rotate(60 12 12)"/>
+                    <path d="M19 12c0 3.8-3.1 7-7 7s-7-3.1-7-7 3.1-7 7-7 7 3.1 7 7z" transform="rotate(120 12 12)"/>
+                    <path d="M19 12c0 3.8-3.1 7-7 7s-7-3.1-7-7 3.1-7 7-7 7 3.1 7 7z" transform="rotate(180 12 12)"/>
+                  </svg>
+
+                  {/* Books bottom-left */}
+                  <svg style={{ position: 'absolute', bottom: '8%', left: '25px', zIndex: 3, transform: 'rotate(-8deg)' }} width="75" height="75" viewBox="0 0 100 100" fill="none" stroke="#3E2723" strokeWidth="2.5" strokeLinejoin="round">
+                    {/* Top Book */}
+                    <rect x="20" y="55" width="60" height="15" rx="2" fill="#2E7D32"/>
+                    <rect x="30" y="55" width="50" height="15" fill="#FFFFFF"/>
+                    <line x1="30" y1="62.5" x2="80" y2="62.5" stroke="#E0E0E0" strokeWidth="1"/>
+                    {/* Bottom Book */}
+                    <rect x="15" y="72" width="70" height="18" rx="2" fill="#C0392B"/>
+                    <rect x="25" y="72" width="60" height="18" fill="#FFFFFF"/>
+                    <line x1="25" y1="81" x2="85" y2="81" stroke="#E0E0E0" strokeWidth="1"/>
+                  </svg>
+                  
+                  {/* Decorative dots */}
+                  <div style={{ position: 'absolute', top: '25%', left: '90px', width: '8px', height: '8px', borderRadius: '50%', background: '#F1C40F' }} />
+                  <div style={{ position: 'absolute', top: '30%', left: '40px', width: '5px', height: '5px', borderRadius: '50%', background: '#E67E22' }} />
+                  <div style={{ position: 'absolute', bottom: '40%', left: '100px', width: '10px', height: '10px', borderRadius: '50%', background: '#F5B041', opacity: 0.6 }} />
+                  <div style={{ position: 'absolute', bottom: '25%', left: '95px', width: '6px', height: '6px', borderRadius: '50%', background: '#27AE60', opacity: 0.6 }} />
+                </div>
+
+                {/* LEFT COLUMN – 65% */}
+                <div style={{ 
+                  width: '65%', 
+                  padding: '24px 40px 24px 175px', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  gap: '10px', 
+                  zIndex: 2, 
+                  position: 'relative',
+                  background: 'transparent'
+                }}>
                   <div>
                     <h2 style={{ margin: 0, fontFamily: "'Merriweather', Georgia, serif", fontSize: '50px', color: '#2C4E3D', fontWeight: '900', lineHeight: 1.15 }}>
                       What are Objects Made Of?
@@ -301,7 +362,7 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
                     <div style={{ width: '420px', height: '4px', background: '#2C4E3D', opacity: 0.9, borderRadius: '2px', marginTop: '4px' }} />
                   </div>
 
-                  <div style={{ fontFamily: "'Merriweather', Georgia, serif", color: '#3E2723' }}>
+                  <div style={{ fontFamily: "'Merriweather', Georgia, serif", color: '#3E2723', position: 'relative', zIndex: 3 }}>
                     <p style={{ margin: '0 0 8px 0', fontSize: '26px', lineHeight: '1.45', fontWeight: 500, color: '#3E2723' }}>
                       Look around you! You can see many things – a chair, a book, a water bottle, a pencil and so on.
                     </p>
@@ -311,17 +372,17 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
                   </div>
 
                   {/* Definition Box */}
-                  <div style={{ background: '#FDFBF7', border: '1.5px solid #D8C3A5', borderLeft: '8px solid #A94727', borderRadius: '12px', padding: '12px 20px' }}>
+                  <div style={{ background: 'rgba(253, 251, 247, 0.95)', border: '1.5px solid #D8C3A5', borderLeft: '8px solid #A94727', borderRadius: '12px', padding: '12px 20px', position: 'relative', zIndex: 3 }}>
                     <div style={{ fontFamily: "'Merriweather', Georgia, serif", fontSize: '24px', fontWeight: 500, color: '#3E2723', lineHeight: 1.45 }}>
-                      <div style={{ marginBottom: '6px' }}><strong style={{ color: '#A94727', fontWeight: 700 }}>Material:</strong> The substance used to make an object.</div>
+                      <div style={{ marginBottom: '4px' }}><strong style={{ color: '#A94727', fontWeight: 700 }}>Material:</strong> The substance used to make an object.</div>
                       <div><strong style={{ color: '#A94727', fontWeight: 700 }}>Object:</strong> Anything we can see or use around us.</div>
                     </div>
                   </div>
 
                   {/* Examples Box */}
-                  <div style={{ background: '#FDFBF7', border: '1.5px solid #D8C3A5', borderLeft: '8px solid #A94727', borderRadius: '12px', padding: '12px 20px' }}>
-                    <h4 style={{ margin: '0 0 6px 0', color: '#4A3B5C', fontSize: '30px', fontWeight: 700, fontFamily: "'Merriweather', Georgia, serif" }}>Examples:</h4>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontFamily: "'Merriweather', Georgia, serif", fontSize: '23px', fontWeight: 500, color: '#3E2723', lineHeight: 1.45 }}>
+                  <div style={{ background: 'rgba(253, 251, 247, 0.95)', border: '1.5px solid #D8C3A5', borderLeft: '8px solid #A94727', borderRadius: '12px', padding: '12px 20px', position: 'relative', zIndex: 3 }}>
+                    <h4 style={{ margin: '0 0 4px 0', color: '#4A3B5C', fontSize: '30px', fontWeight: 700, fontFamily: "'Merriweather', Georgia, serif" }}>Examples:</h4>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontFamily: "'Merriweather', Georgia, serif", fontSize: '23px', fontWeight: 500, color: '#3E2723', lineHeight: 1.45 }}>
                       <div>• A chair can be made of wood, plastic or steel.</div>
                       <div>• A plate can be made of steel, glass or plastic.</div>
                       <div>• A bottle can be made of plastic, glass or steel.</div>
@@ -329,7 +390,7 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
                   </div>
 
                   {/* Think! Box */}
-                  <div style={{ background: '#FDFBF7', border: '1.5px solid #D8C3A5', borderLeft: '8px solid #A94727', borderRadius: '12px', padding: '12px 20px' }}>
+                  <div style={{ background: 'rgba(253, 251, 247, 0.95)', border: '1.5px solid #D8C3A5', borderLeft: '8px solid #A94727', borderRadius: '12px', padding: '12px 20px', position: 'relative', zIndex: 3 }}>
                     <div style={{ fontFamily: "'Merriweather', Georgia, serif", fontSize: '23px', fontWeight: 500, color: '#3E2723', lineHeight: 1.45 }}>
                       <strong style={{ fontWeight: 700, color: '#A94727', fontSize: '30px', fontFamily: "'Merriweather', Georgia, serif", display: 'inline-block', marginBottom: '2px' }}>Think!</strong><br />
                       One object can be made from different materials. One material can be used to make many different objects. Can you think of more examples?
@@ -337,18 +398,17 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
                   </div>
                 </div>
 
-                {/* RIGHT COLUMN – 42% */}
-                <div style={{ width: 'calc(42% - 24px)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                {/* RIGHT COLUMN IMAGE (Absolute) */}
+                <div style={{ position: 'absolute', top: 0, bottom: 0, right: 0, width: '35%', zIndex: 1 }}>
                   <img 
                     src={classroomObjectsImg} 
-                    alt="Classroom Objects – desk, chair, book, water bottle, pencil" 
+                    alt="Classroom Objects" 
                     style={{ 
                       width: '100%',
                       height: '100%', 
-                      objectFit: 'contain',
-                      objectPosition: 'center',
+                      objectFit: 'cover',
+                      objectPosition: 'center center',
                       mixBlendMode: 'multiply',
-                      transform: 'scale(1.3) translateX(0%)',
                     }} 
                   />
                 </div>

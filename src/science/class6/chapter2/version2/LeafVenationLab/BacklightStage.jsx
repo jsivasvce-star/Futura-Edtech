@@ -159,7 +159,7 @@ export default function BacklightStage({ leaf }) {
         <button
           onClick={toggleIntensity}
           style={{
-            background: isLit ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#FAF8F2',
+            background: isLit ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'rgba(250, 248, 242, 0.55)',
             color: isLit ? '#FFFFFF' : '#14452F',
             border: '2px solid #D97706',
             borderRadius: '12px',

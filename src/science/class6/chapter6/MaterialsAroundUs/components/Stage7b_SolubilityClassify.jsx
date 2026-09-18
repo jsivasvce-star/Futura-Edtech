@@ -71,11 +71,11 @@ export default function Stage7b_SolubilityClassify({ onComplete, addXp }) {
         </div>
       </div>
 
-      {/* Main Area: 50/50 Split */}
+      {/* Main Area: Split */}
       <div style={{ display: 'flex', flex: 1, minHeight: 0, background: 'var(--lesson-background)', borderRadius: '16px', border: '1px solid var(--lesson-border)', boxShadow: '0 4px 6px rgba(0,0,0,0.02)', overflow: 'hidden' }}>
         
         {/* LEFT SIDE: Let us classify */}
-        <div style={{ flex: 1, padding: '1rem', display: 'flex', flexDirection: 'column', borderRight: '1px solid var(--lesson-border)', boxSizing: 'border-box' }}>
+        <div style={{ flex: 1.35, padding: '1rem', display: 'flex', flexDirection: 'column', borderRight: '1px solid var(--lesson-border)', boxSizing: 'border-box' }}>
           
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
             <h4 style={{ margin: 0, fontSize: '2.25rem', color: '#2C4E3D', display: 'flex', alignItems: 'center', gap: '12px', fontWeight: 'bold' }}>
@@ -181,38 +181,42 @@ export default function Stage7b_SolubilityClassify({ onComplete, addXp }) {
         </div>
 
         {/* RIGHT SIDE: Observation Box */}
-        <div style={{ flex: 1, padding: '1rem', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
+        <div style={{ flex: 1, padding: '1.5rem', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
           <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '2.75rem', color: '#2C4E3D', fontWeight: '900', textTransform: 'uppercase' }}>
-            Observation Box
+            Case File
           </h4>
-          <p style={{ margin: '0 0 1rem 0', fontSize: '1.6rem', color: '#4A3B5C', fontWeight: '500' }}>
-            Here are your findings from the solubility simulation:
+          <p style={{ margin: '0 0 1.25rem 0', fontSize: '1.75rem', color: '#4A3B5C', fontWeight: '600' }}>
+            Findings from the solubility simulation:
           </p>
           
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', flex: 1, gap: '1.25rem' }}>
             {/* Soluble Finding */}
-            <div style={{ background: 'white', borderRadius: '16px', padding: '1.25rem', border: '1px solid var(--lesson-border)', boxShadow: '0 2px 6px rgba(0,0,0,0.03)' }}>
-              <div style={{ display: 'inline-block', border: '1px solid var(--lesson-success-border)', background: 'var(--lesson-success-bg)', color: '#A94727', padding: '4px 12px', borderRadius: '8px', fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '12px' }}>
-                SOLUBLE
+            <div style={{ flex: 1, background: 'white', borderRadius: '16px', padding: '1.5rem', border: '1px solid var(--lesson-border)', boxShadow: '0 2px 6px rgba(0,0,0,0.03)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <div>
+                <div style={{ display: 'inline-block', border: '1px solid var(--lesson-success-border)', background: 'var(--lesson-success-bg)', color: '#A94727', padding: '6px 16px', borderRadius: '10px', fontSize: '2rem', fontWeight: '900', marginBottom: '14px' }}>
+                  SOLUBLE
+                </div>
               </div>
-              <p style={{ margin: '0 0 0.75rem 0', fontSize: '1.6rem', color: '#2C4E3D', lineHeight: '1.4', fontWeight: '600' }}>
+              <p style={{ margin: '0 0 1rem 0', fontSize: '1.8rem', color: '#2C4E3D', lineHeight: '1.45', fontWeight: '700' }}>
                 Materials that completely dissolve and disappear in water.
               </p>
-              <div style={{ fontSize: '1.6rem', color: '#4A3B5C', fontWeight: '500' }}>
-                Examples: <span style={{ color: '#A94727', fontWeight: 'bold' }}>{solubleItems || 'None yet'}</span>
+              <div style={{ fontSize: '1.8rem', color: '#4A3B5C', fontWeight: '600' }}>
+                Examples: <span style={{ color: '#A94727', fontWeight: '900' }}>{solubleItems || 'None yet'}</span>
               </div>
             </div>
             
             {/* Insoluble Finding */}
-            <div style={{ background: 'white', borderRadius: '16px', padding: '1.25rem', border: '1px solid var(--lesson-border)', boxShadow: '0 2px 6px rgba(0,0,0,0.03)' }}>
-              <div style={{ display: 'inline-block', border: '1px solid var(--lesson-danger-border)', background: 'var(--lesson-danger-bg)', color: 'var(--lesson-danger)', padding: '4px 12px', borderRadius: '8px', fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '12px' }}>
-                INSOLUBLE
+            <div style={{ flex: 1, background: 'white', borderRadius: '16px', padding: '1.5rem', border: '1px solid var(--lesson-border)', boxShadow: '0 2px 6px rgba(0,0,0,0.03)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <div>
+                <div style={{ display: 'inline-block', border: '1px solid var(--lesson-danger-border)', background: 'var(--lesson-danger-bg)', color: 'var(--lesson-danger)', padding: '6px 16px', borderRadius: '10px', fontSize: '2rem', fontWeight: '900', marginBottom: '14px' }}>
+                  INSOLUBLE
+                </div>
               </div>
-              <p style={{ margin: '0 0 0.75rem 0', fontSize: '1.6rem', color: '#2C4E3D', lineHeight: '1.4', fontWeight: '600' }}>
+              <p style={{ margin: '0 0 1rem 0', fontSize: '1.8rem', color: '#2C4E3D', lineHeight: '1.45', fontWeight: '700' }}>
                 Materials that do not dissolve and remain visible in water.
               </p>
-              <div style={{ fontSize: '1.6rem', color: '#4A3B5C', fontWeight: '500' }}>
-                Examples: <span style={{ color: 'var(--lesson-danger)', fontWeight: 'bold' }}>{insolubleItems || 'None yet'}</span>
+              <div style={{ fontSize: '1.8rem', color: '#4A3B5C', fontWeight: '600' }}>
+                Examples: <span style={{ color: 'var(--lesson-danger)', fontWeight: '900' }}>{insolubleItems || 'None yet'}</span>
               </div>
             </div>
           </div>

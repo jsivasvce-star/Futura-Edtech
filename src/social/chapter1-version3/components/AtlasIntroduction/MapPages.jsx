@@ -31,6 +31,10 @@ const PageLayout = ({
   globeMode = 'physical',
   globeTheme,
   thematicMapOptions,
+  onNextMap,
+  onPrevMap,
+  currentPage,
+  onFinish
 }) => {
   const [isImageOpen, setIsImageOpen] = useState(false);
   const [activeMapIndex, setActiveMapIndex] = useState(0);
@@ -385,7 +389,7 @@ const PageLayout = ({
       <div style={{ display: 'flex', width: '100%', height: '100%', padding: 0, boxSizing: 'border-box', minHeight: 0 }}>
       
       {/* Left Page (Text) — Parallel Symmetrical Padding matching Right Page */}
-      <div style={{ flex: '1 1 50%', minWidth: 0, minHeight: 0, display: 'flex', flexDirection: 'column', borderRight: `2px solid ${theme.colors.border}`, padding: `${theme.spacing.fluid.lg} ${theme.spacing.fluid.lg} 4.5rem ${theme.spacing.fluid.lg}`, boxSizing: 'border-box', overflow: 'hidden', justifyContent: 'space-between', background: `linear-gradient(160deg, ${theme.colors.paper} 0%, ${theme.colors.paperDark} 100%)` }}>
+      <div style={{ flex: '1 1 50%', minWidth: 0, minHeight: 0, display: 'flex', flexDirection: 'column', borderRight: `2px solid ${theme.colors.border}`, padding: `${theme.spacing.fluid.lg} ${theme.spacing.fluid.lg} 4.5rem ${theme.spacing.fluid.lg}`, boxSizing: 'border-box', overflow: 'hidden', justifyContent: 'space-between', background: `linear-gradient(160deg, ${theme.colors.paper} 0%, ${theme.colors.paperDark} 100%)`, position: 'relative' }}>
         
         {/* Header */}
         <div style={{ flexShrink: 0, marginBottom: theme.spacing.fluid.sm }}>
@@ -415,57 +419,58 @@ const PageLayout = ({
           </div>
         </div>
 
-        {/* Sub-Page Navigation Bar — only when there is more than one page */}
-        {LEFT_PAGES > 1 && (
-        <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: `1.5px solid ${theme.colors.border}`, paddingTop: theme.spacing.s2, marginTop: theme.spacing.s1 }}>
-          <button
-            onClick={() => setLeftPage(n => Math.max(1, n - 1))}
-            disabled={leftPage === 1}
-            style={{
-              fontFamily: theme.typography.fonts.body, fontWeight: 800, fontSize: '15px',
-              background: theme.colors.paper, color: theme.colors.primary, border: `1.5px solid ${theme.colors.border}`, borderRadius: theme.radius.full,
-              padding: `10px 20px`, cursor: leftPage === 1 ? 'not-allowed' : 'pointer',
-              opacity: leftPage === 1 ? 0.35 : 1, transition: 'all 0.2s', whiteSpace: 'nowrap'
-            }}
-          >
-            ◀ Back
-          </button>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: theme.spacing.s2 }}>
-            {Array.from({ length: LEFT_PAGES }).map((_, i) => (
-              <span
-                key={i}
-                style={{
-                  width: i + 1 === leftPage ? '18px' : '7px',
-                  height: '7px',
-                  borderRadius: theme.radius.full,
-                  background: i + 1 === leftPage ? theme.colors.borderActive : theme.colors.border,
-                  transition: 'all 0.2s'
-                }}
-              />
-            ))}
+        {/* Left Page Pagination Footer */}
+        <div style={{ position: 'absolute', bottom: '0.75rem', left: 0, right: 0, display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', padding: `0 ${theme.spacing.fluid.md}` }}>
+          {/* Left: Back button */}
+          <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+            <button
+              onClick={() => {
+                if (leftPage > 1) {
+                  setLeftPage(n => n - 1);
+                } else if (onPrevMap) {
+                  onPrevMap();
+                }
+              }}
+              disabled={leftPage === 1 && currentPage === 1}
+              style={{
+                fontFamily: theme.typography.fonts.body, fontWeight: 800, fontSize: '15px',
+                background: theme.colors.paper, color: theme.colors.primary, border: `1.5px solid ${theme.colors.border}`, borderRadius: theme.radius.full,
+                padding: `10px 20px`, cursor: (leftPage === 1 && currentPage === 1) ? 'not-allowed' : 'pointer',
+                opacity: (leftPage === 1 && currentPage === 1) ? 0.35 : 1, transition: 'all 0.2s', whiteSpace: 'nowrap',
+                display: 'flex', alignItems: 'center', gap: theme.spacing.s1
+              }}
+            >
+              ◀ Back
+            </button>
           </div>
 
-          <button
-            onClick={() => setLeftPage(n => Math.min(LEFT_PAGES, n + 1))}
-            disabled={leftPage === LEFT_PAGES}
-            style={{
-              fontFamily: theme.typography.fonts.body, fontWeight: 800, fontSize: '15px',
-              background: leftPage === LEFT_PAGES ? theme.colors.paperDark : theme.colors.buttonOrange, color: leftPage === LEFT_PAGES ? theme.colors.primary : '#FFFFFF',
-              border: `1.5px solid ${leftPage === LEFT_PAGES ? theme.colors.border : theme.colors.buttonOrange}`, borderRadius: theme.radius.full,
-              padding: `10px 20px`, cursor: leftPage === LEFT_PAGES ? 'not-allowed' : 'pointer',
-              opacity: leftPage === LEFT_PAGES ? 0.35 : 1, transition: 'all 0.2s', whiteSpace: 'nowrap'
-            }}
-          >
-            Next ▶
-          </button>
-        </div>
-        )}
+          {/* Center: Dots indicating text pages */}
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            {LEFT_PAGES > 1 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: theme.spacing.s2 }}>
+                {Array.from({ length: LEFT_PAGES }).map((_, i) => (
+                  <span
+                    key={i}
+                    style={{
+                      width: i + 1 === leftPage ? '18px' : '7px',
+                      height: '7px',
+                      borderRadius: theme.radius.full,
+                      background: i + 1 === leftPage ? theme.colors.borderActive : theme.colors.border,
+                      transition: 'all 0.2s'
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
 
+          {/* Right: empty for grid balance */}
+          <div />
+        </div>
       </div>
 
       {/* Right Page (Printed Map View & Activities) — Parallel Symmetrical Padding 3.6rem */}
-      <div style={{ flex: '1 1 50%', minWidth: 0, padding: `${theme.spacing.fluid.lg} ${theme.spacing.fluid.lg} 4.5rem ${theme.spacing.fluid.lg}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', minHeight: 0, overflow: 'hidden', boxSizing: 'border-box', background: `linear-gradient(160deg, ${theme.colors.paperDark} 0%, #EFE6D2 100%)` }}>
+      <div style={{ flex: '1 1 50%', minWidth: 0, padding: `${theme.spacing.fluid.lg} ${theme.spacing.fluid.lg} 4.5rem ${theme.spacing.fluid.lg}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', minHeight: 0, overflow: 'hidden', boxSizing: 'border-box', background: `linear-gradient(160deg, ${theme.colors.paperDark} 0%, #EFE6D2 100%)`, position: 'relative' }}>
         
         {/* PRINTED MAP CONTAINER */}
         <div
@@ -607,6 +612,47 @@ const PageLayout = ({
             </button>
           </div>
         </div>
+
+        {/* Right Page Pagination Footer */}
+        <div style={{ position: 'absolute', bottom: '0.75rem', left: 0, right: 0, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', padding: `0 ${theme.spacing.fluid.md}` }}>
+          {/* Map Progress and Next Button */}
+          <div style={{ display: 'flex', gap: theme.spacing.s2, alignItems: 'center', flexShrink: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: theme.spacing.s1, color: theme.colors.primary, fontSize: '13px', fontWeight: 800, whiteSpace: 'nowrap', marginRight: theme.spacing.s2 }}>
+              <span>Map {currentPage} of 3</span>
+            </div>
+            <button
+              onClick={() => {
+                if (leftPage < LEFT_PAGES) {
+                  setLeftPage(n => n + 1);
+                } else if (currentPage < 3 && onNextMap) {
+                  onNextMap();
+                } else if (currentPage === 3 && onFinish) {
+                  onFinish();
+                }
+              }}
+              style={{
+                background: (leftPage === LEFT_PAGES && currentPage === 3) ? theme.colors.buttonGreen : theme.colors.buttonOrange,
+                color: '#FFFFFF',
+                border: '1.5px solid transparent',
+                padding: `10px 20px`,
+                borderRadius: theme.radius.full,
+                display: 'flex',
+                alignItems: 'center',
+                gap: theme.spacing.s1,
+                cursor: 'pointer',
+                boxShadow: (leftPage === LEFT_PAGES && currentPage === 3) ? '0 4px 12px rgba(22,163,74,0.3)' : '0 4px 12px rgba(245,158,11,0.38)',
+                whiteSpace: 'nowrap',
+                fontSize: '15px',
+                fontWeight: 800,
+                fontFamily: theme.typography.fonts.body,
+                transition: 'background 0.2s'
+              }}
+            >
+              {leftPage < LEFT_PAGES ? 'Next ▶' : (currentPage < 3 ? 'Next Map ▶' : 'Finish ✔')}
+            </button>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -838,9 +884,13 @@ const PageLayout = ({
   );
 };
 
-export const PhysicalMapPage = ({ onFullyViewed }) => (
+export const PhysicalMapPage = ({ onFullyViewed, onNextMap, onPrevMap, currentPage, onFinish }) => (
   <PageLayout 
     onFullyViewed={onFullyViewed}
+    onNextMap={onNextMap}
+    onPrevMap={onPrevMap}
+    currentPage={currentPage}
+    onFinish={onFinish}
     title="Physical Maps"
     subtitle="Maps that show Earth's natural features like mountains and rivers"
     imageSrc={physicalImg}
@@ -888,9 +938,13 @@ export const PhysicalMapPage = ({ onFullyViewed }) => (
   />
 );
 
-export const PoliticalMapPage = ({ onFullyViewed }) => (
+export const PoliticalMapPage = ({ onFullyViewed, onNextMap, onPrevMap, currentPage, onFinish }) => (
   <PageLayout 
     onFullyViewed={onFullyViewed}
+    onNextMap={onNextMap}
+    onPrevMap={onPrevMap}
+    currentPage={currentPage}
+    onFinish={onFinish}
     title="Political Maps"
     subtitle="Maps that show countries, states, cities and their borders"
     imageSrc={politicalImg}
@@ -936,9 +990,13 @@ export const PoliticalMapPage = ({ onFullyViewed }) => (
   />
 );
 
-export const ThematicMapPage = ({ onFullyViewed }) => (
+export const ThematicMapPage = ({ onFullyViewed, onNextMap, onPrevMap, currentPage, onFinish }) => (
   <PageLayout 
     onFullyViewed={onFullyViewed}
+    onNextMap={onNextMap}
+    onPrevMap={onPrevMap}
+    currentPage={currentPage}
+    onFinish={onFinish}
     title="Thematic Maps"
     subtitle="Maps that focus on one special topic like soil, rainfall, or crops"
     globeMode="thematic"

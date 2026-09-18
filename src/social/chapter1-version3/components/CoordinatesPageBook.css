@@ -328,6 +328,8 @@
 
 .coords-next:hover {
   transform: translateY(-1px);
+  background-color: #D97706;
+  color: #FFFFFF;
 }
 .coords-next:disabled {
   opacity: 0.5;

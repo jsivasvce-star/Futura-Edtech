@@ -22,7 +22,7 @@ const timelineTree = (() => {
     const item = { ...node, originalIndex: index };
     let barrierId = null;
     
-    if (node.title.includes('Barrier 1') || node.title.includes('Stage 6.1')) barrierId = 'Barrier 6.1';
+    if (node.title.includes('Barrier 1') || node.title.includes('Stage 6.1') || node.title.includes('Phase 2: Identification')) barrierId = 'Barrier 6.1';
     else if (node.title.includes('Barrier 2') || node.title.includes('Stage 6.2')) barrierId = 'Barrier 6.2';
     else if (node.title.includes('Barrier 3') || node.title.includes('Stage 6.3')) barrierId = 'Barrier 6.3';
     else if (node.title.includes('Barrier 4') || node.title.includes('Do You Know?') || node.title.includes('Concept Map')) barrierId = 'Barrier 6.4';
@@ -64,7 +64,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
   const [resetKey, setResetKey] = useState(0);
   const [showCover, setShowCover] = useState(true);
   const [showIntroSpread, setShowIntroSpread] = useState(false);
-  const [showHandbook, setShowHandbook] = useState(true);
+  const [showHandbook, setShowHandbook] = useState(false);
   const [handbookInitialPage, setHandbookInitialPage] = useState(1);
   const [expandedNodes, setExpandedNodes] = useState({ 
     'Barrier 6.1': true, 'Barrier 6.2': true, 'Barrier 6.3': true, 'Barrier 6.4': true, 'Final Wrap-up': true,
@@ -220,8 +220,10 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
                       onClick={() => {
                         if (!isLocked) {
                           
-                          if (item.type === 'mission') {
-                            setShowHandbook(true);
+                          if (item.type === 'mission' && idx === 0 && !stageCompleted) {
+                            // Only show handbook if it's the very first mission and we haven't completed the stage
+                            // Actually, let's just not force the handbook open when navigating timeline.
+                            setShowHandbook(false);
                           } else {
                             setShowHandbook(false);
                           }
@@ -409,7 +411,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
                   if (currentFlowIndex > 0) {
                     const prevIndex = currentFlowIndex - 1;
                     const prevNode = chapterFlow[prevIndex];
-                    if (prevNode && prevNode.type === 'mission' && prevNode.title.includes('Barrier 1')) {
+                    if (prevNode && prevNode.type === 'mission' && prevNode.title.includes('Barrier 1') && prevIndex === 0) {
                       setShowHandbook(true);
                     } else {
                       setShowHandbook(false);

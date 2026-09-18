@@ -238,7 +238,7 @@ export default function ExcavationPitStage({
           minHeight: '320px',
           background: `radial-gradient(ellipse at 50% 30%, #FAF6EE 0%, #EFE8D6 55%, #DCD1BA 100%)`,
           borderRadius: '16px',
-          border: '2.5px solid #14452F',
+          border: '2.5px solid rgba(20, 69, 47, 0.5)',
           overflow: 'hidden',
           boxShadow: 'inset 0 4px 18px rgba(20, 69, 47, 0.16)',
           userSelect: 'none',
@@ -522,7 +522,7 @@ export default function ExcavationPitStage({
               }}
               style={{
                 flex: 1,
-                background: '#FAF8F2',
+                background: 'rgba(250, 248, 242, 0.65)',
                 color: '#14452F',
                 border: '1.8px solid #14452F',
                 borderRadius: '12px',
@@ -575,7 +575,7 @@ export default function ExcavationPitStage({
               }}
               style={{
                 flex: 1,
-                background: '#FAF8F2',
+                background: 'rgba(250, 248, 242, 0.65)',
                 color: '#14452F',
                 border: '1.8px solid #14452F',
                 borderRadius: '12px',
@@ -592,7 +592,7 @@ export default function ExcavationPitStage({
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
             <div style={{
-              background: '#FAF8F2',
+              background: 'rgba(250, 248, 242, 0.65)',
               border: '1.8px solid #14452F',
               borderRadius: '12px',
               padding: '8px 14px',

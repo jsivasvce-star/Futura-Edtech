@@ -4,3 +4,4 @@ dist
 .rembg-env/
 scratch/
 scratch_*
+*.zip

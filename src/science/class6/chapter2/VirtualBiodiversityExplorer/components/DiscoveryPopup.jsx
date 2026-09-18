@@ -45,8 +45,8 @@ export default function DiscoveryPopup({
         position: 'relative',
         width: '100%',
         maxWidth: '34rem',
-        background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
-        border: '2px solid #14452F',
+        background: 'rgba(250, 248, 242, 0.55)',
+        border: '2px solid rgba(20, 69, 47, 0.5)',
         borderRadius: '24px',
         padding: '1.75rem',
         boxShadow: '0 20px 50px rgba(20, 69, 47, 0.25)',
@@ -126,7 +126,7 @@ export default function DiscoveryPopup({
         <div style={{ position: 'relative', zIndex: 10, margin: '1.25rem 0', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {/* Simple Explanation */}
           <div style={{
-            background: '#FAF8F2',
+            background: 'rgba(250, 248, 242, 0.55)',
             border: '1.5px solid #14452F',
             borderRadius: '16px',
             padding: '1rem 1.25rem'

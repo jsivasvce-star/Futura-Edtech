@@ -3336,21 +3336,30 @@ export default function App() {
               width: '46px',
               height: '46px',
               borderRadius: '50%',
-              border: '1px solid var(--border)',
-              background: theme === 'dark' ? 'rgba(30, 41, 59, 0.85)' : 'rgba(255, 255, 255, 0.85)',
-              color: 'var(--text-primary)',
-              backdropFilter: 'blur(8px)',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+              border: '1.8px solid rgba(255, 255, 255, 0.4)',
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.06) 100%)',
+              color: '#FEF3C7',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              boxShadow: '0 4px 18px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5), 0 0 12px rgba(245, 158, 11, 0.25)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
-              transition: 'all 0.2s ease',
+              transition: 'all 0.25s ease',
               padding: 0,
             }}
             title={isAudioPlaying ? 'Mute Background Nature Sounds' : 'Unmute Background Nature Sounds'}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.08)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.08)';
+              e.currentTarget.style.borderColor = '#F59E0B';
+              e.currentTarget.style.boxShadow = '0 6px 22px rgba(245, 158, 11, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.7)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+              e.currentTarget.style.boxShadow = '0 4px 18px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5), 0 0 12px rgba(245, 158, 11, 0.25)';
+            }}
           >
             {isAudioPlaying ? <Volume2 size={20} /> : <VolumeX size={20} />}
           </button>

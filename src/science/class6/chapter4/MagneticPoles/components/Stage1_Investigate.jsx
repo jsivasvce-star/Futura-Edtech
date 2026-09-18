@@ -5,6 +5,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Text, ContactShadows, Environment, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 import { createCustomMagnetTextures } from './magnetTextureGenerator';
+import MagneticPolesVideoPlayer from './MagneticPolesVideoPlayer';
 import '../MagneticPoles.css';
 
 // ---------------------------------------------------------
@@ -373,162 +374,26 @@ export default function Stage1_Investigate({ onComplete }) {
   const [isVibrating, setIsVibrating] = useState(false);
   const hasArrivedRef = useRef(false);
 
-  // Rotation and tilt controls for the magnet & iron filings
-  const rotationRef = useRef({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const isDraggingRef = useRef(false);
-  const lastPointerRef = useRef({ x: 0, y: 0 });
-
-  const handlePointerDown = (e) => {
-    if (e.target.closest('button')) return;
-    isDraggingRef.current = true;
-    setIsDragging(true);
-    lastPointerRef.current = { x: e.clientX, y: e.clientY };
-    e.currentTarget.setPointerCapture(e.pointerId);
-  };
-
-  const handlePointerMove = (e) => {
-    if (!isDraggingRef.current) return;
-    const deltaX = e.clientX - lastPointerRef.current.x;
-    const deltaY = e.clientY - lastPointerRef.current.y;
-    lastPointerRef.current = { x: e.clientX, y: e.clientY };
-
-    // Horizontal drag -> rotate around Y (Yaw, 360 deg)
-    rotationRef.current.y += deltaX * 0.009;
-
-    // Vertical drag -> tilt around X (Pitch, tilt up and towards the front)
-    // Dragging down tilts top towards user (positive rotation.x tilts top toward camera)
-    rotationRef.current.x += deltaY * 0.007;
-
-    // Clamp tilt angle: -0.35 rad (viewing slightly from below/level) to +1.25 rad (~72 deg tilted towards front)
-    rotationRef.current.x = Math.max(-0.35, Math.min(1.25, rotationRef.current.x));
-  };
-
-  const handlePointerUp = (e) => {
-    if (!isDraggingRef.current) return;
-    isDraggingRef.current = false;
-    setIsDragging(false);
-    try {
-      e.currentTarget.releasePointerCapture(e.pointerId);
-    } catch (_) {}
-  };
-
-  const handleResetRotation = (e) => {
-    e.stopPropagation();
-    rotationRef.current.x = 0;
-    rotationRef.current.y = 0;
-  };
+  const handleVideoPhaseChange = useCallback((phase, progress) => {
+    // Video demonstration is visual; do not modify right-side contents or colors
+  }, []);
 
   const [isPaused, setIsPaused] = useState(false);
   const isPausedRef = useRef(false);
   isPausedRef.current = isPaused;
 
-  const phaseRef = useRef('sprinkle'); // 'sprinkle', 'scattered', 'tapping', 'observing'
-  const phaseStartTimeRef = useRef(Date.now());
-  const remainingMsRef = useRef(1800);
-  const timeoutRef = useRef(null);
-
-  const clearLoopTimers = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-  };
-
-  const advanceToNextPhase = (completedPhase) => {
-    if (isPausedRef.current) return;
-    if (completedPhase === 'sprinkle') {
-      executePhase('scattered', 800);
-    } else if (completedPhase === 'scattered') {
-      executePhase('tapping', 750);
-    } else if (completedPhase === 'tapping') {
-      executePhase('observing', 3500);
-    } else if (completedPhase === 'observing') {
-      executePhase('sprinkle', 1800);
-    }
-  };
-
-  const executePhase = (phase, duration) => {
-    clearLoopTimers();
-    phaseRef.current = phase;
-    remainingMsRef.current = duration;
-    phaseStartTimeRef.current = Date.now();
-
-    if (phase === 'sprinkle') {
-      setCycleKey((k) => k + 1);
-      setStep('initial');
-      setIsSprinkling(true);
-      setIsVibrating(false);
-    } else if (phase === 'scattered') {
-      setStep('scattered');
-      setIsSprinkling(false);
-      setIsVibrating(false);
-    } else if (phase === 'tapping') {
-      setStep('tapped');
-      setIsSprinkling(false);
-      setIsVibrating(true);
-      setTapCount((prev) => Math.max(prev, 1));
-    } else if (phase === 'observing') {
-      setStep('tapped');
-      setIsSprinkling(false);
-      setIsVibrating(false);
-    }
-
-    timeoutRef.current = setTimeout(() => {
-      advanceToNextPhase(phase);
-    }, duration);
-  };
-
-  // Only start pouring iron filings once the tray and magnet arrive at the center
-  const handleArrival = useCallback(() => {
-    if (hasArrivedRef.current) return;
-    hasArrivedRef.current = true;
-    executePhase('sprinkle', 1800);
-  }, []);
-
-  // Safety fallback in case of background tab throttling
-  useEffect(() => {
-    const fallbackTimer = setTimeout(() => {
-      if (!hasArrivedRef.current) {
-        handleArrival();
-      }
-    }, 2200);
-    return () => {
-      clearTimeout(fallbackTimer);
-      clearLoopTimers();
-    };
-  }, [handleArrival]);
-
   const handleTogglePause = () => {
-    if (!isPaused) {
-      // Pausing: calculate remaining time for current phase
-      clearLoopTimers();
-      const elapsed = Date.now() - phaseStartTimeRef.current;
-      remainingMsRef.current = Math.max(50, remainingMsRef.current - elapsed);
-      setIsPaused(true);
-      isPausedRef.current = true;
-    } else {
-      // Resuming: continue remaining time of current phase
-      setIsPaused(false);
-      isPausedRef.current = false;
-      phaseStartTimeRef.current = Date.now();
-      const currentPhase = phaseRef.current;
-      const rem = remainingMsRef.current;
-
-      timeoutRef.current = setTimeout(() => {
-        advanceToNextPhase(currentPhase);
-      }, rem);
-    }
+    setIsPaused((prev) => !prev);
+    isPausedRef.current = !isPausedRef.current;
   };
 
   const handleReset = () => {
-    clearLoopTimers();
     setIsPaused(false);
     isPausedRef.current = false;
     setTapCount(0);
     setQuizAnswer(null);
     setShowFeedbackModal(false);
-    executePhase('sprinkle', 1800);
+    setStep('scattering');
   };
 
   const handleQuizAnswer = (answer) => {
@@ -626,262 +491,106 @@ export default function Stage1_Investigate({ onComplete }) {
         )}
       </AnimatePresence>
       
-      {/* 3D WebGL Canvas with Real Physics Lab Background Image */}
+      {/* Dedicated Viewer Container (3D Science Demo Video) */}
       <div style={{ flex: '1.8', display: 'flex', flexDirection: 'column', minWidth: 0, height: '100%', boxSizing: 'border-box' }}>
-        <div
-          style={{ 
-            position: 'relative', 
-            width: '100%', 
-            flex: 1, 
-            minHeight: '380px', 
-            borderRadius: '24px', 
-            overflow: 'hidden', 
-            border: '1.5px solid #A7F3D0', 
-            boxShadow: '0 12px 30px rgba(6, 78, 59, 0.12)',
-            backgroundImage: `url('/MagneticPoles/classroom_sunset_bg.jpg')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center center',
-            cursor: isDragging ? 'grabbing' : 'grab',
-            touchAction: 'none',
-            userSelect: 'none'
-          }}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerUp}
-        >
-          <Canvas 
-            shadows 
-            gl={{ alpha: true, antialias: true }} 
-            camera={{ position: [0.1, 6.0, 22], fov: 38 }}
-          >
-            <Suspense fallback={null}>
-              <ambientLight intensity={1.1} color="#FFF7ED" />
-              <directionalLight
-                position={[-8, 16, 14]}
-                intensity={2.0}
-                color="#FED7AA"
-                castShadow
-                shadow-mapSize={[2048, 2048]}
-                shadow-bias={-0.0001}
-              />
-              <directionalLight position={[10, 10, 10]} intensity={0.8} color="#E0F2FE" />
-              <Environment preset="sunset" />
-
-              <AnimatedLabGroup onArrival={handleArrival}>
-                <RotatableMagnetGroup rotationRef={rotationRef}>
-                  <Magnet3D />
-                  <FilingsSystem step={step} isSprinkling={isSprinkling} isVibrating={isVibrating} cycleKey={cycleKey} isPaused={isPaused} />
-                </RotatableMagnetGroup>
-                <ContactShadows position={[0, -0.02, 0]} opacity={0.48} scale={18} blur={2.0} far={2.5} color="#251605" />
-              </AnimatedLabGroup>
-              <OrbitControls
-                makeDefault
-                target={[0.1, 4.4, 0]}
-                enableZoom={false}
-                enableRotate={false}
-                enablePan={false}
-              />
-            </Suspense>
-          </Canvas>
-
-          {/* Interaction Controls & Hint Overlay */}
-          <div style={{
-            position: 'absolute',
-            bottom: '14px',
-            left: '16px',
-            right: '16px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            pointerEvents: 'none',
-            zIndex: 10
-          }}>
-            <div style={{
-              background: 'rgba(6, 78, 59, 0.86)',
-              backdropFilter: 'blur(8px)',
-              color: '#FFFFFF',
-              padding: '6px 14px',
-              borderRadius: '20px',
-              fontSize: '0.78rem',
-              fontWeight: 700,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              border: '1px solid rgba(167, 243, 208, 0.45)',
-              boxShadow: '0 4px 14px rgba(0,0,0,0.18)',
-            }}>
-              <Hand size={14} color="#FDE68A" />
-              <span>Hold & drag anywhere to rotate & tilt magnet</span>
-            </div>
-
-            <button
-              onClick={handleResetRotation}
-              style={{
-                pointerEvents: 'auto',
-                background: 'rgba(255, 255, 255, 0.94)',
-                border: '1.5px solid #A7F3D0',
-                borderRadius: '16px',
-                padding: '6px 12px',
-                fontSize: '0.76rem',
-                fontWeight: 800,
-                color: '#065F46',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
-                transition: 'all 0.2s'
-              }}
-              title="Reset view angle"
-            >
-              <RotateCcw size={13} color="#059669" />
-              <span>Reset View</span>
-            </button>
-          </div>
+        {/* Display Container: Video Player */}
+        <div style={{ position: 'relative', width: '100%', flex: 1, minHeight: '380px', overflow: 'hidden', borderRadius: '24px' }}>
+          <MagneticPolesVideoPlayer
+            videoSrc="/MagneticPoles/Barmagnet.mp4"
+            fallbackSrc="/assets/Barmagnet.mp4"
+            externalIsPaused={isPaused}
+            onExternalTogglePause={handleTogglePause}
+            onExternalReset={handleReset}
+            onPhaseChange={handleVideoPhaseChange}
+            currentStep={step}
+            autoPlay={true}
+            loop={false}
+          />
         </div>
       </div>
 
-      {/* Control Panel (Unified Warm Orange Theme) */}
-      <div style={{ 
-        flex: '1.15', 
-        background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
-        border: '1.5px solid #FDE68A', 
-        borderRadius: '24px', 
-        padding: '1.25rem 1.35rem', 
-        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)', 
-        display: 'flex', 
-        flexDirection: 'column', 
-        gap: '1rem', 
-        minWidth: 0,
-        overflowY: 'auto',
-        fontFamily: 'system-ui, -apple-system, sans-serif'
-      }}>
-        {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-            <BookOpen size={26} color="#D97706" />
-            <h3 style={{ margin: 0, fontSize: '1.45rem', color: '#78350F', fontWeight: 900 }}>
-              Stage 1: Let us Investigate
-            </h3>
-          </div>
-          <span style={{
-            background: step === 'complete' ? '#DCFCE7' : '#FEF3C7',
-            color: step === 'complete' ? '#15803D' : '#92400E',
-            fontWeight: 900,
-            fontSize: '0.88rem',
-            padding: '0.35rem 0.8rem',
-            borderRadius: '12px',
-            border: step === 'complete' ? '1.5px solid #86EFAC' : '1.5px solid #F59E0B'
-          }}>
-            Step {step === 'tapped' || step === 'complete' ? 3 : (step === 'scattered' || isVibrating) ? 2 : 1} of 3
-          </span>
-        </div>
-
+      {/* Right Column: Fullscreen non-scrolling, Halfscreen scrolling */}
+      <div 
+        className="stage-right-column custom-scrollbar"
+        style={{ 
+          flex: '1.15', 
+          height: '100%',
+          maxHeight: '100%',
+          minHeight: 0,
+          boxSizing: 'border-box',
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: '1.65rem', 
+          minWidth: 0, 
+          fontFamily: 'system-ui, -apple-system, sans-serif'
+        }}
+      >
         {/* CONTAINER 1: Steps of Instructions */}
-        <div style={{
-          background: 'rgba(255, 255, 255, 0.96)',
-          border: '1.5px solid #FDE68A',
-          borderRadius: '20px',
-          padding: '1.1rem 1.2rem',
-          boxShadow: '0 4px 14px rgba(217, 119, 6, 0.06)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '0.85rem'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #FEF3C7', paddingBottom: '0.5rem' }}>
-            <h4 style={{ margin: 0, fontSize: '1.15rem', color: '#78350F', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-              <span>📋</span> Steps of Instructions
-            </h4>
-          </div>
+        <div 
+          className="stage-container-1"
+          style={{
+            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
+            border: '1.5px solid #FDE68A', 
+            borderRadius: '24px', 
+            padding: '1.25rem 1.45rem', 
+            boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            boxSizing: 'border-box'
+          }}
+        >
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)', paddingBottom: '0.6rem', marginBottom: '0.75rem' }}>
+              <h4 style={{ margin: 0, fontSize: '19.5px', color: '#78350F', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                <span>📋</span> Steps of Instructions
+              </h4>
+            </div>
 
-          {/* All 3 Steps */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {[
-              {
-                stepNum: 1,
-                title: '1. Sprinkle Iron Filings',
-                desc: 'Spread iron filings evenly across the paper surface around the magnet.'
-              },
-              {
-                stepNum: 2,
-                title: '2. Tap Paper Sheet',
-                desc: 'Gently tap the sheet to allow iron filings to align along magnetic field lines.'
-              },
-              {
-                stepNum: 3,
-                title: '3. Observe Magnetic Poles',
-                desc: 'Observe where filings cluster the most and answer the observation question.'
-              }
-            ].map((s) => {
-              const currentStepNum = (step === 'tapped' || step === 'complete') ? 3 : (step === 'scattered' || isVibrating) ? 2 : 1;
-              const isCurrent = currentStepNum === s.stepNum;
-              const isPast = currentStepNum > s.stepNum || (s.stepNum === 3 && step === 'complete');
-
-              return (
+            {/* Bullet Points - Single-line brown instructions */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+              {[
+                'Spread iron filings evenly across the paper surface around the magnet.',
+                'Gently tap the sheet to allow iron filings to align along magnetic field lines.',
+                'Observe where filings cluster most densely near the two ends of the magnet.'
+              ].map((instruction, idx) => (
                 <div
-                  key={s.stepNum}
+                  key={idx}
                   style={{
-                    padding: '0.65rem 0.85rem',
-                    borderRadius: '14px',
-                    background: isPast ? '#DCFCE7' : isCurrent ? '#FEF3C7' : 'rgba(255, 255, 255, 0.7)',
-                    border: isPast ? '1.5px solid #86EFAC' : isCurrent ? '1.5px solid #F59E0B' : '1.5px solid transparent',
-                    boxShadow: isPast 
-                      ? '0 3px 10px rgba(16, 185, 129, 0.1)' 
-                      : isCurrent 
-                      ? '0 3px 10px rgba(245, 158, 11, 0.12)' 
-                      : 'none',
                     display: 'flex',
-                    flexDirection: 'column',
-                    gap: '0.2rem',
-                    transition: 'all 0.3s ease'
+                    alignItems: 'baseline',
+                    gap: '0.75rem',
+                    padding: '0.1rem 0'
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                      <span style={{
-                        width: '28px',
-                        height: '28px',
-                        borderRadius: '50%',
-                        background: isPast ? '#059669' : '#FEF3C7',
-                        border: isPast ? '2px solid #059669' : '2px solid #F59E0B',
-                        color: isPast ? '#FFFFFF' : '#92400E',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '0.92rem',
-                        fontWeight: 900,
-                        flexShrink: 0
-                      }}>
-                        {s.stepNum}
-                      </span>
-                      <span style={{ 
-                        fontWeight: 900, 
-                        fontSize: '1.1rem', 
-                        color: isPast ? '#15803D' : isCurrent ? '#92400E' : '#78350F' 
-                      }}>
-                        {s.title}
-                      </span>
-                    </div>
-                    {isPast && <CheckCircle size={20} color="#16A34A" />}
-                  </div>
-                  <p style={{ margin: '0.15rem 0 0 2.3rem', fontSize: '0.96rem', color: isPast ? '#166534' : '#065F46', lineHeight: 1.5, fontWeight: 600 }}>
-                    {s.desc}
+                  <span
+                    style={{
+                      width: '9px',
+                      height: '9px',
+                      borderRadius: '50%',
+                      background: '#D97706',
+                      display: 'inline-block',
+                      flexShrink: 0,
+                      transform: 'translateY(-2px)'
+                    }}
+                  />
+                  <p style={{ margin: 0, fontSize: '17.5px', lineHeight: 1.5, color: '#78350F', fontWeight: 600 }}>
+                    {instruction}
                   </p>
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
 
           {/* Action Buttons: Pause / Resume & Reset */}
-          <div style={{ width: '100%', display: 'flex', gap: '0.65rem', marginTop: '0.35rem', paddingTop: '0.5rem', borderTop: '1px solid #FEF3C7' }}>
+          <div style={{ width: '100%', display: 'flex', gap: '0.75rem', marginTop: 'auto', paddingTop: '0.85rem', borderTop: '1px solid rgba(217, 119, 6, 0.2)' }}>
             <button
               onClick={handleTogglePause}
               className="gold-glow-btn"
               style={{ 
                 flex: 2, 
-                padding: '0.85rem 1rem', 
-                fontSize: '1.02rem', 
+                padding: '0.8rem 1rem', 
+                fontSize: '17.5px', 
                 fontWeight: 900, 
                 borderRadius: '14px', 
                 color: '#FFFFFF', 
@@ -909,8 +618,8 @@ export default function Stage1_Investigate({ onComplete }) {
               onClick={handleReset}
               style={{ 
                 flex: 1, 
-                padding: '0.85rem 0.6rem', 
-                fontSize: '0.98rem', 
+                padding: '0.8rem 0.75rem', 
+                fontSize: '17.5px', 
                 fontWeight: 800, 
                 borderRadius: '14px', 
                 background: '#FFFFFF', 
@@ -931,110 +640,118 @@ export default function Stage1_Investigate({ onComplete }) {
         </div>
 
         {/* CONTAINER 2: Observation Question */}
-        <div style={{ 
-          background: (quizAnswer === 'ends' || step === 'complete') ? '#DCFCE7' : 'rgba(255, 255, 255, 0.96)',
-          border: (quizAnswer === 'ends' || step === 'complete') ? '1.5px solid #86EFAC' : '1.5px solid #FDE68A',
-          borderRadius: '20px',
-          padding: '1.1rem 1.2rem',
-          boxShadow: (quizAnswer === 'ends' || step === 'complete') ? '0 4px 14px rgba(16, 185, 129, 0.12)' : '0 4px 14px rgba(217, 119, 6, 0.05)',
-          display: 'flex', 
-          flexDirection: 'column', 
-          gap: '0.85rem'
-        }}>
-          <h4 style={{ color: (quizAnswer === 'ends' || step === 'complete') ? '#15803D' : '#78350F', margin: 0, fontSize: '1.2rem', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-            <AlertCircle size={22} color={(quizAnswer === 'ends' || step === 'complete') ? '#16A34A' : '#D97706'} /> Observation Question
-          </h4>
-          <p style={{ margin: 0, color: (quizAnswer === 'ends' || step === 'complete') ? '#166534' : '#065F46', fontSize: '1.02rem', lineHeight: 1.55, fontWeight: 600 }}>
-            Do the iron filings stick uniformly all over the magnet, or do they stick more at specific places?
-          </p>
+        <div 
+          className="stage-container-2"
+          style={{ 
+            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
+            border: '1.5px solid #FDE68A', 
+            borderRadius: '24px', 
+            padding: '1.25rem 1.45rem', 
+            boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+            display: 'flex', 
+            flexDirection: 'column', 
+            justifyContent: 'space-between',
+            boxSizing: 'border-box'
+          }}
+        >
+          <div>
+            <h4 style={{ color: '#78350F', margin: 0, fontSize: '19.5px', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.55rem', paddingBottom: '0.55rem', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)' }}>
+              <AlertCircle size={22} color="#D97706" /> Observation Question
+            </h4>
+            <p style={{ margin: '0.75rem 0', color: '#78350F', fontSize: '17.5px', lineHeight: 1.5, fontWeight: 700 }}>
+              Do the iron filings stick uniformly all over the magnet, or do they stick more at specific places?
+            </p>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-            <button
-              onClick={() => handleQuizAnswer('uniformly')}
-              style={{ 
-                padding: '0.85rem 1.1rem', 
-                textAlign: 'left', 
-                fontSize: '0.98rem', 
-                fontWeight: 700, 
-                borderRadius: '14px', 
-                cursor: 'pointer', 
-                background: quizAnswer === 'uniformly' ? '#FEE2E2' : '#F8FAFC', 
-                borderColor: quizAnswer === 'uniformly' ? '#EF4444' : '#E2E8F0', 
-                borderWidth: '1.5px', 
-                borderStyle: 'solid', 
-                color: quizAnswer === 'uniformly' ? '#991B1B' : '#065F46', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'space-between',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              <span>A) Filings stick uniformly all over</span>
-              {quizAnswer === 'uniformly' && <XCircle size={20} color="#EF4444" />}
-            </button>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.65rem' }}>
+              <button
+                onClick={() => handleQuizAnswer('uniformly')}
+                style={{ 
+                  padding: '0.85rem 1.15rem', 
+                  textAlign: 'left', 
+                  fontSize: '17px', 
+                  fontWeight: 700, 
+                  borderRadius: '14px', 
+                  cursor: 'pointer', 
+                  background: quizAnswer === 'uniformly' ? '#FEE2E2' : '#FFFFFF', 
+                  borderColor: quizAnswer === 'uniformly' ? '#EF4444' : '#FDE68A', 
+                  borderWidth: '1.5px', 
+                  borderStyle: 'solid', 
+                  color: quizAnswer === 'uniformly' ? '#991B1B' : '#78350F', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'space-between',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <span>A) Filings stick uniformly all over</span>
+                {quizAnswer === 'uniformly' && <XCircle size={20} color="#EF4444" />}
+              </button>
 
-            <button
-              onClick={() => handleQuizAnswer('ends')}
-              style={{ 
-                padding: '0.85rem 1.1rem', 
-                textAlign: 'left', 
-                fontSize: '0.98rem', 
-                fontWeight: 700, 
-                borderRadius: '14px', 
-                cursor: 'pointer', 
-                background: (quizAnswer === 'ends' || step === 'complete') ? '#DCFCE7' : '#F8FAFC', 
-                borderColor: (quizAnswer === 'ends' || step === 'complete') ? '#10B981' : '#E2E8F0', 
-                borderWidth: '1.5px', 
-                borderStyle: 'solid', 
-                color: (quizAnswer === 'ends' || step === 'complete') ? '#064E3B' : '#065F46', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'space-between',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              <span>B) Most filings cluster at the two ends (Poles)</span>
-              {(quizAnswer === 'ends' || step === 'complete') && <CheckCircle size={20} color="#10B981" />}
-            </button>
+              <button
+                onClick={() => handleQuizAnswer('ends')}
+                style={{ 
+                  padding: '0.85rem 1.15rem', 
+                  textAlign: 'left', 
+                  fontSize: '17px', 
+                  fontWeight: 700, 
+                  borderRadius: '14px', 
+                  cursor: 'pointer', 
+                  background: (quizAnswer === 'ends' || step === 'complete') ? '#DCFCE7' : '#FFFFFF', 
+                  borderColor: (quizAnswer === 'ends' || step === 'complete') ? '#10B981' : '#FDE68A', 
+                  borderWidth: '1.5px', 
+                  borderStyle: 'solid', 
+                  color: (quizAnswer === 'ends' || step === 'complete') ? '#064E3B' : '#78350F', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'space-between',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <span>B) Most filings cluster at the two ends (Poles)</span>
+                {(quizAnswer === 'ends' || step === 'complete') && <CheckCircle size={20} color="#10B981" />}
+              </button>
+            </div>
           </div>
 
           {/* Always-visible Proceed Button */}
           {(() => {
-            const isReadyToProceed = tapCount >= 1 && (quizAnswer === 'ends' || step === 'complete');
+            const isReadyToProceed = quizAnswer === 'ends';
             return (
-              <button
-                onClick={onComplete}
-                disabled={!isReadyToProceed}
-                className={isReadyToProceed ? 'gold-glow-btn' : ''}
-                style={{ 
-                  width: '100%', 
-                  padding: '0.95rem', 
-                  fontSize: '1.05rem', 
-                  fontWeight: 900, 
-                  borderRadius: '14px', 
-                  background: isReadyToProceed 
-                    ? undefined 
-                    : '#F1F5F9', 
-                  color: isReadyToProceed 
-                    ? '#FFFFFF' 
-                    : '#94A3B8', 
-                  border: isReadyToProceed 
-                    ? 'none' 
-                    : '1.5px solid #CBD5E1', 
-                  cursor: isReadyToProceed 
-                    ? 'pointer' 
-                    : 'not-allowed', 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center', 
-                  gap: '0.6rem',
-                  transition: 'all 0.25s ease'
-                }}
-              >
-                Proceed to Stage 2 <ArrowRight size={18} color={isReadyToProceed ? '#FFFFFF' : '#94A3B8'} />
-              </button>
+              <div style={{ paddingTop: '0.75rem', marginTop: 'auto' }}>
+                <button
+                  onClick={onComplete}
+                  disabled={!isReadyToProceed}
+                  className={isReadyToProceed ? 'gold-glow-btn' : ''}
+                  style={{ 
+                    width: '100%', 
+                    padding: '0.85rem 1.25rem', 
+                    fontSize: '17.5px', 
+                    fontWeight: 900, 
+                    borderRadius: '14px', 
+                    background: isReadyToProceed 
+                      ? undefined 
+                      : '#F1F5F9', 
+                    color: isReadyToProceed 
+                      ? '#FFFFFF' 
+                      : '#94A3B8', 
+                    border: isReadyToProceed 
+                      ? 'none' 
+                      : '1.5px solid #CBD5E1', 
+                    cursor: isReadyToProceed 
+                      ? 'pointer' 
+                      : 'not-allowed', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    gap: '0.6rem',
+                    transition: 'all 0.25s ease'
+                  }}
+                >
+                  Proceed to Stage 2 <ArrowRight size={18} color={isReadyToProceed ? '#FFFFFF' : '#94A3B8'} />
+                </button>
+              </div>
             );
           })()}
         </div>

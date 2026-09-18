@@ -178,34 +178,34 @@ export default function ChallengeMode({ onComplete }) {
       padding: '0.5rem', 
       boxSizing: 'border-box' 
     }}>
-      <div style={{ width: '100%', maxWidth: '1050px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem', padding: '0 0.5rem' }}>
-          <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#064E3B', fontSize: '1.15rem', fontWeight: 900 }}>
-            <Trophy size={20} style={{ color: '#D97706' }} /> Predict the Outcome
+      <div style={{ width: '100%', maxWidth: '1250px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', padding: '0 0.5rem' }}>
+          <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.65rem', color: '#064E3B', fontSize: '1.45rem', fontWeight: 900 }}>
+            <Trophy size={26} style={{ color: '#D97706' }} /> Predict the Outcome
           </h3>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#FFFFFF', padding: '0.35rem 0.85rem', borderRadius: '20px', border: '1.5px solid #FDE68A' }}>
-            <Star size={16} fill="#F59E0B" color="#F59E0B" /> 
-            <span style={{ fontWeight: '900', fontSize: '0.92rem', color: '#92400E' }}>{stars} Stars</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#FFFFFF', padding: '0.45rem 1.1rem', borderRadius: '20px', border: '1.5px solid #FDE68A' }}>
+            <Star size={20} fill="#F59E0B" color="#F59E0B" /> 
+            <span style={{ fontWeight: '900', fontSize: '1.15rem', color: '#92400E' }}>{stars} Stars</span>
           </div>
         </div>
 
         <div style={{ 
           background: 'linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 50%, #FEF3C7 100%)', 
           border: '1.5px solid #FDE68A',
-          borderRadius: '24px', 
-          padding: '1.75rem 2.5rem', 
-          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+          borderRadius: '28px', 
+          padding: '2.4rem 3.2rem', 
+          boxShadow: '0 8px 30px rgba(217, 119, 6, 0.08)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '1rem',
+          gap: '1.35rem',
           width: '100%',
           boxSizing: 'border-box'
         }}>
-          <div style={{ textTransform: 'uppercase', fontSize: '0.88rem', fontWeight: '900', color: '#D97706', letterSpacing: '0.05em' }}>
+          <div style={{ textTransform: 'uppercase', fontSize: '1.05rem', fontWeight: '900', color: '#D97706', letterSpacing: '0.05em' }}>
             {c.title}
           </div>
           
-          <p style={{ fontSize: '1.15rem', lineHeight: '1.55', margin: 0, padding: '1rem 1.25rem', background: '#FFFFFF', borderRadius: '16px', borderLeft: '5px solid #D97706', border: '1.5px solid #FDE68A', borderLeftWidth: '5px', color: '#064E3B', fontWeight: 600 }}>
+          <p style={{ fontSize: '1.25rem', lineHeight: '1.6', margin: 0, padding: '1.2rem 1.6rem', background: '#FFFFFF', borderRadius: '18px', borderLeft: '6px solid #D97706', border: '1.5px solid #FDE68A', borderLeftWidth: '6px', color: '#064E3B', fontWeight: 600 }}>
             {c.scenario}
           </p>
 

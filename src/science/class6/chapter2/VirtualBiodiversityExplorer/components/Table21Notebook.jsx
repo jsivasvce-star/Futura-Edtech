@@ -20,9 +20,9 @@ export default function Table21Notebook({
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
-      background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
+      background: 'rgba(250, 248, 242, 0.55)',
       borderRadius: '20px',
-      border: '2px solid #14452F',
+      border: '2px solid rgba(20, 69, 47, 0.5)',
       padding: 'clamp(10px, 1.4vh, 16px) clamp(12px, 1.6vw, 20px)',
       boxShadow: '0 12px 32px rgba(20, 69, 47, 0.12)',
       boxSizing: 'border-box',
@@ -92,7 +92,7 @@ export default function Table21Notebook({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        background: '#FAF8F2',
+        background: 'rgba(250, 248, 242, 0.55)',
         border: '1.5px solid #2D6A4F',
         borderRadius: '12px',
         padding: '6px 12px',
@@ -148,7 +148,7 @@ export default function Table21Notebook({
       }}>
         {/* Row 1: Stem */}
         <div style={{
-          background: testedStem ? '#FAF8F2' : '#F5F1E5',
+          background: testedStem ? 'rgba(250, 248, 242, 0.55)' : 'rgba(245, 241, 229, 0.6)',
           border: testedStem ? '1.8px solid #14452F' : '1.5px dashed #2D6A4F',
           borderRadius: '10px',
           padding: '6px 12px',
@@ -181,7 +181,7 @@ export default function Table21Notebook({
 
         {/* Row 2: Leaves */}
         <div style={{
-          background: inspectedLeaf ? '#FAF8F2' : '#F5F1E5',
+          background: inspectedLeaf ? 'rgba(250, 248, 242, 0.55)' : 'rgba(245, 241, 229, 0.6)',
           border: inspectedLeaf ? '1.8px solid #14452F' : '1.5px dashed #2D6A4F',
           borderRadius: '10px',
           padding: '6px 12px',
@@ -214,7 +214,7 @@ export default function Table21Notebook({
 
         {/* Row 3: Flowers & Observations */}
         <div style={{
-          background: inspectedFlower ? '#FAF8F2' : '#F5F1E5',
+          background: inspectedFlower ? 'rgba(250, 248, 242, 0.55)' : 'rgba(245, 241, 229, 0.6)',
           border: inspectedFlower ? '1.8px solid #14452F' : '1.5px dashed #2D6A4F',
           borderRadius: '10px',
           padding: '6px 12px',

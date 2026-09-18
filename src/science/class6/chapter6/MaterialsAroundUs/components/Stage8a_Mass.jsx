@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import { Scale, CheckCircle2, AlertCircle, Info, Target, GripHorizontal } from 'lucide-react';
 import { RealisticCup } from './Stage8a_Mass_Components/RealisticCup';
-import { DraggableCup } from './Stage8a_Mass_Components/DraggableCup';
 import { WeighingScale } from './Stage8a_Mass_Components/WeighingScale';
 
 export default function Stage8a_Mass({ onComplete, addXp }) {
   const [weighedItems, setWeighedItems] = useState({});
   const [currentOnScale, setCurrentOnScale] = useState(null);
-  const [isDragHoveringScale, setIsDragHoveringScale] = useState(false);
 
   const cups = [
     { id: 'water', label: 'Cup A', material: 'Water', mass: 44.92 },
@@ -17,25 +15,13 @@ export default function Stage8a_Mass({ onComplete, addXp }) {
     { id: 'pebbles', label: 'Cup C', material: 'Pebbles', mass: 142.15 }
   ];
 
-  // When any cup starts dragging, immediately remove the previous cup from the physical scale
-  const handleDragStart = () => {
-    setCurrentOnScale(null);
-  };
-
-  const handleDrop = (id) => {
-    if (id) {
-      const cup = cups.find(c => c.id === id);
-      setCurrentOnScale(cup);
-      setIsDragHoveringScale(false);
-      if (!weighedItems[id]) {
-        setWeighedItems(prev => ({ ...prev, [id]: true }));
-        if (typeof addXp === 'function') addXp(15);
-      }
+  const handleCupClick = (id) => {
+    const cup = cups.find(c => c.id === id);
+    setCurrentOnScale(cup);
+    if (!weighedItems[id]) {
+      setWeighedItems(prev => ({ ...prev, [id]: true }));
+      if (typeof addXp === 'function') addXp(15);
     }
-  };
-
-  const handleDragPosition = (isOver) => {
-    setIsDragHoveringScale(isOver);
   };
 
   const progressCount = Object.keys(weighedItems).length;
@@ -57,7 +43,7 @@ export default function Stage8a_Mass({ onComplete, addXp }) {
             <Scale size={32} color="#134e4a" /> Phase 1: How heavy or light?
           </h3>
           <p style={{ margin: 0, fontSize: '1.4rem', fontWeight: '600', color: '#4A3B5C' }}>
-            Activity 6.8: Let us measure. Drag each cup to the digital balance to record its mass.
+            Activity 6.8: Let us measure. Click each cup to place it on the digital balance to record its mass.
           </p>
         </div>
       </div>
@@ -65,8 +51,8 @@ export default function Stage8a_Mass({ onComplete, addXp }) {
       {/* Main Content - 3 Column Grid */}
       <div style={{ 
         display: 'grid', 
-        gridTemplateColumns: 'minmax(280px, 1fr) minmax(400px, 1.25fr) minmax(280px, 1fr)', 
-        gap: '1rem', 
+        gridTemplateColumns: 'minmax(300px, auto) minmax(420px, auto) 1fr', 
+        gap: '1.5rem', 
         flex: 1, 
         minHeight: 0,
         alignItems: 'stretch'
@@ -86,6 +72,7 @@ export default function Stage8a_Mass({ onComplete, addXp }) {
                   whileHover={{ y: -2, boxShadow: '0 8px 16px rgba(87, 65, 51, 0.12)' }}
                   whileTap={{ scale: 0.99 }}
                   transition={{ duration: 0.2 }}
+                  onClick={() => { if (!hasBeenWeighed || hasBeenWeighed) handleCupClick(cup.id) }}
                   style={{ 
                     display: 'flex', alignItems: 'center', gap: '1rem',
                     background: '#FFFFFF',
@@ -94,20 +81,12 @@ export default function Stage8a_Mass({ onComplete, addXp }) {
                     position: 'relative',
                     userSelect: 'none',
                     flex: 1,
-                    cursor: hasBeenWeighed ? 'default' : 'grab',
-                    opacity: hasBeenWeighed ? 0.6 : 1
+                    cursor: 'pointer',
+                    opacity: isCurrentlyOnScale ? 0.6 : (hasBeenWeighed ? 0.8 : 1)
                   }}
                 >
                   <div style={{ flexShrink: 0, width: '70px', height: '90px', zIndex: 10 }}>
-                    <DraggableCup 
-                      cup={cup} 
-                      isWeighed={hasBeenWeighed} 
-                      isCurrentlyOnScale={isCurrentlyOnScale}
-                      onDragStart={handleDragStart}
-                      onDrop={handleDrop} 
-                      onDragPosition={handleDragPosition}
-                      disabled={hasBeenWeighed} 
-                    />
+                    <RealisticCup material={cup.id} />
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', zIndex: 1 }}>
                     <div style={{ fontWeight: '800', fontSize: '1.2rem', color: '#134e4a', display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -128,7 +107,7 @@ export default function Stage8a_Mass({ onComplete, addXp }) {
           <div style={{ 
               flex: 1,
               background: '#F6F3EC',
-              border: isDragHoveringScale ? '2px solid #c2410c' : (currentOnScale ? '1px solid #EAE3D9' : '1px dashed #d6d3d1'), 
+              border: currentOnScale ? '1px solid #EAE3D9' : '1px dashed #d6d3d1', 
               borderRadius: '12px', 
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
               position: 'relative',
@@ -139,12 +118,8 @@ export default function Stage8a_Mass({ onComplete, addXp }) {
             {/* Guidance prompt when empty */}
             {!currentOnScale && (
               <div style={{ position: 'absolute', top: '15%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', pointerEvents: 'none' }}>
-                <svg width="40" height="60" viewBox="0 0 40 60" fill="none">
-                  <path d="M20 10 L 20 50" stroke={isDragHoveringScale ? '#c2410c' : '#a8a29e'} strokeWidth="2" strokeLinecap="round" strokeDasharray="4 4" />
-                  <path d="M12 42 L 20 50 L 28 42" stroke={isDragHoveringScale ? '#c2410c' : '#a8a29e'} strokeWidth="2" fill="transparent" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <div style={{ color: isDragHoveringScale ? '#c2410c' : '#78716c', fontSize: '1.2rem', fontWeight: '700', textAlign: 'center', maxWidth: '160px', lineHeight: '1.4' }}>
-                  {isDragHoveringScale ? 'Release to place on scale' : 'Drag a cup here to weigh it'}
+                <div style={{ color: '#78716c', fontSize: '1.2rem', fontWeight: '700', textAlign: 'center', maxWidth: '160px', lineHeight: '1.4' }}>
+                  Click a cup to weigh it
                 </div>
               </div>
             )}
@@ -153,7 +128,7 @@ export default function Stage8a_Mass({ onComplete, addXp }) {
             <WeighingScale 
               currentCupOnScale={currentOnScale?.id || null} 
               mass={currentOnScale?.mass || 0} 
-              isHovered={isDragHoveringScale}
+              isHovered={false}
             />
           </div>
         </div>

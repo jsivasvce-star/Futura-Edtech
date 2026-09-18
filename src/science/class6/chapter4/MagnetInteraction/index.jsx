@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Hammer, HelpCircle, Compass, CheckSquare, ArrowLeft, Info, CheckCircle } from 'lucide-react';
+import { Hammer, HelpCircle, Compass, CheckSquare, ArrowLeft, CheckCircle, Sparkles } from 'lucide-react';
 import Stage1_Build from './components/Stage1_Build';
 import Stage3_Explore from './components/Stage3_Explore';
 import Stage4_Quiz from './components/Stage4_Quiz';
@@ -12,7 +12,8 @@ export default function MagnetInteractionActivity({ onBackToDashboard, onComplet
   const [progress, setProgress] = useState({
     build: false,
     explore: false,
-    quiz: false
+    quiz: false,
+    didyouknow: false
   });
 
   const handleStage1Complete = () => {
@@ -25,40 +26,48 @@ export default function MagnetInteractionActivity({ onBackToDashboard, onComplet
 
   const handleStage4Complete = () => {
     setProgress(prev => ({ ...prev, quiz: true }));
+    setActiveTab('didyouknow');
+  };
+
+  const handleDidYouKnowComplete = () => {
+    setProgress(prev => ({ ...prev, didyouknow: true }));
     if (onComplete) onComplete();
   };
 
   const tabs = [
     { id: 'build', name: '1. Build', icon: Hammer, component: <Stage1_Build onComplete={handleStage1Complete} onNext={() => setActiveTab('explore')} /> },
     { id: 'explore', name: '2. Explore', icon: Compass, component: <Stage3_Explore onComplete={handleStage3Complete} onNext={() => setActiveTab('quiz')} />, locked: !progress.build },
-    { id: 'quiz', name: '3. Quiz', icon: CheckSquare, component: <Stage4_Quiz onComplete={handleStage4Complete} />, locked: !progress.explore }
+    { id: 'quiz', name: '3. Quiz', icon: HelpCircle, component: <Stage4_Quiz onComplete={handleStage4Complete} />, locked: !progress.explore },
+    { id: 'didyouknow', name: '4. Did You Know?', icon: Sparkles, component: <DidYouKnow onComplete={handleDidYouKnowComplete} onBackToQuiz={() => setActiveTab('quiz')} />, locked: !progress.quiz }
   ];
 
   return (
     <div style={{ 
-      width: '100%', 
-      height: 'calc(100vh - 16px)', 
-      maxHeight: '100vh', 
-      margin: '0 auto', 
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100vw', 
+      height: '100vh', 
+      zIndex: 101,
       display: 'flex', 
       flexDirection: 'column', 
       overflow: 'hidden',
       boxSizing: 'border-box',
       padding: '0.65rem 0.85rem',
       backgroundColor: '#FFFFFF',
-      position: 'relative',
-      fontFamily: 'system-ui, -apple-system, sans-serif'
+      fontFamily: "system-ui, -apple-system, sans-serif"
     }}>
-      {/* Top Header Bar (Unboxed / Transparent Container) */}
+      {/* Top Header Bar Container (Standard Enclosing Golden Card) */}
       <div style={{ 
         display: 'grid', 
         gridTemplateColumns: 'auto 1fr auto', 
         alignItems: 'center', 
-        padding: '0.25rem 0.5rem',
+        padding: '0.65rem 1.25rem',
         marginBottom: '0.45rem',
-        background: 'transparent',
-        border: 'none',
-        boxShadow: 'none',
+        background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+        border: '1.5px solid #FDE68A',
+        borderRadius: '24px',
+        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
         flexShrink: 0,
         position: 'relative',
         zIndex: 100
@@ -94,7 +103,16 @@ export default function MagnetInteractionActivity({ onBackToDashboard, onComplet
         </div>
 
         {/* Right: Tabbed Navigation Bar */}
-        <nav className="tabs-container" style={{ display: 'flex', gap: '0.5rem', margin: 0 }}>
+        <nav className="tabs-container" style={{ 
+          display: 'flex', 
+          gap: '0.5rem', 
+          margin: 0,
+          background: '#FFFFFF',
+          padding: '0.35rem 0.5rem',
+          borderRadius: '30px',
+          border: '1.5px solid #FDE68A',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+        }}>
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isCompleted = progress[tab.id];
@@ -112,14 +130,14 @@ export default function MagnetInteractionActivity({ onBackToDashboard, onComplet
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.45rem',
-                  padding: '0.6rem 1.15rem',
+                  padding: '0.55rem 1.05rem',
                   fontSize: '0.92rem',
                   fontWeight: 900,
-                  borderRadius: '25px',
-                  background: isActive ? undefined : '#FFFFFF',
+                  borderRadius: '20px',
+                  background: isActive ? undefined : 'transparent',
                   color: isActive ? '#FFFFFF' : tab.locked ? '#94A3B8' : '#78350F',
-                  border: isActive ? undefined : '1.5px solid #FDE68A',
-                  boxShadow: isActive ? undefined : '0 2px 6px rgba(0,0,0,0.03)',
+                  border: 'none',
+                  boxShadow: 'none',
                   transition: 'all 0.2s ease'
                 }}
               >
@@ -160,13 +178,6 @@ export default function MagnetInteractionActivity({ onBackToDashboard, onComplet
           </motion.div>
         </AnimatePresence>
       </main>
-
-      {/* Bottom Footer Bar */}
-      {activeTab !== 'quiz' && (
-        <footer style={{ marginTop: '0.4rem', width: '100%', flexShrink: 0, position: 'relative', zIndex: 99999 }}>
-          <DidYouKnow />
-        </footer>
-      )}
     </div>
   );
 }

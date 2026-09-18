@@ -413,7 +413,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
         position: 'relative',
         width: '100%',
         height: '100%',
-        background: 'linear-gradient(180deg, #D6EDFA 0%, #E8F7EE 18%, #F3FAF5 50%, #E5F5EB 85%, #D5EFE0 100%)',
+        background: 'transparent',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -423,16 +423,25 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
         overflow: 'hidden', // ZERO SCROLL RULE
         userSelect: 'none',
         fontFamily: '"Plus Jakarta Sans", "Inter", system-ui, sans-serif',
-        color: '#1F2937'
+        color: '#F8FAFC'
       }}
     >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,600;1,9..144,700&family=Outfit:wght@700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
 
+        /* Text Justification & Font Size Constraint (16px to 24px) */
+        p, .bio-question-text, .bio-explanation-text, .bio-summary-text {
+          text-align: justify !important;
+          text-justify: inter-word !important;
+          hyphens: auto;
+        }
+
         .bio-nav-btn {
-          background: #14452F;
-          color: #D1FAE5;
-          border: 1.5px solid #2D6A4F;
+          background: rgba(15, 23, 42, 0.65);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          color: #F1F5F9;
+          border: 1.8px solid rgba(255, 255, 255, 0.25);
           border-radius: 9px;
           padding: 6px 14px;
           font-size: 16px;
@@ -443,12 +452,12 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
           align-items: center;
           gap: 6px;
           transition: all 0.15s ease;
-          box-shadow: 0 2px 6px rgba(20, 69, 47, 0.2);
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
         }
         .bio-nav-btn:hover:not(:disabled) {
-          background: #1B5E3C;
-          color: #FFFFFF;
-          border-color: #10B981;
+          background: rgba(245, 158, 11, 0.25);
+          color: #FBBF24;
+          border-color: #F59E0B;
           transform: translateY(-1px);
         }
         .bio-nav-btn:disabled {
@@ -459,7 +468,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
         .bio-cta-btn {
           background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
           color: #FFFFFF;
-          border: 1.5px solid #FCD34D;
+          border: 1.8px solid #FDE68A;
           border-radius: 9px;
           padding: 7px 18px;
           font-size: 16px;
@@ -470,12 +479,13 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
           align-items: center;
           gap: 6px;
           transition: all 0.15s ease;
-          box-shadow: 0 3px 12px rgba(217, 119, 6, 0.35);
+          box-shadow: 0 4px 14px rgba(217, 119, 6, 0.42);
         }
         .bio-cta-btn:hover:not(:disabled) {
           background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+          border-color: #FFFFFF;
           transform: translateY(-1px);
-          box-shadow: 0 5px 16px rgba(217, 119, 6, 0.45);
+          box-shadow: 0 6px 18px rgba(217, 119, 6, 0.55);
         }
         .bio-cta-btn:disabled {
           opacity: 0.45;
@@ -483,13 +493,21 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
         }
 
         .bio-parchment-card {
-          background: linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%);
-          border: 2px solid #194720;
+          background: rgba(15, 23, 42, 0.50);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+          border: 1.8px solid rgba(245, 158, 11, 0.4);
           border-radius: 14px;
-          box-shadow: 0 6px 20px rgba(15, 74, 50, 0.1), inset 0 0 0 1px rgba(45, 106, 79, 0.08);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
           position: relative;
           box-sizing: border-box;
           overflow: hidden;
+          color: #F8FAFC;
+          transition: all 0.22s ease;
+        }
+        .bio-parchment-card:hover {
+          border-color: rgba(245, 158, 11, 0.65);
+          box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), 0 0 18px rgba(245, 158, 11, 0.25);
         }
 
         @keyframes botanicalCardEntrance {
@@ -525,7 +543,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
         }
 
         .bio-cat-pill {
-          background: #FAF8F2;
+          background: rgba(250, 248, 242, 0.55); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
           border: 1.5px solid #2D6A4F;
           border-radius: 8px;
           padding: 3px 10px;
@@ -584,11 +602,11 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
               fontSize: '16px',
               fontWeight: 900,
               fontFamily: "'Outfit', sans-serif",
-              border: '1.5px solid #10B981',
+              border: '1.8px solid #FDE68A',
               boxShadow: '0 2px 6px rgba(20, 69, 47, 0.2)'
             }}
           >
-            NCERT EVALUATION · PAGES 29–34
+            EVALUATION · PAGES 29–34
           </span>
         </div>
 
@@ -600,7 +618,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
               fontFamily: '"Fraunces", Georgia, serif',
               fontWeight: 900,
               fontSize: '21px',
-              color: '#0A3B24',
+              color: '#F8FAFC',
               margin: 0,
               lineHeight: 1.15,
               letterSpacing: '-0.01em'
@@ -613,7 +631,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
 
         {/* RIGHT: MODE TOGGLES & LISTEN */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <div style={{ display: 'flex', background: '#FAF8F2', padding: '2px', borderRadius: '10px', border: '1.5px solid #14452F' }}>
+          <div style={{ display: 'flex', background: 'rgba(15, 23, 42, 0.50)', padding: '2px', borderRadius: '10px', border: '1.5px solid rgba(212, 175, 55, 0.6)' }}>
             <button
               onClick={() => setViewMode('exercises')}
               style={{
@@ -790,7 +808,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                       <span style={{ background: '#14452F', color: '#34D399', fontSize: '16px', fontWeight: 900, padding: '2px 10px', borderRadius: '10px', fontFamily: "'Outfit', sans-serif" }}>
                         EXERCISE {currentQ.id} OF 10
                       </span>
-                      <span style={{ fontSize: '16px', fontWeight: 900, color: '#14452F', fontFamily: "'Outfit', sans-serif" }}>
+                      <span style={{ fontSize: '16px', fontWeight: 900, color: '#F8FAFC', fontFamily: "'Outfit', sans-serif" }}>
                         PAGE {currentQ.page}
                       </span>
                     </div>
@@ -805,7 +823,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                           onClick={() => setSimActiveForQ(currentQ.id)}
                           style={{
                             background: 'linear-gradient(135deg, #14452F 0%, #0F3323 100%)',
-                            border: '1.5px solid #10B981',
+                            border: '1.8px solid #FDE68A',
                             borderRadius: '8px',
                             padding: '3px 12px',
                             color: '#FFFFFF',
@@ -853,7 +871,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                           width: '100%',
                           borderRadius: '12px',
                           overflow: 'hidden',
-                          border: '2px solid #14452F',
+                          border: '2px solid #D4AF37',
                           background: '#F8FAFC',
                           position: 'relative',
                           boxShadow: '0 4px 16px rgba(20, 69, 47, 0.1)',
@@ -879,7 +897,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                     <div
                       style={{
                         background: '#FFFFFF',
-                        border: '1.5px solid #14452F',
+                        border: '1.5px solid rgba(212, 175, 55, 0.6)',
                         borderRadius: '10px',
                         padding: '6px 12px',
                         flexShrink: 0,
@@ -887,7 +905,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-                        <span style={{ fontSize: '16px', fontWeight: 900, color: '#14452F' }}>
+                        <span style={{ fontSize: '16px', fontWeight: 900, color: '#F8FAFC' }}>
                           🔬 Interactive Comparative Specimen Station:
                         </span>
                         <div style={{ display: 'flex', gap: '8px' }}>
@@ -957,7 +975,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                       </div>
                     </div>
                   ) : (
-                    <div style={{ background: '#FFFFFF', border: '1.5px solid #14452F', borderRadius: '10px', padding: '6px 12px', flexShrink: 0 }}>
+                    <div style={{ background: '#FFFFFF', border: '1.5px solid rgba(212, 175, 55, 0.6)', borderRadius: '10px', padding: '6px 12px', flexShrink: 0 }}>
                       <span style={{ fontSize: '16px', color: '#1B4D3E', fontWeight: 700 }}>
                         🔍 <strong>Inquiry Focus:</strong> {currentQ.title} · Observe the anatomical details shown in the 70% viewport above.
                       </span>
@@ -987,7 +1005,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                 {currentQ.id === 2 ? (
                   <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, justifyContent: 'space-between' }}>
                     <div>
-                      <h2 style={{ margin: '0 0 2px 0', fontSize: '18px', fontWeight: 900, color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif' }}>
+                      <h2 style={{ margin: '0 0 2px 0', fontSize: '18px', fontWeight: 900, color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                         {currentQ.title}
                       </h2>
                       <p style={{ margin: '0 0 4px 0', fontSize: '16px', color: '#2D5A43', fontWeight: 600, lineHeight: 1.25 }}>
@@ -999,14 +1017,14 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                       <button
                         type="button"
                         onClick={handleResetVenn}
-                        style={{ background: '#FAF8F2', border: '1.5px solid #14452F', borderRadius: '6px', padding: '2px 8px', fontSize: '16px', fontWeight: 800, cursor: 'pointer' }}
+                        style={{ background: 'rgba(15, 23, 42, 0.50)', border: '1.5px solid rgba(212, 175, 55, 0.6)', borderRadius: '6px', padding: '2px 8px', fontSize: '16px', fontWeight: 800, cursor: 'pointer' }}
                       >
                         Reset
                       </button>
                       <button
                         type="button"
                         onClick={handleCheckVenn}
-                        style={{ background: '#14452F', color: '#FFFFFF', border: '1.5px solid #10B981', borderRadius: '6px', padding: '2px 10px', fontSize: '16px', fontWeight: 900, cursor: 'pointer' }}
+                        style={{ background: '#14452F', color: '#FFFFFF', border: '1.8px solid #FDE68A', borderRadius: '6px', padding: '2px 10px', fontSize: '16px', fontWeight: 900, cursor: 'pointer' }}
                       >
                         Check Placements
                       </button>
@@ -1058,8 +1076,8 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                     </div>
 
                     {/* ANIMAL POOL */}
-                    <div style={{ background: '#FFFFFF', border: '1.5px solid #14452F', borderRadius: '8px', padding: '4px', marginTop: '4px' }}>
-                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#14452F', marginBottom: '2px' }}>
+                    <div style={{ background: '#FFFFFF', border: '1.5px solid rgba(212, 175, 55, 0.6)', borderRadius: '8px', padding: '4px', marginTop: '4px' }}>
+                      <div style={{ fontSize: '16px', fontWeight: 800, color: '#F8FAFC', marginBottom: '2px' }}>
                         Tap animal to place:
                       </div>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px' }}>
@@ -1069,7 +1087,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                             type="button"
                             onClick={() => handlePlaceVennAnimal(animal.id, animal.correctArea)}
                             style={{
-                              background: '#FAF8F2',
+                              background: 'rgba(15, 23, 42, 0.50)',
                               border: '1px solid #2D6A4F',
                               borderRadius: '5px',
                               padding: '2px 6px',
@@ -1089,7 +1107,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                   <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, justifyContent: 'space-between' }}>
                     {/* QUESTION HEADER & PROMPT */}
                     <div style={{ flexShrink: 0 }}>
-                      <h2 style={{ margin: '0 0 2px 0', fontSize: '18px', fontWeight: 900, color: '#0A3B24', lineHeight: 1.2, fontFamily: '"Fraunces", Georgia, serif' }}>
+                      <h2 style={{ margin: '0 0 2px 0', fontSize: '18px', fontWeight: 900, color: '#F8FAFC', lineHeight: 1.2, fontFamily: '"Fraunces", Georgia, serif' }}>
                         {currentQ.title}
                       </h2>
                       <p style={{ margin: '0 0 4px 0', fontSize: '16px', color: '#2D5A43', lineHeight: 1.25, fontWeight: 700 }}>
@@ -1097,7 +1115,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                       </p>
                     </div>
 
-                    <div style={{ fontSize: '16px', fontWeight: 900, color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif', marginBottom: '3px', flexShrink: 0 }}>
+                    <div style={{ fontSize: '16px', fontWeight: 900, color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif', marginBottom: '3px', flexShrink: 0 }}>
                       Select the accurate conclusion:
                     </div>
 
@@ -1253,8 +1271,8 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{ fontSize: '22px' }}>📖</span>
                 <div>
-                  <div style={{ fontSize: '20px', fontWeight: 900, color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif', lineHeight: 1.15 }}>
-                    NCERT Chapter 2 Essential Scientific Glossary
+                  <div style={{ fontSize: '20px', fontWeight: 900, color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif', lineHeight: 1.15 }}>
+                    Chapter 2 Essential Scientific Glossary
                   </div>
                   <div style={{ fontSize: '16px', color: '#2D6A4F', fontWeight: 700 }}>
                     Master key botanical terms, root architectures &amp; ecological adaptations
@@ -1294,13 +1312,13 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   style={{
                     background: '#FFFFFF',
-                    border: '1.5px solid #14452F',
+                    border: '1.5px solid rgba(212, 175, 55, 0.6)',
                     borderRadius: '8px',
                     padding: '5px 12px 5px 32px',
                     fontSize: '16px',
                     fontWeight: 700,
                     outline: 'none',
-                    color: '#14452F',
+                    color: '#F8FAFC',
                     width: '180px',
                     fontFamily: "'Outfit', sans-serif"
                   }}
@@ -1351,7 +1369,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '6px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
                       <span style={{ fontSize: '22px' }}>{k.icon}</span>
-                      <span style={{ fontSize: '18px', fontWeight: 900, color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif' }}>
+                      <span style={{ fontSize: '18px', fontWeight: 900, color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                         {k.term}
                       </span>
                     </div>
@@ -1401,7 +1419,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                       <span>Pronounce</span>
                     </button>
                     <span style={{ fontSize: '16px', color: '#16A34A', fontWeight: 800 }}>
-                      ✓ NCERT Core
+                      ✓ Core
                     </span>
                   </div>
                 </div>
@@ -1420,7 +1438,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                 flexShrink: 0
               }}
             >
-              <div style={{ fontSize: '16px', color: '#14452F', fontWeight: 800, fontFamily: "'Outfit', sans-serif" }}>
+              <div style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: 800, fontFamily: "'Outfit', sans-serif" }}>
                 Showing {filteredKeywords.length > 0 ? currentGlossaryPage * GLOSSARY_PER_PAGE + 1 : 0}–{Math.min((currentGlossaryPage + 1) * GLOSSARY_PER_PAGE, filteredKeywords.length)} of {filteredKeywords.length} terms
               </div>
 
@@ -1525,7 +1543,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{ fontSize: '24px' }}>👩‍🔬</span>
                 <div>
-                  <div style={{ fontSize: '20px', fontWeight: 900, color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif', lineHeight: 1.15 }}>
+                  <div style={{ fontSize: '20px', fontWeight: 900, color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif', lineHeight: 1.15 }}>
                     Eminent Contemporary Indian Biologists &amp; Field Ecologists
                   </div>
                   <div style={{ fontSize: '16px', color: '#2D6A4F', fontWeight: 700 }}>
@@ -1537,7 +1555,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                 style={{
                   background: '#EAF7EE',
                   color: '#065F46',
-                  border: '1.5px solid #10B981',
+                  border: '1.8px solid #FDE68A',
                   padding: '4px 12px',
                   borderRadius: '10px',
                   fontSize: '16px',
@@ -1570,7 +1588,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ fontSize: '19px', fontWeight: 900, color: '#0A3B24', fontFamily: '"Fraunces", Georgia, serif' }}>
+                    <div style={{ fontSize: '19px', fontWeight: 900, color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                       🧑‍🔬 {b.name}
                     </div>
                     <button
@@ -1601,11 +1619,11 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '4px', borderTop: '1px solid rgba(45, 106, 79, 0.15)' }}>
-                    <span style={{ background: '#FAF8F2', border: '1px solid #2D6A4F', padding: '1px 8px', borderRadius: '6px', fontSize: '16px', fontWeight: 800, color: '#14452F' }}>
+                    <span style={{ background: 'rgba(15, 23, 42, 0.50)', border: '1px solid #2D6A4F', padding: '1px 8px', borderRadius: '6px', fontSize: '16px', fontWeight: 800, color: '#F8FAFC' }}>
                       🇮🇳 National Conservation Impact
                     </span>
                     <span style={{ fontSize: '16px', color: '#16A34A', fontWeight: 800 }}>
-                      ✓ NCERT Reference
+                      ✓ Reference
                     </span>
                   </div>
                 </div>
@@ -1654,7 +1672,7 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
             boxShadow: '0 2px 8px rgba(20, 69, 47, 0.25)'
           }}
         >
-          ✓ Complete 10-Question NCERT Learning Assessment
+          ✓ Complete 10-Question Learning Assessment
         </div>
 
         <button

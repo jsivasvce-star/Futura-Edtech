@@ -727,7 +727,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Outfit:wght@700;800;900&family=JetBrains+Mono:wght@700;800&display=swap');
 
         .detective-tool-tab {
-          background: #FAF8F2;
+          background: rgba(250, 248, 242, 0.55); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
           border: 2px solid #14452F;
           color: #14452F;
           font-size: 16px;
@@ -879,8 +879,8 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F0E4 50%, #ECE4D0 100%)',
-          border: '2.5px solid #14452F',
+          background: 'rgba(250, 248, 242, 0.55)',
+          border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           padding: '0.45rem 1.4rem 0.4rem',
           boxShadow: '0 16px 40px rgba(20, 69, 47, 0.15)',
@@ -910,8 +910,8 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
             <button
               onClick={onBackToDashboard}
               style={{
-                background: '#FAF8F2',
-                border: '2px solid #14452F',
+                background: 'rgba(250, 248, 242, 0.55)',
+                border: '2px solid rgba(20, 69, 47, 0.5)',
                 color: '#14452F',
                 borderRadius: '12px',
                 padding: '5px 14px',
@@ -1007,7 +1007,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                 <div
                   key={plant.id}
                   style={{
-                    background: '#FAF8F2',
+                    background: 'rgba(250, 248, 242, 0.55)',
                     border: `2.4px solid ${isSolved ? '#059669' : '#14452F'}`,
                     borderRadius: '18px',
                     padding: '0.75rem 1rem',
@@ -1064,7 +1064,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                       height: '215px',
                       background: 'linear-gradient(180deg, #FFFFFF 0%, #F0FDF4 100%)',
                       borderRadius: '14px',
-                      border: '2px solid #14452F',
+                      border: '2px solid rgba(20, 69, 47, 0.5)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -1388,8 +1388,8 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
           minHeight: 0,
           display: 'flex',
           flexDirection: 'column',
-          background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%)',
-          border: '2.5px solid #14452F',
+          background: 'rgba(250, 248, 242, 0.55)',
+          border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           boxShadow: '0 16px 40px rgba(20, 69, 47, 0.15)',
           boxSizing: 'border-box',
@@ -1401,7 +1401,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '0.55rem 1.2rem',
-            background: '#FAF8F2',
+            background: 'rgba(250, 248, 242, 0.55)',
             borderBottom: '2.5px solid rgba(20, 69, 47, 0.2)'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -1411,8 +1411,8 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                   playSound('click');
                 }}
                 style={{
-                  background: '#FAF8F2',
-                  border: '2px solid #14452F',
+                  background: 'rgba(250, 248, 242, 0.55)',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   color: '#14452F',
                   borderRadius: '10px',
                   padding: '5px 12px',
@@ -1509,8 +1509,8 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
               <div style={{
                 display: 'flex',
                 gap: '8px',
-                background: '#FAF8F2',
-                border: '2px solid #14452F',
+                background: 'rgba(250, 248, 242, 0.55)',
+                border: '2px solid rgba(20, 69, 47, 0.5)',
                 borderRadius: '14px',
                 padding: '5px 8px'
               }}>
@@ -1533,9 +1533,9 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                 flex: 1,
                 minHeight: 0,
                 position: 'relative',
-                background: 'radial-gradient(circle at 50% 45%, #FFFFFF 0%, #FAF8F2 65%, #EBE3CF 100%)',
+                background: 'radial-gradient(circle at 50% 45%, rgba(255,255,255,0.7) 0%, rgba(250,248,242,0.5) 65%, rgba(235,227,207,0.4) 100%)',
                 borderRadius: '20px',
-                border: '2.5px solid #14452F',
+                border: '2.5px solid rgba(20, 69, 47, 0.5)',
                 overflow: 'hidden',
                 display: 'flex',
                 flexDirection: 'column',
@@ -1882,7 +1882,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                           left: '14px',
                           background: 'rgba(255, 255, 255, 0.94)',
                           backdropFilter: 'blur(8px)',
-                          border: '2px solid #14452F',
+                          border: '2px solid rgba(20, 69, 47, 0.5)',
                           borderRadius: '16px',
                           padding: '10px 14px',
                           boxShadow: '0 8px 24px rgba(20, 69, 47, 0.14)',
@@ -2050,7 +2050,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
 
                 {/* 3. BOTTOM TACTILE CONTROL STRIP (Always In View) */}
                 <div style={{
-                  background: '#FAF8F2',
+                  background: 'rgba(250, 248, 242, 0.55)',
                   borderTop: '2px solid rgba(20, 69, 47, 0.2)',
                   padding: '8px 14px',
                   display: 'flex',
@@ -2205,8 +2205,8 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
             {/* RIGHT 32%: COMPACT DETECTIVE EVIDENCE LOG (ZERO SCROLLBAR)                */}
             {/* ========================================================================= */}
             <div style={{
-              background: '#FAF8F2',
-              border: '2.5px solid #14452F',
+              background: 'rgba(250, 248, 242, 0.55)',
+              border: '2.5px solid rgba(20, 69, 47, 0.5)',
               borderRadius: '20px',
               padding: '12px 14px',
               display: 'flex',
@@ -2418,7 +2418,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
           zIndex: 50
         }}>
           <div style={{
-            background: '#FAF8F2',
+            background: 'rgba(250, 248, 242, 0.55)',
             border: '2.8px solid #14452F',
             borderRadius: '24px',
             padding: '2rem',
@@ -2469,8 +2469,8 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                   setSelectedPlantId('plantA');
                 }}
                 style={{
-                  background: '#FAF8F2',
-                  border: '2px solid #14452F',
+                  background: 'rgba(250, 248, 242, 0.55)',
+                  border: '2px solid rgba(20, 69, 47, 0.5)',
                   color: '#14452F',
                   padding: '10px 18px',
                   borderRadius: '12px',

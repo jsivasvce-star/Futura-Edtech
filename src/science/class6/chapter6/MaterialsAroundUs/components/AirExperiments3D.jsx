@@ -14,7 +14,7 @@ export default function AirExperiments3D({ onComplete }) {
       <div style={{ display: 'flex', gap: '16px', width: '100%', height: '100%', minHeight: '340px' }}>
          {/* Experiment 1 */}
          <div style={{ flex: 1, background: '#fff', borderRadius: '16px', border: '1.5px solid var(--line, #ccc)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ padding: '8px 12px', background: 'var(--amber-pale, #f8f9fa)', borderBottom: '1px solid var(--line, #ccc)', fontSize: '1.2rem', fontWeight: '900', color: 'var(--ink-soft, #333)' }}>
+            <div style={{ padding: '12px 16px', background: 'var(--amber-pale, #f8f9fa)', borderBottom: '1px solid var(--line, #ccc)', fontSize: '26px', fontWeight: '900', color: '#3B2A1F', fontFamily: '"Merriweather", "Georgia", serif' }}>
                1. Air occupies space
             </div>
             <motion.div 
@@ -39,7 +39,7 @@ export default function AirExperiments3D({ onComplete }) {
 
          {/* Experiment 2 */}
          <div style={{ flex: 1, background: '#fff', borderRadius: '16px', border: '1.5px solid var(--line, #ccc)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ padding: '8px 12px', background: 'var(--amber-pale, #f8f9fa)', borderBottom: '1px solid var(--line, #ccc)', fontSize: '1.2rem', fontWeight: '900', color: 'var(--ink-soft, #333)' }}>
+            <div style={{ padding: '12px 16px', background: 'var(--amber-pale, #f8f9fa)', borderBottom: '1px solid var(--line, #ccc)', fontSize: '26px', fontWeight: '900', color: '#3B2A1F', fontFamily: '"Merriweather", "Georgia", serif' }}>
                2. Air has mass
             </div>
             <motion.div 

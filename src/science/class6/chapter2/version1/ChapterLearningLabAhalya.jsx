@@ -796,8 +796,8 @@ function IntroStoryteller({ onComplete, onBack }) {
       title: "🌱 The Nature Walk Begins",
       text: "Dr Raghu and Maniram chacha lead the students out of the classroom into a nearby patch of forest. The air is fresh and filled with the scent of wet soil and leaves. The kids are excited to discover what secrets the nature walk holds!",
       dialogues: [
-        { character: "Dr. Raghu",      avatar: "👨‍🔬", text: "Observe carefully — every living thing has a story to tell!",    top: '5%', left: '3%',  side: 'left' },
-        { character: "Maniram Chacha", avatar: "🧑‍🌾", text: "I know every tree here, children. Come, follow me!",            top: '5%', right: '3%', side: 'right' }
+        { character: "Dr. Raghu",      avatar: "👨‍🔬", text: "Observe carefully — every living thing has a story to tell!",    top: '5.2rem', left: '3%',  side: 'left' },
+        { character: "Maniram Chacha", avatar: "🧑‍🌾", text: "I know every tree here, children. Come, follow me!",            top: '5.2rem', right: '3%', side: 'right' }
       ]
     },
     {
@@ -805,16 +805,16 @@ function IntroStoryteller({ onComplete, onBack }) {
       title: "🌿 Observing Diverse Plants",
       text: "As they walk, they observe different kinds of plants. Some are small herbs growing close to the ground, others are bushy shrubs, and some are grand trees with thick trunks. Dr Raghu reminds them to observe gently without plucking any leaves or flowers.",
       dialogues: [
-        { character: "Dr. Raghu", avatar: "👨‍🔬", text: "This herb has a soft green stem. Can you feel how different it is from this woody shrub?", top: '5%', right: '3%', side: 'right' }
+        { character: "Dr. Raghu", avatar: "👨‍🔬", text: "This herb has a soft green stem. Can you feel how different it is from this woody shrub?", top: '5.2rem', right: '3%', side: 'right' }
       ]
     },
     {
-      img: "/Scene5_realistic.png",
+      img: "/Scene3_realistic.png",
       title: "🐦 Listening to Bird Calls",
       text: "Hush! Maniram chacha stops and cups his ear. He mimics a bird song, and suddenly, a beautiful response is heard from the tree canopy! The students learn to listen to the unique calls of birds and respect their home.",
       dialogues: [
-        { character: "Maniram Chacha", avatar: "🧑‍🌾", text: "Shhh... *cups ear* ...listen... coo-koo-koo! 🎵",              top: '11%', left: '19%', side: 'right' },
-        { character: "Priya",          avatar: "👧",    text: "It replied! The bird actually replied to chacha!",             top: '4%',  right: '3%', side: 'right' }
+        { character: "Maniram Chacha", avatar: "🧑‍🌾", text: "Shhh... *cups ear* ...listen... coo-koo-koo! 🎵",              top: '5.2rem', left: '3%',  side: 'left' },
+        { character: "Priya",          avatar: "👧",    text: "It replied! The bird actually replied to chacha!",             top: '5.2rem', right: '3%', side: 'right' }
       ]
     },
     {
@@ -822,24 +822,24 @@ function IntroStoryteller({ onComplete, onBack }) {
       title: "🦋 Fluttering Insects & Butterflies",
       text: "Near a cluster of wildflowers, butterflies and bees are busy gathering nectar. The students watch closely as a butterfly unfolds its delicate wings. They notice how insects play a vital role in helping flowers grow.",
       dialogues: [
-        { character: "Arjun",     avatar: "👦",    text: "Sir! That butterfly keeps visiting the same flower again and again!", top: '4%', right: '3%', side: 'right' },
-        { character: "Dr. Raghu", avatar: "👨‍🔬", text: "Yes — that is pollination! Insects help flowers reproduce.",         top: '4%', left: '3%',  side: 'left' }
+        { character: "Arjun",     avatar: "👦",    text: "Sir! That butterfly keeps visiting the same flower again and again!", top: '5.2rem', right: '3%', side: 'right' },
+        { character: "Dr. Raghu", avatar: "👨‍🔬", text: "Yes — that is pollination! Insects help flowers reproduce.",         top: '5.2rem', left: '3%',  side: 'left' }
       ]
     },
     {
-      img: "/Scene3_realistic.png",
+      img: "/Scene4_realistic.png",
       title: "🐒 Animals in the Canopy",
       text: "A rustle in the branches reveals monkeys jumping from limb to limb, and a tiny squirrel scurrying down a trunk. The forest is alive with creatures of all sizes, each adapted to live in their part of the woods.",
       dialogues: [
-        { character: "Maniram Chacha", avatar: "🧑‍🌾", text: "See that monkey? The treetops are its home — its habitat!", top: '4%', right: '3%', side: 'right' }
+        { character: "Maniram Chacha", avatar: "🧑‍🌾", text: "See that monkey? The treetops are its home — its habitat!", top: '5.2rem', right: '3%', side: 'right' }
       ]
     },
     {
-      img: "/Scene6_realistic.png",
+      img: "/Scene6_color_matched.png",
       title: "📋 Recording in the Table",
       text: "The students take out their notebooks to record their observations in Tables 2.1 and 2.2. They separate their findings into plants and animals, marveling at the incredible diversity of life surrounding them!",
       dialogues: [
-        { character: "Dr. Raghu", avatar: "👨‍🔬", text: "Table 2.1 for plants, Table 2.2 for animals. Compare your findings with your classmates!", top: '5%', right: '3%', side: 'right' }
+        { character: "Dr. Raghu", avatar: "👨‍🔬", text: "Table 2.1 for plants, Table 2.2 for animals. Compare your findings with your classmates!", top: '5.2rem', right: '3%', side: 'right' }
       ]
     }
   ];
@@ -851,9 +851,25 @@ function IntroStoryteller({ onComplete, onBack }) {
   const getSingleLineCues = (text) => {
     const rawSentences = text.match(/[^.!?]+[.!?]+/g) || [text];
     const rawCues = [];
+    let pending = '';
     rawSentences.forEach(s => {
       const trimmed = s.trim();
-      if (trimmed.length > 55 && trimmed.includes(' — ')) {
+      if (pending) {
+        const combined = pending + ' ' + trimmed;
+        pending = '';
+        if (combined.length > 55 && combined.includes(' — ')) {
+          const parts = combined.split(' — ');
+          parts.forEach(p => rawCues.push(p.trim()));
+        } else if (combined.length > 65 && combined.includes(', and ')) {
+          const parts = combined.split(', and ');
+          rawCues.push(parts[0].trim());
+          rawCues.push('and ' + parts[1].trim());
+        } else {
+          rawCues.push(combined);
+        }
+      } else if (trimmed.length < 20) {
+        pending = trimmed;
+      } else if (trimmed.length > 55 && trimmed.includes(' — ')) {
         const parts = trimmed.split(' — ');
         parts.forEach(p => rawCues.push(p.trim()));
       } else if (trimmed.length > 65 && trimmed.includes(', and ')) {
@@ -884,6 +900,7 @@ function IntroStoryteller({ onComplete, onBack }) {
         rawCues.push(trimmed);
       }
     });
+    if (pending) rawCues.push(pending);
 
     const spokenText = text.replace(/—/g, ', ').replace(/\s+/g, ' ').trim();
     let searchPos = 0;
@@ -987,37 +1004,32 @@ function IntroStoryteller({ onComplete, onBack }) {
     };
   }, [currentScene, isNarrationMuted, allWords, scene.text]);
 
+  // Robust subtitle auto-advance timer cycling every 4.0s so subtitles never freeze
   useEffect(() => {
-    if (isNarrationMuted && cues.length > 1) {
+    if (cues.length > 1) {
       const interval = setInterval(() => {
         setSubtitleIndex(prev => (prev + 1) % cues.length);
-      }, 4200);
+      }, 4000);
       return () => clearInterval(interval);
     }
-  }, [isNarrationMuted, cues.length, currentScene]);
+  }, [cues.length, currentScene]);
 
+  // Auto-staggered dialogue popups so they always appear reliably
   useEffect(() => {
-    let active = true;
-
-    if (dialogueStep < scene.dialogues.length) {
-      const dlg = scene.dialogues[dialogueStep];
-      const nextStep = () => {
-        if (active) {
-          clearTimeout(dialogueTimerRef.current);
-          setDialogueStep(p => p + 1);
-        }
-      };
-
-      // Character dialogue boxes display silently (no character voice audio) for natural reading duration
-      const readingDuration = Math.max(2200, Math.min(3800, dlg.text.length * 45));
-      dialogueTimerRef.current = setTimeout(nextStep, readingDuration);
-    }
+    setDialogueStep(0);
+    const t1 = setTimeout(() => {
+      setDialogueStep(1);
+    }, 700);
+    const t2 = setTimeout(() => {
+      setDialogueStep(2);
+    }, 2600);
 
     return () => {
-      active = false;
+      clearTimeout(t1);
+      clearTimeout(t2);
       clearTimeout(dialogueTimerRef.current);
     };
-  }, [dialogueStep, currentScene]);
+  }, [currentScene]);
 
   const toggleMute = (e) => {
     e.stopPropagation();
@@ -1079,8 +1091,8 @@ function IntroStoryteller({ onComplete, onBack }) {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            transition: 'opacity 0.5s ease',
-            opacity: imgLoaded ? 1 : 0
+            transition: 'opacity 0.4s ease',
+            opacity: 1
           }}
         />
 
@@ -1093,7 +1105,7 @@ function IntroStoryteller({ onComplete, onBack }) {
         }} />
 
         {scene.dialogues.map((dlg, idx) => {
-          const isVisible = dialogueStep >= idx && imgLoaded;
+          const isVisible = dialogueStep > idx;
           return (
             <div key={idx} style={{
               position: 'absolute',
@@ -1193,7 +1205,7 @@ function IntroStoryteller({ onComplete, onBack }) {
       <div
         style={{
           position: 'absolute',
-          bottom: '2.4rem',
+          bottom: '4.8rem',
           left: 0,
           right: 0,
           width: '100%',

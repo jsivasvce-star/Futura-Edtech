@@ -208,165 +208,210 @@ export default function Stage2_Conclusion({ onComplete }) {
         </div>
       </div>
 
-      {/* Right Side: Guide & Control Panel (Enlarged Spacious Typography) */}
-      <div style={{ 
-        flex: '1.05', 
-        background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
-        border: '1.5px solid #FDE68A', 
-        borderRadius: '24px', 
-        padding: '1.5rem 1.65rem', 
-        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)', 
-        display: 'flex', 
-        flexDirection: 'column', 
-        justifyContent: 'space-between', 
-        gap: '1.15rem', 
-        minWidth: 0, 
-        height: '100%', 
-        boxSizing: 'border-box', 
-        overflowY: 'auto' 
-      }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
-          {/* Kicker Badge */}
-          <div style={{ 
-            display: 'inline-flex', 
-            alignItems: 'center', 
-            gap: '0.5rem', 
-            background: '#DCFCE7', 
-            padding: '0.45rem 1rem', 
-            borderRadius: '20px', 
-            fontSize: '0.94rem', 
-            fontWeight: 900, 
-            color: '#15803D', 
-            border: '1.5px solid #86EFAC',
-            letterSpacing: '0.5px',
-            alignSelf: 'flex-start'
-          }}>
-            <Sparkles size={18} color="#16A34A" /> EXPERIMENT CONCLUSION
-          </div>
-
-          <h2 style={{ 
-            fontSize: '1.75rem', 
-            fontWeight: 900, 
-            color: '#78350F', 
-            margin: 0,
-            lineHeight: 1.25,
-            letterSpacing: '-0.02em'
-          }}>
-            How a Compass Works
-          </h2>
-
-          <p style={{ 
-            fontSize: '1.12rem', 
-            color: '#065F46', 
-            lineHeight: 1.7, 
-            fontWeight: 700,
-            margin: 0
-          }}>
-            A freely suspended bar magnet or compass needle always comes to rest pointing in the <strong style={{ color: '#D97706', fontWeight: 900 }}>North-South direction</strong>. This fundamental property has guided navigators, explorers, and travelers across the globe for centuries!
-          </p>
-
-          {/* Finding Directions with the Sun Info Card */}
-          <div style={{
-            background: '#DCFCE7',
-            border: '1.5px solid #86EFAC',
-            borderRadius: '20px',
+      {/* Right Side: Scientific Finding & Interactive Controls */}
+      <div className="stage-right-column">
+        {/* Container 1: Scientific Finding & Explanation */}
+        <div 
+          className="stage-container-1"
+          style={{
+            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+            border: '1.5px solid #FDE68A',
+            borderRadius: '24px',
+            boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
             padding: '1.25rem 1.45rem',
             display: 'flex',
-            alignItems: 'flex-start',
-            gap: '0.95rem',
-            boxShadow: '0 4px 14px rgba(16, 185, 129, 0.12)'
-          }}>
-            <span style={{ fontSize: '1.75rem', lineHeight: 1 }}>☀️</span>
-            <p style={{ 
-              margin: 0, 
-              fontSize: '1.06rem', 
-              color: '#166534', 
-              lineHeight: 1.65, 
-              fontWeight: 700 
-            }}>
-              Using the Sun's sunrise or sunset position gives an approximate East-West reference line, allowing us to accurately identify the North-South axis along which the magnet settles.
-            </p>
-          </div>
-
-          {/* Interactive Controls Card */}
-          <div style={{ 
-            background: 'rgba(255, 255, 255, 0.96)', 
-            border: '1.5px solid #FDE68A', 
-            borderRadius: '20px', 
-            padding: '1.3rem 1.45rem',
-            boxShadow: '0 4px 14px rgba(217, 119, 6, 0.05)'
-          }}>
-            <div style={{ fontSize: '1.05rem', fontWeight: 900, color: '#78350F', letterSpacing: '0.5px', marginBottom: '0.65rem', display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-              <Compass size={20} color="#D97706" /> COMPASS CONTROLS
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            gap: '0.85rem',
+            boxSizing: 'border-box'
+          }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                <Sparkles size={24} color="#D97706" />
+                <h3 style={{ margin: 0, fontSize: '19.5px', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.01em' }}>
+                  Stage 2: Conclusion
+                </h3>
+              </div>
+              <span style={{
+                background: 'rgba(217, 119, 6, 0.12)',
+                color: '#B45309',
+                fontWeight: 900,
+                fontSize: '0.88rem',
+                padding: '0.3rem 0.8rem',
+                borderRadius: '12px',
+                border: '1.5px solid #FDE68A'
+              }}>
+                Scientific Law
+              </span>
             </div>
 
-            <p style={{ fontSize: '1.05rem', color: '#065F46', fontWeight: 700, margin: '0 0 0.95rem 0', lineHeight: 1.55 }}>
-              Tap the button or hover over the compass dial to deflect the magnetized needle:
-            </p>
+            {/* Bullet Points with Dot Bullets and Brown Text */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '0.75rem',
+                  background: '#FFFFFF',
+                  border: '1.5px solid #FDE68A',
+                  borderRadius: '16px',
+                  padding: '0.85rem 1.1rem',
+                  boxShadow: '0 2px 8px rgba(217, 119, 6, 0.05)'
+                }}
+              >
+                <span style={{
+                  width: '9px',
+                  height: '9px',
+                  borderRadius: '50%',
+                  background: '#D97706',
+                  marginTop: '0.48rem',
+                  flexShrink: 0
+                }} />
+                <p style={{
+                  margin: 0,
+                  fontSize: '17.5px',
+                  color: '#78350F',
+                  fontWeight: 600,
+                  lineHeight: 1.5
+                }}>
+                  A freely suspended bar magnet or compass needle always comes to rest pointing along the North-South direction.
+                </p>
+              </div>
 
-            <button
-              onClick={handleDeflect}
-              disabled={isSpinning || isPausedAtNorth}
-              className={!isSpinning && !isPausedAtNorth ? 'gold-glow-btn' : ''}
-              style={{
-                width: '100%',
-                padding: '1.1rem 1.4rem',
-                fontSize: '1.18rem',
-                fontWeight: 900,
-                borderRadius: '18px',
-                background: isSpinning || isPausedAtNorth ? '#CBD5E1' : undefined,
-                color: isSpinning || isPausedAtNorth ? '#64748B' : '#FFFFFF',
-                border: isSpinning || isPausedAtNorth ? 'none' : undefined,
-                cursor: isSpinning || isPausedAtNorth ? 'not-allowed' : 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.7rem',
-                boxShadow: isSpinning || isPausedAtNorth ? 'none' : undefined,
-                transition: 'all 0.2s ease',
-                fontFamily: "'Inter', system-ui, -apple-system, sans-serif"
-              }}
-            >
-              <RotateCw size={22} className={isSpinning ? 'spin-anim' : ''} />
-              {isSpinning
-                ? 'Deflecting Needle...'
-                : isPausedAtNorth
-                ? 'Aligned to North-South (Observing...)'
-                : 'Deflect Compass Needle'}
-            </button>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '0.75rem',
+                  background: '#FFFFFF',
+                  border: '1.5px solid #FDE68A',
+                  borderRadius: '16px',
+                  padding: '0.85rem 1.1rem',
+                  boxShadow: '0 2px 8px rgba(217, 119, 6, 0.05)'
+                }}
+              >
+                <span style={{
+                  width: '9px',
+                  height: '9px',
+                  borderRadius: '50%',
+                  background: '#D97706',
+                  marginTop: '0.48rem',
+                  flexShrink: 0
+                }} />
+                <p style={{
+                  margin: 0,
+                  fontSize: '17.5px',
+                  color: '#78350F',
+                  fontWeight: 600,
+                  lineHeight: 1.5
+                }}>
+                  Using the Sun's position provides an approximate East-West line to accurately identify the magnet's North-South axis.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.85)',
+            border: '1.5px solid #FDE68A',
+            borderRadius: '16px',
+            padding: '0.75rem 1rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.65rem'
+          }}>
+            <span style={{ fontSize: '1.4rem' }}>🧭</span>
+            <span style={{ fontSize: '16.5px', color: '#78350F', fontWeight: 700 }}>
+              This directional property has guided global navigation for centuries.
+            </span>
           </div>
         </div>
 
-        {/* Bottom Navigation */}
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          borderTop: '1.5px solid #E2E8F0',
-          paddingTop: '0.9rem'
-        }}>
-          <span style={{ fontSize: '1.02rem', color: '#047857', fontWeight: 800, fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}>
-            Stage 2 of 2 ● ●
-          </span>
+        {/* Container 2: Compass Controls & Action */}
+        <div 
+          className="stage-container-2"
+          style={{
+            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+            border: '1.5px solid #FDE68A',
+            borderRadius: '24px',
+            boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
+            padding: '1.25rem 1.45rem',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            gap: '0.85rem',
+            boxSizing: 'border-box'
+          }}
+        >
+          <div>
+            <div style={{ fontSize: '19.5px', fontWeight: 900, color: '#1E1B4B', letterSpacing: '-0.01em', marginBottom: '0.4rem', display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+              <Compass size={22} color="#D97706" /> Compass Deflection Test
+            </div>
+            <p style={{ fontSize: '17.5px', color: '#78350F', fontWeight: 600, margin: 0, lineHeight: 1.45 }}>
+              Tap below to deflect the compass needle and observe it oscillate back to the North-South axis:
+            </p>
+          </div>
 
           <button
-            onClick={onComplete}
-            className="gold-glow-btn"
+            onClick={handleDeflect}
+            disabled={isSpinning || isPausedAtNorth}
+            className={!isSpinning && !isPausedAtNorth ? 'gold-glow-btn' : ''}
             style={{
-              padding: '1.05rem 2.6rem',
-              fontSize: '1.18rem',
+              width: '100%',
+              padding: '0.8rem 1rem',
+              fontSize: '17.5px',
               fontWeight: 900,
-              borderRadius: '24px',
-              cursor: 'pointer',
+              borderRadius: '18px',
+              background: isSpinning || isPausedAtNorth ? '#CBD5E1' : undefined,
+              color: isSpinning || isPausedAtNorth ? '#64748B' : '#FFFFFF',
+              border: isSpinning || isPausedAtNorth ? 'none' : undefined,
+              cursor: isSpinning || isPausedAtNorth ? 'not-allowed' : 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.6rem',
-              transition: 'all 0.2s ease',
-              fontFamily: "'Inter', system-ui, -apple-system, sans-serif"
+              justifyContent: 'center',
+              gap: '0.65rem',
+              transition: 'all 0.2s ease'
             }}
           >
-            Proceed to Quiz <ArrowRight size={22} color="#FFFFFF" />
+            <RotateCw size={20} className={isSpinning ? 'spin-anim' : ''} />
+            {isSpinning
+              ? 'Deflecting Needle...'
+              : isPausedAtNorth
+              ? 'Aligned to North-South (Observing...)'
+              : 'Deflect Compass Needle'}
           </button>
+
+          {/* Bottom Navigation */}
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            paddingTop: '0.2rem'
+          }}>
+            <span style={{ fontSize: '0.95rem', color: '#78350F', fontWeight: 800 }}>
+              Stage 2 of 2 ● ●
+            </span>
+
+            <button
+              onClick={onComplete}
+              className="gold-glow-btn"
+              style={{
+                padding: '0.8rem 2.2rem',
+                fontSize: '17.5px',
+                fontWeight: 900,
+                borderRadius: '24px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.6rem',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              Proceed to Quiz <ArrowRight size={20} color="#FFFFFF" />
+            </button>
+          </div>
         </div>
       </div>
     </div>

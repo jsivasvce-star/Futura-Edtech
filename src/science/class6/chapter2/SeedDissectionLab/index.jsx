@@ -496,8 +496,10 @@ export default function SeedDissectionLab({ onBackToDashboard, onNextActivity })
         }
 
         .bio-parchment-card {
-          background: linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 55%, #ECE5D5 100%);
-          border: 2px solid #194720;
+          background: rgba(250, 248, 242, 0.55);
+          backdrop-filter: blur(18px);
+          -webkit-backdrop-filter: blur(18px);
+          border: 2px solid rgba(25, 71, 32, 0.5);
           border-radius: 20px;
           box-shadow: 0 10px 28px rgba(15, 74, 50, 0.14), inset 0 0 0 2px rgba(45, 106, 79, 0.10);
           position: relative;

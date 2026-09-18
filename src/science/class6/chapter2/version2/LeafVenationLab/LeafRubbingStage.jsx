@@ -173,7 +173,7 @@ export default function LeafRubbingStage({ leaf }) {
               key={c.id}
               onClick={() => setCrayonColor(c.id)}
               style={{
-                background: crayonColor === c.id ? '#14452F' : '#FAF8F2',
+                background: crayonColor === c.id ? '#14452F' : 'rgba(250, 248, 242, 0.55)',
                 color: crayonColor === c.id ? '#FFFFFF' : '#14452F',
                 border: `2px solid ${c.id === '#27272A' ? '#14452F' : c.id}`,
                 padding: '4px 10px',
@@ -209,9 +209,9 @@ export default function LeafRubbingStage({ leaf }) {
           <button
             onClick={handleReset}
             style={{
-              background: '#FAF8F2',
+              background: 'rgba(250, 248, 242, 0.65)',
               color: '#14452F',
-              border: '2px solid #14452F',
+              border: '2px solid rgba(20, 69, 47, 0.5)',
               padding: '4px 10px',
               borderRadius: '10px',
               fontSize: '16px',

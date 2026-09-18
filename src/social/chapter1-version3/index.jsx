@@ -32,13 +32,13 @@ export default function LocatingPlacesActivity({ onBackToDashboard }) {
 
   const tabs = [
     { id: 1, title: 'Chapter Introduction', subtitle: 'Locating Places on the Earth', locked: false },
-    { id: 2, title: 'Finding Places with a Map', subtitle: 'Finding the Route', locked: currentStep < 2 },
-    { id: 3, title: 'Atlas Introduction', subtitle: 'A Collection of Maps', locked: currentStep < 3 },
-    { id: 4, title: 'Distance & Scale', subtitle: 'Shrinking the World', locked: currentStep < 4 },
-    { id: 5, title: 'Directions', subtitle: 'Using a Compass', locked: currentStep < 5 },
-    { id: 6, title: 'Symbols', subtitle: 'Understanding Map Symbols', locked: currentStep < 6 },
-    { id: 7, title: 'Coordinates', subtitle: 'Latitude, Longitude & the Grid', locked: currentStep < 7 },
-    { id: 8, title: 'Time Zones', subtitle: 'Locating Places on the Earth', locked: currentStep < 8 }
+    { id: 2, title: 'Finding Places with a Map', subtitle: 'Finding the Route', locked: false },
+    { id: 3, title: 'Atlas Introduction', subtitle: 'A Collection of Maps', locked: false },
+    { id: 4, title: 'Distance & Scale', subtitle: 'Shrinking the World', locked: false },
+    { id: 5, title: 'Directions', subtitle: 'Using a Compass', locked: false },
+    { id: 6, title: 'Symbols', subtitle: 'Understanding Map Symbols', locked: false },
+    { id: 7, title: 'Coordinates', subtitle: 'Latitude, Longitude & the Grid', locked: false },
+    { id: 8, title: 'Time Zones', subtitle: 'Locating Places on the Earth', locked: false }
   ];
 
   useEffect(() => {

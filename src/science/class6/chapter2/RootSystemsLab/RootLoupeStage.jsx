@@ -157,7 +157,7 @@ export default function RootLoupeStage({
                 rootLabAudio.playSwitch(isMuted);
               }}
               style={{
-                background: zoom === opt.level ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#FAF8F2',
+                background: zoom === opt.level ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'rgba(250, 248, 242, 0.55)',
                 color: zoom === opt.level ? '#FFFFFF' : '#14452F',
                 border: zoom === opt.level ? '1.5px solid #FCD34D' : '1.5px solid #14452F',
                 borderRadius: '8px',
@@ -190,7 +190,7 @@ export default function RootLoupeStage({
           overflow: 'hidden',
           background: 'linear-gradient(135deg, #FAF7EE 0%, #F4ECE0 45%, #E9DEC8 100%)',
           borderRadius: '16px',
-          border: '2.5px solid #14452F',
+          border: '2.5px solid rgba(20, 69, 47, 0.5)',
           boxShadow: 'inset 0 4px 18px rgba(20, 69, 47, 0.16)'
         }}
       >
@@ -431,7 +431,7 @@ export default function RootLoupeStage({
           color: '#14452F',
           padding: '8px 14px',
           borderRadius: '12px',
-          border: '2px solid #14452F',
+          border: '2px solid rgba(20, 69, 47, 0.5)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',

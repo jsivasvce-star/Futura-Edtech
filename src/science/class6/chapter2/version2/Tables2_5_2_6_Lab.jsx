@@ -50,34 +50,36 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
-      background: '#FAF8F2',
+      background: 'rgba(15, 23, 42, 0.50)',
+      backdropFilter: 'blur(18px)',
+      WebkitBackdropFilter: 'blur(18px)',
       borderRadius: '20px',
-      border: '2px solid #14452F',
+      border: '2px solid #D4AF37',
       padding: '16px 22px 14px',
       boxSizing: 'border-box',
       overflow: 'hidden',
-      boxShadow: '0 10px 30px rgba(20, 69, 47, 0.08)'
+      boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)'
     }}>
       {/* Header */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        borderBottom: '2px solid #14452F',
+        borderBottom: '2px solid rgba(212, 175, 55, 0.45)',
         paddingBottom: '12px',
         flexShrink: 0
       }}>
         <div>
-          <div style={{ fontSize: '16px', fontWeight: '900', letterSpacing: '0.06em', color: '#14452F', textTransform: 'uppercase', marginBottom: '3px' }}>
+          <div style={{ fontSize: '16px', fontWeight: '900', letterSpacing: '0.06em', color: '#FDE68A', textTransform: 'uppercase', marginBottom: '3px' }}>
             Activities 2.9 &amp; 2.10 · Observation Registers (Pages 22 &amp; 24)
           </div>
-          <h2 style={{ margin: 0, fontSize: '24px', fontWeight: '900', color: '#14452F', lineHeight: 1.2, fontFamily: '"Fraunces", Georgia, serif' }}>
-            📋 NCERT Observation Tables 2.5 &amp; 2.6
+          <h2 style={{ margin: 0, fontSize: '24px', fontWeight: '900', color: '#FBBF24', lineHeight: 1.2, fontFamily: '"Fraunces", Georgia, serif' }}>
+            📋 Observation Tables 2.5 &amp; 2.6
           </h2>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div style={{ display: 'flex', background: '#F5F1E5', padding: '4px', borderRadius: '12px', border: '1.8px solid #14452F', gap: '4px' }}>
+          <div style={{ display: 'flex', background: 'rgba(15, 23, 42, 0.45)', padding: '4px', borderRadius: '12px', border: '1.8px solid #D4AF37', gap: '4px' }}>
             <button
               onClick={() => setActiveTable('2.5')}
               style={{
@@ -87,7 +89,7 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
                 fontWeight: '800',
                 border: 'none',
                 cursor: 'pointer',
-                background: activeTable === '2.5' ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)' : 'transparent',
+                background: activeTable === '2.5' ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'transparent',
                 color: activeTable === '2.5' ? '#ffffff' : '#14452F',
                 transition: 'all 0.15s ease',
                 boxShadow: activeTable === '2.5' ? '0 2px 8px rgba(20, 69, 47, 0.3)' : 'none'
@@ -104,7 +106,7 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
                 fontWeight: '800',
                 border: 'none',
                 cursor: 'pointer',
-                background: activeTable === '2.6' ? 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)' : 'transparent',
+                background: activeTable === '2.6' ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'transparent',
                 color: activeTable === '2.6' ? '#ffffff' : '#14452F',
                 transition: 'all 0.15s ease',
                 boxShadow: activeTable === '2.6' ? '0 2px 8px rgba(20, 69, 47, 0.3)' : 'none'
@@ -125,7 +127,7 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
               alignItems: 'center',
               gap: '6px',
               padding: '7px 16px',
-              background: isSpeaking ? '#fee2e2' : '#FAF8F2',
+              background: isSpeaking ? '#fee2e2' : 'rgba(250, 248, 242, 0.55)',
               border: `1.8px solid ${isSpeaking ? '#ef4444' : '#14452F'}`,
               borderRadius: '10px',
               color: isSpeaking ? '#991b1b' : '#14452F',
@@ -149,10 +151,10 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
         {activeTable === '2.5' && (
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', overflow: 'hidden' }}>
             <div style={{ marginBottom: '8px', flexShrink: 0 }}>
-              <div style={{ fontSize: '16px', fontWeight: '800', color: '#14452F', textTransform: 'uppercase' }}>
+              <div style={{ fontSize: '16px', fontWeight: '800', color: '#F8FAFC', textTransform: 'uppercase' }}>
                 Activity 2.9 · Page 22
               </div>
-              <h3 style={{ margin: 0, fontSize: '20px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif' }}>
+              <h3 style={{ margin: 0, fontSize: '20px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                 Table 2.5: Movements in Animals and Their Body Parts Involved
               </h3>
             </div>
@@ -160,8 +162,8 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
             <div style={{
               flex: 1,
               minHeight: 0,
-              background: '#FAF8F2',
-              border: '2px solid #14452F',
+              background: 'rgba(15, 23, 42, 0.50)',
+              border: '2px solid #D4AF37',
               borderRadius: '14px',
               overflowY: 'auto',
               display: 'flex',
@@ -169,7 +171,7 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
             }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '16px' }}>
                 <thead>
-                  <tr style={{ background: '#F5F1E5', borderBottom: '2px solid #14452F', color: '#14452F', fontWeight: '900', fontSize: '16px' }}>
+                  <tr style={{ background: 'rgba(15, 23, 42, 0.45)', borderBottom: '2px solid rgba(212, 175, 55, 0.45)', color: '#F8FAFC', fontWeight: '900', fontSize: '16px' }}>
                     <th style={{ padding: '10px 14px', width: '70px' }}>S.No.</th>
                     <th style={{ padding: '10px 14px' }}>Name of Animal</th>
                     <th style={{ padding: '10px 14px' }}>Type of Movement</th>
@@ -179,11 +181,11 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
                 </thead>
                 <tbody>
                   {TABLE_2_5_DATA.map((row) => (
-                    <tr key={row.sNo} style={{ borderBottom: '1px solid #EDE7D8', background: row.sNo % 2 === 0 ? '#F5F1E5' : '#FAF8F2' }}>
-                      <td style={{ padding: '10px 14px', fontWeight: '800', color: '#14452F' }}>{row.sNo}</td>
-                      <td style={{ padding: '10px 14px', fontWeight: '900', color: '#14452F' }}>{row.animal}</td>
+                    <tr key={row.sNo} style={{ borderBottom: '1px solid #EDE7D8', background: row.sNo % 2 === 0 ? '#F5F1E5' : 'rgba(250, 248, 242, 0.55)' }}>
+                      <td style={{ padding: '10px 14px', fontWeight: '800', color: '#F8FAFC' }}>{row.sNo}</td>
+                      <td style={{ padding: '10px 14px', fontWeight: '900', color: '#F8FAFC' }}>{row.animal}</td>
                       <td style={{ padding: '10px 14px', color: '#2A3B2C', fontWeight: '600' }}>{row.movement}</td>
-                      <td style={{ padding: '10px 14px', color: '#14452F', fontWeight: '700' }}>{row.bodyPart}</td>
+                      <td style={{ padding: '10px 14px', color: '#F8FAFC', fontWeight: '700' }}>{row.bodyPart}</td>
                       <td style={{ padding: '10px 14px', color: '#2A3B2C', fontWeight: '600' }}>{row.habit}</td>
                     </tr>
                   ))}
@@ -191,8 +193,8 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
               </table>
             </div>
 
-            <div style={{ background: '#F5F1E5', border: '1.8px solid #14452F', borderRadius: '12px', padding: '10px 16px', marginTop: '10px', flexShrink: 0 }}>
-              <span style={{ fontSize: '16px', fontWeight: '900', color: '#14452F' }}>
+            <div style={{ background: 'rgba(15, 23, 42, 0.45)', border: '1.8px solid #D4AF37', borderRadius: '12px', padding: '10px 16px', marginTop: '10px', flexShrink: 0 }}>
+              <span style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC' }}>
                 📌 Textbook Inference (Page 22):
               </span>
               <span style={{ fontSize: '16px', color: '#2A3B2C', marginLeft: '8px', fontWeight: '700', lineHeight: 1.5 }}>
@@ -208,10 +210,10 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
         {activeTable === '2.6' && (
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', overflow: 'hidden' }}>
             <div style={{ marginBottom: '8px', flexShrink: 0 }}>
-              <div style={{ fontSize: '16px', fontWeight: '800', color: '#14452F', textTransform: 'uppercase' }}>
+              <div style={{ fontSize: '16px', fontWeight: '800', color: '#F8FAFC', textTransform: 'uppercase' }}>
                 Activity 2.10 · Page 24
               </div>
-              <h3 style={{ margin: 0, fontSize: '20px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif' }}>
+              <h3 style={{ margin: 0, fontSize: '20px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                 Table 2.6: Animals and Plants Found in Different Surroundings
               </h3>
             </div>
@@ -229,8 +231,8 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
                 <div
                   key={eIdx}
                   style={{
-                    background: '#FAF8F2',
-                    border: '2px solid #14452F',
+                    background: 'rgba(15, 23, 42, 0.50)',
+                    border: '2px solid #D4AF37',
                     borderRadius: '14px',
                     padding: '14px 18px',
                     display: 'flex',
@@ -241,36 +243,36 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
                 >
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                      <h4 style={{ margin: 0, fontSize: '20px', fontWeight: '900', color: '#14452F', fontFamily: '"Fraunces", Georgia, serif' }}>
+                      <h4 style={{ margin: 0, fontSize: '20px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
                         {env.region}
                       </h4>
-                      <span style={{ fontSize: '16px', background: '#EDE7D8', color: '#14452F', fontWeight: '800', padding: '3px 10px', borderRadius: '8px', border: '1px solid #14452F' }}>
+                      <span style={{ fontSize: '16px', background: '#EDE7D8', color: '#F8FAFC', fontWeight: '800', padding: '3px 10px', borderRadius: '8px', border: '1px solid #14452F' }}>
                         Biome {eIdx + 1}
                       </span>
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '6px' }}>
                       <div style={{ fontSize: '16px', color: '#2A3B2C', lineHeight: 1.45 }}>
-                        <b style={{ color: '#14452F' }}>Flora (Plants):</b> {env.plants}
+                        <b style={{ color: '#F8FAFC' }}>Flora (Plants):</b> {env.plants}
                       </div>
                       <div style={{ fontSize: '16px', color: '#2A3B2C', lineHeight: 1.45 }}>
-                        <b style={{ color: '#14452F' }}>Fauna (Animals):</b> {env.animals}
+                        <b style={{ color: '#F8FAFC' }}>Fauna (Animals):</b> {env.animals}
                       </div>
                       <div style={{ fontSize: '16px', color: '#2A3B2C', fontStyle: 'italic', lineHeight: 1.4 }}>
-                        <b style={{ color: '#14452F' }}>Environmental Condition:</b> {env.conditions}
+                        <b style={{ color: '#F8FAFC' }}>Environmental Condition:</b> {env.conditions}
                       </div>
                     </div>
                   </div>
 
-                  <div style={{ background: '#EDE7D8', border: '1px solid #14452F', padding: '5px 12px', borderRadius: '8px', fontSize: '16px', color: '#14452F', fontWeight: '800', marginTop: '10px', alignSelf: 'flex-start' }}>
-                    ✓ NCERT Biome Register Entry
+                  <div style={{ background: '#EDE7D8', border: '1px solid #14452F', padding: '5px 12px', borderRadius: '8px', fontSize: '16px', color: '#F8FAFC', fontWeight: '800', marginTop: '10px', alignSelf: 'flex-start' }}>
+                    ✓ Biome Register Entry
                   </div>
                 </div>
               ))}
             </div>
 
-            <div style={{ background: '#F5F1E5', border: '1.8px solid #14452F', borderRadius: '12px', padding: '10px 16px', marginTop: '10px', flexShrink: 0 }}>
-              <span style={{ fontSize: '16px', fontWeight: '900', color: '#14452F' }}>
+            <div style={{ background: 'rgba(15, 23, 42, 0.45)', border: '1.8px solid #D4AF37', borderRadius: '12px', padding: '10px 16px', marginTop: '10px', flexShrink: 0 }}>
+              <span style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC' }}>
                 📌 Textbook Inference (Page 24):
               </span>
               <span style={{ fontSize: '16px', color: '#2A3B2C', marginLeft: '8px', fontWeight: '700', lineHeight: 1.5 }}>
@@ -286,7 +288,7 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        borderTop: '2px solid #14452F',
+        borderTop: '2px solid rgba(212, 175, 55, 0.45)',
         paddingTop: '10px',
         flexShrink: 0
       }}>
@@ -297,10 +299,10 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
             alignItems: 'center',
             gap: '8px',
             padding: '8px 16px',
-            background: '#FAF8F2',
-            border: '1.8px solid #14452F',
+            background: 'rgba(15, 23, 42, 0.50)',
+            border: '1.8px solid #D4AF37',
             borderRadius: '10px',
-            color: '#14452F',
+            color: '#F8FAFC',
             fontWeight: '800',
             fontSize: '16px',
             cursor: 'pointer',
@@ -311,8 +313,8 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
           <span>Back to Field Mission</span>
         </button>
 
-        <div style={{ fontSize: '16px', color: '#14452F', fontWeight: '800' }}>
-          ✓ Verified NCERT Tables 2.5 &amp; 2.6 Data Registries
+        <div style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: '800' }}>
+          ✓ Verified Tables 2.5 &amp; 2.6 Data Registries
         </div>
 
         <button
@@ -322,12 +324,12 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
             alignItems: 'center',
             gap: '8px',
             padding: '8px 20px',
-            background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
             borderRadius: '10px',
             color: '#ffffff',
             fontWeight: '900',
             fontSize: '16px',
-            border: '1.5px solid #10B981',
+            border: '1.8px solid #FDE68A',
             cursor: 'pointer',
             boxShadow: '0 4px 14px rgba(20, 69, 47, 0.35)'
           }}
