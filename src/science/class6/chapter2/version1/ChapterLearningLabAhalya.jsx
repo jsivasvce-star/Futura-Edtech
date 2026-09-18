@@ -54,7 +54,6 @@ import AnimalHabitatExplorerActivity from "./AnimalHabitatExplorer";
 import FoodTestingActivity from "../../chapter3/FoodTesting";
 import FatTestingActivity from "../../chapter3/FatTesting";
 import ProteinTestingActivity from "../../chapter3/ProteinTesting";
-import IntroStoryteller from "./IntroStoryteller";
 
 import fishImg from "../../../../assets/specimens/fish.png";
 import pigeonImg from "../../../../assets/specimens/pigeon.png";
@@ -710,6 +709,656 @@ function speakWithProfile(text, characterName, muteFlag, onEndCallback, onErrorC
 
   window.speechSynthesis.speak(utt);
   return utt;
+}
+
+function speakIndianMaleNarrator(text, muteFlag, onEndCallback, onErrorCallback, onBoundaryCallback) {
+  if (muteFlag || !('speechSynthesis' in window)) return null;
+  window.speechSynthesis.cancel();
+
+  // Natural pacing & educational pauses for Class 6 students
+  let spokenText = text
+    .replace(/—/g, ', ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  const utt = new SpeechSynthesisUtterance(spokenText);
+  utt.pitch = 0.98; // Natural, resonant adult male educator pitch
+  utt.rate = 0.85;  // Slower, clear natural pacing for Class 6 comprehension (0.85x)
+  utt.volume = 1.0;
+
+  if (onEndCallback) utt.onend = onEndCallback;
+  if (onErrorCallback) utt.onerror = onErrorCallback;
+  if (onBoundaryCallback) {
+    utt.onboundary = (e) => {
+      if (e.name === 'word') {
+        onBoundaryCallback(e);
+      }
+    };
+  }
+
+  const voices = window.speechSynthesis.getVoices();
+  if (voices.length > 0) {
+    // 1. Prioritize Indian English male voices (en-IN, hi-IN, Prabhat, Ravi, etc.)
+    const indianVoices = voices.filter(v => 
+      (v.lang && (v.lang.toLowerCase().includes('en-in') || v.lang.toLowerCase().includes('hi-in') || v.lang.toLowerCase().includes('in'))) ||
+      /india|indian|hindi|prabhat|ravi|veena|heera|neerja/i.test(v.name)
+    );
+
+    let matchedVoice = null;
+    if (indianVoices.length > 0) {
+      // Find explicitly male Indian voice first (e.g. Prabhat, Ravi, Male)
+      matchedVoice = indianVoices.find(v => /prabhat|ravi|male/i.test(v.name) && !/female|heera|neerja|veena/i.test(v.name));
+      if (!matchedVoice) {
+        matchedVoice = indianVoices.find(v => !/female|heera|neerja|veena/i.test(v.name));
+      }
+      if (!matchedVoice) {
+        matchedVoice = indianVoices[0];
+      }
+    }
+
+    // 2. Fallback to natural clear English male narrator voice if no Indian voice is installed
+    if (!matchedVoice) {
+      const englishMaleVoices = voices.filter(v => 
+        v.lang && v.lang.startsWith('en') &&
+        /male|david|mark|guy|james|george|alex|daniel|natural|online/i.test(v.name) &&
+        !/female|zira|samantha|victoria|susan|karen|jessica|jenny/i.test(v.name)
+      );
+      matchedVoice = englishMaleVoices[0] || voices.find(v => v.lang && v.lang.startsWith('en')) || voices[0];
+    }
+
+    if (matchedVoice) {
+      utt.voice = matchedVoice;
+    }
+  }
+
+  window.speechSynthesis.speak(utt);
+  return utt;
+}
+
+function IntroStoryteller({ onComplete, onBack }) {
+  const [currentScene, setCurrentScene] = useState(0);
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [dialogueStep, setDialogueStep] = useState(0);
+  const [isNarrationMuted, setIsNarrationMuted] = useState(false);
+  const [activeWordIndex, setActiveWordIndex] = useState(null);
+  const dialogueTimerRef = useRef(null);
+  const { theme = 'dark' } = useTheme() || {};
+
+  const scenes = [
+    {
+      img: "/Scene0_realistic.png",
+      title: "🌿 Welcome to the Living World",
+      text: "Welcome to Chapter 2: Diversity in the Living World! Step outside and look around — every tree, flower, bird, and insect is a unique living being. In this chapter, we embark on a nature walk to discover the incredible variety of life on Earth.",
+      dialogues: []
+    },
+    {
+      img: "/Scene1_realistic.png",
+      title: "🌱 The Nature Walk Begins",
+      text: "Dr Raghu and Maniram chacha lead the students out of the classroom into a nearby patch of forest. The air is fresh and filled with the scent of wet soil and leaves. The kids are excited to discover what secrets the nature walk holds!",
+      dialogues: [
+        { character: "Dr. Raghu",      avatar: "👨‍🔬", text: "Observe carefully — every living thing has a story to tell!",    top: '5%', left: '3%',  side: 'left' },
+        { character: "Maniram Chacha", avatar: "🧑‍🌾", text: "I know every tree here, children. Come, follow me!",            top: '5%', right: '3%', side: 'right' }
+      ]
+    },
+    {
+      img: "/Scene2_realistic.png",
+      title: "🌿 Observing Diverse Plants",
+      text: "As they walk, they observe different kinds of plants. Some are small herbs growing close to the ground, others are bushy shrubs, and some are grand trees with thick trunks. Dr Raghu reminds them to observe gently without plucking any leaves or flowers.",
+      dialogues: [
+        { character: "Dr. Raghu", avatar: "👨‍🔬", text: "This herb has a soft green stem. Can you feel how different it is from this woody shrub?", top: '5%', right: '3%', side: 'right' }
+      ]
+    },
+    {
+      img: "/Scene5_realistic.png",
+      title: "🐦 Listening to Bird Calls",
+      text: "Hush! Maniram chacha stops and cups his ear. He mimics a bird song, and suddenly, a beautiful response is heard from the tree canopy! The students learn to listen to the unique calls of birds and respect their home.",
+      dialogues: [
+        { character: "Maniram Chacha", avatar: "🧑‍🌾", text: "Shhh... *cups ear* ...listen... coo-koo-koo! 🎵",              top: '11%', left: '19%', side: 'right' },
+        { character: "Priya",          avatar: "👧",    text: "It replied! The bird actually replied to chacha!",             top: '4%',  right: '3%', side: 'right' }
+      ]
+    },
+    {
+      img: sce5Img,
+      title: "🦋 Fluttering Insects & Butterflies",
+      text: "Near a cluster of wildflowers, butterflies and bees are busy gathering nectar. The students watch closely as a butterfly unfolds its delicate wings. They notice how insects play a vital role in helping flowers grow.",
+      dialogues: [
+        { character: "Arjun",     avatar: "👦",    text: "Sir! That butterfly keeps visiting the same flower again and again!", top: '4%', right: '3%', side: 'right' },
+        { character: "Dr. Raghu", avatar: "👨‍🔬", text: "Yes — that is pollination! Insects help flowers reproduce.",         top: '4%', left: '3%',  side: 'left' }
+      ]
+    },
+    {
+      img: "/Scene3_realistic.png",
+      title: "🐒 Animals in the Canopy",
+      text: "A rustle in the branches reveals monkeys jumping from limb to limb, and a tiny squirrel scurrying down a trunk. The forest is alive with creatures of all sizes, each adapted to live in their part of the woods.",
+      dialogues: [
+        { character: "Maniram Chacha", avatar: "🧑‍🌾", text: "See that monkey? The treetops are its home — its habitat!", top: '4%', right: '3%', side: 'right' }
+      ]
+    },
+    {
+      img: "/Scene6_realistic.png",
+      title: "📋 Recording in the Table",
+      text: "The students take out their notebooks to record their observations in Tables 2.1 and 2.2. They separate their findings into plants and animals, marveling at the incredible diversity of life surrounding them!",
+      dialogues: [
+        { character: "Dr. Raghu", avatar: "👨‍🔬", text: "Table 2.1 for plants, Table 2.2 for animals. Compare your findings with your classmates!", top: '5%', right: '3%', side: 'right' }
+      ]
+    }
+  ];
+
+  const totalScenes = scenes.length;
+  const scene = scenes[currentScene];
+  const [subtitleIndex, setSubtitleIndex] = useState(0);
+
+  const getSingleLineCues = (text) => {
+    const rawSentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+    const rawCues = [];
+    rawSentences.forEach(s => {
+      const trimmed = s.trim();
+      if (trimmed.length > 55 && trimmed.includes(' — ')) {
+        const parts = trimmed.split(' — ');
+        parts.forEach(p => rawCues.push(p.trim()));
+      } else if (trimmed.length > 65 && trimmed.includes(', and ')) {
+        const parts = trimmed.split(', and ');
+        rawCues.push(parts[0].trim());
+        rawCues.push('and ' + parts[1].trim());
+      } else if (trimmed.length > 65 && trimmed.includes(' into a ')) {
+        const parts = trimmed.split(' into a ');
+        rawCues.push(parts[0].trim());
+        rawCues.push('into a ' + parts[1].trim());
+      } else if (trimmed.length > 65 && trimmed.includes(' without ')) {
+        const parts = trimmed.split(' without ');
+        rawCues.push(parts[0].trim());
+        rawCues.push('without ' + parts[1].trim());
+      } else if (trimmed.length > 65 && trimmed.includes(', others are ')) {
+        const parts = trimmed.split(', others are ');
+        rawCues.push(parts[0].trim());
+        rawCues.push('others are ' + parts[1].trim());
+      } else if (trimmed.length > 65 && trimmed.includes(', each ')) {
+        const parts = trimmed.split(', each ');
+        rawCues.push(parts[0].trim());
+        rawCues.push('each ' + parts[1].trim());
+      } else if (trimmed.length > 65 && trimmed.includes(', marveling ')) {
+        const parts = trimmed.split(', marveling ');
+        rawCues.push(parts[0].trim());
+        rawCues.push('marveling ' + parts[1].trim());
+      } else {
+        rawCues.push(trimmed);
+      }
+    });
+
+    const spokenText = text.replace(/—/g, ', ').replace(/\s+/g, ' ').trim();
+    let searchPos = 0;
+    let globalWordCounter = 0;
+
+    const structuredCues = rawCues.map((cueText, cueIdx) => {
+      const wordTokens = cueText.split(/\s+/).filter(Boolean);
+      const words = wordTokens.map((w, wIdxInCue) => {
+        const cleanWord = w.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+        let foundIndex = spokenText.toLowerCase().indexOf(cleanWord, searchPos);
+        if (foundIndex === -1) {
+          foundIndex = searchPos;
+        }
+        searchPos = foundIndex + (cleanWord.length || 1);
+
+        return {
+          text: w,
+          clean: cleanWord,
+          cueIndex: cueIdx,
+          wordIndexInCue: wIdxInCue,
+          globalIndex: globalWordCounter++,
+          charStart: foundIndex,
+          charEnd: foundIndex + cleanWord.length
+        };
+      });
+
+      return {
+        text: cueText,
+        words
+      };
+    });
+
+    return structuredCues;
+  };
+
+  const cues = useMemo(() => getSingleLineCues(scene.text), [scene.text]);
+  const allWords = useMemo(() => cues.flatMap(c => c.words), [cues]);
+
+  useEffect(() => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    clearTimeout(dialogueTimerRef.current);
+    setDialogueStep(0);
+    setImgLoaded(false);
+    setActiveWordIndex(null);
+    setSubtitleIndex(0);
+
+    const handleBoundary = (event) => {
+      const charIdx = event.charIndex;
+      let matched = null;
+      for (let i = 0; i < allWords.length; i++) {
+        const w = allWords[i];
+        if (charIdx >= w.charStart && charIdx <= w.charEnd + 2) {
+          matched = w;
+          break;
+        }
+      }
+      if (!matched) {
+        matched = allWords.find((w, i) => {
+          const next = allWords[i + 1];
+          return charIdx >= w.charStart && (!next || charIdx < (next?.charStart || Infinity));
+        });
+      }
+      if (matched) {
+        setSubtitleIndex(matched.cueIndex);
+        setActiveWordIndex(matched.wordIndexInCue);
+      }
+    };
+
+    const handleSpeechEnd = () => {
+      setActiveWordIndex(null);
+    };
+
+    // Speak center narration with Indian male teacher voice and real-time word boundary sync
+    let speakTimer = null;
+    if (!isNarrationMuted && 'speechSynthesis' in window) {
+      speakTimer = setTimeout(() => {
+        const doSpeak = () => {
+          speakIndianMaleNarrator(
+            scene.text,
+            isNarrationMuted,
+            handleSpeechEnd,
+            handleSpeechEnd,
+            handleBoundary
+          );
+        };
+        const voices = window.speechSynthesis.getVoices();
+        if (voices.length > 0) {
+          doSpeak();
+        } else {
+          window.speechSynthesis.onvoiceschanged = () => { doSpeak(); };
+        }
+      }, 100);
+    }
+
+    return () => {
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      clearTimeout(dialogueTimerRef.current);
+      if (speakTimer) clearTimeout(speakTimer);
+    };
+  }, [currentScene, isNarrationMuted, allWords, scene.text]);
+
+  useEffect(() => {
+    if (isNarrationMuted && cues.length > 1) {
+      const interval = setInterval(() => {
+        setSubtitleIndex(prev => (prev + 1) % cues.length);
+      }, 4200);
+      return () => clearInterval(interval);
+    }
+  }, [isNarrationMuted, cues.length, currentScene]);
+
+  useEffect(() => {
+    let active = true;
+
+    if (dialogueStep < scene.dialogues.length) {
+      const dlg = scene.dialogues[dialogueStep];
+      const nextStep = () => {
+        if (active) {
+          clearTimeout(dialogueTimerRef.current);
+          setDialogueStep(p => p + 1);
+        }
+      };
+
+      // Character dialogue boxes display silently (no character voice audio) for natural reading duration
+      const readingDuration = Math.max(2200, Math.min(3800, dlg.text.length * 45));
+      dialogueTimerRef.current = setTimeout(nextStep, readingDuration);
+    }
+
+    return () => {
+      active = false;
+      clearTimeout(dialogueTimerRef.current);
+    };
+  }, [dialogueStep, currentScene]);
+
+  const toggleMute = (e) => {
+    e.stopPropagation();
+    setIsNarrationMuted(prev => {
+      if (!prev && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+      return !prev;
+    });
+  };
+
+  const handleNext = () => { if (currentScene < totalScenes - 1) setCurrentScene(prev => prev + 1); else if (onComplete) onComplete(); };
+  const handlePrev = () => { if (currentScene > 0) setCurrentScene(prev => prev - 1); };
+
+  return (
+    <div
+      style={{
+        position: 'relative',
+        width: '100vw',
+        height: '100vh',
+        borderRadius: 0,
+        overflow: 'hidden',
+        boxShadow: 'none',
+        background: '#0a1220',
+        cursor: 'default',
+        border: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+      <style>{`
+        @keyframes movieSubtitleFade {
+          0% {
+            opacity: 0;
+            transform: translateY(8px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+      
+      <div style={{
+        position: 'relative',
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 2
+      }}>
+        <img
+          key={scene.img}
+          src={scene.img}
+          alt={scene.title}
+          onLoad={() => setImgLoaded(true)}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            transition: 'opacity 0.5s ease',
+            opacity: imgLoaded ? 1 : 0
+          }}
+        />
+
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0) 25%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0.65) 78%, rgba(0,0,0,0.82) 100%)',
+          pointerEvents: 'none',
+          zIndex: 1
+        }} />
+
+        {scene.dialogues.map((dlg, idx) => {
+          const isVisible = dialogueStep >= idx && imgLoaded;
+          return (
+            <div key={idx} style={{
+              position: 'absolute',
+              top: dlg.top,
+              left: dlg.left,
+              right: dlg.right,
+              zIndex: 13,
+              width: '290px',
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateY(0) scale(1)' : 'translateY(14px) scale(0.92)',
+              transition: 'all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)',
+              pointerEvents: 'none'
+            }}>
+              <div style={{
+                position: 'relative',
+                background: theme === 'light' ? 'rgba(255, 255, 255, 0.96)' : 'rgba(10, 22, 40, 0.88)',
+                backdropFilter: 'blur(16px)',
+                border: theme === 'light' ? '1.5px solid rgba(5, 150, 105, 0.35)' : '1.5px solid rgba(52, 211, 153, 0.28)',
+                borderRadius: dlg.side === 'left' ? '4px 16px 16px 16px' : '16px 4px 16px 16px',
+                padding: '0.75rem 1rem',
+                boxShadow: theme === 'light' ? '0 10px 30px rgba(0,0,0,0.1)' : '0 10px 30px rgba(0,0,0,0.4)',
+                color: theme === 'light' ? '#0f172a' : '#ffffff'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.35rem' }}>
+                  <span style={{ fontSize: '1.15rem' }}>{dlg.avatar}</span>
+                  <span style={{
+                    fontSize: '0.85rem',
+                    fontWeight: '800',
+                    color: theme === 'light' ? '#059669' : '#34d399',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.06em'
+                  }}>
+                    {dlg.character}
+                  </span>
+                </div>
+                <p style={{
+                  margin: 0,
+                  fontSize: '0.96rem',
+                  color: theme === 'light' ? '#334155' : 'rgba(255,255,255,0.95)',
+                  lineHeight: '1.5',
+                  fontStyle: 'italic',
+                  fontWeight: '550'
+                }}>
+                  "{dlg.text}"
+                </p>
+
+                <div style={{
+                  position: 'absolute',
+                  bottom: '-8px',
+                  left: dlg.side === 'left' ? '20px' : 'auto',
+                  right: dlg.side === 'right' ? '20px' : 'auto',
+                  width: 0,
+                  height: 0,
+                  borderStyle: 'solid',
+                  borderWidth: '8px 8px 0 8px',
+                  borderColor: `${theme === 'light' ? 'rgba(255, 255, 255, 0.96)' : 'rgba(10, 22, 40, 0.88)'} transparent transparent transparent`,
+                }} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div style={{
+        position: 'absolute', top: '0.9rem', left: '0.9rem', zIndex: 12,
+        background: 'rgba(0,0,0,0.52)', backdropFilter: 'blur(10px)',
+        borderRadius: '8px', padding: '0.28rem 0.7rem',
+        fontSize: '0.64rem', fontWeight: '700', color: '#34d399',
+        textTransform: 'uppercase', letterSpacing: '0.1em'
+      }}>
+        Class 6 · Scene {currentScene + 1} of {totalScenes}
+      </div>
+
+      {onBack && (
+        <div style={{
+          position: 'absolute', bottom: '1.2rem', left: '1.2rem', zIndex: 15
+        }}>
+          <button 
+            onClick={(e) => { e.stopPropagation(); onBack(); }}
+            style={{
+              padding: '0.7rem 1.4rem', fontSize: '0.9rem', fontWeight: '700',
+              borderRadius: '8px', border: 'none',
+              background: '#10b981', color: '#fff',
+              backdropFilter: 'blur(12px)', cursor: 'pointer',
+              boxShadow: '0 4px 16px rgba(16, 185, 129, 0.4)', transition: 'all 0.2s',
+              display: 'flex', alignItems: 'center', gap: '0.5rem'
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = '#059669'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = '#10b981'; e.currentTarget.style.transform = 'translateY(0)'; }}
+          >
+            ← Back to Slogan
+          </button>
+        </div>
+      )}
+
+      {/* Real Movie-Style Subtitles (Center Bottom, Audio-Synced Word Highlight according to Scene) */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '2.4rem',
+          left: 0,
+          right: 0,
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 14,
+          pointerEvents: 'none',
+          padding: '0 1rem'
+        }}
+      >
+        <div
+          key={`sub-${currentScene}-${subtitleIndex}`}
+          style={{
+            maxWidth: '82vw',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            textAlign: 'center',
+            animation: 'movieSubtitleFade 0.35s ease-out'
+          }}
+        >
+          <div style={{
+            background: 'rgba(8, 20, 15, 0.84)',
+            backdropFilter: 'blur(16px)',
+            padding: '0.6rem 1.8rem',
+            borderRadius: '14px',
+            border: '1.5px solid rgba(16, 185, 129, 0.4)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.7)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '0.25rem'
+          }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}>
+              <span style={{
+                fontSize: '0.8rem',
+                fontWeight: '800',
+                color: '#34d399',
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase'
+              }}>
+                {scene.title}
+              </span>
+              {cues.length > 1 && (
+                <span style={{
+                  fontSize: '0.72rem',
+                  fontWeight: '700',
+                  color: 'rgba(255,255,255,0.55)'
+                }}>
+                  ({subtitleIndex + 1}/{cues.length})
+                </span>
+              )}
+            </div>
+            <p style={{
+              margin: 0,
+              fontSize: 'clamp(1.05rem, 1.8vw, 1.3rem)',
+              fontWeight: '600',
+              lineHeight: '1.48',
+              textAlign: 'center',
+              fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
+              letterSpacing: '0.012em'
+            }}>
+              {(cues[subtitleIndex]?.words || []).map((w, wIdx) => {
+                const isSpoken = activeWordIndex === wIdx;
+                return (
+                  <span
+                    key={wIdx}
+                    style={{
+                      display: 'inline-block',
+                      margin: '0 0.16em',
+                      color: isSpoken ? '#34d399' : '#ffffff',
+                      transition: 'color 0.12s ease, text-shadow 0.12s ease',
+                      textShadow: isSpoken
+                        ? '0 0 14px rgba(52, 211, 153, 0.9), 0 2px 4px rgba(0, 0, 0, 0.95)'
+                        : '0 2px 4px rgba(0, 0, 0, 0.85)'
+                    }}
+                  >
+                    {w.text}
+                  </span>
+                );
+              })}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Floating Scene Navigation Controls */}
+      <div style={{
+        position: 'absolute',
+        bottom: '1.2rem',
+        right: '4.8rem',
+        zIndex: 15,
+        display: 'flex',
+        gap: '0.65rem',
+        alignItems: 'center'
+      }}>
+        <button
+          onClick={(e) => { e.stopPropagation(); handlePrev(); }}
+          disabled={currentScene === 0}
+          style={{
+            padding: '0.55rem 1.15rem',
+            fontSize: '0.86rem',
+            fontWeight: '700',
+            borderRadius: '8px',
+            border: currentScene > 0 ? '1px solid rgba(255,255,255,0.25)' : '1px solid rgba(255,255,255,0.12)',
+            background: currentScene > 0
+              ? 'linear-gradient(135deg, #10b981, #059669)'
+              : 'rgba(0,0,0,0.35)',
+            color: currentScene === 0 ? 'rgba(255,255,255,0.35)' : '#ffffff',
+            backdropFilter: 'blur(10px)',
+            cursor: currentScene === 0 ? 'not-allowed' : 'pointer',
+            transition: 'all 0.2s ease',
+            boxShadow: currentScene > 0
+              ? '0 4px 14px rgba(16, 185, 129, 0.45)'
+              : 'none'
+          }}
+          onMouseEnter={(e) => {
+            if (currentScene > 0) {
+              e.currentTarget.style.background = '#059669';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (currentScene > 0) {
+              e.currentTarget.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }
+          }}
+        >
+          ← Prev
+        </button>
+        <button
+          onClick={(e) => { e.stopPropagation(); handleNext(); }}
+          style={{
+            padding: '0.55rem 1.3rem',
+            fontSize: '0.86rem',
+            fontWeight: '800',
+            borderRadius: '8px',
+            border: '1px solid rgba(255,255,255,0.25)',
+            background: currentScene === totalScenes - 1
+              ? 'linear-gradient(135deg, #059669, #34d399)'
+              : 'linear-gradient(135deg, #10b981, #059669)',
+            color: '#ffffff',
+            cursor: 'pointer',
+            boxShadow: '0 4px 16px rgba(16, 185, 129, 0.45)',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-2px)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+          }}
+        >
+          {currentScene === totalScenes - 1 ? 'Finish Story ✓' : 'Next Scene →'}
+        </button>
+      </div>
+    </div>
+  );
 }
 
 function VocabularyGlossary({ onMatchComplete }) {
