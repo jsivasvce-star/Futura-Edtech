@@ -16,6 +16,11 @@ import BacklightStage from './BacklightStage';
 import AnatomyStage from './AnatomyStage';
 import CompareStage from './CompareStage';
 import { venationAudio } from './venationAudio';
+import specimen01HibiscusBlended from './specimen_01_hibiscus_blended.png';
+import specimen02BananaBlended from './specimen_02_banana_blended.png';
+import specimen03GrassBlended from './specimen_03_grass_blended.png';
+import specimen06RoseBlended from './specimen_06_rose_blended.png';
+import specimen07CompareBlended from './specimen_07_compare_blended.png';
 
 // =========================================================================
 // FULLSCREEN SPECIMEN SLIDES (ACTIVITY 2.5) — EXACT 16:9 HD SPECIMENS
@@ -26,21 +31,21 @@ const VENATION_SPECIMEN_SLIDES = [
     num: '01',
     name: 'Hibiscus Leaf',
     venation: 'Reticulate',
-    image: '/activities/class6_chapter2/venation/specimen_01_hibiscus.png'
+    image: specimen01HibiscusBlended
   },
   {
     id: 2,
     num: '02',
     name: 'Banana Leaf',
     venation: 'Parallel',
-    image: '/activities/class6_chapter2/venation/specimen_02_banana.png'
+    image: specimen02BananaBlended
   },
   {
     id: 3,
     num: '03',
     name: 'Grass Leaf',
     venation: 'Parallel',
-    image: '/activities/class6_chapter2/venation/specimen_03_grass.png'
+    image: specimen03GrassBlended
   },
   {
     id: 4,
@@ -61,14 +66,14 @@ const VENATION_SPECIMEN_SLIDES = [
     num: '06',
     name: 'Rose Leaf',
     venation: 'Reticulate',
-    image: '/activities/class6_chapter2/venation/specimen_06_rose.png'
+    image: specimen06RoseBlended
   },
   {
     id: 7,
     num: '07',
     name: 'Different Leaves, Different Patterns',
     venation: 'Compare',
-    image: '/activities/class6_chapter2/venation/specimen_07_compare.png'
+    image: specimen07CompareBlended
   }
 ];
 
@@ -387,7 +392,16 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
 
         {/* Floating Bottom Left Control: Back */}
         <button
-          onClick={onPreviousPage || onBackToDashboard}
+          onClick={() => {
+            if (specimenIndex > 0) {
+              setSpecimenIndex(prev => prev - 1);
+              venationAudio.playSwitch();
+            } else if (onPreviousPage) {
+              onPreviousPage();
+            } else if (onBackToDashboard) {
+              onBackToDashboard();
+            }
+          }}
           style={{
             position: 'absolute',
             bottom: '22px',
@@ -434,7 +448,10 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
           {VENATION_SPECIMEN_SLIDES.map((s, idx) => (
             <button
               key={s.id}
-              onClick={() => setSpecimenIndex(idx)}
+              onClick={() => {
+                setSpecimenIndex(idx);
+                venationAudio.playSwitch();
+              }}
               style={{
                 width: idx === specimenIndex ? '28px' : '10px',
                 height: '10px',
@@ -458,6 +475,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
           onClick={() => {
             if (specimenIndex < VENATION_SPECIMEN_SLIDES.length - 1) {
               setSpecimenIndex(prev => prev + 1);
+              venationAudio.playSwitch();
             } else {
               setPhase('lab');
             }
@@ -490,82 +508,6 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
             <>Enter Activity 2.5 Lab <ArrowRight size={20} /></>
           )}
         </button>
-
-        {/* Floating Left Arrow */}
-        {specimenIndex > 0 && (
-          <button
-            onClick={() => setSpecimenIndex(prev => prev - 1)}
-            style={{
-              position: 'absolute',
-              left: '20px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              zIndex: 1010,
-              width: '54px',
-              height: '54px',
-              borderRadius: '50%',
-              background: 'rgba(6, 44, 28, 0.85)',
-              border: '2px solid #34D399',
-              color: '#FFFFFF',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              boxShadow: '0 6px 20px rgba(0,0,0,0.4)',
-              backdropFilter: 'blur(8px)',
-              transition: 'all 0.18s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)';
-              e.currentTarget.style.background = '#10B981';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
-              e.currentTarget.style.background = 'rgba(6, 44, 28, 0.85)';
-            }}
-            title="Previous Specimen"
-          >
-            <ArrowLeft size={26} />
-          </button>
-        )}
-
-        {/* Floating Right Arrow */}
-        {specimenIndex < VENATION_SPECIMEN_SLIDES.length - 1 && (
-          <button
-            onClick={() => setSpecimenIndex(prev => prev + 1)}
-            style={{
-              position: 'absolute',
-              right: '20px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              zIndex: 1010,
-              width: '54px',
-              height: '54px',
-              borderRadius: '50%',
-              background: 'rgba(6, 44, 28, 0.85)',
-              border: '2px solid #34D399',
-              color: '#FFFFFF',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              boxShadow: '0 6px 20px rgba(0,0,0,0.4)',
-              backdropFilter: 'blur(8px)',
-              transition: 'all 0.18s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)';
-              e.currentTarget.style.background = '#10B981';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
-              e.currentTarget.style.background = 'rgba(6, 44, 28, 0.85)';
-            }}
-            title="Next Specimen"
-          >
-            <ArrowRight size={26} />
-          </button>
-        )}
       </div>
     );
   }

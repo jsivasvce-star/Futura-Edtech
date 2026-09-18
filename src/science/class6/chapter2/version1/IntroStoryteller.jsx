@@ -127,7 +127,7 @@ function speakCharacterDialogue(character, text, muteFlag, onEndCallback) {
 
 export default function IntroStoryteller({ onComplete, onBack }) {
   const [currentScene, setCurrentScene] = useState(0);
-  const [imgLoaded, setImgLoaded] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(true);
   const [dialogueStep, setDialogueStep] = useState(0);
   const [isNarrationMuted, setIsNarrationMuted] = useState(false);
   const [activeWordIndex, setActiveWordIndex] = useState(null);
@@ -136,6 +136,7 @@ export default function IntroStoryteller({ onComplete, onBack }) {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const dialogueTimerRef = useRef(null);
+  const subtitleTimerRef = useRef(null);
   const { theme = 'light' } = useTheme() || {};
 
   const toggleFullscreen = () => {
@@ -168,8 +169,8 @@ export default function IntroStoryteller({ onComplete, onBack }) {
       title: "🌱 The Nature Walk Begins",
       text: "Dr Raghu and Maniram chacha lead the students out of the classroom into a nearby patch of forest. The air is fresh and filled with the scent of wet soil and leaves. The kids are excited to discover what secrets the nature walk holds!",
       dialogues: [
-        { character: "Dr. Raghu",      avatar: "👨‍🔬", text: "Observe carefully — every living thing has a story to tell!",    top: '5.5rem', left: '2.5rem',  side: 'left' },
-        { character: "Maniram Chacha", avatar: "🧑‍🌾", text: "I know every tree here, children. Come, follow me!",            top: '5.5rem', right: '2.5rem', side: 'right' }
+        { character: "Dr. Raghu",      avatar: "👨‍🔬", text: "Observe carefully — every living thing has a story to tell!",    top: '4.8rem', left: 'clamp(1rem, 2.5vw, 2.5rem)',  side: 'left' },
+        { character: "Maniram Chacha", avatar: "🧑‍🌾", text: "I know every tree here, children. Come, follow me!",            top: '4.8rem', right: 'clamp(1rem, 2.5vw, 2.5rem)', side: 'right' }
       ]
     },
     {
@@ -177,16 +178,16 @@ export default function IntroStoryteller({ onComplete, onBack }) {
       title: "🌿 Observing Diverse Plants",
       text: "As they walk, they observe different kinds of plants. Some are small herbs growing close to the ground, others are bushy shrubs, and some are grand trees with thick trunks. Dr Raghu reminds them to observe gently without plucking any leaves or flowers.",
       dialogues: [
-        { character: "Dr. Raghu", avatar: "👨‍🔬", text: "This herb has a soft green stem. Can you feel how different it is from this woody shrub?", top: '5.5rem', right: '2.5rem', side: 'right' }
+        { character: "Dr. Raghu", avatar: "👨‍🔬", text: "This herb has a soft green stem. Can you feel how different it is from this woody shrub?", top: '4.8rem', right: 'clamp(1rem, 2.5vw, 2.5rem)', side: 'right' }
       ]
     },
     {
-      img: "/Scene5_realistic.png",
+      img: "/Scene3_realistic.png",
       title: "🐦 Listening to Bird Calls",
       text: "Hush! Maniram chacha stops and cups his ear. He mimics a bird song, and suddenly, a beautiful response is heard from the tree canopy! The students learn to listen to the unique calls of birds and respect their home.",
       dialogues: [
-        { character: "Maniram Chacha", avatar: "🧑‍🌾", text: "Shhh... *cups ear* ...listen... coo-koo-koo! 🎵",              top: '5.5rem', left: '2.5rem',  side: 'left' },
-        { character: "Priya",          avatar: "👧",    text: "It replied! The bird actually replied to chacha!",             top: '5.5rem', right: '2.5rem', side: 'right' }
+        { character: "Maniram Chacha", avatar: "🧑‍🌾", text: "Shhh... *cups ear* ...listen... coo-koo-koo! 🎵",              top: '4.8rem', left: 'clamp(1rem, 2.5vw, 2.5rem)',  side: 'left' },
+        { character: "Priya",          avatar: "👧",    text: "It replied! The bird actually replied to chacha!",             top: '4.8rem', right: 'clamp(1rem, 2.5vw, 2.5rem)', side: 'right' }
       ]
     },
     {
@@ -194,24 +195,26 @@ export default function IntroStoryteller({ onComplete, onBack }) {
       title: "🦋 Fluttering Insects & Butterflies",
       text: "Near a cluster of wildflowers, butterflies and bees are busy gathering nectar. The students watch closely as a butterfly unfolds its delicate wings. They notice how insects play a vital role in helping flowers grow.",
       dialogues: [
-        { character: "Dr. Raghu", avatar: "👨‍🔬", text: "Insects help flowers reproduce — that is pollination!",               top: '5.5rem', left: '2.5rem',  side: 'left' },
-        { character: "Arjun",     avatar: "👦",    text: "Sir! That butterfly keeps visiting the same flower again and again!", top: '5.5rem', right: '2.5rem', side: 'right' }
+        { character: "Dr. Raghu", avatar: "👨‍🔬", text: "Insects help flowers reproduce — that is pollination!",               top: '4.8rem', left: 'clamp(1rem, 2.5vw, 2.5rem)',  side: 'left' },
+        { character: "Arjun",     avatar: "👦",    text: "Sir! That butterfly keeps visiting the same flower again and again!", top: '4.8rem', right: 'clamp(1rem, 2.5vw, 2.5rem)', side: 'right' }
       ]
     },
     {
-      img: "/Scene3_realistic.png",
-      title: "🐒 Animals in the Canopy",
-      text: "A rustle in the branches reveals monkeys jumping from limb to limb, and a tiny squirrel scurrying down a trunk. The forest is alive with creatures of all sizes, each adapted to live in their part of the woods.",
+      img: "/Scene4_realistic.png",
+      title: "🐒 Animals in the Canopy & Stream",
+      text: "A rustle in the branches reveals a monkey sitting in the trees, a kingfisher perched above the water, and a spotted deer drinking by the stream. The students learn that every creature has a unique habitat where it finds food, water, and shelter.",
       dialogues: [
-        { character: "Maniram Chacha", avatar: "🧑‍🌾", text: "See that monkey? The treetops are its home — its habitat!", top: '5.5rem', right: '2.5rem', side: 'right' }
+        { character: "Dr. Raghu",      avatar: "👨‍🔬", text: "Look through the binoculars — a monkey and a kingfisher! And a spotted deer by the river!", top: '4.8rem', left: 'clamp(1rem, 2.5vw, 2.5rem)', side: 'left' },
+        { character: "Maniram Chacha", avatar: "🧑‍🌾", text: "The treetops, riverbank, and forest floor are their habitats. Every animal has a home in nature.", top: '4.8rem', right: 'clamp(1rem, 2.5vw, 2.5rem)', side: 'right' }
       ]
     },
     {
-      img: "/Scene6_realistic.png",
+      img: "/Scene6_color_matched.png",
       title: "📋 Recording in the Table",
       text: "The students take out their notebooks to record their observations in Tables 2.1 and 2.2. They separate their findings into plants and animals, marveling at the incredible diversity of life surrounding them!",
       dialogues: [
-        { character: "Dr. Raghu", avatar: "👨‍🔬", text: "Table 2.1 for plants, Table 2.2 for animals. Compare your findings with your classmates!", top: '5.5rem', right: '2.5rem', side: 'right' }
+        { character: "Dr. Raghu",      avatar: "👨‍🔬", text: "Table 2.1 for plants, Table 2.2 for animals. Compare your findings with your classmates!", top: '4.8rem', left: 'clamp(1rem, 2.5vw, 2.5rem)', side: 'left' },
+        { character: "Maniram Chacha", avatar: "🧑‍🌾", text: "Every plant and animal has its special place here in nature.",                               top: '4.8rem', right: 'clamp(1rem, 2.5vw, 2.5rem)', side: 'right' }
       ]
     }
   ];
@@ -221,36 +224,34 @@ export default function IntroStoryteller({ onComplete, onBack }) {
 
   const getSingleLineCues = (text) => {
     const rawSentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-    const rawCues = [];
-    rawSentences.forEach(s => {
+    const mergedSentences = [];
+    let buffer = '';
+
+    rawSentences.forEach((s) => {
       const trimmed = s.trim();
-      if (trimmed.length > 55 && trimmed.includes(' — ')) {
+      // If a sentence is very short (e.g. "Hush!"), combine with next
+      if (buffer) {
+        buffer += ' ' + trimmed;
+        mergedSentences.push(buffer);
+        buffer = '';
+      } else if (trimmed.length < 16 && rawSentences.length > 1) {
+        buffer = trimmed;
+      } else {
+        mergedSentences.push(trimmed);
+      }
+    });
+    if (buffer) mergedSentences.push(buffer);
+
+    const rawCues = [];
+    mergedSentences.forEach(s => {
+      const trimmed = s.trim();
+      if (trimmed.length > 60 && trimmed.includes(' — ')) {
         const parts = trimmed.split(' — ');
-        parts.forEach(p => rawCues.push(p.trim()));
-      } else if (trimmed.length > 65 && trimmed.includes(', and ')) {
+        parts.forEach((p, idx) => rawCues.push(idx === 0 ? p.trim() + ' —' : p.trim()));
+      } else if (trimmed.length > 70 && trimmed.includes(', and ')) {
         const parts = trimmed.split(', and ');
-        rawCues.push(parts[0].trim());
+        rawCues.push(parts[0].trim() + ',');
         rawCues.push('and ' + parts[1].trim());
-      } else if (trimmed.length > 65 && trimmed.includes(' into a ')) {
-        const parts = trimmed.split(' into a ');
-        rawCues.push(parts[0].trim());
-        rawCues.push('into a ' + parts[1].trim());
-      } else if (trimmed.length > 65 && trimmed.includes(' without ')) {
-        const parts = trimmed.split(' without ');
-        rawCues.push(parts[0].trim());
-        rawCues.push('without ' + parts[1].trim());
-      } else if (trimmed.length > 65 && trimmed.includes(', others are ')) {
-        const parts = trimmed.split(', others are ');
-        rawCues.push(parts[0].trim());
-        rawCues.push('others are ' + parts[1].trim());
-      } else if (trimmed.length > 65 && trimmed.includes(', each ')) {
-        const parts = trimmed.split(', each ');
-        rawCues.push(parts[0].trim());
-        rawCues.push('each ' + parts[1].trim());
-      } else if (trimmed.length > 65 && trimmed.includes(', marveling ')) {
-        const parts = trimmed.split(', marveling ');
-        rawCues.push(parts[0].trim());
-        rawCues.push('marveling ' + parts[1].trim());
       } else {
         rawCues.push(trimmed);
       }
@@ -299,11 +300,40 @@ export default function IntroStoryteller({ onComplete, onBack }) {
       window.speechSynthesis.cancel();
     }
     clearTimeout(dialogueTimerRef.current);
+    clearTimeout(subtitleTimerRef.current);
     setDialogueStep(0);
-    setImgLoaded(false);
     setActiveWordIndex(null);
     setActiveSpeakingChar(null);
     setSubtitleIndex(0);
+
+    // Staggered dialogue reveal so popups are NEVER missing
+    if (scene.dialogues && scene.dialogues.length > 0) {
+      dialogueTimerRef.current = setTimeout(() => {
+        setDialogueStep(1);
+        if (scene.dialogues.length > 1) {
+          dialogueTimerRef.current = setTimeout(() => {
+            setDialogueStep(2);
+          }, 2800);
+        }
+      }, 900);
+    }
+
+    // Auto-advancing fallback for subtitles so subtitles NEVER get stuck on 1 word
+    const advanceCue = (targetIdx) => {
+      if (targetIdx < cues.length) {
+        setSubtitleIndex(targetIdx);
+        setActiveWordIndex(null);
+        const cueDuration = Math.max(3400, Math.min(5400, (cues[targetIdx]?.text || '').length * 58));
+        subtitleTimerRef.current = setTimeout(() => {
+          advanceCue(targetIdx + 1);
+        }, cueDuration);
+      }
+    };
+
+    const initialCueDuration = Math.max(3400, Math.min(5400, (cues[0]?.text || '').length * 58));
+    subtitleTimerRef.current = setTimeout(() => {
+      advanceCue(1);
+    }, initialCueDuration);
 
     const handleBoundary = (event) => {
       const charIdx = event.charIndex;
@@ -329,9 +359,8 @@ export default function IntroStoryteller({ onComplete, onBack }) {
 
     const handleSpeechEnd = () => {
       setActiveWordIndex(null);
-      // Trigger first dialogue if available
       if (scene.dialogues && scene.dialogues.length > 0) {
-        setDialogueStep(1);
+        setDialogueStep(Math.max(1, scene.dialogues.length));
       }
     };
 
@@ -354,71 +383,15 @@ export default function IntroStoryteller({ onComplete, onBack }) {
           window.speechSynthesis.onvoiceschanged = () => { doSpeak(); };
         }
       }, 150);
-    } else {
-      // If muted, advance dialogue step after a short reading period
-      speakTimer = setTimeout(() => {
-        if (scene.dialogues && scene.dialogues.length > 0) {
-          setDialogueStep(1);
-        }
-      }, 2500);
     }
 
     return () => {
       if ('speechSynthesis' in window) window.speechSynthesis.cancel();
       clearTimeout(dialogueTimerRef.current);
+      clearTimeout(subtitleTimerRef.current);
       if (speakTimer) clearTimeout(speakTimer);
     };
-  }, [currentScene, isNarrationMuted, allWords, scene.text]);
-
-  // Dialogue Step Progression & Character Voice
-  useEffect(() => {
-    let active = true;
-
-    if (dialogueStep > 0 && dialogueStep <= scene.dialogues.length) {
-      const dlgIndex = dialogueStep - 1;
-      const dlg = scene.dialogues[dlgIndex];
-
-      if (dlg) {
-        setActiveSpeakingChar(dlg.character);
-
-        // Speak the character's voice when dialogue bubble pops up
-        if (!isNarrationMuted && 'speechSynthesis' in window) {
-          speakCharacterDialogue(
-            dlg.character,
-            dlg.text,
-            isNarrationMuted,
-            () => {
-              if (active) {
-                setActiveSpeakingChar(null);
-                // Schedule next dialogue if there are more
-                if (dialogueStep < scene.dialogues.length) {
-                  dialogueTimerRef.current = setTimeout(() => {
-                    if (active) setDialogueStep(prev => prev + 1);
-                  }, 1200);
-                }
-              }
-            }
-          );
-        } else {
-          // Fallback reading timer if muted
-          const readingDuration = Math.max(3000, Math.min(4500, dlg.text.length * 55));
-          dialogueTimerRef.current = setTimeout(() => {
-            if (active) {
-              setActiveSpeakingChar(null);
-              if (dialogueStep < scene.dialogues.length) {
-                setDialogueStep(prev => prev + 1);
-              }
-            }
-          }, readingDuration);
-        }
-      }
-    }
-
-    return () => {
-      active = false;
-      clearTimeout(dialogueTimerRef.current);
-    };
-  }, [dialogueStep, scene.dialogues, isNarrationMuted]);
+  }, [currentScene, isNarrationMuted, allWords, scene.text, cues.length]);
 
   // Replay a specific character's dialogue voice
   const handlePlayCharacterDialogue = (e, dlg) => {
@@ -542,8 +515,8 @@ export default function IntroStoryteller({ onComplete, onBack }) {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            transition: 'opacity 0.5s ease',
-            opacity: imgLoaded ? 1 : 0
+            transition: 'opacity 0.4s ease',
+            opacity: 1
           }}
         />
 
@@ -551,14 +524,14 @@ export default function IntroStoryteller({ onComplete, onBack }) {
         <div style={{
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.05) 25%, rgba(0,0,0,0.15) 55%, rgba(0,0,0,0.65) 82%, rgba(0,0,0,0.85) 100%)',
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.05) 25%, rgba(0,0,0,0.15) 55%, rgba(0,0,0,0.65) 82%, rgba(0,0,0,0.88) 100%)',
           pointerEvents: 'none',
           zIndex: 1
         }} />
 
         {/* Character Dialogue Popups */}
         {scene.dialogues.map((dlg, idx) => {
-          const isVisible = dialogueStep > idx && imgLoaded;
+          const isVisible = dialogueStep > idx;
           const isCurrentlySpeaking = activeSpeakingChar === dlg.character;
 
           return (
@@ -566,14 +539,14 @@ export default function IntroStoryteller({ onComplete, onBack }) {
               key={`${currentScene}-dlg-${idx}`}
               style={{
                 position: 'absolute',
-                top: dlg.top,
-                left: dlg.left,
-                right: dlg.right,
+                top: dlg.top || '4.8rem',
+                left: dlg.left || (dlg.side === 'left' ? 'clamp(1rem, 2.5vw, 2.5rem)' : 'auto'),
+                right: dlg.right || (dlg.side === 'right' ? 'clamp(1rem, 2.5vw, 2.5rem)' : 'auto'),
                 zIndex: 13,
                 width: 'clamp(280px, 32vw, 360px)',
                 opacity: isVisible ? 1 : 0,
-                transform: isVisible ? 'translateY(0) scale(1)' : 'translateY(18px) scale(0.92)',
-                transition: 'all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                transform: isVisible ? 'translateY(0) scale(1)' : 'translateY(16px) scale(0.94)',
+                transition: 'opacity 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
                 pointerEvents: isVisible ? 'auto' : 'none'
               }}
             >
@@ -581,12 +554,13 @@ export default function IntroStoryteller({ onComplete, onBack }) {
                 position: 'relative',
                 background: 'linear-gradient(175deg, #FAF8F2 0%, #F5F1E5 100%)',
                 backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
                 border: isCurrentlySpeaking ? '2.5px solid #10B981' : '2px solid #14452F',
                 borderRadius: dlg.side === 'left' ? '6px 20px 20px 20px' : '20px 6px 20px 20px',
                 padding: '0.95rem 1.25rem',
                 boxShadow: isCurrentlySpeaking 
-                  ? '0 12px 32px rgba(16, 185, 129, 0.4), 0 0 16px rgba(16, 185, 129, 0.35)' 
-                  : '0 12px 32px rgba(20, 69, 47, 0.28)',
+                  ? '0 12px 32px rgba(16, 185, 129, 0.45), 0 0 16px rgba(16, 185, 129, 0.35)' 
+                  : '0 12px 32px rgba(0, 0, 0, 0.35)',
                 color: '#0A3B24',
                 animation: isCurrentlySpeaking ? 'speakingPulse 1.8s infinite' : 'none'
               }}>
@@ -642,19 +616,19 @@ export default function IntroStoryteller({ onComplete, onBack }) {
                       border: '1.5px solid #10B981',
                       color: isCurrentlySpeaking ? '#ffffff' : '#14452F',
                       borderRadius: '8px',
-                      padding: '0.25rem 0.5rem',
+                      padding: '0.25rem 0.55rem',
                       fontSize: '13px',
                       fontWeight: '800',
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.25rem',
+                      gap: '0.3rem',
                       transition: 'all 0.2s ease',
                       fontFamily: '"Outfit", sans-serif'
                     }}
                   >
                     <span>{isCurrentlySpeaking ? '🔊' : '🔈'}</span>
-                    <span>Play</span>
+                    <span>{isCurrentlySpeaking ? 'Speaking' : 'Play Voice'}</span>
                   </button>
                 </div>
 
@@ -705,6 +679,7 @@ export default function IntroStoryteller({ onComplete, onBack }) {
         <div style={{
           background: 'rgba(20, 69, 47, 0.92)',
           backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
           border: '1.5px solid #10B981',
           borderRadius: '20px',
           padding: '0.4rem 1.15rem',
@@ -739,6 +714,7 @@ export default function IntroStoryteller({ onComplete, onBack }) {
               border: isNarrationMuted ? '1.5px solid #EF4444' : '1.5px solid #10B981',
               background: isNarrationMuted ? 'rgba(239, 68, 68, 0.25)' : 'rgba(20, 69, 47, 0.92)',
               backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
               color: isNarrationMuted ? '#FCA5A5' : '#D1FAE5',
               cursor: 'pointer',
               display: 'flex',
@@ -766,6 +742,7 @@ export default function IntroStoryteller({ onComplete, onBack }) {
               border: '1.5px solid #10B981',
               background: 'rgba(20, 69, 47, 0.92)',
               backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
               color: '#D1FAE5',
               cursor: 'pointer',
               display: 'flex',
@@ -840,6 +817,7 @@ export default function IntroStoryteller({ onComplete, onBack }) {
               border: '1.8px solid #14452F',
               background: 'rgba(250, 248, 242, 0.9)',
               backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
               color: '#14452F',
               cursor: 'pointer',
               boxShadow: '0 4px 14px rgba(20, 69, 47, 0.25)',
@@ -865,6 +843,7 @@ export default function IntroStoryteller({ onComplete, onBack }) {
               border: '1.8px solid #14452F',
               background: 'rgba(250, 248, 242, 0.9)',
               backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
               color: '#14452F',
               cursor: 'pointer',
               boxShadow: '0 4px 14px rgba(20, 69, 47, 0.25)',
@@ -934,42 +913,106 @@ export default function IntroStoryteller({ onComplete, onBack }) {
         </button>
       </div>
 
-      {/* Real Movie-Style Subtitles (Viewport Center-Bottom, Audio-Synced Word Highlight) */}
+      {/* Cinematic Frosted Subtitle Card */}
       <div
         style={{
           position: 'absolute',
-          bottom: '2.4rem',
+          bottom: '5.2rem',
           left: 0,
           right: 0,
           width: '100%',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          zIndex: 14,
+          zIndex: 15,
           pointerEvents: 'none',
-          padding: '0 1.5rem'
+          padding: '0 1.2rem'
         }}
       >
         <div
           key={`sub-${currentScene}-${subtitleIndex}`}
           style={{
-            maxWidth: '82vw',
+            maxWidth: 'min(920px, 86vw)',
+            background: 'rgba(12, 28, 19, 0.88)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '1.5px solid rgba(52, 211, 153, 0.35)',
+            borderRadius: '16px',
+            padding: '0.75rem 1.6rem',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.45)',
             display: 'flex',
-            justifyContent: 'center',
+            flexDirection: 'column',
             alignItems: 'center',
             textAlign: 'center',
-            animation: 'movieSubtitleFade 0.35s ease-out'
+            animation: 'movieSubtitleFade 0.3s ease-out',
+            pointerEvents: 'auto'
           }}
         >
+          {/* Header Tag + Cue Pagination */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+            marginBottom: '0.35rem'
+          }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              fontSize: '11px',
+              fontWeight: '900',
+              color: '#34D399',
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              fontFamily: '"Outfit", sans-serif'
+            }}>
+              <span>🎙️ NARRATION</span>
+              <span>•</span>
+              <span style={{ color: '#E2E8F0', fontWeight: '700' }}>{scene.title}</span>
+            </div>
+
+            {/* Cue Pagination Dots */}
+            {cues.length > 1 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                {cues.map((_, cIdx) => (
+                  <button
+                    key={cIdx}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      clearTimeout(subtitleTimerRef.current);
+                      setSubtitleIndex(cIdx);
+                      setActiveWordIndex(null);
+                    }}
+                    title={`Sentence ${cIdx + 1} of ${cues.length}`}
+                    style={{
+                      width: subtitleIndex === cIdx ? '18px' : '6px',
+                      height: '6px',
+                      borderRadius: '3px',
+                      background: subtitleIndex === cIdx ? '#10B981' : 'rgba(255, 255, 255, 0.3)',
+                      border: 'none',
+                      cursor: 'pointer',
+                      transition: 'all 0.25s ease',
+                      padding: 0
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Subtitle Sentence */}
           <p style={{
             margin: 0,
-            fontSize: 'clamp(19px, 2.1vw, 24px)',
-            fontWeight: '800',
-            lineHeight: '1.45',
+            fontSize: 'clamp(16px, 1.75vw, 20px)',
+            fontWeight: '700',
+            lineHeight: '1.48',
             textAlign: 'center',
             whiteSpace: 'normal',
-            fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
-            letterSpacing: '0.015em'
+            fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif",
+            letterSpacing: '0.012em',
+            color: '#F8FAFC'
           }}>
             {(cues[subtitleIndex]?.words || []).map((w, wIdx) => {
               const isSpoken = activeWordIndex === wIdx;
@@ -978,12 +1021,12 @@ export default function IntroStoryteller({ onComplete, onBack }) {
                   key={wIdx}
                   style={{
                     display: 'inline-block',
-                    margin: '0 0.18em',
-                    color: isSpoken ? '#34d399' : '#ffffff',
+                    margin: '0 0.15em',
+                    color: isSpoken ? '#6EE7B7' : '#F8FAFC',
                     transition: 'color 0.12s ease, text-shadow 0.12s ease',
                     textShadow: isSpoken
-                      ? '0 0 16px rgba(52, 211, 153, 0.95), 0 2px 4px rgba(0, 0, 0, 0.95), -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000'
-                      : '0 2px 4px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.9), -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000'
+                      ? '0 0 14px rgba(110, 231, 183, 0.95), 0 1px 3px rgba(0, 0, 0, 0.8)'
+                      : '0 1px 3px rgba(0, 0, 0, 0.6)'
                   }}
                 >
                   {w.text}

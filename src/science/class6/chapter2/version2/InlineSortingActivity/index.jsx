@@ -16,6 +16,7 @@ import habitatBothBgHd from '../../../../../assets/habitat_both_bg_hd.png';
 import habitatIconLand from '../../../../../assets/habitat_icon_land.png';
 import habitatIconWater from '../../../../../assets/habitat_icon_water.png';
 import habitatIconBoth from '../../../../../assets/habitat_icon_both.png';
+import specimen02RoseBlended from './specimen_02_rose_blended.png';
 
 // =========================================================================
 // ASSET PATH CONSTANTS
@@ -56,7 +57,7 @@ const SPECIMEN_SLIDES = [
     num: '02',
     name: 'Rose',
     type: 'Shrub',
-    image: '/activities/class6_chapter2/grouping/plant mystery activity 2.4 specimen 2.png'
+    image: specimen02RoseBlended
   },
   {
     id: 3,
@@ -778,9 +779,16 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             })}
           </div>
 
-          {/* Floating Top Left Control: Exit to Lab */}
+          {/* Floating Bottom Left Control: Back */}
           <button
-            onClick={onBackToDashboard}
+            onClick={() => {
+              playTone('click');
+              if (currentSpecimenIndex > 0) {
+                setCurrentSpecimenIndex(prev => prev - 1);
+              } else if (onBackToDashboard) {
+                onBackToDashboard();
+              }
+            }}
             style={{
               position: 'absolute',
               bottom: '20px',
@@ -807,11 +815,15 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             <ArrowLeft size={20} /> Back
           </button>
 
-          {/* Floating Top Right Control: Proceed to Grouping Lab */}
+          {/* Floating Bottom Right Control: Next Specimen or Enter Lab */}
           <button
             onClick={() => {
               playTone('click');
-              setPhase('table23');
+              if (currentSpecimenIndex < SPECIMEN_SLIDES.length - 1) {
+                setCurrentSpecimenIndex(prev => prev + 1);
+              } else {
+                setPhase('table23');
+              }
             }}
             style={{
               position: 'absolute',
@@ -835,67 +847,11 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
             onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
           >
-            Next <ArrowRight size={20} />
-          </button>
-
-          {/* Left Arrow Floating Button */}
-          <button
-            onClick={() => handleSpecimenNav(-1)}
-            style={{
-              position: 'absolute',
-              left: '20px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              zIndex: 50,
-              width: '54px',
-              height: '54px',
-              borderRadius: '50%',
-              background: 'rgba(255, 255, 255, 0.95)',
-              border: '2px solid #CBD5E1',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              color: '#1E293B',
-              backdropFilter: 'blur(6px)',
-              transition: 'all 0.18s ease'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(-50%) scale(1)'}
-            title="Previous Specimen"
-          >
-            <ChevronLeft size={30} />
-          </button>
-
-          {/* Right Arrow Floating Button */}
-          <button
-            onClick={() => handleSpecimenNav(1)}
-            style={{
-              position: 'absolute',
-              right: '20px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              zIndex: 50,
-              width: '54px',
-              height: '54px',
-              borderRadius: '50%',
-              background: 'rgba(255, 255, 255, 0.95)',
-              border: '2px solid #CBD5E1',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              color: '#1E293B',
-              backdropFilter: 'blur(6px)',
-              transition: 'all 0.18s ease'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(-50%) scale(1)'}
-            title="Next Specimen"
-          >
-            <ChevronRight size={30} />
+            {currentSpecimenIndex < SPECIMEN_SLIDES.length - 1 ? (
+              <>Next <ArrowRight size={20} /></>
+            ) : (
+              <>Enter Grouping Lab <ArrowRight size={20} /></>
+            )}
           </button>
         </div>
       )}
@@ -970,8 +926,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             boxShadow: '0 20px 50px rgba(0,0,0,0.3)',
             display: 'flex',
             flexDirection: 'column',
-            gap: '12px',
-            boxSizing: 'border-box'
+            gap: '12px'
           }}>
             {/* Table Title Bar */}
             <div style={{
