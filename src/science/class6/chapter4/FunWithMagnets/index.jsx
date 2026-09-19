@@ -10,7 +10,7 @@ import DidYouKnow from './DidYouKnow';
 import { useTheme } from '../../../../ThemeContext.jsx';
 
 // ══════════════════════════════════════════════════════════════════════════════
-// NAVIGATION — 9 steps
+// NAVIGATION — 8 steps
 // ══════════════════════════════════════════════════════════════════════════════
 const STEPS_NAV = [
   { id: 0, label: '1. Intro' },
@@ -18,10 +18,9 @@ const STEPS_NAV = [
   { id: 2, label: '3. Float' },
   { id: 3, label: '4. Move' },
   { id: 4, label: '5. E-Magnet' },
-  { id: 5, label: '6. Challenge' },
-  { id: 6, label: '7. Expedition' },
-  { id: 7, label: '8. Care' },
-  { id: 8, label: '9. Facts' },
+  { id: 5, label: '6. Expedition' },
+  { id: 6, label: '7. Care' },
+  { id: 7, label: '8. Facts' },
 ];
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -271,207 +270,254 @@ function Step0Intro({ onNext }) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// STEP 1 — What is a Maglev Train? — Attraction & Repulsion
+// STEP 1 — What is a Maglev Train? — Video Player & Physics Overview
 // ══════════════════════════════════════════════════════════════════════════════
 function Step1Maglev({ onNext }) {
-  const [mode, setMode] = useState(null);
-  const [viewed, setViewed] = useState({ attract: false, repel: false });
-
-  const selectMode = (m) => {
-    setMode(m);
-    setViewed(v => ({ ...v, [m === 'attract' ? 'attract' : 'repel']: true }));
-  };
-
-  const canProceed = viewed.attract && viewed.repel;
-  const fieldColor = mode === 'repel' ? '#EF4444' : '#06B6D4';
-  const rightX = mode === 'attract' ? -55 : mode === 'repel' ? 55 : 0;
-
-  const MagnetBar = ({ pole1, pole2, isRight }) => (
-    <div style={{ display: 'flex', borderRadius: '14px', overflow: 'hidden', boxShadow: mode ? `0 0 28px ${fieldColor}66` : '0 4px 20px rgba(0,0,0,0.5)', transition: 'box-shadow 0.4s ease' }}>
-      <div style={{ background: pole1 === 'N' ? '#DC2626' : '#1D4ED8', color: '#fff', padding: '1.1rem 1.35rem', fontWeight: 900, fontSize: '1.4rem', minWidth: '56px', textAlign: 'center', letterSpacing: '-1px' }}>{pole1}</div>
-      <div style={{ background: '#1A2332', padding: '1.1rem 2.25rem', display: 'flex', alignItems: 'center', color: '#334155', fontWeight: 800, fontSize: '1rem' }}>━━━━━━</div>
-      <div style={{ background: pole2 === 'S' ? '#1D4ED8' : '#DC2626', color: '#fff', padding: '1.1rem 1.35rem', fontWeight: 900, fontSize: '1.4rem', minWidth: '56px', textAlign: 'center', letterSpacing: '-1px' }}>{pole2}</div>
-    </div>
-  );
-
   return (
-    <CinematicWrap>
-      <LeftPanel>
-        <div style={{ color: '#67E8F9', fontWeight: 800, fontSize: '0.8rem', letterSpacing: '1px', marginBottom: '1.25rem', textTransform: 'uppercase' }}>
-          🧲 Interactive Magnet Physics Demo
-        </div>
-
-        {/* Magnet pair row */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', width: '100%', position: 'relative' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{ color: '#64748B', fontSize: '0.75rem', fontWeight: 700 }}>Fixed Magnet</span>
-            <MagnetBar pole1="N" pole2="S" />
-          </div>
-
-          {/* Field gap visualization */}
-          <div style={{ width: 80, height: 90, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            {mode && [...Array(5)].map((_, i) => (
-              <motion.div key={i}
-                initial={{ scaleX: 0, opacity: 0 }}
-                animate={{ scaleX: 1, opacity: 0.9 - i * 0.15 }}
-                transition={{ delay: i * 0.055 }}
-                style={{
-                  position: 'absolute',
-                  top: `${i * 16 + 8}px`,
-                  left: 0, right: 0,
-                  height: 3,
-                  background: mode === 'attract'
-                    ? `linear-gradient(90deg, ${fieldColor}cc, ${fieldColor}44)`
-                    : `linear-gradient(90deg, ${fieldColor}44, ${fieldColor}cc)`,
-                  borderRadius: '2px',
-                }}
-              />
-            ))}
-            <AnimatePresence mode="wait">
-              {mode && (
-                <motion.div key={mode}
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0, opacity: 0 }}
-                  style={{
-                    position: 'absolute', top: '35%',
-                    color: fieldColor, fontWeight: 900, fontSize: '1.4rem',
-                    textShadow: `0 0 14px ${fieldColor}`,
-                    zIndex: 2
-                  }}
-                >
-                  {mode === 'attract' ? '←→' : '→ ←'}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* Right (moving) magnet */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{ color: '#64748B', fontSize: '0.75rem', fontWeight: 700 }}>Moving Magnet</span>
-            <motion.div
-              animate={{ x: rightX }}
-              transition={{ type: 'spring', stiffness: 130, damping: 16 }}
-            >
-              <MagnetBar
-                pole1={mode === 'attract' ? 'S' : 'N'}
-                pole2={mode === 'attract' ? 'N' : 'S'}
-              />
-            </motion.div>
+    <div style={{
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'row',
+      gap: '1.25rem',
+      boxSizing: 'border-box',
+      overflow: 'hidden',
+    }}>
+      {/* ── LEFT CONTAINER: CLEAN WHITE CARD & EMBEDDED MAGLEV VIDEO ── */}
+      <div style={{
+        flex: '1.15',
+        height: '100%',
+        background: '#FFFFFF',
+        border: '1.5px solid #E2E8F0',
+        borderRadius: '20px',
+        boxShadow: '0 8px 24px rgba(15, 23, 42, 0.04)',
+        padding: '1.25rem',
+        boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.85rem',
+        overflow: 'hidden'
+      }}>
+        {/* Header Badge */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          width: '100%',
+          flexShrink: 0
+        }}>
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            background: 'linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%)',
+            border: '1.5px solid #A7F3D0',
+            color: '#065F46',
+            padding: '0.45rem 1.1rem',
+            borderRadius: '20px',
+            fontSize: '0.92rem',
+            fontWeight: 900,
+            letterSpacing: '0.6px'
+          }}>
+            🎥 HIGH-SPEED MAGLEV IN MOTION
           </div>
         </div>
 
-        {/* Status label */}
-        <AnimatePresence mode="wait">
-          {mode ? (
-            <motion.div key={mode}
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              style={{
-                marginTop: '1.5rem',
-                color: fieldColor, fontWeight: 900, fontSize: '1.35rem',
-                textAlign: 'center', textShadow: `0 0 18px ${fieldColor}`,
-                padding: '0.6rem 1.5rem', borderRadius: '14px',
-                background: `${fieldColor}18`, border: `1.5px solid ${fieldColor}44`,
-              }}
-            >
-              {mode === 'attract' ? '🔵 N → ← S — ATTRACTION FORCE!' : '🔴 N → → N — REPULSION FORCE!'}
-            </motion.div>
-          ) : (
-            <motion.div key="initial" initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              style={{ marginTop: '1.5rem', color: '#64748B', fontWeight: 700, fontSize: '0.92rem', textAlign: 'center' }}>
-              Press a button below to see magnetic forces in action!
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Responsive Video Containment */}
+        <div style={{
+          width: '100%',
+          flex: 1,
+          minHeight: 0,
+          borderRadius: '16px',
+          overflow: 'hidden',
+          border: '1.5px solid #CBD5E1',
+          background: '#0F172A',
+          boxShadow: '0 4px 14px rgba(0,0,0,0.06)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative'
+        }}>
+          <video
+            src="/FunWithMagnets/maglev.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            controls
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              display: 'block'
+            }}
+          />
+        </div>
+      </div>
 
-        {/* Interaction buttons */}
-        <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
-          {[
-            { mode: 'attract', label: '🔵 Try Attraction (N→S)', activeColor: '#06B6D4', activeBg: 'rgba(6,182,212,0.2)', activeBorder: '#06B6D4', inactiveBorder: 'rgba(6,182,212,0.3)' },
-            { mode: 'repel', label: '🔴 Try Repulsion (N→N)', activeColor: '#FCA5A5', activeBg: 'rgba(239,68,68,0.2)', activeBorder: '#EF4444', inactiveBorder: 'rgba(239,68,68,0.3)' },
-          ].map(btn => (
-            <motion.button key={btn.mode}
-              whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-              onClick={() => selectMode(btn.mode)}
-              style={{
-                padding: '0.85rem 1.5rem', borderRadius: '16px',
-                border: `2.5px solid ${mode === btn.mode ? btn.activeBorder : btn.inactiveBorder}`,
-                background: mode === btn.mode ? btn.activeBg : 'rgba(15,23,42,0.75)',
-                color: mode === btn.mode ? btn.activeColor : '#94A3B8',
-                fontWeight: 900, fontSize: '0.9rem', cursor: 'pointer',
-                boxShadow: mode === btn.mode ? `0 0 22px ${btn.activeBorder}55` : 'none',
-                transition: 'all 0.25s ease'
-              }}
-            >
-              {btn.label}
-            </motion.button>
-          ))}
+      {/* ── RIGHT CONTAINER: SCALED TYPOGRAPHY & SCIENCE PRINCIPLES ── */}
+      <div style={{
+        flex: '1',
+        height: '100%',
+        background: '#FFFFFF',
+        border: '1.5px solid #E2E8F0',
+        borderRadius: '20px',
+        boxShadow: '0 8px 24px rgba(15, 23, 42, 0.04)',
+        padding: '1.35rem 1.5rem',
+        boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        gap: '0.85rem',
+        overflowY: 'auto'
+      }}>
+        {/* Badge */}
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          background: 'linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%)',
+          border: '1.5px solid #A7F3D0',
+          color: '#065F46',
+          padding: '0.4rem 1rem',
+          borderRadius: '20px',
+          fontSize: '0.9rem',
+          fontWeight: 900,
+          letterSpacing: '0.6px',
+          width: 'fit-content',
+          flexShrink: 0
+        }}>
+          🚅 MAGLEV = MAGNETIC LEVITATION
         </div>
 
-        {/* Hint */}
-        <div style={{ marginTop: '1rem', color: '#475569', fontSize: '0.78rem', fontWeight: 700 }}>
-          {!viewed.attract && '— Try Attraction first'}
-          {viewed.attract && !viewed.repel && '— Now try Repulsion!'}
-          {canProceed && '✅ Both forces explored! Proceed on the right →'}
-        </div>
-      </LeftPanel>
-
-      <RightPanel>
-        <Badge>🚅 MAGLEV = MAGNETIC LEVITATION</Badge>
-
-        <h2 style={{ margin: 0, color: TEXT_HEADING, fontSize: '1.5rem', fontWeight: 900, lineHeight: 1.28 }}>
+        {/* Main Title */}
+        <h2 style={{
+          margin: 0,
+          color: '#0F172A',
+          fontSize: '2rem',
+          fontWeight: 900,
+          lineHeight: 1.25,
+          letterSpacing: '-0.02em'
+        }}>
           What is a Maglev Train?
         </h2>
 
-        <p style={{ margin: 0, color: TEXT_BODY, fontSize: '0.97rem', lineHeight: 1.65 }}>
-          A <strong style={{ color: '#67E8F9' }}>Maglev train</strong> (Magnetic Levitation) uses powerful magnetic forces instead of wheels and engines. Two key magnetic effects make it work:
+        {/* Lead Paragraph */}
+        <p style={{
+          margin: 0,
+          color: '#334155',
+          fontSize: '1.22rem',
+          lineHeight: 1.55,
+          fontWeight: 500
+        }}>
+          A <strong style={{ color: '#0284C7', fontWeight: 800 }}>Maglev train</strong> (Magnetic Levitation) uses synchronized electromagnetic forces rather than mechanical wheels. It lifts off the track and glides through the air frictionless!
         </p>
 
-        {/* Attraction card */}
-        <motion.div
-          animate={{
-            borderColor: mode === 'attract' ? '#06B6D4' : 'rgba(6,182,212,0.22)',
-            boxShadow: mode === 'attract' ? '0 0 22px rgba(6,182,212,0.35)' : 'none'
-          }}
-          transition={{ duration: 0.35 }}
-          style={{ background: 'rgba(6,182,212,0.08)', border: '1.5px solid rgba(6,182,212,0.22)', borderRadius: '16px', padding: '1rem 1.2rem' }}
-        >
-          <div style={{ color: '#67E8F9', fontWeight: 900, fontSize: '0.95rem', marginBottom: '0.35rem' }}>🔵 Attraction — Opposite Poles</div>
-          <div style={{ color: '#4ADE80', fontWeight: 800, fontSize: '1.05rem', marginBottom: '0.35rem', fontFamily: 'monospace', letterSpacing: '2px' }}>N → ← S</div>
-          <p style={{ margin: 0, color: TEXT_BODY, fontSize: '0.88rem', lineHeight: 1.55 }}>
-            When <strong style={{ color: '#67E8F9' }}>opposite poles face each other</strong> (North → South), magnets pull powerfully toward each other. This attractive force is used to <em>move</em> the Maglev train forward.
-          </p>
-        </motion.div>
-
-        {/* Repulsion card */}
-        <motion.div
-          animate={{
-            borderColor: mode === 'repel' ? '#EF4444' : 'rgba(239,68,68,0.22)',
-            boxShadow: mode === 'repel' ? '0 0 22px rgba(239,68,68,0.35)' : 'none'
-          }}
-          transition={{ duration: 0.35 }}
-          style={{ background: 'rgba(239,68,68,0.08)', border: '1.5px solid rgba(239,68,68,0.22)', borderRadius: '16px', padding: '1rem 1.2rem' }}
-        >
-          <div style={{ color: '#FCA5A5', fontWeight: 900, fontSize: '0.95rem', marginBottom: '0.35rem' }}>🔴 Repulsion — Same Poles</div>
-          <div style={{ color: '#FBBF24', fontWeight: 800, fontSize: '1.05rem', marginBottom: '0.35rem', fontFamily: 'monospace', letterSpacing: '2px' }}>N → → N &nbsp;/&nbsp; S ← ← S</div>
-          <p style={{ margin: 0, color: TEXT_BODY, fontSize: '0.88rem', lineHeight: 1.55 }}>
-            When <strong style={{ color: '#FCA5A5' }}>like poles face each other</strong>, magnets push forcefully apart. This repulsion force is used to <em>lift</em> the Maglev train off the track!
-          </p>
-        </motion.div>
-
-        <div style={{ background: 'rgba(245,158,11,0.1)', border: '1.5px solid rgba(245,158,11,0.28)', borderRadius: '14px', padding: '0.8rem 1rem' }}>
-          <p style={{ margin: 0, color: '#FDE68A', fontSize: '0.88rem', lineHeight: 1.58, fontWeight: 700 }}>
-            💡 <strong>Try both buttons on the left</strong> — you'll see the magnets physically move toward or away from each other, just like inside a real Maglev train!
+        {/* Attraction Card */}
+        <div style={{
+          background: '#F0FDF4',
+          border: '1.5px solid #BBF7D0',
+          borderRadius: '16px',
+          padding: '1.05rem 1.25rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.4rem',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ color: '#15803D', fontWeight: 900, fontSize: '1.25rem' }}>
+              🔵 1. Magnetic Attraction (Opposite Poles)
+            </span>
+            <span style={{
+              color: '#166534',
+              fontWeight: 900,
+              fontSize: '1.1rem',
+              fontFamily: 'monospace',
+              background: '#DCFCE7',
+              padding: '0.2rem 0.55rem',
+              borderRadius: '8px',
+              border: '1px solid #86EFAC'
+            }}>
+              N ↔ S
+            </span>
+          </div>
+          <p style={{ margin: 0, color: '#334155', fontSize: '1.12rem', lineHeight: 1.48, fontWeight: 500 }}>
+            When <strong>opposite magnetic poles</strong> face each other, they attract with powerful pulling force. This force pulls the Maglev train forward down the line.
           </p>
         </div>
 
-        <ProceedBtn onClick={onNext} disabled={!canProceed}>
-          {canProceed ? 'Next: How Does It Float?' : (!viewed.attract ? 'Try Attraction first' : 'Now try Repulsion!')}
-        </ProceedBtn>
-      </RightPanel>
-    </CinematicWrap>
+        {/* Repulsion Card */}
+        <div style={{
+          background: '#FEF2F2',
+          border: '1.5px solid #FECACA',
+          borderRadius: '16px',
+          padding: '1.05rem 1.25rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.4rem',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ color: '#B91C1C', fontWeight: 900, fontSize: '1.25rem' }}>
+              🔴 2. Magnetic Repulsion (Like Poles)
+            </span>
+            <span style={{
+              color: '#991B1B',
+              fontWeight: 900,
+              fontSize: '1.1rem',
+              fontFamily: 'monospace',
+              background: '#FEE2E2',
+              padding: '0.2rem 0.55rem',
+              borderRadius: '8px',
+              border: '1px solid #FCA5A5'
+            }}>
+              N ↔ N / S ↔ S
+            </span>
+          </div>
+          <p style={{ margin: 0, color: '#334155', fontSize: '1.12rem', lineHeight: 1.48, fontWeight: 500 }}>
+            When <strong>like magnetic poles</strong> face each other, they push forcefully apart. This upward repulsion force lifts the heavy train completely off the track!
+          </p>
+        </div>
+
+        {/* Bottom Insight Card */}
+        <div style={{
+          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+          border: '1.5px solid #FDE68A',
+          borderRadius: '16px',
+          padding: '0.9rem 1.15rem'
+        }}>
+          <p style={{ margin: 0, color: '#78350F', fontSize: '1.1rem', lineHeight: 1.5, fontWeight: 700 }}>
+            💡 <strong>Zero Track Contact:</strong> Without wheel friction or engine drag, Maglev trains operate silently and glide smoothly at speeds over 500 km/h!
+          </p>
+        </div>
+
+        {/* Proceed Action Button */}
+        <button
+          onClick={onNext}
+          style={{
+            width: '100%',
+            padding: '0.9rem 1.5rem',
+            borderRadius: '14px',
+            border: 'none',
+            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+            color: '#FFFFFF',
+            fontWeight: 900,
+            fontSize: '1.3rem',
+            cursor: 'pointer',
+            boxShadow: '0 4px 14px rgba(217, 119, 6, 0.35)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '0.75rem',
+            transition: 'all 0.2s ease',
+            marginTop: '0.25rem',
+            flexShrink: 0
+          }}
+        >
+          Next: How Does It Float? <ArrowRight size={22} color="#FFFFFF" />
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -479,10 +525,10 @@ function Step1Maglev({ onNext }) {
 // STEP 2 — How Does the Train Float? — Levitation Physics Slider
 // ══════════════════════════════════════════════════════════════════════════════
 function Step2Float({ onNext }) {
-  const [strength, setStrength] = useState(0);
+  const [strength, setStrength] = useState(8);
 
-  // Maximum lift of ~36px corresponds to full 10mm levitation
-  const liftPx = Math.round((strength / 100) * 36);
+  // Maximum lift of ~20px provides a clear levitation gap while keeping train fully visible
+  const liftPx = Math.round((strength / 100) * 20);
   const gapMm = Math.round(strength / 10);
   const magneticForce = (strength / 100 * 9.8).toFixed(1);
   const glowA = strength / 100;
@@ -497,52 +543,50 @@ function Step2Float({ onNext }) {
       boxSizing: 'border-box',
       overflow: 'hidden',
     }}>
-      {/* ── LEFT CONTAINER: LIGHT SCHEME, FULL-WIDTH IMAGE + 4 INDICATORS AT BOTTOM ── */}
+      {/* ── LEFT CONTAINER: CLEAN WHITE CARD, REAL SCI-LEV PLATFORM PHOTO + EXPANDED TYPOGRAPHY CARDS ── */}
       <div style={{
-        flex: '1.1',
+        flex: '1',
         height: '100%',
-        background: 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%)',
-        border: '2px solid #E2E8F0',
-        borderRadius: '24px',
-        boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
+        background: '#FFFFFF',
+        border: '1.5px solid #E2E8F0',
+        borderRadius: '20px',
+        boxShadow: '0 8px 24px rgba(15, 23, 42, 0.04)',
         padding: '1.25rem',
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
-        gap: '0.85rem',
+        gap: '0.9rem',
         overflowY: 'auto'
       }}>
         {/* Header Badge */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          justifyContent: 'flex-start',
           width: '100%',
           flexShrink: 0
         }}>
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '0.45rem',
+            gap: '0.5rem',
             background: 'linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%)',
             border: '1.5px solid #A7F3D0',
             color: '#065F46',
-            padding: '0.35rem 0.9rem',
+            padding: '0.4rem 1rem',
             borderRadius: '20px',
-            fontSize: '0.8rem',
-            fontWeight: 800,
-            letterSpacing: '0.5px'
+            fontSize: '0.85rem',
+            fontWeight: 900,
+            letterSpacing: '0.6px'
           }}>
             📐 MAGLEV LEVITATION PRINCIPLE
           </div>
-          <span style={{ color: '#64748B', fontSize: '0.78rem', fontWeight: 700 }}>
-            Figure 4.9 · Guideway Cross-Section
-          </span>
         </div>
 
-        {/* Full-width Image spanning edge-to-edge without empty margins */}
+        {/* Full-width Image spanning upper section cleanly */}
         <div style={{
           width: '100%',
+          height: '245px',
           borderRadius: '16px',
           overflow: 'hidden',
           border: '1.5px solid #CBD5E1',
@@ -554,481 +598,291 @@ function Step2Float({ onNext }) {
           flexShrink: 0
         }}>
           <img
-            src="/FunWithMagnets/maglev_crosssection.jpg"
-            alt="Maglev cross-section blueprint"
+            src="/FunWithMagnets/scilev_real_platform.jpg"
+            alt="SCI-Lev Transrapid Maglev real station platform"
             style={{
               width: '100%',
-              height: 'auto',
-              maxHeight: '310px',
-              objectFit: 'contain',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center 45%',
               display: 'block'
             }}
           />
         </div>
 
-        {/* 4 Indicator Containers placed at the bottom */}
+        {/* 4 Indicator Containers: Scaled-up Typography (24px titles, 20px descriptions) & Full-height space utilization */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
-          gap: '0.75rem',
+          gap: '1rem',
           width: '100%',
-          marginTop: 'auto',
-          flexShrink: 0
+          flex: 1,
+          marginTop: 'auto'
         }}>
-          {/* Row 1, Col 1: Electric Current Flows */}
+          {/* Card 1: Electric Current Flows */}
           <div style={{
-            background: 'linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%)',
-            border: '1.5px solid #7DD3FC',
+            background: '#FFFFFF',
+            border: '1.5px solid #E2E8F0',
             borderRadius: '16px',
-            padding: '0.85rem 1rem',
+            padding: '1.1rem 1.25rem',
             display: 'flex',
             flexDirection: 'column',
-            gap: '0.3rem',
-            boxShadow: '0 2px 10px rgba(14,165,233,0.08)'
+            gap: '0.5rem',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+            justifyContent: 'center'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
               <span style={{
-                fontSize: '1.15rem',
-                background: '#FFFFFF',
-                padding: '0.25rem 0.45rem',
+                fontSize: '1.6rem',
+                background: '#F0F9FF',
+                padding: '0.3rem 0.6rem',
                 borderRadius: '10px',
                 border: '1px solid #BAE6FD'
               }}>⚡</span>
-              <span style={{ color: '#0369A1', fontWeight: 900, fontSize: '0.88rem' }}>
+              <span style={{ color: '#0F172A', fontWeight: 600, fontSize: '24px' }}>
                 Electric Current Flows
               </span>
             </div>
-            <p style={{ margin: 0, color: '#475569', fontSize: '0.81rem', lineHeight: 1.5 }}>
+            <p style={{ margin: 0, color: '#475569', fontSize: '20px', lineHeight: 1.4 }}>
               Electricity runs through copper coils embedded in the track guideway.
             </p>
           </div>
 
-          {/* Row 1, Col 2: Magnetic Field Appears */}
+          {/* Card 2: Magnetic Field Appears */}
           <div style={{
-            background: 'linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%)',
-            border: '1.5px solid #67E8F9',
+            background: '#FFFFFF',
+            border: '1.5px solid #E2E8F0',
             borderRadius: '16px',
-            padding: '0.85rem 1rem',
+            padding: '1.1rem 1.25rem',
             display: 'flex',
             flexDirection: 'column',
-            gap: '0.3rem',
-            boxShadow: '0 2px 10px rgba(6,182,212,0.08)'
+            gap: '0.5rem',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+            justifyContent: 'center'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
               <span style={{
-                fontSize: '1.15rem',
-                background: '#FFFFFF',
-                padding: '0.25rem 0.45rem',
+                fontSize: '1.6rem',
+                background: '#ECFEFF',
+                padding: '0.3rem 0.6rem',
                 borderRadius: '10px',
                 border: '1px solid #A5F3FC'
               }}>🔵</span>
-              <span style={{ color: '#0E7490', fontWeight: 900, fontSize: '0.88rem' }}>
+              <span style={{ color: '#0F172A', fontWeight: 600, fontSize: '24px' }}>
                 Magnetic Field Appears
               </span>
             </div>
-            <p style={{ margin: 0, color: '#475569', fontSize: '0.81rem', lineHeight: 1.5 }}>
+            <p style={{ margin: 0, color: '#475569', fontSize: '20px', lineHeight: 1.4 }}>
               The electric coils generate a powerful upward-pointing magnetic field.
             </p>
           </div>
 
-          {/* Row 2, Col 1: Train Lifts Off */}
+          {/* Card 3: Train Lifts Off */}
           <div style={{
-            background: 'linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%)',
-            border: '1.5px solid #86EFAC',
+            background: '#FFFFFF',
+            border: '1.5px solid #E2E8F0',
             borderRadius: '16px',
-            padding: '0.85rem 1rem',
+            padding: '1.1rem 1.25rem',
             display: 'flex',
             flexDirection: 'column',
-            gap: '0.3rem',
-            boxShadow: '0 2px 10px rgba(34,197,94,0.08)'
+            gap: '0.5rem',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+            justifyContent: 'center'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
               <span style={{
-                fontSize: '1.15rem',
-                background: '#FFFFFF',
-                padding: '0.25rem 0.45rem',
+                fontSize: '1.6rem',
+                background: '#F0FDF4',
+                padding: '0.3rem 0.6rem',
                 borderRadius: '10px',
                 border: '1px solid #BBF7D0'
               }}>🚅</span>
-              <span style={{ color: '#15803D', fontWeight: 900, fontSize: '0.88rem' }}>
+              <span style={{ color: '#0F172A', fontWeight: 600, fontSize: '24px' }}>
                 Train Lifts Off
               </span>
             </div>
-            <p style={{ margin: 0, color: '#475569', fontSize: '0.81rem', lineHeight: 1.5 }}>
+            <p style={{ margin: 0, color: '#475569', fontSize: '20px', lineHeight: 1.4 }}>
               The magnetic field repels the train's superconducting magnets, lifting it up.
             </p>
           </div>
 
-          {/* Row 2, Col 2: Gap is Precisely Controlled */}
+          {/* Card 4: Gap is Precisely Controlled */}
           <div style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-            border: '1.5px solid #FCD34D',
+            background: '#FFFFFF',
+            border: '1.5px solid #E2E8F0',
             borderRadius: '16px',
-            padding: '0.85rem 1rem',
+            padding: '1.1rem 1.25rem',
             display: 'flex',
             flexDirection: 'column',
-            gap: '0.3rem',
-            boxShadow: '0 2px 10px rgba(245,158,11,0.08)'
+            gap: '0.5rem',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+            justifyContent: 'center'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
               <span style={{
-                fontSize: '1.15rem',
-                background: '#FFFFFF',
-                padding: '0.25rem 0.45rem',
+                fontSize: '1.6rem',
+                background: '#FFFBEB',
+                padding: '0.3rem 0.6rem',
                 borderRadius: '10px',
                 border: '1px solid #FDE68A'
               }}>📐</span>
-              <span style={{ color: '#B45309', fontWeight: 900, fontSize: '0.88rem' }}>
+              <span style={{ color: '#0F172A', fontWeight: 600, fontSize: '24px' }}>
                 Gap is Precisely Controlled
               </span>
             </div>
-            <p style={{ margin: 0, color: '#475569', fontSize: '0.81rem', lineHeight: 1.5 }}>
+            <p style={{ margin: 0, color: '#475569', fontSize: '20px', lineHeight: 1.4 }}>
               Sensors adjust current continuously to maintain a stable 10mm levitation gap.
             </p>
           </div>
         </div>
       </div>
 
-      {/* ── RIGHT CONTAINER: LIGHT SCHEME, INTERACTIVE SIMULATION AT TOP + CONTENT BENEATH ── */}
+      {/* ── RIGHT CONTAINER: 2X SCALED TYPOGRAPHY, ENLARGED TRAIN & TRACK MODELS + FORCE BALANCE ── */}
       <div style={{
-        flex: '0.9',
+        flex: '1',
         height: '100%',
-        background: 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%)',
-        border: '2px solid #BAE6FD',
-        borderRadius: '24px',
-        boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
-        padding: '1.25rem',
+        background: '#FFFFFF',
+        border: '1.5px solid #E2E8F0',
+        borderRadius: '20px',
+        boxShadow: '0 8px 24px rgba(15, 23, 42, 0.04)',
+        padding: '1.5rem',
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
-        gap: '0.85rem',
+        gap: '1.2rem',
         overflowY: 'auto'
       }}>
-        {/* Interactive Train Lifting Activity simulation container at the top */}
+        {/* Top Explanation Heading & 2x Scaled Body Copy */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', flexShrink: 0 }}>
+          <h2 style={{ margin: 0, color: '#0F172A', fontSize: '2.5rem', fontWeight: 900, lineHeight: 1.2 }}>
+            How Does the Train Float?
+          </h2>
+          <p style={{ margin: 0, color: '#334155', fontSize: '1.85rem', lineHeight: 1.5 }}>
+            Electromagnetic coils are embedded in the guideway track below the train. When electric current flows through them, they create a powerful upward magnetic force that lifts the train.
+          </p>
+        </div>
+
+        {/* Train & Levitation Zone */}
         <div style={{
+          position: 'relative',
           width: '100%',
-          background: 'linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%)',
-          border: '1.5px solid #CBD5E1',
-          borderRadius: '18px',
-          padding: '1rem',
-          boxShadow: '0 4px 14px rgba(0,0,0,0.04)',
+          flex: 1,
           display: 'flex',
           flexDirection: 'column',
-          gap: '0.75rem',
-          flexShrink: 0
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          paddingBottom: '2px'
         }}>
-          {/* Header with status badges */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-              <span style={{
-                width: 9, height: 9, borderRadius: '50%',
-                background: strength > 0 ? '#0284C7' : '#94A3B8',
-                boxShadow: strength > 0 ? '0 0 10px #38BDF8' : 'none',
-                transition: 'all 0.25s'
-              }} />
-              <span style={{ color: '#0F172A', fontWeight: 900, fontSize: '0.82rem', letterSpacing: '0.5px' }}>
-                TRAIN LIFTING SIMULATION
-              </span>
-            </div>
-            <div style={{ display: 'flex', gap: '0.45rem' }}>
-              <span style={{
-                background: '#FFFBEB', border: '1.5px solid #FCD34D',
-                color: '#B45309', padding: '0.2rem 0.6rem', borderRadius: '10px',
-                fontSize: '0.75rem', fontWeight: 800, fontFamily: 'monospace'
-              }}>
-                Gap: {gapMm} mm
-              </span>
-              <span style={{
-                background: '#F0F9FF', border: '1.5px solid #7DD3FC',
-                color: '#0369A1', padding: '0.2rem 0.6rem', borderRadius: '10px',
-                fontSize: '0.75rem', fontWeight: 800, fontFamily: 'monospace'
-              }}>
-                Force: {magneticForce} N
-              </span>
-            </div>
-          </div>
-
-          {/* Interactive Visual Stage — Light clean testing dock with ONLY the train model visibly lifting */}
-          <div style={{
-            position: 'relative',
-            width: '100%',
-            height: '170px',
-            background: 'linear-gradient(180deg, #F8FAFC 0%, #E2E8F0 100%)',
-            borderRadius: '14px',
-            border: '1.5px solid #CBD5E1',
-            overflow: 'hidden',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-end',
-            padding: '0 0.5rem 0.5rem 0.5rem',
-            boxSizing: 'border-box'
-          }}>
-            {/* Soft background grid lines */}
-            <div style={{
-              position: 'absolute', inset: 0,
-              backgroundImage: 'linear-gradient(rgba(14,165,233,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(14,165,233,0.06) 1px, transparent 1px)',
-              backgroundSize: '24px 24px', pointerEvents: 'none'
-            }} />
-
-            {/* Glowing magnetic cushion aura when active */}
-            {strength > 0 && (
-              <div style={{
-                position: 'absolute',
-                bottom: 34,
-                left: '5%',
-                right: '5%',
-                height: 30,
-                background: 'radial-gradient(ellipse at center, rgba(14,165,233,0.45) 0%, rgba(14,165,233,0) 75%)',
-                opacity: 0.4 + glowA * 0.6,
-                filter: 'blur(6px)',
-                pointerEvents: 'none',
-                transition: 'opacity 0.2s ease'
-              }} />
-            )}
-
-            {/* REALISTIC MAGLEV TRAIN — Vector rendered with NO black box, only the train lifts */}
-            <motion.div
-              animate={{ y: -liftPx }}
-              transition={{ type: 'spring', stiffness: 180, damping: 20 }}
-              style={{
-                position: 'relative',
-                zIndex: 3,
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transformOrigin: 'bottom center'
-              }}
-            >
-              <svg viewBox="0 0 540 96" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: 'auto', display: 'block' }}>
-                <defs>
-                  {/* Roof pearlescent gradient */}
-                  <linearGradient id="trainWhiteRoof" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#FFFFFF" />
-                    <stop offset="45%" stopColor="#F8FAFC" />
-                    <stop offset="100%" stopColor="#CBD5E1" />
-                  </linearGradient>
-                  {/* Aero cyan stripe */}
-                  <linearGradient id="trainAeroCyan" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#06B6D4" />
-                    <stop offset="50%" stopColor="#0EA5E9" />
-                    <stop offset="100%" stopColor="#0284C7" />
-                  </linearGradient>
-                  {/* Skirt gradient */}
-                  <linearGradient id="trainLowerSkirt" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#334155" />
-                    <stop offset="100%" stopColor="#0F172A" />
-                  </linearGradient>
-                  {/* Window glass */}
-                  <linearGradient id="trainWindows" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#1E293B" />
-                    <stop offset="35%" stopColor="#0F172A" />
-                    <stop offset="70%" stopColor="#0284C7" stopOpacity="0.85" />
-                    <stop offset="100%" stopColor="#0C4A6E" />
-                  </linearGradient>
-                  {/* Glow filter for coils */}
-                  <filter id="superCoilGlow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation={1.5 + glowA * 2.5} result="blur" />
-                    <feMerge>
-                      <feMergeNode in="blur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                </defs>
-
-                {/* Train Aerodynamic Shell */}
-                <path
-                  d="M 22 68
-                     L 22 26
-                     Q 26 12, 48 12
-                     L 415 12
-                     Q 470 12, 510 36
-                     Q 532 50, 526 62
-                     Q 516 68, 485 68
-                     Z"
-                  fill="url(#trainWhiteRoof)"
-                  stroke="#94A3B8"
-                  strokeWidth="1.2"
-                />
-
-                {/* Electric Cyan Aero Wave Stripe */}
-                <path
-                  d="M 22 46
-                     L 425 46
-                     Q 475 46, 516 58
-                     L 513 64
-                     Q 470 52, 422 52
-                     L 22 52
-                     Z"
-                  fill="url(#trainAeroCyan)"
-                />
-
-                {/* Amber Racing Trim */}
-                <path
-                  d="M 22 53
-                     L 428 53
-                     Q 472 53, 510 63
-                     L 508 65
-                     Q 470 55, 428 55
-                     L 22 55
-                     Z"
-                  fill="#F59E0B"
-                />
-
-                {/* Cockpit Driver Windshield */}
-                <path
-                  d="M 448 18
-                     L 486 18
-                     Q 514 36, 520 48
-                     L 472 48
-                     Q 458 35, 448 18
-                     Z"
-                  fill="url(#trainWindows)"
-                  stroke="#0284C7"
-                  strokeWidth="1"
-                />
-                <path d="M 454 22 Q 482 22, 504 42" fill="none" stroke="#FFFFFF" strokeWidth="1.2" opacity="0.6" />
-
-                {/* Front Projector Headlight */}
-                <ellipse cx="522" cy="55" rx="3.5" ry="2.2" fill="#38BDF8" />
-                <ellipse cx="522" cy="55" rx="1.8" ry="1.1" fill="#FFFFFF" />
-
-                {/* Passenger Windows (5 panoramic modules) */}
-                {[60, 130, 200, 270, 340].map((wx, i) => (
-                  <g key={i}>
-                    <rect
-                      x={wx}
-                      y="20"
-                      width="54"
-                      height="20"
-                      rx="4"
-                      fill="url(#trainWindows)"
-                      stroke="#64748B"
-                      strokeWidth="1"
-                    />
-                    <line x1={wx + 6} y1="22" x2={wx + 20} y2="38" stroke="#FFFFFF" strokeWidth="1" opacity="0.25" />
-                  </g>
-                ))}
-
-                {/* Side Brand Decal */}
-                <text x="235" y="62" fill="#0369A1" fontSize="8" fontWeight="900" letterSpacing="1.5px">
-                  MAGLEV 01 · FUTURA HIGH-SPEED
-                </text>
-
-                {/* Undercarriage Skirt (wraps down around track) */}
-                <rect x="22" y="68" width="468" height="15" rx="3" fill="url(#trainSkirtGrad)" stroke="#1E293B" strokeWidth="1" />
-
-                {/* Superconducting Magnet Pods */}
-                {[45, 115, 185, 255, 325, 395].map((mx, idx) => (
-                  <g key={idx}>
-                    <rect
-                      x={mx}
-                      y="71"
-                      width="46"
-                      height="9"
-                      rx="3"
-                      fill={strength > 0 ? `rgba(6,182,212,${0.35 + glowA * 0.65})` : "#1E293B"}
-                      stroke={strength > 0 ? "#06B6D4" : "#475569"}
-                      strokeWidth="1.2"
-                      filter={strength > 5 ? "url(#superCoilGlow)" : "none"}
-                    />
-                    <circle cx={mx + 10} cy="75.5" r="2.2" fill={strength > 0 ? "#67E8F9" : "#64748B"} />
-                    <circle cx={mx + 36} cy="75.5" r="2.2" fill={strength > 0 ? "#67E8F9" : "#64748B"} />
-                  </g>
-                ))}
-              </svg>
-            </motion.div>
-
-            {/* Dynamic Levitation Gap & Upward Magnetic Field Flux */}
-            <div style={{
-              position: 'relative',
-              width: '100%',
-              height: `${Math.max(6, liftPx)}px`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-around',
-              pointerEvents: 'none',
-              transition: 'height 0.1s ease',
-              margin: '1px 0'
-            }}>
-              {/* Dynamic Ground Shadow underneath the train */}
-              <div style={{
-                position: 'absolute',
-                bottom: 0,
-                left: '6%',
-                right: '8%',
-                height: '4px',
-                background: 'radial-gradient(ellipse at center, rgba(15,23,42,0.4) 0%, rgba(15,23,42,0) 75%)',
-                opacity: Math.max(0.12, 0.45 - (liftPx / 36) * 0.3),
-                transform: `scaleX(${1 + (liftPx / 36) * 0.15})`,
-                filter: `blur(${1 + (liftPx / 36) * 3}px)`,
-                transition: 'all 0.15s ease'
-              }} />
-
-              {/* Pulsating upward flux rays when active */}
-              {strength > 5 && [1, 2, 3, 4, 5, 6, 7].map(k => (
-                <motion.div
-                  key={k}
-                  initial={{ opacity: 0 }}
-                  animate={{
-                    opacity: [0.35, 0.95, 0.35],
-                    scaleY: [0.8, 1.25, 0.8]
-                  }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 0.75 + (k % 3) * 0.2,
-                    ease: 'easeInOut'
-                  }}
-                  style={{
-                    width: 2.5,
-                    height: '100%',
-                    background: 'linear-gradient(180deg, #0284C7 0%, #38BDF8 100%)',
-                    boxShadow: '0 0 6px rgba(14,165,233,0.8)',
-                    borderRadius: '2px'
-                  }}
-                />
-              ))}
-
-              {/* Levitation Gap Caliper badge */}
-              {strength > 0 && (
-                <div style={{
-                  position: 'absolute',
-                  right: 8,
-                  top: '50%',
-                  transform: 'translateY(-50%)',
+              {/* Prominent High-Speed Maglev Train Model with Visible Levitation Uplift */}
+              <motion.div
+                animate={{ y: -liftPx }}
+                transition={{ type: 'spring', stiffness: 180, damping: 20 }}
+                style={{
+                  position: 'relative',
+                  zIndex: 4,
+                  width: '96%',
+                  maxWidth: '560px',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.3rem',
-                  background: '#FFFFFF',
-                  padding: '0.15rem 0.5rem',
-                  borderRadius: '6px',
-                  border: '1.5px solid #F59E0B',
-                  boxShadow: '0 2px 8px rgba(245,158,11,0.25)',
-                  zIndex: 5
-                }}>
-                  <span style={{ color: '#D97706', fontSize: '0.75rem', fontWeight: 900 }}>↕</span>
-                  <span style={{ color: '#B45309', fontWeight: 900, fontSize: '0.75rem', fontFamily: 'monospace' }}>
-                    {gapMm} mm
-                  </span>
-                </div>
-              )}
+                  justifyContent: 'center'
+                }}
+              >
+                <img
+                  src="/FunWithMagnets/transrapid_train_clean.png"
+                  alt="Transrapid Maglev Bullet Train"
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    display: 'block',
+                    filter: 'drop-shadow(0 10px 16px rgba(0,0,0,0.3))'
+                  }}
+                />
+              </motion.div>
+
+              {/* Dynamic Levitation Gap & Upward Magnetic Field Flux */}
+              <div style={{
+                position: 'relative',
+                width: '92%',
+                height: `${Math.max(6, liftPx)}px`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-around',
+                pointerEvents: 'none',
+                transition: 'height 0.15s ease',
+                zIndex: 3
+              }}>
+                {/* Glowing magnetic cushion aura when active */}
+                {strength > 0 && (
+                  <div style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'radial-gradient(ellipse at center, rgba(14,165,233,0.55) 0%, rgba(14,165,233,0) 80%)',
+                    filter: 'blur(5px)',
+                    opacity: 0.4 + glowA * 0.6
+                  }} />
+                )}
+
+                {/* Pulsating upward flux rays when active */}
+                {strength > 5 && [1, 2, 3, 4, 5, 6, 7, 8, 9].map(k => (
+                  <motion.div
+                    key={k}
+                    animate={{
+                      opacity: [0.3, 0.9, 0.3],
+                      scaleY: [0.7, 1.3, 0.7]
+                    }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 0.6 + (k % 3) * 0.2,
+                      ease: 'easeInOut'
+                    }}
+                    style={{
+                      width: 2.5,
+                      height: '100%',
+                      background: 'linear-gradient(180deg, #0284C7 0%, #38BDF8 100%)',
+                      boxShadow: '0 0 6px rgba(14,165,233,0.8)',
+                      borderRadius: '2px'
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Real Industrial Steel Guideway Track with Copper Stator Coils */}
+              <div style={{
+                position: 'relative',
+                width: '100%',
+                height: '46px',
+                borderRadius: '8px',
+                overflow: 'hidden',
+                border: '1.5px solid #334155',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.18)',
+                zIndex: 2
+              }}>
+                <img
+                  src="/FunWithMagnets/transrapid_track_clean.png"
+                  alt="Transrapid Maglev Guideway Track"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block'
+                  }}
+                />
+              </div>
             </div>
 
-            {/* High-Tech Guideway Track with 6 Stator Coils */}
+            {/* Sleek Dark Slate EM 1 - EM 6 Status Row — 2x Font Scaled */}
             <div style={{
               width: '100%',
-              height: '32px',
-              background: 'linear-gradient(180deg, #94A3B8 0%, #64748B 100%)',
+              height: '38px',
+              marginTop: '6px',
+              background: '#1E293B',
               borderRadius: '8px',
-              border: '1.5px solid #475569',
+              border: '1px solid #334155',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-around',
               padding: '0 0.5rem',
-              boxSizing: 'border-box',
-              position: 'relative',
-              zIndex: 2,
-              boxShadow: '0 3px 8px rgba(0,0,0,0.15)'
+              boxSizing: 'border-box'
             }}>
               {[1, 2, 3, 4, 5, 6].map(i => (
                 <div
@@ -1037,45 +891,43 @@ function Step2Float({ onNext }) {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    width: '42px',
-                    height: '20px',
-                    borderRadius: '5px',
-                    background: strength > 0
-                      ? `linear-gradient(180deg, #0284C7 0%, #0369A1 100%)`
-                      : 'linear-gradient(180deg, #475569 0%, #334155 100%)',
-                    border: `1.5px solid ${strength > 0 ? '#38BDF8' : '#64748B'}`,
-                    boxShadow: strength > 0 ? `0 0 10px rgba(14,165,233,${0.4 + glowA * 0.5})` : 'none',
+                    minWidth: '56px',
+                    height: '28px',
+                    padding: '0 0.4rem',
+                    borderRadius: '6px',
+                    background: strength > 0 ? '#0284C7' : '#334155',
+                    border: `1.5px solid ${strength > 0 ? '#38BDF8' : '#475569'}`,
+                    boxShadow: strength > 0 ? `0 0 8px rgba(56,189,248,${0.5 + glowA * 0.5})` : 'none',
                     transition: 'all 0.25s ease'
                   }}
                 >
                   <span style={{
-                    color: strength > 0 ? '#FFFFFF' : '#CBD5E1',
-                    fontSize: '0.65rem',
+                    color: strength > 0 ? '#FFFFFF' : '#94A3B8',
+                    fontSize: '1.4rem',
                     fontWeight: 900,
-                    letterSpacing: '0.3px'
+                    letterSpacing: '0.4px'
                   }}>
                     EM {i}
                   </span>
                 </div>
               ))}
             </div>
-          </div>
 
-          {/* Slider Control */}
+          {/* Slider Control & Action Area — 2x Scaled Typography */}
           <div style={{ width: '100%' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
-              <span style={{ color: '#475569', fontSize: '0.8rem', fontWeight: 800 }}>
-                🔋 Electromagnetic Strength
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
+              <span style={{ color: '#334155', fontSize: '1.85rem', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                <span>🔋</span> Electromagnetic Strength
               </span>
               <span style={{
                 color: strength > 0 ? '#0284C7' : '#64748B',
                 fontWeight: 900,
-                fontSize: '0.92rem',
+                fontSize: '1.92rem',
                 fontFamily: 'monospace',
                 background: '#F0F9FF',
-                padding: '0.15rem 0.55rem',
-                borderRadius: '8px',
-                border: '1px solid #BAE6FD'
+                padding: '0.35rem 0.95rem',
+                borderRadius: '10px',
+                border: '1.5px solid #BAE6FD'
               }}>
                 {strength}%
               </span>
@@ -1091,762 +943,918 @@ function Step2Float({ onNext }) {
                 width: '100%',
                 accentColor: '#0284C7',
                 cursor: 'pointer',
-                height: '7px',
-                borderRadius: '4px'
+                height: '10px',
+                borderRadius: '5px'
               }}
             />
-            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#64748B', fontSize: '0.72rem', fontWeight: 700, marginTop: '0.2rem' }}>
-              <span>0% (On Track)</span>
-              <span>50% (Lift-Off)</span>
-              <span>100% (Full 10mm Hover)</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.65rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <span style={{ color: '#64748B', fontSize: '1.6rem', fontWeight: 800 }}>
+                0% (On Track)
+              </span>
+              <span style={{ color: '#64748B', fontSize: '1.6rem', fontWeight: 800 }}>
+                50% (Lift-Off)
+              </span>
+              <button
+                onClick={() => {
+                  if (strength >= 50) {
+                    onNext();
+                  } else {
+                    setStrength(prev => Math.min(100, prev + 25));
+                  }
+                }}
+                style={{
+                  background: strength >= 50 ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#0284C7',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: '12px',
+                  padding: '0.7rem 1.45rem',
+                  fontSize: '1.72rem',
+                  fontWeight: 900,
+                  cursor: 'pointer',
+                  boxShadow: strength >= 50 ? '0 4px 14px rgba(217, 119, 6, 0.35)' : '0 2px 8px rgba(2, 132, 199, 0.25)',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                {strength >= 50 ? 'Next: How Does It Move?' : 'Increase magnetic strength'}
+              </button>
             </div>
           </div>
         </div>
+      </div>
+  );
+}
 
-        {/* Content displayed beneath the simulation */}
+// ══════════════════════════════════════════════════════════════════════════════
+// STEP 3 — How Does the Train Move? — Continuous Traveling Wave Propulsion
+// ══════════════════════════════════════════════════════════════════════════════
+function Step3Move({ onNext }) {
+  const [propStep, setPropStep] = useState(-1);
+  const [autoPlay, setAutoPlay] = useState(false);
+  const [viewedAll, setViewedAll] = useState(false);
+  const [isTranslating, setIsTranslating] = useState(false);
+  const autoPlaySeqRef = useRef(0);
+
+  // 5-Stage Continuous Traveling Wave Sequence Definitions
+  const PROP_INFO = [
+    {
+      title: 'Step 1 — Initial Launch (Coil 2 ON)',
+      desc: 'Coil 2 energizes directly ahead of the train. Its attractive magnetic force pulls the train from Coil 1, initiating smooth, steady forward translation across the guideway without wheels.',
+      activeCoils: [false, true, false, false, false],
+      pattern: ['OFF', 'ON', 'OFF', 'OFF', 'OFF'],
+      tag: '⚡ STAGE 1: COIL 2 ENERGIZED'
+    },
+    {
+      title: 'Step 2 — Dynamic Sequential Handoff (Coil 3 ON, Coil 2 OFF)',
+      desc: 'As the train crosses past Coil 2, Coil 2 immediately switches OFF (preventing backward magnetic drag) while Coil 3 switches ON ahead, maintaining uninterrupted forward velocity.',
+      activeCoils: [false, false, true, false, false],
+      pattern: ['OFF', 'OFF', 'ON', 'OFF', 'OFF'],
+      tag: '🌊 STAGE 2: TRAVELING WAVE RELAY'
+    },
+    {
+      title: 'Step 3 — Mid-Track Traveling Wave (Coil 4 ON, Coil 3 OFF)',
+      desc: 'As the train glides past Coil 3, Coil 3 turns OFF and Coil 4 activates. The magnetic wave travels seamlessly down the line, pulling the train across mid-track in one continuous glide.',
+      activeCoils: [false, false, false, true, false],
+      pattern: ['OFF', 'OFF', 'OFF', 'ON', 'OFF'],
+      tag: '⚡ STAGE 3: MID-TRACK PROPULSION'
+    },
+    {
+      title: 'Step 4 — Terminal Approach (Coil 5 ON, Coil 4 OFF)',
+      desc: 'As the train clears Coil 4, Coil 4 deactivates and Coil 5 energizes. The final stator electromagnet pulls the train smoothly into the terminal station.',
+      activeCoils: [false, false, false, false, true],
+      pattern: ['OFF', 'OFF', 'OFF', 'OFF', 'ON'],
+      tag: '🚅 STAGE 4: TERMINAL PULL'
+    },
+    {
+      title: 'Step 5 — Arrival & Safe Shutdown (All Coils OFF)',
+      desc: 'The train arrives safely at the terminal, completing its frictionless edge-to-edge flight. All track coils safely shut OFF until the next scheduled departure wave.',
+      activeCoils: [false, false, false, false, false],
+      pattern: ['OFF', 'OFF', 'OFF', 'OFF', 'OFF'],
+      tag: '🏁 STAGE 5: RUN COMPLETED'
+    },
+  ];
+
+  // Auto-play staging & continuous uninterrupted traveling wave timeline
+  useEffect(() => {
+    if (!autoPlay) {
+      setIsTranslating(false);
+      return;
+    }
+
+    let isMounted = true;
+    autoPlaySeqRef.current += 1;
+    const currentSeqId = autoPlaySeqRef.current;
+
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    const executeAutoPlay = async () => {
+      while (isMounted && autoPlaySeqRef.current === currentSeqId) {
+        // Step 0: Reset at start
+        setPropStep(-1);
+        setIsTranslating(false);
+        await sleep(1500);
+        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
+
+        // Stage 1: Initial Launch (Coil 2 ON & Start Continuous Glide)
+        setPropStep(0);
+        setIsTranslating(true); // Train begins continuous, uninterrupted linear glide
+        await sleep(2500); // Crosses past Coil 2 at 2.5s
+        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
+
+        // Stage 2: Dynamic Sequential Handoff (Coil 3 ON, Coil 2 OFF)
+        setPropStep(1);
+        await sleep(2500); // Crosses past Coil 3 at 5.0s
+        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
+
+        // Stage 3: Mid-Track Traveling Wave (Coil 4 ON, Coil 3 OFF)
+        setPropStep(2);
+        await sleep(2500); // Crosses past Coil 4 at 7.5s
+        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
+
+        // Stage 4: Terminal Approach (Coil 5 ON, Coil 4 OFF)
+        setPropStep(3);
+        await sleep(2500); // Reaches Coil 5 at 10.0s
+        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
+
+        // Stage 5: Arrival & Safe Shutdown (All Coils OFF)
+        setPropStep(4);
+        setViewedAll(true);
+        await sleep(3500); // Hold at terminal
+        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
+      }
+    };
+
+    executeAutoPlay();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [autoPlay]);
+
+  const goNext = () => {
+    setAutoPlay(false);
+    setIsTranslating(false);
+    setPropStep(prev => {
+      const next = Math.min(prev + 1, 4);
+      if (next === 4) setViewedAll(true);
+      return next;
+    });
+  };
+
+  const cur = propStep >= 0 ? PROP_INFO[propStep] : null;
+  const activeCoils = cur ? cur.activeCoils : [false, false, false, false, false];
+  const currentPattern = cur ? cur.pattern : ['OFF', 'OFF', 'OFF', 'OFF', 'OFF'];
+
+  const getTrainLeft = () => {
+    if (autoPlay) {
+      return isTranslating ? 'calc(100% - 430px)' : '0px';
+    }
+    if (propStep === -1) return '0px';
+    if (propStep === 0) return 'calc((100% - 430px) * 0.22)';
+    if (propStep === 1) return 'calc((100% - 430px) * 0.48)';
+    if (propStep === 2) return 'calc((100% - 430px) * 0.72)';
+    if (propStep === 3) return 'calc((100% - 430px) * 0.90)';
+    if (propStep === 4) return 'calc(100% - 430px)';
+    return '0px';
+  };
+
+  const getTrainTransition = () => {
+    if (autoPlay && isTranslating) {
+      return 'left 10s linear';
+    }
+    return 'left 0.8s ease-out';
+  };
+
+  return (
+    <div style={{
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      padding: '0.65rem 1rem',
+      boxSizing: 'border-box',
+      overflow: 'hidden',
+      gap: '0.65rem'
+    }}>
+      {/* ── 1. PRIMARY INTERACTIVE ACTIVITY AREA (STANDALONE SINGLE-SCREEN FIT) ── */}
+      <div style={{
+        width: '100%',
+        background: '#FFFFFF',
+        border: '1.5px solid #E2E8F0',
+        borderRadius: '18px',
+        boxShadow: '0 4px 20px rgba(15, 23, 42, 0.04)',
+        padding: '0.85rem 1.25rem',
+        boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        gap: '0.65rem',
+        flex: '1.35',
+        minHeight: 0
+      }}>
+        {/* Controls Row & Scaled Header Badge */}
         <div style={{
-          display: 'inline-flex',
+          display: 'flex',
           alignItems: 'center',
-          gap: '0.4rem',
-          background: 'linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%)',
-          border: '1.5px solid #7DD3FC',
-          color: '#0369A1',
-          padding: '0.35rem 0.85rem',
-          borderRadius: '20px',
-          fontSize: '0.77rem',
-          fontWeight: 800,
-          letterSpacing: '0.5px',
-          width: 'fit-content'
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '0.65rem',
+          flexShrink: 0
         }}>
-          🔬 MAGNETIC LEVITATION PHYSICS
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            background: 'linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%)',
+            border: '1.5px solid #A5F3FC',
+            color: '#0891B2',
+            padding: '0.45rem 1.15rem',
+            borderRadius: '20px',
+            fontSize: '1.15rem',
+            fontWeight: 900,
+            letterSpacing: '0.5px'
+          }}>
+            ⚡ ELECTROMAGNETIC PROPULSION SIMULATION
+          </div>
+
+          {/* Interactive Navigation Controls */}
+          <div style={{ display: 'flex', gap: '0.65rem', alignItems: 'center', flexWrap: 'wrap' }}>
+            <button
+              onClick={() => { setAutoPlay(false); setIsTranslating(false); setPropStep(p => Math.max(-1, p - 1)); }}
+              disabled={propStep < 0}
+              style={{
+                padding: '0.45rem 1.05rem',
+                borderRadius: '10px',
+                border: '1.5px solid #CBD5E1',
+                background: propStep < 0 ? '#F1F5F9' : '#FFFFFF',
+                color: propStep < 0 ? '#94A3B8' : '#334155',
+                fontWeight: 900,
+                fontSize: '1.05rem',
+                cursor: propStep < 0 ? 'not-allowed' : 'pointer',
+                boxShadow: propStep < 0 ? 'none' : '0 2px 6px rgba(0,0,0,0.04)',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              ◀ Prev
+            </button>
+            <button
+              onClick={goNext}
+              disabled={propStep >= 4}
+              style={{
+                padding: '0.45rem 1.15rem',
+                borderRadius: '10px',
+                border: propStep < 4 ? '1.5px solid #0284C7' : '1.5px solid #CBD5E1',
+                background: propStep < 4 ? '#0284C7' : '#F1F5F9',
+                color: propStep < 4 ? '#FFFFFF' : '#94A3B8',
+                fontWeight: 900,
+                fontSize: '1.05rem',
+                cursor: propStep >= 4 ? 'not-allowed' : 'pointer',
+                boxShadow: propStep < 4 ? '0 2px 8px rgba(2,132,199,0.25)' : 'none',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              Next Step ▶
+            </button>
+            <button
+              onClick={() => setAutoPlay(p => !p)}
+              style={{
+                padding: '0.45rem 1.15rem',
+                borderRadius: '10px',
+                border: autoPlay ? '1.5px solid #D97706' : '1.5px solid #F59E0B',
+                background: autoPlay ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#FFFBEB',
+                color: autoPlay ? '#FFFFFF' : '#B45309',
+                fontWeight: 900,
+                fontSize: '1.05rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                boxShadow: '0 2px 8px rgba(245,158,11,0.2)',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              {autoPlay ? '⏸ Pause' : '▶ Auto-play'}
+            </button>
+            <button
+              onClick={() => { setAutoPlay(false); setIsTranslating(false); setPropStep(-1); }}
+              style={{
+                padding: '0.45rem 1.05rem',
+                borderRadius: '10px',
+                border: '1.5px solid #E2E8F0',
+                background: '#F8FAFC',
+                color: '#64748B',
+                fontWeight: 800,
+                fontSize: '1.05rem',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              ↺ Reset
+            </button>
+          </div>
         </div>
 
-        <h2 style={{ margin: 0, color: '#0F172A', fontSize: '1.4rem', fontWeight: 900, lineHeight: 1.25 }}>
-          How Does the Train Float?
-        </h2>
-
-        <p style={{ margin: 0, color: '#475569', fontSize: '0.92rem', lineHeight: 1.6 }}>
-          Electromagnetic coils are embedded in the guideway track below the train. When electric current flows through them, they create a powerful <strong style={{ color: '#0284C7' }}>upward magnetic force</strong> that lifts the train.
-        </p>
-
-        {/* Force Balance Card — Clean Light Scheme */}
+        {/* Realistic Interactive Simulation Canvas with Provided User Assets */}
         <div style={{
-          background: 'linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%)',
+          position: 'relative',
+          width: '100%',
+          flex: 1,
+          minHeight: '170px',
+          maxHeight: '235px',
+          background: 'linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 55%, #E2E8F0 100%)',
+          borderRadius: '14px',
           border: '1.5px solid #CBD5E1',
-          borderRadius: '16px',
-          padding: '1rem 1.15rem',
+          overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
-          gap: '0.75rem',
-          boxShadow: '0 4px 14px rgba(0,0,0,0.03)'
+          justifyContent: 'flex-end',
+          padding: '0.5rem 1rem',
+          boxSizing: 'border-box',
+          boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.03)'
         }}>
-          <div style={{ color: '#0F172A', fontWeight: 900, fontSize: '0.9rem', letterSpacing: '0.4px' }}>
-            ⚖️ Force Balance:
-          </div>
+          {/* Engineering Blueprint Grid Pattern */}
           <div style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: 'linear-gradient(rgba(14,165,233,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(14,165,233,0.05) 1px, transparent 1px)',
+            backgroundSize: '24px 24px',
+            pointerEvents: 'none'
+          }} />
+
+          {/* Direction of Travel Indicator Banner */}
+          <div style={{
+            position: 'absolute',
+            top: '10px',
+            right: '12px',
             display: 'flex',
-            justifyContent: 'space-around',
             alignItems: 'center',
-            padding: '0.65rem 0.9rem',
-            background: '#FFFFFF',
-            borderRadius: '12px',
-            border: '1px solid #E2E8F0',
-            boxShadow: '0 2px 6px rgba(0,0,0,0.03)'
+            gap: '0.5rem',
+            background: 'rgba(255, 255, 255, 0.9)',
+            border: '1px solid #CBD5E1',
+            borderRadius: '20px',
+            padding: '0.25rem 0.85rem',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
+            zIndex: 5
           }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem' }}>
-              <div style={{ color: '#0284C7', fontSize: '1.5rem', fontWeight: 900, lineHeight: 1 }}>↑</div>
-              <div style={{ color: '#0369A1', fontWeight: 800, fontSize: '0.82rem' }}>Magnetic Force</div>
-              <div style={{ color: '#0284C7', fontWeight: 900, fontFamily: 'monospace', fontSize: '1.1rem' }}>
-                {magneticForce} N
-              </div>
-            </div>
-            <div style={{ color: '#94A3B8', fontWeight: 900, fontSize: '1.1rem' }}>vs</div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem' }}>
-              <div style={{ color: '#D97706', fontSize: '1.5rem', fontWeight: 900, lineHeight: 1 }}>↓</div>
-              <div style={{ color: '#B45309', fontWeight: 800, fontSize: '0.82rem' }}>Weight / Gravity</div>
-              <div style={{ color: '#D97706', fontWeight: 900, fontFamily: 'monospace', fontSize: '1.1rem' }}>
-                9.8 N/kg
-              </div>
+            <span style={{ color: '#0369A1', fontSize: '0.95rem', fontWeight: 900, letterSpacing: '0.5px' }}>
+              Direction of Travel ➔ ➔ ➔
+            </span>
+          </div>
+
+          {/* Moving Provided User Maglev Train Model — Explicit Continuous Translation */}
+          <div style={{
+            position: 'relative',
+            width: '100%',
+            height: '105px',
+            zIndex: 4,
+            display: 'flex',
+            alignItems: 'flex-end',
+            marginBottom: '4px',
+            overflow: 'visible'
+          }}>
+            <div
+              style={{
+                position: 'absolute',
+                left: getTrainLeft(),
+                bottom: '0px',
+                width: '420px',
+                transition: getTrainTransition(),
+                willChange: 'left',
+                display: 'block'
+              }}
+            >
+              <img
+                src="/FunWithMagnets/transrapid_train_clean.png"
+                alt="Transrapid Maglev Bullet Train"
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  display: 'block',
+                  filter: 'drop-shadow(0 10px 16px rgba(0,0,0,0.3))'
+                }}
+              />
+
+              {/* Levitation Glow Cushion under the train */}
+              <div style={{
+                position: 'absolute',
+                bottom: '-2px',
+                left: '15px',
+                right: '15px',
+                height: '8px',
+                background: 'radial-gradient(ellipse at center, rgba(56,189,248,0.75) 0%, rgba(56,189,248,0) 80%)',
+                filter: 'blur(3px)',
+                pointerEvents: 'none'
+              }} />
             </div>
           </div>
+
+          {/* Real Industrial Steel Guideway Rail Track Structure */}
           <div style={{
-            borderTop: '1px solid #E2E8F0',
-            paddingTop: '0.6rem',
-            color: strength < 20 ? '#64748B' : strength < 55 ? '#B45309' : strength < 85 ? '#15803D' : '#0369A1',
-            fontSize: '0.84rem',
-            lineHeight: 1.5,
-            fontWeight: 700
+            position: 'relative',
+            width: '100%',
+            height: '62px',
+            zIndex: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-end'
           }}>
-            {strength < 20 ? '⚪ Increase magnetic strength to lift the train above the guideway.' :
-             strength < 55 ? '🟡 Magnetic force is building — train begins to rise from the track.' :
-             strength < 85 ? '🟢 Balanced levitation — train hovers stably at optimal height!' :
-             '🔵 Maximum magnetic power — full levitation, maximum gap achieved!'}
+            {/* Real Industrial Guideway Track Image Layer */}
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              height: '46px',
+              borderRadius: '8px',
+              overflow: 'hidden',
+              border: '1.5px solid #334155',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.18)'
+            }}>
+              <img
+                src="/FunWithMagnets/transrapid_track_clean.png"
+                alt="Transrapid Maglev Guideway Track"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  display: 'block'
+                }}
+              />
+
+              {/* 5 Electromagnetic Stator Coil Status Markers ON the Track — Coils 1 through 5 */}
+              <div style={{
+                position: 'absolute',
+                bottom: '4px',
+                left: 0,
+                right: 0,
+                display: 'flex',
+                justifyContent: 'space-around',
+                padding: '0 2.5rem',
+                zIndex: 6,
+                pointerEvents: 'none'
+              }}>
+                {[0, 1, 2, 3, 4].map(idx => {
+                  const isActive = activeCoils[idx];
+                  return (
+                    <div
+                      key={idx}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        padding: '0.22rem 0.75rem',
+                        borderRadius: '6px',
+                        background: isActive ? '#0284C7' : 'rgba(15, 23, 42, 0.88)',
+                        border: `1.5px solid ${isActive ? '#38BDF8' : '#475569'}`,
+                        boxShadow: isActive ? '0 0 14px rgba(56,189,248,0.95)' : '0 2px 4px rgba(0,0,0,0.3)',
+                        backdropFilter: 'blur(4px)',
+                        transition: 'all 0.25s ease'
+                      }}
+                    >
+                      <span style={{
+                        color: isActive ? '#FFFFFF' : '#CBD5E1',
+                        fontSize: '0.95rem',
+                        fontWeight: 900,
+                        letterSpacing: '0.3px'
+                      }}>
+                        Coil {idx + 1}
+                      </span>
+                      <span style={{
+                        background: isActive ? '#38BDF8' : '#334155',
+                        color: isActive ? '#0369A1' : '#94A3B8',
+                        fontSize: '0.85rem',
+                        fontWeight: 900,
+                        padding: '0.12rem 0.4rem',
+                        borderRadius: '4px'
+                      }}>
+                        {isActive ? '⚡ ON' : 'OFF'}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
 
-        <ProceedBtn onClick={onNext} disabled={strength < 50}>
-          {strength >= 50 ? 'Next: How Does It Move?' : `Increase strength to 50% to test lift (currently ${strength}%)`}
-        </ProceedBtn>
+        {/* Synchronized Magnetic Sequence Pattern Status Row */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.75rem',
+          justifyContent: 'center',
+          flexWrap: 'wrap',
+          background: '#F8FAFC',
+          border: '1px solid #E2E8F0',
+          borderRadius: '10px',
+          padding: '0.45rem 1rem'
+        }}>
+          <span style={{ color: '#1E293B', fontSize: '1.05rem', fontWeight: 900 }}>
+            Traveling Wave Status:
+          </span>
+          {currentPattern.map((s, i) => (
+            <span
+              key={i}
+              style={{
+                padding: '0.25rem 0.75rem',
+                borderRadius: '8px',
+                fontWeight: 900,
+                fontSize: '0.95rem',
+                background: s === 'ON' ? 'rgba(6,182,212,0.22)' : '#E2E8F0',
+                color: s === 'ON' ? '#0284C7' : '#64748B',
+                border: `1.5px solid ${s === 'ON' ? '#0284C7' : '#CBD5E1'}`,
+                boxShadow: s === 'ON' ? '0 0 8px rgba(2,132,199,0.3)' : 'none',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              Coil {i + 1}: {s}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ── 2. TWO BOTTOM BOXES (TYPOGRAPHY FULLY SCALED TO FILL INTERIOR SPACE) ── */}
+      <div style={{
+        width: '100%',
+        display: 'grid',
+        gridTemplateColumns: '1.25fr 1fr',
+        gap: '0.85rem',
+        alignItems: 'stretch',
+        flex: '1',
+        minHeight: 0
+      }}>
+        {/* LEFT BOX: Dynamically changing content scaled up to fill container */}
+        <div style={{
+          background: '#FFFFFF',
+          border: '1.5px solid #E2E8F0',
+          borderRadius: '16px',
+          padding: '1.25rem 1.6rem',
+          boxSizing: 'border-box',
+          boxShadow: '0 4px 14px rgba(15, 23, 42, 0.03)',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          overflowY: 'auto'
+        }}>
+          <AnimatePresence mode="wait">
+            {propStep < 0 ? (
+              <motion.div
+                key="initial"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}
+              >
+                <div style={{
+                  color: '#0284C7',
+                  fontWeight: 900,
+                  fontSize: '1.75rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                  lineHeight: 1.25
+                }}>
+                  <span>🔬</span> How Does the Maglev Train Move Forward?
+                </div>
+                <p style={{ margin: 0, color: '#334155', fontSize: '1.35rem', lineHeight: 1.6 }}>
+                  Unlike conventional trains that rely on an engine turning wheels against metal rails, a Maglev train is propelled entirely by <strong style={{ color: '#0F172A' }}>synchronized traveling electromagnetic waves</strong> embedded along the track guideway. Click <strong style={{ color: '#0284C7' }}>"Next Step ▶"</strong> or <strong style={{ color: '#D97706' }}>"▶ Auto-play"</strong> above to witness each phase of the propulsion cycle!
+                </p>
+              </motion.div>
+            ) : (
+              <motion.div
+                key={propStep}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+                  <span style={{
+                    background: 'linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%)',
+                    border: '1.5px solid #06B6D4',
+                    color: '#0891B2',
+                    borderRadius: '10px',
+                    padding: '0.3rem 0.85rem',
+                    fontWeight: 900,
+                    fontSize: '1.05rem'
+                  }}>
+                    STEP {propStep + 1} OF 5
+                  </span>
+                  <span style={{
+                    background: '#F1F5F9',
+                    border: '1px solid #CBD5E1',
+                    color: '#475569',
+                    borderRadius: '10px',
+                    padding: '0.3rem 0.75rem',
+                    fontWeight: 900,
+                    fontSize: '1.02rem'
+                  }}>
+                    {PROP_INFO[propStep].tag}
+                  </span>
+                </div>
+                <h3 style={{ margin: 0, color: '#0F172A', fontWeight: 900, fontSize: '1.7rem', lineHeight: 1.25 }}>
+                  {PROP_INFO[propStep].title}
+                </h3>
+                <p style={{ margin: 0, color: '#334155', fontSize: '1.35rem', lineHeight: 1.6 }}>
+                  {PROP_INFO[propStep].desc}
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* RIGHT BOX: Fixed Takeaway Box scaled up to fill container */}
+        <div style={{
+          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+          border: '1.5px solid #FDE68A',
+          borderRadius: '16px',
+          padding: '1.25rem 1.6rem',
+          boxSizing: 'border-box',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          gap: '1rem',
+          boxShadow: '0 4px 14px rgba(245, 158, 11, 0.06)'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
+            <span style={{ fontSize: '2.4rem', lineHeight: 1 }}>💡</span>
+            <p style={{
+              margin: 0,
+              color: '#78350F',
+              fontSize: '1.4rem',
+              lineHeight: 1.6,
+              fontWeight: 700
+            }}>
+              "Instead of an engine pushing against track friction, computer-synchronized electromagnets pull from ahead and push from behind in an ultra-fast traveling magnetic wave."
+            </p>
+          </div>
+
+          <button
+            onClick={onNext}
+            disabled={!viewedAll}
+            style={{
+              background: viewedAll ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#E2E8F0',
+              color: viewedAll ? '#FFFFFF' : '#94A3B8',
+              border: 'none',
+              borderRadius: '14px',
+              padding: '0.9rem 1.8rem',
+              fontSize: '1.35rem',
+              fontWeight: 900,
+              cursor: viewedAll ? 'pointer' : 'not-allowed',
+              boxShadow: viewedAll ? '0 4px 14px rgba(217, 119, 6, 0.35)' : 'none',
+              transition: 'all 0.2s ease',
+              width: '100%',
+              textAlign: 'center'
+            }}
+          >
+            {viewedAll ? 'Next: Electromagnet Control ▶' : 'Watch all 5 steps to proceed'}
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// STEP 3 — How Does the Train Move? — Propulsion Sequence
-// ══════════════════════════════════════════════════════════════════════════════
-function Step3Move({ onNext }) {
-  const [propStep, setPropStep] = useState(-1);
-  const [autoPlay, setAutoPlay] = useState(false);
-  const [viewedAll, setViewedAll] = useState(false);
-  const timerRef = useRef(null);
-
-  const PROP_INFO = [
-    {
-      title: 'Step 1 — Pull (Ahead Magnet ON)',
-      desc: 'The electromagnet directly in front of the train activates. Its magnetic field lines reach toward the train. Attraction pulls the train forward!',
-      activeCoil: 1, trainIdx: 0
-    },
-    {
-      title: 'Step 2 — Release (Arrive & Switch OFF)',
-      desc: 'Just as the train arrives at the magnet\'s position, the electromagnet switches OFF. This prevents the train from being held back by attraction.',
-      activeCoil: -1, trainIdx: 1
-    },
-    {
-      title: 'Step 3 — Next (Next Ahead Magnet ON)',
-      desc: 'The next electromagnet further ahead switches ON. The traveling magnetic field effectively moves forward along the track.',
-      activeCoil: 2, trainIdx: 1
-    },
-    {
-      title: 'Step 4 — Follow (Train Catches Up)',
-      desc: 'The sequence repeats: ON → OFF → ON → OFF. The train smoothly chases the traveling magnetic field along the entire track!',
-      activeCoil: 3, trainIdx: 2
-    },
-  ];
-
-  const COIL_XS = [70, 170, 270, 370, 470];
-  const TRAIN_DX = [0, 100, 200]; // delta x for train position
-
-  useEffect(() => {
-    if (autoPlay) {
-      timerRef.current = setInterval(() => {
-        setPropStep(prev => {
-          const next = (prev + 1) % 4;
-          if (next === 3) setViewedAll(true);
-          return next;
-        });
-      }, 1900);
-    } else {
-      clearInterval(timerRef.current);
-    }
-    return () => clearInterval(timerRef.current);
-  }, [autoPlay]);
-
-  const goNext = () => {
-    setAutoPlay(false);
-    setPropStep(prev => {
-      const next = Math.min(prev + 1, 3);
-      if (next === 3) setViewedAll(true);
-      return next;
-    });
-  };
-
-  const cur = propStep >= 0 ? PROP_INFO[propStep] : null;
-  const activeCoil = cur?.activeCoil ?? -1;
-  const trainDx = cur ? TRAIN_DX[cur.trainIdx] : 0;
-
-  return (
-    <CinematicWrap style={{ flexDirection: 'column', gap: '0.85rem' }}>
-      {/* Main animation panel */}
-      <div style={{ flex: 1.5, width: '100%', ...CARD_GLASS, padding: '1rem 1.25rem', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-        {/* Controls row */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-          <div style={{ color: '#67E8F9', fontWeight: 800, fontSize: '0.8rem', letterSpacing: '1px', textTransform: 'uppercase' }}>
-            ⚡ Electromagnetic Propulsion Track
-          </div>
-          <div style={{ display: 'flex', gap: '0.6rem' }}>
-            <button onClick={() => { setAutoPlay(false); setPropStep(p => Math.max(-1, p - 1)); }}
-              disabled={propStep < 0}
-              style={{ padding: '0.45rem 0.85rem', borderRadius: '10px', border: '1.5px solid rgba(56,189,248,0.3)', background: 'rgba(15,23,42,0.7)', color: propStep < 0 ? '#334155' : '#94A3B8', fontWeight: 800, fontSize: '0.8rem', cursor: propStep < 0 ? 'not-allowed' : 'pointer' }}>
-              ◀ Prev
-            </button>
-            <button onClick={goNext}
-              disabled={propStep >= 3}
-              style={{ padding: '0.45rem 0.85rem', borderRadius: '10px', border: `1.5px solid ${propStep < 3 ? 'rgba(6,182,212,0.5)' : 'rgba(56,189,248,0.15)'}`, background: propStep < 3 ? 'rgba(6,182,212,0.18)' : 'rgba(15,23,42,0.5)', color: propStep < 3 ? '#67E8F9' : '#334155', fontWeight: 800, fontSize: '0.8rem', cursor: propStep >= 3 ? 'not-allowed' : 'pointer' }}>
-              Next ▶
-            </button>
-            <button onClick={() => setAutoPlay(p => !p)}
-              style={{ padding: '0.45rem 0.85rem', borderRadius: '10px', border: `1.5px solid ${autoPlay ? '#F59E0B' : 'rgba(245,158,11,0.3)'}`, background: autoPlay ? 'rgba(245,158,11,0.2)' : 'rgba(15,23,42,0.7)', color: autoPlay ? '#FBBF24' : '#94A3B8', fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-              {autoPlay ? '⏸ Pause' : '▶ Auto-play'}
-            </button>
-            <button onClick={() => { setAutoPlay(false); setPropStep(-1); }}
-              style={{ padding: '0.45rem 0.85rem', borderRadius: '10px', border: '1.5px solid rgba(56,189,248,0.18)', background: 'rgba(15,23,42,0.7)', color: '#64748B', fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer' }}>
-              ↺ Reset
-            </button>
-          </div>
-        </div>
-
-        {/* Track SVG */}
-        <svg viewBox="0 0 550 160" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', flex: 1 }}>
-          <defs>
-            <filter id="s3CoilGlow">
-              <feGaussianBlur stdDeviation="5" result="blur" />
-              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-            </filter>
-          </defs>
-
-          {/* Track */}
-          <rect x="12" y="110" width="528" height="22" rx="8" fill="#1A2535" stroke="#2D3F52" strokeWidth="1.5" />
-          <line x1="12" y1="114" x2="540" y2="114" stroke="#38BDF8" strokeWidth="1.5" opacity="0.35" />
-          <line x1="12" y1="128" x2="540" y2="128" stroke="#38BDF8" strokeWidth="1.5" opacity="0.35" />
-
-          {/* Coils */}
-          {COIL_XS.map((cx, i) => {
-            const isActive = i === activeCoil;
-            return (
-              <g key={i}>
-                <rect x={cx - 30} y="96" width="60" height="14" rx="5"
-                  fill={isActive ? 'rgba(6,182,212,0.85)' : 'rgba(20,35,52,0.95)'}
-                  stroke={isActive ? '#67E8F9' : '#2D3F52'}
-                  strokeWidth={isActive ? 2.5 : 1.5}
-                  filter={isActive ? "url(#s3CoilGlow)" : "none"}
-                />
-                <text x={cx} y="106" textAnchor="middle" fill={isActive ? '#FFFFFF' : '#4B5E72'} fontSize="9" fontWeight="bold">
-                  {isActive ? '⚡ ON' : 'OFF'}
-                </text>
-                {/* Active field lines pointing toward train */}
-                {isActive && [-18, -6, 6, 18].map((dx, j) => (
-                  <line key={j} x1={cx + dx} y1="95" x2={cx + dx} y2={68}
-                    stroke="#06B6D4" strokeWidth="1.5" strokeDasharray="4,3" opacity={0.7 - j * 0.1} />
-                ))}
-                {isActive && (
-                  <ellipse cx={cx} cy={62} rx="26" ry="9"
-                    fill="none" stroke="#06B6D4" strokeWidth="1.5" strokeDasharray="5,3" opacity="0.6" />
-                )}
-                {/* Coil number */}
-                <text x={cx} y="148" textAnchor="middle" fill="#2D3F52" fontSize="9">Coil {i + 1}</text>
-              </g>
-            );
-          })}
-
-          {/* Direction arrow line */}
-          {[130, 230, 330, 430].map((ax, i) => (
-            <text key={i} x={ax} y="58" textAnchor="middle" fill="#2D3F52" fontSize="18" opacity="0.7">→</text>
-          ))}
-          <text x="275" y="30" textAnchor="middle" fill="#2D3F52" fontSize="10" fontWeight="bold" opacity="0.6">Direction of Travel ➔</text>
-
-          {/* TRAIN */}
-          <motion.g
-            animate={{ x: trainDx }}
-            transition={{ type: 'spring', stiffness: 90, damping: 18 }}
-          >
-            {/* Maglev skirt */}
-            <rect x="18" y="106" width="120" height="14" rx="5" fill="rgba(14,116,144,0.85)" stroke="#06B6D4" strokeWidth="1.5" />
-            {/* Train body */}
-            <rect x="12" y="66" width="132" height="42" rx="10" fill="#1C2A35" stroke="#2D3F52" strokeWidth="1.5" />
-            {/* Top accent */}
-            <rect x="12" y="66" width="132" height="5" rx="2" fill="#0EA5E9" opacity="0.8" />
-            {/* Bottom accent */}
-            <rect x="12" y="100" width="132" height="6" rx="3" fill="#F59E0B" />
-            {/* Windows */}
-            {[20, 58, 96].map((wx, i) => (
-              <rect key={i} x={wx} y="74" width="28" height="18" rx="4" fill="#0C4A6E" stroke="#0EA5E9" strokeWidth="1" />
-            ))}
-            {/* Nose */}
-            <path d="M144 66 Q162 87 144 108 Z" fill="#1A2535" stroke="#2D3F52" strokeWidth="1" />
-            <path d="M144 69 Q159 87 144 105" fill="none" stroke="#F59E0B" strokeWidth="2" opacity="0.7" />
-            <text x="78" y="88" textAnchor="middle" fill="#BAE6FD" fontSize="8" fontWeight="bold">MAGLEV</text>
-          </motion.g>
-        </svg>
-
-        {/* ON/OFF pattern */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', justifyContent: 'center', flexShrink: 0 }}>
-          <span style={{ color: TEXT_BODY, fontSize: '0.8rem', fontWeight: 700 }}>Magnetic Pattern:</span>
-          {['ON', 'OFF', 'ON', 'OFF', 'ON'].map((s, i) => (
-            <span key={i} style={{ padding: '0.22rem 0.6rem', borderRadius: '8px', fontWeight: 900, fontSize: '0.75rem', background: s === 'ON' ? 'rgba(6,182,212,0.22)' : 'rgba(30,41,59,0.8)', color: s === 'ON' ? '#67E8F9' : '#475569', border: `1px solid ${s === 'ON' ? 'rgba(6,182,212,0.4)' : '#334155'}` }}>
-              {s}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Bottom info row */}
-      <div style={{ flex: 0.5, width: '100%', display: 'flex', gap: '0.85rem', minHeight: 0 }}>
-        {/* Step description */}
-        <div style={{ flex: 2.2, ...CARD_GLASS, padding: '0.9rem 1.1rem', boxSizing: 'border-box', overflow: 'hidden' }}>
-          <AnimatePresence mode="wait">
-            {propStep < 0 ? (
-              <motion.div key="initial" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                <div style={{ color: '#67E8F9', fontWeight: 900, fontSize: '0.95rem', marginBottom: '0.4rem' }}>🔬 How Does the Maglev Train Move Forward?</div>
-                <p style={{ margin: 0, color: TEXT_BODY, fontSize: '0.87rem', lineHeight: 1.6 }}>
-                  Instead of an engine pushing against the track, <strong style={{ color: '#67E8F9' }}>controlled magnetic forces pull and push the train forward</strong>. Press "Next" or "Auto-play" to see each of the 4 steps!
-                </p>
-              </motion.div>
-            ) : (
-              <motion.div key={propStep} initial={{ opacity: 0, x: 15 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -12 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
-                  <span style={{ background: 'rgba(6,182,212,0.2)', border: '1.5px solid #06B6D4', color: '#67E8F9', borderRadius: '8px', padding: '0.15rem 0.6rem', fontWeight: 900, fontSize: '0.75rem' }}>{propStep + 1}/4</span>
-                  <span style={{ color: TEXT_HEADING, fontWeight: 900, fontSize: '0.92rem' }}>{PROP_INFO[propStep].title}</span>
-                </div>
-                <p style={{ margin: 0, color: TEXT_BODY, fontSize: '0.86rem', lineHeight: 1.6 }}>{PROP_INFO[propStep].desc}</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Quote + Proceed */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-          <div style={{ ...CARD_GLASS, padding: '0.75rem 0.9rem', flex: 1, display: 'flex', alignItems: 'center', borderColor: 'rgba(245,158,11,0.28)', background: 'rgba(245,158,11,0.07)' }}>
-            <p style={{ margin: 0, color: '#FDE68A', fontSize: '0.83rem', lineHeight: 1.55, fontWeight: 700, fontStyle: 'italic' }}>
-              "Instead of an engine pushing against the track, controlled magnetic forces pull and push the train forward."
-            </p>
-          </div>
-          <ProceedBtn onClick={onNext} disabled={!viewedAll}>
-            {viewedAll ? 'Next: EM Control' : `Watch all 4 steps`}
-          </ProceedBtn>
-        </div>
-      </div>
-    </CinematicWrap>
-  );
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// STEP 4 — Electromagnetic Control — ON/OFF Demo
+// STEP 4 — Electromagnetic Control — Video & Physics Principles
 // ══════════════════════════════════════════════════════════════════════════════
 function Step4Control({ onNext }) {
-  const [powerOn, setPowerOn] = useState(false);
-  const [toggled, setToggled] = useState(false);
-
-  const toggle = () => {
-    setPowerOn(p => !p);
-    setToggled(true);
-  };
-
   return (
-    <CinematicWrap>
-      <LeftPanel>
-        <div style={{ color: '#67E8F9', fontWeight: 800, fontSize: '0.8rem', letterSpacing: '1px', marginBottom: '0.65rem', textTransform: 'uppercase' }}>
-          ⚡ Electromagnet Control Demo
+    <div style={{
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'row',
+      gap: '1.25rem',
+      boxSizing: 'border-box',
+      overflow: 'hidden',
+    }}>
+      {/* ── LEFT CONTAINER: CLEAN WHITE CARD & EMBEDDED ELECTROMAGNET VIDEO ── */}
+      <div style={{
+        flex: '1.15',
+        height: '100%',
+        background: '#FFFFFF',
+        border: '1.5px solid #E2E8F0',
+        borderRadius: '20px',
+        boxShadow: '0 8px 24px rgba(15, 23, 42, 0.04)',
+        padding: '1.25rem',
+        boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.85rem',
+        overflow: 'hidden'
+      }}>
+        {/* Header Badge */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          width: '100%',
+          flexShrink: 0
+        }}>
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            background: 'linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%)',
+            border: '1.5px solid #A7F3D0',
+            color: '#065F46',
+            padding: '0.45rem 1.1rem',
+            borderRadius: '20px',
+            fontSize: '0.92rem',
+            fontWeight: 900,
+            letterSpacing: '0.6px'
+          }}>
+            🎥 ELECTROMAGNET OPERATION & CONTROL
+          </div>
         </div>
 
-        <svg viewBox="0 0 400 310" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', maxWidth: '380px', flex: 1 }}>
-          <defs>
-            <filter id="s4GlowF">
-              <feGaussianBlur stdDeviation={powerOn ? 5 : 1} result="blur" />
-              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-            </filter>
-            <linearGradient id="s4CoreGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#6B7280" /><stop offset="100%" stopColor="#374151" />
-            </linearGradient>
-          </defs>
+        {/* Responsive Video Containment */}
+        <div style={{
+          width: '100%',
+          flex: 1,
+          minHeight: 0,
+          borderRadius: '16px',
+          overflow: 'hidden',
+          border: '1.5px solid #CBD5E1',
+          background: '#0F172A',
+          boxShadow: '0 4px 14px rgba(0,0,0,0.06)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative'
+        }}>
+          <video
+            src="/FunWithMagnets/Emagnet.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            controls
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              display: 'block'
+            }}
+          />
+        </div>
+      </div>
 
-          {/* Battery */}
-          <rect x="30" y="105" width="52" height="80" rx="8" fill="#1A2535" stroke={powerOn ? '#FBBF24' : '#2D3F52'} strokeWidth="2.5" />
-          <text x="56" y="140" textAnchor="middle" fill={powerOn ? '#FBBF24' : '#4B5E72'} fontSize="18">⚡</text>
-          <text x="56" y="158" textAnchor="middle" fill={powerOn ? '#FBBF24' : '#4B5E72'} fontSize="9" fontWeight="bold">POWER</text>
-          {/* Battery terminals */}
-          <line x1="45" y1="103" x2="67" y2="103" stroke={powerOn ? '#FBBF24' : '#4B5E72'} strokeWidth="3.5" />
-          <line x1="50" y1="187" x2="62" y2="187" stroke={powerOn ? '#FBBF24' : '#4B5E72'} strokeWidth="2.5" />
+      {/* ── RIGHT CONTAINER: SCALED TYPOGRAPHY & SCIENCE PRINCIPLES ── */}
+      <div style={{
+        flex: '1',
+        height: '100%',
+        background: '#FFFFFF',
+        border: '1.5px solid #E2E8F0',
+        borderRadius: '20px',
+        boxShadow: '0 8px 24px rgba(15, 23, 42, 0.04)',
+        padding: '1.35rem 1.6rem',
+        boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        gap: '0.85rem',
+        overflowY: 'auto'
+      }}>
+        {/* Badge */}
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          background: 'linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%)',
+          border: '1.5px solid #A5F3FC',
+          color: '#0891B2',
+          padding: '0.4rem 1rem',
+          borderRadius: '20px',
+          fontSize: '0.9rem',
+          fontWeight: 900,
+          letterSpacing: '0.6px',
+          width: 'fit-content',
+          flexShrink: 0
+        }}>
+          🔌 ELECTROMAGNETIC CONTROL
+        </div>
 
-          {/* Wire circuit path */}
-          <path d="M 56 105 L 56 58 L 315 58 L 365 58 L 365 250 L 315 250 L 56 250 L 56 187"
-            fill="none" stroke={powerOn ? '#374151' : '#1A2535'} strokeWidth="5" strokeLinecap="round" />
-
-          {/* Electricity flow animation along wire */}
-          {powerOn && (
-            <motion.path
-              d="M 56 105 L 56 58 L 315 58 L 365 58 L 365 250 L 315 250 L 56 250 L 56 187"
-              fill="none"
-              stroke="#FBBF24"
-              strokeWidth="5"
-              strokeLinecap="round"
-              strokeDasharray="20 16"
-              animate={{ strokeDashoffset: [0, -144] }}
-              transition={{ duration: 1.7, repeat: Infinity, ease: 'linear' }}
-              style={{ filter: 'drop-shadow(0 0 5px #FBBF24)' }}
-              opacity="0.85"
-            />
-          )}
-
-          {/* IRON CORE */}
-          <rect x="165" y="128" width="150" height="64" rx="9" fill="url(#s4CoreGrad)" stroke="#9CA3AF" strokeWidth="2" />
-          <text x="240" y="163" textAnchor="middle" fill="#D1D5DB" fontSize="11" fontWeight="bold">Iron Core</text>
-
-          {/* WIRE COIL WRAPPINGS (helical) */}
-          {[0,1,2,3,4,5,6,7,8,9,10].map(i => {
-            const cx = 170 + i * 13.5;
-            return (
-              <g key={i}>
-                <path d={`M ${cx} 123 Q ${cx + 6.75} 108 ${cx + 13.5} 123`} fill="none"
-                  stroke={powerOn ? '#06B6D4' : '#2D4060'} strokeWidth="2.5"
-                  filter={powerOn ? "url(#s4GlowF)" : "none"} />
-                <path d={`M ${cx} 192 Q ${cx + 6.75} 207 ${cx + 13.5} 192`} fill="none"
-                  stroke={powerOn ? '#06B6D4' : '#2D4060'} strokeWidth="2.5"
-                  filter={powerOn ? "url(#s4GlowF)" : "none"} />
-              </g>
-            );
-          })}
-
-          {/* Pole labels */}
-          <text x="168" y="118" textAnchor="middle" fill={powerOn ? '#EF4444' : '#475569'} fontSize="16" fontWeight="900">N</text>
-          <text x="318" y="118" textAnchor="middle" fill={powerOn ? '#3B82F6' : '#475569'} fontSize="16" fontWeight="900">S</text>
-
-          {/* Magnetic field lines from each pole */}
-          {powerOn && [-28,-14,0,14,28].map((dy, i) => (
-            <g key={i}>
-              <motion.path
-                d={`M 162 ${160 + dy} Q 115 ${160 + dy * 0.5} 105 160`}
-                fill="none" stroke="#EF4444" strokeWidth="1.5" strokeDasharray="6,4"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 0.65 - Math.abs(i - 2) * 0.1 }}
-                transition={{ duration: 0.55, delay: i * 0.07 }}
-              />
-              <motion.path
-                d={`M 318 ${160 + dy} Q 365 ${160 + dy * 0.5} 378 160`}
-                fill="none" stroke="#3B82F6" strokeWidth="1.5" strokeDasharray="6,4"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 0.65 - Math.abs(i - 2) * 0.1 }}
-                transition={{ duration: 0.55, delay: i * 0.07 }}
-              />
-            </g>
-          ))}
-
-          {/* Status label */}
-          <rect x="130" y="278" width="220" height="28" rx="8"
-            fill={powerOn ? 'rgba(6,182,212,0.2)' : 'rgba(20,35,52,0.85)'}
-            stroke={powerOn ? '#06B6D4' : '#2D3F52'} strokeWidth="1.5" />
-          <text x="240" y="296" textAnchor="middle" fill={powerOn ? '#67E8F9' : '#475569'} fontSize="11" fontWeight="bold">
-            {powerOn ? '⚡ Magnetic Field ACTIVE' : '○ No Magnetic Field'}
-          </text>
-        </svg>
-
-        {/* Power button */}
-        <motion.button
-          whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-          onClick={toggle}
-          style={{
-            marginTop: '0.85rem', padding: '0.9rem 2.25rem', borderRadius: '18px', border: 'none',
-            background: powerOn
-              ? 'linear-gradient(135deg, #06B6D4 0%, #3B82F6 100%)'
-              : 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)',
-            color: '#FFFFFF', fontWeight: 900, fontSize: '1.05rem', cursor: 'pointer',
-            boxShadow: powerOn ? '0 6px 24px rgba(6,182,212,0.5)' : '0 6px 24px rgba(239,68,68,0.45)',
-            display: 'flex', alignItems: 'center', gap: '0.6rem', transition: 'all 0.3s ease',
-          }}
-        >
-          {powerOn ? <><Zap size={21} /> POWER OFF</> : <><ZapOff size={21} /> POWER ON</>}
-        </motion.button>
-      </LeftPanel>
-
-      <RightPanel>
-        <Badge>🔌 ELECTROMAGNETIC CONTROL</Badge>
-
-        <h2 style={{ margin: 0, color: TEXT_HEADING, fontSize: '1.48rem', fontWeight: 900, lineHeight: 1.28 }}>
+        {/* Title */}
+        <h2 style={{
+          margin: 0,
+          color: '#0F172A',
+          fontSize: '2rem',
+          fontWeight: 900,
+          lineHeight: 1.25,
+          letterSpacing: '-0.02em'
+        }}>
           Why Do We Use Electromagnets?
         </h2>
 
-        <p style={{ margin: 0, color: TEXT_BODY, fontSize: '0.95rem', lineHeight: 1.65 }}>
-          Unlike permanent magnets, an <strong style={{ color: '#67E8F9' }}>electromagnet's magnetic force can be switched ON and OFF</strong> — and even reversed — simply by controlling the electric current flowing through it.
+        {/* Lead description */}
+        <p style={{
+          margin: 0,
+          color: '#334155',
+          fontSize: '1.22rem',
+          lineHeight: 1.55,
+          fontWeight: 500
+        }}>
+          Unlike permanent magnets, an <strong style={{ color: '#0284C7', fontWeight: 800 }}>electromagnet's magnetic force can be switched ON and OFF instantly</strong> — and even reversed in milliseconds — simply by regulating the electric current flowing through its coils.
         </p>
 
-        {/* Chain reaction visualization */}
-        <div style={{ background: 'rgba(15,23,42,0.7)', border: '1.5px solid rgba(56,189,248,0.2)', borderRadius: '16px', padding: '1rem 1.1rem' }}>
-          <div style={{ color: '#67E8F9', fontWeight: 900, fontSize: '0.85rem', marginBottom: '0.7rem' }}>⚡ The Chain Reaction:</div>
+        {/* Chain Reaction Flow Card */}
+        <div style={{
+          background: '#F0F9FF',
+          border: '1.5px solid #BAE6FD',
+          borderRadius: '16px',
+          padding: '0.9rem 1.15rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.5rem'
+        }}>
+          <div style={{ color: '#0369A1', fontWeight: 900, fontSize: '1.15rem' }}>
+            ⚡ Instant Magnetic Chain Reaction:
+          </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.45rem' }}>
-            {['Electricity', '→', 'Coil', '→', 'Magnetic Field', '→', 'Train Moves'].map((s, i) => (
-              s === '→' ? (
-                <motion.span key={i}
-                  animate={{ color: powerOn ? '#06B6D4' : '#334155' }}
-                  style={{ fontSize: '1.1rem', fontWeight: 900, transition: 'color 0.4s' }}>→</motion.span>
+            {['Electric Current', '➔', 'Copper Coil', '➔', 'Magnetic Field', '➔', 'Train Propelled'].map((stepText, idx) => (
+              stepText === '➔' ? (
+                <span key={idx} style={{ color: '#0284C7', fontSize: '1.2rem', fontWeight: 900 }}>➔</span>
               ) : (
-                <motion.div key={i}
-                  animate={{
-                    background: powerOn ? 'rgba(6,182,212,0.18)' : 'rgba(20,35,52,0.85)',
-                    borderColor: powerOn ? 'rgba(6,182,212,0.5)' : '#2D3F52',
-                    color: powerOn ? '#67E8F9' : '#4B5E72'
-                  }}
-                  transition={{ duration: 0.35, delay: i * 0.05 }}
-                  style={{ padding: '0.35rem 0.7rem', borderRadius: '10px', border: '1.5px solid #2D3F52', fontWeight: 800, fontSize: '0.8rem' }}>
-                  {s}
-                </motion.div>
+                <span key={idx} style={{
+                  background: '#FFFFFF',
+                  border: '1px solid #7DD3FC',
+                  color: '#0C4A6E',
+                  padding: '0.3rem 0.75rem',
+                  borderRadius: '10px',
+                  fontWeight: 800,
+                  fontSize: '1rem',
+                  boxShadow: '0 1px 4px rgba(2, 132, 199, 0.08)'
+                }}>
+                  {stepText}
+                </span>
               )
             ))}
           </div>
         </div>
 
-        {/* Key advantages */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-          <div style={{ color: '#E0F2FE', fontWeight: 800, fontSize: '0.88rem' }}>✨ Why Electromagnets Are So Useful:</div>
+        {/* 4 Key Advantages List Cards */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
+          <div style={{ color: '#0F172A', fontWeight: 900, fontSize: '1.18rem' }}>
+            ✨ Key Advantages of Electromagnets:
+          </div>
           {[
-            { icon: '⚡', text: 'Can be switched ON and OFF instantly with electricity' },
-            { icon: '🔄', text: 'Magnetic polarity (N/S) reversed by reversing current direction' },
-            { icon: '📊', text: 'Strength precisely controlled by varying current level' },
-            { icon: '🎯', text: 'Perfect for fast, dynamic, computer-controlled systems like Maglev!' },
-          ].map((item, i) => (
-            <motion.div key={i}
-              animate={{ background: powerOn ? 'rgba(6,182,212,0.09)' : 'rgba(15,23,42,0.5)' }}
-              transition={{ duration: 0.35, delay: i * 0.05 }}
-              style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', padding: '0.6rem', borderRadius: '12px', border: '1px solid rgba(56,189,248,0.1)' }}>
-              <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>{item.icon}</span>
-              <span style={{ color: TEXT_BODY, fontSize: '0.84rem', lineHeight: 1.5 }}>{item.text}</span>
-            </motion.div>
+            { icon: '⚡', title: 'Instant ON / OFF Switching', desc: 'Energize or de-energize the magnetic field at lightning speed.' },
+            { icon: '🔄', title: 'Reversible Polarity (N ↔ S)', desc: 'Swap North and South poles instantly by reversing current direction.' },
+            { icon: '📊', title: 'Variable Force Control', desc: 'Precisely modulate magnetic strength by adjusting voltage and amperage.' },
+            { icon: '🎯', title: 'Computer Synchronization', desc: 'Coordinate thousands of track coils simultaneously for seamless train levitation and glide.' }
+          ].map((item, idx) => (
+            <div key={idx} style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem',
+              background: '#F8FAFC',
+              border: '1.5px solid #E2E8F0',
+              borderRadius: '12px',
+              padding: '0.65rem 0.95rem'
+            }}>
+              <span style={{
+                fontSize: '1.35rem',
+                background: '#FFFFFF',
+                padding: '0.2rem 0.5rem',
+                borderRadius: '8px',
+                border: '1px solid #CBD5E1',
+                flexShrink: 0
+              }}>{item.icon}</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
+                <span style={{ color: '#0F172A', fontWeight: 800, fontSize: '1.08rem' }}>{item.title}</span>
+                <span style={{ color: '#475569', fontWeight: 500, fontSize: '0.98rem', lineHeight: 1.4 }}>{item.desc}</span>
+              </div>
+            </div>
           ))}
         </div>
 
-        <div style={{ background: 'rgba(245,158,11,0.1)', border: '1.5px solid rgba(245,158,11,0.28)', borderRadius: '14px', padding: '0.8rem 1rem' }}>
-          <p style={{ margin: 0, color: '#FDE68A', fontSize: '0.88rem', lineHeight: 1.58, fontWeight: 700 }}>
-            🚀 <strong>You're now ready!</strong> In the next challenge, you'll actually control a Maglev train using these electromagnetic principles — just like a real Maglev system!
-          </p>
-        </div>
-
-        <ProceedBtn onClick={onNext} disabled={!toggled}>
-          {toggled ? 'Next: Challenge — Control It!' : 'Press POWER ON / OFF first'}
-        </ProceedBtn>
-      </RightPanel>
-    </CinematicWrap>
-  );
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// STEP 5 — Challenge: Control the Maglev! — Mini Control Demo
-// ══════════════════════════════════════════════════════════════════════════════
-function Step5Challenge({ onNext }) {
-  const [trainPos, setTrainPos] = useState('C');
-  const [activeJunction, setActiveJunction] = useState(null);
-  const [isMoving, setIsMoving] = useState(false);
-  const [done, setDone] = useState(false);
-  const [moveCount, setMoveCount] = useState(0);
-  const TARGET = 'E';
-
-  const JUNCTIONS = {
-    C: { cx: 200, cy: 150, label: 'CTR' },
-    N: { cx: 200, cy: 52,  label: 'N' },
-    S: { cx: 200, cy: 248, label: 'S' },
-    E: { cx: 326, cy: 150, label: 'E' },
-    W: { cx: 74,  cy: 150, label: 'W' },
-  };
-
-  const handleMove = (dir) => {
-    if (isMoving || done) return;
-    setActiveJunction(dir);
-    setIsMoving(true);
-    setMoveCount(c => c + 1);
-    setTimeout(() => {
-      setTrainPos(dir);
-      setIsMoving(false);
-      setActiveJunction(null);
-      if (dir === TARGET) setDone(true);
-    }, 950);
-  };
-
-  const reset = () => {
-    setTrainPos('C');
-    setActiveJunction(null);
-    setIsMoving(false);
-    setDone(false);
-    setMoveCount(0);
-  };
-
-  const tPos = JUNCTIONS[trainPos];
-  const targetPos = JUNCTIONS[TARGET];
-
-  return (
-    <CinematicWrap>
-      <LeftPanel>
-        <div style={{ color: '#67E8F9', fontWeight: 800, fontSize: '0.8rem', letterSpacing: '1px', marginBottom: '0.65rem', textTransform: 'uppercase' }}>
-          🎮 Maglev Control Challenge
-        </div>
-
-        {/* Bird's-eye map SVG */}
-        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', maxWidth: '380px', flex: 1 }}>
-          <defs>
-            <filter id="s5JGlow"><feGaussianBlur stdDeviation="6" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
-            <filter id="s5TGlow"><feGaussianBlur stdDeviation="9" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
-            <radialGradient id="s5TgtGrad"><stop offset="0%" stopColor="#F59E0B" stopOpacity="0.9" /><stop offset="100%" stopColor="#D97706" stopOpacity="0.4" /></radialGradient>
-          </defs>
-
-          {/* TRACKS */}
-          <line x1="200" y1="52" x2="200" y2="248" stroke="#1A2535" strokeWidth="20" strokeLinecap="round" />
-          <line x1="200" y1="52" x2="200" y2="248" stroke="#2D3F52" strokeWidth="15" strokeLinecap="round" />
-          <line x1="196" y1="52" x2="196" y2="248" stroke="#38BDF8" strokeWidth="1.5" strokeDasharray="8,4" opacity="0.35" />
-          <line x1="204" y1="52" x2="204" y2="248" stroke="#38BDF8" strokeWidth="1.5" strokeDasharray="8,4" opacity="0.35" />
-
-          <line x1="74" y1="150" x2="326" y2="150" stroke="#1A2535" strokeWidth="20" strokeLinecap="round" />
-          <line x1="74" y1="150" x2="326" y2="150" stroke="#2D3F52" strokeWidth="15" strokeLinecap="round" />
-          <line x1="74" y1="146" x2="326" y2="146" stroke="#38BDF8" strokeWidth="1.5" strokeDasharray="8,4" opacity="0.35" />
-          <line x1="74" y1="154" x2="326" y2="154" stroke="#38BDF8" strokeWidth="1.5" strokeDasharray="8,4" opacity="0.35" />
-
-          {/* Magnetic beam from active junction to train */}
-          {activeJunction && (() => {
-            const from = JUNCTIONS[activeJunction];
-            const to = JUNCTIONS[trainPos];
-            return (
-              <motion.line x1={from.cx} y1={from.cy} x2={to.cx} y2={to.cy}
-                stroke="#06B6D4" strokeWidth="5" strokeDasharray="12,7"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: [0, 1, 0.8, 1, 0.6] }}
-                transition={{ duration: 0.5, repeat: 2 }}
-                style={{ filter: 'drop-shadow(0 0 6px #06B6D4)' }}
-              />
-            );
-          })()}
-
-          {/* Junction nodes (N, S, E, W) */}
-          {['N', 'S', 'E', 'W'].map(key => {
-            const pos = JUNCTIONS[key];
-            const isTarget = key === TARGET;
-            const isActive = key === activeJunction;
-            const isReached = done && key === trainPos;
-            const r = isActive ? 24 : 20;
-            return (
-              <g key={key}>
-                {/* Target pulse ring */}
-                {isTarget && !done && (
-                  <motion.circle cx={pos.cx} cy={pos.cy} r={26}
-                    fill="none" stroke="#F59E0B" strokeWidth="2"
-                    animate={{ r: [26, 42], opacity: [0.9, 0] }}
-                    transition={{ duration: 1.6, repeat: Infinity }} />
-                )}
-                <circle cx={pos.cx} cy={pos.cy} r={r}
-                  fill={isTarget && !done ? 'url(#s5TgtGrad)' : isActive ? 'rgba(6,182,212,0.7)' : isReached ? 'rgba(74,222,128,0.65)' : 'rgba(20,35,52,0.95)'}
-                  stroke={isTarget && !done ? '#F59E0B' : isActive ? '#06B6D4' : isReached ? '#4ADE80' : '#2D3F52'}
-                  strokeWidth={isActive || isTarget ? 3 : 2}
-                  filter={isActive ? "url(#s5JGlow)" : isTarget ? "url(#s5TGlow)" : "none"}
-                />
-                <text x={pos.cx} y={pos.cy + 5} textAnchor="middle"
-                  fill={isActive || isReached ? '#FFFFFF' : isTarget && !done ? '#FFFFFF' : '#4B5E72'}
-                  fontSize={isTarget && !done ? '16' : '13'} fontWeight="bold"
-                >
-                  {isTarget && !done ? '🎯' : isReached ? '✓' : key}
-                </text>
-                {isActive && (
-                  <text x={pos.cx} y={pos.cy - 30} textAnchor="middle" fill="#67E8F9" fontSize="9" fontWeight="bold">⚡ EM ON</text>
-                )}
-              </g>
-            );
-          })}
-
-          {/* Center hub */}
-          <circle cx="200" cy="150" r="15" fill="rgba(15,23,42,0.95)" stroke="#2D3F52" strokeWidth="2" />
-          <text x="200" y="154" textAnchor="middle" fill="#4B5E72" fontSize="8" fontWeight="bold">CTR</text>
-
-          {/* TRAIN */}
-          <motion.g
-            animate={{ x: tPos.cx, y: tPos.cy }}
-            initial={{ x: JUNCTIONS['C'].cx, y: JUNCTIONS['C'].cy }}
-            transition={{ type: 'spring', stiffness: 115, damping: 18 }}
-          >
-            <rect x="-20" y="-13" width="40" height="26" rx="7"
-              fill={done ? '#052E16' : '#0F2235'}
-              stroke={done ? '#4ADE80' : '#06B6D4'}
-              strokeWidth="2.5"
-              style={{ filter: 'drop-shadow(0 0 8px rgba(6,182,212,0.55))' }}
-            />
-            <rect x="-20" y="10" width="40" height="6" rx="2" fill="#0E7490" opacity="0.85" />
-            <rect x="-14" y="-8" width="12" height="8" rx="2" fill="#0C4A6E" stroke="#0EA5E9" strokeWidth="0.8" />
-            <rect x="2" y="-8" width="12" height="8" rx="2" fill="#0C4A6E" stroke="#0EA5E9" strokeWidth="0.8" />
-            {done && <text x="0" y="4" textAnchor="middle" fill="#4ADE80" fontSize="9" fontWeight="bold">✓</text>}
-          </motion.g>
-
-          {/* Cardinal labels */}
-          <text x="200" y="22" textAnchor="middle" fill="#2D3F52" fontSize="11" fontWeight="bold">NORTH</text>
-          <text x="200" y="285" textAnchor="middle" fill="#2D3F52" fontSize="11" fontWeight="bold">SOUTH</text>
-          <text x="28" y="154" textAnchor="middle" fill="#2D3F52" fontSize="10" fontWeight="bold">W</text>
-          <text x="372" y="154" textAnchor="middle" fill={done ? '#4ADE80' : '#F59E0B'} fontSize="10" fontWeight="bold">E 🎯</text>
-        </svg>
-
-        {/* Moves counter + reset */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '0.65rem' }}>
-          <span style={{ color: TEXT_BODY, fontSize: '0.83rem', fontWeight: 700 }}>
-            Moves: <span style={{ color: '#67E8F9', fontWeight: 900 }}>{moveCount}</span>
-          </span>
-          <button onClick={reset}
-            style={{ padding: '0.4rem 0.85rem', borderRadius: '10px', border: '1px solid #334155', background: 'rgba(15,23,42,0.7)', color: '#94A3B8', fontSize: '0.8rem', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-            <RotateCcw size={13} /> Reset
-          </button>
-        </div>
-      </LeftPanel>
-
-      <RightPanel>
-        <Badge>🎮 CHALLENGE: CONTROL THE MAGLEV!</Badge>
-
-        <h2 style={{ margin: 0, color: TEXT_HEADING, fontSize: '1.48rem', fontWeight: 900, lineHeight: 1.28 }}>
-          {done ? '🎉 Mission Complete!' : 'Guide the Train to the Target!'}
-        </h2>
-
-        {done ? (
-          <motion.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }}
-            style={{ background: 'rgba(74,222,128,0.12)', border: '1.5px solid #4ADE80', borderRadius: '16px', padding: '1rem 1.2rem', color: '#4ADE80', fontWeight: 700, fontSize: '0.92rem', lineHeight: 1.6 }}>
-            🎉 Excellent! The East electromagnetic junction activated, creating a magnetic field that attracted and pulled the train smoothly across the track! You now understand how electromagnetic control works in a real Maglev system!
-          </motion.div>
-        ) : (
-          <p style={{ margin: 0, color: TEXT_BODY, fontSize: '0.95rem', lineHeight: 1.65 }}>
-            The target is the <strong style={{ color: '#FBBF24' }}>🎯 East junction</strong>. Press the direction buttons below to activate electromagnetic junctions and guide the train!
-          </p>
-        )}
-
-        {/* D-Pad controls */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.6rem' }}>
-          <div style={{ color: '#4B5E72', fontSize: '0.8rem', fontWeight: 800, letterSpacing: '0.8px' }}>
-            {isMoving ? '⚡ Electromagnetic Pull Active...' : '— SELECT DIRECTION —'}
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 62px)', gridTemplateRows: 'repeat(3, 62px)', gap: '8px' }}>
-            {/* N */}
-            <button onClick={() => handleMove('N')} disabled={isMoving || done || trainPos === 'N'}
-              style={{ gridColumn: 2, borderRadius: '14px', border: `2px solid ${!isMoving && trainPos !== 'N' ? '#38BDF8' : '#2D3F52'}`, background: !isMoving && trainPos !== 'N' ? '#1A2B3C' : '#0A1420', color: !isMoving && trainPos !== 'N' ? '#FFFFFF' : '#4B5E72', fontWeight: 900, fontSize: '0.8rem', cursor: (isMoving || done || trainPos === 'N') ? 'not-allowed' : 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px', transition: 'all 0.2s' }}>
-              <span>▲</span><span>N</span>
-            </button>
-            {/* W */}
-            <button onClick={() => handleMove('W')} disabled={isMoving || done || trainPos === 'W'}
-              style={{ gridColumn: 1, gridRow: 2, borderRadius: '14px', border: `2px solid ${!isMoving && trainPos !== 'W' ? '#38BDF8' : '#2D3F52'}`, background: !isMoving && trainPos !== 'W' ? '#1A2B3C' : '#0A1420', color: !isMoving && trainPos !== 'W' ? '#FFFFFF' : '#4B5E72', fontWeight: 900, fontSize: '0.8rem', cursor: (isMoving || done || trainPos === 'W') ? 'not-allowed' : 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px', transition: 'all 0.2s' }}>
-              <span>◀</span><span>W</span>
-            </button>
-            {/* Center */}
-            <div style={{ gridColumn: 2, gridRow: 2, background: done ? 'linear-gradient(135deg,#166534,#15803D)' : 'linear-gradient(135deg,#0284C7,#0369A1)', borderRadius: '14px', display: 'grid', placeItems: 'center', color: '#FFFFFF', fontWeight: 900, fontSize: '0.72rem', textAlign: 'center' }}>
-              {done ? '✓ DONE' : 'START'}
-            </div>
-            {/* E — target direction highlighted */}
-            <button onClick={() => handleMove('E')} disabled={isMoving || done || trainPos === 'E'}
-              style={{ gridColumn: 3, gridRow: 2, borderRadius: '14px', border: `2.5px solid ${!isMoving && trainPos !== 'E' ? '#F59E0B' : '#2D3F52'}`, background: !isMoving && trainPos !== 'E' ? '#1C1200' : '#0A1420', color: !isMoving && trainPos !== 'E' ? '#FBBF24' : '#4B5E72', fontWeight: 900, fontSize: '0.8rem', cursor: (isMoving || done || trainPos === 'E') ? 'not-allowed' : 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px', boxShadow: !isMoving && trainPos !== 'E' ? '0 0 14px rgba(245,158,11,0.4)' : 'none', transition: 'all 0.2s' }}>
-              <span>E 🎯</span><span>▶</span>
-            </button>
-            {/* S */}
-            <button onClick={() => handleMove('S')} disabled={isMoving || done || trainPos === 'S'}
-              style={{ gridColumn: 2, gridRow: 3, borderRadius: '14px', border: `2px solid ${!isMoving && trainPos !== 'S' ? '#38BDF8' : '#2D3F52'}`, background: !isMoving && trainPos !== 'S' ? '#1A2B3C' : '#0A1420', color: !isMoving && trainPos !== 'S' ? '#FFFFFF' : '#4B5E72', fontWeight: 900, fontSize: '0.8rem', cursor: (isMoving || done || trainPos === 'S') ? 'not-allowed' : 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px', transition: 'all 0.2s' }}>
-              <span>▼</span><span>S</span>
-            </button>
-          </div>
-        </div>
-
-        {/* What-happens explanation */}
-        <div style={{ background: 'rgba(15,23,42,0.7)', border: '1.5px solid rgba(56,189,248,0.18)', borderRadius: '14px', padding: '0.8rem 1rem' }}>
-          <div style={{ color: '#67E8F9', fontWeight: 900, fontSize: '0.82rem', marginBottom: '0.5rem' }}>When you press a direction:</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.28rem' }}>
-            {[
-              'Electricity flows to the target junction electromagnet',
-              'Magnetic field activates — attraction force appears',
-              'Train is pulled forward along the track',
-              'Previous electromagnet switches off as train arrives',
-            ].map((t, i) => (
-              <div key={i} style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', color: TEXT_BODY, fontSize: '0.81rem' }}>
-                <span style={{ color: '#06B6D4', fontWeight: 900, flexShrink: 0 }}>{i + 1}.</span> {t}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div style={{ background: 'rgba(245,158,11,0.1)', border: '1.5px solid rgba(245,158,11,0.25)', borderRadius: '12px', padding: '0.7rem 0.95rem' }}>
-          <p style={{ margin: 0, color: '#FDE68A', fontSize: '0.83rem', lineHeight: 1.55, fontWeight: 700 }}>
-            💡 Hint: Press the <strong>E (East) 🎯</strong> button to reach the target junction!
-          </p>
-        </div>
-
-        <ProceedBtn onClick={onNext} disabled={!done}>
-          {done ? 'Excellent! Enter the Full Town Expedition →' : 'Reach the 🎯 East junction first'}
-        </ProceedBtn>
-      </RightPanel>
-    </CinematicWrap>
+        {/* Action / Proceed Button directly to Town Expedition */}
+        <button
+          onClick={onNext}
+          style={{
+            width: '100%',
+            padding: '0.9rem 1.5rem',
+            borderRadius: '14px',
+            border: 'none',
+            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+            color: '#FFFFFF',
+            fontWeight: 900,
+            fontSize: '1.3rem',
+            cursor: 'pointer',
+            boxShadow: '0 4px 14px rgba(217, 119, 6, 0.35)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '0.75rem',
+            transition: 'all 0.2s ease',
+            marginTop: '0.25rem',
+            flexShrink: 0
+          }}
+        >
+          Next: Town Expedition <ArrowRight size={22} color="#FFFFFF" />
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -1992,14 +2000,11 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
         {/* STEP 3 — How Does It Move: Propulsion Sequence */}
         {step === 3 && <Step3Move onNext={() => go(4)} />}
 
-        {/* STEP 4 — Electromagnetic Control: ON/OFF Demo */}
+        {/* STEP 4 — Electromagnetic Control: ON/OFF Video Demo (Routes to Expedition) */}
         {step === 4 && <Step4Control onNext={() => go(5)} />}
 
-        {/* STEP 5 — Challenge: Mini Control */}
-        {step === 5 && <Step5Challenge onNext={() => go(6)} />}
-
-        {/* STEP 6 — Magnetic Town Expedition (MazeGame) */}
-        {step === 6 && (
+        {/* STEP 5 — Magnetic Town Expedition (MazeGame) */}
+        {step === 5 && (
           <>
             {/* Left: Simulation Canvas Frame */}
             <div style={{ flex: '1.4', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 0, height: '100%', boxSizing: 'border-box', padding: '0.2rem 0' }}>
@@ -2031,7 +2036,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                         <p style={{ margin: 0, color: '#334155', fontSize: '1.1rem', lineHeight: '1.5', fontWeight: 600 }}>
                           Outstanding navigation! The magnet smoothly guided the train across the 3D railway grid to the destination beacon!
                         </p>
-                        <button onClick={() => { setShowMazeSolveModal(false); go(7); }}
+                        <button onClick={() => { setShowMazeSolveModal(false); go(6); }}
                           style={{ padding: '1.1rem 3rem', fontSize: '1.1rem', fontWeight: 900, borderRadius: '40px', background: 'linear-gradient(135deg,#F59E0B 0%,#D97706 100%)', color: '#FFFFFF', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem', boxShadow: '0 6px 20px rgba(217,119,6,0.45)', transition: 'all 0.25s ease' }}>
                           Next: Magnet Care <ArrowRight size={22} color="#FFFFFF" />
                         </button>
@@ -2045,16 +2050,17 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
             {/* Right: D-Pad controls */}
             <div style={{ flex: '1.05', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', gap: '1rem', minWidth: 0, height: '100%', overflowY: 'auto', boxSizing: 'border-box' }}>
               {/* Instructions */}
-              <div style={{ background: 'linear-gradient(135deg,#FFFBEB 0%,#FEF3C7 100%)', border: '1.5px solid #FDE68A', borderRadius: '20px', padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem', boxShadow: '0 6px 20px rgba(217,119,6,0.08)', flexShrink: 0 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', color: '#78350F', fontWeight: 900, fontSize: '22px' }}>
-                  <Sparkles size={26} color="#D97706" />
-                  <span>How Electromagnetic Control Works:</span>
+              <div style={{ background: 'linear-gradient(135deg,#FFFBEB 0%,#FEF3C7 100%)', border: '1.5px solid #FDE68A', borderRadius: '20px', padding: '1.35rem 1.6rem', display: 'flex', flexDirection: 'column', gap: '1rem', boxShadow: '0 6px 20px rgba(217,119,6,0.08)', flexShrink: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', color: '#78350F', fontWeight: 900, fontSize: '24px' }}>
+                  <Sparkles size={28} color="#D97706" />
+                  <span>How to Play & Expedition Objectives:</span>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', color: '#78350F', fontSize: '36px', lineHeight: 1.35, fontWeight: 800 }}>
-                  <p style={{ margin: 0 }}>• Electromagnetic poles activate at nearby track junctions.</p>
-                  <p style={{ margin: 0 }}>• Selecting a pole fires an attractive magnetic lightning tether.</p>
-                  <p style={{ margin: 0 }}>• Magnetic pull glides your train smoothly to that station!</p>
-                  <p style={{ margin: 0 }}>• Use the poles or D-Pad to reach the destination beacon 🎯!</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem', color: '#78350F', fontSize: '22px', lineHeight: 1.45, fontWeight: 800 }}>
+                  <p style={{ margin: 0 }}>• Guide your high-speed Maglev train across the town grid to reach the target station.</p>
+                  <p style={{ margin: 0 }}>• Click on nearby active electromagnetic poles or use the D-Pad controls to steer.</p>
+                  <p style={{ margin: 0 }}>• Triggering a pole fires a magnetic pull tether that glides the train forward.</p>
+                  <p style={{ margin: 0 }}>• Plan your junction routes carefully to find the most efficient path.</p>
+                  <p style={{ margin: 0 }}>• Reach the final destination beacon 🎯 to complete the expedition!</p>
                 </div>
               </div>
 
@@ -2107,7 +2113,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                     </button>
 
                     {/* Proceed */}
-                    <button onClick={() => go(7)} disabled={!ext.maze}
+                    <button onClick={() => go(6)} disabled={!ext.maze}
                       style={{ width: '100%', padding: '0.9rem 1.25rem', fontSize: '1.02rem', fontWeight: 900, borderRadius: '16px', background: ext.maze ? 'linear-gradient(135deg,#F59E0B 0%,#D97706 100%)' : '#1E293B', color: ext.maze ? '#FFFFFF' : '#64748B', border: ext.maze ? 'none' : '1px solid #334155', cursor: ext.maze ? 'pointer' : 'not-allowed', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.55rem', boxShadow: ext.maze ? '0 4px 16px rgba(217,119,6,0.4)' : 'none', transition: 'all 0.25s ease', marginTop: '0.25rem' }}>
                       Proceed to Magnet Care <ArrowRight size={18} color={ext.maze ? '#FFFFFF' : '#64748B'} />
                     </button>
@@ -2118,8 +2124,8 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
           </>
         )}
 
-        {/* STEP 7 — Magnet Care & Assessment */}
-        {step === 7 && (
+        {/* STEP 6 — Magnet Care & Assessment */}
+        {step === 6 && (
           <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxSizing: 'border-box' }}>
             <div style={{ width: '100%', maxWidth: '1000px', maxHeight: '100%', overflowY: 'auto', background: 'linear-gradient(135deg,#FFFBEB 0%,#FEF3C7 100%)', border: '1.5px solid #FDE68A', borderRadius: '24px', padding: '2rem 2.5rem', boxShadow: '0 10px 32px rgba(217,119,6,0.08)', boxSizing: 'border-box' }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', background: '#D1FAE5', color: '#065F46', padding: '0.4rem 0.95rem', borderRadius: '18px', fontSize: '0.85rem', fontWeight: 800, letterSpacing: '1.2px', marginBottom: '0.75rem' }}>
@@ -2165,7 +2171,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                     <b style={{ color: qHard.correct ? '#16A34A' : '#D97706' }}>{qHard.correct ? '✓ Correct!' : '✗ Incorrect.'} Mistreatment weakened it — careful storage prevents it.</b> Dropping, knocking and heat disturb the aligned magnetic domains. Store magnets in pairs with unlike poles together!
                   </div>
                   <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', justifyContent: 'center' }}>
-                    <button onClick={() => go(8)}
+                    <button onClick={() => go(7)}
                       style={{ padding: '0.95rem 2.6rem', borderRadius: '30px', border: 'none', background: 'linear-gradient(135deg,#F59E0B 0%,#D97706 100%)', color: '#FFFFFF', fontWeight: 900, fontSize: '1.08rem', cursor: 'pointer', boxShadow: '0 6px 20px rgba(217,119,6,0.45)', display: 'flex', alignItems: 'center', gap: '0.6rem', transition: 'all 0.25s ease' }}>
                       Continue to Did You Know <ArrowRight size={20} color="#FFFFFF" />
                     </button>
@@ -2183,7 +2189,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                     <p style={{ margin: 0, color: '#334155', fontSize: '1.2rem', lineHeight: '1.5', fontWeight: 600 }}>
                       Outstanding job! You've mastered 3D town map navigation and magnet care!
                     </p>
-                    <button onClick={() => { setShowFinalCompletionModal(false); go(8); }}
+                    <button onClick={() => { setShowFinalCompletionModal(false); go(7); }}
                       style={{ padding: '1.1rem 3rem', background: 'linear-gradient(135deg,#F59E0B 0%,#D97706 100%)', color: '#FFFFFF', border: 'none', borderRadius: '40px', fontSize: '1.15rem', fontWeight: 900, cursor: 'pointer', boxShadow: '0 6px 20px rgba(217,119,6,0.4)', transition: 'all 0.25s ease', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                       Continue to Did You Know <ArrowRight size={22} color="#FFFFFF" />
                     </button>
@@ -2194,12 +2200,12 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
           </div>
         )}
 
-        {/* STEP 8 — Did You Know */}
-        {step === 8 && (
+        {/* STEP 7 — Did You Know */}
+        {step === 7 && (
           <div style={{ width: '100%', height: '100%', minHeight: 0, overflow: 'hidden' }}>
             <DidYouKnow
               onComplete={() => { if (onComplete) onComplete(); else if (onBackToDashboard) onBackToDashboard(); }}
-              onBackToQuiz={() => go(7)}
+              onBackToQuiz={() => go(6)}
             />
           </div>
         )}

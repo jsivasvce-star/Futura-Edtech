@@ -1152,7 +1152,7 @@ export default function MazeGame({
 
         {/* 1. Exact High Quality 3D Isometric Railway Transit Grid Map */}
         <image
-          href="/FunWithMagnets/rail_transit_map_4k.jpg"
+          href="/FunWithMagnets/image.png"
           x="0"
           y="0"
           width="1024"
