@@ -1478,11 +1478,6 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                     {MYSTERY_PLANTS.map((plant) => (
                       <div
                         key={plant.id}
-                        draggable
-                        onDragStart={(e) => {
-                          e.dataTransfer.setData('plantId', plant.id);
-                          playSound('click');
-                        }}
                         style={{
                           flex: 1,
                           background: 'rgba(15, 23, 42, 0.5)',
@@ -1493,33 +1488,50 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                           flexDirection: 'column',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          cursor: 'grab',
                           opacity: (scannerState !== 'idle' && selectedPlantId !== plant.id) ? 0.4 : 1
                         }}
                       >
                         <img src={PLANT_IMAGES[plant.id]} alt={plant.displayName} style={{ maxHeight: '140px', objectFit: 'contain' }} />
                         <div style={{ marginTop: '8px', textAlign: 'center' }}>
                           <div style={{ color: '#F8FAFC', fontWeight: '900', fontSize: '18px' }}>{plant.displayName}</div>
-                          <div style={{ color: '#94A3B8', fontSize: '14px' }}>({plant.caseCode.split('·')[0].trim()})</div>
+                          <div style={{ color: results[plant.id] === true ? '#34D399' : '#94A3B8', fontSize: '14px', fontWeight: results[plant.id] === true ? '900' : 'normal' }}>
+                            {results[plant.id] === true ? `✓ Solved: ${plant.realName}` : `(${plant.caseCode.split('·')[0].trim()})`}
+                          </div>
                         </div>
+                        <button
+                          onClick={() => {
+                            if (scannerState === 'idle') {
+                              handlePlantDrop(plant.id);
+                            }
+                          }}
+                          disabled={scannerState !== 'idle'}
+                          style={{
+                            marginTop: '10px',
+                            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                            color: '#FFF',
+                            border: 'none',
+                            padding: '6px 12px',
+                            borderRadius: '8px',
+                            fontSize: '14px',
+                            fontWeight: '900',
+                            cursor: scannerState === 'idle' ? 'pointer' : 'not-allowed',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '6px'
+                          }}
+                        >
+                          <Search size={16} /> Scan Plant
+                        </button>
                       </div>
                     ))}
                   </div>
                   <div style={{ textAlign: 'center', color: '#6EE7B7', fontWeight: '800', marginTop: '10px' }}>
-                    Drag a plant to the scanner on the right! ↗
+                    Click "Scan Plant" to scan a mystery plant! ↗
                   </div>
                 </div>
 
                 {/* Right: Scanner */}
                 <div 
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={(e) => {
-                    e.preventDefault();
-                    if (scannerState === 'idle') {
-                      const plantId = e.dataTransfer.getData('plantId');
-                      if (plantId) handlePlantDrop(plantId);
-                    }
-                  }}
                   style={{
                     flex: 1,
                     border: '3px dashed #10B981',
@@ -1540,7 +1552,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                   {scannerState === 'idle' && (
                     <div style={{ textAlign: 'center', color: '#10B981', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
                       <div style={{ fontSize: '48px' }}>🍃</div>
-                      <div style={{ fontSize: '20px', fontWeight: '900' }}>Drop the plant here<br/>to scan it!</div>
+                      <div style={{ fontSize: '20px', fontWeight: '900' }}>Select a plant to scan!</div>
                     </div>
                   )}
 
@@ -1560,7 +1572,11 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                         <img src={PLANT_IMAGES[selectedPlantId]} style={{ maxHeight: '160px', objectFit: 'contain' }} />
                         <div style={{ textAlign: 'center' }}>
                           <div style={{ color: '#94A3B8', fontSize: '14px', fontWeight: '800' }}>{MYSTERY_PLANTS.find(p => p.id === selectedPlantId)?.caseCode}</div>
-                          <div style={{ color: '#F8FAFC', fontSize: '18px', fontWeight: '900' }}>{MYSTERY_PLANTS.find(p => p.id === selectedPlantId)?.displayName}</div>
+                          <div style={{ color: '#F8FAFC', fontSize: '18px', fontWeight: '900' }}>
+                            {results[selectedPlantId] === true 
+                              ? MYSTERY_PLANTS.find(p => p.id === selectedPlantId)?.realName 
+                              : MYSTERY_PLANTS.find(p => p.id === selectedPlantId)?.displayName}
+                          </div>
                         </div>
                       </div>
 
