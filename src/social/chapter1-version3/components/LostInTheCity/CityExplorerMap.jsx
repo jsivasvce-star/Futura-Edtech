@@ -862,6 +862,9 @@ const CityExplorerMap = ({ onComplete, onNext }) => {
             ? [...visitedSequence, targetId]
             : visitedSequence;
           if (onComplete) onComplete({ steps: trail.length, visitedPlaces: finalVisited });
+          setTimeout(() => {
+            setShowQuizModal(true);
+          }, 600);
         }
       }
     };
@@ -1833,10 +1836,10 @@ const CityExplorerMap = ({ onComplete, onNext }) => {
             boxShadow: '0 2px 8px rgba(60, 40, 20, 0.04)'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ fontSize: '14px' }}>🎯</span>
-              <span style={{ fontSize: '10.5px', fontWeight: 900, color: won ? '#065F46' : '#B45309', letterSpacing: '0.8px' }}>DESTINATION</span>
+              <span style={{ fontSize: '20px' }}>🎯</span>
+              <span style={{ fontSize: '16px', fontWeight: 900, color: won ? '#065F46' : '#B45309', letterSpacing: '0.8px' }}>DESTINATION</span>
             </div>
-            <span style={{ fontSize: '10.5px', fontWeight: 800, color: won ? '#065F46' : '#92400E', background: won ? '#D1FAE5' : '#FEF3C7', padding: '3px 8px', borderRadius: '6px', border: `1px solid ${won ? '#A7F3D0' : '#FDE68A'}` }}>
+            <span style={{ fontSize: '16px', fontWeight: 800, color: won ? '#065F46' : '#92400E', background: won ? '#D1FAE5' : '#FEF3C7', padding: '4px 10px', borderRadius: '6px', border: `1px solid ${won ? '#A7F3D0' : '#FDE68A'}` }}>
               Sunset Beach
             </span>
           </div>
@@ -1852,29 +1855,18 @@ const CityExplorerMap = ({ onComplete, onNext }) => {
             flexDirection: 'column',
             boxShadow: '0 2px 8px rgba(60, 40, 20, 0.04)'
           }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: isSidebarDpadMinimized ? '0' : '16px' }}>
-              <span style={{ fontSize: '11px', fontWeight: 900, color: '#92400E', letterSpacing: '0.8px' }}>🧭 DIRECTION CONTROLS</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <span style={{ fontSize: '16px', fontWeight: 900, color: '#92400E', letterSpacing: '0.8px' }}>🧭 DIRECTION CONTROLS</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <button
                   type="button"
                   onClick={reset}
                   style={{
                     background: '#FEF3C7', border: '1px solid #FDE68A', borderRadius: '6px',
-                    color: '#92400E', fontSize: '10px', fontWeight: 700, padding: '3px 8px', cursor: 'pointer'
+                    color: '#92400E', fontSize: '14px', fontWeight: 700, padding: '4px 12px', cursor: 'pointer'
                   }}
                 >
                   ↺ Reset
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setIsSidebarDpadMinimized(v => !v)}
-                  title={isSidebarDpadMinimized ? "Expand Controls" : "Minimize Controls"}
-                  style={{
-                    background: '#FEF3C7', border: '1px solid #FDE68A', borderRadius: '6px',
-                    color: '#92400E', fontSize: '10px', fontWeight: 700, padding: '3px 8px', cursor: 'pointer'
-                  }}
-                >
-                  {isSidebarDpadMinimized ? '➕' : '➖'}
                 </button>
               </div>
             </div>

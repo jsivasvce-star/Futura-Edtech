@@ -132,17 +132,18 @@
 
 .a21-back-float {
   position: fixed;
-  top: 1rem;
-  left: 1rem;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  top: auto;
   z-index: 9999;
   background: rgba(255,255,255,0.15);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255,255,255,0.3);
   color: #fff;
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Outfit', 'Nunito', sans-serif;
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 1rem;
   padding: 0.5rem 1rem;
   border-radius: 2rem;
   cursor: pointer;

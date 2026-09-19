@@ -47,7 +47,7 @@ export default function Table21Notebook({
               textTransform: 'uppercase',
               color: '#0A3B24'
             }}>
-              NCERT Table 2.1 · Field Observation Journal
+              Table 2.1 · Field Observation Journal
             </span>
           </div>
 
@@ -258,7 +258,7 @@ export default function Table21Notebook({
       }}>
         <div style={{ fontSize: '15px', color: '#0A3B24', fontWeight: 700, fontFamily: '"Outfit", sans-serif' }}>
           {isLogged
-            ? '✓ Recorded in NCERT Table 2.1 Science Journal'
+            ? '✓ Recorded in Table 2.1 Science Journal'
             : isAllInspected
             ? 'All 3 features inspected! Ready to stamp.'
             : 'Tap the 3D hotspots to unlock journal stamp.'}

@@ -115,8 +115,8 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
       flexDirection: 'column',
       justifyContent: 'space-between',
       background: 'rgba(15, 23, 42, 0.50)',
-      backdropFilter: 'blur(18px)',
-      WebkitBackdropFilter: 'blur(18px)',
+      backdropFilter: 'blur(2px)',
+      WebkitBackdropFilter: 'blur(2px)',
       borderRadius: '20px',
       border: '2px solid #D4AF37',
       padding: '16px 22px 14px',
@@ -266,7 +266,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
               {currentTopic.badge}
             </span>
             <span style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: '700' }}>
-              NCERT Spotlight
+              Spotlight
             </span>
           </div>
         </div>
@@ -428,7 +428,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
             boxShadow: '0 4px 14px rgba(20, 69, 47, 0.35)'
           }}
         >
-          <span>Summary &amp; NCERT Exercises ➔</span>
+          <span>Summary &amp; Exercises ➔</span>
         </button>
       </div>
     </div>

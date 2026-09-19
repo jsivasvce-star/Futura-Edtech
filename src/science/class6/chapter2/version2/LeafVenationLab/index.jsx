@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, RefreshCw, Award, Volume2, VolumeX } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useTheme } from '../../../../../ThemeContext';
@@ -16,6 +16,68 @@ import BacklightStage from './BacklightStage';
 import AnatomyStage from './AnatomyStage';
 import CompareStage from './CompareStage';
 import { venationAudio } from './venationAudio';
+import specimen01HibiscusBlended from './specimen_01_hibiscus_blended.png';
+import specimen02BananaBlended from './specimen_02_banana_blended.png';
+import specimen03GrassBlended from './specimen_03_grass_blended.png';
+import specimen04NeemBlended from './specimen_04_neem_blended.png';
+import specimen05MangoBlended from './specimen_05_mango_blended.png';
+import specimen06RoseBlended from './specimen_06_rose_blended.png';
+import specimen07CompareBlended from './specimen_07_compare_blended.png';
+
+// =========================================================================
+// FULLSCREEN SPECIMEN SLIDES (ACTIVITY 2.5) — EXACT 16:9 HD SPECIMENS
+// =========================================================================
+const VENATION_SPECIMEN_SLIDES = [
+  {
+    id: 1,
+    num: '01',
+    name: 'Hibiscus Leaf',
+    venation: 'Reticulate',
+    image: specimen01HibiscusBlended
+  },
+  {
+    id: 2,
+    num: '02',
+    name: 'Banana Leaf',
+    venation: 'Parallel',
+    image: specimen02BananaBlended
+  },
+  {
+    id: 3,
+    num: '03',
+    name: 'Grass Leaf',
+    venation: 'Parallel',
+    image: specimen03GrassBlended
+  },
+  {
+    id: 4,
+    num: '04',
+    name: 'Neem Leaf',
+    venation: 'Reticulate',
+    image: specimen04NeemBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
+  },
+  {
+    id: 5,
+    num: '05',
+    name: 'Mango Leaf',
+    venation: 'Reticulate',
+    image: specimen05MangoBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
+  },
+  {
+    id: 6,
+    num: '06',
+    name: 'Rose Leaf',
+    venation: 'Reticulate',
+    image: specimen06RoseBlended
+  },
+  {
+    id: 7,
+    num: '07',
+    name: 'Different Leaves, Different Patterns',
+    venation: 'Compare',
+    image: specimen07CompareBlended
+  }
+];
 
 const LEAVES = [
   {
@@ -209,6 +271,9 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
   const { theme } = useTheme();
   const isLight = theme === 'light';
 
+  const [phase, setPhase] = useState('specimens'); // 'specimens' | 'lab'
+  const [specimenIndex, setSpecimenIndex] = useState(0);
+
   const [selectedLeaf, setSelectedLeaf] = useState(null);
   const [answers, setAnswers] = useState({});
   const [checked, setChecked] = useState({});
@@ -216,6 +281,23 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
   const [subPage, setSubPage] = useState(1);
   const [workbenchTool, setWorkbenchTool] = useState('loupe');
   const [isMuted, setIsMuted] = useState(false);
+
+  useEffect(() => {
+    if (phase !== 'specimens') return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') {
+        setSpecimenIndex(prev => Math.max(0, prev - 1));
+      } else if (e.key === 'ArrowRight' || e.key === ' ') {
+        if (specimenIndex < VENATION_SPECIMEN_SLIDES.length - 1) {
+          setSpecimenIndex(prev => prev + 1);
+        } else {
+          setPhase('lab');
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [phase, specimenIndex]);
 
   const leaf = LEAVES.find(l => l.id === selectedLeaf);
   const doneCount = Object.keys(checked).filter(k => checked[k]).length;
@@ -262,6 +344,133 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
     setSelectedLeaf(LEAVES[nextIndex].id);
     venationAudio.playSwitch();
   };
+
+  if (phase === 'specimens') {
+    const activeSlide = VENATION_SPECIMEN_SLIDES[specimenIndex];
+    return (
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: '#07160E',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+        zIndex: 1000
+      }}>
+        <style>{`
+          html, body, #root {
+            overflow: hidden !important;
+            height: 100vh !important;
+          }
+        `}</style>
+
+        {/* Exact 16:9 Aspect-Ratio Container without pixel break */}
+        <div style={{
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+          maxWidth: 'calc(100vh * (16 / 9))',
+          maxHeight: 'calc(100vw * (9 / 16))',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <img
+            src={activeSlide.image}
+            alt={activeSlide.name}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              display: 'block',
+              userSelect: 'none',
+              filter: 'drop-shadow(0 15px 35px rgba(0,0,0,0.5))'
+            }}
+          />
+        </div>
+
+        {/* Floating Bottom Left Control: Back */}
+        <button
+          onClick={() => {
+            if (specimenIndex > 0) {
+              setSpecimenIndex(prev => prev - 1);
+              venationAudio.playSwitch();
+            } else if (onPreviousPage) {
+              onPreviousPage();
+            } else if (onBackToDashboard) {
+              onBackToDashboard();
+            }
+          }}
+          style={{
+            position: 'absolute',
+            bottom: '22px',
+            left: '26px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            background: 'rgba(255, 255, 255, 0.92)',
+            border: '2px solid #CBD5E1',
+            borderRadius: '26px',
+            padding: '10px 22px',
+            fontSize: '18px',
+            fontWeight: 800,
+            color: '#1E293B',
+            cursor: 'pointer',
+            boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
+            backdropFilter: 'blur(2px)',
+            zIndex: 1010,
+            transition: 'all 0.18s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          <ArrowLeft size={20} /> Back
+        </button>
+
+        {/* Floating Bottom Right: Next Slide or Enter Lab */}
+        <button
+          onClick={() => {
+            if (specimenIndex < VENATION_SPECIMEN_SLIDES.length - 1) {
+              setSpecimenIndex(prev => prev + 1);
+              venationAudio.playSwitch();
+            } else {
+              setPhase('lab');
+            }
+          }}
+          style={{
+            position: 'absolute',
+            bottom: '22px',
+            right: '26px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            background: 'linear-gradient(135deg, #15803D 0%, #166534 100%)',
+            border: '2px solid #86EFAC',
+            borderRadius: '28px',
+            padding: '11px 26px',
+            fontSize: '18px',
+            fontWeight: 900,
+            color: '#FFFFFF',
+            cursor: 'pointer',
+            boxShadow: '0 6px 22px rgba(22, 101, 52, 0.5)',
+            zIndex: 1010,
+            transition: 'all 0.18s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          {specimenIndex < VENATION_SPECIMEN_SLIDES.length - 1 ? (
+            <>Next <ArrowRight size={20} /></>
+          ) : (
+            <>Enter Activity 2.5 Lab <ArrowRight size={20} /></>
+          )}
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div style={{ flex: 1, minHeight: 0, height: '100%', display: 'flex', flexDirection: 'column', background: 'transparent', color: '#F8FAFC', fontFamily: 'var(--geo-font)', overflow: 'hidden', padding: '0.6rem', boxSizing: 'border-box' }}>
@@ -418,8 +627,8 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
           flexDirection: 'column',
           justifyContent: 'space-between',
           background: 'rgba(15, 23, 42, 0.50)',
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
+          backdropFilter: 'blur(2px)',
+          WebkitBackdropFilter: 'blur(2px)',
           border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           padding: '0.45rem 1.4rem 0.4rem',
@@ -658,7 +867,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
                         width: '100%',
                         height: '24px',
                         background: 'rgba(27, 77, 62, 0.94)',
-                        backdropFilter: 'blur(4px)',
+                        backdropFilter: 'blur(2px)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -871,6 +1080,19 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
               >
                 ← Previous Page
               </button>
+
+              <button
+                type="button"
+                className="bio-nav-btn"
+                onClick={() => {
+                  setSpecimenIndex(0);
+                  setPhase('specimens');
+                }}
+                style={{ background: '#064E3B', borderColor: '#34D399', color: '#D1FAE5' }}
+                aria-label="View Specimen Slides"
+              >
+                🌿 Specimen Slides
+              </button>
             </div>
 
             {/* Center Solved/Progress Indicator with Globe & Leaves Motif (matching Slogan Page) */}
@@ -958,8 +1180,8 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
           flexDirection: 'column',
           justifyContent: 'space-between',
           background: 'rgba(15, 23, 42, 0.50)',
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
+          backdropFilter: 'blur(2px)',
+          WebkitBackdropFilter: 'blur(2px)',
           border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',

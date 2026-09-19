@@ -1,32 +1,38 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  ArrowLeft, 
-  RefreshCw, 
-  X, 
-  CheckCircle2, 
-  ChevronRight, 
-  ChevronLeft, 
-  Award, 
-  Volume2, 
-  VolumeX, 
-  Check, 
-  Star, 
-  Lock, 
-  Play, 
-  ArrowRight, 
-  Maximize2, 
-  Minimize2, 
-  Sparkles, 
+import {
+  ArrowLeft,
+  RefreshCw,
+  X,
+  CheckCircle2,
+  ChevronRight,
+  ChevronLeft,
+  Award,
+  Volume2,
+  VolumeX,
+  Check,
+  Star,
+  Lock,
+  Play,
+  ArrowRight,
+  Maximize2,
+  Minimize2,
+  Sparkles,
   Heart,
   Filter,
   Activity,
-  Info
+  Info,
+  Footprints,
+  Lightbulb
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useTheme } from '../../../../../ThemeContext.jsx';
 import { sounds } from '../VirtualBiodiversityExplorer/utils/soundEffects';
 import natureForestAudio from '../../../../../assets/nature_forest_sound.mp3';
 import EcosystemAnimationOverlay from './EcosystemAnimationOverlay.jsx';
+import natureRiverBg from '../../../../../assets/nature_reflection_river_8k.jpg';
+import ecosystemCampsiteBg from '../../../../../assets/ecosystem_campsite_bg.jpg';
+import ecosystemTableBg from '../../../../../assets/ecosystem_table_bg_8k.jpg';
+import mountainDesignImg from './mountain_badge_clean.png';
 
 import tulsiImg from '../../../../../assets/specimens/tulsi.png';
 import roseImg from '../../../../../assets/specimens/rose.png';
@@ -42,6 +48,7 @@ import neemWideImg from '../../../../../assets/specimens_wide/neem_wide.jpg';
 import peepalWideImg from '../../../../../assets/specimens_wide/peepal_wide.jpg';
 import jasmineWideImg from '../../../../../assets/specimens_wide/jasmine_wide.jpg';
 
+import butterflyImg from '../../../../../assets/butterfly.png';
 import crowImg from '../../../../../assets/crow.png';
 import cowImg from '../../../../../assets/brown_cow.png';
 import frogImg from '../../../../../assets/frog.png';
@@ -49,6 +56,7 @@ import squirrelImg from '../../../../../assets/squirrel.png';
 import antImg from '../../../../../assets/ant.png';
 import sparrowImg from '../../../../../assets/sparrow.png';
 
+import butterflyWideImg from '../../../../../assets/specimens_wide/butterfly_wide.jpg';
 import crowWideImg from '../../../../../assets/specimens_wide/crow_wide.jpg';
 import cowWideImg from '../../../../../assets/specimens_wide/cow_wide.jpg';
 import frogWideImg from '../../../../../assets/specimens_wide/frog_wide.jpg';
@@ -68,8 +76,8 @@ import quizQ8Img from '../../../../../assets/quiz_scenes/q8_food_chain_8k.jpg';
 const PLANTS = ['Tulsi', 'Rose', 'Grass', 'Neem', 'Peepal', 'Jasmine'];
 const ANIMALS = ['Crow', 'Cow', 'Frog', 'Squirrel', 'Ant', 'Sparrow'];
 
-const PLANT_EMOJIS = { Tulsi: '🌿', Rose: '🌹', Grass: '🌱', Neem: '🌳', Peepal: '🌲', Jasmine: '🤍' };
-const ANIMAL_EMOJIS = { Crow: '🐦‍⬛', Cow: '🐄', Frog: '🐸', Squirrel: '🐿️', Ant: '🐜', Sparrow: '🐦' };
+const PLANT_EMOJIS = { Tulsi: '🌿', Rose: '🌹', Grass: '🌾', Neem: '🍃', Peepal: '🌳', Jasmine: '🌸' };
+const ANIMAL_EMOJIS = { Crow: '🐦', Cow: '🐄', Frog: '🐸', Squirrel: '🐿️', Ant: '🐜', Sparrow: '🐦', Butterfly: '🦋' };
 
 // Botanical & Zoological Scientific Binomials
 const SCIENTIFIC_NAMES = {
@@ -79,6 +87,7 @@ const SCIENTIFIC_NAMES = {
   Neem: 'Azadirachta indica',
   Peepal: 'Ficus religiosa',
   Jasmine: 'Jasminum officinale',
+  Butterfly: 'Danaus chrysippus',
   Crow: 'Corvus splendens',
   Cow: 'Bos indicus',
   Frog: 'Hoplobatrachus tigerinus',
@@ -106,6 +115,7 @@ const PLANT_WIDE_IMAGES = {
 };
 
 const ANIMAL_IMAGES = {
+  Butterfly: butterflyImg,
   Crow: crowImg,
   Cow: cowImg,
   Frog: frogImg,
@@ -115,6 +125,7 @@ const ANIMAL_IMAGES = {
 };
 
 const ANIMAL_WIDE_IMAGES = {
+  Butterfly: butterflyWideImg,
   Crow: crowWideImg,
   Cow: cowWideImg,
   Frog: frogWideImg,
@@ -133,12 +144,134 @@ const PLANT_DESCRIPTIONS = {
 };
 
 const ANIMAL_DESCRIPTIONS = {
+  Butterfly: 'Aerial Garden Pollinator · Colorful Wings',
   Crow: 'Aerial Canopy Flyer · Social Bird',
   Cow: 'Meadow Walker · Gentle Herbivore',
   Frog: 'Freshwater Amphibian · Swimmer & Leaper',
   Squirrel: 'Agile Tree Climber · Quick Forager',
   Ant: 'Ground Soil Crawler · Social Colony',
   Sparrow: 'Garden Songbird · Fast Winged Flyer'
+};
+
+// Comprehensive Specimen Observation Records for NCERT Table 2.2
+export const SPECIMEN_DETAILS = {
+  Butterfly: {
+    title: 'Butterfly',
+    emoji: '🦋',
+    scientific: 'Danaus chrysippus',
+    badge: 'Zoological Field Record',
+    category: 'Aerial Pollinator · Table 2.2',
+    details: 'A colorful flying insect with delicate wings fluttering around garden flowers. It feeds on nectar using its long proboscis and helps pollinate flowers.',
+    fact: 'Butterflies taste their food using tiny sensory receptors on their feet — not their mouths!'
+  },
+  Sparrow: {
+    title: 'Sparrow',
+    emoji: '🐦',
+    scientific: 'Passer domesticus',
+    badge: 'Zoological Field Record',
+    category: 'Garden Songbird · Table 2.2',
+    details: 'A small, cheerful songbird frequently seen foraging on the ground, perched on garden hedges, and visiting bird baths for drinking and bathing.',
+    fact: 'Sparrows take daily dust and water baths to clean their feathers, cool down in summer, and eliminate microscopic parasites!'
+  },
+  Crow: {
+    title: 'Crow',
+    emoji: '🐦‍⬛',
+    scientific: 'Corvus splendens',
+    badge: 'Zoological Field Record',
+    category: 'Canopy Omnivore · Table 2.2',
+    details: 'An intelligent and highly adaptable bird with glossy dark plumage perched on tree branches. It scavenges organic matter, eats insects, and alerts other animals to danger.',
+    fact: 'Crows have outstanding memory and can recognize human faces, remember friendly garden visitors, and even fashion simple tools with twigs!'
+  },
+  Cow: {
+    title: 'Cow',
+    emoji: '🐄',
+    scientific: 'Bos indicus',
+    badge: 'Zoological Field Record',
+    category: 'Meadow Herbivore · Table 2.2',
+    details: 'A gentle domesticated herbivore that grazes peacefully in open meadows. It recycles organic matter, produces nutrient-rich manure, and aerates topsoil.',
+    fact: 'Cows have nearly 300° panoramic vision and can detect smells up to 8 kilometers away across open fields!'
+  },
+  Squirrel: {
+    title: 'Squirrel',
+    emoji: '🐿️',
+    scientific: 'Funambulus palmarum',
+    badge: 'Zoological Field Record',
+    category: 'Arboreal Climber · Table 2.2',
+    details: 'An agile, bushy-tailed arboreal rodent that scurries up tree trunks, collects nuts and seeds, and buries them in soil caches.',
+    fact: 'Squirrels accidentally plant thousands of new trees each year by burying acorns and seeds and forgetting where they hid them!'
+  },
+  Frog: {
+    title: 'Frog',
+    emoji: '🐸',
+    scientific: 'Hoplobatrachus tigerinus',
+    badge: 'Zoological Field Record',
+    category: 'Freshwater Amphibian · Table 2.2',
+    details: 'A freshwater amphibian with moist skin and powerful hind legs adapted for leaping and swimming. It hunts flying insects and beetles near pond edges.',
+    fact: 'Frogs drink water through their skin rather than by swallowing it, absorbing moisture directly from dew and moist soil!'
+  },
+  Ant: {
+    title: 'Ant',
+    emoji: '🐜',
+    scientific: 'Camponotus compressus',
+    badge: 'Zoological Field Record',
+    category: 'Ground Excavator · Table 2.2',
+    details: 'An industrious social insect living in subterranean colonies. Ants excavate underground tunnels that aerate the soil and harvest seeds around plant roots.',
+    fact: 'Ants can carry objects up to 50 times their own body weight and communicate through invisible chemical scent trails called pheromones!'
+  },
+  Tulsi: {
+    title: 'Tulsi',
+    emoji: '🌿',
+    scientific: 'Ocimum tenuiflorum',
+    badge: 'Botanical Field Record',
+    category: 'Medicinal Herb · Table 2.2',
+    details: 'A revered aromatic medicinal herb with soft, tender green stems and fragrant leaves. It purifies surrounding air and provides valuable medicinal compounds.',
+    fact: 'Tulsi emits natural aroma molecules containing eugenol that naturally repel mosquitoes and harmful bacteria from the surrounding garden!'
+  },
+  Rose: {
+    title: 'Rose',
+    emoji: '🌹',
+    scientific: 'Rosa indica',
+    badge: 'Botanical Field Record',
+    category: 'Flowering Shrub · Table 2.2',
+    details: 'A perennial woody flowering shrub adorned with protective sharp thorns and vibrant fragrant petals that attract bees and butterflies for pollination.',
+    fact: 'Fossilized rose leaves date back more than 35 million years, making roses one of the ancient flowering plants on Earth!'
+  },
+  Grass: {
+    title: 'Grass',
+    emoji: '🌱',
+    scientific: 'Cynodon dactylon',
+    badge: 'Botanical Field Record',
+    category: 'Ground Cover Herb · Table 2.2',
+    details: 'A dense green ground cover herb with fibrous soil-binding roots that prevent soil erosion and supply primary nourishment to herbivores.',
+    fact: 'A single healthy grass plant can produce miles of microscopic root hairs that tightly bind tons of soil particles together against rain wash!'
+  },
+  Neem: {
+    title: 'Neem',
+    emoji: '🌳',
+    scientific: 'Azadirachta indica',
+    badge: 'Botanical Field Record',
+    category: 'Canopy Shade Tree · Table 2.2',
+    details: 'A grand evergreen shade tree celebrated for its broad canopy, bitter insect-repelling leaves, and natural medicinal compounds that protect birds and cattle.',
+    fact: 'Every part of the Neem tree—bark, leaves, flowers, and seeds—has unique medicinal and pest-deterrent applications recognized globally!'
+  },
+  Peepal: {
+    title: 'Peepal',
+    emoji: '🌲',
+    scientific: 'Ficus religiosa',
+    badge: 'Botanical Field Record',
+    category: 'Sacred Fig Tree · Table 2.2',
+    details: 'A majestic sacred fig tree that releases oxygen day and night, offers extensive canopy shade, and produces sweet figs that sustain wild birds and squirrels.',
+    fact: 'The Peepal tree can survive for over 1,500 years and is one of the few trees that releases oxygen even during twilight hours!'
+  },
+  Jasmine: {
+    title: 'Jasmine',
+    emoji: '🤍',
+    scientific: 'Jasminum officinale',
+    badge: 'Botanical Field Record',
+    category: 'Aromatic Shrub · Table 2.2',
+    details: 'An enchanting sweet-scented climbing shrub with delicate white star-shaped blossoms that open at dusk to nourish nocturnal pollinators.',
+    fact: 'Jasmine flowers emit their most intoxicating perfume at night because they are primarily pollinated by night-flying hawkmoths!'
+  }
 };
 
 export const PLANT_BADGES = {
@@ -193,6 +326,14 @@ export const PLANT_BADGES = {
 };
 
 export const ANIMAL_BADGES = {
+  Butterfly: {
+    role: 'Aerial Garden Pollinator',
+    gift: 'Flower Pollination & Biodiversity',
+    ecoIcon: '🦋',
+    themeColor: '#D97706',
+    badgeBg: '#FEF3C7',
+    tag: 'Aerial Pollinator'
+  },
   Crow: {
     role: 'Aerial Canopy Flyer',
     gift: 'Seed Disperser & Scavenger',
@@ -327,18 +468,12 @@ const getMutualismPair = (plant, animal) => {
 };
 
 const CLASSMATES = [
-  { name: 'Rahul', plant: 'Neem', animal: 'Crow' },
-  { name: 'Diya', plant: 'Tulsi', animal: 'Cow' },
-  { name: 'Karan', plant: 'Rose', animal: 'Frog' },
-  { name: 'Ananya', plant: 'Grass', animal: 'Sparrow' },
-  { name: 'Vikram', plant: 'Peepal', animal: 'Squirrel' },
-  { name: 'Tanya', plant: 'Jasmine', animal: 'Ant' },
-  { name: 'Aarav', plant: 'Tulsi', animal: 'Crow' },
-  { name: 'Priya', plant: 'Rose', animal: 'Squirrel' },
-  { name: 'Rohan', plant: 'Neem', animal: 'Frog' },
-  { name: 'Nikhil', plant: 'Peepal', animal: 'Cow' },
-  { name: 'Meera', plant: 'Grass', animal: 'Sparrow' },
-  { name: 'Isha', plant: 'Jasmine', animal: 'Ant' }
+  { name: 'Tamizh', plant: 'Neem', animal: 'Crow' },
+  { name: 'Gopal', plant: 'Tulsi', animal: 'Cow' },
+  { name: 'Priya', plant: 'Rose', animal: 'Frog' },
+  { name: 'Vijay', plant: 'Peepal', animal: 'Squirrel' },
+  { name: 'Lavanya', plant: 'Grass', animal: 'Sparrow' },
+  { name: 'Iniyan', plant: 'Jasmine', animal: 'Ant' }
 ];
 
 const QUIZ_QUESTIONS = [
@@ -727,6 +862,41 @@ const SpreadingLeavesWatermark = () => (
   </div>
 );
 
+// Botanical Bottom Nature Silhouette Panorama for Footer & Modal
+const BottomNatureSilhouettes = () => (
+  <div style={{
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: '50px',
+    overflow: 'hidden',
+    pointerEvents: 'none',
+    opacity: 0.28,
+    zIndex: 1
+  }}>
+    <svg width="100%" height="50" viewBox="0 0 1200 56" preserveAspectRatio="none" fill="none">
+      <path d="M0 42 Q220 26 440 38 T880 32 T1200 40 L1200 56 L0 56 Z" fill="#10B981" />
+      <path d="M0 46 Q320 34 640 44 T1200 38 L1200 56 L0 56 Z" fill="#14452F" />
+      <circle cx="110" cy="34" r="14" fill="#14452F" />
+      <circle cx="126" cy="30" r="10" fill="#14452F" />
+      <rect x="116" y="40" width="4" height="12" fill="#14452F" />
+      <path d="M210 24 Q215 19 220 24 Q225 19 230 24" stroke="#14452F" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M245 18 Q249 14 253 18 Q257 14 261 18" stroke="#14452F" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M350 42 L352 34 M352 42 L356 32 M354 42 L360 35" stroke="#14452F" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M430 44 L432 36 M432 44 L436 34 M434 44 L440 37" stroke="#14452F" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M820 22 Q825 17 830 22 Q835 17 840 22" stroke="#14452F" strokeWidth="1.8" strokeLinecap="round" />
+      <circle cx="1020" cy="30" r="16" fill="#14452F" />
+      <circle cx="1038" cy="26" r="12" fill="#14452F" />
+      <rect x="1026" y="38" width="5" height="14" fill="#14452F" />
+      <polygon points="1075,14 1065,30 1085,30" fill="#14452F" />
+      <polygon points="1075,22 1062,38 1088,38" fill="#14452F" />
+      <polygon points="1075,30 1058,46 1092,46" fill="#14452F" />
+      <rect x="1073" y="46" width="4" height="8" fill="#14452F" />
+    </svg>
+  </div>
+);
+
 // Ornate Botanical Divider in Card (matching slogan page)
 const CardLeafDivider = () => (
   <div style={{
@@ -755,12 +925,12 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
   const { theme } = useTheme();
 
   // Tabs and general phases
-  const [activeTab, setActiveTab] = useState(subStep === 'quiz' ? 'quiz' : 'board'); // board | quiz
-  const [phase, setPhase] = useState(subStep === 'board' ? 'board' : 'timer'); // timer | pick | board | completed
+  const [activeTab, setActiveTab] = useState('board'); // board
+  const [phase, setPhase] = useState(subStep === 'board' ? 'board' : (subStep === 'pick' ? 'pick' : 'timer')); // timer | pick | board | completed
 
   const [timer, setTimer] = useState(10);
   const [timerRunning, setTimerRunning] = useState(false);
-  const [selectedPlant, setSelectedPlant] = useState('');
+  const [selectedPlant, setSelectedPlant] = useState('Tulsi');
   const [selectedAnimal, setSelectedAnimal] = useState('');
   const [pickStep, setPickStep] = useState(1); // 1 = Select Plant, 2 = Select Animal
   const [plantPage, setPlantPage] = useState(0); // 0 = Page 1 (1-2), 1 = Page 2 (3-4), 2 = Page 3 (5-6)
@@ -771,21 +941,17 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
   const [boardFilter, setBoardFilter] = useState('all'); // all | me
   const [cardLikes, setCardLikes] = useState({
     'You': 8,
-    'Rahul': 6,
-    'Diya': 5,
-    'Karan': 7,
-    'Ananya': 9,
-    'Vikram': 4,
-    'Tanya': 6,
-    'Aarav': 5,
+    'Tamizh': 6,
+    'Gopal': 5,
     'Priya': 7,
-    'Rohan': 6,
-    'Nikhil': 4,
-    'Meera': 8,
-    'Isha': 5
+    'Vijay': 9,
+    'Lavanya': 4,
+    'Iniyan': 6
   });
   const [activeLivingAnimal, setActiveLivingAnimal] = useState(null);
   const [inspectCard, setInspectCard] = useState(null);
+  const [previewSpecimen, setPreviewSpecimen] = useState(null);
+  const [lightboxImage, setLightboxImage] = useState(null);
 
   // Sound & Fullscreen states
   const [isMuted, setIsMuted] = useState(false);
@@ -843,10 +1009,10 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(() => {});
+      document.documentElement.requestFullscreen().catch(() => { });
       setIsFullscreen(true);
     } else {
-      document.exitFullscreen().catch(() => {});
+      document.exitFullscreen().catch(() => { });
       setIsFullscreen(false);
     }
   };
@@ -859,7 +1025,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
       if (next) {
         natureAudioRef.current.pause();
       } else if (timerRunning) {
-        natureAudioRef.current.play().catch(() => {});
+        natureAudioRef.current.play().catch(() => { });
       }
     }
   };
@@ -871,7 +1037,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
     if (natureAudioRef.current && !isMuted) {
       natureAudioRef.current.currentTime = 0;
       natureAudioRef.current.volume = 0.5;
-      natureAudioRef.current.play().catch(() => {});
+      natureAudioRef.current.play().catch(() => { });
     }
   };
 
@@ -977,7 +1143,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
     setTimer(10);
     setTimerRunning(false);
     clearTimeout(timerRef.current);
-    setSelectedPlant('');
+    setSelectedPlant('Tulsi');
     setSelectedAnimal('');
     setPickStep(1);
     setPlantPage(0);
@@ -1100,81 +1266,38 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
   // UNIFIED GLOBAL BOTTOM NAVIGATION LOGIC (Back & Next)
   // --------------------------------------------------------------------------
   const getBackLabel = () => {
-    if (activeTab === 'quiz') {
-      if (phase === 'completed') return 'Back to Memory Wall';
-      if (currentQIndex > 0) return 'Previous Question';
-      return 'Back to Memory Wall';
-    }
     if (phase === 'board') return 'Back to Specimen Picker';
-    if (phase === 'pick') {
-      if (pickMode === 'stepper' && pickStep === 2) return 'Back to Plant Picker';
-      return 'Back to Reflection';
-    }
+    if (phase === 'pick') return 'Back to Ecosystem Timer';
+    if (phase === 'timer') return 'Exit Activity';
     return 'Back to Activity 2.1';
   };
 
   const getNextLabel = () => {
-    if (activeTab === 'quiz') {
-      if (phase === 'completed') return 'Next: Activity 2.3';
-      if (selectedOpt !== null && !quizChecked) return 'Verify & Next';
-      if (currentQIndex === QUIZ_QUESTIONS.length - 1) return 'Finish Quiz';
-      return 'Next Question';
-    }
-    if (phase === 'board') return 'Next: Ecosystem Quiz';
-    if (phase === 'pick') {
-      if (pickMode === 'stepper' && pickStep === 1) return 'Next: Select Animal';
-      return 'Next: Class Memory Wall';
-    }
-    return 'Next: Specimen Picker';
+    if (phase === 'board') return 'Next: Grouping Living Things →';
+    if (phase === 'pick') return 'Next: Class Memory Wall';
+    if (phase === 'timer') return 'Next: Specimen Picker →';
+    return 'Next: Class Board';
   };
 
   const getStageIndicator = () => {
-    if (activeTab === 'quiz') {
-      if (phase === 'completed') return 'Quiz Completed';
-      return `Question ${currentQIndex + 1} / ${QUIZ_QUESTIONS.length}`;
-    }
-    if (phase === 'board') return 'Stage 3 / 4 · Memory Wall';
-    if (phase === 'pick') return 'Stage 2 / 4 · Specimen Picker';
-    return 'Stage 1 / 4 · Nature Reflection';
+    if (phase === 'board') return 'Stage 3 / 3 · Class Board';
+    if (phase === 'pick') return 'Stage 2 / 3 · Specimen Picker';
+    if (phase === 'timer') return 'Stage 1 / 3 · Ecosystem Timer';
+    return 'Class Board';
   };
 
   const handleGlobalPrev = () => {
     if (!isMuted) sounds.playClick();
-
-    // 1. If inside Quiz
-    if (activeTab === 'quiz') {
-      if (phase === 'completed') {
-        setPhase('board');
-        setActiveTab('quiz');
-        setCurrentQIndex(QUIZ_QUESTIONS.length - 1);
-        return;
-      }
-      if (currentQIndex > 0) {
-        setCurrentQIndex(prev => prev - 1);
-        setSelectedOpt(null);
-        setQuizChecked(false);
-        setSimToggled(false);
-        return;
-      }
-      // Return from Q0 to Memory Wall
-      setActiveTab('board');
-      setPhase('board');
-      return;
-    }
-
-    // 2. If in Class Memory Wall
-    if (activeTab === 'board' && phase === 'board') {
+    if (phase === 'board') {
       setPhase('pick');
       return;
     }
-
-    // 3. If in Specimen Picker
-    if (activeTab === 'board' && phase === 'pick') {
-      if (pickMode === 'stepper' && pickStep === 2) {
-        setPickStep(1);
-        return;
-      }
+    if (phase === 'pick') {
       setPhase('timer');
+      return;
+    }
+    if (phase === 'timer') {
+      if (onBackToDashboard) onBackToDashboard(false);
       return;
     }
   };
@@ -1188,24 +1311,14 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
   const handleGlobalNext = () => {
     if (!isMuted) sounds.playClick();
-
-    // 1. If in Reflection (Phase 1) -> advance to Specimen Picker
-    if (activeTab === 'board' && phase === 'timer') {
+    if (phase === 'timer') {
       setTimerRunning(false);
       clearTimeout(timerRef.current);
       if (natureAudioRef.current) natureAudioRef.current.pause();
       setPhase('pick');
       return;
     }
-
-    // 2. If in Specimen Picker (Phase 2)
-    if (activeTab === 'board' && phase === 'pick') {
-      if (pickMode === 'stepper' && pickStep === 1) {
-        if (!selectedPlant) setSelectedPlant('Tulsi');
-        setPickStep(2);
-        return;
-      }
-      // Ensure defaults if not explicitly tapped so student can always advance smoothly
+    if (phase === 'pick') {
       const plantToUse = selectedPlant || 'Tulsi';
       const animalToUse = selectedAnimal || 'Crow';
       setSelectedPlant(plantToUse);
@@ -1218,34 +1331,9 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
       confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
       return;
     }
-
-    // 3. If in Class Memory Wall (Phase 3) -> advance to Quiz
-    if (activeTab === 'board' && phase === 'board') {
-      setActiveTab('quiz');
-      setCurrentQIndex(0);
-      setSelectedOpt(null);
-      setQuizChecked(false);
-      setSimToggled(false);
-      if (onSubStepChange) onSubStepChange('quiz');
-      return;
-    }
-
-    // 4. If in Quiz (Phase 4)
-    if (activeTab === 'quiz') {
-      if (phase === 'completed') {
-        if (onNextActivity) onNextActivity();
-        else if (onBackToDashboard) onBackToDashboard('next_activity');
-        return;
-      }
-
-      // If student selected an answer and it's not verified yet, verify first
-      if (selectedOpt !== null && !quizChecked) {
-        handleCheckAnswer();
-        return;
-      }
-
-      // Next question
-      handleNextQuestion();
+    if (phase === 'board') {
+      if (onNextActivity) onNextActivity();
+      else if (onBackToDashboard) onBackToDashboard('next_activity');
       return;
     }
   };
@@ -1255,11 +1343,13 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
       width: '100%',
       height: '100%',
       minHeight: 0,
-      background: 'rgba(15, 23, 42, 0.50)',
-      backdropFilter: 'blur(18px)',
-      WebkitBackdropFilter: 'blur(18px)',
+      backgroundImage: `url(${ecosystemCampsiteBg})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
       fontFamily: '"Outfit", "Plus Jakarta Sans", sans-serif',
-      color: '#F8FAFC',
+      color: '#A7F3D0',
+      textShadow: '0 1px 3px rgba(0,0,0,0.8)',
       display: 'flex',
       flexDirection: 'column',
       boxSizing: 'border-box',
@@ -1268,6 +1358,39 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
     }}>
       {/* Keyframe animations for slogan atmosphere */}
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap');
+
+        .content-box {
+          background: rgba(255, 255, 255, 0.08) !important;
+          backdrop-filter: blur(4px) !important;
+          -webkit-backdrop-filter: blur(5px) !important;
+        }
+
+        .forest-panel {
+          background: linear-gradient(175deg, rgba(10, 61, 32, 0.76) 0%, rgba(5, 40, 20, 0.82) 100%) !important;
+          backdrop-filter: blur(8px) !important;
+          -webkit-backdrop-filter: blur(8px) !important;
+          border: 1.5px solid rgba(250, 204, 21, 0.5) !important;
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.15) !important;
+        }
+
+        .font-blur-area {
+          background: rgba(15, 23, 42, 0.28) !important;
+          backdrop-filter: blur(8px) !important;
+          -webkit-backdrop-filter: blur(8px) !important;
+          border: 1px solid rgba(255, 255, 255, 0.2) !important;
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.22) !important;
+          border-radius: 18px !important;
+        }
+
+        .right-transparent-panel {
+          background: rgba(255, 255, 255, 0.02) !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+          border: 1.5px solid rgba(255, 255, 255, 0.4) !important;
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15) !important;
+        }
+
         /* Text Justification & Font Size Constraint */
         p, .biodiversity-desc, .modal-text {
           text-align: justify !important;
@@ -1275,1924 +1398,2201 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
           hyphens: auto;
         }
 
+        /* Dedicated Blurry Shade for Font Area (Visible Separately, No Whole-Box Blur) */
+        .font-blurry-shade {
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(10, 36, 20, 0.55) 100%) !important;
+          backdrop-filter: blur(12px) !important;
+          -webkit-backdrop-filter: blur(12px) !important;
+          border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
+          border-radius: 24px !important;
+          padding: 16px 36px !important;
+          box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35), 0 0 20px rgba(255, 255, 255, 0.12), inset 0 1px 2px rgba(255, 255, 255, 0.4) !important;
+          max-width: 560px !important;
+          width: fit-content !important;
+          margin: 0 auto !important;
+          text-align: center !important;
+        }
+
+        .font-blurry-shade h2,
+        .font-blurry-shade p {
+          text-align: center !important;
+          text-justify: none !important;
+          hyphens: none !important;
+          -webkit-hyphens: none !important;
+          word-break: normal !important;
+          overflow-wrap: normal !important;
+        }
+
         @keyframes reflectionPulse {
-          0% { transform: scale(0.96); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.45); }
-          50% { transform: scale(1.06); box-shadow: 0 0 0 22px rgba(16, 185, 129, 0); }
-          100% { transform: scale(0.96); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.45); }
+          0% { transform: scale(0.96); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+          50% { transform: scale(1.04); box-shadow: 0 0 0 18px rgba(16, 185, 129, 0); }
+          100% { transform: scale(0.96); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+        }
+
+        @keyframes timerSonarRing {
+          0% { transform: scale(0.92); opacity: 0.9; }
+          100% { transform: scale(1.48); opacity: 0; }
+        }
+
+        @keyframes timerGlowBreathe {
+          0%, 100% { transform: scale(1); filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.45)); }
+          50% { transform: scale(1.035); filter: drop-shadow(0 0 26px rgba(16, 185, 129, 0.8)); }
+        }
+
+        @keyframes leafSway1 {
+          0%, 100% { transform: rotate(-35deg) translateY(0px) scale(1); }
+          50% { transform: rotate(-22deg) translateY(-6px) scale(1.18); }
+        }
+
+        @keyframes leafSway2 {
+          0%, 100% { transform: rotate(35deg) scaleX(-1) translateY(0px) scale(1); }
+          50% { transform: rotate(48deg) scaleX(-1) translateY(-6px) scale(1.18); }
+        }
+
+        @keyframes leafSway3 {
+          0%, 100% { transform: rotate(-75deg) translateY(0px) scale(1); }
+          50% { transform: rotate(-62deg) translateY(4px) scale(1.15); }
+        }
+
+        @keyframes leafSway4 {
+          0%, 100% { transform: rotate(75deg) scaleX(-1) translateY(0px) scale(1); }
+          50% { transform: rotate(88deg) scaleX(-1) translateY(4px) scale(1.15); }
+        }
+
+        @keyframes numberTick {
+          0% { transform: scale(1.3); color: #2563EB; }
+          60% { transform: scale(0.96); }
+          100% { transform: scale(1); color: #0F172A; }
         }
       `}</style>
 
-      {/* ==================================================================== */}
-      {/* TOP HEADER BAR: CLEAN BOTANICAL ALIGNED DESIGN                      */}
-      {/* ==================================================================== */}
-      <div style={{
-        position: 'relative',
-        width: '100%',
-        padding: '0.45rem 1.4rem',
-        background: 'rgba(15, 23, 42, 0.50)',
-        borderBottom: '2.5px solid #14452F',
-        boxShadow: '0 4px 14px rgba(20, 69, 47, 0.08)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexShrink: 0,
-        boxSizing: 'border-box',
-        zIndex: 20,
-        gap: '12px'
-      }}>
-        {/* Hanging Lush Corner Foliage (subtle ambient) */}
-        <TopCornerFoliage side="left" />
-        <TopCornerFoliage side="right" />
-        <TopMountainBackdrop />
-
-        {/* Left: Academic Lab Badge */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0, position: 'relative', zIndex: 10 }}>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '6px',
-            fontSize: '16px',
-            fontWeight: '900',
-            color: '#F8FAFC',
-            background: '#E2ECE6',
-            padding: '0.45rem 1rem',
-            borderRadius: '12px',
-            border: '1.5px solid rgba(212, 175, 55, 0.6)',
-            fontFamily: '"Outfit", sans-serif'
-          }}>
-            <span>🌿</span>
-            <span>NCERT Lab</span>
-          </div>
-        </div>
-
-        {/* Center: Curriculum Pill & Centered Activity Title */}
+      {phase === 'timer' ? (
         <div style={{
+          width: '100%',
+          height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flex: 1,
-          minWidth: 0,
-          textAlign: 'center',
+          justifyContent: 'space-between',
+          padding: '0.4rem 1.4rem',
+          boxSizing: 'border-box',
           position: 'relative',
           zIndex: 10,
-          gap: '2px'
+          overflow: 'hidden'
         }}>
-          {/* Top Pill Badges in Forest Green */}
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-            color: '#ffffff',
-            padding: '3px 14px',
-            borderRadius: '20px',
-            fontSize: '16px',
-            fontWeight: '900',
-            fontFamily: '"Outfit", sans-serif',
-            letterSpacing: '0.04em',
-            textTransform: 'uppercase',
-            border: '1.2px solid #10B981',
-            boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
-          }}>
-            <span>🌿 CLASS 6 • SCIENCE</span>
-            <span style={{ opacity: 0.5 }}>|</span>
-            <span>ACTIVITY 2.2 • ECOSYSTEM APPRECIATION</span>
-          </div>
-
-          {/* Main Title */}
-          <h1 style={{
-            margin: 0,
-            fontFamily: '"Fraunces", Georgia, serif',
-            fontSize: '24px',
-            fontWeight: '900',
-            color: '#FBBF24',
-            letterSpacing: '-0.2px',
-            lineHeight: 1.2,
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            maxWidth: '100%'
-          }}>
-            Ecosystem Appreciation &amp; Interdependence
-          </h1>
-        </div>
-
-        {/* Right: Reset Control */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0, position: 'relative', zIndex: 10 }}>
-          <button 
-            onClick={handleReset} 
-            title="Reset Activity"
-            style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '8px', 
-              fontSize: '17px', 
-              padding: '0.5rem 1.15rem',
-              borderRadius: '12px',
-              border: '2px solid #D4AF37',
-              background: 'rgba(15, 23, 42, 0.50)',
-              cursor: 'pointer',
-              color: '#F8FAFC',
-              fontWeight: '900',
-              fontFamily: '"Outfit", sans-serif',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.06)',
-              transition: 'all 0.18s ease'
-            }}
-          >
-            <RefreshCw size={18} color="#14452F" strokeWidth={2.4} />
-            <span>Reset</span>
-          </button>
-        </div>
-      </div>
-
-      {/* ==================================================================== */}
-      {/* MAIN TWO-COLUMN SPLIT WORKSPACE                                      */}
-      {/* ==================================================================== */}
-      <div style={{
-        flex: 1,
-        minHeight: 0,
-        display: 'grid',
-        gridTemplateColumns: (phase === 'pick' || activeTab === 'quiz') ? '1fr' : 'clamp(290px, 25vw, 340px) minmax(0, 1fr)',
-        padding: '0.5rem 1rem',
-        gap: '0.85rem',
-        overflow: 'hidden',
-        boxSizing: 'border-box'
-      }}>
-        
-        {/* ================================================================== */}
-        {/* LEFT COLUMN: CONTEXT & STATS (SLOGAN LEAF DESIGNED BOX)           */}
-        {/* ================================================================== */}
-        {(phase !== 'pick' && activeTab !== 'quiz') && (
+          {/* ==================================================================== */}
+          {/* TOP HEADER BAR: RUSTIC WOOD-CARVED SIGN & AMBER PILLS (ACTIVITY 2.2) */}
+          {/* ==================================================================== */}
           <div style={{
             position: 'relative',
-            background: 'rgba(15, 23, 42, 0.50)',
-            border: '2.5px solid rgba(20, 69, 47, 0.5)',
-            borderRadius: '24px 6px 24px 6px',
-            padding: '0.85rem 1rem',
-            boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',
+            width: '100%',
+            padding: '0.4rem 0',
             display: 'flex',
-            flexDirection: 'column',
+            alignItems: 'center',
             justifyContent: 'space-between',
-            gap: '0.5rem',
-            overflow: 'hidden'
+            flexShrink: 0,
+            boxSizing: 'border-box',
+            zIndex: 20,
+            gap: '12px'
           }}>
-            {/* Subtle Corner Botanical Flourishes */}
-            <CardCornerLeaves position="top-left" />
-            <CardCornerLeaves position="top-right" />
-            <CardCornerLeaves position="bottom-left" />
-            <CardCornerLeaves position="bottom-right" />
-            <SpreadingLeavesWatermark />
-
-            <div style={{ position: 'relative', zIndex: 5 }}>
+            {/* Left: NCERT Lab Badge in dark amber glass */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0, position: 'relative', zIndex: 10 }}>
               <div style={{
-                color: '#F8FAFC',
-                fontWeight: '900',
-                fontSize: '16px',
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase',
-                fontFamily: '"Outfit", sans-serif',
-                display: 'flex',
+                display: 'inline-flex',
                 alignItems: 'center',
-                gap: '6px'
+                gap: '8px',
+                fontSize: '16px',
+                fontWeight: '800',
+                color: '#FEF3C7',
+                background: 'rgba(28, 18, 10, 0.85)',
+                padding: '6px 18px',
+                borderRadius: '20px',
+                border: '1.5px solid rgba(245, 158, 11, 0.6)',
+                boxShadow: '0 4px 14px rgba(0,0,0,0.35)',
+                fontFamily: '"Outfit", sans-serif'
               }}>
-                <span>🌿</span>
-                <span>NCERT Activity 2.2</span>
+                <span style={{ fontSize: '18px' }}>🌿</span>
+                <span>Lab</span>
+              </div>
+            </div>
+
+
+
+            {/* Right: Reset Button */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0, position: 'relative', zIndex: 10 }}>
+              <button
+                type="button"
+                onClick={handleReset}
+                style={{
+                  background: 'rgba(28, 18, 10, 0.85)',
+                  backdropFilter: 'blur(2px)',
+                  WebkitBackdropFilter: 'blur(2px)',
+                  border: '1.5px solid rgba(245, 158, 11, 0.6)',
+                  borderRadius: '20px',
+                  color: '#FEF3C7',
+                  padding: '6px 18px',
+                  fontSize: '16px',
+                  fontWeight: 800,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.35)',
+                  fontFamily: '"Outfit", sans-serif',
+                  transition: 'all 0.18s ease'
+                }}
+              >
+                <RefreshCw size={16} strokeWidth={2.4} color="#FBBF24" />
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+
+          {/* ==================================================================== */}
+          {/* TWO PANEL CONTAINER: Left Forest Green Box + Right Transparent Blur  */}
+          {/* ==================================================================== */}
+          <div style={{
+            flex: 1,
+            minHeight: 0,
+            display: 'grid',
+            gridTemplateColumns: 'clamp(320px, 30vw, 380px) minmax(0, 1fr)',
+            padding: '0.5rem 0',
+            gap: '1rem',
+            overflow: 'hidden',
+            boxSizing: 'border-box'
+          }}>
+            {/* LEFT PANEL: Forest Green Box Panel */}
+            <div style={{
+              position: 'relative',
+              background: 'linear-gradient(145deg, rgba(6, 36, 24, 0.32) 0%, rgba(3, 22, 14, 0.26) 100%)',
+              backdropFilter: 'blur(2px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(2px) saturate(180%)',
+              border: '1.5px solid rgba(167, 243, 208, 0.35)',
+              borderRadius: '20px',
+              padding: '16px 20px',
+              boxShadow: '0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(16, 185, 129, 0.2)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              gap: '10px',
+              overflowY: 'auto',
+              boxSizing: 'border-box'
+            }}>
+              {/* Header: Subtitle & Title */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  color: '#A7F3D0',
+                  fontWeight: 700,
+                  fontSize: '16px',
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                  fontFamily: '"Outfit", sans-serif'
+                }}>
+                  <span>ACTIVITY 2.2 · LET US APPRECIATE</span>
+                </div>
+
+                <h2 style={{
+                  fontFamily: '"Fraunces", Georgia, serif',
+                  color: '#FFFBEB',
+                  fontWeight: 900,
+                  fontSize: '24px',
+                  margin: '2px 0 0 0',
+                  lineHeight: 1.15,
+                  textShadow: '0 2px 6px rgba(0,0,0,0.95)'
+                }}>
+                  Ecosystem Appreciation
+                </h2>
               </div>
 
-              <h2 style={{
-                fontFamily: '"Fraunces", Georgia, serif',
-                color: '#FBBF24',
-                fontWeight: '900',
-                fontSize: '22px',
-                margin: '0.2rem 0 0.35rem 0',
-                lineHeight: 1.15
+              {/* Divider */}
+              <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(167,243,208,0.05) 0%, rgba(167,243,208,0.4) 50%, rgba(167,243,208,0.05) 100%)', margin: '4px 0' }} />
+
+              {/* Narrative Text */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <p style={{
+                  margin: 0,
+                  fontSize: '16px',
+                  lineHeight: '1.5',
+                  color: '#ECFDF5',
+                  fontFamily: '"Inter", sans-serif',
+                  fontWeight: 450,
+                  textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                }}>
+                  Appreciating and conserving biodiversity is vital for our survival.
+                </p>
+                <p style={{
+                  margin: 0,
+                  fontSize: '16px',
+                  lineHeight: '1.5',
+                  color: '#ECFDF5',
+                  fontFamily: '"Inter", sans-serif',
+                  fontWeight: 450,
+                  textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                }}>
+                  Together, we notice and remember different plants and animals. When we compile our observations, we see a richer variety of life than any single person could find alone.
+                </p>
+              </div>
+
+              {/* Highlight Challenge Box */}
+              <div style={{
+                background: 'linear-gradient(145deg, rgba(254, 249, 195, 0.92) 0%, rgba(253, 230, 138, 0.88) 100%)',
+                border: '1.2px solid rgba(217, 119, 6, 0.35)',
+                borderRadius: '14px',
+                padding: '10px 14px',
+                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.2)',
+                color: '#78350F',
+                fontSize: '16px',
+                lineHeight: 1.45,
+                fontFamily: '"Inter", sans-serif',
+                fontWeight: 500
               }}>
-                Nature Walk Reflections
-              </h2>
+                <span style={{ marginRight: '6px' }}>✏️</span>
+                <strong style={{ fontWeight: 800, color: '#92400E' }}>Reflection challenge:</strong>{' '}
+                Close your eyes for 10 seconds. Think of one plant and one animal from your walk, then add them to the virtual class board.
+              </div>
 
-              <CardLeafDivider />
+              {/* Bottom Tag */}
+              <div style={{
+                textAlign: 'center',
+                color: 'rgba(167, 243, 208, 0.6)',
+                fontSize: '16px',
+                fontWeight: 500,
+                letterSpacing: '0.04em',
+                fontFamily: '"Inter", sans-serif'
+              }}>
+                Nature connects us all
+              </div>
+            </div>
 
+            {/* RIGHT PANEL: Transparent Glass Box with Blur in Font Area */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              minHeight: 0,
+              minWidth: 0,
+              flex: 1,
+              width: '100%',
+              maxWidth: '100%',
+              background: 'rgba(255, 255, 255, 0.06)',
+              backdropFilter: 'blur(2px)',
+              WebkitBackdropFilter: 'blur(2px)',
+              border: '1.5px solid rgba(255, 255, 255, 0.30)',
+              borderRadius: '24px',
+              padding: '14px 20px',
+              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.3)',
+              overflow: 'hidden',
+              position: 'relative',
+              justifyContent: 'space-between'
+            }}>
+              {/* Top Tab Pills */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+                flexShrink: 0,
+                gap: '10px',
+                flexWrap: 'wrap'
+              }}>
+                <div className="font-blur-area" style={{
+                  background: 'rgba(30, 58, 138, 0.55)',
+                  backdropFilter: 'blur(2px)',
+                  WebkitBackdropFilter: 'blur(2px)',
+                  border: '1.2px solid rgba(147, 197, 253, 0.5)',
+                  borderRadius: '14px',
+                  padding: '6px 16px',
+                  color: '#FFFFFF',
+                  fontSize: '16px',
+                  fontWeight: 700,
+                  fontFamily: '"Outfit", sans-serif',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)'
+                }}>
+                  <span>📷</span>
+                  <span>Class Board (Pending)</span>
+                </div>
+                <div className="font-blur-area" style={{
+                  background: 'rgba(30, 58, 138, 0.55)',
+                  backdropFilter: 'blur(2px)',
+                  WebkitBackdropFilter: 'blur(2px)',
+                  border: '1.2px solid rgba(147, 197, 253, 0.5)',
+                  borderRadius: '14px',
+                  padding: '6px 16px',
+                  color: '#FFFFFF',
+                  fontSize: '16px',
+                  fontWeight: 700,
+                  fontFamily: '"Outfit", sans-serif',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)'
+                }}>
+                  <span>🌱</span>
+                  <span>Ecosystem Quiz</span>
+                  <span>🔒</span>
+                </div>
+              </div>
+
+              {/* Center Content: Circular Timer & Reflection Controls */}
               <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '0.35rem',
-                fontSize: '16px',
-                color: '#2D5A43',
-                lineHeight: '1.4',
-                fontWeight: '700',
-                fontFamily: '"Outfit", sans-serif'
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                gap: '14px',
+                flex: 1,
+                padding: '8px 0'
               }}>
-                <p style={{ margin: 0, textAlign: 'left', letterSpacing: '0.01em' }}>
-                  Appreciating and conserving biodiversity is vital for life. Every organism in an ecosystem is interconnected.
-                </p>
-                <p style={{ margin: 0, textAlign: 'left', letterSpacing: '0.01em' }}>
-                  Together, our class observations reveal nature's grand living tapestry!
-                </p>
-              </div>
-            </div>
-
-            {/* Middle Section: Statistics or Reflection Challenge */}
-            <div style={{ position: 'relative', zIndex: 5 }}>
-              {boardCards.length > 0 ? (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
-                  <span style={{
-                    fontSize: '16px',
-                    fontWeight: '900',
-                    color: '#F8FAFC',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
-                    fontFamily: '"Outfit", sans-serif'
-                  }}>
-                    📊 Class Observations Summary
-                  </span>
-                  
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-                    <div style={{
-                      background: 'rgba(15, 23, 42, 0.50)',
-                      border: '2px solid #D4AF37',
-                      borderRadius: '12px 4px 12px 4px',
-                      padding: '6px 10px',
-                      boxShadow: '0 2px 6px rgba(20, 69, 47, 0.06)'
-                    }}>
-                      <div style={{ color: '#F8FAFC', fontWeight: '800', fontSize: '16px' }}>Total Logs</div>
-                      <div style={{ color: '#F8FAFC', fontWeight: '900', fontSize: '24px', fontFamily: '"Fraunces", serif', lineHeight: 1.1 }}>
-                        {totalCards}
-                      </div>
-                      <div style={{ color: '#2D5A43', fontWeight: '700', fontSize: '16px' }}>Class notes</div>
-                    </div>
-
-                    <div style={{
-                      background: 'rgba(15, 23, 42, 0.50)',
-                      border: '2px solid #D4AF37',
-                      borderRadius: '12px 4px 12px 4px',
-                      padding: '6px 10px',
-                      boxShadow: '0 2px 6px rgba(20, 69, 47, 0.06)'
-                    }}>
-                      <div style={{ color: '#F8FAFC', fontWeight: '800', fontSize: '16px' }}>Biodiversity</div>
-                      <div style={{ color: '#F8FAFC', fontWeight: '900', fontSize: '24px', fontFamily: '"Fraunces", serif', lineHeight: 1.1 }}>
-                        {uniquePlants + uniqueAnimals}
-                      </div>
-                      <div style={{ color: '#2D5A43', fontWeight: '700', fontSize: '16px' }}>P: {uniquePlants} | A: {uniqueAnimals}</div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
                 <div style={{
-                  background: 'rgba(15, 23, 42, 0.50)',
-                  border: '2px solid #D4AF37',
-                  borderLeftWidth: '6px',
-                  borderLeftColor: '#10B981',
-                  borderRadius: '16px 4px 16px 4px',
-                  padding: '1.15rem',
-                  fontFamily: '"Outfit", sans-serif',
-                  boxShadow: '0 4px 14px rgba(20, 69, 47, 0.08)'
+                  position: 'relative',
+                  width: '148px',
+                  height: '148px',
+                  animation: timerRunning ? 'timerGlowBreathe 2s ease-in-out infinite' : 'none',
+                  transition: 'transform 0.3s ease'
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '20px' }}>✍️</span>
-                    <span style={{ color: '#F8FAFC', fontSize: '19px', fontWeight: '900', fontFamily: '"Outfit", sans-serif' }}>
-                      Reflection Challenge:
-                    </span>
-                  </div>
+                  {/* Outer halo */}
                   <div style={{
-                    color: '#2D5A43',
-                    fontSize: '18px',
-                    fontWeight: '700',
-                    lineHeight: '1.6',
-                    textAlign: 'left'
-                  }}>
-                    Close your eyes for 10 seconds, then choose one plant and one animal from your nature walk to contribute to the memory wall.
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Bottom Progress Notification */}
-            <div style={{ position: 'relative', zIndex: 5, borderTop: '2px solid rgba(212, 175, 55, 0.45)', paddingTop: '0.85rem' }}>
-              {phase === 'completed' ? (
-                <div style={{
-                  background: '#F0FDF4',
-                  border: '2px solid #10B981',
-                  borderRadius: '14px',
-                  padding: '0.95rem',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '0.4rem'
-                }}>
-                  <span style={{ fontSize: '20px', fontWeight: '900', color: '#F8FAFC', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    🎉 Activity Completed!
-                  </span>
-                  <span style={{ fontSize: '17px', color: '#2D5A43', fontWeight: '700' }}>
-                    You mastered the Ecosystem Interdependence Checkup! Click "Next" below to advance.
-                  </span>
-                </div>
-              ) : (
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  fontSize: '18px',
-                  fontWeight: '800',
-                  color: '#F8FAFC',
-                  fontFamily: '"Outfit", sans-serif'
-                }}>
-                  <span>🌱</span>
-                  <span>Activity 2.2: Learning to Appreciate</span>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* ================================================================== */}
-        {/* RIGHT COLUMN: INTERACTIVE TABS & WORKSPACE (SLOGAN FRAMED)        */}
-        {/* ================================================================== */}
-        <div style={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          minHeight: 0, 
-          minWidth: 0, 
-          flex: 1, 
-          width: '100%', 
-          maxWidth: '100%',
-          background: 'rgba(15, 23, 42, 0.50)',
-          border: '2.5px solid rgba(20, 69, 47, 0.5)',
-          borderRadius: '24px 6px 24px 6px',
-          padding: '0.75rem 1rem',
-          boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',
-          overflow: 'hidden',
-          position: 'relative'
-        }}>
-          {/* Subtle Corner Botanical Leaves */}
-          <CardCornerLeaves position="top-left" />
-          <CardCornerLeaves position="top-right" />
-          <CardCornerLeaves position="bottom-left" />
-          <CardCornerLeaves position="bottom-right" />
-          <SpreadingLeavesWatermark />
-          
-          {/* Top Tabs Bar - Slogan Botanical Theme */}
-          <div style={{ 
-            display: 'flex', 
-            gap: '0.5rem',
-            marginBottom: '0.45rem',
-            flexShrink: 0,
-            position: 'relative',
-            zIndex: 10
-          }}>
-            <button 
-              onClick={() => {
-                if (!isMuted) sounds.playClick();
-                setActiveTab('board');
-                if (onSubStepChange) onSubStepChange('board');
-              }}
-              style={{ 
-                flex: 1,
-                padding: '8px 16px', 
-                fontSize: '18px', 
-                display: 'flex', 
-                flexDirection: 'row', 
-                gap: '8px', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                borderRadius: '12px 4px 12px 4px',
-                border: activeTab === 'board' ? '2.5px solid #14452F' : '2px solid #14452F',
-                background: activeTab === 'board' ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'rgba(250, 248, 242, 0.55)',
-                color: activeTab === 'board' ? '#ffffff' : '#14452F',
-                fontWeight: '900',
-                fontFamily: '"Outfit", sans-serif',
-                cursor: 'pointer',
-                boxShadow: activeTab === 'board' ? '0 4px 16px rgba(20, 69, 47, 0.35)' : 'none',
-                transition: 'all 0.18s ease'
-              }}
-            >
-              <span>🖼️ Class Memory Wall {boardCards.length > 0 ? `(${boardCards.length})` : ''}</span>
-            </button>
-
-            <button 
-              onClick={() => {
-                if (boardCards.length === 0) {
-                  alert('Please submit your reflection card first to unlock the Interdependence Quiz!');
-                } else {
-                  if (!isMuted) sounds.playClick();
-                  setActiveTab('quiz');
-                  if (onSubStepChange) onSubStepChange('quiz');
-                }
-              }}
-              style={{ 
-                flex: 1,
-                padding: '8px 16px', 
-                fontSize: '18px', 
-                display: 'flex', 
-                flexDirection: 'row', 
-                gap: '8px', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                borderRadius: '12px 4px 12px 4px',
-                border: activeTab === 'quiz' ? '2.5px solid #14452F' : '2px solid #14452F',
-                background: activeTab === 'quiz' ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'rgba(250, 248, 242, 0.55)',
-                color: activeTab === 'quiz' ? '#ffffff' : '#14452F',
-                fontWeight: '900',
-                fontFamily: '"Outfit", sans-serif',
-                cursor: boardCards.length === 0 ? 'not-allowed' : 'pointer',
-                opacity: boardCards.length === 0 ? 0.65 : 1,
-                boxShadow: activeTab === 'quiz' ? '0 4px 16px rgba(20, 69, 47, 0.35)' : 'none',
-                transition: 'all 0.18s ease'
-              }}
-            >
-              <span>🔬 Ecosystem Quiz</span>
-              {boardCards.length === 0 && <Lock size={20} color={activeTab === 'quiz' ? '#ffffff' : '#14452F'} />}
-            </button>
-          </div>
-
-          {/* ================================================================ */}
-          {/* TAB 1: BOARD WORKSPACE (TIMER / PICKER / BOARD)                  */}
-          {/* ================================================================ */}
-          {activeTab === 'board' && (
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, position: 'relative', zIndex: 10 }}>
-              <style>{`
-                @keyframes bondPulse {
-                  0%, 100% { transform: scale(1); }
-                  50% { transform: scale(1.05); }
-                }
-              `}</style>
-              
-              {/* PHASE 1: 10-SECOND REFLECTION TIMER (ANIMATED & INTERACTIVE) */}
-              {boardCards.length === 0 && phase === 'timer' && (
-                <div style={{
-                  flex: 1,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '1.5rem',
-                  padding: '1rem',
-                  textAlign: 'center',
-                  width: '100%',
-                  maxWidth: '660px',
-                  margin: 'auto'
-                }}>
-                  {/* Calming Breathing Animated Ring */}
-                  <div style={{
-                    position: 'relative',
-                    width: '150px',
-                    height: '150px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    position: 'absolute',
+                    inset: '-10px',
                     borderRadius: '50%',
-                    background: 'rgba(15, 23, 42, 0.50)',
-                    boxShadow: timerRunning 
-                      ? '0 0 28px rgba(16, 185, 129, 0.55)' 
-                      : '0 8px 24px rgba(20, 69, 47, 0.15)',
-                    animation: timerRunning ? 'reflectionPulse 2.4s infinite ease-in-out' : 'none'
-                  }}>
-                    <svg width="150" height="150" viewBox="0 0 150 150" style={{ transform: 'rotate(-90deg)' }}>
-                      <circle
-                        cx="75"
-                        cy="75"
-                        r="62"
-                        fill="transparent"
-                        stroke="#EDE7D8"
-                        strokeWidth="10"
-                      />
-                      <circle
-                        cx="75"
-                        cy="75"
-                        r="62"
-                        fill="transparent"
-                        stroke="#14452F"
-                        strokeWidth="10"
-                        strokeDasharray={2 * Math.PI * 62}
-                        strokeDashoffset={(2 * Math.PI * 62) - (timer / 10) * (2 * Math.PI * 62)}
-                        strokeLinecap="round"
-                        style={{ transition: timerRunning ? 'stroke-dashoffset 1s linear' : 'none' }}
-                      />
-                    </svg>
-                    
-                    <div style={{
-                      position: 'absolute',
-                      fontSize: '24px',
-                      fontWeight: '900',
-                      color: '#FBBF24',
-                      fontFamily: '"Outfit", sans-serif',
-                      letterSpacing: '-1px'
-                    }}>
-                      {timer}s
-                    </div>
-                  </div>
+                    background: timerRunning
+                      ? 'radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(96, 165, 250, 0.55) 45%, transparent 70%)'
+                      : 'radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, rgba(96, 165, 250, 0.4) 45%, transparent 70%)',
+                    filter: 'blur(10px)',
+                    pointerEvents: 'none',
+                    transition: 'all 0.5s ease'
+                  }} />
 
-                  {/* Reflection Guidance Prompt */}
-                  <div style={{ textAlign: 'center' }}>
+                  {timerRunning && (
+                    <>
+                      <div style={{
+                        position: 'absolute',
+                        inset: '-10px',
+                        borderRadius: '50%',
+                        border: '2px solid rgba(96, 165, 250, 0.75)',
+                        animation: 'timerSonarRing 2s cubic-bezier(0.1, 0.2, 0.7, 1) infinite',
+                        pointerEvents: 'none'
+                      }} />
+                      <div style={{
+                        position: 'absolute',
+                        inset: '-10px',
+                        borderRadius: '50%',
+                        border: '2px solid rgba(191, 219, 254, 0.75)',
+                        animation: 'timerSonarRing 2s cubic-bezier(0.1, 0.2, 0.7, 1) infinite 1s',
+                        pointerEvents: 'none'
+                      }} />
+                    </>
+                  )}
+
+                  {/* Leaf accent */}
+                  <div style={{ position: 'absolute', top: '-8px', right: '2px', fontSize: '20px', transform: 'rotate(20deg)', animation: timerRunning ? 'leafSway1 2.2s ease-in-out infinite' : 'none' }}>🍃</div>
+
+                  {/* Inner Frosted Disc */}
+                  <div style={{
+                    position: 'absolute',
+                    inset: '10px',
+                    borderRadius: '50%',
+                    background: 'radial-gradient(circle, rgba(255, 255, 255, 0.98) 0%, rgba(240, 249, 255, 0.95) 100%)',
+                    boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.2)',
+                    border: '1.5px solid rgba(191, 219, 254, 0.6)'
+                  }} />
+
+                  {/* SVG Progress Circle */}
+                  <svg width="148" height="148" viewBox="0 0 148 148" style={{ position: 'relative', zIndex: 2, transform: 'rotate(-90deg)' }}>
+                    <defs>
+                      <linearGradient id="timerRingGradientV2" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#60A5FA" />
+                        <stop offset="60%" stopColor="#3B82F6" />
+                        <stop offset="100%" stopColor="#1D4ED8" />
+                      </linearGradient>
+                    </defs>
+                    <circle cx="74" cy="74" r="60" stroke="rgba(30, 64, 175, 0.15)" strokeWidth="8" fill="none" />
+                    <circle
+                      cx="74"
+                      cy="74"
+                      r="60"
+                      stroke="url(#timerRingGradientV2)"
+                      strokeWidth="8"
+                      fill="none"
+                      strokeDasharray={376.99}
+                      strokeDashoffset={376.99 - (376.99 * timer) / 10}
+                      strokeLinecap="round"
+                      style={{ transition: 'stroke-dashoffset 0.8s linear' }}
+                    />
+                  </svg>
+
+                  {/* Center Text with Live Countdown */}
+                  <div
+                    key={timer}
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      zIndex: 3,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '24px',
+                      fontWeight: 900,
+                      color: '#065F46',
+                      textShadow: 'none',
+                      fontFamily: '"Outfit", sans-serif',
+                      letterSpacing: '-0.02em',
+                      animation: timerRunning ? 'numberTick 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275)' : 'none'
+                    }}
+                  >
+                    {timer}s
+                  </div>
+                </div>
+
+                {/* Heading & Subtitle directly over image */}
+                <div style={{
+                  maxWidth: '540px',
+                  width: 'fit-content',
+                  margin: '0 auto',
+                  textAlign: 'center'
+                }}>
+                  <h3 style={{
+                    margin: '0 0 4px 0',
+                    fontFamily: '"Fraunces", Georgia, serif',
+                    fontSize: '24px',
+                    fontWeight: 900,
+                    color: '#FFFFFF',
+                    textShadow: '0 2px 8px rgba(0,0,0,0.95), 0 0 16px rgba(0,0,0,0.6)',
+                    lineHeight: 1.2,
+                    textAlign: 'center'
+                  }}>
+                    10-Second Reflection
+                  </h3>
+                  <p style={{
+                    margin: 0,
+                    fontSize: '16px',
+                    color: '#F0FDF4',
+                    textShadow: '0 1px 4px rgba(0,0,0,0.95), 0 0 10px rgba(0,0,0,0.6)',
+                    maxWidth: '480px',
+                    lineHeight: 1.5,
+                    fontFamily: '"Inter", sans-serif',
+                    fontWeight: 450,
+                    textAlign: 'center'
+                  }}>
+                    Close your eyes and reflect on the plants and animals you saw on the nature walk.
+                  </p>
+                </div>
+
+                {/* Primary Action Button: Start Reflection */}
+                <div>
+                  {!timerRunning ? (
+                    <button
+                      type="button"
+                      onClick={handleStartTimer}
+                      style={{
+                        background: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)',
+                        color: '#FFFFFF',
+                        border: '1.8px solid #BFDBFE',
+                        borderRadius: '16px',
+                        padding: '10px 32px',
+                        fontSize: '18px',
+                        fontWeight: 900,
+                        fontFamily: '"Outfit", sans-serif',
+                        cursor: 'pointer',
+                        boxShadow: '0 6px 18px rgba(29, 78, 216, 0.45)',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        transition: 'all 0.18s ease'
+                      }}
+                    >
+                      <Play size={20} fill="#FFFFFF" />
+                      <span>Start Reflection</span>
+                    </button>
+                  ) : (
                     <div style={{
+                      background: 'rgba(6, 40, 25, 0.9)',
+                      border: '1.8px solid #34D399',
+                      borderRadius: '16px',
+                      padding: '10px 28px',
+                      fontSize: '18px',
+                      fontWeight: 900,
+                      color: '#A7F3D0',
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '8px',
-                      background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                      color: '#ffffff',
-                      padding: '5px 18px',
-                      borderRadius: '20px',
-                      fontSize: '18px',
-                      fontWeight: '900',
-                      fontFamily: '"Outfit", sans-serif',
-                      marginBottom: '0.6rem',
-                      border: '1.2px solid #10B981'
+                      boxShadow: '0 6px 18px rgba(16, 185, 129, 0.35)',
+                      animation: 'reflectionPulse 1.8s infinite ease-in-out'
                     }}>
-                      <Sparkles size={18} color="#34D399" />
-                      <span>MINDFUL BOTANICAL REFLECTION</span>
+                      <span>🌿 Mindful Reflection: {timer}s left</span>
                     </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
 
-                    <h3 style={{
-                      fontFamily: '"Fraunces", Georgia, serif',
-                      color: '#F8FAFC',
-                      margin: '0 0 0.65rem 0',
-                      fontSize: '24px',
-                      fontWeight: '900'
-                    }}>
-                      10-Second Nature Reflection
-                    </h3>
+          {/* ==================================================================== */}
+          {/* BOTTOM GLOBAL NAVIGATION BAR                                         */}
+          {/* ==================================================================== */}
+          <div style={{
+            position: 'relative',
+            width: '100%',
+            padding: '0.4rem 0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexShrink: 0,
+            boxSizing: 'border-box',
+            zIndex: 20
+          }}>
+            {/* Left Button: Back / Exit */}
+            <div>
+              <button
+                type="button"
+                className="bio-nav-btn"
+                onClick={handleGlobalBack}
+                aria-label="Back to Activity 2.1"
+              >
+                ← Back
+              </button>
+            </div>
 
-                    <p style={{
-                      fontSize: '20px',
-                      color: '#2D5A43',
-                      maxWidth: '580px',
-                      margin: '0 auto',
-                      lineHeight: '1.55',
-                      fontWeight: '700',
-                      fontFamily: '"Outfit", sans-serif',
-                      minHeight: '62px'
-                    }}>
-                      {getReflectionPrompt()}
-                    </p>
+
+
+            {/* Right Button: Next: Specimen Picker */}
+            <div>
+              <button
+                type="button"
+                className="bio-cta-btn"
+                onClick={handleGlobalNext}
+                aria-label="Next: Specimen Picker"
+              >
+                <span>{getNextLabel()}</span>
+                <ArrowRight size={17} strokeWidth={2.5} />
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : phase === 'pick' ? (
+        <div style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          padding: 'clamp(8px, 1.4vh, 18px) clamp(16px, 2vw, 32px)',
+          boxSizing: 'border-box',
+          position: 'relative',
+          zIndex: 10,
+          overflow: 'hidden'
+        }}>
+          {/* TOP BAR: Rustic Wooden Sign, Reset Button, and Cursive Slogan */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+            flexShrink: 0
+          }}>
+            {/* Top Left: Wooden Plank Badge */}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{
+                background: 'linear-gradient(180deg, #7A4B23 0%, #543114 100%)',
+                border: '2px solid #38200C',
+                borderRadius: '8px',
+                boxShadow: '0 4px 14px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.25)',
+                padding: '6px 14px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                color: '#FEF3C7',
+                fontFamily: '"Outfit", sans-serif',
+                fontWeight: 800,
+                fontSize: '16px',
+                textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+              }}>
+                <span style={{ fontSize: '18px' }}>🌿</span>
+                <span>Activity 2.2 — Let us appreciate</span>
+                <span style={{
+                  background: '#38200C',
+                  color: '#F1F5F9',
+                  textShadow: '0 1px 3px rgba(0,0,0,0.9)',
+                  fontSize: '16px',
+                  padding: '2px 8px',
+                  borderRadius: '12px',
+                  fontWeight: 700
+                }}>p.13</span>
+              </div>
+            </div>
+
+            {/* Top Right: Reset Button & Cursive Script Horizontally Aligned (No Vertical Overlap) */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{
+                fontFamily: '"Caveat", "Dancing Script", cursive',
+                fontSize: '25px',
+                fontWeight: 700,
+                color: '#FFFDF0',
+                lineHeight: 1.15,
+                textAlign: 'right',
+                textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 16px rgba(0, 0, 0, 0.9), 0 0 24px rgba(245, 158, 11, 0.75)'
+              }}>
+                Small Observations · A Greener Tomorrow
+              </div>
+
+              <button
+                type="button"
+                onClick={handleReset}
+                style={{
+                  background: 'rgba(15, 23, 42, 0.75)',
+                  backdropFilter: 'blur(2px)',
+                  WebkitBackdropFilter: 'blur(2px)',
+                  border: '1.2px solid rgba(255, 255, 255, 0.4)',
+                  borderRadius: '20px',
+                  color: '#FFFFFF',
+                  padding: '6px 18px',
+                  fontSize: '16px',
+                  fontWeight: 800,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.25)',
+                  fontFamily: '"Outfit", sans-serif',
+                  transition: 'all 0.18s ease'
+                }}
+              >
+                <RefreshCw size={16} color="#FFFFFF" strokeWidth={2.4} />
+                <span>Reset Activity</span>
+              </button>
+            </div>
+          </div>
+
+          {/* CENTER: Main White Frosted Glass Board Container Exactly Like Image */}
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            width: '100%',
+            flex: 1,
+            minHeight: 0,
+            justifyContent: 'center',
+            padding: '2px 0'
+          }}>
+
+
+            {/* Transparent Glass Card Container */}
+            <div className="content-box" style={{
+              width: 'min(95vw, 1260px)',
+              background: 'rgba(255, 255, 255, 0.42)',
+              backdropFilter: 'blur(2px) saturate(160%)',
+              WebkitBackdropFilter: 'blur(2px) saturate(160%)',
+              border: '1.5px solid rgba(255, 255, 255, 0.6)',
+              borderRadius: '24px',
+              padding: 'clamp(18px, 2.6vh, 28px) clamp(16px, 2.2vw, 28px)',
+              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.25)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              gap: 'clamp(8px, 1.2vh, 14px)',
+              position: 'relative',
+              boxSizing: 'border-box',
+              overflow: 'hidden'
+            }}>
+              {/* Card Header with Slight Blurness in Font Area */}
+              <div className="font-blur-area" style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                zIndex: 2,
+                position: 'relative',
+                background: 'transparent',
+                borderRadius: '16px',
+                padding: '4px 4px 10px',
+                overflow: 'hidden'
+              }}>
+                <div>
+                  <div style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    fontSize: '16px',
+                    fontWeight: 900,
+                    color: '#FDE047',
+                    letterSpacing: '0.06em',
+                    textTransform: 'uppercase',
+                    fontFamily: '"Outfit", sans-serif',
+                    textShadow: '0 2px 6px rgba(0, 0, 0, 0.95), 0 0 12px rgba(245, 158, 11, 0.5)'
+                  }}>
+                    <span>🍃</span>
+                    <span>GOAL</span>
                   </div>
-
-                  {/* Centered Start Reflection Action Control */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', marginTop: '0.8rem', justifyContent: 'center' }}>
-                    {!timerRunning ? (
-                      <button 
-                        onClick={handleStartTimer} 
-                        style={{ 
-                          padding: '0.9rem 2.8rem', 
-                          borderRadius: '14px', 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          gap: '12px', 
-                          fontSize: '20px', 
-                          fontWeight: '900', 
-                          background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)', 
-                          color: '#ffffff', 
-                          border: '2px solid #10B981', 
-                          boxShadow: '0 6px 18px rgba(16, 185, 129, 0.35)', 
-                          cursor: 'pointer', 
-                          fontFamily: '"Outfit", sans-serif',
-                          transition: 'all 0.18s ease' 
-                        }}
-                      >
-                        <Play size={22} fill="#ffffff" />
-                        <span>Start Reflection</span>
-                      </button>
-                    ) : (
-                      <div style={{
-                        padding: '0.9rem 2.5rem',
-                        borderRadius: '14px',
-                        background: '#F0FDF4',
-                        border: '2px solid #10B981',
-                        color: '#064E3B',
-                        fontSize: '20px',
-                        fontWeight: '900',
-                        fontFamily: '"Outfit", sans-serif',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '12px',
-                        boxShadow: '0 4px 14px rgba(16, 185, 129, 0.2)'
-                      }}>
-                        <span>🌿 Mindful Pause: {timer}s left</span>
-                      </div>
-                    )}
+                  <h2 style={{
+                    margin: '2px 0 0',
+                    fontFamily: '"Fraunces", Georgia, serif',
+                    fontSize: '24px',
+                    fontWeight: 900,
+                    color: '#FFFFFF',
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 18px rgba(0, 0, 0, 0.85)',
+                    lineHeight: 1.15
+                  }}>
+                    Ecosystem Reflection: Pick 1 Plant &amp; 1 Animal
+                  </h2>
+                  <div style={{
+                    fontSize: '16px',
+                    color: '#F8FAFC',
+                    textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)',
+                    fontWeight: 600,
+                    marginTop: '2px',
+                    fontFamily: '"Inter", sans-serif'
+                  }}>
+                    Choose the specimens you observed during your nature walk to contribute to the shared Class Board.
                   </div>
                 </div>
-              )}
 
-              {/* PHASE 2: DUAL-MODE SPECIMEN PICKER (SIDE-BY-SIDE ECO-LINKER + STEP-BY-STEP JOURNAL) */}
-              {boardCards.length === 0 && phase === 'pick' && (
+                {/* Exact Mountain Peaks & Cursive Motto Reference Design */}
                 <div style={{
-                  width: '100%',
-                  height: '100%',
-                  flex: 1,
-                  minHeight: 0,
-                  background: 'rgba(15, 23, 42, 0.50)',
-                  padding: 'clamp(10px, 1.2vh, 16px) clamp(12px, 1.4vw, 20px)',
-                  borderRadius: '20px 4px 20px 4px',
-                  border: '2px solid #D4AF37',
+                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-end',
+                  flexShrink: 0,
+                  paddingRight: '2px'
+                }}>
+                  <img
+                    src={mountainDesignImg}
+                    alt="Different lives. A shared home."
+                    style={{
+                      height: 'clamp(60px, 8vh, 76px)',
+                      width: 'auto',
+                      objectFit: 'contain',
+                      display: 'block',
+                      borderRadius: '10px',
+                      boxShadow: '0 3px 12px rgba(0, 0, 0, 0.4)',
+                      border: '1.2px solid rgba(255, 255, 255, 0.45)'
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Card Body: Two Side-by-Side Transparent Columns */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)',
+                gap: 'clamp(12px, 1.6vw, 18px)',
+                width: '100%',
+                boxSizing: 'border-box',
+                zIndex: 2,
+                position: 'relative'
+              }}>
+                {/* Left Column: Select a Plant */}
+                <div style={{
+                  background: 'rgba(240, 253, 244, 0.6)',
+                  border: '1.2px solid rgba(134, 239, 172, 0.5)',
+                  borderRadius: '16px',
+                  padding: 'clamp(10px, 1.3vh, 14px)',
                   display: 'flex',
                   flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  gap: 'clamp(8px, 1vh, 12px)',
-                  textAlign: 'left',
-                  boxShadow: '0 8px 24px rgba(20, 69, 47, 0.08)',
-                  boxSizing: 'border-box',
-                  position: 'relative',
-                  overflow: 'hidden'
+                  gap: '8px',
+                  minWidth: 0,
+                  boxSizing: 'border-box'
                 }}>
-                    <div style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                      flex: 1,
-                      minHeight: 0,
-                      gap: '8px',
-                      position: 'relative',
-                      zIndex: 5
-                    }}>
-                      {/* Step Switcher Navigation Bar */}
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        background: 'rgba(15, 23, 42, 0.50)',
-                        padding: '6px 12px',
-                        borderRadius: '12px',
-                        border: '1.5px solid rgba(212, 175, 55, 0.6)',
-                        flexShrink: 0
-                      }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <button
-                            type="button"
-                            onClick={() => { if (!isMuted) sounds.playClick(); setPickStep(1); }}
-                            style={{
-                              padding: '6px 14px',
-                              borderRadius: '10px',
-                              border: pickStep === 1 ? '2px solid #14452F' : '1.5px solid #CBD5E1',
-                              background: pickStep === 1 ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#ffffff',
-                              color: pickStep === 1 ? '#ffffff' : '#14452F',
-                              fontWeight: 900,
-                              fontSize: '16px',
-                              fontFamily: '"Outfit", sans-serif',
-                              cursor: 'pointer'
-                            }}
-                          >
-                            1. Select Plant {selectedPlant ? '✓' : ''}
-                          </button>
-
-                          <ChevronRight size={18} color="#14452F" />
-
-                          <button
-                            type="button"
-                            disabled={!selectedPlant}
-                            onClick={() => { if (!isMuted) sounds.playClick(); setPickStep(2); }}
-                            style={{
-                              padding: '6px 14px',
-                              borderRadius: '10px',
-                              border: pickStep === 2 ? '2px solid #14452F' : '1.5px solid #CBD5E1',
-                              background: pickStep === 2 ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#ffffff',
-                              color: pickStep === 2 ? '#ffffff' : '#14452F',
-                              fontWeight: 900,
-                              fontSize: '16px',
-                              fontFamily: '"Outfit", sans-serif',
-                              cursor: !selectedPlant ? 'not-allowed' : 'pointer',
-                              opacity: !selectedPlant ? 0.5 : 1
-                            }}
-                          >
-                            2. Select Animal {selectedAnimal ? '✓' : ''}
-                          </button>
-                        </div>
-
-                        {selectedPlant && selectedAnimal && (
-                          <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '6px',
-                            background: '#D1FAE5',
-                            border: '1.2px solid #10B981',
-                            padding: '3px 10px',
-                            borderRadius: '10px',
-                            fontSize: '16px',
-                            fontWeight: 900,
-                            color: '#065F46',
-                            fontFamily: '"Outfit", sans-serif'
-                          }}>
-                            <span>✨ Ecological Pair Selected</span>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* STEP 1: PLANTS (2 IMAGES: 50% & 50% ALLOCATION WITH NEXT PAGES) */}
-                      {pickStep === 1 && (
-                        <div style={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          flex: 1,
-                          minHeight: 0,
-                          gap: '10px'
-                        }}>
-                          {/* 2 Images side by side taking 50% and 50% screen allocation */}
-                          <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(2, 1fr)',
-                            gap: '16px',
-                            flex: 1,
-                            minHeight: 0,
-                            width: '100%',
-                            alignItems: 'stretch'
-                          }}>
-                            {PLANTS.slice(plantPage * 2, plantPage * 2 + 2).map(p => {
-                              const isSelected = selectedPlant === p;
-                              return (
-                                <button
-                                  key={`st1-${p}`}
-                                  type="button"
-                                  onClick={() => handleSelectPlant(p)}
-                                  style={{
-                                    position: 'relative',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    width: '100%',
-                                    height: '100%',
-                                    padding: '6px',
-                                    borderRadius: '20px',
-                                    border: isSelected ? '4px solid #10B981' : '2px solid #14452F',
-                                    background: isSelected ? '#ECFDF5' : 'rgba(250, 248, 242, 0.55)',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                    transform: isSelected ? 'scale(1.02)' : 'scale(1)',
-                                    boxShadow: isSelected 
-                                      ? '0 12px 28px rgba(16, 185, 129, 0.35), inset 0 0 14px rgba(16, 185, 129, 0.15)' 
-                                      : '0 4px 14px rgba(20, 69, 47, 0.08)',
-                                    boxSizing: 'border-box',
-                                    overflow: 'hidden'
-                                  }}
-                                >
-                                  <div style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    borderRadius: '14px',
-                                    overflow: 'hidden',
-                                    background: '#14452F',
-                                    position: 'relative',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                  }}>
-                                    <img 
-                                      src={PLANT_WIDE_IMAGES[p] || PLANT_IMAGES[p]} 
-                                      style={{ 
-                                        width: '100%', 
-                                        height: '100%', 
-                                        objectFit: 'cover',
-                                        objectPosition: 'center',
-                                        display: 'block'
-                                      }} 
-                                      alt="" 
-                                    />
-                                  </div>
-                                  {isSelected && (
-                                    <div style={{
-                                      position: 'absolute',
-                                      top: '14px',
-                                      right: '14px',
-                                      width: '36px',
-                                      height: '36px',
-                                      borderRadius: '50%',
-                                      background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                                      boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3), 0 0 0 2.5px #ffffff',
-                                      display: 'flex',
-                                      alignItems: 'center',
-                                      justifyContent: 'center',
-                                      color: '#ffffff',
-                                      fontSize: '20px',
-                                      fontWeight: 900,
-                                      zIndex: 2
-                                    }}>
-                                      ✓
-                                    </div>
-                                  )}
-                                </button>
-                              );
-                            })}
-                          </div>
-
-                          {/* Specimen Page Navigation Bar */}
-                          <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            padding: '4px 14px',
-                            background: 'rgba(15, 23, 42, 0.50)',
-                            border: '1.5px solid rgba(212, 175, 55, 0.6)',
-                            borderRadius: '12px',
-                            flexShrink: 0
-                          }}>
-                            <button
-                              type="button"
-                              disabled={plantPage === 0}
-                              onClick={() => { if (!isMuted) sounds.playClick(); setPlantPage(prev => Math.max(0, prev - 1)); }}
-                              style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: '6px',
-                                padding: '5px 14px',
-                                borderRadius: '8px',
-                                border: '1.5px solid rgba(212, 175, 55, 0.6)',
-                                background: plantPage === 0 ? '#E2E8F0' : '#14452F',
-                                color: plantPage === 0 ? '#94A3B8' : '#ffffff',
-                                fontWeight: 800,
-                                fontSize: '15px',
-                                fontFamily: '"Outfit", sans-serif',
-                                cursor: plantPage === 0 ? 'not-allowed' : 'pointer',
-                                opacity: plantPage === 0 ? 0.6 : 1
-                              }}
-                            >
-                              <ChevronLeft size={17} />
-                              <span>Previous</span>
-                            </button>
-
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                              <span style={{ fontSize: '15px', fontWeight: 800, color: '#F8FAFC', fontFamily: '"Outfit", sans-serif' }}>
-                                Page {plantPage + 1} of 3
-                              </span>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                {[0, 1, 2].map(idx => (
-                                  <button
-                                    key={`pdot-${idx}`}
-                                    type="button"
-                                    onClick={() => { if (!isMuted) sounds.playClick(); setPlantPage(idx); }}
-                                    style={{
-                                      width: idx === plantPage ? '22px' : '9px',
-                                      height: '9px',
-                                      borderRadius: '5px',
-                                      background: idx === plantPage ? '#10B981' : '#CBD5E1',
-                                      border: 'none',
-                                      cursor: 'pointer',
-                                      padding: 0
-                                    }}
-                                    aria-label={`Go to page ${idx + 1}`}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-
-                            <button
-                              type="button"
-                              disabled={plantPage === 2}
-                              onClick={() => { if (!isMuted) sounds.playClick(); setPlantPage(prev => Math.min(2, prev + 1)); }}
-                              style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: '6px',
-                                padding: '5px 14px',
-                                borderRadius: '8px',
-                                border: '1.5px solid rgba(212, 175, 55, 0.6)',
-                                background: plantPage === 2 ? '#E2E8F0' : '#14452F',
-                                color: plantPage === 2 ? '#94A3B8' : '#ffffff',
-                                fontWeight: 800,
-                                fontSize: '15px',
-                                fontFamily: '"Outfit", sans-serif',
-                                cursor: plantPage === 2 ? 'not-allowed' : 'pointer',
-                                opacity: plantPage === 2 ? 0.6 : 1
-                              }}
-                            >
-                              <span>Next</span>
-                              <ChevronRight size={17} />
-                            </button>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* STEP 2: ANIMALS (2 IMAGES: 50% & 50% ALLOCATION WITH NEXT PAGES) */}
-                      {pickStep === 2 && (
-                        <div style={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          flex: 1,
-                          minHeight: 0,
-                          gap: '10px'
-                        }}>
-                          {/* 2 Images side by side taking 50% and 50% screen allocation */}
-                          <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(2, 1fr)',
-                            gap: '16px',
-                            flex: 1,
-                            minHeight: 0,
-                            width: '100%',
-                            alignItems: 'stretch'
-                          }}>
-                            {ANIMALS.slice(animalPage * 2, animalPage * 2 + 2).map(a => {
-                              const isSelected = selectedAnimal === a;
-                              return (
-                                <button
-                                  key={`st2-${a}`}
-                                  type="button"
-                                  onClick={() => handleSelectAnimal(a)}
-                                  style={{
-                                    position: 'relative',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    width: '100%',
-                                    height: '100%',
-                                    padding: '6px',
-                                    borderRadius: '20px',
-                                    border: isSelected ? '4px solid #10B981' : '2px solid #14452F',
-                                    background: isSelected ? '#ECFDF5' : 'rgba(250, 248, 242, 0.55)',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                    transform: isSelected ? 'scale(1.02)' : 'scale(1)',
-                                    boxShadow: isSelected 
-                                      ? '0 12px 28px rgba(16, 185, 129, 0.35), inset 0 0 14px rgba(16, 185, 129, 0.15)' 
-                                      : '0 4px 14px rgba(20, 69, 47, 0.08)',
-                                    boxSizing: 'border-box',
-                                    overflow: 'hidden'
-                                  }}
-                                >
-                                  <div style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    borderRadius: '14px',
-                                    overflow: 'hidden',
-                                    background: '#14452F',
-                                    position: 'relative',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                  }}>
-                                    <img 
-                                      src={ANIMAL_WIDE_IMAGES[a] || ANIMAL_IMAGES[a]} 
-                                      style={{ 
-                                        width: '100%', 
-                                        height: '100%', 
-                                        objectFit: 'cover',
-                                        objectPosition: 'center',
-                                        display: 'block'
-                                      }} 
-                                      alt="" 
-                                    />
-                                  </div>
-                                  {isSelected && (
-                                    <div style={{
-                                      position: 'absolute',
-                                      top: '14px',
-                                      right: '14px',
-                                      width: '36px',
-                                      height: '36px',
-                                      borderRadius: '50%',
-                                      background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                                      boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3), 0 0 0 2.5px #ffffff',
-                                      display: 'flex',
-                                      alignItems: 'center',
-                                      justifyContent: 'center',
-                                      color: '#ffffff',
-                                      fontSize: '20px',
-                                      fontWeight: 900,
-                                      zIndex: 2
-                                    }}>
-                                      ✓
-                                    </div>
-                                  )}
-                                </button>
-                              );
-                            })}
-                          </div>
-
-                          {/* Specimen Page Navigation Bar */}
-                          <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            padding: '4px 14px',
-                            background: 'rgba(15, 23, 42, 0.50)',
-                            border: '1.5px solid rgba(212, 175, 55, 0.6)',
-                            borderRadius: '12px',
-                            flexShrink: 0
-                          }}>
-                            <button
-                              type="button"
-                              disabled={animalPage === 0}
-                              onClick={() => { if (!isMuted) sounds.playClick(); setAnimalPage(prev => Math.max(0, prev - 1)); }}
-                              style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: '6px',
-                                padding: '5px 14px',
-                                borderRadius: '8px',
-                                border: '1.5px solid rgba(212, 175, 55, 0.6)',
-                                background: animalPage === 0 ? '#E2E8F0' : '#14452F',
-                                color: animalPage === 0 ? '#94A3B8' : '#ffffff',
-                                fontWeight: 800,
-                                fontSize: '15px',
-                                fontFamily: '"Outfit", sans-serif',
-                                cursor: animalPage === 0 ? 'not-allowed' : 'pointer',
-                                opacity: animalPage === 0 ? 0.6 : 1
-                              }}
-                            >
-                              <ChevronLeft size={17} />
-                              <span>Previous</span>
-                            </button>
-
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                              <span style={{ fontSize: '15px', fontWeight: 800, color: '#F8FAFC', fontFamily: '"Outfit", sans-serif' }}>
-                                Page {animalPage + 1} of 3
-                              </span>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                {[0, 1, 2].map(idx => (
-                                  <button
-                                    key={`adot-${idx}`}
-                                    type="button"
-                                    onClick={() => { if (!isMuted) sounds.playClick(); setAnimalPage(idx); }}
-                                    style={{
-                                      width: idx === animalPage ? '22px' : '9px',
-                                      height: '9px',
-                                      borderRadius: '5px',
-                                      background: idx === animalPage ? '#10B981' : '#CBD5E1',
-                                      border: 'none',
-                                      cursor: 'pointer',
-                                      padding: 0
-                                    }}
-                                    aria-label={`Go to page ${idx + 1}`}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-
-                            <button
-                              type="button"
-                              disabled={animalPage === 2}
-                              onClick={() => { if (!isMuted) sounds.playClick(); setAnimalPage(prev => Math.min(2, prev + 1)); }}
-                              style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: '6px',
-                                padding: '5px 14px',
-                                borderRadius: '8px',
-                                border: '1.5px solid rgba(212, 175, 55, 0.6)',
-                                background: animalPage === 2 ? '#E2E8F0' : '#14452F',
-                                color: animalPage === 2 ? '#94A3B8' : '#ffffff',
-                                fontWeight: 800,
-                                fontSize: '15px',
-                                fontFamily: '"Outfit", sans-serif',
-                                cursor: animalPage === 2 ? 'not-allowed' : 'pointer',
-                                opacity: animalPage === 2 ? 0.6 : 1
-                              }}
-                            >
-                              <span>Next</span>
-                              <ChevronRight size={17} />
-                            </button>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Stepper Status Bar */}
-                      <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        flexShrink: 0,
-                        paddingTop: '6px',
-                        borderTop: '1.5px solid #14452F'
-                      }}>
-                        <span style={{ fontSize: '17px', fontWeight: 800, color: '#F8FAFC', fontFamily: '"Outfit", sans-serif' }}>
-                          {pickStep === 1 
-                            ? (selectedPlant ? '✓ Specimen selected! Proceed to Animal Selection' : 'Please pick 1 plant specimen image')
-                            : (selectedAnimal ? '✓ Specimen selected! Click Next to create memory card' : 'Please pick 1 animal specimen image')}
-                        </span>
-                      </div>
-                    </div>
-                </div>
-              )}
-
-
-              {/* PHASE 3: SUBMITTED CLASS MEMORY BOARD (SLOGAN FRAMED) */}
-              {boardCards.length > 0 && (
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, justifyContent: 'space-between', gap: '6px' }}>
-                  {/* Board Sub-header & Filter Bar */}
+                  {/* Font area with slight blurness - 100% visible, complementary spring emerald */}
                   <div style={{
                     display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    paddingBottom: '0.35rem',
-                    borderBottom: '2px solid rgba(212, 175, 55, 0.45)',
-                    marginBottom: '0.15rem',
-                    flexShrink: 0,
-                    gap: '8px'
+                    alignItems: 'baseline',
+                    gap: '10px',
+                    flexWrap: 'wrap',
+                    padding: '2px 4px'
                   }}>
-                    {/* Left: Filter Buttons */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{
-                        fontSize: '18px',
-                        color: '#F8FAFC',
-                        fontWeight: '900',
-                        fontFamily: '"Fraunces", Georgia, serif'
-                      }}>
-                        Field Notes:
-                      </span>
-                      <button
-                        onClick={() => {
-                          if (!isMuted) sounds.playClick();
-                          setBoardFilter('all');
-                          setBoardPage(1);
-                        }}
-                        style={{
-                          padding: '4px 12px',
-                          borderRadius: '8px',
-                          border: boardFilter === 'all' ? '2.2px solid #14452F' : '1.8px solid #14452F',
-                          background: boardFilter === 'all' ? '#14452F' : 'rgba(250, 248, 242, 0.55)',
-                          color: boardFilter === 'all' ? '#ffffff' : '#14452F',
-                          fontSize: '16px',
-                          fontWeight: '900',
-                          cursor: 'pointer',
-                          fontFamily: '"Outfit", sans-serif',
-                          transition: 'all 0.18s ease'
-                        }}
-                      >
-                        All ({boardCards.length})
-                      </button>
-
-                      <button
-                        onClick={() => {
-                          if (!isMuted) sounds.playClick();
-                          setBoardFilter('me');
-                          setBoardPage(1);
-                        }}
-                        style={{
-                          padding: '4px 12px',
-                          borderRadius: '8px',
-                          border: boardFilter === 'me' ? '2.2px solid #14452F' : '1.8px solid #14452F',
-                          background: boardFilter === 'me' ? '#14452F' : 'rgba(250, 248, 242, 0.55)',
-                          color: boardFilter === 'me' ? '#ffffff' : '#14452F',
-                          fontSize: '16px',
-                          fontWeight: '900',
-                          cursor: 'pointer',
-                          fontFamily: '"Outfit", sans-serif',
-                          transition: 'all 0.18s ease'
-                        }}
-                      >
-                        My Entry ⭐
-                      </button>
-                    </div>
-
-                    {/* Right: Pagination Controls (2 cards per page) */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-                      <button
-                        disabled={boardPage <= 1}
-                        onClick={() => {
-                          if (!isMuted) sounds.playClick();
-                          setBoardPage(p => Math.max(1, p - 1));
-                        }}
-                        style={{
-                          padding: '4px 12px',
-                          borderRadius: '8px',
-                          border: '2px solid #D4AF37',
-                          background: boardPage <= 1 ? '#EDE7D8' : 'rgba(250, 248, 242, 0.55)',
-                          color: boardPage <= 1 ? '#94A3B8' : '#14452F',
-                          cursor: boardPage <= 1 ? 'not-allowed' : 'pointer',
-                          fontSize: '16px',
-                          fontWeight: '900',
-                          fontFamily: '"Outfit", sans-serif',
-                          transition: 'all 0.18s ease'
-                        }}
-                      >
-                        ◀ Prev
-                      </button>
-                      <span style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: '900', fontFamily: '"Outfit", sans-serif', whiteSpace: 'nowrap' }}>
-                        Page {boardPage} of {Math.ceil(filteredBoardCards.length / 2) || 1}
-                      </span>
-                      <button
-                        disabled={boardPage >= Math.ceil(filteredBoardCards.length / 2)}
-                        onClick={() => {
-                          if (!isMuted) sounds.playClick();
-                          setBoardPage(p => Math.min(Math.ceil(filteredBoardCards.length / 2), p + 1));
-                        }}
-                        style={{
-                          padding: '4px 12px',
-                          borderRadius: '8px',
-                          border: '2px solid #D4AF37',
-                          background: boardPage >= Math.ceil(filteredBoardCards.length / 2) ? '#EDE7D8' : 'rgba(250, 248, 242, 0.55)',
-                          color: boardPage >= Math.ceil(filteredBoardCards.length / 2) ? '#94A3B8' : '#14452F',
-                          cursor: boardPage >= Math.ceil(filteredBoardCards.length / 2) ? 'not-allowed' : 'pointer',
-                          fontSize: '16px',
-                          fontWeight: '900',
-                          fontFamily: '"Outfit", sans-serif',
-                          transition: 'all 0.18s ease'
-                        }}
-                      >
-                        Next ▶
-                      </button>
-                    </div>
+                    <span style={{
+                      fontSize: '18px',
+                      fontWeight: 900,
+                      color: '#064E3B',
+                      fontFamily: '"Outfit", sans-serif',
+                      letterSpacing: '0.01em',
+                      textShadow: '0 1px 2px rgba(255, 255, 255, 0.95)'
+                    }}>
+                      🍃 Select a Plant
+                    </span>
+                    <span style={{
+                      fontSize: '16px',
+                      color: '#065F46',
+                      fontStyle: 'italic',
+                      fontWeight: 600,
+                      fontFamily: '"Inter", sans-serif',
+                      lineHeight: 1.25,
+                      textShadow: '0 1px 2px rgba(255, 255, 255, 0.9)'
+                    }}>
+                      Plants make our world greener and healthier.
+                    </span>
                   </div>
 
-                  {/* 1x2 Grid of Class Cards: 2 cards per view with spacious 16px-24px typography */}
+                  {/* 3x2 Grid of 6 Plants */}
                   <div style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                    gap: '14px',
-                    flex: 1,
-                    minHeight: 0,
-                    minWidth: 0,
-                    overflow: 'hidden'
+                    gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+                    gap: '10px',
+                    width: '100%',
+                    boxSizing: 'border-box'
                   }}>
-                    {filteredBoardCards.slice((boardPage - 1) * 2, boardPage * 2).map((card, i) => {
-                      const pair = getMutualismPair(card.plant, card.animal);
-                      const isLiving = activeLivingAnimal === card.animal;
-                      const likes = cardLikes[card.name] || (card.isMe ? 8 : 4);
+                    {PLANTS.map(p => {
+                      const isSelected = selectedPlant === p;
                       return (
-                        <div 
-                          key={i} 
-                          style={{ 
-                            background: card.isMe ? 'rgba(240, 253, 244, 0.6)' : 'rgba(250, 248, 242, 0.55)',
-                            backgroundImage: 'radial-gradient(#14452F 0.55px, transparent 0.55px)',
-                            backgroundSize: '16px 16px',
-                            border: card.isMe ? '2.5px solid #10B981' : '2px solid #14452F',
-                            borderRadius: '20px 6px 20px 6px',
-                            padding: '10px 14px 8px 14px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                            gap: '6px',
-                            minWidth: 0,
-                            boxShadow: card.isMe 
-                              ? '0 8px 24px rgba(16, 185, 129, 0.22), 0 2px 6px rgba(0,0,0,0.04)' 
-                              : '0 6px 20px rgba(20, 69, 47, 0.08), 0 2px 4px rgba(0,0,0,0.03)',
+                        <div
+                          key={`pl-${p}`}
+                          onClick={() => handleSelectPlant(p)}
+                          style={{
                             position: 'relative',
-                            transition: 'all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                            height: 'clamp(130px, 17vh, 168px)',
+                            aspectRatio: '3 / 4',
+                            borderRadius: '12px',
+                            overflow: 'hidden',
+                            border: isSelected ? '3px solid #22C55E' : '1.5px solid rgba(255, 255, 255, 0.85)',
+                            boxShadow: isSelected ? '0 0 14px rgba(34, 197, 94, 0.45)' : '0 2px 8px rgba(0,0,0,0.1)',
+                            cursor: 'pointer',
+                            transform: isSelected ? 'scale(1.02)' : 'scale(1)',
+                            transition: 'all 0.18s ease',
+                            background: '#042F2E',
+                            margin: '0 auto'
                           }}
                         >
-                          {/* Naturalist Washi Tape Strip */}
+                          <img
+                            src={PLANT_IMAGES[p]}
+                            alt={p}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                          />
+
+                          {/* Bottom label strip with emoji and name */}
                           <div style={{
                             position: 'absolute',
-                            top: '-8px',
-                            left: '50%',
-                            transform: 'translateX(-50%)',
-                            width: '80px',
-                            height: '15px',
-                            background: card.isMe ? 'rgba(16, 185, 129, 0.45)' : 'rgba(217, 119, 6, 0.35)',
-                            border: '1px dashed rgba(20, 69, 47, 0.5)',
-                            borderRadius: '3px',
-                            zIndex: 3,
-                            boxShadow: '0 1px 3px rgba(0,0,0,0.08)'
-                          }} />
-
-                          {/* Student Header */}
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', minWidth: 0 }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
-                              <div style={{
-                                width: '38px',
-                                height: '38px',
-                                borderRadius: '50%',
-                                background: card.isMe 
-                                  ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' 
-                                  : 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                                color: '#ffffff',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontWeight: '900',
-                                fontSize: '20px',
-                                flexShrink: 0,
-                                boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
-                              }}>
-                                {card.name.charAt(0)}
-                              </div>
-                              <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, justifyContent: 'center' }}>
-                                <span style={{
-                                  fontSize: '22px',
-                                  fontWeight: '900',
-                                  color: '#F8FAFC',
-                                  whiteSpace: 'nowrap',
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                  fontFamily: '"Fraunces", serif',
-                                  lineHeight: 1.15
-                                }}>
-                                  {card.name} {card.isMe && '⭐ (You)'}
-                                </span>
-                              </div>
-                            </div>
-
-                            {/* Verification / Field Seal */}
-                            <div style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '5px',
-                              fontSize: '16px',
-                              fontWeight: '800',
-                              color: card.isMe ? '#065F46' : '#14452F',
-                              background: card.isMe ? '#D1FAE5' : '#EDE7D8',
-                              border: '1.5px solid rgba(212, 175, 55, 0.6)',
-                              borderRadius: '8px',
-                              padding: '2px 8px',
-                              flexShrink: 0,
-                              fontFamily: '"Outfit", sans-serif'
-                            }}>
-                              <span>{card.isMe ? '⭐ Field Entry' : '💮 Verified Log'}</span>
-                            </div>
-                          </div>
-
-                          {/* Dual Polaroid / Specimen Photo Mounts */}
-                          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', width: '100%', minWidth: 0 }}>
-                            {/* Plant Mount */}
-                            <div 
-                              onClick={() => handleTriggerLivingLocomotion(null, card.plant)}
-                              title={`Click to rain ${card.plant} leaves/petals`}
-                              style={{
-                                background: '#ffffff',
-                                border: '1.8px solid #D4AF37',
-                                borderRadius: '10px',
-                                padding: '5px',
-                                boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: '4px',
-                                cursor: 'pointer',
-                                transform: 'none',
-                                transition: 'transform 0.15s ease, box-shadow 0.15s ease'
-                              }}
-                              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 14px rgba(16, 185, 129, 0.22)'; }}
-                              onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)'; }}
-                            >
-                              <div style={{
-                                height: '98px',
-                                borderRadius: '6px',
-                                overflow: 'hidden',
-                                position: 'relative',
-                                background: '#14452F'
-                              }}>
-                                <img 
-                                  src={PLANT_WIDE_IMAGES[card.plant] || PLANT_IMAGES[card.plant]}
-                                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                  alt={card.plant}
-                                />
-                              </div>
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', padding: '1px 2px', minWidth: 0 }}>
-                                <span style={{ fontSize: '20px', fontWeight: '900', color: '#065F46', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                  {PLANT_EMOJIS[card.plant]} {card.plant}
-                                </span>
-                                <span style={{ fontSize: '16px', fontStyle: 'italic', color: '#64748B', lineHeight: 1.15, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                  {SCIENTIFIC_NAMES[card.plant]}
-                                </span>
-                              </div>
-                            </div>
-
-                            {/* Animal Mount */}
-                            <div 
-                              onClick={() => handleTriggerLivingLocomotion(card.animal, card.plant)}
-                              title={card.animal}
-                              style={{
-                                background: '#ffffff',
-                                border: isLiving ? '2px solid #F59E0B' : '1.8px solid #14452F',
-                                borderRadius: '10px',
-                                padding: '5px',
-                                boxShadow: isLiving ? '0 0 14px rgba(245, 158, 11, 0.45)' : '0 2px 8px rgba(0,0,0,0.06)',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: '4px',
-                                cursor: 'pointer',
-                                transform: 'none',
-                                transition: 'transform 0.15s ease, box-shadow 0.15s ease'
-                              }}
-                              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 14px rgba(217, 119, 6, 0.28)'; }}
-                              onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = isLiving ? '0 0 14px rgba(245, 158, 11, 0.45)' : '0 2px 8px rgba(0,0,0,0.06)'; }}
-                            >
-                              <div style={{
-                                height: '98px',
-                                borderRadius: '6px',
-                                overflow: 'hidden',
-                                position: 'relative',
-                                background: '#451A03'
-                              }}>
-                                <img 
-                                  src={ANIMAL_WIDE_IMAGES[card.animal] || ANIMAL_IMAGES[card.animal]}
-                                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                  alt={card.animal}
-                                />
-                              </div>
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', padding: '1px 2px', minWidth: 0 }}>
-                                <span style={{ fontSize: '20px', fontWeight: '900', color: '#92400E', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                  {ANIMAL_EMOJIS[card.animal]} {card.animal}
-                                </span>
-                                <span style={{ fontSize: '16px', fontStyle: 'italic', color: '#64748B', lineHeight: 1.15, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                  {SCIENTIFIC_NAMES[card.animal]}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Field Observation Note (Mutualism Journal Quote) */}
-                          <div 
-                            onClick={() => setInspectCard(card)}
-                            title="Click to view full naturalist journal entry"
-                            style={{
-                              background: 'rgba(15, 23, 42, 0.45)',
-                              border: '1.5px solid rgba(212, 175, 55, 0.6)',
-                              borderRadius: '9px',
-                              padding: '6px 10px',
-                              display: 'flex',
-                              flexDirection: 'column',
-                              gap: '3px',
-                              cursor: 'pointer',
-                              boxShadow: '0 1px 4px rgba(0,0,0,0.04)'
-                            }}
-                          >
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0 }}>
-                                <span style={{ fontSize: '16px' }}>🔗</span>
-                                <span style={{ fontSize: '18px', fontWeight: '900', color: '#065F46', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                  {pair.interaction}
-                                </span>
-                              </div>
-                              <span style={{
-                                fontSize: '16px',
-                                fontWeight: '800',
-                                background: '#D1FAE5',
-                                color: '#065F46',
-                                padding: '2px 6px',
-                                borderRadius: '6px',
-                                flexShrink: 0
-                              }}>
-                                {pair.badge}
-                              </span>
-                            </div>
-                            <div style={{
-                              fontSize: '16px',
-                              color: '#334155',
-                              lineHeight: '1.35',
-                              fontStyle: 'italic',
-                              display: '-webkit-box',
-                              WebkitLineClamp: 2,
-                              WebkitBoxOrient: 'vertical',
-                              overflow: 'hidden'
-                            }}>
-                              "{pair.detail}"
-                            </div>
-                          </div>
-
-                          {/* Micro-Action Interactive Footer */}
-                          <div style={{
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            background: 'linear-gradient(0deg, rgba(6, 40, 25, 0.92) 0%, rgba(6, 40, 25, 0.75) 70%, transparent 100%)',
+                            color: '#FFFFFF',
+                            padding: '18px 10px 8px',
+                            fontSize: '16px',
+                            fontWeight: 700,
+                            fontFamily: '"Outfit", sans-serif',
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'flex-end',
-                            gap: '8px',
-                            paddingTop: '4px',
-                            borderTop: '1px dashed rgba(20, 69, 47, 0.25)'
+                            gap: '6px',
+                            pointerEvents: 'none',
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis'
                           }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                              {/* Peer Appreciation Like Button */}
-                              <button
-                                type="button"
-                                onClick={(e) => handleLikeCard(card.name, e)}
-                                title="Appreciate this nature observation!"
-                                style={{
-                                  display: 'inline-flex',
-                                  alignItems: 'center',
-                                  gap: '4px',
-                                  background: '#ECFDF5',
-                                  border: '1.8px solid #FDE68A',
-                                  color: '#065F46',
-                                  padding: '4px 10px',
-                                  borderRadius: '8px',
-                                  fontSize: '16px',
-                                  fontWeight: '900',
-                                  cursor: 'pointer',
-                                  fontFamily: '"Outfit", sans-serif',
-                                  transition: 'all 0.15s ease'
-                                }}
-                              >
-                                <span>🌿</span>
-                                <span>{likes}</span>
-                              </button>
-
-                              {/* Inspect Journal Button */}
-                              <button
-                                type="button"
-                                onClick={() => setInspectCard(card)}
-                                title="Open detailed naturalist specimen logbook"
-                                style={{
-                                  display: 'inline-flex',
-                                  alignItems: 'center',
-                                  gap: '4px',
-                                  background: 'rgba(15, 23, 42, 0.50)',
-                                  border: '1.5px solid rgba(212, 175, 55, 0.6)',
-                                  color: '#F8FAFC',
-                                  padding: '4px 10px',
-                                  borderRadius: '8px',
-                                  fontSize: '16px',
-                                  fontWeight: '900',
-                                  cursor: 'pointer',
-                                  fontFamily: '"Outfit", sans-serif'
-                                }}
-                              >
-                                <span>🔍 Log</span>
-                              </button>
-                            </div>
+                            <span>{PLANT_EMOJIS[p]}</span>
+                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{p}</span>
                           </div>
+
+                          {/* Checkmark in top-right */}
+                          {isSelected && (
+                            <div style={{
+                              position: 'absolute',
+                              top: '5px',
+                              right: '6px',
+                              width: '24px',
+                              height: '24px',
+                              borderRadius: '50%',
+                              background: '#22C55E',
+                              color: '#ffffff',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '16px',
+                              fontWeight: 900,
+                              boxShadow: '0 2px 6px rgba(0,0,0,0.4)',
+                              zIndex: 3
+                            }}>
+                              ✓
+                            </div>
+                          )}
                         </div>
                       );
                     })}
                   </div>
                 </div>
-              )}
 
-            </div>
-          )}
-
-          {/* ================================================================ */}
-          {/* TAB 2: INTERDEPENDENCE QUIZ (SLOGAN FRAMED)                     */}
-          {/* ================================================================ */}
-          {activeTab === 'quiz' && (
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, justifyContent: 'space-between', overflow: 'hidden', position: 'relative', zIndex: 10 }}>
-              {phase === 'completed' ? (
+                {/* Right Column: Select an Animal */}
                 <div style={{
-                  flex: 1,
+                  background: 'rgba(255, 251, 235, 0.6)',
+                  border: '1.2px solid rgba(253, 224, 71, 0.5)',
+                  borderRadius: '16px',
+                  padding: 'clamp(10px, 1.3vh, 14px)',
                   display: 'flex',
                   flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textAlign: 'center',
-                  gap: '1.4rem',
-                  padding: '1.5rem'
-                }}>
-                  <div style={{
-                    padding: '1.5rem',
-                    background: 'rgba(15, 23, 42, 0.50)',
-                    borderRadius: '50%',
-                    border: '3.5px solid #10B981',
-                    boxShadow: '0 8px 26px rgba(16, 185, 129, 0.28)'
-                  }}>
-                    <Award size={64} color="#10B981" />
-                  </div>
-
-                  <div>
-                    <h3 style={{
-                      margin: 0,
-                      fontFamily: '"Fraunces", Georgia, serif',
-                      color: '#F8FAFC',
-                      fontSize: '24px',
-                      fontWeight: '900'
-                    }}>
-                      Ecosystem Quiz Completed!
-                    </h3>
-
-                    <p style={{
-                      fontSize: '22px',
-                      color: '#F8FAFC',
-                      fontWeight: '900',
-                      margin: '0.75rem 0 0.45rem',
-                      fontFamily: '"Fraunces", serif'
-                    }}>
-                      Score: {Object.values(quizAnswers).filter(Boolean).length} / {QUIZ_QUESTIONS.length} Questions Correct
-                    </p>
-
-                    <p style={{
-                      fontSize: '19px',
-                      color: '#2D5A43',
-                      margin: '0.45rem 0 0',
-                      lineHeight: 1.55,
-                      fontWeight: '700',
-                      maxWidth: '560px',
-                      fontFamily: '"Outfit", sans-serif'
-                    }}>
-                      Outstanding work reflecting on biodiversity and discovering how plants, birds, insects, and mammals live together in delicate balance.
-                    </p>
-                  </div>
-
-                  <div style={{ display: 'flex', gap: '1.2rem', marginTop: '1rem', justifyContent: 'center' }}>
-                    <button
-                      onClick={() => {
-                        if (!isMuted) sounds.playClick();
-                        setCurrentQIndex(0);
-                        setSelectedOpt(null);
-                        setQuizChecked(false);
-                        setQuizAnswers({});
-                        setSimToggled(false);
-                        setPhase('board');
-                      }}
-                      style={{
-                        padding: '0.85rem 2.2rem',
-                        borderRadius: '12px',
-                        border: '2px solid #D4AF37',
-                        color: '#F8FAFC',
-                        fontWeight: '900',
-                        fontSize: '18px',
-                        cursor: 'pointer',
-                        background: 'rgba(15, 23, 42, 0.50)',
-                        fontFamily: '"Outfit", sans-serif',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        boxShadow: '0 2px 8px rgba(20, 69, 47, 0.08)'
-                      }}
-                    >
-                      <RefreshCw size={18} />
-                      <span>Retake Quiz</span>
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div style={{
-                  flex: 1,
-                  display: 'grid',
-                  gridTemplateColumns: '70% 30%',
-                  gap: '14px',
-                  minHeight: 0,
-                  height: '100%',
-                  overflow: 'hidden',
+                  gap: '8px',
+                  minWidth: 0,
                   boxSizing: 'border-box'
                 }}>
-                  {/* LEFT 70%: REALISTIC HABITAT IMAGE - CLEAN WITHOUT WORDS ON IMAGE */}
+                  {/* Font area with slight blurness - 100% visible, complementary sunlight amber */}
                   <div style={{
-                    position: 'relative',
-                    borderRadius: '18px',
-                    border: '2.5px solid rgba(20, 69, 47, 0.5)',
-                    overflow: 'hidden',
-                    background: '#0D2818',
-                    boxShadow: '0 8px 24px rgba(20, 69, 47, 0.18)',
-                    minHeight: 0,
-                    height: '100%'
+                    display: 'flex',
+                    alignItems: 'baseline',
+                    gap: '10px',
+                    flexWrap: 'wrap',
+                    padding: '2px 4px'
                   }}>
-                    {/* Realistic Background Habitat Image */}
-                    <img 
-                      src={QUIZ_QUESTIONS[currentQIndex].sceneImg}
-                      alt={QUIZ_QUESTIONS[currentQIndex].habitat}
-                      style={{
-                        position: 'absolute',
-                        inset: 0,
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        objectPosition: 'center',
-                        imageRendering: '-webkit-optimize-contrast',
-                        transform: 'translateZ(0)',
-                        backfaceVisibility: 'hidden',
-                        filter: simToggled ? 'saturate(0.45) contrast(1.1) brightness(0.85)' : 'none',
-                        transition: 'filter 0.5s ease'
-                      }}
-                    />
+                    <span style={{
+                      fontSize: '18px',
+                      fontWeight: 900,
+                      color: '#451A03',
+                      fontFamily: '"Outfit", sans-serif',
+                      letterSpacing: '0.01em',
+                      textShadow: '0 1px 2px rgba(255, 255, 255, 0.95)'
+                    }}>
+                      🐾 Select an Animal
+                    </span>
+                    <span style={{
+                      fontSize: '16px',
+                      color: '#78350F',
+                      fontStyle: 'italic',
+                      fontWeight: 600,
+                      fontFamily: '"Inter", sans-serif',
+                      lineHeight: 1.25,
+                      textShadow: '0 1px 2px rgba(255, 255, 255, 0.9)'
+                    }}>
+                      Animals keep ecosystems balanced and alive.
+                    </span>
                   </div>
 
-                  {/* RIGHT 30%: QUESTIONS & ANSWERS INTERACTIVE PANEL */}
+                  {/* 3x2 Grid of 6 Animals */}
                   <div style={{
-                    background: 'rgba(15, 23, 42, 0.50)',
-                    border: '2.5px solid rgba(20, 69, 47, 0.5)',
-                    borderRadius: '18px',
-                    padding: '12px 14px',
-                    boxShadow: '0 8px 24px rgba(20, 69, 47, 0.12)',
-                    display: 'flex',
-                    flexDirection: 'column',
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
                     gap: '10px',
-                    minHeight: 0,
-                    height: '100%',
-                    overflowY: 'auto',
+                    width: '100%',
                     boxSizing: 'border-box'
                   }}>
-                    {/* Top Row: Question Counter & Score Badge */}
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      gap: '8px',
-                      borderBottom: '2px solid rgba(212, 175, 55, 0.45)',
-                      paddingBottom: '8px',
-                      flexShrink: 0
-                    }}>
-                      <span style={{
-                        fontSize: '16px',
-                        fontWeight: '900',
-                        color: '#F8FAFC',
-                        background: '#EAE5D5',
-                        padding: '4px 10px',
-                        borderRadius: '8px',
-                        border: '1.5px solid rgba(212, 175, 55, 0.6)',
-                        fontFamily: '"Outfit", sans-serif'
-                      }}>
-                        Question {currentQIndex + 1} of {QUIZ_QUESTIONS.length}
-                      </span>
-                      <span style={{
-                        fontSize: '16px',
-                        fontWeight: '900',
-                        color: '#065F46',
-                        background: '#D1FAE5',
-                        padding: '4px 10px',
-                        borderRadius: '8px',
-                        border: '1.8px solid #FDE68A',
-                        fontFamily: '"Outfit", sans-serif'
-                      }}>
-                        🏆 Score: {Object.values(quizAnswers).filter(Boolean).length} / {QUIZ_QUESTIONS.length}
-                      </span>
-                    </div>
+                    {ANIMALS.map(a => {
+                      const isSelected = selectedAnimal === a;
+                      return (
+                        <div
+                          key={`an-${a}`}
+                          onClick={() => handleSelectAnimal(a)}
+                          style={{
+                            position: 'relative',
+                            height: 'clamp(130px, 17vh, 168px)',
+                            aspectRatio: '3 / 4',
+                            borderRadius: '12px',
+                            overflow: 'hidden',
+                            border: isSelected ? '3px solid #22C55E' : '1.5px solid rgba(255, 255, 255, 0.85)',
+                            boxShadow: isSelected ? '0 0 14px rgba(34, 197, 94, 0.45)' : '0 2px 8px rgba(0,0,0,0.1)',
+                            cursor: 'pointer',
+                            transform: isSelected ? 'scale(1.02)' : 'scale(1)',
+                            transition: 'all 0.18s ease',
+                            background: '#1C1917',
+                            margin: '0 auto'
+                          }}
+                        >
+                          <img
+                            src={ANIMAL_IMAGES[a]}
+                            alt={a}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                          />
 
-                    {/* Question Prompt */}
-                    <div style={{
-                      background: '#FFFFFF',
-                      border: '2px solid #D4AF37',
-                      borderRadius: '12px',
-                      padding: '10px 12px',
-                      boxShadow: '0 2px 6px rgba(20, 69, 47, 0.06)',
-                      flexShrink: 0
-                    }}>
-                      <p style={{
-                        margin: 0,
-                        fontSize: '18px',
-                        fontWeight: '900',
-                        color: '#F8FAFC',
-                        lineHeight: '1.38',
-                        fontFamily: '"Fraunces", Georgia, serif'
-                      }}>
-                        Q{currentQIndex + 1}. {QUIZ_QUESTIONS[currentQIndex].q}
-                      </p>
-                    </div>
+                          {/* Bottom label strip with emoji and name */}
+                          <div style={{
+                            position: 'absolute',
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            background: 'linear-gradient(0deg, rgba(40, 26, 12, 0.92) 0%, rgba(40, 26, 12, 0.75) 70%, transparent 100%)',
+                            color: '#FFFFFF',
+                            padding: '18px 10px 8px',
+                            fontSize: '16px',
+                            fontWeight: 700,
+                            fontFamily: '"Outfit", sans-serif',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '6px',
+                            pointerEvents: 'none',
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis'
+                          }}>
+                            <span>{ANIMAL_EMOJIS[a]}</span>
+                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{a}</span>
+                          </div>
 
-                    {/* 4 Interactive Vertical Options */}
-                    <div style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '8px',
-                      flexShrink: 0
-                    }}>
-                      {QUIZ_QUESTIONS[currentQIndex].opts.map((opt, i) => {
-                        let border = '2px solid #14452F';
-                        let bg = '#FFFFFF';
-                        let textColor = '#14452F';
-                        let badgeBg = '#14452F';
-                        let badgeColor = '#FFFFFF';
-                        let boxShadow = '0 2px 6px rgba(20, 69, 47, 0.06)';
-
-                        if (quizChecked) {
-                          if (i === QUIZ_QUESTIONS[currentQIndex].correct) {
-                            border = '2.8px solid #10B981';
-                            bg = '#D1FAE5';
-                            textColor = '#065F46';
-                            badgeBg = '#10B981';
-                            boxShadow = '0 4px 14px rgba(16, 185, 129, 0.35)';
-                          } else if (i === selectedOpt) {
-                            border = '2.8px solid #EF4444';
-                            bg = '#FEE2E2';
-                            textColor = '#991B1B';
-                            badgeBg = '#EF4444';
-                            boxShadow = '0 4px 14px rgba(239, 68, 68, 0.35)';
-                          }
-                        } else if (selectedOpt === i) {
-                          border = '2.8px solid #14452F';
-                          bg = '#EAE5D5';
-                          textColor = '#14452F';
-                          boxShadow = '0 4px 12px rgba(20, 69, 47, 0.2)';
-                        }
-
-                        return (
-                          <button
-                            key={i}
-                            disabled={quizChecked}
-                            onClick={(e) => handleSelectAnswer(i, e)}
-                            style={{
-                              textAlign: 'left',
-                              padding: '8px 12px',
-                              borderRadius: '12px',
-                              border,
-                              background: bg,
-                              color: textColor,
-                              fontSize: '16px',
-                              lineHeight: '1.35',
-                              cursor: quizChecked ? 'default' : 'pointer',
-                              width: '100%',
-                              fontWeight: '800',
-                              boxShadow,
-                              transition: 'all 0.15s ease',
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '10px',
-                              fontFamily: '"Outfit", sans-serif',
-                              boxSizing: 'border-box'
-                            }}
-                          >
-                            <span style={{
-                              width: '28px',
-                              height: '28px',
-                              borderRadius: '8px',
-                              background: badgeBg,
-                              color: badgeColor,
-                              fontSize: '16px',
-                              fontWeight: '900',
+                          {/* Checkmark in top-right */}
+                          {isSelected && (
+                            <div style={{
+                              position: 'absolute',
+                              top: '5px',
+                              right: '6px',
+                              width: '24px',
+                              height: '24px',
+                              borderRadius: '50%',
+                              background: '#22C55E',
+                              color: '#ffffff',
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
-                              flexShrink: 0
+                              fontSize: '16px',
+                              fontWeight: 900,
+                              boxShadow: '0 2px 6px rgba(0,0,0,0.4)',
+                              zIndex: 3
                             }}>
-                              {opt.label}
-                            </span>
-                            <span style={{ flex: 1, fontSize: '16px', fontWeight: '800' }}>{opt.text}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    {/* Feedback / Explanation Card */}
-                    {quizChecked && (
-                      <div style={{
-                        background: selectedOpt === QUIZ_QUESTIONS[currentQIndex].correct ? '#F0FDF4' : '#FEF2F2',
-                        border: selectedOpt === QUIZ_QUESTIONS[currentQIndex].correct ? '2px solid #10B981' : '2px solid #EF4444',
-                        borderLeftWidth: '5px',
-                        padding: '10px 12px',
-                        borderRadius: '10px',
-                        fontSize: '16px',
-                        color: selectedOpt === QUIZ_QUESTIONS[currentQIndex].correct ? '#166534' : '#991B1B',
-                        lineHeight: 1.35,
-                        fontWeight: '700',
-                        fontFamily: '"Outfit", sans-serif',
-                        flexShrink: 0
-                      }}>
-                        <strong style={{ color: selectedOpt === QUIZ_QUESTIONS[currentQIndex].correct ? '#15803D' : '#B91C1C', fontSize: '16px' }}>
-                          {selectedOpt === QUIZ_QUESTIONS[currentQIndex].correct ? '✓ Correct!' : '✗ Recheck:'}
-                        </strong> {QUIZ_QUESTIONS[currentQIndex].explain}
-                      </div>
-                    )}
-
-                    {/* Action Button: Verify Answer or Next Question */}
-                    <div style={{
-                      marginTop: 'auto',
-                      paddingTop: '8px',
-                      borderTop: '1.5px solid #14452F',
-                      flexShrink: 0
-                    }}>
-                      {!quizChecked ? (
-                        <button
-                          disabled={selectedOpt === null}
-                          onClick={handleCheckAnswer}
-                          style={{
-                            width: '100%',
-                            padding: '10px 16px',
-                            fontSize: '17px',
-                            borderRadius: '12px',
-                            opacity: selectedOpt === null ? 0.5 : 1,
-                            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                            color: '#FFFFFF',
-                            fontWeight: '900',
-                            border: 'none',
-                            boxShadow: '0 4px 14px rgba(217, 119, 6, 0.35)',
-                            cursor: selectedOpt === null ? 'not-allowed' : 'pointer',
-                            fontFamily: '"Outfit", sans-serif',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: '8px'
-                          }}
-                        >
-                          <CheckCircle2 size={18} />
-                          <span>Verify Answer</span>
-                        </button>
-                      ) : (
-                        <button
-                          onClick={handleNextQuestion}
-                          style={{
-                            width: '100%',
-                            padding: '10px 16px',
-                            fontSize: '17px',
-                            borderRadius: '12px',
-                            background: currentQIndex < QUIZ_QUESTIONS.length - 1
-                              ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)'
-                              : 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                            color: '#FFFFFF',
-                            fontWeight: '900',
-                            border: 'none',
-                            boxShadow: '0 4px 14px rgba(20, 69, 47, 0.35)',
-                            cursor: 'pointer',
-                            fontFamily: '"Outfit", sans-serif',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: '8px'
-                          }}
-                        >
-                          <span>{currentQIndex < QUIZ_QUESTIONS.length - 1 ? 'Next Question' : 'Complete Quiz 🏆'}</span>
-                          <ArrowRight size={18} />
-                        </button>
-                      )}
-                    </div>
+                              ✓
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
-              )}
-            </div>
-          )}
+              </div>
 
+              {/* Card Footer: Exit Activity (Left Corner), Centered Nature Quote, Add to Class Board (Right Corner) */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingTop: '4px',
+                zIndex: 2,
+                position: 'relative',
+                width: '100%',
+                boxSizing: 'border-box'
+              }}>
+                {/* Left Corner: Back to Ecosystem Timer Button */}
+                <button
+                  type="button"
+                  onClick={() => setPhase('timer')}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.6)',
+                    backdropFilter: 'blur(2px)',
+                    WebkitBackdropFilter: 'blur(2px)',
+                    border: '1.2px solid rgba(6, 78, 59, 0.3)',
+                    borderRadius: '20px',
+                    color: '#065F46',
+                    padding: '7px 18px',
+                    fontSize: '16px',
+                    fontWeight: 700,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                    fontFamily: '"Outfit", sans-serif',
+                    transition: 'all 0.18s ease'
+                  }}
+                >
+                  <ArrowLeft size={16} />
+                  <span>Back to Timer</span>
+                </button>
+
+                {/* Center: Nature Quote */}
+                <div style={{
+                  fontSize: '16px',
+                  color: '#FFFFFF',
+                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 12px rgba(0, 0, 0, 0.85)',
+                  fontStyle: 'italic',
+                  fontWeight: 700,
+                  fontFamily: '"Inter", sans-serif',
+                  textAlign: 'center'
+                }}>
+                  — 🍃 Nature is a story we all belong to. —
+                </div>
+
+                {/* Right Corner: Add to Class Board Button */}
+                <button
+                  type="button"
+                  onClick={handleAddToBoard}
+                  disabled={!selectedPlant || !selectedAnimal}
+                  style={{
+                    background: (selectedPlant && selectedAnimal)
+                      ? 'linear-gradient(135deg, #10B981 0%, #059669 50%, #047857 100%)'
+                      : 'rgba(20, 69, 47, 0.4)',
+                    color: '#FFFFFF',
+                    border: '1.8px solid #34D399',
+                    borderRadius: '20px',
+                    padding: '8px 24px',
+                    fontSize: '18px',
+                    fontWeight: 900,
+                    fontFamily: '"Outfit", sans-serif',
+                    cursor: (selectedPlant && selectedAnimal) ? 'pointer' : 'not-allowed',
+                    boxShadow: (selectedPlant && selectedAnimal) ? '0 4px 18px rgba(16, 185, 129, 0.45)' : 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    transition: 'all 0.2s ease',
+                    opacity: (selectedPlant && selectedAnimal) ? 1 : 0.65,
+                    textShadow: '0 1px 3px rgba(0,0,0,0.7)'
+                  }}
+                >
+                  <span>Add to Class Board</span>
+                  <ArrowRight size={18} color="#FFFFFF" />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
-      </div>
+      ) : (
+        <>
 
-      {/* ==================================================================== */}
-      {/* PERSISTENT GLOBAL BOTTOM NAVIGATION BAR (Matching Slogan Page)       */}
-      {/* ==================================================================== */}
-      <div style={{
-        width: '100%',
-        padding: '0.65rem 1.6rem',
-        background: 'rgba(15, 23, 42, 0.50)',
-        borderTop: '2.5px solid #14452F',
-        boxShadow: '0 -4px 16px rgba(20, 69, 47, 0.08)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexShrink: 0,
-        zIndex: 30,
-        boxSizing: 'border-box',
-        gap: '16px'
-      }}>
-        <style>{`
+          {/* ==================================================================== */}
+          {/* TOP HEADER BAR: RUSTIC WOOD-CARVED SIGN & AMBER PILLS (EXACT MOCKUP) */}
+          {/* ==================================================================== */}
+          <div style={{
+            position: 'relative',
+            width: '100%',
+            padding: '0.4rem 1.4rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexShrink: 0,
+            boxSizing: 'border-box',
+            zIndex: 20,
+            gap: '12px'
+          }}>
+            {/* Left: Academic Lab Badge in dark amber glass */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0, position: 'relative', zIndex: 10 }}>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                fontSize: '16px',
+                fontWeight: '800',
+                color: '#FEF3C7',
+                background: 'rgba(28, 18, 10, 0.85)',
+                padding: '6px 18px',
+                borderRadius: '20px',
+                border: '1.5px solid rgba(245, 158, 11, 0.6)',
+                boxShadow: '0 4px 14px rgba(0,0,0,0.35)',
+                fontFamily: '"Outfit", sans-serif'
+              }}>
+                <span style={{ fontSize: '18px' }}>🌿</span>
+                <span>Lab</span>
+              </div>
+            </div>
+
+
+
+            {/* Right: Reset Control in dark amber glass */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0, position: 'relative', zIndex: 10 }}>
+              <button
+                type="button"
+                onClick={handleReset}
+                title="Reset Activity"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontSize: '16px',
+                  padding: '6px 18px',
+                  borderRadius: '20px',
+                  border: '1.5px solid rgba(245, 158, 11, 0.6)',
+                  background: 'rgba(28, 18, 10, 0.85)',
+                  cursor: 'pointer',
+                  color: '#FEF3C7',
+                  fontWeight: '800',
+                  fontFamily: '"Outfit", sans-serif',
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.35)',
+                  transition: 'all 0.18s ease'
+                }}
+              >
+                <RefreshCw size={16} color="#FEF3C7" strokeWidth={2.4} />
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+
+          {/* ==================================================================== */}
+          {/* MAIN TWO-COLUMN SPLIT WORKSPACE                                      */}
+          {/* ==================================================================== */}
+          <div style={{
+            flex: 1,
+            minHeight: 0,
+            display: 'grid',
+            gridTemplateColumns: (phase === 'pick' || activeTab === 'quiz') ? '1fr' : 'clamp(290px, 25vw, 340px) minmax(0, 1fr)',
+            padding: '0.5rem 1rem',
+            gap: '0.85rem',
+            overflow: 'hidden',
+            boxSizing: 'border-box'
+          }}>
+
+            {/* ================================================================== */}
+            {/* LEFT COLUMN: CONTEXT & STATS (FOREST GREEN COLOR)                  */}
+            {/* ================================================================== */}
+            {(phase !== 'pick' && activeTab !== 'quiz') && (
+              <div style={{
+                position: 'relative',
+                background: 'linear-gradient(180deg, rgba(6, 44, 28, 0.78) 0%, rgba(3, 30, 18, 0.86) 100%)',
+                backdropFilter: 'blur(2px)',
+                WebkitBackdropFilter: 'blur(2px)',
+                border: '1.8px solid rgba(110, 231, 183, 0.5)',
+                borderRadius: '20px',
+                padding: '12px 14px',
+                boxShadow: '0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(16, 185, 129, 0.2)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px',
+                boxSizing: 'border-box'
+              }}>
+                {/* Header */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                  <div style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    color: '#FBBF24',
+                    fontWeight: 900,
+                    fontSize: '12px',
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    fontFamily: '"Outfit", sans-serif'
+                  }}>
+                    <span>🧭</span>
+                    <span>ACTIVITY 2.2 · P.13</span>
+                  </div>
+
+                  <h2 style={{
+                    fontFamily: '"Fraunces", Georgia, serif',
+                    color: '#FFFBEB',
+                    fontWeight: 900,
+                    fontSize: '19px',
+                    margin: '1px 0 0 0',
+                    lineHeight: 1.15,
+                    textShadow: '0 2px 6px rgba(0,0,0,0.95)'
+                  }}>
+                    Activity 2.2: Let us appreciate 🍃
+                  </h2>
+                </div>
+
+                <div style={{ height: '1px', background: 'rgba(245, 158, 11, 0.3)', width: '100%' }} />
+
+                {/* Section 1: Key Questions (Short & Crisp) */}
+                <div style={{
+                  background: 'rgba(4, 26, 16, 0.55)',
+                  border: '1.2px solid rgba(110, 231, 183, 0.35)',
+                  borderRadius: '12px',
+                  padding: '7px 10px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '4px'
+                }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    fontSize: '13px',
+                    fontWeight: 800,
+                    color: '#FEF3C7',
+                    fontFamily: '"Outfit", sans-serif'
+                  }}>
+                    <span>📋</span>
+                    <span>Textbook Reflection (p.13)</span>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', fontSize: '12px', color: '#ECFDF5', fontFamily: '"Inter", sans-serif', lineHeight: 1.3 }}>
+                    <div>• <strong>Drawn by Class:</strong> 12 specimens (6 plants + 6 animals).</div>
+                    <div>• <strong>Observations:</strong> Notice different shapes, sizes &amp; habitats.</div>
+                    <div>• <strong>Vast Diversity:</strong> Countless more varieties exist in nature!</div>
+                  </div>
+                </div>
+
+                {/* Section 2: Core Concept - Biodiversity */}
+                <div style={{
+                  background: 'rgba(4, 26, 16, 0.55)',
+                  borderLeft: '3.5px solid #10B981',
+                  border: '1.2px solid rgba(52, 211, 153, 0.35)',
+                  borderRadius: '12px',
+                  padding: '7px 10px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '2px'
+                }}>
+                  <div style={{ fontSize: '13px', fontWeight: 800, color: '#A7F3D0', fontFamily: '"Outfit", sans-serif' }}>
+                    🌿 What is Biodiversity?
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#F0FDF4', lineHeight: 1.35, fontFamily: '"Inter", sans-serif' }}>
+                    The variety of plants and animals found in a region forms its biodiversity.
+                  </div>
+                </div>
+
+                {/* Section 3: Interdependence (Short & Crisp) */}
+                <div style={{
+                  background: 'rgba(45, 28, 6, 0.45)',
+                  borderLeft: '3.5px solid #F59E0B',
+                  border: '1.2px solid rgba(251, 191, 36, 0.35)',
+                  borderRadius: '12px',
+                  padding: '7px 10px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '2px'
+                }}>
+                  <div style={{ fontSize: '13px', fontWeight: 800, color: '#FDE68A', fontFamily: '"Outfit", sans-serif' }}>
+                    🤝 Living Interdependence (p.14)
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#FFFBEB', lineHeight: 1.35, fontFamily: '"Inter", sans-serif' }}>
+                    Trees provide shelter &amp; fruits; animals help disperse seeds. Both depend on each other!
+                  </div>
+                </div>
+
+                {/* Section 4: Compact Class Summary Counters */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px', marginTop: 'auto', paddingTop: '2px' }}>
+                  <div style={{
+                    background: 'rgba(4, 26, 16, 0.65)',
+                    border: '1.2px solid rgba(110, 231, 183, 0.4)',
+                    borderRadius: '10px',
+                    padding: '5px 4px',
+                    textAlign: 'center'
+                  }}>
+                    <div style={{ fontSize: '10px', color: '#A7F3D0', fontWeight: 800, letterSpacing: '0.04em' }}>STUDENTS</div>
+                    <div style={{ fontSize: '17px', color: '#FFFFFF', fontWeight: 900, fontFamily: '"Outfit", sans-serif', lineHeight: 1.1 }}>6</div>
+                  </div>
+                  <div style={{
+                    background: 'rgba(4, 26, 16, 0.65)',
+                    border: '1.2px solid rgba(110, 231, 183, 0.4)',
+                    borderRadius: '10px',
+                    padding: '5px 4px',
+                    textAlign: 'center'
+                  }}>
+                    <div style={{ fontSize: '10px', color: '#A7F3D0', fontWeight: 800, letterSpacing: '0.04em' }}>PLANTS</div>
+                    <div style={{ fontSize: '17px', color: '#FFFFFF', fontWeight: 900, fontFamily: '"Outfit", sans-serif', lineHeight: 1.1 }}>6</div>
+                  </div>
+                  <div style={{
+                    background: 'rgba(4, 26, 16, 0.65)',
+                    border: '1.2px solid rgba(251, 191, 36, 0.4)',
+                    borderRadius: '10px',
+                    padding: '5px 4px',
+                    textAlign: 'center'
+                  }}>
+                    <div style={{ fontSize: '10px', color: '#FDE68A', fontWeight: 800, letterSpacing: '0.04em' }}>ANIMALS</div>
+                    <div style={{ fontSize: '17px', color: '#FFFFFF', fontWeight: 900, fontFamily: '"Outfit", sans-serif', lineHeight: 1.1 }}>6</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ================================================================== */}
+            {/* RIGHT COLUMN: CLASS MEMORY WALL (TRANSPARENT WITH BLUR IN FONT AREA) */}
+            {/* ================================================================== */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              minHeight: 0,
+              minWidth: 0,
+              flex: 1,
+              width: '100%',
+              maxWidth: '100%',
+              background: 'rgba(255, 255, 255, 0.08)',
+              backdropFilter: 'none',
+              WebkitBackdropFilter: 'none',
+              border: '1.5px solid rgba(255, 255, 255, 0.35)',
+              borderRadius: '24px',
+              padding: '12px 18px',
+              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.3)',
+              overflow: 'hidden',
+              position: 'relative'
+            }}>
+              {/* Top Tab Bar: Deep Forest Green Pill Badge at Top-Left */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+                marginBottom: '8px',
+                flexShrink: 0,
+                position: 'relative',
+                zIndex: 10
+              }}>
+                <div style={{
+                  background: 'linear-gradient(135deg, #14532D 0%, #064E3B 100%)',
+                  border: '1.5px solid #34D399',
+                  borderRadius: '14px',
+                  padding: '5px 16px',
+                  color: '#FFFFFF',
+                  fontSize: '17px',
+                  fontWeight: 900,
+                  fontFamily: '"Outfit", sans-serif',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  boxShadow: '0 4px 12px rgba(6, 78, 59, 0.35)'
+                }}>
+                  <span>🍃</span>
+                  <span>Class Memory Wall (6 Students · 1 Plant &amp; 1 Animal Each)</span>
+                </div>
+              </div>
+
+              {/* ================================================================ */}
+              {/* TAB 1: BOARD WORKSPACE (TIMER / PICKER / BOARD)                  */}
+              {/* ================================================================ */}
+              {activeTab === 'board' && (
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, position: 'relative', zIndex: 10 }}>
+                  <style>{`
+                @keyframes bondPulse {
+                  0%, 100% { transform: scale(1); }
+                  50% { transform: scale(1.05); }
+                }
+              `}</style>
+
+                  {/* PHASE 1: 10-SECOND REFLECTION TIMER (ANIMATED & INTERACTIVE) */}
+                  {boardCards.length === 0 && phase === 'timer' && (
+                    <div style={{
+                      flex: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '1.5rem',
+                      padding: '1rem',
+                      textAlign: 'center',
+                      width: '100%',
+                      maxWidth: '660px',
+                      margin: 'auto'
+                    }}>
+                      {/* Calming Breathing Animated Ring */}
+                      <div style={{
+                        position: 'relative',
+                        width: '150px',
+                        height: '150px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: '50%',
+                        background: 'rgba(15, 23, 42, 0.50)',
+                        boxShadow: timerRunning
+                          ? '0 0 28px rgba(16, 185, 129, 0.55)'
+                          : '0 8px 24px rgba(20, 69, 47, 0.15)',
+                        animation: timerRunning ? 'reflectionPulse 2.4s infinite ease-in-out' : 'none'
+                      }}>
+                        <svg width="150" height="150" viewBox="0 0 150 150" style={{ transform: 'rotate(-90deg)' }}>
+                          <circle
+                            cx="75"
+                            cy="75"
+                            r="62"
+                            fill="transparent"
+                            stroke="#EDE7D8"
+                            strokeWidth="10"
+                          />
+                          <circle
+                            cx="75"
+                            cy="75"
+                            r="62"
+                            fill="transparent"
+                            stroke="#14452F"
+                            strokeWidth="10"
+                            strokeDasharray={2 * Math.PI * 62}
+                            strokeDashoffset={(2 * Math.PI * 62) - (timer / 10) * (2 * Math.PI * 62)}
+                            strokeLinecap="round"
+                            style={{ transition: timerRunning ? 'stroke-dashoffset 1s linear' : 'none' }}
+                          />
+                        </svg>
+
+                        <div style={{
+                          position: 'absolute',
+                          fontSize: '24px',
+                          fontWeight: '900',
+                          color: '#FBBF24',
+                          fontFamily: '"Outfit", sans-serif',
+                          letterSpacing: '-1px'
+                        }}>
+                          {timer}s
+                        </div>
+                      </div>
+
+                      {/* Reflection Guidance Prompt */}
+                      <div style={{ textAlign: 'center' }}>
+                        <div style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                          color: '#ffffff',
+                          padding: '5px 18px',
+                          borderRadius: '20px',
+                          fontSize: '18px',
+                          fontWeight: '900',
+                          fontFamily: '"Outfit", sans-serif',
+                          marginBottom: '0.6rem',
+                          border: '1.2px solid #10B981'
+                        }}>
+                          <Sparkles size={18} color="#34D399" />
+                          <span>MINDFUL BOTANICAL REFLECTION</span>
+                        </div>
+
+                        <h3 style={{
+                          fontFamily: '"Fraunces", Georgia, serif',
+                          color: '#F8FAFC',
+                          margin: '0 0 0.65rem 0',
+                          fontSize: '24px',
+                          fontWeight: '900'
+                        }}>
+                          10-Second Nature Reflection
+                        </h3>
+
+                        <p style={{
+                          fontSize: '20px',
+                          color: '#2D5A43',
+                          maxWidth: '580px',
+                          margin: '0 auto',
+                          lineHeight: '1.55',
+                          fontWeight: '700',
+                          fontFamily: '"Outfit", sans-serif',
+                          minHeight: '62px'
+                        }}>
+                          {getReflectionPrompt()}
+                        </p>
+                      </div>
+
+                      {/* Centered Start Reflection Action Control */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', marginTop: '0.8rem', justifyContent: 'center' }}>
+                        {!timerRunning ? (
+                          <button
+                            onClick={handleStartTimer}
+                            style={{
+                              padding: '0.9rem 2.8rem',
+                              borderRadius: '14px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '12px',
+                              fontSize: '20px',
+                              fontWeight: '900',
+                              background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                              color: '#ffffff',
+                              border: '2px solid #10B981',
+                              boxShadow: '0 6px 18px rgba(16, 185, 129, 0.35)',
+                              cursor: 'pointer',
+                              fontFamily: '"Outfit", sans-serif',
+                              transition: 'all 0.18s ease'
+                            }}
+                          >
+                            <Play size={22} fill="#ffffff" />
+                            <span>Start Reflection</span>
+                          </button>
+                        ) : (
+                          <div style={{
+                            padding: '0.9rem 2.5rem',
+                            borderRadius: '14px',
+                            background: '#F0FDF4',
+                            border: '2px solid #10B981',
+                            color: '#064E3B',
+                            fontSize: '20px',
+                            fontWeight: '900',
+                            fontFamily: '"Outfit", sans-serif',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '12px',
+                            boxShadow: '0 4px 14px rgba(16, 185, 129, 0.2)'
+                          }}>
+                            <span>🌿 Mindful Pause: {timer}s left</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* PHASE 2: DUAL-MODE SPECIMEN PICKER (SIDE-BY-SIDE ECO-LINKER + STEP-BY-STEP JOURNAL) */}
+                  {boardCards.length === 0 && phase === 'pick' && (
+                    <div style={{
+                      width: '100%',
+                      height: '100%',
+                      flex: 1,
+                      minHeight: 0,
+                      background: 'rgba(15, 23, 42, 0.50)',
+                      padding: 'clamp(10px, 1.2vh, 16px) clamp(12px, 1.4vw, 20px)',
+                      borderRadius: '20px 4px 20px 4px',
+                      border: '2px solid #D4AF37',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      gap: 'clamp(8px, 1vh, 12px)',
+                      textAlign: 'left',
+                      boxShadow: '0 8px 24px rgba(20, 69, 47, 0.08)',
+                      boxSizing: 'border-box',
+                      position: 'relative',
+                      overflow: 'hidden'
+                    }}>
+                      <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        flex: 1,
+                        minHeight: 0,
+                        gap: '8px',
+                        position: 'relative',
+                        zIndex: 5
+                      }}>
+                        {/* Step Switcher Navigation Bar */}
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          background: 'rgba(15, 23, 42, 0.50)',
+                          padding: '6px 12px',
+                          borderRadius: '12px',
+                          border: '1.5px solid rgba(212, 175, 55, 0.6)',
+                          flexShrink: 0
+                        }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <button
+                              type="button"
+                              onClick={() => { if (!isMuted) sounds.playClick(); setPickStep(1); }}
+                              style={{
+                                padding: '6px 14px',
+                                borderRadius: '10px',
+                                border: pickStep === 1 ? '2px solid #14452F' : '1.5px solid #CBD5E1',
+                                background: pickStep === 1 ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#ffffff',
+                                color: pickStep === 1 ? '#ffffff' : '#14452F',
+                                fontWeight: 900,
+                                fontSize: '16px',
+                                fontFamily: '"Outfit", sans-serif',
+                                cursor: 'pointer'
+                              }}
+                            >
+                              1. Select Plant {selectedPlant ? '✓' : ''}
+                            </button>
+
+                            <ChevronRight size={18} color="#14452F" />
+
+                            <button
+                              type="button"
+                              disabled={!selectedPlant}
+                              onClick={() => { if (!isMuted) sounds.playClick(); setPickStep(2); }}
+                              style={{
+                                padding: '6px 14px',
+                                borderRadius: '10px',
+                                border: pickStep === 2 ? '2px solid #14452F' : '1.5px solid #CBD5E1',
+                                background: pickStep === 2 ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#ffffff',
+                                color: pickStep === 2 ? '#ffffff' : '#14452F',
+                                fontWeight: 900,
+                                fontSize: '16px',
+                                fontFamily: '"Outfit", sans-serif',
+                                cursor: !selectedPlant ? 'not-allowed' : 'pointer',
+                                opacity: !selectedPlant ? 0.5 : 1
+                              }}
+                            >
+                              2. Select Animal {selectedAnimal ? '✓' : ''}
+                            </button>
+                          </div>
+
+                          {selectedPlant && selectedAnimal && (
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '6px',
+                              background: '#D1FAE5',
+                              border: '1.2px solid #10B981',
+                              padding: '3px 10px',
+                              borderRadius: '10px',
+                              fontSize: '16px',
+                              fontWeight: 900,
+                              color: '#065F46',
+                              fontFamily: '"Outfit", sans-serif'
+                            }}>
+                              <span>✨ Ecological Pair Selected</span>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* STEP 1: PLANTS (ALL 6 IMAGES IN SINGLE PAGE 3x2 GRID) */}
+                        {pickStep === 1 && (
+                          <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            flex: 1,
+                            minHeight: 0,
+                            gap: '10px'
+                          }}>
+                            {/* 6 Images in 3x2 Grid on single page */}
+                            <div style={{
+                              display: 'grid',
+                              gridTemplateColumns: 'repeat(3, 1fr)',
+                              gridTemplateRows: 'repeat(2, 1fr)',
+                              gap: '12px',
+                              flex: 1,
+                              minHeight: 0,
+                              width: '100%',
+                              alignItems: 'stretch'
+                            }}>
+                              {PLANTS.map(p => {
+                                const isSelected = selectedPlant === p;
+                                return (
+                                  <button
+                                    key={`st1-${p}`}
+                                    type="button"
+                                    onClick={() => handleSelectPlant(p)}
+                                    style={{
+                                      position: 'relative',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      width: '100%',
+                                      height: '100%',
+                                      padding: '5px',
+                                      borderRadius: '16px',
+                                      border: isSelected ? '3.5px solid #10B981' : '2px solid rgba(20, 69, 47, 0.45)',
+                                      background: isSelected ? '#ECFDF5' : 'rgba(250, 248, 242, 0.65)',
+                                      cursor: 'pointer',
+                                      transition: 'all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                      transform: isSelected ? 'scale(1.02)' : 'scale(1)',
+                                      boxShadow: isSelected
+                                        ? '0 8px 24px rgba(16, 185, 129, 0.4), inset 0 0 12px rgba(16, 185, 129, 0.2)'
+                                        : '0 4px 12px rgba(20, 69, 47, 0.1)',
+                                      boxSizing: 'border-box',
+                                      overflow: 'hidden'
+                                    }}
+                                  >
+                                    <div style={{
+                                      width: '100%',
+                                      height: '100%',
+                                      borderRadius: '12px',
+                                      overflow: 'hidden',
+                                      background: '#14452F',
+                                      position: 'relative',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center'
+                                    }}>
+                                      <img
+                                        src={PLANT_WIDE_IMAGES[p] || PLANT_IMAGES[p]}
+                                        style={{
+                                          width: '100%',
+                                          height: '100%',
+                                          objectFit: 'cover',
+                                          objectPosition: 'center',
+                                          display: 'block'
+                                        }}
+                                        alt={p}
+                                      />
+
+                                      {/* Specimen Name Tag Badge */}
+                                      <div style={{
+                                        position: 'absolute',
+                                        bottom: '8px',
+                                        left: '8px',
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        gap: '5px',
+                                        background: isSelected ? 'rgba(6, 78, 59, 0.95)' : 'rgba(15, 23, 42, 0.85)',
+                                        backdropFilter: 'blur(2px)',
+                                        color: isSelected ? '#FEF08A' : '#ffffff',
+                                        border: isSelected ? '1.5px solid #10B981' : '1px solid rgba(255, 255, 255, 0.35)',
+                                        borderRadius: '14px',
+                                        padding: '3px 10px',
+                                        fontSize: '16px',
+                                        fontWeight: 800,
+                                        fontFamily: '"Outfit", sans-serif',
+                                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.35)',
+                                        pointerEvents: 'none'
+                                      }}>
+                                        <span>{PLANT_EMOJIS[p]}</span>
+                                        <span>{p}</span>
+                                      </div>
+                                    </div>
+                                    {isSelected && (
+                                      <div style={{
+                                        position: 'absolute',
+                                        top: '10px',
+                                        right: '10px',
+                                        width: '32px',
+                                        height: '32px',
+                                        borderRadius: '50%',
+                                        background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                                        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.35), 0 0 0 2px #ffffff',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        color: '#ffffff',
+                                        fontSize: '18px',
+                                        fontWeight: 900,
+                                        zIndex: 2
+                                      }}>
+                                        ✓
+                                      </div>
+                                    )}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* STEP 2: ANIMALS (ALL 6 IMAGES IN SINGLE PAGE 3x2 GRID) */}
+                        {pickStep === 2 && (
+                          <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            flex: 1,
+                            minHeight: 0,
+                            gap: '10px'
+                          }}>
+                            {/* 6 Images in 3x2 Grid on single page */}
+                            <div style={{
+                              display: 'grid',
+                              gridTemplateColumns: 'repeat(3, 1fr)',
+                              gridTemplateRows: 'repeat(2, 1fr)',
+                              gap: '12px',
+                              flex: 1,
+                              minHeight: 0,
+                              width: '100%',
+                              alignItems: 'stretch'
+                            }}>
+                              {ANIMALS.map(a => {
+                                const isSelected = selectedAnimal === a;
+                                return (
+                                  <button
+                                    key={`st2-${a}`}
+                                    type="button"
+                                    onClick={() => handleSelectAnimal(a)}
+                                    style={{
+                                      position: 'relative',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      width: '100%',
+                                      height: '100%',
+                                      padding: '5px',
+                                      borderRadius: '16px',
+                                      border: isSelected ? '3.5px solid #10B981' : '2px solid rgba(20, 69, 47, 0.45)',
+                                      background: isSelected ? '#ECFDF5' : 'rgba(250, 248, 242, 0.65)',
+                                      cursor: 'pointer',
+                                      transition: 'all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                      transform: isSelected ? 'scale(1.02)' : 'scale(1)',
+                                      boxShadow: isSelected
+                                        ? '0 8px 24px rgba(16, 185, 129, 0.4), inset 0 0 12px rgba(16, 185, 129, 0.2)'
+                                        : '0 4px 12px rgba(20, 69, 47, 0.1)',
+                                      boxSizing: 'border-box',
+                                      overflow: 'hidden'
+                                    }}
+                                  >
+                                    <div style={{
+                                      width: '100%',
+                                      height: '100%',
+                                      borderRadius: '12px',
+                                      overflow: 'hidden',
+                                      background: '#14452F',
+                                      position: 'relative',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center'
+                                    }}>
+                                      <img
+                                        src={ANIMAL_WIDE_IMAGES[a] || ANIMAL_IMAGES[a]}
+                                        style={{
+                                          width: '100%',
+                                          height: '100%',
+                                          objectFit: 'cover',
+                                          objectPosition: 'center',
+                                          display: 'block'
+                                        }}
+                                        alt={a}
+                                      />
+
+                                      {/* Specimen Name Tag Badge */}
+                                      <div style={{
+                                        position: 'absolute',
+                                        bottom: '8px',
+                                        left: '8px',
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        gap: '5px',
+                                        background: isSelected ? 'rgba(6, 78, 59, 0.95)' : 'rgba(15, 23, 42, 0.85)',
+                                        backdropFilter: 'blur(2px)',
+                                        color: isSelected ? '#FEF08A' : '#ffffff',
+                                        border: isSelected ? '1.5px solid #10B981' : '1px solid rgba(255, 255, 255, 0.35)',
+                                        borderRadius: '14px',
+                                        padding: '3px 10px',
+                                        fontSize: '16px',
+                                        fontWeight: 800,
+                                        fontFamily: '"Outfit", sans-serif',
+                                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.35)',
+                                        pointerEvents: 'none'
+                                      }}>
+                                        <span>{ANIMAL_EMOJIS[a]}</span>
+                                        <span>{a}</span>
+                                      </div>
+                                    </div>
+                                    {isSelected && (
+                                      <div style={{
+                                        position: 'absolute',
+                                        top: '10px',
+                                        right: '10px',
+                                        width: '32px',
+                                        height: '32px',
+                                        borderRadius: '50%',
+                                        background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                                        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.35), 0 0 0 2px #ffffff',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        color: '#ffffff',
+                                        fontSize: '18px',
+                                        fontWeight: 900,
+                                        zIndex: 2
+                                      }}>
+                                        ✓
+                                      </div>
+                                    )}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Stepper Status Bar */}
+                        <div style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          flexShrink: 0,
+                          paddingTop: '6px',
+                          borderTop: '1.5px solid #14452F'
+                        }}>
+                          <span style={{ fontSize: '17px', fontWeight: 800, color: '#F8FAFC', fontFamily: '"Outfit", sans-serif' }}>
+                            {pickStep === 1
+                              ? (selectedPlant ? '✓ Specimen selected! Proceed to Animal Selection' : 'Please pick 1 plant specimen image')
+                              : (selectedAnimal ? '✓ Specimen selected! Click Next to create memory card' : 'Please pick 1 animal specimen image')}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+
+                  {/* PHASE 3: CLASS MEMORY WALL — 6 STUDENTS EACH WITH 1 PLANT & 1 ANIMAL */}
+                  {boardCards.length > 0 && (() => {
+                    const chosenPlant = selectedPlant || 'Tulsi';
+                    const chosenAnimal = selectedAnimal || 'Cow';
+                    const allPlants = ['Tulsi', 'Rose', 'Grass', 'Neem', 'Peepal', 'Jasmine'];
+                    const allAnimals = ['Crow', 'Cow', 'Frog', 'Squirrel', 'Ant', 'Sparrow'];
+
+                    const remainingPlants = allPlants.filter(p => p !== chosenPlant);
+                    const remainingAnimals = allAnimals.filter(a => a !== chosenAnimal);
+
+                    const wallItems = [
+                      { studentName: 'Tamizh (You)', plant: chosenPlant, animal: chosenAnimal },
+                      { studentName: 'Gopal', plant: remainingPlants[0] || 'Neem', animal: remainingAnimals[0] || 'Ant' },
+                      { studentName: 'Priya', plant: remainingPlants[1] || 'Tulsi', animal: remainingAnimals[1] || 'Crow' },
+                      { studentName: 'Vijay', plant: remainingPlants[2] || 'Rose', animal: remainingAnimals[2] || 'Frog' },
+                      { studentName: 'Lavanya', plant: remainingPlants[3] || 'Peepal', animal: remainingAnimals[3] || 'Squirrel' },
+                      { studentName: 'Iniyan', plant: remainingPlants[4] || 'Jasmine', animal: remainingAnimals[4] || 'Sparrow' }
+                    ];
+
+                    return (
+                      <div style={{
+                        flex: 1,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        minHeight: 0,
+                        gap: '6px',
+                        overflow: 'hidden'
+                      }}>
+                        <style>{`
+                          .memory-wall-img-card {
+                            transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s ease;
+                          }
+                          .memory-wall-img-card:hover {
+                            transform: scale(1.035);
+                            box-shadow: 0 8px 28px rgba(16, 185, 129, 0.35), 0 0 0 2.5px #34D399 !important;
+                            z-index: 5;
+                          }
+                        `}</style>
+
+                        {/* 6-Student Grid: 3 columns x 2 rows, each card containing 1 Plant & 1 Animal */}
+                        <div style={{
+                          display: 'grid',
+                          gridTemplateColumns: 'repeat(3, 1fr)',
+                          gap: '12px',
+                          flex: 1,
+                          minHeight: 0,
+                          alignContent: 'center',
+                          overflow: 'auto',
+                          padding: '6px 2px'
+                        }}>
+                          {wallItems.map((specimen, idx) => (
+                            <div
+                              key={`mem-wall-${specimen.studentName}-${idx}`}
+                              className="memory-wall-img-card"
+                              style={{
+                                borderRadius: '16px',
+                                overflow: 'hidden',
+                                border: '2px solid rgba(167, 243, 208, 0.45)',
+                                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.25)',
+                                background: '#042419',
+                                aspectRatio: '16 / 10',
+                                position: 'relative',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                flexDirection: 'column'
+                              }}
+                              onClick={() => {
+                                if (!isMuted) sounds.playClick();
+                                setInspectCard({
+                                  name: specimen.studentName,
+                                  plant: specimen.plant,
+                                  animal: specimen.animal
+                                });
+                              }}
+                            >
+                              {/* Overlaid Student Name Badge */}
+                              <div style={{
+                                position: 'absolute',
+                                top: '8px',
+                                left: '8px',
+                                background: 'rgba(6, 44, 28, 0.90)',
+                                backdropFilter: 'blur(2px)',
+                                WebkitBackdropFilter: 'blur(2px)',
+                                border: '1.2px solid rgba(110, 231, 183, 0.7)',
+                                borderRadius: '16px',
+                                padding: '3px 10px',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
+                                zIndex: 6,
+                                pointerEvents: 'none'
+                              }}>
+                                <span style={{ fontSize: '13px' }}>👤</span>
+                                <span style={{
+                                  color: '#FEF3C7',
+                                  fontWeight: 800,
+                                  fontSize: '14px',
+                                  fontFamily: '"Outfit", sans-serif',
+                                  letterSpacing: '0.02em',
+                                  textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                                }}>
+                                  {specimen.studentName}
+                                </span>
+                              </div>
+
+                              {/* Split Card: TWO IMAGES — 1 Plant (Left) & 1 Animal (Right) with slight space */}
+                              <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: '1fr 1fr',
+                                width: '100%',
+                                height: '100%',
+                                gap: '6px',
+                                padding: '5px',
+                                boxSizing: 'border-box',
+                                background: 'rgba(2, 20, 14, 0.7)'
+                              }}>
+                                {/* Left Image: 1 Plant */}
+                                <div style={{
+                                  position: 'relative',
+                                  width: '100%',
+                                  height: '100%',
+                                  borderRadius: '10px',
+                                  overflow: 'hidden',
+                                  border: '1px solid rgba(167, 243, 208, 0.35)',
+                                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
+                                }}>
+                                  <img
+                                    src={PLANT_WIDE_IMAGES[specimen.plant] || PLANT_IMAGES[specimen.plant]}
+                                    alt={specimen.plant}
+                                    style={{
+                                      width: '100%',
+                                      height: '100%',
+                                      objectFit: 'cover',
+                                      display: 'block'
+                                    }}
+                                  />
+                                  <div style={{
+                                    position: 'absolute',
+                                    bottom: '6px',
+                                    left: '6px',
+                                    background: 'rgba(6, 44, 28, 0.90)',
+                                    backdropFilter: 'blur(2px)',
+                                    WebkitBackdropFilter: 'blur(2px)',
+                                    border: '1px solid rgba(110, 231, 183, 0.6)',
+                                    color: '#FFFFFF',
+                                    borderRadius: '8px',
+                                    padding: '2px 7px',
+                                    fontSize: '12px',
+                                    fontWeight: 800,
+                                    fontFamily: '"Outfit", sans-serif',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '4px',
+                                    boxShadow: '0 2px 6px rgba(0,0,0,0.45)',
+                                    pointerEvents: 'none'
+                                  }}>
+                                    <span>{PLANT_EMOJIS[specimen.plant]}</span>
+                                    <span>{specimen.plant}</span>
+                                  </div>
+                                </div>
+
+                                {/* Right Image: 1 Animal */}
+                                <div style={{
+                                  position: 'relative',
+                                  width: '100%',
+                                  height: '100%',
+                                  borderRadius: '10px',
+                                  overflow: 'hidden',
+                                  border: '1px solid rgba(253, 224, 71, 0.35)',
+                                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
+                                }}>
+                                  <img
+                                    src={ANIMAL_WIDE_IMAGES[specimen.animal] || ANIMAL_IMAGES[specimen.animal]}
+                                    alt={specimen.animal}
+                                    style={{
+                                      width: '100%',
+                                      height: '100%',
+                                      objectFit: 'cover',
+                                      display: 'block'
+                                    }}
+                                  />
+                                  <div style={{
+                                    position: 'absolute',
+                                    bottom: '6px',
+                                    right: '6px',
+                                    background: 'rgba(40, 26, 12, 0.90)',
+                                    backdropFilter: 'blur(2px)',
+                                    WebkitBackdropFilter: 'blur(2px)',
+                                    border: '1px solid rgba(253, 224, 71, 0.6)',
+                                    color: '#FFFFFF',
+                                    borderRadius: '8px',
+                                    padding: '2px 7px',
+                                    fontSize: '12px',
+                                    fontWeight: 800,
+                                    fontFamily: '"Outfit", sans-serif',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '4px',
+                                    boxShadow: '0 2px 6px rgba(0,0,0,0.45)',
+                                    pointerEvents: 'none'
+                                  }}>
+                                    <span>{ANIMAL_EMOJIS[specimen.animal]}</span>
+                                    <span>{specimen.animal}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })()}
+
+                </div>
+              )}
+
+              </div>
+
+          </div>
+
+          {/* ==================================================================== */}
+          {/* PERSISTENT GLOBAL BOTTOM NAVIGATION BAR (Matching Slogan Page)       */}
+          {/* ==================================================================== */}
+          <div style={{
+            width: '100%',
+            padding: '0.65rem 1.6rem',
+            background: 'rgba(15, 23, 42, 0.50)',
+            borderTop: '2.5px solid #14452F',
+            boxShadow: '0 -4px 16px rgba(20, 69, 47, 0.08)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexShrink: 0,
+            zIndex: 30,
+            boxSizing: 'border-box',
+            gap: '16px'
+          }}>
+            <style>{`
           .bio-nav-btn {
             background: #14452F;
             color: #D1FAE5;
@@ -3252,105 +3652,58 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
           }
         `}</style>
 
-        {/* Left Navigation Buttons: Back & Previous Page */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <button
-            type="button"
-            className="bio-nav-btn"
-            onClick={handleGlobalBack}
-            aria-label="Back to Activity 2.1"
-          >
-            ← Back
-          </button>
+            {/* Left Navigation Buttons: Back & Previous Page */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <button
+                type="button"
+                className="bio-nav-btn"
+                onClick={handleGlobalBack}
+                aria-label="Back to Activity 2.1"
+              >
+                ← Back
+              </button>
 
-          <button
-            type="button"
-            className="bio-nav-btn"
-            disabled={activeTab === 'board' && phase === 'timer'}
-            onClick={handleGlobalPrev}
-            aria-label="Previous Page"
-          >
-            ← Previous Page
-          </button>
-        </div>
-
-        {/* Center Page Indicator with Globe & Leaves Motif (matching Slogan page) */}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '2px'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
-            <svg width="22" height="15" viewBox="0 0 24 16" fill="none" style={{ transform: 'scaleX(-1)' }}>
-              <path d="M2 14 C8 12, 16 10, 22 2 C18 8, 12 12, 2 14 Z" fill="#2D6A4F" />
-              <path d="M6 10 C10 6, 16 4, 22 2 C18 8, 12 10, 6 10 Z" fill="#52B788" />
-            </svg>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '24px',
-              height: '24px',
-              borderRadius: '50%',
-              background: '#EAF7EE',
-              border: '1.8px solid #D4AF37',
-              boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
-            }}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#14452F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-                <path d="M2 12h20" />
-              </svg>
+              <button
+                type="button"
+                className="bio-nav-btn"
+                disabled={activeTab === 'board' && phase === 'timer'}
+                onClick={handleGlobalPrev}
+                aria-label="Previous Page"
+              >
+                ← Previous Page
+              </button>
             </div>
-            <svg width="22" height="15" viewBox="0 0 24 16" fill="none">
-              <path d="M2 14 C8 12, 16 10, 22 2 C18 8, 12 12, 2 14 Z" fill="#2D6A4F" />
-              <path d="M6 10 C10 6, 16 4, 22 2 C18 8, 12 10, 6 10 Z" fill="#52B788" />
-            </svg>
+
+
+            {/* Right Navigation Button: Next Page */}
+            <div>
+              <button
+                type="button"
+                className="bio-cta-btn"
+                onClick={handleGlobalNext}
+                aria-label={getNextLabel()}
+              >
+                <span>{getNextLabel()}</span>
+                <ArrowRight size={17} strokeWidth={2.5} />
+              </button>
+            </div>
           </div>
 
-          <div style={{
-            background: '#14452F',
-            color: '#FFFFFF',
-            borderRadius: '20px',
-            padding: '4px 20px',
-            fontFamily: '"Outfit", sans-serif',
-            fontWeight: 900,
-            fontSize: '16px',
-            letterSpacing: '0.04em',
-            boxShadow: '0 3px 10px rgba(20, 69, 47, 0.32)'
-          }}>
-            {getStageIndicator()}
-          </div>
-        </div>
-
-        {/* Right Navigation Button: Next Page */}
-        <div>
-          <button
-            type="button"
-            className="bio-cta-btn"
-            onClick={handleGlobalNext}
-            aria-label={getNextLabel()}
-          >
-            <span>{getNextLabel()}</span>
-            <ArrowRight size={17} strokeWidth={2.5} />
-          </button>
-        </div>
-      </div>
+        </>
+      )}
 
       {/* Background Sanctuary Nature Audio Element */}
       <audio ref={natureAudioRef} src={natureForestAudio} loop preload="auto" />
 
       {/* Realistic Ecosystem Animation Overlay (Botanical Rain) */}
-      <EcosystemAnimationOverlay 
-        ref={ecosystemFxRef} 
-        selectedPlant={selectedPlant} 
+      <EcosystemAnimationOverlay
+        ref={ecosystemFxRef}
+        selectedPlant={selectedPlant}
       />
 
       {/* Naturalist Specimen Field Journal Inspect Modal */}
       {inspectCard && (
-        <div 
+        <div
           onClick={() => setInspectCard(null)}
           style={{
             position: 'fixed',
@@ -3359,7 +3712,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             right: 0,
             bottom: 0,
             background: 'rgba(15, 23, 42, 0.72)',
-            backdropFilter: 'blur(8px)',
+            backdropFilter: 'blur(2px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -3367,7 +3720,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             padding: '1rem'
           }}
         >
-          <div 
+          <div
             onClick={(e) => e.stopPropagation()}
             style={{
               background: '#FAF7EE',
@@ -3434,8 +3787,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   }}>
                     {inspectCard.name}'s Field Journal Log {inspectCard.isMe && '⭐'}
                   </h3>
-                  <span style={{ fontSize: '13px', color: '#A7F3D0', fontWeight: 700, fontFamily: '"Outfit", sans-serif' }}>
-                    📍 NCERT Class 6 Nature Walk · Specimen Record #2.2
+                  <span style={{ fontSize: '16px', color: '#A7F3D0', fontWeight: 700, fontFamily: '"Outfit", sans-serif' }}>
+                    📍 Nature Walk · Specimen Record #2.2
                   </span>
                 </div>
               </div>
@@ -3506,7 +3859,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     position: 'relative',
                     background: '#14452F'
                   }}>
-                    <img 
+                    <img
                       src={PLANT_WIDE_IMAGES[inspectCard.plant] || PLANT_IMAGES[inspectCard.plant]}
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       alt={inspectCard.plant}
@@ -3550,7 +3903,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     position: 'relative',
                     background: '#451A03'
                   }}>
-                    <img 
+                    <img
                       src={ANIMAL_WIDE_IMAGES[inspectCard.animal] || ANIMAL_IMAGES[inspectCard.animal]}
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       alt={inspectCard.animal}
@@ -3584,7 +3937,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     boxShadow: '0 4px 16px rgba(16, 185, 129, 0.12)',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '8px'
+                    gap: '10px'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -3630,7 +3983,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                       fontWeight: 800,
                       marginTop: '4px'
                     }}>
-                      <span>💡 NCERT Takeaway:</span>
+                      <span>💡 Takeaway:</span>
                       <span>Both species depend on one another. Removing one harms the entire living web!</span>
                     </div>
                   </div>
@@ -3690,6 +4043,200 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+
+      {/* ==================================================================== */}
+      {/* SPECIMEN DETAIL POPUP (Translucent Frosted Glass: 15% Opacity, Blur 8px) */}
+      {/* ==================================================================== */}
+      {previewSpecimen && (
+        <div
+          onClick={() => setPreviewSpecimen(null)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0, 0, 0, 0.50)',
+            backdropFilter: 'blur(2px)',
+            WebkitBackdropFilter: 'blur(2px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 10000,
+            padding: '16px'
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: 'min(92vw, 440px)',
+              background: 'rgba(255, 255, 255, 0.15)',
+              backdropFilter: 'blur(2px)',
+              WebkitBackdropFilter: 'blur(2px)',
+              border: '1.5px solid rgba(255, 255, 255, 0.50)',
+              borderRadius: '24px',
+              padding: 'clamp(14px, 2vh, 20px)',
+              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.60)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px',
+              boxSizing: 'border-box',
+              animation: 'fadeIn 0.22s ease-out',
+              color: '#FFFFFF'
+            }}
+          >
+            {/* Header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'rgba(255, 255, 255, 0.18)',
+                backdropFilter: 'blur(2px)',
+                WebkitBackdropFilter: 'blur(2px)',
+                color: '#FEF3C7',
+                border: '1.2px solid rgba(255, 255, 255, 0.45)',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
+                padding: '4px 12px',
+                borderRadius: '12px',
+                fontSize: '16px',
+                fontWeight: 800,
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                fontFamily: '"Outfit", sans-serif',
+                textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
+              }}>
+                <span>{previewSpecimen.type === 'plant' ? PLANT_EMOJIS[previewSpecimen.name] : ANIMAL_EMOJIS[previewSpecimen.name]}</span>
+                <span>2.2 • {previewSpecimen.name.toUpperCase()}</span>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setPreviewSpecimen(null)}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.12)',
+                  border: '1.2px solid rgba(255, 255, 255, 0.35)',
+                  borderRadius: '10px',
+                  width: '32px',
+                  height: '32px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#ffffff',
+                  transition: 'all 0.18s ease'
+                }}
+              >
+                <X size={17} strokeWidth={2.5} />
+              </button>
+            </div>
+
+            {/* Large Specimen Image */}
+            <div style={{
+              width: '100%',
+              height: '190px',
+              borderRadius: '16px',
+              overflow: 'hidden',
+              border: '1.5px solid rgba(255, 255, 255, 0.35)',
+              boxShadow: '0 8px 20px rgba(0, 0, 0, 0.35)',
+              position: 'relative',
+              background: '#042F2E'
+            }}>
+              <img
+                src={previewSpecimen.type === 'plant' ? (PLANT_WIDE_IMAGES[previewSpecimen.name] || PLANT_IMAGES[previewSpecimen.name]) : (ANIMAL_WIDE_IMAGES[previewSpecimen.name] || ANIMAL_IMAGES[previewSpecimen.name])}
+                alt={previewSpecimen.name}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            </div>
+
+            {/* Titles */}
+            <div>
+              <h3 style={{
+                margin: 0,
+                fontSize: '24px',
+                fontWeight: 900,
+                fontFamily: '"Outfit", sans-serif',
+                color: '#FFFFFF',
+                textShadow: '0 2px 8px rgba(0,0,0,0.9)'
+              }}>
+                {previewSpecimen.name}
+              </h3>
+              <div style={{
+                fontSize: '16px',
+                color: '#FEF3C7',
+                fontStyle: 'italic',
+                fontWeight: 600,
+                textShadow: '0 1px 4px rgba(0,0,0,0.8)',
+                marginTop: '2px'
+              }}>
+                {SCIENTIFIC_NAMES[previewSpecimen.name]}
+              </div>
+            </div>
+
+            {/* Detail Cards (16px) */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{
+                background: 'rgba(0, 0, 0, 0.32)',
+                border: '1.2px solid rgba(255, 255, 255, 0.25)',
+                borderLeft: '4px solid #10B981',
+                borderRadius: '10px',
+                padding: '8px 12px'
+              }}>
+                <div style={{ fontSize: '16px', fontWeight: 800, color: '#A7F3D0', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                  🌿 Role in Ecosystem
+                </div>
+                <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                  {previewSpecimen.type === 'plant' ? ECOLOGICAL_ROLES[previewSpecimen.name] : (ANIMAL_DESCRIPTIONS[previewSpecimen.name] || '')}
+                </div>
+              </div>
+
+              <div style={{
+                background: 'rgba(0, 0, 0, 0.32)',
+                border: '1.2px solid rgba(255, 255, 255, 0.25)',
+                borderLeft: '4px solid #F59E0B',
+                borderRadius: '10px',
+                padding: '8px 12px'
+              }}>
+                <div style={{ fontSize: '16px', fontWeight: 800, color: '#FDE68A', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                  ✨ Class 6 Observation
+                </div>
+                <div style={{ fontSize: '16px', color: '#FEF3C7', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                  {previewSpecimen.type === 'plant'
+                    ? (PLANT_DESCRIPTIONS[previewSpecimen.name] + ' • Contributes clean air and shade to the school habitat.')
+                    : (ANIMAL_DESCRIPTIONS[previewSpecimen.name] + ' • Observed interacting with plants during field walk.')}
+                </div>
+              </div>
+            </div>
+
+            {/* Select Button */}
+            <button
+              type="button"
+              onClick={() => {
+                if (previewSpecimen.type === 'plant') handleSelectPlant(previewSpecimen.name);
+                else handleSelectAnimal(previewSpecimen.name);
+                setPreviewSpecimen(null);
+              }}
+              style={{
+                marginTop: '4px',
+                padding: '10px',
+                borderRadius: '12px',
+                border: 'none',
+                background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                color: '#FFFFFF',
+                fontSize: '16px',
+                fontWeight: 900,
+                fontFamily: '"Outfit", sans-serif',
+                cursor: 'pointer',
+                boxShadow: '0 4px 14px rgba(16, 185, 129, 0.4)',
+                transition: 'all 0.18s ease'
+              }}
+            >
+              Select this {previewSpecimen.type === 'plant' ? 'Plant' : 'Animal'} ✓
+            </button>
           </div>
         </div>
       )}

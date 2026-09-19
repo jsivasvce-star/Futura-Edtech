@@ -1,25 +1,69 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, ChevronRight, Eye, Film, Sparkles, CheckCircle2 } from 'lucide-react';
+/* eslint-disable react/prop-types */
+import { useState, useEffect, useRef } from 'react';
+import { Play, Pause } from 'lucide-react';
+
+import AllOnesJuiceShop from './pattern_worlds/AllOnesJuiceShop';
+import CountingStaircase from './pattern_worlds/CountingStaircase';
+import OddShoeRack from './pattern_worlds/OddShoeRack';
+import EvenSchoolBus from './pattern_worlds/EvenSchoolBus';
+import TriangularIceCream from './pattern_worlds/TriangularIceCream';
+import SquarePlantGarden from './pattern_worlds/SquarePlantGarden';
+import CubeBoxStacking from './pattern_worlds/CubeBoxStacking';
+import VirahankaRabbitFamily from './pattern_worlds/VirahankaRabbitFamily';
+import PowersOfTwoPizzaCutting from './pattern_worlds/PowersOfTwoPizzaCutting';
+import PowersOfThreeBranchingTree from './pattern_worlds/PowersOfThreeBranchingTree';
 
 /**
  * Photorealistic Cinematic Visual Component for Chapter 1.2 "Patterns in Numbers"
  * 
  * Delivers concept-specific, photorealistic physical scene representations for:
- * 1. Number Pattern Lab (Guided sequence introduction with auto-play stages and real physical arrangements)
+ * 1. Number Pattern Lab (10 Distinct Real-Life Interactive Mini-Worlds)
  * 2. Predict & Discover (A completely distinct real-world context for each sequence)
  */
 
-export default function PatternVisualCinema({
+function PatternLabWorld({ sequenceId }) {
+  switch (sequenceId) {
+    case 'all_ones':
+      return <AllOnesJuiceShop />;
+    case 'counting':
+      return <CountingStaircase />;
+    case 'odd_numbers':
+      return <OddShoeRack />;
+    case 'even_numbers':
+      return <EvenSchoolBus />;
+    case 'triangular':
+      return <TriangularIceCream />;
+    case 'squares':
+      return <SquarePlantGarden />;
+    case 'cubes':
+      return <CubeBoxStacking />;
+    case 'virahanka':
+      return <VirahankaRabbitFamily />;
+    case 'powers_of_2':
+      return <PowersOfTwoPizzaCutting />;
+    case 'powers_of_3':
+      return <PowersOfThreeBranchingTree />;
+    default:
+      return <AllOnesJuiceShop />;
+  }
+}
+
+export default function PatternVisualCinema(props) {
+  if (props.mode === 'lab') {
+    return <PatternLabWorld sequenceId={props.sequenceId} />;
+  }
+  return <PatternPredictCinema {...props} />;
+}
+
+function PatternPredictCinema({
   sequenceId,
-  mode = 'lab', // 'lab' | 'predict'
-  videoSrc,
-  videoTitle,
+  mode = 'predict',
   accentColor = '#2563eb',
   isSolved = false
 }) {
   const [activeStage, setActiveStage] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [viewMode, setViewMode] = useState('stages'); // 'stages' | 'video'
+  const [viewMode, setViewMode] = useState('stages');
   const timerRef = useRef(null);
 
   // Reset stage when sequence changes

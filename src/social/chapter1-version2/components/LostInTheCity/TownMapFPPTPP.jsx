@@ -84,8 +84,8 @@ const BUILDINGS = [
   },
   {
     id: 'BK',
-    name: 'Apex National Bank',
-    shortName: 'Apex Bank',
+    name: 'Bank',
+    shortName: 'Bank',
     icon: '🏦',
     type: 'bank',
     img: '/buildings/bank.png',

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   ArrowLeft,
   ArrowRight,
@@ -42,6 +42,11 @@ import mustardRootImg from '../../../../../assets/mustard_root.png';
 import chickpeaPlantImg from '../../../../../assets/chickpea_plant.png';
 import chickpeaLeafImg from '../../../../../assets/chickpea_leaf.png';
 import chickpeaRootImg from '../../../../../assets/chickpea_root.png';
+import specimen01LemongrassBlended from './specimen_01_lemongrass_blended.png';
+import specimen02MarigoldBlended from './specimen_02_marigold_blended.png';
+import specimen03SadabaharBlended from './specimen_03_sadabahar_blended.png';
+import specimen04ChickpeaBlended from './specimen_04_chickpea_blended.png';
+import specimen05WheatBlended from './specimen_05_wheat_blended.png';
 
 // ============================================================
 // ORNATE BOTANICAL SVG ELEMENTS (EXACT MATCH TO SLOGAN PAGE)
@@ -268,8 +273,57 @@ const PLANTS_DATA = [
   }
 ];
 
+// =========================================================================
+// FULLSCREEN SPECIMEN SLIDES (ACTIVITY 2.7) — EXACT 16:9 HD SPECIMENS
+// =========================================================================
+const CORRELATION_SPECIMEN_SLIDES = [
+  {
+    id: 1,
+    num: '01',
+    name: 'Lemongrass',
+    venation: 'Parallel venation',
+    root: 'Fibrous root system',
+    image: specimen01LemongrassBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
+  },
+  {
+    id: 2,
+    num: '02',
+    name: 'Marigold',
+    venation: 'Reticulate venation',
+    root: 'Tap root system',
+    image: specimen02MarigoldBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
+  },
+  {
+    id: 3,
+    num: '03',
+    name: 'Sadabahar (Periwinkle)',
+    venation: 'Reticulate venation',
+    root: 'Tap root system',
+    image: specimen03SadabaharBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
+  },
+  {
+    id: 4,
+    num: '04',
+    name: 'Chickpea',
+    venation: 'Reticulate venation',
+    root: 'Tap root system',
+    image: specimen04ChickpeaBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
+  },
+  {
+    id: 5,
+    num: '05',
+    name: 'Wheat',
+    venation: 'Parallel venation',
+    root: 'Fibrous root system',
+    image: specimen05WheatBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
+  }
+];
+
 export default function VenationRootCorrelationLab({ onBackToDashboard, onPreviousPage, onNext }) {
   const containerRef = useRef(null);
+  const [phase, setPhase] = useState('specimens'); // 'specimens' | 'lab'
+  const [specimenIndex, setSpecimenIndex] = useState(0);
+
   const [isMuted, setIsMuted] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -375,6 +429,187 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
     setSelectedPlantIndex(0);
     setInspectionView('plant');
   };
+
+  useEffect(() => {
+    if (phase !== 'specimens') return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') {
+        setSpecimenIndex(prev => Math.max(0, prev - 1));
+      } else if (e.key === 'ArrowRight' || e.key === ' ') {
+        if (specimenIndex < CORRELATION_SPECIMEN_SLIDES.length - 1) {
+          setSpecimenIndex(prev => prev + 1);
+        } else {
+          setPhase('lab');
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [phase, specimenIndex]);
+
+  if (phase === 'specimens') {
+    const activeSlide = CORRELATION_SPECIMEN_SLIDES[specimenIndex];
+    return (
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: '#07160E',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+        zIndex: 1000
+      }}>
+        <style>{`
+          html, body, #root {
+            overflow: hidden !important;
+            height: 100vh !important;
+          }
+        `}</style>
+
+        {/* Exact 16:9 Aspect-Ratio Container without pixel break */}
+        <div style={{
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+          maxWidth: 'calc(100vh * (16 / 9))',
+          maxHeight: 'calc(100vw * (9 / 16))',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <img
+            src={activeSlide.image}
+            alt={activeSlide.name}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              display: 'block',
+              userSelect: 'none',
+              filter: 'drop-shadow(0 15px 35px rgba(0,0,0,0.5))'
+            }}
+          />
+        </div>
+
+        {/* Floating Bottom Left Control: Back */}
+        <button
+          onClick={() => {
+            if (specimenIndex > 0) {
+              setSpecimenIndex(prev => prev - 1);
+            } else if (onPreviousPage) {
+              onPreviousPage();
+            } else if (onBackToDashboard) {
+              onBackToDashboard();
+            }
+          }}
+          style={{
+            position: 'absolute',
+            bottom: '22px',
+            left: '26px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            background: 'rgba(255, 255, 255, 0.92)',
+            border: '2px solid #CBD5E1',
+            borderRadius: '26px',
+            padding: '10px 22px',
+            fontSize: '18px',
+            fontWeight: 800,
+            color: '#1E293B',
+            cursor: 'pointer',
+            boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
+            backdropFilter: 'blur(2px)',
+            zIndex: 1010,
+            transition: 'all 0.18s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          <ArrowLeft size={20} /> Back
+        </button>
+
+        {/* Floating Bottom Center: Progress Indicators */}
+        <div style={{
+          position: 'absolute',
+          bottom: '22px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          background: 'rgba(4, 26, 16, 0.85)',
+          border: '1.5px solid rgba(110, 231, 183, 0.4)',
+          borderRadius: '24px',
+          padding: '7px 18px',
+          backdropFilter: 'blur(2px)',
+          zIndex: 1010,
+          boxShadow: '0 4px 16px rgba(0,0,0,0.35)'
+        }}>
+          {CORRELATION_SPECIMEN_SLIDES.map((s, idx) => (
+            <button
+              key={s.id}
+              onClick={() => setSpecimenIndex(idx)}
+              style={{
+                width: idx === specimenIndex ? '28px' : '10px',
+                height: '10px',
+                borderRadius: '5px',
+                background: idx === specimenIndex ? '#34D399' : 'rgba(255, 255, 255, 0.35)',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
+                transition: 'all 0.25s ease'
+              }}
+              title={`Specimen ${s.num}: ${s.name}`}
+            />
+          ))}
+          <span style={{ color: '#A7F3D0', fontWeight: 800, fontSize: '14px', marginLeft: '6px', fontFamily: '"Outfit", sans-serif' }}>
+            {specimenIndex + 1} / {CORRELATION_SPECIMEN_SLIDES.length}
+          </span>
+        </div>
+
+        {/* Floating Bottom Right: Next Slide or Enter Lab */}
+        <button
+          onClick={() => {
+            if (specimenIndex < CORRELATION_SPECIMEN_SLIDES.length - 1) {
+              setSpecimenIndex(prev => prev + 1);
+            } else {
+              setPhase('lab');
+            }
+          }}
+          style={{
+            position: 'absolute',
+            bottom: '22px',
+            right: '26px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            background: 'linear-gradient(135deg, #15803D 0%, #166534 100%)',
+            border: '2px solid #86EFAC',
+            borderRadius: '28px',
+            padding: '11px 26px',
+            fontSize: '18px',
+            fontWeight: 900,
+            color: '#FFFFFF',
+            cursor: 'pointer',
+            boxShadow: '0 6px 22px rgba(22, 101, 52, 0.5)',
+            zIndex: 1010,
+            transition: 'all 0.18s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          {specimenIndex < CORRELATION_SPECIMEN_SLIDES.length - 1 ? (
+            <>Next <ArrowRight size={20} /></>
+          ) : (
+            <>Enter Activity 2.7 Lab <ArrowRight size={20} /></>
+          )}
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -684,7 +919,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
             </div>
             <div style={{ fontSize: '16px', color: '#1B4D3E', fontWeight: 600, textAlign: 'justify', lineHeight: 1.35, flex: 1, minWidth: 0 }}>
               <strong style={{ color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif', marginRight: '6px', fontSize: '16px' }}>
-                NCERT Correlation Task:
+                Correlation Task:
               </strong>
               Select a plant specimen from the dock, inspect its <strong>[Leaf Venation]</strong> and <strong>[Root System]</strong> in the 70% botanical viewer, then record observations in Table 2.4.
             </div>
@@ -948,7 +1183,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
                 top: '10px',
                 right: '10px',
                 background: 'rgba(20, 69, 47, 0.88)',
-                backdropFilter: 'blur(6px)',
+                backdropFilter: 'blur(2px)',
                 color: '#D1FAE5',
                 borderRadius: '8px',
                 padding: '4px 12px',
@@ -975,7 +1210,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
                 left: 0,
                 right: 0,
                 background: 'linear-gradient(180deg, rgba(10, 42, 26, 0) 0%, rgba(10, 42, 26, 0.82) 28%, rgba(10, 42, 26, 0.95) 100%)',
-                backdropFilter: 'blur(6px)',
+                backdropFilter: 'blur(2px)',
                 padding: '10px 16px 8px 16px',
                 color: '#E6F9EE',
                 fontSize: '16px',
@@ -1285,7 +1520,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
             position: 'fixed',
             inset: 0,
             backgroundColor: 'rgba(10, 45, 30, 0.72)',
-            backdropFilter: 'blur(6px)',
+            backdropFilter: 'blur(2px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -1452,14 +1687,29 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           zIndex: 20
         }}
       >
-        <button
-          type="button"
-          className="bio-nav-btn"
-          onClick={onPreviousPage}
-          aria-label="Previous Activity"
-        >
-          ← Previous Activity
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <button
+            type="button"
+            className="bio-nav-btn"
+            onClick={onPreviousPage}
+            aria-label="Previous Activity"
+          >
+            ← Previous Activity
+          </button>
+
+          <button
+            type="button"
+            className="bio-nav-btn"
+            onClick={() => {
+              setSpecimenIndex(0);
+              setPhase('specimens');
+            }}
+            style={{ background: '#064E3B', borderColor: '#34D399', color: '#D1FAE5' }}
+            aria-label="View Specimen Slides"
+          >
+            🔍 Specimen Slides
+          </button>
+        </div>
 
         <div
           style={{

@@ -24,7 +24,7 @@ const PLACES = [
   { id: 'PG', x: 1115, y: 215, name: 'Public Garden', full: 'Rosewood Botanical Garden', icon: '🌳', type: 'garden', blurb: 'Botanical greenhouse entrance gate.' },
   { id: 'HO', x: 230, y: 460, name: 'Hospital', full: 'City Care Hospital', icon: '🏥', type: 'hospital', blurb: 'Main emergency entrance & ambulance portico.' },
   { id: 'NP', x: 690, y: 460, name: 'Nagar Panchayat', full: 'Nagar Panchayat Office', icon: '🏛️', type: 'civic', blurb: 'Grand portico steps and entrance columns of Nagar Panchayat.' },
-  { id: 'BK', x: 1115, y: 460, name: 'Bank', full: 'Apex National Bank', icon: '🏦', type: 'bank', goal: true, blurb: 'Main glass entrance lobby of Apex National Bank.' },
+  { id: 'BK', x: 1115, y: 460, name: 'Bank', full: 'Bank', icon: '🏦', type: 'bank', goal: true, blurb: 'Main glass entrance lobby of the Bank.' },
   { id: 'SC', x: 230, y: 680, name: 'School', full: 'Greenwood Public School', icon: '🏫', type: 'school', blurb: 'School main entrance doors by the playground courtyard.' },
   { id: 'MK', x: 690, y: 625, name: 'Market', full: 'Janata Central Bazaar', icon: '🛍️', type: 'market', blurb: 'Central bazaar square entrance among market stalls.' },
   { id: 'MU', x: 1115, y: 680, name: 'Museum', full: 'Heritage Antiquities Museum', icon: '🏛️', type: 'museum', blurb: 'Main steps and entrance to Heritage Antiquities Museum.' },
@@ -147,14 +147,14 @@ const STREETS = [
 /* ── 4. UNIQUE BUILDING LANDMARK BADGES (PERFECT POSITION & HIGHLIGHTED) ── */
 const BUILDING_BADGES = [
   { id: 'b_rs', placeId: 'RS', name: 'Railway Station', icon: '🚂', x: 180, y: 110, color: '#F59E0B', label: 'RAILWAY STATION' },
-  { id: 'b_pond', placeId: 'POND', name: 'Public Lake Park', icon: '🌳', x: 375, y: 70, color: '#10B981', label: 'PUBLIC LAKE PARK' },
+  { id: 'b_pond', placeId: 'POND', name: 'Public Lake Park', icon: '🌳', x: 420, y: 45, color: '#10B981', label: 'PUBLIC LAKE PARK' },
   { id: 'b_ap', placeId: 'AP', name: 'Sunview Heights', icon: '🏢', x: 835, y: 40, color: '#38BDF8', label: 'SUNVIEW HEIGHTS' },
-  { id: 'b_garden', placeId: 'PG', name: 'Botanical Garden', icon: '🌿', x: 1115, y: 75, color: '#10B981', label: 'BOTANICAL GARDEN' },
+  { id: 'b_garden', placeId: 'PG', name: 'Botanical Garden', icon: '🌿', x: 1115, y: 115, color: '#10B981', label: 'BOTANICAL GARDEN' },
   { id: 'b_ho', placeId: 'HO', name: 'City Hospital', icon: '🏥', x: 230, y: 350, color: '#EF4444', label: 'CITY HOSPITAL' },
   { id: 'b_th', placeId: 'NP', name: 'Nagar Panchayat', icon: '🏛️', x: 690, y: 360, color: '#F59E0B', label: 'NAGAR PANCHAYAT' },
-  { id: 'b_bk', placeId: 'BK', name: 'Apex National Bank', icon: '🏦', x: 1115, y: 360, color: '#06B6D4', label: 'APEX NATIONAL BANK' },
+  { id: 'b_bk', placeId: 'BK', name: 'Bank', icon: '🏦', x: 1115, y: 360, color: '#06B6D4', label: 'BANK' },
   { id: 'b_sc', placeId: 'SC', name: 'Greenwood School', icon: '🏫', x: 230, y: 625, color: '#818CF8', label: 'GREENWOOD SCHOOL' },
-  { id: 'b_mk', placeId: 'MK', name: 'Central Market', icon: '🛍️', x: 690, y: 635, color: '#F59E0B', label: 'CENTRAL MARKET' },
+  { id: 'b_mk', placeId: 'MK', name: 'Central Market', icon: '🛍️', x: 690, y: 665, color: '#F59E0B', label: 'CENTRAL MARKET' },
   { id: 'b_mu', placeId: 'MU', name: 'Heritage Museum', icon: '🏛️', x: 1115, y: 630, color: '#A78BFA', label: 'HERITAGE MUSEUM' }
 ];
 
@@ -1195,7 +1195,7 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false, showQuiz =
             <g id="ce-buildings" pointerEvents="none">
               {BUILDING_BADGES.map(b => {
                 const isCur = curPlace && (curPlace.id === b.placeId || curPlace.name.toLowerCase().includes(b.name.toLowerCase()));
-                const wdt = b.label.length * 6.8 + 30;
+                const wdt = b.label.length * 11 + 60;
                 return (
                   <g
                     key={b.id}
@@ -1210,26 +1210,26 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false, showQuiz =
                     {/* Outer highlight pill */}
                     <rect
                       x={-wdt / 2}
-                      y="-11"
+                      y="-20"
                       width={wdt}
-                      height="22"
-                      rx="7"
+                      height="40"
+                      rx="12"
                       fill="rgba(15, 23, 42, 0.92)"
                       stroke={isCur ? '#FFFFFF' : b.color}
-                      strokeWidth={isCur ? 2.2 : 1.5}
+                      strokeWidth={isCur ? 2.5 : 1.8}
                     />
                     {/* Icon + Highlighted unique building name */}
                     <text
                       x="0"
-                      y="4"
+                      y="6"
                       textAnchor="middle"
-                      fontSize="9.5"
+                      fontSize="18"
                       fontWeight="900"
                       fill="#FFFFFF"
                       fontFamily="Space Grotesk, system-ui, sans-serif"
-                      letterSpacing="0.6px"
+                      letterSpacing="0.8px"
                     >
-                      <tspan fill={b.color} style={{ fontSize: '11px', marginRight: '4px' }}>{b.icon} </tspan>
+                      <tspan fill={b.color} style={{ fontSize: '20px', marginRight: '5px' }}>{b.icon} </tspan>
                       <tspan fill="#FFFFFF">{b.label}</tspan>
                     </text>
                   </g>

@@ -51,8 +51,8 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
       flexDirection: 'column',
       justifyContent: 'space-between',
       background: 'rgba(15, 23, 42, 0.50)',
-      backdropFilter: 'blur(18px)',
-      WebkitBackdropFilter: 'blur(18px)',
+      backdropFilter: 'blur(2px)',
+      WebkitBackdropFilter: 'blur(2px)',
       borderRadius: '20px',
       border: '2px solid #D4AF37',
       padding: '16px 22px 14px',
@@ -74,7 +74,7 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
             Activities 2.9 &amp; 2.10 · Observation Registers (Pages 22 &amp; 24)
           </div>
           <h2 style={{ margin: 0, fontSize: '24px', fontWeight: '900', color: '#FBBF24', lineHeight: 1.2, fontFamily: '"Fraunces", Georgia, serif' }}>
-            📋 NCERT Observation Tables 2.5 &amp; 2.6
+            📋 Observation Tables 2.5 &amp; 2.6
           </h2>
         </div>
 
@@ -265,7 +265,7 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
                   </div>
 
                   <div style={{ background: '#EDE7D8', border: '1px solid #14452F', padding: '5px 12px', borderRadius: '8px', fontSize: '16px', color: '#F8FAFC', fontWeight: '800', marginTop: '10px', alignSelf: 'flex-start' }}>
-                    ✓ NCERT Biome Register Entry
+                    ✓ Biome Register Entry
                   </div>
                 </div>
               ))}
@@ -314,7 +314,7 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
         </button>
 
         <div style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: '800' }}>
-          ✓ Verified NCERT Tables 2.5 &amp; 2.6 Data Registries
+          ✓ Verified Tables 2.5 &amp; 2.6 Data Registries
         </div>
 
         <button

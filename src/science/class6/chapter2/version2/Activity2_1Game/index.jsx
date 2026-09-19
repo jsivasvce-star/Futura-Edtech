@@ -375,7 +375,7 @@ const PopupCard = ({ item, type, onClose }) => {
             inset: 0,
             zIndex: 999999,
             background: 'rgba(0, 0, 0, 0.85)',
-            backdropFilter: 'blur(8px)',
+            backdropFilter: 'blur(2px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
