@@ -1,6 +1,34 @@
 import React, { useState } from 'react';
 import './CoordinatesMinigame.css';
 import worldMapUrl from './world-map.jpg';
+import { Play, Pause } from 'lucide-react';
+import page44Audio from './audio/page44.mp3?url';
+import { PAGE44_TRANSCRIPT } from './Page44Transcript';
+
+const WordRenderer = ({ text, idPrefix, defaultColor, highlightColor, activeWordId }) => {
+  const words = text.trim().split(/\s+/);
+  return (
+    <>
+      {words.map((word, index) => {
+        const wordId = `${idPrefix}-${index + 1}`;
+        const isHighlighted = activeWordId === wordId;
+        return (
+          <span
+            key={index}
+            style={{
+              color: isHighlighted ? highlightColor : defaultColor,
+              transition: 'color 0.2s',
+              marginRight: '0.25em',
+              display: 'inline-block'
+            }}
+          >
+            {word}
+          </span>
+        );
+      })}
+    </>
+  );
+};
 
 const cities = [
   { name: "Delhi", lat: 28.6, lon: 77.2, desc: "Capital of India", flag: "🇮🇳", funFact: "Delhi's Red Fort was built by the same emperor who commissioned the Taj Mahal!" },
@@ -19,6 +47,41 @@ export default function CoordinatesMinigame({ onComplete, onBack }) {
   const [showCelebration, setShowCelebration] = useState(false);
   const [options, setOptions] = useState([]);
   const [guessFeedback, setGuessFeedback] = useState(null);
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordId, setActiveWordId] = useState(null);
+  const audioRef = React.useRef(null);
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (!audioRef.current) return;
+    const currentTime = audioRef.current.currentTime;
+    
+    const activeWord = PAGE44_TRANSCRIPT.find(
+      word => currentTime >= word.start && currentTime <= word.end
+    );
+    
+    if (activeWord && activeWord.matchType === 'matched') {
+      setActiveWordId(activeWord.pageWordId);
+    } else {
+      setActiveWordId(null);
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordId(null);
+  };
 
   const currentCity = cities[currentCityIndex];
 
@@ -98,6 +161,12 @@ export default function CoordinatesMinigame({ onComplete, onBack }) {
 
   return (
     <div className="coords-minigame-container">
+      <audio
+        ref={audioRef}
+        src={page44Audio}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
       {/* Left Pane - Map */}
       <div className="coords-mini-left">
         
@@ -160,7 +229,14 @@ export default function CoordinatesMinigame({ onComplete, onBack }) {
         {/* Previous Button (Left Pane Footer) */}
         <div style={{ position: 'absolute', bottom: '12px', left: '40px' }}>
           <button 
-            onClick={() => { if (onBack) onBack(); }}
+            onClick={() => { 
+              if (isPlaying && audioRef.current) {
+                audioRef.current.pause();
+                setIsPlaying(false);
+                setActiveWordId(null);
+              }
+              if (onBack) onBack(); 
+            }}
             style={{
               background: '#FFFFFF',
               color: '#78350F',
@@ -189,17 +265,21 @@ export default function CoordinatesMinigame({ onComplete, onBack }) {
       <div className="coords-mini-right" style={{ position: 'relative' }}>
         <div className="coords-mini-task-header">
           <svg className="compass-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
-          TASK 3: FIND THE PLACE
+          <WordRenderer text="TASK 3 FIND THE PLACE" idPrefix="h" defaultColor="inherit" highlightColor="#451a03" activeWordId={activeWordId} />
         </div>
 
         <div className="coords-mini-info-box">
           <h3>Pinpointing Locations</h3>
-          <p>By crossing latitude and longitude, we create a global grid. Let&apos;s practice finding coordinates.</p>
+          <p>
+            <WordRenderer text="By crossing latitude and longitude, we create a global grid. Let's practice finding coordinates." idPrefix="p" defaultColor="inherit" highlightColor="#451a03" activeWordId={activeWordId} />
+          </p>
         </div>
 
         <div className="coords-mini-city-card">
           <div className="city-card-top">
-            <h2>Move to Coordinates</h2>
+            <h2>
+              <WordRenderer text="Move to Coordinates" idPrefix="h2" defaultColor="inherit" highlightColor="#451a03" activeWordId={activeWordId} />
+            </h2>
             <div className="city-counter">{currentCityIndex + 1} / {cities.length}</div>
           </div>
           <p className="city-target-desc" style={{ fontSize: '18px', padding: '10px 0' }}>
@@ -256,9 +336,35 @@ export default function CoordinatesMinigame({ onComplete, onBack }) {
         </div>
 
         {/* Global Footer (Absolute Positioned Next Button) */}
-        <div style={{ position: 'absolute', bottom: '12px', right: '12px', display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ position: 'absolute', bottom: '12px', right: '12px', display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+          <button
+            onClick={toggleAudio}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '10px 18px',
+              background: '#FEF3C7',
+              border: '2px solid #F59E0B',
+              borderRadius: '999px',
+              fontSize: '15px',
+              fontWeight: 800,
+              color: '#92400E',
+              cursor: 'pointer'
+            }}
+          >
+            {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+            {isPlaying ? 'Pause' : 'Play'}
+          </button>
           <button 
-            onClick={() => { if (onComplete) onComplete(); }}
+            onClick={() => { 
+              if (isPlaying && audioRef.current) {
+                audioRef.current.pause();
+                setIsPlaying(false);
+                setActiveWordId(null);
+              }
+              if (onComplete) onComplete(); 
+            }}
             style={{
               background: '#d97706',
               color: '#FFFFFF',

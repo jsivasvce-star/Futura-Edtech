@@ -1,0 +1,452 @@
+{
+  "audio_file": "page42.mp3",
+  "duration": 32.183,
+  "language": "en",
+  "words": [
+    {
+      "text": "Understanding",
+      "start": 0.0,
+      "end": 0.76
+    },
+    {
+      "text": "Coordinates",
+      "start": 0.76,
+      "end": 1.92
+    },
+    {
+      "text": "Finding",
+      "start": 1.92,
+      "end": 2.38
+    },
+    {
+      "text": "the",
+      "start": 2.38,
+      "end": 2.72
+    },
+    {
+      "text": "exact",
+      "start": 2.72,
+      "end": 3.06
+    },
+    {
+      "text": "spot",
+      "start": 3.06,
+      "end": 3.54
+    },
+    {
+      "text": "Imagine",
+      "start": 3.54,
+      "end": 4.48
+    },
+    {
+      "text": "trying",
+      "start": 4.48,
+      "end": 5.04
+    },
+    {
+      "text": "to",
+      "start": 5.04,
+      "end": 5.24
+    },
+    {
+      "text": "find",
+      "start": 5.24,
+      "end": 5.44
+    },
+    {
+      "text": "a",
+      "start": 5.44,
+      "end": 5.66
+    },
+    {
+      "text": "friend's",
+      "start": 5.66,
+      "end": 5.9
+    },
+    {
+      "text": "house",
+      "start": 5.9,
+      "end": 6.14
+    },
+    {
+      "text": "in",
+      "start": 6.14,
+      "end": 6.34
+    },
+    {
+      "text": "a",
+      "start": 6.34,
+      "end": 6.48
+    },
+    {
+      "text": "large",
+      "start": 6.48,
+      "end": 6.72
+    },
+    {
+      "text": "city",
+      "start": 6.72,
+      "end": 7.04
+    },
+    {
+      "text": "built",
+      "start": 7.04,
+      "end": 7.36
+    },
+    {
+      "text": "on",
+      "start": 7.36,
+      "end": 7.6
+    },
+    {
+      "text": "a",
+      "start": 7.6,
+      "end": 7.74
+    },
+    {
+      "text": "grid.",
+      "start": 7.74,
+      "end": 7.9
+    },
+    {
+      "text": "If",
+      "start": 8.52,
+      "end": 8.6
+    },
+    {
+      "text": "they",
+      "start": 8.6,
+      "end": 8.8
+    },
+    {
+      "text": "tell",
+      "start": 8.8,
+      "end": 9.04
+    },
+    {
+      "text": "you,",
+      "start": 9.04,
+      "end": 9.56
+    },
+    {
+      "text": "meet",
+      "start": 9.7,
+      "end": 9.8
+    },
+    {
+      "text": "me",
+      "start": 9.8,
+      "end": 10.02
+    },
+    {
+      "text": "at",
+      "start": 10.02,
+      "end": 10.12
+    },
+    {
+      "text": "the",
+      "start": 10.12,
+      "end": 10.32
+    },
+    {
+      "text": "corner",
+      "start": 10.32,
+      "end": 10.52
+    },
+    {
+      "text": "of",
+      "start": 10.52,
+      "end": 10.76
+    },
+    {
+      "text": "5th",
+      "start": 10.76,
+      "end": 11.1
+    },
+    {
+      "text": "Avenue",
+      "start": 11.1,
+      "end": 11.36
+    },
+    {
+      "text": "and",
+      "start": 11.36,
+      "end": 11.54
+    },
+    {
+      "text": "42nd",
+      "start": 11.54,
+      "end": 12.2
+    },
+    {
+      "text": "Street,",
+      "start": 12.2,
+      "end": 12.64
+    },
+    {
+      "text": "you",
+      "start": 13.08,
+      "end": 13.28
+    },
+    {
+      "text": "know",
+      "start": 13.28,
+      "end": 13.5
+    },
+    {
+      "text": "exactly",
+      "start": 13.5,
+      "end": 14.02
+    },
+    {
+      "text": "where",
+      "start": 14.02,
+      "end": 14.24
+    },
+    {
+      "text": "to",
+      "start": 14.24,
+      "end": 14.42
+    },
+    {
+      "text": "go.",
+      "start": 14.42,
+      "end": 14.68
+    },
+    {
+      "text": "By",
+      "start": 15.24,
+      "end": 15.48
+    },
+    {
+      "text": "finding",
+      "start": 15.48,
+      "end": 15.88
+    },
+    {
+      "text": "where",
+      "start": 15.88,
+      "end": 16.12
+    },
+    {
+      "text": "those",
+      "start": 16.12,
+      "end": 16.44
+    },
+    {
+      "text": "two",
+      "start": 16.44,
+      "end": 16.66
+    },
+    {
+      "text": "specific",
+      "start": 16.66,
+      "end": 17.12
+    },
+    {
+      "text": "streets",
+      "start": 17.12,
+      "end": 17.48
+    },
+    {
+      "text": "cross",
+      "start": 17.48,
+      "end": 17.84
+    },
+    {
+      "text": "each",
+      "start": 17.84,
+      "end": 18.1
+    },
+    {
+      "text": "other",
+      "start": 18.1,
+      "end": 18.36
+    },
+    {
+      "text": "on",
+      "start": 18.36,
+      "end": 18.6
+    },
+    {
+      "text": "a",
+      "start": 18.6,
+      "end": 18.74
+    },
+    {
+      "text": "map,",
+      "start": 18.74,
+      "end": 19.0
+    },
+    {
+      "text": "you",
+      "start": 19.48,
+      "end": 19.52
+    },
+    {
+      "text": "can",
+      "start": 19.52,
+      "end": 19.76
+    },
+    {
+      "text": "pinpoint",
+      "start": 19.76,
+      "end": 20.22
+    },
+    {
+      "text": "the",
+      "start": 20.22,
+      "end": 20.6
+    },
+    {
+      "text": "exact",
+      "start": 20.6,
+      "end": 20.96
+    },
+    {
+      "text": "intersection",
+      "start": 20.96,
+      "end": 21.52
+    },
+    {
+      "text": "instantly",
+      "start": 21.52,
+      "end": 22.18
+    },
+    {
+      "text": "without",
+      "start": 22.18,
+      "end": 22.68
+    },
+    {
+      "text": "getting",
+      "start": 22.68,
+      "end": 23.0
+    },
+    {
+      "text": "lost.",
+      "start": 23.0,
+      "end": 23.44
+    },
+    {
+      "text": "To",
+      "start": 23.98,
+      "end": 24.16
+    },
+    {
+      "text": "locate",
+      "start": 24.16,
+      "end": 24.46
+    },
+    {
+      "text": "any",
+      "start": 24.46,
+      "end": 24.78
+    },
+    {
+      "text": "place",
+      "start": 24.78,
+      "end": 25.14
+    },
+    {
+      "text": "precisely",
+      "start": 25.14,
+      "end": 25.7
+    },
+    {
+      "text": "on",
+      "start": 25.7,
+      "end": 25.98
+    },
+    {
+      "text": "earth,",
+      "start": 25.98,
+      "end": 26.16
+    },
+    {
+      "text": "we",
+      "start": 26.62,
+      "end": 26.76
+    },
+    {
+      "text": "also",
+      "start": 26.76,
+      "end": 27.06
+    },
+    {
+      "text": "use",
+      "start": 27.06,
+      "end": 27.3
+    },
+    {
+      "text": "a",
+      "start": 27.3,
+      "end": 27.52
+    },
+    {
+      "text": "giant",
+      "start": 27.52,
+      "end": 27.74
+    },
+    {
+      "text": "grid",
+      "start": 27.74,
+      "end": 28.02
+    },
+    {
+      "text": "and",
+      "start": 28.02,
+      "end": 28.52
+    },
+    {
+      "text": "always",
+      "start": 28.52,
+      "end": 29.0
+    },
+    {
+      "text": "need",
+      "start": 29.0,
+      "end": 29.3
+    },
+    {
+      "text": "two",
+      "start": 29.3,
+      "end": 29.56
+    },
+    {
+      "text": "pieces",
+      "start": 29.56,
+      "end": 29.86
+    },
+    {
+      "text": "of",
+      "start": 29.86,
+      "end": 30.16
+    },
+    {
+      "text": "information",
+      "start": 30.16,
+      "end": 30.64
+    },
+    {
+      "text": "to",
+      "start": 30.64,
+      "end": 31.02
+    },
+    {
+      "text": "form",
+      "start": 31.02,
+      "end": 31.16
+    },
+    {
+      "text": "a",
+      "start": 31.16,
+      "end": 31.36
+    },
+    {
+      "text": "coordinate.",
+      "start": 31.36,
+      "end": 31.74
+    }
+  ]
+}

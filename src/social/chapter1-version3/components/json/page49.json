@@ -1,0 +1,292 @@
+{
+  "audio_file": "page49.mp3",
+  "duration": 21.211,
+  "language": "en",
+  "words": [
+    {
+      "text": "Parallels",
+      "start": 0.0,
+      "end": 0.64
+    },
+    {
+      "text": "of",
+      "start": 0.64,
+      "end": 0.88
+    },
+    {
+      "text": "Latitude",
+      "start": 0.88,
+      "end": 1.48
+    },
+    {
+      "text": "At",
+      "start": 2.0,
+      "end": 2.5
+    },
+    {
+      "text": "any",
+      "start": 2.5,
+      "end": 2.7
+    },
+    {
+      "text": "point",
+      "start": 2.7,
+      "end": 2.94
+    },
+    {
+      "text": "on",
+      "start": 2.94,
+      "end": 3.14
+    },
+    {
+      "text": "that",
+      "start": 3.14,
+      "end": 3.32
+    },
+    {
+      "text": "journey,",
+      "start": 3.32,
+      "end": 3.68
+    },
+    {
+      "text": "you",
+      "start": 4.1,
+      "end": 4.26
+    },
+    {
+      "text": "can",
+      "start": 4.26,
+      "end": 4.48
+    },
+    {
+      "text": "draw",
+      "start": 4.48,
+      "end": 4.74
+    },
+    {
+      "text": "an",
+      "start": 4.74,
+      "end": 5.08
+    },
+    {
+      "text": "imaginary",
+      "start": 5.08,
+      "end": 5.5
+    },
+    {
+      "text": "line",
+      "start": 5.5,
+      "end": 5.98
+    },
+    {
+      "text": "running",
+      "start": 5.98,
+      "end": 6.36
+    },
+    {
+      "text": "east",
+      "start": 6.36,
+      "end": 6.78
+    },
+    {
+      "text": "-west,",
+      "start": 6.78,
+      "end": 7.28
+    },
+    {
+      "text": "parallel",
+      "start": 7.74,
+      "end": 7.88
+    },
+    {
+      "text": "to",
+      "start": 7.88,
+      "end": 8.14
+    },
+    {
+      "text": "the",
+      "start": 8.14,
+      "end": 8.34
+    },
+    {
+      "text": "equator.",
+      "start": 8.34,
+      "end": 8.68
+    },
+    {
+      "text": "Such",
+      "start": 9.36,
+      "end": 9.58
+    },
+    {
+      "text": "a",
+      "start": 9.58,
+      "end": 9.76
+    },
+    {
+      "text": "line",
+      "start": 9.76,
+      "end": 9.9
+    },
+    {
+      "text": "is",
+      "start": 9.9,
+      "end": 10.14
+    },
+    {
+      "text": "called",
+      "start": 10.14,
+      "end": 10.4
+    },
+    {
+      "text": "a",
+      "start": 10.4,
+      "end": 10.7
+    },
+    {
+      "text": "parallel",
+      "start": 10.7,
+      "end": 10.86
+    },
+    {
+      "text": "of",
+      "start": 10.86,
+      "end": 11.14
+    },
+    {
+      "text": "latitude",
+      "start": 11.14,
+      "end": 11.6
+    },
+    {
+      "text": "and",
+      "start": 11.6,
+      "end": 12.28
+    },
+    {
+      "text": "it",
+      "start": 12.28,
+      "end": 12.48
+    },
+    {
+      "text": "forms",
+      "start": 12.48,
+      "end": 12.74
+    },
+    {
+      "text": "a",
+      "start": 12.74,
+      "end": 13.02
+    },
+    {
+      "text": "circle",
+      "start": 13.02,
+      "end": 13.24
+    },
+    {
+      "text": "around",
+      "start": 13.24,
+      "end": 13.62
+    },
+    {
+      "text": "the",
+      "start": 13.62,
+      "end": 13.86
+    },
+    {
+      "text": "Earth.",
+      "start": 13.86,
+      "end": 14.06
+    },
+    {
+      "text": "The",
+      "start": 14.8,
+      "end": 15.02
+    },
+    {
+      "text": "equator",
+      "start": 15.02,
+      "end": 15.4
+    },
+    {
+      "text": "is",
+      "start": 15.4,
+      "end": 15.76
+    },
+    {
+      "text": "the",
+      "start": 15.76,
+      "end": 15.98
+    },
+    {
+      "text": "largest",
+      "start": 15.98,
+      "end": 16.26
+    },
+    {
+      "text": "of",
+      "start": 16.26,
+      "end": 16.46
+    },
+    {
+      "text": "these",
+      "start": 16.46,
+      "end": 16.66
+    },
+    {
+      "text": "circles.",
+      "start": 16.66,
+      "end": 17.08
+    },
+    {
+      "text": "The",
+      "start": 17.64,
+      "end": 17.94
+    },
+    {
+      "text": "parallels",
+      "start": 17.94,
+      "end": 18.24
+    },
+    {
+      "text": "grow",
+      "start": 18.24,
+      "end": 18.58
+    },
+    {
+      "text": "smaller",
+      "start": 18.58,
+      "end": 19.0
+    },
+    {
+      "text": "as",
+      "start": 19.0,
+      "end": 19.32
+    },
+    {
+      "text": "we",
+      "start": 19.32,
+      "end": 19.56
+    },
+    {
+      "text": "move",
+      "start": 19.56,
+      "end": 19.82
+    },
+    {
+      "text": "towards",
+      "start": 19.82,
+      "end": 20.22
+    },
+    {
+      "text": "either",
+      "start": 20.22,
+      "end": 20.56
+    },
+    {
+      "text": "pole.",
+      "start": 20.56,
+      "end": 20.84
+    }
+  ]
+}

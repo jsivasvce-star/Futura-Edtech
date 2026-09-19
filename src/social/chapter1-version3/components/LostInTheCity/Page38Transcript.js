@@ -1,0 +1,23 @@
+export const PAGE38_TRANSCRIPT = [
+  { "audioWord": "Which", "start": 0.0, "end": 0.44, "pageWordId": "q-1", "matchType": "matched" },
+  { "audioWord": "direction", "start": 0.44, "end": 0.9, "pageWordId": "q-2", "matchType": "matched" },
+  { "audioWord": "should", "start": 0.9, "end": 1.12, "pageWordId": "q-3", "matchType": "matched" },
+  { "audioWord": "we", "start": 1.12, "end": 1.36, "pageWordId": "q-4", "matchType": "matched" },
+  { "audioWord": "travel", "start": 1.36, "end": 1.6, "pageWordId": "q-5", "matchType": "matched" },
+  { "audioWord": "to", "start": 1.6, "end": 1.82, "pageWordId": "q-6", "matchType": "matched" },
+  { "audioWord": "reach", "start": 1.82, "end": 2.1, "pageWordId": "q-7", "matchType": "matched" },
+  { "audioWord": "Jaipur?", "start": 2.1, "end": 2.58, "pageWordId": "q-8", "matchType": "matched" },
+  { "audioWord": "Find", "start": 3.54, "end": 3.78, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "Jaipur", "start": 3.78, "end": 4.18, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "on", "start": 4.18, "end": 4.38, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "the", "start": 4.38, "end": 4.54, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "map", "start": 4.54, "end": 4.78, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "and", "start": 4.78, "end": 5.26, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "see", "start": 5.26, "end": 5.48, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "which", "start": 5.48, "end": 5.7, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "way", "start": 5.7, "end": 5.88, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "we", "start": 5.88, "end": 6.1, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "need", "start": 6.1, "end": 6.28, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "to", "start": 6.28, "end": 6.48, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "go.", "start": 6.48, "end": 6.62, "pageWordId": "none", "matchType": "unmatched" }
+];

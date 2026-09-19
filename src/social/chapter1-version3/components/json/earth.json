@@ -1,0 +1,267 @@
+{
+  "audio_file": "earth.mp3",
+  "duration": 21.812,
+  "language": "en",
+  "words": [
+    {
+      "text": "Earth.",
+      "start": 0.0,
+      "end": 0.48
+    },
+    {
+      "text": "Earth",
+      "start": 1.2,
+      "end": 1.5
+    },
+    {
+      "text": "is",
+      "start": 1.5,
+      "end": 1.88
+    },
+    {
+      "text": "the",
+      "start": 1.88,
+      "end": 2.08
+    },
+    {
+      "text": "third",
+      "start": 2.08,
+      "end": 2.32
+    },
+    {
+      "text": "planet",
+      "start": 2.32,
+      "end": 2.72
+    },
+    {
+      "text": "from",
+      "start": 2.72,
+      "end": 3.0
+    },
+    {
+      "text": "the",
+      "start": 3.0,
+      "end": 3.22
+    },
+    {
+      "text": "sun",
+      "start": 3.22,
+      "end": 3.46
+    },
+    {
+      "text": "and",
+      "start": 3.46,
+      "end": 4.02
+    },
+    {
+      "text": "the",
+      "start": 4.02,
+      "end": 4.22
+    },
+    {
+      "text": "only",
+      "start": 4.22,
+      "end": 4.46
+    },
+    {
+      "text": "known",
+      "start": 4.46,
+      "end": 4.74
+    },
+    {
+      "text": "planet",
+      "start": 4.74,
+      "end": 5.18
+    },
+    {
+      "text": "to",
+      "start": 5.18,
+      "end": 5.46
+    },
+    {
+      "text": "support",
+      "start": 5.46,
+      "end": 5.76
+    },
+    {
+      "text": "life.",
+      "start": 5.76,
+      "end": 6.1
+    },
+    {
+      "text": "About",
+      "start": 6.92,
+      "end": 7.2
+    },
+    {
+      "text": "71",
+      "start": 7.2,
+      "end": 7.68
+    },
+    {
+      "text": "%",
+      "start": 7.68,
+      "end": 8.22
+    },
+    {
+      "text": "of",
+      "start": 8.22,
+      "end": 8.44
+    },
+    {
+      "text": "Earth's",
+      "start": 8.44,
+      "end": 9.02
+    },
+    {
+      "text": "surface",
+      "start": 9.02,
+      "end": 9.36
+    },
+    {
+      "text": "is",
+      "start": 9.36,
+      "end": 9.96
+    },
+    {
+      "text": "covered",
+      "start": 9.96,
+      "end": 10.28
+    },
+    {
+      "text": "by",
+      "start": 10.28,
+      "end": 10.56
+    },
+    {
+      "text": "water,",
+      "start": 10.56,
+      "end": 11.04
+    },
+    {
+      "text": "which",
+      "start": 11.42,
+      "end": 11.6
+    },
+    {
+      "text": "is",
+      "start": 11.6,
+      "end": 11.82
+    },
+    {
+      "text": "why",
+      "start": 11.82,
+      "end": 12.14
+    },
+    {
+      "text": "it",
+      "start": 12.14,
+      "end": 12.4
+    },
+    {
+      "text": "is",
+      "start": 12.4,
+      "end": 12.64
+    },
+    {
+      "text": "often",
+      "start": 12.64,
+      "end": 12.82
+    },
+    {
+      "text": "called",
+      "start": 12.82,
+      "end": 13.26
+    },
+    {
+      "text": "the",
+      "start": 13.26,
+      "end": 13.54
+    },
+    {
+      "text": "blue",
+      "start": 13.54,
+      "end": 13.76
+    },
+    {
+      "text": "planet.",
+      "start": 13.76,
+      "end": 14.18
+    },
+    {
+      "text": "Our",
+      "start": 14.82,
+      "end": 15.08
+    },
+    {
+      "text": "atmosphere",
+      "start": 15.08,
+      "end": 15.6
+    },
+    {
+      "text": "protects",
+      "start": 15.6,
+      "end": 16.02
+    },
+    {
+      "text": "us",
+      "start": 16.02,
+      "end": 16.32
+    },
+    {
+      "text": "from",
+      "start": 16.32,
+      "end": 16.62
+    },
+    {
+      "text": "harmful",
+      "start": 16.62,
+      "end": 17.02
+    },
+    {
+      "text": "radiation",
+      "start": 17.02,
+      "end": 17.66
+    },
+    {
+      "text": "and",
+      "start": 17.66,
+      "end": 18.38
+    },
+    {
+      "text": "helps",
+      "start": 18.38,
+      "end": 18.7
+    },
+    {
+      "text": "regulate",
+      "start": 18.7,
+      "end": 19.2
+    },
+    {
+      "text": "the",
+      "start": 19.2,
+      "end": 19.46
+    },
+    {
+      "text": "temperature",
+      "start": 19.46,
+      "end": 19.94
+    },
+    {
+      "text": "so",
+      "start": 19.94,
+      "end": 20.44
+    },
+    {
+      "text": "we",
+      "start": 20.44,
+      "end": 20.74
+    },
+    {
+      "text": "can",
+      "start": 20.74,
+      "end": 21.0
+    }
+  ]
+}

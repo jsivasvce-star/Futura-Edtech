@@ -1,0 +1,21 @@
+export const EAST_TRANSCRIPT = [
+  { "audioWord": "East.", "start": 0.0, "end": 0.58, "pageWordId": "E-title-1", "matchType": "matched" },
+  { "audioWord": "East", "start": 1.04, "end": 1.4, "pageWordId": "E-desc-1", "matchType": "matched" },
+  { "audioWord": "is", "start": 1.4, "end": 1.74, "pageWordId": "E-desc-2", "matchType": "matched" },
+  { "audioWord": "a", "start": 1.74, "end": 1.88, "pageWordId": "E-desc-3", "matchType": "matched" },
+  { "audioWord": "main", "start": 1.88, "end": 2.02, "pageWordId": "E-desc-4", "matchType": "matched" },
+  { "audioWord": "direction,", "start": 2.02, "end": 2.54, "pageWordId": "E-desc-5", "matchType": "matched" },
+  { "audioWord": "to", "start": 2.92, "end": 3.06, "pageWordId": "E-desc-6", "matchType": "matched" },
+  { "audioWord": "the", "start": 3.06, "end": 3.18, "pageWordId": "E-desc-7", "matchType": "matched" },
+  { "audioWord": "right", "start": 3.18, "end": 3.42, "pageWordId": "E-desc-8", "matchType": "matched" },
+  { "audioWord": "of", "start": 3.42, "end": 3.76, "pageWordId": "E-desc-9", "matchType": "matched" },
+  { "audioWord": "north.", "start": 3.76, "end": 3.96, "pageWordId": "E-desc-10", "matchType": "matched" },
+  { "audioWord": "The", "start": 4.72, "end": 4.88, "pageWordId": "E-desc-11", "matchType": "matched" },
+  { "audioWord": "sun", "start": 4.88, "end": 5.02, "pageWordId": "E-desc-12", "matchType": "matched" },
+  { "audioWord": "rises", "start": 5.02, "end": 5.42, "pageWordId": "E-desc-13", "matchType": "matched" },
+  { "audioWord": "in", "start": 5.42, "end": 5.7, "pageWordId": "E-desc-14", "matchType": "matched" },
+  { "audioWord": "the", "start": 5.7, "end": 5.9, "pageWordId": "E-desc-15", "matchType": "matched" },
+  { "audioWord": "east", "start": 5.9, "end": 6.12, "pageWordId": "E-desc-16", "matchType": "matched" },
+  { "audioWord": "every", "start": 6.12, "end": 6.52, "pageWordId": "E-desc-17", "matchType": "matched" },
+  { "audioWord": "morning.", "start": 6.52, "end": 6.82, "pageWordId": "E-desc-18", "matchType": "matched" }
+];

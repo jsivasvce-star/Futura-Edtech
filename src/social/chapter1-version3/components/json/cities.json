@@ -1,0 +1,107 @@
+{
+  "audio_file": "cities.mp3",
+  "duration": 7.602,
+  "language": "en",
+  "words": [
+    {
+      "text": "cities,",
+      "start": 0.0,
+      "end": 0.66
+    },
+    {
+      "text": "big",
+      "start": 1.18,
+      "end": 1.38
+    },
+    {
+      "text": "towns",
+      "start": 1.38,
+      "end": 1.7
+    },
+    {
+      "text": "where",
+      "start": 1.7,
+      "end": 1.94
+    },
+    {
+      "text": "many",
+      "start": 1.94,
+      "end": 2.2
+    },
+    {
+      "text": "people",
+      "start": 2.2,
+      "end": 2.5
+    },
+    {
+      "text": "live",
+      "start": 2.5,
+      "end": 2.7
+    },
+    {
+      "text": "and",
+      "start": 2.7,
+      "end": 3.02
+    },
+    {
+      "text": "work,",
+      "start": 3.02,
+      "end": 3.32
+    },
+    {
+      "text": "boundaries,",
+      "start": 3.64,
+      "end": 3.96
+    },
+    {
+      "text": "the",
+      "start": 4.62,
+      "end": 4.74
+    },
+    {
+      "text": "lines",
+      "start": 4.74,
+      "end": 4.92
+    },
+    {
+      "text": "on",
+      "start": 4.92,
+      "end": 5.14
+    },
+    {
+      "text": "the",
+      "start": 5.14,
+      "end": 5.28
+    },
+    {
+      "text": "map",
+      "start": 5.28,
+      "end": 5.5
+    },
+    {
+      "text": "that",
+      "start": 5.5,
+      "end": 5.86
+    },
+    {
+      "text": "separate",
+      "start": 5.86,
+      "end": 6.22
+    },
+    {
+      "text": "states",
+      "start": 6.22,
+      "end": 6.58
+    },
+    {
+      "text": "and",
+      "start": 6.58,
+      "end": 6.88
+    },
+    {
+      "text": "countries.",
+      "start": 6.88,
+      "end": 7.22
+    }
+  ]
+}

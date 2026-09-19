@@ -1,0 +1,322 @@
+{
+  "audio_file": "venus.mp3",
+  "duration": 23.902,
+  "language": "en",
+  "words": [
+    {
+      "text": "Venus.",
+      "start": 0.0,
+      "end": 0.68
+    },
+    {
+      "text": "Venus",
+      "start": 1.18,
+      "end": 1.54
+    },
+    {
+      "text": "is",
+      "start": 1.54,
+      "end": 1.88
+    },
+    {
+      "text": "the",
+      "start": 1.88,
+      "end": 2.06
+    },
+    {
+      "text": "second",
+      "start": 2.06,
+      "end": 2.28
+    },
+    {
+      "text": "planet",
+      "start": 2.28,
+      "end": 2.64
+    },
+    {
+      "text": "from",
+      "start": 2.64,
+      "end": 2.92
+    },
+    {
+      "text": "the",
+      "start": 2.92,
+      "end": 3.14
+    },
+    {
+      "text": "sun",
+      "start": 3.14,
+      "end": 3.38
+    },
+    {
+      "text": "and",
+      "start": 3.38,
+      "end": 3.94
+    },
+    {
+      "text": "is",
+      "start": 3.94,
+      "end": 4.2
+    },
+    {
+      "text": "similar",
+      "start": 4.2,
+      "end": 4.5
+    },
+    {
+      "text": "in",
+      "start": 4.5,
+      "end": 4.9
+    },
+    {
+      "text": "size",
+      "start": 4.9,
+      "end": 5.14
+    },
+    {
+      "text": "to",
+      "start": 5.14,
+      "end": 5.38
+    },
+    {
+      "text": "Earth.",
+      "start": 5.38,
+      "end": 5.64
+    },
+    {
+      "text": "It",
+      "start": 6.3,
+      "end": 6.38
+    },
+    {
+      "text": "is",
+      "start": 6.38,
+      "end": 6.62
+    },
+    {
+      "text": "the",
+      "start": 6.62,
+      "end": 6.74
+    },
+    {
+      "text": "hottest",
+      "start": 6.74,
+      "end": 7.0
+    },
+    {
+      "text": "planet",
+      "start": 7.0,
+      "end": 7.4
+    },
+    {
+      "text": "in",
+      "start": 7.4,
+      "end": 7.68
+    },
+    {
+      "text": "our",
+      "start": 7.68,
+      "end": 7.84
+    },
+    {
+      "text": "solar",
+      "start": 7.84,
+      "end": 8.12
+    },
+    {
+      "text": "system",
+      "start": 8.12,
+      "end": 8.6
+    },
+    {
+      "text": "because",
+      "start": 8.6,
+      "end": 9.2
+    },
+    {
+      "text": "of",
+      "start": 9.2,
+      "end": 9.4
+    },
+    {
+      "text": "a",
+      "start": 9.4,
+      "end": 9.6
+    },
+    {
+      "text": "thick",
+      "start": 9.6,
+      "end": 9.86
+    },
+    {
+      "text": "toxic",
+      "start": 9.86,
+      "end": 10.42
+    },
+    {
+      "text": "atmosphere",
+      "start": 10.42,
+      "end": 11.16
+    },
+    {
+      "text": "full",
+      "start": 11.16,
+      "end": 11.64
+    },
+    {
+      "text": "of",
+      "start": 11.64,
+      "end": 11.82
+    },
+    {
+      "text": "carbon",
+      "start": 11.82,
+      "end": 12.18
+    },
+    {
+      "text": "dioxide",
+      "start": 12.18,
+      "end": 12.84
+    },
+    {
+      "text": "that",
+      "start": 12.84,
+      "end": 13.48
+    },
+    {
+      "text": "traps",
+      "start": 13.48,
+      "end": 13.78
+    },
+    {
+      "text": "heat",
+      "start": 13.78,
+      "end": 14.08
+    },
+    {
+      "text": "like",
+      "start": 14.08,
+      "end": 14.38
+    },
+    {
+      "text": "a",
+      "start": 14.38,
+      "end": 14.58
+    },
+    {
+      "text": "greenhouse.",
+      "start": 14.58,
+      "end": 14.94
+    },
+    {
+      "text": "Venus",
+      "start": 15.76,
+      "end": 16.2
+    },
+    {
+      "text": "spins",
+      "start": 16.2,
+      "end": 16.6
+    },
+    {
+      "text": "in",
+      "start": 16.6,
+      "end": 16.82
+    },
+    {
+      "text": "the",
+      "start": 16.82,
+      "end": 16.98
+    },
+    {
+      "text": "opposite",
+      "start": 16.98,
+      "end": 17.3
+    },
+    {
+      "text": "direction",
+      "start": 17.3,
+      "end": 17.76
+    },
+    {
+      "text": "to",
+      "start": 17.76,
+      "end": 18.1
+    },
+    {
+      "text": "most",
+      "start": 18.1,
+      "end": 18.38
+    },
+    {
+      "text": "other",
+      "start": 18.38,
+      "end": 18.66
+    },
+    {
+      "text": "planets,",
+      "start": 18.66,
+      "end": 19.06
+    },
+    {
+      "text": "meaning",
+      "start": 19.56,
+      "end": 20.0
+    },
+    {
+      "text": "the",
+      "start": 20.0,
+      "end": 20.34
+    },
+    {
+      "text": "sun",
+      "start": 20.34,
+      "end": 20.52
+    },
+    {
+      "text": "rises",
+      "start": 20.52,
+      "end": 20.92
+    },
+    {
+      "text": "in",
+      "start": 20.92,
+      "end": 21.14
+    },
+    {
+      "text": "the",
+      "start": 21.14,
+      "end": 21.32
+    },
+    {
+      "text": "west",
+      "start": 21.32,
+      "end": 21.6
+    },
+    {
+      "text": "and",
+      "start": 21.6,
+      "end": 22.06
+    },
+    {
+      "text": "sets",
+      "start": 22.06,
+      "end": 22.28
+    },
+    {
+      "text": "in",
+      "start": 22.28,
+      "end": 22.58
+    },
+    {
+      "text": "the",
+      "start": 22.58,
+      "end": 22.76
+    },
+    {
+      "text": "east.",
+      "start": 22.76,
+      "end": 23.0
+    }
+  ]
+}

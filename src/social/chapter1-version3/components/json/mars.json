@@ -1,0 +1,332 @@
+{
+  "audio_file": "mars.mp3",
+  "duration": 25.861,
+  "language": "en",
+  "words": [
+    {
+      "text": "Mars.",
+      "start": 0.0,
+      "end": 0.64
+    },
+    {
+      "text": "Mars",
+      "start": 1.18,
+      "end": 1.42
+    },
+    {
+      "text": "is",
+      "start": 1.42,
+      "end": 1.72
+    },
+    {
+      "text": "the",
+      "start": 1.72,
+      "end": 1.94
+    },
+    {
+      "text": "fourth",
+      "start": 1.94,
+      "end": 2.14
+    },
+    {
+      "text": "planet",
+      "start": 2.14,
+      "end": 2.52
+    },
+    {
+      "text": "from",
+      "start": 2.52,
+      "end": 2.78
+    },
+    {
+      "text": "the",
+      "start": 2.78,
+      "end": 3.0
+    },
+    {
+      "text": "sun,",
+      "start": 3.0,
+      "end": 3.24
+    },
+    {
+      "text": "often",
+      "start": 3.9,
+      "end": 4.1
+    },
+    {
+      "text": "called",
+      "start": 4.1,
+      "end": 4.44
+    },
+    {
+      "text": "the",
+      "start": 4.44,
+      "end": 4.62
+    },
+    {
+      "text": "red",
+      "start": 4.62,
+      "end": 4.82
+    },
+    {
+      "text": "planet,",
+      "start": 4.82,
+      "end": 5.34
+    },
+    {
+      "text": "because",
+      "start": 5.7,
+      "end": 6.08
+    },
+    {
+      "text": "iron",
+      "start": 6.08,
+      "end": 6.5
+    },
+    {
+      "text": "oxide,",
+      "start": 6.5,
+      "end": 7.08
+    },
+    {
+      "text": "rust,",
+      "start": 7.3,
+      "end": 7.58
+    },
+    {
+      "text": "on",
+      "start": 7.78,
+      "end": 7.94
+    },
+    {
+      "text": "its",
+      "start": 7.94,
+      "end": 8.1
+    },
+    {
+      "text": "surface,",
+      "start": 8.1,
+      "end": 8.62
+    },
+    {
+      "text": "gives",
+      "start": 9.0,
+      "end": 9.18
+    },
+    {
+      "text": "it",
+      "start": 9.18,
+      "end": 9.52
+    },
+    {
+      "text": "a",
+      "start": 9.52,
+      "end": 9.64
+    },
+    {
+      "text": "reddish",
+      "start": 9.64,
+      "end": 9.94
+    },
+    {
+      "text": "appearance.",
+      "start": 9.94,
+      "end": 10.34
+    },
+    {
+      "text": "It",
+      "start": 10.96,
+      "end": 11.06
+    },
+    {
+      "text": "has",
+      "start": 11.06,
+      "end": 11.26
+    },
+    {
+      "text": "the",
+      "start": 11.26,
+      "end": 11.48
+    },
+    {
+      "text": "largest",
+      "start": 11.48,
+      "end": 11.8
+    },
+    {
+      "text": "volcano",
+      "start": 11.8,
+      "end": 12.24
+    },
+    {
+      "text": "in",
+      "start": 12.24,
+      "end": 12.54
+    },
+    {
+      "text": "the",
+      "start": 12.54,
+      "end": 12.7
+    },
+    {
+      "text": "solar",
+      "start": 12.7,
+      "end": 12.96
+    },
+    {
+      "text": "system,",
+      "start": 12.96,
+      "end": 13.38
+    },
+    {
+      "text": "Olympus",
+      "start": 13.92,
+      "end": 14.32
+    },
+    {
+      "text": "Mons",
+      "start": 14.32,
+      "end": 14.62
+    },
+    {
+      "text": "and",
+      "start": 14.62,
+      "end": 15.32
+    },
+    {
+      "text": "a",
+      "start": 15.32,
+      "end": 15.52
+    },
+    {
+      "text": "massive",
+      "start": 15.52,
+      "end": 15.84
+    },
+    {
+      "text": "canyon",
+      "start": 15.84,
+      "end": 16.3
+    },
+    {
+      "text": "called",
+      "start": 16.3,
+      "end": 16.68
+    },
+    {
+      "text": "Valles",
+      "start": 16.68,
+      "end": 17.14
+    },
+    {
+      "text": "Marineris.",
+      "start": 17.14,
+      "end": 17.92
+    },
+    {
+      "text": "Scientists",
+      "start": 18.54,
+      "end": 18.92
+    },
+    {
+      "text": "have",
+      "start": 18.92,
+      "end": 19.22
+    },
+    {
+      "text": "found",
+      "start": 19.22,
+      "end": 19.52
+    },
+    {
+      "text": "evidence",
+      "start": 19.52,
+      "end": 19.94
+    },
+    {
+      "text": "that",
+      "start": 19.94,
+      "end": 20.24
+    },
+    {
+      "text": "liquid",
+      "start": 20.24,
+      "end": 20.54
+    },
+    {
+      "text": "water",
+      "start": 20.54,
+      "end": 20.94
+    },
+    {
+      "text": "once",
+      "start": 20.94,
+      "end": 21.3
+    },
+    {
+      "text": "flowed",
+      "start": 21.3,
+      "end": 21.6
+    },
+    {
+      "text": "on",
+      "start": 21.6,
+      "end": 21.82
+    },
+    {
+      "text": "Mars,",
+      "start": 21.82,
+      "end": 22.16
+    },
+    {
+      "text": "making",
+      "start": 22.72,
+      "end": 22.94
+    },
+    {
+      "text": "it",
+      "start": 22.94,
+      "end": 23.24
+    },
+    {
+      "text": "a",
+      "start": 23.24,
+      "end": 23.38
+    },
+    {
+      "text": "key",
+      "start": 23.38,
+      "end": 23.58
+    },
+    {
+      "text": "focus",
+      "start": 23.58,
+      "end": 24.0
+    },
+    {
+      "text": "for",
+      "start": 24.0,
+      "end": 24.3
+    },
+    {
+      "text": "search",
+      "start": 24.3,
+      "end": 24.72
+    },
+    {
+      "text": "for",
+      "start": 24.72,
+      "end": 25.04
+    },
+    {
+      "text": "past",
+      "start": 25.04,
+      "end": 25.28
+    },
+    {
+      "text": "life.",
+      "start": 25.28,
+      "end": 25.54
+    }
+  ]
+}

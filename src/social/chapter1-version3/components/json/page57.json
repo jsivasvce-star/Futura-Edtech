@@ -1,0 +1,307 @@
+{
+  "audio_file": "page57.mp3",
+  "duration": 28.865,
+  "language": "en",
+  "words": [
+    {
+      "text": "finding",
+      "start": 0.0,
+      "end": 0.44
+    },
+    {
+      "text": "any",
+      "start": 0.44,
+      "end": 0.82
+    },
+    {
+      "text": "place,",
+      "start": 0.82,
+      "end": 1.26
+    },
+    {
+      "text": "put",
+      "start": 1.92,
+      "end": 2.16
+    },
+    {
+      "text": "the",
+      "start": 2.16,
+      "end": 2.44
+    },
+    {
+      "text": "parallels",
+      "start": 2.44,
+      "end": 2.72
+    },
+    {
+      "text": "and",
+      "start": 2.72,
+      "end": 2.98
+    },
+    {
+      "text": "the",
+      "start": 2.98,
+      "end": 3.1
+    },
+    {
+      "text": "meridians",
+      "start": 3.1,
+      "end": 3.48
+    },
+    {
+      "text": "together",
+      "start": 3.48,
+      "end": 4.02
+    },
+    {
+      "text": "and",
+      "start": 4.02,
+      "end": 4.5
+    },
+    {
+      "text": "they",
+      "start": 4.5,
+      "end": 4.76
+    },
+    {
+      "text": "form",
+      "start": 4.76,
+      "end": 5.08
+    },
+    {
+      "text": "a",
+      "start": 5.08,
+      "end": 5.48
+    },
+    {
+      "text": "complete",
+      "start": 5.48,
+      "end": 5.9
+    },
+    {
+      "text": "net,",
+      "start": 5.9,
+      "end": 6.2
+    },
+    {
+      "text": "the",
+      "start": 6.82,
+      "end": 7.04
+    },
+    {
+      "text": "global",
+      "start": 7.04,
+      "end": 7.34
+    },
+    {
+      "text": "grid",
+      "start": 7.34,
+      "end": 7.72
+    },
+    {
+      "text": "or",
+      "start": 7.72,
+      "end": 8.32
+    },
+    {
+      "text": "graticule.",
+      "start": 8.32,
+      "end": 9.48
+    },
+    {
+      "text": "Every",
+      "start": 9.68,
+      "end": 10.04
+    },
+    {
+      "text": "place",
+      "start": 10.04,
+      "end": 10.36
+    },
+    {
+      "text": "now",
+      "start": 10.36,
+      "end": 10.74
+    },
+    {
+      "text": "sits",
+      "start": 10.74,
+      "end": 11.06
+    },
+    {
+      "text": "where",
+      "start": 11.06,
+      "end": 11.64
+    },
+    {
+      "text": "one",
+      "start": 11.64,
+      "end": 11.98
+    },
+    {
+      "text": "line",
+      "start": 11.98,
+      "end": 12.24
+    },
+    {
+      "text": "of",
+      "start": 12.24,
+      "end": 12.46
+    },
+    {
+      "text": "latitude",
+      "start": 12.46,
+      "end": 13.02
+    },
+    {
+      "text": "crosses",
+      "start": 13.02,
+      "end": 13.72
+    },
+    {
+      "text": "one",
+      "start": 13.72,
+      "end": 14.16
+    },
+    {
+      "text": "line",
+      "start": 14.16,
+      "end": 14.52
+    },
+    {
+      "text": "of",
+      "start": 14.52,
+      "end": 14.84
+    },
+    {
+      "text": "longitude.",
+      "start": 14.84,
+      "end": 15.42
+    },
+    {
+      "text": "We",
+      "start": 15.92,
+      "end": 16.12
+    },
+    {
+      "text": "give",
+      "start": 16.12,
+      "end": 16.28
+    },
+    {
+      "text": "its",
+      "start": 16.28,
+      "end": 16.52
+    },
+    {
+      "text": "latitude",
+      "start": 16.52,
+      "end": 17.02
+    },
+    {
+      "text": "first,",
+      "start": 17.02,
+      "end": 17.52
+    },
+    {
+      "text": "then",
+      "start": 17.88,
+      "end": 18.18
+    },
+    {
+      "text": "its",
+      "start": 18.18,
+      "end": 18.48
+    },
+    {
+      "text": "longitude.",
+      "start": 18.48,
+      "end": 19.2
+    },
+    {
+      "text": "For",
+      "start": 19.56,
+      "end": 19.78
+    },
+    {
+      "text": "example,",
+      "start": 19.78,
+      "end": 20.34
+    },
+    {
+      "text": "New",
+      "start": 20.84,
+      "end": 21.0
+    },
+    {
+      "text": "Delhi",
+      "start": 21.0,
+      "end": 21.28
+    },
+    {
+      "text": "is",
+      "start": 21.28,
+      "end": 21.62
+    },
+    {
+      "text": "28",
+      "start": 21.62,
+      "end": 22.14
+    },
+    {
+      "text": ".6",
+      "start": 22.14,
+      "end": 22.9
+    },
+    {
+      "text": "degrees",
+      "start": 22.9,
+      "end": 23.3
+    },
+    {
+      "text": "north,",
+      "start": 23.3,
+      "end": 23.84
+    },
+    {
+      "text": "77",
+      "start": 24.22,
+      "end": 24.64
+    },
+    {
+      "text": ".2",
+      "start": 24.64,
+      "end": 25.38
+    },
+    {
+      "text": "degrees",
+      "start": 25.38,
+      "end": 25.7
+    },
+    {
+      "text": "east,",
+      "start": 25.7,
+      "end": 26.14
+    },
+    {
+      "text": "a",
+      "start": 26.6,
+      "end": 26.84
+    },
+    {
+      "text": "single",
+      "start": 26.84,
+      "end": 27.26
+    },
+    {
+      "text": "exact",
+      "start": 27.26,
+      "end": 28.06
+    },
+    {
+      "text": "address.",
+      "start": 28.06,
+      "end": 28.52
+    }
+  ]
+}

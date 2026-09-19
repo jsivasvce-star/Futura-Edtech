@@ -1,408 +1,553 @@
-import React from 'react';
-import aryabhataImg from './assets/aryabhata.jpg';
-import { ChevronRight } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { AUDIO_TRANSCRIPT as PAGE1_TRANSCRIPT, PAGE2_TRANSCRIPT } from './AryabhataTranscript';
+import { ChevronRight, ChevronLeft, BookOpen, Info, Link2, Layers, Sparkles, Play, Pause } from 'lucide-react';
+import page1Audio from '../audio/page1.mpeg?url';
+import page2Audio from '../audio/page2.mp3';
+import Earth3DGlobe from './Earth3DGlobe';
 
-export default function AryabhataPage({ onNext, isNextEnabled }) {
+const NAVY = '#0A2540';
+const AMBER = '#B45309';
+const MONO = '"IBM Plex Mono", "SF Mono", ui-monospace, Menlo, monospace';
+const SERIF = '"Fraunces", "Iowan Old Style", Palatino, Georgia, serif';
+const SANS = '"Space Grotesk", system-ui, -apple-system, sans-serif';
+
+const SLIDES = [
+  { title: 'The Spherical Earth', badge: 'Introduction' },
+  { title: 'Who was Āryabhaṭa?', badge: 'Section 1' }
+];
+
+const SLIDE_2_GRID = [
+  {
+    icon: '🌍',
+    badge: 'Key Fact 1 · Earth Shape',
+    title: 'The Earth is a Sphere',
+    desc: 'Stated clearly that the Earth is a round sphere floating in space, surrounded by an envelope of atmosphere rather than resting flat.'
+  },
+  {
+    icon: '🔄',
+    badge: 'Key Fact 2 · Rotation',
+    title: 'Rotation on Axis',
+    desc: 'Discovered that the Earth rotates on its own axis once every day, creating the continuous natural cycle of day, night and moving stars.'
+  },
+  {
+    icon: '📏',
+    badge: 'Key Fact 3 · Circumference',
+    title: "Earth's Dimensions",
+    desc: 'Calculated the circumference and diameter of the spherical Earth, astonishingly close to the measurements obtained by modern satellites.'
+  },
+  {
+    icon: '🌘',
+    badge: 'Key Fact 4 · Astronomy',
+    title: 'Eclipses & Geometry',
+    desc: 'Explained that the Moon shines by reflected sunlight, proved eclipses are cast by planetary shadows, and derived constant π ≈ 3.1416.'
+  }
+];
+
+const SLIDE_3_GRID = [
+  {
+    icon: '⏳',
+    badge: 'Key Fact 1 · Classical Era',
+    title: '476 – 550 CE',
+    desc: 'Lived and worked in ancient Kusumapura (Patliputra) over 1,500 years ago during the flourishing golden era of Indian science.'
+  },
+  {
+    icon: '📜',
+    badge: 'Key Fact 2 · Masterpiece',
+    title: 'The Āryabhaṭīya',
+    desc: 'Composed his world-renowned treatise on mathematics and astronomy in 499 CE at the young age of just 23 years.'
+  },
+  {
+    icon: '🗺️',
+    badge: 'Key Fact 3 · Coordinates',
+    title: 'Global Coordinates',
+    desc: 'Pioneered coordinate geometry methods using meridians of longitude and parallels of latitude to define precise locations on Earth.'
+  },
+  {
+    icon: '🕰️',
+    badge: 'Key Fact 4 · Time Systems',
+    title: 'Rotation & Time',
+    desc: "Connected the Earth's 360° rotational geometry (turning 15° every hour) to solar passage and geographical time variations."
+  }
+];
+
+const TIMELINE = [
+  { year: '476 CE', desc: 'Born' },
+  { year: '499 CE', desc: 'Āryabhaṭīya' },
+  { year: '~500 CE', desc: 'Earth spins' },
+  { year: '550 CE', desc: 'Legacy lives on' }
+];
+
+const cardBase = {
+  borderRadius: '16px',
+  boxSizing: 'border-box'
+};
+
+const WordRenderer = ({ text, idPrefix, defaultColor, highlightColor, activeWordId }) => {
+  const words = text.trim().split(/\s+/);
   return (
-    <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-      {/* ============ LEFT PAGE ============ */}
-      <div style={{ 
-        flex: 1,
-        height: '100%',
-        boxSizing: 'border-box',
-        background: 'linear-gradient(160deg, #F7F1E2, #EFE6D2)',
-        padding: 'clamp(20px, 2.6vw, 42px) clamp(20px, 2.6vw, 42px) 16px clamp(20px, 2.6vw, 42px)',
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'relative',
-        borderRight: '1px solid rgba(0,0,0,0.08)' // added subtle divider just in case
-      }}>
-        <div style={{
-          fontFamily: '"IBM Plex Mono", "SF Mono", ui-monospace, Menlo, monospace',
-          fontSize: 'clamp(10px, 1vw, 12px)',
-          letterSpacing: '.24em',
-          textTransform: 'uppercase',
-          color: '#F5A623',
-          fontWeight: 600
-        }}>
-          Chapter 1 · Class 6 Social Science
-        </div>
-        
-        <h1 style={{
-          fontFamily: '"Fraunces", "Iowan Old Style", Palatino, Georgia, serif',
-          fontWeight: 900,
-          color: '#0E3556',
-          fontSize: 'clamp(28px, 3.6vw, 50px)',
-          lineHeight: 1.02,
-          margin: '6px 0 0',
-          letterSpacing: '-.01em'
-        }}>
-          Locating Places<br/>on the Earth
-        </h1>
+    <>
+      {words.map((word, index) => {
+        const wordId = `${idPrefix}-${index + 1}`;
+        const isHighlighted = activeWordId === wordId;
+        const hasNewline = word.includes('\n');
+        const cleanWord = word.replace('\n', '');
 
-        <div style={{
-          position: 'relative',
-          flex: 1,
-          minHeight: 0,
-          margin: 'clamp(14px, 2vw, 26px) 0',
-          borderRadius: '14px',
-          overflow: 'hidden',
-          background: 'radial-gradient(120% 100% at 30% 20%, #123c60, #08213a)',
-          border: '1px solid rgba(14,53,86,.25)',
-          display: 'grid',
-          placeItems: 'center',
-          boxShadow: 'inset 0 0 60px rgba(0,0,0,.35)'
-        }}>
-          <span style={{
-            position: 'absolute',
-            right: '12px',
-            top: '12px',
-            fontFamily: '"IBM Plex Mono", "SF Mono", ui-monospace, Menlo, monospace',
-            fontSize: '9.5px',
-            letterSpacing: '.12em',
-            color: '#0a2a45',
-            background: '#F5A623',
-            padding: '5px 10px',
-            borderRadius: '999px',
-            fontWeight: 600,
-            zIndex: 10
-          }}>
-            ANCIENT INDIAN ASTRONOMER
-          </span>
-          
-          <svg style={{ width: '82%', height: '82%' }} viewBox="0 0 400 400" aria-label="Armillary sphere over a night sky">
-            {/* stars */}
-            <g fill="#cfe6f6">
-              <circle cx="60" cy="60" r="1.5"></circle><circle cx="120" cy="40" r="1"></circle><circle cx="330" cy="70" r="1.6"></circle>
-              <circle cx="360" cy="150" r="1"></circle><circle cx="40" cy="180" r="1.2"></circle><circle cx="300" cy="330" r="1.4"></circle>
-              <circle cx="90" cy="330" r="1"></circle><circle cx="200" cy="30" r="1.2"></circle><circle cx="370" cy="280" r="1"></circle>
-              <circle cx="30" cy="300" r="1.3"></circle><circle cx="250" cy="360" r="1"></circle><circle cx="150" cy="360" r="1.1"></circle>
-            </g>
-            {/* armillary sphere */}
-            <g fill="none" stroke="#7FD0F0" strokeWidth="1.4" strokeOpacity=".85">
-              <circle cx="200" cy="200" r="140" strokeOpacity=".5" style={{ transformOrigin: '200px 200px', animation: 'spin 40s linear infinite' }}></circle>
-              <ellipse cx="200" cy="200" rx="140" ry="52" transform="rotate(-22 200 200)"></ellipse>
-              <ellipse cx="200" cy="200" rx="52" ry="140"></ellipse>
-              <line x1="200" y1="44" x2="200" y2="356" stroke="#9fd8f2" strokeOpacity=".6"></line>
-              <line x1="60" y1="200" x2="340" y2="200" stroke="#F5A623" strokeOpacity=".8" strokeWidth="1.6"></line>
-            </g>
-            {/* earth */}
-            <circle cx="200" cy="200" r="20" fill="#123c60" stroke="#F5A623" strokeWidth="1.6"></circle>
-            <path d="M188 196 q7 -6 14 0 t10 4" fill="none" stroke="#7FD0F0" strokeWidth="1.2" strokeOpacity=".8"></path>
-            <circle cx="200" cy="200" r="20" fill="none" stroke="#7FD0F0" strokeWidth=".8" strokeOpacity=".5"></circle>
-          </svg>
-          
-          <span style={{
-            position: 'absolute',
-            left: '14px',
-            bottom: '12px',
-            fontFamily: '"IBM Plex Mono", "SF Mono", ui-monospace, Menlo, monospace',
-            fontSize: '10px',
-            letterSpacing: '.1em',
-            color: '#9fd0ea',
-            opacity: .85
-          }}>
-            Armillary sphere · a tool to model the heavens
-          </span>
-        </div>
+        return (
+          <React.Fragment key={index}>
+            <span 
+              data-word-id={wordId}
+              style={{ 
+                color: isHighlighted ? highlightColor : defaultColor, 
+                background: isHighlighted ? 'rgba(180, 83, 9, 0.1)' : 'transparent',
+                borderRadius: '4px',
+                padding: '0 2px',
+                transition: 'all 0.15s ease-out' 
+              }}>
+              {cleanWord}
+            </span>
+            {hasNewline ? <br /> : ' '}
+          </React.Fragment>
+        );
+      })}
+    </>
+  );
+};
 
-        <blockquote style={{
-          background: '#fff',
-          borderLeft: '4px solid #F5A623',
-          borderRadius: '12px',
-          padding: 'clamp(14px, 1.7vw, 22px)',
-          boxShadow: '0 8px 22px rgba(14,42,69,.08)',
-          margin: 0
-        }}>
-          <p style={{
-            fontFamily: '"Fraunces", "Iowan Old Style", Palatino, Georgia, serif',
-            fontStyle: 'italic',
-            fontSize: 'clamp(14px, 1.5vw, 19px)',
-            lineHeight: 1.5,
-            color: '#20303f',
-            margin: 0
-          }}>
-            "The globe of the Earth stands in space, made up of water, earth, fire and air and is spherical. ... It is surrounded by all creatures, terrestrial as well as aquatic."
-          </p>
-          <span style={{
-            display: 'block',
-            textAlign: 'right',
-            marginTop: '10px',
-            fontFamily: '"Space Grotesk", system-ui, -apple-system, sans-serif',
-            fontWeight: 700,
-            fontSize: '13px',
-            color: '#0E3556'
-          }}>
-            — Āryabhaṭa
-            <small style={{
-              display: 'block',
-              fontWeight: 400,
-              fontFamily: '"IBM Plex Mono", "SF Mono", ui-monospace, Menlo, monospace',
-              fontSize: '10px',
-              color: '#5c6b7a',
-              letterSpacing: '.06em'
-            }}>
-              Āryabhaṭīya · about 500 CE
-            </small>
-          </span>
-        </blockquote>
-      </div>
+const DEBUG_SYNC = false;
 
-      {/* ============ RIGHT PAGE ============ */}
-      <div style={{
-        flex: 1,
-        height: '100%',
-        boxSizing: 'border-box',
-        background: '#fff',
-        padding: 'clamp(20px, 2.6vw, 42px) clamp(20px, 2.6vw, 42px) 16px clamp(20px, 2.6vw, 42px)',
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: 0
-      }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px',
-          color: '#0E3556',
-          fontWeight: 700,
-          fontSize: 'clamp(17px, 2vw, 24px)'
-        }}>
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" style={{ flex: '0 0 auto' }}>
-            <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21.5z" stroke="#0E3556" strokeWidth="1.6"></path>
-            <path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5A2.5 2.5 0 0 1 20 21.5z" stroke="#0E3556" strokeWidth="1.6"></path>
-          </svg>
-          Historical Facts — Who was Āryabhaṭa?
-        </div>
+export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
+  const [slide, setSlide] = useState(0);
+  const [turnDir, setTurnDir] = useState('fwd'); // 'fwd' | 'back'
+  const isLast = slide === SLIDES.length - 1;
 
-        <div style={{
-          flex: 1,
-          minHeight: 0,
-          overflow: 'auto',
-          paddingRight: '6px',
-          marginTop: 'clamp(12px, 1.6vw, 18px)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'clamp(10px, 1.3vw, 14px)',
-          scrollbarWidth: 'thin',
-          scrollbarColor: '#d4deea transparent'
-        }}>
-          
-          <div style={{
-            background: 'linear-gradient(180deg, #f4f8ff, #eef4fd)',
-            border: '1px solid #e4ebf3',
-            borderLeft: '5px solid #2f6df0',
-            borderRadius: '14px',
-            padding: 'clamp(14px, 1.7vw, 20px)'
-          }}>
-            <h3 style={{
-              fontFamily: '"Fraunces", "Iowan Old Style", Palatino, Georgia, serif',
-              fontWeight: 600,
-              color: '#0E3556',
-              fontSize: 'clamp(19px, 2.1vw, 26px)',
-              marginBottom: '6px',
-              marginTop: 0
-            }}>
-              A pioneer of Indian astronomy &amp; mathematics
-            </h3>
-            <p style={{
-              color: '#5c6b7a',
-              fontSize: 'clamp(13px, 1.35vw, 15px)',
-              lineHeight: 1.5,
-              margin: 0
-            }}>
-              Working around 500 CE, Āryabhaṭa asked the same questions this chapter asks — what shape is the Earth, why do the stars appear to move, and how do we measure our planet? His answers were centuries ahead of their time.
-            </p>
-          </div>
+  // Audio Karaoke State
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordId, setActiveWordId] = useState(null);
+  const [debugData, setDebugData] = useState(null);
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 'clamp(10px, 1.3vw, 14px)'
-          }}>
-            <FactBlock 
-              label="Lived Around" labelColor="#2f6df0"
-              icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#2f6df0" strokeWidth="1.7"></circle><path d="M12 7v5l3 2" stroke="#2f6df0" strokeWidth="1.7" strokeLinecap="round"></path></svg>}
-              title="476 – 550 CE"
-              note="About 1,500 years ago"
-            />
-            <FactBlock 
-              label="Famous Book" labelColor="#7c5cff"
-              icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 4h11a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2z" stroke="#7c5cff" strokeWidth="1.7"></path><path d="M5 16h13" stroke="#7c5cff" strokeWidth="1.7"></path></svg>}
-              title="The Āryabhaṭīya"
-              note="Composed in 499 CE, at just 23"
-            />
-            <FactBlock 
-              label="Key Idea 1" labelColor="#12a15f"
-              icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#12a15f" strokeWidth="1.7"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18" stroke="#12a15f" strokeWidth="1.4"></path></svg>}
-              title="The Earth is a sphere"
-              note="Not flat — a spinning globe in space"
-            />
-            <FactBlock 
-              label="Key Idea 2" labelColor="#e0781f"
-              icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="#e0781f" strokeWidth="1.7"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2" stroke="#e0781f" strokeWidth="1.5" strokeLinecap="round"></path></svg>}
-              title="The Earth spins on its axis"
-              note="Why we get day &amp; night, and why stars seem to move"
-            />
-            <FactBlock 
-              label="Measured" labelColor="#0E3556"
-              icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#0E3556" strokeWidth="1.7"></circle><path d="M12 3v18" stroke="#0E3556" strokeWidth="1.4" strokeDasharray="2 2"></path></svg>}
-              title="Earth's size"
-              note="Estimated the circumference astonishingly close to today's value"
-            />
-            <FactBlock 
-              label="Explained" labelColor="#c98511"
-              icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="12" r="6" stroke="#c98511" strokeWidth="1.7"></circle><circle cx="15" cy="12" r="6" fill="#fff" stroke="#c98511" strokeWidth="1.7"></circle></svg>}
-              title="Eclipses & moonlight"
-              note="By shadows, not myth; the Moon shines by reflected sunlight. Also gave π ≈ 3.1416"
-            />
-          </div>
+  useEffect(() => {
+    window.validateNarrationSync = (s = slide) => {
+      const transcript = s === 0 ? PAGE1_TRANSCRIPT : PAGE2_TRANSCRIPT;
+      console.log("AUDIO WORD | START | END | PAGE WORD | MATCH TYPE");
+      console.log("--------------------------------------------------");
+      transcript.forEach(w => {
+        console.log(`${w.audioWord.padEnd(12)} | ${w.start.toFixed(2).padStart(5)} | ${w.end.toFixed(2).padStart(5)} | ${(w.pageWordId || '—').padEnd(12)} | ${w.matchType}`);
+      });
+    };
+    return () => { delete window.validateNarrationSync; };
+  }, [slide]);
 
-          <div style={{
-            background: '#fff8ec',
-            border: '1px solid #f5e2bf',
-            borderLeft: '5px solid #F5A623',
-            borderRadius: '14px',
-            padding: 'clamp(14px, 1.7vw, 20px)'
-          }}>
-            <h4 style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              color: '#b4761c',
-              fontSize: 'clamp(14px, 1.5vw, 17px)',
-              fontWeight: 700,
-              margin: '0 0 8px 0'
-            }}>
-              ◎ Why this matters for our chapter
-            </h4>
-            
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontSize: 'clamp(12.5px, 1.3vw, 14.5px)', color: '#20303f', lineHeight: 1.45, marginBottom: '7px' }}>
-              <span style={{ flex: '0 0 auto', width: '7px', height: '7px', borderRadius: '50%', background: '#F5A623', marginTop: '6px' }}></span>
-              <span>A <b style={{ color: '#0E3556' }}>spherical Earth</b> is exactly why we use a <b style={{ color: '#0E3556' }}>globe</b> with latitude and longitude to locate any place.</span>
-            </div>
-            
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontSize: 'clamp(12.5px, 1.3vw, 14.5px)', color: '#20303f', lineHeight: 1.45, marginBottom: '7px' }}>
-              <span style={{ flex: '0 0 auto', width: '7px', height: '7px', borderRadius: '50%', background: '#F5A623', marginTop: '6px' }}></span>
-              <span>Because the Earth <b style={{ color: '#0E3556' }}>spins once a day</b> (360° in 24 hours), the world turns <b style={{ color: '#0E3556' }}>15° every hour</b> — the idea behind <b style={{ color: '#0E3556' }}>time zones</b> and IST.</span>
-            </div>
-          </div>
+  useEffect(() => {
+    // When changing slides, stop the audio and reset state
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    setIsPlaying(false);
+    setActiveWordId(null);
+  }, [slide]);
 
-          <div style={{
-            background: 'linear-gradient(180deg, #effaf3, #e8f6ee)',
-            border: '1px solid #cdeede',
-            borderRadius: '14px',
-            padding: 'clamp(14px, 1.7vw, 20px)'
-          }}>
-            <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#12a15f', fontSize: 'clamp(15px, 1.6vw, 18px)', fontWeight: 700, margin: '0 0 7px 0' }}>
-              🛡 His contribution
-            </h4>
-            <p style={{ color: '#2b5a44', fontSize: 'clamp(13px, 1.35vw, 15px)', lineHeight: 1.5, margin: 0 }}>
-              Āryabhaṭa's work helped people understand mathematics, astronomy and the shape and motion of the Earth — laying groundwork that map-makers and timekeepers still rely on today.
-            </p>
-          </div>
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 0, padding: '4px 2px 2px' }}>
-            <TimelinePoint year="476 CE" desc="Born" first />
-            <TimelinePoint year="499 CE" desc="Āryabhaṭīya" />
-            <TimelinePoint year="~500 CE" desc="Earth spins" />
-            <TimelinePoint year="550 CE" desc="Legacy lives on" last />
-          </div>
-        </div>
-
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          paddingTop: '10px',
-          marginTop: '0',
-          borderTop: '1px solid #e4ebf3'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#5c6b7a', fontWeight: 600, fontSize: '13px' }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21.5z" stroke="#5c6b7a" strokeWidth="1.5"></path><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5A2.5 2.5 0 0 1 20 21.5z" stroke="#5c6b7a" strokeWidth="1.5"></path></svg>
-            Page 1 of 2
-          </div>
-          {isNextEnabled !== false && (
-            <button 
-              onClick={onNext}
-              style={{
-                fontFamily: '"Space Grotesk", system-ui, -apple-system, sans-serif',
-                fontWeight: 700,
-                border: 'none',
-                cursor: 'pointer',
-                background: '#0E3556',
-                color: '#fff',
-                padding: '12px 24px',
-                borderRadius: '999px',
-                fontSize: '14px',
-                display: 'inline-flex',
-                gap: '8px',
-                alignItems: 'center',
-                transition: 'all .2s',
-                boxShadow: '0 10px 24px rgba(14,53,86,.25)'
-              }}
-              onMouseOver={e => { e.currentTarget.style.background = '#124070'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-              onMouseOut={e => { e.currentTarget.style.background = '#0E3556'; e.currentTarget.style.transform = 'translateY(0)'; }}
-            >
-              Next
-              <ChevronRight size={16} strokeWidth={2.5} />
-            </button>
-          )}
-        </div>
-      </div>
+  const handleTimeUpdate = () => {
+    const activeTranscript = slide === 0 ? PAGE1_TRANSCRIPT : PAGE2_TRANSCRIPT;
+    if (audioRef.current) {
+      const time = audioRef.current.currentTime;
+      // Find the segment containing currentTime
+      const activeWord = activeTranscript.find(w => time >= w.start && time < w.end);
       
+      let newActiveId = null;
+      if (activeWord && activeWord.matchType === 'matched') {
+        newActiveId = activeWord.pageWordId;
+      }
+      
+      if (newActiveId !== activeWordId) {
+        setActiveWordId(newActiveId);
+      }
+
+      if (DEBUG_SYNC) {
+        setDebugData({
+          time: time,
+          word: activeWord ? activeWord.audioWord : 'NONE',
+          start: activeWord ? activeWord.start : 0,
+          end: activeWord ? activeWord.end : 0,
+          pageWord: (activeWord && activeWord.pageWordId) ? activeWord.pageWordId : 'NONE',
+          matchType: activeWord ? activeWord.matchType : 'NONE',
+          highlight: newActiveId ? 'ACTIVE' : 'NONE'
+        });
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordId(null);
+    if (DEBUG_SYNC) setDebugData(null);
+  };
+
+  const goToSlide = (target) => {
+    if (target < 0 || target >= SLIDES.length) return;
+    setTurnDir(target > slide ? 'fwd' : 'back');
+    setSlide(target);
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', minHeight: 0, background: '#fff', overflow: 'hidden' }}>
       <style>{`
-        @keyframes spin { to { transform: rotate(360deg) } }
+        @keyframes bookTurnFwd {
+          0%   { opacity: 0; transform: perspective(1200px) rotateY(-14deg) translateX(24px) scale(0.98); }
+          60%  { opacity: 1; }
+          100% { opacity: 1; transform: perspective(1200px) rotateY(0deg) translateX(0) scale(1); }
+        }
+        @keyframes bookTurnBack {
+          0%   { opacity: 0; transform: perspective(1200px) rotateY(14deg) translateX(-24px) scale(0.98); }
+          60%  { opacity: 1; }
+          100% { opacity: 1; transform: perspective(1200px) rotateY(0deg) translateX(0) scale(1); }
+        }
+        .book-slide-fwd { animation: bookTurnFwd 0.38s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+        .book-slide-back { animation: bookTurnBack 0.38s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
       `}</style>
-    </div>
-  );
-}
 
-function FactBlock({ label, labelColor, icon, title, note }) {
-  return (
-    <div style={{ background: '#F3F7FC', border: '1px solid #e4ebf3', borderRadius: '12px', padding: 'clamp(12px, 1.5vw, 17px)', position: 'relative' }}>
-      <div style={{ fontFamily: '"IBM Plex Mono", "SF Mono", ui-monospace, Menlo, monospace', fontSize: '10px', letterSpacing: '.14em', textTransform: 'uppercase', fontWeight: 600, marginBottom: '8px', color: labelColor }}>
-        {label}
-      </div>
-      <div style={{ display: 'flex', gap: '9px', alignItems: 'flex-start', fontWeight: 700, color: '#20303f', fontSize: 'clamp(14px, 1.5vw, 17px)', lineHeight: 1.25 }}>
-        <div style={{ flex: '0 0 auto', marginTop: '1px' }}>{icon}</div>
-        {title}
-      </div>
-      <div style={{ color: '#5c6b7a', fontSize: '12px', marginTop: '5px', fontWeight: 400, lineHeight: 1.4 }}>
-        {note}
-      </div>
-    </div>
-  );
-}
+      {/* Audio Element */}
+      <audio 
+        key={`audio-${slide}`}
+        ref={audioRef}
+        src={slide === 0 ? page1Audio : page2Audio}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
 
-function TimelinePoint({ year, desc, first, last }) {
-  return (
-    <div style={{ flex: 1, textAlign: 'center', position: 'relative' }}>
+      {DEBUG_SYNC && debugData && isPlaying && (
+        <div style={{ position: 'fixed', top: '20px', right: '20px', background: 'rgba(0,0,0,0.85)', color: '#0F0', padding: '16px', borderRadius: '8px', fontFamily: 'monospace', fontSize: '14px', zIndex: 9999, boxShadow: '0 4px 12px rgba(0,0,0,0.3)', minWidth: '250px' }}>
+          <div>Audio time: {debugData.time.toFixed(3)}s</div>
+          <div style={{ marginTop: '8px', color: '#FFF' }}>Audio word:</div>
+          <div style={{ color: '#0FF', fontSize: '16px', fontWeight: 'bold' }}>{debugData.word}</div>
+          {debugData.word !== 'NONE' && (
+            <div style={{ marginTop: '4px', color: '#AAA' }}>Timing:<br/>{debugData.start.toFixed(3)} → {debugData.end.toFixed(3)}</div>
+          )}
+          <div style={{ marginTop: '8px', color: '#FFF' }}>Matched page word:</div>
+          <div style={{ color: debugData.pageWord !== 'NONE' ? '#0F0' : '#F00' }}>{debugData.pageWord}</div>
+          <div style={{ marginTop: '8px', color: '#FFF' }}>Match type:</div>
+          <div style={{ color: debugData.matchType === 'matched' ? '#0F0' : '#FA0' }}>{debugData.matchType.toUpperCase()}</div>
+          <div style={{ marginTop: '8px', color: '#FFF' }}>Highlight:</div>
+          <div style={{ color: debugData.highlight === 'ACTIVE' ? '#0F0' : '#F00', fontWeight: 'bold' }}>{debugData.highlight}</div>
+        </div>
+      )}
+
+      {/* Main Content Area */}
+      <div style={{ flex: 1, minHeight: 0, overflow: 'hidden', position: 'relative', display: 'flex', flexDirection: 'column', padding: '24px 28px 10px' }}>
+        <div key={slide} className={turnDir === 'fwd' ? 'book-slide-fwd' : 'book-slide-back'} style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
+
+          {/* SLIDE 0: Introduction (Globe) */}
+          {slide === 0 && (
+            <div style={{ display: 'flex', height: '100%', gap: '24px' }}>
+              {/* Left Side: 60% */}
+              <div style={{ 
+                flex: '0 0 60%', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                height: '100%', 
+                gap: '16px',
+                background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)',
+                padding: '24px 28px',
+                borderRadius: '16px',
+                border: '1.5px solid #E5D5C0',
+                boxShadow: '0 8px 24px rgba(14,42,69,.08)'
+              }}>
+                <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: '32px', letterSpacing: '.12em', textTransform: 'uppercase', color: '#B45309', marginBottom: '6px' }}>
+                    Chapter 1 · <WordRenderer text="Class 6 Social Science" idPrefix="ch" activeWordId={activeWordId} defaultColor="#B45309" highlightColor="#92400E" />
+                  </div>
+                  <h1 style={{ fontFamily: SERIF, fontWeight: 900, color: NAVY, fontSize: '32px', lineHeight: 1.2, margin: 0, letterSpacing: '-.01em' }}>
+                    <WordRenderer text="Locating Places on the Earth" idPrefix="ti" activeWordId={activeWordId} defaultColor={NAVY} highlightColor="#2563EB" />
+                  </h1>
+                </div>
+                <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', flex: '1 1 auto', minHeight: 0 }}>
+                  <Earth3DGlobe />
+                </div>
+              </div>
+
+              {/* Right Side: 40% */}
+              <div style={{ flex: '1 1 auto', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '20px' }}>
+                <div style={{ 
+                  ...cardBase, 
+                  background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)', 
+                  boxShadow: '0 8px 24px rgba(14,42,69,.08)', 
+                  padding: '24px 28px', 
+                  border: '1.5px solid #E5D5C0',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}>
+                  <p style={{ fontFamily: SANS, fontStyle: 'italic', fontWeight: 600, color: NAVY, fontSize: '21px', lineHeight: 1.5, margin: '0 0 12px', textAlign: 'left' }}>
+                    <WordRenderer 
+                      text="The globe of the Earth stands in space, made up of water, earth, fire and air and is spherical." 
+                      idPrefix="q1" 
+                      activeWordId={activeWordId} 
+                      defaultColor={NAVY} 
+                      highlightColor="#B45309" 
+                    />
+                    {' '}…{' '}
+                    <WordRenderer 
+                      text="It is surrounded by all creatures." 
+                      idPrefix="q2" 
+                      activeWordId={activeWordId} 
+                      defaultColor={NAVY} 
+                      highlightColor="#B45309" 
+                    />
+                  </p>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontFamily: SANS, fontWeight: 800, color: NAVY, fontSize: '16px' }}>— Āryabhaṭa</div>
+                    <div style={{ fontFamily: SANS, color: '#B45309', fontSize: '13px', marginTop: '4px', fontWeight: 600 }}>Āryabhaṭīya · about 500 CE</div>
+                  </div>
+                </div>
+
+                <div style={{ 
+                  ...cardBase, 
+                  background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)', 
+                  boxShadow: '0 8px 24px rgba(14,42,69,.08)', 
+                  padding: '32px 32px', 
+                  border: '1.5px solid #E5D5C0',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '16px',
+                  flex: 1
+                }}>
+                  <h3 style={{ fontFamily: SERIF, fontWeight: 900, color: NAVY, fontSize: '30px', margin: 0 }}>Āryabhaṭa's Discoveries</h3>
+                  <ol style={{ fontFamily: SANS, color: NAVY, fontSize: '21px', fontWeight: 600, margin: 0, paddingLeft: '28px', display: 'flex', flexDirection: 'column', gap: '20px', lineHeight: 1.5 }}>
+                    <li>
+                      <WordRenderer 
+                        text="The Earth is a giant, round ball floating in space." 
+                        idPrefix="f1a" 
+                        activeWordId={activeWordId} 
+                        defaultColor={NAVY} 
+                        highlightColor="#B45309" 
+                      /> <span style={{ fontWeight: 400, color: '#3D2E24' }}>
+                        <WordRenderer 
+                          text="This means that the Earth is not flat." 
+                          idPrefix="f1b" 
+                          activeWordId={activeWordId} 
+                          defaultColor="#3D2E24" 
+                          highlightColor="#B45309" 
+                        /> <WordRenderer 
+                          text="It is shaped like a ball, just like the globe we use in our classrooms." 
+                          idPrefix="f1c" 
+                          activeWordId={activeWordId} 
+                          defaultColor="#3D2E24" 
+                          highlightColor="#B45309" 
+                        />
+                      </span>
+                    </li>
+                    <li>
+                      <WordRenderer 
+                        text="The Earth spins around like a top, giving us day and night." 
+                        idPrefix="f2a" 
+                        activeWordId={activeWordId} 
+                        defaultColor={NAVY} 
+                        highlightColor="#B45309" 
+                      /> <span style={{ fontWeight: 400, color: '#3D2E24' }}>
+                        <WordRenderer 
+                          text="As the Earth spins, the side facing the Sun has daytime, while the side facing away from the Sun has nighttime." 
+                          idPrefix="f2b" 
+                          activeWordId={activeWordId} 
+                          defaultColor="#3D2E24" 
+                          highlightColor="#B45309" 
+                        />
+                      </span>
+                    </li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* SLIDE 1: Overview */}
+          {slide === 1 && (
+            <div style={{ display: 'flex', height: '100%', gap: '24px' }}>
+              {/* Left Side: 60% */}
+              <div style={{ 
+                flex: '0 0 60%', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                height: '100%', 
+                gap: '16px',
+                background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)',
+                padding: '24px 28px',
+                borderRadius: '16px',
+                border: '1.5px solid #E5D5C0',
+                boxShadow: '0 8px 24px rgba(14,42,69,.08)'
+              }}>
+                <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: SANS, fontWeight: 800, fontSize: '18px', letterSpacing: '.14em', textTransform: 'uppercase', color: AMBER, marginBottom: '6px' }}>
+                    <Sparkles size={16} color={AMBER} /> {SLIDES[slide].badge}
+                  </div>
+                  <h2 style={{ display: 'flex', alignItems: 'center', gap: '10px', fontFamily: SERIF, fontWeight: 900, color: NAVY, fontSize: '32px', lineHeight: 1.2, margin: 0 }}>
+                    <BookOpen size={26} color="#3b6ea5" strokeWidth={2.2} />
+                    Historical Facts — <WordRenderer text="Who was Āryabhaṭa?" idPrefix="t" activeWordId={activeWordId} defaultColor={NAVY} highlightColor="#2563EB" />
+                  </h2>
+                </div>
+                <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', flex: '1 1 auto', minHeight: 0 }}>
+                  <img src="/images/aryabhata_portrait.jpg" alt="Aryabhata Portrait" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+              </div>
+
+              {/* Right Side: 40% */}
+              <div style={{ flex: '1 1 auto', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '20px' }}>
+                <div style={{
+                  ...cardBase,
+                  background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)',
+                  border: '1.5px solid #E5D5C0',
+                  padding: '24px 28px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '14px',
+                  boxShadow: '0 8px 24px rgba(14,42,69,.08)'
+                }}>
+                  <h3 style={{ fontFamily: SERIF, fontWeight: 900, color: '#B45309', fontSize: '30px', margin: 0, lineHeight: 1.3 }}>
+                    <WordRenderer text="A pioneer of Indian astronomy & mathematics" idPrefix="s" activeWordId={activeWordId} defaultColor="#B45309" highlightColor="#92400E" />
+                  </h3>
+                  <p style={{ fontFamily: SANS, fontWeight: 600, color: '#3D2E24', fontSize: '19px', lineHeight: 1.65, margin: 0, textAlign: 'justify', textJustify: 'inter-word' }}>
+                    <WordRenderer text="Working around 500 CE, Āryabhaṭa asked fundamental questions — what shape is the Earth, why do stars appear to move, and how do we measure our planet?" idPrefix="p1" activeWordId={activeWordId} defaultColor="#3D2E24" highlightColor="#B45309" />
+                  </p>
+                  <p style={{ fontFamily: SANS, fontWeight: 600, color: '#3D2E24', fontSize: '19px', lineHeight: 1.65, margin: 0, textAlign: 'justify', textJustify: 'inter-word' }}>
+                    <WordRenderer text="At just 23 years of age, he composed the famous" idPrefix="p2A" activeWordId={activeWordId} defaultColor="#3D2E24" highlightColor="#B45309" /> <b style={{ color: '#1A0D05', fontWeight: 800 }}><WordRenderer text="Āryabhaṭīya" idPrefix="p2B" activeWordId={activeWordId} defaultColor="#1A0D05" highlightColor="#B45309" /></b> <WordRenderer text="in 499 CE. It became a foundational work influencing generations of scholars." idPrefix="p2C" activeWordId={activeWordId} defaultColor="#3D2E24" highlightColor="#B45309" />
+                  </p>
+                </div>
+
+                <div style={{ 
+                  ...cardBase,
+                  background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)', 
+                  border: '1.5px solid #E5D5C0', 
+                  padding: '20px 24px', 
+                  boxShadow: '0 8px 24px rgba(14,42,69,.08)', 
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '14px'
+                }}>
+                  <div style={{ fontFamily: SERIF, fontWeight: 900, color: '#2C1A0E', fontSize: '20px' }}>
+                    Timeline of Āryabhaṭa
+                  </div>
+                  <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: '10px' }}>
+                    <div style={{ position: 'absolute', left: '6%', right: '6%', top: '9px', height: '3px', background: 'linear-gradient(90deg, #B45309 0%, #D79A2B 50%, #B45309 100%)', borderRadius: '2px' }} />
+                    {TIMELINE.map(t => (
+                      <div key={t.year} style={{ position: 'relative', textAlign: 'center', flex: 1 }}>
+                        <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#B45309', margin: '0 auto 8px', border: '3px solid #FAF6EE', boxShadow: '0 3px 8px rgba(180,83,9,0.35)' }} />
+                        <div style={{ fontFamily: MONO, fontWeight: 900, color: '#2C1A0E', fontSize: '16px' }}>{t.year}</div>
+                        <div style={{ fontFamily: SANS, color: '#3D2E24', fontSize: '14px', marginTop: '4px', fontWeight: 800 }}>{t.desc}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+        </div>
+      </div>
+
+      {/* ============ BOOK SLIDE FOOTER ============ */}
       <div style={{
-        position: 'absolute',
-        top: '6px',
-        left: first ? '50%' : 0,
-        right: last ? '50%' : 0,
-        height: '2px',
-        background: '#dbe4ef'
-      }}></div>
-      <i style={{
-        position: 'relative',
-        display: 'block',
-        width: '11px',
-        height: '11px',
-        borderRadius: '50%',
-        background: '#F5A623',
-        margin: '0 auto 7px',
-        zIndex: 1,
-        boxShadow: '0 0 0 3px #fff'
-      }}></i>
-      <b style={{ display: 'block', fontFamily: '"IBM Plex Mono", "SF Mono", ui-monospace, Menlo, monospace', fontSize: '11px', color: '#0E3556' }}>
-        {year}
-      </b>
-      <span style={{ display: 'block', fontSize: '10px', color: '#5c6b7a', lineHeight: 1.2 }}>
-        {desc}
-      </span>
+        flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        gap: '14px', padding: '16px 28px', borderTop: '1px solid #E4EBF3', background: '#f8fafc'
+      }}>
+        {/* Page Indicators */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <span style={{ fontFamily: SANS, fontWeight: 700, color: '#5c6b7a', fontSize: '15.5px' }}>
+            Slide {slide + 1} of {SLIDES.length}
+          </span>
+          <span style={{ display: 'inline-flex', gap: '8px' }}>
+            {SLIDES.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => goToSlide(i)}
+                aria-label={`Go to slide ${i + 1}`}
+                style={{
+                  width: '11px', height: '11px', padding: 0, borderRadius: '50%', border: 'none',
+                  cursor: 'pointer', background: i === slide ? '#D79A2B' : '#DCE4EC',
+                  transition: 'all .25s', transform: i === slide ? 'scale(1.2)' : 'scale(1)'
+                }}
+              />
+            ))}
+          </span>
+        </div>
+
+        {/* Nav Buttons parallel */}
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          
+          {/* Audio Speaker Button */}
+          <button
+            type="button"
+            onClick={toggleAudio}
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              width: '46px', height: '46px', borderRadius: '50%',
+              background: isPlaying ? '#FEF3C7' : '#F1F5F9',
+              border: isPlaying ? '2px solid #F59E0B' : '2px solid #CBD5E1',
+              color: isPlaying ? '#D97706' : '#64748B',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              marginRight: '8px',
+              boxShadow: isPlaying ? '0 4px 12px rgba(245,158,11,0.2)' : 'none'
+            }}
+            title={isPlaying ? "Pause Narration" : "Play Narration"}
+          >
+            {isPlaying ? <Pause size={22} strokeWidth={2.5} /> : <Play size={22} strokeWidth={2.5} fill="currentColor" />}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              if (slide > 0) {
+                goToSlide(slide - 1);
+              } else if (onBack) {
+                onBack();
+              }
+            }}
+            disabled={slide === 0 && !onBack}
+            style={{
+              fontFamily: SANS, fontWeight: 700, fontSize: '15.5px',
+              display: 'inline-flex', alignItems: 'center', gap: '8px',
+              background: '#0E3556', color: '#fff', border: 'none',
+              borderRadius: '999px', padding: '12px 24px',
+              cursor: (slide === 0 && !onBack) ? 'not-allowed' : 'pointer',
+              opacity: (slide === 0 && !onBack) ? 0.35 : 1,
+              boxShadow: '0 6px 16px rgba(14,42,69,.22)'
+            }}
+          >
+            <ChevronLeft size={18} strokeWidth={2.5} /> Back
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              if (isLast) { if (onNext) onNext(); return; }
+              goToSlide(slide + 1);
+            }}
+            disabled={isLast && isNextEnabled === false}
+            style={{
+              fontFamily: SANS, fontWeight: 700, fontSize: '15.5px',
+              display: 'inline-flex', alignItems: 'center', gap: '8px',
+              background: isLast ? '#16a34a' : '#F59E0B', color: '#fff', border: 'none',
+              borderRadius: '999px', padding: '12px 26px',
+              cursor: isLast && isNextEnabled === false ? 'not-allowed' : 'pointer',
+              opacity: isLast && isNextEnabled === false ? 0.45 : 1,
+              boxShadow: isLast ? '0 6px 16px rgba(22,163,74,.3)' : '0 6px 16px rgba(245,158,11,.38)'
+            }}
+          >
+            {isLast ? 'Continue' : 'Next'} <ChevronRight size={18} strokeWidth={2.5} />
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
-

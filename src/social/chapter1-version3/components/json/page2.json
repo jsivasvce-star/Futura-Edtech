@@ -1,0 +1,437 @@
+{
+  "audio_file": "page2.mp3",
+  "duration": 42.031,
+  "language": "en",
+  "words": [
+    {
+      "text": "Who",
+      "start": 0.0,
+      "end": 0.26
+    },
+    {
+      "text": "was",
+      "start": 0.26,
+      "end": 0.72
+    },
+    {
+      "text": "Aryabhata?",
+      "start": 0.72,
+      "end": 1.38
+    },
+    {
+      "text": "Aryabhata",
+      "start": 2.34,
+      "end": 3.08
+    },
+    {
+      "text": "was",
+      "start": 3.08,
+      "end": 3.3
+    },
+    {
+      "text": "an",
+      "start": 3.3,
+      "end": 3.54
+    },
+    {
+      "text": "ancient",
+      "start": 3.54,
+      "end": 3.98
+    },
+    {
+      "text": "Indian",
+      "start": 3.98,
+      "end": 4.46
+    },
+    {
+      "text": "mathematician",
+      "start": 4.46,
+      "end": 5.18
+    },
+    {
+      "text": "and",
+      "start": 5.18,
+      "end": 5.74
+    },
+    {
+      "text": "astronomer",
+      "start": 5.74,
+      "end": 6.3
+    },
+    {
+      "text": "who",
+      "start": 6.3,
+      "end": 6.86
+    },
+    {
+      "text": "made",
+      "start": 6.86,
+      "end": 7.28
+    },
+    {
+      "text": "important",
+      "start": 7.28,
+      "end": 7.88
+    },
+    {
+      "text": "contributions",
+      "start": 7.88,
+      "end": 8.7
+    },
+    {
+      "text": "to",
+      "start": 8.7,
+      "end": 9.24
+    },
+    {
+      "text": "our",
+      "start": 9.24,
+      "end": 9.5
+    },
+    {
+      "text": "understanding",
+      "start": 9.5,
+      "end": 10.02
+    },
+    {
+      "text": "of",
+      "start": 10.02,
+      "end": 10.28
+    },
+    {
+      "text": "the",
+      "start": 10.28,
+      "end": 10.52
+    },
+    {
+      "text": "earth,",
+      "start": 10.52,
+      "end": 10.8
+    },
+    {
+      "text": "the",
+      "start": 11.24,
+      "end": 11.48
+    },
+    {
+      "text": "stars",
+      "start": 11.48,
+      "end": 11.8
+    },
+    {
+      "text": "and",
+      "start": 11.8,
+      "end": 12.4
+    },
+    {
+      "text": "mathematics,",
+      "start": 12.4,
+      "end": 13.08
+    },
+    {
+      "text": "a",
+      "start": 13.76,
+      "end": 13.94
+    },
+    {
+      "text": "pioneer",
+      "start": 13.94,
+      "end": 14.26
+    },
+    {
+      "text": "of",
+      "start": 14.26,
+      "end": 14.7
+    },
+    {
+      "text": "Indian",
+      "start": 14.7,
+      "end": 14.98
+    },
+    {
+      "text": "astronomy",
+      "start": 14.98,
+      "end": 15.54
+    },
+    {
+      "text": "and",
+      "start": 15.54,
+      "end": 15.98
+    },
+    {
+      "text": "mathematics.",
+      "start": 15.98,
+      "end": 16.6
+    },
+    {
+      "text": "Around",
+      "start": 17.56,
+      "end": 17.96
+    },
+    {
+      "text": "500",
+      "start": 17.96,
+      "end": 18.58
+    },
+    {
+      "text": "CE,",
+      "start": 18.58,
+      "end": 19.14
+    },
+    {
+      "text": "Aryabhata",
+      "start": 19.66,
+      "end": 20.28
+    },
+    {
+      "text": "asked",
+      "start": 20.28,
+      "end": 20.7
+    },
+    {
+      "text": "some",
+      "start": 20.7,
+      "end": 21.08
+    },
+    {
+      "text": "very",
+      "start": 21.08,
+      "end": 21.6
+    },
+    {
+      "text": "important",
+      "start": 21.6,
+      "end": 21.92
+    },
+    {
+      "text": "questions.",
+      "start": 21.92,
+      "end": 22.56
+    },
+    {
+      "text": "What",
+      "start": 23.06,
+      "end": 23.36
+    },
+    {
+      "text": "shape",
+      "start": 23.36,
+      "end": 23.66
+    },
+    {
+      "text": "is",
+      "start": 23.66,
+      "end": 23.9
+    },
+    {
+      "text": "the",
+      "start": 23.9,
+      "end": 24.04
+    },
+    {
+      "text": "earth?",
+      "start": 24.04,
+      "end": 24.26
+    },
+    {
+      "text": "Why",
+      "start": 24.8,
+      "end": 25.04
+    },
+    {
+      "text": "do",
+      "start": 25.04,
+      "end": 25.24
+    },
+    {
+      "text": "the",
+      "start": 25.24,
+      "end": 25.44
+    },
+    {
+      "text": "stars",
+      "start": 25.44,
+      "end": 25.68
+    },
+    {
+      "text": "appear",
+      "start": 25.68,
+      "end": 26.0
+    },
+    {
+      "text": "to",
+      "start": 26.0,
+      "end": 26.26
+    },
+    {
+      "text": "move?",
+      "start": 26.26,
+      "end": 26.52
+    },
+    {
+      "text": "And",
+      "start": 27.0,
+      "end": 27.26
+    },
+    {
+      "text": "how",
+      "start": 27.26,
+      "end": 27.5
+    },
+    {
+      "text": "can",
+      "start": 27.5,
+      "end": 27.72
+    },
+    {
+      "text": "we",
+      "start": 27.72,
+      "end": 27.94
+    },
+    {
+      "text": "measure",
+      "start": 27.94,
+      "end": 28.2
+    },
+    {
+      "text": "our",
+      "start": 28.2,
+      "end": 28.54
+    },
+    {
+      "text": "planet?",
+      "start": 28.54,
+      "end": 28.86
+    },
+    {
+      "text": "At",
+      "start": 29.3,
+      "end": 29.7
+    },
+    {
+      "text": "just",
+      "start": 29.7,
+      "end": 30.14
+    },
+    {
+      "text": "23",
+      "start": 30.14,
+      "end": 30.66
+    },
+    {
+      "text": "years",
+      "start": 30.66,
+      "end": 31.0
+    },
+    {
+      "text": "of",
+      "start": 31.0,
+      "end": 31.2
+    },
+    {
+      "text": "age,",
+      "start": 31.2,
+      "end": 31.46
+    },
+    {
+      "text": "he",
+      "start": 31.9,
+      "end": 32.06
+    },
+    {
+      "text": "composed",
+      "start": 32.06,
+      "end": 32.46
+    },
+    {
+      "text": "his",
+      "start": 32.46,
+      "end": 32.7
+    },
+    {
+      "text": "famous",
+      "start": 32.7,
+      "end": 33.04
+    },
+    {
+      "text": "work",
+      "start": 33.04,
+      "end": 33.5
+    },
+    {
+      "text": "Aryabhatya",
+      "start": 33.5,
+      "end": 34.36
+    },
+    {
+      "text": "in",
+      "start": 34.36,
+      "end": 35.06
+    },
+    {
+      "text": "499",
+      "start": 35.06,
+      "end": 36.18
+    },
+    {
+      "text": "CE.",
+      "start": 36.18,
+      "end": 36.74
+    },
+    {
+      "text": "It",
+      "start": 37.26,
+      "end": 37.5
+    },
+    {
+      "text": "became",
+      "start": 37.5,
+      "end": 37.76
+    },
+    {
+      "text": "an",
+      "start": 37.76,
+      "end": 38.1
+    },
+    {
+      "text": "important",
+      "start": 38.1,
+      "end": 38.42
+    },
+    {
+      "text": "work",
+      "start": 38.42,
+      "end": 38.82
+    },
+    {
+      "text": "that",
+      "start": 38.82,
+      "end": 39.28
+    },
+    {
+      "text": "influenced",
+      "start": 39.28,
+      "end": 39.7
+    },
+    {
+      "text": "many",
+      "start": 39.7,
+      "end": 40.1
+    },
+    {
+      "text": "scholars",
+      "start": 40.1,
+      "end": 40.5
+    },
+    {
+      "text": "for",
+      "start": 40.5,
+      "end": 40.82
+    },
+    {
+      "text": "generations.",
+      "start": 40.82,
+      "end": 41.48
+    }
+  ]
+}

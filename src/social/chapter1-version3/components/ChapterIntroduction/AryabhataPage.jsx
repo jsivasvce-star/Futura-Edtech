@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronRight, ChevronLeft, BookOpen, Info, Link2, Layers, Sparkles, Volume2, VolumeX } from 'lucide-react';
+import { AUDIO_TRANSCRIPT as PAGE1_TRANSCRIPT, PAGE2_TRANSCRIPT } from './AryabhataTranscript';
+import { ChevronRight, ChevronLeft, BookOpen, Info, Link2, Layers, Sparkles, Play, Pause } from 'lucide-react';
+import page1Audio from '../audio/page1.mpeg?url';
+import page2Audio from '../audio/page2.mp3';
 import Earth3DGlobe from './Earth3DGlobe';
 
 const NAVY = '#0A2540';
@@ -79,8 +82,6 @@ const cardBase = {
   boxSizing: 'border-box'
 };
 
-import { AUDIO_TRANSCRIPT } from './AryabhataTranscript';
-
 const WordRenderer = ({ text, idPrefix, defaultColor, highlightColor, activeWordId }) => {
   const words = text.trim().split(/\s+/);
   return (
@@ -93,14 +94,14 @@ const WordRenderer = ({ text, idPrefix, defaultColor, highlightColor, activeWord
 
         return (
           <React.Fragment key={index}>
-            <span 
+            <span
               data-word-id={wordId}
-              style={{ 
-                color: isHighlighted ? highlightColor : defaultColor, 
+              style={{
+                color: isHighlighted ? highlightColor : defaultColor,
                 background: isHighlighted ? 'rgba(180, 83, 9, 0.1)' : 'transparent',
                 borderRadius: '4px',
                 padding: '0 2px',
-                transition: 'all 0.15s ease-out' 
+                transition: 'all 0.15s ease-out'
               }}>
               {cleanWord}
             </span>
@@ -126,24 +127,26 @@ export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
   const [debugData, setDebugData] = useState(null);
 
   useEffect(() => {
-    // Expose validation tool globally
-    window.validateNarrationSync = () => {
+    window.validateNarrationSync = (s = slide) => {
+      const transcript = s === 0 ? PAGE1_TRANSCRIPT : PAGE2_TRANSCRIPT;
       console.log("AUDIO WORD | START | END | PAGE WORD | MATCH TYPE");
       console.log("--------------------------------------------------");
-      AUDIO_TRANSCRIPT.forEach(w => {
+      transcript.forEach(w => {
         console.log(`${w.audioWord.padEnd(12)} | ${w.start.toFixed(2).padStart(5)} | ${w.end.toFixed(2).padStart(5)} | ${(w.pageWordId || '—').padEnd(12)} | ${w.matchType}`);
       });
     };
     return () => { delete window.validateNarrationSync; };
-  }, []);
+  }, [slide]);
 
   useEffect(() => {
-    // If the user leaves slide 0, stop the audio automatically
-    if (slide !== 0 && audioRef.current && isPlaying) {
+    // When changing slides, stop the audio and reset state
+    if (audioRef.current) {
       audioRef.current.pause();
-      setIsPlaying(false);
+      audioRef.current.currentTime = 0;
     }
-  }, [slide, isPlaying]);
+    setIsPlaying(false);
+    setActiveWordId(null);
+  }, [slide]);
 
   const toggleAudio = () => {
     if (audioRef.current) {
@@ -157,16 +160,17 @@ export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
   };
 
   const handleTimeUpdate = () => {
+    const activeTranscript = slide === 0 ? PAGE1_TRANSCRIPT : PAGE2_TRANSCRIPT;
     if (audioRef.current) {
       const time = audioRef.current.currentTime;
       // Find the segment containing currentTime
-      const activeWord = AUDIO_TRANSCRIPT.find(w => time >= w.start && time < w.end);
-      
+      const activeWord = activeTranscript.find(w => time >= w.start && time < w.end);
+
       let newActiveId = null;
       if (activeWord && activeWord.matchType === 'matched') {
         newActiveId = activeWord.pageWordId;
       }
-      
+
       if (newActiveId !== activeWordId) {
         setActiveWordId(newActiveId);
       }
@@ -215,9 +219,10 @@ export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
       `}</style>
 
       {/* Audio Element */}
-      <audio 
+      <audio
+        key={`audio-${slide}`}
         ref={audioRef}
-        src="/src/social/chapter1-version3/components/audio/page1.mpeg"
+        src={slide === 0 ? page1Audio : page2Audio}
         onTimeUpdate={handleTimeUpdate}
         onEnded={handleAudioEnded}
       />
@@ -228,7 +233,7 @@ export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
           <div style={{ marginTop: '8px', color: '#FFF' }}>Audio word:</div>
           <div style={{ color: '#0FF', fontSize: '16px', fontWeight: 'bold' }}>{debugData.word}</div>
           {debugData.word !== 'NONE' && (
-            <div style={{ marginTop: '4px', color: '#AAA' }}>Timing:<br/>{debugData.start.toFixed(3)} → {debugData.end.toFixed(3)}</div>
+            <div style={{ marginTop: '4px', color: '#AAA' }}>Timing:<br />{debugData.start.toFixed(3)} → {debugData.end.toFixed(3)}</div>
           )}
           <div style={{ marginTop: '8px', color: '#FFF' }}>Matched page word:</div>
           <div style={{ color: debugData.pageWord !== 'NONE' ? '#0F0' : '#F00' }}>{debugData.pageWord}</div>
@@ -247,11 +252,11 @@ export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
           {slide === 0 && (
             <div style={{ display: 'flex', height: '100%', gap: '24px' }}>
               {/* Left Side: 60% */}
-              <div style={{ 
-                flex: '0 0 60%', 
-                display: 'flex', 
-                flexDirection: 'column', 
-                height: '100%', 
+              <div style={{
+                flex: '0 0 60%',
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
                 gap: '16px',
                 background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)',
                 padding: '24px 28px',
@@ -261,10 +266,10 @@ export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
               }}>
                 <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
                   <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: '32px', letterSpacing: '.12em', textTransform: 'uppercase', color: '#B45309', marginBottom: '6px' }}>
-                    Chapter 1 · <WordRenderer text="Class 6 Social Science" idPrefix="ch" activeWordId={activeWordId} defaultColor="#B45309" highlightColor="#92400E" />
+                    Chapter 1 · <WordRenderer text="Class 6 Social Science" idPrefix="ch" activeWordId={activeWordId} defaultColor="#B45309" highlightColor="#451a03" />
                   </div>
                   <h1 style={{ fontFamily: SERIF, fontWeight: 900, color: NAVY, fontSize: '32px', lineHeight: 1.2, margin: 0, letterSpacing: '-.01em' }}>
-                    <WordRenderer text="Locating Places on the Earth" idPrefix="ti" activeWordId={activeWordId} defaultColor={NAVY} highlightColor="#2563EB" />
+                    <WordRenderer text="Locating Places on the Earth" idPrefix="ti" activeWordId={activeWordId} defaultColor={NAVY} highlightColor="#451a03" />
                   </h1>
                 </div>
                 <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', flex: '1 1 auto', minHeight: 0 }}>
@@ -274,30 +279,30 @@ export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
 
               {/* Right Side: 40% */}
               <div style={{ flex: '1 1 auto', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '20px' }}>
-                <div style={{ 
-                  ...cardBase, 
-                  background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)', 
-                  boxShadow: '0 8px 24px rgba(14,42,69,.08)', 
-                  padding: '24px 28px', 
+                <div style={{
+                  ...cardBase,
+                  background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)',
+                  boxShadow: '0 8px 24px rgba(14,42,69,.08)',
+                  padding: '24px 28px',
                   border: '1.5px solid #E5D5C0',
                   display: 'flex',
                   flexDirection: 'column'
                 }}>
                   <p style={{ fontFamily: SANS, fontStyle: 'italic', fontWeight: 600, color: NAVY, fontSize: '21px', lineHeight: 1.5, margin: '0 0 12px', textAlign: 'left' }}>
-                    <WordRenderer 
-                      text="The globe of the Earth stands in space, made up of water, earth, fire and air and is spherical." 
-                      idPrefix="q1" 
-                      activeWordId={activeWordId} 
-                      defaultColor={NAVY} 
-                      highlightColor="#B45309" 
+                    <WordRenderer
+                      text="The globe of the Earth stands in space, made up of water, earth, fire and air and is spherical."
+                      idPrefix="q1"
+                      activeWordId={activeWordId}
+                      defaultColor={NAVY}
+                      highlightColor="#451a03"
                     />
                     {' '}…{' '}
-                    <WordRenderer 
-                      text="It is surrounded by all creatures." 
-                      idPrefix="q2" 
-                      activeWordId={activeWordId} 
-                      defaultColor={NAVY} 
-                      highlightColor="#B45309" 
+                    <WordRenderer
+                      text="It is surrounded by all creatures."
+                      idPrefix="q2"
+                      activeWordId={activeWordId}
+                      defaultColor={NAVY}
+                      highlightColor="#451a03"
                     />
                   </p>
                   <div style={{ textAlign: 'right' }}>
@@ -306,11 +311,11 @@ export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
                   </div>
                 </div>
 
-                <div style={{ 
-                  ...cardBase, 
-                  background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)', 
-                  boxShadow: '0 8px 24px rgba(14,42,69,.08)', 
-                  padding: '32px 32px', 
+                <div style={{
+                  ...cardBase,
+                  background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)',
+                  boxShadow: '0 8px 24px rgba(14,42,69,.08)',
+                  padding: '32px 32px',
                   border: '1.5px solid #E5D5C0',
                   display: 'flex',
                   flexDirection: 'column',
@@ -320,42 +325,42 @@ export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
                   <h3 style={{ fontFamily: SERIF, fontWeight: 900, color: NAVY, fontSize: '30px', margin: 0 }}>Āryabhaṭa's Discoveries</h3>
                   <ol style={{ fontFamily: SANS, color: NAVY, fontSize: '21px', fontWeight: 600, margin: 0, paddingLeft: '28px', display: 'flex', flexDirection: 'column', gap: '20px', lineHeight: 1.5 }}>
                     <li>
-                      <WordRenderer 
-                        text="The Earth is a giant, round ball floating in space." 
-                        idPrefix="f1a" 
-                        activeWordId={activeWordId} 
-                        defaultColor={NAVY} 
-                        highlightColor="#B45309" 
+                      <WordRenderer
+                        text="The Earth is a giant, round ball floating in space."
+                        idPrefix="f1a"
+                        activeWordId={activeWordId}
+                        defaultColor={NAVY}
+                        highlightColor="#451a03"
                       /> <span style={{ fontWeight: 400, color: '#3D2E24' }}>
-                        <WordRenderer 
-                          text="This means that the Earth is not flat." 
-                          idPrefix="f1b" 
-                          activeWordId={activeWordId} 
-                          defaultColor="#3D2E24" 
-                          highlightColor="#B45309" 
-                        /> <WordRenderer 
-                          text="It is shaped like a ball, just like the globe we use in our classrooms." 
-                          idPrefix="f1c" 
-                          activeWordId={activeWordId} 
-                          defaultColor="#3D2E24" 
-                          highlightColor="#B45309" 
+                        <WordRenderer
+                          text="This means that the Earth is not flat."
+                          idPrefix="f1b"
+                          activeWordId={activeWordId}
+                          defaultColor="#3D2E24"
+                          highlightColor="#451a03"
+                        /> <WordRenderer
+                          text="It is shaped like a ball, just like the globe we use in our classrooms."
+                          idPrefix="f1c"
+                          activeWordId={activeWordId}
+                          defaultColor="#3D2E24"
+                          highlightColor="#451a03"
                         />
                       </span>
                     </li>
                     <li>
-                      <WordRenderer 
-                        text="The Earth spins around like a top, giving us day and night." 
-                        idPrefix="f2a" 
-                        activeWordId={activeWordId} 
-                        defaultColor={NAVY} 
-                        highlightColor="#B45309" 
+                      <WordRenderer
+                        text="The Earth spins around like a top, giving us day and night."
+                        idPrefix="f2a"
+                        activeWordId={activeWordId}
+                        defaultColor={NAVY}
+                        highlightColor="#451a03"
                       /> <span style={{ fontWeight: 400, color: '#3D2E24' }}>
-                        <WordRenderer 
-                          text="As the Earth spins, the side facing the Sun has daytime, while the side facing away from the Sun has nighttime." 
-                          idPrefix="f2b" 
-                          activeWordId={activeWordId} 
-                          defaultColor="#3D2E24" 
-                          highlightColor="#B45309" 
+                        <WordRenderer
+                          text="As the Earth spins, the side facing the Sun has daytime, while the side facing away from the Sun has nighttime."
+                          idPrefix="f2b"
+                          activeWordId={activeWordId}
+                          defaultColor="#3D2E24"
+                          highlightColor="#451a03"
                         />
                       </span>
                     </li>
@@ -369,11 +374,11 @@ export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
           {slide === 1 && (
             <div style={{ display: 'flex', height: '100%', gap: '24px' }}>
               {/* Left Side: 60% */}
-              <div style={{ 
-                flex: '0 0 60%', 
-                display: 'flex', 
-                flexDirection: 'column', 
-                height: '100%', 
+              <div style={{
+                flex: '0 0 60%',
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
                 gap: '16px',
                 background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)',
                 padding: '24px 28px',
@@ -387,7 +392,7 @@ export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
                   </div>
                   <h2 style={{ display: 'flex', alignItems: 'center', gap: '10px', fontFamily: SERIF, fontWeight: 900, color: NAVY, fontSize: '32px', lineHeight: 1.2, margin: 0 }}>
                     <BookOpen size={26} color="#3b6ea5" strokeWidth={2.2} />
-                    Historical Facts — Who was Āryabhaṭa?
+                    Historical Facts — <WordRenderer text="Who was Āryabhaṭa?" idPrefix="t" activeWordId={activeWordId} defaultColor={NAVY} highlightColor="#451a03" />
                   </h2>
                 </div>
                 <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', flex: '1 1 auto', minHeight: 0 }}>
@@ -408,22 +413,22 @@ export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
                   boxShadow: '0 8px 24px rgba(14,42,69,.08)'
                 }}>
                   <h3 style={{ fontFamily: SERIF, fontWeight: 900, color: '#B45309', fontSize: '30px', margin: 0, lineHeight: 1.3 }}>
-                    A pioneer of Indian astronomy & mathematics
+                    <WordRenderer text="A pioneer of Indian astronomy & mathematics" idPrefix="s" activeWordId={activeWordId} defaultColor="#B45309" highlightColor="#451a03" />
                   </h3>
                   <p style={{ fontFamily: SANS, fontWeight: 600, color: '#3D2E24', fontSize: '19px', lineHeight: 1.65, margin: 0, textAlign: 'justify', textJustify: 'inter-word' }}>
-                    Working around 500 CE, Āryabhaṭa asked fundamental questions — what shape is the Earth, why do stars appear to move, and how do we measure our planet?
+                    <WordRenderer text="Working around 500 CE, Āryabhaṭa asked some very important questions — what shape is the Earth, why do stars appear to move, and how do we measure our planet?" idPrefix="p1" activeWordId={activeWordId} defaultColor="#3D2E24" highlightColor="#451a03" />
                   </p>
                   <p style={{ fontFamily: SANS, fontWeight: 600, color: '#3D2E24', fontSize: '19px', lineHeight: 1.65, margin: 0, textAlign: 'justify', textJustify: 'inter-word' }}>
-                    At just 23 years of age, he composed the famous <b style={{ color: '#1A0D05', fontWeight: 800 }}>Āryabhaṭīya</b> in 499 CE. It became a foundational work influencing generations of scholars.
+                    <WordRenderer text="At just 23 years of age, he composed his famous" idPrefix="p2A" activeWordId={activeWordId} defaultColor="#3D2E24" highlightColor="#451a03" /> <b style={{ color: '#1A0D05', fontWeight: 800 }}><WordRenderer text="Āryabhaṭīya" idPrefix="p2B" activeWordId={activeWordId} defaultColor="#1A0D05" highlightColor="#451a03" /></b> <WordRenderer text="in 499 CE. It became a important work that influenced many scholars for generation." idPrefix="p2C" activeWordId={activeWordId} defaultColor="#3D2E24" highlightColor="#451a03" />
                   </p>
                 </div>
 
-                <div style={{ 
+                <div style={{
                   ...cardBase,
-                  background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)', 
-                  border: '1.5px solid #E5D5C0', 
-                  padding: '20px 24px', 
-                  boxShadow: '0 8px 24px rgba(14,42,69,.08)', 
+                  background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)',
+                  border: '1.5px solid #E5D5C0',
+                  padding: '20px 24px',
+                  boxShadow: '0 8px 24px rgba(14,42,69,.08)',
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '14px'
@@ -478,28 +483,22 @@ export default function AryabhataPage({ onNext, onBack, isNextEnabled }) {
 
         {/* Nav Buttons parallel */}
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          
-          {/* Audio Speaker Button (Slide 0 only) */}
-          {slide === 0 && (
-            <button
-              type="button"
-              onClick={toggleAudio}
-              style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                width: '46px', height: '46px', borderRadius: '50%',
-                background: isPlaying ? '#FEF3C7' : '#F1F5F9',
-                border: isPlaying ? '2px solid #F59E0B' : '2px solid #CBD5E1',
-                color: isPlaying ? '#D97706' : '#64748B',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-                marginRight: '8px',
-                boxShadow: isPlaying ? '0 4px 12px rgba(245,158,11,0.2)' : 'none'
-              }}
-              title={isPlaying ? "Pause Narration" : "Play Narration"}
-            >
-              {isPlaying ? <Volume2 size={22} strokeWidth={2.5} /> : <VolumeX size={22} strokeWidth={2.5} />}
-            </button>
-          )}
+
+          {/* Audio Speaker Button */}
+          <button
+            type="button"
+            onClick={toggleAudio}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '6px',
+              padding: '8px 16px', background: '#d97706',
+              border: 'none', borderRadius: '999px',
+              fontSize: '14px', fontWeight: 800, color: '#fff',
+              cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+              marginRight: '8px'
+            }}
+          >
+            {isPlaying ? "Pause" : "Play"}
+          </button>
 
           <button
             type="button"

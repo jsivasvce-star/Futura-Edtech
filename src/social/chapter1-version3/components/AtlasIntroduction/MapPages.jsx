@@ -1,12 +1,71 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Lightbulb, X, Globe2, Image as ImageIcon, Maximize2, Minimize2, Mountain } from 'lucide-react';
+import { Lightbulb, X, Globe2, Image as ImageIcon, Maximize2, Minimize2, Mountain, Play, Pause } from 'lucide-react';
 import physicalImg from './assets/printed_physical_map.jpeg';
 import politicalImg from './assets/political.png';
 import thematicMapImg from './assets/thematic-map.jpeg';
 import ContentScrollNav, { useScrollNav } from '../ContentScrollNav';
 import IndiaMountainsMapExplorer from './IndiaMountainsMapExplorer';
 import { theme } from './theme';
+import page7Audio from '../audio/page7.mp3?url';
+import { PAGE7_TRANSCRIPT } from './Page7Transcript';
+import page8Audio from '../audio/page8.mp3?url';
+import { PAGE8_TRANSCRIPT } from './Page8Transcript';
+import riversAudio from '../audio/rivers.mp3?url';
+import { RIVERS_TRANSCRIPT } from './RiversTranscript';
+import page9Audio from '../audio/page9.mp3?url';
+import { PAGE9_TRANSCRIPT } from './Page9Transcript';
+import page10Audio from '../audio/page10.mp3?url';
+import { PAGE10_TRANSCRIPT } from './Page10Transcript';
+import page11Audio from '../audio/page11.mp3?url';
+import { PAGE11_TRANSCRIPT } from './Page11Transcript';
+import page12Audio from '../audio/page12.mp3?url';
+import { PAGE12_TRANSCRIPT } from './Page12Transcript';
+import page13Audio from '../audio/page13.mp3?url';
+import { PAGE13_TRANSCRIPT } from './Page13Transcript';
+import citiesAudio from '../audio/cities.mp3?url';
+import { CITIES_TRANSCRIPT } from './CitiesTranscript';
+import page15Audio from '../audio/page15.mp3?url';
+import { PAGE15_TRANSCRIPT } from './Page15Transcript';
+import page16Audio from '../audio/page16.mp3?url';
+import { PAGE16_TRANSCRIPT } from './Page16Transcript';
+import page17Audio from '../audio/page17.mp3?url';
+import { PAGE17_TRANSCRIPT } from './Page17Transcript';
+import page18Audio from '../audio/page18.mp3?url';
+import { PAGE18_TRANSCRIPT } from './Page18Transcript';
+import page19Audio from '../audio/page19.mp3?url';
+import { PAGE19_TRANSCRIPT } from './Page19Transcript';
+import page20Audio from '../audio/page20.mp3?url';
+import { PAGE20_TRANSCRIPT } from './Page20Transcript';
+
+const WordRenderer = ({ text, idPrefix, defaultColor, highlightColor, activeWordId }) => {
+  const words = text.trim().split(/\s+/);
+  return (
+    <>
+      {words.map((word, index) => {
+        const wordId = `${idPrefix}-${index + 1}`;
+        const isHighlighted = activeWordId === wordId;
+        return (
+          <React.Fragment key={index}>
+            <span
+              data-word-id={wordId}
+              style={{
+                color: isHighlighted ? highlightColor : defaultColor,
+                background: isHighlighted ? 'rgba(180, 83, 9, 0.1)' : 'transparent',
+                borderRadius: '4px',
+                padding: '0 2px',
+                margin: '0 -2px',
+                transition: 'all 0.15s ease-out'
+              }}>
+              {word}
+            </span>
+            {index < words.length - 1 ? ' ' : ''}
+          </React.Fragment>
+        );
+      })}
+    </>
+  );
+};
 // The interactive 3D globe (physical / political / thematic modes) lives as a
 // static asset so it can be dropped into an iframe from anywhere in the app.
 const GLOBE_URL = '/atlas-globe.html';
@@ -34,7 +93,9 @@ const PageLayout = ({
   onNextMap,
   onPrevMap,
   currentPage,
-  onFinish
+  onFinish,
+  headerAction,
+  onPageChange
 }) => {
   const [isImageOpen, setIsImageOpen] = useState(false);
   const [activeMapIndex, setActiveMapIndex] = useState(0);
@@ -49,6 +110,12 @@ const PageLayout = ({
   const globePanelRef = useRef(null);
 
   // native full screen where it exists, with a maximise fallback where it doesn't
+  useEffect(() => {
+    if (onPageChange) {
+      onPageChange(leftPage);
+    }
+  }, [leftPage, onPageChange]);
+
   const toggleGlobeFull = () => {
     const el = globePanelRef.current;
     if (document.fullscreenElement) { document.exitFullscreen?.(); return; }
@@ -229,15 +296,17 @@ const PageLayout = ({
   // measurement exists, otherwise the unmeasured first paint would starve it.
   useEffect(() => { setShrink(0); }, [m]);
 
+  // Disabled safety net to prevent layout instability when navigating between pages.
+  // The layout will now remain exactly as initially measured without dynamically shifting content.
   useEffect(() => {
-    if (!m) return;
-    const vp = contentRef.current;
-    const inner = innerRef.current;
-    if (!vp || !inner) return;
-    if (inner.scrollHeight > vp.clientHeight + 2 && shrink < 96) {
-      setShrink(s => s + 16);
-    }
-  });
+    // if (!m) return;
+    // const vp = contentRef.current;
+    // const inner = innerRef.current;
+    // if (!vp || !inner) return;
+    // if (inner.scrollHeight > vp.clientHeight + 2 && shrink < 96) {
+    //   setShrink(s => s + 16);
+    // }
+  }, []);
 
   useEffect(() => {
     if (leftPage > LEFT_PAGES) setLeftPage(LEFT_PAGES);
@@ -283,7 +352,7 @@ const PageLayout = ({
       return (
         <div key={i} data-p={probe} style={{ ...cardBase, background: theme.colors.paper, padding: `${theme.spacing.fluid.md} ${theme.spacing.fluid.md}`, flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
           <h3 style={{ ...headStyle, marginBottom: theme.spacing.s3 }}>
-            {block.continued ? `${featuresTitle} (continued)` : featuresTitle}
+            {featuresTitle} {block.continued && "(continued)"}
           </h3>
           <div data-grid="1" style={{ display: 'flex', flexDirection: 'column', gap: theme.spacing.fluid.sm }}>
             {block.list.map((f, k) => {
@@ -295,7 +364,7 @@ const PageLayout = ({
                 'Forests': 'forests',
                 'Plateaus': 'plateaus'
               };
-              const targetCategory = featureCategoryMap[f.title];
+              const targetCategory = featureCategoryMap[f.rawTitle || f.title];
               const isInteractive = Boolean(targetCategory);
 
               return (
@@ -396,7 +465,9 @@ const PageLayout = ({
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: theme.spacing.s1, background: theme.colors.accentLight, border: `1px solid ${theme.colors.borderLight}`, padding: '4px 12px', borderRadius: theme.radius.full, color: theme.colors.primaryActive, fontSize: theme.typography.sizes.badge, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: theme.spacing.s2 }}>
             Chapter 1 • Atlas Introduction
           </div>
-          <h2 style={{ fontSize: theme.typography.sizes.title, color: theme.colors.primary, margin: `0 0 ${theme.spacing.s1} 0`, fontFamily: theme.typography.fonts.heading, fontWeight: 900, lineHeight: 1.15 }}>{title}</h2>
+          <h2 style={{ fontSize: theme.typography.sizes.title, color: theme.colors.primary, margin: `0 0 ${theme.spacing.s1} 0`, fontFamily: theme.typography.fonts.heading, fontWeight: 900, lineHeight: 1.15, display: 'flex', alignItems: 'center', gap: '16px' }}>
+            {title} {headerAction}
+          </h2>
           <div style={{ fontSize: theme.typography.sizes.subtitle, color: theme.colors.primaryActive, fontWeight: 700, lineHeight: 1.4, textAlign: 'justify', textJustify: 'inter-word' }}>{subtitle}</div>
         </div>
 
@@ -884,165 +955,379 @@ const PageLayout = ({
   );
 };
 
-export const PhysicalMapPage = ({ onFullyViewed, onNextMap, onPrevMap, currentPage, onFinish }) => (
-  <PageLayout 
-    onFullyViewed={onFullyViewed}
-    onNextMap={onNextMap}
-    onPrevMap={onPrevMap}
-    currentPage={currentPage}
-    onFinish={onFinish}
-    title="Physical Maps"
-    subtitle="Maps that show Earth's natural features like mountains and rivers"
-    imageSrc={physicalImg}
-    globeMode="physical"
-    callouts={[
-      { icon: '🏔', label: 'Mountains', top: '25%', left: '20%' },
-      { icon: '🌊', label: 'River', top: '70%', left: '45%' },
-      { icon: '🌳', label: 'Forest', top: '75%', left: '80%' },
-      { icon: '🏜', label: 'Desert', top: '35%', left: '60%' },
-      { icon: '🏞', label: 'Plain', top: '80%', left: '25%' },
-      { icon: '⛰', label: 'Plateau', top: '50%', left: '25%' }
-    ]}
-    whatIs={[
-      "A Physical Map shows the natural features of the Earth.",
-      "It helps us see the shape of the land without showing roads or cities built by people."
-    ]}
-    whatIsTitle="What is a Physical Map?"
-    featuresTitle="Natural Features on a Physical Map"
-    features={[
-      { icon: '🏞', title: 'Plains', desc: 'Large flat areas of land that are great for farming and building houses.' },
-      { icon: '🏔', title: 'Mountains', desc: 'Very tall and large rocky hills rising high above the land.' },
-      { icon: '🌊', title: 'Rivers', desc: 'Natural streams of flowing water moving across the land into the sea.' },
-      { icon: '🏜', title: 'Deserts', desc: 'Very dry and sandy lands that get almost no rain all year.' },
-      { icon: '🌳', title: 'Forests', desc: 'Large areas completely covered with lots of trees and plants.' },
-      { icon: '⛰', title: 'Plateaus', desc: 'Large flat lands that are raised high up like a table.' }
-    ]}
-    colorsTitle="Colours Used on Physical Maps"
-    colors={[
-      { hexCode: '#22c55e', desc: 'Green represents plains, river valleys, and low flat lands.' },
-      { hexCode: '#854d0e', desc: 'Brown is used for high mountains and tall hills.' },
-      { hexCode: '#3b82f6', desc: 'Blue shows water like rivers, lakes, seas, and oceans.' },
-      { hexCode: '#eab308', desc: 'Yellow is used to show high flat lands called plateaus.' }
-    ]}
-    whyUseTitle="Why are Physical Maps Useful?"
-    whyUse={[
-      { icon: '🏕', desc: 'Planning outdoor trips and finding paths through nature' },
-      { icon: '🌾', desc: 'Learning about different land shapes on Earth' },
-      { icon: '🏞', desc: 'Seeing where water flows and where mountains are located' }
-    ]}
-    remember={[
-      "Physical Maps show nature.",
-      "They help us find mountains, rivers, plains, forests and deserts."
-    ]}
-    funFact="The Himalayas are colored dark brown on physical maps because they are some of the tallest mountains in the world!"
-  />
-);
+export const PhysicalMapPage = ({ onFullyViewed, onNextMap, onPrevMap, currentPage, onFinish }) => {
+  const [currentSubPage, setCurrentSubPage] = useState(1);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordId, setActiveWordId] = useState(null);
+  const audioRef = useRef(null);
 
-export const PoliticalMapPage = ({ onFullyViewed, onNextMap, onPrevMap, currentPage, onFinish }) => (
-  <PageLayout 
-    onFullyViewed={onFullyViewed}
-    onNextMap={onNextMap}
-    onPrevMap={onPrevMap}
-    currentPage={currentPage}
-    onFinish={onFinish}
-    title="Political Maps"
-    subtitle="Maps that show countries, states, cities and their borders"
-    imageSrc={politicalImg}
-    globeMode="political"
-    callouts={[
-      { icon: '📍', label: 'Capital', top: '30%', left: '50%' },
-      { icon: '🏙', label: 'City', top: '60%', left: '35%' },
-      { icon: '➖', label: 'Boundary', top: '45%', left: '75%' },
-      { icon: '🗺', label: 'State', top: '75%', left: '60%' },
-      { icon: '🌎', label: 'Country', top: '25%', left: '25%' }
-    ]}
-    whatIs={[
-      "A Political Map shows the borders of countries, states, and cities.",
-      "It helps us see the different regions and governments created by people."
-    ]}
-    whatIsTitle="What is a Political Map?"
-    featuresTitle="What Can We See?"
-    features={[
-      { icon: '🌎', title: 'Countries', desc: 'Different nations around the world with their own governments.' },
-      { icon: '🗺', title: 'States', desc: 'Smaller regions or states inside a country.' },
-      { icon: '📍', title: 'Capitals', desc: 'Important cities where the government of a state or country works.' },
-      { icon: '🏙', title: 'Cities', desc: 'Big towns where many people live and work.' },
-      { icon: '➖', title: 'Boundaries', desc: 'The lines on the map that separate states and countries.' }
-    ]}
-    colorsTitle="Common Symbols"
-    colors={[
-      { color: '⭐️', desc: 'Stars are used to show capital cities.' },
-      { color: '⚫️', desc: 'Black dots are used to show important cities.' },
-      { color: '➖', desc: 'Thick lines show the borders between different countries.' },
-      { color: '〰️', desc: 'Dotted or dashed lines show the borders between states.' }
-    ]}
-    whyUseTitle="Why Do We Use Political Maps?"
-    whyUse={[
-      { icon: '🏫', desc: 'Learning about the different countries and states in the world' },
-      { icon: '✈️', desc: 'Finding out which state a city belongs to when traveling' },
-      { icon: '🗺', desc: 'Seeing the borders that separate different nations' }
-    ]}
-    remember={[
-      "Political Maps show places made by people.",
-      "They help us locate countries, states, cities and their borders."
-    ]}
-    funFact="India currently has 28 states and 8 Union Territories, each with its own borders on the map."
-  />
-);
+  useEffect(() => {
+    setIsPlaying(false);
+    setActiveWordId(null);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  }, [currentSubPage]);
 
-export const ThematicMapPage = ({ onFullyViewed, onNextMap, onPrevMap, currentPage, onFinish }) => (
-  <PageLayout 
-    onFullyViewed={onFullyViewed}
-    onNextMap={onNextMap}
-    onPrevMap={onPrevMap}
-    currentPage={currentPage}
-    onFinish={onFinish}
-    title="Thematic Maps"
-    subtitle="Maps that focus on one special topic like soil, rainfall, or crops"
-    globeMode="thematic"
-    globeTheme="rain"
-    thematicMapOptions={[
-      { icon: '🌱', label: 'Major Soil Types', src: thematicMapImg },
-      { icon: '🌧', label: 'Annual Rainfall', src: '/maps/flat_thematic_rainfall_map.jpg' },
-      { icon: '🌡', label: 'Temperature Distribution', src: '/maps/flat_thematic_temperature_map.jpg' },
-      { icon: '👥', label: 'Population Density', src: '/maps/flat_thematic_population_density_map.jpg' },
-      { icon: '🌳', label: 'Forest Cover', src: '/maps/flat_thematic_forest_cover_map.jpg' }
-    ]}
-    callouts={[
-      { icon: '🌱', label: 'Alluvial Soil', top: '33%', left: '42%' },
-      { icon: '🧱', label: 'Black Soil', top: '50%', left: '30%' },
-      { icon: '🔴', label: 'Red & Yellow Soil', top: '56%', left: '50%' },
-      { icon: '📊', label: 'Soil Legend', top: '75%', left: '72%' }
-    ]}
-    whatIs={[
-      "A Thematic Map focuses on one special topic or theme.",
-      "Instead of showing borders, it shows specific information like rainfall, types of crops, or soil."
-    ]}
-    whatIsTitle="What is a Thematic Map?"
-    featuresTitle="What Can We Learn from Thematic Maps?"
-    features={[
-      { icon: '🌱', title: 'Soil Types', desc: 'Shows where different kinds of soil are found for farming.' },
-      { icon: '🌧', title: 'Rainfall', desc: 'Shows how much rain falls in different areas across the year.' },
-      { icon: '🌡', title: 'Temperature', desc: 'Shows how hot or cold different regions get.' },
-      { icon: '🌾', title: 'Crops & Agriculture', desc: 'Shows where crops like rice, wheat, and cotton grow best.' }
-    ]}
-    colorsTitle="Colours and Legends"
-    colors={[
-      { color: '📊', desc: 'The legend box explains what each color or pattern means on the map.' },
-      { hexCode: '#86efac', desc: 'Light green shows good soil for farming near rivers.' },
-      { hexCode: '#4b5563', desc: 'Dark grey shows black soil that is great for growing cotton.' },
-      { hexCode: '#ef4444', desc: 'Red and yellow colors show older, rocky soils.' }
-    ]}
-    whyUseTitle="Why Do We Use Thematic Maps?"
-    whyUse={[
-      { icon: '🚜', desc: 'Finding the best places to grow different crops' },
-      { icon: '☔️', desc: 'Knowing where it will rain the most during the year' },
-      { icon: '📈', desc: 'Seeing where people live and where natural resources are found' }
-    ]}
-    remember={[
-      "One map, one main idea.",
-      "Thematic maps use distinct colors and a legend box to explain specific information."
-    ]}
-    funFact="A soil map and a rainfall map of India cover the exact same land, but they tell us two completely different stories!"
-  />
-);
+  const currentAudioSrc = currentSubPage === 1 ? page7Audio : currentSubPage === 2 ? page8Audio : currentSubPage === 3 ? riversAudio : currentSubPage === 4 ? page9Audio : currentSubPage === 5 ? page10Audio : currentSubPage === 6 ? page11Audio : null;
+  const currentTranscript = currentSubPage === 1 ? PAGE7_TRANSCRIPT : currentSubPage === 2 ? PAGE8_TRANSCRIPT : currentSubPage === 3 ? RIVERS_TRANSCRIPT : currentSubPage === 4 ? PAGE9_TRANSCRIPT : currentSubPage === 5 ? PAGE10_TRANSCRIPT : currentSubPage === 6 ? PAGE11_TRANSCRIPT : [];
+
+  const toggleAudio = () => {
+    if (!currentAudioSrc) return;
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      const time = audioRef.current.currentTime;
+      const activeWord = currentTranscript.find(w => time >= w.start && time < w.end);
+      let newActiveId = null;
+      if (activeWord && activeWord.matchType === 'matched') {
+        newActiveId = activeWord.pageWordId;
+      }
+      if (newActiveId !== activeWordId) {
+        setActiveWordId(newActiveId);
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordId(null);
+  };
+
+  const audioButton = currentAudioSrc ? (
+    <button
+      type="button"
+      onClick={toggleAudio}
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: '6px',
+        padding: '8px 16px', background: '#d97706',
+        border: 'none', borderRadius: '999px',
+        fontSize: '14px', fontWeight: 800, color: '#fff',
+        cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+        marginRight: '8px'
+      }}
+    >
+      {isPlaying ? "Pause" : "Play"}
+    </button>
+  ) : null;
+
+  return (
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+      {currentAudioSrc && <audio ref={audioRef} src={currentAudioSrc} onTimeUpdate={handleTimeUpdate} onEnded={handleAudioEnded} />}
+      <PageLayout 
+        onPageChange={setCurrentSubPage}
+        onFullyViewed={onFullyViewed}
+        onNextMap={onNextMap}
+        onPrevMap={onPrevMap}
+        currentPage={currentPage}
+        onFinish={onFinish}
+        headerAction={audioButton}
+        title={<WordRenderer text="Physical Maps" idPrefix="title" activeWordId={activeWordId} defaultColor={theme.colors.primary} highlightColor="#451a03" />}
+        subtitle={<WordRenderer text="Maps that show Earth's natural features like mountains and rivers" idPrefix="subtitle" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />}
+        imageSrc={physicalImg}
+        globeMode="physical"
+        callouts={[
+          { icon: '🏔', label: 'Mountains', top: '25%', left: '20%' },
+          { icon: '🌊', label: 'River', top: '70%', left: '45%' },
+          { icon: '🌳', label: 'Forest', top: '75%', left: '80%' },
+          { icon: '🏜', label: 'Desert', top: '35%', left: '60%' },
+          { icon: '🏞', label: 'Plain', top: '80%', left: '25%' },
+          { icon: '⛰', label: 'Plateau', top: '50%', left: '25%' }
+        ]}
+        whatIs={[
+          <WordRenderer text="A Physical Map shows the natural features of the Earth." idPrefix="what1" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" />,
+          <WordRenderer text="It helps us see the shape of the land without showing roads or cities built by people." idPrefix="what2" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" />
+        ]}
+        whatIsTitle={<WordRenderer text="What is a Physical Map?" idPrefix="whatIsTitle" activeWordId={activeWordId} defaultColor={theme.colors.primary} highlightColor="#451a03" />}
+        featuresTitle={<WordRenderer text="Natural Features on a Physical Map" idPrefix="featuresTitle" activeWordId={activeWordId} defaultColor={theme.colors.primary} highlightColor="#451a03" />}
+        features={[
+          { icon: '🏞', rawTitle: 'Plains', title: <WordRenderer text="Plains" idPrefix="feature-0-title" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />, desc: <WordRenderer text="Large flat areas of land that are great for farming and building houses." idPrefix="feature-0-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { icon: '🏔', rawTitle: 'Mountains', title: <WordRenderer text="Mountains" idPrefix="feature-1-title" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />, desc: <WordRenderer text="Very tall and large rocky hills rising high above the land." idPrefix="feature-1-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { icon: '🌊', rawTitle: 'Rivers', title: <WordRenderer text="Rivers" idPrefix="feature-2-title" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />, desc: <WordRenderer text="Natural streams of flowing water moving across the land into the sea." idPrefix="feature-2-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { icon: '🏜', rawTitle: 'Deserts', title: <WordRenderer text="Deserts" idPrefix="feature-3-title" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />, desc: <WordRenderer text="Very dry and sandy lands that get almost no rain all year." idPrefix="feature-3-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { icon: '🌳', rawTitle: 'Forests', title: <WordRenderer text="Forests" idPrefix="feature-4-title" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />, desc: <WordRenderer text="Large areas completely covered with lots of trees and plants." idPrefix="feature-4-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { icon: '⛰', rawTitle: 'Plateaus', title: <WordRenderer text="Plateaus" idPrefix="feature-5-title" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />, desc: <WordRenderer text="Large flat lands that are raised high up like a table." idPrefix="feature-5-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> }
+        ]}
+        colorsTitle={<WordRenderer text="Colours Used on Physical Maps" idPrefix="colorsTitle" activeWordId={activeWordId} defaultColor={theme.colors.primary} highlightColor="#451a03" />}
+        colors={[
+          { hexCode: '#22c55e', desc: <WordRenderer text="Green represents plains, river valleys, and low flat lands." idPrefix="color-0-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { hexCode: '#854d0e', desc: <WordRenderer text="Brown is used for high mountains and tall hills." idPrefix="color-1-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { hexCode: '#3b82f6', desc: <WordRenderer text="Blue shows water like rivers, lakes, seas, and oceans." idPrefix="color-2-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { hexCode: '#eab308', desc: <WordRenderer text="Yellow is used to show high flat lands called plateaus." idPrefix="color-3-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> }
+        ]}
+        whyUseTitle={<WordRenderer text="Why are Physical Maps Useful?" idPrefix="whyUseTitle" activeWordId={activeWordId} defaultColor={theme.colors.primary} highlightColor="#451a03" />}
+        whyUse={[
+          { icon: '🏕', desc: <WordRenderer text="Planning outdoor trips and finding paths through nature" idPrefix="whyUse-0-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { icon: '🌾', desc: <WordRenderer text="Learning about different land shapes on Earth" idPrefix="whyUse-1-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { icon: '🏞', desc: <WordRenderer text="Seeing where water flows and where mountains are located" idPrefix="whyUse-2-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> }
+        ]}
+        remember={[
+          "Physical Maps show nature.",
+          "They help us find mountains, rivers, plains, forests and deserts."
+        ]}
+        funFact={<WordRenderer text="The Himalayas are colored dark brown on physical maps because they are some of the tallest mountains in the world!" idPrefix="funFact" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />}
+      />
+    </div>
+  );
+};
+
+export const PoliticalMapPage = ({ onFullyViewed, onNextMap, onPrevMap, currentPage: mainCurrentPage, onFinish }) => {
+  const [currentSubPage, setCurrentSubPage] = useState(1);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordId, setActiveWordId] = useState(null);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setIsPlaying(false);
+      setActiveWordId(null);
+    }
+  }, [currentSubPage]);
+
+  const currentAudioSrc = currentSubPage === 1 ? page12Audio : currentSubPage === 2 ? page13Audio : currentSubPage === 3 ? citiesAudio : currentSubPage === 4 ? page15Audio : currentSubPage === 5 ? page16Audio : null;
+  const currentTranscript = currentSubPage === 1 ? PAGE12_TRANSCRIPT : currentSubPage === 2 ? PAGE13_TRANSCRIPT : currentSubPage === 3 ? CITIES_TRANSCRIPT : currentSubPage === 4 ? PAGE15_TRANSCRIPT : currentSubPage === 5 ? PAGE16_TRANSCRIPT : [];
+
+  const toggleAudio = () => {
+    if (!currentAudioSrc) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play().catch(e => console.error("Audio play error", e));
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleTimeUpdate = () => {
+    if (!audioRef.current || !currentTranscript.length) return;
+    const time = audioRef.current.currentTime;
+    const currentWord = currentTranscript.find(w => time >= w.start && time <= w.end);
+    if (currentWord) {
+      setActiveWordId(currentWord.pageWordId);
+    } else {
+      setActiveWordId(null);
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordId(null);
+  };
+
+  return (
+    <>
+      <audio 
+        ref={audioRef}
+        src={currentAudioSrc}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
+      <PageLayout 
+        onFullyViewed={onFullyViewed}
+        onNextMap={onNextMap}
+        onPrevMap={onPrevMap}
+        currentPage={mainCurrentPage}
+        onPageChange={setCurrentSubPage}
+        onFinish={onFinish}
+        headerAction={
+          currentAudioSrc ? (
+            <button
+              onClick={toggleAudio}
+              style={{
+                marginLeft: theme.spacing.s4,
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                padding: '8px 16px', background: '#d97706',
+                border: 'none', borderRadius: '999px',
+                fontSize: '14px', fontWeight: 800, color: '#fff',
+                cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              }}
+            >
+              {isPlaying ? "Pause" : "Play"}
+            </button>
+          ) : null
+        }
+        title={<WordRenderer text="Political Maps" idPrefix="title" activeWordId={activeWordId} defaultColor={theme.colors.primary} highlightColor="#451a03" />}
+        subtitle={<WordRenderer text="Maps that show countries, states, cities and their borders" idPrefix="subtitle" activeWordId={activeWordId} defaultColor={theme.colors.textLight} highlightColor="#451a03" />}
+        imageSrc={politicalImg}
+        globeMode="political"
+        callouts={[
+          { icon: '📍', label: 'Capital', top: '30%', left: '50%' },
+          { icon: '🏙', label: 'City', top: '60%', left: '35%' },
+          { icon: '➖', label: 'Boundary', top: '45%', left: '75%' },
+          { icon: '🗺', label: 'State', top: '75%', left: '60%' },
+          { icon: '🌎', label: 'Country', top: '25%', left: '25%' }
+        ]}
+        whatIs={[
+          <WordRenderer text="A Political Map shows the borders of countries, states, and cities." idPrefix="whatIs-0" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" />,
+          <WordRenderer text="It helps us see the different regions and governments created by people." idPrefix="whatIs-1" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" />
+        ]}
+        whatIsTitle={<WordRenderer text="What is a Political Map?" idPrefix="whatIsTitle" activeWordId={activeWordId} defaultColor={theme.colors.primary} highlightColor="#451a03" />}
+        featuresTitle={<WordRenderer text="What Can We See?" idPrefix="featuresTitle" activeWordId={activeWordId} defaultColor={theme.colors.primary} highlightColor="#451a03" />}
+        features={[
+          { icon: '🌎', rawTitle: 'Countries', title: <WordRenderer text="Countries" idPrefix="feature-0-title" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />, desc: <WordRenderer text="Different nations around the world with their own governments." idPrefix="feature-0-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { icon: '🗺', rawTitle: 'States', title: <WordRenderer text="States" idPrefix="feature-1-title" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />, desc: <WordRenderer text="Smaller regions or states inside a country." idPrefix="feature-1-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { icon: '📍', rawTitle: 'Capitals', title: <WordRenderer text="Capitals" idPrefix="feature-2-title" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />, desc: <WordRenderer text="Important cities where the government of a state or country works." idPrefix="feature-2-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { icon: '🏙', rawTitle: 'Cities', title: <WordRenderer text="Cities," idPrefix="feature-3-title" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />, desc: <WordRenderer text="Big towns where many people live and work," idPrefix="feature-3-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { icon: '➖', rawTitle: 'Boundaries', title: <WordRenderer text="Boundaries," idPrefix="feature-4-title" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />, desc: <WordRenderer text="The lines on the map that separate states and countries." idPrefix="feature-4-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> }
+        ]}
+        colorsTitle={<WordRenderer text="Common Symbols" idPrefix="colorsTitle" activeWordId={activeWordId} defaultColor={theme.colors.primary} highlightColor="#451a03" />}
+        colors={[
+          { color: '⭐️', desc: <WordRenderer text="Stars are used to show capital cities." idPrefix="color-0-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { color: '⚫️', desc: <WordRenderer text="Black dots are used to show important cities." idPrefix="color-1-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { color: '➖', desc: <WordRenderer text="Thick lines show the borders between different countries." idPrefix="color-2-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { color: '〰️', desc: <WordRenderer text="Dotted or dashed lines show the borders between states." idPrefix="color-3-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> }
+        ]}
+        whyUseTitle={<WordRenderer text="Why Do We Use Political Maps?" idPrefix="whyUseTitle" activeWordId={activeWordId} defaultColor={theme.colors.primary} highlightColor="#451a03" />}
+        whyUse={[
+          { icon: '🏫', desc: <WordRenderer text="Learning about the different countries and states in the world" idPrefix="whyUse-0-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { icon: '✈️', desc: <WordRenderer text="Finding out which state a city belongs to when traveling" idPrefix="whyUse-1-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { icon: '🗺', desc: <WordRenderer text="Seeing the borders that separate different nations" idPrefix="whyUse-2-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> }
+        ]}
+        remember={[
+          "Political Maps show places made by people.",
+          "They help us locate countries, states, cities and their borders."
+        ]}
+        funFact={<WordRenderer text="India currently has 28 states and 8 Union Territories, each with its own borders on the map." idPrefix="funFact" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />}
+      />
+    </>
+  );
+};
+
+export const ThematicMapPage = ({ onFullyViewed, onNextMap, onPrevMap, currentPage: mainCurrentPage, onFinish }) => {
+  const [currentSubPage, setCurrentSubPage] = useState(1);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordId, setActiveWordId] = useState(null);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setIsPlaying(false);
+      setActiveWordId(null);
+    }
+  }, [currentSubPage]);
+
+  const currentAudioSrc = currentSubPage === 1 ? page17Audio : currentSubPage === 2 ? page18Audio : currentSubPage === 3 ? page19Audio : currentSubPage === 4 ? page20Audio : null;
+  const currentTranscript = currentSubPage === 1 ? PAGE17_TRANSCRIPT : currentSubPage === 2 ? PAGE18_TRANSCRIPT : currentSubPage === 3 ? PAGE19_TRANSCRIPT : currentSubPage === 4 ? PAGE20_TRANSCRIPT : [];
+
+  const toggleAudio = () => {
+    if (!currentAudioSrc) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play().catch(e => console.error("Audio play error", e));
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleTimeUpdate = () => {
+    if (!audioRef.current || !currentTranscript.length) return;
+    const time = audioRef.current.currentTime;
+    const currentWord = currentTranscript.find(w => time >= w.start && time <= w.end);
+    if (currentWord) {
+      setActiveWordId(currentWord.pageWordId);
+    } else {
+      setActiveWordId(null);
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordId(null);
+  };
+
+  return (
+    <>
+      <audio 
+        ref={audioRef}
+        src={currentAudioSrc}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
+      <PageLayout 
+        onFullyViewed={onFullyViewed}
+        onNextMap={onNextMap}
+        onPrevMap={onPrevMap}
+        currentPage={mainCurrentPage}
+        onPageChange={setCurrentSubPage}
+        onFinish={onFinish}
+        headerAction={
+          currentAudioSrc ? (
+            <button
+              onClick={toggleAudio}
+              style={{
+                marginLeft: theme.spacing.s4,
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                padding: '8px 16px', background: '#d97706',
+                border: 'none', borderRadius: '999px',
+                fontSize: '14px', fontWeight: 800, color: '#fff',
+                cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              }}
+            >
+              {isPlaying ? "Pause" : "Play"}
+            </button>
+          ) : null
+        }
+        title={<WordRenderer text="Thematic Maps" idPrefix="title" activeWordId={activeWordId} defaultColor={theme.colors.primary} highlightColor="#451a03" />}
+        subtitle={<WordRenderer text="Maps that focus on one special topic like soil, rainfall, or crops" idPrefix="subtitle" activeWordId={activeWordId} defaultColor={theme.colors.textLight} highlightColor="#451a03" />}
+        globeMode="thematic"
+        globeTheme="rain"
+        thematicMapOptions={[
+          { icon: '🌱', label: 'Major Soil Types', src: thematicMapImg },
+          { icon: '🌧', label: 'Annual Rainfall', src: '/maps/flat_thematic_rainfall_map.jpg' },
+          { icon: '🌡', label: 'Temperature Distribution', src: '/maps/flat_thematic_temperature_map.jpg' },
+          { icon: '👥', label: 'Population Density', src: '/maps/flat_thematic_population_density_map.jpg' },
+          { icon: '🌳', label: 'Forest Cover', src: '/maps/flat_thematic_forest_cover_map.jpg' }
+        ]}
+        callouts={[
+          { icon: '🌱', label: 'Alluvial Soil', top: '33%', left: '42%' },
+          { icon: '🧱', label: 'Black Soil', top: '50%', left: '30%' },
+          { icon: '🔴', label: 'Red & Yellow Soil', top: '56%', left: '50%' },
+          { icon: '📊', label: 'Soil Legend', top: '75%', left: '72%' }
+        ]}
+        whatIs={[
+          <WordRenderer text="A Thematic Map focuses on one special topic or theme." idPrefix="whatIs-0" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" />,
+          <WordRenderer text="Instead of showing borders, it shows specific information like rainfall, types of crops, or soil." idPrefix="whatIs-1" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" />
+        ]}
+        whatIsTitle={<WordRenderer text="What is a Thematic Map?" idPrefix="whatIsTitle" activeWordId={activeWordId} defaultColor={theme.colors.primary} highlightColor="#451a03" />}
+        featuresTitle={<WordRenderer text="What Can We Learn from Thematic Maps?" idPrefix="featuresTitle" activeWordId={activeWordId} defaultColor={theme.colors.primary} highlightColor="#451a03" />}
+        features={[
+          { icon: '🌱', rawTitle: 'Soil Types', title: <WordRenderer text="Soil Types" idPrefix="feature-0-title" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />, desc: <WordRenderer text="Shows where different kinds of soil are found for farming." idPrefix="feature-0-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { icon: '🌧', rawTitle: 'Rainfall', title: <WordRenderer text="Rainfall" idPrefix="feature-1-title" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />, desc: <WordRenderer text="Shows how much rain falls in different areas across the year." idPrefix="feature-1-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { icon: '🌡', rawTitle: 'Temperature', title: <WordRenderer text="Temperature" idPrefix="feature-2-title" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />, desc: <WordRenderer text="Shows how hot or cold different regions get." idPrefix="feature-2-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { icon: '🌾', rawTitle: 'Crops & Agriculture', title: <WordRenderer text="Crops & Agriculture" idPrefix="feature-3-title" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />, desc: <WordRenderer text="Shows where crops like rice, wheat, and cotton grow best." idPrefix="feature-3-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> }
+        ]}
+        colorsTitle={<WordRenderer text="Colours and Legends" idPrefix="colorsTitle" activeWordId={activeWordId} defaultColor={theme.colors.primary} highlightColor="#451a03" />}
+        colors={[
+          { color: '📊', desc: <WordRenderer text="The legend box explains what each color or pattern means on the map." idPrefix="color-0-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { hexCode: '#86efac', desc: <WordRenderer text="Light green shows good soil for farming near rivers." idPrefix="color-1-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { hexCode: '#4b5563', desc: <WordRenderer text="Dark grey shows black soil that is great for growing cotton." idPrefix="color-2-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { hexCode: '#ef4444', desc: <WordRenderer text="Red and yellow colors show older, rocky soils." idPrefix="color-3-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> }
+        ]}
+        whyUseTitle={<WordRenderer text="Why Do We Use Thematic Maps?" idPrefix="whyUseTitle" activeWordId={activeWordId} defaultColor={theme.colors.primary} highlightColor="#451a03" />}
+        whyUse={[
+          { icon: '🚜', desc: <WordRenderer text="Finding the best places to grow different crops" idPrefix="whyUse-0-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { icon: '☔️', desc: <WordRenderer text="Knowing where it will rain the most during the year" idPrefix="whyUse-1-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> },
+          { icon: '📈', desc: <WordRenderer text="Seeing where people live and where natural resources are found" idPrefix="whyUse-2-desc" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" /> }
+        ]}
+        remember={[
+          "One map, one main idea.",
+          "Thematic maps use distinct colors and a legend box to explain specific information."
+        ]}
+        funFact={<WordRenderer text="A soil map and a rainfall map of India cover the exact same land, but they tell us two completely different stories!" idPrefix="funFact" activeWordId={activeWordId} defaultColor={theme.colors.primaryActive} highlightColor="#451a03" />}
+      />
+    </>
+  );
+};
