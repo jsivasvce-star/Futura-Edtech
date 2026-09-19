@@ -42,6 +42,11 @@ import mustardRootImg from '../../../../../assets/mustard_root.png';
 import chickpeaPlantImg from '../../../../../assets/chickpea_plant.png';
 import chickpeaLeafImg from '../../../../../assets/chickpea_leaf.png';
 import chickpeaRootImg from '../../../../../assets/chickpea_root.png';
+import specimen01LemongrassBlended from './specimen_01_lemongrass_blended.png';
+import specimen02MarigoldBlended from './specimen_02_marigold_blended.png';
+import specimen03SadabaharBlended from './specimen_03_sadabahar_blended.png';
+import specimen04ChickpeaBlended from './specimen_04_chickpea_blended.png';
+import specimen05WheatBlended from './specimen_05_wheat_blended.png';
 
 // ============================================================
 // ORNATE BOTANICAL SVG ELEMENTS (EXACT MATCH TO SLOGAN PAGE)
@@ -278,7 +283,7 @@ const CORRELATION_SPECIMEN_SLIDES = [
     name: 'Lemongrass',
     venation: 'Parallel venation',
     root: 'Fibrous root system',
-    image: '/activities/class6_chapter2/correlation/lemongrass.png'
+    image: specimen01LemongrassBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
   {
     id: 2,
@@ -286,7 +291,7 @@ const CORRELATION_SPECIMEN_SLIDES = [
     name: 'Marigold',
     venation: 'Reticulate venation',
     root: 'Tap root system',
-    image: '/activities/class6_chapter2/correlation/marigold.png'
+    image: specimen02MarigoldBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
   {
     id: 3,
@@ -294,7 +299,7 @@ const CORRELATION_SPECIMEN_SLIDES = [
     name: 'Sadabahar (Periwinkle)',
     venation: 'Reticulate venation',
     root: 'Tap root system',
-    image: '/activities/class6_chapter2/correlation/sadabhar.png'
+    image: specimen03SadabaharBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
   {
     id: 4,
@@ -302,7 +307,7 @@ const CORRELATION_SPECIMEN_SLIDES = [
     name: 'Chickpea',
     venation: 'Reticulate venation',
     root: 'Tap root system',
-    image: '/activities/class6_chapter2/correlation/chickpea.png'
+    image: specimen04ChickpeaBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
   {
     id: 5,
@@ -310,7 +315,7 @@ const CORRELATION_SPECIMEN_SLIDES = [
     name: 'Wheat',
     venation: 'Parallel venation',
     root: 'Fibrous root system',
-    image: '/activities/class6_chapter2/correlation/wheat.png'
+    image: specimen05WheatBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   }
 ];
 
@@ -516,7 +521,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
             color: '#1E293B',
             cursor: 'pointer',
             boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
-            backdropFilter: 'blur(8px)',
+            backdropFilter: 'blur(2px)',
             zIndex: 1010,
             transition: 'all 0.18s ease'
           }}
@@ -539,7 +544,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           border: '1.5px solid rgba(110, 231, 183, 0.4)',
           borderRadius: '24px',
           padding: '7px 18px',
-          backdropFilter: 'blur(10px)',
+          backdropFilter: 'blur(2px)',
           zIndex: 1010,
           boxShadow: '0 4px 16px rgba(0,0,0,0.35)'
         }}>
@@ -1178,7 +1183,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
                 top: '10px',
                 right: '10px',
                 background: 'rgba(20, 69, 47, 0.88)',
-                backdropFilter: 'blur(6px)',
+                backdropFilter: 'blur(2px)',
                 color: '#D1FAE5',
                 borderRadius: '8px',
                 padding: '4px 12px',
@@ -1205,7 +1210,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
                 left: 0,
                 right: 0,
                 background: 'linear-gradient(180deg, rgba(10, 42, 26, 0) 0%, rgba(10, 42, 26, 0.82) 28%, rgba(10, 42, 26, 0.95) 100%)',
-                backdropFilter: 'blur(6px)',
+                backdropFilter: 'blur(2px)',
                 padding: '10px 16px 8px 16px',
                 color: '#E6F9EE',
                 fontSize: '16px',
@@ -1515,7 +1520,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
             position: 'fixed',
             inset: 0,
             backgroundColor: 'rgba(10, 45, 30, 0.72)',
-            backdropFilter: 'blur(6px)',
+            backdropFilter: 'blur(2px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

@@ -209,7 +209,8 @@ export default function IntroStoryteller({ onComplete, onBack }) {
             height: '100%',
             objectFit: 'cover',
             transition: 'opacity 0.5s ease',
-            opacity: imgLoaded ? 1 : 0
+            opacity: imgLoaded ? 1 : 0,
+            filter: currentScene === 4 ? 'saturate(0.85) hue-rotate(-6deg) brightness(1.02)' : 'none'
           }}
         />
 
@@ -260,7 +261,7 @@ export default function IntroStoryteller({ onComplete, onBack }) {
               borderRadius: '10px',
               border: '1.8px solid #14452F',
               background: 'rgba(250, 248, 242, 0.85)',
-              backdropFilter: 'blur(8px)',
+              backdropFilter: 'blur(2px)',
               color: '#14452F',
               cursor: 'pointer',
               boxShadow: '0 4px 14px rgba(20, 69, 47, 0.25)',
@@ -285,7 +286,7 @@ export default function IntroStoryteller({ onComplete, onBack }) {
               borderRadius: '10px',
               border: '1.8px solid #14452F',
               background: 'rgba(250, 248, 242, 0.85)',
-              backdropFilter: 'blur(8px)',
+              backdropFilter: 'blur(2px)',
               color: '#14452F',
               cursor: 'pointer',
               boxShadow: '0 4px 14px rgba(20, 69, 47, 0.25)',

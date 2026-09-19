@@ -33,6 +33,8 @@ import specimen01TapBlended from './specimen_01_tap_blended.png';
 import specimen02CropsBlended from './specimen_02_crops_blended.png';
 import specimen03OnionBlended from './specimen_03_onion_blended.png';
 import specimen04GrassBlended from './specimen_04_grass_blended.png';
+import specimen05MaizeBlended from './specimen_05_maize_blended.png';
+import specimen06OverviewBlended from './specimen_06_overview_blended.png';
 
 // =========================================================================
 // FULLSCREEN SPECIMEN SLIDES (ACTIVITY 2.6) — EXACT 16:9 HD SPECIMENS
@@ -71,14 +73,14 @@ const ROOT_SPECIMEN_SLIDES = [
     num: '05',
     name: 'Maize Fibrous Root',
     type: 'Fibrous Root System',
-    image: '/activities/class6_chapter2/roots/root_05_fibrous_maize.png'
+    image: specimen05MaizeBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
   {
     id: 6,
     num: '06',
     name: 'Fibrous Root Overview (Grass, Wheat, Rice, Maize, Onion)',
     type: 'Fibrous Root System',
-    image: '/activities/class6_chapter2/roots/root_06_fibrous_overview.png'
+    image: specimen06OverviewBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   }
 ];
 
@@ -747,7 +749,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
             color: '#1E293B',
             cursor: 'pointer',
             boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
-            backdropFilter: 'blur(8px)',
+            backdropFilter: 'blur(2px)',
             zIndex: 1010,
             transition: 'all 0.18s ease'
           }}
@@ -770,7 +772,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           border: '1.5px solid rgba(110, 231, 183, 0.4)',
           borderRadius: '24px',
           padding: '7px 18px',
-          backdropFilter: 'blur(10px)',
+          backdropFilter: 'blur(2px)',
           zIndex: 1010,
           boxShadow: '0 4px 16px rgba(0,0,0,0.35)'
         }}>
@@ -985,8 +987,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           flexDirection: 'column',
           justifyContent: 'space-between',
           background: 'rgba(15, 23, 42, 0.50)',
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
+          backdropFilter: 'blur(2px)',
+          WebkitBackdropFilter: 'blur(2px)',
           border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           padding: '0.45rem 1.4rem 0.4rem',
@@ -1644,8 +1646,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           flexDirection: 'column',
           justifyContent: 'space-between',
           background: 'rgba(15, 23, 42, 0.50)',
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
+          backdropFilter: 'blur(2px)',
+          WebkitBackdropFilter: 'blur(2px)',
           border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',

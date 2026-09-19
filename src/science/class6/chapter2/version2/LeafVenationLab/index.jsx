@@ -420,7 +420,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
             color: '#1E293B',
             cursor: 'pointer',
             boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
-            backdropFilter: 'blur(8px)',
+            backdropFilter: 'blur(2px)',
             zIndex: 1010,
             transition: 'all 0.18s ease'
           }}
@@ -429,48 +429,6 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
         >
           <ArrowLeft size={20} /> Back
         </button>
-
-        {/* Floating Bottom Center: Progress Indicators */}
-        <div style={{
-          position: 'absolute',
-          bottom: '22px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          background: 'rgba(4, 26, 16, 0.85)',
-          border: '1.5px solid rgba(110, 231, 183, 0.4)',
-          borderRadius: '24px',
-          padding: '7px 18px',
-          backdropFilter: 'blur(10px)',
-          zIndex: 1010,
-          boxShadow: '0 4px 16px rgba(0,0,0,0.35)'
-        }}>
-          {VENATION_SPECIMEN_SLIDES.map((s, idx) => (
-            <button
-              key={s.id}
-              onClick={() => {
-                setSpecimenIndex(idx);
-                venationAudio.playSwitch();
-              }}
-              style={{
-                width: idx === specimenIndex ? '28px' : '10px',
-                height: '10px',
-                borderRadius: '5px',
-                background: idx === specimenIndex ? '#34D399' : 'rgba(255, 255, 255, 0.35)',
-                border: 'none',
-                cursor: 'pointer',
-                padding: 0,
-                transition: 'all 0.25s ease'
-              }}
-              title={`Specimen ${s.num}: ${s.name}`}
-            />
-          ))}
-          <span style={{ color: '#A7F3D0', fontWeight: 800, fontSize: '14px', marginLeft: '6px', fontFamily: '"Outfit", sans-serif' }}>
-            {specimenIndex + 1} / {VENATION_SPECIMEN_SLIDES.length}
-          </span>
-        </div>
 
         {/* Floating Bottom Right: Next Slide or Enter Lab */}
         <button
@@ -669,8 +627,8 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
           flexDirection: 'column',
           justifyContent: 'space-between',
           background: 'rgba(15, 23, 42, 0.50)',
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
+          backdropFilter: 'blur(2px)',
+          WebkitBackdropFilter: 'blur(2px)',
           border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           padding: '0.45rem 1.4rem 0.4rem',
@@ -909,7 +867,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
                         width: '100%',
                         height: '24px',
                         background: 'rgba(27, 77, 62, 0.94)',
-                        backdropFilter: 'blur(4px)',
+                        backdropFilter: 'blur(2px)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -1222,8 +1180,8 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
           flexDirection: 'column',
           justifyContent: 'space-between',
           background: 'rgba(15, 23, 42, 0.50)',
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
+          backdropFilter: 'blur(2px)',
+          WebkitBackdropFilter: 'blur(2px)',
           border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',

@@ -736,6 +736,20 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
           overflow: 'hidden',
           zIndex: 40
         }}>
+          {/* Hidden SVG sharpen filter to counter softness when the specimen image is upscaled beyond its native resolution */}
+          <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true">
+            <defs>
+              <filter id="specimenSharpen" x="-10%" y="-10%" width="120%" height="120%">
+                <feConvolveMatrix
+                  order="3"
+                  kernelMatrix="0 -1 0 -1 5 -1 0 -1 0"
+                  divisor="1"
+                  preserveAlpha="true"
+                />
+              </filter>
+            </defs>
+          </svg>
+
           {/* Exact 16:9 Aspect-Ratio Container */}
           <div style={{
             position: 'relative',
@@ -756,7 +770,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 objectFit: 'contain',
                 display: 'block',
                 userSelect: 'none',
-                filter: 'drop-shadow(0 15px 35px rgba(0,0,0,0.5))'
+                imageRendering: 'auto',
+                filter: 'url(#specimenSharpen) contrast(1.04) drop-shadow(0 15px 35px rgba(0,0,0,0.5))'
               }}
             />
 
@@ -813,7 +828,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               color: '#1E293B',
               cursor: 'pointer',
               boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
-              backdropFilter: 'blur(8px)',
+              backdropFilter: 'blur(2px)',
               zIndex: 50,
               transition: 'all 0.18s ease'
             }}
@@ -926,8 +941,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             overflow: 'hidden',
             boxSizing: 'border-box',
             background: 'rgba(240, 253, 244, 0.85)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
+            backdropFilter: 'blur(2px)',
+            WebkitBackdropFilter: 'blur(2px)',
             border: '2px solid rgba(255,255,255,0.6)',
             borderRadius: '22px',
             padding: '18px 22px',
@@ -1326,7 +1341,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               background: 'rgba(255, 255, 255, 0.75)',
               padding: '4px 14px',
               borderRadius: '28px',
-              backdropFilter: 'blur(8px)',
+              backdropFilter: 'blur(2px)',
               width: 'fit-content',
               margin: '0 auto',
               boxShadow: '0 2px 10px rgba(0,0,0,0.06)'
@@ -1442,7 +1457,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 flex: '1 1 0',
                 alignContent: 'start',
                 minHeight: 0,
-                overflow: 'hidden'
+                overflowY: 'auto',
+                overflowX: 'hidden'
               }}>
                 {currentTabCards.map(card => {
                   const isPlaced = !!currentTabPlacements[card.id];
@@ -1482,8 +1498,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                         position: 'relative',
                         display: 'flex',
                         flexDirection: 'column',
-                        minHeight: 0,
-                        height: currentTabCards.length > 6 ? '100px' : '135px'
+                        minHeight: 0
                       }}
                     >
 
@@ -1514,8 +1529,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                       {/* 8K Photo */}
                       <div style={{
                         width: '100%',
-                        flex: '1 1 0',
-                        minHeight: 0,
+                        aspectRatio: '3 / 4',
                         overflow: 'hidden',
                         background: '#F1F5F9'
                       }}>
@@ -1910,7 +1924,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               fontSize: '16px',
               fontWeight: 700,
               color: '#334155',
-              backdropFilter: 'blur(4px)',
+              backdropFilter: 'blur(2px)',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap'
@@ -1921,28 +1935,6 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
 
             {/* Action Buttons */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-              <button
-                onClick={() => {
-                  playTone('click');
-                  setPhase('specimens');
-                }}
-                style={{
-                  background: '#FFFFFF',
-                  border: '1.5px solid #CBD5E1',
-                  borderRadius: '20px',
-                  padding: '8px 16px',
-                  fontSize: '16px',
-                  fontWeight: 800,
-                  color: '#1E293B',
-                  cursor: 'pointer',
-                  boxShadow: '0 3px 6px rgba(0,0,0,0.05)',
-                  transition: 'all 0.15s ease'
-                }}
-                title="View Fullscreen Specimen Slides 1-9"
-              >
-                Specimen Slides
-              </button>
-
               <button
                 onClick={handleClearGroups}
                 style={{
@@ -2046,7 +2038,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
           position: 'fixed',
           inset: 0,
           background: 'rgba(0,0,0,0.7)',
-          backdropFilter: 'blur(8px)',
+          backdropFilter: 'blur(2px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

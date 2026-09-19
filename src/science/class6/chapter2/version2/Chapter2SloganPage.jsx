@@ -1348,11 +1348,12 @@ export default function Chapter2SloganPage({
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            objectPosition: 'center center',
+            objectPosition: (currentPage === 1 || currentPage === 2) ? 'right center' : 'center center',
             display: 'block',
             imageRendering: 'high-quality',
             transform: 'translateZ(0)',
-            backfaceVisibility: 'hidden'
+            backfaceVisibility: 'hidden',
+            filter: 'none'
           }}
         />
       </div>
@@ -1371,8 +1372,6 @@ export default function Chapter2SloganPage({
             title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
             style={{
               background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
               color: '#FEF3C7',
               border: '1.8px solid rgba(255, 255, 255, 0.35)',
               borderRadius: '10px',
@@ -1489,8 +1488,6 @@ export default function Chapter2SloganPage({
               title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
               style={{
                 background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
                 color: '#FEF3C7',
                 border: '1.8px solid rgba(255, 255, 255, 0.35)',
                 borderRadius: '10px',
@@ -1576,9 +1573,9 @@ export default function Chapter2SloganPage({
                 width: 'min(420px, 36vw)',
                 maxHeight: '78vh',
                 zIndex: 40,
-                background: 'linear-gradient(145deg, rgba(8, 28, 18, 0.38) 0%, rgba(3, 18, 10, 0.30) 100%)',
-                backdropFilter: 'blur(16px) saturate(160%)',
-                WebkitBackdropFilter: 'blur(16px) saturate(160%)',
+                backdropFilter: 'blur(2px)',
+                WebkitBackdropFilter: 'blur(2px)',
+                background: 'linear-gradient(145deg, rgba(8, 28, 18, 0.23) 0%, rgba(3, 18, 10, 0.18) 100%)',
                 border: '1.5px solid rgba(167, 243, 208, 0.35)',
                 borderRadius: '24px',
                 boxShadow: '0 16px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.20), 0 0 15px rgba(16, 185, 129, 0.10)',
@@ -1612,8 +1609,6 @@ export default function Chapter2SloganPage({
                 }}>
                   <span style={{
                     background: 'linear-gradient(135deg, rgba(6, 28, 18, 0.32) 0%, rgba(2, 18, 10, 0.26) 100%)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                     color: '#A7F3D0',
                     border: '1.2px solid rgba(110, 231, 183, 0.50)',
                     boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
@@ -1640,8 +1635,6 @@ export default function Chapter2SloganPage({
                     title="View full scenery photo"
                     style={{
                       background: 'rgba(2, 18, 10, 0.55)',
-                      backdropFilter: 'blur(18px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(18px) saturate(180%)',
                       border: '1.2px solid rgba(255, 255, 255, 0.25)',
                       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                       borderRadius: '10px',
@@ -1806,8 +1799,6 @@ export default function Chapter2SloganPage({
                     onClick={toggleBioAudio}
                     style={{
                       background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.65) 0%, rgba(5, 150, 105, 0.50) 100%)',
-                      backdropFilter: 'blur(18px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(18px) saturate(180%)',
                       color: '#FFFFFF',
                       border: '1.5px solid rgba(110, 231, 183, 0.75)',
                       borderRadius: '26px',
@@ -1844,8 +1835,6 @@ export default function Chapter2SloganPage({
                     onClick={() => setShowPage2Popup(false)}
                     style={{
                       background: 'rgba(2, 18, 10, 0.55)',
-                      backdropFilter: 'blur(18px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(18px) saturate(180%)',
                       border: '1.5px solid rgba(255, 255, 255, 0.30)',
                       borderRadius: '26px',
                       padding: '11px 22px',
@@ -1898,8 +1887,6 @@ export default function Chapter2SloganPage({
                 padding: '8px 24px',
                 fontSize: '16px',
                 background: 'linear-gradient(135deg, rgba(255, 253, 245, 0.82) 0%, rgba(254, 248, 230, 0.72) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
                 color: '#064E3B',
                 border: '1.8px solid #059669',
                 borderRadius: '24px',
@@ -1949,8 +1936,6 @@ export default function Chapter2SloganPage({
               title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
               style={{
                 background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
                 color: '#FEF3C7',
                 border: '1.8px solid rgba(255, 255, 255, 0.35)',
                 borderRadius: '10px',
@@ -2036,9 +2021,9 @@ export default function Chapter2SloganPage({
                 width: 'min(420px, 36vw)',
                 maxHeight: '78vh',
                 zIndex: 40,
-                background: 'linear-gradient(145deg, rgba(28, 18, 5, 0.42) 0%, rgba(18, 10, 2, 0.34) 100%)',
-                backdropFilter: 'blur(16px) saturate(160%)',
-                WebkitBackdropFilter: 'blur(16px) saturate(160%)',
+                backdropFilter: 'blur(2px)',
+                WebkitBackdropFilter: 'blur(2px)',
+                background: 'linear-gradient(145deg, rgba(28, 18, 5, 0.25) 0%, rgba(18, 10, 2, 0.20) 100%)',
                 border: '1.5px solid rgba(251, 191, 36, 0.35)',
                 borderRadius: '24px',
                 boxShadow: '0 16px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.20), 0 0 15px rgba(245, 158, 11, 0.10)',
@@ -2072,8 +2057,6 @@ export default function Chapter2SloganPage({
                 }}>
                   <span style={{
                     background: 'linear-gradient(135deg, rgba(40, 24, 6, 0.32) 0%, rgba(20, 12, 3, 0.26) 100%)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                     color: '#FDE68A',
                     border: '1.2px solid rgba(251, 191, 36, 0.45)',
                     boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
@@ -2100,8 +2083,6 @@ export default function Chapter2SloganPage({
                     title="View full scenery photo"
                     style={{
                       background: 'rgba(28, 16, 4, 0.30)',
-                      backdropFilter: 'blur(20px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                       border: '1.2px solid rgba(255, 255, 255, 0.25)',
                       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                       borderRadius: '10px',
@@ -2236,8 +2217,6 @@ export default function Chapter2SloganPage({
                     onClick={toggleAdaptationAudio}
                     style={{
                       background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.65) 0%, rgba(217, 119, 6, 0.52) 100%)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
                       color: '#FFFFFF',
                       border: '1.2px solid rgba(251, 191, 36, 0.65)',
                       borderRadius: '28px',
@@ -2276,8 +2255,6 @@ export default function Chapter2SloganPage({
                     onClick={() => setShowPage3Popup(false)}
                     style={{
                       background: 'rgba(28, 16, 4, 0.55)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
                       border: '1.2px solid rgba(255, 255, 255, 0.28)',
                       borderRadius: '28px',
                       padding: '11px 22px',
@@ -2328,8 +2305,6 @@ export default function Chapter2SloganPage({
                 padding: '8px 24px',
                 fontSize: '16px',
                 background: 'linear-gradient(135deg, rgba(255, 253, 245, 0.85) 0%, rgba(254, 248, 230, 0.75) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
                 color: '#78350F',
                 border: '1.8px solid #D97706',
                 borderRadius: '24px',
@@ -2379,8 +2354,6 @@ export default function Chapter2SloganPage({
               title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
               style={{
                 background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
                 color: '#FEF3C7',
                 border: '1.8px solid rgba(255, 255, 255, 0.35)',
                 borderRadius: '10px',
@@ -2466,9 +2439,9 @@ export default function Chapter2SloganPage({
                 width: 'min(420px, 36vw)',
                 maxHeight: '78vh',
                 zIndex: 40,
-                background: 'linear-gradient(145deg, rgba(8, 28, 18, 0.42) 0%, rgba(3, 18, 10, 0.34) 100%)',
-                backdropFilter: 'blur(16px) saturate(160%)',
-                WebkitBackdropFilter: 'blur(16px) saturate(160%)',
+                backdropFilter: 'blur(2px)',
+                WebkitBackdropFilter: 'blur(2px)',
+                background: 'linear-gradient(145deg, rgba(8, 28, 18, 0.25) 0%, rgba(3, 18, 10, 0.20) 100%)',
                 border: '1.5px solid rgba(167, 243, 208, 0.35)',
                 borderRadius: '24px',
                 boxShadow: '0 16px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.20), 0 0 15px rgba(16, 185, 129, 0.10)',
@@ -2503,8 +2476,6 @@ export default function Chapter2SloganPage({
                 }}>
                   <span style={{
                     background: 'linear-gradient(135deg, rgba(6, 30, 20, 0.32) 0%, rgba(2, 18, 10, 0.26) 100%)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                     color: '#A7F3D0',
                     border: '1.2px solid rgba(110, 231, 183, 0.50)',
                     boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
@@ -2531,8 +2502,6 @@ export default function Chapter2SloganPage({
                     title="View full scenery photo"
                     style={{
                       background: 'rgba(2, 18, 10, 0.30)',
-                      backdropFilter: 'blur(20px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                       border: '1.2px solid rgba(255, 255, 255, 0.25)',
                       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                       borderRadius: '10px',
@@ -2650,8 +2619,6 @@ export default function Chapter2SloganPage({
                     onClick={toggleBotanyAudio}
                     style={{
                       background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.50) 0%, rgba(5, 150, 105, 0.38) 100%)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
                       color: '#FFFFFF',
                       border: '1.2px solid rgba(110, 231, 183, 0.65)',
                       borderRadius: '28px',
@@ -2690,8 +2657,6 @@ export default function Chapter2SloganPage({
                     onClick={() => setShowPage4Popup(false)}
                     style={{
                       background: 'rgba(2, 18, 10, 0.55)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
                       border: '1.2px solid rgba(255, 255, 255, 0.28)',
                       borderRadius: '28px',
                       padding: '11px 22px',
@@ -2742,8 +2707,6 @@ export default function Chapter2SloganPage({
                 padding: '8px 24px',
                 fontSize: '16px',
                 background: 'linear-gradient(135deg, rgba(255, 253, 245, 0.85) 0%, rgba(254, 248, 230, 0.75) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
                 color: '#065F46',
                 border: '1.8px solid #059669',
                 borderRadius: '24px',
@@ -2793,8 +2756,6 @@ export default function Chapter2SloganPage({
               title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
               style={{
                 background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
                 color: '#FEF3C7',
                 border: '1.8px solid rgba(255, 255, 255, 0.35)',
                 borderRadius: '10px',
@@ -2880,9 +2841,9 @@ export default function Chapter2SloganPage({
                 width: 'min(420px, 36vw)',
                 maxHeight: '78vh',
                 zIndex: 40,
-                background: 'linear-gradient(145deg, rgba(8, 28, 18, 0.42) 0%, rgba(3, 18, 10, 0.34) 100%)',
-                backdropFilter: 'blur(16px) saturate(160%)',
-                WebkitBackdropFilter: 'blur(16px) saturate(160%)',
+                backdropFilter: 'blur(2px)',
+                WebkitBackdropFilter: 'blur(2px)',
+                background: 'linear-gradient(145deg, rgba(8, 28, 18, 0.25) 0%, rgba(3, 18, 10, 0.20) 100%)',
                 border: '1.5px solid rgba(167, 243, 208, 0.35)',
                 borderRadius: '24px',
                 boxShadow: '0 16px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.20), 0 0 15px rgba(16, 185, 129, 0.10)',
@@ -2917,8 +2878,6 @@ export default function Chapter2SloganPage({
                 }}>
                   <span style={{
                     background: 'linear-gradient(135deg, rgba(30, 20, 4, 0.32) 0%, rgba(18, 10, 2, 0.26) 100%)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                     color: '#FDE68A',
                     border: '1.2px solid rgba(251, 191, 36, 0.50)',
                     boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
@@ -2945,8 +2904,6 @@ export default function Chapter2SloganPage({
                     title="View full scenery photo"
                     style={{
                       background: 'rgba(18, 10, 2, 0.30)',
-                      backdropFilter: 'blur(20px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                       border: '1.2px solid rgba(255, 255, 255, 0.25)',
                       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                       borderRadius: '10px',
@@ -3064,8 +3021,6 @@ export default function Chapter2SloganPage({
                     onClick={toggleConservationAudio}
                     style={{
                       background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.65) 0%, rgba(217, 119, 6, 0.52) 100%)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
                       color: '#FFFFFF',
                       border: '1.2px solid rgba(251, 191, 36, 0.65)',
                       borderRadius: '28px',
@@ -3104,8 +3059,6 @@ export default function Chapter2SloganPage({
                     onClick={() => setShowPage5Popup(false)}
                     style={{
                       background: 'rgba(18, 10, 2, 0.55)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
                       border: '1.2px solid rgba(255, 255, 255, 0.28)',
                       borderRadius: '28px',
                       padding: '11px 22px',
@@ -3156,8 +3109,6 @@ export default function Chapter2SloganPage({
                 padding: '8px 24px',
                 fontSize: '16px',
                 background: 'linear-gradient(135deg, rgba(255, 253, 245, 0.85) 0%, rgba(254, 248, 226, 0.75) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
                 color: '#78350F',
                 border: '1.8px solid #D97706',
                 borderRadius: '24px',

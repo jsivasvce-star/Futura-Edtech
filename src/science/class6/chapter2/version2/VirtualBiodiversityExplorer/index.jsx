@@ -2060,8 +2060,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   width: 'min(415px, calc(100vw - 40px))',
                   maxHeight: 'calc(100% - 85px)',
                   background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.30) 0%, rgba(4, 28, 16, 0.30) 45%, rgba(2, 18, 11, 0.32) 100%)',
-                  backdropFilter: 'blur(22px) saturate(180%)',
-                  WebkitBackdropFilter: 'blur(22px) saturate(180%)',
+                  backdropFilter: 'blur(2px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(2px) saturate(180%)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
                   borderRadius: '24px',
@@ -2347,8 +2347,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
                   style={{
                     background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
+                    backdropFilter: 'blur(2px)',
+                    WebkitBackdropFilter: 'blur(2px)',
                     color: '#FEF3C7',
                     border: '1.8px solid rgba(255, 255, 255, 0.35)',
                     borderRadius: '10px',
@@ -2385,8 +2385,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       alignItems: 'center',
                       gap: '6px',
                       background: 'rgba(250, 248, 242, 0.85)',
-                      backdropFilter: 'blur(12px)',
-                      WebkitBackdropFilter: 'blur(12px)',
+                      backdropFilter: 'blur(2px)',
+                      WebkitBackdropFilter: 'blur(2px)',
                       border: '1.8px solid #14452F',
                       color: '#14452F',
                       cursor: 'pointer',
@@ -2471,8 +2471,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   width: 'min(415px, calc(100vw - 40px))',
                   maxHeight: 'calc(100% - 85px)',
                   background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.30) 0%, rgba(4, 28, 16, 0.30) 45%, rgba(2, 18, 11, 0.32) 100%)',
-                  backdropFilter: 'blur(22px) saturate(180%)',
-                  WebkitBackdropFilter: 'blur(22px) saturate(180%)',
+                  backdropFilter: 'blur(2px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(2px) saturate(180%)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
                   borderRadius: '24px',
@@ -2758,8 +2758,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
                   style={{
                     background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
+                    backdropFilter: 'blur(2px)',
+                    WebkitBackdropFilter: 'blur(2px)',
                     color: '#FEF3C7',
                     border: '1.8px solid rgba(255, 255, 255, 0.35)',
                     borderRadius: '10px',
@@ -2795,8 +2795,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     alignItems: 'center',
                     gap: '6px',
                     background: 'rgba(250, 248, 242, 0.85)',
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
+                    backdropFilter: 'blur(2px)',
+                    WebkitBackdropFilter: 'blur(2px)',
                     border: '1.8px solid #14452F',
                     color: '#14452F',
                     cursor: 'pointer',
@@ -2880,8 +2880,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   width: 'min(415px, calc(100vw - 40px))',
                   maxHeight: 'calc(100% - 85px)',
                   background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.30) 0%, rgba(4, 28, 16, 0.30) 45%, rgba(2, 18, 11, 0.32) 100%)',
-                  backdropFilter: 'blur(22px) saturate(180%)',
-                  WebkitBackdropFilter: 'blur(22px) saturate(180%)',
+                  backdropFilter: 'blur(2px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(2px) saturate(180%)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
                   borderRadius: '24px',
@@ -3167,8 +3167,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
                   style={{
                     background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
+                    backdropFilter: 'blur(2px)',
+                    WebkitBackdropFilter: 'blur(2px)',
                     color: '#FEF3C7',
                     border: '1.8px solid rgba(255, 255, 255, 0.35)',
                     borderRadius: '10px',
@@ -3204,8 +3204,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     alignItems: 'center',
                     gap: '6px',
                     background: 'rgba(250, 248, 242, 0.85)',
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
+                    backdropFilter: 'blur(2px)',
+                    WebkitBackdropFilter: 'blur(2px)',
                     border: '1.8px solid #14452F',
                     color: '#14452F',
                     cursor: 'pointer',
@@ -3293,8 +3293,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   width: 'min(30vw, 360px)',
                   minWidth: '270px',
                   background: 'rgba(6, 38, 22, 0.34)',
-                  backdropFilter: 'blur(22px) saturate(180%)',
-                  WebkitBackdropFilter: 'blur(22px) saturate(180%)',
+                  backdropFilter: 'blur(2px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(2px) saturate(180%)',
                   border: '1.5px solid rgba(255, 255, 255, 0.50)',
                   borderRadius: '24px',
                   padding: 'clamp(12px, 1.8vh, 18px) clamp(14px, 1.6vw, 18px)',
@@ -3329,8 +3329,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       alignItems: 'center',
                       gap: '6px',
                       background: 'rgba(255, 255, 255, 0.18)',
-                      backdropFilter: 'blur(8px)',
-                      WebkitBackdropFilter: 'blur(8px)',
+                      backdropFilter: 'blur(2px)',
+                      WebkitBackdropFilter: 'blur(2px)',
                       color: '#FEF3C7',
                       border: '1.2px solid rgba(255, 255, 255, 0.45)',
                       boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
@@ -3470,8 +3470,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       fontSize: '16px',
                       fontWeight: 800,
                       background: 'rgba(250, 248, 242, 0.92)',
-                      backdropFilter: 'blur(4px)',
-                      WebkitBackdropFilter: 'blur(4px)',
+                      backdropFilter: 'blur(2px)',
+                      WebkitBackdropFilter: 'blur(2px)',
                       border: '1.8px solid #14452F',
                       color: '#14452F',
                       cursor: 'pointer',
@@ -3509,8 +3509,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     alignItems: 'center',
                     gap: '6px',
                     background: 'rgba(250, 248, 242, 0.85)',
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
+                    backdropFilter: 'blur(2px)',
+                    WebkitBackdropFilter: 'blur(2px)',
                     border: '1.8px solid #14452F',
                     color: '#14452F',
                     cursor: 'pointer',
@@ -3594,8 +3594,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   width: 'min(32vw, 380px)',
                   minWidth: '280px',
                   background: 'linear-gradient(145deg, rgba(10, 31, 24, 0.30) 0%, rgba(13, 27, 42, 0.30) 100%)',
-                  backdropFilter: 'blur(22px) saturate(180%)',
-                  WebkitBackdropFilter: 'blur(22px) saturate(180%)',
+                  backdropFilter: 'blur(2px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(2px) saturate(180%)',
                   border: '1.5px solid rgba(167, 243, 208, 0.45)',
                   borderRadius: '24px',
                   padding: 'clamp(14px, 2vh, 18px) clamp(16px, 1.8vw, 20px)',
@@ -3630,8 +3630,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       alignItems: 'center',
                       gap: '6px',
                       background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(5, 150, 105, 0.18) 100%)',
-                      backdropFilter: 'blur(8px)',
-                      WebkitBackdropFilter: 'blur(8px)',
+                      backdropFilter: 'blur(2px)',
+                      WebkitBackdropFilter: 'blur(2px)',
                       color: '#A7F3D0',
                       border: '1.2px solid rgba(52, 211, 153, 0.55)',
                       boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
@@ -3656,8 +3656,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         title={isAerialSpeaking ? 'Stop voice' : 'Listen to explanation'}
                         style={{
                           background: isAerialSpeaking ? '#10B981' : 'rgba(255, 255, 255, 0.16)',
-                          backdropFilter: 'blur(8px)',
-                          WebkitBackdropFilter: 'blur(8px)',
+                          backdropFilter: 'blur(2px)',
+                          WebkitBackdropFilter: 'blur(2px)',
                           color: '#FFFFFF',
                           border: '1.2px solid rgba(255, 255, 255, 0.45)',
                           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
@@ -3685,8 +3685,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         title="Close popup to view full image"
                         style={{
                           background: 'rgba(255, 255, 255, 0.14)',
-                          backdropFilter: 'blur(8px)',
-                          WebkitBackdropFilter: 'blur(8px)',
+                          backdropFilter: 'blur(2px)',
+                          WebkitBackdropFilter: 'blur(2px)',
                           border: '1.2px solid rgba(255, 255, 255, 0.35)',
                           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
                           borderRadius: '10px',
@@ -3776,8 +3776,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       fontSize: '16px',
                       fontWeight: 800,
                       background: 'rgba(10, 31, 24, 0.85)',
-                      backdropFilter: 'blur(14px)',
-                      WebkitBackdropFilter: 'blur(14px)',
+                      backdropFilter: 'blur(2px)',
+                      WebkitBackdropFilter: 'blur(2px)',
                       border: '1.5px solid rgba(167, 243, 208, 0.60)',
                       color: '#A7F3D0',
                       cursor: 'pointer',
@@ -3812,8 +3812,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     alignItems: 'center',
                     gap: '6px',
                     background: 'rgba(250, 248, 242, 0.85)',
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
+                    backdropFilter: 'blur(2px)',
+                    WebkitBackdropFilter: 'blur(2px)',
                     border: '1.8px solid #14452F',
                     color: '#14452F',
                     cursor: 'pointer',
@@ -3897,8 +3897,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   width: 'min(30vw, 360px)',
                   minWidth: '270px',
                   background: 'rgba(6, 38, 22, 0.34)',
-                  backdropFilter: 'blur(22px) saturate(180%)',
-                  WebkitBackdropFilter: 'blur(22px) saturate(180%)',
+                  backdropFilter: 'blur(2px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(2px) saturate(180%)',
                   border: '1.5px solid rgba(255, 255, 255, 0.50)',
                   borderRadius: '24px',
                   padding: 'clamp(12px, 1.8vh, 18px) clamp(14px, 1.6vw, 18px)',
@@ -3934,8 +3934,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         alignItems: 'center',
                         gap: '6px',
                         background: 'rgba(255, 255, 255, 0.18)',
-                        backdropFilter: 'blur(8px)',
-                        WebkitBackdropFilter: 'blur(8px)',
+                        backdropFilter: 'blur(2px)',
+                        WebkitBackdropFilter: 'blur(2px)',
                         color: '#FEF3C7',
                         border: '1.2px solid rgba(255, 255, 255, 0.45)',
                         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
@@ -4072,7 +4072,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       fontSize: '15px',
                       fontWeight: 800,
                       background: 'rgba(250, 248, 242, 0.92)',
-                      backdropFilter: 'blur(12px)',
+                      backdropFilter: 'blur(2px)',
                       border: '1.8px solid #14452F',
                       color: '#14452F',
                       cursor: 'pointer',
@@ -4106,8 +4106,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     alignItems: 'center',
                     gap: '6px',
                     background: 'rgba(250, 248, 242, 0.85)',
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
+                    backdropFilter: 'blur(2px)',
+                    WebkitBackdropFilter: 'blur(2px)',
                     border: '1.8px solid #14452F',
                     color: '#14452F',
                     cursor: 'pointer',
@@ -4172,8 +4172,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 justifyContent: 'space-between',
                 padding: 'clamp(8px, 1vh, 12px) clamp(16px, 2.2vw, 32px) clamp(12px, 1.6vh, 18px)',
                 background: 'rgba(250, 248, 242, 0.55)',
-                backdropFilter: 'blur(18px)',
-                WebkitBackdropFilter: 'blur(18px)',
+                backdropFilter: 'blur(2px)',
+                WebkitBackdropFilter: 'blur(2px)',
                 borderRadius: 0,
                 border: 'none',
                 boxSizing: 'border-box',
@@ -4209,7 +4209,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     right: 0,
                     top: '2px',
                     background: 'rgba(6, 78, 59, 0.90)',
-                    backdropFilter: 'blur(8px)',
+                    backdropFilter: 'blur(2px)',
                     color: '#D1FAE5',
                     border: '1.5px solid #10B981',
                     borderRadius: '10px',
@@ -4366,7 +4366,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       title="Toggle Projector Zoom: 1x, 1.8x, 2.6x"
                       style={{
                         background: 'rgba(20, 69, 47, 0.90)',
-                        backdropFilter: 'blur(8px)',
+                        backdropFilter: 'blur(2px)',
                         border: '1.5px solid #10B981',
                         borderRadius: '16px',
                         padding: '5px 14px',
@@ -4393,8 +4393,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 <div style={{
                   position: 'relative',
                   background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.30) 0%, rgba(4, 28, 16, 0.30) 45%, rgba(2, 18, 11, 0.32) 100%)',
-                  backdropFilter: 'blur(22px) saturate(180%)',
-                  WebkitBackdropFilter: 'blur(22px) saturate(180%)',
+                  backdropFilter: 'blur(2px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(2px) saturate(180%)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
                   borderRadius: '24px',
@@ -5029,7 +5029,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   title={showHints ? 'Hide Target Rings' : 'Show Target Rings'}
                   style={{
                     background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(12px)',
+                    backdropFilter: 'blur(2px)',
                     color: '#FEF3C7',
                     border: '1.8px solid rgba(255, 255, 255, 0.35)',
                     borderRadius: '10px',
@@ -5055,7 +5055,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
                   style={{
                     background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(12px)',
+                    backdropFilter: 'blur(2px)',
                     color: '#FEF3C7',
                     border: '1.8px solid rgba(255, 255, 255, 0.35)',
                     borderRadius: '10px',
@@ -5095,8 +5095,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     alignItems: 'center',
                     gap: '6px',
                     background: 'rgba(250, 248, 242, 0.85)',
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
+                    backdropFilter: 'blur(2px)',
+                    WebkitBackdropFilter: 'blur(2px)',
                     border: '1.8px solid #14452F',
                     color: '#14452F',
                     cursor: 'pointer',
@@ -5375,7 +5375,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   title={showHints ? 'Hide Target Rings' : 'Show Target Rings'}
                   style={{
                     background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(12px)',
+                    backdropFilter: 'blur(2px)',
                     color: '#FEF3C7',
                     border: '1.8px solid rgba(255, 255, 255, 0.35)',
                     borderRadius: '10px',
@@ -5401,7 +5401,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
                   style={{
                     background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(12px)',
+                    backdropFilter: 'blur(2px)',
                     color: '#FEF3C7',
                     border: '1.8px solid rgba(255, 255, 255, 0.35)',
                     borderRadius: '10px',
@@ -5440,8 +5440,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     alignItems: 'center',
                     gap: '6px',
                     background: 'rgba(250, 248, 242, 0.90)',
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
+                    backdropFilter: 'blur(2px)',
+                    WebkitBackdropFilter: 'blur(2px)',
                     border: '1.8px solid #14452F',
                     color: '#14452F',
                     cursor: 'pointer',
@@ -5635,7 +5635,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 height: '100vh',
                 zIndex: 9999999,
                 background: 'rgba(20, 69, 47, 0.45)',
-                backdropFilter: 'blur(8px)',
+                backdropFilter: 'blur(2px)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -5647,8 +5647,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   width: '100%',
                   maxHeight: '90vh',
                   background: 'rgba(250, 248, 242, 0.55)',
-                  backdropFilter: 'blur(18px)',
-                  WebkitBackdropFilter: 'blur(18px)',
+                  backdropFilter: 'blur(2px)',
+                  WebkitBackdropFilter: 'blur(2px)',
                   borderRadius: '20px',
                   border: '2px solid rgba(20, 69, 47, 0.5)',
                   boxShadow: '0 25px 50px -12px rgba(20, 69, 47, 0.4)',
@@ -5694,7 +5694,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   {/* Specimen Description (18px) */}
                   <div style={{
                     background: 'rgba(255, 255, 255, 0.88)',
-                    backdropFilter: 'blur(6px)',
+                    backdropFilter: 'blur(2px)',
                     border: '1.8px solid #14452F',
                     borderRadius: '14px',
                     padding: '12px 16px',
@@ -5718,7 +5718,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   {scannedOrganism.verifyQ && (
                     <div style={{
                       background: 'rgba(255, 255, 255, 0.92)',
-                      backdropFilter: 'blur(6px)',
+                      backdropFilter: 'blur(2px)',
                       border: '1.8px solid #14452F',
                       borderRadius: '14px',
                       padding: '1rem',
@@ -5910,8 +5910,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
             alignItems: 'center',
             gap: '12px',
             background: 'rgba(3, 20, 12, 0.85)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
+            backdropFilter: 'blur(2px)',
+            WebkitBackdropFilter: 'blur(2px)',
             border: '1.5px solid rgba(16, 185, 129, 0.45)',
             borderRadius: '32px',
             padding: '6px 10px',
@@ -5992,16 +5992,16 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
           {showPlantDetailPopup && (
             <div style={{
               position: 'absolute',
-              top: 'clamp(18px, 2.8vh, 28px)',
-              right: 'clamp(14px, 2vw, 24px)',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
               width: 'min(30vw, 380px)',
               minWidth: '270px',
               maxHeight: 'calc(100vh - clamp(85px, 11vh, 100px))',
               background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.26) 0%, rgba(4, 28, 16, 0.28) 45%, rgba(2, 18, 11, 0.30) 100%)',
-              backdropFilter: 'blur(22px) saturate(180%)',
-              WebkitBackdropFilter: 'blur(22px) saturate(180%)',
+              backdropFilter: 'blur(2px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(2px) saturate(180%)',
               border: '1.5px solid rgba(16, 185, 129, 0.45)',
-              borderLeft: '1.5px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '24px',
               boxShadow: 'inset 1px 1px 2px rgba(255, 255, 255, 0.25), inset -1px -1px 2px rgba(0, 0, 0, 0.3), 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(16, 185, 129, 0.2)',
               zIndex: 35,
@@ -6263,8 +6263,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
             alignItems: 'center',
             gap: '12px',
             background: 'rgba(3, 20, 12, 0.85)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
+            backdropFilter: 'blur(2px)',
+            WebkitBackdropFilter: 'blur(2px)',
             border: '1.5px solid rgba(16, 185, 129, 0.45)',
             borderRadius: '32px',
             padding: '6px 10px',
@@ -6351,8 +6351,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
               minWidth: '280px',
               maxHeight: 'calc(100vh - clamp(85px, 11vh, 100px))',
               background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.26) 0%, rgba(4, 28, 16, 0.28) 45%, rgba(2, 18, 11, 0.30) 100%)',
-              backdropFilter: 'blur(22px) saturate(180%)',
-              WebkitBackdropFilter: 'blur(22px) saturate(180%)',
+              backdropFilter: 'blur(2px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(2px) saturate(180%)',
               border: '1.5px solid rgba(16, 185, 129, 0.45)',
               borderLeft: '1.5px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '24px',
@@ -6521,13 +6521,6 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
 
                   return (
                     <div style={{
-                      background: 'linear-gradient(145deg, rgba(6, 24, 16, 0.24) 0%, rgba(2, 14, 9, 0.18) 100%)',
-                      backdropFilter: 'blur(22px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(22px) saturate(180%)',
-                      border: '1.2px solid rgba(167, 243, 208, 0.28)',
-                      borderRadius: '14px',
-                      padding: '10px 14px',
-                      boxShadow: '0 6px 20px rgba(0, 0, 0, 0.28)',
                       display: 'flex',
                       flexDirection: 'column',
                       gap: '10px'
@@ -6561,28 +6554,6 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         </div>
                         <div style={{ fontSize: '16px', color: '#FDF2F8', fontWeight: 500, lineHeight: 1.5, fontFamily: '"Inter", sans-serif' }}>
                           {adaptationText}
-                        </div>
-                      </div>
-                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
-
-                      {/* DESCRIPTION & BEHAVIOR */}
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: '4px solid #3B82F6', paddingLeft: '10px' }}>
-                        <div style={{ fontSize: '18px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: '"Outfit", sans-serif' }}>
-                          <span>📖 DESCRIPTION &amp; BEHAVIOR</span>
-                        </div>
-                        <div style={{ fontSize: '16px', color: '#EFF6FF', fontWeight: 500, lineHeight: 1.5, fontFamily: '"Inter", sans-serif' }}>
-                          {behaviorText}
-                        </div>
-                      </div>
-                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
-
-                      {/* DID YOU KNOW? */}
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: '4px solid #F59E0B', paddingLeft: '10px' }}>
-                        <div style={{ fontSize: '18px', fontWeight: 800, color: '#FDE68A', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: '"Outfit", sans-serif' }}>
-                          <span>💡 DID YOU KNOW?</span>
-                        </div>
-                        <div style={{ fontSize: '16px', color: '#FEF3C7', fontWeight: 500, lineHeight: 1.5, fontFamily: '"Inter", sans-serif' }}>
-                          {factText}
                         </div>
                       </div>
                     </div>
@@ -6634,7 +6605,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
             inset: 0,
             zIndex: 999999,
             background: 'rgba(0, 0, 0, 0.85)',
-            backdropFilter: 'blur(8px)',
+            backdropFilter: 'blur(2px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
