@@ -1,0 +1,2319 @@
+{
+  "0": {
+    "audioFile": "07_MorningAtGreenValleySchool.mp3",
+    "totalDuration": 23.64,
+    "cues": [
+      {
+        "text": "A beautiful morning welcomes us to the Green Valley School.",
+        "start": 0.0,
+        "end": 3.84,
+        "words": [
+          {
+            "word": "A",
+            "start": 0.0,
+            "end": 0.14
+          },
+          {
+            "word": "beautiful",
+            "start": 0.15,
+            "end": 0.72
+          },
+          {
+            "word": "morning",
+            "start": 0.73,
+            "end": 1.39
+          },
+          {
+            "word": "welcomes",
+            "start": 1.76,
+            "end": 2.29
+          },
+          {
+            "word": "us",
+            "start": 2.3,
+            "end": 2.55
+          },
+          {
+            "word": "to",
+            "start": 2.56,
+            "end": 2.69
+          },
+          {
+            "word": "the",
+            "start": 2.7,
+            "end": 2.79
+          },
+          {
+            "word": "Green",
+            "start": 2.8,
+            "end": 3.17
+          },
+          {
+            "word": "Valley",
+            "start": 3.18,
+            "end": 3.5
+          },
+          {
+            "word": "School.",
+            "start": 3.51,
+            "end": 3.84
+          }
+        ]
+      },
+      {
+        "text": "The trees are fresh and green, and colourful butterflies move gently through the garden.",
+        "start": 4.85,
+        "end": 11.15,
+        "words": [
+          {
+            "word": "The",
+            "start": 4.85,
+            "end": 4.96
+          },
+          {
+            "word": "trees",
+            "start": 4.97,
+            "end": 5.46
+          },
+          {
+            "word": "are",
+            "start": 5.47,
+            "end": 5.58
+          },
+          {
+            "word": "fresh",
+            "start": 5.59,
+            "end": 6.06
+          },
+          {
+            "word": "and",
+            "start": 6.07,
+            "end": 6.27
+          },
+          {
+            "word": "green,",
+            "start": 6.28,
+            "end": 6.71
+          },
+          {
+            "word": "and",
+            "start": 7.15,
+            "end": 7.36
+          },
+          {
+            "word": "colourful",
+            "start": 7.37,
+            "end": 7.97
+          },
+          {
+            "word": "butterflies",
+            "start": 7.98,
+            "end": 8.9
+          },
+          {
+            "word": "move",
+            "start": 9.31,
+            "end": 9.61
+          },
+          {
+            "word": "gently",
+            "start": 9.62,
+            "end": 10.15
+          },
+          {
+            "word": "through",
+            "start": 10.16,
+            "end": 10.41
+          },
+          {
+            "word": "the",
+            "start": 10.42,
+            "end": 10.53
+          },
+          {
+            "word": "garden.",
+            "start": 10.54,
+            "end": 11.15
+          }
+        ]
+      },
+      {
+        "text": "All around us, nature is full of different forms of life.",
+        "start": 11.857,
+        "end": 16.157,
+        "words": [
+          {
+            "word": "All",
+            "start": 11.857,
+            "end": 12.087
+          },
+          {
+            "word": "around",
+            "start": 12.097,
+            "end": 12.507
+          },
+          {
+            "word": "us,",
+            "start": 12.517,
+            "end": 12.847
+          },
+          {
+            "word": "nature",
+            "start": 13.247,
+            "end": 13.677
+          },
+          {
+            "word": "is",
+            "start": 13.687,
+            "end": 13.967
+          },
+          {
+            "word": "full",
+            "start": 13.977,
+            "end": 14.297
+          },
+          {
+            "word": "of",
+            "start": 14.307,
+            "end": 14.487
+          },
+          {
+            "word": "different",
+            "start": 14.497,
+            "end": 14.987
+          },
+          {
+            "word": "forms",
+            "start": 14.997,
+            "end": 15.477
+          },
+          {
+            "word": "of",
+            "start": 15.487,
+            "end": 15.647
+          },
+          {
+            "word": "life.",
+            "start": 15.657,
+            "end": 16.157
+          }
+        ]
+      },
+      {
+        "text": "Let’s begin our journey to discover the amazing diversity of the living world.",
+        "start": 17.406,
+        "end": 23.226,
+        "words": [
+          {
+            "word": "Let’s",
+            "start": 17.406,
+            "end": 17.766
+          },
+          {
+            "word": "begin",
+            "start": 17.776,
+            "end": 18.106
+          },
+          {
+            "word": "our",
+            "start": 18.116,
+            "end": 18.286
+          },
+          {
+            "word": "journey",
+            "start": 18.296,
+            "end": 18.956
+          },
+          {
+            "word": "to",
+            "start": 19.256,
+            "end": 19.356
+          },
+          {
+            "word": "discover",
+            "start": 19.366,
+            "end": 19.956
+          },
+          {
+            "word": "the",
+            "start": 19.966,
+            "end": 20.136
+          },
+          {
+            "word": "amazing",
+            "start": 20.146,
+            "end": 20.726
+          },
+          {
+            "word": "diversity",
+            "start": 20.736,
+            "end": 21.616
+          },
+          {
+            "word": "of",
+            "start": 21.936,
+            "end": 22.066
+          },
+          {
+            "word": "the",
+            "start": 22.076,
+            "end": 22.226
+          },
+          {
+            "word": "living",
+            "start": 22.236,
+            "end": 22.636
+          },
+          {
+            "word": "world.",
+            "start": 22.646,
+            "end": 23.226
+          }
+        ]
+      }
+    ]
+  },
+  "1": {
+    "audioFile": "08_NatureWalkBegins.mp3",
+    "totalDuration": 34.09,
+    "cues": [
+      {
+        "text": "The students are ready for an exciting nature walk.",
+        "start": 0.0,
+        "end": 3.76,
+        "words": [
+          {
+            "word": "The",
+            "start": 0.0,
+            "end": 0.16
+          },
+          {
+            "word": "students",
+            "start": 0.17,
+            "end": 0.72
+          },
+          {
+            "word": "are",
+            "start": 0.73,
+            "end": 0.88
+          },
+          {
+            "word": "ready",
+            "start": 0.89,
+            "end": 1.42
+          },
+          {
+            "word": "for",
+            "start": 1.67,
+            "end": 1.84
+          },
+          {
+            "word": "an",
+            "start": 1.85,
+            "end": 2.0
+          },
+          {
+            "word": "exciting",
+            "start": 2.01,
+            "end": 2.75
+          },
+          {
+            "word": "nature",
+            "start": 2.76,
+            "end": 3.19
+          },
+          {
+            "word": "walk.",
+            "start": 3.2,
+            "end": 3.76
+          }
+        ]
+      },
+      {
+        "text": "They are joined by Dr.",
+        "start": 6.711,
+        "end": 8.176,
+        "words": [
+          {
+            "word": "They",
+            "start": 6.711,
+            "end": 7.037
+          },
+          {
+            "word": "are",
+            "start": 7.037,
+            "end": 7.281
+          },
+          {
+            "word": "joined",
+            "start": 7.281,
+            "end": 7.769
+          },
+          {
+            "word": "by",
+            "start": 7.769,
+            "end": 7.932
+          },
+          {
+            "word": "Dr.",
+            "start": 7.932,
+            "end": 8.176
+          }
+        ]
+      },
+      {
+        "text": "Raghu, a scientist from the nearby research laboratory, and Maniram Chacha, who knows a lot about plants, animals, and bird calls.",
+        "start": 8.176,
+        "end": 17.131,
+        "words": [
+          {
+            "word": "Raghu,",
+            "start": 8.176,
+            "end": 8.665
+          },
+          {
+            "word": "a",
+            "start": 8.665,
+            "end": 8.746
+          },
+          {
+            "word": "scientist",
+            "start": 8.746,
+            "end": 9.479
+          },
+          {
+            "word": "from",
+            "start": 9.479,
+            "end": 9.804
+          },
+          {
+            "word": "the",
+            "start": 9.804,
+            "end": 10.049
+          },
+          {
+            "word": "nearby",
+            "start": 10.049,
+            "end": 10.537
+          },
+          {
+            "word": "research",
+            "start": 10.537,
+            "end": 11.188
+          },
+          {
+            "word": "laboratory,",
+            "start": 11.188,
+            "end": 12.084
+          },
+          {
+            "word": "and",
+            "start": 12.084,
+            "end": 12.328
+          },
+          {
+            "word": "Maniram",
+            "start": 12.328,
+            "end": 12.898
+          },
+          {
+            "word": "Chacha,",
+            "start": 12.898,
+            "end": 13.468
+          },
+          {
+            "word": "who",
+            "start": 13.468,
+            "end": 13.712
+          },
+          {
+            "word": "knows",
+            "start": 13.712,
+            "end": 14.119
+          },
+          {
+            "word": "a",
+            "start": 14.119,
+            "end": 14.2
+          },
+          {
+            "word": "lot",
+            "start": 14.2,
+            "end": 14.444
+          },
+          {
+            "word": "about",
+            "start": 14.444,
+            "end": 14.851
+          },
+          {
+            "word": "plants,",
+            "start": 14.851,
+            "end": 15.421
+          },
+          {
+            "word": "animals,",
+            "start": 15.421,
+            "end": 16.072
+          },
+          {
+            "word": "and",
+            "start": 16.072,
+            "end": 16.317
+          },
+          {
+            "word": "bird",
+            "start": 16.317,
+            "end": 16.642
+          },
+          {
+            "word": "calls.",
+            "start": 16.642,
+            "end": 17.131
+          }
+        ]
+      },
+      {
+        "text": "Their science teacher, Madam Sulekha, is also with them.",
+        "start": 17.381,
+        "end": 21.311,
+        "words": [
+          {
+            "word": "Their",
+            "start": 17.381,
+            "end": 17.511
+          },
+          {
+            "word": "science",
+            "start": 17.521,
+            "end": 17.981
+          },
+          {
+            "word": "teacher,",
+            "start": 17.991,
+            "end": 18.491
+          },
+          {
+            "word": "Madam",
+            "start": 18.871,
+            "end": 19.171
+          },
+          {
+            "word": "Sulekha,",
+            "start": 19.181,
+            "end": 19.791
+          },
+          {
+            "word": "is",
+            "start": 20.111,
+            "end": 20.291
+          },
+          {
+            "word": "also",
+            "start": 20.301,
+            "end": 20.661
+          },
+          {
+            "word": "with",
+            "start": 20.671,
+            "end": 20.841
+          },
+          {
+            "word": "them.",
+            "start": 20.851,
+            "end": 21.311
+          }
+        ]
+      },
+      {
+        "text": "As they enter the forest, Dr.",
+        "start": 21.99,
+        "end": 24.38,
+        "words": [
+          {
+            "word": "As",
+            "start": 21.99,
+            "end": 22.18
+          },
+          {
+            "word": "they",
+            "start": 22.19,
+            "end": 22.38
+          },
+          {
+            "word": "enter",
+            "start": 22.39,
+            "end": 22.69
+          },
+          {
+            "word": "the",
+            "start": 22.7,
+            "end": 22.81
+          },
+          {
+            "word": "forest,",
+            "start": 22.82,
+            "end": 23.44
+          },
+          {
+            "word": "Dr.",
+            "start": 23.98,
+            "end": 24.38
+          }
+        ]
+      },
+      {
+        "text": "Raghu reminds everyone to observe carefully.",
+        "start": 24.39,
+        "end": 27.71,
+        "words": [
+          {
+            "word": "Raghu",
+            "start": 24.39,
+            "end": 24.75
+          },
+          {
+            "word": "reminds",
+            "start": 24.76,
+            "end": 25.32
+          },
+          {
+            "word": "everyone",
+            "start": 25.33,
+            "end": 26.04
+          },
+          {
+            "word": "to",
+            "start": 26.41,
+            "end": 26.54
+          },
+          {
+            "word": "observe",
+            "start": 26.55,
+            "end": 27.07
+          },
+          {
+            "word": "carefully.",
+            "start": 27.08,
+            "end": 27.71
+          }
+        ]
+      },
+      {
+        "text": "The students look around with curiosity, ready to discover the living world.",
+        "start": 28.547,
+        "end": 33.757,
+        "words": [
+          {
+            "word": "The",
+            "start": 28.547,
+            "end": 28.667
+          },
+          {
+            "word": "students",
+            "start": 28.677,
+            "end": 29.357
+          },
+          {
+            "word": "look",
+            "start": 29.647,
+            "end": 29.817
+          },
+          {
+            "word": "around",
+            "start": 29.827,
+            "end": 30.157
+          },
+          {
+            "word": "with",
+            "start": 30.167,
+            "end": 30.337
+          },
+          {
+            "word": "curiosity,",
+            "start": 30.347,
+            "end": 31.257
+          },
+          {
+            "word": "ready",
+            "start": 31.757,
+            "end": 32.077
+          },
+          {
+            "word": "to",
+            "start": 32.087,
+            "end": 32.207
+          },
+          {
+            "word": "discover",
+            "start": 32.217,
+            "end": 32.757
+          },
+          {
+            "word": "the",
+            "start": 32.767,
+            "end": 32.897
+          },
+          {
+            "word": "living",
+            "start": 32.907,
+            "end": 33.317
+          },
+          {
+            "word": "world.",
+            "start": 33.327,
+            "end": 33.757
+          }
+        ]
+      }
+    ]
+  },
+  "2": {
+    "audioFile": "09_ObservingHerbsAndShrubs.mp3",
+    "totalDuration": 24.01,
+    "cues": [
+      {
+        "text": "The students now take a closer look at the plants around them.",
+        "start": 0.0,
+        "end": 4.42,
+        "words": [
+          {
+            "word": "The",
+            "start": 0.0,
+            "end": 0.16
+          },
+          {
+            "word": "students",
+            "start": 0.17,
+            "end": 0.84
+          },
+          {
+            "word": "now",
+            "start": 1.12,
+            "end": 1.39
+          },
+          {
+            "word": "take",
+            "start": 1.4,
+            "end": 1.75
+          },
+          {
+            "word": "a",
+            "start": 2.02,
+            "end": 2.12
+          },
+          {
+            "word": "closer",
+            "start": 2.13,
+            "end": 2.59
+          },
+          {
+            "word": "look",
+            "start": 2.6,
+            "end": 2.95
+          },
+          {
+            "word": "at",
+            "start": 3.14,
+            "end": 3.29
+          },
+          {
+            "word": "the",
+            "start": 3.3,
+            "end": 3.38
+          },
+          {
+            "word": "plants",
+            "start": 3.39,
+            "end": 3.81
+          },
+          {
+            "word": "around",
+            "start": 3.82,
+            "end": 4.11
+          },
+          {
+            "word": "them.",
+            "start": 4.12,
+            "end": 4.42
+          }
+        ]
+      },
+      {
+        "text": "Dr.",
+        "start": 5.416,
+        "end": 5.836,
+        "words": [
+          {
+            "word": "Dr.",
+            "start": 5.416,
+            "end": 5.836
+          }
+        ]
+      },
+      {
+        "text": "Raghu points to a small herb with a soft green stem and then to a woody shrub.",
+        "start": 5.846,
+        "end": 12.006,
+        "words": [
+          {
+            "word": "Raghu",
+            "start": 5.846,
+            "end": 6.136
+          },
+          {
+            "word": "points",
+            "start": 6.146,
+            "end": 6.726
+          },
+          {
+            "word": "to",
+            "start": 7.006,
+            "end": 7.116
+          },
+          {
+            "word": "a",
+            "start": 7.126,
+            "end": 7.176
+          },
+          {
+            "word": "small",
+            "start": 7.186,
+            "end": 7.646
+          },
+          {
+            "word": "herb",
+            "start": 7.656,
+            "end": 8.446
+          },
+          {
+            "word": "with",
+            "start": 8.456,
+            "end": 8.606
+          },
+          {
+            "word": "a",
+            "start": 8.616,
+            "end": 8.646
+          },
+          {
+            "word": "soft",
+            "start": 8.656,
+            "end": 9.076
+          },
+          {
+            "word": "green",
+            "start": 9.086,
+            "end": 9.286
+          },
+          {
+            "word": "stem",
+            "start": 9.296,
+            "end": 9.816
+          },
+          {
+            "word": "and",
+            "start": 10.176,
+            "end": 10.366
+          },
+          {
+            "word": "then",
+            "start": 10.376,
+            "end": 10.956
+          },
+          {
+            "word": "to",
+            "start": 10.966,
+            "end": 11.096
+          },
+          {
+            "word": "a",
+            "start": 11.106,
+            "end": 11.186
+          },
+          {
+            "word": "woody",
+            "start": 11.196,
+            "end": 11.536
+          },
+          {
+            "word": "shrub.",
+            "start": 11.546,
+            "end": 12.006
+          }
+        ]
+      },
+      {
+        "text": "He asks the students to notice how different their stems feel.",
+        "start": 13.046,
+        "end": 16.806,
+        "words": [
+          {
+            "word": "He",
+            "start": 13.046,
+            "end": 13.216
+          },
+          {
+            "word": "asks",
+            "start": 13.226,
+            "end": 13.556
+          },
+          {
+            "word": "the",
+            "start": 13.566,
+            "end": 13.636
+          },
+          {
+            "word": "students",
+            "start": 13.646,
+            "end": 14.516
+          },
+          {
+            "word": "to",
+            "start": 14.526,
+            "end": 14.626
+          },
+          {
+            "word": "notice",
+            "start": 14.636,
+            "end": 15.026
+          },
+          {
+            "word": "how",
+            "start": 15.036,
+            "end": 15.226
+          },
+          {
+            "word": "different",
+            "start": 15.236,
+            "end": 15.826
+          },
+          {
+            "word": "their",
+            "start": 15.836,
+            "end": 16.066
+          },
+          {
+            "word": "stems",
+            "start": 16.076,
+            "end": 16.566
+          },
+          {
+            "word": "feel.",
+            "start": 16.576,
+            "end": 16.806
+          }
+        ]
+      },
+      {
+        "text": "The students observe carefully and record what they find, without disturbing the plants.",
+        "start": 17.678,
+        "end": 23.708,
+        "words": [
+          {
+            "word": "The",
+            "start": 17.678,
+            "end": 17.778
+          },
+          {
+            "word": "students",
+            "start": 17.788,
+            "end": 18.468
+          },
+          {
+            "word": "observe",
+            "start": 18.828,
+            "end": 19.278
+          },
+          {
+            "word": "carefully",
+            "start": 19.288,
+            "end": 20.068
+          },
+          {
+            "word": "and",
+            "start": 20.378,
+            "end": 20.538
+          },
+          {
+            "word": "record",
+            "start": 20.548,
+            "end": 20.908
+          },
+          {
+            "word": "what",
+            "start": 20.918,
+            "end": 21.118
+          },
+          {
+            "word": "they",
+            "start": 21.128,
+            "end": 21.238
+          },
+          {
+            "word": "find,",
+            "start": 21.248,
+            "end": 22.088
+          },
+          {
+            "word": "without",
+            "start": 22.098,
+            "end": 22.398
+          },
+          {
+            "word": "disturbing",
+            "start": 22.408,
+            "end": 22.978
+          },
+          {
+            "word": "the",
+            "start": 22.988,
+            "end": 23.068
+          },
+          {
+            "word": "plants.",
+            "start": 23.078,
+            "end": 23.708
+          }
+        ]
+      }
+    ]
+  },
+  "3": {
+    "audioFile": "10_BirdSounds.mp3",
+    "totalDuration": 28.92,
+    "cues": [
+      {
+        "text": "The forest suddenly comes alive with the sounds of birds.",
+        "start": 0.0,
+        "end": 4.17,
+        "words": [
+          {
+            "word": "The",
+            "start": 0.0,
+            "end": 0.16
+          },
+          {
+            "word": "forest",
+            "start": 0.17,
+            "end": 1.07
+          },
+          {
+            "word": "suddenly",
+            "start": 1.08,
+            "end": 1.59
+          },
+          {
+            "word": "comes",
+            "start": 1.6,
+            "end": 2.0
+          },
+          {
+            "word": "alive",
+            "start": 2.01,
+            "end": 2.48
+          },
+          {
+            "word": "with",
+            "start": 2.75,
+            "end": 2.89
+          },
+          {
+            "word": "the",
+            "start": 2.9,
+            "end": 2.97
+          },
+          {
+            "word": "sounds",
+            "start": 2.98,
+            "end": 3.4
+          },
+          {
+            "word": "of",
+            "start": 3.41,
+            "end": 3.57
+          },
+          {
+            "word": "birds.",
+            "start": 3.58,
+            "end": 4.17
+          }
+        ]
+      },
+      {
+        "text": "Maniram Chacha listens carefully to their different calls and begins to mimic them.",
+        "start": 4.749,
+        "end": 10.669,
+        "words": [
+          {
+            "word": "Maniram",
+            "start": 4.749,
+            "end": 5.249
+          },
+          {
+            "word": "Chacha",
+            "start": 5.259,
+            "end": 5.779
+          },
+          {
+            "word": "listens",
+            "start": 6.159,
+            "end": 6.559
+          },
+          {
+            "word": "carefully",
+            "start": 6.569,
+            "end": 7.349
+          },
+          {
+            "word": "to",
+            "start": 7.549,
+            "end": 7.649
+          },
+          {
+            "word": "their",
+            "start": 7.659,
+            "end": 7.769
+          },
+          {
+            "word": "different",
+            "start": 7.779,
+            "end": 8.249
+          },
+          {
+            "word": "calls",
+            "start": 8.259,
+            "end": 8.819
+          },
+          {
+            "word": "and",
+            "start": 9.229,
+            "end": 9.399
+          },
+          {
+            "word": "begins",
+            "start": 9.409,
+            "end": 9.819
+          },
+          {
+            "word": "to",
+            "start": 9.829,
+            "end": 9.979
+          },
+          {
+            "word": "mimic",
+            "start": 9.989,
+            "end": 10.299
+          },
+          {
+            "word": "them.",
+            "start": 10.309,
+            "end": 10.669
+          }
+        ]
+      },
+      {
+        "text": "The students watch with excitement as the birds respond from the trees.",
+        "start": 11.342,
+        "end": 16.642,
+        "words": [
+          {
+            "word": "The",
+            "start": 11.342,
+            "end": 11.442
+          },
+          {
+            "word": "students",
+            "start": 11.452,
+            "end": 11.992
+          },
+          {
+            "word": "watch",
+            "start": 12.002,
+            "end": 12.412
+          },
+          {
+            "word": "with",
+            "start": 12.682,
+            "end": 12.912
+          },
+          {
+            "word": "excitement",
+            "start": 12.922,
+            "end": 13.992
+          },
+          {
+            "word": "as",
+            "start": 14.002,
+            "end": 14.242
+          },
+          {
+            "word": "the",
+            "start": 14.252,
+            "end": 14.382
+          },
+          {
+            "word": "birds",
+            "start": 14.392,
+            "end": 15.172
+          },
+          {
+            "word": "respond",
+            "start": 15.182,
+            "end": 15.742
+          },
+          {
+            "word": "from",
+            "start": 15.752,
+            "end": 15.992
+          },
+          {
+            "word": "the",
+            "start": 16.002,
+            "end": 16.082
+          },
+          {
+            "word": "trees.",
+            "start": 16.092,
+            "end": 16.642
+          }
+        ]
+      },
+      {
+        "text": "They laugh and happily try to copy the bird calls too.",
+        "start": 21.151,
+        "end": 24.955,
+        "words": [
+          {
+            "word": "They",
+            "start": 21.151,
+            "end": 21.497
+          },
+          {
+            "word": "laugh",
+            "start": 21.497,
+            "end": 21.929
+          },
+          {
+            "word": "and",
+            "start": 21.929,
+            "end": 22.188
+          },
+          {
+            "word": "happily",
+            "start": 22.188,
+            "end": 22.794
+          },
+          {
+            "word": "try",
+            "start": 22.794,
+            "end": 23.053
+          },
+          {
+            "word": "to",
+            "start": 23.053,
+            "end": 23.226
+          },
+          {
+            "word": "copy",
+            "start": 23.226,
+            "end": 23.572
+          },
+          {
+            "word": "the",
+            "start": 23.572,
+            "end": 23.831
+          },
+          {
+            "word": "bird",
+            "start": 23.831,
+            "end": 24.177
+          },
+          {
+            "word": "calls",
+            "start": 24.177,
+            "end": 24.609
+          },
+          {
+            "word": "too.",
+            "start": 24.609,
+            "end": 24.955
+          }
+        ]
+      },
+      {
+        "text": "Each bird has its own special sound, adding to the wonderful variety of life around them.",
+        "start": 24.655,
+        "end": 28.918,
+        "words": [
+          {
+            "word": "Each",
+            "start": 24.655,
+            "end": 24.886
+          },
+          {
+            "word": "bird",
+            "start": 24.886,
+            "end": 25.116
+          },
+          {
+            "word": "has",
+            "start": 25.116,
+            "end": 25.289
+          },
+          {
+            "word": "its",
+            "start": 25.289,
+            "end": 25.462
+          },
+          {
+            "word": "own",
+            "start": 25.462,
+            "end": 25.634
+          },
+          {
+            "word": "special",
+            "start": 25.634,
+            "end": 26.038
+          },
+          {
+            "word": "sound,",
+            "start": 26.038,
+            "end": 26.383
+          },
+          {
+            "word": "adding",
+            "start": 26.383,
+            "end": 26.729
+          },
+          {
+            "word": "to",
+            "start": 26.729,
+            "end": 26.844
+          },
+          {
+            "word": "the",
+            "start": 26.844,
+            "end": 27.017
+          },
+          {
+            "word": "wonderful",
+            "start": 27.017,
+            "end": 27.535
+          },
+          {
+            "word": "variety",
+            "start": 27.535,
+            "end": 27.938
+          },
+          {
+            "word": "of",
+            "start": 27.938,
+            "end": 28.054
+          },
+          {
+            "word": "life",
+            "start": 28.054,
+            "end": 28.284
+          },
+          {
+            "word": "around",
+            "start": 28.284,
+            "end": 28.63
+          },
+          {
+            "word": "them.",
+            "start": 28.63,
+            "end": 28.918
+          }
+        ]
+      }
+    ]
+  },
+  "4": {
+    "audioFile": "11_ButterfliesAndFlowers.mp3",
+    "totalDuration": 27.4,
+    "cues": [
+      {
+        "text": "The students continue their walk and notice colourful flowers around them.",
+        "start": 0.14,
+        "end": 4.95,
+        "words": [
+          {
+            "word": "The",
+            "start": 0.14,
+            "end": 0.23
+          },
+          {
+            "word": "students",
+            "start": 0.24,
+            "end": 0.82
+          },
+          {
+            "word": "continue",
+            "start": 0.83,
+            "end": 1.34
+          },
+          {
+            "word": "their",
+            "start": 1.35,
+            "end": 1.55
+          },
+          {
+            "word": "walk",
+            "start": 1.56,
+            "end": 2.05
+          },
+          {
+            "word": "and",
+            "start": 2.38,
+            "end": 2.54
+          },
+          {
+            "word": "notice",
+            "start": 2.55,
+            "end": 2.93
+          },
+          {
+            "word": "colourful",
+            "start": 2.94,
+            "end": 3.45
+          },
+          {
+            "word": "flowers",
+            "start": 3.46,
+            "end": 3.99
+          },
+          {
+            "word": "around",
+            "start": 4.27,
+            "end": 4.6
+          },
+          {
+            "word": "them.",
+            "start": 4.61,
+            "end": 4.95
+          }
+        ]
+      },
+      {
+        "text": "Butterflies move gently from flower to flower, while bees collect nectar.",
+        "start": 5.907,
+        "end": 11.077,
+        "words": [
+          {
+            "word": "Butterflies",
+            "start": 5.907,
+            "end": 6.677
+          },
+          {
+            "word": "move",
+            "start": 6.687,
+            "end": 6.907
+          },
+          {
+            "word": "gently",
+            "start": 6.917,
+            "end": 7.377
+          },
+          {
+            "word": "from",
+            "start": 7.387,
+            "end": 7.617
+          },
+          {
+            "word": "flower",
+            "start": 7.627,
+            "end": 8.037
+          },
+          {
+            "word": "to",
+            "start": 8.047,
+            "end": 8.177
+          },
+          {
+            "word": "flower,",
+            "start": 8.187,
+            "end": 8.707
+          },
+          {
+            "word": "while",
+            "start": 9.487,
+            "end": 9.677
+          },
+          {
+            "word": "bees",
+            "start": 9.687,
+            "end": 10.097
+          },
+          {
+            "word": "collect",
+            "start": 10.107,
+            "end": 10.577
+          },
+          {
+            "word": "nectar.",
+            "start": 10.587,
+            "end": 11.077
+          }
+        ]
+      },
+      {
+        "text": "Students notice that one butterfly keeps visiting the same flower again and again.",
+        "start": 11.921,
+        "end": 18.521,
+        "words": [
+          {
+            "word": "Students",
+            "start": 11.921,
+            "end": 12.521
+          },
+          {
+            "word": "notice",
+            "start": 12.531,
+            "end": 12.911
+          },
+          {
+            "word": "that",
+            "start": 12.921,
+            "end": 13.251
+          },
+          {
+            "word": "one",
+            "start": 13.731,
+            "end": 14.071
+          },
+          {
+            "word": "butterfly",
+            "start": 14.081,
+            "end": 15.021
+          },
+          {
+            "word": "keeps",
+            "start": 15.031,
+            "end": 15.401
+          },
+          {
+            "word": "visiting",
+            "start": 15.411,
+            "end": 15.881
+          },
+          {
+            "word": "the",
+            "start": 15.891,
+            "end": 15.961
+          },
+          {
+            "word": "same",
+            "start": 15.971,
+            "end": 16.321
+          },
+          {
+            "word": "flower",
+            "start": 16.331,
+            "end": 16.831
+          },
+          {
+            "word": "again",
+            "start": 17.251,
+            "end": 17.821
+          },
+          {
+            "word": "and",
+            "start": 17.921,
+            "end": 18.101
+          },
+          {
+            "word": "again.",
+            "start": 18.111,
+            "end": 18.521
+          }
+        ]
+      },
+      {
+        "text": "The students watch closely and become curious about the different ways living things interact with nature.",
+        "start": 19.468,
+        "end": 26.938,
+        "words": [
+          {
+            "word": "The",
+            "start": 19.468,
+            "end": 19.568
+          },
+          {
+            "word": "students",
+            "start": 19.578,
+            "end": 20.168
+          },
+          {
+            "word": "watch",
+            "start": 20.178,
+            "end": 20.498
+          },
+          {
+            "word": "closely",
+            "start": 20.508,
+            "end": 21.198
+          },
+          {
+            "word": "and",
+            "start": 21.548,
+            "end": 21.748
+          },
+          {
+            "word": "become",
+            "start": 21.758,
+            "end": 22.078
+          },
+          {
+            "word": "curious",
+            "start": 22.088,
+            "end": 22.778
+          },
+          {
+            "word": "about",
+            "start": 23.128,
+            "end": 23.398
+          },
+          {
+            "word": "the",
+            "start": 23.408,
+            "end": 23.548
+          },
+          {
+            "word": "different",
+            "start": 23.558,
+            "end": 24.108
+          },
+          {
+            "word": "ways",
+            "start": 24.118,
+            "end": 24.928
+          },
+          {
+            "word": "living",
+            "start": 24.938,
+            "end": 25.328
+          },
+          {
+            "word": "things",
+            "start": 25.338,
+            "end": 25.688
+          },
+          {
+            "word": "interact",
+            "start": 25.698,
+            "end": 26.318
+          },
+          {
+            "word": "with",
+            "start": 26.328,
+            "end": 26.528
+          },
+          {
+            "word": "nature.",
+            "start": 26.538,
+            "end": 26.938
+          }
+        ]
+      }
+    ]
+  },
+  "5": {
+    "audioFile": "12_MonkeyInTheForest.mp3",
+    "totalDuration": 30.77,
+    "cues": [
+      {
+        "text": "The students continue exploring the forest with their notebooks and magnifying glasses.",
+        "start": 0.0,
+        "end": 5.89,
+        "words": [
+          {
+            "word": "The",
+            "start": 0.0,
+            "end": 0.16
+          },
+          {
+            "word": "students",
+            "start": 0.17,
+            "end": 0.7
+          },
+          {
+            "word": "continue",
+            "start": 0.71,
+            "end": 1.42
+          },
+          {
+            "word": "exploring",
+            "start": 1.73,
+            "end": 2.31
+          },
+          {
+            "word": "the",
+            "start": 2.32,
+            "end": 2.38
+          },
+          {
+            "word": "forest",
+            "start": 2.39,
+            "end": 3.23
+          },
+          {
+            "word": "with",
+            "start": 3.24,
+            "end": 3.4
+          },
+          {
+            "word": "their",
+            "start": 3.41,
+            "end": 3.52
+          },
+          {
+            "word": "notebooks",
+            "start": 3.53,
+            "end": 4.24
+          },
+          {
+            "word": "and",
+            "start": 4.25,
+            "end": 4.66
+          },
+          {
+            "word": "magnifying",
+            "start": 4.67,
+            "end": 5.26
+          },
+          {
+            "word": "glasses.",
+            "start": 5.27,
+            "end": 5.89
+          }
+        ]
+      },
+      {
+        "text": "Dr.",
+        "start": 6.997,
+        "end": 7.407,
+        "words": [
+          {
+            "word": "Dr.",
+            "start": 6.997,
+            "end": 7.407
+          }
+        ]
+      },
+      {
+        "text": "Raghu points towards something above the trees, and everyone looks up with curiosity.",
+        "start": 7.417,
+        "end": 13.667,
+        "words": [
+          {
+            "word": "Raghu",
+            "start": 7.417,
+            "end": 7.837
+          },
+          {
+            "word": "points",
+            "start": 8.337,
+            "end": 8.677
+          },
+          {
+            "word": "towards",
+            "start": 8.687,
+            "end": 9.027
+          },
+          {
+            "word": "something",
+            "start": 9.037,
+            "end": 9.607
+          },
+          {
+            "word": "above",
+            "start": 9.857,
+            "end": 10.177
+          },
+          {
+            "word": "the",
+            "start": 10.187,
+            "end": 10.327
+          },
+          {
+            "word": "trees,",
+            "start": 10.337,
+            "end": 10.837
+          },
+          {
+            "word": "and",
+            "start": 11.127,
+            "end": 11.367
+          },
+          {
+            "word": "everyone",
+            "start": 11.377,
+            "end": 11.917
+          },
+          {
+            "word": "looks",
+            "start": 11.927,
+            "end": 12.197
+          },
+          {
+            "word": "up",
+            "start": 12.207,
+            "end": 12.667
+          },
+          {
+            "word": "with",
+            "start": 12.677,
+            "end": 12.847
+          },
+          {
+            "word": "curiosity.",
+            "start": 12.857,
+            "end": 13.667
+          }
+        ]
+      },
+      {
+        "text": "Maniram Chacha draws their attention to a monkey and reminds them that the forest is its home.",
+        "start": 14.768,
+        "end": 21.907,
+        "words": [
+          {
+            "word": "Maniram",
+            "start": 14.768,
+            "end": 15.277
+          },
+          {
+            "word": "Chacha",
+            "start": 15.287,
+            "end": 15.787
+          },
+          {
+            "word": "draws",
+            "start": 16.168,
+            "end": 16.488
+          },
+          {
+            "word": "their",
+            "start": 16.497,
+            "end": 16.677
+          },
+          {
+            "word": "attention",
+            "start": 16.688,
+            "end": 17.308
+          },
+          {
+            "word": "to",
+            "start": 17.527,
+            "end": 17.598
+          },
+          {
+            "word": "a",
+            "start": 17.607,
+            "end": 17.697
+          },
+          {
+            "word": "monkey",
+            "start": 17.707,
+            "end": 18.337
+          },
+          {
+            "word": "and",
+            "start": 18.578,
+            "end": 18.807
+          },
+          {
+            "word": "reminds",
+            "start": 18.817,
+            "end": 19.297
+          },
+          {
+            "word": "them",
+            "start": 19.307,
+            "end": 19.617
+          },
+          {
+            "word": "that",
+            "start": 19.867,
+            "end": 20.057
+          },
+          {
+            "word": "the",
+            "start": 20.067,
+            "end": 20.188
+          },
+          {
+            "word": "forest",
+            "start": 20.197,
+            "end": 20.988
+          },
+          {
+            "word": "is",
+            "start": 20.997,
+            "end": 21.157
+          },
+          {
+            "word": "its",
+            "start": 21.168,
+            "end": 21.387
+          },
+          {
+            "word": "home.",
+            "start": 21.398,
+            "end": 21.907
+          }
+        ]
+      },
+      {
+        "text": "The students carefully observe the animals and their surroundings, learning that every living creature has a place to live.",
+        "start": 22.46,
+        "end": 30.4,
+        "words": [
+          {
+            "word": "The",
+            "start": 22.46,
+            "end": 22.55
+          },
+          {
+            "word": "students",
+            "start": 22.56,
+            "end": 23.12
+          },
+          {
+            "word": "carefully",
+            "start": 23.13,
+            "end": 23.63
+          },
+          {
+            "word": "observe",
+            "start": 23.64,
+            "end": 24.13
+          },
+          {
+            "word": "the",
+            "start": 24.14,
+            "end": 24.26
+          },
+          {
+            "word": "animals",
+            "start": 24.27,
+            "end": 24.95
+          },
+          {
+            "word": "and",
+            "start": 25.18,
+            "end": 25.4
+          },
+          {
+            "word": "their",
+            "start": 25.41,
+            "end": 25.52
+          },
+          {
+            "word": "surroundings,",
+            "start": 25.53,
+            "end": 26.43
+          },
+          {
+            "word": "learning",
+            "start": 26.85,
+            "end": 27.31
+          },
+          {
+            "word": "that",
+            "start": 27.32,
+            "end": 27.52
+          },
+          {
+            "word": "every",
+            "start": 27.67,
+            "end": 28.11
+          },
+          {
+            "word": "living",
+            "start": 28.12,
+            "end": 28.44
+          },
+          {
+            "word": "creature",
+            "start": 28.45,
+            "end": 28.95
+          },
+          {
+            "word": "has",
+            "start": 29.24,
+            "end": 29.44
+          },
+          {
+            "word": "a",
+            "start": 29.45,
+            "end": 29.49
+          },
+          {
+            "word": "place",
+            "start": 29.5,
+            "end": 29.9
+          },
+          {
+            "word": "to",
+            "start": 29.91,
+            "end": 30.01
+          },
+          {
+            "word": "live.",
+            "start": 30.02,
+            "end": 30.4
+          }
+        ]
+      }
+    ]
+  },
+  "6": {
+    "audioFile": "13_RecordingObservations.mp3",
+    "totalDuration": 30.82,
+    "cues": [
+      {
+        "text": "After exploring the forest, the students gather together to share what they have discovered.",
+        "start": 0.0,
+        "end": 0.863,
+        "words": [
+          {
+            "word": "After",
+            "start": 0.0,
+            "end": 0.055
+          },
+          {
+            "word": "exploring",
+            "start": 0.055,
+            "end": 0.153
+          },
+          {
+            "word": "the",
+            "start": 0.153,
+            "end": 0.186
+          },
+          {
+            "word": "forest,",
+            "start": 0.186,
+            "end": 0.262
+          },
+          {
+            "word": "the",
+            "start": 0.262,
+            "end": 0.295
+          },
+          {
+            "word": "students",
+            "start": 0.295,
+            "end": 0.382
+          },
+          {
+            "word": "gather",
+            "start": 0.382,
+            "end": 0.448
+          },
+          {
+            "word": "together",
+            "start": 0.448,
+            "end": 0.535
+          },
+          {
+            "word": "to",
+            "start": 0.535,
+            "end": 0.557
+          },
+          {
+            "word": "share",
+            "start": 0.557,
+            "end": 0.612
+          },
+          {
+            "word": "what",
+            "start": 0.612,
+            "end": 0.655
+          },
+          {
+            "word": "they",
+            "start": 0.655,
+            "end": 0.699
+          },
+          {
+            "word": "have",
+            "start": 0.699,
+            "end": 0.743
+          },
+          {
+            "word": "discovered.",
+            "start": 0.743,
+            "end": 0.863
+          }
+        ]
+      },
+      {
+        "text": "They look through their notebooks and compare their findings.",
+        "start": 1.623,
+        "end": 8.373,
+        "words": [
+          {
+            "word": "They",
+            "start": 1.623,
+            "end": 1.753
+          },
+          {
+            "word": "look",
+            "start": 1.763,
+            "end": 1.913
+          },
+          {
+            "word": "through",
+            "start": 1.923,
+            "end": 2.153
+          },
+          {
+            "word": "their",
+            "start": 2.163,
+            "end": 2.273
+          },
+          {
+            "word": "notebooks",
+            "start": 2.283,
+            "end": 2.913
+          },
+          {
+            "word": "and",
+            "start": 3.413,
+            "end": 4.033
+          },
+          {
+            "word": "compare",
+            "start": 4.043,
+            "end": 4.373
+          },
+          {
+            "word": "their",
+            "start": 4.383,
+            "end": 4.953
+          },
+          {
+            "word": "findings.",
+            "start": 8.003,
+            "end": 8.373
+          }
+        ]
+      },
+      {
+        "text": "Dr.",
+        "start": 11.788,
+        "end": 12.158,
+        "words": [
+          {
+            "word": "Dr.",
+            "start": 11.788,
+            "end": 12.158
+          }
+        ]
+      },
+      {
+        "text": "Raghu asks them to record their observations in Table 2.1 for plants and Table 2.2 for animals.",
+        "start": 12.168,
+        "end": 21.148,
+        "words": [
+          {
+            "word": "Raghu",
+            "start": 12.168,
+            "end": 12.528
+          },
+          {
+            "word": "asks",
+            "start": 12.538,
+            "end": 12.888
+          },
+          {
+            "word": "them",
+            "start": 12.898,
+            "end": 13.158
+          },
+          {
+            "word": "to",
+            "start": 13.528,
+            "end": 13.628
+          },
+          {
+            "word": "record",
+            "start": 13.638,
+            "end": 14.048
+          },
+          {
+            "word": "their",
+            "start": 14.058,
+            "end": 14.188
+          },
+          {
+            "word": "observations",
+            "start": 14.198,
+            "end": 15.168
+          },
+          {
+            "word": "in",
+            "start": 15.538,
+            "end": 15.708
+          },
+          {
+            "word": "Table",
+            "start": 15.718,
+            "end": 16.068
+          },
+          {
+            "word": "2.1",
+            "start": 16.068,
+            "end": 16.228
+          },
+          {
+            "word": "for",
+            "start": 16.228,
+            "end": 16.348
+          },
+          {
+            "word": "plants",
+            "start": 16.358,
+            "end": 16.728
+          },
+          {
+            "word": "and",
+            "start": 16.738,
+            "end": 17.158
+          },
+          {
+            "word": "Table",
+            "start": 18.738,
+            "end": 19.028
+          },
+          {
+            "word": "2.2",
+            "start": 19.028,
+            "end": 19.348
+          },
+          {
+            "word": "for",
+            "start": 19.348,
+            "end": 19.508
+          },
+          {
+            "word": "animals.",
+            "start": 20.368,
+            "end": 21.148
+          }
+        ]
+      },
+      {
+        "text": "The students discuss their findings with their classmates and learn how much variety they have seen during their nature walk.",
+        "start": 21.743,
+        "end": 30.423,
+        "words": [
+          {
+            "word": "The",
+            "start": 21.743,
+            "end": 21.833
+          },
+          {
+            "word": "students",
+            "start": 21.843,
+            "end": 22.343
+          },
+          {
+            "word": "discuss",
+            "start": 22.353,
+            "end": 22.793
+          },
+          {
+            "word": "their",
+            "start": 22.803,
+            "end": 22.963
+          },
+          {
+            "word": "findings",
+            "start": 22.973,
+            "end": 23.743
+          },
+          {
+            "word": "with",
+            "start": 24.043,
+            "end": 24.193
+          },
+          {
+            "word": "their",
+            "start": 24.203,
+            "end": 24.323
+          },
+          {
+            "word": "classmates",
+            "start": 24.333,
+            "end": 25.193
+          },
+          {
+            "word": "and",
+            "start": 25.533,
+            "end": 25.763
+          },
+          {
+            "word": "learn",
+            "start": 25.773,
+            "end": 26.163
+          },
+          {
+            "word": "how",
+            "start": 26.463,
+            "end": 26.663
+          },
+          {
+            "word": "much",
+            "start": 26.673,
+            "end": 27.033
+          },
+          {
+            "word": "variety",
+            "start": 27.043,
+            "end": 27.803
+          },
+          {
+            "word": "they",
+            "start": 28.043,
+            "end": 28.113
+          },
+          {
+            "word": "have",
+            "start": 28.123,
+            "end": 28.323
+          },
+          {
+            "word": "seen",
+            "start": 28.333,
+            "end": 29.123
+          },
+          {
+            "word": "during",
+            "start": 29.133,
+            "end": 29.553
+          },
+          {
+            "word": "their",
+            "start": 29.563,
+            "end": 29.673
+          },
+          {
+            "word": "nature",
+            "start": 29.683,
+            "end": 30.123
+          },
+          {
+            "word": "walk.",
+            "start": 30.133,
+            "end": 30.423
+          }
+        ]
+      }
+    ]
+  }
+}

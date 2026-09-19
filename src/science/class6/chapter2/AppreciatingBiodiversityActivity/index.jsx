@@ -20,7 +20,8 @@ import {
   Heart,
   Filter,
   Activity,
-  Info
+  Info,
+  BookOpen
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useTheme } from '../../../../ThemeContext.jsx';
@@ -1428,6 +1429,54 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
               </div>
             </div>
 
+            {/* Center: Textbook Title in Complementary Golden Amber (Activity 2.2: Let us appreciate) */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              textAlign: 'center',
+              pointerEvents: 'auto',
+              zIndex: 10
+            }}>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.35) 100%)',
+                border: '1.5px solid #F59E0B',
+                borderRadius: '20px',
+                padding: '2px 14px',
+                marginBottom: '2px',
+                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35)'
+              }}>
+                <span style={{
+                  fontSize: '12px',
+                  fontWeight: 900,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  color: '#FEF3C7',
+                  fontFamily: '"Outfit", sans-serif'
+                }}>
+                  CLASS 6 • SCIENCE · ACTIVITY 2.2
+                </span>
+              </div>
+              <h1 style={{
+                margin: 0,
+                fontSize: '24px',
+                fontWeight: 900,
+                fontFamily: '"Fraunces", Georgia, serif',
+                background: 'linear-gradient(135deg, #FDE68A 0%, #F59E0B 50%, #FBBF24 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                textShadow: '0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(245, 158, 11, 0.45)',
+                letterSpacing: '-0.01em',
+                lineHeight: 1.15
+              }}>
+                🌿 Activity 2.2: Let us appreciate 🌿
+              </h1>
+            </div>
+
 
 
             {/* Right: Reset Button */}
@@ -1467,9 +1516,9 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             flex: 1,
             minHeight: 0,
             display: 'grid',
-            gridTemplateColumns: 'clamp(320px, 30vw, 380px) minmax(0, 1fr)',
-            padding: '0.5rem 0',
-            gap: '1rem',
+            gridTemplateColumns: 'clamp(460px, 40vw, 560px) minmax(0, 1fr)',
+            padding: '0.25rem 0',
+            gap: '0.85rem',
             overflow: 'hidden',
             boxSizing: 'border-box'
           }}>
@@ -1481,112 +1530,142 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
               WebkitBackdropFilter: 'blur(16px)',
               border: '1.8px solid rgba(110, 231, 183, 0.5)',
               borderRadius: '20px',
-              padding: '16px 20px',
+              padding: '12px 16px',
               boxShadow: '0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(16, 185, 129, 0.2)',
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'space-between',
-              gap: '10px',
-              overflowY: 'auto',
+              justifyContent: 'flex-start',
+              gap: '6px',
+              overflow: 'hidden',
               boxSizing: 'border-box'
             }}>
               {/* Header: Subtitle & Title */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                 <div style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
                   color: '#6EE7B7',
                   fontWeight: 900,
-                  fontSize: '16px',
+                  fontSize: '20px',
                   letterSpacing: '0.04em',
                   textTransform: 'uppercase',
                   fontFamily: '"Outfit", sans-serif'
                 }}>
                   <span>🌿</span>
-                  <span>ACTIVITY 2.2 • LET US APPRECIATE</span>
+                  <span>ACTIVITY 2.2</span>
                 </div>
 
                 <h2 style={{
-                  fontFamily: '"Fraunces", Georgia, serif',
-                  color: '#FFFBEB',
+                  fontFamily: '"Outfit", sans-serif',
+                  color: '#FCD34D',
                   fontWeight: 900,
                   fontSize: '24px',
-                  margin: '2px 0 0 0',
-                  lineHeight: 1.15,
+                  margin: '0',
+                  lineHeight: 1.1,
                   textShadow: '0 2px 6px rgba(0,0,0,0.95)'
                 }}>
-                  Ecosystem Appreciation 🍃
+                  ECOSYSTEM APPRECIATION
                 </h2>
               </div>
 
-              {/* Leaf Divider */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '4px 0', opacity: 0.85 }}>
-                <div style={{ flex: 1, height: '1px', background: 'rgba(110, 231, 183, 0.4)' }} />
-                <span style={{ fontSize: '18px' }}>🍃</span>
-                <div style={{ flex: 1, height: '1px', background: 'rgba(110, 231, 183, 0.4)' }} />
-              </div>
-
-              {/* Narrative Text */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <p style={{
-                  margin: 0,
-                  fontSize: '16px',
-                  lineHeight: '1.45',
-                  color: '#D1FAE5',
-                  fontFamily: '"Outfit", sans-serif',
-                  fontWeight: 600,
-                  textShadow: '0 1px 3px rgba(0,0,0,0.9)'
-                }}>
-                  Appreciating and conserving biodiversity is vital for life. Every organism in an ecosystem is interconnected.
-                </p>
-                <p style={{
-                  margin: 0,
-                  fontSize: '16px',
-                  lineHeight: '1.45',
-                  color: '#D1FAE5',
-                  fontFamily: '"Outfit", sans-serif',
-                  fontWeight: 600,
-                  textShadow: '0 1px 3px rgba(0,0,0,0.9)'
-                }}>
-                  During our nature walk, different students discover different plants and animals. Together, our class observations reveal nature's grand living tapestry!
-                </p>
-              </div>
-
-              {/* Highlight Challenge Box */}
+              {/* Intro Text */}
               <div style={{
-                background: 'rgba(4, 26, 16, 0.85)',
-                border: '1.2px solid rgba(110, 231, 183, 0.4)',
-                borderRadius: '14px',
-                padding: '10px 14px',
-                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35)',
-                color: '#FEF08A',
-                fontSize: '16px',
-                lineHeight: 1.45,
-                fontFamily: '"Outfit", sans-serif'
+                fontSize: '20px',
+                lineHeight: 1.25,
+                color: '#ECFDF5',
+                fontFamily: '"Inter", sans-serif',
+                fontWeight: 600,
+                textAlign: 'justify',
+                textJustify: 'inter-word',
+                textShadow: '0 1px 3px rgba(0,0,0,0.9)'
               }}>
-                <span style={{ marginRight: '6px' }}>✏️</span>
-                <strong style={{ fontWeight: 900, color: '#FDE047' }}>Reflection challenge:</strong>{' '}
-                Close your eyes for 10 seconds. Think of one plant and one animal from your walk, then add them to the virtual class board.
+                Appreciating and conserving biodiversity is vital for our survival.
+              </div>
+
+              {/* Divider */}
+              <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(167,243,208,0.05) 0%, rgba(167,243,208,0.4) 50%, rgba(167,243,208,0.05) 100%)', margin: '1px 0' }} />
+
+              {/* Section 1: Reflect and Remember */}
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '2px',
+                borderLeft: '4px solid #10B981',
+                paddingLeft: '10px'
+              }}>
+                <div style={{
+                  fontSize: '22px',
+                  fontWeight: 800,
+                  color: '#6EE7B7',
+                  fontFamily: '"Outfit", sans-serif',
+                  lineHeight: 1.15,
+                  textShadow: '0 1px 4px rgba(0,0,0,0.9)'
+                }}>
+                  Reflect and Remember
+                </div>
+                <div style={{
+                  fontSize: '20px',
+                  lineHeight: 1.25,
+                  color: '#FFFFFF',
+                  fontFamily: '"Inter", sans-serif',
+                  fontWeight: 500,
+                  textAlign: 'justify',
+                  textJustify: 'inter-word',
+                  textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                }}>
+                  Close your eyes for 10 seconds. Remember one plant and one animal from your nature walk.
+                </div>
+              </div>
+
+              {/* Section 2: Share Your Observations */}
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '2px',
+                borderLeft: '4px solid #34D399',
+                paddingLeft: '10px'
+              }}>
+                <div style={{
+                  fontSize: '22px',
+                  fontWeight: 800,
+                  color: '#A7F3D0',
+                  fontFamily: '"Outfit", sans-serif',
+                  lineHeight: 1.15,
+                  textShadow: '0 1px 4px rgba(0,0,0,0.9)'
+                }}>
+                  Share Your Observations
+                </div>
+                <div style={{
+                  fontSize: '20px',
+                  lineHeight: 1.25,
+                  color: '#FFFFFF',
+                  fontFamily: '"Inter", sans-serif',
+                  fontWeight: 500,
+                  textAlign: 'justify',
+                  textJustify: 'inter-word',
+                  textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                }}>
+                  Add them to the virtual class board. Together, our observations reveal a greater variety of life.
+                </div>
               </div>
 
               {/* Bottom Tag */}
               <div style={{
                 textAlign: 'center',
-                color: '#A7F3D0',
-                fontSize: '16px',
+                color: '#FDE047',
+                fontSize: '20px',
                 fontWeight: 800,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
+                letterSpacing: '0.04em',
                 fontFamily: '"Outfit", sans-serif',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '6px',
-                textShadow: '0 1px 3px rgba(0,0,0,0.8)'
+                padding: '5px 10px',
+                background: 'rgba(245, 158, 11, 0.15)',
+                border: '1.2px solid rgba(245, 158, 11, 0.4)',
+                borderRadius: '10px',
+                marginTop: 'auto',
+                textShadow: '0 1px 4px rgba(0,0,0,0.95)'
               }}>
-                <span style={{ fontSize: '18px' }}>🍀</span>
-                <span>NATURE CONNECTS US ALL</span>
+                ✨ Nature connects us all.
               </div>
             </div>
 
@@ -1625,7 +1704,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   borderRadius: '14px',
                   padding: '6px 18px',
                   color: '#6EE7B7',
-                  fontSize: '16px',
+                  fontSize: '20px',
                   fontWeight: 900,
                   fontFamily: '"Outfit", sans-serif',
                   display: 'inline-flex',
@@ -1762,14 +1841,14 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   padding: '14px 28px',
                   border: '1.2px solid rgba(167, 243, 208, 0.45)',
                   boxShadow: '0 8px 24px rgba(0, 0, 0, 0.35)',
-                  maxWidth: '540px',
+                  maxWidth: '560px',
                   width: 'fit-content',
                   margin: '0 auto',
                   textAlign: 'center'
                 }}>
                   <h3 style={{
                     margin: '0 0 4px 0',
-                    fontFamily: '"Fraunces", Georgia, serif',
+                    fontFamily: '"Outfit", sans-serif',
                     fontSize: '24px',
                     fontWeight: 900,
                     color: '#FFFFFF',
@@ -1781,16 +1860,16 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   </h3>
                   <p style={{
                     margin: 0,
-                    fontSize: '16px',
+                    fontSize: '20px',
                     color: '#D1FAE5',
                     textShadow: '0 1px 3px rgba(0,0,0,0.9)',
-                    maxWidth: '480px',
-                    lineHeight: 1.5,
-                    fontFamily: '"Outfit", sans-serif',
-                    fontWeight: 600,
+                    maxWidth: '560px',
+                    lineHeight: 1.35,
+                    fontFamily: '"Inter", sans-serif',
+                    fontWeight: 500,
                     textAlign: 'center'
                   }}>
-                    Close your eyes and reflect on the plants and animals you saw on the nature walk.
+                    Close your eyes for 10 seconds. Remember one plant and one animal from your nature walk.
                   </p>
                 </div>
 
@@ -1806,7 +1885,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                         border: '1.8px solid #FDE68A',
                         borderRadius: '16px',
                         padding: '10px 32px',
-                        fontSize: '18px',
+                        fontSize: '20px',
                         fontWeight: 900,
                         fontFamily: '"Outfit", sans-serif',
                         cursor: 'pointer',
@@ -1817,7 +1896,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                         transition: 'all 0.18s ease'
                       }}
                     >
-                      <Play size={20} fill="#FFFFFF" />
+                      <Play size={22} fill="#FFFFFF" />
                       <span>Start Reflection</span>
                     </button>
                   ) : (
@@ -1826,7 +1905,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                       border: '1.8px solid #34D399',
                       borderRadius: '16px',
                       padding: '10px 28px',
-                      fontSize: '18px',
+                      fontSize: '20px',
                       fontWeight: 900,
                       color: '#A7F3D0',
                       display: 'inline-flex',
@@ -2519,6 +2598,54 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
               </div>
             </div>
 
+            {/* Center: Textbook Title in Complementary Golden Amber (Activity 2.2: Let us appreciate) */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              textAlign: 'center',
+              pointerEvents: 'auto',
+              zIndex: 10
+            }}>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.35) 100%)',
+                border: '1.5px solid #F59E0B',
+                borderRadius: '20px',
+                padding: '2px 14px',
+                marginBottom: '2px',
+                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35)'
+              }}>
+                <span style={{
+                  fontSize: '12px',
+                  fontWeight: 900,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  color: '#FEF3C7',
+                  fontFamily: '"Outfit", sans-serif'
+                }}>
+                  CLASS 6 • SCIENCE · ACTIVITY 2.2
+                </span>
+              </div>
+              <h1 style={{
+                margin: 0,
+                fontSize: '24px',
+                fontWeight: 900,
+                fontFamily: '"Fraunces", Georgia, serif',
+                background: 'linear-gradient(135deg, #FDE68A 0%, #F59E0B 50%, #FBBF24 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                textShadow: '0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(245, 158, 11, 0.45)',
+                letterSpacing: '-0.01em',
+                lineHeight: 1.15
+              }}>
+                🌿 Activity 2.2: Let us appreciate 🌿
+              </h1>
+            </div>
+
 
 
             {/* Right: Reset Control */}
@@ -2556,213 +2683,160 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             flex: 1,
             minHeight: 0,
             display: 'grid',
-            gridTemplateColumns: (phase === 'pick' || activeTab === 'quiz') ? '1fr' : 'clamp(290px, 25vw, 340px) minmax(0, 1fr)',
-            padding: '0.5rem 1rem',
-            gap: '0.85rem',
+            gridTemplateColumns: (phase === 'pick' || activeTab === 'quiz') ? '1fr' : 'clamp(330px, 28vw, 380px) minmax(0, 1fr)',
+            padding: '0.3rem 0.8rem',
+            gap: '0.9rem',
             overflow: 'hidden',
             boxSizing: 'border-box'
           }}>
 
             {/* ================================================================== */}
-            {/* LEFT COLUMN: CONTEXT & STATS (FOREST GREEN COLOR)                  */}
+            {/* LEFT COLUMN: CLASS MEMORY WALL (Docx content alone)               */}
             {/* ================================================================== */}
             {(phase !== 'pick' && activeTab !== 'quiz') && (
               <div style={{
                 position: 'relative',
-                background: 'linear-gradient(180deg, rgba(6, 44, 28, 0.65) 0%, rgba(3, 30, 18, 0.72) 100%)',
+                background: 'linear-gradient(180deg, rgba(6, 44, 28, 0.94) 0%, rgba(3, 30, 18, 0.97) 100%)',
                 backdropFilter: 'blur(16px)',
                 WebkitBackdropFilter: 'blur(16px)',
                 border: '1.8px solid rgba(110, 231, 183, 0.5)',
                 borderRadius: '20px',
-                padding: '16px',
+                padding: '12px 16px',
                 boxShadow: '0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(16, 185, 129, 0.2)',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                gap: '10px',
+                gap: '8px',
                 overflow: 'hidden',
                 boxSizing: 'border-box'
               }}>
-                {/* Subtle Corner Botanical Flourishes */}
-                <CardCornerLeaves position="top-left" />
-                <CardCornerLeaves position="top-right" />
-                <CardCornerLeaves position="bottom-left" />
-                <CardCornerLeaves position="bottom-right" />
-                <SpreadingLeavesWatermark />
-
-                <div style={{ position: 'relative', zIndex: 5 }}>
+                {/* Header */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', flexShrink: 0 }}>
                   <div style={{
-                    color: '#A7F3D0', textShadow: '0 1px 3px rgba(0,0,0,0.8)',
-                    fontWeight: '900',
-                    fontSize: '16px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    color: '#A7F3D0',
+                    fontWeight: 800,
+                    fontSize: '20px',
                     letterSpacing: '0.04em',
                     textTransform: 'uppercase',
-                    fontFamily: '"Outfit", sans-serif',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px'
+                    fontFamily: '"Outfit", sans-serif'
                   }}>
-                    <span>🌿</span>
-                    <span>NCERT Activity 2.2</span>
+                    <span>🍃</span>
+                    <span>ACTIVITY 2.2</span>
                   </div>
 
                   <h2 style={{
-                    fontFamily: '"Fraunces", Georgia, serif',
-                    color: '#A7F3D0', textShadow: '0 1px 3px rgba(0,0,0,0.8)',
-                    fontWeight: '900',
-                    fontSize: '22px',
-                    margin: '0.2rem 0 0.35rem 0',
-                    lineHeight: 1.15
+                    fontFamily: '"Outfit", sans-serif',
+                    color: '#FCD34D',
+                    fontWeight: 900,
+                    fontSize: '24px',
+                    margin: '1px 0 0 0',
+                    lineHeight: 1.15,
+                    textShadow: '0 2px 6px rgba(0,0,0,0.95)'
                   }}>
-                    Nature Walk Reflections
+                    CLASS MEMORY WALL
                   </h2>
+                </div>
 
-                  <CardLeafDivider />
+                <div style={{ height: '1px', background: 'rgba(110, 231, 183, 0.3)', width: '100%', flexShrink: 0 }} />
 
+                {/* 4 Observation Points: Spacious, Clean Bullet Flow */}
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px',
+                  flex: 1,
+                  justifyContent: 'space-evenly'
+                }}>
+                  {/* Point 1: Our Shared Observations */}
                   <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '0.35rem',
-                    fontSize: '16px',
-                    color: '#D1FAE5',
-                    textShadow: '0 1px 3px rgba(0,0,0,0.9)',
-                    lineHeight: '1.45',
-                    fontWeight: '600',
-                    fontFamily: '"Outfit", sans-serif'
+                    fontSize: '20px',
+                    lineHeight: 1.28,
+                    color: '#FFFFFF',
+                    fontFamily: '"Inter", sans-serif',
+                    textAlign: 'justify',
+                    textJustify: 'inter-word',
+                    textShadow: '0 1px 3px rgba(0,0,0,0.9)'
                   }}>
-                    <p style={{ margin: 0, textAlign: 'left', letterSpacing: '0.01em' }}>
-                      Appreciating and conserving biodiversity is vital for life. Every organism in an ecosystem is interconnected.
-                    </p>
-                    <p style={{ margin: 0, textAlign: 'left', letterSpacing: '0.01em' }}>
-                      Together, our class observations reveal nature's grand living tapestry!
-                    </p>
+                    <span style={{ color: '#6EE7B7', fontWeight: 800, fontFamily: '"Outfit", sans-serif', fontSize: '21px' }}>
+                      • Our Shared Observations:
+                    </span>{' '}
+                    <span>Six students contributed one plant and one animal each—12 examples: 6 plants and 6 animals.</span>
+                  </div>
+
+                  {/* Point 2: Notice the Diversity */}
+                  <div style={{
+                    fontSize: '20px',
+                    lineHeight: 1.28,
+                    color: '#FFFFFF',
+                    fontFamily: '"Inter", sans-serif',
+                    textAlign: 'justify',
+                    textJustify: 'inter-word',
+                    textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                  }}>
+                    <span style={{ color: '#6EE7B7', fontWeight: 800, fontFamily: '"Outfit", sans-serif', fontSize: '21px' }}>
+                      • Notice the Diversity:
+                    </span>{' '}
+                    <span>Compare their shapes, sizes and habitats. Many more varieties exist in nature.</span>
+                  </div>
+
+                  {/* Point 3: What Is Biodiversity? */}
+                  <div style={{
+                    fontSize: '20px',
+                    lineHeight: 1.28,
+                    color: '#FFFFFF',
+                    fontFamily: '"Inter", sans-serif',
+                    textAlign: 'justify',
+                    textJustify: 'inter-word',
+                    textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                  }}>
+                    <span style={{ color: '#6EE7B7', fontWeight: 800, fontFamily: '"Outfit", sans-serif', fontSize: '21px' }}>
+                      • What Is Biodiversity?
+                    </span>{' '}
+                    <span>The variety of living things in a region, including its plants and animals.</span>
+                  </div>
+
+                  {/* Point 4: Living Things Depend on Each Other */}
+                  <div style={{
+                    fontSize: '20px',
+                    lineHeight: 1.28,
+                    color: '#FFFFFF',
+                    fontFamily: '"Inter", sans-serif',
+                    textAlign: 'justify',
+                    textJustify: 'inter-word',
+                    textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                  }}>
+                    <span style={{ color: '#6EE7B7', fontWeight: 800, fontFamily: '"Outfit", sans-serif', fontSize: '21px' }}>
+                      • Living Things Depend on Each Other:
+                    </span>{' '}
+                    <span>Trees provide food and shelter. Some animals help spread seeds.</span>
                   </div>
                 </div>
 
-                {/* Middle Section: Statistics or Reflection Challenge */}
-                <div style={{ position: 'relative', zIndex: 5 }}>
-                  {boardCards.length > 0 ? (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
-                      <span style={{
-                        fontSize: '16px',
-                        fontWeight: '900',
-                        color: '#A7F3D0', textShadow: '0 1px 3px rgba(0,0,0,0.8)',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.04em',
-                        fontFamily: '"Outfit", sans-serif'
-                      }}>
-                        📊 Class Observations Summary
-                      </span>
-
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-                        <div style={{
-                          background: 'rgba(4, 26, 16, 0.85)',
-                          border: '1.2px solid rgba(110, 231, 183, 0.4)',
-                          borderRadius: '12px',
-                          padding: '8px 12px',
-                          boxShadow: '0 3px 10px rgba(0,0,0,0.3)'
-                        }}>
-                          <div style={{ color: '#A7F3D0', textShadow: '0 1px 3px rgba(0,0,0,0.8)', fontWeight: '800', fontSize: '16px' }}>Total Logs</div>
-                          <div style={{ color: '#FFFFFF', textShadow: '0 1px 4px rgba(0,0,0,0.95)', fontWeight: '900', fontSize: '24px', fontFamily: '"Outfit", sans-serif', lineHeight: 1.1 }}>
-                            6
-                          </div>
-                          <div style={{ color: '#6EE7B7', fontWeight: '700', fontSize: '16px' }}>Class notes</div>
-                        </div>
-
-                        <div style={{
-                          background: 'rgba(4, 26, 16, 0.50)',
-                          backdropFilter: 'blur(8px)',
-                          WebkitBackdropFilter: 'blur(8px)',
-                          border: '1.2px solid rgba(110, 231, 183, 0.4)',
-                          borderRadius: '12px',
-                          padding: '8px 12px',
-                          boxShadow: '0 3px 10px rgba(0,0,0,0.3)'
-                        }}>
-                          <div style={{ color: '#A7F3D0', textShadow: '0 1px 3px rgba(0,0,0,0.8)', fontWeight: '800', fontSize: '16px' }}>Biodiversity</div>
-                          <div style={{ color: '#FFFFFF', textShadow: '0 1px 4px rgba(0,0,0,0.95)', fontWeight: '900', fontSize: '24px', fontFamily: '"Outfit", sans-serif', lineHeight: 1.1 }}>
-                            6
-                          </div>
-                          <div style={{ color: '#6EE7B7', fontWeight: '700', fontSize: '16px' }}>P: {uniquePlants} | A: {uniqueAnimals}</div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div style={{
-                      background: 'rgba(6, 44, 28, 0.75)',
-                      border: '1.5px solid rgba(110, 231, 183, 0.45)',
-                      borderLeftWidth: '5px',
-                      borderLeftColor: '#10B981',
-                      borderRadius: '16px',
-                      padding: '12px 14px',
-                      fontFamily: '"Outfit", sans-serif',
-                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '8px'
-                    }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ fontSize: '18px' }}>📋</span>
-                        <span style={{ color: '#FEF3C7', fontSize: '16px', fontWeight: '900', fontFamily: '"Outfit", sans-serif' }}>
-                          Textbook Reflection (NCERT p.13-14):
-                        </span>
-                      </div>
-                      <div style={{
-                        color: '#ECFDF5',
-                        fontSize: '13.5px',
-                        lineHeight: '1.4',
-                        textAlign: 'left',
-                        fontFamily: '"Inter", sans-serif'
-                      }}>
-                        <p style={{ margin: '0 0 4px' }}>
-                          <strong>• Close your eyes:</strong> Think of 1 plant and 1 animal you observed and appreciated.
-                        </p>
-                        <p style={{ margin: '0 0 4px' }}>
-                          <strong>• Observations:</strong> Look at all the different plants and animals drawn on our shared board.
-                        </p>
-                        <p style={{ margin: '0 0 4px' }}>
-                          <strong>• Biodiversity:</strong> The variety of plants and animals found in a particular region contributes to the <em>biodiversity</em> of that region.
-                        </p>
-                        <p style={{ margin: 0 }}>
-                          <strong>• Interdependence:</strong> Plants and animals depend on each other — trees provide food and shelter, while animals help spread seeds!
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Bottom Progress Notification */}
-                <div style={{ position: 'relative', zIndex: 5, borderTop: '2px solid #14452F', paddingTop: '0.85rem' }}>
-                  {phase === 'completed' ? (
-                    <div style={{
-                      background: '#F0FDF4',
-                      border: '2px solid #10B981',
-                      borderRadius: '14px',
-                      padding: '0.95rem',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '0.4rem'
-                    }}>
-                      <span style={{ fontSize: '20px', fontWeight: '900', color: '#A7F3D0', textShadow: '0 1px 3px rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        🎉 Activity Completed!
-                      </span>
-                      <span style={{ fontSize: '17px', color: '#2D5A43', fontWeight: '700' }}>
-                        You mastered the Ecosystem Interdependence Checkup! Click "Next" below to advance.
-                      </span>
-                    </div>
-                  ) : (
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      fontSize: '18px',
-                      fontWeight: '800',
-                      color: '#A7F3D0', textShadow: '0 1px 3px rgba(0,0,0,0.8)',
-                      fontFamily: '"Outfit", sans-serif'
-                    }}>
-                      <span>🌱</span>
-                      <span>Activity 2.2: Learning to Appreciate</span>
-                    </div>
-                  )}
+                {/* Think Prompt: Horizontal Sleek Amber Banner */}
+                <div style={{
+                  background: 'rgba(245, 158, 11, 0.16)',
+                  border: '1.5px solid rgba(245, 158, 11, 0.5)',
+                  borderRadius: '12px',
+                  padding: '7px 12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                  flexShrink: 0
+                }}>
+                  <span style={{ fontSize: '22px', flexShrink: 0 }}>💡</span>
+                  <div style={{
+                    fontSize: '20px',
+                    color: '#FEF08A',
+                    fontFamily: '"Outfit", sans-serif',
+                    lineHeight: 1.25
+                  }}>
+                    <strong style={{ color: '#FDE047', fontWeight: 900, fontSize: '21px' }}>Think:</strong>{' '}
+                    How do plants and animals support each other?
+                  </div>
                 </div>
               </div>
             )}
@@ -2814,7 +2888,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   style={{
                     flex: 1,
                     padding: '8px 16px',
-                    fontSize: '18px',
+                    fontSize: '20px',
                     display: 'flex',
                     flexDirection: 'row',
                     gap: '8px',
@@ -2849,7 +2923,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   style={{
                     flex: 1,
                     padding: '8px 16px',
-                    fontSize: '18px',
+                    fontSize: '20px',
                     display: 'flex',
                     flexDirection: 'row',
                     gap: '8px',
@@ -3448,28 +3522,31 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                           }
                         `}</style>
 
-                        {/* 6-Student Grid: 3 columns x 2 rows, each card containing 1 Plant & 1 Animal */}
+                        {/* 6-Student Grid: 2 columns x 3 rows, perfectly proportioned so all specimens are completely visible */}
                         <div style={{
                           display: 'grid',
-                          gridTemplateColumns: 'repeat(3, 1fr)',
-                          gap: '12px',
+                          gridTemplateColumns: 'repeat(2, 1fr)',
+                          gridTemplateRows: 'repeat(3, 1fr)',
+                          gap: 'clamp(8px, 1.2vh, 12px)',
                           flex: 1,
+                          height: '100%',
                           minHeight: 0,
-                          alignContent: 'center',
-                          overflow: 'auto',
-                          padding: '6px 2px'
+                          overflow: 'hidden',
+                          padding: '2px',
+                          boxSizing: 'border-box'
                         }}>
                           {wallItems.map((specimen, idx) => (
                             <div
                               key={`mem-wall-${specimen.studentName}-${idx}`}
                               className="memory-wall-img-card"
                               style={{
-                                borderRadius: '16px',
+                                borderRadius: '14px',
                                 overflow: 'hidden',
                                 border: '2px solid rgba(167, 243, 208, 0.45)',
-                                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.25)',
+                                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
                                 background: '#042419',
-                                aspectRatio: '16 / 10',
+                                height: '100%',
+                                minHeight: 0,
                                 position: 'relative',
                                 cursor: 'pointer',
                                 display: 'flex',
@@ -3484,45 +3561,50 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                 });
                               }}
                             >
-                              {/* Overlaid Student Name Badge */}
+                              {/* Dedicated Student Name Header Strip (Keeps image completely unobstructed) */}
                               <div style={{
-                                position: 'absolute',
-                                top: '8px',
-                                left: '8px',
-                                background: 'rgba(6, 44, 28, 0.90)',
-                                backdropFilter: 'blur(8px)',
-                                WebkitBackdropFilter: 'blur(8px)',
-                                border: '1.2px solid rgba(110, 231, 183, 0.7)',
-                                borderRadius: '16px',
-                                padding: '3px 10px',
-                                display: 'inline-flex',
+                                display: 'flex',
                                 alignItems: 'center',
-                                gap: '6px',
-                                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
-                                zIndex: 6,
-                                pointerEvents: 'none'
+                                justifyContent: 'space-between',
+                                background: 'linear-gradient(90deg, rgba(6, 44, 28, 0.95) 0%, rgba(4, 30, 19, 0.88) 100%)',
+                                padding: '2px 8px',
+                                borderBottom: '1px solid rgba(110, 231, 183, 0.35)',
+                                flexShrink: 0
                               }}>
-                                <span style={{ fontSize: '13px' }}>👤</span>
+                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                                  <span style={{ fontSize: '18px' }}>👤</span>
+                                  <span style={{
+                                    color: '#FEF3C7',
+                                    fontWeight: 900,
+                                    fontSize: '20px',
+                                    fontFamily: '"Outfit", sans-serif',
+                                    letterSpacing: '0.02em',
+                                    textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                                  }}>
+                                    {specimen.studentName}
+                                  </span>
+                                </div>
                                 <span style={{
-                                  color: '#FEF3C7',
-                                  fontWeight: 800,
-                                  fontSize: '14px',
+                                  fontSize: '16px',
+                                  color: '#A7F3D0',
+                                  fontWeight: 700,
                                   fontFamily: '"Outfit", sans-serif',
-                                  letterSpacing: '0.02em',
-                                  textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                                  opacity: 0.92
                                 }}>
-                                  {specimen.studentName}
+                                  1 Plant · 1 Animal
                                 </span>
                               </div>
 
-                              {/* Split Card: TWO IMAGES — 1 Plant (Left) & 1 Animal (Right) with slight space */}
+                              {/* Split Card: TWO IMAGES — 1 Plant (Left) & 1 Animal (Right) with generous width */}
                               <div style={{
                                 display: 'grid',
                                 gridTemplateColumns: '1fr 1fr',
                                 width: '100%',
                                 height: '100%',
+                                flex: 1,
+                                minHeight: 0,
                                 gap: '6px',
-                                padding: '5px',
+                                padding: '3px',
                                 boxSizing: 'border-box',
                                 background: 'rgba(2, 20, 14, 0.7)'
                               }}>
@@ -3531,7 +3613,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                   position: 'relative',
                                   width: '100%',
                                   height: '100%',
-                                  borderRadius: '10px',
+                                  minHeight: 0,
+                                  borderRadius: '8px',
                                   overflow: 'hidden',
                                   border: '1px solid rgba(167, 243, 208, 0.35)',
                                   boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
@@ -3543,30 +3626,31 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                       width: '100%',
                                       height: '100%',
                                       objectFit: 'cover',
+                                      objectPosition: 'center',
                                       display: 'block'
                                     }}
                                   />
                                   <div style={{
                                     position: 'absolute',
-                                    bottom: '6px',
-                                    left: '6px',
-                                    background: 'rgba(6, 44, 28, 0.90)',
-                                    backdropFilter: 'blur(6px)',
-                                    WebkitBackdropFilter: 'blur(6px)',
-                                    border: '1px solid rgba(110, 231, 183, 0.6)',
+                                    bottom: 0,
+                                    left: 0,
+                                    right: 0,
+                                    background: 'linear-gradient(0deg, rgba(3, 24, 16, 0.94) 0%, rgba(3, 24, 16, 0.65) 75%, transparent 100%)',
+                                    padding: '12px 6px 3px 6px',
                                     color: '#FFFFFF',
-                                    borderRadius: '8px',
-                                    padding: '2px 7px',
-                                    fontSize: '12px',
+                                    fontSize: '20px',
                                     fontWeight: 800,
                                     fontFamily: '"Outfit", sans-serif',
                                     display: 'flex',
                                     alignItems: 'center',
+                                    justifyContent: 'center',
                                     gap: '4px',
-                                    boxShadow: '0 2px 6px rgba(0,0,0,0.45)',
-                                    pointerEvents: 'none'
+                                    zIndex: 2,
+                                    pointerEvents: 'none',
+                                    lineHeight: 1.1,
+                                    textShadow: '0 1px 3px rgba(0,0,0,0.95)'
                                   }}>
-                                    <span>{PLANT_EMOJIS[specimen.plant]}</span>
+                                    <span style={{ fontSize: '18px' }}>{PLANT_EMOJIS[specimen.plant]}</span>
                                     <span>{specimen.plant}</span>
                                   </div>
                                 </div>
@@ -3576,7 +3660,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                   position: 'relative',
                                   width: '100%',
                                   height: '100%',
-                                  borderRadius: '10px',
+                                  minHeight: 0,
+                                  borderRadius: '8px',
                                   overflow: 'hidden',
                                   border: '1px solid rgba(253, 224, 71, 0.35)',
                                   boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
@@ -3588,30 +3673,31 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                       width: '100%',
                                       height: '100%',
                                       objectFit: 'cover',
+                                      objectPosition: 'center',
                                       display: 'block'
                                     }}
                                   />
                                   <div style={{
                                     position: 'absolute',
-                                    bottom: '6px',
-                                    right: '6px',
-                                    background: 'rgba(40, 26, 12, 0.90)',
-                                    backdropFilter: 'blur(6px)',
-                                    WebkitBackdropFilter: 'blur(6px)',
-                                    border: '1px solid rgba(253, 224, 71, 0.6)',
+                                    bottom: 0,
+                                    left: 0,
+                                    right: 0,
+                                    background: 'linear-gradient(0deg, rgba(3, 24, 16, 0.94) 0%, rgba(3, 24, 16, 0.65) 75%, transparent 100%)',
+                                    padding: '12px 6px 3px 6px',
                                     color: '#FFFFFF',
-                                    borderRadius: '8px',
-                                    padding: '2px 7px',
-                                    fontSize: '12px',
+                                    fontSize: '20px',
                                     fontWeight: 800,
                                     fontFamily: '"Outfit", sans-serif',
                                     display: 'flex',
                                     alignItems: 'center',
+                                    justifyContent: 'center',
                                     gap: '4px',
-                                    boxShadow: '0 2px 6px rgba(0,0,0,0.45)',
-                                    pointerEvents: 'none'
+                                    zIndex: 2,
+                                    pointerEvents: 'none',
+                                    lineHeight: 1.1,
+                                    textShadow: '0 1px 3px rgba(0,0,0,0.95)'
                                   }}>
-                                    <span>{ANIMAL_EMOJIS[specimen.animal]}</span>
+                                    <span style={{ fontSize: '18px' }}>{ANIMAL_EMOJIS[specimen.animal]}</span>
                                     <span>{specimen.animal}</span>
                                   </div>
                                 </div>
@@ -4011,7 +4097,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
           {/* ==================================================================== */}
           <div style={{
             width: '100%',
-            padding: '0.65rem 1.6rem',
+            padding: '0.35rem 1.4rem',
             background: 'rgba(250, 248, 242, 0.55)',
             borderTop: '2.5px solid #14452F',
             boxShadow: '0 -4px 16px rgba(20, 69, 47, 0.08)',
@@ -4158,9 +4244,9 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
               background: '#FAF7EE',
               backgroundImage: 'radial-gradient(#14452F 0.55px, transparent 0.55px)',
               backgroundSize: '16px 16px',
-              border: '3px solid #14452F',
+              border: '2.5px solid #F59E0B',
               borderRadius: '24px 8px 24px 8px',
-              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.35), 0 0 0 6px rgba(16, 185, 129, 0.25)',
+              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.65), 0 0 35px rgba(245, 158, 11, 0.35)',
               width: '100%',
               maxWidth: '820px',
               maxHeight: '92vh',
@@ -4190,8 +4276,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
               alignItems: 'center',
               justifyContent: 'space-between',
               padding: '14px 20px',
-              borderBottom: '2px solid #14452F',
-              background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
+              borderBottom: '2px solid rgba(212, 175, 55, 0.45)',
+              background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
               color: '#ffffff'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -4219,8 +4305,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   }}>
                     {inspectCard.name}'s Field Journal Log {inspectCard.isMe && '⭐'}
                   </h3>
-                  <span style={{ fontSize: '13px', color: '#A7F3D0', fontWeight: 700, fontFamily: '"Outfit", sans-serif' }}>
-                    📍 NCERT Class 6 Nature Walk · Specimen Record #2.2
+                  <span style={{ fontSize: '16px', color: '#A7F3D0', fontWeight: 700, fontFamily: '"Outfit", sans-serif' }}>
+                    📍 Nature Walk · Specimen Record #2.2
                   </span>
                 </div>
               </div>
@@ -4230,7 +4316,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 id="btn-close-journal-modal"
                 onClick={() => setInspectCard(null)}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.2)',
+                  background: 'rgba(15, 23, 42, 0.45)',
                   border: '1.5px solid rgba(255, 255, 255, 0.4)',
                   borderRadius: '50%',
                   width: '36px',
@@ -4276,7 +4362,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 {/* Plant Card */}
                 <div style={{
                   background: '#ffffff',
-                  border: '2px solid rgba(20, 69, 47, 0.5)',
+                  border: '2px solid #D4AF37',
                   borderRadius: '16px',
                   padding: '10px',
                   boxShadow: '0 4px 14px rgba(0, 0, 0, 0.06)',
@@ -4299,14 +4385,14 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   </div>
                   <div>
                     <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-                      <h4 style={{ margin: 0, fontSize: '20px', color: '#A7F3D0', textShadow: '0 1px 3px rgba(0,0,0,0.8)', fontWeight: 900 }}>
+                      <h4 style={{ margin: 0, fontSize: '20px', color: '#064E3B', fontWeight: 900 }}>
                         {PLANT_EMOJIS[inspectCard.plant]} {inspectCard.plant}
                       </h4>
                       <span style={{ fontStyle: 'italic', color: '#047857', fontSize: '16px', fontWeight: 700 }}>
                         {SCIENTIFIC_NAMES[inspectCard.plant]}
                       </span>
                     </div>
-                    <p style={{ margin: '4px 0 0 0', fontSize: '16px', color: '#475569', lineHeight: 1.3 }}>
+                    <p style={{ margin: '4px 0 0 0', fontSize: '16px', color: '#334155', lineHeight: 1.35, textAlign: 'justify' }}>
                       {PLANT_DESCRIPTIONS[inspectCard.plant]}
                     </p>
                     {PLANT_BADGES[inspectCard.plant] && (
@@ -4320,7 +4406,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 {/* Animal Card */}
                 <div style={{
                   background: '#ffffff',
-                  border: '2px solid rgba(20, 69, 47, 0.5)',
+                  border: '2px solid #D4AF37',
                   borderRadius: '16px',
                   padding: '10px',
                   boxShadow: '0 4px 14px rgba(0, 0, 0, 0.06)',
@@ -4343,14 +4429,14 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   </div>
                   <div>
                     <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-                      <h4 style={{ margin: 0, fontSize: '20px', color: '#A7F3D0', textShadow: '0 1px 3px rgba(0,0,0,0.8)', fontWeight: 900 }}>
+                      <h4 style={{ margin: 0, fontSize: '20px', color: '#78350F', fontWeight: 900 }}>
                         {ANIMAL_EMOJIS[inspectCard.animal]} {inspectCard.animal}
                       </h4>
                       <span style={{ fontStyle: 'italic', color: '#B45309', fontSize: '16px', fontWeight: 700 }}>
                         {SCIENTIFIC_NAMES[inspectCard.animal]}
                       </span>
                     </div>
-                    <p style={{ margin: '4px 0 0 0', fontSize: '16px', color: '#475569', lineHeight: 1.3 }}>
+                    <p style={{ margin: '4px 0 0 0', fontSize: '16px', color: '#334155', lineHeight: 1.35, textAlign: 'justify' }}>
                       {ANIMAL_DESCRIPTIONS[inspectCard.animal]}
                     </p>
                   </div>
@@ -4369,53 +4455,57 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     boxShadow: '0 4px 16px rgba(16, 185, 129, 0.12)',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '8px'
+                    gap: '10px'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ fontSize: '22px' }}>🔗</span>
-                        <span style={{ fontSize: '20px', fontWeight: 900, color: '#065F46', fontFamily: '"Fraunces", serif' }}>
-                          Mutualism Bond: {pair.interaction}
-                        </span>
+                        <span style={{ fontSize: '20px' }}>🤝</span>
+                        <div>
+                          <div style={{ fontSize: '18px', fontWeight: 900, color: '#064E3B' }}>
+                            Mutual Bond & Ecological Connection
+                          </div>
+                          <div style={{ fontSize: '14px', color: '#64748B', fontWeight: 600 }}>
+                            How {inspectCard.plant} & {inspectCard.animal} cooperate in local biodiversity
+                          </div>
+                        </div>
                       </div>
                       <span style={{
-                        background: '#D1FAE5',
-                        border: '1.2px solid #10B981',
-                        color: '#065F46',
-                        fontSize: '16px',
-                        fontWeight: 900,
-                        padding: '2px 10px',
-                        borderRadius: '10px'
+                        background: '#FEF3C7',
+                        color: '#92400E',
+                        border: '1.2px solid #FCD34D',
+                        padding: '3px 10px',
+                        borderRadius: '20px',
+                        fontSize: '13px',
+                        fontWeight: 800
                       }}>
-                        {pair.badge}
+                        {pair.type}
                       </span>
                     </div>
 
-                    <blockquote style={{
-                      margin: 0,
-                      padding: '10px 14px',
+                    <div style={{
                       background: '#F0FDF4',
                       borderLeft: '4px solid #10B981',
-                      borderRadius: '0 8px 8px 0',
-                      fontSize: '16px',
-                      color: '#1E293B',
-                      lineHeight: 1.5,
-                      fontStyle: 'italic',
-                      fontFamily: '"Outfit", sans-serif'
+                      borderRadius: '8px',
+                      padding: '10px 14px',
+                      fontSize: '15px',
+                      color: '#14532D',
+                      lineHeight: 1.45,
+                      fontWeight: 600,
+                      textAlign: 'justify'
                     }}>
-                      "{pair.detail}"
-                    </blockquote>
+                      "{pair.story}"
+                    </div>
 
                     <div style={{
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
-                      fontSize: '16px',
-                      color: '#A7F3D0', textShadow: '0 1px 3px rgba(0,0,0,0.8)',
+                      fontSize: '14px',
+                      color: '#064E3B',
                       fontWeight: 800,
                       marginTop: '4px'
                     }}>
-                      <span>💡 NCERT Takeaway:</span>
+                      <span>💡 Takeaway:</span>
                       <span>Both species depend on one another. Removing one harms the entire living web!</span>
                     </div>
                   </div>
@@ -4427,7 +4517,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             <div style={{
               padding: '12px 20px',
               borderTop: '1.5px solid #14452F',
-              background: 'rgba(250, 248, 242, 0.55)',
+              background: 'rgba(15, 23, 42, 0.50)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-end',
@@ -4443,7 +4533,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     alignItems: 'center',
                     gap: '6px',
                     background: '#ECFDF5',
-                    border: '1.5px solid #10B981',
+                    border: '1.8px solid #FDE68A',
                     color: '#065F46',
                     padding: '8px 14px',
                     borderRadius: '10px',
@@ -4460,15 +4550,16 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   type="button"
                   onClick={() => setInspectCard(null)}
                   style={{
-                    background: '#EDE7D8',
-                    border: '1.5px solid #14452F',
-                    color: '#A7F3D0', textShadow: '0 1px 3px rgba(0,0,0,0.8)',
-                    padding: '8px 16px',
+                    background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                    border: '1.5px solid #FDE68A',
+                    color: '#FFFFFF',
+                    padding: '8px 18px',
                     borderRadius: '10px',
                     fontWeight: 900,
                     fontSize: '16px',
                     cursor: 'pointer',
-                    fontFamily: '"Outfit", sans-serif'
+                    fontFamily: '"Outfit", sans-serif',
+                    boxShadow: '0 4px 12px rgba(217, 119, 6, 0.35)'
                   }}
                 >
                   Close
@@ -4481,7 +4572,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
 
       {/* ==================================================================== */}
-      {/* SPECIMEN DETAIL POPUP (Translucent Frosted Glass: 15% Opacity, Blur 8px) */}
+      {/* SPECIMEN DETAIL POPUP (Complementary Golden Amber & Forest Theme) */}
       {/* ==================================================================== */}
       {previewSpecimen && (
         <div
@@ -4492,9 +4583,9 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'rgba(0, 0, 0, 0.50)',
-            backdropFilter: 'blur(6px)',
-            WebkitBackdropFilter: 'blur(6px)',
+            background: 'rgba(2, 20, 14, 0.78)',
+            backdropFilter: 'blur(5px)',
+            WebkitBackdropFilter: 'blur(5px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -4505,14 +4596,12 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-              width: 'min(92vw, 440px)',
-              background: 'rgba(255, 255, 255, 0.15)',
-              backdropFilter: 'blur(8px)',
-              WebkitBackdropFilter: 'blur(8px)',
-              border: '1.5px solid rgba(255, 255, 255, 0.50)',
+              width: 'min(92vw, 480px)',
+              background: 'linear-gradient(170deg, #0A3828 0%, #042218 100%)',
+              border: '2.5px solid #F59E0B',
               borderRadius: '24px',
-              padding: 'clamp(14px, 2vh, 20px)',
-              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.60)',
+              padding: 'clamp(16px, 2.5vh, 22px)',
+              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(245, 158, 11, 0.35)',
               display: 'flex',
               flexDirection: 'column',
               gap: '12px',
@@ -4526,35 +4615,33 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
               <div style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '6px',
-                background: 'rgba(255, 255, 255, 0.18)',
-                backdropFilter: 'blur(8px)',
-                WebkitBackdropFilter: 'blur(8px)',
-                color: '#FEF3C7',
-                border: '1.2px solid rgba(255, 255, 255, 0.45)',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
-                padding: '4px 12px',
+                gap: '8px',
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                color: '#FFFFFF',
+                border: '1.5px solid #FDE68A',
+                boxShadow: '0 2px 10px rgba(217, 119, 6, 0.35)',
+                padding: '6px 14px',
                 borderRadius: '12px',
-                fontSize: '14px',
-                fontWeight: 800,
+                fontSize: '20px',
+                fontWeight: 900,
                 letterSpacing: '0.04em',
                 textTransform: 'uppercase',
                 fontFamily: '"Outfit", sans-serif',
                 textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
               }}>
                 <span>{previewSpecimen.type === 'plant' ? PLANT_EMOJIS[previewSpecimen.name] : ANIMAL_EMOJIS[previewSpecimen.name]}</span>
-                <span>NCERT 2.2 • {previewSpecimen.name.toUpperCase()}</span>
+                <span>Activity 2.2 • {previewSpecimen.name}</span>
               </div>
 
               <button
                 type="button"
                 onClick={() => setPreviewSpecimen(null)}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.12)',
-                  border: '1.2px solid rgba(255, 255, 255, 0.35)',
+                  background: 'rgba(255, 255, 255, 0.15)',
+                  border: '1.5px solid rgba(245, 158, 11, 0.5)',
                   borderRadius: '10px',
-                  width: '32px',
-                  height: '32px',
+                  width: '36px',
+                  height: '36px',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
@@ -4563,18 +4650,18 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   transition: 'all 0.18s ease'
                 }}
               >
-                <X size={17} strokeWidth={2.5} />
+                <X size={20} strokeWidth={2.5} />
               </button>
             </div>
 
             {/* Large Specimen Image */}
             <div style={{
               width: '100%',
-              height: '190px',
+              height: '185px',
               borderRadius: '16px',
               overflow: 'hidden',
-              border: '1.5px solid rgba(255, 255, 255, 0.35)',
-              boxShadow: '0 8px 20px rgba(0, 0, 0, 0.35)',
+              border: '2px solid rgba(245, 158, 11, 0.45)',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.45)',
               position: 'relative',
               background: '#042F2E'
             }}>
@@ -4598,10 +4685,10 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 {previewSpecimen.name}
               </h3>
               <div style={{
-                fontSize: '15px',
-                color: '#FEF3C7',
+                fontSize: '20px',
+                color: '#FDE68A',
                 fontStyle: 'italic',
-                fontWeight: 600,
+                fontWeight: 700,
                 textShadow: '0 1px 4px rgba(0,0,0,0.8)',
                 marginTop: '2px'
               }}>
@@ -4609,34 +4696,32 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
               </div>
             </div>
 
-            {/* Detail Cards (16px) */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {/* Detail Cards */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <div style={{
-                background: 'rgba(0, 0, 0, 0.32)',
-                border: '1.2px solid rgba(255, 255, 255, 0.25)',
-                borderLeft: '4px solid #10B981',
-                borderRadius: '10px',
-                padding: '8px 12px'
+                background: 'rgba(6, 78, 59, 0.65)',
+                border: '1.5px solid #10B981',
+                borderRadius: '12px',
+                padding: '10px 14px'
               }}>
-                <div style={{ fontSize: '16px', fontWeight: 800, color: '#A7F3D0', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                <div style={{ fontSize: '20px', fontWeight: 900, color: '#A7F3D0', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
                   🌿 Role in Ecosystem
                 </div>
-                <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                <div style={{ fontSize: '20px', color: '#F0FDF4', fontWeight: 600, marginTop: '4px', lineHeight: 1.4, textAlign: 'justify', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
                   {previewSpecimen.type === 'plant' ? ECOLOGICAL_ROLES[previewSpecimen.name] : (ANIMAL_DESCRIPTIONS[previewSpecimen.name] || '')}
                 </div>
               </div>
 
               <div style={{
-                background: 'rgba(0, 0, 0, 0.32)',
-                border: '1.2px solid rgba(255, 255, 255, 0.25)',
-                borderLeft: '4px solid #F59E0B',
-                borderRadius: '10px',
-                padding: '8px 12px'
+                background: 'rgba(69, 26, 3, 0.65)',
+                border: '1.5px solid #F59E0B',
+                borderRadius: '12px',
+                padding: '10px 14px'
               }}>
-                <div style={{ fontSize: '16px', fontWeight: 800, color: '#FDE68A', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                  ✨ NCERT Class 6 Observation
+                <div style={{ fontSize: '20px', fontWeight: 900, color: '#FDE68A', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                  ✨ Class 6 Observation
                 </div>
-                <div style={{ fontSize: '16px', color: '#FEF3C7', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                <div style={{ fontSize: '20px', color: '#FEF3C7', fontWeight: 600, marginTop: '4px', lineHeight: 1.4, textAlign: 'justify', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
                   {previewSpecimen.type === 'plant'
                     ? (PLANT_DESCRIPTIONS[previewSpecimen.name] + ' • Contributes clean air and shade to the school habitat.')
                     : (ANIMAL_DESCRIPTIONS[previewSpecimen.name] + ' • Observed interacting with plants during field walk.')}
@@ -4653,17 +4738,17 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 setPreviewSpecimen(null);
               }}
               style={{
-                marginTop: '4px',
-                padding: '10px',
+                marginTop: '6px',
+                padding: '12px 18px',
                 borderRadius: '12px',
-                border: 'none',
-                background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                border: '2px solid #FDE68A',
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                 color: '#FFFFFF',
-                fontSize: '16px',
+                fontSize: '20px',
                 fontWeight: 900,
                 fontFamily: '"Outfit", sans-serif',
                 cursor: 'pointer',
-                boxShadow: '0 4px 14px rgba(16, 185, 129, 0.4)',
+                boxShadow: '0 4px 18px rgba(217, 119, 6, 0.45)',
                 transition: 'all 0.18s ease'
               }}
             >

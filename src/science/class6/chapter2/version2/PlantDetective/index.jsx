@@ -410,7 +410,7 @@ const playSound = (type = 'click') => {
   }
 };
 
-export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
+export default function PlantDetective({ onBackToDashboard, onNextActivity, nextLabel }) {
   const { theme } = useTheme();
   const [selectedPlantId, setSelectedPlantId] = useState('plantA');
   const [subPage, setSubPage] = useState(1); // 1: Archives, 2: Detective Lab Bench
@@ -1376,11 +1376,11 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                 className="bio-cta-btn"
                 onClick={() => {
                   if (onNextActivity) onNextActivity();
-                  else onBackToDashboard('next_activity');
+                  else if (onBackToDashboard) onBackToDashboard('next_activity');
                 }}
                 aria-label="Next Activity"
               >
-                <span>Next: Act 2.5 Leaf Venation</span>
+                <span>{nextLabel || "Next: Act 2.5 Leaf Venation"}</span>
                 <ArrowRight size={18} strokeWidth={2.5} />
               </button>
             </div>
@@ -2493,7 +2493,10 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                 Play Again
               </button>
               <button
-                onClick={onBackToDashboard}
+                onClick={() => {
+                  if (onNextActivity) onNextActivity();
+                  else if (onBackToDashboard) onBackToDashboard();
+                }}
                 style={{
                   background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                   color: '#FFFFFF',
@@ -2505,7 +2508,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                   cursor: 'pointer'
                 }}
               >
-                Return to Chapter Map ➔
+                {nextLabel ? nextLabel : 'Return to Chapter Map ➔'}
               </button>
             </div>
           </div>
