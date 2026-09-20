@@ -5,10 +5,49 @@ import {
   Map as MapIcon, Compass, HelpCircle, Sparkles, Plane, 
   Train, Landmark, Wind, Thermometer, Radio, ShieldCheck,
   Volume2, VolumeX, Eye, Gauge, Compass as CompassIcon,
-  Mic, Volume1, Clock, Sun, Moon, ArrowUpRight, Check
+  Mic, Volume1, Clock, Sun, Moon, ArrowUpRight, Check, Play, Pause
 } from 'lucide-react';
 import IndiaSVGMap from './IndiaSVGMap';
 import ChapterBackFooter from '../ChapterBackFooter';
+import page33Audio from '../audio/page33.mp3?url';
+import page34Audio from '../audio/page34.mp3?url';
+import page35Audio from '../audio/page35.mp3?url';
+import page36Audio from '../audio/page36.mp3?url';
+import page37Audio from '../audio/page37.mp3?url';
+import page38Audio from '../audio/page38.mp3?url';
+import page39Audio from '../audio/page39.mp3?url';
+import { PAGE33_TRANSCRIPT } from './Page33Transcript';
+import { PAGE34_TRANSCRIPT } from './Page34Transcript';
+import { PAGE35_TRANSCRIPT } from './Page35Transcript';
+import { PAGE36_TRANSCRIPT } from './Page36Transcript';
+import { PAGE37_TRANSCRIPT } from './Page37Transcript';
+import { PAGE38_TRANSCRIPT } from './Page38Transcript';
+import { PAGE39_TRANSCRIPT } from './Page39Transcript';
+
+const WordRenderer = ({ text, idPrefix, defaultColor, highlightColor, activeWordId }) => {
+  const words = text.trim().split(/\s+/);
+  return (
+    <>
+      {words.map((w, idx) => {
+        const wid = `${idPrefix}-${idx + 1}`;
+        const isActive = activeWordId === wid;
+        return (
+          <span
+            key={idx}
+            style={{
+              color: isActive ? highlightColor : defaultColor,
+              transition: 'color 0.2s',
+              marginRight: '0.25em',
+              display: 'inline-block'
+            }}
+          >
+            {w}
+          </span>
+        );
+      })}
+    </>
+  );
+};
 
 // Ultra-Realistic Web Audio API Synthesizer for Authentic Aviation & Train Soundscapes
 class SoundEngine {
@@ -464,6 +503,61 @@ export default React.memo(function ExploreIndiaActivity({ onBeginChapter, onBack
   const [liveSpeed, setLiveSpeed] = useState(0);
   const [selectedCompassDir, setSelectedCompassDir] = useState(null);
 
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordId, setActiveWordId] = useState(null);
+  const audioRef = useRef(null);
+
+  const toggleAudio = () => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play().catch(e => console.error("Audio play failed:", e));
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleTimeUpdate = () => {
+    if (!audioRef.current) return;
+    const currentTime = audioRef.current.currentTime;
+    let foundWordId = null;
+    
+    let currentTranscript = null;
+    if (missionIndex === -1) {
+      currentTranscript = PAGE33_TRANSCRIPT;
+    } else if (missionIndex === 0) {
+      currentTranscript = PAGE34_TRANSCRIPT;
+    } else if (missionIndex === 1) {
+      currentTranscript = PAGE35_TRANSCRIPT;
+    } else if (missionIndex === 2) {
+      currentTranscript = PAGE36_TRANSCRIPT;
+    } else if (missionIndex === 3) {
+      currentTranscript = PAGE37_TRANSCRIPT;
+    } else if (missionIndex === 4) {
+      currentTranscript = PAGE38_TRANSCRIPT;
+    } else if (missionIndex === 5) {
+      currentTranscript = PAGE39_TRANSCRIPT;
+    }
+
+    if (currentTranscript) {
+      for (const word of currentTranscript) {
+        if (currentTime >= word.start && currentTime <= word.end && word.matchType === 'matched') {
+          foundWordId = word.pageWordId;
+          break;
+        }
+      }
+    }
+    
+    if (activeWordId !== foundWordId) {
+      setActiveWordId(foundWordId);
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordId(null);
+  };
+
   const handleStart = () => {
     if (soundEnabled) sounds.playCabinChime();
     setMissionIndex(0);
@@ -515,6 +609,11 @@ export default React.memo(function ExploreIndiaActivity({ onBeginChapter, onBack
   };
 
   const handleNextMission = () => {
+    if (isPlaying && audioRef.current) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+      setActiveWordId(null);
+    }
     if (soundEnabled) sounds.playCabinChime();
     setFeedback(null);
     setActiveRoute(null);
@@ -635,18 +734,20 @@ export default React.memo(function ExploreIndiaActivity({ onBeginChapter, onBack
       {/* Top Header */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '8px' }}>
         <h2 style={{ fontFamily: '"Fraunces", serif', color: '#78350F', fontSize: '42px', fontWeight: 900, margin: '8px 0 12px 0', lineHeight: 1.15 }}>
-          Travel Across India!
+          <WordRenderer text="Travel Across India!" idPrefix="intro-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
         </h2>
         
         <p style={{ margin: 0, fontFamily: '"Space Grotesk", sans-serif', color: '#3D2E24', fontSize: '20px', fontWeight: 600, lineHeight: 1.6, textAlign: 'justify', textJustify: 'inter-word' }}>
-          Learn how a compass points to <span style={{ color: '#92400E', background: '#FEF3C7', padding: '2px 8px', borderRadius: '8px', fontWeight: 800, border: '1.5px solid #FDE68A' }}>Main Directions (N, S, E, W)</span> and <span style={{ color: '#1D4ED8', background: '#DBEAFE', padding: '2px 8px', borderRadius: '8px', fontWeight: 800, border: '1.5px solid #BFDBFE' }}>In-Between Directions (NE, NW, SE, SW)</span> by travelling to 6 real places across India, starting from Chennai.
+          <WordRenderer text="Learn how a" idPrefix="intro-desc-a" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" /> <span style={{ color: '#92400E', background: '#FEF3C7', padding: '2px 8px', borderRadius: '8px', fontWeight: 800, border: '1.5px solid #FDE68A' }}><WordRenderer text="compass points to Main Directions (N, S, E, W)" idPrefix="intro-desc-b" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" /></span> <WordRenderer text="and" idPrefix="intro-desc-c" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" /> <span style={{ color: '#1D4ED8', background: '#DBEAFE', padding: '2px 8px', borderRadius: '8px', fontWeight: 800, border: '1.5px solid #BFDBFE' }}><WordRenderer text="In-Between Directions (NE, NW, SE, SW)" idPrefix="intro-desc-d" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" /></span> <WordRenderer text="by travelling to 6 real places across India, starting from Chennai." idPrefix="intro-desc-e" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
         </p>
       </div>
 
       {/* 6 Missions Roadmap Grid */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', flex: 1, justifyContent: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-          <span style={{ fontSize: '20px', fontWeight: 900, color: '#78350F', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Journey Plan (6 Stops)</span>
+          <span style={{ fontSize: '20px', fontWeight: 900, color: '#78350F', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <WordRenderer text="Journey Plan (6 Stops)" idPrefix="plan-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+          </span>
           <span style={{ fontSize: '16px', fontWeight: 700, color: '#166534', background: '#DCFCE7', padding: '6px 14px', borderRadius: '8px' }}>Total ~8,350 km</span>
         </div>
 
@@ -665,7 +766,7 @@ export default React.memo(function ExploreIndiaActivity({ onBeginChapter, onBack
               <span style={{ fontSize: '38px' }}>{m.landmarkIcon}</span>
               <div style={{ minWidth: 0, flex: 1 }}>
                 <div style={{ fontSize: '19px', fontWeight: 900, color: '#0F172A', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: '4px' }}>
-                  {idx + 1}. {m.destination}
+                  {idx + 1}. <WordRenderer text={m.destination} idPrefix={`stop-${idx}`} activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
                 </div>
                 <div style={{ fontSize: '16px', color: '#92400E', fontWeight: 800 }}>
                   {m.direction} • {m.distance} km
@@ -771,7 +872,10 @@ export default React.memo(function ExploreIndiaActivity({ onBeginChapter, onBack
         ) : (
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', marginTop: '10px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#78350F', fontSize: '22px', fontWeight: 900, marginBottom: '20px', fontFamily: '"Space Grotesk", sans-serif', lineHeight: 1.3 }}>
-              <HelpCircle size={28} color="#D97706" style={{ flexShrink: 0 }} /> {mission.question}
+              <HelpCircle size={28} color="#D97706" style={{ flexShrink: 0 }} /> 
+              <span>
+                <WordRenderer text={mission.question} idPrefix="q" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+              </span>
             </div>
             
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
@@ -968,6 +1072,12 @@ export default React.memo(function ExploreIndiaActivity({ onBeginChapter, onBack
       fontFamily: '"Space Grotesk", system-ui, sans-serif',
       background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)'
     }}>
+      <audio
+        ref={audioRef}
+        src={missionIndex === -1 ? page33Audio : missionIndex === 0 ? page34Audio : missionIndex === 1 ? page35Audio : missionIndex === 2 ? page36Audio : missionIndex === 3 ? page37Audio : missionIndex === 4 ? page38Audio : missionIndex === 5 ? page39Audio : undefined}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', flex: 1, minHeight: 0, padding: '10px 14px', gap: '12px', overflow: 'hidden' }}>
         
@@ -1019,6 +1129,11 @@ export default React.memo(function ExploreIndiaActivity({ onBeginChapter, onBack
           missionIndex === -1
             ? onBack
             : () => {
+                if (isPlaying && audioRef.current) {
+                  audioRef.current.pause();
+                  setIsPlaying(false);
+                  setActiveWordId(null);
+                }
                 setFeedback(null);
                 setActiveRoute(null);
                 setLiveDistance(0);
@@ -1027,19 +1142,43 @@ export default React.memo(function ExploreIndiaActivity({ onBeginChapter, onBack
         }
         nextLabel={
           missionIndex === -1
-            ? 'Start Journey'
+            ? <WordRenderer text="Start Journey" idPrefix="btn-start" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
             : missionIndex === MISSIONS.length - 1
               ? 'Next Activity'
               : 'Next Destination'
         }
         onNext={
           missionIndex === -1
-            ? () => setMissionIndex(0)
+            ? handleStart
             : missionIndex === MISSIONS.length - 1
               ? onBeginChapter
               : handleNextMission
         }
         nextVariant={missionIndex === MISSIONS.length - 1 ? 'green' : 'navy'}
+        beforeNextContent={
+          missionIndex >= -1 && (
+            <button
+              onClick={toggleAudio}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '8px 16px',
+                background: '#FEF3C7',
+                border: '1.5px solid #F59E0B',
+                borderRadius: '999px',
+                fontSize: '15px',
+                fontWeight: 800,
+                color: '#92400E',
+                cursor: 'pointer',
+                marginRight: '8px'
+              }}
+            >
+              {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+              {isPlaying ? 'Pause' : 'Play'}
+            </button>
+          )
+        }
       />
     </div>
   );

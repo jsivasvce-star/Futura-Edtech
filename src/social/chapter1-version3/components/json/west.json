@@ -1,0 +1,102 @@
+{
+  "audio_file": "west.mp3",
+  "duration": 6.949,
+  "language": "en",
+  "words": [
+    {
+      "text": "West.",
+      "start": 0.0,
+      "end": 0.68
+    },
+    {
+      "text": "West",
+      "start": 1.04,
+      "end": 1.42
+    },
+    {
+      "text": "is",
+      "start": 1.42,
+      "end": 1.84
+    },
+    {
+      "text": "a",
+      "start": 1.84,
+      "end": 1.98
+    },
+    {
+      "text": "main",
+      "start": 1.98,
+      "end": 2.12
+    },
+    {
+      "text": "direction,",
+      "start": 2.12,
+      "end": 2.58
+    },
+    {
+      "text": "to",
+      "start": 2.94,
+      "end": 3.04
+    },
+    {
+      "text": "the",
+      "start": 3.04,
+      "end": 3.18
+    },
+    {
+      "text": "left",
+      "start": 3.18,
+      "end": 3.36
+    },
+    {
+      "text": "of",
+      "start": 3.36,
+      "end": 3.6
+    },
+    {
+      "text": "north.",
+      "start": 3.6,
+      "end": 3.78
+    },
+    {
+      "text": "The",
+      "start": 4.38,
+      "end": 4.58
+    },
+    {
+      "text": "sun",
+      "start": 4.58,
+      "end": 4.78
+    },
+    {
+      "text": "sets",
+      "start": 4.78,
+      "end": 5.12
+    },
+    {
+      "text": "in",
+      "start": 5.12,
+      "end": 5.4
+    },
+    {
+      "text": "the",
+      "start": 5.4,
+      "end": 5.54
+    },
+    {
+      "text": "west",
+      "start": 5.54,
+      "end": 5.8
+    },
+    {
+      "text": "every",
+      "start": 5.8,
+      "end": 6.26
+    },
+    {
+      "text": "evening.",
+      "start": 6.26,
+      "end": 6.58
+    }
+  ]
+}

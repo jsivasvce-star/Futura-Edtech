@@ -4,6 +4,13 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Sphere, useTexture, Line, Html, Stars } from '@react-three/drei';
 import * as THREE from 'three';
 import { Play, Pause, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import WordRenderer from './WordRenderer';
+import page61Audio from './audio/page61.mp3?url';
+import { PAGE61_TRANSCRIPT } from './Page61Transcript';
+import page62Audio from './audio/page62.mp3?url';
+import { PAGE62_TRANSCRIPT } from './Page62Transcript';
+import page63Audio from './audio/page63.mp3?url';
+import { PAGE63_TRANSCRIPT } from './Page63Transcript';
 import './CoordinatesPageBook.css';
 import './CoordinatesPageDark.css';
 import worldMapUrl from './world-map.jpg';
@@ -26,19 +33,19 @@ const darkStepsData = [
     stepNum: 1,
     title: "The Sun and the Spinning Earth",
     paragraphs: [
-      <span key="1">The <strong>Sun</strong> stays fixed on the left, while the <strong>Earth spins</strong> on its axis (once in about 24 hours).</span>,
-      <span key="2">The half of the Earth facing the Sun has <strong>daytime</strong>; the half turned away is in <strong>night</strong>. Watch a continent move from night into day as the globe turns.</span>
+      "The **Sun** stays fixed on the left, while the **Earth spins** on its axis (once in about 24 hours).",
+      "The half of the Earth facing the Sun has **daytime**; the half turned away is in **night**. Watch a continent move from night into day as the globe turns."
     ],
-    keyIdea: <span key="ki">Day and night happen because the Earth spins under a fixed Sun.</span>
+    keyIdea: "Day and night happen because the Earth spins under a fixed Sun."
   },
   {
     stepNum: 2,
     title: "Why Clocks Differ",
     paragraphs: [
-      <span key="1">It is <strong>noon</strong> for a place when the Sun is straight overhead. As the Earth turns, different places face the Sun at different moments — so their <strong>local time</strong> is different.</span>,
-      <span key="2">The Earth turns <strong>360° in 24 hours</strong>, which is <strong>15° every hour</strong>. So two places 15° apart in longitude have clocks one hour apart.</span>
+      "It is **noon** for a place when the Sun is straight overhead. As the Earth turns, different places face the Sun at different moments — so their **local time** is different.",
+      "The Earth turns **360° in 24 hours**, which is **15° every hour**. So two places 15° apart in longitude have clocks one hour apart."
     ],
-    keyIdea: <span key="ki">The Earth turns <strong>15° of longitude = 1 hour</strong> of time.</span>
+    keyIdea: "The Earth turns **15° of longitude = 1 hour** of time."
   },
 ];
 const CameraController = ({ step }) => {
@@ -333,6 +340,76 @@ const LocalTimeExplorer = ({ onNextActivity, onBack }) => {
 
 export default function TimeZonesPage({ onNextActivity, onBack }) {
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordId, setActiveWordId] = useState(null);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (audioRef.current && isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    }
+  }, [currentStepIdx]);
+
+  useEffect(() => {
+    const handleEnded = () => {
+      setIsPlaying(false);
+      setActiveWordId(null);
+    };
+
+    const currentAudio = audioRef.current;
+    if (currentAudio) {
+      currentAudio.addEventListener('ended', handleEnded);
+      return () => {
+        currentAudio.removeEventListener('ended', handleEnded);
+      };
+    }
+  }, [currentStepIdx]);
+
+  const toggleAudio = () => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play().catch(e => console.error("Audio play failed:", e));
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleTimeUpdate = () => {
+    if (!audioRef.current) return;
+    const currentTime = audioRef.current.currentTime;
+    
+    let transcript = null;
+    if (currentStepIdx === 0) transcript = PAGE61_TRANSCRIPT;
+    if (currentStepIdx === 1) transcript = PAGE62_TRANSCRIPT;
+    if (currentStepIdx === 2) transcript = PAGE63_TRANSCRIPT;
+
+    if (transcript) {
+      const activeWord = transcript.find(word => currentTime >= word.start && currentTime <= word.end);
+      if (activeWord && activeWord.matchType === 'matched') {
+        setActiveWordId(activeWord.pageWordId);
+      } else {
+        setActiveWordId(null);
+      }
+    }
+  };
+
+  const getAudioSrc = () => {
+    if (currentStepIdx === 0) return page61Audio;
+    if (currentStepIdx === 1) return page62Audio;
+    if (currentStepIdx === 2) return page63Audio;
+    return null;
+  };
 
   const handleNext = () => setCurrentStepIdx(c => c + 1);
   const handlePrev = () => {
@@ -343,6 +420,7 @@ export default function TimeZonesPage({ onNextActivity, onBack }) {
   if (currentStepIdx === 0) {
     return (
       <div className="coords-page">
+        <audio ref={audioRef} src={getAudioSrc()} onTimeUpdate={handleTimeUpdate} />
         <div className="coords-book">
           <div className="coords-main-content">
             <div className="coords-left">
@@ -361,15 +439,41 @@ export default function TimeZonesPage({ onNextActivity, onBack }) {
               <div className="coords-content">
                 <div className="coords-task-container" style={{ justifyContent: 'flex-start', paddingTop: '74px' }}>
                   <div className="coords-hero" style={{ padding: '32px' }}>
-                    <h3 style={{ marginBottom: '20px', fontSize: '28px' }}>Understanding Time Zones</h3>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+                      <h3 style={{ margin: 0, fontSize: '28px' }}>
+                        <WordRenderer text="Understanding Time Zones" idPrefix="h" defaultColor="inherit" highlightColor="#451a03" activeWordId={activeWordId} />
+                      </h3>
+                      <button
+                        onClick={toggleAudio}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: '6px',
+                          padding: '6px 14px', background: 'transparent',
+                          border: '1.5px solid #d97706', borderRadius: '999px',
+                          fontSize: '13px', fontWeight: 800, color: '#d97706',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        {isPlaying ? <Pause size={14} /> : <Play size={14} />}
+                        {isPlaying ? 'Pause' : 'Play'}
+                      </button>
+                    </div>
                     <p style={{ marginBottom: '20px', fontSize: '18px', lineHeight: '1.7', textAlign: 'justify' }}>
-                      Let’s make the globe rotate again from west to east — that is how our planet spins around its axis, making a full turn every 24 hours. A full turn is 360°, so this means 15° per hour (15 × 24 = 360).
+                      <WordRenderer 
+                        text="Let's make the globe rotate again from **west** **to** **east**. That is how our planet spins around its axis, making a full turn every **24** **hours**. A full turn is **360°**, so this means **15°** per hour (15 × 24 = 360)."
+                        idPrefix="p1" defaultColor="inherit" highlightColor="#451a03" activeWordId={activeWordId}
+                      />
                     </p>
                     <p style={{ marginBottom: '20px', fontSize: '18px', lineHeight: '1.7' }}>
-                      Moving eastward from the Prime Meridian, we get 0°, 15°E, 30°E, 45°E, and so on every 15°. It is the same as adding one hour of <strong>local time</strong> with each 15° meridian.
+                      <WordRenderer 
+                        text="Moving **eastward** from the Prime Meridian, we get **0°**, **15°E**, **30°E**, **45°E**, and so on every 15°. It is the same as adding **one** **hour** of local time with each 15° meridian."
+                        idPrefix="p2" defaultColor="inherit" highlightColor="#451a03" activeWordId={activeWordId}
+                      />
                     </p>
                     <p style={{ fontSize: '18px', lineHeight: '1.7' }}>
-                      But it would not be convenient for a country to use many local times! That is why most countries adopt a <strong>standard time</strong> based on a meridian passing through them.
+                      <WordRenderer 
+                        text="But it would not be convenient for a country to use many local times! That is why most countries adopt a **standard** **time** based on a meridian passing through them."
+                        idPrefix="p3" defaultColor="inherit" highlightColor="#451a03" activeWordId={activeWordId}
+                      />
                     </p>
                   </div>
                 </div>
@@ -403,6 +507,7 @@ export default function TimeZonesPage({ onNextActivity, onBack }) {
 
   return (
     <div className="dark-coords-page">
+      <audio ref={audioRef} src={getAudioSrc()} onTimeUpdate={handleTimeUpdate} />
       <div className="dark-coords-main-content">
         <div className="dark-coords-left">
           <div className="dark-top-title">Time Around the World — Why Clocks Differ</div>
@@ -430,11 +535,33 @@ export default function TimeZonesPage({ onNextActivity, onBack }) {
         </div>
 
         <div className="dark-coords-right">
-          <div className="dark-step-eyebrow">STEP {activeStepIdx + 1} OF 2</div>
-          <h2 className="dark-step-title">{step.title}</h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+            <div className="dark-step-eyebrow" style={{ margin: 0 }}>STEP {activeStepIdx + 1} OF 2</div>
+            {(currentStepIdx === 1 || currentStepIdx === 2) && (
+              <button
+                onClick={toggleAudio}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '6px',
+                  padding: '4px 12px', background: 'transparent',
+                  border: '1.5px solid #fbbf24', borderRadius: '999px',
+                  fontSize: '13px', fontWeight: 800, color: '#fbbf24',
+                  cursor: 'pointer'
+                }}
+              >
+                {isPlaying ? "Pause" : "Play"}
+              </button>
+            )}
+          </div>
+          <h2 className="dark-step-title">{(currentStepIdx === 1 || currentStepIdx === 2) ? (
+              <WordRenderer text={step.title} idPrefix="h" defaultColor="inherit" highlightColor="#fbbf24" activeWordId={activeWordId} />
+            ) : (
+              step.title
+            )}</h2>
 
           {step.paragraphs.map((p, idx) => (
-            <div key={idx} className="dark-step-text">{p}</div>
+            <div key={idx} className="dark-step-text">{typeof p === 'string' && (currentStepIdx === 1 || currentStepIdx === 2) ? (
+                <WordRenderer text={p} idPrefix={`p${idx + 1}`} defaultColor="inherit" highlightColor="#fbbf24" activeWordId={activeWordId} />
+              ) : p}</div>
           ))}
 
           {step.keyIdea && (

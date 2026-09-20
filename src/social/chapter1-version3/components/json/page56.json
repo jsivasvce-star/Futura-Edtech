@@ -1,0 +1,372 @@
+{
+  "audio_file": "page56.mp3",
+  "duration": 25.522,
+  "language": "en",
+  "words": [
+    {
+      "text": "Longitude",
+      "start": 0.0,
+      "end": 0.66
+    },
+    {
+      "text": "and",
+      "start": 0.66,
+      "end": 0.9
+    },
+    {
+      "text": "time.",
+      "start": 0.9,
+      "end": 1.26
+    },
+    {
+      "text": "The",
+      "start": 1.86,
+      "end": 1.98
+    },
+    {
+      "text": "earth",
+      "start": 1.98,
+      "end": 2.18
+    },
+    {
+      "text": "spins",
+      "start": 2.18,
+      "end": 2.54
+    },
+    {
+      "text": "on",
+      "start": 2.54,
+      "end": 2.74
+    },
+    {
+      "text": "its",
+      "start": 2.74,
+      "end": 2.92
+    },
+    {
+      "text": "axis,",
+      "start": 2.92,
+      "end": 3.46
+    },
+    {
+      "text": "picture",
+      "start": 4.04,
+      "end": 4.32
+    },
+    {
+      "text": "a",
+      "start": 4.32,
+      "end": 4.54
+    },
+    {
+      "text": "lamp",
+      "start": 4.54,
+      "end": 4.74
+    },
+    {
+      "text": "as",
+      "start": 4.74,
+      "end": 5.08
+    },
+    {
+      "text": "the",
+      "start": 5.08,
+      "end": 5.32
+    },
+    {
+      "text": "sun",
+      "start": 5.32,
+      "end": 5.5
+    },
+    {
+      "text": "lighting",
+      "start": 5.5,
+      "end": 5.88
+    },
+    {
+      "text": "one",
+      "start": 5.88,
+      "end": 6.28
+    },
+    {
+      "text": "side",
+      "start": 6.28,
+      "end": 6.48
+    },
+    {
+      "text": "of",
+      "start": 6.48,
+      "end": 6.66
+    },
+    {
+      "text": "the",
+      "start": 6.66,
+      "end": 6.84
+    },
+    {
+      "text": "globe.",
+      "start": 6.84,
+      "end": 7.04
+    },
+    {
+      "text": "As",
+      "start": 7.78,
+      "end": 8.02
+    },
+    {
+      "text": "the",
+      "start": 8.02,
+      "end": 8.24
+    },
+    {
+      "text": "earth",
+      "start": 8.24,
+      "end": 8.38
+    },
+    {
+      "text": "turns",
+      "start": 8.38,
+      "end": 8.7
+    },
+    {
+      "text": "eastward,",
+      "start": 8.7,
+      "end": 9.24
+    },
+    {
+      "text": "it",
+      "start": 9.6,
+      "end": 9.68
+    },
+    {
+      "text": "is",
+      "start": 9.68,
+      "end": 9.9
+    },
+    {
+      "text": "morning",
+      "start": 9.9,
+      "end": 10.14
+    },
+    {
+      "text": "for",
+      "start": 10.14,
+      "end": 10.4
+    },
+    {
+      "text": "some",
+      "start": 10.4,
+      "end": 10.64
+    },
+    {
+      "text": "places,",
+      "start": 10.64,
+      "end": 11.08
+    },
+    {
+      "text": "midday",
+      "start": 11.68,
+      "end": 11.9
+    },
+    {
+      "text": "for",
+      "start": 11.9,
+      "end": 12.16
+    },
+    {
+      "text": "others",
+      "start": 12.16,
+      "end": 12.48
+    },
+    {
+      "text": "and",
+      "start": 12.48,
+      "end": 13.1
+    },
+    {
+      "text": "night",
+      "start": 13.1,
+      "end": 13.44
+    },
+    {
+      "text": "for",
+      "start": 13.44,
+      "end": 13.8
+    },
+    {
+      "text": "the",
+      "start": 13.8,
+      "end": 13.98
+    },
+    {
+      "text": "rest.",
+      "start": 13.98,
+      "end": 14.26
+    },
+    {
+      "text": "So",
+      "start": 14.8,
+      "end": 15.04
+    },
+    {
+      "text": "when",
+      "start": 15.04,
+      "end": 15.24
+    },
+    {
+      "text": "it",
+      "start": 15.24,
+      "end": 15.4
+    },
+    {
+      "text": "is",
+      "start": 15.4,
+      "end": 15.58
+    },
+    {
+      "text": "breakfast",
+      "start": 15.58,
+      "end": 16.0
+    },
+    {
+      "text": "time",
+      "start": 16.0,
+      "end": 16.22
+    },
+    {
+      "text": "in",
+      "start": 16.22,
+      "end": 16.42
+    },
+    {
+      "text": "one",
+      "start": 16.42,
+      "end": 16.62
+    },
+    {
+      "text": "country,",
+      "start": 16.62,
+      "end": 17.04
+    },
+    {
+      "text": "it",
+      "start": 17.48,
+      "end": 17.6
+    },
+    {
+      "text": "is",
+      "start": 17.6,
+      "end": 17.76
+    },
+    {
+      "text": "lunch",
+      "start": 17.76,
+      "end": 18.04
+    },
+    {
+      "text": "time",
+      "start": 18.04,
+      "end": 18.28
+    },
+    {
+      "text": "in",
+      "start": 18.28,
+      "end": 18.52
+    },
+    {
+      "text": "another",
+      "start": 18.52,
+      "end": 18.8
+    },
+    {
+      "text": "and",
+      "start": 18.8,
+      "end": 19.36
+    },
+    {
+      "text": "people",
+      "start": 19.36,
+      "end": 19.76
+    },
+    {
+      "text": "are",
+      "start": 19.76,
+      "end": 20.06
+    },
+    {
+      "text": "asleep",
+      "start": 20.06,
+      "end": 20.52
+    },
+    {
+      "text": "in",
+      "start": 20.52,
+      "end": 20.8
+    },
+    {
+      "text": "a",
+      "start": 20.8,
+      "end": 20.96
+    },
+    {
+      "text": "third.",
+      "start": 20.96,
+      "end": 21.12
+    },
+    {
+      "text": "That",
+      "start": 21.12,
+      "end": 21.96
+    },
+    {
+      "text": "is",
+      "start": 21.96,
+      "end": 22.22
+    },
+    {
+      "text": "why",
+      "start": 22.22,
+      "end": 22.56
+    },
+    {
+      "text": "a",
+      "start": 22.56,
+      "end": 22.92
+    },
+    {
+      "text": "place's",
+      "start": 22.92,
+      "end": 23.36
+    },
+    {
+      "text": "longitude",
+      "start": 23.36,
+      "end": 23.9
+    },
+    {
+      "text": "also",
+      "start": 23.9,
+      "end": 24.32
+    },
+    {
+      "text": "tells",
+      "start": 24.32,
+      "end": 24.56
+    },
+    {
+      "text": "us",
+      "start": 24.56,
+      "end": 24.76
+    },
+    {
+      "text": "its",
+      "start": 24.76,
+      "end": 25.04
+    },
+    {
+      "text": "time.",
+      "start": 25.04,
+      "end": 25.2
+    }
+  ]
+}

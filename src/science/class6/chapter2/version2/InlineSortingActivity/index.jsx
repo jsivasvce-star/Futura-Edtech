@@ -25,6 +25,8 @@ import specimen06MintBlended from './specimen_06_mint_blended.png';
 import specimen07BanyanBlended from './specimen_07_banyan_blended.png';
 import specimen08CottonBlended from './specimen_08_cotton_blended.png';
 import specimen09SunflowerBlended from './specimen_09_sunflower_blended.png';
+import PlantDetective from '../PlantDetective';
+import natureGreeneryBg from '../../../../../assets/nature_greenery_bg.jpg';
 
 // =========================================================================
 // ASSET PATH CONSTANTS
@@ -504,11 +506,11 @@ const playTone = (type) => {
   }
 };
 
-export default function InlineSortingActivity({ onBackToDashboard, onNextActivity }) {
+export default function InlineSortingActivity({ onBackToDashboard, onNextActivity, initialPhase = 'specimens' }) {
   const { theme } = useTheme();
 
-  // Mode: 'specimens' (Phase 1) vs 'grouping' (Phase 2)
-  const [phase, setPhase] = useState('specimens');
+  // Mode: 'specimens' (Phase 1) | 'plant_detective' (Phase 1.25) | 'table23' (Phase 1.5) | 'grouping' (Phase 2)
+  const [phase, setPhase] = useState(initialPhase);
 
   // Specimen Carousel State (0 to 8)
   const [currentSpecimenIndex, setCurrentSpecimenIndex] = useState(0);
@@ -760,6 +762,53 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               }}
             />
 
+                        {/* Direct Vector Tick Mark for "Use your evidence. Which group fits this plant?" */}
+            {(() => {
+              const cardPositions = {
+                Herb: { left: '60.4%', width: '11.4%', top: '57.5%', height: '17.0%' },
+                Shrub: { left: '72.6%', width: '11.4%', top: '57.5%', height: '17.0%' },
+                Tree: { left: '84.8%', width: '11.4%', top: '57.5%', height: '17.0%' }
+              };
+              const activePos = cardPositions[activeSpecimen.type];
+              if (!activePos) return null;
+
+              return (
+                <div
+                  key={`evidence-group-tick-${activeSpecimen.id}`}
+                  style={{
+                    position: 'absolute',
+                    left: activePos.left,
+                    top: activePos.top,
+                    width: activePos.width,
+                    height: activePos.height,
+                    pointerEvents: 'none',
+                    zIndex: 42,
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-end',
+                    padding: '3.5% 4%'
+                  }}
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="28"
+                    height="28"
+                    fill="none"
+                    stroke="#14452F"
+                    strokeWidth="3.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{
+                      filter: 'drop-shadow(0 1.5px 2px rgba(0,0,0,0.25))',
+                      animation: 'popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                    }}
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+              );
+            })()}
+
             {/* Direct Clickable Hotspots overlaying the 9 discovery trail items */}
             {SPECIMEN_SLIDES.map((sp, idx) => {
               const leftPct = (1.8 + idx * 10.7) + '%';
@@ -813,7 +862,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               color: '#1E293B',
               cursor: 'pointer',
               boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
-              backdropFilter: 'blur(8px)',
+              backdropFilter: 'blur(2px)',
               zIndex: 50,
               transition: 'all 0.18s ease'
             }}
@@ -823,14 +872,14 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             <ArrowLeft size={20} /> Back
           </button>
 
-          {/* Floating Bottom Right Control: Next Specimen or Enter Lab */}
+          {/* Floating Bottom Right Control: Next Specimen or Enter Plant Mystery Bureau */}
           <button
             onClick={() => {
               playTone('click');
               if (currentSpecimenIndex < SPECIMEN_SLIDES.length - 1) {
                 setCurrentSpecimenIndex(prev => prev + 1);
               } else {
-                setPhase('table23');
+                setPhase('plant_detective');
               }
             }}
             style={{
@@ -858,9 +907,44 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             {currentSpecimenIndex < SPECIMEN_SLIDES.length - 1 ? (
               <>Next <ArrowRight size={20} /></>
             ) : (
-              <>Enter Grouping Lab <ArrowRight size={20} /></>
+              <>Enter Plant Mystery Bureau <ArrowRight size={20} /></>
             )}
           </button>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* PHASE 1.25: ACTIVITY 2.4 - PLANT MYSTERY / DETECTIVE BUREAU              */}
+      {/* ========================================================================= */}
+      {phase === 'plant_detective' && (
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          backgroundImage: `url('${natureGreeneryBg}')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+          zIndex: 40
+        }}>
+          {/* Nature atmosphere gradient overlay */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(180deg, rgba(2,15,8,0.54) 0%, rgba(5,30,15,0.38) 40%, rgba(2,18,8,0.50) 100%)',
+            zIndex: 0,
+            pointerEvents: 'none'
+          }} />
+          <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
+            <PlantDetective 
+              onBackToDashboard={() => setPhase('specimens')}
+              onNextActivity={() => setPhase('table23')}
+              nextLabel="Next: Table 2.3 ➔"
+            />
+          </div>
         </div>
       )}
 
@@ -880,26 +964,30 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          padding: '18px 24px',
+          paddingTop: '82px',
+          paddingBottom: '68px',
+          paddingLeft: '20px',
+          paddingRight: '20px',
           boxSizing: 'border-box',
           overflow: 'hidden'
         }}>
           {/* Header: Wood Sign Title */}
           <div style={{
             position: 'absolute',
-            top: '18px',
+            top: '12px',
             left: '24px',
             background: 'linear-gradient(180deg, #B07D48 0%, #7F4F24 100%)',
             border: '3px solid #5C3A1A',
             borderRadius: '14px',
-            padding: '10px 26px',
+            padding: '6px 22px',
             boxShadow: '0 6px 16px rgba(0,0,0,0.35)',
-            transform: 'rotate(-1.5deg)'
+            transform: 'rotate(-1.5deg)',
+            zIndex: 45
           }}>
             <h1 style={{
               margin: 0,
               fontFamily: '"Outfit", sans-serif',
-              fontSize: '24px',
+              fontSize: '22px',
               fontWeight: 900,
               color: '#FFFFFF',
               textShadow: '0 2px 4px rgba(0,0,0,0.5)'
@@ -909,10 +997,10 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             <p style={{
               margin: '2px 0 0',
               fontFamily: '"Outfit", sans-serif',
-              fontSize: '16px',
+              fontSize: '20px',
               fontWeight: 700,
               color: '#FEF3C7',
-              letterSpacing: '0.04em'
+              letterSpacing: '0.03em'
             }}>
               Observe &bull; Think &bull; Group
             </p>
@@ -920,49 +1008,59 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
 
           {/* Main Table Card */}
           <div style={{
-            width: 'min(96vw, 1500px)',
+            width: 'min(97vw, 1500px)',
             maxWidth: '100%',
-            maxHeight: '86vh',
+            maxHeight: '100%',
             overflow: 'hidden',
             boxSizing: 'border-box',
-            background: 'rgba(240, 253, 244, 0.85)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
-            border: '2px solid rgba(255,255,255,0.6)',
-            borderRadius: '22px',
-            padding: '18px 22px',
-            boxShadow: '0 20px 50px rgba(0,0,0,0.3)',
+            background: 'linear-gradient(165deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 253, 244, 0.94) 45%, rgba(220, 252, 231, 0.90) 100%)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '2.5px solid #86EFAC',
+            borderRadius: '24px',
+            padding: '14px 20px',
+            boxShadow: '0 25px 60px -10px rgba(6, 78, 59, 0.4), 0 0 0 3px rgba(255, 255, 255, 0.95), 0 0 35px rgba(34, 197, 94, 0.35), inset 0 2px 4px rgba(255, 255, 255, 0.9)',
             display: 'flex',
             flexDirection: 'column',
-            gap: '12px'
+            gap: '10px'
           }}>
             {/* Table Title Bar */}
             <div style={{
-              background: 'linear-gradient(135deg, #14532D 0%, #166534 100%)',
+              background: 'linear-gradient(135deg, #064E3B 0%, #15803D 50%, #166534 100%)',
+              border: '1.5px solid #86EFAC',
               borderRadius: '14px',
-              padding: '10px 20px',
+              padding: '8px 22px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '10px',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.25)'
+              gap: '12px',
+              boxShadow: '0 6px 18px rgba(6, 78, 59, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35)'
             }}>
-              <span style={{ fontSize: '20px' }}>🌿</span>
+              <span style={{ fontSize: '22px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🌿</span>
               <h2 style={{
                 margin: 0,
                 fontFamily: '"Outfit", sans-serif',
-                fontSize: '20px',
+                fontSize: '22px',
                 fontWeight: 800,
                 color: '#FFFFFF',
-                textAlign: 'center'
+                textAlign: 'center',
+                letterSpacing: '0.01em',
+                textShadow: '0 2px 4px rgba(0,0,0,0.4)'
               }}>
-                Table 2.3: <span style={{ color: '#FDE047' }}>Grouping of plants based on height and nature of stem</span>
+                Table 2.3: <span style={{ color: '#FDE047', textShadow: '0 0 12px rgba(250, 204, 21, 0.6), 0 2px 4px rgba(0,0,0,0.5)' }}>Grouping of plants based on height and nature of stem</span>
               </h2>
-              <span style={{ fontSize: '20px' }}>🌿</span>
+              <span style={{ fontSize: '22px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🌿</span>
             </div>
 
             {/* Table */}
-            <div style={{ overflowX: 'auto', width: '100%', boxSizing: 'border-box' }}>
+            <div style={{
+              overflowX: 'auto',
+              width: '100%',
+              boxSizing: 'border-box',
+              borderRadius: '12px',
+              border: '1.5px solid #86EFAC',
+              boxShadow: '0 4px 14px rgba(6, 78, 59, 0.08)'
+            }}>
               <table style={{
                 width: '100%',
                 tableLayout: 'fixed',
@@ -973,52 +1071,75 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 <thead>
                   <tr>
                     <th rowSpan={2} style={{
-                      background: '#BBF7D0', padding: '8px 4px', fontSize: '16px', fontWeight: 800,
-                      color: '#14532D', border: '1px solid #86EFAC', width: '5%'
+                      background: 'linear-gradient(180deg, #BBF7D0 0%, #A7F3D0 100%)', padding: '6px 4px', fontSize: '20px', fontWeight: 800,
+                      color: '#064E3B', borderBottom: '1.5px solid #6EE7B7', borderRight: '1.5px solid #86EFAC', width: '5%'
                     }}>S. no.</th>
                     <th rowSpan={2} style={{
-                      background: '#BBF7D0', padding: '8px 6px', fontSize: '16px', fontWeight: 800,
-                      color: '#14532D', border: '1px solid #86EFAC', width: '11%'
+                      background: 'linear-gradient(180deg, #BBF7D0 0%, #A7F3D0 100%)', padding: '6px 6px', fontSize: '20px', fontWeight: 800,
+                      color: '#064E3B', borderBottom: '1.5px solid #6EE7B7', borderRight: '1.5px solid #86EFAC', width: '12%'
                     }}>Name of the plant</th>
                     <th style={{
-                      background: '#86EFAC', padding: '6px 4px', fontSize: '16px', fontWeight: 800,
-                      color: '#14532D', border: '1px solid #4ADE80', width: '11%'
+                      background: 'linear-gradient(180deg, #86EFAC 0%, #4ADE80 100%)', padding: '6px 4px', fontSize: '20px', fontWeight: 800,
+                      color: '#064E3B', borderBottom: '1.5px solid #22C55E', borderRight: '1.5px solid #4ADE80', width: '11%'
                     }}>Height</th>
                     <th colSpan={3} style={{
-                      background: '#86EFAC', padding: '6px 4px', fontSize: '16px', fontWeight: 800,
-                      color: '#14532D', border: '1px solid #4ADE80', width: '33%'
+                      background: 'linear-gradient(180deg, #86EFAC 0%, #4ADE80 100%)', padding: '6px 4px', fontSize: '20px', fontWeight: 800,
+                      color: '#064E3B', borderBottom: '1.5px solid #22C55E', borderRight: '1.5px solid #4ADE80', width: '33%'
                     }}>Nature of stem</th>
                     <th colSpan={2} style={{
-                      background: '#86EFAC', padding: '6px 4px', fontSize: '16px', fontWeight: 800,
-                      color: '#14532D', border: '1px solid #4ADE80', width: '26%'
+                      background: 'linear-gradient(180deg, #86EFAC 0%, #4ADE80 100%)', padding: '6px 4px', fontSize: '20px', fontWeight: 800,
+                      color: '#064E3B', borderBottom: '1.5px solid #22C55E', borderRight: '1.5px solid #4ADE80', width: '26%'
                     }}>Appearance of branches</th>
                     <th rowSpan={2} style={{
-                      background: '#BBF7D0', padding: '8px 6px', fontSize: '16px', fontWeight: 800,
-                      color: '#14532D', border: '1px solid #86EFAC', width: '14%'
+                      background: 'linear-gradient(180deg, #BBF7D0 0%, #A7F3D0 100%)', padding: '6px 6px', fontSize: '20px', fontWeight: 800,
+                      color: '#064E3B', borderBottom: '1.5px solid #6EE7B7', width: '13%'
                     }}>Name of plant group</th>
                   </tr>
                   <tr>
-                    <th style={{ background: '#DCFCE7', padding: '4px 3px', fontSize: '16px', fontWeight: 700, color: '#166534', border: '1px solid #86EFAC', width: '11%' }}>Short / Medium / Tall</th>
-                    <th style={{ background: '#DCFCE7', padding: '4px 3px', fontSize: '16px', fontWeight: 700, color: '#166534', border: '1px solid #86EFAC', width: '11%' }}>Green / Brown</th>
-                    <th style={{ background: '#DCFCE7', padding: '4px 3px', fontSize: '16px', fontWeight: 700, color: '#166534', border: '1px solid #86EFAC', width: '11%' }}>Tender / Hard</th>
-                    <th style={{ background: '#DCFCE7', padding: '4px 3px', fontSize: '16px', fontWeight: 700, color: '#166534', border: '1px solid #86EFAC', width: '11%' }}>Thick / Thin</th>
-                    <th style={{ background: '#DCFCE7', padding: '4px 3px', fontSize: '16px', fontWeight: 700, color: '#166534', border: '1px solid #86EFAC', width: '13%' }}>Close to the ground</th>
-                    <th style={{ background: '#DCFCE7', padding: '4px 3px', fontSize: '16px', fontWeight: 700, color: '#166534', border: '1px solid #86EFAC', width: '13%' }}>Higher up on the stem</th>
+                    <th style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #DCFCE7 100%)', padding: '4px 3px', fontSize: '20px', fontWeight: 700, color: '#166534', borderBottom: '1.5px solid #86EFAC', borderRight: '1px solid #A7F3D0', width: '11%' }}>Short / Medium / Tall</th>
+                    <th style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #DCFCE7 100%)', padding: '4px 3px', fontSize: '20px', fontWeight: 700, color: '#166534', borderBottom: '1.5px solid #86EFAC', borderRight: '1px solid #A7F3D0', width: '11%' }}>Green / Brown</th>
+                    <th style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #DCFCE7 100%)', padding: '4px 3px', fontSize: '20px', fontWeight: 700, color: '#166534', borderBottom: '1.5px solid #86EFAC', borderRight: '1px solid #A7F3D0', width: '11%' }}>Tender / Hard</th>
+                    <th style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #DCFCE7 100%)', padding: '4px 3px', fontSize: '20px', fontWeight: 700, color: '#166534', borderBottom: '1.5px solid #86EFAC', borderRight: '1px solid #A7F3D0', width: '11%' }}>Thick / Thin</th>
+                    <th style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #DCFCE7 100%)', padding: '4px 3px', fontSize: '20px', fontWeight: 700, color: '#166534', borderBottom: '1.5px solid #86EFAC', borderRight: '1px solid #A7F3D0', width: '13%' }}>Close to the ground</th>
+                    <th style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #DCFCE7 100%)', padding: '4px 3px', fontSize: '20px', fontWeight: 700, color: '#166534', borderBottom: '1.5px solid #86EFAC', borderRight: '1px solid #A7F3D0', width: '13%' }}>Higher up on the stem</th>
                   </tr>
                 </thead>
                 <tbody>
                   {TABLE_2_3_ROWS.map((row, rowIdx) => (
-                    <tr key={row.id} style={{ background: rowIdx % 2 === 0 ? 'rgba(255,255,255,0.7)' : 'rgba(220,252,231,0.5)' }}>
-                      <td style={{ padding: '8px', fontSize: '16px', fontWeight: 700, color: '#1E293B', border: '1px solid #D1FAE5', textAlign: 'center' }}>
+                    <tr key={row.id} style={{
+                      background: rowIdx % 2 === 0 ? 'rgba(255,255,255,0.92)' : 'rgba(240,253,244,0.72)',
+                      transition: 'background 0.15s ease'
+                    }}>
+                      <td style={{
+                        padding: '6px 4px',
+                        fontSize: '20px',
+                        fontWeight: 800,
+                        color: '#065F46',
+                        borderBottom: rowIdx === TABLE_2_3_ROWS.length - 1 ? 'none' : '1px solid #D1FAE5',
+                        borderRight: '1px solid #D1FAE5',
+                        textAlign: 'center'
+                      }}>
                         {rowIdx + 1}.
                       </td>
-                      <td style={{ padding: '8px', fontSize: '16px', fontWeight: 800, color: '#0F172A', border: '1px solid #D1FAE5' }}>
+                      <td style={{
+                        padding: '6px 8px',
+                        fontSize: '20px',
+                        fontWeight: 800,
+                        color: '#0F172A',
+                        borderBottom: rowIdx === TABLE_2_3_ROWS.length - 1 ? 'none' : '1px solid #D1FAE5',
+                        borderRight: '1px solid #D1FAE5'
+                      }}>
                         {row.name}
                       </td>
-                      {TABLE_2_3_COLUMNS.map(col => {
+                      {TABLE_2_3_COLUMNS.map((col, cIdx) => {
                         const value = (table23Answers[row.id] && table23Answers[row.id][col.id]) || '';
                         return (
-                          <td key={col.id} style={{ padding: '5px 4px', border: '1px solid #D1FAE5', overflow: 'hidden' }}>
+                          <td key={col.id} style={{
+                            padding: '4px 4px',
+                            borderBottom: rowIdx === TABLE_2_3_ROWS.length - 1 ? 'none' : '1px solid #D1FAE5',
+                            borderRight: cIdx === TABLE_2_3_COLUMNS.length - 1 ? 'none' : '1px solid #D1FAE5',
+                            overflow: 'hidden'
+                          }}>
                             <select
                               value={value}
                               onChange={(e) => handleTable23Select(row.id, col.id, e.target.value)}
@@ -1026,17 +1147,21 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                                 width: '100%',
                                 maxWidth: '100%',
                                 boxSizing: 'border-box',
-                                padding: '6px 2px 6px 6px',
+                                padding: '4px 6px',
+                                minHeight: '38px',
                                 borderRadius: '8px',
                                 border: table23Checked
                                   ? (value ? '2px solid #22C55E' : '2px solid #F87171')
                                   : '1.5px solid #CBD5E1',
-                                background: '#FFFFFF',
+                                background: table23Checked && value
+                                  ? 'rgba(240, 253, 244, 0.95)'
+                                  : '#FFFFFF',
                                 color: '#1E293B',
-                                fontSize: '16px',
+                                fontSize: '20px',
                                 fontFamily: '"Inter", sans-serif',
                                 fontWeight: 600,
-                                cursor: 'pointer'
+                                cursor: 'pointer',
+                                boxShadow: '0 2px 4px rgba(0,0,0,0.04)'
                               }}
                             >
                               <option value="">Select</option>
@@ -1054,7 +1179,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             </div>
 
             {/* Action Buttons */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', paddingTop: '4px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '18px', paddingTop: '2px' }}>
               <button
                 onClick={handleTable23Check}
                 style={{
@@ -1062,13 +1187,14 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   background: 'linear-gradient(135deg, #16A34A 0%, #15803D 100%)',
                   border: '2px solid #86EFAC',
                   borderRadius: '24px',
-                  padding: '10px 28px',
-                  fontSize: '18px',
+                  padding: '9px 28px',
+                  fontSize: '20px',
                   fontWeight: 800,
                   color: '#FFFFFF',
                   cursor: 'pointer',
-                  boxShadow: '0 6px 16px rgba(21, 128, 61, 0.4)',
-                  fontFamily: '"Outfit", sans-serif'
+                  boxShadow: '0 6px 18px rgba(22, 163, 74, 0.45), inset 0 1px 0 rgba(255,255,255,0.3)',
+                  fontFamily: '"Outfit", sans-serif',
+                  transition: 'transform 0.15s ease, boxShadow 0.15s ease'
                 }}
               >
                 <Check size={20} /> Check Answer
@@ -1080,13 +1206,14 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   background: 'linear-gradient(135deg, #F97316 0%, #EA580C 100%)',
                   border: '2px solid #FDBA74',
                   borderRadius: '24px',
-                  padding: '10px 28px',
-                  fontSize: '18px',
+                  padding: '9px 28px',
+                  fontSize: '20px',
                   fontWeight: 800,
                   color: '#FFFFFF',
                   cursor: 'pointer',
-                  boxShadow: '0 6px 16px rgba(234, 88, 12, 0.4)',
-                  fontFamily: '"Outfit", sans-serif'
+                  boxShadow: '0 6px 18px rgba(234, 88, 12, 0.45), inset 0 1px 0 rgba(255,255,255,0.3)',
+                  fontFamily: '"Outfit", sans-serif',
+                  transition: 'transform 0.15s ease, boxShadow 0.15s ease'
                 }}
               >
                 <RefreshCw size={18} /> Reset
@@ -1096,10 +1223,10 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
 
           {/* Back / Next Nav */}
           <button
-            onClick={() => { playTone('click'); setPhase('specimens'); }}
+            onClick={() => { playTone('click'); setPhase('plant_detective'); }}
             style={{
               position: 'absolute',
-              bottom: '20px',
+              bottom: '14px',
               left: '24px',
               display: 'flex',
               alignItems: 'center',
@@ -1107,8 +1234,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               background: 'rgba(255, 255, 255, 0.92)',
               border: '2px solid #CBD5E1',
               borderRadius: '26px',
-              padding: '10px 22px',
-              fontSize: '18px',
+              padding: '9px 22px',
+              fontSize: '20px',
               fontWeight: 800,
               color: '#1E293B',
               cursor: 'pointer',
@@ -1122,7 +1249,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             onClick={() => { playTone('click'); setPhase('grouping'); }}
             style={{
               position: 'absolute',
-              bottom: '20px',
+              bottom: '14px',
               right: '24px',
               display: 'flex',
               alignItems: 'center',
@@ -1130,8 +1257,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               background: 'linear-gradient(135deg, #15803D 0%, #166534 100%)',
               border: '2px solid #86EFAC',
               borderRadius: '28px',
-              padding: '11px 26px',
-              fontSize: '18px',
+              padding: '9px 24px',
+              fontSize: '20px',
               fontWeight: 900,
               color: '#FFFFFF',
               cursor: 'pointer',
@@ -1180,40 +1307,20 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               gap: '12px',
               width: '100%'
             }}>
-              {/* Top Left Rustic Wood Sign */}
+              {/* Left: Wood Board - Chapter Concept Sign */}
               <div style={{
-                background: 'linear-gradient(180deg, #E2B97F 0%, #C49255 100%)',
-                border: '2.5px solid #8C5E2D',
+                background: 'linear-gradient(180deg, #D4A373 0%, #B07D48 100%)',
+                border: '2.5px solid #7F4F24',
                 borderRadius: '12px',
-                padding: '4px 14px',
-                boxShadow: '0 4px 16px rgba(0,0,0,0.22)',
-                position: 'relative',
-                flexShrink: 0
+                padding: '4px 12px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.18)',
+                flexShrink: 0,
+                maxWidth: '250px'
               }}>
-                {/* Hanging Ropes */}
-                <div style={{
-                  position: 'absolute',
-                  top: '-10px',
-                  left: '16px',
-                  width: '4px',
-                  height: '12px',
-                  background: '#5C3814',
-                  borderRadius: '2px'
-                }} />
-                <div style={{
-                  position: 'absolute',
-                  top: '-10px',
-                  right: '16px',
-                  width: '4px',
-                  height: '12px',
-                  background: '#5C3814',
-                  borderRadius: '2px'
-                }} />
-
                 <h2 style={{
                   margin: 0,
                   fontFamily: '"Outfit", sans-serif',
-                  fontSize: '18px',
+                  fontSize: '20px',
                   fontWeight: 900,
                   color: '#2B1705',
                   lineHeight: 1.15
@@ -1221,8 +1328,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   Different lives. Shared features.
                 </h2>
                 <p style={{
-                  margin: '1px 0 0 0',
-                  fontSize: '16px',
+                  margin: '2px 0 0 0',
+                  fontSize: '17px',
                   fontWeight: 700,
                   fontStyle: 'italic',
                   fontFamily: '"Inter", sans-serif',
@@ -1235,38 +1342,39 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 </p>
               </div>
 
-              {/* Center: Grouping Rule Mint Banner (Spacious & Clean) */}
+              {/* Center: Grouping Rule Mint Banner (Fully Visible, No Truncation) */}
               <div style={{
                 flex: '1 1 auto',
                 minWidth: 0,
-                background: 'rgba(236, 253, 245, 0.95)',
+                background: 'rgba(236, 253, 245, 0.96)',
                 border: '1.8px solid #A7F3D0',
                 borderRadius: '12px',
-                padding: '6px 16px',
+                padding: '6px 14px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
               }}>
-                <span style={{ fontSize: '18px' }}>💡</span>
-                <span style={{
-                  fontSize: '17px',
-                  fontWeight: 800,
-                  color: '#065F46',
-                  whiteSpace: 'nowrap'
-                }}>
-                  Grouping rule:
-                </span>
-                <span style={{
-                  fontSize: '16px',
-                  fontWeight: 600,
-                  color: '#1E293B',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis'
-                }}>
-                  {activeTab.rule}
-                </span>
+                <span style={{ fontSize: '20px', flexShrink: 0 }}>💡</span>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', minWidth: 0 }}>
+                  <span style={{
+                    fontSize: '19px',
+                    fontWeight: 800,
+                    color: '#065F46',
+                    whiteSpace: 'nowrap',
+                    flexShrink: 0
+                  }}>
+                    Grouping rule:
+                  </span>
+                  <span style={{
+                    fontSize: '18px',
+                    fontWeight: 700,
+                    color: '#1E293B',
+                    lineHeight: 1.2
+                  }}>
+                    {activeTab.rule}
+                  </span>
+                </div>
               </div>
 
               {/* Top Right: Hanging Wood Trophy Sign + Sky Script */}
@@ -1291,19 +1399,18 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 }}>
                   <span style={{ fontSize: '20px' }}>🏆</span>
                   <div>
-                    <div style={{ fontSize: '16px', fontWeight: 900, color: '#FEF08A', lineHeight: 1 }}>
+                    <div style={{ fontSize: '20px', fontWeight: 900, color: '#FEF08A', lineHeight: 1 }}>
                       {completedTabs.length} / {CRITERIA_TABS.length}
                     </div>
-                    <div style={{ fontSize: '16px', fontWeight: 700, fontFamily: '"Inter", sans-serif', color: '#E2E8F0', marginTop: '1px' }}>
+                    <div style={{ fontSize: '18px', fontWeight: 700, fontFamily: '"Inter", sans-serif', color: '#E2E8F0', marginTop: '1px' }}>
                       challenges complete
                     </div>
                   </div>
                 </div>
 
-                {/* Sky Script Quote */}
+                {/* Banner Quote */}
                 <div style={{
-                  fontFamily: '"Inter", sans-serif',
-                  fontSize: '16px',
+                  fontSize: '18px',
                   fontWeight: 700,
                   fontStyle: 'italic',
                   color: '#1E293B',
@@ -1321,12 +1428,12 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '8px',
+              gap: '6px',
               flexWrap: 'wrap',
               background: 'rgba(255, 255, 255, 0.75)',
-              padding: '4px 14px',
+              padding: '3px 12px',
               borderRadius: '28px',
-              backdropFilter: 'blur(8px)',
+              backdropFilter: 'blur(2px)',
               width: 'fit-content',
               margin: '0 auto',
               boxShadow: '0 2px 10px rgba(0,0,0,0.06)'
@@ -1351,8 +1458,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                       background: isActive ? '#14452F' : '#FFFFFF',
                       border: isActive ? '2px solid #14452F' : '1.5px solid #CBD5E1',
                       borderRadius: '20px',
-                      padding: '5px 14px',
-                      fontSize: '16px',
+                      padding: '4px 12px',
+                      fontSize: '18px',
                       fontWeight: 800,
                       color: isActive ? '#FFFFFF' : '#1E293B',
                       cursor: 'pointer',
@@ -1372,7 +1479,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                         borderRadius: '50%',
                         width: '20px',
                         height: '20px',
-                        fontSize: '16px',
+                        fontSize: '18px',
                         fontWeight: 900,
                         display: 'inline-flex',
                         alignItems: 'center',
@@ -1393,7 +1500,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
           {/* ===================================================================== */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1.08fr)',
+            gridTemplateColumns: 'minmax(0, 1.18fr) minmax(0, 1fr)',
             gap: '12px',
             flex: '1 1 0',
             minHeight: 0,
@@ -1407,7 +1514,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               background: 'rgba(255, 255, 255, 0.96)',
               border: '2px solid rgba(255,255,255,0.85)',
               borderRadius: '18px',
-              padding: '10px 12px',
+              padding: '8px 12px',
               boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
               display: 'flex',
               flexDirection: 'column',
@@ -1420,16 +1527,16 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginBottom: '6px',
+                marginBottom: '4px',
                 flexShrink: 0
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <span style={{ fontSize: '22px' }}>🤿</span>
-                  <h3 style={{ margin: 0, fontSize: '22px', fontWeight: 900, color: '#0F172A' }}>
+                  <h3 style={{ margin: 0, fontSize: '21px', fontWeight: 900, color: '#0F172A' }}>
                     Observation cards
                   </h3>
                 </div>
-                <span style={{ fontSize: '16px', fontWeight: 800, color: '#64748B' }}>
+                <span style={{ fontSize: '18px', fontWeight: 700, color: '#64748B' }}>
                   {currentTabCards.length} to observe
                 </span>
               </div>
@@ -1442,7 +1549,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 flex: '1 1 0',
                 alignContent: 'start',
                 minHeight: 0,
-                overflow: 'hidden'
+                overflowY: 'auto',
+                overflowX: 'hidden'
               }}>
                 {currentTabCards.map(card => {
                   const isPlaced = !!currentTabPlacements[card.id];
@@ -1482,12 +1590,9 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                         position: 'relative',
                         display: 'flex',
                         flexDirection: 'column',
-                        minHeight: 0,
-                        height: currentTabCards.length > 6 ? '100px' : '135px'
+                        minHeight: 0
                       }}
                     >
-
-
                       {/* Placed Status Checkmark (Top Left) */}
                       {isPlaced && (
                         <div style={{
@@ -1497,12 +1602,12 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                           background: '#16A34A',
                           color: '#FFFFFF',
                           borderRadius: '50%',
-                          width: '24px',
-                          height: '24px',
+                          width: '22px',
+                          height: '22px',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontSize: '16px',
+                          fontSize: '18px',
                           fontWeight: 900,
                           zIndex: 10,
                           boxShadow: '0 2px 6px rgba(0,0,0,0.25)'
@@ -1511,11 +1616,10 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                         </div>
                       )}
 
-                      {/* 8K Photo */}
+                      {/* Photo */}
                       <div style={{
                         width: '100%',
-                        flex: '1 1 0',
-                        minHeight: 0,
+                        aspectRatio: '3 / 4',
                         overflow: 'hidden',
                         background: '#F1F5F9'
                       }}>
@@ -1541,12 +1645,11 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                         flexShrink: 0
                       }}>
                         <span style={{
-                          fontSize: '16px',
+                          fontSize: card.name.length > 9 ? '17px' : '18px',
                           fontWeight: 800,
                           color: '#1E293B',
                           whiteSpace: 'nowrap',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis'
+                          letterSpacing: '-0.01em'
                         }}>
                           {card.name}
                         </span>
@@ -1563,28 +1666,26 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
 
               {/* Frog Mascot Speech Bubble at Bottom */}
               <div style={{
-                marginTop: '6px',
+                marginTop: '4px',
                 background: '#F0FDF4',
                 border: '1.5px solid #BBF7D0',
                 borderRadius: '12px',
-                padding: '5px 12px',
+                padding: '4px 12px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '10px',
+                gap: '8px',
                 flexShrink: 0
               }}>
-                <span style={{ fontSize: '22px' }}>🐸</span>
+                <span style={{ fontSize: '20px', flexShrink: 0 }}>🐸</span>
                 <span style={{
-                  fontSize: '16px',
-                  fontWeight: 600,
+                  fontSize: '18px',
+                  fontWeight: 700,
                   color: '#166534',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis'
+                  lineHeight: 1.2
                 }}>
                   {selectedCardId 
-                    ? `You selected "${ALL_ORGANISMS[selectedCardId]?.name}". Click a group on the right to place it!` 
-                    : "Select a card to take a closer look. What features do you notice?"}
+                    ? `Selected "${ALL_ORGANISMS[selectedCardId]?.name}". Click a group on the right!` 
+                    : "Click any card to inspect features and assign to a group."}
                 </span>
               </div>
             </div>
@@ -1596,7 +1697,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               background: 'rgba(255, 255, 255, 0.96)',
               border: '2px solid rgba(255,255,255,0.85)',
               borderRadius: '18px',
-              padding: '10px 12px',
+              padding: '8px 12px',
               boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
               display: 'flex',
               flexDirection: 'column',
@@ -1609,7 +1710,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginBottom: '6px',
+                marginBottom: '4px',
                 flexShrink: 0
               }}>
                 <h3 style={{
@@ -1621,7 +1722,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 }}>
                   Your groups
                 </h3>
-                <span style={{ fontSize: '17px', fontWeight: 600, color: '#1E293B' }}>
+                <span style={{ fontSize: '20px', fontWeight: 700, color: '#1E293B' }}>
                   {placedCount} / {totalCardsCount} placed
                 </span>
               </div>
@@ -1633,7 +1734,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 gap: activeTab.groups.length > 2 ? '6px' : '8px',
                 flex: '1 1 0',
                 minHeight: 0,
-                overflow: 'hidden'
+                overflowY: 'auto',
+                overflowX: 'hidden'
               }}>
                 {activeTab.groups.map(group => {
                   const cardsInGroup = Object.entries(currentTabPlacements)
@@ -1688,26 +1790,27 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
+                        gap: '10px',
                         flexShrink: 0
                       }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: isCompact ? '8px' : '10px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: isCompact ? '8px' : '10px', flex: '1 1 auto', minWidth: 0 }}>
                           {group.customIcon ? (
                             <img
                               src={group.customIcon}
                               alt=""
                               style={{
-                                width: isCompact ? '34px' : '42px',
-                                height: isCompact ? '34px' : '42px',
+                                width: isCompact ? '32px' : '38px',
+                                height: isCompact ? '32px' : '38px',
                                 objectFit: 'contain',
                                 flexShrink: 0
                               }}
                             />
                           ) : (
-                            <span style={{ fontSize: isCompact ? '18px' : '22px' }}>{group.icon}</span>
+                            <span style={{ fontSize: isCompact ? '20px' : '22px', flexShrink: 0 }}>{group.icon}</span>
                           )}
-                          <div>
+                          <div style={{ minWidth: 0, flex: '1 1 auto' }}>
                             <div style={{
-                              fontSize: isCompact ? '19px' : '22px',
+                              fontSize: isCompact ? '20px' : '21px',
                               fontWeight: 900,
                               fontFamily: '"Outfit", sans-serif',
                               color: group.headerColor || '#0F172A',
@@ -1716,24 +1819,28 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                               {group.title}
                             </div>
                             <div style={{
-                              fontSize: isCompact ? '16px' : '17px',
+                              fontSize: '18px',
                               fontWeight: 600,
                               fontFamily: '"Inter", sans-serif',
                               color: '#475569',
-                              marginTop: '2px'
+                              marginTop: '1px',
+                              lineHeight: 1.2
                             }}>
                               {group.subtitle}
                             </div>
                           </div>
                         </div>
                         <span style={{
-                          fontSize: isCompact ? '16px' : '17px',
-                          fontWeight: 600,
+                          fontSize: '18px',
+                          fontWeight: 800,
                           fontFamily: '"Inter", sans-serif',
-                          color: '#475569',
-                          background: group.bgImg ? 'transparent' : 'rgba(255,255,255,0.7)',
-                          padding: '2px 8px',
-                          borderRadius: '8px'
+                          color: '#334155',
+                          background: group.bgImg ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.9)',
+                          border: '1px solid rgba(0,0,0,0.08)',
+                          padding: '3px 10px',
+                          borderRadius: '8px',
+                          whiteSpace: 'nowrap',
+                          flexShrink: 0
                         }}>
                           {cardsInGroup.length} cards
                         </span>
@@ -1761,7 +1868,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                                 background: '#FFFFFF',
                                 border: '1.5px solid #CBD5E1',
                                 borderRadius: '18px',
-                                padding: isCompact ? '1px 7px 1px 3px' : '2px 8px 2px 4px',
+                                padding: '2px 8px 2px 4px',
                                 boxShadow: '0 2px 5px rgba(0,0,0,0.05)'
                               }}
                             >
@@ -1769,13 +1876,13 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                                 src={card.image}
                                 alt={card.name}
                                 style={{
-                                  width: isCompact ? '18px' : '22px',
-                                  height: isCompact ? '18px' : '22px',
+                                  width: '22px',
+                                  height: '22px',
                                   borderRadius: '50%',
                                   objectFit: 'cover'
                                 }}
                               />
-                              <span style={{ fontSize: isCompact ? '16px' : '16px', fontWeight: 800, fontFamily: '"Inter", sans-serif', color: '#1E293B' }}>
+                              <span style={{ fontSize: '18px', fontWeight: 800, fontFamily: '"Inter", sans-serif', color: '#1E293B' }}>
                                 {card.name}
                               </span>
                               <button
@@ -1784,14 +1891,14 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                                   background: '#F1F5F9',
                                   border: 'none',
                                   borderRadius: '50%',
-                                  width: isCompact ? '17px' : '20px',
-                                  height: isCompact ? '17px' : '20px',
+                                  width: '22px',
+                                  height: '22px',
                                   display: 'flex',
                                   alignItems: 'center',
                                   justifyContent: 'center',
                                   cursor: 'pointer',
                                   color: '#64748B',
-                                  fontSize: isCompact ? '16px' : '16px',
+                                  fontSize: '18px',
                                   marginLeft: '2px'
                                 }}
                                 title="Remove from group"
@@ -1809,8 +1916,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                         borderRadius: '12px',
                         padding: isCompact ? '4px 8px' : '6px 12px',
                         textAlign: 'center',
-                        fontSize: isCompact ? '16px' : '17px',
-                        fontWeight: 600,
+                        fontSize: '18px',
+                        fontWeight: 700,
                         fontFamily: '"Outfit", sans-serif',
                         color: selectedCardId ? (group.dropColor || group.headerColor) : (group.dropColor || '#64748B'),
                         background: selectedCardId 
@@ -1833,7 +1940,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               {/* Validation Result Banner */}
               {validationResult && (
                 <div style={{
-                  marginTop: '5px',
+                  marginTop: '4px',
                   background: validationResult.success ? '#DCFCE7' : '#FEE2E2',
                   border: validationResult.success ? '2px solid #86EFAC' : '2px solid #FCA5A5',
                   borderRadius: '10px',
@@ -1843,11 +1950,11 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   gap: '8px',
                   flexShrink: 0
                 }}>
-                  <span style={{ fontSize: '18px' }}>
+                  <span style={{ fontSize: '20px' }}>
                     {validationResult.success ? '🎉' : '🤔'}
                   </span>
                   <span style={{
-                    fontSize: '16px',
+                    fontSize: '18px',
                     fontWeight: 700,
                     color: validationResult.success ? '#15803D' : '#B91C1C'
                   }}>
@@ -1864,7 +1971,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
           <div style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '6px',
+            gap: '4px',
             flexShrink: 0,
             paddingTop: '2px'
           }}>
@@ -1889,7 +1996,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               <p style={{
                 margin: 0,
                 fontFamily: '"Outfit", sans-serif',
-                fontSize: '16px',
+                fontSize: '18px',
                 fontWeight: 800,
                 color: '#2B1705',
                 whiteSpace: 'pre-line',
@@ -1899,58 +2006,35 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               </p>
             </div>
 
-            {/* Helper Note */}
+            {/* Helper Note (Fully visible, no truncation) */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              background: 'rgba(255, 255, 255, 0.85)',
-              padding: '6px 16px',
+              background: 'rgba(255, 255, 255, 0.88)',
+              padding: '6px 14px',
               borderRadius: '20px',
-              fontSize: '16px',
+              fontSize: '18px',
               fontWeight: 700,
               color: '#334155',
-              backdropFilter: 'blur(4px)',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap'
+              backdropFilter: 'blur(2px)',
+              flexShrink: 1,
+              minWidth: 0
             }}>
-              <span style={{ fontSize: '18px' }}>🍃</span>
-              <span>Look for a feature shared by every member of a group.</span>
+              <span style={{ fontSize: '18px', flexShrink: 0 }}>🍃</span>
+              <span style={{ whiteSpace: 'nowrap' }}>Find features shared by all members in a group.</span>
             </div>
 
             {/* Action Buttons */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-              <button
-                onClick={() => {
-                  playTone('click');
-                  setPhase('specimens');
-                }}
-                style={{
-                  background: '#FFFFFF',
-                  border: '1.5px solid #CBD5E1',
-                  borderRadius: '20px',
-                  padding: '8px 16px',
-                  fontSize: '16px',
-                  fontWeight: 800,
-                  color: '#1E293B',
-                  cursor: 'pointer',
-                  boxShadow: '0 3px 6px rgba(0,0,0,0.05)',
-                  transition: 'all 0.15s ease'
-                }}
-                title="View Fullscreen Specimen Slides 1-9"
-              >
-                Specimen Slides
-              </button>
-
               <button
                 onClick={handleClearGroups}
                 style={{
                   background: '#FFFFFF',
                   border: '1.5px solid #CBD5E1',
                   borderRadius: '20px',
-                  padding: '8px 18px',
-                  fontSize: '16px',
+                  padding: '7px 16px',
+                  fontSize: '18px',
                   fontWeight: 800,
                   color: '#475569',
                   cursor: 'pointer',
@@ -1970,8 +2054,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
                   border: '2px solid #86EFAC',
                   borderRadius: '20px',
-                  padding: '8px 22px',
-                  fontSize: '16px',
+                  padding: '7px 20px',
+                  fontSize: '18px',
                   fontWeight: 900,
                   color: '#FFFFFF',
                   cursor: 'pointer',
@@ -2001,8 +2085,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 background: 'rgba(255, 255, 255, 0.92)',
                 border: '2px solid #CBD5E1',
                 borderRadius: '20px',
-                padding: '8px 18px',
-                fontSize: '16px',
+                padding: '7px 20px',
+                fontSize: '18px',
                 fontWeight: 800,
                 color: '#1E293B',
                 cursor: 'pointer',
@@ -2022,8 +2106,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 background: 'linear-gradient(135deg, #15803D 0%, #166534 100%)',
                 border: '2px solid #86EFAC',
                 borderRadius: '20px',
-                padding: '8px 22px',
-                fontSize: '16px',
+                padding: '7px 22px',
+                fontSize: '18px',
                 fontWeight: 900,
                 color: '#FFFFFF',
                 cursor: 'pointer',
@@ -2046,7 +2130,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
           position: 'fixed',
           inset: 0,
           background: 'rgba(0,0,0,0.7)',
-          backdropFilter: 'blur(8px)',
+          backdropFilter: 'blur(2px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

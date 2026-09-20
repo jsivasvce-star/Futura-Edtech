@@ -1,0 +1,907 @@
+{
+  "audio_file": "page24.mp3",
+  "duration": 70.818,
+  "language": "en",
+  "words": [
+    {
+      "text": "Finding",
+      "start": 0.0,
+      "end": 0.48
+    },
+    {
+      "text": "directions.",
+      "start": 0.48,
+      "end": 1.26
+    },
+    {
+      "text": "Maps",
+      "start": 1.86,
+      "end": 2.06
+    },
+    {
+      "text": "have",
+      "start": 2.06,
+      "end": 2.3
+    },
+    {
+      "text": "three",
+      "start": 2.3,
+      "end": 2.6
+    },
+    {
+      "text": "main",
+      "start": 2.6,
+      "end": 2.82
+    },
+    {
+      "text": "parts",
+      "start": 2.82,
+      "end": 3.26
+    },
+    {
+      "text": "–",
+      "start": 3.26,
+      "end": 3.54
+    },
+    {
+      "text": "directions,",
+      "start": 3.54,
+      "end": 4.14
+    },
+    {
+      "text": "distance",
+      "start": 4.52,
+      "end": 4.96
+    },
+    {
+      "text": "and",
+      "start": 4.96,
+      "end": 5.32
+    },
+    {
+      "text": "symbols.",
+      "start": 5.32,
+      "end": 5.82
+    },
+    {
+      "text": "Directions",
+      "start": 6.54,
+      "end": 7.1
+    },
+    {
+      "text": "help",
+      "start": 7.1,
+      "end": 7.6
+    },
+    {
+      "text": "us",
+      "start": 7.6,
+      "end": 7.94
+    },
+    {
+      "text": "find",
+      "start": 7.94,
+      "end": 8.34
+    },
+    {
+      "text": "where",
+      "start": 8.34,
+      "end": 8.72
+    },
+    {
+      "text": "places",
+      "start": 8.72,
+      "end": 9.14
+    },
+    {
+      "text": "are.",
+      "start": 9.14,
+      "end": 9.5
+    },
+    {
+      "text": "Main",
+      "start": 10.38,
+      "end": 10.56
+    },
+    {
+      "text": "directions.",
+      "start": 10.56,
+      "end": 11.12
+    },
+    {
+      "text": "There",
+      "start": 11.84,
+      "end": 11.92
+    },
+    {
+      "text": "are",
+      "start": 11.92,
+      "end": 12.14
+    },
+    {
+      "text": "four",
+      "start": 12.14,
+      "end": 12.38
+    },
+    {
+      "text": "main",
+      "start": 12.38,
+      "end": 12.6
+    },
+    {
+      "text": "directions",
+      "start": 12.6,
+      "end": 13.24
+    },
+    {
+      "text": "–",
+      "start": 13.24,
+      "end": 13.48
+    },
+    {
+      "text": "north,",
+      "start": 13.48,
+      "end": 13.96
+    },
+    {
+      "text": "east,",
+      "start": 14.1,
+      "end": 14.52
+    },
+    {
+      "text": "south",
+      "start": 14.78,
+      "end": 15.22
+    },
+    {
+      "text": "and",
+      "start": 15.22,
+      "end": 15.56
+    },
+    {
+      "text": "west.",
+      "start": 15.56,
+      "end": 15.96
+    },
+    {
+      "text": "On",
+      "start": 16.5,
+      "end": 16.72
+    },
+    {
+      "text": "a",
+      "start": 16.72,
+      "end": 16.94
+    },
+    {
+      "text": "standard",
+      "start": 16.94,
+      "end": 17.2
+    },
+    {
+      "text": "map,",
+      "start": 17.2,
+      "end": 17.56
+    },
+    {
+      "text": "north",
+      "start": 17.96,
+      "end": 18.3
+    },
+    {
+      "text": "is",
+      "start": 18.3,
+      "end": 18.54
+    },
+    {
+      "text": "at",
+      "start": 18.54,
+      "end": 18.76
+    },
+    {
+      "text": "the",
+      "start": 18.76,
+      "end": 18.9
+    },
+    {
+      "text": "top,",
+      "start": 18.9,
+      "end": 19.22
+    },
+    {
+      "text": "east",
+      "start": 19.58,
+      "end": 20.04
+    },
+    {
+      "text": "is",
+      "start": 20.04,
+      "end": 20.36
+    },
+    {
+      "text": "to",
+      "start": 20.36,
+      "end": 20.54
+    },
+    {
+      "text": "the",
+      "start": 20.54,
+      "end": 20.64
+    },
+    {
+      "text": "right,",
+      "start": 20.64,
+      "end": 21.02
+    },
+    {
+      "text": "south",
+      "start": 21.34,
+      "end": 21.78
+    },
+    {
+      "text": "is",
+      "start": 21.78,
+      "end": 22.08
+    },
+    {
+      "text": "at",
+      "start": 22.08,
+      "end": 22.26
+    },
+    {
+      "text": "the",
+      "start": 22.26,
+      "end": 22.38
+    },
+    {
+      "text": "bottom",
+      "start": 22.38,
+      "end": 22.74
+    },
+    {
+      "text": "and",
+      "start": 22.74,
+      "end": 23.28
+    },
+    {
+      "text": "west",
+      "start": 23.28,
+      "end": 23.72
+    },
+    {
+      "text": "is",
+      "start": 23.72,
+      "end": 24.1
+    },
+    {
+      "text": "to",
+      "start": 24.1,
+      "end": 24.28
+    },
+    {
+      "text": "the",
+      "start": 24.28,
+      "end": 24.38
+    },
+    {
+      "text": "left.",
+      "start": 24.38,
+      "end": 24.74
+    },
+    {
+      "text": "In",
+      "start": 25.56,
+      "end": 25.88
+    },
+    {
+      "text": "between",
+      "start": 25.88,
+      "end": 26.18
+    },
+    {
+      "text": "directions.",
+      "start": 26.18,
+      "end": 26.72
+    },
+    {
+      "text": "There",
+      "start": 27.32,
+      "end": 27.5
+    },
+    {
+      "text": "are",
+      "start": 27.5,
+      "end": 27.78
+    },
+    {
+      "text": "also",
+      "start": 27.78,
+      "end": 28.1
+    },
+    {
+      "text": "directions",
+      "start": 28.1,
+      "end": 28.6
+    },
+    {
+      "text": "between",
+      "start": 28.6,
+      "end": 29.0
+    },
+    {
+      "text": "the",
+      "start": 29.0,
+      "end": 29.24
+    },
+    {
+      "text": "main",
+      "start": 29.24,
+      "end": 29.4
+    },
+    {
+      "text": "directions.",
+      "start": 29.4,
+      "end": 29.98
+    },
+    {
+      "text": "These",
+      "start": 30.0,
+      "end": 30.84
+    },
+    {
+      "text": "are",
+      "start": 30.84,
+      "end": 31.08
+    },
+    {
+      "text": "north",
+      "start": 31.08,
+      "end": 31.44
+    },
+    {
+      "text": "-east,",
+      "start": 31.44,
+      "end": 31.76
+    },
+    {
+      "text": "south",
+      "start": 32.12,
+      "end": 32.38
+    },
+    {
+      "text": "-east,",
+      "start": 32.38,
+      "end": 32.82
+    },
+    {
+      "text": "south",
+      "start": 33.14,
+      "end": 33.36
+    },
+    {
+      "text": "-west",
+      "start": 33.36,
+      "end": 33.76
+    },
+    {
+      "text": "and",
+      "start": 33.76,
+      "end": 34.26
+    },
+    {
+      "text": "north",
+      "start": 34.26,
+      "end": 34.52
+    },
+    {
+      "text": "-west.",
+      "start": 34.52,
+      "end": 34.88
+    },
+    {
+      "text": "They",
+      "start": 35.56,
+      "end": 35.74
+    },
+    {
+      "text": "help",
+      "start": 35.74,
+      "end": 35.98
+    },
+    {
+      "text": "us",
+      "start": 35.98,
+      "end": 36.28
+    },
+    {
+      "text": "describe",
+      "start": 36.28,
+      "end": 36.7
+    },
+    {
+      "text": "the",
+      "start": 36.7,
+      "end": 36.92
+    },
+    {
+      "text": "position",
+      "start": 36.92,
+      "end": 37.28
+    },
+    {
+      "text": "of",
+      "start": 37.28,
+      "end": 37.6
+    },
+    {
+      "text": "a",
+      "start": 37.6,
+      "end": 37.68
+    },
+    {
+      "text": "place",
+      "start": 37.68,
+      "end": 37.86
+    },
+    {
+      "text": "more",
+      "start": 37.86,
+      "end": 38.18
+    },
+    {
+      "text": "exactly.",
+      "start": 38.18,
+      "end": 38.68
+    },
+    {
+      "text": "What",
+      "start": 39.16,
+      "end": 39.18
+    },
+    {
+      "text": "is",
+      "start": 39.18,
+      "end": 39.4
+    },
+    {
+      "text": "the",
+      "start": 39.4,
+      "end": 39.6
+    },
+    {
+      "text": "north",
+      "start": 39.6,
+      "end": 39.8
+    },
+    {
+      "text": "line?",
+      "start": 39.8,
+      "end": 40.06
+    },
+    {
+      "text": "Maps",
+      "start": 40.64,
+      "end": 40.98
+    },
+    {
+      "text": "usually",
+      "start": 40.98,
+      "end": 41.64
+    },
+    {
+      "text": "show",
+      "start": 41.64,
+      "end": 41.9
+    },
+    {
+      "text": "an",
+      "start": 41.9,
+      "end": 42.2
+    },
+    {
+      "text": "arrow",
+      "start": 42.2,
+      "end": 42.42
+    },
+    {
+      "text": "with",
+      "start": 42.42,
+      "end": 42.68
+    },
+    {
+      "text": "an",
+      "start": 42.68,
+      "end": 42.9
+    },
+    {
+      "text": "N",
+      "start": 42.9,
+      "end": 43.02
+    },
+    {
+      "text": "at",
+      "start": 43.02,
+      "end": 43.36
+    },
+    {
+      "text": "the",
+      "start": 43.36,
+      "end": 43.56
+    },
+    {
+      "text": "top",
+      "start": 43.56,
+      "end": 43.76
+    },
+    {
+      "text": "right.",
+      "start": 43.76,
+      "end": 44.02
+    },
+    {
+      "text": "This",
+      "start": 44.52,
+      "end": 44.72
+    },
+    {
+      "text": "is",
+      "start": 44.72,
+      "end": 44.92
+    },
+    {
+      "text": "the",
+      "start": 44.92,
+      "end": 45.08
+    },
+    {
+      "text": "north",
+      "start": 45.08,
+      "end": 45.3
+    },
+    {
+      "text": "line.",
+      "start": 45.3,
+      "end": 45.66
+    },
+    {
+      "text": "Finding",
+      "start": 46.08,
+      "end": 46.44
+    },
+    {
+      "text": "north",
+      "start": 46.44,
+      "end": 46.76
+    },
+    {
+      "text": "helps",
+      "start": 46.76,
+      "end": 47.08
+    },
+    {
+      "text": "us",
+      "start": 47.08,
+      "end": 47.38
+    },
+    {
+      "text": "find",
+      "start": 47.38,
+      "end": 47.68
+    },
+    {
+      "text": "all",
+      "start": 47.68,
+      "end": 48.04
+    },
+    {
+      "text": "the",
+      "start": 48.04,
+      "end": 48.2
+    },
+    {
+      "text": "other",
+      "start": 48.2,
+      "end": 48.42
+    },
+    {
+      "text": "directions",
+      "start": 48.42,
+      "end": 48.8
+    },
+    {
+      "text": "easily.",
+      "start": 48.8,
+      "end": 49.3
+    },
+    {
+      "text": "Remember,",
+      "start": 49.8,
+      "end": 50.3
+    },
+    {
+      "text": "north",
+      "start": 50.7,
+      "end": 51.0
+    },
+    {
+      "text": "is",
+      "start": 51.0,
+      "end": 51.22
+    },
+    {
+      "text": "at",
+      "start": 51.22,
+      "end": 51.48
+    },
+    {
+      "text": "the",
+      "start": 51.48,
+      "end": 51.6
+    },
+    {
+      "text": "top",
+      "start": 51.6,
+      "end": 51.78
+    },
+    {
+      "text": "of",
+      "start": 51.78,
+      "end": 52.0
+    },
+    {
+      "text": "every",
+      "start": 52.0,
+      "end": 52.34
+    },
+    {
+      "text": "standard",
+      "start": 52.34,
+      "end": 52.72
+    },
+    {
+      "text": "map.",
+      "start": 52.72,
+      "end": 53.0
+    },
+    {
+      "text": "How",
+      "start": 53.58,
+      "end": 53.74
+    },
+    {
+      "text": "does",
+      "start": 53.74,
+      "end": 53.98
+    },
+    {
+      "text": "a",
+      "start": 53.98,
+      "end": 54.14
+    },
+    {
+      "text": "compass",
+      "start": 54.14,
+      "end": 54.4
+    },
+    {
+      "text": "work?",
+      "start": 54.4,
+      "end": 54.78
+    },
+    {
+      "text": "A",
+      "start": 55.4,
+      "end": 55.58
+    },
+    {
+      "text": "compass",
+      "start": 55.58,
+      "end": 55.9
+    },
+    {
+      "text": "is",
+      "start": 55.9,
+      "end": 56.18
+    },
+    {
+      "text": "a",
+      "start": 56.18,
+      "end": 56.38
+    },
+    {
+      "text": "tool",
+      "start": 56.38,
+      "end": 56.58
+    },
+    {
+      "text": "used",
+      "start": 56.58,
+      "end": 57.02
+    },
+    {
+      "text": "to",
+      "start": 57.02,
+      "end": 57.3
+    },
+    {
+      "text": "find",
+      "start": 57.3,
+      "end": 57.54
+    },
+    {
+      "text": "directions.",
+      "start": 57.54,
+      "end": 58.1
+    },
+    {
+      "text": "Its",
+      "start": 58.1,
+      "end": 58.86
+    },
+    {
+      "text": "needle",
+      "start": 58.86,
+      "end": 59.26
+    },
+    {
+      "text": "always",
+      "start": 59.26,
+      "end": 59.82
+    },
+    {
+      "text": "points",
+      "start": 59.82,
+      "end": 60.16
+    },
+    {
+      "text": "north",
+      "start": 60.16,
+      "end": 60.52
+    },
+    {
+      "text": "-south",
+      "start": 60.52,
+      "end": 60.88
+    },
+    {
+      "text": "because",
+      "start": 60.88,
+      "end": 61.2
+    },
+    {
+      "text": "the",
+      "start": 61.2,
+      "end": 61.46
+    },
+    {
+      "text": "earth",
+      "start": 61.46,
+      "end": 61.64
+    },
+    {
+      "text": "acts",
+      "start": 61.64,
+      "end": 62.04
+    },
+    {
+      "text": "like",
+      "start": 62.04,
+      "end": 62.34
+    },
+    {
+      "text": "a",
+      "start": 62.34,
+      "end": 62.46
+    },
+    {
+      "text": "giant",
+      "start": 62.46,
+      "end": 62.7
+    },
+    {
+      "text": "magnet.",
+      "start": 62.7,
+      "end": 63.16
+    },
+    {
+      "text": "The",
+      "start": 63.82,
+      "end": 63.92
+    },
+    {
+      "text": "red",
+      "start": 63.92,
+      "end": 64.18
+    },
+    {
+      "text": "tip",
+      "start": 64.18,
+      "end": 64.4
+    },
+    {
+      "text": "points",
+      "start": 64.4,
+      "end": 64.78
+    },
+    {
+      "text": "to",
+      "start": 64.78,
+      "end": 65.1
+    },
+    {
+      "text": "magnetic",
+      "start": 65.1,
+      "end": 65.46
+    },
+    {
+      "text": "north",
+      "start": 65.46,
+      "end": 65.82
+    },
+    {
+      "text": "while",
+      "start": 65.82,
+      "end": 66.44
+    },
+    {
+      "text": "the",
+      "start": 66.44,
+      "end": 66.66
+    },
+    {
+      "text": "silver",
+      "start": 66.66,
+      "end": 67.0
+    },
+    {
+      "text": "tip",
+      "start": 67.0,
+      "end": 67.24
+    },
+    {
+      "text": "points",
+      "start": 67.24,
+      "end": 67.58
+    },
+    {
+      "text": "to",
+      "start": 67.58,
+      "end": 67.86
+    },
+    {
+      "text": "south.",
+      "start": 67.86,
+      "end": 68.1
+    },
+    {
+      "text": "Now,",
+      "start": 68.56,
+      "end": 68.96
+    },
+    {
+      "text": "let",
+      "start": 69.12,
+      "end": 69.34
+    },
+    {
+      "text": "us",
+      "start": 69.34,
+      "end": 69.56
+    },
+    {
+      "text": "explore",
+      "start": 69.56,
+      "end": 69.9
+    },
+    {
+      "text": "the",
+      "start": 69.9,
+      "end": 70.14
+    },
+    {
+      "text": "compass.",
+      "start": 70.14,
+      "end": 70.5
+    }
+  ]
+}

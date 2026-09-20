@@ -1,0 +1,172 @@
+{
+  "audio_file": "page44.mp3",
+  "duration": 15.308,
+  "language": "en",
+  "words": [
+    {
+      "text": "Task",
+      "start": 0.0,
+      "end": 0.54
+    },
+    {
+      "text": "3",
+      "start": 0.54,
+      "end": 0.84
+    },
+    {
+      "text": "is",
+      "start": 0.84,
+      "end": 1.14
+    },
+    {
+      "text": "called",
+      "start": 1.14,
+      "end": 1.48
+    },
+    {
+      "text": "Find",
+      "start": 1.48,
+      "end": 2.08
+    },
+    {
+      "text": "the",
+      "start": 2.08,
+      "end": 2.3
+    },
+    {
+      "text": "Place.",
+      "start": 2.3,
+      "end": 2.66
+    },
+    {
+      "text": "By",
+      "start": 3.34,
+      "end": 3.56
+    },
+    {
+      "text": "crossing",
+      "start": 3.56,
+      "end": 3.92
+    },
+    {
+      "text": "latitude",
+      "start": 3.92,
+      "end": 4.36
+    },
+    {
+      "text": "and",
+      "start": 4.36,
+      "end": 4.74
+    },
+    {
+      "text": "longitude,",
+      "start": 4.74,
+      "end": 5.3
+    },
+    {
+      "text": "we",
+      "start": 5.72,
+      "end": 5.9
+    },
+    {
+      "text": "create",
+      "start": 5.9,
+      "end": 6.22
+    },
+    {
+      "text": "a",
+      "start": 6.22,
+      "end": 6.48
+    },
+    {
+      "text": "global",
+      "start": 6.48,
+      "end": 6.78
+    },
+    {
+      "text": "grid.",
+      "start": 6.78,
+      "end": 7.04
+    },
+    {
+      "text": "Let's",
+      "start": 7.52,
+      "end": 7.82
+    },
+    {
+      "text": "practice",
+      "start": 7.82,
+      "end": 8.24
+    },
+    {
+      "text": "finding",
+      "start": 8.24,
+      "end": 8.7
+    },
+    {
+      "text": "coordinates.",
+      "start": 8.7,
+      "end": 9.34
+    },
+    {
+      "text": "Now,",
+      "start": 10.3,
+      "end": 10.7
+    },
+    {
+      "text": "move",
+      "start": 10.86,
+      "end": 11.12
+    },
+    {
+      "text": "the",
+      "start": 11.12,
+      "end": 11.42
+    },
+    {
+      "text": "coordinates",
+      "start": 11.42,
+      "end": 11.88
+    },
+    {
+      "text": "and",
+      "start": 11.88,
+      "end": 12.58
+    },
+    {
+      "text": "find",
+      "start": 12.58,
+      "end": 12.94
+    },
+    {
+      "text": "the",
+      "start": 12.94,
+      "end": 13.18
+    },
+    {
+      "text": "5",
+      "start": 13.18,
+      "end": 13.42
+    },
+    {
+      "text": "cities",
+      "start": 13.42,
+      "end": 13.76
+    },
+    {
+      "text": "on",
+      "start": 13.76,
+      "end": 14.02
+    },
+    {
+      "text": "the",
+      "start": 14.02,
+      "end": 14.16
+    },
+    {
+      "text": "map.",
+      "start": 14.16,
+      "end": 14.34
+    }
+  ]
+}

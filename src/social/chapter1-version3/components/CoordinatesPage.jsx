@@ -2,6 +2,41 @@ import React, { useState } from 'react';
 import Globe3D from './Globe3D';
 import CoordinatesMinigame from './CoordinatesMinigame';
 import ChessSeatMinigame from './ChessSeatMinigame';
+import WordRenderer from './WordRenderer';
+import page42Audio from './audio/page42.mp3?url';
+import { PAGE42_TRANSCRIPT } from './Page42Transcript';
+import page45Audio from './audio/page45.mp3?url';
+import { PAGE45_TRANSCRIPT } from './Page45Transcript';
+import page46Audio from './audio/page46.mp3?url';
+import { PAGE46_TRANSCRIPT } from './Page46Transcript';
+import page47Audio from './audio/page47.mp3?url';
+import { PAGE47_TRANSCRIPT } from './Page47Transcript';
+import page48Audio from './audio/page48.mp3?url';
+import { PAGE48_TRANSCRIPT } from './Page48Transcript';
+import page49Audio from './audio/page49.mp3?url';
+import { PAGE49_TRANSCRIPT } from './Page49Transcript';
+import page50Audio from './audio/page50.mp3?url';
+import { PAGE50_TRANSCRIPT } from './Page50Transcript';
+import page51Audio from './audio/page51.mp3?url';
+import { PAGE51_TRANSCRIPT } from './Page51Transcript';
+import page52Audio from './audio/page52.mp3?url';
+import { PAGE52_TRANSCRIPT } from './Page52Transcript';
+import page53Audio from './audio/page53.mp3?url';
+import { PAGE53_TRANSCRIPT } from './Page53Transcript';
+import page54Audio from './audio/page54.mp3?url';
+import { PAGE54_TRANSCRIPT } from './Page54Transcript';
+import page55Audio from './audio/page55.mp3?url';
+import { PAGE55_TRANSCRIPT } from './Page55Transcript';
+import page56Audio from './audio/page56.mp3?url';
+import { PAGE56_TRANSCRIPT } from './Page56Transcript';
+import page57Audio from './audio/page57.mp3?url';
+import { PAGE57_TRANSCRIPT } from './Page57Transcript';
+import page58Audio from './audio/page58.mp3?url';
+import { PAGE58_TRANSCRIPT } from './Page58Transcript';
+import page59Audio from './audio/page59.mp3?url';
+import { PAGE59_TRANSCRIPT } from './Page59Transcript';
+import page60Audio from './audio/page60.mp3?url';
+import { PAGE60_TRANSCRIPT } from './Page60Transcript';
 import './CoordinatesPageBook.css';
 import './CoordinatesPageDark.css';
 
@@ -535,10 +570,10 @@ const DegLabel = ({ text, color, style }) => (
 
 
 
-const InfographicStep = ({ handleNext, handlePrev }) => {
+const InfographicStep = ({ handleNext, handlePrev, toggleAudio, isPlaying }) => {
   const [selectedSegment, setSelectedSegment] = React.useState(null);
   return (
-    <div className="infographic-layout" style={{ overflow: 'hidden', height: '100vh', padding: '16px 24px' }}>
+    <div className="infographic-layout" style={{ overflowY: 'auto', height: '100%', padding: '16px 24px' }}>
       {/* HEADER */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
         <button className="dark-nav-btn" onClick={handlePrev}>
@@ -549,10 +584,26 @@ const InfographicStep = ({ handleNext, handlePrev }) => {
           <h1 style={{ color: '#fbbf24', fontSize: '32px', margin: 0, fontWeight: 900, fontFamily: '"Arial Black", "Segoe UI Black", Impact, sans-serif', letterSpacing: '-0.5px' }}>Longitudes on Earth</h1>
           <h2 style={{ color: '#cbd5e1', fontSize: '16px', margin: '4px 0 0', fontWeight: 'normal', fontStyle: 'italic' }}>Like the Segments of a Peeled Orange</h2>
         </div>
-        <button className="dark-nav-btn next" onClick={handleNext}>
-          Next
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          {toggleAudio && (
+            <button
+              onClick={toggleAudio}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                padding: '4px 12px', background: 'transparent',
+                border: '1.5px solid #fbbf24', borderRadius: '999px',
+                fontSize: '13px', fontWeight: 800, color: '#fbbf24',
+                cursor: 'pointer'
+              }}
+            >
+              {isPlaying ? "Pause" : "Play"}
+            </button>
+          )}
+          <button className="dark-nav-btn next" onClick={handleNext}>
+            Next
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
+          </button>
+        </div>
       </div>
 
       {/* THREE COLUMNS */}
@@ -709,132 +760,231 @@ const stepsData = [
     stepNum: 6,
     title: "Latitude in Degrees",
     paragraphs: [
-      <span key="1">Latitudes are written in <strong>degrees</strong>. By convention, the Equator is latitude <strong>0°</strong>.</span>,
-      <span key="2">The two poles are the highest latitudes — <strong>90° North</strong> and <strong>90° South</strong>, written <strong>90°N</strong> and <strong>90°S</strong>. So latitude runs from 0° up to 90° on each side.</span>
+      "Latitudes are written in **degrees**. By convention, the Equator is latitude **0°**.",
+      "The two poles are the highest latitudes — **90° North** and **90° South**, written **90°N** and **90°S**. So latitude runs from 0° up to 90° on each side."
     ],
-    keyIdea: <span key="ki6">Equator = <strong>0°</strong> · North Pole = <strong>90°N</strong> · South Pole = <strong>90°S</strong>.</span>,
+    keyIdea: "Equator = **0°** · North Pole = **90°N** · South Pole = **90°S**.",
     task: 7, lat: 0
   },
   {
     stepNum: 7,
     title: "Latitude and Climate",
     paragraphs: [
-      <span key="1">Latitude is linked to <strong>climate</strong>. The coloured belts on the globe show the three zones. Near the Equator it is generally <strong>hot</strong> — the <strong>torrid</strong> zone (orange), bounded by the <strong>Tropic of Cancer</strong> (23½°N) and <strong>Tropic of Capricorn</strong> (23½°S).</span>,
+      "Latitude is linked to **climate**. The coloured belts on the globe show the three zones. Near the Equator it is generally **hot** — the **torrid** zone (orange), bounded by the **Tropic of Cancer** (23½°N) and **Tropic of Capricorn** (23½°S).",
       <div key="2" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', margin: '12px 0' }}>
         <span style={{ background: '#f97316', color: '#fff', padding: '4px 12px', borderRadius: '16px', fontSize: '13px', fontWeight: 'bold' }}>Torrid - hot</span>
         <span style={{ background: '#22c55e', color: '#fff', padding: '4px 12px', borderRadius: '16px', fontSize: '13px', fontWeight: 'bold' }}>Temperate - mild</span>
         <span style={{ background: '#3b82f6', color: '#fff', padding: '4px 12px', borderRadius: '16px', fontSize: '13px', fontWeight: 'bold' }}>Frigid - cold</span>
       </div>,
-      <span key="3">Moving away from the Equator the climate becomes <strong>temperate</strong> (green, mild); beyond the <strong>Arctic Circle</strong> (66½°N) and <strong>Antarctic Circle</strong> (66½°S) it is <strong>frigid</strong> (blue, very cold). Latitude also helps explain the <strong>seasons</strong>.</span>
+      "Moving away from the Equator the climate becomes **temperate** (green, mild); beyond the **Arctic Circle** (66½°N) and **Antarctic Circle** (66½°S) it is **frigid** (blue, very cold). Latitude also helps explain the **seasons**."
     ],
-    keyIdea: <span key="ki7">Torrid (hot) near the Equator → Temperate (mild) → Frigid (cold) near the poles.</span>,
+    keyIdea: "Torrid (hot) near the Equator → Temperate (mild) → Frigid (cold) near the poles.",
     task: 8, lat: 0
   },
   {
     stepNum: 8,
     title: "The Prime Meridian",
     paragraphs: [
-      <span key="1">Longitude needs a <strong>starting line</strong>, just as latitude has the Equator. That line is the <strong>Prime Meridian</strong>.</span>,
-      <span key="2">In <strong>1884</strong>, nations agreed that the meridian passing through <strong>Greenwich</strong>, in London, would be the international standard — so it is also called the <strong>Greenwich Meridian</strong>. It is marked <strong>0° longitude</strong>.</span>
+      "Longitude needs a **starting line**, just as latitude has the Equator. That line is the **Prime Meridian**.",
+      "In **1884**, nations agreed that the meridian passing through **Greenwich**, in London, would be the international standard — so it is also called the **Greenwich Meridian**. It is marked **0° longitude**."
     ],
-    keyIdea: <span key="ki8">The <strong>Prime Meridian</strong> (through Greenwich, London) is the <strong>0°</strong> starting line for longitude.</span>,
+    keyIdea: "The **Prime Meridian** (through Greenwich, London) is the **0°** starting line for longitude.",
     task: 2, lon: 0
   },
   {
     stepNum: 9,
     title: "What is Longitude?",
     paragraphs: [
-      <span key="1">Now imagine standing on the Prime Meridian and travelling <strong>east or west</strong> along the Equator. Your <strong>distance</strong> from the Prime Meridian keeps increasing.</span>,
-      <span key="2"><strong>Longitude</strong> is exactly this — a measure of how far <strong>east or west</strong> of the Prime Meridian a place is.<br /><br /><span style={{ opacity: 0.8 }}>(Latitude measured distance <strong>north–south</strong>; longitude measures it <strong>east–west</strong>.)</span></span>
+      "Now imagine standing on the Prime Meridian and travelling **east or west** along the Equator. Your **distance** from the Prime Meridian keeps increasing.",
+      <span key="2">**Longitude** is exactly this — a measure of how far **east or west** of the Prime Meridian a place is.<br /><br /><span style={{ opacity: 0.8 }}>(Latitude measured distance **north–south**; longitude measures it **east–west**.)</span></span>
     ],
-    keyIdea: <span key="ki9">Longitude measures your distance <strong>east or west</strong> of the Prime Meridian.</span>,
+    keyIdea: "Longitude measures your distance **east or west** of the Prime Meridian.",
     task: 21, lon: 0
   },
   {
     stepNum: 10,
     title: "Meridians of Longitude",
     paragraphs: [
-      <span key="1">Travel from the <strong>North Pole to the South Pole</strong> by the shortest line. Whether you pass through Europe and Africa or through Asia, the distance is the <strong>same</strong>. These pole-to-pole lines are the <strong>meridians of longitude</strong> — all <strong>half-circles</strong> that meet at the two poles.</span>,
+      "Travel from the **North Pole to the South Pole** by the shortest line. Whether you pass through Europe and Africa or through Asia, the distance is the **same**. These pole-to-pole lines are the **meridians of longitude** — all **half-circles** that meet at the two poles.",
       <Orange3D key="2" />,
-      <span key="3">An orange 🍊 — its segment lines run pole to pole, just like meridians.</span>
+      "An orange 🍊 — its segment lines run pole to pole, just like meridians."
     ],
-    keyIdea: <span key="ki10">Meridians of longitude are half-circles from pole to pole — like the segment lines of an <strong>orange</strong>.</span>,
+    keyIdea: "Meridians of longitude are half-circles from pole to pole — like the segment lines of an **orange**.",
     task: 3, gridLat: 0, gridLon: 0
   },
   {
     stepNum: 11,
     title: "Longitude in Degrees",
     paragraphs: [
-      <span key="1">Longitude is measured in <strong>degrees</strong>, from <strong>0° to 180°</strong>, adding <strong>E</strong> for east or <strong>W</strong> for west of the Prime Meridian.</span>,
-      <span key="2">For example, <strong>New York</strong> is <strong>74°W</strong>, <strong>Delhi</strong> is <strong>77°E</strong>, and <strong>Tokyo</strong> is <strong>140°E</strong> — shown by the <strong style={{ color: '#f97316' }}>orange pins</strong> on the globe.</span>
+      "Longitude is measured in **degrees**, from **0° to 180°**, adding **E** for east or **W** for west of the Prime Meridian.",
+      "For example, **New York** is **74°W**, **Delhi** is **77°E**, and **Tokyo** is **140°E** — shown by the <strong style={{ color: '#f97316' }}>orange pins** on the globe."
     ],
-    keyIdea: <span key="ki11">Longitude runs <strong>0° to 180°</strong>, East or West — e.g. Delhi <strong>77°E</strong>, New York <strong>74°W</strong>, Tokyo <strong>140°E</strong>.</span>,
+    keyIdea: "Longitude runs **0° to 180°**, East or West — e.g. Delhi **77°E**, New York **74°W**, Tokyo **140°E**.",
     task: 6, lon: 77
   },
   {
     stepNum: 12,
     title: "Longitude and Time",
     paragraphs: [
-      <span key="1">The Earth spins on its axis. Picture a lamp as the <strong>Sun</strong> lighting one side of the globe. As the Earth turns <strong>eastward</strong>, it is morning for some places, midday for others, and night for the rest.</span>,
-      <span key="2">So when it is breakfast time in one country, it is lunchtime in another and people are asleep in a third. That is why a place’s <strong>longitude</strong> also tells us its <strong>time</strong>.</span>
+      "The Earth spins on its axis. Picture a lamp as the **Sun** lighting one side of the globe. As the Earth turns **eastward**, it is morning for some places, midday for others, and night for the rest.",
+      "So when it is breakfast time in one country, it is lunchtime in another and people are asleep in a third. That is why a place’s **longitude** also tells us its **time**."
     ],
-    keyIdea: <span key="ki12">Because the Earth spins, <strong>longitude is closely linked to the time</strong> of day.</span>,
+    keyIdea: "Because the Earth spins, **longitude is closely linked to the time** of day.",
     task: 16, gridLat: 0, gridLon: 0
   },
   {
     stepNum: 13,
     title: "Finding Any Place",
     paragraphs: [
-      <span key="1">Put the parallels and the meridians together and they form a complete net — the <strong>global grid</strong>, or <strong>graticule</strong>. Every place now sits where one line of latitude <strong>crosses</strong> one line of longitude.</span>,
-      <span key="2">We give its <strong>latitude first</strong>, then its <strong>longitude</strong>. For example, <strong>New Delhi</strong> is <strong>28.6°N, 77.2°E</strong> — a single, exact address.</span>
+      "Put the parallels and the meridians together and they form a complete net — the **global grid**, or **graticule**. Every place now sits where one line of latitude **crosses** one line of longitude.",
+      "We give its **latitude first**, then its **longitude**. For example, **New Delhi** is **28.6°N, 77.2°E** — a single, exact address."
     ],
-    keyIdea: <span key="ki13">Any place = (<strong>latitude, longitude</strong>) — latitude always written first.</span>,
+    keyIdea: "Any place = (**latitude, longitude**) — latitude always written first.",
     task: 10, gridLat: 28.6, gridLon: 77.2
   },
   {
     stepNum: 14,
     title: "India's Ancient Prime Meridian",
     paragraphs: [
-      <span key="1">Travel back more than <strong>1,500 years</strong>! Long before Greenwich was chosen as the global standard, ancient Indian astronomers needed a central reference line to map the stars and calculate time.</span>,
-      <span key="2">They established their own Prime Meridian running through the ancient city of <strong>Ujjayini</strong> (modern-day Ujjain). Great scholars like <strong>Aryabhata</strong> and <strong>Varahamihira</strong> used this central meridian for all their brilliant astronomical calculations.</span>
+      "Travel back more than **1,500 years**! Long before Greenwich was chosen as the global standard, ancient Indian astronomers needed a central reference line to map the stars and calculate time.",
+      "They established their own Prime Meridian running through the ancient city of **Ujjayini** (modern-day Ujjain). Great scholars like **Aryabhata** and **Varahamihira** used this central meridian for all their brilliant astronomical calculations."
     ],
-    keyIdea: <span key="ki14"><strong>Ujjayini</strong> served as the Prime Meridian of ancient India over 1,500 years ago.</span>,
+    keyIdea: "**Ujjayini** served as the Prime Meridian of ancient India over 1,500 years ago.",
     task: 9
   },
   {
     stepNum: 15,
     title: "Western & Eastern Hemispheres",
     paragraphs: [
-      <span key="1">Cut the globe along the <strong>Prime Meridian (0&deg;)</strong> and the <strong>180&deg;</strong> line, and it falls into two halves that we can see <strong>fully</strong>.</span>,
-      <span key="2">The left half (blue) is the <strong>Western Hemisphere</strong> (0&deg;&ndash;180&deg; West); the right half (orange) is the <strong>Eastern Hemisphere</strong> (0&deg;&ndash;180&deg; East). India lies in the Eastern Hemisphere.</span>
+      "Cut the globe along the **Prime Meridian (0&deg;)** and the **180&deg;** line, and it falls into two halves that we can see **fully**.",
+      "The left half (blue) is the **Western Hemisphere** (0&deg;&ndash;180&deg; West); the right half (orange) is the **Eastern Hemisphere** (0&deg;&ndash;180&deg; East). India lies in the Eastern Hemisphere."
     ],
-    keyIdea: <span key="ki15">The <strong>Prime Meridian</strong> splits Earth into the <strong>Western</strong> and <strong>Eastern</strong> hemispheres.</span>,
+    keyIdea: "The **Prime Meridian** splits Earth into the **Western** and **Eastern** hemispheres.",
     task: 11
   },
   {
     stepNum: 16,
     title: "Northern & Southern Hemispheres",
     paragraphs: [
-      <span key="1">Now cut the globe along the <strong>Equator (0&deg;)</strong> instead. Again it opens into two halves shown <strong>fully</strong>.</span>,
-      <span key="2">The top half (green) is the <strong>Northern Hemisphere</strong>; the bottom half (purple) is the <strong>Southern Hemisphere</strong>. India lies in the Northern Hemisphere.</span>
+      "Now cut the globe along the **Equator (0&deg;)** instead. Again it opens into two halves shown **fully**.",
+      "The top half (green) is the **Northern Hemisphere**; the bottom half (purple) is the **Southern Hemisphere**. India lies in the Northern Hemisphere."
     ],
-    keyIdea: <span key="ki16">The <strong>Equator</strong> splits Earth into the <strong>Northern</strong> and <strong>Southern</strong> hemispheres.</span>,
+    keyIdea: "The **Equator** splits Earth into the **Northern** and **Southern** hemispheres.",
     task: 12
   },
   {
     stepNum: 17,
     title: "The Four Quarters",
     paragraphs: [
-      <span key="1">Use <strong>both</strong> dividing lines at once and the globe splits into <strong>four quarters</strong>: Northern-Eastern, Northern-Western, Southern-Eastern and Southern-Western.</span>,
-      <span key="2">Every place on Earth sits in exactly <strong>one</strong> of these quarters.</span>
+      "Use **both** dividing lines at once and the globe splits into **four quarters**: Northern-Eastern, Northern-Western, Southern-Eastern and Southern-Western.",
+      "Every place on Earth sits in exactly **one** of these quarters."
     ],
-    keyIdea: <span key="ki17">The Equator and the Prime Meridian together divide Earth into <strong>four</strong> quarters.</span>,
+    keyIdea: "The Equator and the Prime Meridian together divide Earth into **four** quarters.",
     task: 13
   }
 ];
 
 export default function CoordinatesPage({ onNextActivity, onBack }) {
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordId, setActiveWordId] = useState(null);
+  const audioRef = React.useRef(null);
+
+  React.useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+    };
+  }, []);
+
+  React.useEffect(() => {
+    if (audioRef.current && isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    }
+  }, [currentStepIdx]);
+
+  React.useEffect(() => {
+    const handleEnded = () => {
+      setIsPlaying(false);
+      setActiveWordId(null);
+    };
+
+    const currentAudio = audioRef.current;
+    if (currentAudio) {
+      currentAudio.addEventListener('ended', handleEnded);
+      return () => {
+        currentAudio.removeEventListener('ended', handleEnded);
+      };
+    }
+  }, [currentStepIdx]);
+
+  const toggleAudio = () => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play().catch(e => console.error("Audio play failed:", e));
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleTimeUpdate = () => {
+    if (!audioRef.current) return;
+    const currentTime = audioRef.current.currentTime;
+    
+    let transcript = null;
+    if (currentStepIdx === 0) transcript = PAGE42_TRANSCRIPT;
+    if (currentStepIdx === 3) transcript = PAGE45_TRANSCRIPT;
+    if (currentStepIdx === 4) transcript = PAGE46_TRANSCRIPT;
+    if (currentStepIdx === 5) transcript = PAGE47_TRANSCRIPT;
+    if (currentStepIdx === 6) transcript = PAGE48_TRANSCRIPT;
+    if (currentStepIdx === 7) transcript = PAGE49_TRANSCRIPT;
+    if (currentStepIdx === 8) transcript = PAGE50_TRANSCRIPT;
+    if (currentStepIdx === 9) transcript = PAGE51_TRANSCRIPT;
+    if (currentStepIdx === 10) transcript = PAGE52_TRANSCRIPT;
+    if (currentStepIdx === 11) transcript = PAGE53_TRANSCRIPT;
+    if (currentStepIdx === 12) transcript = PAGE54_TRANSCRIPT;
+    if (currentStepIdx === 13) transcript = PAGE55_TRANSCRIPT;
+    if (currentStepIdx === 14) transcript = PAGE56_TRANSCRIPT;
+    if (currentStepIdx === 15) transcript = PAGE57_TRANSCRIPT;
+    if (currentStepIdx === 16) transcript = PAGE58_TRANSCRIPT;
+    if (currentStepIdx === 17) transcript = PAGE59_TRANSCRIPT;
+    if (currentStepIdx === 18) transcript = PAGE60_TRANSCRIPT;
+
+    if (transcript) {
+      const activeWord = transcript.find(word => currentTime >= word.start && currentTime <= word.end);
+      if (activeWord && activeWord.matchType === 'matched') {
+        setActiveWordId(activeWord.pageWordId);
+      } else {
+        setActiveWordId(null);
+      }
+    }
+  };
+
+  const getAudioSrc = () => {
+    if (currentStepIdx === 0) return page42Audio;
+    if (activeGlobeIdx === 0) return page45Audio;
+    if (activeGlobeIdx === 1) return page46Audio;
+    if (activeGlobeIdx === 2) return page47Audio;
+    if (activeGlobeIdx === 3) return page48Audio;
+    if (activeGlobeIdx === 4) return page49Audio;
+    if (activeGlobeIdx === 5) return page50Audio;
+    if (activeGlobeIdx === 6) return page51Audio;
+    if (activeGlobeIdx === 7) return page52Audio;
+    if (activeGlobeIdx === 8) return page53Audio;
+    if (activeGlobeIdx === 9) return page54Audio;
+    if (activeGlobeIdx === 10) return page55Audio;
+    if (activeGlobeIdx === 11) return page56Audio;
+    if (activeGlobeIdx === 12) return page57Audio;
+    if (activeGlobeIdx === 13) return page58Audio;
+    if (activeGlobeIdx === 14) return page59Audio;
+    if (activeGlobeIdx === 15) return page60Audio;
+    return null;
+  };
+
   const totalGlobeSteps = 17;
   const totalPages = totalGlobeSteps + 3; // 1 (intro) + 1 (chess/seat) + 1 (minigame) + 17 (globe) = 20
 
@@ -857,6 +1007,7 @@ export default function CoordinatesPage({ onNextActivity, onBack }) {
   if (currentStepIdx === 0) {
     return (
       <div className="coords-page">
+        <audio ref={audioRef} src={getAudioSrc()} onTimeUpdate={handleTimeUpdate} />
         <div className="coords-book">
           <div className="coords-main-content">
             {/* Left Page */}
@@ -870,22 +1021,38 @@ export default function CoordinatesPage({ onNextActivity, onBack }) {
 
             {/* Right Page */}
             <div className="coords-right">
-              <div className="coords-rhead" style={{ fontSize: '32px' }}>
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-                UNDERSTANDING COORDINATES
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                <div className="coords-rhead" style={{ fontSize: '32px', margin: 0 }}>
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                  UNDERSTANDING COORDINATES
+                </div>
+                <button
+                  onClick={toggleAudio}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '6px',
+                    padding: '8px 16px', background: '#d97706',
+                    border: 'none', borderRadius: '999px',
+                    fontSize: '14px', fontWeight: 800, color: '#fff',
+                    cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                  }}
+                >
+                  {isPlaying ? "Pause" : "Play"}
+                </button>
               </div>
               <div className="coords-content">
-                <div className="coords-task-container" style={{ justifyContent: 'flex-start', paddingTop: '80px' }}>
+                <div className="coords-task-container" style={{ justifyContent: 'flex-start', paddingTop: '20px' }}>
                   <div className="coords-hero" style={{ padding: '32px' }}>
-                    <h3 style={{ marginBottom: '20px', fontSize: '28px' }}>Finding the Exact Spot</h3>
+                    <h3 style={{ marginBottom: '20px', fontSize: '28px' }}>
+                      <WordRenderer text="Finding the Exact Spot" idPrefix="h" activeWordId={activeWordId} defaultColor="#78350F" highlightColor="#451a03" />
+                    </h3>
                     <p style={{ marginBottom: '20px', fontSize: '18px', lineHeight: '1.7', textAlign: 'justify' }}>
-                      Imagine trying to find a friend's house in a large city built on a grid. If they tell you, "Meet me at the corner of 5th Avenue and 42nd Street," you know exactly where to go.
+                      <WordRenderer text={`Imagine trying to find a friend's house in a large city built on a grid. If they tell you, "Meet me at the corner of 5th Avenue and 42nd Street," you know exactly where to go.`} idPrefix="p1" activeWordId={activeWordId} defaultColor="#334155" highlightColor="#451a03" />
                     </p>
                     <p style={{ marginBottom: '20px', fontSize: '18px', lineHeight: '1.7', textAlign: 'justify' }}>
-                      By finding where those two specific streets cross each other on a map, you can pinpoint the exact intersection instantly without getting lost.
+                      <WordRenderer text="By finding where those two specific streets cross each other on a map, you can pinpoint the exact intersection instantly without getting lost." idPrefix="p2" activeWordId={activeWordId} defaultColor="#334155" highlightColor="#451a03" />
                     </p>
                     <p style={{ fontSize: '18px', lineHeight: '1.7', textAlign: 'justify' }}>
-                      To locate any place precisely on Earth, we also use a giant grid and always need <strong>two pieces of information</strong> to form a coordinate.
+                      <WordRenderer text="To locate any place precisely on Earth, we also use a giant grid and always need **two pieces of information** to form a coordinate." idPrefix="p3" activeWordId={activeWordId} defaultColor="#334155" highlightColor="#451a03" />
                     </p>
                   </div>
                 </div>
@@ -927,7 +1094,12 @@ export default function CoordinatesPage({ onNextActivity, onBack }) {
   const activeGlobeIdx = currentStepIdx - 3;
 
   if (activeGlobeIdx === 9) {
-    return <InfographicStep handleNext={handleNext} handlePrev={handlePrev} />;
+    return (
+      <div className="dark-coords-page">
+        <audio ref={audioRef} src={getAudioSrc()} onTimeUpdate={handleTimeUpdate} />
+        <InfographicStep handleNext={handleNext} handlePrev={handlePrev} toggleAudio={toggleAudio} isPlaying={isPlaying} />
+      </div>
+    );
   }
 
   const step = stepsData[activeGlobeIdx] || stepsData[stepsData.length - 1];
@@ -939,6 +1111,7 @@ export default function CoordinatesPage({ onNextActivity, onBack }) {
 
   return (
     <div className="dark-coords-page">
+      <audio ref={audioRef} src={getAudioSrc()} onTimeUpdate={handleTimeUpdate} />
       <div className="dark-coords-main-content">
         <div className="dark-coords-left">
           <div className="dark-top-title">{getTopTitle()}</div>
@@ -975,11 +1148,33 @@ export default function CoordinatesPage({ onNextActivity, onBack }) {
         </div>
 
         <div className="dark-coords-right">
-          <div className="dark-step-eyebrow">STEP {activeGlobeIdx + 1} OF {totalGlobeSteps}</div>
-          <h2 className="dark-step-title">{step.title}</h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+            <div className="dark-step-eyebrow" style={{ margin: 0 }}>STEP {activeGlobeIdx + 1} OF {totalGlobeSteps}</div>
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15].includes(activeGlobeIdx) && (
+              <button
+                onClick={toggleAudio}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '6px',
+                  padding: '4px 12px', background: 'transparent',
+                  border: '1.5px solid #fbbf24', borderRadius: '999px',
+                  fontSize: '13px', fontWeight: 800, color: '#fbbf24',
+                  cursor: 'pointer'
+                }}
+              >
+                {isPlaying ? "Pause" : "Play"}
+              </button>
+            )}
+          </div>
+          <h2 className="dark-step-title">{[0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15].includes(activeGlobeIdx) ? (
+              <WordRenderer text={step.title} idPrefix="h" defaultColor="inherit" highlightColor="#fbbf24" activeWordId={activeWordId} />
+            ) : (
+              step.title
+            )}</h2>
 
           {step.paragraphs.map((p, idx) => (
-            <div key={idx} className="dark-step-text">{p}</div>
+            <div key={idx} className="dark-step-text">{typeof p === 'string' && [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15].includes(activeGlobeIdx) ? (
+                <WordRenderer text={p} idPrefix={`p${idx + 1}`} defaultColor="inherit" highlightColor="#fbbf24" activeWordId={activeWordId} />
+              ) : p}</div>
           ))}
         </div>
       </div>

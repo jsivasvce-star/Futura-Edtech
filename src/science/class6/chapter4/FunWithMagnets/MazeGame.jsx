@@ -6,157 +6,40 @@ import { Target, Move, Compass, RotateCcw, HelpCircle, ArrowLeft, ArrowRight } f
 // 1. Exact Waypoint Node Coordinate System for 3D Railway Grid Map
 // -------------------------------------------------------------------
 export const WAYPOINT_NODES = [
-  // ── ROW 0: TOP OUTER TRACK ──
-  { 
-    id: 'node_0_0', 
-    name: 'Top-Left Corner 🏛️', 
-    shortName: 'TL Corner', 
-    icon: '🏛️', 
-    x: 135, 
-    y: 59, 
-    neighbors: ['node_0_1', 'node_1_0'] 
-  },
-  { 
-    id: 'node_0_1', 
-    name: 'Station North Track ⚡', 
-    shortName: 'Station N', 
-    icon: '⚡', 
-    x: 377, 
-    y: 59, 
-    neighbors: ['node_0_0', 'node_0_2', 'node_1_1'] 
-  },
-  { 
-    id: 'node_0_2', 
-    name: 'Hospital North Track 🏥', 
-    shortName: 'Hosp N', 
-    icon: '🏥', 
-    x: 620, 
-    y: 59, 
-    neighbors: ['node_0_1', 'node_0_3', 'node_1_2'] 
-  },
-  { 
-    id: 'node_0_3', 
-    name: 'Top-Right Corner 🏥', 
-    shortName: 'TR Corner', 
-    icon: '🏥', 
-    x: 866, 
-    y: 59, 
-    neighbors: ['node_0_2', 'node_1_3'] 
-  },
+  // ── ROW 0: TOP RAILWAY TRACK (Y = 31) ──
+  { id: 'node_0_0', name: 'Start: Top-Left Junction 🚉', shortName: 'Start', icon: '🚉', x: 34, y: 31, neighbors: ['node_0_1', 'node_1_0'] },
+  { id: 'node_0_1', name: 'Hospital North Track 🏥', shortName: 'Hosp N', icon: '🏥', x: 274, y: 31, neighbors: ['node_0_0', 'node_0_2', 'node_1_1'] },
+  { id: 'node_0_2', name: 'Solar Junction ☀️', shortName: 'Solar N', icon: '☀️', x: 512, y: 31, neighbors: ['node_0_1', 'node_0_3', 'node_1_2'] },
+  { id: 'node_0_3', name: 'Depot North Track 🚂', shortName: 'Depot N', icon: '🚂', x: 750, y: 31, neighbors: ['node_0_2', 'node_0_4', 'node_1_3'] },
+  { id: 'node_0_4', name: 'North-East Corner 🌐', shortName: 'NE Term', icon: '🌐', x: 990, y: 31, neighbors: ['node_0_3', 'node_1_4'] },
 
-  // ── ROW 1: UPPER CROSSROAD LINE ──
-  { 
-    id: 'node_1_0', 
-    name: 'Warehouse West Track 📦', 
-    shortName: 'Ware W', 
-    icon: '📦', 
-    x: 115, 
-    y: 203, 
-    neighbors: ['node_0_0', 'node_2_0', 'node_1_1'] 
-  },
-  { 
-    id: 'node_1_1', 
-    name: 'North-West Junction 🔬', 
-    shortName: 'NW Junc', 
-    icon: '🔬', 
-    x: 370, 
-    y: 203, 
-    neighbors: ['node_0_1', 'node_1_0', 'node_1_2', 'node_2_1'] 
-  },
-  { 
-    id: 'node_1_2', 
-    name: 'North-East Junction 🏢', 
-    shortName: 'NE Junc', 
-    icon: '🏢', 
-    x: 625, 
-    y: 203, 
-    neighbors: ['node_0_2', 'node_1_1', 'node_1_3', 'node_2_2'] 
-  },
-  { 
-    id: 'node_1_3', 
-    name: 'Towers East Track 🏢', 
-    shortName: 'Towers E', 
-    icon: '🏢', 
-    x: 884, 
-    y: 203, 
-    neighbors: ['node_0_3', 'node_2_3', 'node_1_2'] 
-  },
+  // ── ROW 1: SECOND HORIZONTAL TRACK (Y = 272) ──
+  { id: 'node_1_0', name: 'Power Plant West Track ⚡', shortName: 'Power W', icon: '⚡', x: 34, y: 272, neighbors: ['node_0_0', 'node_2_0', 'node_1_1'] },
+  { id: 'node_1_1', name: 'Stadium Junction 🏟️', shortName: 'Stadium', icon: '🏟️', x: 274, y: 272, neighbors: ['node_1_0', 'node_0_1', 'node_1_2', 'node_2_1'] },
+  { id: 'node_1_2', name: 'Financial Towers Hub 🏢', shortName: 'Towers', icon: '🏢', x: 512, y: 272, neighbors: ['node_1_1', 'node_0_2', 'node_1_3', 'node_2_2'] },
+  { id: 'node_1_3', name: 'Harbor Bay Track 🚢', shortName: 'Harbor', icon: '🚢', x: 750, y: 272, neighbors: ['node_1_2', 'node_0_3', 'node_1_4', 'node_2_3'] },
+  { id: 'node_1_4', name: 'East Coast Track 🌊', shortName: 'East Coast', icon: '🌊', x: 990, y: 272, neighbors: ['node_0_4', 'node_1_3', 'node_2_4'] },
 
-  // ── ROW 2: LOWER CROSSROAD LINE ──
-  { 
-    id: 'node_2_0', 
-    name: 'BioDome West Track 🌿', 
-    shortName: 'Bio W', 
-    icon: '🌿', 
-    x: 94, 
-    y: 355, 
-    neighbors: ['node_1_0', 'node_3_0', 'node_2_1'] 
-  },
-  { 
-    id: 'node_2_1', 
-    name: 'South-West Junction 🚂', 
-    shortName: 'SW Junc', 
-    icon: '🚂', 
-    x: 365, 
-    y: 355, 
-    neighbors: ['node_1_1', 'node_2_0', 'node_2_2', 'node_3_1'] 
-  },
-  { 
-    id: 'node_2_2', 
-    name: 'South-East Junction 🚉', 
-    shortName: 'SE Junc', 
-    icon: '🚉', 
-    x: 633, 
-    y: 355, 
-    neighbors: ['node_1_2', 'node_2_1', 'node_2_3', 'node_3_2'] 
-  },
-  { 
-    id: 'node_2_3', 
-    name: 'Transit East Track 🚉', 
-    shortName: 'Transit E', 
-    icon: '🚉', 
-    x: 903, 
-    y: 355, 
-    neighbors: ['node_1_3', 'node_3_3', 'node_2_2'] 
-  },
+  // ── ROW 2: CENTRAL HORIZONTAL TRACK (Y = 512) ──
+  { id: 'node_2_0', name: 'Fire Station Track 🚒', shortName: 'Fire Sta', icon: '🚒', x: 34, y: 512, neighbors: ['node_1_0', 'node_3_0', 'node_2_1'] },
+  { id: 'node_2_1', name: 'Academy Junction 🏫', shortName: 'Academy', icon: '🏫', x: 274, y: 512, neighbors: ['node_2_0', 'node_1_1', 'node_2_2', 'node_3_1'] },
+  { id: 'node_2_2', name: 'Power Grid Central ⚡', shortName: 'Grid Core', icon: '⚡', x: 512, y: 512, neighbors: ['node_2_1', 'node_1_2', 'node_2_3', 'node_3_2'] },
+  { id: 'node_2_3', name: 'Logistics Warehouse Track 📦', shortName: 'Logistics', icon: '📦', x: 750, y: 512, neighbors: ['node_2_2', 'node_1_3', 'node_2_4', 'node_3_3'] },
+  { id: 'node_2_4', name: 'East Perimeter Track 🚧', shortName: 'East Gate', icon: '🚧', x: 990, y: 512, neighbors: ['node_1_4', 'node_2_3', 'node_3_4'] },
 
-  // ── ROW 3: BOTTOM OUTER TRACK ──
-  { 
-    id: 'node_3_0', 
-    name: 'Bottom-Left Corner 🌿', 
-    shortName: 'BL Corner', 
-    icon: '🌿', 
-    x: 75, 
-    y: 517, 
-    neighbors: ['node_2_0', 'node_3_1'] 
-  },
-  { 
-    id: 'node_3_1', 
-    name: 'Depot South Track 🚂', 
-    shortName: 'Depot S', 
-    icon: '🚂', 
-    x: 358, 
-    y: 517, 
-    neighbors: ['node_3_0', 'node_3_2', 'node_2_1'] 
-  },
-  { 
-    id: 'node_3_2', 
-    name: 'Transit South Track 🚉', 
-    shortName: 'Transit S', 
-    icon: '🚉', 
-    x: 642, 
-    y: 517, 
-    neighbors: ['node_3_1', 'node_3_3', 'node_2_2'] 
-  },
-  { 
-    id: 'node_3_3', 
-    name: 'Target: Bottom-Right Corner 🎯', 
-    shortName: 'Goal', 
-    icon: '🎯', 
-    x: 925, 
-    y: 517, 
-    neighbors: ['node_2_3', 'node_3_2'] 
-  }
+  // ── ROW 3: FOURTH HORIZONTAL TRACK (Y = 751) ──
+  { id: 'node_3_0', name: 'Suburban West Track 🏡', shortName: 'Suburban', icon: '🏡', x: 34, y: 751, neighbors: ['node_2_0', 'node_4_0', 'node_3_1'] },
+  { id: 'node_3_1', name: 'Bio-Sphere Dome Junction 🌿', shortName: 'Bio-Sphere', icon: '🌿', x: 274, y: 751, neighbors: ['node_3_0', 'node_2_1', 'node_3_2', 'node_4_1'] },
+  { id: 'node_3_2', name: 'Airport Gateway Track ✈️', shortName: 'Airport', icon: '✈️', x: 512, y: 751, neighbors: ['node_3_1', 'node_2_2', 'node_3_3', 'node_4_2'] },
+  { id: 'node_3_3', name: 'Memorial Parkside Track ⛲', shortName: 'Parkside', icon: '⛲', x: 750, y: 751, neighbors: ['node_3_2', 'node_2_3', 'node_3_4', 'node_4_3'] },
+  { id: 'node_3_4', name: 'South-East Perimeter 🌲', shortName: 'SE Perim', icon: '🌲', x: 990, y: 751, neighbors: ['node_2_4', 'node_3_3', 'node_4_4'] },
+
+  // ── ROW 4: BOTTOM HORIZONTAL TRACK (Y = 990) ──
+  { id: 'node_4_0', name: 'South-West Outer Corner 🏁', shortName: 'SW Corner', icon: '🏁', x: 34, y: 990, neighbors: ['node_3_0', 'node_4_1'] },
+  { id: 'node_4_1', name: 'Garden South Track 🌷', shortName: 'Garden S', icon: '🌷', x: 274, y: 990, neighbors: ['node_4_0', 'node_3_1', 'node_4_2'] },
+  { id: 'node_4_2', name: 'Runway South Track 🛫', shortName: 'Runway S', icon: '🛫', x: 512, y: 990, neighbors: ['node_4_1', 'node_3_2', 'node_4_3'] },
+  { id: 'node_4_3', name: 'Grand Promenade Track 🏛️', shortName: 'Promenade', icon: '🏛️', x: 750, y: 990, neighbors: ['node_4_2', 'node_3_3', 'node_4_4'] },
+  { id: 'node_4_4', name: 'Target: Bottom-Right Corner 🎯', shortName: 'Goal 🎯', icon: '🎯', x: 990, y: 990, neighbors: ['node_3_4', 'node_4_3'] }
 ];
 
 export const NODES_MAP = Object.fromEntries(WAYPOINT_NODES.map(n => [n.id, n]));
@@ -188,31 +71,18 @@ function findShortestPath(startId, targetId) {
   return null;
 }
 
-// Single Mission from Top-Left Corner (node_0_0) to Bottom-Right Corner (node_3_3)
+// Single Mission from Top-Left Corner (node_0_0) to Bottom-Right Corner (node_4_4)
 export const MISSIONS = [
   {
     id: 1,
     title: "Magnetic Train Expedition: Top-Left to Bottom-Right",
-    desc: "Guide the magnetic transit train (1 Engine + 1 Compartment) along the 3D railway tracks using the handheld guiding magnet to reach the destination beacon at Bottom-Right Corner 🎯!",
+    desc: "Guide the magnetic transit train along the 3D railway tracks using the handheld guiding magnet to reach the destination beacon at Bottom-Right Corner 🎯!",
     start: 'node_0_0',
-    target: 'node_3_3'
+    target: 'node_4_4'
   }
 ];
 
-// -------------------------------------------------------------------
-// Building Front Lawn Nameplates for Isometric Town Blocks
-// -------------------------------------------------------------------
-export const BUILDING_NAMEPLATES = [
-  { id: 'bld_1', name: 'Magnetic Science Lab', icon: '🔬', x: 252, y: 172 },
-  { id: 'bld_2', name: 'Central Hospital', icon: '🏥', x: 500, y: 172 },
-  { id: 'bld_3', name: 'Corporate Sky Towers', icon: '🏢', x: 755, y: 172 },
-  { id: 'bld_4', name: 'Cargo Logistics Hub', icon: '📦', x: 242, y: 326 },
-  { id: 'bld_5', name: 'Grand Central Plaza', icon: '🏛️', x: 500, y: 326 },
-  { id: 'bld_6', name: 'Innovation Tech Park', icon: '🌐', x: 765, y: 326 },
-  { id: 'bld_7', name: 'Botanical Bio-Dome', icon: '🌿', x: 228, y: 484 },
-  { id: 'bld_8', name: 'MagLev Train Depot', icon: '🚂', x: 500, y: 484 },
-  { id: 'bld_9', name: 'Destination Terminal', icon: '🎯', x: 785, y: 484 },
-];
+export const BUILDING_NAMEPLATES = [];
 
 // Helper: Direction mapping for D-Pad
 export function getAvailableDirections(nodeId) {
@@ -249,228 +119,71 @@ function getAudioContext() {
 }
 
 // -------------------------------------------------------------------
-// Realistic Classic High-Voltage Electric Arc & Tesla Lightning Synthesizer
+// Train & Electrical Audio Functions (Silenced per requirement)
 // -------------------------------------------------------------------
-export function playElectricLightningSound(duration = 2.3) {
-  try {
-    const ctx = getAudioContext();
-    if (!ctx) return;
-    const now = ctx.currentTime;
-
-    // Master Gain & Limiter Envelope
-    const masterGain = ctx.createGain();
-    masterGain.gain.setValueAtTime(0.01, now);
-    masterGain.gain.linearRampToValueAtTime(0.75, now + 0.04);
-    masterGain.gain.setValueAtTime(0.65, now + duration - 0.25);
-    masterGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
-
-    // Distortion WaveShaper for authentic vintage electrical arc saturation
-    const waveShaper = ctx.createWaveShaper();
-    const curve = new Float32Array(256);
-    for (let i = 0; i < 256; i++) {
-      const x = (i * 2) / 256 - 1;
-      // Hyperbolic distortion curve for rich electrical harmonics
-      curve[i] = Math.tanh(x * 2.8);
-    }
-    waveShaper.curve = curve;
-    waveShaper.oversample = '4x';
-
-    // 1. Initial High-Voltage Arc Strike (Sharp "SNAP / ZAP" Transient)
-    const snapOsc = ctx.createOscillator();
-    const snapGain = ctx.createGain();
-    const snapFilter = ctx.createBiquadFilter();
-
-    snapOsc.type = 'sawtooth';
-    snapOsc.frequency.setValueAtTime(3200, now);
-    snapOsc.frequency.exponentialRampToValueAtTime(140, now + 0.12);
-
-    snapFilter.type = 'bandpass';
-    snapFilter.frequency.setValueAtTime(3500, now);
-    snapFilter.frequency.exponentialRampToValueAtTime(450, now + 0.12);
-    snapFilter.Q.setValueAtTime(4.5, now);
-
-    snapGain.gain.setValueAtTime(0.9, now);
-    snapGain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
-
-    snapOsc.connect(snapFilter);
-    snapFilter.connect(snapGain);
-    snapGain.connect(masterGain);
-
-    snapOsc.start(now);
-    snapOsc.stop(now + 0.15);
-
-    // 2. FM-Modulated Jacob's Ladder Electric Arc Carrier (Classic Buzzing)
-    // Carrier: 110Hz (Dual 55Hz / 110Hz harmonics)
-    const carrierOsc = ctx.createOscillator();
-    carrierOsc.type = 'sawtooth';
-    carrierOsc.frequency.setValueAtTime(110, now);
-
-    // FM Modulator: Creates rapid, fluttering electrical plasma instability
-    const modOsc = ctx.createOscillator();
-    const modGain = ctx.createGain();
-    modOsc.type = 'sawtooth';
-    modOsc.frequency.setValueAtTime(42, now);
-    modOsc.frequency.linearRampToValueAtTime(68, now + duration * 0.5);
-    modOsc.frequency.linearRampToValueAtTime(35, now + duration);
-
-    modGain.gain.setValueAtTime(65, now);
-    modGain.gain.linearRampToValueAtTime(95, now + duration * 0.5);
-    modGain.gain.linearRampToValueAtTime(40, now + duration);
-
-    modOsc.connect(carrierOsc.frequency);
-
-    // Secondary sub-octave buzz (55Hz mains sub)
-    const subOsc = ctx.createOscillator();
-    subOsc.type = 'square';
-    subOsc.frequency.setValueAtTime(55, now);
-
-    // Resonance Bandpass for electrical bite
-    const arcFilter = ctx.createBiquadFilter();
-    arcFilter.type = 'bandpass';
-    arcFilter.frequency.setValueAtTime(850, now);
-    arcFilter.Q.setValueAtTime(3.2, now);
-
-    const arcGain = ctx.createGain();
-    arcGain.gain.setValueAtTime(0.55, now);
-
-    carrierOsc.connect(arcFilter);
-    subOsc.connect(arcFilter);
-    arcFilter.connect(waveShaper);
-    waveShaper.connect(arcGain);
-    arcGain.connect(masterGain);
-
-    carrierOsc.start(now);
-    subOsc.start(now);
-    modOsc.start(now);
-    carrierOsc.stop(now + duration);
-    subOsc.stop(now + duration);
-    modOsc.stop(now + duration);
-
-    // 3. Continuous Stochastic Micro-Spark Static Crackling (Continuous Sizzle)
-    const sparkBufferSize = Math.floor(ctx.sampleRate * duration);
-    const sparkBuffer = ctx.createBuffer(1, sparkBufferSize, ctx.sampleRate);
-    const sparkData = sparkBuffer.getChannelData(0);
-    for (let i = 0; i < sparkBufferSize; i++) {
-      // Stochastic electric pulses: sparse, high-amplitude spikes
-      const r = Math.random();
-      if (r > 0.96) {
-        sparkData[i] = (Math.random() * 2 - 1) * 0.95;
-      } else if (r > 0.91) {
-        sparkData[i] = (Math.random() * 2 - 1) * 0.45;
-      } else {
-        sparkData[i] = 0;
-      }
-    }
-
-    const sparkSource = ctx.createBufferSource();
-    sparkSource.buffer = sparkBuffer;
-
-    const sparkFilter = ctx.createBiquadFilter();
-    sparkFilter.type = 'highpass';
-    sparkFilter.frequency.setValueAtTime(1800, now);
-    sparkFilter.Q.setValueAtTime(2.0, now);
-
-    const sparkGain = ctx.createGain();
-    sparkGain.gain.setValueAtTime(0.42, now);
-    sparkGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
-
-    sparkSource.connect(sparkFilter);
-    sparkFilter.connect(sparkGain);
-    sparkGain.connect(masterGain);
-
-    sparkSource.start(now);
-    sparkSource.stop(now + duration);
-
-    // 4. Resonant High-Voltage Sizzle (2.8 kHz Bandpass Shimmer)
-    const sizzleOsc = ctx.createOscillator();
-    const sizzleFilter = ctx.createBiquadFilter();
-    const sizzleGain = ctx.createGain();
-
-    sizzleOsc.type = 'sawtooth';
-    sizzleOsc.frequency.setValueAtTime(280, now);
-
-    sizzleFilter.type = 'bandpass';
-    sizzleFilter.frequency.setValueAtTime(2800, now);
-    sizzleFilter.Q.setValueAtTime(5.0, now);
-
-    sizzleGain.gain.setValueAtTime(0.2, now);
-
-    sizzleOsc.connect(sizzleFilter);
-    sizzleFilter.connect(sizzleGain);
-    sizzleGain.connect(masterGain);
-
-    sizzleOsc.start(now);
-    sizzleOsc.stop(now + duration);
-
-    masterGain.connect(ctx.destination);
-
-  } catch (err) {}
-}
-
-// Backward-compatibility aliases
-export const playRealisticTrainSound = playElectricLightningSound;
-export const playElectricZapSound = playElectricLightningSound;
+export function playElectricLightningSound() {}
+export const playRealisticTrainSound = () => {};
+export const playElectricZapSound = () => {};
 
 // -------------------------------------------------------------------
 // 3. SVG Realistic Magnetic Train Sprite (1 Engine + 1 Compartment)
 // -------------------------------------------------------------------
 const MagneticTrainSprite = ({ x, y, rotation, isMoving, now }) => {
   const deg = (rotation * 180 / Math.PI);
-  const hoverWobble = isMoving ? Math.sin(now * 0.015) * 1.5 : Math.sin(now * 0.006) * 0.8;
-  const railJitter = isMoving ? Math.sin(now * 0.05) * 0.4 : 0;
   const pulse = 1 + 0.15 * Math.sin(now * 0.012);
 
   return (
-    <g transform={`translate(${x}, ${y + railJitter})`}>
-      {/* 1. Ground Footprint Shadow */}
-      <g transform={`rotate(${deg})`}>
+    <g transform={`translate(${x}, ${y})`}>
+      {/* Scaled slightly larger (~22% increase) for enhanced visibility and detail */}
+      <g transform={`rotate(${deg}) scale(1.22)`}>
+        {/* 1. Ground Footprint Ambient Shadow */}
         <ellipse
           cx="-10"
           cy="0"
-          rx="44"
+          rx="46"
           ry="10"
-          fill="rgba(15, 23, 42, 0.5)"
+          fill="rgba(28, 25, 23, 0.65)"
           style={{ filter: 'blur(2.5px)' }}
         />
 
-        {/* 2. Cyan Maglev Levitation Track Field */}
+        {/* 2. Warm Amber Maglev Levitation Track Induction Field (blending with environment) */}
         <ellipse
           cx="-10"
           cy="0"
-          rx={isMoving ? 42 : 38}
-          ry={isMoving ? 8.5 : 7}
-          fill="rgba(56, 189, 248, 0.35)"
+          rx={isMoving ? 44 : 40}
+          ry={isMoving ? 9 : 7.5}
+          fill="rgba(245, 158, 11, 0.32)"
           style={{ filter: 'blur(3px)' }}
         />
 
-        {/* 3. Projected Headlight Cones on Track Rails */}
+        {/* 3. Projected Warm Golden Headlight Cones on Track Rails */}
         <polygon
-          points="20,-4 75,-20 75,20 20,4"
+          points="20,-4 75,-16 75,16 20,4"
           fill="url(#headlightBeamGrad)"
-          opacity={isMoving ? 0.85 : 0.5}
+          opacity={isMoving ? 0.88 : 0.55}
           pointerEvents="none"
         />
 
-        {/* 4. TRAIN COMPARTMENT (Passenger / Observation Coach) */}
-        <g transform={`translate(-22, ${hoverWobble * 0.65})`}>
+        {/* 4. TRAIN COMPARTMENT (Observation Coach - Warm Architectural Bronze & Slate) */}
+        <g transform="translate(-22, 0)">
           {/* Undercarriage Maglev Bogie Skids */}
-          <rect x="-17" y="-7.5" width="34" height="15" rx="3.5" fill="#0F172A" stroke="#334155" strokeWidth="0.8" />
+          <rect x="-17" y="-7.5" width="34" height="15" rx="3.5" fill="#1C1917" stroke="#44403C" strokeWidth="0.8" />
           
           {/* Coach Main Body (Aerodynamic Streamlined Shell) */}
-          <rect x="-16" y="-6.5" width="32" height="13" rx="4" fill="url(#trainCoachGrad)" stroke="#1E293B" strokeWidth="0.8" />
+          <rect x="-16" y="-6.5" width="32" height="13" rx="4" fill="url(#trainCoachGrad)" stroke="#292524" strokeWidth="0.8" />
 
-          {/* Emerald / Gold Livery Racing Stripe */}
-          <line x1="-15" y1="-0.5" x2="15" y2="-0.5" stroke="#059669" strokeWidth="2.2" />
-          <line x1="-15" y1="1.4" x2="15" y2="1.4" stroke="#F59E0B" strokeWidth="0.8" />
+          {/* Warm Amber / Gold Livery Racing Stripe */}
+          <line x1="-15" y1="-0.5" x2="15" y2="-0.5" stroke="#D97706" strokeWidth="2.2" />
+          <line x1="-15" y1="1.4" x2="15" y2="1.4" stroke="#FDE68A" strokeWidth="0.8" />
 
           {/* Roof Aero Air Intake / Solar Ribs */}
-          <rect x="-12" y="-5.5" width="24" height="2" rx="1" fill="#475569" />
+          <rect x="-12" y="-5.5" width="24" height="2" rx="1" fill="#57534E" />
 
-          {/* Panoramic Passenger Windows (Illuminated Glass) */}
-          <rect x="-13" y="-5" width="5" height="3" rx="0.8" fill="#BAE6FD" stroke="#0284C7" strokeWidth="0.5" />
-          <rect x="-6" y="-5" width="5" height="3" rx="0.8" fill="#BAE6FD" stroke="#0284C7" strokeWidth="0.5" />
-          <rect x="1" y="-5" width="5" height="3" rx="0.8" fill="#BAE6FD" stroke="#0284C7" strokeWidth="0.5" />
-          <rect x="8" y="-5" width="5" height="3" rx="0.8" fill="#BAE6FD" stroke="#0284C7" strokeWidth="0.5" />
+          {/* Panoramic Passenger Windows (Champagne-Tinted Architectural Glass) */}
+          <rect x="-13" y="-5" width="5" height="3" rx="0.8" fill="#FEF3C7" stroke="#B45309" strokeWidth="0.6" />
+          <rect x="-6" y="-5" width="5" height="3" rx="0.8" fill="#FEF3C7" stroke="#B45309" strokeWidth="0.6" />
+          <rect x="1" y="-5" width="5" height="3" rx="0.8" fill="#FEF3C7" stroke="#B45309" strokeWidth="0.6" />
+          <rect x="8" y="-5" width="5" height="3" rx="0.8" fill="#FEF3C7" stroke="#B45309" strokeWidth="0.6" />
 
           {/* Rear Red Marker Tail Lights */}
           <circle cx="-15.5" cy="-4" r="1.2" fill="#EF4444" style={{ filter: 'drop-shadow(0 0 3px #EF4444)' }} />
@@ -479,17 +192,17 @@ const MagneticTrainSprite = ({ x, y, rotation, isMoving, now }) => {
 
         {/* 5. INTER-CAR ACCORDION GANGWAY COUPLER (Between Compartment & Engine) */}
         <g transform="translate(-5, 0)">
-          <rect x="-3" y="-5" width="6" height="10" rx="1.5" fill="#1E293B" stroke="#0F172A" strokeWidth="0.8" />
-          <line x1="-1" y1="-5" x2="-1" y2="5" stroke="#334155" strokeWidth="0.8" />
-          <line x1="1" y1="-5" x2="1" y2="5" stroke="#334155" strokeWidth="0.8" />
+          <rect x="-3" y="-5" width="6" height="10" rx="1.5" fill="#292524" stroke="#1C1917" strokeWidth="0.8" />
+          <line x1="-1" y1="-5" x2="-1" y2="5" stroke="#44403C" strokeWidth="0.8" />
+          <line x1="1" y1="-5" x2="1" y2="5" stroke="#44403C" strokeWidth="0.8" />
         </g>
 
-        {/* 6. TRAIN ENGINE (Leading Aerodynamic Locomotive) */}
-        <g transform={`translate(14, ${hoverWobble})`}>
+        {/* 6. TRAIN ENGINE (Leading Aerodynamic Locomotive - Warm Bronze & Deep Carbon) */}
+        <g transform="translate(14, 0)">
           {/* Undercarriage Maglev Bogie Skids */}
-          <rect x="-14" y="-7.5" width="28" height="15" rx="3.5" fill="#0F172A" stroke="#334155" strokeWidth="0.8" />
+          <rect x="-14" y="-7.5" width="28" height="15" rx="3.5" fill="#1C1917" stroke="#44403C" strokeWidth="0.8" />
 
-          {/* Engine Main Body with Bullet Nose */}
+          {/* Engine Main Body with Aerodynamic Bullet Nose */}
           <path
             d="M -14 -6.5
                L 5 -6.5
@@ -498,11 +211,11 @@ const MagneticTrainSprite = ({ x, y, rotation, isMoving, now }) => {
                L -14 6.5
                Z"
             fill="url(#trainEngineGrad)"
-            stroke="#1E293B"
+            stroke="#292524"
             strokeWidth="0.9"
           />
 
-          {/* Emerald / Gold Aero Livery Swoosh */}
+          {/* Warm Amber Aero Livery Swoosh */}
           <path
             d="M -13 -0.5
                L 5 -0.5
@@ -510,12 +223,12 @@ const MagneticTrainSprite = ({ x, y, rotation, isMoving, now }) => {
                Q 12 0.5 5 0.5
                L -13 0.5
                Z"
-            fill="#059669"
-            stroke="#F59E0B"
+            fill="#D97706"
+            stroke="#FDE68A"
             strokeWidth="0.6"
           />
 
-          {/* Driver Cockpit Windshield (Curved Dark Tinted Glass) */}
+          {/* Driver Cockpit Windshield (Curved Warm Smoked Glass) */}
           <path
             d="M 2 -4.8
                L 8 -4.8
@@ -523,8 +236,8 @@ const MagneticTrainSprite = ({ x, y, rotation, isMoving, now }) => {
                Q 13 4.8 8 4.8
                L 2 4.8
                Q 4 0 2 -4.8 Z"
-            fill="#0F172A"
-            stroke="#38BDF8"
+            fill="#1C1917"
+            stroke="#D97706"
             strokeWidth="0.8"
           />
           <path
@@ -533,24 +246,24 @@ const MagneticTrainSprite = ({ x, y, rotation, isMoving, now }) => {
                Q 11.5 -3.5 12 0
                Q 11.5 3.5 8 3.5
                L 4 3.5 Z"
-            fill="#38BDF8"
-            opacity="0.8"
+            fill="#FDE68A"
+            opacity="0.85"
           />
 
           {/* Engine Side Cabin Windows */}
-          <rect x="-10" y="-5.5" width="4.5" height="2.5" rx="0.6" fill="#BAE6FD" stroke="#0284C7" strokeWidth="0.5" />
-          <rect x="-4" y="-5.5" width="4.5" height="2.5" rx="0.6" fill="#BAE6FD" stroke="#0284C7" strokeWidth="0.5" />
+          <rect x="-10" y="-5.5" width="4.5" height="2.5" rx="0.6" fill="#FEF3C7" stroke="#B45309" strokeWidth="0.5" />
+          <rect x="-4" y="-5.5" width="4.5" height="2.5" rx="0.6" fill="#FEF3C7" stroke="#B45309" strokeWidth="0.5" />
 
           {/* Roof Aero Air Intake / Pantograph Dome */}
-          <rect x="-10" y="-2" width="12" height="4" rx="1.5" fill="#334155" />
+          <rect x="-10" y="-2" width="12" height="4" rx="1.5" fill="#44403C" />
           <circle cx="-4" cy="0" r="1.5" fill="#F59E0B" />
 
-          {/* Dual Xenon Headlights */}
+          {/* Dual Warm Xenon Headlights */}
           <circle cx="16.5" cy="-2.5" r="1.5" fill="#FFFFFF" stroke="#FEF08A" strokeWidth="0.8" style={{ filter: 'drop-shadow(0 0 4px #FFFFFF)' }} />
           <circle cx="16.5" cy="2.5" r="1.5" fill="#FFFFFF" stroke="#FEF08A" strokeWidth="0.8" style={{ filter: 'drop-shadow(0 0 4px #FFFFFF)' }} />
 
           {/* Front Magnetic Levitation Receiver Sensor (Nose Tip) */}
-          <circle cx="19" cy="0" r={3 * pulse} fill="#FACC15" stroke="#FFFFFF" strokeWidth="1" style={{ filter: 'drop-shadow(0 0 6px #FACC15)' }} />
+          <circle cx="19" cy="0" r={3 * pulse} fill="#F59E0B" stroke="#FFFFFF" strokeWidth="1" style={{ filter: 'drop-shadow(0 0 6px #F59E0B)' }} />
           <circle cx="19" cy="0" r="1.3" fill="#FFFFFF" />
         </g>
       </g>
@@ -559,183 +272,128 @@ const MagneticTrainSprite = ({ x, y, rotation, isMoving, now }) => {
 };
 
 // -------------------------------------------------------------------
-// 4. Miniature Isometric Electric Pole Sprite (Starting, Destination, and Possible Next Nodes)
+// 4. Interactive Waypoint Node Sprite
 // -------------------------------------------------------------------
-const ElectricPoleSprite = ({ 
+const WaypointNodeSprite = ({ 
   x, 
   y, 
   isConnected, 
-  isStart,
+  isStart, 
   isTarget, 
   isCurrent, 
   isActiveMovingTarget,
   now, 
   onClick 
 }) => {
-  const isSpecial = isStart || isTarget;
-
-  // If not a connected node, not the moving target, and not start/target milestone, do not render
-  if (!isConnected && !isActiveMovingTarget && !isSpecial) {
-    return null;
-  }
-
-  // Sizing & scaling: Start and Destination poles are slightly bigger (1.35x)
-  const scale = isSpecial ? 1.35 : 1.0;
-
   return (
     <g 
-      transform={`translate(${x}, ${y}) scale(${scale})`}
+      transform={`translate(${x}, ${y})`}
       onClick={onClick}
       style={{ cursor: isConnected ? 'pointer' : 'default' }}
     >
-      {/* 1. Ground Footprint Shadow */}
-      <ellipse
-        cx="0"
-        cy="2"
-        rx={isSpecial ? 9 : 7}
-        ry={isSpecial ? 3.8 : 3}
-        fill="rgba(15, 23, 42, 0.45)"
-        style={{ filter: 'blur(0.8px)' }}
-      />
-
-      {/* 2. Metallic Base Anchor Plate */}
-      <rect
-        x={isSpecial ? "-5.5" : "-4.5"}
-        y="-1"
-        width={isSpecial ? "11" : "9"}
-        height={isSpecial ? "2.8" : "2.5"}
-        rx="1"
-        fill="#334155"
-        stroke="#1E293B"
-        strokeWidth="0.5"
-      />
-      <circle cx="-2.5" cy="0.2" r="0.5" fill="#94A3B8" />
-      <circle cx="2.5" cy="0.2" r="0.5" fill="#94A3B8" />
-
-      {/* 3. Small Isometric Steel Pole / Pylon Mast */}
-      <g>
-        {/* Tapered Mast Column */}
-        <polygon
-          points="-2,-1 2,-1 1,-19 -1,-19"
-          fill="url(#poleSteelGrad)"
-          stroke="#1E293B"
-          strokeWidth="0.5"
-        />
-
-        {/* Chiseled Center Highlight Ridge */}
-        <line x1="0" y1="-1" x2="0" y2="-19" stroke="rgba(255,255,255,0.35)" strokeWidth="0.4" />
-
-        {/* Dual Ceramic Insulator Crossarms */}
-        <line x1="-5" y1="-13" x2="5" y2="-13" stroke="#475569" strokeWidth="1.1" strokeLinecap="round" />
-        <circle cx="-4.2" cy="-13" r="1.1" fill="#D97706" stroke="#78350F" strokeWidth="0.3" />
-        <circle cx="4.2" cy="-13" r="1.1" fill="#D97706" stroke="#78350F" strokeWidth="0.3" />
-
-        {/* Tesla Induction Ring Torus */}
-        <ellipse
+      {/* 1. Interactive Connected Glow on Junction Dot */}
+      {isConnected && (
+        <circle
           cx="0"
-          cy="-19"
-          rx="3.2"
-          ry="1.6"
-          fill="#475569"
-          stroke="#1E293B"
-          strokeWidth="0.5"
+          cy="0"
+          r={16 + 2.5 * Math.sin(now * 0.009)}
+          fill="rgba(56, 189, 248, 0.22)"
+          stroke="#38BDF8"
+          strokeWidth="2.2"
+          strokeDasharray="4 3"
+          style={{ filter: 'drop-shadow(0 0 6px #38BDF8)' }}
         />
+      )}
 
-        {/* Top Glowing Yellow Light & Emitter Lamp */}
-        <g pointerEvents="none">
-          {/* Ambient Warm Yellow Radial Glow (Extra bright & large for start/destination) */}
-          <circle
-            cx="0"
-            cy="-21"
-            r={isSpecial ? (13 + Math.sin(now * 0.007) * 2.5) : (6 + Math.sin(now * 0.008) * 0.8)}
-            fill={isSpecial ? "rgba(250, 204, 21, 0.65)" : "rgba(250, 204, 21, 0.45)"}
-            style={{ filter: isSpecial ? 'blur(3px)' : 'blur(1.5px)' }}
-          />
+      {/* 2. Target Pulsing Aura on Destination Junction */}
+      {isTarget && (
+        <circle
+          cx="0"
+          cy="0"
+          r={20 + 3 * Math.sin(now * 0.007)}
+          fill="rgba(245, 158, 11, 0.28)"
+          stroke="#F59E0B"
+          strokeWidth="2.8"
+          style={{ filter: 'drop-shadow(0 0 10px #F59E0B)' }}
+        />
+      )}
 
-          {isSpecial && (
-            <circle
-              cx="0"
-              cy="-21"
-              r={7.5 + Math.sin(now * 0.012) * 1.5}
-              fill="rgba(254, 240, 138, 0.8)"
-              style={{ filter: 'blur(1.5px)' }}
-            />
-          )}
+      {/* 3. Center Node Core aligned exactly on the orange junction box */}
+      <circle
+        cx="0"
+        cy="0"
+        r={isTarget ? 10 : (isStart ? 9 : (isConnected ? 8 : (isCurrent ? 7 : 5)))}
+        fill={isTarget ? "#F59E0B" : (isStart ? "#10B981" : (isConnected ? "#0284C7" : (isCurrent ? "#22C55E" : "rgba(245, 158, 11, 0.75)")))}
+        stroke="#FFFFFF"
+        strokeWidth="2"
+        style={{ filter: (isConnected || isTarget || isStart) ? 'drop-shadow(0 0 5px rgba(255,255,255,0.85))' : 'none' }}
+      />
 
-          {/* Luminous Yellow Light Bulb Core */}
-          <circle
-            cx="0"
-            cy="-21"
-            r={isSpecial ? 4.2 : 3.2}
-            fill="url(#yellowLightBulbGrad)"
-            stroke={isSpecial ? "#FFFFFF" : "#F59E0B"}
-            strokeWidth={isSpecial ? "0.9" : "0.6"}
-            style={{ filter: isSpecial ? 'drop-shadow(0 0 6px #FACC15)' : 'drop-shadow(0 0 4px #FACC15)' }}
-          />
-
-          {/* White-Hot Filament Glint */}
-          <circle cx="0" cy="-21" r={isSpecial ? 1.8 : 1.3} fill="#FFFFFF" />
-          <circle cx="-0.8" cy="-21.8" r={isSpecial ? 0.9 : 0.6} fill="#FFFFFF" opacity="0.9" />
-
-          {/* Continuous Pulsing Wave Ring for Start / Destination */}
-          {isSpecial && (
-            <circle
-              cx="0"
-              cy="-21"
-              r={6 + ((now * 0.012) % 7)}
-              fill="none"
-              stroke="#FEF08A"
-              strokeWidth="0.8"
-              opacity={1 - ((now * 0.012) % 7) / 7}
-            />
-          )}
+      {/* 4. Active Destination Milestone Beacon */}
+      {isTarget && (
+        <g transform="translate(0, -28)" pointerEvents="none">
+          <rect x="-42" y="-9" width="84" height="18" rx="9" fill="#78350F" stroke="#FDE68A" strokeWidth="1.6" style={{ filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.5))' }} />
+          <text x="0" y="3.5" textAnchor="middle" fill="#FEF08A" fontSize="9" fontWeight="900" fontFamily="system-ui, sans-serif">
+            DESTINATION 🎯
+          </text>
         </g>
-      </g>
+      )}
 
-      {/* Milestone Badge on Top of Start / Destination Pole */}
+      {/* 5. Start Milestone Beacon */}
       {isStart && (
-        <g transform="translate(0, -32)" pointerEvents="none">
-          <rect x="-24" y="-6.5" width="48" height="13" rx="6.5" fill="#064E3B" stroke="#34D399" strokeWidth="1.1" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.4))' }} />
-          <text x="0" y="3" textAnchor="middle" fill="#FFFFFF" fontSize="7" fontWeight="900" fontFamily="system-ui, sans-serif">
+        <g transform="translate(0, -28)" pointerEvents="none">
+          <rect x="-30" y="-9" width="60" height="18" rx="9" fill="#064E3B" stroke="#34D399" strokeWidth="1.6" style={{ filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.5))' }} />
+          <text x="0" y="3.5" textAnchor="middle" fill="#FFFFFF" fontSize="9" fontWeight="900" fontFamily="system-ui, sans-serif">
             START 🚩
           </text>
         </g>
       )}
 
-      {isTarget && (
-        <g transform="translate(0, -32)" pointerEvents="none">
-          <rect x="-35" y="-6.5" width="70" height="13" rx="6.5" fill="#78350F" stroke="#FACC15" strokeWidth="1.2" style={{ filter: 'drop-shadow(0 2px 5px rgba(245,158,11,0.5))' }} />
-          <text x="0" y="3" textAnchor="middle" fill="#FEF08A" fontSize="6.8" fontWeight="900" fontFamily="system-ui, sans-serif">
-            DESTINATION 🎯
-          </text>
-        </g>
-      )}
+      {/* 6. Click Hitbox */}
+      <circle cx="0" cy="0" r="22" fill="transparent" />
     </g>
   );
 };
 
 // -------------------------------------------------------------------
-// 5. Realistic Yellow Electrifying Lightning Energy Line (Pulls the Train)
+// 5. Realistic Two-Phase Magnetic Field Energy Tether (Reaches & Pulls)
 // -------------------------------------------------------------------
-const ElectricLightningTether = ({ poleX, poleY, trainX, trainY, trainRotation, isDest, now }) => {
-  // Start from top emitter of target electric pole (adjusted for larger destination pole)
+const ElectricLightningTether = ({ 
+  poleX, 
+  poleY, 
+  trainX, 
+  trainY, 
+  trainRotation, 
+  isDest, 
+  reachT = 1, 
+  isPulling = false, 
+  now 
+}) => {
+  // Start directly from center of target junction node (where magnetic field emerges)
   const x1 = poleX;
-  const y1 = isDest ? poleY - 28.3 : poleY - 21;
+  const y1 = poleY;
 
-  // End at front magnetic receiver sensor of leading train locomotive
-  const x2 = trainX + Math.cos(trainRotation) * 33;
-  const y2 = trainY + Math.sin(trainRotation) * 33;
+  // Train's front magnetic receiver tip (train scaled by 1.22, nose tip offset is ~40.2px)
+  const x2 = trainX + Math.cos(trainRotation) * 40.2;
+  const y2 = trainY + Math.sin(trainRotation) * 40.2;
 
   const dx = x2 - x1;
   const dy = y2 - y1;
   const dist = Math.hypot(dx, dy);
 
-  if (dist < 6) return null;
+  if (dist < 4) return null;
 
   const ux = dx / dist;
   const uy = dy / dist;
   const nx = -uy;
   const ny = ux;
+
+  // In Phase 1 (reach): energy emerges from target node and reaches out towards the train
+  // In Phase 2 (pull): full connection is established, pulling the train toward the node
+  const currentDist = isPulling ? dist : Math.max(10, dist * reachT);
+
+  const tipX = x1 + ux * currentDist;
+  const tipY = y1 + uy * currentDist;
 
   // Generate 8-segment procedural crackling lightning path
   const numSegs = 8;
@@ -744,32 +402,38 @@ const ElectricLightningTether = ({ poleX, poleY, trainX, trainY, trainRotation, 
 
   for (let i = 1; i < numSegs; i++) {
     const t = i / numSegs;
-    // High-frequency animated chaotic lightning jitter
     const noise = Math.sin(now * 0.05 + i * 3.7) * 0.55 + Math.sin(now * 0.11 + i * 7.1) * 0.45;
     const envelope = Math.sin(t * Math.PI);
-    const maxDisplace = Math.min(7, dist * 0.08) * envelope;
+    const maxDisplace = Math.min(7, currentDist * 0.08) * envelope;
     const offset = noise * maxDisplace;
 
-    const px = x1 + ux * (dist * t) + nx * offset;
-    const py = y1 + uy * (dist * t) + ny * offset;
+    const px = x1 + ux * (currentDist * t) + nx * offset;
+    const py = y1 + uy * (currentDist * t) + ny * offset;
     mainPoints.push(`${px.toFixed(1)},${py.toFixed(1)}`);
 
-    // Micro forked branch in the middle
     if (i === 3 || i === 4) {
       const forkOffset = offset + (Math.sin(now * 0.08 + i) * 6 + 4);
-      forkPoints1.push(`${(x1 + ux * (dist * t) + nx * forkOffset).toFixed(1)},${(y1 + uy * (dist * t) + ny * forkOffset).toFixed(1)}`);
+      forkPoints1.push(`${(x1 + ux * (currentDist * t) + nx * forkOffset).toFixed(1)},${(y1 + uy * (currentDist * t) + ny * forkOffset).toFixed(1)}`);
     }
   }
-  mainPoints.push(`${x2.toFixed(1)},${y2.toFixed(1)}`);
+  mainPoints.push(`${tipX.toFixed(1)},${tipY.toFixed(1)}`);
 
   const mainPath = `M ${mainPoints.join(' L ')}`;
 
-  // Streaming magnetic electric energy particles (Flowing from Pole -> Train Nose to signify PULL)
+  // Magnetic flux particles:
+  // Phase 1 (reach): flux particles shoot forward from target node (0) outward to reach the train
+  // Phase 2 (pull): flux particles flow rapidly from train towards target node to demonstrate attractive magnetic pull
   const particles = [];
-  const numParticles = 6;
+  const numParticles = 7;
   for (let i = 0; i < numParticles; i++) {
-    // Flowing gracefully from 0 (pole) to 1 (train)
-    const pT = ((now * 0.0012 + i / numParticles) % 1);
+    let pT;
+    if (!isPulling) {
+      // Flowing outward from node (0) to reach tip
+      pT = ((now * 0.0022 + i / numParticles) % 1) * reachT;
+    } else {
+      // Flowing from train towards node to demonstrate magnetic pull
+      pT = 1 - ((now * 0.002 + i / numParticles) % 1);
+    }
     const pNoise = Math.sin(now * 0.03 + i * 2.1) * 3 * Math.sin(pT * Math.PI);
     const px = x1 + ux * (dist * pT) + nx * pNoise;
     const py = y1 + uy * (dist * pT) + ny * pNoise;
@@ -780,16 +444,36 @@ const ElectricLightningTether = ({ poleX, poleY, trainX, trainY, trainRotation, 
 
   return (
     <g pointerEvents="none">
-      {/* 1. Luminous Soft Yellow Atmospheric Glow Tube */}
+      {/* Expanding Concentric Magnetic Field Waves Emerging from Target Node */}
+      {[0, 1, 2].map(waveIdx => {
+        const waveT = ((now * 0.0035 + waveIdx * 0.33) % 1);
+        const waveR = 12 + waveT * 38;
+        const waveOpacity = (1 - waveT) * 0.75;
+        return (
+          <circle
+            key={`wave-${waveIdx}`}
+            cx={x1}
+            cy={y1}
+            r={waveR}
+            fill="none"
+            stroke="#F59E0B"
+            strokeWidth="2.2"
+            opacity={waveOpacity}
+            style={{ filter: 'drop-shadow(0 0 4px #F59E0B)' }}
+          />
+        );
+      })}
+
+      {/* 1. Luminous Soft Amber Atmospheric Glow Tube */}
       <path
         d={mainPath}
         fill="none"
         stroke="#F59E0B"
-        strokeWidth="6"
+        strokeWidth="6.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        opacity="0.3"
-        style={{ filter: 'blur(2px)' }}
+        opacity="0.38"
+        style={{ filter: 'blur(2.5px)' }}
       />
 
       {/* 2. Secondary Energetic Yellow Lightning Core Arc */}
@@ -797,10 +481,10 @@ const ElectricLightningTether = ({ poleX, poleY, trainX, trainY, trainRotation, 
         d={mainPath}
         fill="none"
         stroke="#FACC15"
-        strokeWidth="2.2"
+        strokeWidth="2.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        style={{ filter: 'drop-shadow(0 0 3px #FACC15)' }}
+        style={{ filter: 'drop-shadow(0 0 4px #FACC15)' }}
       />
 
       {/* 3. Micro Forked Branch Bolts */}
@@ -809,7 +493,7 @@ const ElectricLightningTether = ({ poleX, poleY, trainX, trainY, trainRotation, 
           d={`M ${mainPoints[2]} L ${forkPoints1.join(' L ')}`}
           fill="none"
           stroke="#FEF08A"
-          strokeWidth="1.1"
+          strokeWidth="1.2"
           strokeLinecap="round"
           opacity="0.75"
         />
@@ -820,7 +504,7 @@ const ElectricLightningTether = ({ poleX, poleY, trainX, trainY, trainRotation, 
         d={mainPath}
         fill="none"
         stroke="#FFFFFF"
-        strokeWidth="0.9"
+        strokeWidth="1"
         strokeLinecap="round"
         strokeLinejoin="round"
         opacity="0.95"
@@ -841,27 +525,44 @@ const ElectricLightningTether = ({ poleX, poleY, trainX, trainY, trainRotation, 
         />
       ))}
 
-      {/* 6. Train Nose Receiver Ionization Corona Ring */}
-      <circle
-        cx={x2}
-        cy={y2}
-        r={4 + Math.sin(now * 0.03) * 1.5}
-        fill="rgba(250, 204, 21, 0.4)"
-        stroke="#FFFFFF"
-        strokeWidth="1.2"
-        style={{ filter: 'drop-shadow(0 0 5px #FACC15)' }}
-      />
-      <circle cx={x2} cy={y2} r="1.5" fill="#FFFFFF" />
+      {/* 6. Active Reaching Tip Spearhead (in Phase 1) or Train Nose Receiver Ionization (in Phase 2) */}
+      {!isPulling ? (
+        <g>
+          <circle
+            cx={tipX}
+            cy={tipY}
+            r={6 + Math.sin(now * 0.04) * 2}
+            fill="rgba(250, 204, 21, 0.55)"
+            stroke="#FFFFFF"
+            strokeWidth="1.8"
+            style={{ filter: 'drop-shadow(0 0 8px #FACC15)' }}
+          />
+          <circle cx={tipX} cy={tipY} r="2.5" fill="#FFFFFF" />
+        </g>
+      ) : (
+        <g>
+          <circle
+            cx={x2}
+            cy={y2}
+            r={5 + Math.sin(now * 0.035) * 2}
+            fill="rgba(250, 204, 21, 0.5)"
+            stroke="#FFFFFF"
+            strokeWidth="1.5"
+            style={{ filter: 'drop-shadow(0 0 6px #FACC15)' }}
+          />
+          <circle cx={x2} cy={y2} r="2" fill="#FFFFFF" />
+        </g>
+      )}
 
-      {/* 7. Pole Top Emitter High-Voltage Spark Burst */}
+      {/* 7. Target Node Emitter Core Burst */}
       <circle
         cx={x1}
         cy={y1}
-        r={3.5 + Math.sin(now * 0.025) * 1.2}
-        fill="rgba(254, 240, 138, 0.6)"
+        r={5 + Math.sin(now * 0.03) * 1.5}
+        fill="rgba(254, 240, 138, 0.8)"
         stroke="#FFFFFF"
-        strokeWidth="1"
-        style={{ filter: 'drop-shadow(0 0 4px #F59E0B)' }}
+        strokeWidth="1.5"
+        style={{ filter: 'drop-shadow(0 0 6px #F59E0B)' }}
       />
     </g>
   );
@@ -893,13 +594,11 @@ export default function MazeGame({
     x: WAYPOINT_NODES[0].x,
     y: WAYPOINT_NODES[0].y,
     rotation: 0,
-    isMoving: false
+    isMoving: false,
+    reachT: 0,
+    isPulling: false
   });
-  const [magnetState, setMagnetState] = useState({
-    x: WAYPOINT_NODES[0].x + 72,
-    y: WAYPOINT_NODES[0].y,
-    rotation: 0
-  });
+
 
   const onSolveRef = useRef(onSolve);
   const isSolvedRef = useRef(isSolved);
@@ -917,8 +616,8 @@ export default function MazeGame({
   const animFromRef = useRef({ x: startPoint.x, y: startPoint.y, angle: 0 });
   const animToRef = useRef({ x: startPoint.x, y: startPoint.y, angle: 0 });
   
-  // Smooth Slow Stately Speed: 2300ms per segment for majestic magnetic pull dynamics
-  const MOVE_DURATION = 2300;
+  // Smooth Speed: 2000ms per segment for clear reach-out and attractive pull dynamics
+  const MOVE_DURATION = 2000;
 
   useEffect(() => {
     onSolveRef.current = onSolve;
@@ -949,8 +648,8 @@ export default function MazeGame({
     pathQueueRef.current = [];
     isMovingRef.current = false;
     const startNode = NODES_MAP[currentMission.start] || WAYPOINT_NODES[0];
-    animFromRef.current = { x: startNode.x, y: startNode.y, angle: 0 };
-    animToRef.current = { x: startNode.x, y: startNode.y, angle: 0 };
+    animFromRef.current = { x: startNode.x, y: startNode.y, angle: 0, id: startNode.id };
+    animToRef.current = { x: startNode.x, y: startNode.y, angle: 0, id: startNode.id };
     setVisitedHistory([startNode.id]);
     setTraversedSegments([]);
 
@@ -958,12 +657,9 @@ export default function MazeGame({
       x: startNode.x,
       y: startNode.y,
       rotation: 0,
-      isMoving: false
-    });
-    setMagnetState({
-      x: startNode.x + 72,
-      y: startNode.y,
-      rotation: 0
+      isMoving: false,
+      reachT: 0,
+      isPulling: false
     });
 
     if (onNodeChange) onNodeChange(startNode.id, false);
@@ -975,11 +671,11 @@ export default function MazeGame({
     }
   }, [registerReset]);
 
-  // Travel next segment in queue
+  // Travel next segment in queue strictly between adjacent nodes on railway track
   const startNextSegment = () => {
     if (pathQueueRef.current.length === 0) {
       isMovingRef.current = false;
-      setTrainState(prev => ({ ...prev, isMoving: false }));
+      setTrainState(prev => ({ ...prev, isMoving: false, reachT: 0, isPulling: false }));
       if (onNodeChange) onNodeChange(currentNodeIdRef.current, false);
       return;
     }
@@ -988,45 +684,57 @@ export default function MazeGame({
     const nextNode = NODES_MAP[nextId];
     if (!nextNode) {
       isMovingRef.current = false;
-      setTrainState(prev => ({ ...prev, isMoving: false }));
+      setTrainState(prev => ({ ...prev, isMoving: false, reachT: 0, isPulling: false }));
       if (onNodeChange) onNodeChange(currentNodeIdRef.current, false);
       return;
     }
 
-    const cur = NODES_MAP[currentNodeIdRef.current] || { x: trainState.x, y: trainState.y };
+    const cur = NODES_MAP[currentNodeIdRef.current] || { x: trainState.x, y: trainState.y, id: currentNodeIdRef.current };
     const dx = nextNode.x - cur.x;
     const dy = nextNode.y - cur.y;
-    const targetAngle = (dx !== 0 || dy !== 0) ? Math.atan2(dy, dx) : trainState.rotation;
+    // Exactly aligned with straight orthogonal track (0, PI, PI/2, -PI/2)
+    const targetAngle = Math.atan2(dy, dx);
 
-    animFromRef.current = { x: cur.x, y: cur.y, angle: trainState.rotation };
-    animToRef.current = { x: nextNode.x, y: nextNode.y, angle: targetAngle };
-    currentNodeIdRef.current = nextId;
+    animFromRef.current = { x: cur.x, y: cur.y, angle: targetAngle, id: cur.id };
+    animToRef.current = { x: nextNode.x, y: nextNode.y, angle: targetAngle, id: nextId };
     isMovingRef.current = true;
     moveStartTimeRef.current = performance.now();
 
-    // Play high-volume realistic train sound & electric zap immediately when movement starts
-    playRealisticTrainSound();
-    playElectricZapSound();
+    setTrainState({
+      x: cur.x,
+      y: cur.y,
+      rotation: targetAngle,
+      isMoving: true,
+      reachT: 0,
+      isPulling: false
+    });
 
-    setTrainState(prev => ({ ...prev, isMoving: true }));
-    setVisitedHistory(prev => (prev.includes(nextId) ? prev : [...prev, nextId]));
-    if (onNodeChange) onNodeChange(nextId, true);
+    if (onNodeChange) onNodeChange(currentNodeIdRef.current, true);
   };
 
-  // Move to targeted node via shortest path
+  // Move to targeted node strictly via railway tracks
   const navigateToNode = (targetId) => {
-    if (targetId === currentNodeIdRef.current && !isMovingRef.current) return;
-    const path = findShortestPath(currentNodeIdRef.current, targetId);
-    if (path && path.length > 1) {
-      pathQueueRef.current = path.slice(1);
-      if (!isMovingRef.current) {
+    if (isMovingRef.current) return;
+    if (targetId === currentNodeIdRef.current) return;
+
+    const cur = NODES_MAP[currentNodeIdRef.current];
+    if (!cur) return;
+
+    if (cur.neighbors.includes(targetId)) {
+      pathQueueRef.current = [targetId];
+      startNextSegment();
+    } else {
+      const path = findShortestPath(currentNodeIdRef.current, targetId);
+      if (path && path.length > 1) {
+        pathQueueRef.current = path.slice(1);
         startNextSegment();
       }
     }
   };
 
-  // Move via direction input
+  // Move via direction input strictly to direct connected adjacent neighbor
   const moveInDirection = (dir) => {
+    if (isMovingRef.current) return;
     const cur = NODES_MAP[currentNodeIdRef.current];
     if (!cur) return;
 
@@ -1056,13 +764,9 @@ export default function MazeGame({
       }
     });
 
-    if (bestNeighbor && bestScore > 0.05) {
-      if (!isMovingRef.current) {
-        pathQueueRef.current = [bestNeighbor];
-        startNextSegment();
-      } else {
-        pathQueueRef.current.push(bestNeighbor);
-      }
+    if (bestNeighbor && bestScore > 0.5) {
+      pathQueueRef.current = [bestNeighbor];
+      startNextSegment();
     }
   };
 
@@ -1120,7 +824,7 @@ export default function MazeGame({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [showMissionPopup]);
 
-  // Main 60 FPS continuous animation loop with smooth easing and rotation slerp
+  // Main 60 FPS continuous animation loop strictly aligned to railway tracks
   useEffect(() => {
     const step = () => {
       const currentTime = performance.now();
@@ -1132,80 +836,74 @@ export default function MazeGame({
 
         const dx = animToRef.current.x - animFromRef.current.x;
         const dy = animToRef.current.y - animFromRef.current.y;
-        const segmentDist = Math.hypot(dx, dy);
+        const trackAngle = animToRef.current.angle;
 
-        // Smooth Ease-In-Out Quadratic curve for realistic train physics
-        const tSmooth = rawT < 0.5 ? 2 * rawT * rawT : 1 - Math.pow(-2 * rawT + 2, 2) / 2;
+        // Two-Phase Magnetic Movement:
+        // Phase 1: First 28% of time — Magnetic field energy emerges from target node and reaches out to the train
+        // Phase 2: Remaining 72% — Magnetic tether is locked on and pulls/attracts the train toward that node
+        const REACH_FRACTION = 0.28;
+        let trainX, trainY;
+        let reachT = 1;
+        let isPulling = false;
 
-        // Smooth rotation interpolation (shortest angular difference)
-        const startAngle = animFromRef.current.angle;
-        const targetAngle = animToRef.current.angle;
-        let angleDiff = targetAngle - startAngle;
-        while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
-        while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
-        const smoothAngle = startAngle + angleDiff * Math.min(1, rawT * 2.2);
-
-        // Leading magnet smooth motion (glides ahead to pull the train)
-        const tMagnet = Math.min(1, rawT * 1.18);
-        const smoothTMagnet = tMagnet < 0.5 ? 2 * tMagnet * tMagnet : 1 - Math.pow(-2 * tMagnet + 2, 2) / 2;
-        const leadDist = Math.min(74, segmentDist * 0.55 + 20);
-
-        const magX = animFromRef.current.x + dx * smoothTMagnet + Math.cos(smoothAngle) * leadDist * (1 - smoothTMagnet * 0.25);
-        const magY = animFromRef.current.y + dy * smoothTMagnet + Math.sin(smoothAngle) * leadDist * (1 - smoothTMagnet * 0.25);
-
-        // Trailing train smooth motion
-        const trainX = animFromRef.current.x + dx * tSmooth;
-        const trainY = animFromRef.current.y + dy * tSmooth;
+        if (rawT < REACH_FRACTION) {
+          reachT = rawT / REACH_FRACTION;
+          isPulling = false;
+          trainX = animFromRef.current.x;
+          trainY = animFromRef.current.y;
+        } else {
+          const pullT = (rawT - REACH_FRACTION) / (1 - REACH_FRACTION);
+          const tSmooth = pullT < 0.5 ? 2 * pullT * pullT : 1 - Math.pow(-2 * pullT + 2, 2) / 2;
+          reachT = 1;
+          isPulling = true;
+          trainX = animFromRef.current.x + dx * tSmooth;
+          trainY = animFromRef.current.y + dy * tSmooth;
+        }
 
         setTrainState({
           x: trainX,
           y: trainY,
-          rotation: smoothAngle,
-          isMoving: true
-        });
-
-        setMagnetState({
-          x: magX,
-          y: magY,
-          rotation: smoothAngle
+          rotation: trackAngle,
+          isMoving: true,
+          reachT,
+          isPulling
         });
 
         if (rawT >= 1) {
           const finalX = animToRef.current.x;
           const finalY = animToRef.current.y;
+          const arrivedNodeId = animToRef.current.id;
           const segFromX = animFromRef.current.x;
           const segFromY = animFromRef.current.y;
 
-          if (Math.hypot(finalX - segFromX, finalY - segFromY) > 2) {
-            setTraversedSegments(prev => {
-              const alreadyHas = prev.some(s =>
-                (Math.hypot(s.x1 - segFromX, s.y1 - segFromY) < 3 && Math.hypot(s.x2 - finalX, s.y2 - finalY) < 3) ||
-                (Math.hypot(s.x1 - finalX, s.y1 - finalY) < 3 && Math.hypot(s.x2 - segFromX, s.y2 - segFromY) < 3)
-              );
-              if (alreadyHas) return prev;
-              return [...prev, { x1: segFromX, y1: segFromY, x2: finalX, y2: finalY, id: `${segFromX}_${segFromY}_${finalX}_${finalY}` }];
-            });
-          }
+          currentNodeIdRef.current = arrivedNodeId;
+
+          setTraversedSegments(prev => {
+            const alreadyHas = prev.some(s =>
+              (Math.hypot(s.x1 - segFromX, s.y1 - segFromY) < 3 && Math.hypot(s.x2 - finalX, s.y2 - finalY) < 3) ||
+              (Math.hypot(s.x1 - finalX, s.y1 - finalY) < 3 && Math.hypot(s.x2 - segFromX, s.y2 - segFromY) < 3)
+            );
+            if (alreadyHas) return prev;
+            return [...prev, { x1: segFromX, y1: segFromY, x2: finalX, y2: finalY, id: `${segFromX}_${segFromY}_${finalX}_${finalY}` }];
+          });
+
+          setVisitedHistory(prev => (prev.includes(arrivedNodeId) ? prev : [...prev, arrivedNodeId]));
 
           setTrainState({
             x: finalX,
             y: finalY,
-            rotation: targetAngle,
-            isMoving: false
+            rotation: trackAngle,
+            isMoving: false,
+            reachT: 0,
+            isPulling: false
           });
 
-          setMagnetState({
-            x: finalX + Math.cos(targetAngle) * 72,
-            y: finalY + Math.sin(targetAngle) * 72,
-            rotation: targetAngle
-          });
-
-          const isDest = (currentNodeIdRef.current === targetPoint.id);
+          const isDest = (arrivedNodeId === targetPoint.id);
 
           if (isDest) {
             pathQueueRef.current = [];
             isMovingRef.current = false;
-            if (onNodeChange) onNodeChange(currentNodeIdRef.current, false);
+            if (onNodeChange) onNodeChange(arrivedNodeId, false);
 
             if (!showCelebration) {
               setShowCelebration(true);
@@ -1225,20 +923,14 @@ export default function MazeGame({
               }
             }
           } else {
-            startNextSegment();
+            if (pathQueueRef.current.length > 0) {
+              startNextSegment();
+            } else {
+              isMovingRef.current = false;
+              if (onNodeChange) onNodeChange(arrivedNodeId, false);
+            }
           }
         }
-      } else {
-        const hoverOffset = 72;
-        const floatWobbleX = Math.cos(currentTime * 0.005) * 2;
-        const floatWobbleY = Math.sin(currentTime * 0.005) * 2;
-
-        setMagnetState(prev => ({
-          ...prev,
-          x: trainState.x + Math.cos(trainState.rotation) * hoverOffset + floatWobbleX,
-          y: trainState.y + Math.sin(trainState.rotation) * hoverOffset + floatWobbleY,
-          rotation: trainState.rotation
-        }));
       }
 
       animFrameRef.current = requestAnimationFrame(step);
@@ -1371,15 +1063,13 @@ export default function MazeGame({
 
       {/* 4. Declarative SVG / DOM Layered Simulation Viewport */}
       <svg
-        viewBox="0 0 1000 563"
+        viewBox="0 0 1024 1024"
+        preserveAspectRatio="xMidYMid meet"
         style={{
           width: '100%',
           height: '100%',
-          borderRadius: '20px',
-          border: '2.5px solid #A7F3D0',
-          boxShadow: '0 12px 35px rgba(6, 78, 59, 0.12)',
           display: 'block',
-          background: '#000000'
+          borderRadius: '22px'
         }}
       >
         <defs>
@@ -1438,80 +1128,37 @@ export default function MazeGame({
             <stop offset="100%" stopColor="#F59E0B" stopOpacity="0" />
           </radialGradient>
 
-          {/* Train Gradients */}
+          {/* Train Gradients (Warm Architectural Bronze, Sandstone & Carbon Steel) */}
           <linearGradient id="trainEngineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#1E293B" />
-            <stop offset="30%" stopColor="#334155" />
-            <stop offset="70%" stopColor="#0284C7" />
-            <stop offset="100%" stopColor="#38BDF8" />
+            <stop offset="0%" stopColor="#292524" />
+            <stop offset="30%" stopColor="#44403C" />
+            <stop offset="70%" stopColor="#78350F" />
+            <stop offset="100%" stopColor="#D97706" />
           </linearGradient>
 
           <linearGradient id="trainCoachGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#0F172A" />
-            <stop offset="25%" stopColor="#1E293B" />
-            <stop offset="85%" stopColor="#334155" />
-            <stop offset="100%" stopColor="#0284C7" />
+            <stop offset="0%" stopColor="#1C1917" />
+            <stop offset="30%" stopColor="#292524" />
+            <stop offset="75%" stopColor="#57534E" />
+            <stop offset="100%" stopColor="#B45309" />
           </linearGradient>
 
           <linearGradient id="headlightBeamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(254, 240, 138, 0.75)" />
-            <stop offset="40%" stopColor="rgba(56, 189, 248, 0.4)" />
-            <stop offset="100%" stopColor="rgba(56, 189, 248, 0)" />
+            <stop offset="0%" stopColor="rgba(254, 240, 138, 0.85)" />
+            <stop offset="45%" stopColor="rgba(245, 158, 11, 0.45)" />
+            <stop offset="100%" stopColor="rgba(245, 158, 11, 0)" />
           </linearGradient>
         </defs>
 
         {/* 1. Exact High Quality 3D Isometric Railway Transit Grid Map */}
         <image
-          href="/FunWithMagnets/rail_transit_map_4k.jpg"
+          href="/FunWithMagnets/image.png"
           x="0"
           y="0"
-          width="1000"
-          height="563"
+          width="1024"
+          height="1024"
           preserveAspectRatio="none"
         />
-
-        {/* 1b. Building Front Lawn Nameplates */}
-        <g pointerEvents="none">
-          {BUILDING_NAMEPLATES.map((bld) => (
-            <g key={bld.id} transform={`translate(${bld.x}, ${bld.y})`}>
-              {/* Ground Anchor Shadow */}
-              <ellipse cx="0" cy="8" rx="34" ry="3.5" fill="rgba(15, 23, 42, 0.4)" style={{ filter: 'blur(1px)' }} />
-              
-              {/* Lawn Stake Post */}
-              <line x1="0" y1="2" x2="0" y2="8" stroke="#334155" strokeWidth="1.5" />
-              
-              {/* Nameplate Badge Plate */}
-              <rect
-                x="-54"
-                y="-8"
-                width="108"
-                height="15"
-                rx="7.5"
-                fill="rgba(15, 23, 42, 0.88)"
-                stroke="#38BDF8"
-                strokeWidth="1"
-                style={{ filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.45))' }}
-              />
-              
-              {/* Icon */}
-              <text x="-44" y="3" fontSize="8">{bld.icon}</text>
-              
-              {/* Building Name Text */}
-              <text
-                x="-33"
-                y="3"
-                textAnchor="start"
-                fill="#F8FAFC"
-                fontSize="6.8"
-                fontWeight="800"
-                fontFamily="system-ui, -apple-system, sans-serif"
-                letterSpacing="0.02em"
-              >
-                {bld.name}
-              </text>
-            </g>
-          ))}
-        </g>
 
         {/* 2. White Dotted Path Line Strictly Confined to Traversed Railway Tracks */}
         <g pointerEvents="none">
@@ -1572,7 +1219,7 @@ export default function MazeGame({
           )}
         </g>
 
-        {/* 3. Interactive Electric Poles (Starting, Destination, and Possible Next Nodes) */}
+        {/* 3. Interactive Junction Nodes on Railway Map */}
         {WAYPOINT_NODES.map((node) => {
           const isConnected = NODES_MAP[currentNodeIdRef.current]?.neighbors.includes(node.id);
           const isCurrent = currentNodeIdRef.current === node.id;
@@ -1582,18 +1229,18 @@ export default function MazeGame({
           const isActiveMovingTarget = trainState.isMoving && animToRef.current && (animToRef.current.x === node.x && animToRef.current.y === node.y);
 
           return (
-            <ElectricPoleSprite
+            <WaypointNodeSprite
               key={node.id}
               x={node.x}
               y={node.y}
-              isConnected={isConnected}
+              isConnected={isConnected && !trainState.isMoving}
               isActiveMovingTarget={isActiveMovingTarget}
               isStart={isStart}
               isCurrent={isCurrent}
               isVisited={isVisited}
               isTarget={isTarget}
               now={now}
-              onClick={() => isConnected && navigateToNode(node.id)}
+              onClick={() => isConnected && !trainState.isMoving && navigateToNode(node.id)}
             />
           );
         })}
@@ -1607,6 +1254,8 @@ export default function MazeGame({
             trainY={trainState.y}
             trainRotation={trainState.rotation}
             isDest={animToRef.current.x === targetPoint.x && animToRef.current.y === targetPoint.y}
+            reachT={trainState.reachT}
+            isPulling={trainState.isPulling}
             now={now}
           />
         )}

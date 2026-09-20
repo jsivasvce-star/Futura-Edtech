@@ -1,0 +1,77 @@
+{
+  "audio_file": "se.mp3",
+  "duration": 7.001,
+  "language": "en",
+  "words": [
+    {
+      "text": "Southeast.",
+      "start": 0.0,
+      "end": 0.76
+    },
+    {
+      "text": "Southeast",
+      "start": 1.16,
+      "end": 1.7
+    },
+    {
+      "text": "is",
+      "start": 1.7,
+      "end": 2.04
+    },
+    {
+      "text": "an",
+      "start": 2.04,
+      "end": 2.34
+    },
+    {
+      "text": "intermediate",
+      "start": 2.34,
+      "end": 2.74
+    },
+    {
+      "text": "direction.",
+      "start": 2.74,
+      "end": 3.24
+    },
+    {
+      "text": "It",
+      "start": 3.9,
+      "end": 3.9
+    },
+    {
+      "text": "is",
+      "start": 3.9,
+      "end": 4.16
+    },
+    {
+      "text": "located",
+      "start": 4.16,
+      "end": 4.64
+    },
+    {
+      "text": "halfway",
+      "start": 4.64,
+      "end": 5.14
+    },
+    {
+      "text": "between",
+      "start": 5.14,
+      "end": 5.6
+    },
+    {
+      "text": "south",
+      "start": 5.6,
+      "end": 6.0
+    },
+    {
+      "text": "and",
+      "start": 6.0,
+      "end": 6.38
+    },
+    {
+      "text": "east.",
+      "start": 6.38,
+      "end": 6.68
+    }
+  ]
+}

@@ -788,7 +788,7 @@ function IntroStoryteller({ onComplete, onBack }) {
     {
       img: "/Scene0_realistic.png",
       title: "🌿 Welcome to the Living World",
-      text: "Welcome to Chapter 2: Diversity in the Living World! Step outside and look around — every tree, flower, bird, and insect is a unique living being. In this chapter, we embark on a nature walk to discover the incredible variety of life on Earth.",
+      text: "A beautiful morning welcomes us to the Green Valley School. The trees are fresh and green, and colourful butterflies move gently through the garden. All around us, nature is full of different forms of life. Let’s begin our journey to discover the amazing diversity of the living world.",
       dialogues: []
     },
     {

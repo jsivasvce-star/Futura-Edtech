@@ -1,32 +1,129 @@
-import React, { useState, useRef } from 'react';
-import { Map, MapPin, Clock, Compass, Globe2, ChevronDown, ChevronRight } from 'lucide-react';
-import bigQuestionsImg from './assets/big-questions.png';
+import React, { useState, useEffect, useRef } from 'react';
+import { Map, MapPin, Clock, Compass, Globe2, ChevronRight, ChevronLeft, Maximize2, X } from 'lucide-react';
+import compassMapImg from './assets/CompassMap.jpg';
+import RotatingCompass from './RotatingCompass';
+import { Play, Pause } from 'lucide-react';
+import page3Audio from '../audio/page3.mp3?url';
+import page4Audio from '../audio/page4.mp3?url';
+import { PAGE3_TRANSCRIPT } from './Page3Transcript';
+import { PAGE4_TRANSCRIPT } from './Page4Transcript';
 
-export default function BigQuestionsPage({ onMissionUnlock, onBeginChapter }) {
-  const [discoveredCards, setDiscoveredCards] = useState([]);
-  const scrollContainerRef = useRef(null);
+const WordRenderer = ({ text, idPrefix, defaultColor, highlightColor, activeWordId }) => {
+  const words = text.trim().split(/\s+/);
+  return (
+    <>
+      {words.map((word, index) => {
+        const wordId = `${idPrefix}-${index + 1}`;
+        const isHighlighted = activeWordId === wordId;
+        const cleanWord = word.replace('\n', '');
+        return (
+          <React.Fragment key={index}>
+            <span
+              data-word-id={wordId}
+              style={{
+                color: isHighlighted ? highlightColor : defaultColor,
+                background: isHighlighted ? 'rgba(180, 83, 9, 0.1)' : 'transparent',
+                borderRadius: '4px',
+                padding: '0 2px',
+                transition: 'all 0.15s ease-out'
+              }}>
+              {cleanWord}
+            </span>
+            {index < words.length - 1 ? ' ' : ''}
+          </React.Fragment>
+        );
+      })}
+    </>
+  );
+};
 
-  const handleDiscover = (id) => {
+
+const PAGE_PADDING = 'clamp(20px, 2.6vw, 42px)';
+const HEADER_TITLE_STYLE = {
+  fontSize: 'clamp(2.2rem, 3.2vw, 3.2rem)',
+  color: '#78350F',
+  margin: 0,
+  fontFamily: '"Fraunces", serif',
+  fontWeight: 900,
+  lineHeight: 1.15
+};
+
+export default function BigQuestionsPage({ onBack, onMissionUnlock, onBeginChapter }) {
+  const [activeCardId, setActiveCardId] = useState('maps');
+  const [discoveredCards, setDiscoveredCards] = useState(['maps']);
+  const [artZoomed, setArtZoomed] = useState(false);
+  
+  const [slide, setSlide] = useState(0);
+  const [turnDir, setTurnDir] = useState('fwd');
+  const isLast = slide === 1;
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordId, setActiveWordId] = useState(null);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    setIsPlaying(false);
+    setActiveWordId(null);
+  }, [slide]);
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      const time = audioRef.current.currentTime;
+      const transcript = slide === 0 ? PAGE3_TRANSCRIPT : slide === 1 ? PAGE4_TRANSCRIPT : [];
+      const activeWord = transcript.find(w => time >= w.start && time < w.end);
+      let newActiveId = null;
+      if (activeWord && activeWord.matchType === 'matched') {
+        newActiveId = activeWord.pageWordId;
+      }
+      if (newActiveId !== activeWordId) {
+        setActiveWordId(newActiveId);
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordId(null);
+  };
+
+
+  useEffect(() => {
+    if (!artZoomed) return;
+    const onKey = e => { if (e.key === 'Escape') setArtZoomed(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [artZoomed]);
+
+  const handleCardClick = (id) => {
+    setActiveCardId(prev => prev === id ? null : id);
     if (!discoveredCards.includes(id)) {
-      const newDiscovered = [...discoveredCards, id];
-      setDiscoveredCards(newDiscovered);
-      
-      // Auto-scroll so the next card in the sequence is visible
-      const currentIndex = cards.findIndex(c => c.id === id);
-      const nextCard = cards[currentIndex + 1];
-      const targetId = nextCard ? `bq-card-${nextCard.id}` : `bq-card-${id}`;
-
-      setTimeout(() => {
-        const targetElement = document.getElementById(targetId);
-        if (targetElement) {
-          targetElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-      }, 150);
-
-      if (newDiscovered.length === 3 && onMissionUnlock) {
+      const nextDiscovered = [...discoveredCards, id];
+      setDiscoveredCards(nextDiscovered);
+      if (nextDiscovered.length === 3 && onMissionUnlock) {
         onMissionUnlock();
       }
     }
+  };
+
+  const goToSlide = (target) => {
+    if (target < 0 || target > 1) return;
+    setTurnDir(target > slide ? 'fwd' : 'back');
+    setSlide(target);
   };
 
   const cards = [
@@ -34,214 +131,606 @@ export default function BigQuestionsPage({ onMissionUnlock, onBeginChapter }) {
       id: 'maps',
       title: 'Maps',
       icon: Map,
-      color: '#2563eb',
-      bgLight: '#dbeafe',
+      color: '#D97706',
+      bgLight: '#FEF3C7',
+      bgClosed: '#FFFFFF',
+      bgOpen: '#FFF9F0',
+      borderColor: '#F2DFBC',
       question: 'What is a map and how do we use it? What are its main components?',
       hint: "You'll learn about: Maps • Symbols • Directions • Scale",
-      hintColor: '#0369a1',
-      hintBg: '#e0f2fe'
+      hintColor: '#92400E',
+      hintBg: '#FEF3C7'
     },
     {
       id: 'coordinates',
       title: 'Coordinates',
       icon: MapPin,
-      color: '#9333ea',
-      bgLight: '#f3e8ff',
+      color: '#D97706',
+      bgLight: '#FEF3C7',
+      bgClosed: '#FFFFFF',
+      bgOpen: '#FFF9F0',
+      borderColor: '#F2DFBC',
       question: 'What are coordinates? How can latitude and longitude be used to mark any location on the Earth?',
       hint: "You'll learn about: Latitude • Longitude • Globe",
-      hintColor: '#7e22ce',
-      hintBg: '#f3e8ff'
+      hintColor: '#92400E',
+      hintBg: '#FEF3C7'
     },
     {
       id: 'time',
       title: 'Time',
       icon: Clock,
-      color: '#d97706',
-      bgLight: '#fef3c7',
+      color: '#D97706',
+      bgLight: '#FEF3C7',
+      bgClosed: '#FFFFFF',
+      bgOpen: '#FFF9F0',
+      borderColor: '#F2DFBC',
       question: 'How are local time and standard time related to longitude?',
       hint: "You'll learn about: Time Zones • Standard Time",
-      hintColor: '#b45309',
-      hintBg: '#fef3c7'
+      hintColor: '#92400E',
+      hintBg: '#FEF3C7'
     }
   ];
 
+  const columnShell = {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: 0,
+    minWidth: 0,
+    background: 'linear-gradient(160deg, #FFF9F0 0%, #FBF3E3 100%)',
+    boxSizing: 'border-box',
+    borderRadius: '16px',
+    border: '1.5px solid #E5D5C0',
+    overflow: 'hidden'
+  };
+
+  const headerShell = {
+    flexShrink: 0,
+    padding: '0 0 12px 0',
+    borderBottom: '1.5px solid #F2DFBC',
+    display: 'flex',
+    alignItems: 'flex-end',
+    boxSizing: 'border-box'
+  };
+
+  const bodyShell = {
+    flex: 1,
+    minHeight: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '14px 0 0 0',
+    boxSizing: 'border-box',
+    justifyContent: 'space-between',
+    overflow: 'hidden'
+  };
+
   return (
-    <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-      {/* LEFT PAGE */}
-      <div style={{ flex: 1, padding: 'clamp(20px, 2.6vw, 42px) clamp(20px, 2.6vw, 42px) 16px clamp(20px, 2.6vw, 42px)', display: 'flex', flexDirection: 'column', borderRight: '1px solid rgba(0,0,0,0.08)', position: 'relative' }}>
-        
-        {/* Subtle decorative elements */}
-        <Compass size={120} color="#cbd5e1" style={{ position: 'absolute', top: '10%', right: '5%', opacity: 0.15, pointerEvents: 'none' }} />
-        <Globe2 size={150} color="#cbd5e1" style={{ position: 'absolute', bottom: '5%', left: '-5%', opacity: 0.15, pointerEvents: 'none' }} />
+    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', minHeight: 0, background: '#fff', overflow: 'hidden' }}>
+      <style>{`
+        @keyframes bookTurnFwd {
+          0%   { opacity: 0; transform: perspective(1200px) rotateY(-14deg) translateX(24px) scale(0.98); }
+          60%  { opacity: 1; }
+          100% { opacity: 1; transform: perspective(1200px) rotateY(0deg) translateX(0) scale(1); }
+        }
+        @keyframes bookTurnBack {
+          0%   { opacity: 0; transform: perspective(1200px) rotateY(14deg) translateX(-24px) scale(0.98); }
+          60%  { opacity: 1; }
+          100% { opacity: 1; transform: perspective(1200px) rotateY(0deg) translateX(0) scale(1); }
+        }
+        .book-slide-fwd { animation: bookTurnFwd 0.38s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+        .book-slide-back { animation: bookTurnBack 0.38s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+      `}</style>
 
-        <h2 style={{ fontSize: 'clamp(2rem, 3.5vw, 3.2rem)', color: '#1e3a8a', marginBottom: 'clamp(0.5rem, 1vh, 0.5rem)', fontFamily: 'serif', fontWeight: 'bold' }}>
-          Big Questions
-        </h2>
-        
-        <p style={{ fontSize: 'clamp(1rem, 1.3vw, 1.2rem)', color: '#334155', lineHeight: 1.5, marginBottom: 'clamp(1rem, 2vh, 1.5rem)', zIndex: 1 }}>
-          Every journey begins with a few important questions. In this chapter, you will explore how maps help us locate places, understand coordinates, and explain time across the Earth.
-        </p>
-        
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1, minHeight: 0 }}>
-          <div style={{ background: '#f8fafc', padding: 'clamp(1rem, 2vh, 2rem)', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 4px 15px rgba(0,0,0,0.05)', width: '90%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <img src={bigQuestionsImg} alt="Big Questions Illustration" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', borderRadius: '8px' }} />
-          </div>
-        </div>
-      </div>
+      {/* Audio Element */}
+      <audio
+        key={`audio-${slide}`}
+        ref={audioRef}
+        src={slide === 0 ? page3Audio : slide === 1 ? page4Audio : undefined}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
 
-      {/* RIGHT PAGE */}
-      <div style={{ flex: 1, padding: 'clamp(20px, 2.6vw, 42px) clamp(20px, 2.6vw, 42px) 16px clamp(20px, 2.6vw, 42px)', position: 'relative', backgroundColor: '#ffffff', color: '#1e293b', display: 'flex', flexDirection: 'column', borderRadius: '0 4px 4px 0' }}>
-        
-        <h3 style={{ fontSize: 'clamp(1.4rem, 2vw, 1.8rem)', color: '#1e3a8a', marginBottom: 'clamp(0.8rem, 1.5vh, 1.2rem)', fontFamily: 'serif', fontWeight: 'bold' }}>
-          What Will We Discover?
-        </h3>
+      <div style={{ flex: 1, minHeight: 0, overflow: 'hidden', position: 'relative', display: 'flex', flexDirection: 'column', padding: '24px 28px 10px' }}>
+        <div key={slide} className={turnDir === 'fwd' ? 'book-slide-fwd' : 'book-slide-back'} style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
 
-        <div ref={scrollContainerRef} style={{ flex: 1, minHeight: 0, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 'clamp(0.5rem, 1vh, 0.5rem)', paddingRight: '4px' }}>
-          {cards.map((card) => {
-            const isDiscovered = discoveredCards.includes(card.id);
-            
-            return (
-              <div 
-                key={card.id}
-                id={`bq-card-${card.id}`}
-                onClick={() => handleDiscover(card.id)}
-                style={{ 
-                  background: isDiscovered ? '#f8fafc' : '#ffffff', 
-                  border: `1px solid ${isDiscovered ? '#e2e8f0' : '#cbd5e1'}`, 
-                  padding: 'clamp(0.6rem, 1.2vh, 0.8rem) clamp(0.8rem, 1.5vw, 1.2rem)', 
-                  borderRadius: '12px', 
-                  display: 'flex', 
-                  gap: 'clamp(0.6rem, 1vw, 1rem)',
-                  cursor: isDiscovered ? 'default' : 'pointer',
-                  transition: 'all 0.3s ease',
-                  boxShadow: isDiscovered ? 'none' : '0 4px 6px rgba(0,0,0,0.05)',
-                  alignItems: isDiscovered ? 'flex-start' : 'center',
-                  flexShrink: 0
-                }}
-                onMouseOver={(e) => {
-                  if (!isDiscovered) {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 6px 12px rgba(0,0,0,0.1)';
-                    e.currentTarget.style.borderColor = card.color;
-                  }
-                }}
-                onMouseOut={(e) => {
-                  if (!isDiscovered) {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 6px rgba(0,0,0,0.05)';
-                    e.currentTarget.style.borderColor = '#cbd5e1';
-                  }
-                }}
-              >
-                <div style={{ 
-                  background: card.bgLight, 
-                  color: card.color, 
-                  width: 'clamp(36px, 4vw, 48px)', 
-                  height: 'clamp(36px, 4vw, 48px)', 
-                  borderRadius: '50%', 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center', 
-                  flexShrink: 0,
-                  transition: 'transform 0.3s'
-                }}>
-                  <card.icon size={20} />
+          {/* SLIDE 0: Every Place Has an Address */}
+          {slide === 0 && (
+            <div style={{ display: 'flex', height: '100%', gap: '24px' }}>
+              {/* Left Side: 60% */}
+              <div style={{ 
+                flex: '0 0 60%', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                height: '100%', 
+                gap: '12px',
+                background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)',
+                padding: '20px 24px',
+                borderRadius: '16px',
+                border: '1.5px solid #E5D5C0',
+                boxShadow: '0 8px 24px rgba(14,42,69,.08)'
+              }}>
+                <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
+                  <h2 style={{ ...HEADER_TITLE_STYLE, color: '#0A2540' }}><WordRenderer text="Every Place Has an Address" idPrefix="title" activeWordId={activeWordId} defaultColor="#0A2540" highlightColor="#B45309" /></h2>
                 </div>
                 
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <h4 style={{ margin: isDiscovered ? '0 0 0.3rem 0' : '0', color: '#1e3a8a', fontSize: 'clamp(1rem, 1.4vw, 1.25rem)' }}>
-                      {card.title}
-                    </h4>
-                    {!isDiscovered && (
-                      <span style={{ fontSize: 'clamp(0.85rem, 1vw, 1rem)', color: '#64748b', display: 'flex', alignItems: 'center', gap: '0.2rem', fontWeight: 'bold' }}>
-                        Click to discover <ChevronRight size={18} />
-                      </span>
-                    )}
-                  </div>
-                  
-                  {isDiscovered && (
-                    <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
-                      <p style={{ margin: '0 0 0.4rem 0', color: '#334155', fontSize: 'clamp(0.95rem, 1.1vw, 1.1rem)', lineHeight: 1.4 }}>
-                        {card.question}
-                      </p>
-                      <div style={{ background: card.hintBg, color: card.hintColor, display: 'inline-block', padding: '0.2rem 0.6rem', borderRadius: '6px', fontSize: 'clamp(0.85rem, 1vw, 0.95rem)', fontWeight: 'bold' }}>
-                        {card.hint}
-                      </div>
-                    </div>
-                  )}
+                <div style={{
+                  background: '#FFFFFF',
+                  border: '1.5px solid #F2DFBC',
+                  borderRadius: '12px',
+                  padding: '12px 18px',
+                  boxShadow: '0 4px 14px rgba(60,40,20,0.05)',
+                  flexShrink: 0
+                }}>
+                  <p style={{ fontSize: '24px', color: '#3D2E24', lineHeight: 1.5, margin: 0, fontWeight: 600, textAlign: 'justify', textJustify: 'inter-word' }}>
+                    <WordRenderer text="A compass helps us describe where a place is. Explore the four main directions and see how each direction is shown on a compass." idPrefix="intro" activeWordId={activeWordId} defaultColor="#3D2E24" highlightColor="#B45309" />
+                  </p>
+                </div>
+                
+                <div style={{ flex: 1, minHeight: 0, display: 'flex', width: '100%', position: 'relative' }}>
+                  <RotatingCompass />
                 </div>
               </div>
-            );
-          })}
-        </div>
 
-        {/* Mission Box & Navigation */}
-        <div style={{ marginTop: 'auto', paddingTop: '10px' }}>
-          <div style={{ background: '#ecfdf5', border: '1px solid #a7f3d0', borderRadius: '12px', padding: 'clamp(0.8rem, 1.5vh, 1.2rem)', display: 'flex', flexDirection: 'column', justifyContent: 'center', transition: 'opacity 0.5s', opacity: discoveredCards.length === 3 ? 1 : 0.4 }}>
-            <h4 style={{ color: '#059669', fontSize: 'clamp(1rem, 1.2vw, 1.2rem)', margin: '0 0 0.3rem 0', display: 'flex', alignItems: 'center', gap: '0.4rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
-              Mission
-            </h4>
-            <p style={{ color: '#334155', fontSize: 'clamp(0.95rem, 1.1vw, 1.1rem)', lineHeight: 1.4, margin: 0 }}>
-              By the end of this chapter, you will be able to locate places on Earth, read maps confidently, and understand how coordinates and time help us navigate our world.
-            </p>
-            {discoveredCards.length < 3 && (
-              <p style={{ margin: '0.5rem 0 0 0', fontSize: 'clamp(0.85rem, 1vw, 0.95rem)', color: '#047857', fontStyle: 'italic' }}>
-                Discover all {3 - discoveredCards.length} remaining questions to unlock your mission!
-              </p>
-            )}
-          </div>
-          
-          {/* Bottom Footer Area */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingTop: '10px',
-            marginTop: '10px',
-            borderTop: '1px solid #e4ebf3'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#5c6b7a', fontWeight: 600, fontSize: '13px' }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21.5z" stroke="#5c6b7a" strokeWidth="1.5"></path><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5A2.5 2.5 0 0 1 20 21.5z" stroke="#5c6b7a" strokeWidth="1.5"></path></svg>
-              Page 2 of 2
-            </div>
-            
-            <div style={{ opacity: discoveredCards.length === 3 ? 1 : 0, transition: 'opacity 0.5s', pointerEvents: discoveredCards.length === 3 ? 'auto' : 'none' }}>
-              <button 
-                onClick={onBeginChapter} 
-                style={{ 
-                  background: '#16a34a', 
-                  color: 'white', 
-                  border: 'none', 
-                  padding: '10px 20px', 
-                  borderRadius: '30px', 
-                  fontSize: '14px', 
-                  fontWeight: 'bold', 
-                  cursor: 'pointer', 
-                  boxShadow: '0 4px 15px rgba(22, 163, 74, 0.4)', 
-                  transition: 'transform 0.2s', 
+              {/* Right Side: 40% (Cardinal Directions Information Panel) */}
+              <div style={{ 
+                flex: '1 1 auto', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                height: '100%', 
+                gap: '12px',
+                background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)',
+                padding: '20px 24px',
+                borderRadius: '16px',
+                border: '1.5px solid #E5D5C0',
+                boxShadow: '0 8px 24px rgba(14,42,69,.08)',
+                boxSizing: 'border-box',
+                minWidth: 0,
+                overflow: 'hidden'
+              }}>
+                {/* Header matching typography hierarchy of the page */}
+                <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                  <span style={{ 
+                    fontSize: '16px', 
+                    fontWeight: 800, 
+                    textTransform: 'uppercase', 
+                    letterSpacing: '0.08em', 
+                    color: '#B45309', 
+                    fontFamily: '"Space Grotesk", sans-serif'
+                  }}>
+                    CARDINAL DIRECTIONS
+                  </span>
+                  <h3 style={{ 
+                    fontFamily: '"Fraunces", serif', 
+                    fontSize: 'clamp(1.8rem, 2.2vw, 2.2rem)', 
+                    fontWeight: 800, 
+                    color: '#0A2540', 
+                    margin: 0, 
+                    lineHeight: 1.2 
+                  }}>
+                    <WordRenderer text="The 4 Main Directions" idPrefix="subtitle" activeWordId={activeWordId} defaultColor="#0A2540" highlightColor="#B45309" />
+                  </h3>
+                </div>
+
+                {/* Unified List of 4 Educational Direction Items */}
+                <div style={{ 
+                  flex: 1, 
+                  minHeight: 0, 
                   display: 'flex', 
-                  alignItems: 'center', 
-                  gap: '0.5rem' 
-                }}
-                onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-                onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
-              >
-                Start Exploring <ChevronRight size={16} strokeWidth={2.5} />
-              </button>
+                  flexDirection: 'column', 
+                  gap: '8px' 
+                }}>
+                  {[
+                    {
+                      symbol: 'N',
+                      name: 'North',
+                      idPrefixName: 'N-title',
+                      text: 'Points toward the North Pole. A magnetic compass needle always points North, and North is shown at the top of most maps.',
+                      idPrefixText: 'N-text'
+                    },
+                    {
+                      symbol: 'E',
+                      name: 'East',
+                      idPrefixName: 'E-title',
+                      text: 'The direction where the Sun rises each morning. When you face North, East is directly to your right.',
+                      idPrefixText: 'E-text'
+                    },
+                    {
+                      symbol: 'S',
+                      name: 'South',
+                      idPrefixName: 'S-title',
+                      text: 'Opposite to North, pointing toward the South Pole. On most maps, South is shown at the bottom.',
+                      idPrefixText: 'S-text'
+                    },
+                    {
+                      symbol: 'W',
+                      name: 'West',
+                      idPrefixName: 'W-title',
+                      text: 'The direction where the Sun sets each evening. When you face North, West is directly to your left.',
+                      idPrefixText: 'W-text'
+                    }
+                  ].map((item) => (
+                    <div
+                      key={item.symbol}
+                      style={{
+                        flex: '1 1 0%',
+                        minHeight: 0,
+                        background: '#FFFFFF',
+                        borderRadius: '12px',
+                        border: '1.5px solid #F2DFBC',
+                        padding: '8px 14px',
+                        boxShadow: '0 2px 6px rgba(60,40,20,0.03)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        boxSizing: 'border-box'
+                      }}
+                    >
+                      {/* Consistent Compass-Style Indicator */}
+                      <div style={{
+                        width: '46px',
+                        height: '46px',
+                        borderRadius: '8px',
+                        background: '#FAF4EB',
+                        border: '1.5px solid #EADDCB',
+                        color: '#0A2540',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontWeight: 800,
+                        fontSize: '22px',
+                        fontFamily: '"Space Grotesk", sans-serif',
+                        flexShrink: 0
+                      }}>
+                        {item.symbol}
+                      </div>
+
+                      {/* Direction Info */}
+                      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                        <span style={{
+                          fontFamily: '"Space Grotesk", sans-serif',
+                          fontWeight: 800,
+                          fontSize: '20px',
+                          color: '#0A2540',
+                          lineHeight: 1.2,
+                          marginBottom: '2px'
+                        }}>
+                          <WordRenderer text={item.name} idPrefix={item.idPrefixName} activeWordId={activeWordId} defaultColor="#0A2540" highlightColor="#B45309" />
+                        </span>
+                        <p style={{
+                          margin: 0,
+                          fontSize: '17px',
+                          lineHeight: 1.38,
+                          color: '#3D2E24',
+                          fontWeight: 500
+                        }}>
+                          <WordRenderer text={item.text} idPrefix={item.idPrefixText} activeWordId={activeWordId} defaultColor="#3D2E24" highlightColor="#B45309" />
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* SLIDE 1: What Will We Discover? */}
+          {slide === 1 && (
+            <div style={{ display: 'flex', height: '100%', gap: '24px' }}>
+              {/* Left Side: 60% */}
+              <div style={{ 
+                flex: '0 0 60%', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                height: '100%', 
+                gap: '12px',
+                background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)',
+                padding: '20px 24px',
+                borderRadius: '16px',
+                border: '1.5px solid #E5D5C0',
+                boxShadow: '0 8px 24px rgba(14,42,69,.08)'
+              }}>
+                <div style={{ flexShrink: 0, padding: '0 0 8px 0', borderBottom: '1.5px solid #F2DFBC' }}>
+                  <h2 style={HEADER_TITLE_STYLE}><WordRenderer text="What Will We Discover?" idPrefix="title" activeWordId={activeWordId} defaultColor="#78350F" highlightColor="#B45309" /></h2>
+                </div>
+                <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', gap: '14px', overflow: 'hidden', paddingTop: '8px' }}>
+                  {cards.map((card) => {
+                    return (
+                      <div
+                        key={card.id}
+                        style={{
+                          background: '#FFFFFF',
+                          borderRadius: '12px',
+                          border: '1.5px solid #F2DFBC',
+                          padding: '16px 20px',
+                          boxShadow: '0 2px 6px rgba(60,40,20,0.03)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '16px',
+                          boxSizing: 'border-box'
+                        }}
+                      >
+                        {/* Icon Box */}
+                        <div style={{
+                          width: '50px',
+                          height: '50px',
+                          borderRadius: '8px',
+                          background: '#FAF4EB',
+                          border: '1.5px solid #EADDCB',
+                          color: '#0A2540',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0
+                        }}>
+                          <card.icon size={24} strokeWidth={2.5} />
+                        </div>
+
+                        {/* Content */}
+                        <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                          <span style={{
+                            fontFamily: '"Space Grotesk", sans-serif',
+                            fontWeight: 800,
+                            fontSize: '22px',
+                            color: '#0A2540',
+                            lineHeight: 1.2,
+                            marginBottom: '4px'
+                          }}>
+                            <WordRenderer text={card.title} idPrefix={`c-${card.id}-t`} activeWordId={activeWordId} defaultColor="#0A2540" highlightColor="#B45309" />
+                          </span>
+                          <p style={{
+                            margin: 0,
+                            fontSize: '19px',
+                            lineHeight: 1.38,
+                            color: '#3D2E24',
+                            fontWeight: 500
+                          }}>
+                            <WordRenderer text={card.question} idPrefix={`c-${card.id}-q`} activeWordId={activeWordId} defaultColor="#3D2E24" highlightColor="#B45309" />
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  
+                  {/* Explorer's Fact Box to fill empty space */}
+                  <div style={{
+                    marginTop: 'auto',
+                    background: '#FEF3C7',
+                    borderRadius: '12px',
+                    border: '1.5px dashed #F59E0B',
+                    padding: '16px 20px',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '16px',
+                    boxSizing: 'border-box',
+                    boxShadow: '0 4px 12px rgba(217,119,6,0.06)'
+                  }}>
+                    <div style={{
+                      width: '46px',
+                      height: '46px',
+                      borderRadius: '50%',
+                      background: '#FFFBEB',
+                      color: '#D97706',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                      border: '1.5px solid #FDE68A'
+                    }}>
+                      <Globe2 size={24} strokeWidth={2.5} />
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <span style={{
+                        fontFamily: '"Space Grotesk", sans-serif',
+                        fontWeight: 800,
+                        fontSize: '18px',
+                        color: '#92400E',
+                        lineHeight: 1.2,
+                        display: 'block',
+                        marginBottom: '6px',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em'
+                      }}>
+                        Explorer's Fact!
+                      </span>
+                      <p style={{
+                        margin: 0,
+                        fontSize: '17px',
+                        lineHeight: 1.45,
+                        color: '#78350F',
+                        fontWeight: 600,
+                        textAlign: 'justify'
+                      }}>
+                        Did you know? The oldest surviving world map is over 2,500 years old and was carved onto a tiny clay tablet in ancient Babylon!
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Side: 40% (Mission) */}
+              <div style={{ 
+                flex: '1 1 auto', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                height: '100%', 
+                gap: '12px',
+                background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)',
+                padding: '20px 24px',
+                borderRadius: '16px',
+                border: '1.5px solid #E5D5C0',
+                boxShadow: '0 8px 24px rgba(14,42,69,.08)',
+                boxSizing: 'border-box',
+                minWidth: 0,
+                overflow: 'hidden'
+              }}>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', paddingTop: '8px', gap: '16px' }}>
+                  <div style={{ background: '#FEF3C7', border: '1.5px solid #FDE68A', borderRadius: '16px', padding: '16px 20px', boxShadow: '0 4px 12px rgba(60,40,20,0.04)' }}>
+                    <h4 style={{ color: '#92400E', fontSize: '18px', margin: '0 0 8px 0', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 800 }}>
+                      Mission
+                    </h4>
+                    <p style={{ color: '#78350F', fontSize: '20px', lineHeight: 1.45, margin: 0, fontWeight: 600, textAlign: 'justify', textJustify: 'inter-word' }}>
+                      <WordRenderer text="By the end of this chapter, you will be able to locate places on Earth, read maps confidently, and understand how coordinates and time help us navigate our world." idPrefix="mission" activeWordId={activeWordId} defaultColor="#78350F" highlightColor="#B45309" />
+                    </p>
+                  </div>
+
+                  {/* Why It Matters */}
+                  <div style={{ background: '#FFFFFF', border: '1.5px solid #F2DFBC', borderRadius: '16px', padding: '16px 20px', boxShadow: '0 4px 12px rgba(60,40,20,0.04)' }}>
+                    <h4 style={{ color: '#B45309', fontSize: '18px', margin: '0 0 8px 0', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 800 }}>
+                      Why It Matters
+                    </h4>
+                    <p style={{ color: '#3D2E24', fontSize: '18px', lineHeight: 1.45, margin: 0, fontWeight: 500, textAlign: 'justify', textJustify: 'inter-word' }}>
+                      Imagine you are a sea captain sailing across the ocean, or a pilot flying a huge jet! Without maps, coordinates, and time zones, you wouldn't know where you are or when you'll arrive. Learning these tools turns you into a true Earth explorer!
+                    </p>
+                  </div>
+
+                  {/* Explorer's Checklist to anchor the bottom */}
+                  <div style={{ 
+                    marginTop: 'auto', 
+                    background: '#FAF4EB', 
+                    border: '1.5px dashed #EADDCB', 
+                    borderRadius: '16px', 
+                    padding: '16px 20px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '12px'
+                  }}>
+                    <h4 style={{ color: '#92400E', fontSize: '18px', margin: 0, textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 800, textAlign: 'center' }}>
+                      Explorer's Checklist
+                    </h4>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', color: '#78350F', fontSize: '17px', fontWeight: 600, paddingLeft: '12px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <Compass size={20} color="#D97706" strokeWidth={2.5} /> <span>Grab your compass</span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <Map size={20} color="#D97706" strokeWidth={2.5} /> <span>Unfold your map</span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <Clock size={20} color="#D97706" strokeWidth={2.5} /> <span>Check your watch</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
         </div>
       </div>
 
-      <style>
-        {`
-          @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-        `}
-      </style>
+      {artZoomed && (
+        <div
+          onClick={() => setArtZoomed(false)}
+          role="dialog"
+          aria-modal="true"
+          style={{ position: 'fixed', inset: 0, zIndex: 100002, background: 'rgba(9,26,44,0.72)', backdropFilter: 'blur(3px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'clamp(16px, 3vw, 48px)', cursor: 'zoom-out' }}
+        >
+          <div onClick={e => e.stopPropagation()} style={{ position: 'relative', width: '100%', maxWidth: '1400px', background: '#FBF7EE', borderRadius: '18px', padding: 'clamp(12px, 1.6vw, 22px)', boxShadow: '0 30px 80px rgba(0,0,0,0.45)', cursor: 'default' }}>
+            <button
+              type="button"
+              onClick={() => setArtZoomed(false)}
+              aria-label="Close the figure (Esc)"
+              style={{ position: 'absolute', top: '12px', right: '12px', width: '40px', height: '40px', borderRadius: '10px', border: '1px solid #d6e0ec', background: '#fff', color: '#0E3556', display: 'grid', placeItems: 'center', cursor: 'pointer', zIndex: 2, boxShadow: '0 6px 16px rgba(14,42,69,0.16)' }}
+            >
+              <X size={20} />
+            </button>
+            <img
+              src={compassMapImg}
+              alt="Authentic brass directional navigation compass on atlas map"
+              style={{ width: '100%', maxHeight: '82vh', objectFit: 'contain', borderRadius: '12px', display: 'block', margin: '0 auto' }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* ============ BOOK SLIDE FOOTER ============ */}
+      <div style={{
+        flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        gap: '14px', padding: '16px 28px', borderTop: '1px solid #E4EBF3', background: '#f8fafc'
+      }}>
+        {/* Page Indicators */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <span style={{ fontFamily: '"Space Grotesk", system-ui, sans-serif', fontWeight: 700, color: '#5c6b7a', fontSize: '15.5px' }}>
+            Slide {slide + 1} of 2
+          </span>
+          <span style={{ display: 'inline-flex', gap: '8px' }}>
+            {[0, 1].map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => goToSlide(i)}
+                aria-label={`Go to slide ${i + 1}`}
+                style={{
+                  width: '11px', height: '11px', padding: 0, borderRadius: '50%', border: 'none',
+                  cursor: 'pointer', background: i === slide ? '#D79A2B' : '#DCE4EC',
+                  transition: 'all .25s', transform: i === slide ? 'scale(1.2)' : 'scale(1)'
+                }}
+              />
+            ))}
+          </span>
+        </div>
+
+        {/* Nav Buttons parallel */}
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          {/* Audio Speaker Button */}
+          <button
+            type="button"
+            onClick={toggleAudio}
+            style={{
+              width: '40px', height: '40px', borderRadius: '50%', border: '1px solid #d6e0ec',
+              background: '#fff', color: isPlaying ? '#B45309' : '#0E3556',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(14,42,69,.08)',
+              transition: 'all 0.2s ease',
+              marginRight: 'auto',
+              opacity: (slide === 0 || slide === 1) ? 1 : 0,
+              pointerEvents: (slide === 0 || slide === 1) ? 'auto' : 'none'
+            }}
+            aria-label="Toggle Audio"
+          >
+            {isPlaying ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" />}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              if (slide > 0) {
+                goToSlide(slide - 1);
+              } else if (onBack) {
+                onBack();
+              }
+            }}
+            disabled={slide === 0 && !onBack}
+            style={{
+              fontFamily: '"Space Grotesk", system-ui, sans-serif', fontWeight: 700, fontSize: '15.5px',
+              display: 'inline-flex', alignItems: 'center', gap: '8px',
+              background: '#0E3556', color: '#fff', border: 'none',
+              borderRadius: '999px', padding: '12px 24px',
+              cursor: (slide === 0 && !onBack) ? 'not-allowed' : 'pointer',
+              opacity: (slide === 0 && !onBack) ? 0.35 : 1,
+              boxShadow: '0 6px 16px rgba(14,42,69,.22)'
+            }}
+          >
+            <ChevronLeft size={18} strokeWidth={2.5} /> Back
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              if (isLast) { if (onBeginChapter) onBeginChapter(); return; }
+              goToSlide(slide + 1);
+            }}
+            style={{
+              fontFamily: '"Space Grotesk", system-ui, sans-serif', fontWeight: 700, fontSize: '15.5px',
+              display: 'inline-flex', alignItems: 'center', gap: '8px',
+              background: isLast ? '#16a34a' : '#F59E0B', color: '#fff', border: 'none',
+              borderRadius: '999px', padding: '12px 26px',
+              cursor: 'pointer',
+              boxShadow: isLast ? '0 6px 16px rgba(22,163,74,.3)' : '0 6px 16px rgba(245,158,11,.38)'
+            }}
+          >
+            {isLast ? 'Start Exploring' : 'Next'} <ChevronRight size={18} strokeWidth={2.5} />
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

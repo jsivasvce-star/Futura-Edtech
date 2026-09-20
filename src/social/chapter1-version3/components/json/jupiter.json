@@ -1,0 +1,352 @@
+{
+  "audio_file": "jupiter.mp3",
+  "duration": 26.88,
+  "language": "en",
+  "words": [
+    {
+      "text": "Jupiter.",
+      "start": 0.0,
+      "end": 0.64
+    },
+    {
+      "text": "Jupiter",
+      "start": 1.64,
+      "end": 1.86
+    },
+    {
+      "text": "is",
+      "start": 1.86,
+      "end": 2.08
+    },
+    {
+      "text": "the",
+      "start": 2.08,
+      "end": 2.24
+    },
+    {
+      "text": "fifth",
+      "start": 2.24,
+      "end": 2.48
+    },
+    {
+      "text": "planet",
+      "start": 2.48,
+      "end": 2.84
+    },
+    {
+      "text": "from",
+      "start": 2.84,
+      "end": 3.1
+    },
+    {
+      "text": "the",
+      "start": 3.1,
+      "end": 3.3
+    },
+    {
+      "text": "sun",
+      "start": 3.3,
+      "end": 3.52
+    },
+    {
+      "text": "and",
+      "start": 3.52,
+      "end": 4.12
+    },
+    {
+      "text": "the",
+      "start": 4.12,
+      "end": 4.32
+    },
+    {
+      "text": "largest",
+      "start": 4.32,
+      "end": 4.62
+    },
+    {
+      "text": "planet",
+      "start": 4.62,
+      "end": 5.04
+    },
+    {
+      "text": "in",
+      "start": 5.04,
+      "end": 5.32
+    },
+    {
+      "text": "our",
+      "start": 5.32,
+      "end": 5.46
+    },
+    {
+      "text": "solar",
+      "start": 5.46,
+      "end": 5.78
+    },
+    {
+      "text": "system.",
+      "start": 5.78,
+      "end": 6.24
+    },
+    {
+      "text": "More",
+      "start": 6.78,
+      "end": 6.98
+    },
+    {
+      "text": "than",
+      "start": 6.98,
+      "end": 7.22
+    },
+    {
+      "text": "twice",
+      "start": 7.22,
+      "end": 7.5
+    },
+    {
+      "text": "as",
+      "start": 7.5,
+      "end": 7.78
+    },
+    {
+      "text": "massive",
+      "start": 7.78,
+      "end": 8.18
+    },
+    {
+      "text": "as",
+      "start": 8.18,
+      "end": 8.74
+    },
+    {
+      "text": "all",
+      "start": 8.74,
+      "end": 8.98
+    },
+    {
+      "text": "the",
+      "start": 8.98,
+      "end": 9.16
+    },
+    {
+      "text": "other",
+      "start": 9.16,
+      "end": 9.4
+    },
+    {
+      "text": "planets",
+      "start": 9.4,
+      "end": 9.66
+    },
+    {
+      "text": "combined.",
+      "start": 9.66,
+      "end": 10.2
+    },
+    {
+      "text": "It",
+      "start": 10.8,
+      "end": 10.92
+    },
+    {
+      "text": "is",
+      "start": 10.92,
+      "end": 11.14
+    },
+    {
+      "text": "a",
+      "start": 11.14,
+      "end": 11.26
+    },
+    {
+      "text": "gas",
+      "start": 11.26,
+      "end": 11.52
+    },
+    {
+      "text": "giant",
+      "start": 11.52,
+      "end": 11.9
+    },
+    {
+      "text": "with",
+      "start": 11.9,
+      "end": 12.38
+    },
+    {
+      "text": "no",
+      "start": 12.38,
+      "end": 12.7
+    },
+    {
+      "text": "solid",
+      "start": 12.7,
+      "end": 13.0
+    },
+    {
+      "text": "surface,",
+      "start": 13.0,
+      "end": 13.58
+    },
+    {
+      "text": "famous",
+      "start": 13.92,
+      "end": 14.26
+    },
+    {
+      "text": "for",
+      "start": 14.26,
+      "end": 14.48
+    },
+    {
+      "text": "its",
+      "start": 14.48,
+      "end": 14.76
+    },
+    {
+      "text": "great",
+      "start": 14.76,
+      "end": 15.06
+    },
+    {
+      "text": "red",
+      "start": 15.06,
+      "end": 15.34
+    },
+    {
+      "text": "spot.",
+      "start": 15.34,
+      "end": 15.68
+    },
+    {
+      "text": "A",
+      "start": 16.22,
+      "end": 16.46
+    },
+    {
+      "text": "giant",
+      "start": 16.46,
+      "end": 16.8
+    },
+    {
+      "text": "storm",
+      "start": 16.8,
+      "end": 17.22
+    },
+    {
+      "text": "that",
+      "start": 17.22,
+      "end": 17.78
+    },
+    {
+      "text": "has",
+      "start": 17.78,
+      "end": 17.98
+    },
+    {
+      "text": "been",
+      "start": 17.98,
+      "end": 18.22
+    },
+    {
+      "text": "raging",
+      "start": 18.22,
+      "end": 18.54
+    },
+    {
+      "text": "for",
+      "start": 18.54,
+      "end": 18.84
+    },
+    {
+      "text": "hundreds",
+      "start": 18.84,
+      "end": 19.18
+    },
+    {
+      "text": "of",
+      "start": 19.18,
+      "end": 19.46
+    },
+    {
+      "text": "years.",
+      "start": 19.46,
+      "end": 19.8
+    },
+    {
+      "text": "Jupiter",
+      "start": 20.28,
+      "end": 20.64
+    },
+    {
+      "text": "has",
+      "start": 20.64,
+      "end": 20.92
+    },
+    {
+      "text": "at",
+      "start": 20.92,
+      "end": 21.16
+    },
+    {
+      "text": "least",
+      "start": 21.16,
+      "end": 21.56
+    },
+    {
+      "text": "95",
+      "start": 21.56,
+      "end": 22.16
+    },
+    {
+      "text": "moons,",
+      "start": 22.16,
+      "end": 22.62
+    },
+    {
+      "text": "including",
+      "start": 23.1,
+      "end": 23.6
+    },
+    {
+      "text": "Ganymede,",
+      "start": 23.6,
+      "end": 24.42
+    },
+    {
+      "text": "which",
+      "start": 24.64,
+      "end": 24.78
+    },
+    {
+      "text": "is",
+      "start": 24.78,
+      "end": 25.04
+    },
+    {
+      "text": "larger",
+      "start": 25.04,
+      "end": 25.28
+    },
+    {
+      "text": "than",
+      "start": 25.28,
+      "end": 25.58
+    },
+    {
+      "text": "the",
+      "start": 25.58,
+      "end": 25.82
+    },
+    {
+      "text": "planet",
+      "start": 25.82,
+      "end": 26.1
+    },
+    {
+      "text": "Mercury.",
+      "start": 26.1,
+      "end": 26.5
+    }
+  ]
+}

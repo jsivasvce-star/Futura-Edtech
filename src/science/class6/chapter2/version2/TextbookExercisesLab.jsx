@@ -26,7 +26,7 @@ import wheatKidneyBeansImg from '../../../../assets/wheat_and_kidney_beans.jpg';
 import animalsEcosystemImg from '../../../../assets/activity_animals_image.png';
 import radishTaprootImg from '../../../../assets/radish_taproot_macro.jpg';
 import mountainPlainsGoatImg from '../../../../assets/mountain_and_plains_goat.jpg';
-import animalsGroupImg from '../../../../assets/activity_2.1 animals.png';
+import animalsGroupImg from './DiversityInTheLivingWorldNew/images/ch2_activity_2.1_animals_8k.jpg';
 import sacredGroveImg from '../../../../assets/sacred_grove.png';
 import leafVenationImg from '../../../../assets/ch2_leaf_venation_macro.jpg';
 import hibiscusShrubImg from '../../../../assets/rose_shrub_ultra.jpg';

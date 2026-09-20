@@ -362,9 +362,10 @@ function FilingsSystem({ step, isSprinkling, isVibrating, cycleKey, isPaused }) 
 }
 
 // ---------------------------------------------------------
+// ---------------------------------------------------------
 // 3. Main Container
 // ---------------------------------------------------------
-export default function Stage1_Investigate({ onComplete }) {
+export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
   const [step, setStep] = useState('waiting');
   const [cycleKey, setCycleKey] = useState(0);
   const [tapCount, setTapCount] = useState(0);
@@ -396,16 +397,29 @@ export default function Stage1_Investigate({ onComplete }) {
     setStep('scattering');
   };
 
-  const handleQuizAnswer = (answer) => {
-    setQuizAnswer(answer);
-    if (answer === 'ends') {
-      setStep('complete');
-      setShowFeedbackModal(true);
+  const handleProceed = () => {
+    if (onGoToQuiz) {
+      onGoToQuiz();
+    } else if (onComplete) {
+      onComplete();
     }
   };
 
   return (
-    <div style={{ padding: '0.5rem', display: 'flex', gap: '1.25rem', height: '100%', minHeight: 0, overflow: 'hidden', boxSizing: 'border-box', position: 'relative' }}>
+    <div style={{
+      padding: '0.5rem',
+      display: 'flex',
+      gap: '1.25rem',
+      height: '100%',
+      minHeight: 0,
+      overflow: 'hidden',
+      boxSizing: 'border-box',
+      position: 'relative',
+      fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
+      WebkitFontSmoothing: 'antialiased',
+      MozOsxFontSmoothing: 'grayscale',
+      textRendering: 'optimizeLegibility'
+    }}>
       
       {/* Centered Feedback Pop-up Modal */}
       <AnimatePresence>
@@ -492,7 +506,7 @@ export default function Stage1_Investigate({ onComplete }) {
       </AnimatePresence>
       
       {/* Dedicated Viewer Container (3D Science Demo Video) */}
-      <div style={{ flex: '1.8', display: 'flex', flexDirection: 'column', minWidth: 0, height: '100%', boxSizing: 'border-box' }}>
+      <div style={{ flex: '1.6', display: 'flex', flexDirection: 'column', minWidth: 0, height: '100%', boxSizing: 'border-box' }}>
         {/* Display Container: Video Player */}
         <div style={{ position: 'relative', width: '100%', flex: 1, minHeight: '380px', overflow: 'hidden', borderRadius: '24px' }}>
           <MagneticPolesVideoPlayer
@@ -513,42 +527,44 @@ export default function Stage1_Investigate({ onComplete }) {
       <div 
         className="stage-right-column custom-scrollbar"
         style={{ 
-          flex: '1.15', 
+          flex: '1.35', 
           height: '100%',
           maxHeight: '100%',
           minHeight: 0,
           boxSizing: 'border-box',
           display: 'flex', 
           flexDirection: 'column', 
-          gap: '1.65rem', 
+          gap: '1.15rem', 
           minWidth: 0, 
-          fontFamily: 'system-ui, -apple-system, sans-serif'
+          fontFamily: "'Inter', system-ui, -apple-system, sans-serif"
         }}
       >
-        {/* CONTAINER 1: Steps of Instructions */}
+        {/* CONTAINER 1: Steps of Instructions with Doubled Font Size, Bold and Sharp */}
         <div 
           className="stage-container-1"
           style={{
             background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
-            border: '1.5px solid #FDE68A', 
+            border: '2px solid #FDE68A', 
             borderRadius: '24px', 
-            padding: '1.25rem 1.45rem', 
-            boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+            padding: '1.4rem 1.6rem', 
+            boxShadow: '0 8px 30px rgba(217, 119, 6, 0.1)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            boxSizing: 'border-box'
+            boxSizing: 'border-box',
+            flex: 1,
+            overflowY: 'auto'
           }}
         >
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)', paddingBottom: '0.6rem', marginBottom: '0.75rem' }}>
-              <h4 style={{ margin: 0, fontSize: '19.5px', color: '#78350F', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '2px solid rgba(217, 119, 6, 0.3)', paddingBottom: '0.8rem', marginBottom: '1.1rem' }}>
+              <h3 style={{ margin: 0, fontSize: '38px', color: '#451A03', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.65rem', letterSpacing: '-0.02em' }}>
                 <span>📋</span> Steps of Instructions
-              </h4>
+              </h3>
             </div>
 
-            {/* Bullet Points - Single-line brown instructions */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+            {/* Bullet Points - Doubled Font Size (34px), Bold, Sharp, and Clearly Legible */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               {[
                 'Spread iron filings evenly across the paper surface around the magnet.',
                 'Gently tap the sheet to allow iron filings to align along magnetic field lines.',
@@ -559,22 +575,23 @@ export default function Stage1_Investigate({ onComplete }) {
                   style={{
                     display: 'flex',
                     alignItems: 'baseline',
-                    gap: '0.75rem',
-                    padding: '0.1rem 0'
+                    gap: '1rem',
+                    padding: '0.2rem 0'
                   }}
                 >
                   <span
                     style={{
-                      width: '9px',
-                      height: '9px',
+                      width: '16px',
+                      height: '16px',
                       borderRadius: '50%',
                       background: '#D97706',
                       display: 'inline-block',
                       flexShrink: 0,
-                      transform: 'translateY(-2px)'
+                      transform: 'translateY(-3px)',
+                      boxShadow: '0 2px 6px rgba(217, 119, 6, 0.4)'
                     }}
                   />
-                  <p style={{ margin: 0, fontSize: '17.5px', lineHeight: 1.5, color: '#78350F', fontWeight: 600 }}>
+                  <p style={{ margin: 0, fontSize: '34px', lineHeight: 1.38, color: '#451A03', fontWeight: 800, letterSpacing: '-0.015em' }}>
                     {instruction}
                   </p>
                 </div>
@@ -583,33 +600,34 @@ export default function Stage1_Investigate({ onComplete }) {
           </div>
 
           {/* Action Buttons: Pause / Resume & Reset */}
-          <div style={{ width: '100%', display: 'flex', gap: '0.75rem', marginTop: 'auto', paddingTop: '0.85rem', borderTop: '1px solid rgba(217, 119, 6, 0.2)' }}>
+          <div style={{ width: '100%', display: 'flex', gap: '0.85rem', marginTop: '1.25rem', paddingTop: '1rem', borderTop: '2px solid rgba(217, 119, 6, 0.25)' }}>
             <button
               onClick={handleTogglePause}
               className="gold-glow-btn"
               style={{ 
                 flex: 2, 
-                padding: '0.8rem 1rem', 
-                fontSize: '17.5px', 
+                padding: '0.85rem 1.25rem', 
+                fontSize: '18px', 
                 fontWeight: 900, 
-                borderRadius: '14px', 
+                borderRadius: '16px', 
                 color: '#FFFFFF', 
                 border: 'none', 
                 cursor: 'pointer', 
                 display: 'flex', 
                 alignItems: 'center', 
                 justifyContent: 'center', 
-                gap: '8px',
+                gap: '10px',
+                boxShadow: '0 4px 14px rgba(217, 119, 6, 0.35)',
                 transition: 'all 0.2s ease'
               }}
             >
               {!isPaused ? (
                 <>
-                  <Pause size={18} fill="#FFFFFF" color="#FFFFFF" /> Pause Investigation
+                  <Pause size={22} fill="#FFFFFF" color="#FFFFFF" /> Pause Investigation
                 </>
               ) : (
                 <>
-                  <Play size={18} fill="#FFFFFF" color="#FFFFFF" /> Resume Investigation
+                  <Play size={22} fill="#FFFFFF" color="#FFFFFF" /> Resume Investigation
                 </>
               )}
             </button>
@@ -618,142 +636,53 @@ export default function Stage1_Investigate({ onComplete }) {
               onClick={handleReset}
               style={{ 
                 flex: 1, 
-                padding: '0.8rem 0.75rem', 
-                fontSize: '17.5px', 
-                fontWeight: 800, 
-                borderRadius: '14px', 
+                padding: '0.85rem 1rem', 
+                fontSize: '18px', 
+                fontWeight: 900, 
+                borderRadius: '16px', 
                 background: '#FFFFFF', 
-                color: '#92400E', 
-                border: '1.5px solid #FDE68A', 
+                color: '#78350F', 
+                border: '2px solid #FDE68A', 
                 cursor: 'pointer', 
                 display: 'flex', 
                 alignItems: 'center', 
                 justifyContent: 'center', 
-                gap: '6px',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                gap: '8px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
                 transition: 'all 0.2s ease'
               }}
             >
-              <RotateCcw size={16} /> Reset
+              <RotateCcw size={19} /> Reset
             </button>
           </div>
         </div>
 
-        {/* CONTAINER 2: Observation Question */}
-        <div 
-          className="stage-container-2"
-          style={{ 
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
-            border: '1.5px solid #FDE68A', 
-            borderRadius: '24px', 
-            padding: '1.25rem 1.45rem', 
-            boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
-            display: 'flex', 
-            flexDirection: 'column', 
-            justifyContent: 'space-between',
-            boxSizing: 'border-box'
-          }}
-        >
-          <div>
-            <h4 style={{ color: '#78350F', margin: 0, fontSize: '19.5px', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.55rem', paddingBottom: '0.55rem', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)' }}>
-              <AlertCircle size={22} color="#D97706" /> Observation Question
-            </h4>
-            <p style={{ margin: '0.75rem 0', color: '#78350F', fontSize: '17.5px', lineHeight: 1.5, fontWeight: 700 }}>
-              Do the iron filings stick uniformly all over the magnet, or do they stick more at specific places?
-            </p>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.65rem' }}>
-              <button
-                onClick={() => handleQuizAnswer('uniformly')}
-                style={{ 
-                  padding: '0.85rem 1.15rem', 
-                  textAlign: 'left', 
-                  fontSize: '17px', 
-                  fontWeight: 700, 
-                  borderRadius: '14px', 
-                  cursor: 'pointer', 
-                  background: quizAnswer === 'uniformly' ? '#FEE2E2' : '#FFFFFF', 
-                  borderColor: quizAnswer === 'uniformly' ? '#EF4444' : '#FDE68A', 
-                  borderWidth: '1.5px', 
-                  borderStyle: 'solid', 
-                  color: quizAnswer === 'uniformly' ? '#991B1B' : '#78350F', 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'space-between',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                <span>A) Filings stick uniformly all over</span>
-                {quizAnswer === 'uniformly' && <XCircle size={20} color="#EF4444" />}
-              </button>
-
-              <button
-                onClick={() => handleQuizAnswer('ends')}
-                style={{ 
-                  padding: '0.85rem 1.15rem', 
-                  textAlign: 'left', 
-                  fontSize: '17px', 
-                  fontWeight: 700, 
-                  borderRadius: '14px', 
-                  cursor: 'pointer', 
-                  background: (quizAnswer === 'ends' || step === 'complete') ? '#DCFCE7' : '#FFFFFF', 
-                  borderColor: (quizAnswer === 'ends' || step === 'complete') ? '#10B981' : '#FDE68A', 
-                  borderWidth: '1.5px', 
-                  borderStyle: 'solid', 
-                  color: (quizAnswer === 'ends' || step === 'complete') ? '#064E3B' : '#78350F', 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'space-between',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                <span>B) Most filings cluster at the two ends (Poles)</span>
-                {(quizAnswer === 'ends' || step === 'complete') && <CheckCircle size={20} color="#10B981" />}
-              </button>
-            </div>
-          </div>
-
-          {/* Always-visible Proceed Button */}
-          {(() => {
-            const isReadyToProceed = quizAnswer === 'ends';
-            return (
-              <div style={{ paddingTop: '0.75rem', marginTop: 'auto' }}>
-                <button
-                  onClick={onComplete}
-                  disabled={!isReadyToProceed}
-                  className={isReadyToProceed ? 'gold-glow-btn' : ''}
-                  style={{ 
-                    width: '100%', 
-                    padding: '0.85rem 1.25rem', 
-                    fontSize: '17.5px', 
-                    fontWeight: 900, 
-                    borderRadius: '14px', 
-                    background: isReadyToProceed 
-                      ? undefined 
-                      : '#F1F5F9', 
-                    color: isReadyToProceed 
-                      ? '#FFFFFF' 
-                      : '#94A3B8', 
-                    border: isReadyToProceed 
-                      ? 'none' 
-                      : '1.5px solid #CBD5E1', 
-                    cursor: isReadyToProceed 
-                      ? 'pointer' 
-                      : 'not-allowed', 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center', 
-                    gap: '0.6rem',
-                    transition: 'all 0.25s ease'
-                  }}
-                >
-                  Proceed to Stage 2 <ArrowRight size={18} color={isReadyToProceed ? '#FFFFFF' : '#94A3B8'} />
-                </button>
-              </div>
-            );
-          })()}
+        {/* ONLY the "Proceed to Quiz" button below (Observation Question container completely removed) */}
+        <div style={{ flexShrink: 0, width: '100%' }}>
+          <button
+            onClick={handleProceed}
+            className="gold-glow-btn"
+            style={{ 
+              width: '100%', 
+              padding: '1.15rem 1.6rem', 
+              fontSize: '22px', 
+              fontWeight: 900, 
+              borderRadius: '18px', 
+              background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)', 
+              color: '#FFFFFF', 
+              border: 'none', 
+              cursor: 'pointer', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              gap: '0.75rem',
+              boxShadow: '0 6px 22px rgba(217, 119, 6, 0.4)',
+              transition: 'all 0.25s ease',
+              letterSpacing: '0.3px'
+            }}
+          >
+            Proceed to Quiz <ArrowRight size={24} color="#FFFFFF" />
+          </button>
         </div>
       </div>
     </div>

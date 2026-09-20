@@ -19,8 +19,8 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
   });
 
   const handleStage1Complete = () => {
-    setProgress(prev => ({ ...prev, investigate: true }));
-    setActiveTab('breaking');
+    setProgress(prev => ({ ...prev, investigate: true, quiz: true }));
+    setActiveTab('quiz');
   };
 
   const handleStage2Complete = () => {
@@ -44,10 +44,23 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
   };
 
   const tabs = [
-    { id: 'investigate', name: '1. Let us Investigate', icon: Compass, component: <Stage1_Investigate onComplete={handleStage1Complete} /> },
+    {
+      id: 'investigate',
+      name: '1. Let us Investigate',
+      icon: Compass,
+      component: (
+        <Stage1_Investigate
+          onComplete={handleStage1Complete}
+          onGoToQuiz={() => {
+            setProgress(prev => ({ ...prev, investigate: true, breaking: true, sandbox: true, quiz: true }));
+            setActiveTab('quiz');
+          }}
+        />
+      )
+    },
     { id: 'breaking', name: '2. Breaking a Magnet', icon: Scissors, component: <Stage2_BreakingMagnet onComplete={handleStage2Complete} />, locked: !progress.investigate },
     { id: 'sandbox', name: '3. Other Magnet Shapes', icon: Shapes, component: <Stage3_Sandbox onComplete={handleStage3Complete} />, locked: !progress.breaking },
-    { id: 'quiz', name: '4. Quiz', icon: HelpCircle, component: <Quiz onComplete={handleQuizComplete} />, locked: !progress.sandbox },
+    { id: 'quiz', name: '4. Quiz', icon: HelpCircle, component: <Quiz onComplete={handleQuizComplete} />, locked: !progress.sandbox && !progress.investigate },
     { id: 'didyouknow', name: '5. Did You Know?', icon: Sparkles, component: <Stage5_DidYouKnowPage onComplete={handleDidYouKnowComplete} onBackToQuiz={() => setActiveTab('quiz')} />, locked: !progress.quiz }
   ];
 
@@ -65,7 +78,7 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
       boxSizing: 'border-box',
       padding: '0.65rem 0.85rem',
       backgroundColor: '#FFFFFF',
-      fontFamily: "system-ui, -apple-system, sans-serif"
+      fontFamily: "'Inter', system-ui, -apple-system, sans-serif"
     }}>
 
       {/* Top Header Bar Container (Single Unified Enclosing Container) */}
@@ -73,10 +86,10 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
         display: 'grid', 
         gridTemplateColumns: 'auto 1fr auto', 
         alignItems: 'center', 
-        padding: '0.65rem 1.25rem',
+        padding: '0.75rem 1.5rem',
         marginBottom: '0.65rem',
         background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-        border: '1.5px solid #FDE68A',
+        border: '2px solid #FDE68A',
         borderRadius: '24px',
         boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
         flexShrink: 0,
@@ -89,43 +102,44 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
           className="gold-glow-btn"
           style={{ 
             position: 'relative', zIndex: 100,
-            padding: '0.6rem 1.25rem', 
-            fontSize: '0.9rem', 
-            gap: '0.5rem',
-            borderRadius: '14px',
+            padding: '0.75rem 1.5rem', 
+            fontSize: '1.08rem', 
+            fontWeight: 900,
+            gap: '0.6rem',
+            borderRadius: '16px',
             textDecoration: 'none'
           }}
         >
-          <ArrowLeft size={18} color="#FFFFFF" /> Back to Chapter 4
+          <ArrowLeft size={22} color="#FFFFFF" /> Back to Chapter 4
         </button>
 
         {/* Center: Title & Subtitle */}
         <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
           <h2 style={{ 
             margin: 0, 
-            fontSize: '1.35rem', 
+            fontSize: '1.65rem', 
             fontWeight: 900, 
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center', 
-            gap: '0.65rem', 
+            gap: '0.75rem', 
             color: '#064E3B', 
             letterSpacing: '-0.01em' 
           }}>
-            <Compass size={26} style={{ color: '#D97706' }} />
+            <Compass size={32} style={{ color: '#D97706' }} />
             Activity 4.2: Poles of Magnet
           </h2>
           <span style={{ 
-            fontSize: '0.82rem', 
+            fontSize: '1rem', 
             color: '#047857', 
-            fontWeight: 700 
+            fontWeight: 800 
           }}>
             Class 6 Science — Observe iron filings & magnetic poles
           </span>
         </div>
 
-        {/* Right: Tabbed Navigation Bar (Without extra wrapping container) */}
-        <nav className="tabs-container" style={{ display: 'flex', gap: '0.5rem', margin: 0, background: 'transparent', border: 'none', padding: 0 }}>
+        {/* Right: Tabbed Navigation Bar */}
+        <nav className="tabs-container" style={{ display: 'flex', gap: '0.65rem', margin: 0, background: 'transparent', border: 'none', padding: 0 }}>
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isCompleted = progress[tab.id];
@@ -142,20 +156,21 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
                   cursor: tab.locked ? 'not-allowed' : 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.45rem',
-                  padding: '0.55rem 1.1rem',
-                  fontSize: '0.88rem',
-                  fontWeight: 800,
+                  gap: '0.55rem',
+                  padding: '0.7rem 1.35rem',
+                  fontSize: '1.05rem',
+                  fontWeight: 900,
                   borderRadius: '24px',
                   background: isActive ? undefined : '#FFFFFF',
                   color: isActive ? '#FFFFFF' : tab.locked ? '#94A3B8' : '#334155',
-                  border: isActive ? 'none' : '1.5px solid #CBD5E1',
-                  transition: 'all 0.2s ease'
+                  border: isActive ? 'none' : '2px solid #CBD5E1',
+                  transition: 'all 0.2s ease',
+                  boxShadow: isActive ? '0 4px 14px rgba(217, 119, 6, 0.35)' : '0 2px 6px rgba(0,0,0,0.04)'
                 }}
               >
-                <Icon size={16} color={isActive ? '#FFFFFF' : tab.locked ? '#94A3B8' : '#059669'} />
+                <Icon size={20} color={isActive ? '#FFFFFF' : tab.locked ? '#94A3B8' : '#059669'} />
                 <span>{tab.name}</span>
-                {isCompleted && !isActive && <CheckCircle size={14} color="#10B981" />}
+                {isCompleted && !isActive && <CheckCircle size={18} color="#10B981" />}
               </button>
             );
           })}

@@ -24,7 +24,8 @@ export default function ChapterBackFooter({
   onNext,
   nextDisabled = false,
   nextVariant = 'green',
-  centerContent = null
+  centerContent = null,
+  beforeNextContent = null
 }) {
   if (!onBack && !nextLabel) return null;
 
@@ -41,7 +42,7 @@ export default function ChapterBackFooter({
       flexShrink: 0,
       gap: '10px'
     }}>
-      <div style={{ flex: '0 0 auto' }}>
+      <div style={{ flex: '1 1 0%', display: 'flex', justifyContent: 'flex-start' }}>
         {onBack ? (
           <button
             onClick={onBack}
@@ -67,18 +68,17 @@ export default function ChapterBackFooter({
             <ArrowLeft size={16} strokeWidth={2.5} />
             Back
           </button>
-        ) : (
-          <div style={{ width: '1px' }} />
-        )}
+        ) : null}
       </div>
 
       {centerContent && (
-        <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ flex: '1 1 auto', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           {centerContent}
         </div>
       )}
 
-      <div style={{ flex: '0 0 auto', marginLeft: centerContent ? 0 : 'auto' }}>
+      <div style={{ flex: '1 1 0%', display: 'flex', justifyContent: 'flex-end', gap: '8px', alignItems: 'center' }}>
+        {beforeNextContent}
         {nextLabel && onNext ? (
           <button
             onClick={onNext}
@@ -116,9 +116,7 @@ export default function ChapterBackFooter({
             {nextLabel}
             {!nextDisabled && (nextVariant === 'navy' ? <ChevronRight size={16} strokeWidth={2.5} /> : <ArrowRight size={16} strokeWidth={2.5} />)}
           </button>
-        ) : (
-          <div style={{ width: '1px' }} />
-        )}
+        ) : null}
       </div>
     </div>
   );

@@ -227,8 +227,13 @@ const TARGET_ORGANISMS = [
     x: 29, y: 46, w: 28, h: 32,
     details: 'Red Hibiscus flowers and bush growing on the center-left.',
     fact: 'Hibiscus flowers have vibrant red petals and are common flowering shrubs!',
-    verifyQ: { q: 'Which plant classification does Hibiscus belong to?', opts: ['Herbs', 'Trees', 'Shrubs', 'Aquatic plants'], correct: 2 },
-    tableInfo: { stem: 'Woody stems branching near base', leaves: 'Green serrated leaves', flowers: 'Red Hibiscus flowers', notes: 'Classified as Shrub. Medium height.' },
+    tableInfo: { 
+      stem: 'Thin, hard, woody stems branching near the base.', 
+      leaves: 'Green, simple leaves with serrated—toothed—edges.', 
+      flowers: 'Large, bright red flowers.', 
+      notes: 'A medium-sized shrub with branches close to the ground.',
+      think: 'What makes hibiscus a shrub?'
+    },
   },
   {
     id: 'tulsi',
@@ -239,7 +244,13 @@ const TARGET_ORGANISMS = [
     details: 'Tulsi plant growing in the foreground with vertical flower spikes and aromatic leaves.',
     fact: 'Tulsi (Holy Basil) is an important medicinal herb with soft green stems.',
     verifyQ: { q: 'What type of plant is Tulsi?', opts: ['Tree', 'Shrub', 'Herb', 'Climber'], correct: 2 },
-    tableInfo: { stem: 'Soft green non-woody stem', leaves: 'Aromatic simple leaves', flowers: 'Purple-white spikes', notes: 'Classified as Herb.' }
+    tableInfo: { 
+      stem: 'Young stems are soft and green; older stems may become woody.', 
+      leaves: 'Small, oval, simple leaves with a strong aroma.', 
+      flowers: 'Tiny purple or whitish flowers in upright clusters.', 
+      notes: 'Commonly grown in home gardens and used in traditional medicine.',
+      think: 'What does “aromatic” tell us about tulsi leaves?'
+    }
   },
   {
     id: 'grass',
@@ -250,7 +261,13 @@ const TARGET_ORGANISMS = [
     details: 'Green grass clump growing on the bottom-right near the tree.',
     fact: 'Grasses are small herbs with narrow leaves and parallel vein patterns.',
     verifyQ: { q: 'Which category does Grass belong to?', opts: ['Tree', 'Herb', 'Shrub', 'Woody climber'], correct: 1 },
-    tableInfo: { stem: 'Thin green stem', leaves: 'Long narrow parallel veins', flowers: 'Tiny spikelets', notes: 'Classified as Herb.' }
+    tableInfo: { 
+      stem: 'Thin, green stems, often hollow between the joints.', 
+      leaves: 'Long, narrow leaves with parallel veins.', 
+      flowers: 'Tiny flowers arranged in groups called spikelets.', 
+      notes: 'Lawn grass is a short herb with fibrous roots that forms ground cover.',
+      think: 'What pattern can you see in the leaf veins?'
+    }
   },
   {
     id: 'rose',
@@ -260,8 +277,13 @@ const TARGET_ORGANISMS = [
     x: 53, y: 51, w: 26, h: 28,
     details: 'Pink Rose bush with flowering blooms located in the center-right area.',
     fact: 'Roses are thorny flowering shrubs with woody stems branching near the ground.',
-    verifyQ: { q: 'What type of stem does a Rose bush have?', opts: ['Soft green stem', 'Thin woody stem with thorns', 'Massive trunk', 'Underwater stem'], correct: 1 },
-    tableInfo: { stem: 'Thin woody stem with thorns', leaves: 'Compound serrated leaves', flowers: 'Pink Rose blooms', notes: 'Classified as Shrub.' }
+    tableInfo: { 
+      stem: 'Thin, woody stems with sharp prickles, commonly called thorns.', 
+      leaves: 'Compound leaves made of leaflets with toothed edges.', 
+      flowers: 'Fragrant pink or red blooms.', 
+      notes: 'A medium-sized shrub with prickly branches.',
+      think: 'How is a compound leaf different from a simple leaf?'
+    }
   },
 ];
 
@@ -309,10 +331,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
           fact: 'Hibiscus flowers have vibrant red petals and are common flowering shrubs!',
           verifyQ: { q: 'Which plant classification does Hibiscus belong to?', opts: ['Herbs', 'Trees', 'Shrubs', 'Aquatic plants'], correct: 2 },
           tableInfo: { 
-            stem: 'Thin, hard, woody stem branching out near base', 
-            leaves: 'Green simple leaves with serrated margins', 
-            flowers: 'Large, bright red flowers', 
-            notes: 'Medium height shrub; branches close to ground' 
+            stem: 'Thin, hard, woody stems branching near the base.', 
+            leaves: 'Green, simple leaves with serrated—toothed—edges.', 
+            flowers: 'Large, bright red flowers.', 
+            notes: 'A medium-sized shrub with branches close to the ground.',
+            think: 'What makes hibiscus a shrub?'
           },
         },
         {
@@ -325,10 +348,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
           fact: 'Tulsi (Holy Basil) is an important medicinal herb with soft green stems.',
           verifyQ: { q: 'What type of plant is Tulsi?', opts: ['Tree', 'Shrub', 'Herb', 'Climber'], correct: 2 },
           tableInfo: { 
-            stem: 'Soft, green, non-woody herbaceous stem', 
-            leaves: 'Small, oval, highly aromatic simple leaves', 
-            flowers: 'Tiny purple-white flowers on vertical spikes', 
-            notes: 'Short herb; medicinal plant found in home gardens' 
+            stem: 'Young stems are soft and green; older stems may become woody.', 
+            leaves: 'Small, oval, simple leaves with a strong aroma.', 
+            flowers: 'Tiny purple or whitish flowers in upright clusters.', 
+            notes: 'Commonly grown in home gardens and used in traditional medicine.',
+            think: 'What does “aromatic” tell us about tulsi leaves?'
           }
         },
         {
@@ -341,10 +365,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
           fact: 'Grasses are small herbs with narrow leaves and parallel vein patterns.',
           verifyQ: { q: 'Which category does Grass belong to?', opts: ['Tree', 'Herb', 'Shrub', 'Woody climber'], correct: 1 },
           tableInfo: { 
-            stem: 'Thin, green, soft, hollow stem', 
-            leaves: 'Long, narrow leaves with parallel vein patterns', 
-            flowers: 'Tiny inconspicuous spikelets', 
-            notes: 'Short herb; covers ground lawns, fibrous roots' 
+            stem: 'Thin, green stems, often hollow between the joints.', 
+            leaves: 'Long, narrow leaves with parallel veins.', 
+            flowers: 'Tiny flowers arranged in groups called spikelets.', 
+            notes: 'Lawn grass is a short herb with fibrous roots that forms ground cover.',
+            think: 'What pattern can you see in the leaf veins?'
           }
         },
         {
@@ -357,10 +382,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
           fact: 'Neem trees are evergreen trees with medicinal properties.',
           verifyQ: { q: 'Which plant classification does a Neem Tree belong to?', opts: ['Herb', 'Shrub', 'Tree', 'Creeper'], correct: 2 },
           tableInfo: { 
-            stem: 'Thick, hard, scaly brown woody trunk with bark', 
-            leaves: 'Compound pinnate serrated green leaflets', 
-            flowers: 'Small, white, fragrant flowers', 
-            notes: 'Tall tree; evergreen with broad canopy' 
+            stem: 'A thick, hard, woody trunk with rough, scaly brown bark.', 
+            leaves: 'Compound leaves with toothed green leaflets along a central stalk.', 
+            flowers: 'Small, white and fragrant.', 
+            notes: 'A tall, usually evergreen tree with a broad canopy.',
+            think: 'Which features help you identify neem as a tree?'
           }
         },
         {
@@ -373,10 +399,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
           fact: 'Roses are thorny flowering shrubs with woody stems branching near the ground.',
           verifyQ: { q: 'What type of stem does a Rose bush have?', opts: ['Soft green stem', 'Thin woody stem with thorns', 'Massive trunk', 'Underwater stem'], correct: 1 },
           tableInfo: { 
-            stem: 'Thin woody stem with sharp thorns', 
-            leaves: 'Compound leaves with serrated edges', 
-            flowers: 'Pink or red fragrant rose blooms', 
-            notes: 'Medium height shrub with thorny branches' 
+            stem: 'Thin, woody stems with sharp prickles, commonly called thorns.', 
+            leaves: 'Compound leaves made of leaflets with toothed edges.', 
+            flowers: 'Fragrant pink or red blooms.', 
+            notes: 'A medium-sized shrub with prickly branches.',
+            think: 'How is a compound leaf different from a simple leaf?'
           }
         },
         {
@@ -393,10 +420,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
             correct: 1 
           },
           tableInfo: { 
-            stem: 'Tall, strong, green stem with a rough, slightly hairy surface', 
-            leaves: 'Large, broad green leaves with a rough texture and prominent veins', 
-            flowers: 'Large bright yellow flower head with a dark brown central disc', 
-            notes: 'Tall flowering plant; flower head turns toward sunlight; produces edible seeds' 
+            stem: 'Tall, strong, green, rough and slightly hairy.', 
+            leaves: 'Large, broad and rough, with prominent veins.', 
+            flowers: 'A bright yellow flower head with a dark central disc.', 
+            notes: 'Produces edible seeds. Young developing heads follow the sun; mature heads usually face east.',
+            think: 'Do mature sunflower heads keep following the sun?'
           }
         }
       ];
@@ -412,7 +440,13 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
           details: 'A clever grey-necked bird that flies in the open sky and perches on tree branches. Crows are intelligent scavengers with sharp sight and strong wings.',
           fact: 'Crows are remarkably intelligent — they can recognize individual human faces and use tools to fetch food!',
           verifyQ: { q: 'What is a crow classified as in terms of its diet?', opts: ['Pure herbivore', 'Scavenger that eats scraps and pests', 'Deep-sea predator', 'Insect only feeder'], correct: 1 },
-          tableInfo: { stem: '—', leaves: '—', flowers: '—', notes: 'Locomotion: Flies using wings. Perches on branches.' },
+          tableInfo: { 
+            habitat: 'Treetops, rooftops and flying in the open sky.',
+            movement: 'Flaps its wings to fly and hops on the ground.',
+            adaptations: 'A strong, sharp beak, keen eyesight and glossy, dark feathers.',
+            feeding: 'Omnivorous—eats both plant and animal food.',
+            think: 'How does the crow’s beak help it feed?'
+          },
         },
         {
           id: 'sparrow',
@@ -424,7 +458,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
           details: 'A small, friendly bird perched on tree branches. Sparrows chirp cheerfully and feed on tiny seeds, grains, and insects near garden trees.',
           fact: 'House Sparrows have lived alongside humans for over 10,000 years — they are one of the most widespread birds on Earth!',
           verifyQ: { q: 'What do House Sparrows primarily eat?', opts: ['Large mammals', 'Insects and small seeds', 'Big fish', 'Tree bark'], correct: 1 },
-          tableInfo: { stem: '—', leaves: '—', flowers: '—', notes: 'Locomotion: Flies and hops. Perches on branches.' },
+          tableInfo: { 
+            habitat: 'Garden hedges, bushes, tree branches and beneath roof edges.',
+            movement: 'Flies by flapping its wings and hops on the ground.',
+            adaptations: 'A short, strong, cone-shaped beak helps crack seeds. Flight feathers and a skeleton with some hollow bones support flight.',
+            think: 'How does the sparrow’s beak help it eat seeds?'
+          },
         },
         {
           id: 'cow',
@@ -436,7 +475,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
           details: 'A large domestic herbivore that grazes peacefully on fresh green grass and hay. Cows move calmly on four legs and provide healthy milk.',
           fact: 'Cows have best friends and get happy when spending time together in green pastures!',
           verifyQ: { q: 'What type of food does a cow eat?', opts: ['Fish and meat', 'Grass and hay', 'Insects only', 'Tree bark'], correct: 1 },
-          tableInfo: { stem: '—', leaves: '—', flowers: '—', notes: 'Locomotion: Walks on four legs. Terrestrial herbivore.' },
+          tableInfo: { 
+            habitat: 'Open meadows, grassy pastures and farmland.',
+            movement: 'Walks on four strong legs with split, or cloven, hooves.',
+            adaptations: 'Broad molars grind food. Eyes provide a wide view. A stomach with four compartments helps digest plant food.',
+            think: 'Why does a cow need broad grinding teeth?'
+          },
         },
         {
           id: 'squirrel',
@@ -448,7 +492,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
           details: 'A quick and nimble rodent with three pale stripes along its back. It climbs tree trunks rapidly and nibbles on nuts, seeds, and berries.',
           fact: 'Squirrels accidentally plant thousands of trees each year by forgetting where they buried their stashes!',
           verifyQ: { q: 'Where would you most likely spot a Three-Striped Palm Squirrel?', opts: ['In the ocean', 'Climbing a tree trunk or rock', 'Flying in the sky', 'Burrowing underground'], correct: 1 },
-          tableInfo: { stem: '—', leaves: '—', flowers: '—', notes: 'Locomotion: Runs and climbs. Lives on trees and land.' },
+          tableInfo: { 
+            habitat: 'Tree trunks, garden walls, rocks and the ground.',
+            movement: 'Scampers quickly and climbs trees.',
+            adaptations: 'Sharp, curved claws help it grip surfaces. Its bushy tail helps it balance.',
+            think: 'Which features help a squirrel climb and balance?'
+          },
         },
         {
           id: 'butterfly',
@@ -460,7 +509,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
           details: 'A colorful flying insect with delicate wings fluttering around garden flowers. It feeds on nectar using its long proboscis and helps pollinate flowers.',
           fact: 'Butterflies taste their food using tiny sensory receptors on their feet — not their mouths!',
           verifyQ: { q: 'How does a butterfly help plants?', opts: ['It eats all the leaves', 'It digs up roots', 'It helps in pollination by carrying pollen', 'It blocks sunlight'], correct: 2 },
-          tableInfo: { stem: '—', leaves: '—', flowers: '—', notes: 'Locomotion: Flies using wings. Feeds on flower nectar.' },
+          tableInfo: { 
+            habitat: 'Garden flowers, flowering shrubs and sunny spaces.',
+            movement: 'Flutters using delicate wings covered with tiny scales.',
+            adaptations: 'A coiled feeding tube called a proboscis draws up nectar. Antennae sense the surroundings, and feet have taste receptors.',
+            think: 'Which body part helps a butterfly drink nectar?'
+          },
         },
         {
           id: 'frog',
@@ -472,7 +526,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
           details: 'An amphibian with smooth green skin resting near ponds and moist shores. It uses its strong hind legs to jump on land and webbed feet to swim swiftly in water.',
           fact: 'Frogs can breathe through their lungs on land and directly through their moist skin underwater — they are true amphibians!',
           verifyQ: { q: 'What type of habitat does an Indian Pond Frog live in?', opts: ['Only on dry land', 'Only in deep ocean', 'Both in freshwater and on moist shores', 'Only in desert sand'], correct: 2 },
-          tableInfo: { stem: '—', leaves: '—', flowers: '—', notes: 'Locomotion: Jumps and swims. Amphibian. Lives near pond.' },
+          tableInfo: { 
+            habitat: 'Freshwater ponds, lily pads and moist pond edges.',
+            movement: 'Leaps on land and swims using its hind legs and webbed feet.',
+            adaptations: 'Muscular hind legs power movement. Moist skin allows oxygen to pass through. Bulging eyes provide a wide view.',
+            think: 'How do webbed feet help a frog swim?'
+          },
         },
         {
           id: 'ant',
@@ -484,7 +543,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
           details: 'Tiny, hardworking social insects crawling together along the soil. Ants communicate using scent trails and can carry loads many times their own weight!',
           fact: 'Ants are incredibly strong — an ant can carry objects up to 50 times its own body weight!',
           verifyQ: { q: 'How do ants move and work together?', opts: ['They fly individually', 'They crawl in social trails using scent clues', 'They swim underwater', 'They jump over trees'], correct: 1 },
-          tableInfo: { stem: '—', leaves: '—', flowers: '—', notes: 'Locomotion: Crawls on six legs. Lives in colonies.' },
+          tableInfo: { 
+            habitat: 'Anthills, garden soil, paths and brick edges.',
+            movement: 'Crawls steadily using six legs and follows scent trails.',
+            adaptations: 'Powerful biting jaws, or mandibles, carry heavy loads. Sensitive antennae touch and smell the surroundings.',
+            think: 'How do antennae help an ant navigate and communicate?'
+          },
         }
       ];
     }

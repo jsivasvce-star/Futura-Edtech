@@ -1,0 +1,21 @@
+export const PAGE36_TRANSCRIPT = [
+  { "audioWord": "Which", "start": 0.0, "end": 0.46, "pageWordId": "q-1", "matchType": "matched" },
+  { "audioWord": "direction", "start": 0.46, "end": 0.9, "pageWordId": "q-2", "matchType": "matched" },
+  { "audioWord": "should", "start": 0.9, "end": 1.16, "pageWordId": "q-3", "matchType": "matched" },
+  { "audioWord": "we", "start": 1.16, "end": 1.36, "pageWordId": "q-4", "matchType": "matched" },
+  { "audioWord": "travel", "start": 1.36, "end": 1.68, "pageWordId": "q-5", "matchType": "matched" },
+  { "audioWord": "from", "start": 1.68, "end": 2.1, "pageWordId": "q-6", "matchType": "matched" },
+  { "audioWord": "Chennai", "start": 2.1, "end": 2.52, "pageWordId": "q-7", "matchType": "matched" },
+  { "audioWord": "to", "start": 2.52, "end": 2.82, "pageWordId": "q-8", "matchType": "matched" },
+  { "audioWord": "reach", "start": 2.82, "end": 3.12, "pageWordId": "q-9", "matchType": "matched" },
+  { "audioWord": "Amaravati?", "start": 3.12, "end": 4.02, "pageWordId": "q-10", "matchType": "matched" },
+  { "audioWord": "Now", "start": 4.52, "end": 4.72, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "look", "start": 4.72, "end": 4.88, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "at", "start": 4.88, "end": 5.04, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "the", "start": 5.04, "end": 5.18, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "map", "start": 5.18, "end": 5.4, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "and", "start": 5.4, "end": 5.96, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "choose", "start": 5.96, "end": 6.22, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "the", "start": 6.22, "end": 6.5, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "direction.", "start": 6.5, "end": 6.78, "pageWordId": "none", "matchType": "unmatched" }
+];
