@@ -560,7 +560,7 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)', paddingBottom: '0.6rem', marginBottom: '0.75rem' }}>
               <h4 style={{ margin: 0, fontSize: '19.5px', color: '#173B5F', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
                 <span>📋</span> Steps of Instructions
-              </h3>
+              </h4>
             </div>
 
             {/* Bullet Points - Doubled Font Size (34px), Bold, Sharp, and Clearly Legible */}

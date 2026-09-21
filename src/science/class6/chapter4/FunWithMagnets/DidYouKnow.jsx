@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Volume2, VolumeX, ArrowRight, Award, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Sparkles, Volume2, VolumeX, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useHybridVoice } from '../../../../hooks/useHybridVoice';
 import { ELEVENLABS_VOICES } from '../../../../services/elevenLabsService';
 import './FunWithMagnets.css';
@@ -55,6 +55,9 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
   const { speak, stop, isPlaying, spokenCharIndex } = useHybridVoice();
 
   const ELEVENLABS_DID_YOU_KNOW_VOICE_ID = ELEVENLABS_VOICES?.did_you_know || 'nPczCjzI2devNBz1zQrb';
+
+  // Slicing facts for page 0 (first 3) and page 1 (remaining 2)
+  const currentFacts = pageIndex === 0 ? factsData.slice(0, 3) : factsData.slice(3);
 
   // Stop audio on unmount
   useEffect(() => {
@@ -175,276 +178,150 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
       width: '100%',
       height: '100%',
       minHeight: 0,
-      display: 'flex',
-      flexDirection: 'column',
+      display: 'grid',
+      gridTemplateColumns: '48% 52%',
+      gap: '1.15rem',
       overflow: 'hidden',
       padding: '0.25rem 0.5rem',
       boxSizing: 'border-box',
       position: 'relative'
     }}>
-
-      {/* Main 2-Column Content Area */}
+      {/* LEFT COLUMN: Image Container */}
       <div style={{
-        flex: 1,
-        minHeight: 0,
         boxSizing: 'border-box',
-        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
-        border: '1.5px solid #E2E8F0',
         borderRadius: '24px',
-        padding: '1.35rem 1.6rem',
-        boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
+        overflow: 'hidden',
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
         position: 'relative',
-        overflow: 'hidden'
+        boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)'
       }}>
-        <div>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            background: '#EAF2F6',
-            padding: '0.4rem 0.85rem',
-            borderRadius: '12px',
-            border: '1px solid #E2E8F0',
-            color: '#173B5F',
-            fontSize: '0.88rem',
-            fontWeight: 800,
-            marginBottom: '0.85rem'
-          }}>
-            <Sparkles size={16} color="#173B5F" />
-            <span>DID YOU KNOW?</span>
-          </div>
-
-          <h2 style={{ margin: '0 0 0.6rem 0', color: '#1E1B4B', fontSize: '1.65rem', fontWeight: 900, lineHeight: 1.25, letterSpacing: '-0.01em' }}>
-            Marvels of Magnetism
-          </h2>
-          <p style={{ margin: 0, color: '#173B5F', fontSize: '1.05rem', lineHeight: 1.5, fontWeight: 600 }}>
-            From high-speed bullet trains to animal migration and medical scanners, magnetic forces shape the modern world!
-          </p>
-        </div>
-
-        {/* Ambient Photographic Image Frame */}
-        <div style={{
-          position: 'relative',
-          width: '100%',
-          flex: 1,
-          margin: '0.85rem 0',
-          borderRadius: '18px',
-          overflow: 'hidden',
-          border: '1.5px solid #E2E8F0',
-          boxShadow: '0 8px 20px rgba(217, 119, 6, 0.12)',
-          background: '#000000',
-          minHeight: '180px'
-        }}>
-          <img
-            src="/ch4_cards/img_9.jpg"
-            alt="Fun with Magnets"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover'
-            }}
-          />
-        </div>
-
-        {/* Footer Info Pill */}
-        <div style={{
-          background: '#FFFFFF',
-          border: '1.5px solid #E2E8F0',
-          borderRadius: '16px',
-          padding: '0.75rem 1rem',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-          position: 'relative',
-          minHeight: 0
-        }}>
-          {/* Visual Container */}
-          <div style={{
-            width: '36px',
-            height: '36px',
-            borderRadius: '10px',
-            background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: 0
-          }}>
-            <img
-              src="/ch4_cards/img_9.jpg"
-              alt="Fun with Magnets & Electromagnetism"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                display: 'block'
-              }}
-            />
-          </div>
-        </div>
-
-        {/* RIGHT COLUMN: Single, Static Page Container with Sliding Carousel (Same Background Color) */}
-        <div
+        <img
+          src="/ch4_cards/img_9.jpg"
+          alt="Fun with Magnets"
           style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-            border: '1.5px solid #FDE68A',
-            borderRadius: '24px',
-            boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
-            padding: '1.15rem 1.35rem',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            maxHeight: '100%',
+            width: '100%',
             height: '100%',
-            minHeight: 0,
-            overflow: 'hidden',
-            boxSizing: 'border-box',
-            position: 'relative'
+            objectFit: 'cover'
           }}
-        >
-          {/* Top Carousel Navigation Bar */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingBottom: '0.65rem',
-            marginBottom: '0.65rem',
-            borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)',
-            flexShrink: 0
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-              <Sparkles size={20} color="#D97706" />
-              <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 900, color: '#78350F' }}>
-                Scientific Facts
-              </h3>
-              <span style={{
-                background: 'rgba(217, 119, 6, 0.15)',
-                color: '#92400E',
-                fontSize: '0.8rem',
-                fontWeight: 800,
-                borderRadius: '12px',
-                padding: '0.15rem 0.55rem'
-              }}>
-                Page {pageIndex + 1} of 2
-              </span>
-            </div>
-
-            {/* Slider Controls: Prev, Dots, Next */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-              <button
-                onClick={handlePrevPage}
-                disabled={pageIndex === 0}
-                title="Previous Page"
-                style={{
-                  background: pageIndex === 0 ? 'rgba(255, 255, 255, 0.4)' : '#FFFFFF',
-                  border: '1.5px solid #FDE68A',
-                  borderRadius: '12px',
-                  padding: '0.35rem 0.75rem',
-                  cursor: pageIndex === 0 ? 'not-allowed' : 'pointer',
-                  opacity: pageIndex === 0 ? 0.45 : 1,
-                  color: '#78350F',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.25rem',
-                  fontSize: '0.85rem',
-                  fontWeight: 800,
-                  boxShadow: pageIndex === 0 ? 'none' : '0 2px 6px rgba(0,0,0,0.03)',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                <ChevronLeft size={16} /> Prev
-              </button>
-
-              {/* Dots Indicator */}
-              <div style={{ display: 'flex', gap: '0.4rem', padding: '0 0.35rem' }}>
-                {[0, 1].map((idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => handleSelectPage(idx)}
-                    title={`Go to page ${idx + 1}`}
-                    style={{
-                      width: pageIndex === idx ? '22px' : '9px',
-                      height: '9px',
-                      borderRadius: '10px',
-                      background: pageIndex === idx ? '#D97706' : '#FDE68A',
-                      border: 'none',
-                      cursor: 'pointer',
-                      padding: 0,
-                      transition: 'all 0.25s ease'
-                    }}
-                  />
-                ))}
-              </div>
-
-              <button
-                onClick={handleNextPage}
-                disabled={pageIndex === 1}
-                title="Next Page"
-                className={pageIndex === 0 ? 'gold-glow-btn' : ''}
-                style={{
-                  background: pageIndex === 1 ? 'rgba(255, 255, 255, 0.4)' : undefined,
-                  border: pageIndex === 1 ? '1.5px solid #FDE68A' : 'none',
-                  borderRadius: '12px',
-                  padding: '0.35rem 0.8rem',
-                  cursor: pageIndex === 1 ? 'not-allowed' : 'pointer',
-                  opacity: pageIndex === 1 ? 0.45 : 1,
-                  color: pageIndex === 0 ? '#FFFFFF' : '#78350F',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.25rem',
-                  fontSize: '0.85rem',
-                  fontWeight: 800,
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                Next <ChevronRight size={16} />
-              </button>
-            </div>
-          </div>
-          <div>
-            <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#1E1B4B' }}>Fun with Magnets</div>
-            <div style={{ fontSize: '0.8rem', color: '#173B5F', fontWeight: 600 }}>Interactive Science Lab · Grade 6</div>
-          </div>
-        </div>
+        />
       </div>
 
-      {/* Bottom Completion Action Footer */}
-      <div style={{
-        flex: '1.6',
-        height: '100%',
-        minHeight: 0,
-        boxSizing: 'border-box',
-        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
-        border: '1.5px solid #E2E8F0',
-        borderRadius: '24px',
-        padding: '1.35rem 1.6rem',
-        boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: onBackToQuiz ? 'space-between' : 'flex-end',
-        flexShrink: 0,
-        background: '#FFFFFF',
-        borderTop: '1.5px solid #E2E8F0'
-      }}>
-        {/* Header with Page Dots Indicator */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '0.65rem', borderBottom: '1px solid rgba(217, 119, 6, 0.2)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Award size={20} color="#173B5F" />
-            <h3 style={{ margin: 0, color: '#1E1B4B', fontSize: '1.25rem', fontWeight: 900 }}>
-              Curated Scientific Facts
+      {/* RIGHT COLUMN: Single, Static Page Container with Sliding Carousel */}
+      <div
+        style={{
+          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+          border: '1.5px solid #FDE68A',
+          borderRadius: '24px',
+          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+          padding: '1.15rem 1.35rem',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          maxHeight: '100%',
+          height: '100%',
+          minHeight: 0,
+          overflow: 'hidden',
+          boxSizing: 'border-box',
+          position: 'relative'
+        }}
+      >
+        {/* Top Carousel Navigation Bar */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingBottom: '0.65rem',
+          marginBottom: '0.65rem',
+          borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)',
+          flexShrink: 0
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+            <Sparkles size={20} color="#D97706" />
+            <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 900, color: '#78350F' }}>
+              Scientific Facts
             </h3>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{ fontSize: '0.88rem', color: '#173B5F', fontWeight: 800 }}>
+            <span style={{
+              background: 'rgba(217, 119, 6, 0.15)',
+              color: '#92400E',
+              fontSize: '0.8rem',
+              fontWeight: 800,
+              borderRadius: '12px',
+              padding: '0.15rem 0.55rem'
+            }}>
               Page {pageIndex + 1} of 2
             </span>
-            <div style={{ display: 'flex', gap: '0.35rem' }}>
-              <span style={{ width: pageIndex === 0 ? '18px' : '8px', height: '8px', borderRadius: '4px', background: pageIndex === 0 ? '#173B5F' : '#CBD5E1', transition: 'all 0.2s ease' }} />
-              <span style={{ width: pageIndex === 1 ? '18px' : '8px', height: '8px', borderRadius: '4px', background: pageIndex === 1 ? '#173B5F' : '#CBD5E1', transition: 'all 0.2s ease' }} />
+          </div>
+
+          {/* Slider Controls: Prev, Dots, Next */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+            <button
+              onClick={handlePrevPage}
+              disabled={pageIndex === 0}
+              title="Previous Page"
+              style={{
+                background: pageIndex === 0 ? 'rgba(255, 255, 255, 0.4)' : '#FFFFFF',
+                border: '1.5px solid #FDE68A',
+                borderRadius: '12px',
+                padding: '0.35rem 0.75rem',
+                cursor: pageIndex === 0 ? 'not-allowed' : 'pointer',
+                opacity: pageIndex === 0 ? 0.45 : 1,
+                color: '#78350F',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.25rem',
+                fontSize: '0.85rem',
+                fontWeight: 800,
+                boxShadow: pageIndex === 0 ? 'none' : '0 2px 6px rgba(0,0,0,0.03)',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <ChevronLeft size={16} /> Prev
+            </button>
+
+            {/* Dots Indicator */}
+            <div style={{ display: 'flex', gap: '0.4rem', padding: '0 0.35rem' }}>
+              {[0, 1].map((idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleSelectPage(idx)}
+                  title={`Go to page ${idx + 1}`}
+                  style={{
+                    width: pageIndex === idx ? '22px' : '9px',
+                    height: '9px',
+                    borderRadius: '10px',
+                    background: pageIndex === idx ? '#D97706' : '#FDE68A',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: 0,
+                    transition: 'all 0.25s ease'
+                  }}
+                />
+              ))}
             </div>
+
+            <button
+              onClick={handleNextPage}
+              disabled={pageIndex === 1}
+              title="Next Page"
+              className={pageIndex === 0 ? 'gold-glow-btn' : ''}
+              style={{
+                background: pageIndex === 1 ? 'rgba(255, 255, 255, 0.4)' : undefined,
+                border: pageIndex === 1 ? '1.5px solid #FDE68A' : 'none',
+                borderRadius: '12px',
+                padding: '0.35rem 0.8rem',
+                cursor: pageIndex === 1 ? 'not-allowed' : 'pointer',
+                opacity: pageIndex === 1 ? 0.45 : 1,
+                color: pageIndex === 0 ? '#FFFFFF' : '#78350F',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.25rem',
+                fontSize: '0.85rem',
+                fontWeight: 800,
+                transition: 'all 0.2s ease'
+              }}
+            >
+              Next <ChevronRight size={16} />
+            </button>
           </div>
         </div>
 
@@ -503,7 +380,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleReadAloud(fact);
+                          handleSpeakFact(fact);
                         }}
                         style={{
                           background: isThisSpeaking ? '#173B5F' : '#EAF2F6',
@@ -532,7 +409,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                       lineHeight: 1.5,
                       fontWeight: 600
                     }}>
-                      {fact.content}
+                      {renderHighlightedContent(fact.content, fact.title, isThisSpeaking, spokenCharIndex)}
                     </p>
                   </div>
                 );
@@ -541,21 +418,16 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
           </AnimatePresence>
         </div>
 
-        {/* Bottom Pagination & Navigation Controls */}
+        {/* Bottom Bar */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '0.65rem', borderTop: '1px solid rgba(217, 119, 6, 0.2)' }}>
-          {/* Prev/Next Page Toggle Buttons */}
-          <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <div>
+            <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#1E1B4B' }}>Fun with Magnets</div>
+            <div style={{ fontSize: '0.8rem', color: '#173B5F', fontWeight: 600 }}>Interactive Science Lab · Grade 6</div>
+          </div>
+          {isPlaying && (
             <button
               onClick={stop}
               style={{
-                padding: '0.65rem 1.15rem',
-                borderRadius: '14px',
-                border: '1.5px solid #E2E8F0',
-                background: pageIndex === 0 ? '#F1F5F9' : '#FFFFFF',
-                color: pageIndex === 0 ? '#94A3B8' : '#173B5F',
-                fontSize: '0.92rem',
-                fontWeight: 900,
-                cursor: pageIndex === 0 ? 'not-allowed' : 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.35rem',
@@ -563,56 +435,17 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                 border: '1.5px solid #FCA5A5',
                 color: '#991B1B',
                 borderRadius: '24px',
-                padding: '0.55rem 1.15rem',
+                padding: '0.45rem 1rem',
                 fontSize: '0.85rem',
                 fontWeight: 800,
-                cursor: 'pointer'
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
               }}
             >
               <VolumeX size={15} /> Stop Audio
             </button>
           )}
-
-          {onBackToQuiz && (
-            <button
-              onClick={onBackToQuiz}
-              style={{
-                padding: '0.65rem 1.15rem',
-                borderRadius: '14px',
-                border: '1.5px solid #E2E8F0',
-                background: pageIndex === 1 ? '#F1F5F9' : '#FFFFFF',
-                color: pageIndex === 1 ? '#94A3B8' : '#173B5F',
-                fontSize: '0.92rem',
-                fontWeight: 900,
-                cursor: pageIndex === 1 ? 'not-allowed' : 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              Review Magnet Care
-            </button>
-          )}
         </div>
-
-        <button
-          onClick={onComplete}
-          className="gold-glow-btn"
-          style={{
-            padding: '0.65rem 1.75rem',
-            fontSize: '0.95rem',
-            fontWeight: 900,
-            borderRadius: '24px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem'
-          }}
-        >
-          <Award size={18} color="#FFFFFF" />
-          <span>Complete Chapter 4</span>
-          <ArrowRight size={16} color="#FFFFFF" />
-        </button>
       </div>
     </div>
   );

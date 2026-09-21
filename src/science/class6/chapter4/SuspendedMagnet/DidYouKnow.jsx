@@ -389,7 +389,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                 boxShadow: '0 2px 8px rgba(217, 119, 6, 0.1)'
               }}>
                 <Sparkles size={20} />
-              </div>
+              </span>
               <div>
                 <h3 style={{ margin: 0, fontSize: '1.35rem', fontWeight: 900, color: '#1E1B4B' }}>
                   Fascinating Magnetic Facts

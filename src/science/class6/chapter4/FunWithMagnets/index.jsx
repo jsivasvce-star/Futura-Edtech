@@ -1902,6 +1902,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
   const [ext, setExt] = useState({});
   const [showMazeSolveModal, setShowMazeSolveModal] = useState(false);
   const [showFinalCompletionModal, setShowFinalCompletionModal] = useState(false);
+  const [predictAns, setPredictAns] = useState(null);
 
   const [mazeVisitedCount, setMazeVisitedCount] = useState({ count: 1, total: 14 });
   const [currentNodeId, setCurrentNodeId] = useState('node_0_0');
@@ -2168,6 +2169,16 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
             </div>
           </div>
       )}
+      </main>
+
+      {/* ── Main Content — Full Display Viewport ── */}
+      <main style={{
+        width: '100%', flex: 1, minHeight: 0,
+        display: 'flex', flexDirection: 'row', overflow: 'hidden',
+        position: 'relative', zIndex: 1
+      }}>
+        {/* STEP 0 — Cinematic Intro Question */}
+        {step === 0 && <Step0Intro onNext={() => go(1)} onBack={onBackToDashboard} />}
 
         {/* STEP 1 — Maglev Concept: Attraction & Repulsion */}
         {step === 1 && <Step1Maglev onNext={() => go(2)} />}
@@ -2596,7 +2607,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                   </div>
                   <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', justifyContent: 'center' }}>
                     <button 
-                      onClick={() => go(3)}
+                      onClick={() => go(7)}
                       style={{ padding: '0.95rem 2.6rem', borderRadius: '30px', border: 'none', background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)', color: '#FFFFFF', fontWeight: 900, fontSize: '1.08rem', cursor: 'pointer', boxShadow: '0 6px 20px rgba(217, 119, 6, 0.45)', display: 'flex', alignItems: 'center', gap: '0.6rem', transition: 'all 0.25s ease' }}
                     >
                       Continue to Did You Know <ArrowRight size={20} color="#FFFFFF" />
@@ -2636,7 +2647,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                     <button
                       onClick={() => {
                         setShowFinalCompletionModal(false);
-                        go(3);
+                        go(7);
                       }}
                       style={{
                         padding: '1.1rem 3rem',
@@ -2664,21 +2675,12 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
           </div>
         )}
 
-      {/* STEP 3: DID YOU KNOW */}
-      {step === 3 && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: 'transparent' }}>
-          {/* Compact header for Did You Know step */}
-          <div style={{ padding: '0.55rem 1.25rem', background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', border: '1.5px solid #E2E8F0', borderRadius: '0 0 20px 20px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 4px 16px rgba(217,119,6,0.08)' }}>
-            <span style={{ fontSize: '1.1rem', fontWeight: 900, color: '#064E3B' }}>✨ Did You Know? — Fascinating Magnetism Facts</span>
-            <button onClick={() => go(2)} style={{ padding: '0.5rem 1.15rem', background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)', color: '#FFFFFF', border: 'none', borderRadius: '14px', fontWeight: 900, fontSize: '0.92rem', cursor: 'pointer', boxShadow: '0 3px 10px rgba(217,119,6,0.3)' }}>← Back to Magnet Care</button>
-          </div>
-          <div style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
-            <DidYouKnow
-              onComplete={() => { if (onComplete) onComplete(); else if (onBackToDashboard) onBackToDashboard(); }}
-              onBackToQuiz={() => go(6)}
-            />
-          </div>
-        )}
+      {/* STEP 7: DID YOU KNOW */}
+      {step === 7 && (
+        <div style={{ width: '100%', height: '100%', minHeight: 0, overflow: 'hidden' }}>
+          <DidYouKnow />
+        </div>
+      )}
       </main>
 
       {/* ── Bottom Footer Navigation — ACROSS ALL NON-INTRO PAGES (step > 0) ── */}

@@ -285,6 +285,7 @@ const WaypointNodeSprite = ({
   now, 
   onClick 
 }) => {
+  const isSpecial = isStart || isTarget;
   return (
     <g 
       transform={`translate(${x}, ${y})`}
@@ -344,7 +345,7 @@ const WaypointNodeSprite = ({
           strokeDasharray="4 3"
           style={{ filter: 'drop-shadow(0 0 6px #38BDF8)' }}
         />
-      )}
+      </g>
 
       {/* 2. Target Pulsing Aura on Destination Junction */}
       {isTarget && (
@@ -397,8 +398,6 @@ const WaypointNodeSprite = ({
               opacity={1 - ((now * 0.012) % 7) / 7}
             />
           )}
-        </g>
-      )}
 
       {/* 5. Start Milestone Beacon */}
       {isStart && (
