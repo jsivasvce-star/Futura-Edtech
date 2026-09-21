@@ -2167,17 +2167,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
               </div>
             </div>
           </div>
-        </div>
       )}
-
-      {/* ── Main Content — Full Display Viewport ── */}
-      <main style={{
-        width: '100%', flex: 1, minHeight: 0,
-        display: 'flex', flexDirection: 'row', overflow: 'hidden',
-        position: 'relative', zIndex: 1
-      }}>
-        {/* STEP 0 — Cinematic Intro Question */}
-        {step === 0 && <Step0Intro onNext={() => go(1)} onBack={onBackToDashboard} />}
 
         {/* STEP 1 — Maglev Concept: Attraction & Repulsion */}
         {step === 1 && <Step1Maglev onNext={() => go(2)} />}
