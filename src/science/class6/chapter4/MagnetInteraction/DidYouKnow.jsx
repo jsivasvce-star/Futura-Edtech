@@ -233,7 +233,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
               color: '#173B5F',
               fontWeight: 800
             }}>
-              Activity 4.5 Reference
+              Activity 4.6 Reference
             </span>
           </div>
 
@@ -657,7 +657,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
           }}
         >
           <Award size={18} color="#FFFFFF" />
-          <span>Complete Activity 4.5</span>
+          <span>Finish Activity</span>
           <ArrowRight size={16} color="#FFFFFF" />
         </button>
       </div>

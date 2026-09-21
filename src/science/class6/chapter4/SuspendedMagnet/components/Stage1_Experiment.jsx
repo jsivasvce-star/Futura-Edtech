@@ -13,58 +13,12 @@ function SuspendedMagnet3D({ targetRotation, isSpinning }) {
   const currentAngle = useRef(0.25);
   const velocity = useRef(0);
 
-  const { frontTexture, topTexture, redEndTexture, blueEndTexture } = useMemo(() => {
+  const magnetTexture = useMemo(() => {
     const loader = new THREE.TextureLoader();
-
-    // 1. Front and Back Faces Texture (featuring "NORTH" and "SOUTH" labels)
-    const front = loader.load('/SuspendedMagnet/bar_magnet_front.png');
-    front.colorSpace = THREE.SRGBColorSpace;
-    front.anisotropy = 8;
-
-    // 2. Top Face Texture (featuring the magnetic field line pattern)
-    const top = loader.load('/SuspendedMagnet/bar_magnet_top.png');
-    top.colorSpace = THREE.SRGBColorSpace;
-    top.anisotropy = 8;
-
-    // 3. North End Cap (cropped solid red section from the first image)
-    const redCap = loader.load('/SuspendedMagnet/bar_magnet_front.png', (tex) => {
-      try {
-        const img = tex.image;
-        if (!img) return;
-        const canvas = document.createElement('canvas');
-        canvas.width = 128;
-        canvas.height = 128;
-        const ctx = canvas.getContext('2d');
-        // Sample from the solid red North half
-        ctx.drawImage(img, 80, 25, 120, 65, 0, 0, 128, 128);
-        redCap.image = canvas;
-        redCap.needsUpdate = true;
-      } catch (e) {
-        console.error('Error cropping red end cap:', e);
-      }
-    });
-    redCap.colorSpace = THREE.SRGBColorSpace;
-
-    // 4. South End Cap (cropped solid blue section from the first image)
-    const blueCap = loader.load('/SuspendedMagnet/bar_magnet_front.png', (tex) => {
-      try {
-        const img = tex.image;
-        if (!img) return;
-        const canvas = document.createElement('canvas');
-        canvas.width = 128;
-        canvas.height = 128;
-        const ctx = canvas.getContext('2d');
-        // Sample from the solid blue South half
-        ctx.drawImage(img, 820, 25, 120, 65, 0, 0, 128, 128);
-        blueCap.image = canvas;
-        blueCap.needsUpdate = true;
-      } catch (e) {
-        console.error('Error cropping blue end cap:', e);
-      }
-    });
-    blueCap.colorSpace = THREE.SRGBColorSpace;
-
-    return { frontTexture: front, topTexture: top, redEndTexture: redCap, blueEndTexture: blueCap };
+    const tex = loader.load('/SuspendedMagnet/bar_magnet_isolated.png');
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = 16;
+    return tex;
   }, []);
 
   useFrame((state, delta) => {
@@ -86,168 +40,127 @@ function SuspendedMagnet3D({ targetRotation, isSpinning }) {
   });
 
   return (
-    <group position={[0, 0.1, 0]}>
-      {/* Braided Hanging Suspension Thread */}
-      <mesh position={[0, 3.2, 0]}>
-        <cylinderGeometry args={[0.018, 0.018, 5.8, 12]} />
-        <meshStandardMaterial color="#FFFFFF" emissive="#FFFFFF" emissiveIntensity={0.45} roughness={0.2} metalness={0.1} />
+    <group position={[0, -0.2, 0]}>
+      {/* Braided Hanging Suspension Thread - Connects directly to the wrapped center coil */}
+      <mesh position={[0, 4.0, 0]}>
+        <cylinderGeometry args={[0.02, 0.02, 5.4, 16]} />
+        <meshStandardMaterial
+          color="#FFFFFF"
+          emissive="#FFFFFF"
+          emissiveIntensity={0.5}
+          roughness={0.2}
+          metalness={0.1}
+        />
       </mesh>
 
-      {/* Antiqued Brass Suspension Hook Ring */}
-      <mesh position={[0, 0.95, 0]}>
-        <torusGeometry args={[0.2, 0.045, 16, 32]} />
-        <meshStandardMaterial color="#E2E8F0" emissive="#173B5F" emissiveIntensity={0.35} roughness={0.18} metalness={0.9} />
+      {/* Antiqued Steel Hook Ring Sitting at String / Coil Joint */}
+      <mesh position={[0, 1.4, 0]}>
+        <torusGeometry args={[0.18, 0.038, 16, 32]} />
+        <meshStandardMaterial
+          color="#E2E8F0"
+          emissive="#173B5F"
+          emissiveIntensity={0.35}
+          roughness={0.2}
+          metalness={0.85}
+        />
       </mesh>
 
       {/* Rotating 3D Magnet Assembly */}
       <group ref={magnetGroupRef}>
-        {/* Dedicated Cinematic Local Lighting with Enhanced Shimmer */}
-        <pointLight position={[-3.1, 0.5, 3.2]} intensity={5.2} color="#FF6B6B" distance={18} />
-        <pointLight position={[3.1, 0.5, 3.2]} intensity={5.2} color="#60A5FA" distance={18} />
-        <pointLight position={[0, 2.5, 3.5]} intensity={4.5} color="#FFFFFF" distance={20} />
-        <pointLight position={[0, -2.0, 2.8]} intensity={2.8} color="#F3F7F9" distance={16} />
-        <pointLight position={[-3.1, 0.5, -3.2]} intensity={4.0} color="#FF4444" distance={16} />
-        <pointLight position={[3.1, 0.5, -3.2]} intensity={4.0} color="#3B82F6" distance={16} />
+        {/* Dedicated Cinematic Local Lighting for Metallic Luster */}
+        <pointLight position={[-3.5, 0.5, 3.5]} intensity={5.0} color="#FF6B6B" distance={18} />
+        <pointLight position={[3.5, 0.5, 3.5]} intensity={5.0} color="#60A5FA" distance={18} />
+        <pointLight position={[0, 3.0, 4.0]} intensity={4.5} color="#FFFFFF" distance={20} />
+        <pointLight position={[0, -2.5, 3.0]} intensity={2.8} color="#F3F7F9" distance={16} />
+        <pointLight position={[-3.5, 0.5, -3.5]} intensity={4.0} color="#FF4444" distance={16} />
+        <pointLight position={[3.5, 0.5, -3.5]} intensity={4.0} color="#3B82F6" distance={16} />
 
-        {/* North Half Core - High-Saturation Crimson Red with Emissive Luster */}
+        {/* Inner Solid Metallic Bevel Core */}
+        {/* North Half Solid Metallic Core */}
         <mesh position={[-3.1, 0, 0]} castShadow receiveShadow>
-          <boxGeometry args={[6.2, 1.35, 1.9]} />
+          <boxGeometry args={[6.1, 2.55, 0.9]} />
           <meshStandardMaterial
-            color="#DC2626"
-            emissive="#EF4444"
-            emissiveIntensity={0.36}
-            roughness={0.18}
-            metalness={0.35}
+            color="#A81822"
+            emissive="#DC2626"
+            emissiveIntensity={0.25}
+            roughness={0.22}
+            metalness={0.65}
           />
         </mesh>
 
-        {/* South Half Core - High-Saturation Cobalt Blue with Emissive Luster */}
+        {/* South Half Solid Metallic Core */}
         <mesh position={[3.1, 0, 0]} castShadow receiveShadow>
-          <boxGeometry args={[6.2, 1.35, 1.9]} />
+          <boxGeometry args={[6.1, 2.55, 0.9]} />
           <meshStandardMaterial
-            color="#2563EB"
-            emissive="#3B82F6"
-            emissiveIntensity={0.36}
-            roughness={0.18}
-            metalness={0.35}
+            color="#144272"
+            emissive="#2563EB"
+            emissiveIntensity={0.25}
+            roughness={0.22}
+            metalness={0.65}
           />
         </mesh>
 
-        {/* Dark Dividing Seam */}
-        <mesh position={[0, 0, 0]}>
-          <boxGeometry args={[0.06, 1.36, 1.91]} />
-          <meshStandardMaterial color="#0F172A" roughness={0.7} />
-        </mesh>
-
-        {/* Front Face: First Image (NORTH and SOUTH labels) with Emissive Brilliance and Metallic Sheen */}
-        <mesh position={[0, 0, 0.958]} castShadow receiveShadow>
-          <planeGeometry args={[12.4, 1.35]} />
+        {/* Center Wrapped String Binding 3D Collar */}
+        <mesh position={[0, 0, 0]} castShadow receiveShadow>
+          <boxGeometry args={[0.55, 2.65, 0.96]} />
           <meshStandardMaterial
-            map={frontTexture}
-            emissiveMap={frontTexture}
-            emissive="#FFFFFF"
-            emissiveIntensity={0.32}
-            roughness={0.15}
-            metalness={0.42}
-          />
-        </mesh>
-
-        {/* Back Face: First Image with Emissive Brilliance and Metallic Sheen */}
-        <mesh position={[0, 0, -0.958]} rotation={[0, Math.PI, 0]} scale={[-1, 1, 1]} castShadow receiveShadow>
-          <planeGeometry args={[12.4, 1.35]} />
-          <meshStandardMaterial
-            map={frontTexture}
-            emissiveMap={frontTexture}
-            emissive="#FFFFFF"
-            emissiveIntensity={0.32}
-            roughness={0.15}
-            metalness={0.42}
-          />
-        </mesh>
-
-        {/* Top Face: Second Image (Magnetic Field Lines) with Vibrant Emissive Glow */}
-        <mesh position={[0, 0.68, 0]} rotation={[-Math.PI / 2, 0, 0]} castShadow receiveShadow>
-          <planeGeometry args={[12.4, 1.9]} />
-          <meshStandardMaterial
-            map={topTexture}
-            emissiveMap={topTexture}
+            color="#F8FAFC"
             emissive="#FFFFFF"
             emissiveIntensity={0.35}
-            roughness={0.16}
-            metalness={0.42}
+            roughness={0.25}
+            metalness={0.15}
           />
         </mesh>
 
-        {/* Bottom Face: Clean Base Finish with Matching Glow */}
-        <mesh position={[0, -0.68, 0]} rotation={[Math.PI / 2, 0, 0]} castShadow receiveShadow>
-          <planeGeometry args={[12.4, 1.9]} />
+        {/* High-Resolution Front Face (Cropped Metallic Magnet with N/S and Center Binding) */}
+        <mesh position={[0, 0, 0.46]} castShadow receiveShadow>
+          <planeGeometry args={[12.6, 2.67]} />
           <meshStandardMaterial
-            map={topTexture}
-            emissiveMap={topTexture}
+            map={magnetTexture}
+            emissiveMap={magnetTexture}
             emissive="#FFFFFF"
-            emissiveIntensity={0.25}
-            roughness={0.18}
-            metalness={0.4}
+            emissiveIntensity={0.32}
+            transparent={true}
+            alphaTest={0.05}
+            roughness={0.16}
+            metalness={0.5}
           />
         </mesh>
 
-        {/* North End Cap: Cropped Solid Red Section with Vibrant Emissive Glow */}
-        <mesh position={[-6.205, 0, 0]} rotation={[0, -Math.PI / 2, 0]} castShadow receiveShadow>
-          <planeGeometry args={[1.9, 1.35]} />
+        {/* High-Resolution Back Face */}
+        <mesh position={[0, 0, -0.46]} rotation={[0, Math.PI, 0]} scale={[-1, 1, 1]} castShadow receiveShadow>
+          <planeGeometry args={[12.6, 2.67]} />
           <meshStandardMaterial
-            map={redEndTexture}
-            color="#DC2626"
-            emissive="#EF4444"
-            emissiveIntensity={0.38}
-            roughness={0.18}
-            metalness={0.35}
+            map={magnetTexture}
+            emissiveMap={magnetTexture}
+            emissive="#FFFFFF"
+            emissiveIntensity={0.32}
+            transparent={true}
+            alphaTest={0.05}
+            roughness={0.16}
+            metalness={0.5}
           />
         </mesh>
 
-        {/* South End Cap: Cropped Solid Blue Section with Vibrant Emissive Glow */}
-        <mesh position={[6.205, 0, 0]} rotation={[0, Math.PI / 2, 0]} castShadow receiveShadow>
-          <planeGeometry args={[1.9, 1.35]} />
-          <meshStandardMaterial
-            map={blueEndTexture}
-            color="#2563EB"
-            emissive="#3B82F6"
-            emissiveIntensity={0.38}
-            roughness={0.18}
-            metalness={0.35}
-          />
-        </mesh>
-
-        {/* Subtle Cinematic Pole Aura Sheen */}
+        {/* Subtle Ambient Pole Shimmer Auras */}
         <mesh position={[-3.1, 0, 0]}>
-          <boxGeometry args={[6.28, 1.42, 1.98]} />
+          <boxGeometry args={[6.25, 2.65, 1.05]} />
           <meshBasicMaterial
             color="#EF4444"
             transparent={true}
-            opacity={0.09}
+            opacity={0.08}
             blending={THREE.AdditiveBlending}
             depthWrite={false}
           />
         </mesh>
         <mesh position={[3.1, 0, 0]}>
-          <boxGeometry args={[6.28, 1.42, 1.98]} />
+          <boxGeometry args={[6.25, 2.65, 1.05]} />
           <meshBasicMaterial
             color="#3B82F6"
             transparent={true}
-            opacity={0.09}
+            opacity={0.08}
             blending={THREE.AdditiveBlending}
             depthWrite={false}
-          />
-        </mesh>
-
-        {/* Polished Gold Center Clamp Collar with Mirror Shimmer */}
-        <mesh position={[0, 0, 0]}>
-          <boxGeometry args={[0.45, 1.38, 1.94]} />
-          <meshStandardMaterial
-            color="#214A70"
-            emissive="#173B5F"
-            emissiveIntensity={0.45}
-            roughness={0.08}
-            metalness={0.96}
           />
         </mesh>
       </group>
@@ -337,7 +250,7 @@ export default function Stage1_Experiment({ onComplete }) {
             inset: 0,
             zIndex: 1000,
             background: 'rgba(15, 23, 42, 0.65)',
-            backdropFilter: 'blur(6px)',
+            backdropFilter: 'blur(8px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -351,37 +264,37 @@ export default function Stage1_Experiment({ onComplete }) {
               style={{
                 background: '#FFFFFF',
                 border: '2px solid #6EE7B7',
-                borderRadius: '24px',
-                padding: '2rem 2.2rem',
-                maxWidth: '480px',
+                borderRadius: '28px',
+                padding: '2.5rem 2.8rem',
+                maxWidth: '560px',
                 width: '100%',
-                boxShadow: '0 20px 50px rgba(6, 78, 59, 0.35)',
+                boxShadow: '0 24px 60px rgba(6, 78, 59, 0.35)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 textAlign: 'center',
-                gap: '1.25rem',
+                gap: '1.4rem',
                 position: 'relative'
               }}
             >
               <div style={{
-                width: '64px',
-                height: '64px',
+                width: '76px',
+                height: '76px',
                 borderRadius: '50%',
                 background: 'linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 8px 20px rgba(16, 185, 129, 0.25)'
+                boxShadow: '0 8px 24px rgba(16, 185, 129, 0.25)'
               }}>
-                <CheckCircle size={36} color="#059669" />
+                <CheckCircle size={44} color="#059669" />
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <h3 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 900, color: '#064E3B' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+                <h3 style={{ margin: 0, fontSize: '2rem', fontWeight: 900, color: '#064E3B' }}>
                   Observation Verified!
                 </h3>
-                <p style={{ margin: 0, color: '#334155', fontSize: '1.02rem', lineHeight: 1.6, fontWeight: 700 }}>
+                <p style={{ margin: 0, color: '#334155', fontSize: '1.35rem', lineHeight: 1.6, fontWeight: 700 }}>
                   🎉 Correct! A freely suspended magnet always comes to rest pointing in the North-South direction.
                 </p>
               </div>
@@ -391,10 +304,10 @@ export default function Stage1_Experiment({ onComplete }) {
                 style={{
                   width: '100%',
                   marginTop: '0.5rem',
-                  padding: '0.85rem 1.5rem',
-                  fontSize: '1rem',
+                  padding: '1.1rem 2rem',
+                  fontSize: '1.35rem',
                   fontWeight: 900,
-                  borderRadius: '14px',
+                  borderRadius: '18px',
                   background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
                   color: '#FFFFFF',
                   border: 'none',
@@ -402,8 +315,8 @@ export default function Stage1_Experiment({ onComplete }) {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '0.4rem',
-                  boxShadow: '0 4px 14px rgba(217, 119, 6, 0.35)'
+                  gap: '0.5rem',
+                  boxShadow: '0 4px 14px rgba(23, 59, 95, 0.35)'
                 }}
               >
                 OK
@@ -429,9 +342,9 @@ export default function Stage1_Experiment({ onComplete }) {
           flex: 1,
           minHeight: '380px',
           borderRadius: '24px',
-          border: '1.5px solid #A7F3D0',
+          border: '1.5px solid rgba(255, 255, 255, 0.8)',
           overflow: 'hidden',
-          boxShadow: '0 12px 30px rgba(6, 78, 59, 0.12)',
+          boxShadow: '0 12px 36px rgba(0, 0, 0, 0.12)',
           backgroundImage: `url('/SuspendedMagnet/let_us_experiment_bg.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center'
@@ -444,22 +357,149 @@ export default function Stage1_Experiment({ onComplete }) {
             zIndex: 30,
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem'
+            gap: '0.5rem',
+            pointerEvents: 'none'
           }}>
             <div style={{
-              background: 'linear-gradient(135deg, #173B5F 0%, #0A1C2E 100%)',
-              border: '1.5px solid #173B5F',
+              background: '#FFFFFF',
+              border: '1.5px solid #BAE6FD',
               borderRadius: '20px',
-              padding: '0.4rem 0.9rem',
-              fontSize: '0.82rem',
+              padding: '0.45rem 1.1rem',
+              fontSize: '0.95rem',
               fontWeight: 900,
-              color: '#FFFFFF',
-              boxShadow: '0 4px 14px rgba(69, 26, 3, 0.4)',
+              color: '#0284C7',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.45rem'
+              gap: '0.5rem'
             }}>
-              <Compass size={16} color="#214A70" /> HEADING: NORTH-SOUTH
+              <Compass size={18} color="#0284C7" /> HEADING: NORTH-SOUTH
+            </div>
+          </div>
+
+          {/* In-Canvas Floating Annotation Badge 1: Thin Thread */}
+          <div style={{
+            position: 'absolute',
+            top: '20%',
+            left: '37%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 25,
+            pointerEvents: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}>
+            <div style={{
+              background: '#FFFFFF',
+              border: '1.5px solid #BAE6FD',
+              borderRadius: '20px',
+              padding: '0.4rem 1rem',
+              color: '#0284C7',
+              fontSize: '0.95rem',
+              fontWeight: 900,
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '7px'
+            }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#0284C7', boxShadow: '0 0 8px rgba(2, 132, 199, 0.6)' }} />
+              Thin thread
+            </div>
+            <div style={{
+              width: '28px',
+              height: '2px',
+              background: 'linear-gradient(90deg, #0284C7, rgba(2, 132, 199, 0.2))'
+            }} />
+          </div>
+
+          {/* In-Canvas Floating Annotation Badge 2: Free to Turn (Shifted noticeably higher up) */}
+          <div style={{
+            position: 'absolute',
+            top: '32%',
+            right: '28%',
+            zIndex: 25,
+            pointerEvents: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}>
+            <div style={{
+              width: '28px',
+              height: '2px',
+              background: 'linear-gradient(90deg, rgba(2, 132, 199, 0.2), #0284C7)'
+            }} />
+            <div style={{
+              background: '#FFFFFF',
+              border: '1.5px solid #BAE6FD',
+              borderRadius: '20px',
+              padding: '0.4rem 1rem',
+              color: '#0284C7',
+              fontSize: '0.95rem',
+              fontWeight: 900,
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '7px'
+            }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#0284C7', boxShadow: '0 0 8px rgba(2, 132, 199, 0.6)' }} />
+              Free to turn
+            </div>
+          </div>
+
+          {/* In-Canvas Floating Annotation Badge 3: Bottom Telemetry Pill (2-Line Balanced Layout) */}
+          <div style={{
+            position: 'absolute',
+            bottom: '16px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 25,
+            pointerEvents: 'none',
+            background: '#FFFFFF',
+            border: '1.5px solid #BAE6FD',
+            borderRadius: '24px',
+            padding: '0.65rem 1.8rem',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.9rem',
+            maxWidth: '92%',
+            width: 'max-content'
+          }}>
+            <div style={{
+              background: '#E0F2FE',
+              padding: '0.45rem',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#0284C7',
+              flexShrink: 0
+            }}>
+              <Compass size={24} color="#0284C7" />
+            </div>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center',
+              lineHeight: 1.35
+            }}>
+              <span style={{
+                color: '#0369A1',
+                fontSize: '1.25rem',
+                fontWeight: 900,
+                letterSpacing: '-0.01em'
+              }}>
+                It settles approximately north-south.
+              </span>
+              <span style={{
+                color: '#0284C7',
+                fontSize: '1.18rem',
+                fontWeight: 700,
+                letterSpacing: '-0.01em'
+              }}>
+                Earth's magnetic field guides its direction.
+              </span>
             </div>
           </div>
 
@@ -497,7 +537,7 @@ export default function Stage1_Experiment({ onComplete }) {
             shadows
             gl={{ 
               alpha: true, 
-              antialias: true,
+              antialias: true, 
               toneMapping: THREE.ACESFilmicToneMapping,
               toneMappingExposure: 1.32
             }}
@@ -539,80 +579,85 @@ export default function Stage1_Experiment({ onComplete }) {
         <div 
           className="stage-container-1"
           style={{
-            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            background: 'rgba(255, 255, 255, 0.92)',
+            backdropFilter: 'blur(10px)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
-            boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
-            padding: '1.25rem 1.45rem',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)',
+            padding: '1.5rem 1.7rem',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
-            gap: '0.85rem',
+            justifyContent: 'flex-start',
+            gap: '1.25rem',
             boxSizing: 'border-box'
           }}
         >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                <BookOpen size={24} color="#173B5F" />
-                <h3 style={{ margin: 0, fontSize: '19.5px', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.01em' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <BookOpen size={32} color="#173B5F" />
+                <h3 style={{ margin: 0, fontSize: '2.4rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
                   Stage 1: Experiment
                 </h3>
               </div>
               <span style={{
-                background: quizAnswer === 'yes' ? '#DCFCE7' : 'rgba(217, 119, 6, 0.12)',
+                background: quizAnswer === 'yes' ? '#DCFCE7' : 'rgba(23, 59, 95, 0.1)',
                 color: quizAnswer === 'yes' ? '#15803D' : '#173B5F',
                 fontWeight: 900,
-                fontSize: '0.88rem',
-                padding: '0.3rem 0.8rem',
-                borderRadius: '12px',
-                border: quizAnswer === 'yes' ? '1.5px solid #86EFAC' : '1.5px solid #E2E8F0'
+                fontSize: '1.2rem',
+                padding: '0.45rem 1.1rem',
+                borderRadius: '16px',
+                border: quizAnswer === 'yes' ? '1.5px solid #86EFAC' : '1.5px solid #CBD5E1'
               }}>
                 Step {spinCount >= 1 ? (quizAnswer === 'yes' ? 3 : 2) : 1} of 3
               </span>
             </div>
 
-            {/* Steps of Instructions - Dot Bullets, Single-Line Brown Text */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+            {/* Substantially Scaled Up Instructions */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.95rem' }}>
               {[
                 {
                   id: 'step1',
-                  desc: 'Click "Rotate Magnet" to spin the freely suspended 3D bar magnet.'
+                  bold: 'Click "Rotate Magnet"',
+                  desc: 'to spin the suspended bar magnet.'
                 },
                 {
                   id: 'step2',
-                  desc: 'Watch the magnet oscillate and settle pointing in the North-South direction.'
+                  bold: 'Watch the magnet settle',
+                  desc: 'smoothly along the North-South direction.'
                 },
                 {
                   id: 'step3',
-                  desc: 'Answer the Quick Check question below to confirm your observation.'
+                  bold: 'Answer Quick Check',
+                  desc: 'below to verify your observation.'
                 }
-              ].map((s, idx) => (
+              ].map((s) => (
                 <div
                   key={s.id}
                   style={{
                     display: 'flex',
                     alignItems: 'flex-start',
-                    gap: '0.75rem',
+                    gap: '0.95rem',
                     padding: '0.1rem 0'
                   }}
                 >
                   <span style={{
-                    width: '9px',
-                    height: '9px',
+                    width: '12px',
+                    height: '12px',
                     borderRadius: '50%',
                     background: '#173B5F',
-                    marginTop: '0.48rem',
+                    marginTop: '0.75rem',
                     flexShrink: 0
                   }} />
                   <p style={{
                     margin: 0,
-                    fontSize: '17.5px',
+                    fontSize: '1.7rem',
                     color: '#173B5F',
                     fontWeight: 600,
-                    lineHeight: 1.45
+                    lineHeight: 1.5
                   }}>
+                    <strong style={{ fontWeight: 900, color: '#0F172A' }}>{s.bold} </strong>
                     {s.desc}
                   </p>
                 </div>
@@ -621,21 +666,21 @@ export default function Stage1_Experiment({ onComplete }) {
           </div>
 
           {/* Action Controls Row */}
-          <div style={{ width: '100%', display: 'flex', gap: '0.75rem', marginTop: '0.2rem' }}>
+          <div style={{ width: '100%', display: 'flex', gap: '0.95rem', marginTop: '0.4rem' }}>
             <button
               onClick={handleSpin}
               disabled={isSpinning}
               className={!isSpinning ? 'gold-glow-btn' : ''}
               style={{
                 flex: 1.4,
-                padding: '0.8rem 1rem',
-                fontSize: '17.5px',
+                padding: '1.25rem 1.6rem',
+                fontSize: '1.55rem',
                 fontWeight: 900,
-                borderRadius: '16px',
+                borderRadius: '20px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                gap: '0.6rem',
+                gap: '0.75rem',
                 background: isSpinning ? '#CBD5E1' : undefined,
                 color: isSpinning ? '#64748B' : '#FFFFFF',
                 border: isSpinning ? 'none' : undefined,
@@ -643,30 +688,30 @@ export default function Stage1_Experiment({ onComplete }) {
                 transition: 'all 0.2s ease'
               }}
             >
-              <RotateCw size={19} className={isSpinning ? 'spin-anim' : ''} /> {isSpinning ? 'Spinning...' : 'Rotate Magnet'}
+              <RotateCw size={26} className={isSpinning ? 'spin-anim' : ''} /> {isSpinning ? 'Spinning...' : 'Rotate Magnet'}
             </button>
 
             <button
               onClick={handleReset}
               style={{
                 flex: 0.8,
-                padding: '0.8rem 0.9rem',
-                fontSize: '16.5px',
+                padding: '1.25rem 1.4rem',
+                fontSize: '1.45rem',
                 fontWeight: 900,
-                borderRadius: '16px',
+                borderRadius: '20px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                gap: '0.45rem',
+                gap: '0.6rem',
                 background: '#FFFFFF',
                 color: '#173B5F',
-                border: '1.5px solid #E2E8F0',
+                border: '1.5px solid #CBD5E1',
                 cursor: 'pointer',
-                boxShadow: '0 2px 8px rgba(217, 119, 6, 0.08)',
+                boxShadow: '0 2px 8px rgba(23, 59, 95, 0.08)',
                 transition: 'all 0.2s ease'
               }}
             >
-              <RotateCcw size={18} color="#173B5F" /> Restart
+              <RotateCcw size={24} color="#173B5F" /> Restart
             </button>
           </div>
         </div>
@@ -675,101 +720,73 @@ export default function Stage1_Experiment({ onComplete }) {
         <div 
           className="stage-container-2"
           style={{
-            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
-            border: quizAnswer === 'yes' ? '2px solid #86EFAC' : '1.5px solid #E2E8F0',
+            background: 'rgba(255, 255, 255, 0.92)',
+            backdropFilter: 'blur(10px)',
+            border: quizAnswer === 'yes' ? '2.5px solid #86EFAC' : '1.5px solid #E2E8F0',
             borderRadius: '24px',
-            boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
-            padding: '1.25rem 1.45rem',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)',
+            padding: '1.5rem 1.7rem',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
-            gap: '0.85rem',
+            justifyContent: 'center',
+            gap: '1.25rem',
             boxSizing: 'border-box'
           }}
         >
           <div style={{
-            fontSize: '19.5px',
+            fontSize: '1.75rem',
             fontWeight: 900,
             color: '#1E1B4B',
-            lineHeight: 1.4,
-            letterSpacing: '-0.01em'
+            lineHeight: 1.42,
+            letterSpacing: '-0.015em'
           }}>
             Quick Check: Does a freely suspended magnet always settle in the North-South direction?
           </div>
 
-          <div style={{ display: 'flex', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', gap: '0.95rem' }}>
             <button
               onClick={() => handleQuizAnswer('yes')}
               style={{
                 flex: 1,
-                padding: '0.8rem 1rem',
-                borderRadius: '16px',
-                fontSize: '17.5px',
+                padding: '1.25rem 1.6rem',
+                borderRadius: '20px',
+                fontSize: '1.5rem',
                 fontWeight: 900,
                 cursor: 'pointer',
                 background: quizAnswer === 'yes' ? '#DCFCE7' : '#FFFFFF',
                 color: quizAnswer === 'yes' ? '#065F46' : '#1E1B4B',
-                border: quizAnswer === 'yes' ? '2px solid #16A34A' : '1.5px solid #E2E8F0',
-                boxShadow: quizAnswer === 'yes' ? '0 4px 14px rgba(5, 150, 105, 0.25)' : '0 2px 6px rgba(0, 0, 0, 0.04)',
+                border: quizAnswer === 'yes' ? '2.5px solid #16A34A' : '1.5px solid #CBD5E1',
+                boxShadow: quizAnswer === 'yes' ? '0 4px 16px rgba(5, 150, 105, 0.25)' : '0 2px 8px rgba(0, 0, 0, 0.04)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '0.5rem',
+                gap: '0.75rem',
                 transition: 'all 0.2s ease'
               }}
             >
-              <CheckCircle size={19} color={quizAnswer === 'yes' ? '#16A34A' : '#173B5F'} /> Yes, Always!
+              <CheckCircle size={26} color={quizAnswer === 'yes' ? '#16A34A' : '#173B5F'} /> Yes, Always!
             </button>
             <button
               onClick={() => handleQuizAnswer('no')}
               style={{
                 flex: 1,
-                padding: '0.8rem 1rem',
-                borderRadius: '16px',
-                fontSize: '17.5px',
+                padding: '1.25rem 1.6rem',
+                borderRadius: '20px',
+                fontSize: '1.5rem',
                 fontWeight: 900,
                 cursor: 'pointer',
                 background: quizAnswer === 'no' ? '#FEE2E2' : '#FFFFFF',
                 color: quizAnswer === 'no' ? '#991B1B' : '#64748B',
-                border: quizAnswer === 'no' ? '2px solid #DC2626' : '1.5px solid #E2E8F0',
-                boxShadow: quizAnswer === 'no' ? '0 4px 14px rgba(220, 38, 38, 0.2)' : '0 2px 6px rgba(0, 0, 0, 0.04)',
+                border: quizAnswer === 'no' ? '2.5px solid #DC2626' : '1.5px solid #CBD5E1',
+                boxShadow: quizAnswer === 'no' ? '0 4px 16px rgba(220, 38, 38, 0.2)' : '0 2px 8px rgba(0, 0, 0, 0.04)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '0.5rem',
+                gap: '0.75rem',
                 transition: 'all 0.2s ease'
               }}
             >
-              <XCircle size={19} color={quizAnswer === 'no' ? '#DC2626' : '#94A3B8'} /> No
-            </button>
-          </div>
-
-          {/* Proceed Button Row */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '0.2rem' }}>
-            <span style={{ fontSize: '0.95rem', color: '#173B5F', fontWeight: 800 }}>
-              Stage 1 of 2 ● ○
-            </span>
-
-            <button
-              onClick={onComplete}
-              disabled={!isCompleted}
-              className={isCompleted ? 'gold-glow-btn' : ''}
-              style={{
-                padding: '0.8rem 2.2rem',
-                fontSize: '17.5px',
-                fontWeight: 900,
-                borderRadius: '24px',
-                background: isCompleted ? undefined : '#E2E8F0',
-                color: isCompleted ? '#FFFFFF' : '#94A3B8',
-                border: 'none',
-                cursor: isCompleted ? 'pointer' : 'not-allowed',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.55rem',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              Next <ArrowRight size={20} color={isCompleted ? '#FFFFFF' : '#94A3B8'} />
+              <XCircle size={26} color={quizAnswer === 'no' ? '#DC2626' : '#94A3B8'} /> No
             </button>
           </div>
         </div>

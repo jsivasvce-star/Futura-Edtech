@@ -1,46 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, RotateCcw, Info, ArrowRight, Lock, AlertCircle, Maximize2, Minimize2 } from 'lucide-react';
+import { CheckCircle2, RotateCcw, Info, ArrowRight, Lock, Maximize2, Minimize2 } from 'lucide-react';
 import MagnetActivityBackground from './MagnetActivityBackground';
 
 const STEPS = [
   {
     id: "carA",
     name: "Magnetic Airplane A (Left Lane)",
-    instruction: "Click Airplane A below, then click the left flight corridor to place it.",
+    instruction: "Click Airplane A in the tray below to place it into the left flight corridor.",
     hint: "Place Airplane A in the left airspace lane.",
   },
   {
     id: "carB",
     name: "Magnetic Airplane B (Right Lane)",
-    instruction: "Click Airplane B below, then click the right flight corridor to place it.",
+    instruction: "Click Airplane B in the tray below to place it into the right flight corridor.",
     hint: "Place Airplane B in the right airspace lane.",
   }
 ];
 
-// ─── Airplane thumbnail card (click to select) ───
-function TrayItemCard({ step, isPlaced, isUnlocked, isSelected, onClick, renderThumbnail }) {
+// ─── Airplane thumbnail card (one-click direct placement) ───
+function TrayItemCard({ step, isPlaced, isUnlocked, onClick, renderThumbnail }) {
   const isDisabled = isPlaced || !isUnlocked;
-  const isCurrent = isUnlocked && !isPlaced;
 
   return (
     <div
       onClick={() => !isDisabled && onClick(step.id)}
       style={{
-        opacity: isDisabled ? (isPlaced ? 0.75 : 0.5) : 1,
+        opacity: isDisabled ? (isPlaced ? 0.85 : 0.45) : 1,
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         gap: '0.75rem',
         padding: '1rem',
-        borderRadius: '16px',
-        background: isPlaced ? '#DCFCE7' : isSelected ? '#EAF2F6' : isCurrent ? '#EAF2F6' : '#FFFFFF',
+        borderRadius: '18px',
+        background: isPlaced ? '#DCFCE7' : isUnlocked ? '#FFFFFF' : '#F8FAFC',
         border: isPlaced
-          ? '1.5px solid #86EFAC'
-          : isSelected
-          ? '2.5px solid #173B5F'
-          : isCurrent
+          ? '2px solid #86EFAC'
+          : isUnlocked
           ? '2px solid #214A70'
           : '1.5px solid #E2E8F0',
         color: '#064E3B',
@@ -48,16 +45,15 @@ function TrayItemCard({ step, isPlaced, isUnlocked, isSelected, onClick, renderT
         transition: 'all 0.2s ease',
         position: 'relative',
         fontWeight: 800,
-        boxShadow: isSelected
-          ? '0 0 0 3px rgba(217,119,6,0.3), 0 6px 18px rgba(217,119,6,0.22)'
-          : isCurrent
-          ? '0 4px 14px rgba(245, 158, 11, 0.18)'
-          : '0 2px 8px rgba(0,0,0,0.03)',
+        boxShadow: isPlaced
+          ? '0 2px 10px rgba(16, 185, 129, 0.12)'
+          : isUnlocked
+          ? '0 4px 16px rgba(23, 59, 95, 0.12)'
+          : '0 2px 6px rgba(0,0,0,0.03)',
         userSelect: 'none',
         boxSizing: 'border-box',
         flex: 1,
-        minHeight: 0,
-        transform: isSelected ? 'scale(1.02)' : 'scale(1)'
+        minHeight: 0
       }}
     >
       <div style={{
@@ -66,7 +62,7 @@ function TrayItemCard({ step, isPlaced, isUnlocked, isSelected, onClick, renderT
         minHeight: 0,
         background: isPlaced ? '#F0FDF4' : '#F3F7F9',
         border: `1.5px solid ${isPlaced ? '#A7F3D0' : '#E2E8F0'}`,
-        borderRadius: '12px',
+        borderRadius: '14px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -76,38 +72,21 @@ function TrayItemCard({ step, isPlaced, isUnlocked, isSelected, onClick, renderT
         boxSizing: 'border-box',
         position: 'relative'
       }}>
-        <div style={{
-          position: 'absolute',
-          top: '6px',
-          left: '10px',
-          width: '26px',
-          height: '26px',
-          borderRadius: '50%',
-          background: isPlaced ? '#059669' : isUnlocked ? '#173B5F' : '#CBD5E1',
-          color: '#FFFFFF',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '0.9rem',
-          fontWeight: 900
-        }}>
-          {step.id === 'carA' ? '1' : '2'}
-        </div>
         {renderThumbnail(step.id)}
       </div>
 
       <div style={{ textAlign: 'center', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.35rem' }}>
-        <div style={{ fontSize: '1.18rem', fontWeight: 900, color: isPlaced ? '#047857' : '#064E3B' }}>{step.name}</div>
+        <div style={{ fontSize: '1.35rem', fontWeight: 900, color: isPlaced ? '#047857' : '#173B5F', letterSpacing: '-0.01em' }}>
+          {step.name}
+        </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', justifyContent: 'center' }}>
           {isPlaced ? (
-            <><CheckCircle2 size={18} style={{ color: '#16A34A' }} /> <span style={{ fontSize: '0.95rem', fontWeight: 800, color: '#15803D' }}>Placed in Airspace</span></>
+            <><CheckCircle2 size={20} style={{ color: '#16A34A' }} /> <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#15803D' }}>Placed in Airspace</span></>
           ) : !isUnlocked ? (
-            <><Lock size={16} style={{ color: '#94A3B8' }} /> <span style={{ fontSize: '0.95rem', fontWeight: 800, color: '#94A3B8' }}>Locked</span></>
-          ) : isSelected ? (
-            <span style={{ fontSize: '0.98rem', fontWeight: 800, color: '#173B5F' }}>✓ Selected — click a corridor</span>
+            <><Lock size={18} style={{ color: '#94A3B8' }} /> <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#94A3B8' }}>Locked</span></>
           ) : (
-            <span style={{ fontSize: '0.98rem', fontWeight: 700, color: '#173B5F' }}>👆 Click to select</span>
+            <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#173B5F' }}>👆 Click to Place in Corridor</span>
           )}
         </div>
       </div>
@@ -130,7 +109,7 @@ function CanvasArea({ children, onZoneClick }) {
         boxShadow: '0 10px 35px rgba(6, 78, 59, 0.15)',
       }}
     >
-      {/* 3D WebGL Background */}
+      {/* 3D WebGL / Canvas Background */}
       <MagnetActivityBackground />
 
       {/* Center Dashed Corridor Divider */}
@@ -183,14 +162,12 @@ function CanvasArea({ children, onZoneClick }) {
 
 export default function Stage1_Build({ onComplete, onNext }) {
   const [placed, setPlaced] = useState({ carA: false, carB: false });
-  const [selectedId, setSelectedId] = useState(null); // which tray item is "selected"
   const [success, setSuccess] = useState(false);
   const [activePopup, setActivePopup] = useState(0); // 0: carA, 1: carB, 2: observe, null: hidden
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Map zone → placed airplane
   const zoneMap = { left: 'carA', right: 'carB' };
-  const positionMap = { carA: '25%', carB: '75%' };
 
   React.useEffect(() => {
     if (placed.carA && !placed.carB) {
@@ -224,36 +201,27 @@ export default function Stage1_Build({ onComplete, onNext }) {
     return false;
   };
 
+  // Direct 1-click plane placement
   const handleTrayClick = (id) => {
     if (placed[id] || !isStepUnlocked(id)) return;
-    setSelectedId(prev => (prev === id ? null : id));
-  };
-
-  const handleZoneClick = (zone) => {
-    if (!selectedId) return;
-
-    const targetId = zoneMap[zone];
-    // Only allow placing in the correct corridor
-    if (selectedId !== targetId) {
-      // Wrong corridor — give a quick visual shake signal (no-op, just deselect)
-      setSelectedId(null);
-      return;
-    }
-
-    const newPlaced = { ...placed, [selectedId]: true };
+    const newPlaced = { ...placed, [id]: true };
     setPlaced(newPlaced);
-    setSelectedId(null);
 
     if (Object.values(newPlaced).every(Boolean)) {
       setSuccess(true);
     }
   };
 
+  const handleZoneClick = (zone) => {
+    const targetId = zoneMap[zone];
+    if (placed[targetId] || !isStepUnlocked(targetId)) return;
+    handleTrayClick(targetId);
+  };
+
   const handleReset = () => {
     setPlaced({ carA: false, carB: false });
     setSuccess(false);
     setActivePopup(0);
-    setSelectedId(null);
   };
 
   const renderThumbnail = (id) => (
@@ -329,54 +297,6 @@ export default function Stage1_Build({ onComplete, onNext }) {
               <span>{isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}</span>
             </button>
 
-            {/* Click-zone hint overlays (only when an item is selected) */}
-            {selectedId && (
-              <>
-                <div style={{
-                  position: 'absolute',
-                  top: 0, bottom: 0, left: 0, width: '50%',
-                  background: selectedId === 'carA' ? 'rgba(245,158,11,0.18)' : 'rgba(100,116,139,0.12)',
-                  border: selectedId === 'carA' ? '3px dashed rgba(245,158,11,0.65)' : '3px dashed rgba(100,116,139,0.3)',
-                  borderRadius: '24px 0 0 24px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  pointerEvents: 'none',
-                  zIndex: 5
-                }}>
-                  <span style={{
-                    color: selectedId === 'carA' ? '#214A70' : '#94A3B8',
-                    fontWeight: 900,
-                    fontSize: '1.05rem',
-                    textShadow: '0 2px 8px rgba(0,0,0,0.6)'
-                  }}>
-                    {selectedId === 'carA' ? '👆 Click here' : 'Wrong lane'}
-                  </span>
-                </div>
-                <div style={{
-                  position: 'absolute',
-                  top: 0, bottom: 0, right: 0, width: '50%',
-                  background: selectedId === 'carB' ? 'rgba(245,158,11,0.18)' : 'rgba(100,116,139,0.12)',
-                  border: selectedId === 'carB' ? '3px dashed rgba(245,158,11,0.65)' : '3px dashed rgba(100,116,139,0.3)',
-                  borderRadius: '0 24px 24px 0',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  pointerEvents: 'none',
-                  zIndex: 5
-                }}>
-                  <span style={{
-                    color: selectedId === 'carB' ? '#214A70' : '#94A3B8',
-                    fontWeight: 900,
-                    fontSize: '1.05rem',
-                    textShadow: '0 2px 8px rgba(0,0,0,0.6)'
-                  }}>
-                    {selectedId === 'carB' ? '👆 Click here' : 'Wrong lane'}
-                  </span>
-                </div>
-              </>
-            )}
-
             {/* Placed Airplane A */}
             {placed.carA && (
               <div style={{
@@ -431,36 +351,38 @@ export default function Stage1_Build({ onComplete, onNext }) {
         <div className="stage-right-column" style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: '1.65rem',
+          gap: '1.25rem',
           height: '100%',
           minHeight: 0,
           boxSizing: 'border-box'
         }}>
-          {/* Container 1: Steps of Instructions */}
+          {/* Container 1: Steps of Instructions (2x Scaled Typography, No-Scroll Containment) */}
           <div className="stage-container-1" style={{
             background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
-            padding: '1.4rem 1.6rem',
+            padding: '1.25rem 1.5rem',
             boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
             display: 'flex',
             flexDirection: 'column',
-            gap: '0.85rem'
+            gap: '0.85rem',
+            overflow: 'hidden',
+            flexShrink: 0
           }}>
-            <h3 style={{ margin: 0, fontSize: '19.5px', fontWeight: 900, color: '#1E1B4B' }}>
+            <h3 style={{ margin: 0, fontSize: '24px', fontWeight: 900, color: '#1E1B4B' }}>
               Steps of Instructions
             </h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
-                <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
-                  Click Airplane A in the tray below to select it, then click the left flight corridor.
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', overflow: 'hidden' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
+                <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#173B5F', marginTop: '0.65rem', flexShrink: 0 }} />
+                <span style={{ fontSize: '25px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
+                  Click Airplane A in the tray below to place it into the left flight corridor.
                 </span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
-                <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
-                  Click Airplane B to select it, then click the right parallel flight corridor.
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
+                <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#173B5F', marginTop: '0.65rem', flexShrink: 0 }} />
+                <span style={{ fontSize: '25px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
+                  Click Airplane B in the tray below to place it into the right flight corridor.
                 </span>
               </div>
             </div>
@@ -471,7 +393,7 @@ export default function Stage1_Build({ onComplete, onNext }) {
             background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
-            padding: '1.4rem 1.6rem',
+            padding: '1.35rem 1.6rem',
             boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
             display: 'flex',
             flexDirection: 'column',
@@ -480,7 +402,7 @@ export default function Stage1_Build({ onComplete, onNext }) {
             minHeight: 0
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 style={{ margin: 0, fontSize: '19.5px', fontWeight: 900, color: '#1E1B4B' }}>
+              <h3 style={{ margin: 0, fontSize: '21px', fontWeight: 900, color: '#1E1B4B' }}>
                 Flight Components
               </h3>
               <button
@@ -514,7 +436,6 @@ export default function Stage1_Build({ onComplete, onNext }) {
                   step={step}
                   isPlaced={placed[step.id]}
                   isUnlocked={isStepUnlocked(step.id)}
-                  isSelected={selectedId === step.id}
                   onClick={handleTrayClick}
                   renderThumbnail={renderThumbnail}
                 />
@@ -529,7 +450,7 @@ export default function Stage1_Build({ onComplete, onNext }) {
               style={{
                 width: '100%',
                 padding: '0.85rem 1.4rem',
-                fontSize: '17.5px',
+                fontSize: '18px',
                 fontWeight: 900,
                 borderRadius: '16px',
                 display: 'flex',
@@ -550,7 +471,7 @@ export default function Stage1_Build({ onComplete, onNext }) {
         </div>
       </div>
 
-      {/* Instruction Popups */}
+      {/* Instruction Popups (Substantially Enlarged) */}
       <AnimatePresence>
         {activePopup !== null && (
           <motion.div
@@ -570,38 +491,39 @@ export default function Stage1_Build({ onComplete, onNext }) {
               initial={{ scale: 0.8, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.8, y: 20 }}
-              transition={{ type: 'spring', bounce: 0.5, duration: 0.6 }}
+              transition={{ type: 'spring', bounce: 0.45, duration: 0.55 }}
               style={{
                 background: '#FFFFFF',
                 border: '1.5px solid #E2E8F0',
-                borderRadius: '24px',
-                padding: '2.2rem',
-                maxWidth: '440px',
-                boxShadow: '0 12px 40px rgba(69, 26, 3, 0.2)',
+                borderRadius: '28px',
+                padding: '2.8rem 3rem',
+                maxWidth: '580px',
+                width: '92%',
+                boxShadow: '0 20px 50px rgba(15, 23, 42, 0.25)',
                 textAlign: 'center',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                gap: '1.25rem',
+                gap: '1.45rem',
                 fontFamily: 'system-ui, -apple-system, sans-serif'
               }}
             >
-              <div style={{ width: '58px', height: '58px', background: '#EAF2F6', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #E2E8F0' }}>
-                <Info size={30} color="#173B5F" />
+              <div style={{ width: '76px', height: '76px', background: '#EAF2F6', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2.5px solid #CBD5E1' }}>
+                <Info size={38} color="#173B5F" />
               </div>
 
-              <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.45rem', fontWeight: 900 }}>
+              <h3 style={{ margin: 0, color: '#173B5F', fontSize: '1.95rem', fontWeight: 900 }}>
                 {activePopup === 0 && 'Step 1: Left Airspace'}
                 {activePopup === 1 && 'Step 2: Right Airspace'}
                 {activePopup === 2 && 'Observation'}
               </h3>
 
-              <p style={{ margin: 0, color: '#065F46', fontSize: '1.1rem', fontWeight: 600, lineHeight: 1.6 }}>
+              <p style={{ margin: 0, color: '#334155', fontSize: '1.35rem', fontWeight: 600, lineHeight: 1.65 }}>
                 {activePopup === 0 && (
-                  <>Click <strong>Airplane A</strong> in the tray, then click the <strong>Left flight corridor</strong>.</>
+                  <>Click <strong>Airplane A</strong> in the tray below to place it into the <strong>Left flight corridor</strong>.</>
                 )}
                 {activePopup === 1 && (
-                  <>Click <strong>Airplane B</strong> in the tray, then click the <strong>Right parallel flight corridor</strong>.</>
+                  <>Click <strong>Airplane B</strong> in the tray below to place it into the <strong>Right parallel flight corridor</strong>.</>
                 )}
                 {activePopup === 2 && (
                   <>Observe the magnetic poles (Front: North [N], Rear: South [S]) before proceeding to test flight interactions!</>
@@ -612,18 +534,18 @@ export default function Stage1_Build({ onComplete, onNext }) {
                 onClick={() => setActivePopup(null)}
                 className="gold-glow-btn"
                 style={{
-                  marginTop: '0.5rem',
-                  padding: '0.85rem 2.6rem',
+                  marginTop: '0.6rem',
+                  padding: '0.95rem 3.5rem',
                   borderRadius: '25px',
-                  fontSize: '1.05rem',
+                  fontSize: '1.25rem',
                   fontWeight: 900,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.5rem'
+                  gap: '0.6rem'
                 }}
               >
-                Got it! <CheckCircle2 size={18} color="#FFFFFF" />
+                Got it! <CheckCircle2 size={22} color="#FFFFFF" />
               </button>
             </motion.div>
           </motion.div>

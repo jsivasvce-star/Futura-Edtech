@@ -375,8 +375,6 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                 Scientific Facts
               </h3>
               <span style={{
-                background: 'rgba(217, 119, 6, 0.15)',
-                color: '#92400E',
                 fontSize: '0.8rem',
                 fontWeight: 800,
                 borderRadius: '12px',
@@ -386,7 +384,8 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: '#173B5F',
-                boxShadow: '0 2px 8px rgba(217, 119, 6, 0.1)'
+                boxShadow: '0 2px 8px rgba(217, 119, 6, 0.1)',
+                padding: '6px'
               }}>
                 <Sparkles size={20} />
               </span>

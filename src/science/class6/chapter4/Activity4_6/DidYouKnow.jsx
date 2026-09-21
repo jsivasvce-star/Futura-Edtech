@@ -379,15 +379,12 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
               title="Next Page"
               className={pageIndex === 0 ? 'gold-glow-btn' : ''}
               style={{
-                background: pageIndex === 1 ? 'rgba(255, 255, 255, 0.4)' : undefined,
-                border: pageIndex === 1 ? '1.5px solid #FDE68A' : 'none',
                 borderRadius: '12px',
-                border: '1.5px solid #E2E8F0',
-                background: pageIndex === 1 ? '#EAF2F6' : '#FFFFFF',
-                color: pageIndex === 1 ? '#D4D4D8' : '#173B5F',
+                border: pageIndex === 1 ? '1.5px solid #CBD5E1' : '1.5px solid #E2E8F0',
+                background: pageIndex === 1 ? '#EAF2F6' : pageIndex === 0 ? undefined : '#FFFFFF',
+                color: pageIndex === 1 ? '#94A3B8' : pageIndex === 0 ? '#FFFFFF' : '#173B5F',
                 cursor: pageIndex === 1 ? 'not-allowed' : 'pointer',
-                opacity: pageIndex === 1 ? 0.45 : 1,
-                color: pageIndex === 0 ? '#FFFFFF' : '#78350F',
+                opacity: pageIndex === 1 ? 0.5 : 1,
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.25rem',
