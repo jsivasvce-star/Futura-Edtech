@@ -1,0 +1,20 @@
+export const PAGE35_TRANSCRIPT = [
+  { "audioWord": "Looking", "start": 0.0, "end": 0.48, "pageWordId": "q-1", "matchType": "matched" },
+  { "audioWord": "at", "start": 0.48, "end": 0.72, "pageWordId": "q-2", "matchType": "matched" },
+  { "audioWord": "the", "start": 0.72, "end": 0.9, "pageWordId": "q-3", "matchType": "matched" },
+  { "audioWord": "map", "start": 0.9, "end": 1.14, "pageWordId": "q-4", "matchType": "matched" },
+  { "audioWord": "which", "start": 1.14, "end": 1.92, "pageWordId": "q-5", "matchType": "matched" },
+  { "audioWord": "place", "start": 1.92, "end": 2.4, "pageWordId": "q-6", "matchType": "matched" },
+  { "audioWord": "is", "start": 2.4, "end": 2.82, "pageWordId": "q-7", "matchType": "matched" },
+  { "audioWord": "farther", "start": 2.82, "end": 3.12, "pageWordId": "q-8", "matchType": "matched" },
+  { "audioWord": "from", "start": 3.12, "end": 3.48, "pageWordId": "q-9", "matchType": "matched" },
+  { "audioWord": "Chennai", "start": 3.48, "end": 4.18, "pageWordId": "q-10", "matchType": "matched" },
+  { "audioWord": "take", "start": 4.18, "end": 4.66, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "a", "start": 4.66, "end": 4.9, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "moment", "start": 4.9, "end": 5.18, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "to", "start": 5.18, "end": 5.48, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "compare", "start": 5.48, "end": 5.72, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "the", "start": 5.72, "end": 5.94, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "two", "start": 5.94, "end": 6.12, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "places", "start": 6.12, "end": 6.42, "pageWordId": "none", "matchType": "unmatched" }
+];

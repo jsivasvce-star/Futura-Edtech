@@ -45,8 +45,6 @@ import chickpeaRootImg from '../../../../../assets/chickpea_root.png';
 import specimen01LemongrassBlended from './specimen_01_lemongrass_blended.png';
 import specimen02MarigoldBlended from './specimen_02_marigold_blended.png';
 import specimen03SadabaharBlended from './specimen_03_sadabahar_blended.png';
-import specimen04ChickpeaBlended from './specimen_04_chickpea_blended.png';
-import specimen05WheatBlended from './specimen_05_wheat_blended.png';
 
 // ============================================================
 // ORNATE BOTANICAL SVG ELEMENTS (EXACT MATCH TO SLOGAN PAGE)
@@ -307,7 +305,7 @@ const CORRELATION_SPECIMEN_SLIDES = [
     name: 'Chickpea',
     venation: 'Reticulate venation',
     root: 'Tap root system',
-    image: specimen04ChickpeaBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
+    image: '/activities/class6_chapter2/correlation/chickpea.png'
   },
   {
     id: 5,
@@ -315,7 +313,7 @@ const CORRELATION_SPECIMEN_SLIDES = [
     name: 'Wheat',
     venation: 'Parallel venation',
     root: 'Fibrous root system',
-    image: specimen05WheatBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
+    image: '/activities/class6_chapter2/correlation/wheat.png'
   }
 ];
 

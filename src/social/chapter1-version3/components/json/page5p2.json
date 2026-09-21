@@ -1,0 +1,127 @@
+{
+  "audio_file": "page5p2.mp3",
+  "duration": 9.012,
+  "language": "en",
+  "words": [
+    {
+      "text": "Welcome",
+      "start": 0.0,
+      "end": 0.44
+    },
+    {
+      "text": "to",
+      "start": 0.44,
+      "end": 0.66
+    },
+    {
+      "text": "the",
+      "start": 0.66,
+      "end": 0.8
+    },
+    {
+      "text": "city.",
+      "start": 0.8,
+      "end": 1.14
+    },
+    {
+      "text": "Help",
+      "start": 1.6,
+      "end": 1.84
+    },
+    {
+      "text": "Spider",
+      "start": 1.84,
+      "end": 2.22
+    },
+    {
+      "text": "-Man",
+      "start": 2.22,
+      "end": 2.44
+    },
+    {
+      "text": "travel",
+      "start": 2.44,
+      "end": 2.82
+    },
+    {
+      "text": "from",
+      "start": 2.82,
+      "end": 3.08
+    },
+    {
+      "text": "the",
+      "start": 3.08,
+      "end": 3.32
+    },
+    {
+      "text": "airport",
+      "start": 3.32,
+      "end": 3.56
+    },
+    {
+      "text": "to",
+      "start": 3.56,
+      "end": 3.92
+    },
+    {
+      "text": "Sunset",
+      "start": 3.92,
+      "end": 4.38
+    },
+    {
+      "text": "Beach.",
+      "start": 4.38,
+      "end": 4.7
+    },
+    {
+      "text": "Use",
+      "start": 5.22,
+      "end": 5.5
+    },
+    {
+      "text": "the",
+      "start": 5.5,
+      "end": 5.78
+    },
+    {
+      "text": "direction",
+      "start": 5.78,
+      "end": 6.18
+    },
+    {
+      "text": "controls",
+      "start": 6.18,
+      "end": 6.62
+    },
+    {
+      "text": "to",
+      "start": 6.62,
+      "end": 6.92
+    },
+    {
+      "text": "guide",
+      "start": 6.92,
+      "end": 7.08
+    },
+    {
+      "text": "him",
+      "start": 7.08,
+      "end": 7.34
+    },
+    {
+      "text": "safely.",
+      "start": 7.34,
+      "end": 7.74
+    },
+    {
+      "text": "Let's",
+      "start": 8.32,
+      "end": 8.64
+    },
+    {
+      "text": "go.",
+      "start": 8.64,
+      "end": 8.78
+    }
+  ]
+}

@@ -1,0 +1,282 @@
+{
+  "audio_file": "page59.mp3",
+  "duration": 24.32,
+  "language": "en",
+  "words": [
+    {
+      "text": "western",
+      "start": 0.0,
+      "end": 0.5
+    },
+    {
+      "text": "and",
+      "start": 0.5,
+      "end": 0.72
+    },
+    {
+      "text": "eastern",
+      "start": 0.72,
+      "end": 1.08
+    },
+    {
+      "text": "hemispheres.",
+      "start": 1.08,
+      "end": 1.94
+    },
+    {
+      "text": "Cut",
+      "start": 2.54,
+      "end": 2.7
+    },
+    {
+      "text": "the",
+      "start": 2.7,
+      "end": 2.9
+    },
+    {
+      "text": "globe",
+      "start": 2.9,
+      "end": 3.1
+    },
+    {
+      "text": "along",
+      "start": 3.1,
+      "end": 3.42
+    },
+    {
+      "text": "the",
+      "start": 3.42,
+      "end": 3.7
+    },
+    {
+      "text": "prime",
+      "start": 3.7,
+      "end": 3.84
+    },
+    {
+      "text": "meridian,",
+      "start": 3.84,
+      "end": 4.36
+    },
+    {
+      "text": "0",
+      "start": 4.86,
+      "end": 5.08
+    },
+    {
+      "text": "degrees,",
+      "start": 5.08,
+      "end": 5.6
+    },
+    {
+      "text": "and",
+      "start": 5.98,
+      "end": 6.22
+    },
+    {
+      "text": "the",
+      "start": 6.22,
+      "end": 6.44
+    },
+    {
+      "text": "180",
+      "start": 6.44,
+      "end": 7.14
+    },
+    {
+      "text": "degrees",
+      "start": 7.14,
+      "end": 7.64
+    },
+    {
+      "text": "line,",
+      "start": 7.64,
+      "end": 8.02
+    },
+    {
+      "text": "and",
+      "start": 8.4,
+      "end": 8.64
+    },
+    {
+      "text": "it",
+      "start": 8.64,
+      "end": 8.84
+    },
+    {
+      "text": "falls",
+      "start": 8.84,
+      "end": 9.18
+    },
+    {
+      "text": "into",
+      "start": 9.18,
+      "end": 9.62
+    },
+    {
+      "text": "two",
+      "start": 9.62,
+      "end": 9.96
+    },
+    {
+      "text": "halves",
+      "start": 9.96,
+      "end": 10.3
+    },
+    {
+      "text": "that",
+      "start": 10.3,
+      "end": 10.84
+    },
+    {
+      "text": "we",
+      "start": 10.84,
+      "end": 11.02
+    },
+    {
+      "text": "can",
+      "start": 11.02,
+      "end": 11.24
+    },
+    {
+      "text": "see",
+      "start": 11.24,
+      "end": 11.46
+    },
+    {
+      "text": "fully.",
+      "start": 11.46,
+      "end": 11.8
+    },
+    {
+      "text": "The",
+      "start": 12.68,
+      "end": 12.84
+    },
+    {
+      "text": "left",
+      "start": 12.84,
+      "end": 13.04
+    },
+    {
+      "text": "half",
+      "start": 13.04,
+      "end": 13.32
+    },
+    {
+      "text": "is",
+      "start": 13.32,
+      "end": 13.66
+    },
+    {
+      "text": "the",
+      "start": 13.66,
+      "end": 13.8
+    },
+    {
+      "text": "western",
+      "start": 13.8,
+      "end": 14.08
+    },
+    {
+      "text": "hemisphere,",
+      "start": 14.08,
+      "end": 14.64
+    },
+    {
+      "text": "0",
+      "start": 15.18,
+      "end": 15.44
+    },
+    {
+      "text": "degrees",
+      "start": 15.44,
+      "end": 15.9
+    },
+    {
+      "text": "to",
+      "start": 15.9,
+      "end": 16.2
+    },
+    {
+      "text": "180",
+      "start": 16.2,
+      "end": 16.86
+    },
+    {
+      "text": "degrees",
+      "start": 16.86,
+      "end": 17.4
+    },
+    {
+      "text": "west.",
+      "start": 17.4,
+      "end": 17.78
+    },
+    {
+      "text": "The",
+      "start": 17.78,
+      "end": 18.82
+    },
+    {
+      "text": "right",
+      "start": 18.82,
+      "end": 19.12
+    },
+    {
+      "text": "half",
+      "start": 19.12,
+      "end": 19.36
+    },
+    {
+      "text": "is",
+      "start": 19.36,
+      "end": 19.68
+    },
+    {
+      "text": "the",
+      "start": 19.68,
+      "end": 19.92
+    },
+    {
+      "text": "eastern",
+      "start": 19.92,
+      "end": 20.2
+    },
+    {
+      "text": "hemisphere,",
+      "start": 20.2,
+      "end": 20.76
+    },
+    {
+      "text": "0",
+      "start": 21.44,
+      "end": 21.58
+    },
+    {
+      "text": "degrees",
+      "start": 21.58,
+      "end": 22.02
+    },
+    {
+      "text": "to",
+      "start": 22.02,
+      "end": 22.28
+    },
+    {
+      "text": "180",
+      "start": 22.28,
+      "end": 23.06
+    },
+    {
+      "text": "degrees",
+      "start": 23.06,
+      "end": 23.6
+    },
+    {
+      "text": "east.",
+      "start": 23.6,
+      "end": 23.92
+    }
+  ]
+}

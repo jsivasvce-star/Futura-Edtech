@@ -1,0 +1,517 @@
+{
+  "audio_file": "page4.mp3",
+  "duration": 38.452,
+  "language": "en",
+  "words": [
+    {
+      "text": "What",
+      "start": 0.0,
+      "end": 0.3
+    },
+    {
+      "text": "will",
+      "start": 0.3,
+      "end": 0.5
+    },
+    {
+      "text": "we",
+      "start": 0.5,
+      "end": 0.72
+    },
+    {
+      "text": "discover?",
+      "start": 0.72,
+      "end": 1.22
+    },
+    {
+      "text": "Maps",
+      "start": 2.12,
+      "end": 2.42
+    },
+    {
+      "text": "What",
+      "start": 2.82,
+      "end": 3.12
+    },
+    {
+      "text": "is",
+      "start": 3.12,
+      "end": 3.32
+    },
+    {
+      "text": "a",
+      "start": 3.32,
+      "end": 3.46
+    },
+    {
+      "text": "map",
+      "start": 3.46,
+      "end": 3.66
+    },
+    {
+      "text": "and",
+      "start": 3.66,
+      "end": 4.18
+    },
+    {
+      "text": "how",
+      "start": 4.18,
+      "end": 4.44
+    },
+    {
+      "text": "do",
+      "start": 4.44,
+      "end": 4.66
+    },
+    {
+      "text": "we",
+      "start": 4.66,
+      "end": 4.74
+    },
+    {
+      "text": "use",
+      "start": 4.74,
+      "end": 4.98
+    },
+    {
+      "text": "it?",
+      "start": 4.98,
+      "end": 5.28
+    },
+    {
+      "text": "Let",
+      "start": 5.76,
+      "end": 5.88
+    },
+    {
+      "text": "us",
+      "start": 5.88,
+      "end": 6.02
+    },
+    {
+      "text": "find",
+      "start": 6.02,
+      "end": 6.24
+    },
+    {
+      "text": "out",
+      "start": 6.24,
+      "end": 6.5
+    },
+    {
+      "text": "what",
+      "start": 6.5,
+      "end": 6.68
+    },
+    {
+      "text": "a",
+      "start": 6.68,
+      "end": 6.84
+    },
+    {
+      "text": "map",
+      "start": 6.84,
+      "end": 6.98
+    },
+    {
+      "text": "is",
+      "start": 6.98,
+      "end": 7.3
+    },
+    {
+      "text": "and",
+      "start": 7.3,
+      "end": 7.64
+    },
+    {
+      "text": "learn",
+      "start": 7.64,
+      "end": 7.9
+    },
+    {
+      "text": "about",
+      "start": 7.9,
+      "end": 8.2
+    },
+    {
+      "text": "its",
+      "start": 8.2,
+      "end": 8.46
+    },
+    {
+      "text": "main",
+      "start": 8.46,
+      "end": 8.72
+    },
+    {
+      "text": "components.",
+      "start": 8.72,
+      "end": 9.36
+    },
+    {
+      "text": "Coordinates",
+      "start": 9.9,
+      "end": 10.5
+    },
+    {
+      "text": "What",
+      "start": 10.5,
+      "end": 10.98
+    },
+    {
+      "text": "are",
+      "start": 10.98,
+      "end": 11.18
+    },
+    {
+      "text": "coordinates?",
+      "start": 11.18,
+      "end": 11.72
+    },
+    {
+      "text": "Let",
+      "start": 12.18,
+      "end": 12.38
+    },
+    {
+      "text": "us",
+      "start": 12.38,
+      "end": 12.5
+    },
+    {
+      "text": "see",
+      "start": 12.5,
+      "end": 12.68
+    },
+    {
+      "text": "how",
+      "start": 12.68,
+      "end": 12.9
+    },
+    {
+      "text": "latitude",
+      "start": 12.9,
+      "end": 13.32
+    },
+    {
+      "text": "and",
+      "start": 13.32,
+      "end": 13.7
+    },
+    {
+      "text": "longitude",
+      "start": 13.7,
+      "end": 14.26
+    },
+    {
+      "text": "can",
+      "start": 14.26,
+      "end": 14.46
+    },
+    {
+      "text": "be",
+      "start": 14.46,
+      "end": 14.74
+    },
+    {
+      "text": "used",
+      "start": 14.74,
+      "end": 15.04
+    },
+    {
+      "text": "to",
+      "start": 15.04,
+      "end": 15.4
+    },
+    {
+      "text": "mark",
+      "start": 15.4,
+      "end": 15.62
+    },
+    {
+      "text": "any",
+      "start": 15.62,
+      "end": 15.94
+    },
+    {
+      "text": "location",
+      "start": 15.94,
+      "end": 16.48
+    },
+    {
+      "text": "on",
+      "start": 16.48,
+      "end": 16.84
+    },
+    {
+      "text": "the",
+      "start": 16.84,
+      "end": 17.0
+    },
+    {
+      "text": "earth.",
+      "start": 17.0,
+      "end": 17.2
+    },
+    {
+      "text": "Time",
+      "start": 17.94,
+      "end": 18.3
+    },
+    {
+      "text": "How",
+      "start": 19.08,
+      "end": 19.38
+    },
+    {
+      "text": "are",
+      "start": 19.38,
+      "end": 19.5
+    },
+    {
+      "text": "local",
+      "start": 19.5,
+      "end": 19.88
+    },
+    {
+      "text": "time",
+      "start": 19.88,
+      "end": 20.12
+    },
+    {
+      "text": "and",
+      "start": 20.12,
+      "end": 20.3
+    },
+    {
+      "text": "standard",
+      "start": 20.3,
+      "end": 20.64
+    },
+    {
+      "text": "time",
+      "start": 20.64,
+      "end": 20.98
+    },
+    {
+      "text": "related",
+      "start": 20.98,
+      "end": 21.36
+    },
+    {
+      "text": "to",
+      "start": 21.36,
+      "end": 21.6
+    },
+    {
+      "text": "longitude?",
+      "start": 21.6,
+      "end": 22.06
+    },
+    {
+      "text": "Let",
+      "start": 22.62,
+      "end": 22.82
+    },
+    {
+      "text": "us",
+      "start": 22.82,
+      "end": 23.04
+    },
+    {
+      "text": "discover",
+      "start": 23.04,
+      "end": 23.44
+    },
+    {
+      "text": "how",
+      "start": 23.44,
+      "end": 23.78
+    },
+    {
+      "text": "longitude",
+      "start": 23.78,
+      "end": 24.48
+    },
+    {
+      "text": "helps",
+      "start": 24.48,
+      "end": 24.78
+    },
+    {
+      "text": "us",
+      "start": 24.78,
+      "end": 25.06
+    },
+    {
+      "text": "understand",
+      "start": 25.06,
+      "end": 25.54
+    },
+    {
+      "text": "time",
+      "start": 25.54,
+      "end": 25.98
+    },
+    {
+      "text": "around",
+      "start": 25.98,
+      "end": 26.42
+    },
+    {
+      "text": "the",
+      "start": 26.42,
+      "end": 26.64
+    },
+    {
+      "text": "world.",
+      "start": 26.64,
+      "end": 26.92
+    },
+    {
+      "text": "By",
+      "start": 27.48,
+      "end": 27.8
+    },
+    {
+      "text": "the",
+      "start": 27.8,
+      "end": 27.92
+    },
+    {
+      "text": "end",
+      "start": 27.92,
+      "end": 28.04
+    },
+    {
+      "text": "of",
+      "start": 28.04,
+      "end": 28.18
+    },
+    {
+      "text": "this",
+      "start": 28.18,
+      "end": 28.32
+    },
+    {
+      "text": "chapter,",
+      "start": 28.32,
+      "end": 28.78
+    },
+    {
+      "text": "you",
+      "start": 29.34,
+      "end": 29.36
+    },
+    {
+      "text": "will",
+      "start": 29.36,
+      "end": 29.56
+    },
+    {
+      "text": "be",
+      "start": 29.56,
+      "end": 29.72
+    },
+    {
+      "text": "able",
+      "start": 29.72,
+      "end": 29.98
+    },
+    {
+      "text": "to",
+      "start": 29.98,
+      "end": 30.22
+    },
+    {
+      "text": "locate",
+      "start": 30.22,
+      "end": 30.54
+    },
+    {
+      "text": "places",
+      "start": 30.54,
+      "end": 30.92
+    },
+    {
+      "text": "on",
+      "start": 30.92,
+      "end": 31.24
+    },
+    {
+      "text": "earth,",
+      "start": 31.24,
+      "end": 31.62
+    },
+    {
+      "text": "read",
+      "start": 32.06,
+      "end": 32.2
+    },
+    {
+      "text": "maps",
+      "start": 32.2,
+      "end": 32.52
+    },
+    {
+      "text": "confidently",
+      "start": 32.52,
+      "end": 33.16
+    },
+    {
+      "text": "and",
+      "start": 33.16,
+      "end": 34.06
+    },
+    {
+      "text": "understand",
+      "start": 34.06,
+      "end": 34.66
+    },
+    {
+      "text": "how",
+      "start": 34.66,
+      "end": 35.28
+    },
+    {
+      "text": "coordinates",
+      "start": 35.28,
+      "end": 35.78
+    },
+    {
+      "text": "and",
+      "start": 35.78,
+      "end": 36.2
+    },
+    {
+      "text": "time",
+      "start": 36.2,
+      "end": 36.56
+    },
+    {
+      "text": "help",
+      "start": 36.56,
+      "end": 36.84
+    },
+    {
+      "text": "us",
+      "start": 36.84,
+      "end": 37.14
+    },
+    {
+      "text": "navigate",
+      "start": 37.14,
+      "end": 37.54
+    },
+    {
+      "text": "our",
+      "start": 37.54,
+      "end": 37.86
+    },
+    {
+      "text": "world.",
+      "start": 37.86,
+      "end": 38.06
+    }
+  ]
+}

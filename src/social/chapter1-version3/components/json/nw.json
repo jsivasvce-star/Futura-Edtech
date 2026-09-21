@@ -1,0 +1,77 @@
+{
+  "audio_file": "nw.mp3",
+  "duration": 6.687,
+  "language": "en",
+  "words": [
+    {
+      "text": "Northwest.",
+      "start": 0.0,
+      "end": 0.76
+    },
+    {
+      "text": "Northwest",
+      "start": 1.26,
+      "end": 1.72
+    },
+    {
+      "text": "is",
+      "start": 1.72,
+      "end": 2.04
+    },
+    {
+      "text": "an",
+      "start": 2.04,
+      "end": 2.3
+    },
+    {
+      "text": "intermediate",
+      "start": 2.3,
+      "end": 2.7
+    },
+    {
+      "text": "direction.",
+      "start": 2.7,
+      "end": 3.22
+    },
+    {
+      "text": "It",
+      "start": 3.7,
+      "end": 3.7
+    },
+    {
+      "text": "is",
+      "start": 3.7,
+      "end": 3.9
+    },
+    {
+      "text": "located",
+      "start": 3.9,
+      "end": 4.36
+    },
+    {
+      "text": "halfway",
+      "start": 4.36,
+      "end": 4.82
+    },
+    {
+      "text": "between",
+      "start": 4.82,
+      "end": 5.28
+    },
+    {
+      "text": "north",
+      "start": 5.28,
+      "end": 5.64
+    },
+    {
+      "text": "and",
+      "start": 5.64,
+      "end": 5.96
+    },
+    {
+      "text": "west.",
+      "start": 5.96,
+      "end": 6.24
+    }
+  ]
+}

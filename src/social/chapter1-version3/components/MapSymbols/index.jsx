@@ -1,8 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Lightbulb, CheckCircle2, ArrowRight, Award, Map } from 'lucide-react';
+import { Lightbulb, CheckCircle2, ArrowRight, Award, Map, Play, Pause } from 'lucide-react';
+import page40Audio from '../audio/page40.mp3?url';
+import page41Audio from '../audio/page41.mp3?url';
 import { ALL_SYMBOLS, SYMBOL_GROUPS, SymbolDisplay } from './symbolData';
 import ChapterBackFooter from '../ChapterBackFooter';
+import { PAGE40_TRANSCRIPT } from './Page40Transcript';
+import { PAGE41_TRANSCRIPT } from './Page41Transcript';
+
+const WordRenderer = ({ text, idPrefix, defaultColor, highlightColor, activeWordId }) => {
+  const words = text.trim().split(/\s+/);
+  return (
+    <>
+      {words.map((word, index) => {
+        const wordId = `${idPrefix}-${index + 1}`;
+        const isHighlighted = activeWordId === wordId;
+        return (
+          <span
+            key={index}
+            style={{
+              color: isHighlighted ? highlightColor : defaultColor,
+              transition: 'color 0.2s',
+              marginRight: '0.25em',
+              display: 'inline-block'
+            }}
+          >
+            {word}
+          </span>
+        );
+      })}
+    </>
+  );
+};
 
 function shuffleArray(array) {
   const newArray = [...array];
@@ -54,6 +83,41 @@ export default function MapSymbols({ onComplete, onBack }) {
   const [draggedItem, setDraggedItem] = useState(null);
   const [errorHighlight, setErrorHighlight] = useState(null);
   const [mainPage, setMainPage] = useState(1);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordId, setActiveWordId] = useState(null);
+  const audioRef = useRef(null);
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (!audioRef.current) return;
+    const currentTime = audioRef.current.currentTime;
+    
+    const activeTranscript = mainPage === 1 ? PAGE40_TRANSCRIPT : PAGE41_TRANSCRIPT;
+    const activeWord = activeTranscript.find(
+      word => currentTime >= word.start && currentTime <= word.end
+    );
+    
+    if (activeWord && activeWord.matchType === 'matched') {
+      setActiveWordId(activeWord.pageWordId);
+    } else {
+      setActiveWordId(null);
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordId(null);
+  };
 
   useEffect(() => {
     const selectedIds = ['railway', 'road', 'river', 'lake', 'forest', 'hospital'];
@@ -104,6 +168,12 @@ export default function MapSymbols({ onComplete, onBack }) {
 
   return (
     <div style={{ width: '100%', height: '100%', minHeight: 0, display: 'flex', flexDirection: 'column', background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)', overflow: 'hidden', fontFamily: '"Space Grotesk", sans-serif' }}>
+      <audio
+        ref={audioRef}
+        src={mainPage === 1 ? page40Audio : page41Audio}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
             {mainPage === 1 && (
         <div style={{ display: 'flex', flex: 1, minHeight: 0, padding: '10px 14px', overflow: 'hidden' }}>
           {/* LEFT PANEL: Textbook Content — Light Orange Parchment Card */}
@@ -131,10 +201,22 @@ export default function MapSymbols({ onComplete, onBack }) {
             </div>
             <h1 style={{ fontSize: 'clamp(2.4rem, 3.5vw, 3rem)', color: '#78350F', margin: '2px 0 3px 0', fontFamily: '"Fraunces", serif', fontWeight: 900, lineHeight: 1.15, display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Map size={36} color="#D97706" style={{ flexShrink: 0 }} />
-              Understanding Map Symbols
+              <WordRenderer 
+                text="Understanding Map Symbols"
+                idPrefix="t"
+                defaultColor="#78350F"
+                highlightColor="#451a03"
+                activeWordId={activeWordId}
+              />
             </h1>
             <p style={{ color: '#3D2E24', fontSize: '20px', fontStyle: 'italic', margin: '0 0 8px 0', fontWeight: 600 }}>
-              Small drawings and shapes that represent real places on Earth.
+              <WordRenderer 
+                text="Small drawings and shapes that represent real places on Earth."
+                idPrefix="s"
+                defaultColor="#3D2E24"
+                highlightColor="#451a03"
+                activeWordId={activeWordId}
+              />
             </p>
           </div>
 
@@ -142,9 +224,23 @@ export default function MapSymbols({ onComplete, onBack }) {
           <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', gap: '12px', overflow: 'hidden' }}>
             {/* What are Symbols? */}
             <div style={{background: '#FFFFFF', padding: '14px 18px', borderRadius: '12px', border: '1.5px solid #F2DFBC', boxShadow: '0 2px 6px rgba(60,40,20,0.03)', flexShrink: 0}}>
-              <h2 style={{fontSize: '1.8rem', color: '#92400E', margin: '0 0 6px 0', fontFamily: '"Fraunces", serif', fontWeight: 900}}>What are Symbols?</h2>
+              <h2 style={{fontSize: '1.8rem', color: '#92400E', margin: '0 0 6px 0', fontFamily: '"Fraunces", serif', fontWeight: 900}}>
+                <WordRenderer 
+                  text="What are Symbols?"
+                  idPrefix="h"
+                  defaultColor="#92400E"
+                  highlightColor="#451a03"
+                  activeWordId={activeWordId}
+                />
+              </h2>
               <p style={{color: '#3D2E24', fontSize: '19px', lineHeight: 1.5, margin: 0, fontWeight: 600, textAlign: 'justify', textJustify: 'inter-word'}}>
-                Real places are too big to draw on a map. Instead of drawing real buildings, roads, and rivers, we use simple symbols to make maps easy to read.
+                <WordRenderer 
+                  text="Real places are too big to draw on a map. Instead of drawing real buildings, roads, and rivers, we use simple symbols to make maps easy to read."
+                  idPrefix="p"
+                  defaultColor="#3D2E24"
+                  highlightColor="#451a03"
+                  activeWordId={activeWordId}
+                />
               </p>
             </div>
             
@@ -269,10 +365,23 @@ export default function MapSymbols({ onComplete, onBack }) {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px', gap: '8px', flexShrink: 0 }}>
             <div>
               <h2 style={{ margin: 0, fontSize: 'clamp(1.49rem, 2.1vw, 1.76rem)', color: '#78350F', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: '"Fraunces", serif', fontWeight: 900 }}>
-                <Map size={18} color="#D97706" /> Match the Symbols
+                <Map size={18} color="#D97706" /> 
+                <WordRenderer 
+                  text="Match the Symbols"
+                  idPrefix="t"
+                  defaultColor="#78350F"
+                  highlightColor="#451a03"
+                  activeWordId={activeWordId}
+                />
               </h2>
               <p style={{ margin: '2px 0 0 0', color: '#3D2E24', fontSize: '15.6px', fontWeight: 600 }}>
-                Drag or click a symbol to place it in the matching box.
+                <WordRenderer 
+                  text="Drag or click a symbol to place it in the matching box."
+                  idPrefix="s"
+                  defaultColor="#3D2E24"
+                  highlightColor="#451a03"
+                  activeWordId={activeWordId}
+                />
               </p>
             </div>
             
@@ -390,10 +499,46 @@ export default function MapSymbols({ onComplete, onBack }) {
         </div>
       )}
       <ChapterBackFooter
-        onBack={mainPage === 1 ? onBack : () => setMainPage(1)}
+        onBack={mainPage === 1 ? onBack : () => {
+          if (isPlaying && audioRef.current) {
+            audioRef.current.pause();
+            setIsPlaying(false);
+            setActiveWordId(null);
+          }
+          setMainPage(1);
+        }}
         nextLabel={mainPage === 1 ? 'Continue to Activity' : 'Next Activity'}
-        onNext={mainPage === 1 ? () => setMainPage(2) : onComplete}
+        onNext={mainPage === 1 ? () => {
+          if (isPlaying && audioRef.current) {
+            audioRef.current.pause();
+            setIsPlaying(false);
+            setActiveWordId(null);
+          }
+          setMainPage(2);
+        } : onComplete}
         nextVariant={mainPage === 1 ? 'blue' : 'green'}
+        beforeNextContent={
+          <button
+            onClick={toggleAudio}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '8px 16px',
+              background: '#FEF3C7',
+              border: '1.5px solid #F59E0B',
+              borderRadius: '999px',
+              fontSize: '15px',
+              fontWeight: 800,
+              color: '#92400E',
+              cursor: 'pointer',
+              marginRight: '8px'
+            }}
+          >
+            {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+            {isPlaying ? 'Pause' : 'Play'}
+          </button>
+        }
       />
     </div>
   );

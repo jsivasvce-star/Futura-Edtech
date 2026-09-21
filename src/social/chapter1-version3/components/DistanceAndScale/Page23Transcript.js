@@ -1,0 +1,30 @@
+export const PAGE23_TRANSCRIPT = [
+    { "audioWord": "Step", "start": 0.0, "end": 0.36, "pageWordId": "step3-num-1", "matchType": "matched" },
+    { "audioWord": "3", "start": 0.36, "end": 0.94, "pageWordId": "step3-num-2", "matchType": "matched" },
+    { "audioWord": "–", "start": 0.94, "end": 1.12, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "Calculate.", "start": 1.12, "end": 1.9, "pageWordId": "step3-title-1", "matchType": "matched" },
+
+    { "audioWord": "We", "start": 2.3, "end": 2.4, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "know", "start": 2.4, "end": 2.6, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "that", "start": 2.6, "end": 2.84, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "the", "start": 2.84, "end": 3.0, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "mapped", "start": 3.0, "end": 3.18, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "distance", "start": 3.18, "end": 3.68, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "is", "start": 3.68, "end": 4.02, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "4", "start": 4.02, "end": 4.34, "pageWordId": "calc-map-val-1", "matchType": "matched" },
+    { "audioWord": "cm", "start": 4.34, "end": 4.88, "pageWordId": "calc-map-val-2", "matchType": "matched" },
+    { "audioWord": "and", "start": 4.88, "end": 5.54, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "the", "start": 5.54, "end": 5.84, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "scale", "start": 5.84, "end": 6.08, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "is", "start": 6.08, "end": 6.7, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "500", "start": 6.7, "end": 7.08, "pageWordId": "calc-scale-val-1", "matchType": "matched" },
+    { "audioWord": "m", "start": 7.08, "end": 7.58, "pageWordId": "calc-scale-val-2", "matchType": "matched" },
+    { "audioWord": "for", "start": 7.58, "end": 7.88, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "each", "start": 7.88, "end": 8.2, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "cm.", "start": 8.2, "end": 8.7, "pageWordId": "none", "matchType": "unmatched" },
+
+    { "audioWord": "Find", "start": 9.36, "end": 9.68, "pageWordId": "btn-find-1", "matchType": "matched" },
+    { "audioWord": "the", "start": 9.68, "end": 9.84, "pageWordId": "btn-find-2", "matchType": "matched" },
+    { "audioWord": "real", "start": 9.84, "end": 10.1, "pageWordId": "btn-find-3", "matchType": "matched" },
+    { "audioWord": "distance.", "start": 10.1, "end": 10.52, "pageWordId": "btn-find-4", "matchType": "matched" }
+];

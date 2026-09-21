@@ -1,0 +1,40 @@
+export const PAGE15_TRANSCRIPT = [
+    { "audioWord": "Common", "start": 0.0, "end": 0.46, "pageWordId": "colorsTitle-1", "matchType": "matched" },
+    { "audioWord": "symbols,", "start": 0.46, "end": 0.98, "pageWordId": "colorsTitle-2", "matchType": "matched" },
+
+    { "audioWord": "stars", "start": 1.56, "end": 1.88, "pageWordId": "color-0-desc-1", "matchType": "matched" },
+    { "audioWord": "are", "start": 1.88, "end": 2.34, "pageWordId": "color-0-desc-2", "matchType": "matched" },
+    { "audioWord": "used", "start": 2.34, "end": 2.56, "pageWordId": "color-0-desc-3", "matchType": "matched" },
+    { "audioWord": "to", "start": 2.56, "end": 2.82, "pageWordId": "color-0-desc-4", "matchType": "matched" },
+    { "audioWord": "show", "start": 2.82, "end": 3.02, "pageWordId": "color-0-desc-5", "matchType": "matched" },
+    { "audioWord": "capital", "start": 3.02, "end": 3.42, "pageWordId": "color-0-desc-6", "matchType": "matched" },
+    { "audioWord": "cities,", "start": 3.42, "end": 3.94, "pageWordId": "color-0-desc-7", "matchType": "matched" },
+
+    { "audioWord": "black", "start": 4.52, "end": 4.7, "pageWordId": "color-1-desc-1", "matchType": "matched" },
+    { "audioWord": "dots", "start": 4.7, "end": 4.92, "pageWordId": "color-1-desc-2", "matchType": "matched" },
+    { "audioWord": "are", "start": 4.92, "end": 5.14, "pageWordId": "color-1-desc-3", "matchType": "matched" },
+    { "audioWord": "used", "start": 5.14, "end": 5.36, "pageWordId": "color-1-desc-4", "matchType": "matched" },
+    { "audioWord": "to", "start": 5.36, "end": 5.58, "pageWordId": "color-1-desc-5", "matchType": "matched" },
+    { "audioWord": "show", "start": 5.58, "end": 5.78, "pageWordId": "color-1-desc-6", "matchType": "matched" },
+    { "audioWord": "important", "start": 5.78, "end": 6.18, "pageWordId": "color-1-desc-7", "matchType": "matched" },
+    { "audioWord": "cities,", "start": 6.18, "end": 6.76, "pageWordId": "color-1-desc-8", "matchType": "matched" },
+
+    { "audioWord": "thick", "start": 7.32, "end": 7.46, "pageWordId": "color-2-desc-1", "matchType": "matched" },
+    { "audioWord": "lines", "start": 7.46, "end": 7.84, "pageWordId": "color-2-desc-2", "matchType": "matched" },
+    { "audioWord": "show", "start": 7.84, "end": 8.12, "pageWordId": "color-2-desc-3", "matchType": "matched" },
+    { "audioWord": "the", "start": 8.12, "end": 8.34, "pageWordId": "color-2-desc-4", "matchType": "matched" },
+    { "audioWord": "borders", "start": 8.34, "end": 8.64, "pageWordId": "color-2-desc-5", "matchType": "matched" },
+    { "audioWord": "between", "start": 8.64, "end": 9.1, "pageWordId": "color-2-desc-6", "matchType": "matched" },
+    { "audioWord": "different", "start": 9.1, "end": 9.42, "pageWordId": "color-2-desc-7", "matchType": "matched" },
+    { "audioWord": "countries,", "start": 9.42, "end": 9.98, "pageWordId": "color-2-desc-8", "matchType": "matched" },
+
+    { "audioWord": "dotted", "start": 10.64, "end": 10.76, "pageWordId": "color-3-desc-1", "matchType": "matched" },
+    { "audioWord": "or", "start": 10.76, "end": 10.98, "pageWordId": "color-3-desc-2", "matchType": "matched" },
+    { "audioWord": "dashed", "start": 10.98, "end": 11.48, "pageWordId": "color-3-desc-3", "matchType": "matched" },
+    { "audioWord": "lines", "start": 11.48, "end": 11.7, "pageWordId": "color-3-desc-4", "matchType": "matched" },
+    { "audioWord": "show", "start": 11.7, "end": 12.06, "pageWordId": "color-3-desc-5", "matchType": "matched" },
+    { "audioWord": "the", "start": 12.06, "end": 12.3, "pageWordId": "color-3-desc-6", "matchType": "matched" },
+    { "audioWord": "borders", "start": 12.3, "end": 12.54, "pageWordId": "color-3-desc-7", "matchType": "matched" },
+    { "audioWord": "between", "start": 12.54, "end": 12.98, "pageWordId": "color-3-desc-8", "matchType": "matched" },
+    { "audioWord": "states.", "start": 12.98, "end": 13.3, "pageWordId": "color-3-desc-9", "matchType": "matched" }
+];
