@@ -318,10 +318,12 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
             </span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+          {/* Slider Controls: Prev, Dots, Next */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
             <button
               onClick={handlePrevPage}
               disabled={pageIndex === 0}
+              title="Previous Page"
               style={{
                 width: '38px',
                 height: '38px',
@@ -330,37 +332,71 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                 background: pageIndex === 0 ? '#EAF2F6' : '#FFFFFF',
                 color: pageIndex === 0 ? '#D4D4D8' : '#173B5F',
                 cursor: pageIndex === 0 ? 'not-allowed' : 'pointer',
+                opacity: pageIndex === 0 ? 0.45 : 1,
+                color: '#78350F',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: pageIndex === 0 ? 'none' : '0 2px 6px rgba(0,0,0,0.05)',
+                gap: '0.25rem',
+                fontSize: '0.85rem',
+                fontWeight: 800,
+                boxShadow: pageIndex === 0 ? 'none' : '0 2px 6px rgba(0,0,0,0.03)',
                 transition: 'all 0.2s ease'
               }}
-              title="Previous Page"
             >
-              <ChevronLeft size={22} />
+              <ChevronLeft size={16} /> Prev
             </button>
+
+            {/* Dots Indicator */}
+            <div style={{ display: 'flex', gap: '0.4rem', padding: '0 0.35rem' }}>
+              {[0, 1].map((idx) => (
+                <button
+                  key={idx}
+                  onClick={() => {
+                    if (idx !== pageIndex) {
+                      setDirection(idx > pageIndex ? 1 : -1);
+                      setPageIndex(idx);
+                      setActiveFactId(idx === 0 ? factsData[0].id : factsData[3].id);
+                    }
+                  }}
+                  title={`Go to page ${idx + 1}`}
+                  style={{
+                    width: pageIndex === idx ? '22px' : '9px',
+                    height: '9px',
+                    borderRadius: '10px',
+                    background: pageIndex === idx ? '#D97706' : '#FDE68A',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: 0,
+                    transition: 'all 0.25s ease'
+                  }}
+                />
+              ))}
+            </div>
 
             <button
               onClick={handleNextPage}
               disabled={pageIndex === 1}
+              title="Next Page"
+              className={pageIndex === 0 ? 'gold-glow-btn' : ''}
               style={{
-                width: '38px',
-                height: '38px',
+                background: pageIndex === 1 ? 'rgba(255, 255, 255, 0.4)' : undefined,
+                border: pageIndex === 1 ? '1.5px solid #FDE68A' : 'none',
                 borderRadius: '12px',
                 border: '1.5px solid #E2E8F0',
                 background: pageIndex === 1 ? '#EAF2F6' : '#FFFFFF',
                 color: pageIndex === 1 ? '#D4D4D8' : '#173B5F',
                 cursor: pageIndex === 1 ? 'not-allowed' : 'pointer',
+                opacity: pageIndex === 1 ? 0.45 : 1,
+                color: pageIndex === 0 ? '#FFFFFF' : '#78350F',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: pageIndex === 1 ? 'none' : '0 2px 6px rgba(0,0,0,0.05)',
+                gap: '0.25rem',
+                fontSize: '0.85rem',
+                fontWeight: 800,
                 transition: 'all 0.2s ease'
               }}
-              title="Next Page"
             >
-              <ChevronRight size={22} />
+              Next <ChevronRight size={16} />
             </button>
           </div>
         </div>
@@ -386,8 +422,8 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                 height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: pageIndex === 0 ? '0.85rem' : '1.25rem',
-                justifyContent: 'space-between'
+                gap: pageIndex === 0 ? '0.65rem' : '0.95rem',
+                justifyContent: 'flex-start'
               }}
             >
               {currentFacts.map((fact) => {
@@ -401,7 +437,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                       background: '#FFFFFF',
                       border: isCurrentActive ? '2px solid #173B5F' : '1.5px solid #E2E8F0',
                       borderRadius: '18px',
-                      padding: pageIndex === 0 ? '1rem 1.25rem' : '1.4rem 1.6rem',
+                      padding: pageIndex === 0 ? '0.85rem 1.15rem' : '1.15rem 1.35rem',
                       boxShadow: isCurrentActive 
                         ? '0 6px 20px rgba(217, 119, 6, 0.18)' 
                         : '0 3px 12px rgba(0, 0, 0, 0.04)',
@@ -410,7 +446,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                       gap: '0.45rem',
                       transition: 'all 0.25s ease',
                       flex: 1,
-                      justifyContent: 'center'
+                      justifyContent: 'flex-start'
                     }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

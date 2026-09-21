@@ -342,7 +342,7 @@ export default function ExcavationPitStage({
               position: 'absolute',
               inset: 0,
               background: 'radial-gradient(ellipse at center, rgba(74, 40, 16, 0.65) 0%, rgba(36, 17, 6, 0.88) 100%)',
-              backdropFilter: 'blur(3px)',
+              backdropFilter: 'blur(2px)',
               zIndex: 9,
               display: 'flex',
               flexDirection: 'column',

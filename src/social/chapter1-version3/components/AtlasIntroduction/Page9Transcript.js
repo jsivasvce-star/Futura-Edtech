@@ -1,0 +1,40 @@
+export const PAGE9_TRANSCRIPT = [
+    { "audioWord": "Let", "start": 0.0, "end": 0.24, "pageWordId": "featuresTitle-1", "matchType": "matched" },
+    { "audioWord": "us", "start": 0.24, "end": 0.5, "pageWordId": "featuresTitle-2", "matchType": "matched" },
+    { "audioWord": "continue", "start": 0.5, "end": 0.86, "pageWordId": "featuresTitle-3", "matchType": "matched" },
+    { "audioWord": "exploring", "start": 0.86, "end": 1.4, "pageWordId": "featuresTitle-4", "matchType": "matched" },
+    { "audioWord": "some", "start": 1.4, "end": 1.86, "pageWordId": "featuresTitle-5", "matchType": "matched" },
+    { "audioWord": "more", "start": 1.86, "end": 2.08, "pageWordId": "featuresTitle-6", "matchType": "matched" },
+    { "audioWord": "natural", "start": 2.08, "end": 2.46, "pageWordId": "featuresTitle-7", "matchType": "matched" },
+    { "audioWord": "features", "start": 2.46, "end": 3.02, "pageWordId": "featuresTitle-8", "matchType": "matched" },
+    { "audioWord": "found", "start": 3.02, "end": 3.46, "pageWordId": "featuresTitle-9", "matchType": "matched" },
+    { "audioWord": "on", "start": 3.46, "end": 3.8, "pageWordId": "featuresTitle-10", "matchType": "matched" },
+    { "audioWord": "physical", "start": 3.8, "end": 4.16, "pageWordId": "featuresTitle-11", "matchType": "matched" },
+    { "audioWord": "maps.", "start": 4.16, "end": 4.62, "pageWordId": "featuresTitle-12", "matchType": "matched" },
+
+    { "audioWord": "Forests.", "start": 5.38, "end": 6.08, "pageWordId": "feature-0-title-1", "matchType": "matched" },
+
+    { "audioWord": "large", "start": 7.02, "end": 7.32, "pageWordId": "feature-0-desc-1", "matchType": "matched" },
+    { "audioWord": "areas", "start": 7.32, "end": 7.8, "pageWordId": "feature-0-desc-2", "matchType": "matched" },
+    { "audioWord": "completely", "start": 7.8, "end": 8.66, "pageWordId": "feature-0-desc-3", "matchType": "matched" },
+    { "audioWord": "covered", "start": 8.66, "end": 9.0, "pageWordId": "feature-0-desc-4", "matchType": "matched" },
+    { "audioWord": "with", "start": 9.0, "end": 9.22, "pageWordId": "feature-0-desc-5", "matchType": "matched" },
+    { "audioWord": "lots", "start": 9.22, "end": 9.44, "pageWordId": "feature-0-desc-6", "matchType": "matched" },
+    { "audioWord": "of", "start": 9.44, "end": 9.66, "pageWordId": "feature-0-desc-7", "matchType": "matched" },
+    { "audioWord": "trees", "start": 9.66, "end": 9.88, "pageWordId": "feature-0-desc-8", "matchType": "matched" },
+    { "audioWord": "and", "start": 9.88, "end": 10.2, "pageWordId": "feature-0-desc-9", "matchType": "matched" },
+    { "audioWord": "plants.", "start": 10.2, "end": 10.54, "pageWordId": "feature-0-desc-10", "matchType": "matched" },
+
+    { "audioWord": "Plateaus.", "start": 11.18, "end": 11.8, "pageWordId": "feature-1-title-1", "matchType": "matched" },
+
+    { "audioWord": "large", "start": 12.72, "end": 13.14, "pageWordId": "feature-1-desc-1", "matchType": "matched" },
+    { "audioWord": "flatlands", "start": 13.14, "end": 14.0, "pageWordId": "feature-1-desc-2", "matchType": "matched" },
+    { "audioWord": "that", "start": 14.0, "end": 14.68, "pageWordId": "feature-1-desc-3", "matchType": "matched" },
+    { "audioWord": "are", "start": 14.68, "end": 15.2, "pageWordId": "feature-1-desc-4", "matchType": "matched" },
+    { "audioWord": "raised", "start": 15.2, "end": 15.46, "pageWordId": "feature-1-desc-5", "matchType": "matched" },
+    { "audioWord": "high", "start": 15.46, "end": 15.8, "pageWordId": "feature-1-desc-6", "matchType": "matched" },
+    { "audioWord": "up", "start": 15.8, "end": 16.02, "pageWordId": "feature-1-desc-7", "matchType": "matched" },
+    { "audioWord": "like", "start": 16.02, "end": 16.28, "pageWordId": "feature-1-desc-8", "matchType": "matched" },
+    { "audioWord": "a", "start": 16.28, "end": 16.46, "pageWordId": "feature-1-desc-9", "matchType": "matched" },
+    { "audioWord": "table.", "start": 16.46, "end": 16.64, "pageWordId": "feature-1-desc-10", "matchType": "matched" }
+];

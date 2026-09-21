@@ -1,0 +1,35 @@
+export const PAGE22_TRANSCRIPT = [
+    { "audioWord": "Step", "start": 0.0, "end": 0.36, "pageWordId": "step2-num-1", "matchType": "matched" },
+    { "audioWord": "2.", "start": 0.36, "end": 0.92, "pageWordId": "step2-num-2", "matchType": "matched" },
+    
+    { "audioWord": "Measure", "start": 1.14, "end": 1.4, "pageWordId": "step2-title-1", "matchType": "matched" },
+    { "audioWord": "the", "start": 1.4, "end": 1.66, "pageWordId": "step2-title-2", "matchType": "matched" },
+    { "audioWord": "road.", "start": 1.66, "end": 1.88, "pageWordId": "step2-title-3", "matchType": "matched" },
+
+    { "audioWord": "Now,", "start": 2.42, "end": 2.74, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "let", "start": 2.96, "end": 3.12, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "us", "start": 3.12, "end": 3.34, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "measure", "start": 3.34, "end": 3.56, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "the", "start": 3.56, "end": 3.78, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "distance", "start": 3.78, "end": 4.14, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "between", "start": 4.14, "end": 4.48, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "the", "start": 4.48, "end": 4.7, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "two", "start": 4.7, "end": 4.88, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "places", "start": 4.88, "end": 5.24, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "on", "start": 5.24, "end": 5.56, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "the", "start": 5.56, "end": 5.7, "pageWordId": "none", "matchType": "unmatched" },
+    { "audioWord": "map.", "start": 5.7, "end": 5.88, "pageWordId": "none", "matchType": "unmatched" },
+
+    { "audioWord": "Remember,", "start": 6.38, "end": 6.9, "pageWordId": "rem2-title-1", "matchType": "matched" },
+    { "audioWord": "maps", "start": 7.18, "end": 7.44, "pageWordId": "rem2-desc-1", "matchType": "matched" },
+    { "audioWord": "are", "start": 7.44, "end": 7.76, "pageWordId": "rem2-desc-2", "matchType": "matched" },
+    { "audioWord": "smaller,", "start": 7.76, "end": 8.04, "pageWordId": "rem2-desc-3", "matchType": "matched" },
+    { "audioWord": "but", "start": 8.5, "end": 8.68, "pageWordId": "rem2-desc-4", "matchType": "matched" },
+    { "audioWord": "the", "start": 8.68, "end": 8.94, "pageWordId": "rem2-desc-5", "matchType": "matched" },
+    { "audioWord": "scale", "start": 8.94, "end": 9.16, "pageWordId": "rem2-desc-6", "matchType": "matched" },
+    { "audioWord": "tells", "start": 9.16, "end": 9.46, "pageWordId": "rem2-desc-7", "matchType": "matched" },
+    { "audioWord": "us", "start": 9.46, "end": 9.7, "pageWordId": "rem2-desc-8", "matchType": "matched" },
+    { "audioWord": "the", "start": 9.7, "end": 9.84, "pageWordId": "rem2-desc-9", "matchType": "matched" },
+    { "audioWord": "real", "start": 9.84, "end": 10.06, "pageWordId": "rem2-desc-10", "matchType": "matched" },
+    { "audioWord": "distance.", "start": 10.06, "end": 10.48, "pageWordId": "rem2-desc-11", "matchType": "matched" }
+];

@@ -4,6 +4,39 @@ import { Map, Target, Lightbulb, Book, MapPin, Link2, BarChart3, Building2, Comp
 import India from '@svg-maps/india';
 import ChapterBackFooter from '../ChapterBackFooter';
 import { ScrollableWithNav } from '../ContentScrollNav';
+import scaleAudio from '../audio/scale.mp3?url';
+import { SCALE_TRANSCRIPT } from './ScaleTranscript';
+import page21Audio from '../audio/page21.mp3?url';
+import { PAGE21_TRANSCRIPT } from './Page21Transcript';
+import page22Audio from '../audio/page22.mp3?url';
+import { PAGE22_TRANSCRIPT } from './Page22Transcript';
+import page23Audio from '../audio/page23.mp3?url';
+import { PAGE23_TRANSCRIPT } from './Page23Transcript';
+
+const WordRenderer = ({ text, idPrefix, defaultColor, highlightColor, activeWordId }) => {
+  const words = text.trim().split(/\s+/);
+  return (
+    <>
+      {words.map((word, index) => {
+        const wordId = `${idPrefix}-${index + 1}`;
+        const isActive = activeWordId === wordId;
+        return (
+          <span
+            key={wordId}
+            style={{
+              color: isActive ? highlightColor : defaultColor,
+              transition: 'color 0.2s ease',
+              display: 'inline-block',
+              marginRight: '0.25em'
+            }}
+          >
+            {word}
+          </span>
+        );
+      })}
+    </>
+  );
+};
 
 const IndiaMapSilhouette = () => (
   <svg viewBox={India.viewBox} width="48" height="48" style={{ filter: 'drop-shadow(0 4px 6px rgba(124, 92, 255, 0.2))' }}>
@@ -49,10 +82,58 @@ export default function DistanceAndScale({ onComplete, onBack }) {
   const [leftPage, setLeftPage] = useState(1);
   const [hoveredConcept, setHoveredConcept] = useState(null);
 
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordId, setActiveWordId] = useState(null);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setIsPlaying(false);
+      setActiveWordId(null);
+    }
+  }, [rightPage, mainPage]);
+
+  const currentAudioSrc = (mainPage === 1) ? scaleAudio : (mainPage === 2 && rightPage === 1) ? page21Audio : (mainPage === 2 && rightPage === 2) ? page22Audio : (mainPage === 2 && rightPage === 3) ? page23Audio : null;
+  const currentTranscript = (mainPage === 1) ? SCALE_TRANSCRIPT : (mainPage === 2 && rightPage === 1) ? PAGE21_TRANSCRIPT : (mainPage === 2 && rightPage === 2) ? PAGE22_TRANSCRIPT : (mainPage === 2 && rightPage === 3) ? PAGE23_TRANSCRIPT : [];
+
+  const toggleAudio = () => {
+    if (!currentAudioSrc) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play().catch(e => console.error("Audio play error", e));
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleTimeUpdate = () => {
+    if (!audioRef.current || !currentTranscript.length) return;
+    const time = audioRef.current.currentTime;
+    const currentWord = currentTranscript.find(w => time >= w.start && time <= w.end);
+    if (currentWord) {
+      setActiveWordId(currentWord.pageWordId);
+    } else {
+      setActiveWordId(null);
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordId(null);
+  };
+
   const realDistance = selectedDistance * 500;
 
   return (
     <div className="distance-scale-container">
+      <audio 
+        ref={audioRef}
+        src={currentAudioSrc}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
       <style>{`
         .distance-scale-container {
           --navy: #78350F; --ink: #3D2E24; --mut: #92400E; --card: #FFF9F0; --cardline: #F2DFBC;
@@ -866,7 +947,26 @@ export default function DistanceAndScale({ onComplete, onBack }) {
               {/* Section 1: Header */}
               <div className="ds-s1-header">
                 <div className="ds-eyebrow">Chapter 1 · Distance &amp; Scale</div>
-                <h1 className="ds-h1">Shrinking the World</h1>
+                <h1 className="ds-h1">
+                  <WordRenderer text="Shrinking the World" idPrefix="title" defaultColor="var(--navy)" highlightColor="var(--amber)" activeWordId={activeWordId} />
+                  {currentAudioSrc && mainPage === 1 && (
+                    <button
+                      onClick={toggleAudio}
+                      style={{
+                        marginLeft: '16px',
+                        display: 'inline-flex', alignItems: 'center', gap: '6px',
+                        padding: '8px 16px', background: '#d97706',
+                        border: 'none', borderRadius: '999px',
+                        fontSize: '14px', fontWeight: 800, color: '#fff',
+                        cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                        verticalAlign: 'middle',
+                        transform: 'translateY(-4px)'
+                      }}
+                    >
+                      {isPlaying ? "Pause" : "Play"}
+                    </button>
+                  )}
+                </h1>
                 <div className="ds-sub">How a huge place fits on paper</div>
               </div>
 
@@ -878,11 +978,11 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                     <div className="ds-what-blocks" style={{ flexDirection: 'column', gap: '6px' }}>
                       <div className="ds-what-block">
                         <Map className="ds-what-icon" size={18} strokeWidth={2.5} />
-                        <p className="ds-what-text">Maps are drawn smaller than the real world.</p>
+                        <p className="ds-what-text"><WordRenderer text="Maps are drawn smaller than the real world." idPrefix="desc-1" defaultColor="var(--ink)" highlightColor="var(--amber)" activeWordId={activeWordId} /></p>
                       </div>
                       <div className="ds-what-block">
                         <Target className="ds-what-icon" size={18} strokeWidth={2.5} />
-                        <p className="ds-what-text">Scale is the ratio between map distance and real distance.</p>
+                        <p className="ds-what-text"><WordRenderer text="Scale is the ratio between map distance and real distance." idPrefix="desc-2" defaultColor="var(--ink)" highlightColor="var(--amber)" activeWordId={activeWordId} /></p>
                       </div>
                     </div>
                   </div>
@@ -956,10 +1056,33 @@ export default function DistanceAndScale({ onComplete, onBack }) {
             <div className="ds-left-layout">
 
               {/* Section 1: Right Header (Parallel to Left Header) */}
-              <div className="ds-s1-header">
+              <div className="ds-s1-header" style={{ position: 'relative' }}>
                 <div className="ds-eyebrow">Interactive Activity</div>
-                <h2 className="ds-rlabel">📏 Let's Explore — Measure Distance</h2>
-                <div className="ds-rsub">Let's find the real distance using the map scale.</div>
+                <h2 className="ds-rlabel">
+                  <span>
+                    <WordRenderer text="📏 Let's Explore — Measure Distance" idPrefix="rlabel" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                  </span>
+                </h2>
+                <div className="ds-rsub">
+                  <span>
+                    <WordRenderer text="Let's find the real distance using the map scale." idPrefix="rsub" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                  </span>
+                </div>
+                {mainPage === 2 && (rightPage === 1 || rightPage === 2 || rightPage === 3) && currentAudioSrc && (
+                  <button
+                    onClick={toggleAudio}
+                    style={{
+                      position: 'absolute', top: 0, right: 0,
+                      display: 'inline-flex', alignItems: 'center', gap: '6px',
+                      padding: '8px 16px', background: '#d97706',
+                      border: 'none', borderRadius: '999px',
+                      fontSize: '14px', fontWeight: 800, color: '#fff',
+                      cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                    }}
+                  >
+                    {isPlaying ? "Pause" : "Play"}
+                  </button>
+                )}
               </div>
 
               <div className="ds-scroll">
@@ -971,8 +1094,12 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                       <Map size={240} strokeWidth={1.5} />
                     </div>
                     <div className="ds-step-title" style={{ position: 'relative', zIndex: 1 }}>
-                      <span className="ds-step-title-num">Step 1</span>
-                      Know the Scale
+                      <span className="ds-step-title-num">
+                        <WordRenderer text="Step 1" idPrefix="step1-num" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                      </span>
+                      <span>
+                        <WordRenderer text="Know the Scale" idPrefix="step1-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                      </span>
                     </div>
                     <div className="ds-step1-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '32px', padding: '24px 0', position: 'relative', zIndex: 1 }}>
                       <div style={{ textAlign: 'center', marginBottom: '-10px' }}>
@@ -988,7 +1115,9 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                           style={{ flex: 1, background: hoveredConcept === 'size' ? '#FFFBEB' : '#FFF9F0', border: hoveredConcept === 'size' ? '2px solid #F59E0B' : '2px solid #F2DFBC', borderRadius: '16px', padding: '16px', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s', boxShadow: hoveredConcept === 'size' ? '0 8px 24px rgba(217, 119, 6, 0.15)' : 'none' }}
                         >
                           <div style={{ fontSize: '19px', fontWeight: 900, color: '#92400E', letterSpacing: '0.5px', marginBottom: '8px' }}>BIG → SMALL</div>
-                          <div style={{ fontSize: '17px', color: '#78350F', lineHeight: 1.4, fontWeight: 500 }}>A real place is much bigger than its map drawing.</div>
+                          <div style={{ fontSize: '17px', color: '#78350F', lineHeight: 1.4, fontWeight: 500 }}>
+                            <WordRenderer text="A real place is much bigger than its map drawing." idPrefix="card1-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                          </div>
                         </div>
 
                         {/* DISTANCE Card */}
@@ -996,7 +1125,9 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                           style={{ flex: 1, background: '#FFF9F0', border: '2px solid #F2DFBC', borderRadius: '16px', padding: '16px', textAlign: 'center', transition: 'all 0.2s' }}
                         >
                           <div style={{ fontSize: '19px', fontWeight: 900, color: '#2F6DF0', letterSpacing: '0.5px', marginBottom: '8px' }}>DISTANCE → REPRESENTED</div>
-                          <div style={{ fontSize: '17px', color: '#1E3A8A', lineHeight: 1.4, fontWeight: 500 }}>A long real distance is shown as a shorter map distance.</div>
+                          <div style={{ fontSize: '17px', color: '#1E3A8A', lineHeight: 1.4, fontWeight: 500 }}>
+                            <WordRenderer text="A long real distance is shown as a shorter map distance." idPrefix="card2-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                          </div>
                         </div>
 
                         {/* POSITION Card */}
@@ -1006,7 +1137,20 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                           style={{ flex: 1, background: hoveredConcept === 'position' ? '#F0FDF4' : '#FFF9F0', border: hoveredConcept === 'position' ? '2px solid #22C55E' : '2px solid #F2DFBC', borderRadius: '16px', padding: '16px', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s', boxShadow: hoveredConcept === 'position' ? '0 8px 24px rgba(34, 197, 94, 0.15)' : 'none' }}
                         >
                           <div style={{ fontSize: '19px', fontWeight: 900, color: '#166534', letterSpacing: '0.5px', marginBottom: '8px' }}>POSITION STAYS</div>
-                          <div style={{ fontSize: '17px', color: '#14532D', lineHeight: 1.4, fontWeight: 500 }}>Places keep their relative positions on the map.</div>
+                          <div style={{ fontSize: '17px', color: '#14532D', lineHeight: 1.4, fontWeight: 500 }}>
+                            <WordRenderer text="Places keep their relative positions on the map." idPrefix="card3-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Remember Box */}
+                      <div style={{ width: '100%', background: '#FFF9F0', border: '1.5px solid #F2DFBC', borderRadius: '12px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px', textAlign: 'left' }}>
+                        <div style={{ color: '#D97706', fontSize: '18px', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <Lightbulb size={20} strokeWidth={2.5} />
+                          <WordRenderer text="Remember" idPrefix="rem-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                        </div>
+                        <div style={{ color: '#78350F', fontSize: '17px', fontWeight: 600 }}>
+                          <WordRenderer text="Maps are smaller, but the scale tells us the real distance." idPrefix="rem-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
                         </div>
                       </div>
 
@@ -1022,8 +1166,12 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                       <Target size={240} strokeWidth={1.5} />
                     </div>
                     <div className="ds-step-title" style={{ position: 'relative', zIndex: 1 }}>
-                      <div className="ds-step-title-num">Step 2</div>
-                      <div>Measure the Road</div>
+                      <span className="ds-step-title-num">
+                        <WordRenderer text="Step 2" idPrefix="step2-num" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                      </span>
+                      <span>
+                        <WordRenderer text="Measure the Road" idPrefix="step2-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                      </span>
                     </div>
                     <div className="ds-step2-content" style={{ position: 'relative', zIndex: 1 }}>
                       <div className="ds-scene" style={{ width: `${selectedDistance * 15}%`, minWidth: '120px', transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)', margin: '0 auto', marginBottom: '8px' }}>
@@ -1052,6 +1200,17 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                         ))}
                       </div>
                     </div>
+                    
+                    {/* Remember Box */}
+                    <div style={{ width: '100%', background: '#FFF9F0', border: '1.5px solid #F2DFBC', borderRadius: '12px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px', textAlign: 'left', marginTop: '16px', zIndex: 1 }}>
+                      <div style={{ color: '#D97706', fontSize: '18px', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <Lightbulb size={20} strokeWidth={2.5} />
+                        <WordRenderer text="Remember" idPrefix="rem2-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                      </div>
+                      <div style={{ color: '#78350F', fontSize: '17px', fontWeight: 600 }}>
+                        <WordRenderer text="Maps are smaller, but the scale tells us the real distance." idPrefix="rem2-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                      </div>
+                    </div>
                   </div>
                 )}
 
@@ -1062,19 +1221,27 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                       <MapPin size={240} strokeWidth={1.5} />
                     </div>
                     <div className="ds-step-title" style={{ position: 'relative', zIndex: 1 }}>
-                      <span className="ds-step-title-num">Step 3</span>
-                      Calculate
+                      <span className="ds-step-title-num">
+                        <WordRenderer text="Step 3" idPrefix="step3-num" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                      </span>
+                      <span>
+                        <WordRenderer text="Calculate" idPrefix="step3-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                      </span>
                     </div>
                     <div className="ds-calc-box" style={{ position: 'relative', zIndex: 1 }}>
                       <div className="ds-calc-row">
                         <div className="ds-calc-item">
                           <span className="ds-calc-label">Map Distance</span>
-                          <span className="ds-calc-val">{selectedDistance} cm</span>
+                          <span className="ds-calc-val">
+                            <WordRenderer text={`${selectedDistance} cm`} idPrefix="calc-map-val" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                          </span>
                         </div>
                         <div>×</div>
                         <div className="ds-calc-item">
                           <span className="ds-calc-label">Scale</span>
-                          <span className="ds-calc-val">500 m</span>
+                          <span className="ds-calc-val">
+                            <WordRenderer text="500 m" idPrefix="calc-scale-val" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                          </span>
                         </div>
                         <div>=</div>
                         <div className="ds-calc-item">
@@ -1092,9 +1259,20 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                           setRightPage(4);
                         }}
                       >
-                        Find the Real Distance
+                        <WordRenderer text="Find the Real Distance" idPrefix="btn-find" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
                       </button>
                     )}
+                    
+                    {/* Remember Box */}
+                    <div style={{ width: '100%', background: '#FFF9F0', border: '1.5px solid #F2DFBC', borderRadius: '12px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px', textAlign: 'left', marginTop: '16px', zIndex: 1 }}>
+                      <div style={{ color: '#D97706', fontSize: '18px', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <Lightbulb size={20} strokeWidth={2.5} />
+                        <WordRenderer text="Remember" idPrefix="rem3-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                      </div>
+                      <div style={{ color: '#78350F', fontSize: '17px', fontWeight: 600 }}>
+                        <WordRenderer text="Maps are smaller, but the scale tells us the real distance." idPrefix="rem3-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                      </div>
+                    </div>
                   </div>
                 )}
 

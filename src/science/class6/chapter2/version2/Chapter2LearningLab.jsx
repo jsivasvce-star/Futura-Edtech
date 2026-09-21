@@ -11,7 +11,7 @@ import CoverPage from '../../../../components/CoverPage';
 import Chapter2SloganPage from './Chapter2SloganPage';
 import IntroStoryteller from './IntroStoryteller';
 import coverBgImage from '../../../../assets/cover_page_ch2.png';
-import coverBgVideo from '../../../../assets/in_this_video_just_add_those_b (1).mp4';
+import coverBgVideo from './cover_video_upscale.mp4';
 import natureGreeneryBg from '../../../../assets/nature_greenery_bg.jpg';
 
 // 14 Distinct 8K Realistic Photographic Backgrounds (Zero Duplicates Across Activities)
@@ -834,8 +834,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 justifyContent: 'space-between',
                 padding: 'clamp(10px, 1.5vh, 16px) clamp(14px, 1.8vw, 20px)',
                 background: 'rgba(15, 23, 42, 0.45)',
-                backdropFilter: 'blur(20px) saturate(180%)',
-                WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                backdropFilter: 'blur(2px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(2px) saturate(180%)',
                 borderRadius: '20px',
                 border: '2px solid rgba(245, 158, 11, 0.45)',
                 boxShadow: '0 12px 40px rgba(0, 0, 0, 0.4)',
@@ -878,7 +878,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                         cursor: 'pointer',
                         boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35)',
                         fontFamily: '"Outfit", sans-serif',
-                        backdropFilter: 'blur(12px)'
+                        backdropFilter: 'blur(2px)'
                       }}
                     >
                       {isSpeaking ? <VolumeX size={17} /> : <Volume2 size={17} />}
@@ -938,8 +938,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                   {/* Left Column: Key Concept Synthesis Cards */}
                   <div style={{
                     background: 'rgba(15, 23, 42, 0.52)',
-                    backdropFilter: 'blur(16px)',
-                    WebkitBackdropFilter: 'blur(16px)',
+                    backdropFilter: 'blur(2px)',
+                    WebkitBackdropFilter: 'blur(2px)',
                     border: '1.8px solid rgba(245, 158, 11, 0.4)',
                     borderRadius: '16px',
                     padding: 'clamp(10px, 1.4vh, 16px)',
@@ -988,8 +988,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                   {/* Right Column: 3 Interactive NCERT Questions */}
                   <div style={{
                     background: 'rgba(15, 23, 42, 0.52)',
-                    backdropFilter: 'blur(16px)',
-                    WebkitBackdropFilter: 'blur(16px)',
+                    backdropFilter: 'blur(2px)',
+                    WebkitBackdropFilter: 'blur(2px)',
                     border: '1.8px solid rgba(245, 158, 11, 0.4)',
                     borderRadius: '16px',
                     padding: 'clamp(10px, 1.4vh, 16px)',

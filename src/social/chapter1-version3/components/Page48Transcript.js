@@ -1,0 +1,48 @@
+export const PAGE48_TRANSCRIPT = [
+  // Title: "What is Latitude?"
+  { "audioWord": "What", "start": 0.0, "end": 0.26, "pageWordId": "h-1", "matchType": "matched" },
+  { "audioWord": "is", "start": 0.26, "end": 0.52, "pageWordId": "h-2", "matchType": "matched" },
+  { "audioWord": "latitude?", "start": 0.52, "end": 0.92, "pageWordId": "h-3", "matchType": "matched" },
+
+  // p1: "Imagine you stand on the Equator and travel towards one of the poles. Your distance from the Equator keeps increasing."
+  { "audioWord": "Imagine", "start": 1.68, "end": 2.08, "pageWordId": "p1-1", "matchType": "matched" },
+  { "audioWord": "you", "start": 2.08, "end": 2.46, "pageWordId": "p1-2", "matchType": "matched" },
+  { "audioWord": "stand", "start": 2.46, "end": 2.74, "pageWordId": "p1-3", "matchType": "matched" },
+  { "audioWord": "on", "start": 2.74, "end": 2.94, "pageWordId": "p1-4", "matchType": "matched" },
+  { "audioWord": "the", "start": 2.94, "end": 3.14, "pageWordId": "p1-5", "matchType": "matched" },
+  { "audioWord": "equator", "start": 3.14, "end": 3.46, "pageWordId": "p1-6", "matchType": "matched" },
+  { "audioWord": "and", "start": 3.46, "end": 4.04, "pageWordId": "p1-7", "matchType": "matched" },
+  { "audioWord": "travel", "start": 4.04, "end": 4.5, "pageWordId": "p1-8", "matchType": "matched" },
+  { "audioWord": "towards", "start": 4.5, "end": 4.88, "pageWordId": "p1-9", "matchType": "matched" },
+  { "audioWord": "one", "start": 4.88, "end": 5.14, "pageWordId": "p1-10", "matchType": "matched" },
+  { "audioWord": "of", "start": 5.14, "end": 5.3, "pageWordId": "p1-11", "matchType": "matched" },
+  { "audioWord": "the", "start": 5.3, "end": 5.44, "pageWordId": "p1-12", "matchType": "matched" },
+  { "audioWord": "poles.", "start": 5.44, "end": 5.7, "pageWordId": "p1-13", "matchType": "matched" },
+  { "audioWord": "Your", "start": 6.36, "end": 6.56, "pageWordId": "p1-14", "matchType": "matched" },
+  { "audioWord": "distance", "start": 6.56, "end": 7.0, "pageWordId": "p1-15", "matchType": "matched" },
+  { "audioWord": "from", "start": 7.0, "end": 7.28, "pageWordId": "p1-16", "matchType": "matched" },
+  { "audioWord": "the", "start": 7.28, "end": 7.54, "pageWordId": "p1-17", "matchType": "matched" },
+  { "audioWord": "equator", "start": 7.54, "end": 7.88, "pageWordId": "p1-18", "matchType": "matched" },
+  { "audioWord": "keeps", "start": 7.88, "end": 8.32, "pageWordId": "p1-19", "matchType": "matched" },
+  { "audioWord": "increasing.", "start": 8.32, "end": 8.98, "pageWordId": "p1-20", "matchType": "matched" },
+
+  // p2: "Latitude is exactly this — a measure of how far north or south of the Equator a place is."
+  { "audioWord": "Latitude", "start": 9.66, "end": 10.1, "pageWordId": "p2-1", "matchType": "matched" },
+  { "audioWord": "is", "start": 10.1, "end": 10.64, "pageWordId": "p2-2", "matchType": "matched" },
+  { "audioWord": "exactly", "start": 10.64, "end": 11.02, "pageWordId": "p2-3", "matchType": "matched" },
+  { "audioWord": "this,", "start": 11.02, "end": 11.46, "pageWordId": "p2-4", "matchType": "matched" },
+  { "audioWord": "a", "start": 12.0, "end": 12.1, "pageWordId": "p2-6", "matchType": "matched" },
+  { "audioWord": "measure", "start": 12.1, "end": 12.36, "pageWordId": "p2-7", "matchType": "matched" },
+  { "audioWord": "of", "start": 12.36, "end": 12.92, "pageWordId": "p2-8", "matchType": "matched" },
+  { "audioWord": "how", "start": 12.92, "end": 13.22, "pageWordId": "p2-9", "matchType": "matched" },
+  { "audioWord": "far", "start": 13.22, "end": 13.52, "pageWordId": "p2-10", "matchType": "matched" },
+  { "audioWord": "north", "start": 13.52, "end": 13.92, "pageWordId": "p2-11", "matchType": "matched" },
+  { "audioWord": "or", "start": 13.92, "end": 14.24, "pageWordId": "p2-12", "matchType": "matched" },
+  { "audioWord": "south", "start": 14.24, "end": 14.62, "pageWordId": "p2-13", "matchType": "matched" },
+  { "audioWord": "of", "start": 14.62, "end": 14.88, "pageWordId": "p2-14", "matchType": "matched" },
+  { "audioWord": "the", "start": 14.88, "end": 15.12, "pageWordId": "p2-15", "matchType": "matched" },
+  { "audioWord": "equator", "start": 15.12, "end": 15.52, "pageWordId": "p2-16", "matchType": "matched" },
+  { "audioWord": "a", "start": 15.52, "end": 15.9, "pageWordId": "p2-17", "matchType": "matched" },
+  { "audioWord": "place", "start": 15.9, "end": 16.16, "pageWordId": "p2-18", "matchType": "matched" },
+  { "audioWord": "is.", "start": 16.16, "end": 16.54, "pageWordId": "p2-19", "matchType": "matched" }
+];

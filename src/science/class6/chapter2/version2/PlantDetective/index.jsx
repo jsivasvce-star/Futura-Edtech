@@ -410,7 +410,7 @@ const playSound = (type = 'click') => {
   }
 };
 
-export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
+export default function PlantDetective({ onBackToDashboard, onNextActivity, nextLabel }) {
   const { theme } = useTheme();
   const [selectedPlantId, setSelectedPlantId] = useState('plantA');
   const [subPage, setSubPage] = useState(1); // 1: Archives, 2: Detective Lab Bench
@@ -887,8 +887,8 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
           flexDirection: 'column',
           justifyContent: 'space-between',
           background: 'rgba(15, 23, 42, 0.50)',
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
+          backdropFilter: 'blur(2px)',
+          WebkitBackdropFilter: 'blur(2px)',
           border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           padding: '0.45rem 1.4rem 0.4rem',
@@ -1090,7 +1090,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                         right: 0,
                         height: '25px',
                         background: 'rgba(20, 69, 47, 0.94)',
-                        backdropFilter: 'blur(4px)',
+                        backdropFilter: 'blur(2px)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
@@ -1376,11 +1376,11 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                 className="bio-cta-btn"
                 onClick={() => {
                   if (onNextActivity) onNextActivity();
-                  else onBackToDashboard('next_activity');
+                  else if (onBackToDashboard) onBackToDashboard('next_activity');
                 }}
                 aria-label="Next Activity"
               >
-                <span>Next: Act 2.5 Leaf Venation</span>
+                <span>{nextLabel || "Next: Act 2.5 Leaf Venation"}</span>
                 <ArrowRight size={18} strokeWidth={2.5} />
               </button>
             </div>
@@ -1398,8 +1398,8 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
           display: 'flex',
           flexDirection: 'column',
           background: 'rgba(15, 23, 42, 0.50)',
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
+          backdropFilter: 'blur(2px)',
+          WebkitBackdropFilter: 'blur(2px)',
           border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',
@@ -1892,7 +1892,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                           top: '12px',
                           left: '14px',
                           background: 'rgba(15, 23, 42, 0.45)',
-                          backdropFilter: 'blur(8px)',
+                          backdropFilter: 'blur(2px)',
                           border: '2px solid #D4AF37',
                           borderRadius: '16px',
                           padding: '10px 14px',
@@ -2421,7 +2421,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
           position: 'absolute',
           inset: 0,
           background: 'rgba(15, 23, 42, 0.78)',
-          backdropFilter: 'blur(8px)',
+          backdropFilter: 'blur(2px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -2493,7 +2493,10 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                 Play Again
               </button>
               <button
-                onClick={onBackToDashboard}
+                onClick={() => {
+                  if (onNextActivity) onNextActivity();
+                  else if (onBackToDashboard) onBackToDashboard();
+                }}
                 style={{
                   background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                   color: '#FFFFFF',
@@ -2505,7 +2508,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                   cursor: 'pointer'
                 }}
               >
-                Return to Chapter Map ➔
+                {nextLabel ? nextLabel : 'Return to Chapter Map ➔'}
               </button>
             </div>
           </div>

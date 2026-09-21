@@ -13,6 +13,34 @@ import person3d from './assets/person_3d.png';
    - Zero overlap onto buildings or static structures.
    ═══════════════════════════════════════════════════════════════════════ */
 
+const WordRenderer = ({ text, idPrefix, defaultColor, highlightColor, activeWordId }) => {
+  const words = text.trim().split(/\s+/);
+  return (
+    <>
+      {words.map((word, index) => {
+        const wordId = `${idPrefix}-${index + 1}`;
+        const isHighlighted = activeWordId === wordId;
+        return (
+          <React.Fragment key={index}>
+            <span
+              data-word-id={wordId}
+              style={{
+                color: isHighlighted ? highlightColor : defaultColor,
+                background: isHighlighted ? 'rgba(180, 83, 9, 0.1)' : 'transparent',
+                borderRadius: '4px',
+                padding: '0 2px',
+                transition: 'all 0.15s ease-out'
+              }}>
+              {word}
+            </span>
+            {index < words.length - 1 ? ' ' : ''}
+          </React.Fragment>
+        );
+      })}
+    </>
+  );
+};
+
 const VIEW_W = 1376;
 const VIEW_H = 768;
 
@@ -598,7 +626,7 @@ const TOWN_MAP_QUESTIONS = [
 ];
 
 /* ── 8. MAIN TOWN MAP 3D COMPONENT ─────────────────────────────────── */
-const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false, showQuiz = false }) => {
+const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false, showQuiz = false, activeWordId }) => {
   const START = 'RS';
   const GOAL = 'BK';
 
@@ -2339,10 +2367,10 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false, showQuiz =
           }}>
             <div style={{ fontSize: '48px', marginBottom: '16px' }}>🕷️</div>
             <h2 style={{ color: '#92400E', fontSize: '28px', fontWeight: 900, marginBottom: '16px', fontFamily: 'Space Grotesk, sans-serif' }}>
-              Welcome to the City!
+              <WordRenderer text="Welcome to the City!" idPrefix="welcome" activeWordId={activeWordId} defaultColor="#92400E" highlightColor="#451a03" />
             </h2>
             <p style={{ color: '#475569', fontSize: '18px', fontWeight: 600, lineHeight: 1.5, marginBottom: '32px' }}>
-              Help Spider-Man navigate through the town to reach the Bank from the Railway Station. Use the Direction Controls to guide him safely!
+              <WordRenderer text="Help Spider-Man navigate through the town to reach the Bank from the Railway Station." idPrefix="help" activeWordId={activeWordId} defaultColor="#475569" highlightColor="#451a03" /> <WordRenderer text="Use the Direction Controls to guide him safely!" idPrefix="use" activeWordId={activeWordId} defaultColor="#475569" highlightColor="#451a03" />
             </p>
             <button
               onClick={() => setShowWelcomePopup(false)}
@@ -2362,7 +2390,7 @@ const TownMap3DExplorer = ({ onComplete, onNext, hideSidebar = false, showQuiz =
               onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
               onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
             >
-              Let's Go!
+              <WordRenderer text="Let's Go!" idPrefix="lets" activeWordId={activeWordId} defaultColor="#FFFFFF" highlightColor="#451a03" />
             </button>
           </div>
         </div>

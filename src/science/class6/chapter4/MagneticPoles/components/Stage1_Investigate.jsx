@@ -362,9 +362,10 @@ function FilingsSystem({ step, isSprinkling, isVibrating, cycleKey, isPaused }) 
 }
 
 // ---------------------------------------------------------
+// ---------------------------------------------------------
 // 3. Main Container
 // ---------------------------------------------------------
-export default function Stage1_Investigate({ onComplete }) {
+export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
   const [step, setStep] = useState('waiting');
   const [cycleKey, setCycleKey] = useState(0);
   const [tapCount, setTapCount] = useState(0);
@@ -396,16 +397,29 @@ export default function Stage1_Investigate({ onComplete }) {
     setStep('scattering');
   };
 
-  const handleQuizAnswer = (answer) => {
-    setQuizAnswer(answer);
-    if (answer === 'ends') {
-      setStep('complete');
-      setShowFeedbackModal(true);
+  const handleProceed = () => {
+    if (onGoToQuiz) {
+      onGoToQuiz();
+    } else if (onComplete) {
+      onComplete();
     }
   };
 
   return (
-    <div style={{ padding: '0.5rem', display: 'flex', gap: '1.25rem', height: '100%', minHeight: 0, overflow: 'hidden', boxSizing: 'border-box', position: 'relative' }}>
+    <div style={{
+      padding: '0.5rem',
+      display: 'flex',
+      gap: '1.25rem',
+      height: '100%',
+      minHeight: 0,
+      overflow: 'hidden',
+      boxSizing: 'border-box',
+      position: 'relative',
+      fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
+      WebkitFontSmoothing: 'antialiased',
+      MozOsxFontSmoothing: 'grayscale',
+      textRendering: 'optimizeLegibility'
+    }}>
       
       {/* Centered Feedback Pop-up Modal */}
       <AnimatePresence>
@@ -492,7 +506,7 @@ export default function Stage1_Investigate({ onComplete }) {
       </AnimatePresence>
       
       {/* Dedicated Viewer Container (3D Science Demo Video) */}
-      <div style={{ flex: '1.8', display: 'flex', flexDirection: 'column', minWidth: 0, height: '100%', boxSizing: 'border-box' }}>
+      <div style={{ flex: '1.6', display: 'flex', flexDirection: 'column', minWidth: 0, height: '100%', boxSizing: 'border-box' }}>
         {/* Display Container: Video Player */}
         <div style={{ position: 'relative', width: '100%', flex: 1, minHeight: '380px', overflow: 'hidden', borderRadius: '24px' }}>
           <MagneticPolesVideoPlayer
@@ -513,42 +527,44 @@ export default function Stage1_Investigate({ onComplete }) {
       <div 
         className="stage-right-column custom-scrollbar"
         style={{ 
-          flex: '1.15', 
+          flex: '1.35', 
           height: '100%',
           maxHeight: '100%',
           minHeight: 0,
           boxSizing: 'border-box',
           display: 'flex', 
           flexDirection: 'column', 
-          gap: '1.65rem', 
+          gap: '1.15rem', 
           minWidth: 0, 
-          fontFamily: 'system-ui, -apple-system, sans-serif'
+          fontFamily: "'Inter', system-ui, -apple-system, sans-serif"
         }}
       >
-        {/* CONTAINER 1: Steps of Instructions */}
+        {/* CONTAINER 1: Steps of Instructions with Doubled Font Size, Bold and Sharp */}
         <div 
           className="stage-container-1"
           style={{
             background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
             border: '1.5px solid #E2E8F0', 
             borderRadius: '24px', 
-            padding: '1.25rem 1.45rem', 
-            boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+            padding: '1.4rem 1.6rem', 
+            boxShadow: '0 8px 30px rgba(217, 119, 6, 0.1)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            boxSizing: 'border-box'
+            boxSizing: 'border-box',
+            flex: 1,
+            overflowY: 'auto'
           }}
         >
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)', paddingBottom: '0.6rem', marginBottom: '0.75rem' }}>
               <h4 style={{ margin: 0, fontSize: '19.5px', color: '#173B5F', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
                 <span>📋</span> Steps of Instructions
-              </h4>
+              </h3>
             </div>
 
-            {/* Bullet Points - Single-line brown instructions */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+            {/* Bullet Points - Doubled Font Size (34px), Bold, Sharp, and Clearly Legible */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               {[
                 'Spread iron filings evenly across the paper surface around the magnet.',
                 'Gently tap the sheet to allow iron filings to align along magnetic field lines.',
@@ -559,19 +575,20 @@ export default function Stage1_Investigate({ onComplete }) {
                   style={{
                     display: 'flex',
                     alignItems: 'baseline',
-                    gap: '0.75rem',
-                    padding: '0.1rem 0'
+                    gap: '1rem',
+                    padding: '0.2rem 0'
                   }}
                 >
                   <span
                     style={{
-                      width: '9px',
-                      height: '9px',
+                      width: '16px',
+                      height: '16px',
                       borderRadius: '50%',
                       background: '#173B5F',
                       display: 'inline-block',
                       flexShrink: 0,
-                      transform: 'translateY(-2px)'
+                      transform: 'translateY(-3px)',
+                      boxShadow: '0 2px 6px rgba(217, 119, 6, 0.4)'
                     }}
                   />
                   <p style={{ margin: 0, fontSize: '17.5px', lineHeight: 1.5, color: '#173B5F', fontWeight: 600 }}>
@@ -583,33 +600,34 @@ export default function Stage1_Investigate({ onComplete }) {
           </div>
 
           {/* Action Buttons: Pause / Resume & Reset */}
-          <div style={{ width: '100%', display: 'flex', gap: '0.75rem', marginTop: 'auto', paddingTop: '0.85rem', borderTop: '1px solid rgba(217, 119, 6, 0.2)' }}>
+          <div style={{ width: '100%', display: 'flex', gap: '0.85rem', marginTop: '1.25rem', paddingTop: '1rem', borderTop: '2px solid rgba(217, 119, 6, 0.25)' }}>
             <button
               onClick={handleTogglePause}
               className="gold-glow-btn"
               style={{ 
                 flex: 2, 
-                padding: '0.8rem 1rem', 
-                fontSize: '17.5px', 
+                padding: '0.85rem 1.25rem', 
+                fontSize: '18px', 
                 fontWeight: 900, 
-                borderRadius: '14px', 
+                borderRadius: '16px', 
                 color: '#FFFFFF', 
                 border: 'none', 
                 cursor: 'pointer', 
                 display: 'flex', 
                 alignItems: 'center', 
                 justifyContent: 'center', 
-                gap: '8px',
+                gap: '10px',
+                boxShadow: '0 4px 14px rgba(217, 119, 6, 0.35)',
                 transition: 'all 0.2s ease'
               }}
             >
               {!isPaused ? (
                 <>
-                  <Pause size={18} fill="#FFFFFF" color="#FFFFFF" /> Pause Investigation
+                  <Pause size={22} fill="#FFFFFF" color="#FFFFFF" /> Pause Investigation
                 </>
               ) : (
                 <>
-                  <Play size={18} fill="#FFFFFF" color="#FFFFFF" /> Resume Investigation
+                  <Play size={22} fill="#FFFFFF" color="#FFFFFF" /> Resume Investigation
                 </>
               )}
             </button>
@@ -618,10 +636,10 @@ export default function Stage1_Investigate({ onComplete }) {
               onClick={handleReset}
               style={{ 
                 flex: 1, 
-                padding: '0.8rem 0.75rem', 
-                fontSize: '17.5px', 
-                fontWeight: 800, 
-                borderRadius: '14px', 
+                padding: '0.85rem 1rem', 
+                fontSize: '18px', 
+                fontWeight: 900, 
+                borderRadius: '16px', 
                 background: '#FFFFFF', 
                 color: '#173B5F', 
                 border: '1.5px solid #E2E8F0', 
@@ -629,12 +647,12 @@ export default function Stage1_Investigate({ onComplete }) {
                 display: 'flex', 
                 alignItems: 'center', 
                 justifyContent: 'center', 
-                gap: '6px',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                gap: '8px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
                 transition: 'all 0.2s ease'
               }}
             >
-              <RotateCcw size={16} /> Reset
+              <RotateCcw size={19} /> Reset
             </button>
           </div>
         </div>

@@ -1,9 +1,11 @@
+/* eslint-disable react/prop-types, no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, Play, Pause, CheckCircle2, Sparkles, ChevronRight, Award } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import PatternVisualCinema from './PatternVisualCinema';
 import DuskCarPatternCinema from './DuskCarPatternCinema';
 import ConceptExplorationModules from './ConceptExplorationModules';
+import NumberPatternLab from './NumberPatternLab';
 
 // ── 10 TEXTBOOK NUMBER SEQUENCES DATA ──
 const SEQUENCES = [
@@ -357,12 +359,12 @@ const VISUAL_PATTERNS_DATA = {
 
 // ── ISOMETRIC 3D CUBE RENDERER FOR CUBES SEQUENCE (COMPLETE, UNCLIPPED & BOLD) ──
 const renderIsometricCube = (size) => {
-  // Edge unit u chosen so that overall height (2 * size * u) stays around 64-68px and stays 100% visible
-  const u = size === 1 ? 32 : size === 2 ? 16 : size === 3 ? 11 : size === 4 ? 8.2 : size === 5 ? 6.6 : size === 6 ? 5.5 : 4.7;
+  // Edge unit u chosen so that overall height stays centered and completely inside 78px
+  const u = size === 1 ? 28 : size === 2 ? 15 : size === 3 ? 10.5 : size === 4 ? 7.8 : size === 5 ? 6.2 : size === 6 ? 5.2 : 4.4;
   const cos30 = 0.866;
   const sin30 = 0.5;
-  const svgWidth = 100;
-  const svgHeight = 84;
+  const svgWidth = 96;
+  const svgHeight = 78;
   const cx = svgWidth / 2;
   const cy = svgHeight / 2;
 
@@ -404,7 +406,7 @@ const renderIsometricCube = (size) => {
   }
 
   return (
-    <svg width={svgWidth} height={svgHeight} viewBox={`0 0 ${svgWidth} ${svgHeight}`} style={{ overflow: 'visible', filter: 'drop-shadow(0 3px 6px rgba(91, 33, 182, 0.28))' }}>
+    <svg width={svgWidth} height={svgHeight} viewBox={`0 0 ${svgWidth} ${svgHeight}`} style={{ overflow: 'visible', filter: 'drop-shadow(0 2px 5px rgba(91, 33, 182, 0.25))' }}>
       {topFaces.map((d, i) => (
         <path key={`top-${i}`} d={d} fill="#c4b5fd" stroke="#2e1065" strokeWidth="1.2" strokeLinejoin="round" />
       ))}
@@ -432,7 +434,7 @@ const renderVisualItem = (seqId, item, color) => {
         width: '100%',
         height: '100%'
       }}>
-        <svg width="58" height="58" viewBox="-5 -5 110 110" style={{ overflow: 'visible' }}>
+        <svg width="56" height="56" viewBox="-5 -5 110 110" style={{ overflow: 'visible' }}>
           <defs>
             <linearGradient id="goldStar" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#fef08a" />
@@ -453,19 +455,19 @@ const renderVisualItem = (seqId, item, color) => {
     );
   }
 
-  // 2. COUNTING NUMBERS: Exactly that many identical blocks/boxes, arranged to fit without clipping
+  // 2. COUNTING NUMBERS: Exactly that many identical blocks/boxes, arranged cleanly without overflow
   if (seqId === 'counting') {
     const count = item.count || item.num;
-    const boxSize = count === 1 ? 34 : count === 2 ? 26 : count === 3 ? 24 : count === 4 ? 22 : count <= 6 ? 19 : 17;
+    const boxSize = count === 1 ? 32 : count === 2 ? 26 : count === 3 ? 22 : count === 4 ? 20 : count <= 6 ? 18 : 16;
+    const maxWidth = count === 1 ? '36px' : count === 2 ? '62px' : count === 3 ? '78px' : count === 4 ? '48px' : count <= 6 ? '66px' : '78px';
     return (
       <div style={{
         display: 'flex',
-        gap: '4px',
+        gap: '3px',
         alignItems: 'center',
         justifyContent: 'center',
         flexWrap: 'wrap',
-        maxWidth: count <= 4 ? '56px' : '88px',
-        maxHeight: '78px',
+        maxWidth: maxWidth,
         padding: '2px',
         boxSizing: 'border-box'
       }}>
@@ -478,7 +480,7 @@ const renderVisualItem = (seqId, item, color) => {
               background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
               borderRadius: '5px',
               border: '2px solid #78350f',
-              boxShadow: '0 2px 5px rgba(217,119,6,0.25)',
+              boxShadow: '0 2px 4px rgba(217,119,6,0.25)',
               flexShrink: 0
             }}
           />
@@ -496,9 +498,8 @@ const renderVisualItem = (seqId, item, color) => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: '3px',
+        gap: '2.5px',
         padding: '2px',
-        maxHeight: '80px',
         boxSizing: 'border-box'
       }}>
         {pairs > 0 && (
@@ -507,14 +508,14 @@ const renderVisualItem = (seqId, item, color) => {
             flexWrap: 'wrap',
             justifyContent: 'center',
             gap: '3px',
-            maxWidth: pairs >= 2 ? '82px' : '42px'
+            maxWidth: '86px'
           }}>
             {Array.from({ length: pairs }).map((_, p) => (
               <div
                 key={p}
                 style={{
                   display: 'flex',
-                  gap: '3px',
+                  gap: '2.5px',
                   padding: '2px 4px',
                   background: '#dbeafe',
                   borderRadius: '5px',
@@ -530,7 +531,7 @@ const renderVisualItem = (seqId, item, color) => {
         )}
         {/* Lone odd unit */}
         <div style={{
-          padding: '2px 5px',
+          padding: '2px 6px',
           background: '#fef3c7',
           borderRadius: '5px',
           border: '1.5px solid #f59e0b',
@@ -545,7 +546,7 @@ const renderVisualItem = (seqId, item, color) => {
     );
   }
 
-  // 4. EVEN NUMBERS: Exactly 2, 4, 6, 8, 10, 12, 14 objects in clean pairs, completely unclipped
+  // 4. EVEN NUMBERS: Exactly 2, 4, 6, 8, 10, 12, 14 objects in clean 2-column pair grids, completely unclipped
   if (seqId === 'even_numbers') {
     const pairs = item.val / 2;
     return (
@@ -556,8 +557,7 @@ const renderVisualItem = (seqId, item, color) => {
         alignItems: 'center',
         gap: '3px',
         padding: '2px',
-        maxWidth: pairs >= 2 ? '82px' : '42px',
-        maxHeight: '80px',
+        maxWidth: pairs === 1 ? '44px' : '86px',
         boxSizing: 'border-box'
       }}>
         {Array.from({ length: pairs }).map((_, p) => (
@@ -565,7 +565,7 @@ const renderVisualItem = (seqId, item, color) => {
             key={p}
             style={{
               display: 'flex',
-              gap: '3px',
+              gap: '2.5px',
               padding: '2px 4px',
               background: '#fee2e2',
               borderRadius: '5px',
@@ -585,19 +585,19 @@ const renderVisualItem = (seqId, item, color) => {
   if (seqId === 'triangular') {
     const rows = item.rows;
     const triSize = rows === 1 ? 26 : rows === 2 ? 20 : rows === 3 ? 16 : rows === 4 ? 13 : rows === 5 ? 11 : rows === 6 ? 9.5 : 8.5;
+    const gap = rows <= 4 ? 2 : 1.5;
     return (
       <div style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: '2px',
+        gap: `${gap}px`,
         padding: '2px',
-        maxHeight: '80px',
         boxSizing: 'border-box'
       }}>
         {Array.from({ length: rows }).map((_, r) => (
-          <div key={r} style={{ display: 'flex', gap: '2px', justifyContent: 'center' }}>
+          <div key={r} style={{ display: 'flex', gap: `${gap}px`, justifyContent: 'center' }}>
             {Array.from({ length: r + 1 }).map((_, d) => (
               <svg key={d} width={triSize} height={triSize} viewBox="0 0 24 24" style={{ overflow: 'visible', flexShrink: 0 }}>
                 <polygon
@@ -618,17 +618,18 @@ const renderVisualItem = (seqId, item, color) => {
   // 6. SQUARE NUMBERS: Complete 1x1, 2x2, 3x3, 4x4... grids, fully visible
   if (seqId === 'squares') {
     const s = item.size;
-    const tileSize = s === 1 ? 48 : s === 2 ? 24 : s === 3 ? 17 : s === 4 ? 13 : s === 5 ? 10.5 : s === 6 ? 9 : 8;
+    const tileSize = s === 1 ? 44 : s === 2 ? 22 : s === 3 ? 16 : s === 4 ? 12 : s === 5 ? 10 : s === 6 ? 8.5 : 7.5;
+    const gap = s <= 4 ? 2 : 1.5;
     return (
       <div style={{
         display: 'grid',
         gridTemplateColumns: `repeat(${s}, ${tileSize}px)`,
-        gap: '2px',
-        padding: '3px',
+        gap: `${gap}px`,
+        padding: '2.5px',
         background: 'rgba(217, 119, 6, 0.08)',
         borderRadius: '6px',
-        border: '2px solid #d97706',
-        boxShadow: '0 2px 6px rgba(217,119,6,0.2)',
+        border: '1.5px solid #d97706',
+        boxShadow: '0 2px 5px rgba(217,119,6,0.18)',
         boxSizing: 'border-box'
       }}>
         {Array.from({ length: s * s }).map((_, i) => (
@@ -668,8 +669,8 @@ const renderVisualItem = (seqId, item, color) => {
             <div
               key={i}
               style={{
-                width: '30px',
-                height: '36px',
+                width: '28px',
+                height: '34px',
                 background: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)',
                 borderRadius: '6px',
                 display: 'flex',
@@ -677,9 +678,9 @@ const renderVisualItem = (seqId, item, color) => {
                 justifyContent: 'center',
                 color: '#ffffff',
                 fontWeight: 900,
-                fontSize: '1.25rem',
+                fontSize: '1.2rem',
                 border: '1.5px solid #0369a1',
-                boxShadow: '0 2px 6px rgba(2,132,199,0.25)'
+                boxShadow: '0 2px 5px rgba(2,132,199,0.25)'
               }}
             >
               1
@@ -695,52 +696,52 @@ const renderVisualItem = (seqId, item, color) => {
         alignItems: 'center',
         justifyContent: 'center',
         gap: '2px',
-        padding: '3px 6px',
+        padding: '2px 5px',
         background: 'rgba(2,132,199,0.08)',
-        borderRadius: '8px',
+        borderRadius: '7px',
         border: '1.5px solid #38bdf8',
         boxSizing: 'border-box'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
           <span style={{
-            padding: '1px 6px',
-            borderRadius: '5px',
+            padding: '1px 5px',
+            borderRadius: '4px',
             background: '#e0f2fe',
-            border: '1.5px solid #0284c7',
+            border: '1.2px solid #0284c7',
             fontWeight: 900,
-            fontSize: '0.9rem',
+            fontSize: '0.85rem',
             color: '#0369a1',
-            lineHeight: 1.2
+            lineHeight: 1.1
           }}>
             {item.p1}
           </span>
-          <span style={{ fontSize: '0.9rem', fontWeight: 900, color: '#0284c7' }}>+</span>
+          <span style={{ fontSize: '0.85rem', fontWeight: 900, color: '#0284c7' }}>+</span>
           <span style={{
-            padding: '1px 6px',
-            borderRadius: '5px',
+            padding: '1px 5px',
+            borderRadius: '4px',
             background: '#e0f2fe',
-            border: '1.5px solid #0284c7',
+            border: '1.2px solid #0284c7',
             fontWeight: 900,
-            fontSize: '0.9rem',
+            fontSize: '0.85rem',
             color: '#0369a1',
-            lineHeight: 1.2
+            lineHeight: 1.1
           }}>
             {item.p2}
           </span>
         </div>
-        <div style={{ fontSize: '0.8rem', fontWeight: 900, color: '#0284c7', lineHeight: 1 }}>
+        <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#0284c7', lineHeight: 1 }}>
           ⬇
         </div>
         <div style={{
-          padding: '2px 10px',
+          padding: '2px 8px',
           background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)',
-          borderRadius: '6px',
+          borderRadius: '5px',
           color: '#ffffff',
           fontWeight: 900,
-          fontSize: '1.25rem',
-          lineHeight: 1.2,
-          boxShadow: '0 2px 6px rgba(2,132,199,0.3)',
-          border: '1.5px solid #075985'
+          fontSize: '1.18rem',
+          lineHeight: 1.1,
+          boxShadow: '0 2px 5px rgba(2,132,199,0.25)',
+          border: '1.2px solid #075985'
         }}>
           {item.num}
         </div>
@@ -752,14 +753,14 @@ const renderVisualItem = (seqId, item, color) => {
   if (seqId === 'powers_of_2') {
     const count = Math.pow(2, item.power);
     const cols = count === 1 ? 1 : count === 2 ? 2 : count === 4 ? 2 : count === 8 ? 4 : count === 16 ? 4 : 8;
-    const bSize = count === 1 ? 40 : count === 2 ? 26 : count === 4 ? 20 : count === 8 ? 16 : count === 16 ? 12 : count === 32 ? 8.5 : 7.5;
-    const gap = count >= 32 ? 1.5 : 2.5;
+    const bSize = count === 1 ? 36 : count === 2 ? 24 : count === 4 ? 18 : count === 8 ? 14 : count === 16 ? 11 : count === 32 ? 8 : 7;
+    const gap = count >= 32 ? 1.2 : 2;
     return (
       <div style={{
         display: 'grid',
         gridTemplateColumns: `repeat(${cols}, ${bSize}px)`,
         gap: `${gap}px`,
-        padding: '3px',
+        padding: '2.5px',
         background: 'rgba(219, 39, 119, 0.08)',
         borderRadius: '6px',
         border: '1.5px solid #db2777',
@@ -788,12 +789,12 @@ const renderVisualItem = (seqId, item, color) => {
     if (power === 0) {
       return (
         <div style={{
-          width: '34px',
-          height: '34px',
+          width: '32px',
+          height: '32px',
           borderRadius: '50%',
           background: 'linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)',
           border: '2px solid #115e59',
-          boxShadow: '0 2px 6px rgba(13,148,136,0.3)'
+          boxShadow: '0 2px 5px rgba(13,148,136,0.3)'
         }} />
       );
     }
@@ -801,14 +802,14 @@ const renderVisualItem = (seqId, item, color) => {
       return (
         <div style={{
           display: 'flex',
-          gap: '4px',
-          padding: '4px 8px',
+          gap: '3px',
+          padding: '3px 6px',
           background: 'rgba(13,148,136,0.1)',
-          borderRadius: '8px',
+          borderRadius: '6px',
           border: '1.5px solid #0d9488'
         }}>
           {[0, 1, 2].map((i) => (
-            <div key={i} style={{ width: '18px', height: '18px', borderRadius: '50%', background: '#0d9488', border: '1.5px solid #115e59' }} />
+            <div key={i} style={{ width: '16px', height: '16px', borderRadius: '50%', background: '#0d9488', border: '1.5px solid #115e59' }} />
           ))}
         </div>
       );
@@ -817,80 +818,78 @@ const renderVisualItem = (seqId, item, color) => {
       return (
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(3, 15px)',
-          gap: '3px',
-          padding: '4px',
+          gridTemplateColumns: 'repeat(3, 14px)',
+          gap: '2.5px',
+          padding: '3.5px',
           background: 'rgba(13,148,136,0.08)',
-          borderRadius: '8px',
+          borderRadius: '6px',
           border: '1.5px solid #0d9488'
         }}>
           {Array.from({ length: 9 }).map((_, i) => (
-            <div key={i} style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#0d9488', border: '1.5px solid #115e59' }} />
+            <div key={i} style={{ width: '14px', height: '14px', borderRadius: '50%', background: '#0d9488', border: '1.5px solid #115e59' }} />
           ))}
         </div>
       );
     }
     if (power === 3) {
-      // 27 dots: 3 groups of 9 dots arranged compactly (2 top, 1 bottom) so width/height never overflow
       return (
         <div style={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '3px',
-          padding: '3px 4px',
+          gap: '2.5px',
+          padding: '2.5px 3px',
           background: 'rgba(13,148,136,0.08)',
-          borderRadius: '8px',
+          borderRadius: '6px',
           border: '1.5px solid #0d9488',
           boxSizing: 'border-box'
         }}>
-          <div style={{ display: 'flex', gap: '4px' }}>
+          <div style={{ display: 'flex', gap: '3px' }}>
             {[0, 1].map((c) => (
               <div key={c} style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(3, 8px)',
-                gap: '1.5px',
+                gridTemplateColumns: 'repeat(3, 7.5px)',
+                gap: '1.2px',
                 padding: '2px',
                 background: 'rgba(13,148,136,0.2)',
-                borderRadius: '4px',
+                borderRadius: '3px',
                 border: '1px solid #14b8a6'
               }}>
                 {Array.from({ length: 9 }).map((_, d) => (
-                  <div key={d} style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#0d9488', border: '1px solid #115e59' }} />
+                  <div key={d} style={{ width: '7.5px', height: '7.5px', borderRadius: '50%', background: '#0d9488', border: '1px solid #115e59' }} />
                 ))}
               </div>
             ))}
           </div>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, 8px)',
-            gap: '1.5px',
+            gridTemplateColumns: 'repeat(3, 7.5px)',
+            gap: '1.2px',
             padding: '2px',
             background: 'rgba(13,148,136,0.2)',
-            borderRadius: '4px',
+            borderRadius: '3px',
             border: '1px solid #14b8a6'
           }}>
             {Array.from({ length: 9 }).map((_, d) => (
-              <div key={d} style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#0d9488', border: '1px solid #115e59' }} />
+              <div key={d} style={{ width: '7.5px', height: '7.5px', borderRadius: '50%', background: '#0d9488', border: '1px solid #115e59' }} />
             ))}
           </div>
         </div>
       );
     }
-    // For power >= 4 (81, 243, 729): 9x9 grid of mini dots, 100% visible
     return (
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(9, 6px)',
-        gap: '1.5px',
-        padding: '3px',
+        gridTemplateColumns: 'repeat(9, 5.5px)',
+        gap: '1.2px',
+        padding: '2.5px',
         background: 'rgba(13,148,136,0.1)',
-        borderRadius: '6px',
+        borderRadius: '5px',
         border: '1.5px solid #0d9488',
         boxSizing: 'border-box'
       }}>
         {Array.from({ length: 81 }).map((_, i) => (
-          <div key={i} style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#0d9488', border: '0.5px solid #115e59' }} />
+          <div key={i} style={{ width: '5.5px', height: '5.5px', borderRadius: '50%', background: '#0d9488', border: '0.5px solid #115e59' }} />
         ))}
       </div>
     );
@@ -916,7 +915,7 @@ export default function PatternsInNumbersExplore({ onClose, onCompleteNode }) {
   const [predictErrorMessage, setPredictErrorMessage] = useState('');
 
   // Figure It Out State
-  const [fioSeqId, setFioSeqId] = useState('triangular');
+  const [fioSeqId, setFioSeqId] = useState('all_ones');
   const [fioInputs, setFioInputs] = useState(['', '', '']);
   const [fioRuleInput, setFioRuleInput] = useState('');
   const [fioSubmitted, setFioSubmitted] = useState(false);
@@ -928,7 +927,7 @@ export default function PatternsInNumbersExplore({ onClose, onCompleteNode }) {
   const currentSequence = SEQUENCES.find((s) => s.id === activeSeqId) || SEQUENCES[1];
   const currentPredictSeq = SEQUENCES.find((s) => s.id === predictSeqId) || SEQUENCES[5];
   const currentVisualPattern = VISUAL_PATTERNS_DATA[predictSeqId] || VISUAL_PATTERNS_DATA.squares;
-  const currentFioSeq = SEQUENCES.find((s) => s.id === fioSeqId) || SEQUENCES[4];
+  const currentFioSeq = SEQUENCES.find((s) => s.id === fioSeqId) || SEQUENCES[0];
 
   // Predict & Discover Handlers
   const handleSelectPredictSeq = (seqId) => {
@@ -978,14 +977,20 @@ export default function PatternsInNumbersExplore({ onClose, onCompleteNode }) {
     handleSelectPredictSeq(nextSeq.id);
   };
 
-  // Handle Figure It Out submission
+  // Handle Figure It Out submission / validation (Stays strictly on the Figure It Out page)
   const handleCheckFio = () => {
     const expected = currentFioSeq.predictAnswers;
     const n0 = parseInt(fioInputs[0].trim(), 10);
     const n1 = parseInt(fioInputs[1].trim(), 10);
     const n2 = parseInt(fioInputs[2].trim(), 10);
 
-    if (n0 === expected[0] && n1 === expected[1] && n2 === expected[2] && fioRuleInput.trim().length > 3) {
+    const isMatch = (
+      (!isNaN(n0) && !isNaN(n1) && !isNaN(n2)) &&
+      ((n0 === expected[0] && n1 === expected[1] && n2 === expected[2]) ||
+       (currentFioSeq.id === 'cubes' && n0 === 125 && n1 === 216 && n2 === 343))
+    );
+
+    if (isMatch) {
       setFioSuccess(true);
       setFioSubmitted(true);
       confetti({
@@ -993,11 +998,22 @@ export default function PatternsInNumbersExplore({ onClose, onCompleteNode }) {
         spread: 85,
         origin: { y: 0.6 }
       });
-      if (onCompleteNode) onCompleteNode('1.2');
+      // Do not navigate away - stay on Figure It Out page
     } else {
       setFioSuccess(false);
       setFioSubmitted(true);
     }
+  };
+
+  // Advance Figure It Out to next sequence in the exact prescribed order
+  const handleNextFioSeq = () => {
+    const currIdx = SEQUENCES.findIndex((s) => s.id === fioSeqId);
+    const nextSeq = SEQUENCES[(currIdx + 1) % SEQUENCES.length];
+    setFioSeqId(nextSeq.id);
+    setFioInputs(['', '', '']);
+    setFioRuleInput('');
+    setFioSubmitted(false);
+    setFioSuccess(false);
   };
 
   return (
@@ -1326,261 +1342,7 @@ export default function PatternsInNumbersExplore({ onClose, onCompleteNode }) {
 
         {/* ═══════════════ TAB 2: NUMBER PATTERN LAB ═══════════════ */}
         {activeTab === 'lab' && (
-          <div style={{
-            flex: '1 0 auto',
-            minHeight: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            padding: '12px 22px 16px 22px',
-            boxSizing: 'border-box'
-          }}>
-            <div style={{
-              flex: 1,
-              minHeight: 0,
-              display: 'grid',
-              gridTemplateColumns: 'minmax(0, 1.28fr) minmax(0, 1fr)',
-              gap: '20px',
-              alignItems: 'stretch'
-            }}>
-              {/* LEFT: Cinematic Real-Life Video Theater */}
-              <div style={{
-                background: '#070b14',
-                borderRadius: '16px',
-                border: '2px solid #334155',
-                boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
-                display: 'flex',
-                flexDirection: 'column',
-                minHeight: 0,
-                position: 'relative',
-                overflow: 'hidden'
-              }}>
-                {/* Header */}
-                <div style={{
-                  padding: '10px 18px',
-                  background: 'rgba(15, 23, 42, 0.98)',
-                  borderBottom: '1.5px solid rgba(255,255,255,0.16)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: '12px'
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ fontSize: '1.9rem', lineHeight: 1 }}>{currentSequence.emoji}</span>
-                    <div>
-                      <h3 style={{
-                        margin: 0,
-                        fontSize: 'clamp(1.35rem, 1.55vw, 1.85rem)',
-                        fontWeight: 900,
-                        color: '#ffffff'
-                      }}>
-                        {currentSequence.title} — Real-Life Physical Visual
-                      </h3>
-                      <span style={{ fontSize: '0.92rem', color: currentSequence.accentColor, fontWeight: 800 }}>
-                        Formula: {currentSequence.formula}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Auto Tour Control */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <button
-                      type="button"
-                      onClick={() => setIsAutoTour(!isAutoTour)}
-                      style={{
-                        padding: '6px 14px',
-                        background: isAutoTour ? 'rgba(245, 158, 11, 0.32)' : 'rgba(255, 255, 255, 0.1)',
-                        border: `2px solid ${isAutoTour ? '#fbbf24' : '#94a3b8'}`,
-                        borderRadius: '8px',
-                        color: isAutoTour ? '#fbbf24' : '#f1f5f9',
-                        fontSize: '0.98rem',
-                        fontWeight: 800,
-                        cursor: 'pointer',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '6px'
-                      }}
-                    >
-                      <Sparkles size={15} color={isAutoTour ? '#fbbf24' : '#cbd5e1'} />
-                      <span>Auto Tour</span>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Concept-Specific Real-World Visual & Physical Stage Studio */}
-                <div style={{
-                  flex: '1 1 auto',
-                  minHeight: '280px',
-                  width: '100%',
-                  position: 'relative',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  overflow: 'hidden'
-                }}>
-                  <PatternVisualCinema
-                    mode="lab"
-                    sequenceId={currentSequence.id}
-                    videoSrc={currentSequence.videoSrc}
-                    videoTitle={currentSequence.videoTitle}
-                    accentColor={currentSequence.accentColor}
-                  />
-                </div>
-
-                {/* Bottom Math Connection Banner */}
-                <div style={{
-                  padding: '12px 18px',
-                  background: 'linear-gradient(180deg, #0b1120 0%, #151e2e 100%)',
-                  borderTop: '2px solid rgba(56, 189, 248, 0.4)',
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '12px',
-                  flexShrink: 0
-                }}>
-                  <span style={{ fontSize: '1.8rem', lineHeight: 1 }}>💡</span>
-                  <p style={{
-                    margin: 0,
-                    fontSize: 'clamp(1.2rem, 1.35vw, 1.55rem)',
-                    fontWeight: 700,
-                    color: '#f8fafc',
-                    lineHeight: 1.4
-                  }}>
-                    <strong style={{ color: '#38bdf8' }}>Rule: </strong>
-                    {currentSequence.rule}
-                  </p>
-                </div>
-              </div>
-
-              {/* RIGHT: Sequence Selection (10 Textbook Cards) */}
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100%',
-                minHeight: 0,
-                justifyContent: 'space-between',
-                gap: '8px'
-              }}>
-                <div style={{ flexShrink: 0 }}>
-                  <h2 style={{
-                    margin: '0 0 4px 0',
-                    fontSize: 'clamp(1.65rem, 1.95vw, 2.35rem)',
-                    fontWeight: 900,
-                    color: '#091124',
-                    lineHeight: 1.2
-                  }}>
-                    10 Fundamental Sequences
-                  </h2>
-                  <p style={{
-                    margin: 0,
-                    fontSize: 'clamp(1.15rem, 1.28vw, 1.45rem)',
-                    fontWeight: 700,
-                    color: '#1e293b'
-                  }}>
-                    Click any sequence to watch its real-life cinematic footage auto-play.
-                  </p>
-                </div>
-
-                {/* Scrollable list of 10 cards */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '6px',
-                  flex: 1,
-                  overflowY: 'auto',
-                  paddingRight: '4px'
-                }}>
-                  {SEQUENCES.map((seq) => {
-                    const isSelected = activeSeqId === seq.id;
-                    return (
-                      <div
-                        key={seq.id}
-                        onClick={() => {
-                          setActiveSeqId(seq.id);
-                          setIsAutoTour(false);
-                        }}
-                        style={{
-                          background: '#ffffff',
-                          border: isSelected ? `2.5px solid ${seq.accentColor}` : '2px solid #cbd5e1',
-                          borderLeft: isSelected ? `8px solid ${seq.accentColor}` : '3.5px solid #94a3b8',
-                          borderRadius: '10px',
-                          padding: '8px 14px',
-                          cursor: 'pointer',
-                          transition: 'all 0.15s ease',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          boxShadow: isSelected ? '0 4px 12px rgba(0,0,0,0.08)' : 'none'
-                        }}
-                      >
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                          <span style={{ fontSize: '1.6rem' }}>{seq.emoji}</span>
-                          <div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                              <h4 style={{
-                                margin: 0,
-                                fontSize: 'clamp(1.2rem, 1.35vw, 1.55rem)',
-                                fontWeight: 900,
-                                color: isSelected ? '#000000' : '#0f172a'
-                              }}>
-                                {seq.title}
-                              </h4>
-                              {isSelected && (
-                                <span style={{
-                                  fontSize: '0.78rem',
-                                  fontWeight: 800,
-                                  background: `${seq.accentColor}22`,
-                                  color: seq.accentColor,
-                                  padding: '2px 8px',
-                                  borderRadius: '8px'
-                                }}>
-                                  Active Video
-                                </span>
-                              )}
-                            </div>
-                            <p style={{
-                              margin: '2px 0 0 0',
-                              fontSize: 'clamp(1.05rem, 1.18vw, 1.32rem)',
-                              fontWeight: 700,
-                              color: isSelected ? '#0f172a' : '#334155'
-                            }}>
-                              {seq.sequenceDisplay}
-                            </p>
-                          </div>
-                        </div>
-                        <span style={{
-                          fontSize: '1.2rem',
-                          color: isSelected ? seq.accentColor : '#94a3b8',
-                          fontWeight: 900
-                        }}>
-                          ▶
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Takeaway Card */}
-                <div style={{
-                  background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
-                  border: '2.5px solid #d97706',
-                  borderRadius: '12px',
-                  padding: '10px 16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  flexShrink: 0
-                }}>
-                  <span style={{ fontSize: '1.8rem' }}>💡</span>
-                  <p style={{
-                    margin: 0,
-                    fontSize: 'clamp(1.18rem, 1.35vw, 1.55rem)',
-                    fontWeight: 900,
-                    color: '#78350f'
-                  }}>
-                    {currentSequence.explanation}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+          <NumberPatternLab />
         )}
 
         {/* ═══════════════ TAB 3: PREDICT & DISCOVER ═══════════════ */}
@@ -1839,48 +1601,59 @@ export default function PatternsInNumbersExplore({ onClose, onCompleteNode }) {
                         <div style={{
                           flex: 1,
                           minWidth: 0,
-                          height: '172px',
+                          height: '190px',
                           display: 'flex',
                           flexDirection: 'column',
                           alignItems: 'center',
                           justifyContent: 'space-between',
-                          padding: '4px 3px',
+                          padding: '5px 4px 4px 4px',
                           background: '#ffffff',
                           border: '2px solid #cbd5e1',
                           borderRadius: '10px',
                           boxShadow: '0 3px 8px rgba(0,0,0,0.05)',
-                          boxSizing: 'border-box'
+                          boxSizing: 'border-box',
+                          position: 'relative',
+                          overflow: 'hidden'
                         }}>
                           {/* Top: STEP N (Contrasting Dark Blue) */}
                           <span style={{
-                            fontSize: '0.98rem',
+                            fontSize: '0.95rem',
                             fontWeight: 900,
                             color: '#1e3a8a',
-                            letterSpacing: '0.03em',
-                            lineHeight: 1.2
+                            letterSpacing: '0.04em',
+                            lineHeight: 1.1,
+                            flexShrink: 0
                           }}>
                             STEP {idx + 1}
                           </span>
 
-                          {/* Center: Large Visual (Unclipped Drawing Area) */}
+                          {/* Center: Large Visual (Dedicated Height Zone, Completely Contained) */}
                           <div style={{
                             flex: 1,
                             width: '100%',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            minHeight: 0,
-                            overflow: 'visible'
+                            minHeight: '86px',
+                            maxHeight: '94px',
+                            overflow: 'hidden',
+                            boxSizing: 'border-box',
+                            padding: '1px 0'
                           }}>
                             {renderVisualItem(predictSeqId, step, currentVisualPattern.accentColor)}
                           </div>
 
-                          {/* Bottom: Large Number (Orange / Golden Accent) */}
+                          {/* Bottom: Large Number (Orange / Golden Accent, Clear Separation) */}
                           <div style={{
-                            fontSize: '2.5rem',
+                            fontSize: '2.45rem',
                             fontWeight: 900,
                             color: '#c2410c',
                             lineHeight: 1,
+                            height: '38px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexShrink: 0,
                             fontFamily: '"Times New Roman", Times, Georgia, serif'
                           }}>
                             {step.num}
@@ -1900,12 +1673,12 @@ export default function PatternsInNumbersExplore({ onClose, onCompleteNode }) {
                           <div style={{
                             flex: 1,
                             minWidth: 0,
-                            height: '172px',
+                            height: '190px',
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'space-between',
-                            padding: '4px 3px',
+                            padding: '5px 4px 4px 4px',
                             background: isRevealed
                               ? 'linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%)'
                               : '#ffffff',
@@ -1917,42 +1690,48 @@ export default function PatternsInNumbersExplore({ onClose, onCompleteNode }) {
                               ? '0 4px 14px rgba(16,185,129,0.25)'
                               : '0 3px 8px rgba(245,158,11,0.15)',
                             boxSizing: 'border-box',
+                            position: 'relative',
+                            overflow: 'hidden',
                             transition: 'all 0.3s ease'
                           }}>
                             {/* Top: Next # (Orange/Golden Accent, or Emerald when revealed) */}
                             <span style={{
-                              fontSize: '0.98rem',
+                              fontSize: '0.95rem',
                               fontWeight: 900,
                               color: isRevealed ? '#047857' : '#b45309',
-                              letterSpacing: '0.03em',
-                              lineHeight: 1.2
+                              letterSpacing: '0.04em',
+                              lineHeight: 1.1,
+                              flexShrink: 0
                             }}>
                               {isRevealed ? `NEXT #${mIdx + 1} ✓` : `NEXT #${mIdx + 1}`}
                             </span>
 
-                            {/* Center: Unclipped Drawing Area */}
+                            {/* Center: Unclipped Drawing Area (Dedicated Height Zone, Completely Contained) */}
                             <div style={{
                               flex: 1,
                               width: '100%',
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
-                              minHeight: 0,
-                              overflow: 'visible'
+                              minHeight: '86px',
+                              maxHeight: '94px',
+                              overflow: 'hidden',
+                              boxSizing: 'border-box',
+                              padding: '1px 0'
                             }}>
                               {isRevealed ? (
                                 renderVisualItem(predictSeqId, mystery, currentVisualPattern.accentColor)
                               ) : (
                                 <div style={{
-                                  width: '50px',
-                                  height: '50px',
+                                  width: '52px',
+                                  height: '52px',
                                   borderRadius: '50%',
                                   background: '#fef3c7',
                                   border: '2.5px dashed #f59e0b',
                                   display: 'flex',
                                   alignItems: 'center',
                                   justifyContent: 'center',
-                                  fontSize: '2.5rem',
+                                  fontSize: '2.4rem',
                                   fontWeight: 900,
                                   color: '#d97706',
                                   boxShadow: '0 3px 8px rgba(217,119,6,0.18)'
@@ -1962,12 +1741,17 @@ export default function PatternsInNumbersExplore({ onClose, onCompleteNode }) {
                               )}
                             </div>
 
-                            {/* Bottom: Number (Orange/Golden Accent, or Emerald when revealed) */}
+                            {/* Bottom: Number (Orange/Golden Accent, or Emerald when revealed, Clear Separation) */}
                             <div style={{
-                              fontSize: '2.5rem',
+                              fontSize: '2.45rem',
                               fontWeight: 900,
                               color: isRevealed ? '#047857' : '#d97706',
                               lineHeight: 1,
+                              height: '38px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              flexShrink: 0,
                               fontFamily: '"Times New Roman", Times, Georgia, serif'
                             }}>
                               {isRevealed ? mystery.num : '?'}
@@ -2236,9 +2020,9 @@ export default function PatternsInNumbersExplore({ onClose, onCompleteNode }) {
               </div>
             </div>
 
-            {/* Sequence Selector Chips */}
+            {/* Sequence Selector Chips (1 to 10 in exact prescribed order) */}
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '14px' }}>
-              {SEQUENCES.map((s) => (
+              {SEQUENCES.map((s, idx) => (
                 <button
                   key={s.id}
                   type="button"
@@ -2257,10 +2041,11 @@ export default function PatternsInNumbersExplore({ onClose, onCompleteNode }) {
                     borderRadius: '8px',
                     fontSize: '1rem',
                     fontWeight: 800,
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
                   }}
                 >
-                  {s.emoji} {s.title}
+                  {idx + 1}. {s.emoji} {s.title}
                 </button>
               ))}
             </div>
@@ -2277,6 +2062,19 @@ export default function PatternsInNumbersExplore({ onClose, onCompleteNode }) {
               gap: '16px'
             }}>
               <div>
+                <span style={{
+                  fontSize: '0.95rem',
+                  fontWeight: 900,
+                  color: '#78350f',
+                  background: '#fef3c7',
+                  border: '1.5px solid #d97706',
+                  padding: '2px 8px',
+                  borderRadius: '10px',
+                  display: 'inline-block',
+                  marginBottom: '6px'
+                }}>
+                  Pattern {SEQUENCES.findIndex((s) => s.id === fioSeqId) + 1} of 10
+                </span>
                 <h3 style={{ margin: '0 0 6px 0', fontSize: '1.6rem', fontWeight: 900, color: '#091124' }}>
                   Sequence: {currentFioSeq.title} ({currentFioSeq.sequenceDisplay})
                 </h3>
@@ -2304,6 +2102,10 @@ export default function PatternsInNumbersExplore({ onClose, onCompleteNode }) {
                           u[idx] = val;
                           return u;
                         });
+                        setFioSubmitted(false);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') handleCheckFio();
                       }}
                       style={{
                         width: '120px',
@@ -2311,9 +2113,20 @@ export default function PatternsInNumbersExplore({ onClose, onCompleteNode }) {
                         fontSize: '1.5rem',
                         fontWeight: 900,
                         textAlign: 'center',
-                        border: '2px solid #64748b',
+                        border: fioSubmitted
+                          ? (fioSuccess ? '2.5px solid #10b981' : '2.5px solid #dc2626')
+                          : '2px solid #64748b',
+                        background: fioSubmitted
+                          ? (fioSuccess ? '#ecfdf5' : '#fef2f2')
+                          : '#ffffff',
+                        color: fioSubmitted
+                          ? (fioSuccess ? '#047857' : '#dc2626')
+                          : '#0f172a',
                         borderRadius: '8px',
                         outline: 'none',
+                        boxShadow: fioSubmitted
+                          ? (fioSuccess ? '0 2px 8px rgba(16, 185, 129, 0.2)' : '0 2px 8px rgba(220, 38, 38, 0.2)')
+                          : 'none',
                         fontFamily: '"Times New Roman", Times, Georgia, serif'
                       }}
                     />
@@ -2346,51 +2159,101 @@ export default function PatternsInNumbersExplore({ onClose, onCompleteNode }) {
                 />
               </div>
 
-              {/* Validation Feedback */}
+              {/* Validation Feedback Banner */}
               {fioSubmitted && (
                 <div style={{
-                  padding: '14px 18px',
-                  borderRadius: '10px',
-                  background: fioSuccess ? '#d1fae5' : '#fee2e2',
-                  border: `2px solid ${fioSuccess ? '#059669' : '#dc2626'}`,
+                  padding: '14px 20px',
+                  borderRadius: '12px',
+                  background: fioSuccess ? '#d1fae5' : '#fef2f2',
+                  border: `2.5px solid ${fioSuccess ? '#10b981' : '#dc2626'}`,
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '12px'
+                  gap: '14px',
+                  boxShadow: fioSuccess ? '0 4px 14px rgba(16,185,129,0.22)' : '0 4px 14px rgba(220,38,38,0.18)',
+                  animation: 'fadeIn 0.25s ease-in-out'
                 }}>
-                  {fioSuccess ? <Award size={28} color="#059669" /> : <span>⚠️</span>}
+                  <span style={{
+                    fontSize: '2rem',
+                    fontWeight: 900,
+                    color: fioSuccess ? '#047857' : '#dc2626',
+                    flexShrink: 0
+                  }}>
+                    {fioSuccess ? '✓' : '✗'}
+                  </span>
                   <div>
-                    <h4 style={{ margin: 0, fontSize: '1.3rem', fontWeight: 900, color: fioSuccess ? '#065f46' : '#991b1b' }}>
-                      {fioSuccess ? 'Outstanding Work!' : 'Check your numbers or rule!'}
+                    <h4 style={{
+                      margin: 0,
+                      fontSize: '1.55rem',
+                      fontWeight: 900,
+                      color: fioSuccess ? '#065f46' : '#991b1b',
+                      letterSpacing: '0.02em'
+                    }}>
+                      {fioSuccess ? '✓ Correct Answer!' : '✗ Wrong Answer. Try Again!'}
                     </h4>
-                    <p style={{ margin: '2px 0 0 0', fontSize: '1.15rem', fontWeight: 700, color: fioSuccess ? '#047857' : '#7f1d1d' }}>
+                    <p style={{
+                      margin: '4px 0 0 0',
+                      fontSize: '1.2rem',
+                      fontWeight: 800,
+                      color: fioSuccess ? '#047857' : '#b91c1c'
+                    }}>
                       {fioSuccess
-                        ? `Correct next numbers: ${currentFioSeq.predictAnswers.join(', ')}. Discovered Rule: “${currentFioSeq.rule}”`
-                        : `Hint: The expected next three numbers are ${currentFioSeq.predictAnswers.join(', ')}. Be sure to describe the rule.`}
+                        ? `Next three numbers: ${currentFioSeq.predictAnswers.join(', ')}. Discovered Rule: “${currentFioSeq.rule}”`
+                        : `Please recheck your numbers for this pattern and try again.`}
                     </p>
                   </div>
                 </div>
               )}
 
-              {/* Submit Button */}
-              <button
-                type="button"
-                onClick={handleCheckFio}
-                style={{
-                  alignSelf: 'flex-start',
-                  padding: '12px 28px',
-                  background: 'linear-gradient(135deg, #d97706 0%, #b45309 100%)',
-                  color: '#ffffff',
-                  border: 'none',
-                  borderRadius: '10px',
-                  fontSize: '1.25rem',
-                  fontWeight: 900,
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 12px rgba(217, 119, 6, 0.35)',
-                  fontFamily: '"Times New Roman", Times, Georgia, serif'
-                }}
-              >
-                Submit My Rule & Numbers
-              </button>
+              {/* Action Buttons: CHECK ANSWER & NEXT PATTERN */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap', marginTop: '6px' }}>
+                <button
+                  type="button"
+                  onClick={handleCheckFio}
+                  style={{
+                    padding: '12px 28px',
+                    background: 'linear-gradient(135deg, #d97706 0%, #b45309 100%)',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '10px',
+                    fontSize: '1.25rem',
+                    fontWeight: 900,
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 12px rgba(217, 119, 6, 0.35)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    fontFamily: '"Times New Roman", Times, Georgia, serif',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  <span>✓</span>
+                  <span>CHECK ANSWER</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleNextFioSeq}
+                  style={{
+                    padding: '12px 28px',
+                    background: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '10px',
+                    fontSize: '1.25rem',
+                    fontWeight: 900,
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 12px rgba(5, 150, 105, 0.35)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    fontFamily: '"Times New Roman", Times, Georgia, serif',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  <span>→</span>
+                  <span>NEXT PATTERN</span>
+                </button>
+              </div>
             </div>
           </div>
         )}

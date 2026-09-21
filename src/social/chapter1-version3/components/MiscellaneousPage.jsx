@@ -17,6 +17,51 @@ import uranusUrl from './uranus.jpg';
 import neptuneUrl from './neptune.jpg';
 import sunMapUrl from './sun-map.jpg';
 
+
+import mercuryAudio from './audio/mercury.mp3?url';
+import venusAudio from './audio/venus.mp3?url';
+import earthAudio from './audio/earth.mp3?url';
+import marsAudio from './audio/mars.mp3?url';
+import jupiterAudio from './audio/jupiter.mp3?url';
+import saturnAudio from './audio/saturn.mp3?url';
+import uranusAudio from './audio/uranus.mp3?url';
+import neptuneAudio from './audio/neptune.mp3?url';
+
+import { MERCURY_TRANSCRIPT } from './Planets/MercuryTranscript';
+import { VENUS_TRANSCRIPT } from './Planets/VenusTranscript';
+import { EARTH_TRANSCRIPT } from './Planets/EarthTranscript';
+import { MARS_TRANSCRIPT } from './Planets/MarsTranscript';
+import { JUPITER_TRANSCRIPT } from './Planets/JupiterTranscript';
+import { SATURN_TRANSCRIPT } from './Planets/SaturnTranscript';
+import { URANUS_TRANSCRIPT } from './Planets/UranusTranscript';
+import { NEPTUNE_TRANSCRIPT } from './Planets/NeptuneTranscript';
+
+const WordRenderer = ({ text, idPrefix, defaultColor, highlightColor, activeWordId }) => {
+  const words = text.trim().split(/\s+/);
+  return (
+    <>
+      {words.map((word, index) => {
+        const wordId = `${idPrefix}-${index + 1}`;
+        const isActive = activeWordId === wordId;
+        return (
+          <span
+            key={wordId}
+            style={{
+              color: isActive ? highlightColor : defaultColor,
+              transition: 'color 0.2s ease',
+              display: 'inline-block',
+              margin: '0 -2px',
+              padding: '0 2px'
+            }}
+          >
+            {word}&nbsp;
+          </span>
+        );
+      })}
+    </>
+  );
+};
+
 const planetsData = [
   {
     name: 'Mercury',
@@ -406,6 +451,76 @@ const PlanetGlobe3D = ({ planet }) => {
 
 export default function MiscellaneousPage({ onBackToDashboard, onBack }) {
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordId, setActiveWordId] = useState(null);
+  const audioRef = useRef(null);
+
+  React.useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    setIsPlaying(false);
+    setActiveWordId(null);
+  }, [currentStepIdx]);
+
+  const toggleAudio = () => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordId(null);
+  };
+
+  const handleTimeUpdate = () => {
+    if (!audioRef.current || currentStepIdx === 0) return;
+    const currentTime = audioRef.current.currentTime;
+    const activePlanet = planetsData[currentStepIdx - 1];
+    const planetName = activePlanet.name.toLowerCase();
+    
+    let transcript = [];
+    if (planetName === 'mercury') transcript = MERCURY_TRANSCRIPT;
+    else if (planetName === 'venus') transcript = VENUS_TRANSCRIPT;
+    else if (planetName === 'earth') transcript = EARTH_TRANSCRIPT;
+    else if (planetName === 'mars') transcript = MARS_TRANSCRIPT;
+    else if (planetName === 'jupiter') transcript = JUPITER_TRANSCRIPT;
+    else if (planetName === 'saturn') transcript = SATURN_TRANSCRIPT;
+    else if (planetName === 'uranus') transcript = URANUS_TRANSCRIPT;
+    else if (planetName === 'neptune') transcript = NEPTUNE_TRANSCRIPT;
+
+    let foundWordId = null;
+    for (const word of transcript) {
+      if (currentTime >= word.start && currentTime <= word.end) {
+        if (word.matchType === 'matched') {
+          foundWordId = word.pageWordId;
+        }
+        break;
+      }
+    }
+    setActiveWordId(foundWordId);
+  };
+
+  const getAudioSrc = () => {
+    if (currentStepIdx === 0) return '';
+    const name = planetsData[currentStepIdx - 1].name.toLowerCase();
+    if (name === 'mercury') return mercuryAudio;
+    if (name === 'venus') return venusAudio;
+    if (name === 'earth') return earthAudio;
+    if (name === 'mars') return marsAudio;
+    if (name === 'jupiter') return jupiterAudio;
+    if (name === 'saturn') return saturnAudio;
+    if (name === 'uranus') return uranusAudio;
+    if (name === 'neptune') return neptuneAudio;
+    return '';
+  };
 
   const handleNext = () => {
     if (currentStepIdx < planetsData.length) {
@@ -456,6 +571,12 @@ export default function MiscellaneousPage({ onBackToDashboard, onBack }) {
 
   return (
     <div className="dark-coords-page">
+      <audio
+        ref={audioRef}
+        src={getAudioSrc()}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
       <div className="dark-coords-main-content">
         <div className="dark-coords-left">
           <div className="dark-top-title">Planet Explorer — {activePlanet.name}</div>
@@ -480,11 +601,36 @@ export default function MiscellaneousPage({ onBackToDashboard, onBack }) {
         </div>
 
         <div className="dark-coords-right">
-          <div className="dark-step-eyebrow">PLANET {currentStepIdx} OF 8</div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="dark-step-eyebrow">PLANET {currentStepIdx} OF 8</div>
+            <button
+              onClick={toggleAudio}
+              style={{
+                padding: '6px 12px', borderRadius: '999px', border: '1px solid #334155',
+                background: '#1E293B', color: '#F8FAFC', fontSize: '13px', fontWeight: 600,
+                cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
+                fontFamily: '"Space Grotesk", sans-serif'
+              }}
+            >
+              {isPlaying ? (
+                <><span style={{ width: 10, height: 10, background: '#F8FAFC', borderRadius: '1px' }} /> Pause</>
+              ) : (
+                <><Play size={12} fill="#F8FAFC" /> Play</>
+              )}
+            </button>
+          </div>
           <h2 className="dark-step-title">{activePlanet.name}</h2>
           
           {activePlanet.description.map((p, idx) => (
-            <div key={idx} className="dark-step-text" style={{ fontSize: '18px', lineHeight: '1.7', marginBottom: '20px' }}>{p}</div>
+            <div key={idx} className="dark-step-text" style={{ fontSize: '18px', lineHeight: '1.7', marginBottom: '20px' }}>
+              <WordRenderer
+                text={p}
+                idPrefix={`${activePlanet.name.toLowerCase()}-desc-${idx}`}
+                activeWordId={activeWordId}
+                defaultColor="inherit"
+                highlightColor="#FCD34D"
+              />
+            </div>
           ))}
 
           {activePlanet.keyIdea && (

@@ -1,12 +1,73 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Ticket, ArrowRight, ArrowLeft, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Ticket, ArrowRight, ArrowLeft, CheckCircle2, AlertCircle, Play, Pause } from 'lucide-react';
 import ChapterBackFooter from './ChapterBackFooter';
 import { CHESS_PIECES } from './chess_pieces';
+import page43Audio from './audio/page43.mp3?url';
+import { PAGE43_TRANSCRIPT } from './Page43Transcript';
+
+const WordRenderer = ({ text, idPrefix, defaultColor, highlightColor, activeWordId }) => {
+  const words = text.trim().split(/\s+/);
+  return (
+    <>
+      {words.map((word, index) => {
+        const wordId = `${idPrefix}-${index + 1}`;
+        const isHighlighted = activeWordId === wordId;
+        return (
+          <span
+            key={index}
+            style={{
+              color: isHighlighted ? highlightColor : defaultColor,
+              transition: 'color 0.2s',
+              marginRight: '0.25em',
+              display: 'inline-block'
+            }}
+          >
+            {word}
+          </span>
+        );
+      })}
+    </>
+  );
+};
 
 export default function ChessSeatMinigame({ onComplete, onBack }) {
   const [progress, setProgress] = useState(0);
   const [feedback, setFeedback] = useState(null); // { type: 'success' | 'error', text: string }
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordId, setActiveWordId] = useState(null);
+  const audioRef = React.useRef(null);
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (!audioRef.current) return;
+    const currentTime = audioRef.current.currentTime;
+    
+    const activeWord = PAGE43_TRANSCRIPT.find(
+      word => currentTime >= word.start && currentTime <= word.end
+    );
+    
+    if (activeWord && activeWord.matchType === 'matched') {
+      setActiveWordId(activeWord.pageWordId);
+    } else {
+      setActiveWordId(null);
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordId(null);
+  };
 
   const missions = [
     { row: 'C', col: 5 },
@@ -42,6 +103,12 @@ export default function ChessSeatMinigame({ onComplete, onBack }) {
       display: 'flex', flexDirection: 'column', background: '#F8F9FA',
       fontFamily: '"Space Grotesk", sans-serif'
     }}>
+      <audio
+        ref={audioRef}
+        src={page43Audio}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
             <div style={{ display: 'flex', flex: 1, minHeight: 0, padding: '24px', gap: '24px', overflow: 'hidden' }}>
       {/* LEFT COLUMN */}
       <div style={{
@@ -61,12 +128,18 @@ export default function ChessSeatMinigame({ onComplete, onBack }) {
           </h1>
 
           <div style={{ color: '#475569', lineHeight: 1.3, display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <p style={{ margin: 0, fontSize: '24px' }}>Imagine you are playing a game of chess.</p>
-            <p style={{ margin: 0, fontSize: '24px' }}>Every square on the chessboard has its own address.</p>
             <p style={{ margin: 0, fontSize: '24px' }}>
-              Instead of saying, <strong>"Move to the middle,"</strong> players use a letter and a number, like <strong>d2</strong> or <strong>e4</strong>.
+              <WordRenderer text="Imagine you are playing a game of chess." idPrefix="p1" defaultColor="inherit" highlightColor="#451a03" activeWordId={activeWordId} />
             </p>
-            <p style={{ margin: 0, fontSize: '24px' }}>This tells everyone the exact square.</p>
+            <p style={{ margin: 0, fontSize: '24px' }}>
+              <WordRenderer text="Every square on the chessboard has its own address." idPrefix="p2" defaultColor="inherit" highlightColor="#451a03" activeWordId={activeWordId} />
+            </p>
+            <p style={{ margin: 0, fontSize: '24px' }}>
+              <WordRenderer text="Instead of saying, move to the middle, players use a letter and a number, like D2 or E4." idPrefix="p3" defaultColor="inherit" highlightColor="#451a03" activeWordId={activeWordId} />
+            </p>
+            <p style={{ margin: 0, fontSize: '24px' }}>
+              <WordRenderer text="This tells everyone the exact square." idPrefix="p4" defaultColor="inherit" highlightColor="#451a03" activeWordId={activeWordId} />
+            </p>
           </div>
         </div>
 
@@ -162,7 +235,8 @@ export default function ChessSeatMinigame({ onComplete, onBack }) {
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
           <h2 style={{ fontSize: '24px', fontWeight: 900, color: '#1E293B', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Ticket color="#D97706" /> Let's Explore — Find Your Seat
+            <Ticket color="#D97706" /> 
+            <WordRenderer text="Let's Explore Find your seat." idPrefix="h2" defaultColor="inherit" highlightColor="#451a03" activeWordId={activeWordId} />
           </h2>
           <div style={{ background: '#F1F5F9', padding: '6px 12px', borderRadius: '999px', fontSize: '14px', fontWeight: 800, color: '#475569' }}>
             Progress: {progress} / {missions.length}
@@ -170,7 +244,7 @@ export default function ChessSeatMinigame({ onComplete, onBack }) {
         </div>
 
         <p style={{ color: '#475569', fontSize: '18px', marginBottom: '24px' }}>
-          Use the seat ticket below to find the correct seat in the theatre.
+          <WordRenderer text="Use the seat ticket below to find the correct seat in the theatre." idPrefix="rp" defaultColor="inherit" highlightColor="#451a03" activeWordId={activeWordId} />
         </p>
 
         <div style={{
@@ -276,12 +350,47 @@ export default function ChessSeatMinigame({ onComplete, onBack }) {
         </div>
       </div>
       </div>
-<ChapterBackFooter 
-        onBack={onBack}
-        onNext={onComplete}
+      <ChapterBackFooter 
+        onBack={() => {
+          if (isPlaying && audioRef.current) {
+            audioRef.current.pause();
+            setIsPlaying(false);
+            setActiveWordId(null);
+          }
+          onBack();
+        }}
+        onNext={() => {
+          if (isPlaying && audioRef.current) {
+            audioRef.current.pause();
+            setIsPlaying(false);
+            setActiveWordId(null);
+          }
+          onComplete();
+        }}
         nextLabel="Next Activity"
         nextDisabled={false}
         nextVariant="orange"
+        beforeNextContent={
+          <button
+            onClick={toggleAudio}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '10px 18px',
+              background: '#FEF3C7',
+              border: '2px solid #F59E0B',
+              borderRadius: '999px',
+              fontSize: '15px',
+              fontWeight: 800,
+              color: '#92400E',
+              cursor: 'pointer'
+            }}
+          >
+            {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+            {isPlaying ? 'Pause' : 'Play'}
+          </button>
+        }
       />
     </div>
   );

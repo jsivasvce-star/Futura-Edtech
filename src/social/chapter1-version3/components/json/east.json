@@ -1,0 +1,102 @@
+{
+  "audio_file": "east.mp3",
+  "duration": 7.131,
+  "language": "en",
+  "words": [
+    {
+      "text": "East.",
+      "start": 0.0,
+      "end": 0.58
+    },
+    {
+      "text": "East",
+      "start": 1.04,
+      "end": 1.4
+    },
+    {
+      "text": "is",
+      "start": 1.4,
+      "end": 1.74
+    },
+    {
+      "text": "a",
+      "start": 1.74,
+      "end": 1.88
+    },
+    {
+      "text": "main",
+      "start": 1.88,
+      "end": 2.02
+    },
+    {
+      "text": "direction,",
+      "start": 2.02,
+      "end": 2.54
+    },
+    {
+      "text": "to",
+      "start": 2.92,
+      "end": 3.06
+    },
+    {
+      "text": "the",
+      "start": 3.06,
+      "end": 3.18
+    },
+    {
+      "text": "right",
+      "start": 3.18,
+      "end": 3.42
+    },
+    {
+      "text": "of",
+      "start": 3.42,
+      "end": 3.76
+    },
+    {
+      "text": "north.",
+      "start": 3.76,
+      "end": 3.96
+    },
+    {
+      "text": "The",
+      "start": 4.72,
+      "end": 4.88
+    },
+    {
+      "text": "sun",
+      "start": 4.88,
+      "end": 5.02
+    },
+    {
+      "text": "rises",
+      "start": 5.02,
+      "end": 5.42
+    },
+    {
+      "text": "in",
+      "start": 5.42,
+      "end": 5.7
+    },
+    {
+      "text": "the",
+      "start": 5.7,
+      "end": 5.9
+    },
+    {
+      "text": "east",
+      "start": 5.9,
+      "end": 6.12
+    },
+    {
+      "text": "every",
+      "start": 6.12,
+      "end": 6.52
+    },
+    {
+      "text": "morning.",
+      "start": 6.52,
+      "end": 6.82
+    }
+  ]
+}

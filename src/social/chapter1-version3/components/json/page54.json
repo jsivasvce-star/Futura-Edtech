@@ -1,0 +1,447 @@
+{
+  "audio_file": "page54.mp3",
+  "duration": 38.896,
+  "language": "en",
+  "words": [
+    {
+      "text": "Longitudes",
+      "start": 0.0,
+      "end": 0.66
+    },
+    {
+      "text": "on",
+      "start": 0.66,
+      "end": 0.9
+    },
+    {
+      "text": "earth,",
+      "start": 0.9,
+      "end": 1.14
+    },
+    {
+      "text": "like",
+      "start": 1.36,
+      "end": 1.5
+    },
+    {
+      "text": "the",
+      "start": 1.5,
+      "end": 1.72
+    },
+    {
+      "text": "segments",
+      "start": 1.72,
+      "end": 2.04
+    },
+    {
+      "text": "of",
+      "start": 2.04,
+      "end": 2.3
+    },
+    {
+      "text": "a",
+      "start": 2.3,
+      "end": 2.42
+    },
+    {
+      "text": "peeled",
+      "start": 2.42,
+      "end": 2.62
+    },
+    {
+      "text": "orange,",
+      "start": 2.62,
+      "end": 3.2
+    },
+    {
+      "text": "imagine",
+      "start": 3.4,
+      "end": 3.78
+    },
+    {
+      "text": "orange",
+      "start": 3.78,
+      "end": 4.2
+    },
+    {
+      "text": "segments.",
+      "start": 4.2,
+      "end": 4.68
+    },
+    {
+      "text": "Think",
+      "start": 5.34,
+      "end": 5.6
+    },
+    {
+      "text": "of",
+      "start": 5.6,
+      "end": 5.8
+    },
+    {
+      "text": "earth",
+      "start": 5.8,
+      "end": 5.98
+    },
+    {
+      "text": "longitudes",
+      "start": 5.98,
+      "end": 6.62
+    },
+    {
+      "text": "as",
+      "start": 6.62,
+      "end": 6.9
+    },
+    {
+      "text": "the",
+      "start": 6.9,
+      "end": 7.16
+    },
+    {
+      "text": "natural",
+      "start": 7.16,
+      "end": 7.42
+    },
+    {
+      "text": "lines",
+      "start": 7.42,
+      "end": 7.74
+    },
+    {
+      "text": "on",
+      "start": 7.74,
+      "end": 7.96
+    },
+    {
+      "text": "an",
+      "start": 7.96,
+      "end": 8.22
+    },
+    {
+      "text": "orange.",
+      "start": 8.22,
+      "end": 8.56
+    },
+    {
+      "text": "They",
+      "start": 9.04,
+      "end": 9.24
+    },
+    {
+      "text": "run",
+      "start": 9.24,
+      "end": 9.48
+    },
+    {
+      "text": "from",
+      "start": 9.48,
+      "end": 9.74
+    },
+    {
+      "text": "pole",
+      "start": 9.74,
+      "end": 10.02
+    },
+    {
+      "text": "to",
+      "start": 10.02,
+      "end": 10.18
+    },
+    {
+      "text": "pole",
+      "start": 10.18,
+      "end": 10.52
+    },
+    {
+      "text": "and",
+      "start": 10.52,
+      "end": 10.94
+    },
+    {
+      "text": "split",
+      "start": 10.94,
+      "end": 11.26
+    },
+    {
+      "text": "the",
+      "start": 11.26,
+      "end": 11.52
+    },
+    {
+      "text": "earth.",
+      "start": 11.52,
+      "end": 11.74
+    },
+    {
+      "text": "Use",
+      "start": 12.3,
+      "end": 12.62
+    },
+    {
+      "text": "the",
+      "start": 12.62,
+      "end": 12.86
+    },
+    {
+      "text": "zero",
+      "start": 12.86,
+      "end": 13.14
+    },
+    {
+      "text": "degrees",
+      "start": 13.14,
+      "end": 13.52
+    },
+    {
+      "text": "to",
+      "start": 13.52,
+      "end": 13.78
+    },
+    {
+      "text": "180",
+      "start": 13.78,
+      "end": 14.6
+    },
+    {
+      "text": "degrees.",
+      "start": 14.6,
+      "end": 15.3
+    },
+    {
+      "text": "Rule",
+      "start": 15.86,
+      "end": 16.12
+    },
+    {
+      "text": "zero",
+      "start": 16.12,
+      "end": 16.52
+    },
+    {
+      "text": "degrees",
+      "start": 16.52,
+      "end": 16.98
+    },
+    {
+      "text": "at",
+      "start": 16.98,
+      "end": 17.38
+    },
+    {
+      "text": "Greenwich.",
+      "start": 17.38,
+      "end": 18.1
+    },
+    {
+      "text": "Count",
+      "start": 18.42,
+      "end": 18.64
+    },
+    {
+      "text": "up",
+      "start": 18.64,
+      "end": 18.9
+    },
+    {
+      "text": "to",
+      "start": 18.9,
+      "end": 19.4
+    },
+    {
+      "text": "180",
+      "start": 19.4,
+      "end": 20.1
+    },
+    {
+      "text": "degrees",
+      "start": 20.1,
+      "end": 20.66
+    },
+    {
+      "text": "east.",
+      "start": 20.66,
+      "end": 21.08
+    },
+    {
+      "text": "Count",
+      "start": 21.66,
+      "end": 21.88
+    },
+    {
+      "text": "up",
+      "start": 21.88,
+      "end": 22.36
+    },
+    {
+      "text": "to",
+      "start": 22.36,
+      "end": 22.72
+    },
+    {
+      "text": "180",
+      "start": 22.72,
+      "end": 23.36
+    },
+    {
+      "text": "degrees.",
+      "start": 23.36,
+      "end": 23.94
+    },
+    {
+      "text": "West",
+      "start": 24.48,
+      "end": 24.84
+    },
+    {
+      "text": "180",
+      "start": 24.84,
+      "end": 25.64
+    },
+    {
+      "text": "degrees",
+      "start": 25.64,
+      "end": 26.18
+    },
+    {
+      "text": "is",
+      "start": 26.18,
+      "end": 26.66
+    },
+    {
+      "text": "the",
+      "start": 26.66,
+      "end": 27.04
+    },
+    {
+      "text": "international",
+      "start": 27.04,
+      "end": 27.6
+    },
+    {
+      "text": "dateline.",
+      "start": 27.6,
+      "end": 28.12
+    },
+    {
+      "text": "East",
+      "start": 28.12,
+      "end": 29.04
+    },
+    {
+      "text": "is",
+      "start": 29.04,
+      "end": 29.44
+    },
+    {
+      "text": "positive.",
+      "start": 29.44,
+      "end": 29.96
+    },
+    {
+      "text": "West",
+      "start": 30.5,
+      "end": 30.82
+    },
+    {
+      "text": "is",
+      "start": 30.82,
+      "end": 31.22
+    },
+    {
+      "text": "negative.",
+      "start": 31.22,
+      "end": 31.9
+    },
+    {
+      "text": "Longitudes",
+      "start": 32.62,
+      "end": 33.08
+    },
+    {
+      "text": "to",
+      "start": 33.08,
+      "end": 33.28
+    },
+    {
+      "text": "the",
+      "start": 33.28,
+      "end": 33.46
+    },
+    {
+      "text": "east",
+      "start": 33.46,
+      "end": 33.66
+    },
+    {
+      "text": "of",
+      "start": 33.66,
+      "end": 33.86
+    },
+    {
+      "text": "zero",
+      "start": 33.86,
+      "end": 34.12
+    },
+    {
+      "text": "degrees",
+      "start": 34.12,
+      "end": 34.46
+    },
+    {
+      "text": "are",
+      "start": 34.46,
+      "end": 34.72
+    },
+    {
+      "text": "positive.",
+      "start": 34.72,
+      "end": 35.26
+    },
+    {
+      "text": "Longitudes",
+      "start": 35.78,
+      "end": 36.36
+    },
+    {
+      "text": "to",
+      "start": 36.36,
+      "end": 36.56
+    },
+    {
+      "text": "the",
+      "start": 36.56,
+      "end": 36.7
+    },
+    {
+      "text": "west",
+      "start": 36.7,
+      "end": 36.9
+    },
+    {
+      "text": "of",
+      "start": 36.9,
+      "end": 37.14
+    },
+    {
+      "text": "zero",
+      "start": 37.14,
+      "end": 37.44
+    },
+    {
+      "text": "degrees",
+      "start": 37.44,
+      "end": 37.84
+    },
+    {
+      "text": "are",
+      "start": 37.84,
+      "end": 38.16
+    },
+    {
+      "text": "negative.",
+      "start": 38.16,
+      "end": 38.54
+    }
+  ]
+}

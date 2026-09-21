@@ -37,15 +37,16 @@
 }
 
 .dark-coords-right {
-  width: 380px;
+  width: 500px;
   background: var(--dark-panel-bg);
   border-left: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 60px 40px;
+  padding: 50px 30px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   box-shadow: -10px 0 30px rgba(0,0,0,0.3);
   z-index: 10;
+  overflow-y: auto;
 }
 
 .dark-top-title {
@@ -67,7 +68,7 @@
 }
 
 .dark-step-eyebrow {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 800;
   letter-spacing: 1.5px;
   color: #94a3b8;
@@ -85,7 +86,7 @@
 }
 
 .dark-step-text {
-  font-size: clamp(14px, 2vw, 16px);
+  font-size: clamp(18px, 3vw, 22px);
   font-weight: 600;
   line-height: 1.6;
   margin: 0 0 16px 0;
@@ -117,9 +118,10 @@
 }
 
 .dark-key-idea-text {
-  font-size: 14px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.6;
   color: #fef08a;
-  line-height: 1.5;
   margin: 0;
 }
 

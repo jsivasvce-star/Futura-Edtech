@@ -333,19 +333,19 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, su
             gap: '1.35rem'
           }}>
             <div>
-              <div className="textbook-eyebrow" style={{ color: '#FFD21F', fontWeight: '800', fontSize: '18px', letterSpacing: '0.06em', textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
+              <div className="textbook-eyebrow" style={{ color: '#FFD21F', fontWeight: '800', fontSize: '20px', letterSpacing: '0.06em', textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
                 Activity 2.2 · Let Us Appreciate
               </div>
-              <h1 className="textbook-title" style={{ fontFamily: 'var(--serif-font)', color: '#FFFFFF', textShadow: '0 2px 10px rgba(0,0,0,0.6)', fontWeight: '900', fontSize: '2.35rem', margin: '0.35rem 0 1.1rem 0' }}>
-                Ecosystem Appreciation
+              <h1 className="textbook-title" style={{ fontFamily: '"Outfit", sans-serif', color: '#FFFFFF', textShadow: '0 2px 10px rgba(0,0,0,0.6)', fontWeight: '900', fontSize: '24px', margin: '0.35rem 0 1.1rem 0' }}>
+                ECOSYSTEM APPRECIATION
               </h1>
               
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '16px', color: '#FFD700', lineHeight: '1.6', fontWeight: '700' }}>
-                <p style={{ margin: 0, color: '#FFD700', fontSize: '16px' }}>
-                  Appreciating and conserving biodiversity is vital for our survival. Every living thing in a habitat is connected.
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '20px', color: '#ECFDF5', lineHeight: '1.35', fontWeight: '600', textAlign: 'justify', textJustify: 'inter-word' }}>
+                <p style={{ margin: 0, color: '#FDE047', fontSize: '20px' }}>
+                  Appreciating and conserving biodiversity is vital for our survival.
                 </p>
-                <p style={{ margin: 0, color: '#FFD700', fontSize: '16px' }}>
-                  During our nature walk, different students notice and remember different plants and animals. When we compile our observations together, we discover a much richer variety of life than any single person could find alone.
+                <p style={{ margin: 0, color: '#FFFFFF', fontSize: '20px' }}>
+                  Close your eyes for 10 seconds. Remember one plant and one animal from your nature walk. Add them to the virtual class board. Together, our observations reveal a greater variety of life.
                 </p>
               </div>
             </div>

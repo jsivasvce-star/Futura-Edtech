@@ -1,0 +1,21 @@
+export const WEST_TRANSCRIPT = [
+  { "audioWord": "West.", "start": 0.0, "end": 0.68, "pageWordId": "W-title-1", "matchType": "matched" },
+  { "audioWord": "West", "start": 1.04, "end": 1.42, "pageWordId": "W-desc-1", "matchType": "matched" },
+  { "audioWord": "is", "start": 1.42, "end": 1.84, "pageWordId": "W-desc-2", "matchType": "matched" },
+  { "audioWord": "a", "start": 1.84, "end": 1.98, "pageWordId": "W-desc-3", "matchType": "matched" },
+  { "audioWord": "main", "start": 1.98, "end": 2.12, "pageWordId": "W-desc-4", "matchType": "matched" },
+  { "audioWord": "direction,", "start": 2.12, "end": 2.58, "pageWordId": "W-desc-5", "matchType": "matched" },
+  { "audioWord": "to", "start": 2.94, "end": 3.04, "pageWordId": "W-desc-6", "matchType": "matched" },
+  { "audioWord": "the", "start": 3.04, "end": 3.18, "pageWordId": "W-desc-7", "matchType": "matched" },
+  { "audioWord": "left", "start": 3.18, "end": 3.36, "pageWordId": "W-desc-8", "matchType": "matched" },
+  { "audioWord": "of", "start": 3.36, "end": 3.6, "pageWordId": "W-desc-9", "matchType": "matched" },
+  { "audioWord": "north.", "start": 3.6, "end": 3.78, "pageWordId": "W-desc-10", "matchType": "matched" },
+  { "audioWord": "The", "start": 4.38, "end": 4.58, "pageWordId": "W-desc-11", "matchType": "matched" },
+  { "audioWord": "sun", "start": 4.58, "end": 4.78, "pageWordId": "W-desc-12", "matchType": "matched" },
+  { "audioWord": "sets", "start": 4.78, "end": 5.12, "pageWordId": "W-desc-13", "matchType": "matched" },
+  { "audioWord": "in", "start": 5.12, "end": 5.4, "pageWordId": "W-desc-14", "matchType": "matched" },
+  { "audioWord": "the", "start": 5.4, "end": 5.54, "pageWordId": "W-desc-15", "matchType": "matched" },
+  { "audioWord": "west", "start": 5.54, "end": 5.8, "pageWordId": "W-desc-16", "matchType": "matched" },
+  { "audioWord": "every", "start": 5.8, "end": 6.26, "pageWordId": "W-desc-17", "matchType": "matched" },
+  { "audioWord": "evening.", "start": 6.26, "end": 6.58, "pageWordId": "W-desc-18", "matchType": "matched" }
+];

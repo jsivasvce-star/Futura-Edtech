@@ -38,6 +38,83 @@ import sparrowImg from '../../../../assets/sparrow.png';
 import squirrelImg from '../../../../assets/squirrel.png';
 import cowImg from '../../../../assets/brown_cow.png';
 
+import frogWideImg from '../../../../assets/specimens_wide/frog_wide.jpg';
+import antWideImg from '../../../../assets/specimens_wide/ant_wide.jpg';
+import crowWideImg from '../../../../assets/specimens_wide/crow_wide.jpg';
+import butterflyWideImg from '../../../../assets/specimens_wide/butterfly_wide.jpg';
+import sparrowWideImg from '../../../../assets/specimens_wide/sparrow_wide.jpg';
+import squirrelWideImg from '../../../../assets/specimens_wide/squirrel_wide.jpg';
+import cowWideImg from '../../../../assets/specimens_wide/cow_wide.jpg';
+
+const ANIMAL_WIDE_IMAGES = {
+  frog: frogWideImg,
+  ant: antWideImg,
+  crow: crowWideImg,
+  butterfly: butterflyWideImg,
+  sparrow: sparrowWideImg,
+  squirrel: squirrelWideImg,
+  cow: cowWideImg,
+  'Indian Pond Frog': frogWideImg,
+  'Ant': antWideImg,
+  'Crow': crowWideImg,
+  'Butterfly': butterflyWideImg,
+  'Sparrow': sparrowWideImg,
+  'Squirrel': squirrelWideImg,
+  'Cow': cowWideImg
+};
+
+const ANIMAL_NCERT_RECORDS = {
+  crow: {
+    habitat: 'Treetops, rooftops and flying in the open sky.',
+    movement: 'Flaps its wings to fly and hops on the ground.',
+    adaptations: 'A strong, sharp beak, keen eyesight and glossy, dark feathers.',
+    feeding: 'Omnivorous—eats both plant and animal food.',
+    think: 'How does the crow’s beak help it feed?'
+  },
+  squirrel: {
+    habitat: 'Tree trunks, garden walls, rocks and the ground.',
+    movement: 'Scampers quickly and climbs trees.',
+    adaptations: 'Sharp, curved claws help it grip surfaces. Its bushy tail helps it balance.',
+    think: 'Which features help a squirrel climb and balance?'
+  },
+  butterfly: {
+    habitat: 'Garden flowers, flowering shrubs and sunny spaces.',
+    movement: 'Flutters using delicate wings covered with tiny scales.',
+    adaptations: 'A coiled feeding tube called a proboscis draws up nectar. Antennae sense the surroundings, and feet have taste receptors.',
+    think: 'Which body part helps a butterfly drink nectar?'
+  },
+  sparrow: {
+    habitat: 'Garden hedges, bushes, tree branches and beneath roof edges.',
+    movement: 'Flies by flapping its wings and hops on the ground.',
+    adaptations: 'A short, strong, cone-shaped beak helps crack seeds. Flight feathers and a skeleton with some hollow bones support flight.',
+    think: 'How does the sparrow’s beak help it eat seeds?'
+  },
+  cow: {
+    habitat: 'Open meadows, grassy pastures and farmland.',
+    movement: 'Walks on four strong legs with split, or cloven, hooves.',
+    adaptations: 'Broad molars grind food. Eyes provide a wide view. A stomach with four compartments helps digest plant food.',
+    think: 'Why does a cow need broad grinding teeth?'
+  },
+  frog: {
+    habitat: 'Freshwater ponds, lily pads and moist pond edges.',
+    movement: 'Leaps on land and swims using its hind legs and webbed feet.',
+    adaptations: 'Muscular hind legs power movement. Moist skin allows oxygen to pass through. Bulging eyes provide a wide view.',
+    think: 'How do webbed feet help a frog swim?'
+  },
+  'indian pond frog': {
+    habitat: 'Freshwater ponds, lily pads and moist pond edges.',
+    movement: 'Leaps on land and swims using its hind legs and webbed feet.',
+    adaptations: 'Muscular hind legs power movement. Moist skin allows oxygen to pass through. Bulging eyes provide a wide view.',
+    think: 'How do webbed feet help a frog swim?'
+  },
+  ant: {
+    habitat: 'Soil mounds, underground tunnels and garden paths.',
+    movement: 'Crawls quickly on six jointed walking legs.',
+    adaptations: 'Strong mandibles for lifting, sensitive antennae for following scent trails.',
+    think: 'How do ants carry objects heavier than themselves?'
+  }
+};
+
 const PLANT_CROPPED_IMAGES = {
   grass: grassImage,
   rose: roseImage,
@@ -918,7 +995,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
         setIsShrubsSpeaking(false);
       } else {
         window.speechSynthesis.cancel();
-        const text = "Shrubs and bushy woody plants. Shrubs are medium-sized plants with hard, thin woody stems that do not bend easily. Unlike trees, their branches arise profusely right near the ground base rather than high up on a trunk, giving them a dense, bushy appearance. They typically grow about one to three metres tall. Common NCERT examples include Rose, Hibiscus, Lemon, Mehndi, and Jasmine.";
+        const text = "Bushy Woody Shrubs. Hard, Woody Stems: Shrubs have hard, woody stems that are relatively thin. Branches Near the Ground: Many branches grow near the base, giving the plant a bushy appearance. Medium Height: Shrubs are generally shorter than trees. Examples: Rose, hibiscus, and mehndi. Think: What gives shrubs their bushy appearance?";
         const utter = new SpeechSynthesisUtterance(text);
         utter.rate = 0.88;
         utter.pitch = 1.0;
@@ -940,7 +1017,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
         setIsTreesSpeaking(false);
       } else {
         window.speechSynthesis.cancel();
-        const text = "Trees and towering canopy giants. Trees are tall, grand plants with a single thick, hard brown woody trunk covered in rough bark. Their branches arise high up on the trunk, spreading out into wide green canopies far above the ground. Trees live for decades or centuries, supported by deep taproots. Famous NCERT examples include the Banyan, Peepal, Neem, Mango, and Gulmohar.";
+        const text = "Towering Woody Trees. Thick, Woody Trunk: Trees usually have one thick, hard, woody trunk that supports the plant. Bark protects the trunk. Branches and Canopy: Branches usually grow higher up the trunk. The branches and leaves form a leafy cover called the canopy. Height and Lifespan: Trees grow tall, and many live for decades. Examples: Banyan, peepal, neem, mango. Think: Which features help you recognise a tree?";
         const utter = new SpeechSynthesisUtterance(text);
         utter.rate = 0.88;
         utter.pitch = 1.0;
@@ -1110,11 +1187,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
       } else {
         window.speechSynthesis.cancel();
         const pName = plant.popupName || plant.name || 'Plant';
-        const stemText = plant.tableInfo?.stem ? `Stem: ${plant.tableInfo.stem}. ` : '';
-        const leavesText = plant.tableInfo?.leaves ? `Leaves: ${plant.tableInfo.leaves}. ` : '';
-        const flowersText = plant.tableInfo?.flowers ? `Flowers: ${plant.tableInfo.flowers}. ` : '';
-        const notesText = plant.tableInfo?.notes ? `Other observations: ${plant.tableInfo.notes}. ` : '';
-        const text = `${pName} Botanical Field Specimen. ${stemText}${leavesText}${flowersText}${notesText}`;
+        const stemText = plant.tableInfo?.stem ? `Stem: ${plant.tableInfo.stem} ` : '';
+        const leavesText = plant.tableInfo?.leaves ? `Leaves: ${plant.tableInfo.leaves} ` : '';
+        const flowersText = plant.tableInfo?.flowers ? `Flowers: ${plant.tableInfo.flowers} ` : '';
+        const notesText = plant.tableInfo?.notes ? `Other observations: ${plant.tableInfo.notes} ` : '';
+        const thinkText = plant.tableInfo?.think ? `Think: ${plant.tableInfo.think}` : (plant.id === 'sunflower' ? 'Think: Do mature sunflower heads keep following the sun?' : (plant.id === 'rose' ? 'Think: How is a compound leaf different from a simple leaf?' : (plant.id === 'hibiscus' ? 'Think: What makes hibiscus a shrub?' : '')));
+        const text = `${pName} Botanical Field Specimen. ${stemText}${leavesText}${flowersText}${notesText}${thinkText}`;
         const utter = new SpeechSynthesisUtterance(text);
         utter.rate = 0.88;
         utter.pitch = 1.0;
@@ -1158,18 +1236,23 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
   };
 
   const toggleAnimalSpeech = (animal) => {
-    if ('speechSynthesis' in window && animal) {
+    if (!animal) return;
+    if ('speechSynthesis' in window) {
       if (isAnimalSpeaking) {
         window.speechSynthesis.cancel();
         setIsAnimalSpeaking(false);
       } else {
         window.speechSynthesis.cancel();
         const aName = animal.popupName || animal.name || 'Animal';
-        const catText = animal.category ? `Classification: ${animal.category}. ` : '';
-        const locomotionText = animal.tactileTrait ? `Locomotion: ${animal.tactileTrait}. ` : '';
-        const detailsText = animal.details ? `Description: ${animal.details}. ` : '';
-        const factText = animal.fact ? `Fascinating fact: ${animal.fact}. ` : '';
-        const utter = new SpeechSynthesisUtterance(`${aName}. ${catText}${locomotionText}${detailsText}${factText}`);
+        const animalKey = (animal.id || animal.name || '').toLowerCase();
+        const ncert = ANIMAL_NCERT_RECORDS[animalKey] || animal.tableInfo || {};
+        const habText = ncert.habitat ? `Where found: ${ncert.habitat} ` : '';
+        const movText = ncert.movement ? `Movement: ${ncert.movement} ` : '';
+        const adaptText = ncert.adaptations ? `Body adaptations: ${ncert.adaptations} ` : '';
+        const feedText = ncert.feeding ? `Feeding: ${ncert.feeding} ` : '';
+        const thinkText = ncert.think ? `Think: ${ncert.think}` : '';
+        const text = `${aName} Zoological Field Specimen Record. ${habText}${movText}${adaptText}${feedText}${thinkText}`;
+        const utter = new SpeechSynthesisUtterance(text);
         utter.rate = 0.88;
         utter.pitch = 1.0;
         utter.onend = () => setIsAnimalSpeaking(false);
@@ -1236,15 +1319,16 @@ const natureAudioRef = useRef(null);
           category: 'Shrub · Dicot',
           tactileTrait: 'Thin woody stem branching near base · Reticulate Venation',
           specimenPhoto: hibiscusImage,
-          x: 29.5, y: 47, radius: 13.5, w: 24, h: 26,
+          x: 27, y: 43, radius: 18, w: 30, h: 38,
           details: 'Red Hibiscus flowers and bush growing on the center-left.',
           fact: 'Hibiscus flowers have vibrant red petals and are common flowering shrubs!',
           verifyQ: { q: 'Which plant classification does Hibiscus belong to?', opts: ['Herbs', 'Trees', 'Shrubs', 'Aquatic plants'], correct: 2 },
           tableInfo: { 
-            stem: 'Thin, hard, woody stem branching out near base', 
-            leaves: 'Green simple leaves with serrated margins', 
-            flowers: 'Large, bright red flowers', 
-            notes: 'Medium height shrub; branches close to ground' 
+            stem: 'Thin, hard, woody stems branching near the base.', 
+            leaves: 'Green, simple leaves with serrated—toothed—edges.', 
+            flowers: 'Large, bright red flowers.', 
+            notes: 'A medium-sized shrub with branches close to the ground.',
+            think: 'What makes hibiscus a shrub?'
           },
         },
         {
@@ -1256,15 +1340,16 @@ const natureAudioRef = useRef(null);
           category: 'Herb · Dicot',
           tactileTrait: 'Soft green aromatic stem · Glandular hairy leaves',
           specimenPhoto: tulsiImage,
-          x: 48, y: 80, radius: 12, w: 22, h: 24,
+          x: 51, y: 78, radius: 16, w: 26, h: 34,
           details: 'Tulsi plant growing in the foreground with vertical flower spikes and aromatic leaves.',
           fact: 'Tulsi (Holy Basil) is an important medicinal herb with soft green stems.',
           verifyQ: { q: 'What type of plant is Tulsi?', opts: ['Tree', 'Shrub', 'Herb', 'Climber'], correct: 2 },
           tableInfo: { 
-            stem: 'Soft, green, non-woody herbaceous stem', 
-            leaves: 'Small, oval, highly aromatic simple leaves', 
-            flowers: 'Tiny purple-white flowers on vertical spikes', 
-            notes: 'Short herb; medicinal plant found in home gardens' 
+            stem: 'Young stems are soft and green; older stems may become woody.', 
+            leaves: 'Small, oval, simple leaves with a strong aroma.', 
+            flowers: 'Tiny purple or whitish flowers in upright clusters.', 
+            notes: 'Commonly grown in home gardens and used in traditional medicine.',
+            think: 'What does “aromatic” tell us about tulsi leaves?'
           }
         },
         {
@@ -1276,15 +1361,16 @@ const natureAudioRef = useRef(null);
           category: 'Herb · Monocot',
           tactileTrait: 'Hollow flexible culm stem · Parallel leaf venation',
           specimenPhoto: grassImage,
-          x: 73.5, y: 80, radius: 12, w: 20, h: 22,
+          x: 75, y: 78, radius: 16, w: 26, h: 32,
           details: 'Green grass clump growing on the bottom-right near the tree.',
           fact: 'Grasses are small herbs with narrow leaves and parallel vein patterns.',
           verifyQ: { q: 'Which category does Grass belong to?', opts: ['Tree', 'Herb', 'Shrub', 'Woody climber'], correct: 1 },
           tableInfo: { 
-            stem: 'Thin, green, soft, hollow stem', 
-            leaves: 'Long, narrow leaves with parallel vein patterns', 
-            flowers: 'Tiny inconspicuous spikelets', 
-            notes: 'Short herb; covers ground lawns, fibrous roots' 
+            stem: 'Thin, green stems, often hollow between the joints.', 
+            leaves: 'Long, narrow leaves with parallel veins.', 
+            flowers: 'Tiny flowers arranged in groups called spikelets.', 
+            notes: 'Lawn grass is a short herb with fibrous roots that forms ground cover.',
+            think: 'What pattern can you see in the leaf veins?'
           }
         },
         {
@@ -1296,15 +1382,16 @@ const natureAudioRef = useRef(null);
           category: 'Tree · Dicot',
           tactileTrait: 'Thick scaly brown woody trunk with medicinal bark',
           specimenPhoto: neemImage,
-          x: 84.5, y: 44, radius: 14.5, w: 22, h: 26,
+          x: 87, y: 38, radius: 24, w: 26, h: 68,
           details: 'Grand Neem tree with thick trunk and broad canopy on the right.',
           fact: 'Neem trees are evergreen trees with medicinal properties.',
           verifyQ: { q: 'Which plant classification does a Neem Tree belong to?', opts: ['Herb', 'Shrub', 'Tree', 'Creeper'], correct: 2 },
           tableInfo: { 
-            stem: 'Thick, hard, scaly brown woody trunk with bark', 
-            leaves: 'Compound pinnate serrated green leaflets', 
-            flowers: 'Small, white, fragrant flowers', 
-            notes: 'Tall tree; evergreen with broad canopy' 
+            stem: 'A thick, hard, woody trunk with rough, scaly brown bark.', 
+            leaves: 'Compound leaves with toothed green leaflets along a central stalk.', 
+            flowers: 'Small, white and fragrant.', 
+            notes: 'A tall, usually evergreen tree with a broad canopy.',
+            think: 'Which features help you identify neem as a tree?'
           }
         },
         {
@@ -1316,15 +1403,16 @@ const natureAudioRef = useRef(null);
           category: 'Shrub · Dicot',
           tactileTrait: 'Thorny woody stem branching near base · Reticulate Venation',
           specimenPhoto: roseImage,
-          x: 52.5, y: 55, radius: 12, w: 22, h: 24,
+          x: 53, y: 53, radius: 16, w: 30, h: 32,
           details: 'Pink Rose bush with flowering blooms located in the center-right area.',
           fact: 'Roses are thorny flowering shrubs with woody stems branching near the ground.',
           verifyQ: { q: 'What type of stem does a Rose bush have?', opts: ['Soft green stem', 'Thin woody stem with thorns', 'Massive trunk', 'Underwater stem'], correct: 1 },
           tableInfo: { 
-            stem: 'Thin woody stem with sharp thorns', 
-            leaves: 'Compound leaves with serrated edges', 
-            flowers: 'Pink or red fragrant rose blooms', 
-            notes: 'Medium height shrub with thorny branches' 
+            stem: 'Thin, woody stems with sharp prickles, commonly called thorns.', 
+            leaves: 'Compound leaves made of leaflets with toothed edges.', 
+            flowers: 'Fragrant pink or red blooms.', 
+            notes: 'A medium-sized shrub with prickly branches.',
+            think: 'How is a compound leaf different from a simple leaf?'
           }
         },
         {
@@ -1336,7 +1424,7 @@ const natureAudioRef = useRef(null);
           category: 'Tall Herb · Dicot',
           tactileTrait: 'Rough hairy green stem · Turns toward sunlight (Heliotropism)',
           specimenPhoto: sunflowerImage,
-          x: 67, y: 39, radius: 11.5, w: 20, h: 22,
+          x: 70, y: 39, radius: 14, w: 20, h: 26,
           details: 'Tall flowering plant with large bright yellow petals turning toward sunlight.',
           fact: 'Sunflowers exhibit heliotropism — young sunflowers follow the sun from east to west every day!',
           verifyQ: { 
@@ -1345,10 +1433,11 @@ const natureAudioRef = useRef(null);
             correct: 1 
           },
           tableInfo: { 
-            stem: 'Tall, strong, green stem with a rough, slightly hairy surface', 
-            leaves: 'Large, broad green leaves with a rough texture and prominent veins', 
-            flowers: 'Large bright yellow flower head with a dark brown central disc', 
-            notes: 'Tall flowering plant; flower head turns toward sunlight; produces edible seeds' 
+            stem: 'Tall, strong, green, rough and slightly hairy.', 
+            leaves: 'Large, broad and rough, with prominent veins.', 
+            flowers: 'A bright yellow flower head with a dark central disc.', 
+            notes: 'Produces edible seeds. Young developing heads follow the sun; mature heads usually face east.',
+            think: 'Do mature sunflower heads keep following the sun?'
           }
         },
         {
@@ -1360,7 +1449,7 @@ const natureAudioRef = useRef(null);
           category: 'Aquatic Herb',
           tactileTrait: 'Spongy flexible stem with air cavities · Broad floating waxy leaves',
           specimenPhoto: waterLilyImage,
-          x: 18.5, y: 75, radius: 13, w: 22, h: 24,
+          x: 17, y: 76, radius: 16, w: 32, h: 28,
           details: 'Pink water lilies blooming gracefully on broad floating circular leaves in the garden pond.',
           fact: 'Water lilies have flexible spongy stems with air cavities that let them float easily and absorb dissolved air!',
           verifyQ: { 
@@ -1369,10 +1458,11 @@ const natureAudioRef = useRef(null);
             correct: 1 
           },
           tableInfo: { 
-            stem: 'Soft, long, flexible, spongy stem submerged under water', 
-            leaves: 'Broad, round, flat waxy leaves floating on water surface', 
-            flowers: 'Large, fragrant pink blossoms opening during daylight', 
-            notes: 'Aquatic herb; anchored in pond silt, leaves float on water' 
+            stem: 'An underwater stem with long, flexible, spongy stalks.', 
+            leaves: 'Broad, round, flat, waxy leaves floating on water.', 
+            flowers: 'Large, fragrant pink flowers; the type described opens during daylight.', 
+            notes: 'An aquatic herb with roots anchored in pond mud.',
+            think: 'Which parts float, and which parts anchor the plant?'
           }
         }
       ];
@@ -1387,11 +1477,17 @@ const natureAudioRef = useRef(null);
           type: 'animal',
           category: 'Bird · Omnivore',
           tactileTrait: 'Sharp eyes & strong flight wings',
-          x: 11, y: 18, radius: 14, w: 18, h: 20,
+          x: 10, y: 19, radius: 18, w: 21, h: 36,
           details: 'A clever grey-necked bird that flies in the open sky and perches on tree branches. Crows are intelligent scavengers with sharp sight and strong wings.',
           fact: 'Crows are remarkably intelligent — they can recognize individual human faces and use tools to fetch food!',
           verifyQ: { q: 'What is a crow classified as in terms of its diet?', opts: ['Pure herbivore', 'Scavenger that eats scraps and pests', 'Deep-sea predator', 'Insect only feeder'], correct: 1 },
-          tableInfo: { stem: '—', leaves: '—', flowers: '—', notes: 'Locomotion: Flies using wings. Perches on branches.' },
+          tableInfo: { 
+            whereFound: 'Treetops, rooftops and flying in the open sky.', 
+            movement: 'Flaps its wings to fly and hops on the ground.', 
+            adaptations: 'A strong, sharp beak, keen eyesight and glossy, dark feathers.', 
+            feeding: 'Omnivorous—eats both plant and animal food.',
+            think: 'How does the crow’s beak help it feed?' 
+          },
         },
         {
           id: 'sparrow',
@@ -1402,11 +1498,16 @@ const natureAudioRef = useRef(null);
           type: 'animal',
           category: 'Bird · Granivore',
           tactileTrait: 'Short cone beak for tiny seeds & grains',
-          x: 48.8, y: 25.1, radius: 14, w: 16, h: 16,
+          x: 47, y: 29.5, radius: 14, w: 17, h: 20,
           details: 'A small, friendly bird perched on tree branches. Sparrows chirp cheerfully and feed on tiny seeds, grains, and insects near garden trees.',
           fact: 'House Sparrows have lived alongside humans for over 10,000 years — they are one of the most widespread birds on Earth!',
           verifyQ: { q: 'What do House Sparrows primarily eat?', opts: ['Large mammals', 'Insects and small seeds', 'Big fish', 'Tree bark'], correct: 1 },
-          tableInfo: { stem: '—', leaves: '—', flowers: '—', notes: 'Locomotion: Flies and hops. Perches on branches.' },
+          tableInfo: { 
+            whereFound: 'Garden hedges, bushes, tree branches and beneath roof edges.', 
+            movement: 'Flies by flapping its wings and hops on the ground.', 
+            adaptations: 'A short, strong, cone-shaped beak helps crack seeds. Flight feathers and a skeleton with some hollow bones support flight.', 
+            think: 'How does the sparrow’s beak help it eat seeds?' 
+          },
         },
         {
           id: 'cow',
@@ -1417,11 +1518,16 @@ const natureAudioRef = useRef(null);
           type: 'animal',
           category: 'Mammal · Herbivore',
           tactileTrait: 'Four sturdy walking limbs & clover hooves',
-          x: 83.5, y: 43, radius: 14, w: 22, h: 24,
+          x: 85.8, y: 48.5, radius: 20, w: 29, h: 38,
           details: 'A large domestic herbivore that grazes peacefully on fresh green grass and hay. Cows move calmly on four legs and provide healthy milk.',
           fact: 'Cows have best friends and get happy when spending time together in green pastures!',
           verifyQ: { q: 'What type of food does a cow eat?', opts: ['Fish and meat', 'Grass and hay', 'Insects only', 'Tree bark'], correct: 1 },
-          tableInfo: { stem: '—', leaves: '—', flowers: '—', notes: 'Locomotion: Walks on four legs. Terrestrial herbivore.' },
+          tableInfo: { 
+            whereFound: 'Open meadows, grassy pastures and farmland.', 
+            movement: 'Walks on four strong legs with split, or cloven, hooves.', 
+            adaptations: 'Broad molars grind food. Eyes provide a wide view. A stomach with four compartments helps digest plant food.', 
+            think: 'Why does a cow need broad grinding teeth?' 
+          },
         },
         {
           id: 'squirrel',
@@ -1432,11 +1538,16 @@ const natureAudioRef = useRef(null);
           type: 'animal',
           category: 'Rodent · Herbivore',
           tactileTrait: 'Sharp claws & flexible spine for climbing',
-          x: 16.5, y: 56, radius: 12, w: 18, h: 20,
+          x: 15.5, y: 61, radius: 18, w: 31, h: 36,
           details: 'A quick and nimble rodent with three pale stripes along its back. It climbs tree trunks rapidly and nibbles on nuts, seeds, and berries.',
           fact: 'Squirrels accidentally plant thousands of trees each year by forgetting where they buried their stashes!',
           verifyQ: { q: 'Where would you most likely spot a Three-Striped Palm Squirrel?', opts: ['In the ocean', 'Climbing a tree trunk or rock', 'Flying in the sky', 'Burrowing underground'], correct: 1 },
-          tableInfo: { stem: '—', leaves: '—', flowers: '—', notes: 'Locomotion: Runs and climbs. Lives on trees and land.' },
+          tableInfo: { 
+            whereFound: 'Tree trunks, garden walls, rocks and the ground.', 
+            movement: 'Scampers quickly and climbs trees.', 
+            adaptations: 'Sharp, curved claws help it grip surfaces. Its bushy tail helps it balance.', 
+            think: 'Which features help a squirrel climb and balance?' 
+          },
         },
         {
           id: 'butterfly',
@@ -1447,11 +1558,16 @@ const natureAudioRef = useRef(null);
           type: 'animal',
           category: 'Insect · Pollinator',
           tactileTrait: 'Delicate wings & proboscis for flower nectar',
-          x: 49, y: 54.5, radius: 10, w: 12, h: 14,
+          x: 48.5, y: 59.5, radius: 14, w: 16, h: 26,
           details: 'A colorful flying insect with delicate wings fluttering around garden flowers. It feeds on nectar using its long proboscis and helps pollinate flowers.',
           fact: 'Butterflies taste their food using tiny sensory receptors on their feet — not their mouths!',
           verifyQ: { q: 'How does a butterfly help plants?', opts: ['It eats all the leaves', 'It digs up roots', 'It helps in pollination by carrying pollen', 'It blocks sunlight'], correct: 2 },
-          tableInfo: { stem: '—', leaves: '—', flowers: '—', notes: 'Locomotion: Flies using wings. Feeds on flower nectar.' },
+          tableInfo: { 
+            whereFound: 'Garden flowers, flowering shrubs and sunny spaces.', 
+            movement: 'Flutters using delicate wings covered with tiny scales.', 
+            adaptations: 'A coiled feeding tube called a proboscis draws up nectar. Antennae sense the surroundings, and feet have taste receptors.', 
+            think: 'Which body part helps a butterfly drink nectar?' 
+          },
         },
         {
           id: 'frog',
@@ -1462,11 +1578,16 @@ const natureAudioRef = useRef(null);
           type: 'animal',
           category: 'Amphibian · Carnivore',
           tactileTrait: 'Webbed hind feet & moist permeable skin',
-          x: 81, y: 84, radius: 11, w: 16, h: 18,
+          x: 83, y: 88.5, radius: 15, w: 22, h: 20,
           details: 'An amphibian with smooth green skin resting near ponds and moist shores. It uses its strong hind legs to jump on land and webbed feet to swim swiftly in water.',
           fact: 'Frogs can breathe through their lungs on land and directly through their moist skin underwater — they are true amphibians!',
           verifyQ: { q: 'What type of habitat does an Indian Pond Frog live in?', opts: ['Only on dry land', 'Only in deep ocean', 'Both in freshwater and on moist shores', 'Only in desert sand'], correct: 2 },
-          tableInfo: { stem: '—', leaves: '—', flowers: '—', notes: 'Locomotion: Jumps and swims. Amphibian. Lives near pond.' },
+          tableInfo: { 
+            whereFound: 'Freshwater ponds, lily pads and moist pond edges.', 
+            movement: 'Leaps on land and swims using its hind legs and webbed feet.', 
+            adaptations: 'Muscular hind legs power movement. Moist skin allows oxygen to pass through. Bulging eyes provide a wide view.', 
+            think: 'How do webbed feet help a frog swim?' 
+          },
         },
         {
           id: 'ant',
@@ -1477,11 +1598,16 @@ const natureAudioRef = useRef(null);
           type: 'animal',
           category: 'Insect · Social Worker',
           tactileTrait: 'Six crawling legs, powerful lifting mandibles',
-          x: 35, y: 91, radius: 11, w: 18, h: 14,
+          x: 31, y: 95.5, radius: 14, w: 27, h: 11,
           details: 'Tiny, hardworking social insects crawling together along the soil. Ants communicate using scent trails and can carry loads many times their own weight!',
           fact: 'Ants are incredibly strong — an ant can carry objects up to 50 times its own body weight!',
           verifyQ: { q: 'How do ants move and work together?', opts: ['They fly individually', 'They crawl in social trails using scent clues', 'They swim underwater', 'They jump over trees'], correct: 1 },
-          tableInfo: { stem: '—', leaves: '—', flowers: '—', notes: 'Locomotion: Crawls on six legs. Lives in colonies.' },
+          tableInfo: { 
+            whereFound: 'Soil mounds, underground tunnels and garden paths.', 
+            movement: 'Crawls quickly on six jointed walking legs.', 
+            adaptations: 'Strong mandibles for lifting, sensitive antennae for following scent trails.', 
+            think: 'How do ants carry objects heavier than themselves?' 
+          },
         }
       ];
     }
@@ -1514,7 +1640,13 @@ const natureAudioRef = useRef(null);
   const [verifyAnswer, setVerifyAnswer] = useState(null);
   const [verifyChecked, setVerifyChecked] = useState(false);
   const [verifyCorrect, setVerifyCorrect] = useState(false);
-  const [subPage, setSubPage] = useState(1);
+  const [subPage, setSubPage] = useState(typeFilter === 'animal' ? 2 : 1);
+  useEffect(() => {
+    if (typeFilter === 'animal') {
+      setSubPage(2);
+      setViewMode('garden_walk');
+    }
+  }, [typeFilter]);
   const [activeSpecimenId, setActiveSpecimenId] = useState('tulsi');
   const [viewMode, setViewMode] = useState('garden_walk');
   const [activeHotspot, setActiveHotspot] = useState(null);
@@ -1630,19 +1762,23 @@ const natureAudioRef = useRef(null);
 
     const baseDim = Math.min(rect.width, rect.height);
 
-    // 1. Calculate visual pixel distance to each target's exact center
+    // 1. Calculate visual distance to whole plant / organism bounding region
     const candidates = filteredTargets
       .map(t => {
         const targetPxX = (t.x / 100) * rect.width;
         const targetPxY = (t.y / 100) * rect.height;
+        const wPx = ((t.w || 22) / 100) * rect.width;
+        const hPx = ((t.h || 24) / 100) * rect.height;
+        // Elliptical normalized distance to encompass the whole plant body
+        const dxNorm = (x - targetPxX) / (wPx / 2 + 15);
+        const dyNorm = (y - targetPxY) / (hPx / 2 + 15);
+        const ellipseDist = Math.hypot(dxNorm, dyNorm);
         const distPx = Math.hypot(x - targetPxX, y - targetPxY);
-        // Effective activation radius matches the 126px scanner loupe (63px radius) with generous margin
-        const radiusPct = t.radius || 12.5;
-        const maxDistPx = Math.max(68, (radiusPct / 100) * baseDim + 22);
-        return { target: t, distPx, inRange: distPx <= maxDistPx };
+        const inRange = ellipseDist <= 1.08;
+        return { target: t, distPx, inRange };
       })
       .filter(item => item.inRange)
-      .sort((a, b) => a.distPx - b.distPx); // Closest center always takes priority!
+      .sort((a, b) => a.distPx - b.distPx); // Closest center takes priority!
 
     const target = candidates.length > 0 ? candidates[0].target : null;
 
@@ -1916,7 +2052,7 @@ const natureAudioRef = useRef(null);
         overflow: 'hidden'
       }}>
         {/* ============ PAGE 1: BOTANICAL CATEGORY SPOTLIGHT (HERBS / SHRUBS / TREES SINGLE PAGE EACH LIKE SLOGAN PAGE) ============ */}
-        {subPage === 1 && (
+        {subPage === 1 && typeFilter === 'plant' && (
           (typeFilter === 'plant' && categoryStep === 0) ? (
             /* FULLSCREEN HERBS PAGE 1 WITH REALISTIC CORNER CREAM POPUP */
             <div style={{
@@ -1949,9 +2085,11 @@ const natureAudioRef = useRef(null);
                   position: 'absolute',
                   top: '16px',
                   right: '20px',
-                  width: 'min(415px, calc(100vw - 40px))',
+                  width: 'min(465px, calc(100vw - 40px))',
                   maxHeight: 'calc(100% - 85px)',
-                  background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.60) 0%, rgba(4, 28, 16, 0.60) 45%, rgba(2, 18, 11, 0.62) 100%)',
+                  background: 'transparent',
+                  backdropFilter: 'blur(2px)',
+                  WebkitBackdropFilter: 'blur(2px)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
                   borderRadius: '24px',
@@ -2078,19 +2216,20 @@ const natureAudioRef = useRef(null);
                       </div>
                     </div>
 
-                    {/* Title Section: 22px-24px Title, 16px Subtitle */}
+                    {/* Title Section: 24px Title */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
                       <h3 style={{
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 900,
-                        fontSize: 'clamp(21px, 2.1vw, 24px)',
+                        fontSize: '24px',
                         margin: 0,
-                        color: '#FFFFFF',
+                        color: '#FCD34D',
                         lineHeight: 1.25,
-                        letterSpacing: '-0.01em',
-                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                        letterSpacing: '0.02em',
+                        textTransform: 'uppercase',
+                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000, 0 0 16px rgba(252, 211, 77, 0.5)'
                       }}>
-                        Tender Green Herbs
+                        TENDER GREEN HERBS
                       </h3>
                       <div style={{
                         fontSize: '16px',
@@ -2104,113 +2243,153 @@ const natureAudioRef = useRef(null);
                       </div>
                     </div>
 
-                    {/* 3 Detail Cards: 16px-24px Typography */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(8px, 1.2vh, 11px)' }}>
-                      {/* Card 1: Soft Green Stem */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                        borderRadius: '14px',
-                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
-                        border: '1.2px solid rgba(110, 231, 183, 0.35)',
-                        borderLeft: '4px solid #10B981',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
-                        transition: 'all 0.25s ease'
-                      }}>
+                    {/* Info Panel: single unified glass panel with 20px-24px justified text */}
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 'clamp(10px, 1.4vh, 13px)'
+                    }}>
+                      {/* Section 1: Soft Green Stems */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #10B981`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           fontWeight: 800,
                           color: '#A7F3D0',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '7px',
                           fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
                           <span>🌱</span>
-                          <span>Soft Green Stem</span>
+                          <span>Soft Green Stems</span>
                         </div>
                         <div style={{
-                          fontSize: '16px',
+                          fontSize: '20px',
                           color: '#FFFFFF',
-                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          textAlign: 'justify',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
                           fontWeight: 450,
-                          marginTop: '5px',
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Tender, non-woody green stems that bend easily with the wind without breaking or snapping.
+                          Herbs have soft, green, flexible stems that are not woody.
                         </div>
                       </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
-                      {/* Card 2: Short Stature */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                        borderRadius: '14px',
-                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
-                        border: '1.2px solid rgba(252, 211, 77, 0.35)',
-                        borderLeft: '4px solid #F59E0B',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
-                        transition: 'all 0.25s ease'
-                      }}>
+                      {/* Section 2: Size */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #F59E0B`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           fontWeight: 800,
                           color: '#FDE68A',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '7px',
                           fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
                           <span>📏</span>
-                          <span>Short Stature & Few Branches</span>
+                          <span>Size</span>
                         </div>
                         <div style={{
-                          fontSize: '16px',
+                          fontSize: '20px',
                           color: '#FFFFFF',
-                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          textAlign: 'justify',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
                           fontWeight: 450,
-                          marginTop: '5px',
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Usually grow less than 1 metre high and branch close to the ground rather than spreading into crowns.
+                          Many herbs are small plants, though some grow taller.
                         </div>
                       </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
-                      {/* Card 3: 1-2 Season Life Cycle & Examples */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.14) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                        borderRadius: '14px',
-                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
-                        border: '1.2px solid rgba(147, 197, 253, 0.35)',
-                        borderLeft: '4px solid #3B82F6',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
-                        transition: 'all 0.25s ease'
-                      }}>
+                      {/* Section 3: Life Cycle */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #3B82F6`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           fontWeight: 800,
                           color: '#BFDBFE',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '7px',
                           fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span>🌾</span>
-                          <span>1–2 Season Life Cycle & Examples</span>
+                          <span>🔄</span>
+                          <span>Life Cycle</span>
                         </div>
                         <div style={{
-                          fontSize: '16px',
+                          fontSize: '20px',
                           color: '#FFFFFF',
-                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          textAlign: 'justify',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
                           fontWeight: 450,
-                          marginTop: '5px',
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Complete their life cycle in 1–2 seasons. Familiar examples: <strong style={{ color: '#FEF08A' }}>Tulsi, Mint, Tomato, Wheat, & Grass</strong>.
+                          Some live for one or two growing seasons. Others, such as mint, live for several years.
+                        </div>
+                      </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                      {/* Section 4: Examples */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #8B5CF6`, paddingLeft: '12px' }}>
+                        <div style={{
+                          fontSize: '22px',
+                          fontWeight: 800,
+                          color: '#DDD6FE',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '7px',
+                          fontFamily: '"Outfit", sans-serif',
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
+                        }}>
+                          <span>🌿</span>
+                          <span>Examples</span>
+                        </div>
+                        <div style={{
+                          fontSize: '20px',
+                          color: '#FEF08A',
+                          textAlign: 'justify',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
+                          fontWeight: 600,
+                          lineHeight: 1.45,
+                          fontFamily: '"Inter", sans-serif'
+                        }}>
+                          Mint, tomato, wheat, and grass.
+                        </div>
+                      </div>
+
+                      {/* Think Prompt Box */}
+                      <div style={{
+                        marginTop: '3px',
+                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(16, 185, 129, 0.18) 100%)',
+                        border: '1.5px solid rgba(251, 191, 36, 0.45)',
+                        borderRadius: '14px',
+                        padding: '10px 14px',
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: '10px',
+                        boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
+                      }}>
+                        <span style={{ fontSize: '22px', lineHeight: 1 }}>💡</span>
+                        <div style={{
+                          fontSize: '20px',
+                          fontWeight: 800,
+                          color: '#FDE047',
+                          fontFamily: '"Outfit", sans-serif',
+                          textAlign: 'justify',
+                          lineHeight: 1.4,
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)'
+                        }}>
+                          <span>Think: </span>
+                          <span style={{ fontWeight: 500, color: '#FFFFFF' }}>
+                            How is a herb’s stem different from a tree’s trunk?
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -2250,7 +2429,7 @@ const natureAudioRef = useRef(null);
               <div style={{
                 position: 'absolute',
                 top: '18px',
-                right: showHerbsPopup ? '440px' : '20px',
+                right: showHerbsPopup ? '490px' : '20px',
                 zIndex: 35,
                 transition: 'all 0.2s ease'
               }}>
@@ -2381,9 +2560,11 @@ const natureAudioRef = useRef(null);
                   position: 'absolute',
                   top: '16px',
                   right: '20px',
-                  width: 'min(415px, calc(100vw - 40px))',
+                  width: 'min(465px, calc(100vw - 40px))',
                   maxHeight: 'calc(100% - 85px)',
-                  background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.60) 0%, rgba(4, 28, 16, 0.60) 45%, rgba(2, 18, 11, 0.62) 100%)',
+                  background: 'transparent',
+                  backdropFilter: 'blur(2px)',
+                  WebkitBackdropFilter: 'blur(2px)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
                   borderRadius: '24px',
@@ -2510,139 +2691,170 @@ const natureAudioRef = useRef(null);
                       </div>
                     </div>
 
-                    {/* Title Section: 22px-24px Title, 16px Subtitle */}
+                    {/* Title Section: 24px Title */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
                       <h3 style={{
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 900,
-                        fontSize: 'clamp(21px, 2.1vw, 24px)',
+                        fontSize: '24px',
                         margin: 0,
-                        color: '#FFFFFF',
+                        color: '#FB7185',
                         lineHeight: 1.25,
-                        letterSpacing: '-0.01em',
-                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                        letterSpacing: '0.02em',
+                        textTransform: 'uppercase',
+                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000, 0 0 16px rgba(251, 113, 133, 0.5)'
                       }}>
-                        Bushy Woody Shrubs
+                        BUSHY WOODY SHRUBS
                       </h3>
-                      <div style={{
-                        fontSize: '16px',
-                        color: '#6EE7B7',
-                        fontWeight: 600,
-                        fontStyle: 'italic',
-                        fontFamily: '"Outfit", sans-serif',
-                        textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)'
-                      }}>
-                        Hard Thin Stems • Base Branching
-                      </div>
                     </div>
 
-                    {/* 3 Detail Cards: 16px-24px Typography */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(8px, 1.2vh, 11px)' }}>
-                      {/* Card 1: Hard Thin Woody Stems */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                        borderRadius: '14px',
-                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
-                        border: '1.2px solid rgba(110, 231, 183, 0.35)',
-                        borderLeft: '4px solid #10B981',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
-                        transition: 'all 0.25s ease'
-                      }}>
+                    {/* Info Panel: single unified glass panel with 20px-24px justified text */}
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 'clamp(10px, 1.4vh, 13px)'
+                    }}>
+                      {/* Section 1: Hard, Woody Stems */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #10B981`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           fontWeight: 800,
                           color: '#A7F3D0',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '7px',
                           fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
                           <span>🪵</span>
-                          <span>Hard Thin Woody Stems</span>
+                          <span>Hard, Woody Stems</span>
                         </div>
                         <div style={{
-                          fontSize: '16px',
+                          fontSize: '20px',
                           color: '#FFFFFF',
-                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          textAlign: 'justify',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
                           fontWeight: 450,
-                          marginTop: '5px',
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Hard and woody stems, but relatively thin (not a thick single trunk) that cannot be bent easily.
+                          Shrubs have hard, woody stems that are relatively thin.
                         </div>
                       </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
-                      {/* Card 2: Branching from Base */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                        borderRadius: '14px',
-                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
-                        border: '1.2px solid rgba(252, 211, 77, 0.35)',
-                        borderLeft: '4px solid #F59E0B',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
-                        transition: 'all 0.25s ease'
-                      }}>
+                      {/* Section 2: Branches Near the Ground */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #F59E0B`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           fontWeight: 800,
                           color: '#FDE68A',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '7px',
                           fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
                           <span>🌿</span>
-                          <span>Branching at Ground Base</span>
+                          <span>Branches Near the Ground</span>
                         </div>
                         <div style={{
-                          fontSize: '16px',
+                          fontSize: '20px',
                           color: '#FFFFFF',
-                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          textAlign: 'justify',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
                           fontWeight: 450,
-                          marginTop: '5px',
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Branches arise profusely right near the base of the stem close to the soil line, giving a bushy appearance.
+                          Many branches grow near the base, giving the plant a bushy appearance.
                         </div>
                       </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
-                      {/* Card 3: Medium Stature & Examples */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.14) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                        borderRadius: '14px',
-                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
-                        border: '1.2px solid rgba(147, 197, 253, 0.35)',
-                        borderLeft: '4px solid #3B82F6',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
-                        transition: 'all 0.25s ease'
-                      }}>
+                      {/* Section 3: Medium Height */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #3B82F6`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           fontWeight: 800,
                           color: '#BFDBFE',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '7px',
                           fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span>🌺</span>
-                          <span>Medium Height & Examples</span>
+                          <span>📏</span>
+                          <span>Medium Height</span>
                         </div>
                         <div style={{
-                          fontSize: '16px',
+                          fontSize: '20px',
                           color: '#FFFFFF',
-                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          textAlign: 'justify',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
                           fontWeight: 450,
-                          marginTop: '5px',
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Medium stature (1 to 3 metres). Familiar examples: <strong style={{ color: '#FEF08A' }}>Rose, Hibiscus, Lemon, Mehndi, & Jasmine</strong>.
+                          Shrubs are generally shorter than trees.
+                        </div>
+                      </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                      {/* Section 4: Examples */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #8B5CF6`, paddingLeft: '12px' }}>
+                        <div style={{
+                          fontSize: '22px',
+                          fontWeight: 800,
+                          color: '#DDD6FE',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '7px',
+                          fontFamily: '"Outfit", sans-serif',
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
+                        }}>
+                          <span>🌺</span>
+                          <span>Examples</span>
+                        </div>
+                        <div style={{
+                          fontSize: '20px',
+                          color: '#FEF08A',
+                          textAlign: 'justify',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
+                          fontWeight: 600,
+                          lineHeight: 1.45,
+                          fontFamily: '"Inter", sans-serif'
+                        }}>
+                          Rose, hibiscus, and mehndi.
+                        </div>
+                      </div>
+
+                      {/* Think Prompt Box */}
+                      <div style={{
+                        marginTop: '3px',
+                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(16, 185, 129, 0.18) 100%)',
+                        border: '1.5px solid rgba(251, 191, 36, 0.45)',
+                        borderRadius: '14px',
+                        padding: '10px 14px',
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: '10px',
+                        boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
+                      }}>
+                        <span style={{ fontSize: '22px', lineHeight: 1 }}>💡</span>
+                        <div style={{
+                          fontSize: '20px',
+                          fontWeight: 800,
+                          color: '#FDE047',
+                          fontFamily: '"Outfit", sans-serif',
+                          textAlign: 'justify',
+                          lineHeight: 1.4,
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)'
+                        }}>
+                          <span>Think: </span>
+                          <span style={{ fontWeight: 500, color: '#FFFFFF' }}>
+                            What gives shrubs their bushy appearance?
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -2682,7 +2894,7 @@ const natureAudioRef = useRef(null);
               <div style={{
                 position: 'absolute',
                 top: '18px',
-                right: showShrubsPopup ? '440px' : '20px',
+                right: showShrubsPopup ? '490px' : '20px',
                 zIndex: 35,
                 transition: 'all 0.2s ease'
               }}>
@@ -2811,9 +3023,11 @@ const natureAudioRef = useRef(null);
                   position: 'absolute',
                   top: '16px',
                   right: '20px',
-                  width: 'min(415px, calc(100vw - 40px))',
+                  width: 'min(465px, calc(100vw - 40px))',
                   maxHeight: 'calc(100% - 85px)',
-                  background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.60) 0%, rgba(4, 28, 16, 0.60) 45%, rgba(2, 18, 11, 0.62) 100%)',
+                  background: 'transparent',
+                  backdropFilter: 'blur(2px)',
+                  WebkitBackdropFilter: 'blur(2px)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
                   borderRadius: '24px',
@@ -2940,139 +3154,170 @@ const natureAudioRef = useRef(null);
                       </div>
                     </div>
 
-                    {/* Title Section: 22px-24px Title, 16px Subtitle */}
+                    {/* Title Section: 24px Title */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
                       <h3 style={{
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 900,
-                        fontSize: 'clamp(21px, 2.1vw, 24px)',
+                        fontSize: '24px',
                         margin: 0,
-                        color: '#FFFFFF',
+                        color: '#FBBF24',
                         lineHeight: 1.25,
-                        letterSpacing: '-0.01em',
-                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                        letterSpacing: '0.02em',
+                        textTransform: 'uppercase',
+                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000, 0 0 16px rgba(251, 191, 36, 0.5)'
                       }}>
-                        Towering Woody Trees
+                        TOWERING WOODY TREES
                       </h3>
-                      <div style={{
-                        fontSize: '16px',
-                        color: '#6EE7B7',
-                        fontWeight: 600,
-                        fontStyle: 'italic',
-                        fontFamily: '"Outfit", sans-serif',
-                        textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)'
-                      }}>
-                        Massive Trunk • Elevated Canopy
-                      </div>
                     </div>
 
-                    {/* 3 Detail Cards: 16px-24px Typography */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(8px, 1.2vh, 11px)' }}>
-                      {/* Card 1: Single Thick Woody Trunk */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                        borderRadius: '14px',
-                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
-                        border: '1.2px solid rgba(110, 231, 183, 0.35)',
-                        borderLeft: '4px solid #10B981',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
-                        transition: 'all 0.25s ease'
-                      }}>
+                    {/* Info Panel: single unified glass panel with 20px-24px justified text */}
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 'clamp(10px, 1.4vh, 13px)'
+                    }}>
+                      {/* Section 1: Thick, Woody Trunk */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #10B981`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           fontWeight: 800,
                           color: '#A7F3D0',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '7px',
                           fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span>🌳</span>
-                          <span>Single Thick Woody Trunk</span>
+                          <span>🪵</span>
+                          <span>Thick, Woody Trunk</span>
                         </div>
                         <div style={{
-                          fontSize: '16px',
+                          fontSize: '20px',
                           color: '#FFFFFF',
-                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          textAlign: 'justify',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
                           fontWeight: 450,
-                          marginTop: '5px',
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          A single, massive, hard brown woody trunk protected by rough bark that firmly supports the plant.
+                          Trees usually have one thick, hard, woody trunk that supports the plant. Bark protects the trunk.
                         </div>
                       </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
-                      {/* Card 2: Branches High Up */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                        borderRadius: '14px',
-                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
-                        border: '1.2px solid rgba(252, 211, 77, 0.35)',
-                        borderLeft: '4px solid #F59E0B',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
-                        transition: 'all 0.25s ease'
-                      }}>
+                      {/* Section 2: Branches and Canopy */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #F59E0B`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           fontWeight: 800,
                           color: '#FDE68A',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '7px',
                           fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
                           <span>🍃</span>
-                          <span>Branches High Up in Canopy</span>
+                          <span>Branches and Canopy</span>
                         </div>
                         <div style={{
-                          fontSize: '16px',
+                          fontSize: '20px',
                           color: '#FFFFFF',
-                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          textAlign: 'justify',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
                           fontWeight: 450,
-                          marginTop: '5px',
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Branches arise high up on the trunk, far above the ground, spreading into an expansive green canopy.
+                          Branches usually grow higher up the trunk. The branches and leaves form a leafy cover called the canopy.
                         </div>
                       </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
-                      {/* Card 3: Long Lifespan & Examples */}
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.14) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                        borderRadius: '14px',
-                        padding: 'clamp(9px, 1.3vh, 12px) clamp(13px, 1.6vw, 16px)',
-                        border: '1.2px solid rgba(147, 197, 253, 0.35)',
-                        borderLeft: '4px solid #3B82F6',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)',
-                        transition: 'all 0.25s ease'
-                      }}>
+                      {/* Section 3: Height and Lifespan */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #3B82F6`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           fontWeight: 800,
                           color: '#BFDBFE',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '7px',
                           fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 2px #000000'
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
                           <span>⏳</span>
-                          <span>Long Lifespan & Examples</span>
+                          <span>Height and Lifespan</span>
                         </div>
                         <div style={{
-                          fontSize: '16px',
+                          fontSize: '20px',
                           color: '#FFFFFF',
-                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.95)',
+                          textAlign: 'justify',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
                           fontWeight: 450,
-                          marginTop: '5px',
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Tower many metres into the sky and live for decades. Familiar examples: <strong style={{ color: '#FEF08A' }}>Banyan, Peepal, Neem, Mango, & Gulmohar</strong>.
+                          Trees grow tall, and many live for decades.
+                        </div>
+                      </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                      {/* Section 4: Examples */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #8B5CF6`, paddingLeft: '12px' }}>
+                        <div style={{
+                          fontSize: '22px',
+                          fontWeight: 800,
+                          color: '#DDD6FE',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '7px',
+                          fontFamily: '"Outfit", sans-serif',
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
+                        }}>
+                          <span>🌳</span>
+                          <span>Examples</span>
+                        </div>
+                        <div style={{
+                          fontSize: '20px',
+                          color: '#FEF08A',
+                          textAlign: 'justify',
+                          textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
+                          fontWeight: 600,
+                          lineHeight: 1.45,
+                          fontFamily: '"Inter", sans-serif'
+                        }}>
+                          Banyan, peepal, neem, mango
+                        </div>
+                      </div>
+
+                      {/* Think Prompt Box */}
+                      <div style={{
+                        marginTop: '3px',
+                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(16, 185, 129, 0.18) 100%)',
+                        border: '1.5px solid rgba(251, 191, 36, 0.45)',
+                        borderRadius: '14px',
+                        padding: '10px 14px',
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: '10px',
+                        boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
+                      }}>
+                        <span style={{ fontSize: '22px', lineHeight: 1 }}>💡</span>
+                        <div style={{
+                          fontSize: '20px',
+                          fontWeight: 800,
+                          color: '#FDE047',
+                          fontFamily: '"Outfit", sans-serif',
+                          textAlign: 'justify',
+                          lineHeight: 1.4,
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)'
+                        }}>
+                          <span>Think: </span>
+                          <span style={{ fontWeight: 500, color: '#FFFFFF' }}>
+                            Which features help you recognise a tree?
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -3112,7 +3357,7 @@ const natureAudioRef = useRef(null);
               <div style={{
                 position: 'absolute',
                 top: '18px',
-                right: showTreesPopup ? '440px' : '20px',
+                right: showTreesPopup ? '490px' : '20px',
                 zIndex: 35,
                 transition: 'all 0.2s ease'
               }}>
@@ -3205,960 +3450,10 @@ const natureAudioRef = useRef(null);
                     fontFamily: '"Outfit", sans-serif',
                     transition: 'all 0.18s ease'
                   }}
-                  title="Explore Botanical Field Scanner"
+                  title="Explore Table 2.1"
                   aria-label="Next Page"
                 >
-                  <span>Next: Field Scanner</span>
-                  <ArrowRight size={18} strokeWidth={2.6} />
-                </button>
-              </div>
-            </div>
-          ) : (typeFilter === 'animal' && categoryStep === 0) ? (
-            /* FULLSCREEN ANIMALS CRAWLERS PAGE 1 WITH REALISTIC CORNER CREAM POPUP */
-            <div style={{
-              position: 'relative',
-              flex: 1,
-              minHeight: 0,
-              width: '100%',
-              height: '100%',
-              overflow: 'hidden',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: '#0B3B24'
-            }}>
-              <img
-                src={activity21CrawlersImg}
-                alt="Activity 2.1 - Crawlers"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'center',
-                  display: 'block'
-                }}
-              />
-
-              {/* Slogan Page Style: Frosted Translucent Glass Panel (15% opacity, blur 8px) */}
-              {showCrawlerPopup ? (
-                <div style={{
-                  position: 'absolute',
-                  top: '18px',
-                  right: '20px',
-                  width: 'min(30vw, 360px)',
-                  minWidth: '270px',
-                  background: 'rgba(255, 255, 255, 0.15)',
-                  backdropFilter: 'blur(8px)',
-                  WebkitBackdropFilter: 'blur(8px)',
-                  border: '1.5px solid rgba(255, 255, 255, 0.50)',
-                  borderRadius: '24px',
-                  padding: 'clamp(12px, 1.8vh, 18px) clamp(14px, 1.6vw, 18px)',
-                  boxShadow: '0 16px 40px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.60)',
-                  zIndex: 35,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '10px',
-                  overflow: 'hidden',
-                  boxSizing: 'border-box',
-                  animation: 'fadeIn 0.25s ease-out'
-                }}>
-                  {/* Glossy specular top shine reflection */}
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: '36%',
-                      background: 'linear-gradient(175deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.04) 50%, transparent 100%)',
-                      pointerEvents: 'none',
-                      zIndex: 2,
-                      borderRadius: '24px 24px 0 0'
-                    }}
-                  />
-
-                  {/* Header Row: Badge & Action Buttons */}
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', zIndex: 5, position: 'relative' }}>
-                    <div style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      background: 'rgba(255, 255, 255, 0.18)',
-                      backdropFilter: 'blur(8px)',
-                      WebkitBackdropFilter: 'blur(8px)',
-                      color: '#FEF3C7',
-                      border: '1.2px solid rgba(255, 255, 255, 0.45)',
-                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
-                      padding: '4px 12px',
-                      borderRadius: '12px',
-                      fontSize: '14px',
-                      fontWeight: 800,
-                      letterSpacing: '0.04em',
-                      textTransform: 'uppercase',
-                      fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                      whiteSpace: 'nowrap'
-                    }}>
-                      <span>🐌 NCERT 2.2 • CRAWLERS</span>
-                    </div>
-
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      {/* Audio Narration Toggle */}
-                      <button
-                        type="button"
-                        onClick={toggleCrawlerSpeech}
-                        title={isCrawlerSpeaking ? 'Stop voice' : 'Listen to explanation'}
-                        style={{
-                          background: isCrawlerSpeaking ? '#10B981' : 'rgba(255, 255, 255, 0.12)',
-                          color: isCrawlerSpeaking ? '#FFFFFF' : '#FEF3C7',
-                          border: '1.2px solid rgba(255, 255, 255, 0.3)',
-                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                          borderRadius: '10px',
-                          padding: '5px 12px',
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '5px',
-                          fontSize: '15px',
-                          fontWeight: 800,
-                          fontFamily: '"Outfit", sans-serif',
-                          transition: 'all 0.2s ease'
-                        }}
-                      >
-                        <Volume2 size={15} />
-                        <span>{isCrawlerSpeaking ? 'Stop' : 'Listen'}</span>
-                      </button>
-
-                      {/* Close popup button to view 100% full screen */}
-                      <button
-                        type="button"
-                        onClick={() => setShowCrawlerPopup(false)}
-                        title="Close popup to view full image"
-                        style={{
-                          background: 'rgba(255, 255, 255, 0.1)',
-                          border: '1.2px solid rgba(255, 255, 255, 0.22)',
-                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                          borderRadius: '10px',
-                          width: '32px',
-                          height: '32px',
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#A7F3D0',
-                          transition: 'all 0.18s ease'
-                        }}
-                      >
-                        <X size={17} strokeWidth={2.5} />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Title & Subtitle */}
-                  <div style={{ zIndex: 5, position: 'relative' }}>
-                    <h3 style={{
-                      margin: '2px 0 0',
-                      fontSize: '24px',
-                      fontWeight: 900,
-                      color: '#FFFFFF',
-                      fontFamily: '"Outfit", sans-serif',
-                      lineHeight: 1.2,
-                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.95)'
-                    }}>
-                      Garden Snail
-                    </h3>
-                    <div style={{ fontSize: '16px', color: '#6EE7B7', fontWeight: 600, fontStyle: 'italic', textShadow: '0 1px 4px rgba(0, 0, 0, 0.8)', marginTop: '2px' }}>
-                      Crawls on Ground • Moist Habitat
-                    </div>
-                  </div>
-
-                  {/* Short and Crisp NCERT Table 2.2 Cards for Grade 6 (16px) */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', zIndex: 5, position: 'relative' }}>
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                      border: '1.2px solid rgba(110, 231, 183, 0.35)',
-                      borderLeft: '4px solid #10B981',
-                      borderRadius: '10px',
-                      padding: '6px 10px',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                    }}>
-                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🦶 Muscular Foot</span>
-                      </div>
-                      <div style={{ fontSize: '14px', color: '#F0FDF4', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Glides slowly on a soft muscular foot, leaving a slimy trail.
-                      </div>
-                    </div>
-
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                      border: '1.2px solid rgba(252, 211, 77, 0.35)',
-                      borderLeft: '4px solid #F59E0B',
-                      borderRadius: '10px',
-                      padding: '6px 10px',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                    }}>
-                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#FDE68A', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🐚 Protective Shell</span>
-                      </div>
-                      <div style={{ fontSize: '14px', color: '#FEF3C7', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Pulls its whole body inside its spiral shell for safety.
-                      </div>
-                    </div>
-
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                      border: '1.2px solid rgba(147, 197, 253, 0.35)',
-                      borderLeft: '4px solid #3B82F6',
-                      borderRadius: '10px',
-                      padding: '6px 10px',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                    }}>
-                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🌿 Damp Habitat</span>
-                      </div>
-                      <div style={{ fontSize: '14px', color: '#EFF6FF', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Lives in cool, damp soil and feeds on tender leaves.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                /* Re-open Button if closed */
-                <div style={{ position: 'absolute', top: '18px', right: '70px', zIndex: 35 }}>
-                  <button
-                    type="button"
-                    onClick={() => setShowCrawlerPopup(true)}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      padding: '8px 18px',
-                      borderRadius: '12px',
-                      fontSize: '16px',
-                      fontWeight: 800,
-                      background: 'rgba(250, 248, 242, 0.92)',
-                      backdropFilter: 'blur(4px)',
-                      WebkitBackdropFilter: 'blur(4px)',
-                      border: '1.8px solid #14452F',
-                      color: '#14452F',
-                      cursor: 'pointer',
-                      fontFamily: '"Outfit", sans-serif',
-                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
-                      transition: 'all 0.18s ease'
-                    }}
-                    title="View Crawler Details"
-                  >
-                    <span>🐌 Show Snail Details</span>
-                  </button>
-                </div>
-              )}
-
-              {/* Bottom-Left: Back to Plants / Field Scanner */}
-              <div style={{
-                position: 'absolute',
-                bottom: '16px',
-                left: '24px',
-                zIndex: 35
-              }}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (onBackToDashboard) {
-                      onBackToDashboard();
-                    }
-                  }}
-                  style={{
-                    padding: '8px 22px',
-                    fontSize: '16px',
-                    fontWeight: 800,
-                    borderRadius: '10px',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    background: 'rgba(250, 248, 242, 0.85)',
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
-                    border: '1.8px solid #14452F',
-                    color: '#14452F',
-                    cursor: 'pointer',
-                    fontFamily: '"Outfit", sans-serif',
-                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
-                    transition: 'all 0.18s ease'
-                  }}
-                  title="Return to Previous Page"
-                  aria-label="Previous Page"
-                >
-                  <ChevronLeft size={18} /> Previous Page
-                </button>
-              </div>
-
-              {/* Bottom-Right: Next Page (Advance to Aerial & Birds) */}
-              <div style={{
-                position: 'absolute',
-                bottom: '16px',
-                right: '24px',
-                zIndex: 35
-              }}>
-                <button
-                  type="button"
-                  onClick={() => setCategoryStep(1)}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    padding: '8px 24px',
-                    borderRadius: '10px',
-                    fontSize: '17px',
-                    fontWeight: 900,
-                    background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                    border: '1.5px solid #10B981',
-                    color: '#ffffff',
-                    cursor: 'pointer',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
-                    fontFamily: '"Outfit", sans-serif',
-                    transition: 'all 0.18s ease'
-                  }}
-                  title="Advance to Aerial Birds"
-                  aria-label="Next Page"
-                >
-                  <span>Next: Aerial (Birds)</span>
-                  <ChevronRight size={18} strokeWidth={2.6} />
-                </button>
-              </div>
-            </div>
-          ) : (typeFilter === 'animal' && categoryStep === 1) ? (
-            /* FULLSCREEN ANIMALS AERIAL PAGE 2 WITH REALISTIC CORNER CREAM POPUP */
-            <div style={{
-              position: 'relative',
-              flex: 1,
-              minHeight: 0,
-              width: '100%',
-              height: '100%',
-              overflow: 'hidden',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: '#0B3B24'
-            }}>
-              <img
-                src={activity21AerialImg}
-                alt="Activity 2.1 - Aerial Animals & Birds"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'center',
-                  display: 'block'
-                }}
-              />
-
-              {/* Aerial Animals & Birds Fullscreen View: High-Contrast Complementary Nature Glassmorphism Card */}
-              {showAerialPopup ? (
-                <div style={{
-                  position: 'absolute',
-                  top: '18px',
-                  right: '20px',
-                  width: 'min(32vw, 380px)',
-                  minWidth: '280px',
-                  background: 'linear-gradient(145deg, rgba(10, 31, 24, 0.88) 0%, rgba(13, 27, 42, 0.90) 100%)',
-                  backdropFilter: 'blur(16px)',
-                  WebkitBackdropFilter: 'blur(16px)',
-                  border: '1.5px solid rgba(167, 243, 208, 0.45)',
-                  borderRadius: '24px',
-                  padding: 'clamp(14px, 2vh, 18px) clamp(16px, 1.8vw, 20px)',
-                  boxShadow: '0 20px 50px rgba(0, 0, 0, 0.45), 0 0 30px rgba(16, 185, 129, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.3)',
-                  zIndex: 35,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '10px',
-                  overflow: 'hidden',
-                  boxSizing: 'border-box',
-                  animation: 'fadeIn 0.35s ease-out'
-                }}>
-                  {/* Glossy specular top shine reflection */}
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: '36%',
-                      background: 'linear-gradient(175deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.04) 50%, transparent 100%)',
-                      pointerEvents: 'none',
-                      zIndex: 2,
-                      borderRadius: '24px 24px 0 0'
-                    }}
-                  />
-
-                  {/* Header Row: Badge & Action Buttons */}
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', zIndex: 5, position: 'relative' }}>
-                    <div style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(5, 150, 105, 0.18) 100%)',
-                      backdropFilter: 'blur(8px)',
-                      WebkitBackdropFilter: 'blur(8px)',
-                      color: '#A7F3D0',
-                      border: '1.2px solid rgba(52, 211, 153, 0.55)',
-                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
-                      padding: '5px 14px',
-                      borderRadius: '12px',
-                      fontSize: '13.5px',
-                      fontWeight: 800,
-                      letterSpacing: '0.04em',
-                      textTransform: 'uppercase',
-                      fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                      whiteSpace: 'nowrap'
-                    }}>
-                      <span>🐦 NCERT 2.2 • AERIAL</span>
-                    </div>
-
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      {/* Audio Narration Toggle */}
-                      <button
-                        type="button"
-                        onClick={toggleAerialSpeech}
-                        title={isAerialSpeaking ? 'Stop voice' : 'Listen to explanation'}
-                        style={{
-                          background: isAerialSpeaking ? '#10B981' : 'rgba(255, 255, 255, 0.16)',
-                          backdropFilter: 'blur(8px)',
-                          WebkitBackdropFilter: 'blur(8px)',
-                          color: '#FFFFFF',
-                          border: '1.2px solid rgba(255, 255, 255, 0.45)',
-                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
-                          borderRadius: '10px',
-                          padding: '5px 12px',
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '5px',
-                          fontSize: '15px',
-                          fontWeight: 800,
-                          fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                          transition: 'all 0.2s ease'
-                        }}
-                      >
-                        <Volume2 size={15} />
-                        <span>{isAerialSpeaking ? 'Stop' : 'Listen'}</span>
-                      </button>
-
-                      {/* Close popup button to view 100% full screen */}
-                      <button
-                        type="button"
-                        onClick={() => setShowAerialPopup(false)}
-                        title="Close popup to view full image"
-                        style={{
-                          background: 'rgba(255, 255, 255, 0.14)',
-                          backdropFilter: 'blur(8px)',
-                          WebkitBackdropFilter: 'blur(8px)',
-                          border: '1.2px solid rgba(255, 255, 255, 0.35)',
-                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
-                          borderRadius: '10px',
-                          width: '32px',
-                          height: '32px',
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#A7F3D0',
-                          transition: 'all 0.18s ease'
-                        }}
-                      >
-                        <X size={17} strokeWidth={2.5} />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Title & Subtitle */}
-                  <div style={{ zIndex: 5, position: 'relative' }}>
-                    <h3 style={{
-                      margin: '2px 0 0',
-                      fontSize: '24px',
-                      fontWeight: 900,
-                      color: '#FFFFFF',
-                      fontFamily: '"Outfit", sans-serif',
-                      lineHeight: 1.2,
-                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.95)'
-                    }}>
-                      Aerial Animals & Birds
-                    </h3>
-                    <div style={{ fontSize: '15px', color: '#FDE047', fontWeight: 700, fontStyle: 'italic', textShadow: '0 1px 4px rgba(0, 0, 0, 0.9)', marginTop: '2px' }}>
-                      Fly in Air • Birds, Butterflies & Bees
-                    </div>
-                  </div>
-
-                  {/* Short and Crisp NCERT Table 2.2 Cards with Nature Complementary Colors */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', zIndex: 5, position: 'relative' }}>
-                    {/* Item 1: Birds - Hollow Bones (Emerald & Leaf Theme) */}
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, rgba(5, 150, 105, 0.32) 100%)',
-                      backdropFilter: 'blur(6px)',
-                      WebkitBackdropFilter: 'blur(6px)',
-                      border: '1.2px solid rgba(110, 231, 183, 0.35)',
-                      borderLeft: '4px solid #10B981',
-                      borderRadius: '10px',
-                      padding: '6px 10px',
-                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
-                    }}>
-                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#34D399', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🪶 Hollow Bones & Feathers</span>
-                      </div>
-                      <div style={{ fontSize: '14px', color: '#ECFDF5', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Light feathers and hollow bones help birds fly easily.
-                      </div>
-                    </div>
-
-                    {/* Item 2: Insects - Flight Wings (Monarch Gold & Amber Theme) */}
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.18) 0%, rgba(180, 83, 9, 0.32) 100%)',
-                      backdropFilter: 'blur(6px)',
-                      WebkitBackdropFilter: 'blur(6px)',
-                      border: '1.2px solid rgba(252, 211, 77, 0.35)',
-                      borderLeft: '4px solid #F59E0B',
-                      borderRadius: '10px',
-                      padding: '6px 10px',
-                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
-                    }}>
-                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#FBBF24', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🦋 Insect Wings</span>
-                      </div>
-                      <div style={{ fontSize: '14px', color: '#FFFBEB', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Flap thin, delicate wings rapidly to steer between flowers.
-                      </div>
-                    </div>
-
-                    {/* Item 3: Flower Pollination (Apple Blossom Rose & Petal Theme) */}
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(244, 114, 182, 0.18) 0%, rgba(190, 24, 93, 0.30) 100%)',
-                      backdropFilter: 'blur(6px)',
-                      WebkitBackdropFilter: 'blur(6px)',
-                      border: '1.2px solid rgba(244, 114, 182, 0.35)',
-                      borderLeft: '4px solid #EC4899',
-                      borderRadius: '10px',
-                      padding: '6px 10px',
-                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
-                    }}>
-                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#F472B6', display: 'flex', alignItems: 'center', gap: '6px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🌸 Pollination</span>
-                      </div>
-                      <div style={{ fontSize: '14px', color: '#FDF2F8', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Sip sweet nectar and carry pollen to help flowers make seeds.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                /* Re-open Button if closed */
-                <div style={{ position: 'absolute', top: '18px', right: '20px', zIndex: 35 }}>
-                  <button
-                    type="button"
-                    onClick={() => setShowAerialPopup(true)}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      padding: '8px 18px',
-                      borderRadius: '12px',
-                      fontSize: '16px',
-                      fontWeight: 800,
-                      background: 'rgba(10, 31, 24, 0.85)',
-                      backdropFilter: 'blur(14px)',
-                      WebkitBackdropFilter: 'blur(14px)',
-                      border: '1.5px solid rgba(167, 243, 208, 0.60)',
-                      color: '#A7F3D0',
-                      cursor: 'pointer',
-                      fontFamily: '"Outfit", sans-serif',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
-                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                      transition: 'all 0.18s ease'
-                    }}
-                    title="View Aerial Details"
-                  >
-                    <span>🐦 Show Aerial Details</span>
-                  </button>
-                </div>
-              )}
-
-              {/* Bottom-Left: Back to Crawlers */}
-              <div style={{
-                position: 'absolute',
-                bottom: '16px',
-                left: '24px',
-                zIndex: 35
-              }}>
-                <button
-                  type="button"
-                  onClick={() => setCategoryStep(0)}
-                  style={{
-                    padding: '8px 22px',
-                    fontSize: '16px',
-                    fontWeight: 800,
-                    borderRadius: '10px',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    background: 'rgba(250, 248, 242, 0.85)',
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
-                    border: '1.8px solid #14452F',
-                    color: '#14452F',
-                    cursor: 'pointer',
-                    fontFamily: '"Outfit", sans-serif',
-                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
-                    transition: 'all 0.18s ease'
-                  }}
-                  title="Return to Crawlers"
-                  aria-label="Previous Page"
-                >
-                  <ChevronLeft size={18} /> Previous: Crawlers
-                </button>
-              </div>
-
-              {/* Bottom-Right: Next Page (Advance to Walkers) */}
-              <div style={{
-                position: 'absolute',
-                bottom: '16px',
-                right: '24px',
-                zIndex: 35
-              }}>
-                <button
-                  type="button"
-                  onClick={() => setCategoryStep(2)}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    padding: '8px 24px',
-                    borderRadius: '10px',
-                    fontSize: '17px',
-                    fontWeight: 900,
-                    background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                    border: '1.5px solid #10B981',
-                    color: '#ffffff',
-                    cursor: 'pointer',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
-                    fontFamily: '"Outfit", sans-serif',
-                    transition: 'all 0.18s ease'
-                  }}
-                  title="Advance to Walkers"
-                  aria-label="Next Page"
-                >
-                  <span>Next: Walkers</span>
-                  <ChevronRight size={18} strokeWidth={2.6} />
-                </button>
-              </div>
-            </div>
-          ) : (typeFilter === 'animal' && categoryStep === 2) ? (
-            /* FULLSCREEN ANIMALS WALKERS PAGE 3 WITH REALISTIC CORNER CREAM POPUP */
-            <div style={{
-              position: 'relative',
-              flex: 1,
-              minHeight: 0,
-              width: '100%',
-              height: '100%',
-              overflow: 'hidden',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: '#0B3B24'
-            }}>
-              <img
-                src={activity21WalkersImg}
-                alt="Activity 2.1 - Walkers & Swimmers"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'center',
-                  display: 'block'
-                }}
-              />
-
-              {/* Slogan Page Style: Frosted Translucent Glass Panel (15% opacity, blur 8px) */}
-              {showWalkerPopup ? (
-                <div style={{
-                  position: 'absolute',
-                  top: '18px',
-                  right: '20px',
-                  width: 'min(30vw, 360px)',
-                  minWidth: '270px',
-                  background: 'rgba(255, 255, 255, 0.15)',
-                  backdropFilter: 'blur(8px)',
-                  WebkitBackdropFilter: 'blur(8px)',
-                  border: '1.5px solid rgba(255, 255, 255, 0.50)',
-                  borderRadius: '24px',
-                  padding: 'clamp(12px, 1.8vh, 18px) clamp(14px, 1.6vw, 18px)',
-                  boxShadow: '0 16px 40px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.60)',
-                  zIndex: 35,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '10px',
-                  overflow: 'hidden',
-                  boxSizing: 'border-box',
-                  animation: 'fadeIn 0.25s ease-out'
-                }}>
-                  {/* Glossy specular top shine reflection */}
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: '36%',
-                      background: 'linear-gradient(175deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.04) 50%, transparent 100%)',
-                      pointerEvents: 'none',
-                      zIndex: 2,
-                      borderRadius: '24px 24px 0 0'
-                    }}
-                  />
-
-                  {/* Header Row: Badge, Title & Close Button */}
-                  <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px', zIndex: 5, position: 'relative' }}>
-                    <div>
-                      <div style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        background: 'rgba(255, 255, 255, 0.18)',
-                        backdropFilter: 'blur(8px)',
-                        WebkitBackdropFilter: 'blur(8px)',
-                        color: '#FEF3C7',
-                        border: '1.2px solid rgba(255, 255, 255, 0.45)',
-                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
-                        padding: '4px 12px',
-                        borderRadius: '12px',
-                        fontSize: '14px',
-                        fontWeight: 800,
-                        letterSpacing: '0.04em',
-                        textTransform: 'uppercase',
-                        fontFamily: '"Outfit", sans-serif',
-                        textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                        whiteSpace: 'nowrap'
-                      }}>
-                        <span>🐾 NCERT 2.2 • WALKERS</span>
-                      </div>
-                      <h3 style={{
-                        margin: '6px 0 0',
-                        fontSize: '24px',
-                        fontWeight: 900,
-                        color: '#FFFFFF',
-                        fontFamily: '"Outfit", sans-serif',
-                        lineHeight: 1.2,
-                        textShadow: '0 2px 8px rgba(0, 0, 0, 0.95)'
-                      }}>
-                        Walkers & Swimmers
-                      </h3>
-                      <div style={{ fontSize: '16px', color: '#6EE7B7', fontWeight: 600, fontStyle: 'italic', textShadow: '0 1px 4px rgba(0, 0, 0, 0.8)', marginTop: '2px' }}>
-                        Cow, Dog, Squirrel & Frog • Land & Pond Life
-                      </div>
-                    </div>
-
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      {/* Audio Narration Toggle */}
-                      <button
-                        type="button"
-                        onClick={toggleWalkerSpeech}
-                        title={isWalkerSpeaking ? 'Stop voice' : 'Listen to explanation'}
-                        style={{
-                          background: isWalkerSpeaking ? '#10B981' : 'rgba(255, 255, 255, 0.12)',
-                          color: isWalkerSpeaking ? '#FFFFFF' : '#FEF3C7',
-                          border: '1.2px solid rgba(255, 255, 255, 0.3)',
-                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                          borderRadius: '10px',
-                          padding: '5px 10px',
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '5px',
-                          fontSize: '12px',
-                          fontWeight: 800,
-                          fontFamily: '"Outfit", sans-serif',
-                          transition: 'all 0.2s ease'
-                        }}
-                      >
-                        <Volume2 size={15} />
-                        <span>{isWalkerSpeaking ? 'Stop' : 'Listen'}</span>
-                      </button>
-
-                      {/* Close popup button to view 100% full screen */}
-                      <button
-                        type="button"
-                        onClick={() => setShowWalkerPopup(false)}
-                        title="Close popup to view full image"
-                        style={{
-                          background: 'rgba(255, 255, 255, 0.1)',
-                          border: '1.2px solid rgba(255, 255, 255, 0.22)',
-                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                          borderRadius: '10px',
-                          width: '30px',
-                          height: '30px',
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#A7F3D0',
-                          transition: 'all 0.18s ease'
-                        }}
-                      >
-                        <X size={16} strokeWidth={2.5} />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Simple, Short, Crisp NCERT Detail Cards in Slogan Style (16px) */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', zIndex: 5, position: 'relative' }}>
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                      border: '1.2px solid rgba(110, 231, 183, 0.35)',
-                      borderLeft: '4px solid #10B981',
-                      borderRadius: '10px',
-                      padding: '6px 10px',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                    }}>
-                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '5px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🐄 Four Sturdy Limbs</span>
-                      </div>
-                      <div style={{ fontSize: '14px', color: '#F0FDF4', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Walk and run on 4 strong legs with hooves or paws.
-                      </div>
-                    </div>
-
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                      border: '1.2px solid rgba(252, 211, 77, 0.35)',
-                      borderLeft: '4px solid #F59E0B',
-                      borderRadius: '10px',
-                      padding: '6px 10px',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                    }}>
-                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#FDE68A', display: 'flex', alignItems: 'center', gap: '5px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🐿️ Claws & Balancing Tail</span>
-                      </div>
-                      <div style={{ fontSize: '14px', color: '#FEF3C7', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Climb trees using sharp claws and balance with bushy tails.
-                      </div>
-                    </div>
-
-                    <div style={{
-                      background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.16) 0%, rgba(0, 0, 0, 0.32) 100%)',
-                      border: '1.2px solid rgba(147, 197, 253, 0.35)',
-                      borderLeft: '4px solid #3B82F6',
-                      borderRadius: '10px',
-                      padding: '6px 10px',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                    }}>
-                      <div style={{ fontSize: '15px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '5px', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        <span>🐸 Hind Legs & Webbed Feet</span>
-                      </div>
-                      <div style={{ fontSize: '14px', color: '#EFF6FF', fontWeight: 600, marginTop: '2px', lineHeight: 1.35, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
-                        Leap on land with long hind legs and swim with webbed feet.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                /* Re-open Button if closed */
-                <div style={{ position: 'absolute', top: '18px', right: '70px', zIndex: 35 }}>
-                  <button
-                    type="button"
-                    onClick={() => setShowWalkerPopup(true)}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      padding: '8px 16px',
-                      borderRadius: '10px',
-                      fontSize: '15px',
-                      fontWeight: 800,
-                      background: 'rgba(250, 248, 242, 0.92)',
-                      backdropFilter: 'blur(12px)',
-                      border: '1.8px solid #14452F',
-                      color: '#14452F',
-                      cursor: 'pointer',
-                      fontFamily: '"Outfit", sans-serif',
-                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
-                      transition: 'all 0.18s ease'
-                    }}
-                    title="View Walker Details"
-                  >
-                    <span>🐾 Show Walker Details</span>
-                  </button>
-                </div>
-              )}
-
-              {/* Bottom-Left: Back to Aerial (Birds) */}
-              <div style={{
-                position: 'absolute',
-                bottom: '16px',
-                left: '24px',
-                zIndex: 35
-              }}>
-                <button
-                  type="button"
-                  onClick={() => setCategoryStep(1)}
-                  style={{
-                    padding: '8px 22px',
-                    fontSize: '16px',
-                    fontWeight: 800,
-                    borderRadius: '10px',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    background: 'rgba(250, 248, 242, 0.85)',
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
-                    border: '1.8px solid #14452F',
-                    color: '#14452F',
-                    cursor: 'pointer',
-                    fontFamily: '"Outfit", sans-serif',
-                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
-                    transition: 'all 0.18s ease'
-                  }}
-                  title="Return to Aerial Birds"
-                  aria-label="Previous Page"
-                >
-                  <ChevronLeft size={18} /> Previous: Aerial (Birds)
-                </button>
-              </div>
-
-              {/* Bottom-Right: Advance to Animal Field Scanner */}
-              <div style={{
-                position: 'absolute',
-                bottom: '16px',
-                right: '24px',
-                zIndex: 35
-              }}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setViewMode('garden_walk');
-                    setSubPage(2);
-                    startAllSoundscape();
-                  }}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    padding: '8px 24px',
-                    borderRadius: '10px',
-                    fontSize: '17px',
-                    fontWeight: 900,
-                    background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                    border: '1.5px solid #10B981',
-                    color: '#ffffff',
-                    cursor: 'pointer',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
-                    fontFamily: '"Outfit", sans-serif',
-                    transition: 'all 0.18s ease'
-                  }}
-                  title="Explore Wildlife & Animal Field Scanner"
-                  aria-label="Next Page"
-                >
-                  <span>Next: Animal Field Scanner</span>
+                  <span>Next: Table 2.1</span>
                   <ArrowRight size={18} strokeWidth={2.6} />
                 </button>
               </div>
@@ -4793,7 +4088,7 @@ const natureAudioRef = useRef(null);
                       title={typeFilter === 'plant' ? "Explore Botanical Field Scanner" : "Explore Animal Field Scanner"}
                       aria-label="Field Scanner"
                     >
-                      <span>{typeFilter === 'plant' ? 'Next: Field Scanner' : 'Next: Animal Field Scanner'}</span>
+                      <span>{typeFilter === 'plant' ? 'Next: Table 2.1' : 'Next: Table 2.2'}</span>
                       <ArrowRight size={18} strokeWidth={2.5} />
                     </button>
                   )}
@@ -4825,7 +4120,7 @@ const natureAudioRef = useRef(null);
                 alignItems: 'center',
                 justifyContent: 'center',
                 background: '#041d13',
-                cursor: isInsideImage ? 'none' : 'default',
+                cursor: hoveredTarget ? 'pointer' : 'default',
                 userSelect: 'none'
               }}
             >
@@ -4890,26 +4185,90 @@ const natureAudioRef = useRef(null);
                 }} />
               </div>
 
-              {/* 2. Gold Hint Rings - Version 1 Style */}
-              {showHints && filteredTargets.map(t => (
-                <div
-                  key={`hint-${t.id}`}
-                  style={{
-                    position: 'absolute',
-                    left: `${t.x}%`,
-                    top: `${t.y}%`,
-                    transform: 'translate(-50%, -50%)',
-                    width: '36px',
-                    height: '36px',
-                    borderRadius: '50%',
-                    border: '3px solid #FFD54A',
-                    boxShadow: '0 0 16px rgba(255, 213, 74, 0.9), inset 0 0 8px rgba(255, 213, 74, 0.4)',
-                    animation: 'hintGlow 1.5s infinite ease-in-out',
-                    pointerEvents: 'none',
-                    zIndex: 8
-                  }}
-                />
-              ))}
+              {/* 2. Whole Plant / Organism Luminous Highlight (When scanner is on this plant) */}
+              {filteredTargets.map(t => {
+                const isHovered = isInsideImage && hoveredTarget && hoveredTarget.data.id === t.id;
+                if (!isHovered) return null;
+
+                return (
+                  <div
+                    key={`whole-organism-highlight-${t.id}`}
+                    style={{
+                      position: 'absolute',
+                      left: `${t.x}%`,
+                      top: `${t.y}%`,
+                      width: `${t.w || 22}%`,
+                      height: `${t.h || 24}%`,
+                      transform: 'translate(-50%, -50%)',
+                      pointerEvents: 'none',
+                      zIndex: 18,
+                      borderRadius: '24px',
+                      border: '2.5px solid #10B981',
+                      background: 'radial-gradient(ellipse at center, rgba(16, 185, 129, 0.28) 0%, rgba(5, 150, 105, 0.14) 60%, rgba(4, 120, 87, 0.05) 90%)',
+                      boxShadow: '0 0 35px rgba(16, 185, 129, 0.85), inset 0 0 25px rgba(16, 185, 129, 0.4)',
+                      filter: 'drop-shadow(0 0 12px rgba(16, 185, 129, 0.75))',
+                      animation: 'organismGlowPulse 1.8s infinite ease-in-out',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'flex-start',
+                      transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                    }}
+                  >
+                    {/* Top Specimen Identification Pill */}
+                    <div style={{
+                      position: 'absolute',
+                      top: '-18px',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      background: 'linear-gradient(135deg, #064E3B 0%, #022C22 100%)',
+                      border: '2px solid #34D399',
+                      borderRadius: '20px',
+                      padding: '3px 14px',
+                      color: '#ECFDF5',
+                      fontSize: '13px',
+                      fontWeight: 900,
+                      fontFamily: '"Outfit", sans-serif',
+                      letterSpacing: '0.04em',
+                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.5), 0 0 12px rgba(52, 211, 153, 0.6)',
+                      whiteSpace: 'nowrap',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      zIndex: 19
+                    }}>
+                      <span>{t.emoji}</span>
+                      <span>{t.name}</span>
+                      {t.category && (
+                        <span style={{
+                          background: 'rgba(52, 211, 153, 0.25)',
+                          padding: '1px 7px',
+                          borderRadius: '10px',
+                          fontSize: '11px',
+                          color: '#A7F3D0',
+                          fontWeight: 800
+                        }}>
+                          {t.category.split('·')[0].trim()}
+                        </span>
+                      )}
+                      <span style={{
+                        color: '#FDE047',
+                        fontSize: '11px',
+                        fontWeight: 800,
+                        marginLeft: '3px'
+                      }}>
+                        ✦ Click to Inspect
+                      </span>
+                    </div>
+
+                    {/* Corner Reticle Brackets */}
+                    <div style={{ position: 'absolute', top: '5px', left: '5px', width: '14px', height: '14px', borderTop: '2.5px solid #6EE7B7', borderLeft: '2.5px solid #6EE7B7', borderRadius: '4px 0 0 0' }} />
+                    <div style={{ position: 'absolute', top: '5px', right: '5px', width: '14px', height: '14px', borderTop: '2.5px solid #6EE7B7', borderRight: '2.5px solid #6EE7B7', borderRadius: '0 4px 0 0' }} />
+                    <div style={{ position: 'absolute', bottom: '5px', left: '5px', width: '14px', height: '14px', borderBottom: '2.5px solid #6EE7B7', borderLeft: '2.5px solid #6EE7B7', borderRadius: '0 0 0 4px' }} />
+                    <div style={{ position: 'absolute', bottom: '5px', right: '5px', width: '14px', height: '14px', borderBottom: '2.5px solid #6EE7B7', borderRight: '2.5px solid #6EE7B7', borderRadius: '0 0 4px 0' }} />
+                  </div>
+                );
+              })}
 
               {/* 3. Clickable Hotspots for Plants - Version 1 Style */}
               {filteredTargets.map(t => (
@@ -4938,77 +4297,10 @@ const natureAudioRef = useRef(null);
               ))}
 
 
-              {/* 5. Field Scanner Reticle - Version 1 Style (No camera lens) */}
-              {isInsideImage && (
-                <div style={{
-                  position: 'absolute',
-                  left: `${mousePos.x}px`,
-                  top: `${mousePos.y}px`,
-                  transform: 'translate(-50%, -50%)',
-                  width: '90px',
-                  height: '60px',
-                  border: hoveredTarget ? '2.5px solid #22d3ee' : '2px solid #3b82f6',
-                  borderRadius: '8px',
-                  pointerEvents: 'none',
-                  zIndex: 25,
-                  background: hoveredTarget ? 'rgba(34, 211, 238, 0.25)' : 'rgba(59, 130, 246, 0.15)',
-                  boxShadow: hoveredTarget ? '0 0 18px rgba(34, 211, 238, 0.6)' : '0 0 10px rgba(59, 130, 246, 0.3)',
-                  transition: 'border 0.15s ease, background 0.15s ease'
-                }}>
-                  {isHolding && (
-                    <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '3px', background: 'rgba(0,0,0,0.3)', borderRadius: '0 0 6px 6px', overflow: 'hidden' }}>
-                      <div style={{ height: '100%', background: '#22d3ee', width: `${holdProgress}%` }} />
-                    </div>
-                  )}
-                  {/* Crosshairs */}
-                  {[['0px','0px','borderTop','borderLeft'],['0px','auto','borderTop','borderRight'],['auto','0px','borderBottom','borderLeft'],['auto','auto','borderBottom','borderRight']].map(([top,right,b1,b2],i) => (
-                    <div
-                      key={i}
-                      style={{
-                        position: 'absolute',
-                        top: top !== 'auto' ? top : undefined,
-                        right: right !== 'auto' ? right : undefined,
-                        bottom: top === 'auto' ? '0px' : undefined,
-                        left: right === 'auto' ? '0px' : undefined,
-                        width: '8px',
-                        height: '8px',
-                        [b1]: '2px solid #fff',
-                        [b2]: '2px solid #fff',
-                        opacity: 0.85
-                      }}
-                    />
-                  ))}
-                </div>
-              )}
+              
 
-              {/* 6. Hovered Target Popup Label - Version 1 Style */}
-              {isInsideImage && hoveredTarget && (
-                <div style={{
-                  position: 'absolute',
-                  left: `${mousePos.x}px`,
-                  top: `${mousePos.y - 48}px`,
-                  transform: 'translateX(-50%)',
-                  background: 'rgba(15, 23, 42, 0.95)',
-                  color: '#ffffff',
-                  padding: '0.35rem 0.85rem',
-                  borderRadius: '6px',
-                  fontSize: '13.5px',
-                  fontWeight: 'bold',
-                  border: '1.5px solid #22d3ee',
-                  boxShadow: '0 4px 14px rgba(0,0,0,0.4), 0 0 12px rgba(34,211,238,0.5)',
-                  pointerEvents: 'none',
-                  zIndex: 35,
-                  whiteSpace: 'nowrap',
-                  letterSpacing: '0.4px',
-                  fontFamily: '"Outfit", sans-serif',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px'
-                }}>
-                  <span>{hoveredTarget.data.emoji}</span>
-                  <span>{hoveredTarget.data.popupName || hoveredTarget.data.name}</span>
-                </div>
-              )}
+
+              
 
               {/* Top-Right Utility Bar: Target Rings & Fullscreen Controls */}
               <div style={{
@@ -5021,31 +4313,7 @@ const natureAudioRef = useRef(null);
                 gap: '8px'
               }}>
 
-                {/* Rings Hint Toggle */}
-                <button
-                  type="button"
-                  onClick={() => setShowHints(prev => !prev)}
-                  title={showHints ? 'Hide Target Rings' : 'Show Target Rings'}
-                  style={{
-                    background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(12px)',
-                    color: '#FEF3C7',
-                    border: '1.8px solid rgba(255, 255, 255, 0.35)',
-                    borderRadius: '10px',
-                    padding: '8px 12px',
-                    fontSize: '13px',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
-                    fontFamily: '"Outfit", sans-serif'
-                  }}
-                >
-                  {showHints ? <EyeOff size={15} /> : <Eye size={15} />}
-                  <span>{showHints ? 'Hide Rings' : 'Show Rings'}</span>
-                </button>
+                
 
                 {/* Fullscreen Button */}
                 <button
@@ -5110,7 +4378,7 @@ const natureAudioRef = useRef(null);
                 </button>
               </div>
 
-              {/* 10. Bottom-Right: Advance to Animals Habitat */}
+              {/* 10. Bottom-Right: Advance to Table 2.2 */}
               {(onNextActivity || onNextSection || onBackToDashboard) && (
                 <div style={{
                   position: 'absolute',
@@ -5140,7 +4408,7 @@ const natureAudioRef = useRef(null);
                     title="Advance to Next Activity"
                     aria-label="Next Page"
                   >
-                    <span>Next: Animals Habitat</span>
+                    <span>Next: Table 2.2</span>
                     <ArrowRight size={18} strokeWidth={2.6} />
                   </button>
                 </div>
@@ -5166,7 +4434,7 @@ const natureAudioRef = useRef(null);
                 alignItems: 'center',
                 justifyContent: 'center',
                 background: '#041d13',
-                cursor: isInsideImage ? 'none' : 'default',
+                cursor: hoveredTarget ? 'pointer' : 'default',
                 userSelect: 'none'
               }}
             >
@@ -5231,26 +4499,90 @@ const natureAudioRef = useRef(null);
                 }} />
               </div>
 
-              {/* 2. Gold Hint Rings - Version 1 Style */}
-              {showHints && filteredTargets.map(t => (
-                <div
-                  key={`hint-${t.id}`}
-                  style={{
-                    position: 'absolute',
-                    left: `${t.x}%`,
-                    top: `${t.y}%`,
-                    transform: 'translate(-50%, -50%)',
-                    width: '36px',
-                    height: '36px',
-                    borderRadius: '50%',
-                    border: '3px solid #FFD54A',
-                    boxShadow: '0 0 16px rgba(255, 213, 74, 0.9), inset 0 0 8px rgba(255, 213, 74, 0.4)',
-                    animation: 'hintGlow 1.5s infinite ease-in-out',
-                    pointerEvents: 'none',
-                    zIndex: 8
-                  }}
-                />
-              ))}
+              {/* 2. Whole Plant / Organism Luminous Highlight (When scanner is on this plant) */}
+              {filteredTargets.map(t => {
+                const isHovered = isInsideImage && hoveredTarget && hoveredTarget.data.id === t.id;
+                if (!isHovered) return null;
+
+                return (
+                  <div
+                    key={`whole-organism-highlight-${t.id}`}
+                    style={{
+                      position: 'absolute',
+                      left: `${t.x}%`,
+                      top: `${t.y}%`,
+                      width: `${t.w || 22}%`,
+                      height: `${t.h || 24}%`,
+                      transform: 'translate(-50%, -50%)',
+                      pointerEvents: 'none',
+                      zIndex: 18,
+                      borderRadius: '24px',
+                      border: '2.5px solid #10B981',
+                      background: 'radial-gradient(ellipse at center, rgba(16, 185, 129, 0.28) 0%, rgba(5, 150, 105, 0.14) 60%, rgba(4, 120, 87, 0.05) 90%)',
+                      boxShadow: '0 0 35px rgba(16, 185, 129, 0.85), inset 0 0 25px rgba(16, 185, 129, 0.4)',
+                      filter: 'drop-shadow(0 0 12px rgba(16, 185, 129, 0.75))',
+                      animation: 'organismGlowPulse 1.8s infinite ease-in-out',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'flex-start',
+                      transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                    }}
+                  >
+                    {/* Top Specimen Identification Pill */}
+                    <div style={{
+                      position: 'absolute',
+                      top: '-18px',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      background: 'linear-gradient(135deg, #064E3B 0%, #022C22 100%)',
+                      border: '2px solid #34D399',
+                      borderRadius: '20px',
+                      padding: '3px 14px',
+                      color: '#ECFDF5',
+                      fontSize: '13px',
+                      fontWeight: 900,
+                      fontFamily: '"Outfit", sans-serif',
+                      letterSpacing: '0.04em',
+                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.5), 0 0 12px rgba(52, 211, 153, 0.6)',
+                      whiteSpace: 'nowrap',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      zIndex: 19
+                    }}>
+                      <span>{t.emoji}</span>
+                      <span>{t.name}</span>
+                      {t.category && (
+                        <span style={{
+                          background: 'rgba(52, 211, 153, 0.25)',
+                          padding: '1px 7px',
+                          borderRadius: '10px',
+                          fontSize: '11px',
+                          color: '#A7F3D0',
+                          fontWeight: 800
+                        }}>
+                          {t.category.split('·')[0].trim()}
+                        </span>
+                      )}
+                      <span style={{
+                        color: '#FDE047',
+                        fontSize: '11px',
+                        fontWeight: 800,
+                        marginLeft: '3px'
+                      }}>
+                        ✦ Click to Inspect
+                      </span>
+                    </div>
+
+                    {/* Corner Reticle Brackets */}
+                    <div style={{ position: 'absolute', top: '5px', left: '5px', width: '14px', height: '14px', borderTop: '2.5px solid #6EE7B7', borderLeft: '2.5px solid #6EE7B7', borderRadius: '4px 0 0 0' }} />
+                    <div style={{ position: 'absolute', top: '5px', right: '5px', width: '14px', height: '14px', borderTop: '2.5px solid #6EE7B7', borderRight: '2.5px solid #6EE7B7', borderRadius: '0 4px 0 0' }} />
+                    <div style={{ position: 'absolute', bottom: '5px', left: '5px', width: '14px', height: '14px', borderBottom: '2.5px solid #6EE7B7', borderLeft: '2.5px solid #6EE7B7', borderRadius: '0 0 0 4px' }} />
+                    <div style={{ position: 'absolute', bottom: '5px', right: '5px', width: '14px', height: '14px', borderBottom: '2.5px solid #6EE7B7', borderRight: '2.5px solid #6EE7B7', borderRadius: '0 0 4px 0' }} />
+                  </div>
+                );
+              })}
 
               {/* 3. Clickable Hotspots for Animals - Version 1 Style */}
               {filteredTargets.map(t => (
@@ -5285,77 +4617,10 @@ const natureAudioRef = useRef(null);
                 />
               ))}
 
-              {/* 4. Field Scanner Reticle - Version 1 Style (No camera lens) */}
-              {isInsideImage && (
-                <div style={{
-                  position: 'absolute',
-                  left: `${mousePos.x}px`,
-                  top: `${mousePos.y}px`,
-                  transform: 'translate(-50%, -50%)',
-                  width: '90px',
-                  height: '60px',
-                  border: hoveredTarget ? '2.5px solid #22d3ee' : '2px solid #3b82f6',
-                  borderRadius: '8px',
-                  pointerEvents: 'none',
-                  zIndex: 25,
-                  background: hoveredTarget ? 'rgba(34, 211, 238, 0.25)' : 'rgba(59, 130, 246, 0.15)',
-                  boxShadow: hoveredTarget ? '0 0 18px rgba(34, 211, 238, 0.6)' : '0 0 10px rgba(59, 130, 246, 0.3)',
-                  transition: 'border 0.15s ease, background 0.15s ease'
-                }}>
-                  {isHolding && (
-                    <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '3px', background: 'rgba(0,0,0,0.3)', borderRadius: '0 0 6px 6px', overflow: 'hidden' }}>
-                      <div style={{ height: '100%', background: '#22d3ee', width: `${holdProgress}%` }} />
-                    </div>
-                  )}
-                  {/* Crosshairs */}
-                  {[['0px','0px','borderTop','borderLeft'],['0px','auto','borderTop','borderRight'],['auto','0px','borderBottom','borderLeft'],['auto','auto','borderBottom','borderRight']].map(([top,right,b1,b2],i) => (
-                    <div
-                      key={i}
-                      style={{
-                        position: 'absolute',
-                        top: top !== 'auto' ? top : undefined,
-                        right: right !== 'auto' ? right : undefined,
-                        bottom: top === 'auto' ? '0px' : undefined,
-                        left: right === 'auto' ? '0px' : undefined,
-                        width: '8px',
-                        height: '8px',
-                        [b1]: '2px solid #fff',
-                        [b2]: '2px solid #fff',
-                        opacity: 0.85
-                      }}
-                    />
-                  ))}
-                </div>
-              )}
+              
 
-              {/* 5. Hovered Target Popup Label - Version 1 Style */}
-              {isInsideImage && hoveredTarget && (
-                <div style={{
-                  position: 'absolute',
-                  left: `${mousePos.x}px`,
-                  top: `${mousePos.y - 48}px`,
-                  transform: 'translateX(-50%)',
-                  background: 'rgba(15, 23, 42, 0.95)',
-                  color: '#ffffff',
-                  padding: '0.35rem 0.85rem',
-                  borderRadius: '6px',
-                  fontSize: '13.5px',
-                  fontWeight: 'bold',
-                  border: '1.5px solid #22d3ee',
-                  boxShadow: '0 4px 14px rgba(0,0,0,0.4), 0 0 12px rgba(34,211,238,0.5)',
-                  pointerEvents: 'none',
-                  zIndex: 35,
-                  whiteSpace: 'nowrap',
-                  letterSpacing: '0.4px',
-                  fontFamily: '"Outfit", sans-serif',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px'
-                }}>
-                  <span>{hoveredTarget.data.emoji}</span>
-                  <span>{hoveredTarget.data.popupName || hoveredTarget.data.name}</span>
-                </div>
-              )}
+
+              
 
               {/* Top-Right Utility Bar: Target Rings & Fullscreen Controls */}
               <div style={{
@@ -5367,31 +4632,7 @@ const natureAudioRef = useRef(null);
                 alignItems: 'center',
                 gap: '8px'
               }}>
-                {/* Rings Hint Toggle */}
-                <button
-                  type="button"
-                  onClick={() => setShowHints(prev => !prev)}
-                  title={showHints ? 'Hide Target Rings' : 'Show Target Rings'}
-                  style={{
-                    background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(12px)',
-                    color: '#FEF3C7',
-                    border: '1.8px solid rgba(255, 255, 255, 0.35)',
-                    borderRadius: '10px',
-                    padding: '8px 12px',
-                    fontSize: '13px',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
-                    fontFamily: '"Outfit", sans-serif'
-                  }}
-                >
-                  {showHints ? <EyeOff size={15} /> : <Eye size={15} />}
-                  <span>{showHints ? 'Hide Rings' : 'Show Rings'}</span>
-                </button>
+                
 
                 {/* Fullscreen Button */}
                 <button
@@ -5427,8 +4668,8 @@ const natureAudioRef = useRef(null);
                 <button
                   type="button"
                   onClick={() => {
-                    setSubPage(1);
-                    setCategoryStep(2);
+                    if (onBackToDashboard) onBackToDashboard();
+                    else if (onNextSection) onNextSection();
                   }}
                   style={{
                     padding: '8px 20px',
@@ -5448,10 +4689,10 @@ const natureAudioRef = useRef(null);
                     boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
                     transition: 'all 0.18s ease'
                   }}
-                  title="Return to Walkers (Animals)"
-                  aria-label="Previous Page"
+                  title="Return to Previous Activity"
+                  aria-label="Previous Activity"
                 >
-                  <ChevronLeft size={18} /> Previous: Walkers
+                  <ChevronLeft size={18} /> Back
                 </button>
               </div>
 
@@ -5985,20 +5226,20 @@ const natureAudioRef = useRef(null);
             </button>
           </div>
 
-          {/* 3. Slogan Page Style Translucent Observation Popup (30% width, gentle 8px blur) */}
+          {/* 3. Slogan Page Style Translucent Observation Popup (Font size 20px-24px, Justified, No Scroll, 2px blur) */}
           {showPlantDetailPopup && (
             <div style={{
               position: 'absolute',
-              top: 'clamp(18px, 2.8vh, 28px)',
-              right: 'clamp(14px, 2vw, 24px)',
-              width: 'min(30vw, 380px)',
-              minWidth: '270px',
-              maxHeight: 'calc(100vh - clamp(85px, 11vh, 100px))',
-              background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.52) 0%, rgba(4, 28, 16, 0.55) 45%, rgba(2, 18, 11, 0.58) 100%)',
-              backdropFilter: 'blur(8px)',
-              WebkitBackdropFilter: 'blur(8px)',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: 'min(48vw, 620px)',
+              minWidth: '320px',
+              maxHeight: 'calc(100vh - clamp(60px, 8vh, 80px))',
+              background: 'transparent',
+              backdropFilter: 'blur(2px)',
+              WebkitBackdropFilter: 'blur(2px)',
               border: '1.5px solid rgba(16, 185, 129, 0.45)',
-              borderLeft: '1.5px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '24px',
               boxShadow: 'inset 1px 1px 2px rgba(255, 255, 255, 0.25), inset -1px -1px 2px rgba(0, 0, 0, 0.3), 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(16, 185, 129, 0.2)',
               zIndex: 35,
@@ -6023,16 +5264,18 @@ const natureAudioRef = useRef(null);
                 }}
               />
 
-              {/* Inner Scrollable Content */}
+              {/* Inner Content - Sized to fit comfortably without scroll */}
               <div style={{
                 display: 'flex',
                 flexDirection: 'column',
                 flex: 1,
-                padding: 'clamp(12px, 1.8vh, 18px) clamp(14px, 1.8vw, 20px)',
-                gap: 'clamp(8px, 1.2vh, 12px)',
+                padding: 'clamp(10px, 1.4vh, 16px) clamp(14px, 1.8vw, 22px)',
+                gap: 'clamp(6px, 1vh, 10px)',
                 position: 'relative',
                 zIndex: 5,
-                overflowY: 'auto'
+                overflowY: 'auto',
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none'
               }}>
                 {/* Header Row */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
@@ -6041,19 +5284,19 @@ const natureAudioRef = useRef(null);
                     color: '#A7F3D0',
                     border: '1.2px solid rgba(110, 231, 183, 0.45)',
                     boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25)',
-                    padding: '5px 14px',
+                    padding: '4px 14px',
                     borderRadius: '20px',
                     fontFamily: '"Outfit", sans-serif',
                     fontWeight: 800,
-                    fontSize: '16px',
+                    fontSize: '20px',
                     letterSpacing: '0.04em',
                     textTransform: 'uppercase',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '6px'
+                    gap: '8px'
                   }}>
                     <span>🌿</span>
-                    <span>NCERT TABLE 2.1</span>
+                    <span>TABLE 2.1</span>
                   </span>
 
                   {/* Minimize Button */}
@@ -6064,13 +5307,13 @@ const natureAudioRef = useRef(null);
                     style={{
                       background: 'rgba(255, 255, 255, 0.12)',
                       border: '1.2px solid rgba(255, 255, 255, 0.25)',
-                      borderRadius: '10px',
-                      padding: '5px 12px',
+                      borderRadius: '12px',
+                      padding: '4px 12px',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '5px',
+                      gap: '6px',
                       color: '#FEF3C7',
-                      fontSize: '16px',
+                      fontSize: '20px',
                       fontWeight: 800,
                       cursor: 'pointer',
                       transition: 'all 0.2s ease'
@@ -6091,8 +5334,8 @@ const natureAudioRef = useRef(null);
                 {/* Title */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <div style={{
-                    width: '44px',
-                    height: '44px',
+                    width: '42px',
+                    height: '42px',
                     borderRadius: '50%',
                     background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.35) 0%, rgba(5, 150, 105, 0.25) 100%)',
                     border: '2px solid #10B981',
@@ -6110,125 +5353,124 @@ const natureAudioRef = useRef(null);
                       fontWeight: 900,
                       fontSize: '24px',
                       margin: 0,
-                      color: '#FFFFFF',
-                      lineHeight: 1.2
+                      color: '#FCD34D',
+                      lineHeight: 1.15,
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.85), 0 0 16px rgba(252, 211, 77, 0.5)'
                     }}>
                       {infoCardPlant.popupName || infoCardPlant.name}
                     </h3>
                     <div style={{
-                      fontSize: '16px',
+                      fontSize: '20px',
                       color: '#6EE7B7',
                       fontWeight: 600,
                       fontStyle: 'italic',
-                      marginTop: '2px'
+                      marginTop: '1px',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.85)'
                     }}>
                       Botanical Field Specimen Record
                     </div>
                   </div>
                 </div>
 
-                {/* 4 Detail Cards */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {/* Info Panel: single unified glass panel with 20px-24px font size and justified text */}
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 'clamp(6px, 1vh, 10px)'
+                }}>
                   {/* STEM */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(0, 0, 0, 0.35) 100%)',
-                    border: '1.2px solid rgba(110, 231, 183, 0.35)',
-                    borderLeft: '4px solid #10B981',
-                    borderRadius: '10px',
-                    padding: '8px 12px',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                  }}>
-                    <div style={{ fontSize: '16px', fontWeight: 800, color: '#6EE7B7', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '4px solid #10B981', paddingLeft: '10px' }}>
+                    <div style={{ fontSize: '22px', fontWeight: 800, color: '#6EE7B7', display: 'flex', alignItems: 'center', gap: '8px', fontFamily: '"Outfit", sans-serif', textShadow: '0 1px 4px rgba(0, 0, 0, 0.9)', lineHeight: 1.15 }}>
                       <span>🌱 STEM</span>
                     </div>
-                    <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 600, marginTop: '3px', lineHeight: 1.4 }}>
+                    <div style={{ fontSize: '20px', color: '#FFFFFF', fontWeight: 500, lineHeight: 1.35, fontFamily: '"Inter", sans-serif', textAlign: 'justify', textJustify: 'inter-word', textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)' }}>
                       {infoCardPlant.tableInfo?.stem || '—'}
                     </div>
                   </div>
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                   {/* LEAVES */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(52, 211, 153, 0.16) 0%, rgba(0, 0, 0, 0.35) 100%)',
-                    border: '1.2px solid rgba(167, 243, 208, 0.35)',
-                    borderLeft: '4px solid #34D399',
-                    borderRadius: '10px',
-                    padding: '8px 12px',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                  }}>
-                    <div style={{ fontSize: '16px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '4px solid #34D399', paddingLeft: '10px' }}>
+                    <div style={{ fontSize: '22px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '8px', fontFamily: '"Outfit", sans-serif', textShadow: '0 1px 4px rgba(0, 0, 0, 0.9)', lineHeight: 1.15 }}>
                       <span>🍃 LEAVES</span>
                     </div>
-                    <div style={{ fontSize: '16px', color: '#F0FDF4', fontWeight: 600, marginTop: '3px', lineHeight: 1.4 }}>
+                    <div style={{ fontSize: '20px', color: '#FFFFFF', fontWeight: 500, lineHeight: 1.35, fontFamily: '"Inter", sans-serif', textAlign: 'justify', textJustify: 'inter-word', textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)' }}>
                       {infoCardPlant.tableInfo?.leaves || '—'}
                     </div>
                   </div>
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                   {/* FLOWERS */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(244, 114, 182, 0.16) 0%, rgba(0, 0, 0, 0.35) 100%)',
-                    border: '1.2px solid rgba(249, 168, 212, 0.35)',
-                    borderLeft: '4px solid #F472B6',
-                    borderRadius: '10px',
-                    padding: '8px 12px',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                  }}>
-                    <div style={{ fontSize: '16px', fontWeight: 800, color: '#FBCFE8', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '4px solid #F472B6', paddingLeft: '10px' }}>
+                    <div style={{ fontSize: '22px', fontWeight: 800, color: '#FBCFE8', display: 'flex', alignItems: 'center', gap: '8px', fontFamily: '"Outfit", sans-serif', textShadow: '0 1px 4px rgba(0, 0, 0, 0.9)', lineHeight: 1.15 }}>
                       <span>🌸 FLOWERS</span>
                     </div>
-                    <div style={{ fontSize: '16px', color: '#FDF2F8', fontWeight: 600, marginTop: '3px', lineHeight: 1.4 }}>
+                    <div style={{ fontSize: '20px', color: '#FFFFFF', fontWeight: 500, lineHeight: 1.35, fontFamily: '"Inter", sans-serif', textAlign: 'justify', textJustify: 'inter-word', textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)' }}>
                       {infoCardPlant.tableInfo?.flowers || '—'}
                     </div>
                   </div>
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                   {/* OTHER OBSERVATIONS */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.16) 0%, rgba(0, 0, 0, 0.35) 100%)',
-                    border: '1.2px solid rgba(147, 197, 253, 0.35)',
-                    borderLeft: '4px solid #3B82F6',
-                    borderRadius: '10px',
-                    padding: '8px 12px',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
-                  }}>
-                    <div style={{ fontSize: '16px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '4px solid #3B82F6', paddingLeft: '10px' }}>
+                    <div style={{ fontSize: '22px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '8px', fontFamily: '"Outfit", sans-serif', textShadow: '0 1px 4px rgba(0, 0, 0, 0.9)', lineHeight: 1.15 }}>
                       <span>📖 OTHER OBSERVATIONS</span>
                     </div>
-                    <div style={{ fontSize: '16px', color: '#EFF6FF', fontWeight: 600, marginTop: '3px', lineHeight: 1.4 }}>
+                    <div style={{ fontSize: '20px', color: '#FFFFFF', fontWeight: 500, lineHeight: 1.35, fontFamily: '"Inter", sans-serif', textAlign: 'justify', textJustify: 'inter-word', textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)' }}>
                       {infoCardPlant.tableInfo?.notes || '—'}
                     </div>
                   </div>
-                </div>
 
-                {/* Button to view full image without panel */}
-                <button
-                  type="button"
-                  onClick={() => setShowPlantDetailPopup(false)}
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.15)',
-                    border: '1.2px solid rgba(255, 255, 255, 0.3)',
-                    color: '#FFFFFF',
-                    borderRadius: '12px',
-                    padding: '10px 16px',
-                    fontSize: '16px',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '6px',
-                    fontFamily: '"Outfit", sans-serif',
-                    marginTop: '2px',
-                    transition: 'all 0.18s ease'
-                  }}
-                >
-                  <span>🖼️ View Full Specimen Image</span>
-                </button>
+                  {/* THINK QUESTION (Highlighted interactive prompt) */}
+                  {(infoCardPlant.tableInfo?.think || (infoCardPlant.id === 'sunflower' ? 'Do mature sunflower heads keep following the sun?' : (infoCardPlant.id === 'rose' ? 'How is a compound leaf different from a simple leaf?' : (infoCardPlant.id === 'hibiscus' ? 'What makes hibiscus a shrub?' : null)))) && (
+                    <>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
+                      <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '2px',
+                        borderLeft: '4px solid #F59E0B',
+                        paddingLeft: '10px',
+                        background: 'rgba(245, 158, 11, 0.12)',
+                        borderRadius: '0 10px 10px 0',
+                        padding: '6px 10px 8px 10px'
+                      }}>
+                        <div style={{
+                          fontSize: '22px',
+                          fontWeight: 800,
+                          color: '#FDE047',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          fontFamily: '"Outfit", sans-serif',
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
+                          lineHeight: 1.15
+                        }}>
+                          <span>💡 Think:</span>
+                        </div>
+                        <div style={{
+                          fontSize: '20px',
+                          color: '#FEF9C3',
+                          fontWeight: 600,
+                          lineHeight: 1.35,
+                          fontFamily: '"Inter", sans-serif',
+                          textAlign: 'justify',
+                          textJustify: 'inter-word',
+                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)'
+                        }}>
+                          {infoCardPlant.tableInfo?.think || (infoCardPlant.id === 'sunflower' ? 'Do mature sunflower heads keep following the sun?' : (infoCardPlant.id === 'rose' ? 'How is a compound leaf different from a simple leaf?' : 'What makes hibiscus a shrub?'))}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           )}
         </div>
       )}
 
-      {/* Textbook Table 2.2 Animal Information Card Modal (Slogan Page Zoological Design) */}
+      {/* Fullscreen High-Resolution Animal Specimen View with Slogan-Style Translucent Observation Popup */}
       {infoCardAnimal && (
         <div 
           style={{
@@ -6237,415 +5479,392 @@ const natureAudioRef = useRef(null);
             width: '100vw',
             height: '100vh',
             zIndex: 99999999,
-            background: 'rgba(20, 69, 47, 0.45)',
-            backdropFilter: 'blur(10px)',
+            background: '#04160E',
+            overflow: 'hidden',
+            fontFamily: '"Outfit", sans-serif',
+            animation: 'fadeIn 0.25s ease-out'
+          }}
+        >
+          {/* 1. Edge-to-Edge Fullscreen Specimen Image */}
+          <img 
+            src={ANIMAL_WIDE_IMAGES[infoCardAnimal.id] || ANIMAL_WIDE_IMAGES[infoCardAnimal.name] || infoCardAnimal.img || ANIMAL_IMAGE_ASSETS[infoCardAnimal.id] || ANIMAL_IMAGE_ASSETS[infoCardAnimal.name]} 
+            alt={infoCardAnimal.name} 
+            style={{ 
+              position: 'absolute',
+              inset: 0,
+              width: '100vw',
+              height: '100vh',
+              objectFit: 'cover',
+              objectPosition: 'center',
+              display: 'block',
+              zIndex: 1,
+              filter: 'contrast(1.04) brightness(1.02)'
+            }} 
+          />
+
+          {/* Subtle cinematic gradient vignette for enhanced depth */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'radial-gradient(ellipse at 35% 50%, transparent 45%, rgba(4, 22, 14, 0.45) 85%, rgba(2, 14, 9, 0.72) 100%)',
+            pointerEvents: 'none',
+            zIndex: 2
+          }} />
+
+          {/* 2. Bottom-Center Minimalist Floating Glass Pill */}
+          <div style={{
+            position: 'absolute',
+            bottom: 'clamp(14px, 2.5vh, 22px)',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 40,
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            padding: '1rem',
-            boxSizing: 'border-box',
-            overflow: 'hidden',
-            animation: 'fadeIn 0.2s ease-out'
-          }}
-          onClick={() => setInfoCardAnimal(null)}
-        >
-          <div 
-            style={{
-              position: 'relative',
-              width: '100%',
-              maxWidth: '1360px',
-              height: '92vh',
-              maxHeight: '740px',
-              background: 'rgba(250, 248, 242, 0.55)',
-              borderRadius: '20px',
-              border: '2px solid rgba(20, 69, 47, 0.5)',
-              boxShadow: '0 25px 60px rgba(20, 69, 47, 0.35)',
-              display: 'flex',
-              flexDirection: 'column',
-              color: '#14452F',
-              fontFamily: '"Outfit", sans-serif',
-              overflow: 'hidden',
-              boxSizing: 'border-box'
-            }}
-            onClick={e => e.stopPropagation()}
-          >
-            {/* Top Bar Header (Slogan Page Zoological Design) */}
-            <div style={{
-              position: 'relative',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '0.85rem 1.75rem',
-              borderBottom: '2.5px solid #14452F',
-              background: 'rgba(250, 248, 242, 0.55)',
-              flexShrink: 0,
-              overflow: 'hidden'
-            }}>
-              {/* Corner Hanging Foliage (matching Slogan Page) */}
-              <TopCornerFoliage side="left" />
-              <TopCornerFoliage side="right" />
-
-              {/* Mountain Backdrop */}
-              <TopMountainBackdrop />
-
-              {/* Title Content Flanked by Vines & Badges */}
-              <div style={{ 
-                position: 'relative', 
-                zIndex: 5, 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: '1rem' 
-              }}>
-                <div style={{
-                  width: '46px',
-                  height: '46px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                  border: '2px solid #10B981',
-                  boxShadow: '0 4px 12px rgba(20, 69, 47, 0.25)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '24px',
-                  lineHeight: '1',
-                  flexShrink: 0
-                }}>
-                  {infoCardAnimal.emoji}
-                </div>
-
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <TitleVineBranch side="left" />
-                    <h2 style={{ 
-                      margin: 0, 
-                      fontSize: '24px', 
-                      fontWeight: '900', 
-                      color: '#14452F', 
-                      fontFamily: '"Fraunces", Georgia, serif', 
-                      lineHeight: '1.2',
-                      letterSpacing: '-0.01em'
-                    }}>
-                      {infoCardAnimal.popupName || infoCardAnimal.name}
-                    </h2>
-                    <TitleVineBranch side="right" />
-                    
-                    <span style={{
-                      fontSize: '16px',
-                      color: 'rgba(250, 248, 242, 0.55)',
-                      fontWeight: '900',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.06em',
-                      background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                      padding: '4px 16px',
-                      borderRadius: '16px',
-                      border: '1.5px solid #10B981',
-                      boxShadow: '0 2px 8px rgba(20, 69, 47, 0.2)',
-                      fontFamily: '"Outfit", sans-serif'
-                    }}>
-                      Textbook Table 2.2
-                    </span>
-                  </div>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>
-                    <TitleSprout />
-                    <span style={{ fontSize: '16px', color: '#064E3B', fontWeight: '800', fontFamily: '"Outfit", sans-serif' }}>
-                      Zoological Field Observations &amp; High-Resolution Specimen
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Close Button matching Slogan Page */}
-              <button 
-                onClick={() => setInfoCardAnimal(null)}
-                style={{
-                  position: 'relative',
-                  zIndex: 10,
-                  background: 'rgba(250, 248, 242, 0.55)',
-                  border: '2px solid rgba(20, 69, 47, 0.5)',
-                  color: '#14452F',
-                  width: '40px',
-                  height: '40px',
-                  borderRadius: '12px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  fontSize: '20px',
-                  fontWeight: 'bold',
-                  transition: 'all 0.2s ease',
-                  boxShadow: '0 3px 10px rgba(20, 69, 47, 0.15)'
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = '#14452F';
-                  e.currentTarget.style.color = '#ffffff';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = 'rgba(250, 248, 242, 0.55)';
-                  e.currentTarget.style.color = '#14452F';
-                }}
-                title="Close Modal"
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* Single Page Layout: 70% Image & 30% Content Allocation */}
-            <div style={{
-              flex: 1,
-              minHeight: 0,
-              display: 'grid',
-              gridTemplateColumns: '7fr 3fr',
-              gap: '16px',
-              padding: '1rem 1.5rem',
-              boxSizing: 'border-box',
-              alignItems: 'stretch',
-              overflow: 'hidden'
-            }}>
-              {/* Left 70%: High-Resolution Animal Specimen Image */}
-              <div style={{
-                position: 'relative',
-                height: '100%',
-                borderRadius: '20px',
-                border: '2.5px solid rgba(20, 69, 47, 0.5)',
-                background: '#ffffff',
-                overflow: 'hidden',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '10px',
-                boxShadow: '0 8px 24px rgba(20, 69, 47, 0.12)'
-              }}>
-                {/* Botanical/Nature Leaf Corner Accents */}
-                <CardCornerLeaves position="top-left" />
-                <CardCornerLeaves position="top-right" />
-                <CardCornerLeaves position="bottom-left" />
-                <CardCornerLeaves position="bottom-right" />
-
-                <img 
-                  src={infoCardAnimal.img || ANIMAL_IMAGE_ASSETS[infoCardAnimal.id] || ANIMAL_IMAGE_ASSETS[infoCardAnimal.name]} 
-                  alt={infoCardAnimal.name} 
-                  style={{ 
-                    position: 'relative',
-                    zIndex: 2,
-                    width: '100%',
-                    height: '100%',
-                    maxWidth: '100%', 
-                    maxHeight: '100%', 
-                    objectFit: 'contain', 
-                    objectPosition: 'center',
-                    filter: 'drop-shadow(0 14px 28px rgba(20, 69, 47, 0.15))'
-                  }} 
-                />
-              </div>
-
-              {/* Right 30%: NCERT Table 2.2 Animal Observations Stack (Leaf-Designed Boxes) */}
-              <div style={{
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                gap: '12px',
-                overflowY: 'auto'
-              }}>
-                {/* 1. Animal Description & Behavior Card (Leaf-Designed Box) */}
-                <div style={{
-                  position: 'relative',
-                  background: 'linear-gradient(135deg, #ffffff 0%, #F4FBF7 50%, #E8F8EE 100%)',
-                  padding: '10px 14px',
-                  borderRadius: '24px 6px 24px 6px',
-                  border: '2px solid rgba(20, 69, 47, 0.5)',
-                  boxShadow: '0 4px 14px rgba(20, 69, 47, 0.10), inset 0 0 10px rgba(16, 185, 129, 0.08)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '6px',
-                  flex: 1,
-                  overflow: 'hidden'
-                }}>
-                  {/* Decorative Leaf Vein Corner Motif */}
-                  <svg width="34" height="34" viewBox="0 0 36 36" fill="none" style={{ position: 'absolute', top: 2, right: 4, opacity: 0.85, pointerEvents: 'none' }}>
-                    <path d="M4 32 C12 26, 20 18, 30 6" stroke="#10B981" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M14 22 C18 18, 24 18, 28 12" stroke="#2D6A4F" strokeWidth="1.2" strokeLinecap="round" />
-                    <path d="M20 16 C24 12, 28 10, 30 6" stroke="#2D6A4F" strokeWidth="1.2" strokeLinecap="round" />
-                    <path d="M28 8 C22 6, 16 10, 14 16 C20 16, 26 12, 28 8 Z" fill="#D1FAE5" stroke="#10B981" strokeWidth="1" />
-                  </svg>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', zIndex: 2 }}>
-                    <div style={{
-                      width: '32px',
-                      height: '32px',
-                      borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                      border: '1.5px solid #10B981',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      boxShadow: '0 2px 6px rgba(20, 69, 47, 0.2)',
-                      flexShrink: 0
-                    }}>
-                      <Footprints size={16} color="#34D399" />
-                    </div>
-                    <div style={{ fontSize: '16px', color: '#14452F', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: '"Outfit", sans-serif' }}>
-                      • DESCRIPTION &amp; BEHAVIOR
-                    </div>
-                  </div>
-
-                  <div style={{ 
-                    position: 'relative',
-                    zIndex: 2,
-                    fontSize: '16px', 
-                    color: '#14452F', 
-                    fontWeight: '600', 
-                    lineHeight: '1.45', 
-                    fontFamily: '"Outfit", sans-serif',
-                    textAlign: 'justify',
-                    textJustify: 'inter-word',
-                    background: 'rgba(250, 248, 242, 0.96)',
-                    border: '1.4px solid #14452F',
-                    borderRadius: '14px 4px 14px 4px',
-                    padding: '8px 12px'
-                  }}>
-                    {infoCardAnimal.details}
-                  </div>
-                </div>
-
-                {/* 2. Did You Know Card (Leaf-Designed Box) */}
-                <div style={{
-                  position: 'relative',
-                  background: 'linear-gradient(135deg, #ffffff 0%, #FFFDF5 50%, #FEF9E7 100%)',
-                  padding: '10px 14px',
-                  borderRadius: '24px 6px 24px 6px',
-                  border: '2px solid rgba(20, 69, 47, 0.5)',
-                  boxShadow: '0 4px 14px rgba(20, 69, 47, 0.10), inset 0 0 10px rgba(245, 158, 11, 0.08)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '6px',
-                  flex: 1,
-                  overflow: 'hidden'
-                }}>
-                  {/* Decorative Leaf Vein Corner Motif */}
-                  <svg width="34" height="34" viewBox="0 0 36 36" fill="none" style={{ position: 'absolute', top: 2, right: 4, opacity: 0.75, pointerEvents: 'none' }}>
-                    <path d="M4 32 C12 26, 20 18, 30 6" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M14 22 C18 18, 24 18, 28 12" stroke="#D97706" strokeWidth="1.2" strokeLinecap="round" />
-                    <path d="M20 16 C24 12, 28 10, 30 6" stroke="#D97706" strokeWidth="1.2" strokeLinecap="round" />
-                    <path d="M28 8 C22 6, 16 10, 14 16 C20 16, 26 12, 28 8 Z" fill="#FEF3C7" stroke="#F59E0B" strokeWidth="1" />
-                  </svg>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', zIndex: 2 }}>
-                    <div style={{
-                      width: '32px',
-                      height: '32px',
-                      borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                      border: '1.5px solid #FDE68A',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      boxShadow: '0 2px 6px rgba(217, 119, 6, 0.3)',
-                      flexShrink: 0
-                    }}>
-                      <Lightbulb size={16} color="#ffffff" />
-                    </div>
-                    <div style={{ fontSize: '16px', color: '#B45309', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: '"Outfit", sans-serif' }}>
-                      💡 DID YOU KNOW?
-                    </div>
-                  </div>
-
-                  <div style={{ 
-                    position: 'relative',
-                    zIndex: 2,
-                    fontSize: '16px', 
-                    color: '#14452F', 
-                    fontWeight: '600', 
-                    lineHeight: '1.45', 
-                    fontFamily: '"Outfit", sans-serif',
-                    textAlign: 'justify',
-                    textJustify: 'inter-word',
-                    background: 'rgba(250, 248, 242, 0.96)',
-                    border: '1.4px solid #14452F',
-                    borderRadius: '14px 4px 14px 4px',
-                    padding: '8px 12px'
-                  }}>
-                    {infoCardAnimal.fact}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom Bar: Slogan Page Aesthetic with Silhouettes & Controls */}
-            <div style={{
-              position: 'relative',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '0.65rem 1.75rem',
-              borderTop: '2.5px solid #14452F',
-              background: 'rgba(250, 248, 242, 0.55)',
-              flexShrink: 0,
-              overflow: 'hidden'
-            }}>
-              {/* Bottom Nature Silhouette Panorama */}
-              <BottomNatureSilhouettes />
-
-              {/* Left Subtitle Badge in Slogan Theme */}
-              <div style={{
-                position: 'relative',
-                zIndex: 5,
-                display: 'flex',
+            gap: '12px',
+            background: 'rgba(3, 20, 12, 0.85)',
+            backdropFilter: 'blur(2px)',
+            WebkitBackdropFilter: 'blur(2px)',
+            border: '1.5px solid rgba(16, 185, 129, 0.45)',
+            borderRadius: '32px',
+            padding: '6px 10px',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.75), 0 0 24px rgba(16, 185, 129, 0.3)',
+            boxSizing: 'border-box'
+          }}>
+            {/* Back to Animals Button */}
+            <button
+              type="button"
+              onClick={closeAnimalModal}
+              style={{
+                background: 'rgba(250, 248, 242, 0.95)',
+                color: '#14452F',
+                border: '1.6px solid #14452F',
+                borderRadius: '24px',
+                padding: '8px 22px',
+                fontSize: '16px',
+                fontWeight: 900,
+                cursor: 'pointer',
+                display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: 'rgba(250, 248, 242, 0.9)',
-                backdropFilter: 'blur(4px)',
-                padding: '4px 14px',
-                borderRadius: '12px',
-                border: '1.2px solid #14452F'
-              }}>
-                <Footprints color="#10B981" size={18} strokeWidth={2.6} />
-                <span style={{
-                  fontSize: '16px',
-                  color: '#14452F',
-                  fontWeight: '800',
-                  fontFamily: '"Outfit", sans-serif'
-                }}>
-                  Living World Diversity · Table 2.2 Zoological Record
-                </span>
-              </div>
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+                fontFamily: '"Outfit", sans-serif',
+                transition: 'all 0.18s ease',
+                whiteSpace: 'nowrap'
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'scale(1.03)';
+                e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.4)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+              }}
+              title="Return to Zoological Field Scanner"
+            >
+              <ChevronLeft size={18} strokeWidth={3} />
+              <span>Back to Animals</span>
+            </button>
 
-              {/* Close Button matching Slogan Page */}
-              <button
-                onClick={() => setInfoCardAnimal(null)}
-                style={{
-                  position: 'relative',
-                  zIndex: 5,
-                  padding: '8px 28px',
-                  borderRadius: '12px',
-                  background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                  border: '2px solid #10B981',
-                  color: '#ffffff',
-                  fontWeight: '900',
-                  fontSize: '16px',
-                  fontFamily: '"Outfit", sans-serif',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 16px rgba(20, 69, 47, 0.35)',
-                  transition: 'all 0.18s ease'
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.transform = 'translateY(-1px)';
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(20, 69, 47, 0.45)';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.transform = 'none';
-                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(20, 69, 47, 0.35)';
-                }}
-              >
-                ✓ Close &amp; Continue Exploring
-              </button>
-            </div>
+            {/* Show / Hide Observations Button */}
+            <button
+              type="button"
+              onClick={() => setShowAnimalDetailPopup(!showAnimalDetailPopup)}
+              style={{
+                background: showAnimalDetailPopup ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)' : 'rgba(250, 248, 242, 0.95)',
+                color: showAnimalDetailPopup ? '#FFFFFF' : '#14452F',
+                border: '1.6px solid ' + (showAnimalDetailPopup ? '#34D399' : '#14452F'),
+                borderRadius: '24px',
+                padding: '8px 22px',
+                fontSize: '16px',
+                fontWeight: 900,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+                fontFamily: '"Outfit", sans-serif',
+                transition: 'all 0.18s ease',
+                whiteSpace: 'nowrap'
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'scale(1.03)';
+                e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.4)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+              }}
+              title={showAnimalDetailPopup ? "Hide observations and view full specimen image" : "Show zoological observation details"}
+            >
+              <span>{showAnimalDetailPopup ? '✕ Hide Observations' : '📋 Show Observations'}</span>
+            </button>
           </div>
+
+          {/* 3. Slogan Page Style Translucent Observation Popup (Font size 20px-24px, Justified, No Scroll, 2px blur) */}
+          {showAnimalDetailPopup && (
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: 'min(48vw, 620px)',
+              minWidth: '320px',
+              maxHeight: 'calc(100vh - clamp(60px, 8vh, 80px))',
+              background: 'transparent',
+              backdropFilter: 'blur(2px)',
+              WebkitBackdropFilter: 'blur(2px)',
+              border: '1.5px solid rgba(16, 185, 129, 0.45)',
+              borderRadius: '24px',
+              boxShadow: 'inset 1px 1px 2px rgba(255, 255, 255, 0.25), inset -1px -1px 2px rgba(0, 0, 0, 0.3), 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(16, 185, 129, 0.2)',
+              zIndex: 35,
+              display: 'flex',
+              flexDirection: 'column',
+              overflow: 'hidden',
+              boxSizing: 'border-box',
+              animation: 'fadeIn 0.25s ease-out'
+            }}>
+              {/* Glossy specular reflection */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: '34%',
+                  background: 'linear-gradient(175deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%)',
+                  pointerEvents: 'none',
+                  zIndex: 2,
+                  borderRadius: '24px 24px 0 0'
+                }}
+              />
+
+              {/* Inner Content - Sized to fit comfortably without scroll */}
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                flex: 1,
+                padding: 'clamp(10px, 1.4vh, 16px) clamp(14px, 1.8vw, 22px)',
+                gap: 'clamp(6px, 1vh, 10px)',
+                position: 'relative',
+                zIndex: 5,
+                overflowY: 'auto',
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none'
+              }}>
+                {/* Header Row */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                  <span style={{
+                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(5, 150, 105, 0.2) 100%)',
+                    color: '#A7F3D0',
+                    border: '1.2px solid rgba(110, 231, 183, 0.45)',
+                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25)',
+                    padding: '4px 14px',
+                    borderRadius: '20px',
+                    fontFamily: '"Outfit", sans-serif',
+                    fontWeight: 800,
+                    fontSize: '20px',
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px'
+                  }}>
+                    <span>🐾</span>
+                    <span>TABLE 2.2</span>
+                  </span>
+
+                  {/* Minimize Button */}
+                  <button
+                    type="button"
+                    onClick={() => setShowAnimalDetailPopup(false)}
+                    title="Hide observations and view full specimen image"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.12)',
+                      border: '1.2px solid rgba(255, 255, 255, 0.25)',
+                      borderRadius: '12px',
+                      padding: '4px 12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      color: '#FEF3C7',
+                      fontSize: '20px',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.4)';
+                      e.currentTarget.style.color = '#FFFFFF';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)';
+                      e.currentTarget.style.color = '#FEF3C7';
+                    }}
+                  >
+                    <span>✕ Close</span>
+                  </button>
+                </div>
+
+                {/* Title */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{
+                    width: '42px',
+                    height: '42px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.35) 0%, rgba(5, 150, 105, 0.25) 100%)',
+                    border: '2px solid #10B981',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '24px',
+                    flexShrink: 0
+                  }}>
+                    {infoCardAnimal.emoji}
+                  </div>
+                  <div>
+                    <h3 style={{
+                      fontFamily: '"Outfit", sans-serif',
+                      fontWeight: 900,
+                      fontSize: '24px',
+                      margin: 0,
+                      color: '#FCD34D',
+                      lineHeight: 1.15,
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.85), 0 0 16px rgba(252, 211, 77, 0.5)'
+                    }}>
+                      {infoCardAnimal.popupName || infoCardAnimal.name}
+                    </h3>
+                    <div style={{
+                      fontSize: '20px',
+                      color: '#6EE7B7',
+                      fontWeight: 600,
+                      fontStyle: 'italic',
+                      marginTop: '1px',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.85)'
+                    }}>
+                      Zoological Field Specimen Record
+                    </div>
+                  </div>
+                </div>
+
+                {/* Observation Cards */}
+                {(() => {
+                  const animalKey = (infoCardAnimal.id || infoCardAnimal.name || '').toLowerCase();
+                  const ncert = ANIMAL_NCERT_RECORDS[animalKey] || infoCardAnimal.tableInfo || {};
+                  const habitatText = ncert.habitat || ncert.whereFound || infoCardAnimal.category || 'Surrounding habitat';
+                  const movementText = ncert.movement || 'Active natural movement';
+                  const adaptationText = ncert.adaptations || 'Specialized body adaptations';
+                  const feedingText = ncert.feeding || null;
+                  const thinkText = ncert.think || null;
+
+                  return (
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 'clamp(6px, 1vh, 10px)'
+                    }}>
+                      {/* WHERE FOUND */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '4px solid #10B981', paddingLeft: '10px' }}>
+                        <div style={{ fontSize: '22px', fontWeight: 800, color: '#6EE7B7', display: 'flex', alignItems: 'center', gap: '8px', fontFamily: '"Outfit", sans-serif', textShadow: '0 1px 4px rgba(0, 0, 0, 0.9)', lineHeight: 1.15 }}>
+                          <span>🏡 WHERE FOUND</span>
+                        </div>
+                        <div style={{ fontSize: '20px', color: '#FFFFFF', fontWeight: 500, lineHeight: 1.35, fontFamily: '"Inter", sans-serif', textAlign: 'justify', textJustify: 'inter-word', textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)' }}>
+                          {habitatText}
+                        </div>
+                      </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                      {/* MOVEMENT */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '4px solid #34D399', paddingLeft: '10px' }}>
+                        <div style={{ fontSize: '22px', fontWeight: 800, color: '#A7F3D0', display: 'flex', alignItems: 'center', gap: '8px', fontFamily: '"Outfit", sans-serif', textShadow: '0 1px 4px rgba(0, 0, 0, 0.9)', lineHeight: 1.15 }}>
+                          <span>🐾 MOVEMENT</span>
+                        </div>
+                        <div style={{ fontSize: '20px', color: '#FFFFFF', fontWeight: 500, lineHeight: 1.35, fontFamily: '"Inter", sans-serif', textAlign: 'justify', textJustify: 'inter-word', textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)' }}>
+                          {movementText}
+                        </div>
+                      </div>
+                      <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                      {/* BODY ADAPTATIONS */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '4px solid #F472B6', paddingLeft: '10px' }}>
+                        <div style={{ fontSize: '22px', fontWeight: 800, color: '#FBCFE8', display: 'flex', alignItems: 'center', gap: '8px', fontFamily: '"Outfit", sans-serif', textShadow: '0 1px 4px rgba(0, 0, 0, 0.9)', lineHeight: 1.15 }}>
+                          <span>🔬 {animalKey === 'crow' ? 'BODY FEATURES' : 'BODY ADAPTATIONS'}</span>
+                        </div>
+                        <div style={{ fontSize: '20px', color: '#FFFFFF', fontWeight: 500, lineHeight: 1.35, fontFamily: '"Inter", sans-serif', textAlign: 'justify', textJustify: 'inter-word', textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)' }}>
+                          {adaptationText}
+                        </div>
+                      </div>
+
+                      {/* FEEDING (if present, e.g. Crow) */}
+                      {feedingText && (
+                        <>
+                          <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '4px solid #3B82F6', paddingLeft: '10px' }}>
+                            <div style={{ fontSize: '22px', fontWeight: 800, color: '#93C5FD', display: 'flex', alignItems: 'center', gap: '8px', fontFamily: '"Outfit", sans-serif', textShadow: '0 1px 4px rgba(0, 0, 0, 0.9)', lineHeight: 1.15 }}>
+                              <span>🍽️ FEEDING</span>
+                            </div>
+                            <div style={{ fontSize: '20px', color: '#FFFFFF', fontWeight: 500, lineHeight: 1.35, fontFamily: '"Inter", sans-serif', textAlign: 'justify', textJustify: 'inter-word', textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)' }}>
+                              {feedingText}
+                            </div>
+                          </div>
+                        </>
+                      )}
+
+                      {/* THINK QUESTION (Highlighted interactive prompt) */}
+                      {thinkText && (
+                        <>
+                          <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
+                          <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '2px',
+                            borderLeft: '4px solid #F59E0B',
+                            paddingLeft: '10px',
+                            background: 'rgba(245, 158, 11, 0.12)',
+                            borderRadius: '0 10px 10px 0',
+                            padding: '6px 10px 8px 10px'
+                          }}>
+                            <div style={{
+                              fontSize: '22px',
+                              fontWeight: 800,
+                              color: '#FDE047',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              fontFamily: '"Outfit", sans-serif',
+                              textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
+                              lineHeight: 1.15
+                            }}>
+                              <span>💡 Think:</span>
+                            </div>
+                            <div style={{
+                              fontSize: '20px',
+                              color: '#FEF9C3',
+                              fontWeight: 600,
+                              lineHeight: 1.35,
+                              fontFamily: '"Inter", sans-serif',
+                              textAlign: 'justify',
+                              textJustify: 'inter-word',
+                              textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)'
+                            }}>
+                              {thinkText}
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  );
+                })()}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
       <style>{`
+        @keyframes organismGlowPulse {
+          0%, 100% { box-shadow: 0 0 25px rgba(16, 185, 129, 0.85), inset 0 0 20px rgba(16, 185, 129, 0.35); border-color: #10B981; }
+          50% { box-shadow: 0 0 45px rgba(52, 211, 153, 1), inset 0 0 35px rgba(52, 211, 153, 0.5); border-color: #34D399; }
+        }
         @keyframes hintGlow {
           0%, 100% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.8; box-shadow: 0 0 14px rgba(255, 213, 74, 0.9), inset 0 0 8px rgba(255, 213, 74, 0.4); }
           50% { transform: translate(-50%, -50%) scale(1.08); opacity: 1; box-shadow: 0 0 22px rgba(255, 213, 74, 1), inset 0 0 12px rgba(255, 213, 74, 0.6); }
