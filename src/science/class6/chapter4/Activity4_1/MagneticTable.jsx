@@ -397,8 +397,8 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
           flexDirection: 'column',
           height: '100%',
           minHeight: 0,
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-          border: '1.5px solid #FDE68A',
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+          border: '1.5px solid #E2E8F0',
           borderRadius: '16px',
           boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
           padding: '0.85rem',
@@ -407,10 +407,10 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
           overflow: 'hidden',
         }}>
           {/* Subtle Corner Registration Ticks */}
-          <div style={{ position: 'absolute', top: 8, left: 8, width: 10, height: 10, borderTop: '2px solid #FDE68A', borderLeft: '2px solid #FDE68A', pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', top: 8, right: 8, width: 10, height: 10, borderTop: '2px solid #FDE68A', borderRight: '2px solid #FDE68A', pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', bottom: 8, left: 8, width: 10, height: 10, borderBottom: '2px solid #FDE68A', borderLeft: '2px solid #FDE68A', pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', bottom: 8, right: 8, width: 10, height: 10, borderBottom: '2px solid #FDE68A', borderRight: '2px solid #FDE68A', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', top: 8, left: 8, width: 10, height: 10, borderTop: '2px solid #E2E8F0', borderLeft: '2px solid #E2E8F0', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', top: 8, right: 8, width: 10, height: 10, borderTop: '2px solid #E2E8F0', borderRight: '2px solid #E2E8F0', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', bottom: 8, left: 8, width: 10, height: 10, borderBottom: '2px solid #E2E8F0', borderLeft: '2px solid #E2E8F0', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', bottom: 8, right: 8, width: 10, height: 10, borderBottom: '2px solid #E2E8F0', borderRight: '2px solid #E2E8F0', pointerEvents: 'none' }} />
 
           {/* Object Cards Grid: 9 Items in strict 3×3 layout */}
           <div
@@ -1246,7 +1246,7 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
                   fontSize: '1.15rem',
                   fontWeight: 900,
                   color: '#FFFFFF',
-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                  background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
                   borderRadius: '16px',
                   border: 'none',
                   cursor: 'pointer',
@@ -1320,8 +1320,8 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
             {/* Modal Header */}
             <div style={{
               padding: '1rem 1.25rem',
-              background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-              borderBottom: '1.5px solid #FDE68A',
+              background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+              borderBottom: '1.5px solid #E2E8F0',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',

@@ -461,7 +461,7 @@ const MagneticTrainSprite = ({ x, y, rotation, isMoving, now }) => {
 
           {/* Emerald / Gold Livery Racing Stripe */}
           <line x1="-15" y1="-0.5" x2="15" y2="-0.5" stroke="#059669" strokeWidth="2.2" />
-          <line x1="-15" y1="1.4" x2="15" y2="1.4" stroke="#F59E0B" strokeWidth="0.8" />
+          <line x1="-15" y1="1.4" x2="15" y2="1.4" stroke="#214A70" strokeWidth="0.8" />
 
           {/* Roof Aero Air Intake / Solar Ribs */}
           <rect x="-12" y="-5.5" width="24" height="2" rx="1" fill="#475569" />
@@ -511,7 +511,7 @@ const MagneticTrainSprite = ({ x, y, rotation, isMoving, now }) => {
                L -13 0.5
                Z"
             fill="#059669"
-            stroke="#F59E0B"
+            stroke="#214A70"
             strokeWidth="0.6"
           />
 
@@ -543,11 +543,11 @@ const MagneticTrainSprite = ({ x, y, rotation, isMoving, now }) => {
 
           {/* Roof Aero Air Intake / Pantograph Dome */}
           <rect x="-10" y="-2" width="12" height="4" rx="1.5" fill="#334155" />
-          <circle cx="-4" cy="0" r="1.5" fill="#F59E0B" />
+          <circle cx="-4" cy="0" r="1.5" fill="#214A70" />
 
           {/* Dual Xenon Headlights */}
-          <circle cx="16.5" cy="-2.5" r="1.5" fill="#FFFFFF" stroke="#FEF08A" strokeWidth="0.8" style={{ filter: 'drop-shadow(0 0 4px #FFFFFF)' }} />
-          <circle cx="16.5" cy="2.5" r="1.5" fill="#FFFFFF" stroke="#FEF08A" strokeWidth="0.8" style={{ filter: 'drop-shadow(0 0 4px #FFFFFF)' }} />
+          <circle cx="16.5" cy="-2.5" r="1.5" fill="#FFFFFF" stroke="#EAF2F6" strokeWidth="0.8" style={{ filter: 'drop-shadow(0 0 4px #FFFFFF)' }} />
+          <circle cx="16.5" cy="2.5" r="1.5" fill="#FFFFFF" stroke="#EAF2F6" strokeWidth="0.8" style={{ filter: 'drop-shadow(0 0 4px #FFFFFF)' }} />
 
           {/* Front Magnetic Levitation Receiver Sensor (Nose Tip) */}
           <circle cx="19" cy="0" r={3 * pulse} fill="#FACC15" stroke="#FFFFFF" strokeWidth="1" style={{ filter: 'drop-shadow(0 0 6px #FACC15)' }} />
@@ -627,8 +627,8 @@ const ElectricPoleSprite = ({
 
         {/* Dual Ceramic Insulator Crossarms */}
         <line x1="-5" y1="-13" x2="5" y2="-13" stroke="#475569" strokeWidth="1.1" strokeLinecap="round" />
-        <circle cx="-4.2" cy="-13" r="1.1" fill="#D97706" stroke="#78350F" strokeWidth="0.3" />
-        <circle cx="4.2" cy="-13" r="1.1" fill="#D97706" stroke="#78350F" strokeWidth="0.3" />
+        <circle cx="-4.2" cy="-13" r="1.1" fill="#173B5F" stroke="#173B5F" strokeWidth="0.3" />
+        <circle cx="4.2" cy="-13" r="1.1" fill="#173B5F" stroke="#173B5F" strokeWidth="0.3" />
 
         {/* Tesla Induction Ring Torus */}
         <ellipse
@@ -668,7 +668,7 @@ const ElectricPoleSprite = ({
             cy="-21"
             r={isSpecial ? 4.2 : 3.2}
             fill="url(#yellowLightBulbGrad)"
-            stroke={isSpecial ? "#FFFFFF" : "#F59E0B"}
+            stroke={isSpecial ? "#FFFFFF" : "#214A70"}
             strokeWidth={isSpecial ? "0.9" : "0.6"}
             style={{ filter: isSpecial ? 'drop-shadow(0 0 6px #FACC15)' : 'drop-shadow(0 0 4px #FACC15)' }}
           />
@@ -684,7 +684,7 @@ const ElectricPoleSprite = ({
               cy="-21"
               r={6 + ((now * 0.012) % 7)}
               fill="none"
-              stroke="#FEF08A"
+              stroke="#EAF2F6"
               strokeWidth="0.8"
               opacity={1 - ((now * 0.012) % 7) / 7}
             />
@@ -704,8 +704,8 @@ const ElectricPoleSprite = ({
 
       {isTarget && (
         <g transform="translate(0, -32)" pointerEvents="none">
-          <rect x="-35" y="-6.5" width="70" height="13" rx="6.5" fill="#78350F" stroke="#FACC15" strokeWidth="1.2" style={{ filter: 'drop-shadow(0 2px 5px rgba(245,158,11,0.5))' }} />
-          <text x="0" y="3" textAnchor="middle" fill="#FEF08A" fontSize="6.8" fontWeight="900" fontFamily="system-ui, sans-serif">
+          <rect x="-35" y="-6.5" width="70" height="13" rx="6.5" fill="#173B5F" stroke="#FACC15" strokeWidth="1.2" style={{ filter: 'drop-shadow(0 2px 5px rgba(245,158,11,0.5))' }} />
+          <text x="0" y="3" textAnchor="middle" fill="#EAF2F6" fontSize="6.8" fontWeight="900" fontFamily="system-ui, sans-serif">
             DESTINATION 🎯
           </text>
         </g>
@@ -784,7 +784,7 @@ const ElectricLightningTether = ({ poleX, poleY, trainX, trainY, trainRotation, 
       <path
         d={mainPath}
         fill="none"
-        stroke="#F59E0B"
+        stroke="#214A70"
         strokeWidth="6"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -808,7 +808,7 @@ const ElectricLightningTether = ({ poleX, poleY, trainX, trainY, trainRotation, 
         <path
           d={`M ${mainPoints[2]} L ${forkPoints1.join(' L ')}`}
           fill="none"
-          stroke="#FEF08A"
+          stroke="#EAF2F6"
           strokeWidth="1.1"
           strokeLinecap="round"
           opacity="0.75"
@@ -834,7 +834,7 @@ const ElectricLightningTether = ({ poleX, poleY, trainX, trainY, trainRotation, 
           cy={p.py}
           r={p.pr}
           fill="#FFFFFF"
-          stroke="#FEF08A"
+          stroke="#EAF2F6"
           strokeWidth="0.6"
           opacity={p.opacity}
           style={{ filter: 'drop-shadow(0 0 3px #FACC15)' }}
@@ -861,7 +861,7 @@ const ElectricLightningTether = ({ poleX, poleY, trainX, trainY, trainRotation, 
         fill="rgba(254, 240, 138, 0.6)"
         stroke="#FFFFFF"
         strokeWidth="1"
-        style={{ filter: 'drop-shadow(0 0 4px #F59E0B)' }}
+        style={{ filter: 'drop-shadow(0 0 4px #214A70)' }}
       />
     </g>
   );
@@ -1418,24 +1418,24 @@ export default function MazeGame({
 
           <radialGradient id="poleEmitterGrad" cx="35%" cy="30%" r="70%">
             <stop offset="0%" stopColor="#FFFFFF" />
-            <stop offset="35%" stopColor="#FEF08A" />
-            <stop offset="70%" stopColor="#F59E0B" />
-            <stop offset="100%" stopColor="#B45309" />
+            <stop offset="35%" stopColor="#EAF2F6" />
+            <stop offset="70%" stopColor="#214A70" />
+            <stop offset="100%" stopColor="#173B5F" />
           </radialGradient>
 
           {/* Glowing Yellow Light Bulb Gradient */}
           <radialGradient id="yellowLightBulbGrad" cx="35%" cy="30%" r="70%">
             <stop offset="0%" stopColor="#FFFFFF" />
-            <stop offset="35%" stopColor="#FEF08A" />
+            <stop offset="35%" stopColor="#EAF2F6" />
             <stop offset="75%" stopColor="#FACC15" />
-            <stop offset="100%" stopColor="#D97706" />
+            <stop offset="100%" stopColor="#173B5F" />
           </radialGradient>
 
           {/* Lightning Gradients */}
           <radialGradient id="yellowLightningGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#FEF08A" stopOpacity="0.9" />
+            <stop offset="0%" stopColor="#EAF2F6" stopOpacity="0.9" />
             <stop offset="40%" stopColor="#FACC15" stopOpacity="0.5" />
-            <stop offset="100%" stopColor="#F59E0B" stopOpacity="0" />
+            <stop offset="100%" stopColor="#214A70" stopOpacity="0" />
           </radialGradient>
 
           {/* Train Gradients */}

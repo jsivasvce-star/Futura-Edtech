@@ -94,7 +94,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
       overflow: 'hidden',
       boxSizing: 'border-box',
       padding: '0.4rem 0.75rem',
-      backgroundColor: '#FFFFFF',
+      backgroundColor: 'transparent',
       position: 'relative',
       fontFamily: 'system-ui, -apple-system, sans-serif'
     }}>
@@ -106,8 +106,8 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
         alignItems: 'center', 
         padding: '0.65rem 1.25rem',
         marginBottom: '0.65rem',
-        background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-        border: '1.5px solid #FDE68A',
+        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+        border: '1.5px solid #E2E8F0',
         borderRadius: '24px',
         boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
         flexShrink: 0,
@@ -122,7 +122,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
             padding: '0.6rem 1.15rem', 
             fontSize: '0.92rem', 
             gap: '0.5rem',
-            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+            background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
             color: '#FFFFFF',
             border: 'none',
             borderRadius: '14px',
@@ -140,7 +140,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
         {/* Center: Title & Subtitle */}
         <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
           <h2 style={{ margin: 0, fontSize: '1.42rem', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.65rem', color: '#064E3B', letterSpacing: '-0.02em' }}>
-            <Compass size={28} style={{ color: '#D97706' }} />
+            <Compass size={28} style={{ color: '#173B5F' }} />
             Activity 4.9: Fun with Magnets
           </h2>
           <span style={{ fontSize: '0.88rem', color: '#047857', fontWeight: 800 }}>Class 6 Science — 3D Magnetic Town Expedition & Magnet Care</span>
@@ -161,7 +161,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                   alignItems: 'center',
                   gap: '0.45rem',
                   border: isActive ? 'none' : '1.5px solid #CBD5E1',
-                  background: isActive ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#F8FAFC',
+                  background: isActive ? 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)' : '#F8FAFC',
                   color: isActive ? '#FFFFFF' : '#334155',
                   borderRadius: '25px',
                   cursor: 'pointer',
@@ -193,7 +193,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
         {/* STEP 0: PREDICT */}
         {step === 0 && (
           <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxSizing: 'border-box' }}>
-            <div style={{ width: '100%', maxWidth: '1000px', maxHeight: '100%', overflowY: 'auto', background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', border: '1.5px solid #FDE68A', borderRadius: '24px', padding: '2rem 2.5rem', boxShadow: '0 10px 32px rgba(217, 119, 6, 0.08)', boxSizing: 'border-box', margin: '0 auto' }}>
+            <div style={{ width: '100%', maxWidth: '1000px', maxHeight: '100%', overflowY: 'auto', background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', border: '1.5px solid #E2E8F0', borderRadius: '24px', padding: '2rem 2.5rem', boxShadow: '0 10px 32px rgba(217, 119, 6, 0.08)', boxSizing: 'border-box', margin: '0 auto' }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', background: '#D1FAE5', color: '#065F46', padding: '0.4rem 0.95rem', borderRadius: '18px', fontSize: '0.85rem', fontWeight: 800, letterSpacing: '1.2px', marginBottom: '0.75rem' }}>
                 <Sparkles size={16} color="#065F46" /> SECTION 4.5 · FUN WITH MAGNETS
               </div>
@@ -270,8 +270,8 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
               </div>
               
               {predictAns && (
-                <div className="reveal show" style={{ marginTop: '1rem', padding: '1rem 1.35rem', background: '#F0FDF4', borderLeft: `5px solid ${predictAns.correct ? '#16A34A' : '#D97706'}`, border: '1.5px solid #A7F3D0', borderRadius: '18px', color: '#334155', fontWeight: 600, fontSize: '1rem', lineHeight: 1.55 }}>
-                  <b style={{ color: predictAns.correct ? '#16A34A' : '#D97706' }}>{predictAns.correct ? '✓ Correct!' : '✗ Not quite.'} Magnetic Force Through Materials!</b> A magnet's invisible magnetic field passes through non-magnetic surfaces, pulling and guiding magnetic objects smoothly across the board!
+                <div className="reveal show" style={{ marginTop: '1rem', padding: '1rem 1.35rem', background: '#F0FDF4', borderLeft: `5px solid ${predictAns.correct ? '#16A34A' : '#173B5F'}`, border: '1.5px solid #A7F3D0', borderRadius: '18px', color: '#334155', fontWeight: 600, fontSize: '1rem', lineHeight: 1.55 }}>
+                  <b style={{ color: predictAns.correct ? '#16A34A' : '#173B5F' }}>{predictAns.correct ? '✓ Correct!' : '✗ Not quite.'} Magnetic Force Through Materials!</b> A magnet's invisible magnetic field passes through non-magnetic surfaces, pulling and guiding magnetic objects smoothly across the board!
                 </div>
               )}
 
@@ -283,7 +283,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                     padding: '0.95rem 2.6rem',
                     borderRadius: '30px',
                     border: 'none',
-                    background: predictAns ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#CBD5E1',
+                    background: predictAns ? 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)' : '#CBD5E1',
                     color: predictAns ? '#FFFFFF' : '#64748B',
                     fontWeight: 900,
                     fontSize: '1.05rem',
@@ -373,13 +373,13 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.9, opacity: 0 }}
                         style={{ 
-                          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
+                          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
                           borderRadius: '24px', 
                           padding: '2.5rem 3rem', 
                           maxWidth: '520px', 
                           width: '90%',
                           textAlign: 'center', 
-                          border: '1.5px solid #FDE68A',
+                          border: '1.5px solid #E2E8F0',
                           boxShadow: '0 20px 50px rgba(217, 119, 6, 0.2)',
                           display: 'flex',
                           flexDirection: 'column',
@@ -401,7 +401,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                             fontSize: '1.15rem',
                             fontWeight: 900,
                             borderRadius: '40px',
-                            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                            background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
                             color: '#FFFFFF',
                             border: 'none',
                             cursor: 'pointer',
@@ -424,8 +424,8 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
             {/* Right: Control & Observation Panel */}
             <div style={{ 
               flex: '1.05', 
-              background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
-              border: '1.5px solid #FDE68A', 
+              background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
+              border: '1.5px solid #E2E8F0', 
               borderRadius: '24px', 
               padding: '1.4rem 1.5rem', 
               boxShadow: '0 10px 32px rgba(217, 119, 6, 0.08)', 
@@ -438,8 +438,8 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
             }}>
               {/* Magnetic Principles Explanation Box */}
               <div style={{
-                background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-                border: '1.5px solid #FDE68A',
+                background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+                border: '1.5px solid #E2E8F0',
                 borderRadius: '20px',
                 padding: '1.2rem 1.35rem',
                 display: 'flex',
@@ -447,12 +447,12 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                 gap: '0.75rem',
                 boxShadow: '0 4px 14px rgba(217, 119, 6, 0.08)'
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: '#78350F', fontWeight: 900, fontSize: '1.25rem' }}>
-                  <Sparkles size={24} color="#D97706" />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: '#173B5F', fontWeight: 900, fontSize: '1.25rem' }}>
+                  <Sparkles size={24} color="#173B5F" />
                   <span>How Electromagnetic Control Works:</span>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', color: '#78350F', fontSize: '1.08rem', lineHeight: 1.5, fontWeight: 700 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', color: '#173B5F', fontSize: '1.08rem', lineHeight: 1.5, fontWeight: 700 }}>
                   <p style={{ margin: 0 }}>
                     • Electromagnetic poles activate at nearby track junctions.
                   </p>
@@ -475,8 +475,8 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
 
                 return (
                   <div style={{ 
-                    background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
-                    border: '1.5px solid #FDE68A', 
+                    background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
+                    border: '1.5px solid #E2E8F0', 
                     borderRadius: '20px', 
                     padding: '1.15rem 1.25rem', 
                     display: 'flex', 
@@ -485,12 +485,12 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                     boxShadow: '0 4px 16px rgba(217, 119, 6, 0.08)'
                   }}>
                     {/* Header */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #FDE68A', paddingBottom: '0.55rem' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#78350F', fontWeight: 900, fontSize: '0.92rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-                        <Compass size={18} color="#D97706" />
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #E2E8F0', paddingBottom: '0.55rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#173B5F', fontWeight: 900, fontSize: '0.92rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                        <Compass size={18} color="#173B5F" />
                         <span>D-PAD HUD CONTROLS</span>
                       </div>
-                      <div style={{ fontSize: '0.82rem', color: '#78350F', fontWeight: 900, background: '#FEF3C7', padding: '3px 10px', borderRadius: '10px', border: '1.5px solid #FDE68A' }}>
+                      <div style={{ fontSize: '0.82rem', color: '#173B5F', fontWeight: 900, background: '#EAF2F6', padding: '3px 10px', borderRadius: '10px', border: '1.5px solid #E2E8F0' }}>
                         Station: {currentStationName}
                       </div>
                     </div>
@@ -515,9 +515,9 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                         }}
                         style={{
                           gridColumn: 2,
-                          background: availableDirs['N'] ? '#FFFFFF' : '#FEF3C7',
-                          color: availableDirs['N'] ? '#78350F' : '#D1D5DB',
-                          border: `2px solid ${hintDir === 'N' ? '#F59E0B' : (availableDirs['N'] ? '#F59E0B' : '#E5E7EB')}`,
+                          background: availableDirs['N'] ? '#FFFFFF' : '#EAF2F6',
+                          color: availableDirs['N'] ? '#173B5F' : '#D1D5DB',
+                          border: `2px solid ${hintDir === 'N' ? '#214A70' : (availableDirs['N'] ? '#214A70' : '#E5E7EB')}`,
                           borderRadius: '16px',
                           fontSize: '14px',
                           fontWeight: 900,
@@ -526,7 +526,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                           alignItems: 'center',
                           justifyContent: 'center',
                           cursor: (isMoving || !availableDirs['N']) ? 'not-allowed' : 'pointer',
-                          boxShadow: hintDir === 'N' ? '0 0 14px #F59E0B' : (availableDirs['N'] ? '0 4px 10px rgba(217, 119, 6, 0.2)' : 'none'),
+                          boxShadow: hintDir === 'N' ? '0 0 14px #214A70' : (availableDirs['N'] ? '0 4px 10px rgba(217, 119, 6, 0.2)' : 'none'),
                           transition: 'all 0.2s ease'
                         }}
                       >
@@ -545,9 +545,9 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                         style={{
                           gridColumn: 1,
                           gridRow: 2,
-                          background: availableDirs['W'] ? '#FFFFFF' : '#FEF3C7',
-                          color: availableDirs['W'] ? '#78350F' : '#D1D5DB',
-                          border: `2px solid ${hintDir === 'W' ? '#F59E0B' : (availableDirs['W'] ? '#F59E0B' : '#E5E7EB')}`,
+                          background: availableDirs['W'] ? '#FFFFFF' : '#EAF2F6',
+                          color: availableDirs['W'] ? '#173B5F' : '#D1D5DB',
+                          border: `2px solid ${hintDir === 'W' ? '#214A70' : (availableDirs['W'] ? '#214A70' : '#E5E7EB')}`,
                           borderRadius: '16px',
                           fontSize: '14px',
                           fontWeight: 900,
@@ -556,7 +556,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                           alignItems: 'center',
                           justifyContent: 'center',
                           cursor: (isMoving || !availableDirs['W']) ? 'not-allowed' : 'pointer',
-                          boxShadow: hintDir === 'W' ? '0 0 14px #F59E0B' : (availableDirs['W'] ? '0 4px 10px rgba(217, 119, 6, 0.2)' : 'none'),
+                          boxShadow: hintDir === 'W' ? '0 0 14px #214A70' : (availableDirs['W'] ? '0 4px 10px rgba(217, 119, 6, 0.2)' : 'none'),
                           transition: 'all 0.2s ease'
                         }}
                       >
@@ -568,7 +568,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                       <div style={{
                         gridColumn: 2,
                         gridRow: 2,
-                        background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                        background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
                         borderRadius: '16px',
                         display: 'grid',
                         placeItems: 'center',
@@ -593,9 +593,9 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                         style={{
                           gridColumn: 3,
                           gridRow: 2,
-                          background: availableDirs['E'] ? '#FFFFFF' : '#FEF3C7',
-                          color: availableDirs['E'] ? '#78350F' : '#D1D5DB',
-                          border: `2px solid ${hintDir === 'E' ? '#F59E0B' : (availableDirs['E'] ? '#F59E0B' : '#E5E7EB')}`,
+                          background: availableDirs['E'] ? '#FFFFFF' : '#EAF2F6',
+                          color: availableDirs['E'] ? '#173B5F' : '#D1D5DB',
+                          border: `2px solid ${hintDir === 'E' ? '#214A70' : (availableDirs['E'] ? '#214A70' : '#E5E7EB')}`,
                           borderRadius: '16px',
                           fontSize: '14px',
                           fontWeight: 900,
@@ -604,7 +604,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                           alignItems: 'center',
                           justifyContent: 'center',
                           cursor: (isMoving || !availableDirs['E']) ? 'not-allowed' : 'pointer',
-                          boxShadow: hintDir === 'E' ? '0 0 14px #F59E0B' : (availableDirs['E'] ? '0 4px 10px rgba(217, 119, 6, 0.2)' : 'none'),
+                          boxShadow: hintDir === 'E' ? '0 0 14px #214A70' : (availableDirs['E'] ? '0 4px 10px rgba(217, 119, 6, 0.2)' : 'none'),
                           transition: 'all 0.2s ease'
                         }}
                       >
@@ -623,9 +623,9 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                         style={{
                           gridColumn: 2,
                           gridRow: 3,
-                          background: availableDirs['S'] ? '#FFFFFF' : '#FEF3C7',
-                          color: availableDirs['S'] ? '#78350F' : '#D1D5DB',
-                          border: `2px solid ${hintDir === 'S' ? '#F59E0B' : (availableDirs['S'] ? '#F59E0B' : '#E5E7EB')}`,
+                          background: availableDirs['S'] ? '#FFFFFF' : '#EAF2F6',
+                          color: availableDirs['S'] ? '#173B5F' : '#D1D5DB',
+                          border: `2px solid ${hintDir === 'S' ? '#214A70' : (availableDirs['S'] ? '#214A70' : '#E5E7EB')}`,
                           borderRadius: '16px',
                           fontSize: '14px',
                           fontWeight: 900,
@@ -634,7 +634,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                           alignItems: 'center',
                           justifyContent: 'center',
                           cursor: (isMoving || !availableDirs['S']) ? 'not-allowed' : 'pointer',
-                          boxShadow: hintDir === 'S' ? '0 0 14px #F59E0B' : (availableDirs['S'] ? '0 4px 10px rgba(217, 119, 6, 0.2)' : 'none'),
+                          boxShadow: hintDir === 'S' ? '0 0 14px #214A70' : (availableDirs['S'] ? '0 4px 10px rgba(217, 119, 6, 0.2)' : 'none'),
                           transition: 'all 0.2s ease'
                         }}
                       >
@@ -654,11 +654,11 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                       style={{
                         width: '100%',
                         background: '#FFFFFF',
-                        border: '1.5px solid #FDE68A',
+                        border: '1.5px solid #E2E8F0',
                         padding: '10px 14px',
                         borderRadius: '14px',
                         fontSize: '0.92rem',
-                        color: '#78350F',
+                        color: '#173B5F',
                         fontWeight: 900,
                         cursor: isMoving ? 'not-allowed' : 'pointer',
                         display: 'flex',
@@ -682,7 +682,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                         fontSize: '1.05rem', 
                         fontWeight: 900, 
                         borderRadius: '16px', 
-                        background: ext.maze ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#F1F5F9', 
+                        background: ext.maze ? 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)' : '#F1F5F9', 
                         color: ext.maze ? '#FFFFFF' : '#94A3B8', 
                         border: ext.maze ? 'none' : '1.5px solid #E2E8F0', 
                         cursor: ext.maze ? 'pointer' : 'not-allowed', 
@@ -707,7 +707,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
         {/* STEP 2: MAGNET CARE & ASSESSMENT */}
         {step === 2 && (
           <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxSizing: 'border-box' }}>
-            <div style={{ width: '100%', maxWidth: '1000px', maxHeight: '100%', overflowY: 'auto', background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', border: '1.5px solid #FDE68A', borderRadius: '24px', padding: '2rem 2.5rem', boxShadow: '0 10px 32px rgba(217, 119, 6, 0.08)', boxSizing: 'border-box' }}>
+            <div style={{ width: '100%', maxWidth: '1000px', maxHeight: '100%', overflowY: 'auto', background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', border: '1.5px solid #E2E8F0', borderRadius: '24px', padding: '2rem 2.5rem', boxShadow: '0 10px 32px rgba(217, 119, 6, 0.08)', boxSizing: 'border-box' }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', background: '#D1FAE5', color: '#065F46', padding: '0.4rem 0.95rem', borderRadius: '18px', fontSize: '0.85rem', fontWeight: 800, letterSpacing: '1.2px', marginBottom: '0.75rem' }}>
                 <Sparkles size={16} color="#065F46" /> MAGNET CARE & ASSESSMENT
               </div>
@@ -729,8 +729,8 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                   const isCorrect = c.ok;
                   
                   let bgColor = '#FFFFFF';
-                  let borderColor = '#FDE68A';
-                  let textColor = '#78350F';
+                  let borderColor = '#E2E8F0';
+                  let textColor = '#173B5F';
                   let icon = null;
 
                   if (qHard) {
@@ -773,7 +773,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <span className="key" style={{ marginRight: '0.75rem', padding: '0.2rem 0.6rem', borderRadius: '8px', background: '#FEF3C7', fontSize: '0.88rem', color: '#78350F', fontWeight: 900 }}>{['A','B','C','D'][idx]}</span>
+                        <span className="key" style={{ marginRight: '0.75rem', padding: '0.2rem 0.6rem', borderRadius: '8px', background: '#EAF2F6', fontSize: '0.88rem', color: '#173B5F', fontWeight: 900 }}>{['A','B','C','D'][idx]}</span>
                         {c.label}
                       </div>
                       {icon}
@@ -784,13 +784,13 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
 
               {qHard && (
                 <div style={{ marginTop: '1rem' }}>
-                  <div className="reveal show" style={{ padding: '1rem 1.35rem', background: '#F0FDF4', borderLeft: `5px solid ${qHard.correct ? '#16A34A' : '#D97706'}`, border: '1.5px solid #A7F3D0', borderRadius: '18px', color: '#334155', fontWeight: 600, fontSize: '1rem', lineHeight: 1.55, marginBottom: '1.25rem' }}>
-                    <b style={{ color: qHard.correct ? '#16A34A' : '#D97706' }}>{qHard.correct ? '✓ Correct!' : '✗ Incorrect.'} Mistreatment weakened it - and careful storage prevents it.</b> Dropping, knocking and heat disturb the aligned magnetic domains. Store magnets in pairs with unlike poles together!
+                  <div className="reveal show" style={{ padding: '1rem 1.35rem', background: '#F0FDF4', borderLeft: `5px solid ${qHard.correct ? '#16A34A' : '#173B5F'}`, border: '1.5px solid #A7F3D0', borderRadius: '18px', color: '#334155', fontWeight: 600, fontSize: '1rem', lineHeight: 1.55, marginBottom: '1.25rem' }}>
+                    <b style={{ color: qHard.correct ? '#16A34A' : '#173B5F' }}>{qHard.correct ? '✓ Correct!' : '✗ Incorrect.'} Mistreatment weakened it - and careful storage prevents it.</b> Dropping, knocking and heat disturb the aligned magnetic domains. Store magnets in pairs with unlike poles together!
                   </div>
                   <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', justifyContent: 'center' }}>
                     <button 
                       onClick={() => go(3)}
-                      style={{ padding: '0.95rem 2.6rem', borderRadius: '30px', border: 'none', background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)', color: '#FFFFFF', fontWeight: 900, fontSize: '1.08rem', cursor: 'pointer', boxShadow: '0 6px 20px rgba(217, 119, 6, 0.45)', display: 'flex', alignItems: 'center', gap: '0.6rem', transition: 'all 0.25s ease' }}
+                      style={{ padding: '0.95rem 2.6rem', borderRadius: '30px', border: 'none', background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)', color: '#FFFFFF', fontWeight: 900, fontSize: '1.08rem', cursor: 'pointer', boxShadow: '0 6px 20px rgba(217, 119, 6, 0.45)', display: 'flex', alignItems: 'center', gap: '0.6rem', transition: 'all 0.25s ease' }}
                     >
                       Continue to Did You Know <ArrowRight size={20} color="#FFFFFF" />
                     </button>
@@ -807,13 +807,13 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0.9, opacity: 0 }}
                     style={{ 
-                      background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
+                      background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
                       borderRadius: '24px', 
                       padding: '2.5rem 3rem', 
                       maxWidth: '520px', 
                       width: '90%',
                       textAlign: 'center', 
-                      border: '1.5px solid #FDE68A',
+                      border: '1.5px solid #E2E8F0',
                       boxShadow: '0 20px 50px rgba(217, 119, 6, 0.2)',
                       display: 'flex',
                       flexDirection: 'column',
@@ -833,7 +833,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                       }}
                       style={{
                         padding: '1.1rem 3rem',
-                        background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                        background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
                         color: '#FFFFFF',
                         border: 'none',
                         borderRadius: '40px',
@@ -860,11 +860,11 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
 
       {/* STEP 3: DID YOU KNOW */}
       {step === 3 && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: '#FFFFFF' }}>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: 'transparent' }}>
           {/* Compact header for Did You Know step */}
-          <div style={{ padding: '0.55rem 1.25rem', background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', border: '1.5px solid #FDE68A', borderRadius: '0 0 20px 20px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 4px 16px rgba(217,119,6,0.08)' }}>
+          <div style={{ padding: '0.55rem 1.25rem', background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', border: '1.5px solid #E2E8F0', borderRadius: '0 0 20px 20px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 4px 16px rgba(217,119,6,0.08)' }}>
             <span style={{ fontSize: '1.1rem', fontWeight: 900, color: '#064E3B' }}>✨ Did You Know? — Fascinating Magnetism Facts</span>
-            <button onClick={() => go(2)} style={{ padding: '0.5rem 1.15rem', background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)', color: '#FFFFFF', border: 'none', borderRadius: '14px', fontWeight: 900, fontSize: '0.92rem', cursor: 'pointer', boxShadow: '0 3px 10px rgba(217,119,6,0.3)' }}>← Back to Magnet Care</button>
+            <button onClick={() => go(2)} style={{ padding: '0.5rem 1.15rem', background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)', color: '#FFFFFF', border: 'none', borderRadius: '14px', fontWeight: 900, fontSize: '0.92rem', cursor: 'pointer', boxShadow: '0 3px 10px rgba(217,119,6,0.3)' }}>← Back to Magnet Care</button>
           </div>
           <div style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
             <DidYouKnow

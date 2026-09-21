@@ -132,6 +132,21 @@ export default function App() {
     setHideHeader(false);
   }, [activeActivity]);
 
+  // Apply Physics Chapter 4 background
+  useEffect(() => {
+    const isPhysicsCh4 = activeSubject === 'class6' && [
+      'intro_magnets', 'activity_4_1', 'magnetic_poles', 'suspended_magnet', 
+      'magnetic_compass', 'magnet_interaction', 'activity_4_6', 'activity_4_7', 
+      'sci6-ch4-sec45-fun-with-magnets', 'chapter_4_quiz', 'chapter4_flow', 'chapter4_cover'
+    ].includes(activeActivity);
+
+    if (isPhysicsCh4) {
+      document.body.classList.add('physics-chapter4-bg');
+    } else {
+      document.body.classList.remove('physics-chapter4-bg');
+    }
+  }, [activeSubject, activeActivity]);
+
   const [isAudioPlaying, setIsAudioPlaying] = useState(true);
   const [isChapter2SoundButtonVisible, setIsChapter2SoundButtonVisible] = useState(true);
   const audioRef = useRef(null);
@@ -3149,7 +3164,7 @@ export default function App() {
           ) : activeActivity === 'sci6-ch4-sec45-fun-with-magnets' ? (
             <FunWithMagnets onBackToDashboard={() => navigateTo('class6', 'chapter4_flow')} onComplete={() => navigateTo('class6', 'chapter4_flow')} />
           ) : activeActivity === 'chapter_4_quiz' ? (
-            <div style={{ height: '100vh', width: '100vw', overflowY: 'auto', background: 'var(--bg)' }}>
+            <div style={{ height: '100vh', width: '100vw', overflowY: 'auto', background: 'transparent' }}>
               <button 
                 onClick={() => navigateTo('class6', 'chapter4_flow')} 
                 style={{ position: 'absolute', top: '1.5rem', left: '1.5rem', zIndex: 10, background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text)', padding: '0.5rem 1rem', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}

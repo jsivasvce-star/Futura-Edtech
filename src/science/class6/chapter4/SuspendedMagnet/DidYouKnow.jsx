@@ -151,7 +151,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
       let fontWeight = 600;
 
       if (isCurrentWord) {
-        color = '#D97706';
+        color = '#173B5F';
         fontWeight = 900;
       }
 
@@ -193,8 +193,8 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
       }}>
         {/* LEFT COLUMN: Visual Artwork & Interactive Card */}
         <div style={{
-          background: 'linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 50%, #FEF3C7 100%)',
-          border: '1.5px solid #FDE68A',
+          background: 'linear-gradient(145deg, #FFFFFF 0%, #F3F7F9 50%, #EAF2F6 100%)',
+          border: '1.5px solid #E2E8F0',
           borderRadius: '24px',
           boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
           padding: '1.15rem',
@@ -217,7 +217,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
               alignItems: 'center',
               gap: '0.45rem',
               background: 'rgba(217, 119, 6, 0.12)',
-              color: '#B45309',
+              color: '#173B5F',
               padding: '0.35rem 0.85rem',
               borderRadius: '20px',
               fontSize: '0.85rem',
@@ -229,7 +229,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
 
             <span style={{
               fontSize: '0.85rem',
-              color: '#78350F',
+              color: '#173B5F',
               fontWeight: 800
             }}>
               Activity 4.3 Reference
@@ -241,11 +241,11 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
             flex: 1,
             minHeight: '220px',
             borderRadius: '18px',
-            border: '2px solid #FDE68A',
+            border: '2px solid #E2E8F0',
             overflow: 'hidden',
             position: 'relative',
             boxShadow: '0 10px 25px rgba(217, 119, 6, 0.12)',
-            background: '#FEF3C7'
+            background: '#EAF2F6'
           }}>
             <img
               src="/SuspendedMagnet/conclusion_bg.jpg"
@@ -287,7 +287,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
               <p style={{
                 margin: '2px 0 0 0',
                 fontSize: '0.86rem',
-                color: '#FEF3C7',
+                color: '#EAF2F6',
                 fontWeight: 700,
                 textShadow: '0 1px 4px rgba(0,0,0,0.6)'
               }}>
@@ -310,11 +310,11 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                 height: '38px',
                 borderRadius: '12px',
                 background: '#FFFFFF',
-                border: '1.5px solid #FDE68A',
+                border: '1.5px solid #E2E8F0',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#D97706',
+                color: '#173B5F',
                 boxShadow: '0 2px 8px rgba(217, 119, 6, 0.1)'
               }}>
                 <Award size={20} />
@@ -323,7 +323,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                 <h5 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 900, color: '#1E1B4B' }}>
                   Chapter 4 Mastery
                 </h5>
-                <p style={{ margin: 0, fontSize: '0.78rem', color: '#78350F', fontWeight: 700 }}>
+                <p style={{ margin: 0, fontSize: '0.78rem', color: '#173B5F', fontWeight: 700 }}>
                   Curriculum Class 6 Physics
                 </p>
               </div>
@@ -348,8 +348,8 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
 
         {/* RIGHT COLUMN: Facts Single Static Page Format with Horizontal Sliding Transition */}
         <div style={{
-          background: 'linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 50%, #FEF3C7 100%)',
-          border: '1.5px solid #FDE68A',
+          background: 'linear-gradient(145deg, #FFFFFF 0%, #F3F7F9 50%, #EAF2F6 100%)',
+          border: '1.5px solid #E2E8F0',
           borderRadius: '24px',
           boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
           padding: '1.15rem 1.35rem',
@@ -364,7 +364,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
             alignItems: 'center',
             justifyContent: 'space-between',
             paddingBottom: '0.75rem',
-            borderBottom: '1.5px solid #FDE68A',
+            borderBottom: '1.5px solid #E2E8F0',
             marginBottom: '0.75rem',
             flexShrink: 0
           }}>
@@ -374,11 +374,11 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                 height: '38px',
                 borderRadius: '12px',
                 background: '#FFFFFF',
-                border: '1.5px solid #FDE68A',
+                border: '1.5px solid #E2E8F0',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#D97706',
+                color: '#173B5F',
                 boxShadow: '0 2px 8px rgba(217, 119, 6, 0.1)'
               }}>
                 <Sparkles size={20} />
@@ -387,7 +387,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                 <h3 style={{ margin: 0, fontSize: '1.35rem', fontWeight: 900, color: '#1E1B4B' }}>
                   Fascinating Magnetic Facts
                 </h3>
-                <span style={{ fontSize: '0.8rem', color: '#78350F', fontWeight: 700 }}>
+                <span style={{ fontSize: '0.8rem', color: '#173B5F', fontWeight: 700 }}>
                   Page {pageIndex + 1} of 2 ● {pageIndex === 0 ? 'Facts 01 - 03' : 'Facts 04 - 05'}
                 </span>
               </div>
@@ -402,12 +402,12 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                 className={pageIndex === 1 ? 'gold-glow-btn' : ''}
                 style={{
                   background: pageIndex === 0 ? 'rgba(255, 255, 255, 0.4)' : undefined,
-                  border: pageIndex === 0 ? '1.5px solid #FDE68A' : 'none',
+                  border: pageIndex === 0 ? '1.5px solid #E2E8F0' : 'none',
                   borderRadius: '12px',
                   padding: '0.35rem 0.8rem',
                   cursor: pageIndex === 0 ? 'not-allowed' : 'pointer',
                   opacity: pageIndex === 0 ? 0.45 : 1,
-                  color: pageIndex === 1 ? '#FFFFFF' : '#78350F',
+                  color: pageIndex === 1 ? '#FFFFFF' : '#173B5F',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.25rem',
@@ -430,7 +430,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                       width: pageIndex === idx ? '22px' : '9px',
                       height: '9px',
                       borderRadius: '10px',
-                      background: pageIndex === idx ? '#D97706' : '#FDE68A',
+                      background: pageIndex === idx ? '#173B5F' : '#E2E8F0',
                       border: 'none',
                       cursor: 'pointer',
                       padding: 0,
@@ -447,12 +447,12 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                 className={pageIndex === 0 ? 'gold-glow-btn' : ''}
                 style={{
                   background: pageIndex === 1 ? 'rgba(255, 255, 255, 0.4)' : undefined,
-                  border: pageIndex === 1 ? '1.5px solid #FDE68A' : 'none',
+                  border: pageIndex === 1 ? '1.5px solid #E2E8F0' : 'none',
                   borderRadius: '12px',
                   padding: '0.35rem 0.8rem',
                   cursor: pageIndex === 1 ? 'not-allowed' : 'pointer',
                   opacity: pageIndex === 1 ? 0.45 : 1,
-                  color: pageIndex === 0 ? '#FFFFFF' : '#78350F',
+                  color: pageIndex === 0 ? '#FFFFFF' : '#173B5F',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.25rem',
@@ -495,7 +495,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                       onClick={() => setActiveFactId(fact.id)}
                       style={{
                         background: '#FFFFFF',
-                        border: isActive ? '2px solid #D97706' : '1.5px solid #FDE68A',
+                        border: isActive ? '2px solid #173B5F' : '1.5px solid #E2E8F0',
                         borderRadius: '18px',
                         boxShadow: isActive ? '0 6px 18px rgba(217, 119, 6, 0.14)' : '0 2px 8px rgba(217, 119, 6, 0.05)',
                         padding: pageIndex === 0 ? '0.85rem 1.15rem' : '1.15rem 1.35rem',
@@ -517,7 +517,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
                           <span style={{
                             background: 'rgba(217, 119, 6, 0.12)',
-                            color: '#B45309',
+                            color: '#173B5F',
                             fontSize: '12px',
                             fontWeight: 900,
                             borderRadius: '8px',
@@ -546,11 +546,11 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                           }}
                           title={isCurrentlyPlaying ? 'Pause Audio' : 'Listen to fact'}
                           style={{
-                            background: isCurrentlyPlaying ? '#D97706' : '#FFFFFF',
-                            border: '1.5px solid #FDE68A',
+                            background: isCurrentlyPlaying ? '#173B5F' : '#FFFFFF',
+                            border: '1.5px solid #E2E8F0',
                             borderRadius: '12px',
                             padding: '0.38rem 0.8rem',
-                            color: isCurrentlyPlaying ? '#FFFFFF' : '#B45309',
+                            color: isCurrentlyPlaying ? '#FFFFFF' : '#173B5F',
                             display: 'flex',
                             alignItems: 'center',
                             gap: '0.35rem',

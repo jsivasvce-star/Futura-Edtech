@@ -2,7 +2,7 @@
 
 .gold-glow-btn {
   position: relative !important;
-  background: linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #B45309 100%) !important;
+  background: linear-gradient(135deg, #214A70 0%, #173B5F 50%, #173B5F 100%) !important;
   border: 1.5px solid rgba(254, 240, 138, 0.6) !important;
   border-radius: 16px;
   color: #FFFFFF !important;
@@ -23,7 +23,7 @@
 
 .gold-glow-btn:hover {
   transform: translateY(-2px) !important;
-  background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 50%, #D97706 100%) !important;
+  background: linear-gradient(135deg, #214A70 0%, #214A70 50%, #173B5F 100%) !important;
   box-shadow: 0 6px 18px rgba(217, 119, 6, 0.45) !important;
 }
 
@@ -34,7 +34,7 @@
 /* Custom scrollbar for control panels */
 .custom-scrollbar {
   scrollbar-width: thin !important;
-  scrollbar-color: #F59E0B rgba(254, 243, 199, 0.7) !important;
+  scrollbar-color: #214A70 rgba(254, 243, 199, 0.7) !important;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -47,13 +47,13 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #F59E0B 0%, #D97706 100%) !important;
+  background: linear-gradient(180deg, #214A70 0%, #173B5F 100%) !important;
   border-radius: 10px !important;
   border: 1.5px solid rgba(254, 243, 199, 0.8) !important;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #B45309 !important;
+  background: #173B5F !important;
 }
 
 /* Right Column Layout: Fullscreen non-scrolling, Halfscreen scrolling */
@@ -70,7 +70,7 @@
   overflow-x: hidden;
   font-family: system-ui, -apple-system, sans-serif;
   scrollbar-width: thin;
-  scrollbar-color: #F59E0B rgba(254, 243, 199, 0.7);
+  scrollbar-color: #214A70 rgba(254, 243, 199, 0.7);
 }
 
 .stage-right-column::-webkit-scrollbar {
@@ -81,11 +81,11 @@
   border-radius: 10px;
 }
 .stage-right-column::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #F59E0B 0%, #D97706 100%);
+  background: linear-gradient(180deg, #214A70 0%, #173B5F 100%);
   border-radius: 10px;
 }
 .stage-right-column::-webkit-scrollbar-thumb:hover {
-  background: #B45309;
+  background: #173B5F;
 }
 
 /* Fullscreen: non-scrolling, containers expand gracefully to fill height */

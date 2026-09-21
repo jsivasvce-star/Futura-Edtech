@@ -37,9 +37,9 @@ body:has(.nautical-map-viewport) .header {
 .nautical-map-viewport {
   --bronze-dark: #2A1705;
   --bronze-deep: #1F1002;
-  --bronze-mid: #78350F;
-  --gold-rich: #F59E0B;
-  --gold-warm: #D97706;
+  --bronze-mid: #173B5F;
+  --gold-rich: #214A70;
+  --gold-warm: #173B5F;
   --parchment-glow: rgba(255, 252, 244, 0.96);
   --parchment-border: #b38b47;
   --font-serif: 'Cinzel', Georgia, serif;
@@ -135,7 +135,7 @@ body:has(.nautical-map-viewport) .header {
 .map-back-btn:hover {
   transform: translateY(-1px) scale(1.03);
   background: rgba(255, 255, 255, 0.98);
-  border-color: #d97706;
+  border-color: #173B5F;
   box-shadow: 0 6px 18px rgba(217, 119, 6, 0.35);
 }
 
@@ -171,7 +171,7 @@ body:has(.nautical-map-viewport) .header {
 .standalone-cover-btn:hover {
   transform: translateY(-1px) scale(1.03);
   background: rgba(255, 255, 255, 0.98);
-  border-color: #d97706;
+  border-color: #173B5F;
   box-shadow: 0 6px 20px rgba(217, 119, 6, 0.38);
 }
 
@@ -218,7 +218,7 @@ body:has(.nautical-map-viewport) .header {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #FFF2A3 0%, #D97706 65%, #451A03 100%);
+  background: radial-gradient(circle at 35% 35%, #EAF2F6 0%, #173B5F 65%, #0A1C2E 100%);
   border: 1.2px solid #2A1705;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.8);
 }
@@ -244,7 +244,7 @@ body:has(.nautical-map-viewport) .header {
   font-size: clamp(0.58rem, 0.65vw, 0.74rem);
   font-weight: 800;
   letter-spacing: 0.18em;
-  color: #92400E;
+  color: #173B5F;
   text-transform: uppercase;
   line-height: 1.2;
 }
@@ -278,7 +278,7 @@ body:has(.nautical-map-viewport) .header {
 }
 
 .counter-icon {
-  color: #B45309;
+  color: #173B5F;
 }
 
 /* =========================================================================
@@ -465,14 +465,14 @@ body:has(.nautical-map-viewport) .header {
   font-size: 0.64rem;
   font-weight: 800;
   letter-spacing: 0.05em;
-  color: #451A03;
+  color: #0A1C2E;
   text-transform: uppercase;
 }
 
 .waypoint-pin-wrapper:hover .pin-title-tag,
 .waypoint-pin-wrapper.is-active .pin-title-tag {
   background: #ffffff;
-  border-color: #D97706;
+  border-color: #173B5F;
   box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35);
   transform: translateY(2px);
 }
@@ -545,7 +545,7 @@ body:has(.nautical-map-viewport) .header {
 .popover-countdown-bar {
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, #F59E0B 0%, #D97706 60%, #10B981 100%);
+  background: linear-gradient(90deg, #214A70 0%, #173B5F 60%, #10B981 100%);
   box-shadow: 0 0 6px rgba(245, 158, 11, 0.6);
   transition: width 0.1s linear;
 }
@@ -558,7 +558,7 @@ body:has(.nautical-map-viewport) .header {
   font-family: var(--font-sans);
   font-size: 0.61rem;
   font-weight: 800;
-  color: #78350F;
+  color: #173B5F;
   letter-spacing: 0.04em;
 }
 
@@ -569,8 +569,8 @@ body:has(.nautical-map-viewport) .header {
   padding: 1px 6px;
   border-radius: 999px;
   background: rgba(254, 243, 199, 0.85);
-  border: 0.8px solid #D97706;
-  color: #92400E;
+  border: 0.8px solid #173B5F;
+  color: #173B5F;
 }
 
 /* Decorative Metallic Corner Rivets */
@@ -579,7 +579,7 @@ body:has(.nautical-map-viewport) .header {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #FFF2A3 0%, #D97706 70%, #451A03 100%);
+  background: radial-gradient(circle at 35% 35%, #EAF2F6 0%, #173B5F 70%, #0A1C2E 100%);
   border: 0.8px solid #2A1705;
 }
 
@@ -603,8 +603,8 @@ body:has(.nautical-map-viewport) .header {
   gap: 4px;
   padding: 2px 7px;
   border-radius: 999px;
-  background: #451A03;
-  color: #FFF2A3;
+  background: #0A1C2E;
+  color: #EAF2F6;
   font-family: var(--font-sans);
   font-size: 0.62rem;
   font-weight: 800;
@@ -613,14 +613,14 @@ body:has(.nautical-map-viewport) .header {
 }
 
 .badge-sparkle {
-  color: #F59E0B;
+  color: #214A70;
 }
 
 .popover-landmark-name {
   font-family: var(--font-sans);
   font-size: 0.62rem;
   font-weight: 700;
-  color: #78350F;
+  color: #173B5F;
   text-align: right;
   white-space: nowrap;
   overflow: hidden;
@@ -676,7 +676,7 @@ body:has(.nautical-map-viewport) .header {
   font-family: var(--font-sans);
   font-size: 0.72rem;
   font-weight: 700;
-  color: #92400E;
+  color: #173B5F;
 }
 
 .popover-desc {
@@ -696,8 +696,8 @@ body:has(.nautical-map-viewport) .header {
   gap: 0.45rem;
   padding: 0.55rem 0.85rem;
   border-radius: 8px;
-  border: 1px solid #FEF08A;
-  background: linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #B45309 100%);
+  border: 1px solid #EAF2F6;
+  background: linear-gradient(135deg, #214A70 0%, #173B5F 50%, #173B5F 100%);
   color: #FFFFFF;
   font-family: var(--font-sans);
   font-weight: 900;
@@ -712,7 +712,7 @@ body:has(.nautical-map-viewport) .header {
 .popover-action-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 6px 18px rgba(217, 119, 6, 0.6);
-  background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 50%, #D97706 100%);
+  background: linear-gradient(135deg, #214A70 0%, #214A70 50%, #173B5F 100%);
 }
 
 .popover-action-btn:active {
@@ -766,7 +766,7 @@ body:has(.nautical-map-viewport) .header {
   font-size: clamp(0.68rem, 0.76vw, 0.8rem);
   font-weight: 800;
   letter-spacing: 0.06em;
-  color: #451A03;
+  color: #0A1C2E;
   text-transform: uppercase;
 }
 
@@ -776,8 +776,8 @@ body:has(.nautical-map-viewport) .header {
   gap: 0.5rem;
   padding: 0.42rem 1.2rem;
   border-radius: 999px;
-  border: 1.2px solid #FEF08A;
-  background: linear-gradient(135deg, #F59E0B 0%, #D97706 60%, #B45309 100%);
+  border: 1.2px solid #EAF2F6;
+  background: linear-gradient(135deg, #214A70 0%, #173B5F 60%, #173B5F 100%);
   color: #FFFFFF;
   font-family: var(--font-sans);
   font-weight: 900;
@@ -827,7 +827,7 @@ body:has(.nautical-map-viewport) .header {
 .footer-tour-btn:hover {
   transform: translateY(-1px) scale(1.03);
   background: #ffffff;
-  border-color: #d97706;
+  border-color: #173B5F;
   box-shadow: 0 6px 16px rgba(217, 119, 6, 0.35);
 }
 
@@ -836,12 +836,12 @@ body:has(.nautical-map-viewport) .header {
 }
 
 .footer-tour-icon {
-  color: #B45309;
+  color: #173B5F;
 }
 
 /* Active Anchored Pin Indicator Pulse */
 .waypoint-pin-wrapper.is-anchored-active .teardrop-pin-svg {
-  filter: drop-shadow(0 0 16px #F59E0B) drop-shadow(0 8px 18px rgba(217, 119, 6, 0.75));
+  filter: drop-shadow(0 0 16px #214A70) drop-shadow(0 8px 18px rgba(217, 119, 6, 0.75));
 }
 
 /* =========================================================================
@@ -972,7 +972,7 @@ body:has(.nautical-map-viewport) .header {
 }
 
 .module-grid-card:hover .module-title-plate {
-  border-color: #C2873E;
+  border-color: #173B5F;
   background: linear-gradient(
     135deg, 
     rgba(255, 255, 252, 0.99) 0%, 
@@ -1059,15 +1059,15 @@ body:has(.nautical-map-viewport) .header {
   gap: 0.55rem;
   padding: clamp(0.44rem, 0.85vh, 0.62rem) clamp(1.4rem, 1.8vw, 2.2rem);
   border-radius: 999px;
-  border: 1.5px solid #D4A857;
+  border: 1.5px solid #173B5F;
   background: linear-gradient(
     140deg, 
-    #78350F 0%, 
+    #173B5F 0%, 
     #5A2408 35%, 
     #3D1704 70%, 
     #2A0E02 100%
   );
-  color: #FEF3C7;
+  color: #EAF2F6;
   font-family: var(--font-sans);
   font-weight: 900;
   font-size: clamp(0.82rem, 0.92vw, 1.05rem);
@@ -1085,15 +1085,15 @@ body:has(.nautical-map-viewport) .header {
 
 .flow-nav-btn:hover {
   transform: translateY(-2px) scale(1.03);
-  border-color: #FBBF24;
+  border-color: #214A70;
   background: linear-gradient(
     140deg, 
-    #92400E 0%, 
-    #78350F 35%, 
+    #173B5F 0%, 
+    #173B5F 35%, 
     #4A1A05 70%, 
     #331202 100%
   );
-  color: #FFFBEB;
+  color: #F3F7F9;
   box-shadow: 
     0 8px 24px rgba(35, 15, 5, 0.75),
     0 0 18px rgba(217, 119, 6, 0.45),
@@ -1106,7 +1106,7 @@ body:has(.nautical-map-viewport) .header {
 
 .flow-nav-icon {
   stroke-width: 2.8px;
-  color: #F59E0B;
+  color: #214A70;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
 }
 

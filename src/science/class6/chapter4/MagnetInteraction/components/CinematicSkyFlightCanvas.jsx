@@ -111,7 +111,7 @@ export default function CinematicSkyFlightCanvas({
           size: 2 + Math.random() * 4,
           life: 0,
           maxLife: 6 + Math.random() * 8,
-          color: Math.random() > 0.5 ? "#60A5FA" : "#FBBF24"
+          color: Math.random() > 0.5 ? "#60A5FA" : "#214A70"
         });
       }
     }

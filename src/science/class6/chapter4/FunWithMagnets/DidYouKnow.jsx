@@ -130,8 +130,8 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
         height: '100%',
         minHeight: 0,
         boxSizing: 'border-box',
-        background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-        border: '1.5px solid #FDE68A',
+        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+        border: '1.5px solid #E2E8F0',
         borderRadius: '24px',
         padding: '1.35rem 1.6rem',
         boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
@@ -146,23 +146,23 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '0.5rem',
-            background: '#FEF3C7',
+            background: '#EAF2F6',
             padding: '0.4rem 0.85rem',
             borderRadius: '12px',
-            border: '1px solid #FDE68A',
-            color: '#B45309',
+            border: '1px solid #E2E8F0',
+            color: '#173B5F',
             fontSize: '0.88rem',
             fontWeight: 800,
             marginBottom: '0.85rem'
           }}>
-            <Sparkles size={16} color="#D97706" />
+            <Sparkles size={16} color="#173B5F" />
             <span>DID YOU KNOW?</span>
           </div>
 
           <h2 style={{ margin: '0 0 0.6rem 0', color: '#1E1B4B', fontSize: '1.65rem', fontWeight: 900, lineHeight: 1.25, letterSpacing: '-0.01em' }}>
             Marvels of Magnetism
           </h2>
-          <p style={{ margin: 0, color: '#78350F', fontSize: '1.05rem', lineHeight: 1.5, fontWeight: 600 }}>
+          <p style={{ margin: 0, color: '#173B5F', fontSize: '1.05rem', lineHeight: 1.5, fontWeight: 600 }}>
             From high-speed bullet trains to animal migration and medical scanners, magnetic forces shape the modern world!
           </p>
         </div>
@@ -175,7 +175,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
           margin: '0.85rem 0',
           borderRadius: '18px',
           overflow: 'hidden',
-          border: '1.5px solid #FDE68A',
+          border: '1.5px solid #E2E8F0',
           boxShadow: '0 8px 20px rgba(217, 119, 6, 0.12)',
           background: '#000000',
           minHeight: '180px'
@@ -194,7 +194,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
         {/* Footer Info Pill */}
         <div style={{
           background: '#FFFFFF',
-          border: '1.5px solid #FDE68A',
+          border: '1.5px solid #E2E8F0',
           borderRadius: '16px',
           padding: '0.75rem 1rem',
           display: 'flex',
@@ -205,7 +205,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
             width: '36px',
             height: '36px',
             borderRadius: '10px',
-            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+            background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -218,7 +218,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
           </div>
           <div>
             <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#1E1B4B' }}>Fun with Magnets</div>
-            <div style={{ fontSize: '0.8rem', color: '#78350F', fontWeight: 600 }}>Interactive Science Lab · Grade 6</div>
+            <div style={{ fontSize: '0.8rem', color: '#173B5F', fontWeight: 600 }}>Interactive Science Lab · Grade 6</div>
           </div>
         </div>
       </div>
@@ -229,8 +229,8 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
         height: '100%',
         minHeight: 0,
         boxSizing: 'border-box',
-        background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-        border: '1.5px solid #FDE68A',
+        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+        border: '1.5px solid #E2E8F0',
         borderRadius: '24px',
         padding: '1.35rem 1.6rem',
         boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
@@ -243,19 +243,19 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
         {/* Header with Page Dots Indicator */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '0.65rem', borderBottom: '1px solid rgba(217, 119, 6, 0.2)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Award size={20} color="#D97706" />
+            <Award size={20} color="#173B5F" />
             <h3 style={{ margin: 0, color: '#1E1B4B', fontSize: '1.25rem', fontWeight: 900 }}>
               Curated Scientific Facts
             </h3>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{ fontSize: '0.88rem', color: '#78350F', fontWeight: 800 }}>
+            <span style={{ fontSize: '0.88rem', color: '#173B5F', fontWeight: 800 }}>
               Page {pageIndex + 1} of 2
             </span>
             <div style={{ display: 'flex', gap: '0.35rem' }}>
-              <span style={{ width: pageIndex === 0 ? '18px' : '8px', height: '8px', borderRadius: '4px', background: pageIndex === 0 ? '#D97706' : '#CBD5E1', transition: 'all 0.2s ease' }} />
-              <span style={{ width: pageIndex === 1 ? '18px' : '8px', height: '8px', borderRadius: '4px', background: pageIndex === 1 ? '#D97706' : '#CBD5E1', transition: 'all 0.2s ease' }} />
+              <span style={{ width: pageIndex === 0 ? '18px' : '8px', height: '8px', borderRadius: '4px', background: pageIndex === 0 ? '#173B5F' : '#CBD5E1', transition: 'all 0.2s ease' }} />
+              <span style={{ width: pageIndex === 1 ? '18px' : '8px', height: '8px', borderRadius: '4px', background: pageIndex === 1 ? '#173B5F' : '#CBD5E1', transition: 'all 0.2s ease' }} />
             </div>
           </div>
         </div>
@@ -293,7 +293,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                     onClick={() => setActiveFactId(fact.id)}
                     style={{
                       background: isSelected ? '#FFFFFF' : 'rgba(255, 255, 255, 0.7)',
-                      border: isSelected ? '1.5px solid #D97706' : '1.5px solid #FDE68A',
+                      border: isSelected ? '1.5px solid #173B5F' : '1.5px solid #E2E8F0',
                       borderRadius: '18px',
                       padding: '1.25rem 1.5rem',
                       boxShadow: isSelected ? '0 6px 18px rgba(217, 119, 6, 0.12)' : '0 2px 8px rgba(217, 119, 6, 0.04)',
@@ -318,15 +318,15 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                           handleReadAloud(fact);
                         }}
                         style={{
-                          background: isThisSpeaking ? '#D97706' : '#FEF3C7',
-                          border: '1px solid #FDE68A',
+                          background: isThisSpeaking ? '#173B5F' : '#EAF2F6',
+                          border: '1px solid #E2E8F0',
                           borderRadius: '10px',
                           padding: '0.35rem 0.65rem',
                           cursor: 'pointer',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '0.35rem',
-                          color: isThisSpeaking ? '#FFFFFF' : '#78350F',
+                          color: isThisSpeaking ? '#FFFFFF' : '#173B5F',
                           fontSize: '0.8rem',
                           fontWeight: 800,
                           transition: 'all 0.2s ease'
@@ -339,7 +339,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
 
                     <p style={{
                       margin: 0,
-                      color: '#78350F',
+                      color: '#173B5F',
                       fontSize: '1.15rem',
                       lineHeight: 1.5,
                       fontWeight: 600
@@ -363,9 +363,9 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
               style={{
                 padding: '0.65rem 1.15rem',
                 borderRadius: '14px',
-                border: '1.5px solid #FDE68A',
+                border: '1.5px solid #E2E8F0',
                 background: pageIndex === 0 ? '#F1F5F9' : '#FFFFFF',
-                color: pageIndex === 0 ? '#94A3B8' : '#78350F',
+                color: pageIndex === 0 ? '#94A3B8' : '#173B5F',
                 fontSize: '0.92rem',
                 fontWeight: 900,
                 cursor: pageIndex === 0 ? 'not-allowed' : 'pointer',
@@ -384,9 +384,9 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
               style={{
                 padding: '0.65rem 1.15rem',
                 borderRadius: '14px',
-                border: '1.5px solid #FDE68A',
+                border: '1.5px solid #E2E8F0',
                 background: pageIndex === 1 ? '#F1F5F9' : '#FFFFFF',
-                color: pageIndex === 1 ? '#94A3B8' : '#78350F',
+                color: pageIndex === 1 ? '#94A3B8' : '#173B5F',
                 fontSize: '0.92rem',
                 fontWeight: 900,
                 cursor: pageIndex === 1 ? 'not-allowed' : 'pointer',

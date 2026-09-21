@@ -294,15 +294,15 @@ export default function Chapter4Quiz({ onComplete }) {
 
   if (isFinished) {
     return (
-      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: '#FFFFFF' }}>
+      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: 'transparent' }}>
         <div style={{ 
           maxWidth: '520px', 
           width: '90%', 
           padding: '2.5rem 3rem', 
           textAlign: 'center', 
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
           borderRadius: '30px', 
-          border: '1.5px solid #FDE68A',
+          border: '1.5px solid #E2E8F0',
           boxShadow: '0 12px 40px rgba(217, 119, 6, 0.12)',
           display: 'flex',
           flexDirection: 'column',
@@ -319,7 +319,7 @@ export default function Chapter4Quiz({ onComplete }) {
             onClick={() => { if (onComplete) onComplete(score); }}
             style={{
               padding: '1.1rem 3rem',
-              background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+              background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
               color: '#ffffff',
               border: 'none',
               borderRadius: '40px',
@@ -357,7 +357,7 @@ export default function Chapter4Quiz({ onComplete }) {
       padding: '0.5rem', 
       boxSizing: 'border-box',
       overflowY: 'auto',
-      backgroundColor: '#FFFFFF'
+      backgroundColor: 'transparent'
     }}>
       <div style={{ width: '100%', maxWidth: '1050px', display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
         {/* Top Bar */}
@@ -370,8 +370,8 @@ export default function Chapter4Quiz({ onComplete }) {
 
         {/* Main Quiz Card */}
         <div className="glass-panel" style={{ 
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
-          border: '1.5px solid #FDE68A', 
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
+          border: '1.5px solid #E2E8F0', 
           borderRadius: '20px', 
           padding: '1.25rem 1.75rem', 
           boxShadow: '0 10px 35px rgba(217, 119, 6, 0.1)',
@@ -415,9 +415,9 @@ export default function Chapter4Quiz({ onComplete }) {
                   icon = <XCircle size={22} color="#EF4444" />;
                 }
               } else if (index === selectedOption) {
-                borderColor = '#D97706';
-                bgColor = '#FEF3C7';
-                textColor = '#92400E';
+                borderColor = '#173B5F';
+                bgColor = '#EAF2F6';
+                textColor = '#173B5F';
               }
 
               return (
@@ -454,7 +454,7 @@ export default function Chapter4Quiz({ onComplete }) {
           {/* Explanation & Next Question Button */}
           {showResult && (
             <div style={{ marginTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-              <div style={{ padding: '1rem 1.35rem', background: '#F0FDF4', borderRadius: '14px', border: '1.5px solid #A7F3D0', borderLeft: '5px solid #D97706' }}>
+              <div style={{ padding: '1rem 1.35rem', background: '#F0FDF4', borderRadius: '14px', border: '1.5px solid #A7F3D0', borderLeft: '5px solid #173B5F' }}>
                 <h4 style={{ margin: '0 0 0.35rem 0', fontSize: '1.1rem', fontWeight: 900, color: '#064E3B' }}>Explanation</h4>
                 <p style={{ margin: 0, color: '#334155', fontSize: '1.05rem', lineHeight: '1.5', fontWeight: 600 }}>{currentQ.explanation}</p>
               </div>
@@ -464,7 +464,7 @@ export default function Chapter4Quiz({ onComplete }) {
                   onClick={handleNext}
                   style={{
                     padding: '0.75rem 2.25rem',
-                    background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                    background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
                     color: '#ffffff',
                     border: 'none',
                     borderRadius: '30px',

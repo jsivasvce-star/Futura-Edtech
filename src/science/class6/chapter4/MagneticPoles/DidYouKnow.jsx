@@ -81,7 +81,7 @@ export default function DidYouKnow({ activeTab = 'investigate' }) {
         <span
           key={i}
           style={{
-            color: isCurrentWord ? '#D97706' : '#064E3B',
+            color: isCurrentWord ? '#173B5F' : '#064E3B',
             transition: 'color 0.12s ease',
             display: 'inline-block',
             marginRight: '0.28rem'
@@ -113,7 +113,7 @@ export default function DidYouKnow({ activeTab = 'investigate' }) {
 
       const isCurrentWord = adjustedIndex >= startPos && adjustedIndex <= endPos + 2;
 
-      let color = isCurrentWord ? '#D97706' : '#1E293B';
+      let color = isCurrentWord ? '#173B5F' : '#1E293B';
       let fontWeight = isCurrentWord ? 800 : 600;
 
       return (
@@ -145,7 +145,7 @@ export default function DidYouKnow({ activeTab = 'investigate' }) {
           width: '95%',
           maxWidth: '750px',
           background: '#FFFFFF',
-          border: '1.5px solid #FDE68A',
+          border: '1.5px solid #E2E8F0',
           borderRadius: '24px',
           padding: '1.45rem 2rem',
           color: '#064E3B',
@@ -169,8 +169,8 @@ export default function DidYouKnow({ activeTab = 'investigate' }) {
 
       {/* Main Bottom Bar */}
       <div style={{
-        background: 'linear-gradient(135deg, #78350F 0%, #451A03 100%)',
-        border: '1.5px solid #B45309',
+        background: 'linear-gradient(135deg, #173B5F 0%, #0A1C2E 100%)',
+        border: '1.5px solid #173B5F',
         boxShadow: '0 4px 18px rgba(69, 26, 3, 0.35)',
         borderRadius: '20px',
         padding: '0.45rem 1.35rem',
@@ -192,7 +192,7 @@ export default function DidYouKnow({ activeTab = 'investigate' }) {
           {facts.map((fact, idx) => (
             <React.Fragment key={idx}>
               {idx > 0 && (
-                <div style={{ width: '1.5px', height: '55%', backgroundColor: '#92400E' }} />
+                <div style={{ width: '1.5px', height: '55%', backgroundColor: '#173B5F' }} />
               )}
               <div
                 onMouseEnter={() => handleTrigger(fact)}
@@ -205,7 +205,7 @@ export default function DidYouKnow({ activeTab = 'investigate' }) {
                   }
                 }}
                 style={{
-                  color: hoveredFact === fact ? '#FEF3C7' : '#FFFFFF',
+                  color: hoveredFact === fact ? '#EAF2F6' : '#FFFFFF',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.5rem',
@@ -219,7 +219,7 @@ export default function DidYouKnow({ activeTab = 'investigate' }) {
                   whiteSpace: 'nowrap'
                 }}
               >
-                <span style={{ fontSize: '1.18rem', color: hoveredFact === fact ? '#F59E0B' : '#FAFAFA' }}>👉</span>
+                <span style={{ fontSize: '1.18rem', color: hoveredFact === fact ? '#214A70' : '#FAFAFA' }}>👉</span>
                 <span>{fact.shortTitle}</span>
               </div>
             </React.Fragment>
@@ -227,8 +227,8 @@ export default function DidYouKnow({ activeTab = 'investigate' }) {
         </div>
 
         {/* Sparkle Icon */}
-        <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0, paddingLeft: '0.5rem', color: '#F59E0B' }}>
-          <Sparkles size={20} color="#F59E0B" />
+        <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0, paddingLeft: '0.5rem', color: '#214A70' }}>
+          <Sparkles size={20} color="#214A70" />
         </div>
       </div>
     </div>

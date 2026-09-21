@@ -446,13 +446,13 @@ export default function Stage1_Investigate({ onComplete }) {
                 width: '64px',
                 height: '64px',
                 borderRadius: '50%',
-                background: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)',
+                background: 'linear-gradient(135deg, #EAF2F6 0%, #E2E8F0 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 boxShadow: '0 8px 20px rgba(217, 119, 6, 0.25)'
               }}>
-                <CheckCircle size={36} color="#D97706" />
+                <CheckCircle size={36} color="#173B5F" />
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -473,7 +473,7 @@ export default function Stage1_Investigate({ onComplete }) {
                   fontSize: '1rem',
                   fontWeight: 900,
                   borderRadius: '14px',
-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                  background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
                   color: '#FFFFFF',
                   border: 'none',
                   cursor: 'pointer',
@@ -529,8 +529,8 @@ export default function Stage1_Investigate({ onComplete }) {
         <div 
           className="stage-container-1"
           style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
-            border: '1.5px solid #FDE68A', 
+            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
+            border: '1.5px solid #E2E8F0', 
             borderRadius: '24px', 
             padding: '1.25rem 1.45rem', 
             boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
@@ -542,7 +542,7 @@ export default function Stage1_Investigate({ onComplete }) {
         >
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)', paddingBottom: '0.6rem', marginBottom: '0.75rem' }}>
-              <h4 style={{ margin: 0, fontSize: '19.5px', color: '#78350F', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+              <h4 style={{ margin: 0, fontSize: '19.5px', color: '#173B5F', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
                 <span>📋</span> Steps of Instructions
               </h4>
             </div>
@@ -568,13 +568,13 @@ export default function Stage1_Investigate({ onComplete }) {
                       width: '9px',
                       height: '9px',
                       borderRadius: '50%',
-                      background: '#D97706',
+                      background: '#173B5F',
                       display: 'inline-block',
                       flexShrink: 0,
                       transform: 'translateY(-2px)'
                     }}
                   />
-                  <p style={{ margin: 0, fontSize: '17.5px', lineHeight: 1.5, color: '#78350F', fontWeight: 600 }}>
+                  <p style={{ margin: 0, fontSize: '17.5px', lineHeight: 1.5, color: '#173B5F', fontWeight: 600 }}>
                     {instruction}
                   </p>
                 </div>
@@ -623,8 +623,8 @@ export default function Stage1_Investigate({ onComplete }) {
                 fontWeight: 800, 
                 borderRadius: '14px', 
                 background: '#FFFFFF', 
-                color: '#92400E', 
-                border: '1.5px solid #FDE68A', 
+                color: '#173B5F', 
+                border: '1.5px solid #E2E8F0', 
                 cursor: 'pointer', 
                 display: 'flex', 
                 alignItems: 'center', 
@@ -643,8 +643,8 @@ export default function Stage1_Investigate({ onComplete }) {
         <div 
           className="stage-container-2"
           style={{ 
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
-            border: '1.5px solid #FDE68A', 
+            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
+            border: '1.5px solid #E2E8F0', 
             borderRadius: '24px', 
             padding: '1.25rem 1.45rem', 
             boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
@@ -655,10 +655,10 @@ export default function Stage1_Investigate({ onComplete }) {
           }}
         >
           <div>
-            <h4 style={{ color: '#78350F', margin: 0, fontSize: '19.5px', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.55rem', paddingBottom: '0.55rem', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)' }}>
-              <AlertCircle size={22} color="#D97706" /> Observation Question
+            <h4 style={{ color: '#173B5F', margin: 0, fontSize: '19.5px', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.55rem', paddingBottom: '0.55rem', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)' }}>
+              <AlertCircle size={22} color="#173B5F" /> Observation Question
             </h4>
-            <p style={{ margin: '0.75rem 0', color: '#78350F', fontSize: '17.5px', lineHeight: 1.5, fontWeight: 700 }}>
+            <p style={{ margin: '0.75rem 0', color: '#173B5F', fontSize: '17.5px', lineHeight: 1.5, fontWeight: 700 }}>
               Do the iron filings stick uniformly all over the magnet, or do they stick more at specific places?
             </p>
 
@@ -673,10 +673,10 @@ export default function Stage1_Investigate({ onComplete }) {
                   borderRadius: '14px', 
                   cursor: 'pointer', 
                   background: quizAnswer === 'uniformly' ? '#FEE2E2' : '#FFFFFF', 
-                  borderColor: quizAnswer === 'uniformly' ? '#EF4444' : '#FDE68A', 
+                  borderColor: quizAnswer === 'uniformly' ? '#EF4444' : '#E2E8F0', 
                   borderWidth: '1.5px', 
                   borderStyle: 'solid', 
-                  color: quizAnswer === 'uniformly' ? '#991B1B' : '#78350F', 
+                  color: quizAnswer === 'uniformly' ? '#991B1B' : '#173B5F', 
                   display: 'flex', 
                   alignItems: 'center', 
                   justifyContent: 'space-between',
@@ -698,10 +698,10 @@ export default function Stage1_Investigate({ onComplete }) {
                   borderRadius: '14px', 
                   cursor: 'pointer', 
                   background: (quizAnswer === 'ends' || step === 'complete') ? '#DCFCE7' : '#FFFFFF', 
-                  borderColor: (quizAnswer === 'ends' || step === 'complete') ? '#10B981' : '#FDE68A', 
+                  borderColor: (quizAnswer === 'ends' || step === 'complete') ? '#10B981' : '#E2E8F0', 
                   borderWidth: '1.5px', 
                   borderStyle: 'solid', 
-                  color: (quizAnswer === 'ends' || step === 'complete') ? '#064E3B' : '#78350F', 
+                  color: (quizAnswer === 'ends' || step === 'complete') ? '#064E3B' : '#173B5F', 
                   display: 'flex', 
                   alignItems: 'center', 
                   justifyContent: 'space-between',

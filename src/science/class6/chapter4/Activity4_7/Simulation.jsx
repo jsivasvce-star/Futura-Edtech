@@ -576,8 +576,8 @@ export default function Simulation({ onComplete, onNext }) {
       }}>
         {/* Container 1: Steps of Instructions */}
         <div className="stage-container-1" style={{
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-          border: '1.5px solid #FDE68A',
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+          border: '1.5px solid #E2E8F0',
           borderRadius: '24px',
           padding: '1.4rem 1.6rem',
           boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
@@ -590,20 +590,20 @@ export default function Simulation({ onComplete, onNext }) {
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
-              <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
+              <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
                 Select or auto-play barrier items: Glass, Plastic, Cardboard, and Wood.
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
-              <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
+              <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
                 Observe the compass needle deflect through each non-magnetic barrier.
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
-              <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
+              <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
                 Click 'Flip Magnet' to switch polarity and reverse needle deflection.
               </span>
             </div>
@@ -612,8 +612,8 @@ export default function Simulation({ onComplete, onNext }) {
 
         {/* Container 2: Barrier Items & Controls */}
         <div className="stage-container-2" style={{
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-          border: '1.5px solid #FDE68A',
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+          border: '1.5px solid #E2E8F0',
           borderRadius: '24px',
           padding: '1.4rem 1.6rem',
           boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
@@ -662,8 +662,8 @@ export default function Simulation({ onComplete, onNext }) {
                     justifyContent: 'space-between',
                     padding: '0.75rem 0.85rem',
                     borderRadius: '16px',
-                    border: isSelected ? '2.5px solid #F59E0B' : '1.5px solid #FDE68A',
-                    background: isSelected ? 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)' : '#FFFFFF',
+                    border: isSelected ? '2.5px solid #214A70' : '1.5px solid #E2E8F0',
+                    background: isSelected ? 'linear-gradient(135deg, #EAF2F6 0%, #E2E8F0 100%)' : '#FFFFFF',
                     cursor: 'pointer',
                     boxShadow: isSelected ? '0 4px 14px rgba(245, 158, 11, 0.22)' : '0 2px 8px rgba(217, 119, 6, 0.05)',
                     transition: 'all 0.2s ease',
@@ -674,13 +674,13 @@ export default function Simulation({ onComplete, onNext }) {
                   }}
                   onMouseEnter={(e) => {
                     if (!isSelected) {
-                      e.currentTarget.style.borderColor = '#F59E0B';
-                      e.currentTarget.style.background = '#FFFBEB';
+                      e.currentTarget.style.borderColor = '#214A70';
+                      e.currentTarget.style.background = '#F3F7F9';
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (!isSelected) {
-                      e.currentTarget.style.borderColor = '#FDE68A';
+                      e.currentTarget.style.borderColor = '#E2E8F0';
                       e.currentTarget.style.background = '#FFFFFF';
                     }
                   }}
@@ -690,8 +690,8 @@ export default function Simulation({ onComplete, onNext }) {
                       width: '38px',
                       height: '38px',
                       borderRadius: '12px',
-                      background: isSelected ? '#FDE68A' : '#FEF3C7',
-                      border: isSelected ? '1.5px solid #F59E0B' : '1px solid #FDE68A',
+                      background: isSelected ? '#E2E8F0' : '#EAF2F6',
+                      border: isSelected ? '1.5px solid #214A70' : '1px solid #E2E8F0',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -702,10 +702,10 @@ export default function Simulation({ onComplete, onNext }) {
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-                      <div style={{ fontWeight: 900, fontSize: '0.94rem', color: isSelected ? '#92400E' : '#78350F', lineHeight: 1.2 }}>
+                      <div style={{ fontWeight: 900, fontSize: '0.94rem', color: isSelected ? '#173B5F' : '#173B5F', lineHeight: 1.2 }}>
                         {mat.name}
                       </div>
-                      <div style={{ fontSize: '0.75rem', color: isSelected ? '#B45309' : '#047857', fontWeight: 700, marginTop: '2px' }}>
+                      <div style={{ fontSize: '0.75rem', color: isSelected ? '#173B5F' : '#047857', fontWeight: 700, marginTop: '2px' }}>
                         {mat.itemLabel}
                       </div>
                     </div>
@@ -716,7 +716,7 @@ export default function Simulation({ onComplete, onNext }) {
                       <CheckCircle2 size={12} color="#16A34A" />
                     </span>
                   ) : isSelected ? (
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F59E0B', flexShrink: 0, boxShadow: '0 0 6px #F59E0B' }} />
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#214A70', flexShrink: 0, boxShadow: '0 0 6px #214A70' }} />
                   ) : null}
                 </button>
               );
@@ -753,8 +753,8 @@ export default function Simulation({ onComplete, onNext }) {
         {/* Top Header Stage Bar */}
         <div style={{
           padding: '0.5rem 0.9rem',
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-          border: '1.5px solid #FDE68A',
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+          border: '1.5px solid #E2E8F0',
           borderRadius: '16px',
           display: 'flex',
           justifyContent: 'space-between',
@@ -784,8 +784,8 @@ export default function Simulation({ onComplete, onNext }) {
                     fontSize: '0.82rem',
                     fontWeight: 900,
                     borderRadius: '14px',
-                    border: isCurrent ? '1.5px solid #D97706' : '1.5px solid #A7F3D0',
-                    background: isCurrent ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#FFFFFF',
+                    border: isCurrent ? '1.5px solid #173B5F' : '1.5px solid #A7F3D0',
+                    background: isCurrent ? 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)' : '#FFFFFF',
                     color: isCurrent ? '#FFFFFF' : '#065F46',
                     cursor: 'pointer',
                     display: 'flex',
@@ -824,8 +824,8 @@ export default function Simulation({ onComplete, onNext }) {
                 fontSize: '0.82rem',
                 fontWeight: 900,
                 borderRadius: '16px',
-                border: isAutoPlaying ? '1.5px solid #D97706' : '1.5px solid #A7F3D0',
-                background: isAutoPlaying ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#FFFFFF',
+                border: isAutoPlaying ? '1.5px solid #173B5F' : '1.5px solid #A7F3D0',
+                background: isAutoPlaying ? 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)' : '#FFFFFF',
                 color: isAutoPlaying ? '#FFFFFF' : '#065F46',
                 cursor: 'pointer',
                 display: 'flex',

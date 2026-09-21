@@ -229,7 +229,7 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
       const isCurrentWord = isThisLineActive && charIndex >= startPos && charIndex < nextPos;
       const isPastWord = isThisLineActive && charIndex >= nextPos;
 
-      let color = isEduCard ? '#F5EEDB' : (isScroll ? '#1E1006' : '#2C221E');
+      let color = isEduCard ? '#EAF2F6' : (isScroll ? '#1E1006' : '#2C221E');
       let fontWeight = isScroll ? 600 : 500;
       let textShadow = 'none';
 
@@ -239,7 +239,7 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
         fontWeight = isScroll ? 900 : 800;
         if (isScroll) textShadow = '0 0 2px rgba(194, 65, 12, 0.45)';
       } else if (isPastWord) {
-        color = isEduCard ? '#D4AF37' : (isScroll ? '#5A260A' : '#1E40AF');
+        color = isEduCard ? '#173B5F' : (isScroll ? '#5A260A' : '#1E40AF');
         fontWeight = isScroll ? 750 : 700;
       }
 
@@ -568,7 +568,7 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
                     style={{
                       background: isActive ? '#0F1926' : 'rgba(15, 25, 38, 0.92)',
                       backdropFilter: 'blur(14px)',
-                      border: isActive ? '2px solid #F3C969' : '1.5px solid #D4AF37',
+                      border: isActive ? '2px solid #F3C969' : '1.5px solid #173B5F',
                       borderRadius: '18px',
                       padding: '1.15rem 1.35rem',
                       boxShadow: isActive ? '0 12px 35px rgba(212, 175, 55, 0.35)' : '0 8px 24px rgba(0,0,0,0.6)',
@@ -588,7 +588,7 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
                     }}>
                       {titles[idx]}
                     </h3>
-                    <p style={{ margin: 0, fontSize: '1.28rem', lineHeight: 1.6, color: '#F5EEDB', textAlign: 'justify' }}>
+                    <p style={{ margin: 0, fontSize: '1.28rem', lineHeight: 1.6, color: '#EAF2F6', textAlign: 'justify' }}>
                       {renderWordByWordText(line.text, idx, activeLineIndex, spokenCharIndex, true)}
                     </p>
                   </div>
@@ -968,7 +968,7 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
                 fontSize: '1.15rem',
                 fontWeight: 800,
                 borderRadius: '40px',
-                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
                 color: '#ffffff',
                 border: 'none',
                 cursor: 'pointer',

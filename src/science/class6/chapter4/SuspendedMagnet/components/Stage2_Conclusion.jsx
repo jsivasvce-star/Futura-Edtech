@@ -143,8 +143,8 @@ export default function Stage2_Conclusion({ onComplete }) {
             gap: '0.5rem'
           }}>
             <div style={{
-              background: 'linear-gradient(135deg, #78350F 0%, #451A03 100%)',
-              border: '1.5px solid #B45309',
+              background: 'linear-gradient(135deg, #173B5F 0%, #0A1C2E 100%)',
+              border: '1.5px solid #173B5F',
               borderRadius: '20px',
               padding: '0.4rem 0.9rem',
               fontSize: '0.82rem',
@@ -155,7 +155,7 @@ export default function Stage2_Conclusion({ onComplete }) {
               alignItems: 'center',
               gap: '0.45rem'
             }}>
-              <Compass size={16} color="#F59E0B" /> COMPASS DIAL ALIGNMENT
+              <Compass size={16} color="#214A70" /> COMPASS DIAL ALIGNMENT
             </div>
           </div>
 
@@ -214,8 +214,8 @@ export default function Stage2_Conclusion({ onComplete }) {
         <div 
           className="stage-container-1"
           style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-            border: '1.5px solid #FDE68A',
+            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
             boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
             padding: '1.25rem 1.45rem',
@@ -229,19 +229,19 @@ export default function Stage2_Conclusion({ onComplete }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                <Sparkles size={24} color="#D97706" />
+                <Sparkles size={24} color="#173B5F" />
                 <h3 style={{ margin: 0, fontSize: '19.5px', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.01em' }}>
                   Stage 2: Conclusion
                 </h3>
               </div>
               <span style={{
                 background: 'rgba(217, 119, 6, 0.12)',
-                color: '#B45309',
+                color: '#173B5F',
                 fontWeight: 900,
                 fontSize: '0.88rem',
                 padding: '0.3rem 0.8rem',
                 borderRadius: '12px',
-                border: '1.5px solid #FDE68A'
+                border: '1.5px solid #E2E8F0'
               }}>
                 Scientific Law
               </span>
@@ -255,7 +255,7 @@ export default function Stage2_Conclusion({ onComplete }) {
                   alignItems: 'flex-start',
                   gap: '0.75rem',
                   background: '#FFFFFF',
-                  border: '1.5px solid #FDE68A',
+                  border: '1.5px solid #E2E8F0',
                   borderRadius: '16px',
                   padding: '0.85rem 1.1rem',
                   boxShadow: '0 2px 8px rgba(217, 119, 6, 0.05)'
@@ -265,14 +265,14 @@ export default function Stage2_Conclusion({ onComplete }) {
                   width: '9px',
                   height: '9px',
                   borderRadius: '50%',
-                  background: '#D97706',
+                  background: '#173B5F',
                   marginTop: '0.48rem',
                   flexShrink: 0
                 }} />
                 <p style={{
                   margin: 0,
                   fontSize: '17.5px',
-                  color: '#78350F',
+                  color: '#173B5F',
                   fontWeight: 600,
                   lineHeight: 1.5
                 }}>
@@ -286,7 +286,7 @@ export default function Stage2_Conclusion({ onComplete }) {
                   alignItems: 'flex-start',
                   gap: '0.75rem',
                   background: '#FFFFFF',
-                  border: '1.5px solid #FDE68A',
+                  border: '1.5px solid #E2E8F0',
                   borderRadius: '16px',
                   padding: '0.85rem 1.1rem',
                   boxShadow: '0 2px 8px rgba(217, 119, 6, 0.05)'
@@ -296,14 +296,14 @@ export default function Stage2_Conclusion({ onComplete }) {
                   width: '9px',
                   height: '9px',
                   borderRadius: '50%',
-                  background: '#D97706',
+                  background: '#173B5F',
                   marginTop: '0.48rem',
                   flexShrink: 0
                 }} />
                 <p style={{
                   margin: 0,
                   fontSize: '17.5px',
-                  color: '#78350F',
+                  color: '#173B5F',
                   fontWeight: 600,
                   lineHeight: 1.5
                 }}>
@@ -315,7 +315,7 @@ export default function Stage2_Conclusion({ onComplete }) {
 
           <div style={{
             background: 'rgba(255, 255, 255, 0.85)',
-            border: '1.5px solid #FDE68A',
+            border: '1.5px solid #E2E8F0',
             borderRadius: '16px',
             padding: '0.75rem 1rem',
             display: 'flex',
@@ -323,7 +323,7 @@ export default function Stage2_Conclusion({ onComplete }) {
             gap: '0.65rem'
           }}>
             <span style={{ fontSize: '1.4rem' }}>🧭</span>
-            <span style={{ fontSize: '16.5px', color: '#78350F', fontWeight: 700 }}>
+            <span style={{ fontSize: '16.5px', color: '#173B5F', fontWeight: 700 }}>
               This directional property has guided global navigation for centuries.
             </span>
           </div>
@@ -333,8 +333,8 @@ export default function Stage2_Conclusion({ onComplete }) {
         <div 
           className="stage-container-2"
           style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-            border: '1.5px solid #FDE68A',
+            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
             boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
             padding: '1.25rem 1.45rem',
@@ -347,9 +347,9 @@ export default function Stage2_Conclusion({ onComplete }) {
         >
           <div>
             <div style={{ fontSize: '19.5px', fontWeight: 900, color: '#1E1B4B', letterSpacing: '-0.01em', marginBottom: '0.4rem', display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-              <Compass size={22} color="#D97706" /> Compass Deflection Test
+              <Compass size={22} color="#173B5F" /> Compass Deflection Test
             </div>
-            <p style={{ fontSize: '17.5px', color: '#78350F', fontWeight: 600, margin: 0, lineHeight: 1.45 }}>
+            <p style={{ fontSize: '17.5px', color: '#173B5F', fontWeight: 600, margin: 0, lineHeight: 1.45 }}>
               Tap below to deflect the compass needle and observe it oscillate back to the North-South axis:
             </p>
           </div>
@@ -390,7 +390,7 @@ export default function Stage2_Conclusion({ onComplete }) {
             alignItems: 'center',
             paddingTop: '0.2rem'
           }}>
-            <span style={{ fontSize: '0.95rem', color: '#78350F', fontWeight: 800 }}>
+            <span style={{ fontSize: '0.95rem', color: '#173B5F', fontWeight: 800 }}>
               Stage 2 of 2 ● ●
             </span>
 

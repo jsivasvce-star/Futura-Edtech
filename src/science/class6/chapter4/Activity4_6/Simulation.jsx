@@ -727,8 +727,8 @@ export default function Simulation({ onComplete, onNext }) {
       }}>
         {/* Container 1: Steps of Instructions */}
         <div className="stage-container-1" style={{
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-          border: '1.5px solid #FDE68A',
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+          border: '1.5px solid #E2E8F0',
           borderRadius: '24px',
           padding: '1.4rem 1.6rem',
           boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
@@ -741,26 +741,26 @@ export default function Simulation({ onComplete, onNext }) {
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
-              <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
+              <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
                 Click 'Run the flow' at the bottom-right corner to begin observing compass deflection.
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
-              <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
+              <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
                 Watch the magnet move through the stations while the needle tracks its magnetic pole.
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
-              <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
+              <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
                 Observe the needle return naturally to 0° North as the magnet returns to start.
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
-              <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
+              <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
                 Click 'Flip Magnet' or drag the magnet to test opposite needle deflections anywhere.
               </span>
             </div>
@@ -769,8 +769,8 @@ export default function Simulation({ onComplete, onNext }) {
 
         {/* Container 2: Activity Controls & Status */}
         <div className="stage-container-2" style={{
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-          border: '1.5px solid #FDE68A',
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+          border: '1.5px solid #E2E8F0',
           borderRadius: '24px',
           padding: '1.4rem 1.6rem',
           boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
@@ -801,27 +801,27 @@ export default function Simulation({ onComplete, onNext }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', flex: 1 }}>
             <div style={{
               background: '#FFFFFF',
-              border: '1.5px solid #FDE68A',
+              border: '1.5px solid #E2E8F0',
               borderRadius: '16px',
               padding: '0.85rem 1.1rem',
               display: 'flex',
               flexDirection: 'column',
               gap: '0.35rem'
             }}>
-              <span style={{ fontSize: '14.5px', fontWeight: 800, color: '#78350F' }}>Active Position:</span>
+              <span style={{ fontSize: '14.5px', fontWeight: 800, color: '#173B5F' }}>Active Position:</span>
               <span style={{ fontSize: '16.5px', fontWeight: 900, color: '#064E3B' }}>{facingPoleName}</span>
             </div>
 
             <div style={{
               background: '#FFFFFF',
-              border: '1.5px solid #FDE68A',
+              border: '1.5px solid #E2E8F0',
               borderRadius: '16px',
               padding: '0.85rem 1.1rem',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center'
             }}>
-              <span style={{ fontSize: '16.5px', fontWeight: 800, color: '#78350F' }}>Magnet Polarity:</span>
+              <span style={{ fontSize: '16.5px', fontWeight: 800, color: '#173B5F' }}>Magnet Polarity:</span>
               <span style={{
                 background: isFlipped ? '#FEE2E2' : '#EFF6FF',
                 color: isFlipped ? '#991B1B' : '#1E40AF',
@@ -869,7 +869,7 @@ export default function Simulation({ onComplete, onNext }) {
           position: 'relative',
           borderRadius: '24px',
           overflow: 'hidden',
-          border: '2px solid #D97706',
+          border: '2px solid #173B5F',
           backgroundImage: `url('/Activity4_6/nautical_map_bg.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -907,8 +907,8 @@ export default function Simulation({ onComplete, onNext }) {
             backdropFilter: 'blur(8px)',
             flexShrink: 0
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', color: '#78350F', fontSize: '0.9rem', fontWeight: 900 }}>
-              <CompassIcon size={18} color="#D97706" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', color: '#173B5F', fontSize: '0.9rem', fontWeight: 900 }}>
+              <CompassIcon size={18} color="#173B5F" />
               <span>BEARING: <strong style={{ color: '#C2410C' }}>{Math.round((compassAngle % 360 + 360) % 360)}°</strong> {getBearingName(compassAngle)}</span>
             </div>
           </div>
@@ -1056,8 +1056,8 @@ export default function Simulation({ onComplete, onNext }) {
               padding: '0.65rem 1.35rem',
               borderRadius: '16px',
               background: 'rgba(255, 255, 255, 0.95)',
-              border: '1.5px solid #FDE68A',
-              color: '#92400E',
+              border: '1.5px solid #E2E8F0',
+              color: '#173B5F',
               fontWeight: 900,
               fontSize: '1rem',
               cursor: isAnimating ? 'not-allowed' : 'pointer',
@@ -1071,7 +1071,7 @@ export default function Simulation({ onComplete, onNext }) {
               opacity: isAnimating ? 0.6 : 1
             }}
           >
-            <RefreshCw size={17} color="#D97706" />
+            <RefreshCw size={17} color="#173B5F" />
             <span>Flip Magnet</span>
           </button>
 

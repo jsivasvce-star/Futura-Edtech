@@ -64,7 +64,7 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
       overflow: 'hidden',
       boxSizing: 'border-box',
       padding: '0.65rem 0.85rem',
-      backgroundColor: '#FFFFFF',
+      backgroundColor: 'transparent',
       fontFamily: "system-ui, -apple-system, sans-serif"
     }}>
 
@@ -75,8 +75,8 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
         alignItems: 'center', 
         padding: '0.65rem 1.25rem',
         marginBottom: '0.65rem',
-        background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-        border: '1.5px solid #FDE68A',
+        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+        border: '1.5px solid #E2E8F0',
         borderRadius: '24px',
         boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
         flexShrink: 0,
@@ -112,7 +112,7 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
             color: '#064E3B', 
             letterSpacing: '-0.01em' 
           }}>
-            <Compass size={26} style={{ color: '#D97706' }} />
+            <Compass size={26} style={{ color: '#173B5F' }} />
             Activity 4.2: Poles of Magnet
           </h2>
           <span style={{ 

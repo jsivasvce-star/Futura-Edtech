@@ -85,9 +85,9 @@ export default function ChallengeMode({ onComplete }) {
           width: '90%', 
           padding: '2.5rem 3rem', 
           textAlign: 'center', 
-          background: 'linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 50%, #FEF3C7 100%)', 
+          background: 'linear-gradient(145deg, #FFFFFF 0%, #F3F7F9 50%, #EAF2F6 100%)', 
           borderRadius: '30px', 
-          border: '1.5px solid #FDE68A',
+          border: '1.5px solid #E2E8F0',
           boxShadow: '0 15px 40px rgba(217, 119, 6, 0.12)',
           display: 'flex',
           flexDirection: 'column',
@@ -106,8 +106,8 @@ export default function ChallengeMode({ onComplete }) {
               >
                 <Star 
                   size={54} 
-                  fill={i < stars ? "#F59E0B" : "transparent"} 
-                  color={i < stars ? "#F59E0B" : "#FDE68A"} 
+                  fill={i < stars ? "#214A70" : "transparent"} 
+                  color={i < stars ? "#214A70" : "#E2E8F0"} 
                   strokeWidth={i < stars ? 1 : 2}
                 />
               </motion.div>
@@ -130,8 +130,8 @@ export default function ChallengeMode({ onComplete }) {
                 justifyContent: 'center', 
                 gap: '0.5rem',
                 background: '#FFFFFF',
-                border: '1.5px solid #FDE68A',
-                color: '#92400E',
+                border: '1.5px solid #E2E8F0',
+                color: '#173B5F',
                 borderRadius: '30px',
                 fontWeight: 900,
                 cursor: 'pointer',
@@ -181,17 +181,17 @@ export default function ChallengeMode({ onComplete }) {
       <div style={{ width: '100%', maxWidth: '1250px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', padding: '0 0.5rem' }}>
           <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.65rem', color: '#064E3B', fontSize: '1.45rem', fontWeight: 900 }}>
-            <Trophy size={26} style={{ color: '#D97706' }} /> Predict the Outcome
+            <Trophy size={26} style={{ color: '#173B5F' }} /> Predict the Outcome
           </h3>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#FFFFFF', padding: '0.45rem 1.1rem', borderRadius: '20px', border: '1.5px solid #FDE68A' }}>
-            <Star size={20} fill="#F59E0B" color="#F59E0B" /> 
-            <span style={{ fontWeight: '900', fontSize: '1.15rem', color: '#92400E' }}>{stars} Stars</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#FFFFFF', padding: '0.45rem 1.1rem', borderRadius: '20px', border: '1.5px solid #E2E8F0' }}>
+            <Star size={20} fill="#214A70" color="#214A70" /> 
+            <span style={{ fontWeight: '900', fontSize: '1.15rem', color: '#173B5F' }}>{stars} Stars</span>
           </div>
         </div>
 
         <div style={{ 
-          background: 'linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 50%, #FEF3C7 100%)', 
-          border: '1.5px solid #FDE68A',
+          background: 'linear-gradient(145deg, #FFFFFF 0%, #F3F7F9 50%, #EAF2F6 100%)', 
+          border: '1.5px solid #E2E8F0',
           borderRadius: '28px', 
           padding: '2.4rem 3.2rem', 
           boxShadow: '0 8px 30px rgba(217, 119, 6, 0.08)',
@@ -201,16 +201,16 @@ export default function ChallengeMode({ onComplete }) {
           width: '100%',
           boxSizing: 'border-box'
         }}>
-          <div style={{ textTransform: 'uppercase', fontSize: '1.05rem', fontWeight: '900', color: '#D97706', letterSpacing: '0.05em' }}>
+          <div style={{ textTransform: 'uppercase', fontSize: '1.05rem', fontWeight: '900', color: '#173B5F', letterSpacing: '0.05em' }}>
             {c.title}
           </div>
           
-          <p style={{ fontSize: '1.25rem', lineHeight: '1.6', margin: 0, padding: '1.2rem 1.6rem', background: '#FFFFFF', borderRadius: '18px', borderLeft: '6px solid #D97706', border: '1.5px solid #FDE68A', borderLeftWidth: '6px', color: '#064E3B', fontWeight: 600 }}>
+          <p style={{ fontSize: '1.25rem', lineHeight: '1.6', margin: 0, padding: '1.2rem 1.6rem', background: '#FFFFFF', borderRadius: '18px', borderLeft: '6px solid #173B5F', border: '1.5px solid #E2E8F0', borderLeftWidth: '6px', color: '#064E3B', fontWeight: 600 }}>
             {c.scenario}
           </p>
 
           <div style={{ fontWeight: '900', fontSize: '1.15rem', color: '#064E3B' }}>
-            <HelpCircle size={18} style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: '0.5rem', color: '#D97706' }}/> 
+            <HelpCircle size={18} style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: '0.5rem', color: '#173B5F' }}/> 
             {c.question}
           </div>
 
@@ -220,7 +220,7 @@ export default function ChallengeMode({ onComplete }) {
               const isCorrect = option === c.correctAnswer;
               
               let bg = '#FFFFFF';
-              let borderColor = '#FDE68A';
+              let borderColor = '#E2E8F0';
               let icon = null;
 
               if (showResult) {
@@ -234,8 +234,8 @@ export default function ChallengeMode({ onComplete }) {
                   icon = <XCircle size={20} color="#EF4444" />;
                 }
               } else if (isSelected) {
-                borderColor = '#D97706';
-                bg = '#FEF3C7';
+                borderColor = '#173B5F';
+                bg = '#EAF2F6';
               }
 
               return (
@@ -273,7 +273,7 @@ export default function ChallengeMode({ onComplete }) {
                 padding: '1rem 1.35rem', 
                 background: '#FFFFFF', 
                 borderRadius: '16px',
-                border: '1.5px solid #FDE68A',
+                border: '1.5px solid #E2E8F0',
                 borderLeft: `5px solid ${selectedOption === c.correctAnswer ? '#10B981' : '#EF4444'}`
               }}>
                 <h4 style={{ margin: '0 0 0.35rem 0', fontSize: '1.1rem', fontWeight: 900, color: selectedOption === c.correctAnswer ? '#059669' : '#DC2626' }}>

@@ -134,11 +134,11 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
 
         .chapter4-cover-wrapper {
           --bronze-dark: #2A1705;
-          --bronze-accent: #B45309;
+          --bronze-accent: #173B5F;
           --ink-deep: #1c1815;
           --ink-body: #3a2818;
-          --gold-primary: #F59E0B;
-          --gold-dark: #D97706;
+          --gold-primary: #214A70;
+          --gold-dark: #173B5F;
           --font-serif: 'Cinzel', Georgia, serif;
           --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
 
@@ -244,7 +244,7 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           width: 7px;
           height: 7px;
           border-radius: 50%;
-          background: radial-gradient(circle at 35% 35%, #FFF2A3 0%, #D97706 50%, #451A03 100%);
+          background: radial-gradient(circle at 35% 35%, #EAF2F6 0%, #173B5F 50%, #0A1C2E 100%);
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), inset 0 0.5px 0.5px rgba(255, 255, 255, 0.85);
           pointer-events: none;
           z-index: 3;
@@ -298,7 +298,7 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
         }
 
         .hero-tagline-icon {
-          color: #B45309;
+          color: #173B5F;
           stroke-width: 2.4px;
         }
 
@@ -344,15 +344,15 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           gap: 0.75rem;
           padding: clamp(0.6rem, 1.1vh, 0.82rem) clamp(1.4rem, 1.9vw, 2.3rem);
           border-radius: 999px;
-          border: 1.6px solid #D4A857;
+          border: 1.6px solid #173B5F;
           background: linear-gradient(
             140deg, 
-            #92400E 0%, 
-            #78350F 35%, 
+            #173B5F 0%, 
+            #173B5F 35%, 
             #5A2408 70%, 
             #3D1704 100%
           );
-          color: #FEF3C7;
+          color: #EAF2F6;
           font-family: var(--font-sans);
           font-weight: 900;
           font-size: clamp(0.92rem, 1.1vw, 1.15rem);
@@ -417,7 +417,7 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
 
         .hero-cta-btn:hover {
           transform: translateY(-2px) scale(1.025);
-          border-color: #FBBF24;
+          border-color: #214A70;
           background: linear-gradient(
             140deg, 
             #A85012 0%, 
@@ -425,7 +425,7 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
             #6B2706 70%, 
             #451703 100%
           );
-          color: #FFFBEB;
+          color: #F3F7F9;
           box-shadow: 
             0 8px 28px rgba(35, 15, 5, 0.75),
             0 0 22px rgba(217, 119, 6, 0.45),
@@ -464,7 +464,7 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
         .cover-back-btn:hover {
           transform: translateY(-1px) scale(1.03);
           background: rgba(255, 252, 245, 0.98);
-          border-color: #D97706;
+          border-color: #173B5F;
           box-shadow: 0 6px 20px rgba(35, 18, 6, 0.42);
         }
 
@@ -523,8 +523,8 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
           width: 7px;
           height: 7px;
           border-radius: 50%;
-          background: #D97706;
-          box-shadow: 0 0 8px #F59E0B;
+          background: #173B5F;
+          box-shadow: 0 0 8px #214A70;
         }
 
         .compass-station-text {
@@ -537,7 +537,7 @@ export default function Chapter4Cover({ onStartJourney, onBack }) {
         }
 
         .compass-station-deg {
-          color: #92400E;
+          color: #173B5F;
           font-weight: 700;
           font-size: 0.78rem;
         }
