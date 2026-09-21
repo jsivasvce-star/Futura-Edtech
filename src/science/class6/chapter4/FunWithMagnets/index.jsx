@@ -581,6 +581,9 @@ function Step2Float() {
       gap: '1.25rem',
       boxSizing: 'border-box',
       overflow: 'hidden',
+      maxWidth: '96%',
+      margin: '0 auto',
+      padding: '0.15rem 0'
     }}>
       {/* ── LEFT CONTAINER: CLEAN WHITE CARD, REAL SCI-LEV PLATFORM PHOTO + EXPANDED TYPOGRAPHY CARDS ── */}
       <div style={{
@@ -588,13 +591,13 @@ function Step2Float() {
         height: '100%',
         background: '#FFFFFF',
         border: '1.5px solid #E2E8F0',
-        borderRadius: '20px',
+        borderRadius: '22px',
         boxShadow: '0 8px 24px rgba(15, 23, 42, 0.04)',
-        padding: '1.25rem',
+        padding: '1.2rem 1.35rem',
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
-        gap: '0.9rem',
+        gap: '0.85rem',
         overflowY: 'auto'
       }}>
         {/* Header Badge */}
@@ -776,27 +779,41 @@ function Step2Float() {
         </div>
       </div>
 
-      {/* ── RIGHT CONTAINER: 2X SCALED TYPOGRAPHY, ENLARGED TRAIN & TRACK MODELS + FORCE BALANCE ── */}
+      {/* ── RIGHT CONTAINER: SCALED TYPOGRAPHY, ENLARGED TRAIN & TRACK MODELS + FORCE BALANCE ── */}
       <div style={{
         flex: '1',
         height: '100%',
         background: '#FFFFFF',
         border: '1.5px solid #E2E8F0',
-        borderRadius: '20px',
+        borderRadius: '22px',
         boxShadow: '0 8px 24px rgba(15, 23, 42, 0.04)',
-        padding: '1.5rem',
+        padding: '1.35rem 1.6rem',
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
-        gap: '1.2rem',
+        justifyContent: 'space-between',
+        gap: '0.75rem',
         overflowY: 'auto'
       }}>
-        {/* Top Explanation Heading & Scaled Body Copy */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', flexShrink: 0 }}>
-          <h2 style={{ margin: 0, color: '#0F172A', fontSize: '2.85rem', fontWeight: 900, lineHeight: 1.2 }}>
+        {/* Top Explanation Heading & Scaled Body Copy expanding downwards */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', flexShrink: 0 }}>
+          <h2 style={{
+            margin: 0,
+            color: '#0F172A',
+            fontSize: '3.1rem',
+            fontWeight: 900,
+            lineHeight: 1.18,
+            letterSpacing: '-0.025em'
+          }}>
             How Does the Train Float?
           </h2>
-          <p style={{ margin: 0, color: '#334155', fontSize: '2.05rem', lineHeight: 1.45, fontWeight: 600 }}>
+          <p style={{
+            margin: 0,
+            color: '#334155',
+            fontSize: '2.25rem',
+            lineHeight: 1.48,
+            fontWeight: 600
+          }}>
             Electromagnetic coils are embedded in the guideway track below the train. When electric current flows through them, they create a powerful upward magnetic force that lifts the train.
           </p>
         </div>
@@ -2220,7 +2237,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '0.5rem 1.4rem',
+          padding: '0.45rem 1.4rem',
           marginTop: '0.45rem',
           background: 'rgba(255, 255, 255, 0.92)',
           backdropFilter: 'blur(16px)',
@@ -2230,7 +2247,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
           boxShadow: '0 6px 20px rgba(217,119,6,0.12)',
           flexShrink: 0,
           zIndex: 100,
-          maxWidth: '98%',
+          maxWidth: '96%',
           margin: '0.45rem auto 0 auto',
           width: '100%',
           boxSizing: 'border-box'
