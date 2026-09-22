@@ -2,114 +2,67 @@ import React, { useState, useEffect, useMemo, useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Text, OrbitControls, useTexture } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle, RotateCcw, ArrowRight, Beaker, Play, Magnet } from 'lucide-react';
+import { CheckCircle, XCircle, RotateCcw, ArrowRight, Play, BookOpen, HelpCircle, Leaf } from 'lucide-react';
 import * as THREE from 'three';
 
 // ---------------------------------------------------------
-// Paper Box Enclosure with Parchment Texture & Side Walls
+// 1. Extracted Real Sewing Needle on Wooden Tray Surface
 // ---------------------------------------------------------
-function PaperBoxEnclosure() {
-  const paperTexture = useTexture('/MagneticPoles/paper_texture.jpg');
+function ExtractedMagnetizedNeedle({ isMagnetized }) {
+  const needleTexture = useTexture('/MagneticCompass/needle_magnetized.png');
+  needleTexture.colorSpace = THREE.SRGBColorSpace;
+  needleTexture.anisotropy = 16;
+  const glowRef = useRef();
 
-  return (
-    <>
-      {/* 1. Bottom Paper Base */}
-      <mesh receiveShadow position={[0, -0.01, 0]}>
-        <boxGeometry args={[20, 0.04, 13]} />
-        <meshStandardMaterial map={paperTexture} roughness={0.95} metalness={0.0} />
-      </mesh>
-
-      {/* 2. Back Paper Wall */}
-      <mesh receiveShadow position={[0, 2.0, -6.5]}>
-        <boxGeometry args={[20, 4.0, 0.04]} />
-        <meshStandardMaterial map={paperTexture} roughness={0.95} metalness={0.0} />
-      </mesh>
-
-      {/* 3. Left Paper Wall */}
-      <mesh receiveShadow position={[-10.0, 2.0, 0]}>
-        <boxGeometry args={[0.04, 4.0, 13]} />
-        <meshStandardMaterial map={paperTexture} roughness={0.95} metalness={0.0} />
-      </mesh>
-
-      {/* 4. Right Paper Wall */}
-      <mesh receiveShadow position={[10.0, 2.0, 0]}>
-        <boxGeometry args={[0.04, 4.0, 13]} />
-        <meshStandardMaterial map={paperTexture} roughness={0.95} metalness={0.0} />
-      </mesh>
-    </>
-  );
-}
-
-// ---------------------------------------------------------
-// Rotatable Activity Group (Allows left-right rotation of the activity inside the tray)
-// ---------------------------------------------------------
-function RotatableActivityGroup({ children }) {
-  const groupRef = useRef();
-  const targetRotationY = useRef(0);
-  const currentRotationY = useRef(0);
-  const isPointerDown = useRef(false);
-  const startX = useRef(0);
-
-  useEffect(() => {
-    const onPointerMove = (e) => {
-      if (!isPointerDown.current) return;
-      const deltaX = e.clientX - startX.current;
-      startX.current = e.clientX;
-      targetRotationY.current += deltaX * 0.012;
-    };
-
-    const onPointerUp = () => {
-      isPointerDown.current = false;
-      document.body.style.cursor = 'auto';
-    };
-
-    window.addEventListener('pointermove', onPointerMove);
-    window.addEventListener('pointerup', onPointerUp);
-    return () => {
-      window.removeEventListener('pointermove', onPointerMove);
-      window.removeEventListener('pointerup', onPointerUp);
-    };
-  }, []);
-
-  useFrame((state, delta) => {
-    if (!groupRef.current) return;
-    const dt = Math.min(delta, 0.1);
-    currentRotationY.current = THREE.MathUtils.lerp(currentRotationY.current, targetRotationY.current, dt * 12);
-    groupRef.current.rotation.y = currentRotationY.current;
+  useFrame((state) => {
+    if (glowRef.current && isMagnetized) {
+      glowRef.current.intensity = 1.4 + Math.sin(state.clock.elapsedTime * 4) * 0.6;
+    }
   });
 
   return (
-    <group 
-      ref={groupRef}
-      onPointerDown={(e) => {
-        e.stopPropagation();
-        isPointerDown.current = true;
-        startX.current = e.clientX;
-        document.body.style.cursor = 'grabbing';
-      }}
-      onPointerOver={(e) => {
-        e.stopPropagation();
-        document.body.style.cursor = 'grab';
-      }}
-      onPointerOut={() => {
-        if (!isPointerDown.current) {
-          document.body.style.cursor = 'auto';
-        }
-      }}
-    >
-      {/* Invisible hit cylinder around needle and magnet to catch drag gestures */}
-      <mesh visible={false} position={[0, 2.0, 0]}>
-        <cylinderGeometry args={[10, 10, 5, 32]} />
-        <meshBasicMaterial transparent opacity={0} />
+    <group position={[0, 0.08, 0]}>
+      {/* Needle Sprite Plane laying flat directly on the wooden tray surface */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} castShadow receiveShadow>
+        <planeGeometry args={[11.2, 1.26]} />
+        <meshStandardMaterial
+          map={needleTexture}
+          transparent={true}
+          alphaTest={0.05}
+          roughness={0.2}
+          metalness={0.7}
+        />
       </mesh>
-      {children}
+
+      {/* Subtle bottom drop shadow on the tray wood */}
+      <mesh position={[0, -0.02, 0.05]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[11.0, 1.15]} />
+        <meshBasicMaterial color="#000000" transparent opacity={0.32} />
+      </mesh>
+
+      {/* Magnetic Aura on Poles when fully magnetized */}
+      {isMagnetized && (
+        <>
+          <pointLight ref={glowRef} position={[0, 0.8, 0]} color="#38BDF8" distance={9} intensity={1.8} />
+          {/* North Red Pole Aura */}
+          <mesh position={[-4.7, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+            <ringGeometry args={[0.3, 0.7, 24]} />
+            <meshBasicMaterial color="#EF4444" transparent opacity={0.65} side={THREE.DoubleSide} />
+          </mesh>
+          {/* South Blue Pole Aura */}
+          <mesh position={[4.6, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+            <ringGeometry args={[0.3, 0.7, 24]} />
+            <meshBasicMaterial color="#3B82F6" transparent opacity={0.65} side={THREE.DoubleSide} />
+          </mesh>
+        </>
+      )}
     </group>
   );
 }
 
-// -------------------------------------------------------------------
-// 1. 3D Bar Magnet Component (Standard Red/Blue Pole Bar Magnet)
-// -------------------------------------------------------------------
+// ---------------------------------------------------------
+// 2. 3D Bar Magnet with Realistic Eye-to-Point Stroking Arc
+// ---------------------------------------------------------
 function BarMagnet3D({ strokeProgress, isAutoStroking }) {
   const magnetRef = useRef();
 
@@ -118,134 +71,78 @@ function BarMagnet3D({ strokeProgress, isAutoStroking }) {
     if (isAutoStroking) {
       const t = strokeProgress % 1;
       if (t < 0.75) {
-        // Stroking forward across the floating needle from left to right
+        // Linear stroke from Eye (right, +4.8) to Point (left, -4.8)
         const p = t / 0.75;
-        magnetRef.current.position.x = -3.4 + p * 6.8;
-        magnetRef.current.position.y = 2.5;
-        magnetRef.current.rotation.z = -0.15;
+        magnetRef.current.position.x = 4.8 - p * 9.6;
+        magnetRef.current.position.y = 1.15;
+        magnetRef.current.rotation.z = 0.15;
       } else {
-        // Lifting high into air and looping back
+        // Lifting and curving back to Eye
         const p = (t - 0.75) / 0.25;
-        magnetRef.current.position.x = 3.4 - p * 6.8;
-        magnetRef.current.position.y = 2.5 + Math.sin(p * Math.PI) * 1.8;
-        magnetRef.current.rotation.z = 0.12;
+        magnetRef.current.position.x = -4.8 + p * 9.6;
+        magnetRef.current.position.y = 1.15 + Math.sin(p * Math.PI) * 2.6;
+        magnetRef.current.rotation.z = -0.15;
       }
+    } else {
+      magnetRef.current.position.set(4.8, 1.15, 0);
+      magnetRef.current.rotation.z = 0.15;
     }
   });
 
   return (
-    <group ref={magnetRef} position={[-3.4, 2.5, 0]} scale={[0.38, 0.38, 0.38]}>
-      {/* North Pole Half - Signal Carmine Red */}
+    <group ref={magnetRef} position={[4.8, 1.15, 0]} scale={[0.42, 0.42, 0.42]}>
+      {/* North Red Half */}
       <mesh position={[-2.6, 0, 0]} castShadow receiveShadow>
-        <boxGeometry args={[5.2, 1.3, 1.8]} />
-        <meshStandardMaterial color="#DC2626" roughness={0.45} metalness={0.15} />
+        <boxGeometry args={[5.2, 1.4, 1.8]} />
+        <meshStandardMaterial color="#DC2626" roughness={0.35} metalness={0.3} />
       </mesh>
       <Text
-        position={[-3.6, 0.69, 0]}
+        position={[-3.6, 0.72, 0]}
         rotation={[-Math.PI / 2, 0, 0]}
-        fontSize={1.0}
+        fontSize={1.1}
         color="#FFFFFF"
         fontWeight="bold"
       >
         N
       </Text>
 
-      {/* South Pole Half - Cobalt Blue */}
+      {/* South Blue Half */}
       <mesh position={[2.6, 0, 0]} castShadow receiveShadow>
-        <boxGeometry args={[5.2, 1.3, 1.8]} />
-        <meshStandardMaterial color="#1D4ED8" roughness={0.45} metalness={0.15} />
+        <boxGeometry args={[5.2, 1.4, 1.8]} />
+        <meshStandardMaterial color="#1D4ED8" roughness={0.35} metalness={0.3} />
       </mesh>
       <Text
-        position={[3.6, 0.69, 0]}
+        position={[3.6, 0.72, 0]}
         rotation={[-Math.PI / 2, 0, 0]}
-        fontSize={1.0}
+        fontSize={1.1}
         color="#FFFFFF"
         fontWeight="bold"
       >
         S
       </Text>
 
-      {/* Center Dividing Seam */}
+      {/* Center Divider Line */}
       <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[0.06, 1.32, 1.82]} />
+        <boxGeometry args={[0.08, 1.42, 1.82]} />
         <meshStandardMaterial color="#0F172A" roughness={0.7} />
       </mesh>
     </group>
   );
 }
 
-// -------------------------------------------------------------------
-// 2. 3D Steel Sewing Needle Component (Steady in Air, Bold & Strong)
-// -------------------------------------------------------------------
-function SewingNeedle3D({ isMagnetized }) {
-  const glowRef = useRef();
-
-  useFrame((state) => {
-    if (glowRef.current && isMagnetized) {
-      glowRef.current.intensity = 1.2 + Math.sin(state.clock.elapsedTime * 4) * 0.5;
-    }
-  });
-
-  return (
-    <group position={[0, 1.9, 0]} scale={[0.78, 0.78, 0.78]}>
-      {/* Main Bold Polished Steel Body */}
-      <mesh position={[0, 0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow receiveShadow>
-        <cylinderGeometry args={[0.18, 0.18, 8.5, 32]} />
-        <meshStandardMaterial color="#F1F5F9" metalness={0.98} roughness={0.06} />
-      </mesh>
-
-      {/* Sharp Tapered Point (Left End / North Pole) */}
-      <mesh position={[-4.75, 0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
-        <coneGeometry args={[0.18, 0.95, 32]} />
-        <meshStandardMaterial color="#F1F5F9" metalness={0.98} roughness={0.06} />
-      </mesh>
-
-      {/* Eye Head (Right End / South Pole) */}
-      <mesh position={[4.6, 0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
-        <cylinderGeometry args={[0.22, 0.18, 0.65, 32]} />
-        <meshStandardMaterial color="#E2E8F0" metalness={0.98} roughness={0.08} />
-      </mesh>
-
-      {/* Eyelet Groove Hole */}
-      <mesh position={[4.55, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[0.09, 0.035, 16, 24]} />
-        <meshStandardMaterial color="#0F172A" metalness={0.9} roughness={0.3} />
-      </mesh>
-
-      {/* Magnetization Field Aura & Glow Rings */}
-      {isMagnetized && (
-        <>
-          <pointLight ref={glowRef} position={[0, 0.5, 0]} color="#38BDF8" distance={7} intensity={1.5} />
-          {/* North Red Ring */}
-          <mesh position={[-4.4, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
-            <ringGeometry args={[0.25, 0.45, 24]} />
-            <meshBasicMaterial color="#EF4444" transparent opacity={0.8} side={THREE.DoubleSide} />
-          </mesh>
-          {/* South Blue Ring */}
-          <mesh position={[4.4, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
-            <ringGeometry args={[0.25, 0.45, 24]} />
-            <meshBasicMaterial color="#3B82F6" transparent opacity={0.8} side={THREE.DoubleSide} />
-          </mesh>
-        </>
-      )}
-    </group>
-  );
-}
-
-// -------------------------------------------------------------------
-// 3. 3D Iron Filings Particle System (True Field Dipole & Pole Spikes)
-// -------------------------------------------------------------------
+// ---------------------------------------------------------
+// 3. Iron Filings Attraction Particles
+// ---------------------------------------------------------
 function NeedleFilings3D({ isTesting, isSprinkling, isAttracted }) {
   const count = 4800;
   const meshRef = useRef();
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
-  // Needle Pole Coordinates matching SewingNeedle3D
   const poles = useMemo(
     () => ({
-      nX: -3.7,
-      sX: 3.7,
-      poleY: 1.9,
+      nX: -4.8,
+      sX: 4.8,
+      poleY: 0.1,
       poleZ: 0,
       span: 2.2,
     }),
@@ -257,16 +154,14 @@ function NeedleFilings3D({ isTesting, isSprinkling, isAttracted }) {
     const numLines = 55;
 
     for (let i = 0; i < count; i++) {
-      // Confined strictly to paper dimensions (11 x 7)
-      const randX = (Math.random() - 0.5) * 10.0;
-      const randZ = (Math.random() - 0.5) * 6.2;
+      const randX = (Math.random() - 0.5) * 11.0;
+      const randZ = (Math.random() - 0.5) * 6.5;
       const randomEuler = new THREE.Euler(Math.PI / 2, (Math.random() - 0.5) * Math.PI, 0);
 
       let targetX, targetZ;
       const clusterRoll = Math.random();
 
-      if (clusterRoll < 0.45) {
-        // 1. High density clustering at needle poles
+      if (clusterRoll < 0.5) {
         const isNorth = Math.random() < 0.5;
         const pX = isNorth ? poles.nX : poles.sX;
         const pZ = poles.poleZ;
@@ -276,7 +171,6 @@ function NeedleFilings3D({ isTesting, isSprinkling, isAttracted }) {
         targetX = pX + Math.cos(angle) * r;
         targetZ = pZ + Math.sin(angle) * (r * 0.85);
       } else {
-        // 2. Natural magnetic stream loops
         const lineIdx = Math.floor(Math.random() * numLines);
         const t = Math.random();
         const loopR = 1.2 + (lineIdx / numLines) * 4.6;
@@ -287,8 +181,7 @@ function NeedleFilings3D({ isTesting, isSprinkling, isAttracted }) {
         targetZ = side * Math.cos(theta) * loopR * 0.72 + (Math.random() - 0.5) * 0.18;
       }
 
-      // Constrain within paper boundary
-      targetX = Math.max(-5.2, Math.min(5.2, targetX));
+      targetX = Math.max(-5.5, Math.min(5.5, targetX));
       targetZ = Math.max(-3.2, Math.min(3.2, targetZ));
 
       data.push({
@@ -310,10 +203,7 @@ function NeedleFilings3D({ isTesting, isSprinkling, isAttracted }) {
     return data;
   }, [count, poles]);
 
-  // Cylinder needle matching coarse metallic shavings
   const geometry = useMemo(() => new THREE.CylinderGeometry(0.024, 0.024, 0.16, 4), []);
-
-  // Charcoal gunmetal material
   const material = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
@@ -336,7 +226,6 @@ function NeedleFilings3D({ isTesting, isSprinkling, isAttracted }) {
         p.z = p.originZ;
         p.delay = Math.random() * 0.6;
       } else {
-        // Step 1: Sprinkling down
         p.delay -= dt;
         if (p.delay <= 0) {
           p.visible = true;
@@ -345,7 +234,6 @@ function NeedleFilings3D({ isTesting, isSprinkling, isAttracted }) {
           }
         }
 
-        // Step 2: Attract and form magnetic field lines and vertical pole spikes
         if (isAttracted) {
           p.x = THREE.MathUtils.lerp(p.x, p.targetX, dt * 5.5);
           p.z = THREE.MathUtils.lerp(p.z, p.targetZ, dt * 5.5);
@@ -360,7 +248,6 @@ function NeedleFilings3D({ isTesting, isSprinkling, isAttracted }) {
           const dzS = p.z - poles.poleZ;
           const distS = Math.max(0.3, Math.hypot(dxS, dyS, dzS));
 
-          // Dipole field vector components
           const Bx = dxN / Math.pow(distN, 3) - dxS / Math.pow(distS, 3);
           const By = dyN / Math.pow(distN, 3) - dyS / Math.pow(distS, 3);
           const Bz = dzN / Math.pow(distN, 3) - dzS / Math.pow(distS, 3);
@@ -371,7 +258,6 @@ function NeedleFilings3D({ isTesting, isSprinkling, isAttracted }) {
             p.targetQ.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
             p.q.slerp(p.targetQ, dt * 7.5);
 
-            // 3D vertical lifting towards the poles
             const minDist = Math.min(distN, distS);
             if (minDist < 2.4) {
               const spikeHeight = (2.4 - minDist) * 0.8;
@@ -410,9 +296,9 @@ function NeedleFilings3D({ isTesting, isSprinkling, isAttracted }) {
   );
 }
 
-// -------------------------------------------------------------------
-// 4. Main Stage1 Component
-// -------------------------------------------------------------------
+// ---------------------------------------------------------
+// 4. Main Stage 1 Component with 6-Stroke Animation (+5 per stroke)
+// ---------------------------------------------------------
 export default function Stage1_Magnetize({ onComplete }) {
   const [strokeCount, setStrokeCount] = useState(0);
   const [isTesting, setIsTesting] = useState(false);
@@ -421,28 +307,32 @@ export default function Stage1_Magnetize({ onComplete }) {
   const [testComplete, setTestComplete] = useState(false);
   const [isAutoStroking, setIsAutoStroking] = useState(false);
   const [strokeAnimProgress, setStrokeAnimProgress] = useState(0);
+  const [prediction, setPrediction] = useState(null);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
-  const maxStrokes = 5;
+  const maxStrokes = 30;
   const isMagnetized = strokeCount >= maxStrokes;
 
+  // 6 stroke cycles in total, each cycle takes ~880ms and advances by 5 strokes
   useEffect(() => {
     let animFrame;
     let startTime;
-    const duration = 1400;
+    const strokeCycleDuration = 880; // ms per single stroke cycle
 
     if (isAutoStroking && strokeCount < maxStrokes) {
       const animateStroke = (timestamp) => {
         if (!startTime) startTime = timestamp;
         const elapsed = timestamp - startTime;
-        const progress = elapsed / duration;
+        const progress = Math.min(1, elapsed / strokeCycleDuration);
 
         setStrokeAnimProgress(progress);
 
-        if (progress >= 1) {
+        if (elapsed >= strokeCycleDuration) {
           setStrokeCount((prev) => {
-            const next = prev + 1;
+            const next = Math.min(maxStrokes, prev + 5);
             if (next >= maxStrokes) {
               setIsAutoStroking(false);
+              setStrokeAnimProgress(0);
             }
             return next;
           });
@@ -460,22 +350,32 @@ export default function Stage1_Magnetize({ onComplete }) {
     return () => cancelAnimationFrame(animFrame);
   }, [isAutoStroking, strokeCount]);
 
-  const handleTest = () => {
+  const handleStartStrokes = () => {
+    if (isAutoStroking || strokeCount >= maxStrokes) return;
+    setIsAutoStroking(true);
+  };
+
+  const handleTestAndProceed = () => {
+    if (!prediction) return;
+
+    if (strokeCount < maxStrokes) {
+      setStrokeCount(maxStrokes);
+    }
+
     setIsTesting(true);
     setIsSprinkling(true);
     setIsAttracted(false);
     setTestComplete(false);
 
-    // After 0.5s, filings get drawn into the magnetic field and cluster at the needle poles
     setTimeout(() => {
       setIsSprinkling(false);
       setIsAttracted(true);
     }, 500);
 
-    // After 1.3s, complete test
     setTimeout(() => {
       setTestComplete(true);
-    }, 1300);
+      setShowFeedbackModal(true);
+    }, 1400);
   };
 
   const handleReset = () => {
@@ -486,27 +386,127 @@ export default function Stage1_Magnetize({ onComplete }) {
     setTestComplete(false);
     setIsAutoStroking(false);
     setStrokeAnimProgress(0);
+    setPrediction(null);
+    setShowFeedbackModal(false);
   };
 
   return (
     <div
       style={{
-        padding: '0.5rem 1rem',
+        padding: '0.5rem',
         display: 'flex',
         gap: '1.25rem',
         height: '100%',
         minHeight: 0,
         overflow: 'hidden',
         boxSizing: 'border-box',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'transparent',
+        position: 'relative'
       }}
     >
-      {/* Left Side: 3D Interactive Lab Area */}
+      {/* Centered Feedback Pop-up Modal */}
+      <AnimatePresence>
+        {showFeedbackModal && (
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: 1000,
+            background: 'rgba(15, 23, 42, 0.65)',
+            backdropFilter: 'blur(8px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '1.5rem'
+          }}>
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              style={{
+                background: '#FFFFFF',
+                border: prediction === 'yes' ? '2px solid #6EE7B7' : '2px solid #FCA5A5',
+                borderRadius: '28px',
+                padding: '2.5rem 2.8rem',
+                maxWidth: '560px',
+                width: '100%',
+                boxShadow: prediction === 'yes' ? '0 24px 60px rgba(6, 78, 59, 0.35)' : '0 24px 60px rgba(153, 27, 27, 0.25)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+                gap: '1.4rem',
+                position: 'relative'
+              }}
+            >
+              <div style={{
+                width: '76px',
+                height: '76px',
+                borderRadius: '50%',
+                background: prediction === 'yes' 
+                  ? 'linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%)'
+                  : 'linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: prediction === 'yes' ? '0 8px 24px rgba(16, 185, 129, 0.25)' : '0 8px 24px rgba(239, 68, 68, 0.25)'
+              }}>
+                {prediction === 'yes' ? (
+                  <CheckCircle size={44} color="#059669" />
+                ) : (
+                  <XCircle size={44} color="#DC2626" />
+                )}
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+                <h3 style={{ 
+                  margin: 0, 
+                  fontSize: '2.1rem', 
+                  fontWeight: 900, 
+                  color: prediction === 'yes' ? '#064E3B' : '#991B1B' 
+                }}>
+                  {prediction === 'yes' ? 'Prediction Verified! 🎉' : "Observation Check!"}
+                </h3>
+                <p style={{ margin: 0, color: '#334155', fontSize: '1.45rem', lineHeight: 1.6, fontWeight: 700 }}>
+                  {prediction === 'yes' ? (
+                    'Excellent! Stroking the needle 30 times with a bar magnet transferred magnetic properties, turning it into a working magnet that attracts iron filings.'
+                  ) : (
+                    'Notice how the iron filings cling firmly to the needle poles! Stroking with the magnet magnetized the steel needle.'
+                  )}
+                </p>
+              </div>
+
+              <button
+                onClick={() => {
+                  setShowFeedbackModal(false);
+                  if (onComplete) onComplete();
+                }}
+                className="gold-glow-btn"
+                style={{
+                  width: '100%',
+                  marginTop: '0.5rem',
+                  padding: '1.1rem 2rem',
+                  fontSize: '1.45rem',
+                  fontWeight: 900,
+                  borderRadius: '18px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem'
+                }}
+              >
+                Continue to Make a Compass <ArrowRight size={22} color="#FFFFFF" />
+              </button>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Left Side: 3D Interactive Lab Area on HD Wooden Tray (65% width) */}
       <div
         style={{
-          flex: '1.75',
+          flex: '0 0 65%',
+          maxWidth: '65%',
           display: 'flex',
           flexDirection: 'column',
           height: '100%',
@@ -521,91 +521,65 @@ export default function Stage1_Magnetize({ onComplete }) {
             maxWidth: '100%',
             flex: 1,
             minHeight: '380px',
-            background: '#F0FDF4',
-            border: '1.5px solid #A7F3D0',
             borderRadius: '24px',
+            border: '1.5px solid rgba(255, 255, 255, 0.8)',
             overflow: 'hidden',
-            boxShadow: '0 12px 30px rgba(6, 78, 59, 0.12)',
+            boxShadow: '0 12px 36px rgba(0, 0, 0, 0.12)',
+            backgroundImage: `url('/MagneticCompass/magnetize_tray_bg.jpg')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
           }}
         >
-          {/* Laboratory Desk Background Image */}
-          <img
-            src="/MagneticCompass/bg_image.jpg"
-            alt="Physics Lab Background"
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              filter: 'brightness(1.02) contrast(1.0)',
-              zIndex: 1,
-            }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'rgba(0, 0, 0, 0.12)',
-              zIndex: 1,
-              pointerEvents: 'none',
-            }}
-          />
-
-          {/* 3D Canvas Scene */}
+          {/* 3D WebGL Canvas Layer */}
           <div style={{ position: 'relative', width: '100%', height: '100%', zIndex: 10 }}>
             <Canvas
               shadows
-              camera={{ position: [0, 8.5, 17], fov: 42 }}
+              camera={{ position: [0, 8.2, 16], fov: 40 }}
               style={{ width: '100%', height: '100%' }}
             >
               <Suspense fallback={null}>
-                <ambientLight intensity={0.9} />
+                <ambientLight intensity={1.15} color="#FFFFFF" />
                 <directionalLight
-                  position={[6, 14, 8]}
-                  intensity={1.4}
+                  position={[6, 16, 10]}
+                  intensity={2.2}
+                  color="#FFFBEB"
                   castShadow
                   shadow-mapSize-width={1024}
                   shadow-mapSize-height={1024}
                 />
-                <pointLight position={[-6, 6, -4]} intensity={0.4} color="#BAE6FD" />
+                <pointLight position={[-6, 6, -4]} intensity={0.5} color="#BAE6FD" />
+                <directionalLight position={[-6, 8, -6]} intensity={0.9} color="#E0F2FE" />
 
-                {/* Scaled & Positioned 3D Lab Group: Tray, Needle, Magnet & Filings (Compact & Well-Proportioned) */}
-                <group position={[0, -2.2, 0]} scale={[0.64, 0.64, 0.64]}>
-                  {/* Parchment Paper Box Enclosure with Side Walls (Stationary) */}
-                  <PaperBoxEnclosure />
+                <group position={[0, -1.8, 0]} scale={[0.72, 0.72, 0.72]}>
+                  {/* Extracted Magnetized Needle lying directly on the wooden tray */}
+                  <ExtractedMagnetizedNeedle isMagnetized={isMagnetized} />
 
-                  {/* Rotatable Activity Group (rotates needle, magnet, and filings inside tray) */}
-                  <RotatableActivityGroup>
-                    {/* 3D Steel Sewing Needle Floating in Air */}
-                    <SewingNeedle3D isMagnetized={isMagnetized} />
-
-                    {/* 3D Stroking Bar Magnet */}
-                    {!isMagnetized && (
-                      <BarMagnet3D
-                        strokeProgress={strokeAnimProgress}
-                        isAutoStroking={isAutoStroking}
-                      />
-                    )}
-
-                    {/* 3D Iron Filings */}
-                    <NeedleFilings3D
-                      isTesting={isTesting}
-                      isSprinkling={isSprinkling}
-                      isAttracted={isAttracted}
+                  {/* 3D Bar Magnet stroking along the needle */}
+                  {!isMagnetized && (
+                    <BarMagnet3D
+                      strokeProgress={strokeAnimProgress}
+                      isAutoStroking={isAutoStroking}
                     />
-                  </RotatableActivityGroup>
+                  )}
+
+                  {/* Iron Filings attraction effect */}
+                  <NeedleFilings3D
+                    isTesting={isTesting}
+                    isSprinkling={isSprinkling}
+                    isAttracted={isAttracted}
+                  />
                 </group>
 
                 <OrbitControls
                   makeDefault
-                  target={[0, -0.6, 0]}
-                  minAzimuthAngle={0}
-                  maxAzimuthAngle={0}
-                  maxPolarAngle={Math.PI / 2.05}
+                  target={[0, -1.2, 0]}
+                  minAzimuthAngle={-0.3}
+                  maxAzimuthAngle={0.3}
+                  maxPolarAngle={Math.PI / 2.1}
                   minPolarAngle={0.1}
-                  minDistance={5}
-                  maxDistance={30}
+                  minDistance={6}
+                  maxDistance={28}
                   enablePan={false}
                 />
               </Suspense>
@@ -614,296 +588,300 @@ export default function Stage1_Magnetize({ onComplete }) {
         </div>
       </div>
 
-      {/* Right Side: Guide & Controls Panel */}
-      <div className="stage-right-column">
-        {/* Container 1: Steps of Instructions & Action Controls */}
+      {/* Right Side: 2× Scaled Typography with Exact Layout (35% width) */}
+      <div className="stage-right-column" style={{ flex: '0 0 35%', maxWidth: '35%' }}>
+        {/* Container 1: Try the experiment */}
         <div 
           className="stage-container-1"
           style={{
-            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(10px)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
-            boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
-            padding: '1.25rem 1.45rem',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
+            padding: '1.2rem 1.55rem',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
-            gap: '0.85rem',
-            boxSizing: 'border-box',
-            overflowY: 'auto',
-            minHeight: 0
-          }}
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {/* Header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                <Magnet size={24} color="#173B5F" />
-                <h3 style={{ margin: 0, fontSize: '19.5px', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.01em' }}>
-                  Stage 1: Magnetize
-                </h3>
-              </div>
-              <span style={{
-                background: testComplete ? '#DCFCE7' : 'rgba(217, 119, 6, 0.12)',
-                color: testComplete ? '#15803D' : '#173B5F',
-                fontWeight: 900,
-                fontSize: '0.88rem',
-                padding: '0.3rem 0.8rem',
-                borderRadius: '12px',
-                border: testComplete ? '1.5px solid #86EFAC' : '1.5px solid #E2E8F0'
-              }}>
-                Step {testComplete ? 3 : isMagnetized ? 2 : 1} of 3
-              </span>
-            </div>
-
-            {/* Steps of Instructions - Dot Bullets, Single-Line Brown Text */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-              {[
-                {
-                  id: 'step1',
-                  desc: 'Place an iron sewing needle on the workspace paper base.'
-                },
-                {
-                  id: 'step2',
-                  desc: 'Stroke one pole of the bar magnet along the needle 30 times in one single direction.'
-                },
-                {
-                  id: 'step3',
-                  desc: 'Test whether the needle attracts iron filings to verify it has become magnetized.'
-                }
-              ].map((s) => (
-                <div
-                  key={s.id}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'baseline',
-                    gap: '0.75rem',
-                    padding: '0.1rem 0'
-                  }}
-                >
-                  <span
-                    style={{
-                      width: '9px',
-                      height: '9px',
-                      borderRadius: '50%',
-                      background: '#173B5F',
-                      display: 'inline-block',
-                      flexShrink: 0,
-                      transform: 'translateY(-2px)'
-                    }}
-                  />
-                  <p style={{
-                    margin: 0,
-                    fontSize: '17.5px',
-                    color: '#173B5F',
-                    fontWeight: 600,
-                    lineHeight: 1.5
-                  }}>
-                    {s.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Stroke Progress & Controls Row */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.2rem' }}>
-            {/* Progress Indicator */}
-            <div>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  marginBottom: '0.35rem',
-                  fontSize: '0.95rem',
-                  color: '#173B5F',
-                  fontWeight: 800,
-                }}
-              >
-                <span>Strokes: {strokeCount} / {maxStrokes}</span>
-                <span style={{ color: isMagnetized ? '#16A34A' : '#173B5F', fontWeight: 900 }}>
-                  {Math.round((strokeCount / maxStrokes) * 100)}%
-                </span>
-              </div>
-              <div
-                style={{
-                  width: '100%',
-                  height: '9px',
-                  background: '#EAF2F6',
-                  borderRadius: '6px',
-                  overflow: 'hidden',
-                  border: '1px solid #E2E8F0'
-                }}
-              >
-                <motion.div
-                  animate={{ width: `${(strokeCount / maxStrokes) * 100}%` }}
-                  style={{
-                    height: '100%',
-                    background: isMagnetized
-                      ? 'linear-gradient(135deg, #16A34A 0%, #15803D 100%)'
-                      : 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* Buttons Row */}
-            <div style={{ display: 'flex', gap: '0.65rem' }}>
-              <button
-                onClick={() => setIsAutoStroking(true)}
-                disabled={isAutoStroking || isMagnetized}
-                className={!isAutoStroking && !isMagnetized ? 'gold-glow-btn' : ''}
-                style={{
-                  flex: 1.3,
-                  padding: '0.8rem 0.85rem',
-                  fontSize: '17.5px',
-                  fontWeight: 900,
-                  borderRadius: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '0.5rem',
-                  background: isMagnetized ? '#DCFCE7' : isAutoStroking ? '#F1F5F9' : undefined,
-                  color: isMagnetized ? '#15803D' : isAutoStroking ? '#94A3B8' : '#FFFFFF',
-                  border: isMagnetized ? '1.5px solid #86EFAC' : isAutoStroking ? '1.5px solid #E2E8F0' : undefined,
-                  cursor: isMagnetized || isAutoStroking ? 'default' : 'pointer',
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                {isMagnetized ? (
-                  <><CheckCircle size={18} color="#15803D" /> Stroked (30/30)</>
-                ) : (
-                  <><Play size={18} color={!isAutoStroking ? '#FFFFFF' : '#94A3B8'} /> {isAutoStroking ? 'Magnetizing...' : '1. Auto Magnetize'}</>
-                )}
-              </button>
-
-              <button
-                onClick={handleTest}
-                disabled={!isMagnetized || isTesting}
-                className={isMagnetized && !isTesting && !testComplete ? 'gold-glow-btn' : ''}
-                style={{
-                  flex: 1.3,
-                  padding: '0.8rem 0.85rem',
-                  fontSize: '17.5px',
-                  fontWeight: 900,
-                  borderRadius: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '0.5rem',
-                  background: testComplete ? '#DCFCE7' : (!isMagnetized || isTesting) ? '#F1F5F9' : undefined,
-                  color: testComplete ? '#15803D' : (!isMagnetized || isTesting) ? '#94A3B8' : '#FFFFFF',
-                  border: testComplete ? '1.5px solid #86EFAC' : (!isMagnetized || isTesting) ? '1.5px solid #E2E8F0' : undefined,
-                  cursor: isMagnetized && !isTesting ? 'pointer' : 'not-allowed',
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                {testComplete ? (
-                  <><CheckCircle size={18} color="#15803D" /> Tested ✓</>
-                ) : (
-                  <><Beaker size={18} color={isMagnetized && !isTesting ? '#FFFFFF' : '#94A3B8'} /> {isSprinkling ? 'Sprinkling...' : isAttracted ? 'Attracting...' : '2. Test Filings'}</>
-                )}
-              </button>
-
-              <button
-                onClick={handleReset}
-                disabled={strokeCount === 0 && !isAutoStroking && !isTesting}
-                style={{
-                  flex: 0.75,
-                  padding: '0.8rem 0.65rem',
-                  fontSize: '16.5px',
-                  fontWeight: 900,
-                  borderRadius: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '0.4rem',
-                  background: '#FFFFFF',
-                  color: strokeCount > 0 || isAutoStroking || isTesting ? '#173B5F' : '#94A3B8',
-                  border: '1.5px solid #E2E8F0',
-                  cursor: strokeCount > 0 || isAutoStroking || isTesting ? 'pointer' : 'not-allowed',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                <RotateCcw
-                  size={16}
-                  color={strokeCount > 0 || isAutoStroking || isTesting ? '#173B5F' : '#94A3B8'}
-                />{' '}
-                Reset
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Container 2: Observation & Next Action Card */}
-        <div 
-          className="stage-container-2"
-          style={{
-            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
-            border: testComplete ? '2px solid #86EFAC' : '1.5px solid #E2E8F0',
-            borderRadius: '24px',
-            boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
-            padding: '1.25rem 1.45rem',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
+            justifyContent: 'flex-start',
             gap: '0.85rem',
             boxSizing: 'border-box'
           }}
         >
-          <div>
-            <h4
-              style={{
-                margin: '0 0 0.4rem 0',
-                color: '#1E1B4B',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.55rem',
-                fontSize: '19.5px',
-                fontWeight: 900,
-                letterSpacing: '-0.01em'
-              }}
-            >
-              <CheckCircle size={22} color={testComplete ? '#15803D' : '#173B5F'} /> {testComplete ? 'Magnetization Complete!' : 'Observation Check'}
-            </h4>
-            <p
-              style={{
-                margin: 0,
-                color: '#173B5F',
-                fontSize: '17.5px',
-                fontWeight: 600,
-                lineHeight: 1.45,
-              }}
-            >
-              {testComplete
-                ? 'Iron filings cling to the needle! Stroking has turned the ordinary steel sewing needle into an active magnet.'
-                : 'Click "1. Auto Magnetize" then "2. Test Filings" to stroke the needle and verify that iron filings stick.'}
-            </p>
+          {/* Header Row without "Step 1 of 3" label */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <BookOpen size={30} color="#173B5F" strokeWidth={2.5} />
+              <h3 style={{ margin: 0, fontSize: '2.1rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
+                Try the experiment
+              </h3>
+            </div>
           </div>
 
+          {/* Numbered Steps 1 to 4 with Warm Gold Badges */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {[
+              { num: '1', text: 'Place the steel needle on the paper.' },
+              { num: '2', text: 'Stroke from the eye to the point.' },
+              { num: '3', text: 'Lift the magnet. Return to the start.' },
+              { num: '4', text: 'Repeat 30 times with the same pole.' }
+            ].map((step) => (
+              <div key={step.num} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div style={{
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                  color: '#FFFFFF',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: 900,
+                  fontSize: '1.35rem',
+                  flexShrink: 0,
+                  boxShadow: '0 2px 8px rgba(217, 119, 6, 0.35)'
+                }}>
+                  {step.num}
+                </div>
+                <span style={{
+                  fontSize: '1.45rem',
+                  color: '#173B5F',
+                  fontWeight: 700,
+                  lineHeight: 1.35
+                }}>
+                  {step.text}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Tip / Leaf Callout Green Box */}
+          <div style={{
+            background: '#F0FDF4',
+            border: '1.5px solid #BBF7D0',
+            borderRadius: '16px',
+            padding: '0.75rem 1.15rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.85rem'
+          }}>
+            <div style={{
+              background: '#DCFCE7',
+              padding: '0.45rem',
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#16A34A',
+              flexShrink: 0
+            }}>
+              <Leaf size={24} color="#16A34A" />
+            </div>
+            <span style={{ fontSize: '1.35rem', fontWeight: 900, color: '#14532D', lineHeight: 1.25 }}>
+              One direction. Same pole. Every time.
+            </span>
+          </div>
+
+          {/* Strokes Counter & Progress Bar */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              fontSize: '1.4rem',
+              fontWeight: 900,
+              color: '#1E1B4B'
+            }}>
+              <span>Strokes: {strokeCount} / {maxStrokes}</span>
+              <span>{Math.round((strokeCount / maxStrokes) * 100)}%</span>
+            </div>
+            <div style={{
+              width: '100%',
+              height: '10px',
+              background: '#E2E8F0',
+              borderRadius: '8px',
+              overflow: 'hidden'
+            }}>
+              <motion.div
+                animate={{ width: `${(strokeCount / maxStrokes) * 100}%` }}
+                transition={{ duration: 0.2 }}
+                style={{
+                  height: '100%',
+                  background: isMagnetized
+                    ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                    : 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                  borderRadius: '8px'
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Action Controls Row */}
+          <div style={{ width: '100%', display: 'flex', gap: '0.85rem', marginTop: '0.1rem' }}>
+            <button
+              onClick={handleStartStrokes}
+              disabled={isAutoStroking || isMagnetized}
+              className={!isAutoStroking && !isMagnetized ? 'gold-glow-btn' : ''}
+              style={{
+                flex: 1.35,
+                padding: '0.95rem 1.4rem',
+                fontSize: '1.45rem',
+                fontWeight: 900,
+                borderRadius: '16px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '0.65rem',
+                background: isMagnetized ? '#DCFCE7' : isAutoStroking ? '#F1F5F9' : undefined,
+                color: isMagnetized ? '#15803D' : isAutoStroking ? '#94A3B8' : '#FFFFFF',
+                border: isMagnetized ? '1.5px solid #86EFAC' : isAutoStroking ? '1.5px solid #E2E8F0' : undefined,
+                cursor: isAutoStroking || isMagnetized ? 'default' : 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              {isMagnetized ? (
+                <><CheckCircle size={24} color="#15803D" /> 30 Strokes Complete</>
+              ) : (
+                <><Play size={24} color={!isAutoStroking ? '#FFFFFF' : '#94A3B8'} /> {isAutoStroking ? `Stroking (${strokeCount}/${maxStrokes})...` : 'Start 30 Strokes'}</>
+              )}
+            </button>
+
+            <button
+              onClick={handleReset}
+              style={{
+                flex: 0.75,
+                padding: '0.95rem 1.2rem',
+                fontSize: '1.35rem',
+                fontWeight: 900,
+                borderRadius: '16px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '0.55rem',
+                background: '#FFFBEB',
+                color: '#92400E',
+                border: '1.5px solid #FDE68A',
+                cursor: 'pointer',
+                boxShadow: '0 2px 8px rgba(217, 119, 6, 0.12)',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <RotateCcw size={22} color="#92400E" /> Reset
+            </button>
+          </div>
+        </div>
+
+        {/* Container 2: Predict before testing */}
+        <div 
+          className="stage-container-2"
+          style={{
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(10px)',
+            border: '1.5px solid #E2E8F0',
+            borderRadius: '24px',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
+            padding: '1.2rem 1.55rem',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            gap: '0.85rem',
+            boxSizing: 'border-box'
+          }}
+        >
+          {/* Header Row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <HelpCircle size={30} color="#173B5F" strokeWidth={2.5} />
+            <h3 style={{ margin: 0, fontSize: '2.1rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
+              Predict before testing
+            </h3>
+          </div>
+
+          {/* Question Text */}
+          <div style={{
+            fontSize: '1.45rem',
+            fontWeight: 900,
+            color: '#1E1B4B',
+            lineHeight: 1.35,
+            letterSpacing: '-0.01em'
+          }}>
+            After stroking, will the needle attract iron filings?
+          </div>
+
+          {/* Radio Options: Yes / No (Side-by-side) */}
+          <div style={{ display: 'flex', gap: '0.85rem' }}>
+            {[
+              { id: 'yes', label: 'Yes' },
+              { id: 'no', label: 'No' }
+            ].map((option) => {
+              const isSelected = prediction === option.id;
+              return (
+                <button
+                  key={option.id}
+                  onClick={() => setPrediction(option.id)}
+                  style={{
+                    flex: 1,
+                    padding: '0.95rem 1.4rem',
+                    borderRadius: '16px',
+                    fontSize: '1.65rem',
+                    fontWeight: 900,
+                    cursor: 'pointer',
+                    background: isSelected ? '#F0FDF4' : '#FFFFFF',
+                    color: isSelected ? '#15803D' : '#1E1B4B',
+                    border: isSelected ? '2px solid #16A34A' : '1.5px solid #CBD5E1',
+                    boxShadow: isSelected ? '0 4px 12px rgba(22, 163, 74, 0.15)' : '0 2px 6px rgba(0, 0, 0, 0.03)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.85rem',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  <div style={{
+                    width: '26px',
+                    height: '26px',
+                    borderRadius: '50%',
+                    border: isSelected ? '8px solid #16A34A' : '2px solid #94A3B8',
+                    background: '#FFFFFF',
+                    boxSizing: 'border-box',
+                    flexShrink: 0,
+                    transition: 'all 0.2s ease'
+                  }} />
+                  <span>{option.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Helper Prompt Text */}
+          <div style={{ fontSize: '1.25rem', color: '#64748B', fontWeight: 600 }}>
+            Make a prediction, then watch the test.
+          </div>
+
+          {/* Bottom Action Button: Next: Test the Needle */}
           <button
-            onClick={onComplete}
-            disabled={!testComplete}
-            className={testComplete ? 'gold-glow-btn' : ''}
+            onClick={handleTestAndProceed}
+            disabled={!prediction || isTesting}
+            className={prediction && !isTesting ? 'gold-glow-btn' : ''}
             style={{
               width: '100%',
-              padding: '0.8rem 1.6rem',
-              fontSize: '17.5px',
+              padding: '0.95rem 1.8rem',
+              fontSize: '1.45rem',
               fontWeight: 900,
-              borderRadius: '20px',
+              borderRadius: '16px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               gap: '0.65rem',
-              background: testComplete ? undefined : '#E2E8F0',
-              color: testComplete ? '#FFFFFF' : '#94A3B8',
-              border: 'none',
-              cursor: testComplete ? 'pointer' : 'not-allowed',
-              transition: 'all 0.25s ease',
+              background: prediction && !isTesting ? undefined : '#E2E8F0',
+              color: prediction && !isTesting ? '#FFFFFF' : '#94A3B8',
+              border: prediction && !isTesting ? undefined : '1.5px solid #CBD5E1',
+              cursor: prediction && !isTesting ? 'pointer' : 'not-allowed',
+              transition: 'all 0.2s ease'
             }}
           >
-            Next: Make a Compass <ArrowRight size={20} color={testComplete ? '#FFFFFF' : '#94A3B8'} />
+            {isTesting ? (
+              'Testing with Iron Filings...'
+            ) : (
+              <>Next: Test the Needle <ArrowRight size={22} color={prediction ? '#FFFFFF' : '#94A3B8'} /></>
+            )}
           </button>
         </div>
       </div>

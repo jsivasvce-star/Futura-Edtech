@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef, useMemo, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Text, ContactShadows, OrbitControls } from '@react-three/drei';
+import { ContactShadows } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RotateCw, CheckCircle, XCircle, RotateCcw, ArrowRight, Compass, BookOpen, Maximize2, Minimize2 } from 'lucide-react';
+import { RotateCw, CheckCircle, XCircle, RotateCcw, ArrowRight, Compass, BookOpen, HelpCircle, Leaf, Maximize2, Minimize2 } from 'lucide-react';
 import * as THREE from 'three';
 
 // -------------------------------------------------------------------
@@ -13,9 +13,58 @@ function SuspendedMagnet3D({ targetRotation, isSpinning }) {
   const currentAngle = useRef(0.25);
   const velocity = useRef(0);
 
+  // High-Resolution Procedural Texture with Bold N & S and realistic beveled styling
   const magnetTexture = useMemo(() => {
-    const loader = new THREE.TextureLoader();
-    const tex = loader.load('/SuspendedMagnet/bar_magnet_isolated.png');
+    const canvas = document.createElement('canvas');
+    canvas.width = 1024;
+    canvas.height = 256;
+    const ctx = canvas.getContext('2d');
+
+    // Red North Half
+    const redGrad = ctx.createLinearGradient(0, 0, 512, 256);
+    redGrad.addColorStop(0, '#B91C1C');
+    redGrad.addColorStop(0.3, '#DC2626');
+    redGrad.addColorStop(0.7, '#EF4444');
+    redGrad.addColorStop(1, '#B91C1C');
+    ctx.fillStyle = redGrad;
+    ctx.fillRect(0, 0, 512, 256);
+
+    // Blue South Half
+    const blueGrad = ctx.createLinearGradient(512, 0, 1024, 256);
+    blueGrad.addColorStop(0, '#1E40AF');
+    blueGrad.addColorStop(0.3, '#1D4ED8');
+    blueGrad.addColorStop(0.7, '#2563EB');
+    blueGrad.addColorStop(1, '#1E40AF');
+    ctx.fillStyle = blueGrad;
+    ctx.fillRect(512, 0, 512, 256);
+
+    // Top Gloss Highlight
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.28)';
+    ctx.fillRect(0, 0, 1024, 22);
+
+    // Bottom Ambient Shadow
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
+    ctx.fillRect(0, 234, 1024, 22);
+
+    // Center divider line
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
+    ctx.fillRect(510, 0, 4, 256);
+
+    // North Bold Letter 'N'
+    ctx.font = '900 136px "Outfit", "Inter", sans-serif';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
+    ctx.shadowBlur = 10;
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 3;
+    ctx.fillText('N', 256, 134);
+
+    // South Bold Letter 'S'
+    ctx.fillText('S', 768, 134);
+
+    const tex = new THREE.CanvasTexture(canvas);
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.anisotropy = 16;
     return tex;
@@ -29,7 +78,6 @@ function SuspendedMagnet3D({ targetRotation, isSpinning }) {
       currentAngle.current = THREE.MathUtils.lerp(currentAngle.current, targetRotation, dt * 2.8);
       magnetGroupRef.current.rotation.y = currentAngle.current;
     } else {
-      // Natural harmonic settling oscillation towards North-South (0 rad)
       const springK = 7.0;
       const damping = 0.86;
       const force = -springK * currentAngle.current;
@@ -40,34 +88,34 @@ function SuspendedMagnet3D({ targetRotation, isSpinning }) {
   });
 
   return (
-    <group position={[0, -0.2, 0]}>
-      {/* Braided Hanging Suspension Thread - Connects directly to the wrapped center coil */}
-      <mesh position={[0, 4.0, 0]}>
-        <cylinderGeometry args={[0.02, 0.02, 5.4, 16]} />
+    // Aligned position: x: -0.58 connects accurately under the brass hook on the wooden stand
+    <group position={[-0.58, 0.2, 0]}>
+      {/* Hanging Suspension Thread connecting from wooden arm brass hook (y: 6.2) down to center knot (y: 0.8) */}
+      <mesh position={[0, 3.5, 0]}>
+        <cylinderGeometry args={[0.022, 0.022, 5.4, 16]} />
         <meshStandardMaterial
           color="#FFFFFF"
           emissive="#FFFFFF"
-          emissiveIntensity={0.5}
+          emissiveIntensity={0.55}
           roughness={0.2}
           metalness={0.1}
         />
       </mesh>
 
-      {/* Antiqued Steel Hook Ring Sitting at String / Coil Joint */}
-      <mesh position={[0, 1.4, 0]}>
+      {/* Center Thread Knot & Suspension Loop */}
+      <mesh position={[0, 0.82, 0]}>
         <torusGeometry args={[0.18, 0.038, 16, 32]} />
         <meshStandardMaterial
-          color="#E2E8F0"
-          emissive="#173B5F"
-          emissiveIntensity={0.35}
-          roughness={0.2}
-          metalness={0.85}
+          color="#FFFBEB"
+          emissive="#FFFFFF"
+          emissiveIntensity={0.4}
+          roughness={0.3}
+          metalness={0.1}
         />
       </mesh>
 
-      {/* Rotating 3D Magnet Assembly */}
+      {/* Rotating 3D Bar Magnet Assembly */}
       <group ref={magnetGroupRef}>
-        {/* Dedicated Cinematic Local Lighting for Metallic Luster */}
         <pointLight position={[-3.5, 0.5, 3.5]} intensity={5.0} color="#FF6B6B" distance={18} />
         <pointLight position={[3.5, 0.5, 3.5]} intensity={5.0} color="#60A5FA" distance={18} />
         <pointLight position={[0, 3.0, 4.0]} intensity={4.5} color="#FFFFFF" distance={20} />
@@ -75,80 +123,89 @@ function SuspendedMagnet3D({ targetRotation, isSpinning }) {
         <pointLight position={[-3.5, 0.5, -3.5]} intensity={4.0} color="#FF4444" distance={16} />
         <pointLight position={[3.5, 0.5, -3.5]} intensity={4.0} color="#3B82F6" distance={16} />
 
-        {/* Inner Solid Metallic Bevel Core */}
-        {/* North Half Solid Metallic Core */}
+        {/* North Half Metallic Red Core */}
         <mesh position={[-3.1, 0, 0]} castShadow receiveShadow>
           <boxGeometry args={[6.1, 2.55, 0.9]} />
           <meshStandardMaterial
-            color="#A81822"
+            color="#DC2626"
             emissive="#DC2626"
-            emissiveIntensity={0.25}
+            emissiveIntensity={0.18}
             roughness={0.22}
             metalness={0.65}
           />
         </mesh>
 
-        {/* South Half Solid Metallic Core */}
+        {/* South Half Metallic Blue Core */}
         <mesh position={[3.1, 0, 0]} castShadow receiveShadow>
           <boxGeometry args={[6.1, 2.55, 0.9]} />
           <meshStandardMaterial
-            color="#144272"
+            color="#1D4ED8"
             emissive="#2563EB"
-            emissiveIntensity={0.25}
+            emissiveIntensity={0.18}
             roughness={0.22}
             metalness={0.65}
           />
         </mesh>
 
-        {/* Center Wrapped String Binding 3D Collar */}
+        {/* Center Wrapped String Binding Collar Knot */}
         <mesh position={[0, 0, 0]} castShadow receiveShadow>
           <boxGeometry args={[0.55, 2.65, 0.96]} />
           <meshStandardMaterial
-            color="#F8FAFC"
+            color="#FFFBEB"
             emissive="#FFFFFF"
-            emissiveIntensity={0.35}
-            roughness={0.25}
-            metalness={0.15}
+            emissiveIntensity={0.4}
+            roughness={0.35}
+            metalness={0.1}
           />
         </mesh>
 
-        {/* High-Resolution Front Face (Cropped Metallic Magnet with N/S and Center Binding) */}
+        {/* Front Face with Sharp N and S Textures */}
         <mesh position={[0, 0, 0.46]} castShadow receiveShadow>
-          <planeGeometry args={[12.6, 2.67]} />
+          <planeGeometry args={[12.4, 2.55]} />
           <meshStandardMaterial
             map={magnetTexture}
             emissiveMap={magnetTexture}
             emissive="#FFFFFF"
-            emissiveIntensity={0.32}
+            emissiveIntensity={0.25}
             transparent={true}
-            alphaTest={0.05}
-            roughness={0.16}
-            metalness={0.5}
+            roughness={0.2}
+            metalness={0.45}
           />
         </mesh>
 
-        {/* High-Resolution Back Face */}
+        {/* Back Face */}
         <mesh position={[0, 0, -0.46]} rotation={[0, Math.PI, 0]} scale={[-1, 1, 1]} castShadow receiveShadow>
-          <planeGeometry args={[12.6, 2.67]} />
+          <planeGeometry args={[12.4, 2.55]} />
           <meshStandardMaterial
             map={magnetTexture}
             emissiveMap={magnetTexture}
             emissive="#FFFFFF"
-            emissiveIntensity={0.32}
+            emissiveIntensity={0.25}
             transparent={true}
-            alphaTest={0.05}
-            roughness={0.16}
-            metalness={0.5}
+            roughness={0.2}
+            metalness={0.45}
           />
         </mesh>
 
-        {/* Subtle Ambient Pole Shimmer Auras */}
+        {/* North End Cap */}
+        <mesh position={[-6.15, 0, 0]} rotation={[0, -Math.PI / 2, 0]}>
+          <planeGeometry args={[0.9, 2.55]} />
+          <meshStandardMaterial color="#B91C1C" roughness={0.25} metalness={0.65} />
+        </mesh>
+
+        {/* South End Cap */}
+        <mesh position={[6.15, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
+          <planeGeometry args={[0.9, 2.55]} />
+          <meshStandardMaterial color="#1E40AF" roughness={0.25} metalness={0.65} />
+        </mesh>
+
+        {/* Pole Shimmers */}
         <mesh position={[-3.1, 0, 0]}>
           <boxGeometry args={[6.25, 2.65, 1.05]} />
           <meshBasicMaterial
             color="#EF4444"
             transparent={true}
-            opacity={0.08}
+            opacity={0.06}
             blending={THREE.AdditiveBlending}
             depthWrite={false}
           />
@@ -158,7 +215,7 @@ function SuspendedMagnet3D({ targetRotation, isSpinning }) {
           <meshBasicMaterial
             color="#3B82F6"
             transparent={true}
-            opacity={0.08}
+            opacity={0.06}
             blending={THREE.AdditiveBlending}
             depthWrite={false}
           />
@@ -175,7 +232,7 @@ export default function Stage1_Experiment({ onComplete }) {
   const [spinCount, setSpinCount] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
   const [targetRotation, setTargetRotation] = useState(0.25);
-  const [quizAnswer, setQuizAnswer] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(null);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -192,17 +249,14 @@ export default function Stage1_Experiment({ onComplete }) {
       document.documentElement.requestFullscreen().catch((err) => {
         console.error(`Error attempting to enable fullscreen: ${err.message}`);
       });
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      }
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen();
     }
   };
 
   const handleSpin = () => {
     if (isSpinning) return;
     setIsSpinning(true);
-    // Spin 3+ rotations, then settle to 0 (North-South)
     const extraSpins = (Math.floor(Math.random() * 2) + 3) * Math.PI * 2;
     setTargetRotation(targetRotation + extraSpins);
 
@@ -213,23 +267,18 @@ export default function Stage1_Experiment({ onComplete }) {
     }, 2800);
   };
 
-  const handleQuizAnswer = (answer) => {
-    setQuizAnswer(answer);
-    if (answer === 'yes') {
-      setShowFeedbackModal(true);
-    }
-  };
-
   const handleReset = () => {
     setSpinCount(0);
     setIsSpinning(false);
     setTargetRotation(0.25);
-    setQuizAnswer(null);
+    setSelectedOption(null);
     setShowFeedbackModal(false);
   };
 
-  // Enable next button once question is answered without waiting for experiment to complete
-  const isCompleted = quizAnswer !== null;
+  const handleContinue = () => {
+    if (!selectedOption) return;
+    setShowFeedbackModal(true);
+  };
 
   return (
     <div style={{
@@ -263,12 +312,12 @@ export default function Stage1_Experiment({ onComplete }) {
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               style={{
                 background: '#FFFFFF',
-                border: '2px solid #6EE7B7',
+                border: selectedOption === 'north_south' ? '2px solid #6EE7B7' : '2px solid #FCA5A5',
                 borderRadius: '28px',
                 padding: '2.5rem 2.8rem',
                 maxWidth: '560px',
                 width: '100%',
-                boxShadow: '0 24px 60px rgba(6, 78, 59, 0.35)',
+                boxShadow: selectedOption === 'north_south' ? '0 24px 60px rgba(6, 78, 59, 0.35)' : '0 24px 60px rgba(153, 27, 27, 0.25)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -281,34 +330,55 @@ export default function Stage1_Experiment({ onComplete }) {
                 width: '76px',
                 height: '76px',
                 borderRadius: '50%',
-                background: 'linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%)',
+                background: selectedOption === 'north_south' 
+                  ? 'linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%)'
+                  : 'linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 8px 24px rgba(16, 185, 129, 0.25)'
+                boxShadow: selectedOption === 'north_south' ? '0 8px 24px rgba(16, 185, 129, 0.25)' : '0 8px 24px rgba(239, 68, 68, 0.25)'
               }}>
-                <CheckCircle size={44} color="#059669" />
+                {selectedOption === 'north_south' ? (
+                  <CheckCircle size={44} color="#059669" />
+                ) : (
+                  <XCircle size={44} color="#DC2626" />
+                )}
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-                <h3 style={{ margin: 0, fontSize: '2rem', fontWeight: 900, color: '#064E3B' }}>
-                  Observation Verified!
+                <h3 style={{ 
+                  margin: 0, 
+                  fontSize: '2.1rem', 
+                  fontWeight: 900, 
+                  color: selectedOption === 'north_south' ? '#064E3B' : '#991B1B' 
+                }}>
+                  {selectedOption === 'north_south' ? 'Observation Verified!' : "Let's Check Again!"}
                 </h3>
-                <p style={{ margin: 0, color: '#334155', fontSize: '1.35rem', lineHeight: 1.6, fontWeight: 700 }}>
-                  🎉 Correct! A freely suspended magnet always comes to rest pointing in the North-South direction.
+                <p style={{ margin: 0, color: '#334155', fontSize: '1.45rem', lineHeight: 1.6, fontWeight: 700 }}>
+                  {selectedOption === 'north_south' ? (
+                    '🎉 Correct! A freely suspended magnet always comes to rest pointing in the North-South direction.'
+                  ) : (
+                    "Notice how the suspended bar magnet rotates and always comes to rest pointing along the Earth's North-South magnetic axis."
+                  )}
                 </p>
               </div>
 
               <button
-                onClick={() => setShowFeedbackModal(false)}
+                onClick={() => {
+                  setShowFeedbackModal(false);
+                  if (selectedOption === 'north_south' && onComplete) {
+                    onComplete();
+                  }
+                }}
+                className={selectedOption === 'north_south' ? 'gold-glow-btn' : ''}
                 style={{
                   width: '100%',
                   marginTop: '0.5rem',
                   padding: '1.1rem 2rem',
-                  fontSize: '1.35rem',
+                  fontSize: '1.45rem',
                   fontWeight: 900,
                   borderRadius: '18px',
-                  background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
+                  background: selectedOption === 'north_south' ? undefined : '#CBD5E1',
                   color: '#FFFFFF',
                   border: 'none',
                   cursor: 'pointer',
@@ -316,26 +386,26 @@ export default function Stage1_Experiment({ onComplete }) {
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '0.5rem',
-                  boxShadow: '0 4px 14px rgba(23, 59, 95, 0.35)'
+                  boxShadow: '0 4px 14px rgba(217, 119, 6, 0.35)'
                 }}
               >
-                OK
+                {selectedOption === 'north_south' ? 'OK' : 'Try Again'}
               </button>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
 
-      {/* Left Side: 3D Interactive Lab Setup */}
+      {/* Left Side: 3D Interactive Lab Setup (65% width) */}
       <div style={{
-        flex: '1.8',
+        flex: '0 0 65%',
+        maxWidth: '65%',
         display: 'flex',
         flexDirection: 'column',
         minWidth: 0,
         height: '100%',
         boxSizing: 'border-box'
       }}>
-        {/* Activity Canvas Scene Area */}
         <div style={{
           position: 'relative',
           width: '100%',
@@ -345,162 +415,31 @@ export default function Stage1_Experiment({ onComplete }) {
           border: '1.5px solid rgba(255, 255, 255, 0.8)',
           overflow: 'hidden',
           boxShadow: '0 12px 36px rgba(0, 0, 0, 0.12)',
-          backgroundImage: `url('/SuspendedMagnet/let_us_experiment_bg.jpg')`,
+          backgroundImage: `url('/suspended_stand_bg.jpg')`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center'
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
         }}>
-          {/* Top Left Floating Badge Overlay */}
+          {/* Top Left Observation Badge matching reference image */}
           <div style={{
             position: 'absolute',
-            top: '16px',
+            top: '18px',
             left: '20px',
             zIndex: 30,
+            background: '#FFFBEB',
+            border: '1.5px solid #FDE68A',
+            borderRadius: '24px',
+            padding: '0.45rem 1.15rem',
+            boxShadow: '0 6px 20px rgba(0, 0, 0, 0.08)',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem',
+            gap: '0.55rem',
             pointerEvents: 'none'
           }}>
-            <div style={{
-              background: '#FFFFFF',
-              border: '1.5px solid #BAE6FD',
-              borderRadius: '20px',
-              padding: '0.45rem 1.1rem',
-              fontSize: '0.95rem',
-              fontWeight: 900,
-              color: '#0284C7',
-              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}>
-              <Compass size={18} color="#0284C7" /> HEADING: NORTH-SOUTH
-            </div>
-          </div>
-
-          {/* In-Canvas Floating Annotation Badge 1: Thin Thread */}
-          <div style={{
-            position: 'absolute',
-            top: '20%',
-            left: '37%',
-            transform: 'translate(-50%, -50%)',
-            zIndex: 25,
-            pointerEvents: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px'
-          }}>
-            <div style={{
-              background: '#FFFFFF',
-              border: '1.5px solid #BAE6FD',
-              borderRadius: '20px',
-              padding: '0.4rem 1rem',
-              color: '#0284C7',
-              fontSize: '0.95rem',
-              fontWeight: 900,
-              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '7px'
-            }}>
-              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#0284C7', boxShadow: '0 0 8px rgba(2, 132, 199, 0.6)' }} />
-              Thin thread
-            </div>
-            <div style={{
-              width: '28px',
-              height: '2px',
-              background: 'linear-gradient(90deg, #0284C7, rgba(2, 132, 199, 0.2))'
-            }} />
-          </div>
-
-          {/* In-Canvas Floating Annotation Badge 2: Free to Turn (Shifted noticeably higher up) */}
-          <div style={{
-            position: 'absolute',
-            top: '32%',
-            right: '28%',
-            zIndex: 25,
-            pointerEvents: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px'
-          }}>
-            <div style={{
-              width: '28px',
-              height: '2px',
-              background: 'linear-gradient(90deg, rgba(2, 132, 199, 0.2), #0284C7)'
-            }} />
-            <div style={{
-              background: '#FFFFFF',
-              border: '1.5px solid #BAE6FD',
-              borderRadius: '20px',
-              padding: '0.4rem 1rem',
-              color: '#0284C7',
-              fontSize: '0.95rem',
-              fontWeight: 900,
-              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '7px'
-            }}>
-              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#0284C7', boxShadow: '0 0 8px rgba(2, 132, 199, 0.6)' }} />
-              Free to turn
-            </div>
-          </div>
-
-          {/* In-Canvas Floating Annotation Badge 3: Bottom Telemetry Pill (2-Line Balanced Layout) */}
-          <div style={{
-            position: 'absolute',
-            bottom: '16px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            zIndex: 25,
-            pointerEvents: 'none',
-            background: '#FFFFFF',
-            border: '1.5px solid #BAE6FD',
-            borderRadius: '24px',
-            padding: '0.65rem 1.8rem',
-            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.9rem',
-            maxWidth: '92%',
-            width: 'max-content'
-          }}>
-            <div style={{
-              background: '#E0F2FE',
-              padding: '0.45rem',
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#0284C7',
-              flexShrink: 0
-            }}>
-              <Compass size={24} color="#0284C7" />
-            </div>
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              textAlign: 'center',
-              lineHeight: 1.35
-            }}>
-              <span style={{
-                color: '#0369A1',
-                fontSize: '1.25rem',
-                fontWeight: 900,
-                letterSpacing: '-0.01em'
-              }}>
-                It settles approximately north-south.
-              </span>
-              <span style={{
-                color: '#0284C7',
-                fontSize: '1.18rem',
-                fontWeight: 700,
-                letterSpacing: '-0.01em'
-              }}>
-                Earth's magnetic field guides its direction.
-              </span>
-            </div>
+            <span style={{ fontSize: '1.25rem' }}>👁</span>
+            <span style={{ fontSize: '1.1rem', color: '#1E1B4B', fontWeight: 900 }}>
+              Observation: <span style={{ fontWeight: 700, color: '#334155' }}>Magnet has settled</span>
+            </span>
           </div>
 
           {/* Fullscreen Button */}
@@ -509,7 +448,7 @@ export default function Stage1_Experiment({ onComplete }) {
             title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
             style={{
               position: 'absolute',
-              top: '16px',
+              top: '18px',
               right: '20px',
               zIndex: 30,
               background: 'rgba(255, 255, 255, 0.92)',
@@ -517,7 +456,7 @@ export default function Stage1_Experiment({ onComplete }) {
               border: '1px solid rgba(255, 255, 255, 0.8)',
               borderRadius: '20px',
               padding: '6px 14px',
-              fontSize: '0.75rem',
+              fontSize: '0.85rem',
               fontWeight: 800,
               color: '#0F172A',
               boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
@@ -528,11 +467,95 @@ export default function Stage1_Experiment({ onComplete }) {
               transition: 'all 0.2s ease',
             }}
           >
-            {isFullscreen ? <Minimize2 size={15} color="#0F172A" /> : <Maximize2 size={15} color="#0F172A" />}
+            {isFullscreen ? <Minimize2 size={16} color="#0F172A" /> : <Maximize2 size={16} color="#0F172A" />}
             <span>{isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}</span>
           </button>
 
-          {/* 3D WebGL Canvas - Touch/Click Interactions Disabled on Magnet */}
+          {/* Callout Badge 1: Thin thread (pointing to vertical thread) */}
+          <div style={{
+            position: 'absolute',
+            top: '20%',
+            left: '46.8%',
+            zIndex: 25,
+            pointerEvents: 'none',
+            display: 'flex',
+            alignItems: 'center'
+          }}>
+            <svg width="46" height="24" style={{ overflow: 'visible' }}>
+              <circle cx="2" cy="18" r="3.5" fill="#FFFFFF" stroke="#64748B" strokeWidth="1.5" />
+              <line x1="2" y1="18" x2="44" y2="8" stroke="#FFFFFF" strokeWidth="2.5" />
+            </svg>
+            <div style={{
+              background: '#FFFBEB',
+              border: '1.5px solid #FDE68A',
+              borderRadius: '16px',
+              padding: '0.35rem 0.95rem',
+              fontSize: '1.05rem',
+              fontWeight: 900,
+              color: '#1E1B4B',
+              boxShadow: '0 4px 14px rgba(0, 0, 0, 0.08)',
+              whiteSpace: 'nowrap'
+            }}>
+              Thin thread
+            </div>
+          </div>
+
+          {/* Bottom Floating Card: "It settles approximately north–south..." */}
+          <div style={{
+            position: 'absolute',
+            bottom: '18px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 30,
+            width: '92%',
+            maxWidth: '680px',
+            background: '#FFFBEB',
+            border: '1.5px solid #FDE68A',
+            borderRadius: '24px',
+            padding: '0.85rem 1.4rem',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.14)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1.1rem',
+            pointerEvents: 'none'
+          }}>
+            <div style={{
+              width: '46px',
+              height: '46px',
+              borderRadius: '50%',
+              background: '#FFFFFF',
+              border: '2px solid #064E3B',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+              boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+            }}>
+              <Compass size={28} color="#064E3B" strokeWidth={2.5} />
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+              <div style={{
+                fontSize: '1.35rem',
+                fontWeight: 900,
+                color: '#064E3B',
+                lineHeight: 1.25,
+                letterSpacing: '-0.01em'
+              }}>
+                It settles approximately north–south.
+              </div>
+              <div style={{
+                fontSize: '1.15rem',
+                fontWeight: 600,
+                color: '#334155',
+                lineHeight: 1.25
+              }}>
+                Earth's magnetic field guides its direction.
+              </div>
+            </div>
+          </div>
+
+          {/* 3D WebGL Canvas */}
           <Canvas
             shadows
             gl={{ 
@@ -563,124 +586,126 @@ export default function Stage1_Experiment({ onComplete }) {
               <directionalLight position={[-8, 8, -8]} intensity={1.3} color="#E0F2FE" />
               <directionalLight position={[0, -6, 8]} intensity={0.9} color="#EAF2F6" />
 
-              {/* Realistic 3D Suspended Bar Magnet (Static to Touch/Click) */}
               <SuspendedMagnet3D targetRotation={targetRotation} isSpinning={isSpinning} />
-
-              {/* Drop Shadow beneath Magnet on Table */}
-              <ContactShadows position={[0, -4.6, 0]} opacity={0.55} scale={16} blur={2.4} far={8} color="#000000" />
+              <ContactShadows position={[-0.58, -4.6, 0]} opacity={0.55} scale={16} blur={2.4} far={8} color="#000000" />
             </Suspense>
           </Canvas>
         </div>
       </div>
 
-      {/* Right Side: Interactive Controls & Observation Panel */}
-      <div className="stage-right-column">
-        {/* Container 1: Steps of Instructions & Action Controls */}
+      {/* Right Side: Interactive Controls & Observation Panel (35% width, 2× Scaled Typography) */}
+      <div className="stage-right-column" style={{ flex: '0 0 35%', maxWidth: '35%' }}>
+        {/* Container 1: Try the experiment */}
         <div 
           className="stage-container-1"
           style={{
-            background: 'rgba(255, 255, 255, 0.92)',
+            background: 'rgba(255, 255, 255, 0.95)',
             backdropFilter: 'blur(10px)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
-            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)',
-            padding: '1.5rem 1.7rem',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
+            padding: '1.25rem 1.55rem',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
-            gap: '1.25rem',
+            gap: '0.85rem',
             boxSizing: 'border-box'
           }}
         >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {/* Header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <BookOpen size={32} color="#173B5F" />
-                <h3 style={{ margin: 0, fontSize: '2.4rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
-                  Stage 1: Experiment
-                </h3>
-              </div>
-              <span style={{
-                background: quizAnswer === 'yes' ? '#DCFCE7' : 'rgba(23, 59, 95, 0.1)',
-                color: quizAnswer === 'yes' ? '#15803D' : '#173B5F',
-                fontWeight: 900,
-                fontSize: '1.2rem',
-                padding: '0.45rem 1.1rem',
-                borderRadius: '16px',
-                border: quizAnswer === 'yes' ? '1.5px solid #86EFAC' : '1.5px solid #CBD5E1'
-              }}>
-                Step {spinCount >= 1 ? (quizAnswer === 'yes' ? 3 : 2) : 1} of 3
-              </span>
-            </div>
-
-            {/* Substantially Scaled Up Instructions */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.95rem' }}>
-              {[
-                {
-                  id: 'step1',
-                  bold: 'Click "Rotate Magnet"',
-                  desc: 'to spin the suspended bar magnet.'
-                },
-                {
-                  id: 'step2',
-                  bold: 'Watch the magnet settle',
-                  desc: 'smoothly along the North-South direction.'
-                },
-                {
-                  id: 'step3',
-                  bold: 'Answer Quick Check',
-                  desc: 'below to verify your observation.'
-                }
-              ].map((s) => (
-                <div
-                  key={s.id}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: '0.95rem',
-                    padding: '0.1rem 0'
-                  }}
-                >
-                  <span style={{
-                    width: '12px',
-                    height: '12px',
-                    borderRadius: '50%',
-                    background: '#173B5F',
-                    marginTop: '0.75rem',
-                    flexShrink: 0
-                  }} />
-                  <p style={{
-                    margin: 0,
-                    fontSize: '1.7rem',
-                    color: '#173B5F',
-                    fontWeight: 600,
-                    lineHeight: 1.5
-                  }}>
-                    <strong style={{ fontWeight: 900, color: '#0F172A' }}>{s.bold} </strong>
-                    {s.desc}
-                  </p>
-                </div>
-              ))}
+          {/* Header Row without "Step 1 of 3" label */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <BookOpen size={32} color="#173B5F" strokeWidth={2.5} />
+              <h3 style={{ margin: 0, fontSize: '2.15rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
+                Try the experiment
+              </h3>
             </div>
           </div>
 
-          {/* Action Controls Row */}
-          <div style={{ width: '100%', display: 'flex', gap: '0.95rem', marginTop: '0.4rem' }}>
+          {/* Numbered Steps with 2× Scaled Text and Warm Gold Step Badges */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {[
+              { num: '1', text: 'Rotate the magnet gently.' },
+              { num: '2', text: 'Release it. Watch it turn and settle.' },
+              { num: '3', text: 'Repeat. Compare the final direction.' }
+            ].map((step) => (
+              <div key={step.num} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div style={{
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                  color: '#FFFFFF',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: 900,
+                  fontSize: '1.35rem',
+                  flexShrink: 0,
+                  boxShadow: '0 2px 8px rgba(217, 119, 6, 0.35)'
+                }}>
+                  {step.num}
+                </div>
+                <span style={{
+                  fontSize: '1.55rem',
+                  color: '#173B5F',
+                  fontWeight: 700,
+                  lineHeight: 1.35
+                }}>
+                  {step.text}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Tip / Caution Green Box */}
+          <div style={{
+            background: '#F0FDF4',
+            border: '1.5px solid #BBF7D0',
+            borderRadius: '16px',
+            padding: '0.75rem 1.15rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.85rem'
+          }}>
+            <div style={{
+              background: '#DCFCE7',
+              padding: '0.45rem',
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#16A34A',
+              flexShrink: 0
+            }}>
+              <Leaf size={26} color="#16A34A" />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
+              <span style={{ fontSize: '1.35rem', fontWeight: 900, color: '#14532D', lineHeight: 1.25 }}>
+                Keep other magnets and iron objects away.
+              </span>
+              <span style={{ fontSize: '1.18rem', fontWeight: 600, color: '#15803D', lineHeight: 1.25 }}>
+                They can affect the result.
+              </span>
+            </div>
+          </div>
+
+          {/* Action Controls Row with Warm Gold / Glow Effects */}
+          <div style={{ width: '100%', display: 'flex', gap: '0.85rem', marginTop: '0.1rem' }}>
             <button
               onClick={handleSpin}
               disabled={isSpinning}
               className={!isSpinning ? 'gold-glow-btn' : ''}
               style={{
-                flex: 1.4,
-                padding: '1.25rem 1.6rem',
-                fontSize: '1.55rem',
+                flex: 1.35,
+                padding: '0.95rem 1.4rem',
+                fontSize: '1.45rem',
                 fontWeight: 900,
-                borderRadius: '20px',
+                borderRadius: '18px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                gap: '0.75rem',
+                gap: '0.65rem',
                 background: isSpinning ? '#CBD5E1' : undefined,
                 color: isSpinning ? '#64748B' : '#FFFFFF',
                 border: isSpinning ? 'none' : undefined,
@@ -695,98 +720,165 @@ export default function Stage1_Experiment({ onComplete }) {
               onClick={handleReset}
               style={{
                 flex: 0.8,
-                padding: '1.25rem 1.4rem',
-                fontSize: '1.45rem',
+                padding: '0.95rem 1.2rem',
+                fontSize: '1.35rem',
                 fontWeight: 900,
-                borderRadius: '20px',
+                borderRadius: '18px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                gap: '0.6rem',
-                background: '#FFFFFF',
-                color: '#173B5F',
-                border: '1.5px solid #CBD5E1',
+                gap: '0.55rem',
+                background: '#FFFBEB',
+                color: '#92400E',
+                border: '1.5px solid #FDE68A',
                 cursor: 'pointer',
-                boxShadow: '0 2px 8px rgba(23, 59, 95, 0.08)',
+                boxShadow: '0 2px 8px rgba(217, 119, 6, 0.12)',
                 transition: 'all 0.2s ease'
               }}
             >
-              <RotateCcw size={24} color="#173B5F" /> Restart
+              <RotateCcw size={22} color="#92400E" /> Reset
             </button>
           </div>
         </div>
 
-        {/* Container 2: Quick Check Observation Card */}
+        {/* Container 2: Check your observation */}
         <div 
           className="stage-container-2"
           style={{
-            background: 'rgba(255, 255, 255, 0.92)',
+            background: 'rgba(255, 255, 255, 0.95)',
             backdropFilter: 'blur(10px)',
-            border: quizAnswer === 'yes' ? '2.5px solid #86EFAC' : '1.5px solid #E2E8F0',
+            border: selectedOption === 'north_south' ? '2px solid #86EFAC' : selectedOption === 'east_west' ? '2px solid #FECACA' : '1.5px solid #E2E8F0',
             borderRadius: '24px',
-            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)',
-            padding: '1.5rem 1.7rem',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
+            padding: '1.25rem 1.55rem',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
-            gap: '1.25rem',
+            justifyContent: 'flex-start',
+            gap: '0.85rem',
             boxSizing: 'border-box'
           }}
         >
-          <div style={{
-            fontSize: '1.75rem',
-            fontWeight: 900,
-            color: '#1E1B4B',
-            lineHeight: 1.42,
-            letterSpacing: '-0.015em'
-          }}>
-            Quick Check: Does a freely suspended magnet always settle in the North-South direction?
+          {/* Header Row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <HelpCircle size={32} color="#173B5F" strokeWidth={2.5} />
+            <h3 style={{ margin: 0, fontSize: '2.15rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
+              Check your observation
+            </h3>
           </div>
 
-          <div style={{ display: 'flex', gap: '0.95rem' }}>
+          {/* Question Text */}
+          <div style={{
+            fontSize: '1.55rem',
+            fontWeight: 900,
+            color: '#1E1B4B',
+            lineHeight: 1.35,
+            letterSpacing: '-0.01em'
+          }}>
+            After settling, which direction does the magnet point?
+          </div>
+
+          {/* Radio Options: Correct turns green, incorrect turns red */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+            {[
+              { id: 'north_south', label: 'North–South', isCorrect: true },
+              { id: 'east_west', label: 'East–West', isCorrect: false }
+            ].map((option) => {
+              const isSelected = selectedOption === option.id;
+              const isGreen = isSelected && option.isCorrect;
+              const isRed = isSelected && !option.isCorrect;
+
+              let bg = '#FFFFFF';
+              let border = '1.5px solid #CBD5E1';
+              let textColor = '#1E1B4B';
+              let dotBorder = '2px solid #94A3B8';
+              let dotBg = '#FFFFFF';
+
+              if (isGreen) {
+                bg = '#F0FDF4';
+                border = '2px solid #16A34A';
+                textColor = '#15803D';
+                dotBorder = '8px solid #16A34A';
+              } else if (isRed) {
+                bg = '#FEF2F2';
+                border = '2px solid #DC2626';
+                textColor = '#DC2626';
+                dotBorder = '8px solid #DC2626';
+              }
+
+              return (
+                <button
+                  key={option.id}
+                  onClick={() => setSelectedOption(option.id)}
+                  style={{
+                    width: '100%',
+                    padding: '0.95rem 1.5rem',
+                    borderRadius: '16px',
+                    fontSize: '1.65rem',
+                    fontWeight: 900,
+                    cursor: 'pointer',
+                    background: bg,
+                    color: textColor,
+                    border: border,
+                    boxShadow: isGreen
+                      ? '0 4px 14px rgba(22, 163, 74, 0.18)'
+                      : isRed
+                      ? '0 4px 14px rgba(220, 38, 38, 0.18)'
+                      : '0 2px 6px rgba(0, 0, 0, 0.03)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '1rem',
+                    textAlign: 'left',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  <div style={{
+                    width: '26px',
+                    height: '26px',
+                    borderRadius: '50%',
+                    border: dotBorder,
+                    background: dotBg,
+                    boxSizing: 'border-box',
+                    flexShrink: 0,
+                    transition: 'all 0.2s ease'
+                  }} />
+                  <span>{option.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Footer Row */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginTop: '0.2rem',
+            gap: '0.75rem'
+          }}>
+            <span style={{ fontSize: '1.25rem', color: '#64748B', fontWeight: 600 }}>
+              Choose an answer to continue.
+            </span>
+
             <button
-              onClick={() => handleQuizAnswer('yes')}
+              onClick={handleContinue}
+              disabled={!selectedOption}
+              className={selectedOption ? 'gold-glow-btn' : ''}
               style={{
-                flex: 1,
-                padding: '1.25rem 1.6rem',
-                borderRadius: '20px',
-                fontSize: '1.5rem',
+                padding: '0.9rem 2.2rem',
+                fontSize: '1.45rem',
                 fontWeight: 900,
-                cursor: 'pointer',
-                background: quizAnswer === 'yes' ? '#DCFCE7' : '#FFFFFF',
-                color: quizAnswer === 'yes' ? '#065F46' : '#1E1B4B',
-                border: quizAnswer === 'yes' ? '2.5px solid #16A34A' : '1.5px solid #CBD5E1',
-                boxShadow: quizAnswer === 'yes' ? '0 4px 16px rgba(5, 150, 105, 0.25)' : '0 2px 8px rgba(0, 0, 0, 0.04)',
+                borderRadius: '16px',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.75rem',
+                gap: '0.55rem',
+                background: selectedOption ? undefined : '#E2E8F0',
+                color: selectedOption ? '#FFFFFF' : '#94A3B8',
+                border: selectedOption ? undefined : '1.5px solid #CBD5E1',
+                cursor: selectedOption ? 'pointer' : 'not-allowed',
                 transition: 'all 0.2s ease'
               }}
             >
-              <CheckCircle size={26} color={quizAnswer === 'yes' ? '#16A34A' : '#173B5F'} /> Yes, Always!
-            </button>
-            <button
-              onClick={() => handleQuizAnswer('no')}
-              style={{
-                flex: 1,
-                padding: '1.25rem 1.6rem',
-                borderRadius: '20px',
-                fontSize: '1.5rem',
-                fontWeight: 900,
-                cursor: 'pointer',
-                background: quizAnswer === 'no' ? '#FEE2E2' : '#FFFFFF',
-                color: quizAnswer === 'no' ? '#991B1B' : '#64748B',
-                border: quizAnswer === 'no' ? '2.5px solid #DC2626' : '1.5px solid #CBD5E1',
-                boxShadow: quizAnswer === 'no' ? '0 4px 16px rgba(220, 38, 38, 0.2)' : '0 2px 8px rgba(0, 0, 0, 0.04)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.75rem',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              <XCircle size={26} color={quizAnswer === 'no' ? '#DC2626' : '#94A3B8'} /> No
+              Continue <ArrowRight size={22} color={selectedOption ? '#FFFFFF' : '#94A3B8'} />
             </button>
           </div>
         </div>

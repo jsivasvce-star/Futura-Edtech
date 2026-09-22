@@ -333,7 +333,6 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                 color: pageIndex === 0 ? '#D4D4D8' : '#173B5F',
                 cursor: pageIndex === 0 ? 'not-allowed' : 'pointer',
                 opacity: pageIndex === 0 ? 0.45 : 1,
-                color: '#78350F',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.25rem',

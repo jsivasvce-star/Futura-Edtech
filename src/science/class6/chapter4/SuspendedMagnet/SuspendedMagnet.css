@@ -28,6 +28,7 @@
   }
 }
 
+.suspended-magnet-root .gold-glow-btn,
 .gold-glow-btn {
   position: relative !important;
   overflow: hidden !important;
@@ -47,10 +48,12 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
 }
 
+.suspended-magnet-root .gold-glow-btn *,
 .gold-glow-btn * {
   color: #FFFFFF !important;
 }
 
+.suspended-magnet-root .gold-glow-btn::after,
 .gold-glow-btn::after {
   content: '' !important;
   position: absolute !important;
@@ -69,16 +72,19 @@
   z-index: 2 !important;
 }
 
+.suspended-magnet-root .gold-glow-btn:hover,
 .gold-glow-btn:hover {
   transform: translateY(-2px) scale(1.02) !important;
   background: linear-gradient(135deg, #FBBF24 0%, #D97706 100%) !important;
   box-shadow: 0 8px 24px rgba(217, 119, 6, 0.5), 0 0 20px rgba(251, 191, 36, 0.5) !important;
 }
 
+.suspended-magnet-root .gold-glow-btn:active,
 .gold-glow-btn:active {
   transform: translateY(0) scale(0.98) !important;
 }
 
+.suspended-magnet-root .gold-accent-btn,
 .gold-accent-btn {
   background: #F3F7F9 !important;
   border: 1.5px solid #E2E8F0 !important;
@@ -87,39 +93,40 @@
   border-radius: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.08);
+  box-shadow: 0 2px 8px rgba(23, 59, 95, 0.08);
 }
 
+.suspended-magnet-root .gold-accent-btn:hover,
 .gold-accent-btn:hover {
   background: #EAF2F6 !important;
   border-color: #173B5F !important;
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.2);
+  box-shadow: 0 4px 14px rgba(23, 59, 95, 0.2);
 }
 
-/* Custom Amber Scrollbar */
-.custom-scrollbar {
+/* Custom Navy Scrollbar */
+.suspended-magnet-root .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #D97706 rgba(254, 243, 199, 0.7);
+  scrollbar-color: #214A70 rgba(226, 232, 240, 0.7);
 }
-.custom-scrollbar::-webkit-scrollbar {
+.suspended-magnet-root .custom-scrollbar::-webkit-scrollbar {
   width: 7px;
 }
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(254, 243, 199, 0.5);
+.suspended-magnet-root .custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(226, 232, 240, 0.5);
   border-radius: 10px;
 }
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #F59E0B 0%, #D97706 100%) !important;
+.suspended-magnet-root .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #214A70 0%, #173B5F 100%) !important;
   border-radius: 10px !important;
-  border: 1.5px solid rgba(254, 243, 199, 0.8) !important;
+  border: 1.5px solid rgba(226, 232, 240, 0.8) !important;
 }
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #B45309 !important;
+.suspended-magnet-root .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #0A1931 !important;
 }
 
 /* Right Column Layout: Dynamic Content-Fitted Container Heights without forced 50/50 splits */
-.stage-right-column {
+.suspended-magnet-root .stage-right-column {
   flex: 1.15;
   height: 100%;
   max-height: 100%;
@@ -137,23 +144,23 @@
   scrollbar-color: #214A70 rgba(226, 232, 240, 0.7);
 }
 
-.stage-right-column::-webkit-scrollbar {
+.suspended-magnet-root .stage-right-column::-webkit-scrollbar {
   width: 7px;
 }
-.stage-right-column::-webkit-scrollbar-track {
+.suspended-magnet-root .stage-right-column::-webkit-scrollbar-track {
   background: rgba(226, 232, 240, 0.5);
   border-radius: 10px;
 }
-.stage-right-column::-webkit-scrollbar-thumb {
+.suspended-magnet-root .stage-right-column::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #214A70 0%, #173B5F 100%);
   border-radius: 10px;
 }
-.stage-right-column::-webkit-scrollbar-thumb:hover {
+.suspended-magnet-root .stage-right-column::-webkit-scrollbar-thumb:hover {
   background: #173B5F;
 }
 
-.stage-right-column .stage-container-1,
-.stage-right-column .stage-container-2 {
+.suspended-magnet-root .stage-right-column .stage-container-1,
+.suspended-magnet-root .stage-right-column .stage-container-2 {
   flex: initial !important;
   height: auto !important;
   min-height: fit-content !important;

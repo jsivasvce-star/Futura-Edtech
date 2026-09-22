@@ -63,7 +63,7 @@ export default function MagnetInteractionActivity({ onBackToDashboard, onComplet
   const currentStep = STEPS_NAV[stepIndex];
 
   return (
-    <div style={{ 
+    <div className="magnet-interaction-root" style={{ 
       position: 'fixed',
       top: 0,
       left: 0,
@@ -75,7 +75,7 @@ export default function MagnetInteractionActivity({ onBackToDashboard, onComplet
       overflow: 'hidden',
       boxSizing: 'border-box',
       padding: '0.6rem 1.2rem',
-      backgroundImage: `url('/SuspendedMagnet/science_lab_bg.jpg')`,
+      backgroundImage: `url('/sunrise_sky_backdrop.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',
@@ -150,14 +150,14 @@ export default function MagnetInteractionActivity({ onBackToDashboard, onComplet
             fontSize: '1rem',
             fontWeight: 900,
             borderRadius: '16px',
-            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+            background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
             color: '#FFFFFF',
-            border: '1.5px solid #FDE68A',
+            border: '1.5px solid #38BDF8',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             gap: '0.5rem',
-            boxShadow: '0 4px 14px rgba(217, 119, 6, 0.35)',
+            boxShadow: '0 4px 14px rgba(23, 59, 95, 0.35)',
             transition: 'all 0.2s ease'
           }}
         >

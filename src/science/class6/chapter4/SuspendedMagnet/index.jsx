@@ -63,7 +63,7 @@ export default function SuspendedMagnetActivity({ onBackToDashboard, onComplete 
   const currentStep = STEPS_NAV[stepIndex];
 
   return (
-    <div style={{ 
+    <div className="suspended-magnet-root" style={{ 
       position: 'fixed',
       top: 0,
       left: 0,
@@ -145,20 +145,16 @@ export default function SuspendedMagnetActivity({ onBackToDashboard, onComplete 
         {/* Right: Next Step Button */}
         <button
           onClick={handleNext}
+          className="gold-glow-btn"
           style={{
             padding: '0.55rem 1.45rem',
             fontSize: '1rem',
             fontWeight: 900,
             borderRadius: '16px',
-            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-            color: '#FFFFFF',
-            border: '1.5px solid #FDE68A',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem',
-            boxShadow: '0 4px 14px rgba(217, 119, 6, 0.35)',
-            transition: 'all 0.2s ease'
+            gap: '0.5rem'
           }}
         >
           {stepIndex === STEPS_NAV.length - 1 ? 'Finish Activity' : 'Next'} <ArrowRight size={18} color="#FFFFFF" />

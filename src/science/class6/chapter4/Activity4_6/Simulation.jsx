@@ -8,10 +8,7 @@ import {
   Minimize2, 
   RefreshCw, 
   Play, 
-  ArrowUpRight, 
-  ArrowDownRight,
-  Sparkles,
-  Hand
+  BookOpen
 } from 'lucide-react';
 import ExactCompass from '../components/ExactCompass.jsx';
 
@@ -28,30 +25,6 @@ const getBearingName = (deg) => {
   return '';
 };
 
-const STEPS = [
-  {
-    step: 1,
-    title: "Step 1: Start at Bottom-Left Corner",
-    desc: "Click 'Run the flow' at the bottom-right corner. The flat bar magnet rests at the bottom-left corner while the compass needle points naturally to Earth's Magnetic North (0° N)."
-  },
-  {
-    step: 2,
-    title: "Step 2: Move to Top-Left Station",
-    desc: "The magnet moves to the Top-Left station without flipping. Watch the compass needle deflect towards the magnet's pole and observe its direction."
-  },
-  {
-    step: 3,
-    title: "Step 3: Move to Bottom-Right Station",
-    desc: "The magnet revolves around to the Bottom-Right station maintaining the same orientation. Observe the compass needle deflect to follow the magnet."
-  },
-  {
-    step: 4,
-    title: "Step 4: Return to Starting Stage",
-    desc: "The magnet smoothly returns along the bottom path to the starting position and settles. The compass needle restores naturally to 0° North."
-  }
-];
-
-// Web Audio API Sound Synthesizer for Magnetic Clicks & Whoosh
 function playMagneticSound(type = 'snap') {
   try {
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -100,7 +73,6 @@ function playMagneticSound(type = 'snap') {
   } catch (e) {}
 }
 
-// Smooth Catmull-Rom Spline Interpolation for Curved Orbits
 function getCatmullRomSplinePoint(points, t) {
   const numSegments = points.length - 3;
   const p = Math.max(0, Math.min(t, 1)) * numSegments;
@@ -137,7 +109,6 @@ export default function Simulation({ onComplete, onNext }) {
   const [compassAngle, setCompassAngle] = useState(0);
   const compassAngleRef = useRef(0);
 
-  // Continuous angle unwrapping so Framer Motion needle never spins 360° across 0°
   const setContinuousCompassAngle = useCallback((targetDeg) => {
     const prev = compassAngleRef.current;
     const delta = ((targetDeg - prev) % 360 + 540) % 360 - 180;
@@ -146,30 +117,17 @@ export default function Simulation({ onComplete, onNext }) {
     setCompassAngle(nextAngle);
   }, []);
 
-  // false: Left = North (🔴 N), Right = South (🔵 S)
-  // true:  Left = South (🔵 S), Right = North (🔴 N)
   const [isFlipped, setIsFlipped] = useState(false);
   const isFlippedRef = useRef(false);
   isFlippedRef.current = isFlipped;
 
-  // Initial Magnet Position in Bottom-Left Corner
   const [pos, setPos] = useState({ x: -260, y: 230 });
   const posRef = useRef({ x: -260, y: 230 });
   posRef.current = pos;
 
   const [isAnimating, setIsAnimating] = useState(false);
-  const [currentStation, setCurrentStation] = useState('corner'); // 'corner', 'top-left', 'bottom-right'
-  const [statusMessage, setStatusMessage] = useState('Magnet resting at bottom-left corner');
-  const [activeInteraction, setActiveInteraction] = useState('Natural Earth Alignment (0° N)');
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [currentStation, setCurrentStation] = useState('corner');
   const [isFullscreen, setIsFullscreen] = useState(false);
-
-  // Trajectory exploration tracker
-  const [hasVisitedTopLeft, setHasVisitedTopLeft] = useState(false);
-  const [hasVisitedBottomRight, setHasVisitedBottomRight] = useState(false);
-  const [hasCompletedTour, setHasCompletedTour] = useState(false);
-  const [hasFlippedOnce, setHasFlippedOnce] = useState(false);
-  const [hasDraggedOnce, setHasDraggedOnce] = useState(false);
 
   const containerRef = useRef(null);
   const workspaceRef = useRef(null);
@@ -180,7 +138,6 @@ export default function Simulation({ onComplete, onNext }) {
   const isDraggingRef = useRef(false);
   const dragStartRef = useRef({ mouseX: 0, mouseY: 0, startX: 0, startY: 0 });
 
-  // Fullscreen Handler
   useEffect(() => {
     const handleFullscreenChange = () => {
       setIsFullscreen(!!document.fullscreenElement);
@@ -189,7 +146,6 @@ export default function Simulation({ onComplete, onNext }) {
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
   }, []);
 
-  // Preload Steampunk Bar Magnet Textures for Instant Flipping
   useEffect(() => {
     const img1 = new Image();
     img1.src = '/assets/magnet_bar_steampunk_ns.png';
@@ -207,62 +163,36 @@ export default function Simulation({ onComplete, onNext }) {
     }
   };
 
-  // -------------------------------------------------------------------
-  // Accurate Magnetic Dipole & Deflection Rules
-  // -------------------------------------------------------------------
   const updateCompassPhysics = useCallback((x, y, flipped) => {
     const distCenter = Math.hypot(x, y);
 
-    // When magnet is far in the corner, Earth's natural magnetic field dominates
     if (distCenter >= 330) {
       setContinuousCompassAngle(0);
-      setActiveInteraction('Natural Earth Alignment (0° N)');
       return;
     }
 
-    // Measure proximity to Top-Left station (-215, -210) and Bottom-Right station (215, 205)
     const distTopLeft = Math.hypot(x - (-215), y - (-210));
     const distBottomRight = Math.hypot(x - 215, y - 205);
 
-    // 1. Top-Left Region (-215, -210):
-    // - [[N][S]]: Red North needle faces North-West -> 315° NW
-    // - [[S][N]]: Red North needle faces North-East -> 45° NE
     if (distTopLeft < 90) {
       const blend = Math.max(0, 1 - distTopLeft / 90);
       const finalAngle = !flipped 
-        ? 360 - 45 * blend // approaches 315° NW
-        : 45 * blend;       // approaches 45° NE
+        ? 360 - 45 * blend 
+        : 45 * blend;
       setContinuousCompassAngle((finalAngle + 360) % 360);
-
-      if (flipped) {
-        setActiveInteraction('🔴 Red North needle pointing to North-East (45° NE)');
-      } else {
-        setActiveInteraction('🔴 Red North needle pointing to North-West (315° NW)');
-      }
       return;
     }
 
-    // 2. Bottom-Right Region (215, 205):
-    // - [[N][S]]: Blue South needle faces South-East (135° SE) [Red North needle points 315° NW]
-    // - [[S][N]]: Blue South needle faces South-West (225° SW) [Red North needle points 45° NE]
     if (distBottomRight < 90) {
       const blend = Math.max(0, 1 - distBottomRight / 90);
       const finalAngle = !flipped 
-        ? 360 - 45 * blend // North needle at 315° NW -> South needle faces 135° SE
-        : 45 * blend;       // North needle at 45° NE  -> South needle faces 225° SW
+        ? 360 - 45 * blend 
+        : 45 * blend;
       setContinuousCompassAngle((finalAngle + 360) % 360);
-
-      if (flipped) {
-        setActiveInteraction('🔵 Blue South needle pointing to South-West (225° SW)');
-      } else {
-        setActiveInteraction('🔵 Blue South needle pointing to South-East (135° SE)');
-      }
       return;
     }
 
-    // General Smooth Orbit Deflection along the path
-    // Calculate dipole forces
-    const halfLen = 45; // Calibrated for the compact 170px magnet scale
+    const halfLen = 45;
     const leftPoleX = x - halfLen;
     const leftPoleY = y;
     const rightPoleX = x + halfLen;
@@ -302,20 +232,12 @@ export default function Simulation({ onComplete, onNext }) {
     targetDeg = (targetDeg + 360) % 360;
 
     setContinuousCompassAngle(targetDeg);
-
-    if (distN < distS) {
-      setActiveInteraction('🔴 Like North Pole Repelling Needle');
-    } else {
-      setActiveInteraction('🔵 Opposite South Pole Attracting Needle');
-    }
   }, [setContinuousCompassAngle]);
 
-  // Update physics on initial render & state changes
   useEffect(() => {
     updateCompassPhysics(pos.x, pos.y, isFlipped);
   }, [pos, isFlipped, updateCompassPhysics]);
 
-  // Clean up timers on unmount
   useEffect(() => {
     return () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
@@ -336,9 +258,6 @@ export default function Simulation({ onComplete, onNext }) {
     timeoutsRef.current = [];
   };
 
-  // -------------------------------------------------------------------
-  // Smooth Spline Animation Controller
-  // -------------------------------------------------------------------
   const animateAlongSpline = useCallback((points, duration = 1400, onCompleteCallback) => {
     if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     setIsAnimating(true);
@@ -355,7 +274,6 @@ export default function Simulation({ onComplete, onNext }) {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
       
-      // Smooth cubic easing
       const ease = progress < 0.5 
         ? 4 * progress * progress * progress 
         : 1 - Math.pow(-2 * progress + 2, 3) / 2;
@@ -367,7 +285,7 @@ export default function Simulation({ onComplete, onNext }) {
       if (progress < 1) {
         animFrameRef.current = requestAnimationFrame(frame);
       } else {
-        const lastPoint = points[points.length - 2]; // Destination
+        const lastPoint = points[points.length - 2];
         setPos({ x: lastPoint[0], y: lastPoint[1] });
         updateCompassPhysics(lastPoint[0], lastPoint[1], isFlippedRef.current);
         setIsAnimating(false);
@@ -379,186 +297,24 @@ export default function Simulation({ onComplete, onNext }) {
     animFrameRef.current = requestAnimationFrame(frame);
   }, [updateCompassPhysics]);
 
-  // -------------------------------------------------------------------
-  // Individual Segment Actions
-  // -------------------------------------------------------------------
-
-  // 1. Move from Corner to Top-Left Station with [[N][S]]
-  const moveToTopLeft = () => {
-    if (isAnimating) return;
-    clearAllTimeouts();
-    cancelSequenceRef.current = false;
-    
-    setIsFlipped(false);
-    setStatusMessage('Revolving along left arc to Top-Left station with [[ N ][ S ]]...');
-    setCurrentStation('top-left');
-    setHasVisitedTopLeft(true);
-    setCurrentStep(2);
-
-    const startX = posRef.current.x;
-    const startY = posRef.current.y;
-
-    const splinePoints = [
-      [startX, startY],
-      [startX, startY],
-      [-260, 60],
-      [-245, -80],
-      [-215, -210],
-      [-215, -210]
-    ];
-
-    animateAlongSpline(splinePoints, 1400, () => {
-      setStatusMessage('Top-Left with [[ N ][ S ]]: Red North needle pointing to North-West (315° NW)...');
-
-      // Wait 2.5s then flip to test [[S][N]]
-      addTimeout(() => {
-        playMagneticSound('snap');
-        setIsFlipped(true);
-        updateCompassPhysics(-215, -210, true);
-        setStatusMessage('Flipped to [[ S ][ N ]]: Red North needle pointing to North-East (45° NE)... Click Bottom-Rt to continue!');
-      }, 2500);
-    });
-  };
-
-  // 2. Move to Bottom-Right Station: Arrive in [[S][N]], wait for South needle to face South-West, flip to [[N][S]], wait for South needle to face towards magnet, then return & settle
-  const moveToBottomRight = () => {
-    if (isAnimating) return;
-    clearAllTimeouts();
-    cancelSequenceRef.current = false;
-
-    isFlippedRef.current = true;
-    setIsFlipped(true);
-    setStatusMessage('Revolving around perimeter to Bottom-Right station in [[ S ][ N ]]...');
-    setCurrentStation('bottom-right');
-    setHasVisitedBottomRight(true);
-    setCurrentStep(3);
-
-    const startX = posRef.current.x;
-    const startY = posRef.current.y;
-
-    const splinePoints = [
-      [startX, startY],
-      [startX, startY],
-      [-80, -250],
-      [80, -250],
-      [240, -100],
-      [250, 60],
-      [215, 205],
-      [215, 205]
-    ];
-
-    animateAlongSpline(splinePoints, 1700, () => {
-      // 1) When magnet arrives at Bottom-Right in [[S][N]]: wait while South needle faces South-West
-      isFlippedRef.current = true;
-      setIsFlipped(true);
-      updateCompassPhysics(215, 205, true);
-      setStatusMessage('📍 Bottom-Right holding in [[ S ][ N ]]: Blue South needle facing South-West (225° SW)...');
-
-      // Wait 3.5s in [S][N] state to clearly observe South needle facing South-West
-      addTimeout(() => {
-        // 2) Magnet stays in place and flips to [[N][S]], waiting for South needle to face towards the magnet
-        playMagneticSound('snap');
-        isFlippedRef.current = false;
-        setIsFlipped(false);
-        updateCompassPhysics(215, 205, false);
-        setStatusMessage('🔄 Flipped to [[ N ][ S ]]: Blue South needle facing towards the magnet (135° SE)...');
-
-        // Wait 3.5s in [N][S] state to clearly observe South needle facing towards the magnet
-        addTimeout(() => {
-          // 3) Come and settle in the initial stage
-          setStatusMessage('Step 4: Returning along bottom path and settling in Initial Corner...');
-          setCurrentStation('corner');
-          setCurrentStep(4);
-
-          const splinePointsReturn = [
-            [215, 205],
-            [215, 205],
-            [80, 260],
-            [-80, 265],
-            [-260, 230],
-            [-260, 230]
-          ];
-
-          animateAlongSpline(splinePointsReturn, 1400, () => {
-            isFlippedRef.current = false;
-            setIsFlipped(false);
-            compassAngleRef.current = 0;
-            setCompassAngle(0);
-            updateCompassPhysics(-260, 230, false);
-            setStatusMessage('Magnet settled in initial stage! Compass needle restored to 0° North.');
-            setHasCompletedTour(true);
-            setIsCompleted(true);
-            if (onComplete) onComplete();
-          });
-        }, 3500);
-      });
-    });
-  };
-
-  // 3. Move from Bottom-Right along Bottom Arc to Initial Corner
-  const moveToCorner = () => {
-    if (isAnimating) return;
-    clearAllTimeouts();
-    cancelSequenceRef.current = false;
-    setStatusMessage('Returning along bottom arc to Initial Corner...');
-    setCurrentStation('corner');
-
-    const startX = posRef.current.x;
-    const startY = posRef.current.y;
-
-    const splinePoints = [
-      [startX, startY],
-      [startX, startY],
-      [80, 260],
-      [-80, 265],
-      [-260, 230],
-      [-260, 230]
-    ];
-
-    animateAlongSpline(splinePoints, 1300, () => {
-      setIsFlipped(false);
-      compassAngleRef.current = 0;
-      setCompassAngle(0);
-      updateCompassPhysics(-260, 230, false);
-      setStatusMessage('Magnet settled at initial corner position. Compass needle at 0° North.');
-      setCurrentStep(4);
-      setHasCompletedTour(true);
-      setIsCompleted(true);
-      if (onComplete) onComplete();
-    });
-  };
-
   const handleFlipMagnet = () => {
     if (isAnimating) return;
     playMagneticSound('snap');
     const nextFlipped = !isFlipped;
     setIsFlipped(nextFlipped);
     isFlippedRef.current = nextFlipped;
-    setHasFlippedOnce(true);
     updateCompassPhysics(pos.x, pos.y, nextFlipped);
-    setStatusMessage(nextFlipped ? 'Flipped magnet polarity to [[ 🔵 S ][ 🔴 N ]]!' : 'Flipped magnet polarity to [[ 🔴 N ][ 🔵 S ]]!');
   };
 
-  // -------------------------------------------------------------------
-  // Automated Sequential Experiment Flow:
-  // 1. Move to Top-Left station (without flip)
-  // 2. Wait for needle to show deflection in that direction
-  // 3. Move to Bottom-Right station with SAME magnet shape without flip
-  // 4. Wait for needle to show deflection at Bottom-Right
-  // 5. Return to starting stage and settle at 0° North
-  // -------------------------------------------------------------------
   const runFullSequence = () => {
     if (isAnimating) return;
 
     clearAllTimeouts();
     cancelSequenceRef.current = false;
 
-    // Preserve the current magnet orientation throughout the sequence (no flipping during flow)
     const currentFlipped = isFlippedRef.current;
-    setStatusMessage(`Step 1: Moving to Top-Left station with [[ ${currentFlipped ? 'S' : 'N'} ][ ${currentFlipped ? 'N' : 'S'} ]]...`);
     setCurrentStation('top-left');
     setCurrentStep(2);
-    setHasVisitedTopLeft(true);
 
     const startX = posRef.current.x;
     const startY = posRef.current.y;
@@ -573,19 +329,11 @@ export default function Simulation({ onComplete, onNext }) {
     ];
 
     animateAlongSpline(splinePoints1, 1400, () => {
-      // Arrived at Top-Left: show deflection and wait for observation (WITHOUT FLIP)
       updateCompassPhysics(-215, -210, currentFlipped);
-      setStatusMessage(currentFlipped 
-        ? 'Top-Left station: Compass needle deflects towards magnet pole (45° NE)...' 
-        : 'Top-Left station: Red North needle deflects towards magnet pole (315° NW)...');
 
-      // Wait 2.8s for needle deflection observation
       addTimeout(() => {
-        // Step 2: Move to Bottom-Right with the SAME magnet shape (WITHOUT FLIP)
-        setStatusMessage(`Step 2: Moving along perimeter to Bottom-Right station with [[ ${currentFlipped ? 'S' : 'N'} ][ ${currentFlipped ? 'N' : 'S'} ]]...`);
         setCurrentStation('bottom-right');
         setCurrentStep(3);
-        setHasVisitedBottomRight(true);
 
         const splinePoints2 = [
           [-215, -210],
@@ -599,16 +347,9 @@ export default function Simulation({ onComplete, onNext }) {
         ];
 
         animateAlongSpline(splinePoints2, 1800, () => {
-          // Arrived at Bottom-Right in SAME orientation without flip
           updateCompassPhysics(215, 205, currentFlipped);
-          setStatusMessage(currentFlipped
-            ? 'Bottom-Right station: Compass needle deflects towards the magnet (225° SW)...'
-            : 'Bottom-Right station: Blue South needle deflects towards the magnet (135° SE)...');
 
-          // Wait 3.0s to observe needle deflection at bottom-right
           addTimeout(() => {
-            // Step 3: Return to starting stage
-            setStatusMessage('Step 4: Returning along bottom path to starting stage...');
             setCurrentStation('corner');
             setCurrentStep(4);
 
@@ -625,9 +366,6 @@ export default function Simulation({ onComplete, onNext }) {
               compassAngleRef.current = 0;
               setCompassAngle(0);
               updateCompassPhysics(-260, 230, currentFlipped);
-              setStatusMessage('Sequence Complete! Magnet settled in starting stage. Compass needle restored to 0° North.');
-              setHasCompletedTour(true);
-              setIsCompleted(true);
               if (onComplete) onComplete();
             });
           }, 3000);
@@ -636,28 +374,6 @@ export default function Simulation({ onComplete, onNext }) {
     });
   };
 
-  const handleReset = () => {
-    cancelSequenceRef.current = true;
-    clearAllTimeouts();
-    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-    setIsAnimating(false);
-    setIsFlipped(false);
-    setPos({ x: -260, y: 230 });
-    setCurrentStation('corner');
-    setCurrentStep(1);
-    setHasVisitedTopLeft(false);
-    setHasVisitedBottomRight(false);
-    setHasCompletedTour(false);
-    setIsCompleted(false);
-    setHasFlippedOnce(false);
-    setHasDraggedOnce(false);
-    compassAngleRef.current = 0;
-    setCompassAngle(0);
-    setStatusMessage('Magnet resting at bottom-left corner');
-    updateCompassPhysics(-260, 230, false);
-  };
-
-  // Direct Interactive Pointer Dragging Handlers
   const handlePointerDown = (e) => {
     if (isAnimating) return;
     isDraggingRef.current = true;
@@ -674,9 +390,6 @@ export default function Simulation({ onComplete, onNext }) {
     if (!isDraggingRef.current) return;
     const dx = e.clientX - dragStartRef.current.mouseX;
     const dy = e.clientY - dragStartRef.current.mouseY;
-    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
-      setHasDraggedOnce(true);
-    }
     const newX = Math.max(-290, Math.min(290, dragStartRef.current.startX + dx));
     const newY = Math.max(-260, Math.min(260, dragStartRef.current.startY + dy));
     setPos({ x: newX, y: newY });
@@ -691,14 +404,13 @@ export default function Simulation({ onComplete, onNext }) {
     } catch (err) {}
   };
 
-  // Identify facing pole toward compass center
-  let facingPoleName = '';
+  let positionDisplay = 'Start • Farther from compass';
   if (currentStation === 'top-left') {
-    facingPoleName = isFlipped ? '🔴 North Pole (Right Half facing Compass)' : '🔵 South Pole (Right Half facing Compass)';
+    positionDisplay = 'Station 1 • Top-Left Station';
   } else if (currentStation === 'bottom-right') {
-    facingPoleName = isFlipped ? '🔵 South Pole (Left Half facing Compass)' : '🔴 North Pole (Left Half facing Compass)';
-  } else {
-    facingPoleName = 'Bottom-Left Corner (Out of Direct Pull)';
+    positionDisplay = 'Station 2 • Bottom-Right Station';
+  } else if (currentStep === 4) {
+    positionDisplay = 'Return • Settled at Start';
   }
 
   return (
@@ -708,161 +420,224 @@ export default function Simulation({ onComplete, onNext }) {
         width: '100%',
         height: '100%',
         display: 'grid',
-        gridTemplateColumns: '460px 1fr',
+        gridTemplateColumns: '520px 1fr',
         gap: '1.25rem',
-        padding: '0.65rem',
+        padding: '0.5rem',
         boxSizing: 'border-box',
         overflow: 'hidden',
         position: 'relative'
       }}
     >
-      {/* Left Column: Two Golden Containers (Instructions & Controls) */}
-      <div className="stage-right-column" style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '1.65rem',
-        height: '100%',
-        minHeight: 0,
-        boxSizing: 'border-box'
-      }}>
-        {/* Container 1: Steps of Instructions */}
-        <div className="stage-container-1" style={{
-          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
-          border: '1.5px solid #E2E8F0',
-          borderRadius: '24px',
-          padding: '1.4rem 1.6rem',
-          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '0.85rem'
-        }}>
-          <h3 style={{ margin: 0, fontSize: '19.5px', fontWeight: 900, color: '#1E1B4B' }}>
-            Steps of Instructions
+      {/* Left Column: 2× Scaled Typography with Exact Layout & Content */}
+      <div className="stage-left-column">
+        {/* Container 1: Explore the compass */}
+        <div 
+          className="stage-container-1"
+          style={{
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(10px)',
+            border: '1.5px solid #E2E8F0',
+            borderRadius: '24px',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
+            padding: '1.2rem 1.55rem',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            gap: '0.85rem',
+            boxSizing: 'border-box'
+          }}
+        >
+          {/* Header */}
+          <h3 style={{ margin: 0, fontSize: '2.15rem', fontWeight: 900, color: '#1E1B4B', letterSpacing: '-0.02em' }}>
+            Explore the compass
           </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
-              <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
-                Click 'Run the flow' at the bottom-right corner to begin observing compass deflection.
-              </span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
-              <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
-                Watch the magnet move through the stations while the needle tracks its magnetic pole.
-              </span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
-              <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
-                Observe the needle return naturally to 0° North as the magnet returns to start.
-              </span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
-              <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
-                Click 'Flip Magnet' or drag the magnet to test opposite needle deflections anywhere.
-              </span>
-            </div>
+
+          {/* 4 Numbered Steps with 2× Scaled Text */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {[
+              { num: '1', text: 'Click Start Demo to move the magnet through four positions.' },
+              { num: '2', text: 'Watch the needle turn as the magnet moves nearby.' },
+              { num: '3', text: 'Move the magnet farther away and watch the needle settle.' },
+              { num: '4', text: 'Flip or drag the magnet to explore a new direction.' }
+            ].map((step) => (
+              <div key={step.num} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div style={{
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #214A70 0%, #0A1931 100%)',
+                  color: '#FFFFFF',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: 900,
+                  fontSize: '1.35rem',
+                  flexShrink: 0,
+                  boxShadow: '0 2px 8px rgba(10, 25, 49, 0.3)'
+                }}>
+                  {step.num}
+                </div>
+                <span style={{
+                  fontSize: '1.45rem',
+                  color: '#173B5F',
+                  fontWeight: 700,
+                  lineHeight: 1.35
+                }}>
+                  {step.text}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Yellow Lightbulb Tip Callout */}
+          <div style={{
+            background: '#FEF9C3',
+            border: '1.5px solid #FDE047',
+            borderRadius: '16px',
+            padding: '0.75rem 1.15rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.85rem'
+          }}>
+            <span style={{ fontSize: '1.6rem' }}>💡</span>
+            <span style={{ fontSize: '1.38rem', fontWeight: 800, color: '#1E1B4B', lineHeight: 1.25 }}>
+              A compass needle is a small magnet.
+            </span>
           </div>
         </div>
 
-        {/* Container 2: Activity Controls & Status */}
-        <div className="stage-container-2" style={{
-          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
-          border: '1.5px solid #E2E8F0',
-          borderRadius: '24px',
-          padding: '1.4rem 1.6rem',
-          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1rem',
-          flex: 1,
-          minHeight: 0
-        }}>
+        {/* Container 2: Observation status */}
+        <div 
+          className="stage-container-2"
+          style={{
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(10px)',
+            border: '1.5px solid #E2E8F0',
+            borderRadius: '24px',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
+            padding: '1.2rem 1.55rem',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            gap: '0.85rem',
+            boxSizing: 'border-box'
+          }}
+        >
+          {/* Header Row */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ margin: 0, fontSize: '19.5px', fontWeight: 900, color: '#1E1B4B' }}>
-              Observation Status
+            <h3 style={{ margin: 0, fontSize: '2.15rem', fontWeight: 900, color: '#1E1B4B', letterSpacing: '-0.02em' }}>
+              Observation status
             </h3>
             <span style={{
               background: '#DCFCE7',
               color: '#15803D',
               fontWeight: 900,
-              fontSize: '15px',
-              padding: '0.35rem 0.8rem',
-              borderRadius: '12px',
+              fontSize: '1.15rem',
+              padding: '0.35rem 0.95rem',
+              borderRadius: '20px',
               border: '1.5px solid #86EFAC'
             }}>
               Step {currentStep} of 4
             </span>
           </div>
 
-          {/* Status Details */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', flex: 1 }}>
-            <div style={{
-              background: '#FFFFFF',
-              border: '1.5px solid #E2E8F0',
-              borderRadius: '16px',
-              padding: '0.85rem 1.1rem',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.35rem'
-            }}>
-              <span style={{ fontSize: '14.5px', fontWeight: 800, color: '#173B5F' }}>Active Position:</span>
-              <span style={{ fontSize: '16.5px', fontWeight: 900, color: '#064E3B' }}>{facingPoleName}</span>
-            </div>
+          {/* Status Box 1: Magnet position */}
+          <div style={{
+            background: '#FFFFFF',
+            border: '1.5px solid #E2E8F0',
+            borderRadius: '16px',
+            padding: '0.75rem 1.25rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.25rem',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.02)'
+          }}>
+            <span style={{ fontSize: '1.2rem', fontWeight: 800, color: '#173B5F' }}>
+              Magnet position
+            </span>
+            <span style={{ fontSize: '1.45rem', fontWeight: 900, color: '#1E1B4B' }}>
+              {positionDisplay}
+            </span>
+          </div>
 
-            <div style={{
-              background: '#FFFFFF',
-              border: '1.5px solid #E2E8F0',
-              borderRadius: '16px',
-              padding: '0.85rem 1.1rem',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }}>
-              <span style={{ fontSize: '16.5px', fontWeight: 800, color: '#173B5F' }}>Magnet Polarity:</span>
-              <span style={{
-                background: isFlipped ? '#FEE2E2' : '#EFF6FF',
-                color: isFlipped ? '#991B1B' : '#1E40AF',
-                fontWeight: 900,
-                fontSize: '15px',
-                padding: '0.25rem 0.75rem',
-                borderRadius: '10px',
-                border: `1.5px solid ${isFlipped ? '#FCA5A5' : '#BFDBFE'}`
+          {/* Status Box 2: Magnet orientation */}
+          <div style={{
+            background: '#FFFFFF',
+            border: '1.5px solid #E2E8F0',
+            borderRadius: '16px',
+            padding: '0.75rem 1.25rem',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.02)'
+          }}>
+            <span style={{ fontSize: '1.2rem', fontWeight: 800, color: '#173B5F' }}>
+              Magnet orientation
+            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+              {/* Visual 2-Pole Magnet Pill */}
+              <div style={{
+                display: 'flex',
+                borderRadius: '8px',
+                overflow: 'hidden',
+                border: '1px solid #0F172A',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
               }}>
-                {isFlipped ? 'South ↔ North' : 'North ↔ South'}
+                <div style={{
+                  background: isFlipped ? '#1D4ED8' : '#DC2626',
+                  color: '#FFFFFF',
+                  padding: '3px 12px',
+                  fontWeight: 900,
+                  fontSize: '1.15rem'
+                }}>
+                  {isFlipped ? 'S' : 'N'}
+                </div>
+                <div style={{
+                  background: isFlipped ? '#DC2626' : '#1D4ED8',
+                  color: '#FFFFFF',
+                  padding: '3px 12px',
+                  fontWeight: 900,
+                  fontSize: '1.15rem'
+                }}>
+                  {isFlipped ? 'N' : 'S'}
+                </div>
+              </div>
+              <span style={{ fontSize: '1.45rem', fontWeight: 900, color: '#1E1B4B' }}>
+                {isFlipped ? 'S → N' : 'N → S'}
               </span>
             </div>
           </div>
 
-          {/* Proceed Button */}
+          {/* Helper Prompt Text */}
+          <div style={{ fontSize: '1.25rem', color: '#173B5F', fontWeight: 600 }}>
+            Watch what changes when the magnet moves closer.
+          </div>
+
+          {/* Bottom Action Button: Proceed to Quiz */}
           <button
             type="button"
             onClick={onNext}
             className="gold-glow-btn"
             style={{
               width: '100%',
-              padding: '0.85rem 1.4rem',
-              borderRadius: '16px',
-              fontSize: '17.5px',
+              padding: '0.95rem 1.8rem',
+              fontSize: '1.45rem',
               fontWeight: 900,
-              cursor: 'pointer',
+              borderRadius: '16px',
               display: 'flex',
-              alignItems: 'center',
               justifyContent: 'center',
-              gap: '0.5rem',
-              marginTop: 'auto',
-              transition: 'all 0.2s ease',
-              color: '#FFFFFF'
+              alignItems: 'center',
+              gap: '0.65rem',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
             }}
           >
-            <Sparkles size={20} /> Proceed to Concept Check <ArrowRight size={20} />
+            Proceed to Quiz <ArrowRight size={22} color="#FFFFFF" />
           </button>
         </div>
       </div>
 
-      {/* Right Column: Nautical Sea Workspace Arena with Vintage Parchment Map Background */}
+      {/* Right Column: Nautical Sea Workspace Arena with Compass */}
       <div 
         ref={workspaceRef}
         style={{
@@ -870,9 +645,10 @@ export default function Simulation({ onComplete, onNext }) {
           borderRadius: '24px',
           overflow: 'hidden',
           border: '2px solid #173B5F',
-          backgroundImage: `url('/Activity4_6/nautical_map_bg.jpg')`,
+          backgroundImage: `url('/nautical_map_compass_bg.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
           boxShadow: 'inset 0 0 60px rgba(0,0,0,0.25), 0 8px 32px rgba(6, 78, 59, 0.12)',
           display: 'flex',
           alignItems: 'center',
@@ -880,7 +656,7 @@ export default function Simulation({ onComplete, onNext }) {
           userSelect: 'none'
         }}
       >
-        {/* Top Control Bar across Activity Area (Zero Overlap, Clean Separation) */}
+        {/* Top Control Bar across Activity Area */}
         <div style={{
           position: 'absolute',
           top: '1rem',
@@ -893,7 +669,7 @@ export default function Simulation({ onComplete, onNext }) {
           pointerEvents: 'none',
           gap: '0.75rem'
         }}>
-          {/* Left: Live Bearing Badge (Moved Leftside, Fully Visible & Clear of Fullscreen) */}
+          {/* Left: Live Bearing Badge */}
           <div style={{
             pointerEvents: 'auto',
             background: 'rgba(255, 253, 245, 0.96)',
@@ -907,9 +683,9 @@ export default function Simulation({ onComplete, onNext }) {
             backdropFilter: 'blur(8px)',
             flexShrink: 0
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', color: '#173B5F', fontSize: '0.9rem', fontWeight: 900 }}>
-              <CompassIcon size={18} color="#173B5F" />
-              <span>BEARING: <strong style={{ color: '#C2410C' }}>{Math.round((compassAngle % 360 + 360) % 360)}°</strong> {getBearingName(compassAngle)}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', color: '#173B5F', fontSize: '0.95rem', fontWeight: 900 }}>
+              <CompassIcon size={20} color="#173B5F" />
+              <span>BEARING: <strong style={{ color: '#0369A1' }}>{Math.round((compassAngle % 360 + 360) % 360)}°</strong> {getBearingName(compassAngle)}</span>
             </div>
           </div>
 
@@ -929,14 +705,14 @@ export default function Simulation({ onComplete, onNext }) {
                 justifyContent: 'center',
                 gap: '6px',
                 color: '#0F172A',
-                fontSize: '0.82rem',
+                fontSize: '0.85rem',
                 fontWeight: 800,
                 backdropFilter: 'blur(8px)',
                 boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
                 transition: 'all 0.2s ease',
               }}
             >
-              {isFullscreen ? <Minimize2 size={15} color="#0F172A" /> : <Maximize2 size={15} color="#0F172A" />}
+              {isFullscreen ? <Minimize2 size={16} color="#0F172A" /> : <Maximize2 size={16} color="#0F172A" />}
               <span>{isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}</span>
             </button>
           </div>
@@ -952,7 +728,6 @@ export default function Simulation({ onComplete, onNext }) {
           justifyContent: 'center'
         }}>
           
-          {/* Antique Brass Compass Display */}
           <div
             style={{
               position: 'relative',
@@ -971,7 +746,7 @@ export default function Simulation({ onComplete, onNext }) {
             />
           </div>
 
-          {/* 🧲 FLAT HORIZONTAL DUAL-POLE BAR MAGNET [[ N ][ S ]] */}
+          {/* Flat Horizontal Dual-Pole Bar Magnet */}
           <div
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
@@ -992,7 +767,6 @@ export default function Simulation({ onComplete, onNext }) {
               alignItems: 'center',
               gap: '0.35rem'
             }}>
-              {/* 3D Bar Magnet (Realistic & Natural appearance, no artificial white glare) */}
               <div 
                 onClick={!isAnimating ? handleFlipMagnet : undefined}
                 title="Click to Flip Polarity (North ↔ South)"
@@ -1035,7 +809,7 @@ export default function Simulation({ onComplete, onNext }) {
 
         </div>
 
-        {/* Bottom-Right Corner Action Controls: "Flip Magnet" & "Run the flow" */}
+        {/* Bottom-Right Corner Action Controls: "Flip Magnet" & "Start Demo" */}
         <div style={{
           position: 'absolute',
           bottom: '1.25rem',
@@ -1046,7 +820,6 @@ export default function Simulation({ onComplete, onNext }) {
           zIndex: 35,
           pointerEvents: 'auto'
         }}>
-          {/* Flip Magnet Button */}
           <button
             type="button"
             onClick={handleFlipMagnet}
@@ -1059,7 +832,7 @@ export default function Simulation({ onComplete, onNext }) {
               border: '1.5px solid #E2E8F0',
               color: '#173B5F',
               fontWeight: 900,
-              fontSize: '1rem',
+              fontSize: '1.05rem',
               cursor: isAnimating ? 'not-allowed' : 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -1071,11 +844,10 @@ export default function Simulation({ onComplete, onNext }) {
               opacity: isAnimating ? 0.6 : 1
             }}
           >
-            <RefreshCw size={17} color="#173B5F" />
+            <RefreshCw size={18} color="#173B5F" />
             <span>Flip Magnet</span>
           </button>
 
-          {/* Run the flow Button */}
           <button
             type="button"
             onClick={runFullSequence}
@@ -1086,7 +858,7 @@ export default function Simulation({ onComplete, onNext }) {
               borderRadius: '16px',
               color: '#FFFFFF',
               fontWeight: 900,
-              fontSize: '1.05rem',
+              fontSize: '1.15rem',
               cursor: isAnimating ? 'not-allowed' : 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -1097,8 +869,8 @@ export default function Simulation({ onComplete, onNext }) {
               boxShadow: '0 4px 18px rgba(217, 119, 6, 0.45)'
             }}
           >
-            <Play size={18} fill="#FFFFFF" color="#FFFFFF" className={isAnimating ? 'animate-pulse' : ''} />
-            <span>{isAnimating ? 'Running...' : 'Run the flow'}</span>
+            <Play size={20} fill="#FFFFFF" color="#FFFFFF" className={isAnimating ? 'animate-pulse' : ''} />
+            <span>{isAnimating ? 'Running...' : 'Start Demo'}</span>
           </button>
         </div>
       </div>

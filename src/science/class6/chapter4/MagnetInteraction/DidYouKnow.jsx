@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Volume2, VolumeX, ArrowRight, Compass, Award, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Sparkles, Volume2, VolumeX, ArrowRight, Award } from 'lucide-react';
 import { useHybridVoice } from '../../../../hooks/useHybridVoice';
 import { ELEVENLABS_VOICES } from '../../../../services/elevenLabsService';
 import './MagnetInteraction.css';
@@ -48,10 +48,8 @@ const factsData = [
   }
 ];
 
-export default function DidYouKnow({ onComplete, onBackToQuiz }) {
+export default function DidYouKnow({ onComplete }) {
   const [activeFactId, setActiveFactId] = useState(factsData[0].id);
-  const [pageIndex, setPageIndex] = useState(0);
-  const [direction, setDirection] = useState(1);
   const { speak, stop, isPlaying, spokenCharIndex } = useHybridVoice();
 
   const ELEVENLABS_DID_YOU_KNOW_VOICE_ID = ELEVENLABS_VOICES?.did_you_know || 'nPczCjzI2devNBz1zQrb';
@@ -61,56 +59,6 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
       stop();
     };
   }, [stop]);
-
-  const handleNextPage = () => {
-    if (pageIndex < 1) {
-      stop();
-      setDirection(1);
-      setPageIndex(1);
-      setActiveFactId(factsData[3].id);
-    }
-  };
-
-  const handlePrevPage = () => {
-    if (pageIndex > 0) {
-      stop();
-      setDirection(-1);
-      setPageIndex(0);
-      setActiveFactId(factsData[0].id);
-    }
-  };
-
-  const handleSelectPage = (idx) => {
-    if (idx !== pageIndex) {
-      stop();
-      setDirection(idx > pageIndex ? 1 : -1);
-      setPageIndex(idx);
-      setActiveFactId(idx === 0 ? factsData[0].id : factsData[3].id);
-    }
-  };
-
-  const slideVariants = {
-    enter: (dir) => ({
-      x: dir > 0 ? 300 : -300,
-      opacity: 0
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-      transition: {
-        x: { type: 'spring', stiffness: 350, damping: 32 },
-        opacity: { duration: 0.22 }
-      }
-    },
-    exit: (dir) => ({
-      x: dir > 0 ? -300 : 300,
-      opacity: 0,
-      transition: {
-        x: { type: 'spring', stiffness: 350, damping: 32 },
-        opacity: { duration: 0.18 }
-      }
-    })
-  };
 
   const handleSpeakFact = (fact) => {
     if (isPlaying && activeFactId === fact.id) {
@@ -163,7 +111,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
             fontWeight,
             transition: 'color 0.1s ease',
             display: 'inline-block',
-            marginRight: '0.28rem'
+            marginRight: '0.35rem'
           }}
         >
           {word}
@@ -180,486 +128,280 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
       display: 'flex',
       flexDirection: 'column',
       overflow: 'hidden',
-      padding: '0.25rem 0.5rem',
+      padding: '0.65rem 1rem',
       boxSizing: 'border-box',
-      position: 'relative'
+      position: 'relative',
+      fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif"
     }}>
 
-      {/* Main 2-Column Content Area */}
+      {/* Top Header Row with Title & Finish Action */}
       <div style={{
-        flex: 1,
-        minHeight: 0,
-        display: 'grid',
-        gridTemplateColumns: '48% 52%',
-        gap: '1.15rem',
-        overflow: 'hidden'
-      }}>
-        {/* LEFT COLUMN: Image Container */}
-        <div style={{
-          background: 'linear-gradient(145deg, #FFFFFF 0%, #F3F7F9 50%, #EAF2F6 100%)',
-          border: '1.5px solid #E2E8F0',
-          borderRadius: '24px',
-          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.06)',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-          position: 'relative',
-          minHeight: 0
-        }}>
-          {/* Header Badge */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: '0.65rem'
-          }}>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.45rem',
-              background: 'rgba(217, 119, 6, 0.12)',
-              color: '#173B5F',
-              padding: '0.35rem 0.85rem',
-              borderRadius: '20px',
-              fontSize: '0.85rem',
-              fontWeight: 900,
-              letterSpacing: '0.04em'
-            }}>
-              <Compass size={16} /> ATTRACTION & REPULSION ARCHIVE
-            </div>
-
-            <span style={{
-              fontSize: '0.85rem',
-              color: '#173B5F',
-              fontWeight: 800
-            }}>
-              Activity 4.6 Reference
-            </span>
-          </div>
-
-          {/* Hero Illustration Card Frame */}
-          <div style={{
-            flex: 1,
-            minHeight: '220px',
-            borderRadius: '18px',
-            border: '2px solid #E2E8F0',
-            overflow: 'hidden',
-            position: 'relative',
-            boxShadow: '0 10px 25px rgba(217, 119, 6, 0.12)',
-            background: '#EAF2F6'
-          }}>
-            <img
-              src="/MagnetInteraction/sunset_clouds_backdrop.jpg"
-              alt="Magnetic Attraction and Repulsion"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                display: 'block'
-              }}
-            />
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(to top, rgba(30, 27, 75, 0.75) 0%, rgba(30, 27, 75, 0.1) 60%, transparent 100%)',
-              pointerEvents: 'none'
-            }} />
-
-            <div style={{
-              position: 'absolute',
-              bottom: '12px',
-              left: '16px',
-              right: '16px',
-              color: '#FFFFFF',
-              zIndex: 2,
-              pointerEvents: 'none'
-            }}>
-              <h3 style={{
-                margin: 0,
-                fontSize: '1.25rem',
-                fontWeight: 900,
-                letterSpacing: '-0.01em',
-                textShadow: '0 2px 8px rgba(0,0,0,0.6)'
-              }}>
-                Poles That Attract & Repel
-              </h3>
-              <p style={{
-                margin: '2px 0 0 0',
-                fontSize: '0.86rem',
-                color: '#EAF2F6',
-                fontWeight: 700,
-                textShadow: '0 1px 4px rgba(0,0,0,0.6)'
-              }}>
-                Opposite poles pull together; identical poles push apart
-              </p>
-            </div>
-          </div>
-
-          {/* Bottom Card Footer Actions */}
-          <div style={{
-            marginTop: '0.85rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '0.75rem'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-              <div style={{
-                width: '38px',
-                height: '38px',
-                borderRadius: '12px',
-                background: '#FFFFFF',
-                border: '1.5px solid #E2E8F0',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#173B5F',
-                boxShadow: '0 2px 8px rgba(217, 119, 6, 0.1)'
-              }}>
-                <Award size={20} />
-              </div>
-              <div>
-                <h5 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 900, color: '#1E1B4B' }}>
-                  Chapter 4 Mastery
-                </h5>
-                <p style={{ margin: 0, fontSize: '0.78rem', color: '#173B5F', fontWeight: 700 }}>
-                  Curriculum Class 6 Physics
-                </p>
-              </div>
-            </div>
-
-            {onComplete && (
-              <button
-                onClick={onComplete}
-                className="gold-glow-btn"
-                style={{
-                  padding: '0.75rem 1.45rem',
-                  fontSize: '0.95rem',
-                  borderRadius: '16px',
-                  fontWeight: 900
-                }}
-              >
-                Finish Activity <ArrowRight size={17} />
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* RIGHT COLUMN: Facts Single Static Page Format with Horizontal Sliding Transition */}
-        <div style={{
-          background: 'linear-gradient(145deg, #FFFFFF 0%, #F3F7F9 50%, #EAF2F6 100%)',
-          border: '1.5px solid #E2E8F0',
-          borderRadius: '24px',
-          boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
-          padding: '1.15rem 1.35rem',
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: 0,
-          position: 'relative'
-        }}>
-          {/* Header Row: Title & Sliding Carousel Navigation Controls */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingBottom: '0.75rem',
-            borderBottom: '1.5px solid #E2E8F0',
-            marginBottom: '0.75rem',
-            flexShrink: 0
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-              <Sparkles size={20} color="#D97706" />
-              <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 900, color: '#78350F' }}>
-                Scientific Facts
-              </h3>
-              <span style={{
-                background: 'rgba(217, 119, 6, 0.15)',
-                color: '#92400E',
-                fontSize: '0.8rem',
-                fontWeight: 800,
-                borderRadius: '12px',
-                background: '#FFFFFF',
-                border: '1.5px solid #E2E8F0',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#173B5F',
-                boxShadow: '0 2px 8px rgba(217, 119, 6, 0.1)'
-              }}>
-                <Sparkles size={20} />
-              </span>
-              <div>
-                <h3 style={{ margin: 0, fontSize: '1.35rem', fontWeight: 900, color: '#1E1B4B' }}>
-                  Attraction & Repulsion Facts
-                </h3>
-                <span style={{ fontSize: '0.8rem', color: '#173B5F', fontWeight: 700 }}>
-                  Page {pageIndex + 1} of 2 ● {pageIndex === 0 ? 'Facts 01 - 03' : 'Facts 04 - 05'}
-                </span>
-              </div>
-            </div>
-
-            {/* Slider Controls: Prev, Dots, Next */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-              <button
-                onClick={handlePrevPage}
-                disabled={pageIndex === 0}
-                title="Previous Page"
-                style={{
-                  background: pageIndex === 0 ? 'rgba(255, 255, 255, 0.4)' : undefined,
-                  border: pageIndex === 0 ? '1.5px solid #E2E8F0' : 'none',
-                  borderRadius: '12px',
-                  padding: '0.35rem 0.75rem',
-                  cursor: pageIndex === 0 ? 'not-allowed' : 'pointer',
-                  opacity: pageIndex === 0 ? 0.45 : 1,
-                  color: pageIndex === 1 ? '#FFFFFF' : '#173B5F',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.25rem',
-                  fontSize: '0.85rem',
-                  fontWeight: 800,
-                  boxShadow: pageIndex === 0 ? 'none' : '0 2px 6px rgba(0,0,0,0.03)',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                <ChevronLeft size={16} /> Prev
-              </button>
-
-              {/* Dots Indicator */}
-              <div style={{ display: 'flex', gap: '0.4rem', padding: '0 0.35rem' }}>
-                {[0, 1].map((idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => handleSelectPage(idx)}
-                    title={`Go to page ${idx + 1}`}
-                    style={{
-                      width: pageIndex === idx ? '22px' : '9px',
-                      height: '9px',
-                      borderRadius: '10px',
-                      background: pageIndex === idx ? '#173B5F' : '#E2E8F0',
-                      border: 'none',
-                      cursor: 'pointer',
-                      padding: 0,
-                      transition: 'all 0.25s ease'
-                    }}
-                  />
-                ))}
-              </div>
-
-              <button
-                onClick={handleNextPage}
-                disabled={pageIndex === 1}
-                title="Next Page"
-                className={pageIndex === 0 ? 'gold-glow-btn' : ''}
-                style={{
-                  background: pageIndex === 1 ? 'rgba(255, 255, 255, 0.4)' : undefined,
-                  border: pageIndex === 1 ? '1.5px solid #E2E8F0' : 'none',
-                  borderRadius: '12px',
-                  padding: '0.35rem 0.8rem',
-                  cursor: pageIndex === 1 ? 'not-allowed' : 'pointer',
-                  opacity: pageIndex === 1 ? 0.45 : 1,
-                  color: pageIndex === 0 ? '#FFFFFF' : '#173B5F',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.25rem',
-                  fontSize: '0.85rem',
-                  fontWeight: 800,
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                Next <ChevronRight size={16} />
-              </button>
-            </div>
-          </div>
-
-          {/* Slider Content Viewport */}
-          <div style={{ flex: 1, position: 'relative', overflow: 'hidden', minHeight: 0, display: 'flex', flexDirection: 'column' }}>
-            <AnimatePresence initial={false} custom={direction} mode="wait">
-              <motion.div
-                key={pageIndex}
-                custom={direction}
-                variants={slideVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: pageIndex === 0 ? '0.55rem' : '0.85rem',
-                  justifyContent: 'space-between'
-                }}
-              >
-                {(pageIndex === 0 ? factsData.slice(0, 3) : factsData.slice(3, 5)).map((fact) => {
-                  const isActive = activeFactId === fact.id;
-                  const isCurrentlyPlaying = isPlaying && isActive;
-
-                  return (
-                    <div
-                      key={fact.id}
-                      onClick={() => setActiveFactId(fact.id)}
-                      style={{
-                        background: '#FFFFFF',
-                        border: isActive ? '2px solid #173B5F' : '1.5px solid #E2E8F0',
-                        borderRadius: '18px',
-                        boxShadow: isActive ? '0 6px 18px rgba(217, 119, 6, 0.14)' : '0 2px 8px rgba(217, 119, 6, 0.05)',
-                        padding: pageIndex === 0 ? '0.85rem 1.15rem' : '1.15rem 1.35rem',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: pageIndex === 0 ? '0.35rem' : '0.5rem',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease',
-                        flex: 1
-                      }}
-                    >
-                      {/* Fact Header Row */}
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        gap: '0.75rem'
-                      }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                          <span style={{
-                            background: 'rgba(217, 119, 6, 0.12)',
-                            color: '#173B5F',
-                            fontSize: '12px',
-                            fontWeight: 900,
-                            borderRadius: '6px',
-                            padding: '0.1rem 0.45rem',
-                            letterSpacing: '0.03em'
-                          }}>
-                            {fact.number}
-                          </span>
-                          <h4 style={{
-                            margin: 0,
-                            fontSize: pageIndex === 0 ? '18px' : '20px',
-                            fontWeight: 900,
-                            color: '#1E1B4B',
-                            letterSpacing: '-0.01em',
-                            lineHeight: 1.2
-                          }}>
-                            {fact.title}
-                          </h4>
-                        </div>
-
-                        {/* Audio Speaker Button */}
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleSpeakFact(fact);
-                          }}
-                          title={isCurrentlyPlaying ? 'Pause Audio' : 'Listen to fact'}
-                          style={{
-                            background: isCurrentlyPlaying ? '#173B5F' : '#FFFFFF',
-                            border: '1.5px solid #E2E8F0',
-                            borderRadius: '12px',
-                            padding: '0.38rem 0.8rem',
-                            color: isCurrentlyPlaying ? '#FFFFFF' : '#173B5F',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.3rem',
-                            fontSize: '0.8rem',
-                            fontWeight: 800,
-                            cursor: 'pointer',
-                            boxShadow: isCurrentlyPlaying ? '0 3px 8px rgba(217, 119, 6, 0.3)' : '0 2px 4px rgba(0,0,0,0.03)',
-                            transition: 'all 0.15s ease',
-                            flexShrink: 0
-                          }}
-                        >
-                          {isCurrentlyPlaying ? <VolumeX size={16} /> : <Volume2 size={16} />}
-                          <span>{isCurrentlyPlaying ? 'Speaking' : 'Listen'}</span>
-                        </button>
-                      </div>
-
-                      {/* Fact Content Text with Highlighting */}
-                      <p style={{
-                        margin: 0,
-                        fontSize: pageIndex === 0 ? '17.5px' : '18.5px',
-                        lineHeight: pageIndex === 0 ? '1.55' : '1.65',
-                        color: '#1E293B',
-                        fontWeight: 600
-                      }}>
-                        {renderHighlightedContent(fact.content, fact.title, isCurrentlyPlaying, spokenCharIndex)}
-                      </p>
-                    </div>
-                  );
-                })}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom Completion Action Footer */}
-      <div style={{
-        marginTop: '0.5rem',
-        padding: '0.45rem 0.75rem',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: onBackToQuiz ? 'space-between' : 'flex-end',
-        flexShrink: 0,
-        background: '#FFFFFF',
-        borderTop: '1.5px solid #E2E8F0'
+        justifyContent: 'space-between',
+        padding: '0.65rem 1.4rem',
+        marginBottom: '0.85rem',
+        background: 'rgba(255, 255, 255, 0.95)',
+        border: '1.5px solid #E2E8F0',
+        borderRadius: '24px',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
+        flexShrink: 0
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          {isPlaying && (
-            <button
-              onClick={stop}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.35rem',
-                background: '#FEE2E2',
-                border: '1.5px solid #FCA5A5',
-                color: '#991B1B',
-                borderRadius: '24px',
-                padding: '0.55rem 1.15rem',
-                fontSize: '0.85rem',
-                fontWeight: 800,
-                cursor: 'pointer'
-              }}
-            >
-              <VolumeX size={15} /> Stop Audio
-            </button>
-          )}
-
-          {onBackToQuiz && (
-            <button
-              onClick={onBackToQuiz}
-              style={{
-                background: '#F1F5F9',
-                border: '1.5px solid #CBD5E1',
-                borderRadius: '24px',
-                padding: '0.55rem 1.25rem',
-                fontSize: '0.88rem',
-                fontWeight: 800,
-                color: '#475569',
-                cursor: 'pointer'
-              }}
-            >
-              Review Quiz
-            </button>
-          )}
-        </div>
-
-        <button
-          onClick={onComplete}
-          className="gold-glow-btn"
-          style={{
-            padding: '0.65rem 1.75rem',
-            fontSize: '0.95rem',
-            fontWeight: 900,
-            borderRadius: '24px',
+          <div style={{
+            borderRadius: '14px',
+            background: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)',
+            border: '1.5px solid #FDE68A',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem'
-          }}
-        >
-          <Award size={18} color="#FFFFFF" />
-          <span>Finish Activity</span>
-          <ArrowRight size={16} color="#FFFFFF" />
-        </button>
+            justifyContent: 'center',
+            padding: '8px'
+          }}>
+            <Sparkles size={28} color="#D97706" />
+          </div>
+          <h2 style={{
+            margin: 0,
+            fontSize: '2.1rem',
+            fontWeight: 900,
+            color: '#173B5F',
+            letterSpacing: '-0.02em'
+          }}>
+            Did You Know?
+          </h2>
+        </div>
+
+        {onComplete && (
+          <button
+            onClick={onComplete}
+            className="gold-glow-btn"
+            style={{
+              padding: '0.85rem 2.2rem',
+              fontSize: '1.35rem',
+              borderRadius: '20px',
+              fontWeight: 900,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.65rem'
+            }}
+          >
+            <Award size={24} color="#FFFFFF" />
+            <span>Finish Activity</span>
+            <ArrowRight size={22} color="#FFFFFF" />
+          </button>
+        )}
+      </div>
+
+      {/* Balanced Full-Height Symmetrical 2-Column Grid for Facts 01–05 with 2× Scaled Typography */}
+      <div 
+        className="custom-scrollbar"
+        style={{
+          flex: 1,
+          minHeight: 0,
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '1.25rem',
+          overflowY: 'auto',
+          paddingRight: '0.35rem',
+          boxSizing: 'border-box'
+        }}
+      >
+        {/* LEFT COLUMN: Facts 01 & 02 */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          {factsData.slice(0, 2).map((fact) => {
+            const isActive = activeFactId === fact.id;
+            const isCurrentlyPlaying = isPlaying && isActive;
+
+            return (
+              <div
+                key={fact.id}
+                onClick={() => setActiveFactId(fact.id)}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  border: isActive ? '2.5px solid #173B5F' : '1.5px solid #E2E8F0',
+                  borderRadius: '24px',
+                  boxShadow: isActive ? '0 10px 30px rgba(23, 59, 95, 0.15)' : '0 6px 20px rgba(0, 0, 0, 0.05)',
+                  padding: '1.65rem 1.95rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '1rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  flex: 1
+                }}
+              >
+                {/* Fact Header Row */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '1rem'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                    <span style={{
+                      background: 'rgba(23, 59, 95, 0.1)',
+                      color: '#173B5F',
+                      fontSize: '1.35rem',
+                      fontWeight: 900,
+                      borderRadius: '10px',
+                      padding: '0.25rem 0.75rem',
+                      letterSpacing: '0.04em'
+                    }}>
+                      {fact.number}
+                    </span>
+                    <h3 style={{
+                      margin: 0,
+                      fontSize: '2.05rem',
+                      fontWeight: 900,
+                      color: '#1E1B4B',
+                      letterSpacing: '-0.02em',
+                      lineHeight: 1.25
+                    }}>
+                      {fact.title}
+                    </h3>
+                  </div>
+
+                  {/* Audio Speaker Button with 2× Scaled Typography */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSpeakFact(fact);
+                    }}
+                    title={isCurrentlyPlaying ? 'Pause Audio' : 'Listen to fact'}
+                    style={{
+                      background: isCurrentlyPlaying ? '#173B5F' : '#F1F5F9',
+                      border: '1.5px solid #CBD5E1',
+                      borderRadius: '16px',
+                      padding: '0.65rem 1.35rem',
+                      color: isCurrentlyPlaying ? '#FFFFFF' : '#173B5F',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      fontSize: '1.25rem',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      boxShadow: isCurrentlyPlaying ? '0 4px 14px rgba(23, 59, 95, 0.3)' : '0 2px 6px rgba(0,0,0,0.04)',
+                      transition: 'all 0.18s ease',
+                      flexShrink: 0
+                    }}
+                  >
+                    {isCurrentlyPlaying ? <VolumeX size={22} /> : <Volume2 size={22} />}
+                    <span>{isCurrentlyPlaying ? 'Speaking' : 'Listen'}</span>
+                  </button>
+                </div>
+
+                {/* Explanatory Body Text with 2× Scaled Typography */}
+                <p style={{
+                  margin: 0,
+                  fontSize: '1.55rem',
+                  lineHeight: '1.65',
+                  color: '#1E293B',
+                  fontWeight: 600
+                }}>
+                  {renderHighlightedContent(fact.content, fact.title, isCurrentlyPlaying, spokenCharIndex)}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* RIGHT COLUMN: Facts 03, 04 & 05 */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          {factsData.slice(2, 5).map((fact) => {
+            const isActive = activeFactId === fact.id;
+            const isCurrentlyPlaying = isPlaying && isActive;
+
+            return (
+              <div
+                key={fact.id}
+                onClick={() => setActiveFactId(fact.id)}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  border: isActive ? '2.5px solid #173B5F' : '1.5px solid #E2E8F0',
+                  borderRadius: '24px',
+                  boxShadow: isActive ? '0 10px 30px rgba(23, 59, 95, 0.15)' : '0 6px 20px rgba(0, 0, 0, 0.05)',
+                  padding: '1.55rem 1.95rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.9rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  flex: 1
+                }}
+              >
+                {/* Fact Header Row */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '1rem'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                    <span style={{
+                      background: 'rgba(23, 59, 95, 0.1)',
+                      color: '#173B5F',
+                      fontSize: '1.35rem',
+                      fontWeight: 900,
+                      borderRadius: '10px',
+                      padding: '0.25rem 0.75rem',
+                      letterSpacing: '0.04em'
+                    }}>
+                      {fact.number}
+                    </span>
+                    <h3 style={{
+                      margin: 0,
+                      fontSize: '2.05rem',
+                      fontWeight: 900,
+                      color: '#1E1B4B',
+                      letterSpacing: '-0.02em',
+                      lineHeight: 1.25
+                    }}>
+                      {fact.title}
+                    </h3>
+                  </div>
+
+                  {/* Audio Speaker Button */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSpeakFact(fact);
+                    }}
+                    title={isCurrentlyPlaying ? 'Pause Audio' : 'Listen to fact'}
+                    style={{
+                      background: isCurrentlyPlaying ? '#173B5F' : '#F1F5F9',
+                      border: '1.5px solid #CBD5E1',
+                      borderRadius: '16px',
+                      padding: '0.65rem 1.35rem',
+                      color: isCurrentlyPlaying ? '#FFFFFF' : '#173B5F',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      fontSize: '1.25rem',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      boxShadow: isCurrentlyPlaying ? '0 4px 14px rgba(23, 59, 95, 0.3)' : '0 2px 6px rgba(0,0,0,0.04)',
+                      transition: 'all 0.18s ease',
+                      flexShrink: 0
+                    }}
+                  >
+                    {isCurrentlyPlaying ? <VolumeX size={22} /> : <Volume2 size={22} />}
+                    <span>{isCurrentlyPlaying ? 'Speaking' : 'Listen'}</span>
+                  </button>
+                </div>
+
+                {/* Explanatory Body Text */}
+                <p style={{
+                  margin: 0,
+                  fontSize: '1.55rem',
+                  lineHeight: '1.65',
+                  color: '#1E293B',
+                  fontWeight: 600
+                }}>
+                  {renderHighlightedContent(fact.content, fact.title, isCurrentlyPlaying, spokenCharIndex)}
+                </p>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
