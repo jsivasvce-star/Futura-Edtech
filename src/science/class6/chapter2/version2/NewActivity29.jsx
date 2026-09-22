@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { ArrowRight, ArrowLeft, PlayCircle, Leaf, Clover, Flower2, TreePine } from 'lucide-react';
+import { ArrowRight, ArrowLeft, PlayCircle, Leaf, Clover, Flower2, TreePine, Search, Lightbulb, Brain, Users, Heart, RotateCcw } from 'lucide-react';
 import introVideoSrc from '../../../../assets/activity29_intro.mp4';
+import animalMovementsVideoSrc from '../../../../assets/activity29_animal_movements.mp4';
 import antVideo from '../../../../assets/activity29_ant.mp4';
 import goatVideo from '../../../../assets/activity29_goat.mp4';
 import pigeonVideo from '../../../../assets/activity29_pigeon.mp4';
@@ -26,14 +27,7 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
   const [videoEnded, setVideoEnded] = useState(false);
   const [selectedAnimal, setSelectedAnimal] = useState(ANIMAL_DATA[0]);
 
-  if (page === 3) {
-    return (
-      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#0f172a', color: '#fff' }}>
-        <h2>Page 3 (Coming Soon)</h2>
-        <button onClick={() => setPage(2)} style={{ padding: '10px 20px', fontSize: '18px', cursor: 'pointer' }}>Back to Page 2</button>
-      </div>
-    );
-  }
+
 
   return (
     <div style={{
@@ -376,6 +370,194 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
             </button>
           </div>
         </div>
+      )}
+
+      {/* PAGE 3 */}
+      {page === 3 && (
+        <>
+          <video 
+            src={animalMovementsVideoSrc}
+            autoPlay 
+            loop
+            muted
+            controls={false}
+            style={{ 
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              zIndex: 1
+            }}
+          />
+          <div style={{
+            position: 'absolute',
+            zIndex: 3,
+            width: '100%',
+            height: '100%',
+            top: 0,
+            left: 0,
+            pointerEvents: 'none',
+          }}>
+            {/* 1. TOP-LEFT */}
+            <div style={{
+              position: 'absolute', top: '10px', left: '10px',
+              display: 'flex', flexDirection: 'column', gap: '0px',
+              alignItems: 'center', pointerEvents: 'auto',
+              transform: 'rotate(-8deg)'
+            }}>
+              {/* Main Board */}
+              <div style={{
+                background: '#d4a373',
+                backgroundImage: 'linear-gradient(90deg, #d4a373, #e6ccb2, #d4a373)',
+                border: '2px solid #8b5a2b',
+                borderRadius: '8px 12px 10px 8px',
+                padding: '10px 20px',
+                boxShadow: '4px 6px 12px rgba(0,0,0,0.4)',
+                position: 'relative',
+                color: '#3e2723',
+                textAlign: 'center'
+              }}>
+                {/* Ropes */}
+                <div style={{ position: 'absolute', top: '-18px', left: '20%', width: '4px', height: '18px', background: '#5d4037', borderRadius: '2px' }} />
+                <div style={{ position: 'absolute', top: '-18px', right: '20%', width: '4px', height: '18px', background: '#5d4037', borderRadius: '2px' }} />
+                
+                <div style={{ position: 'absolute', bottom: '-10px', left: '-5px', background: '#22c55e', borderRadius: '50%', padding: '4px', transform: 'rotate(-15deg)', border: '2px solid #166534' }}>
+                  <Leaf size={18} color="#fff" />
+                </div>
+
+                <h2 style={{ margin: 0, fontSize: '20px', fontWeight: '900', fontFamily: '"Fraunces", Georgia, serif', letterSpacing: '1px' }}>Activity 2.9</h2>
+                <h3 style={{ margin: '2px 0 0 0', fontSize: '14px', fontWeight: '700' }}>Observe Animal Movements</h3>
+              </div>
+              {/* Bottom small plank */}
+              <div style={{
+                background: '#d4a373',
+                backgroundImage: 'linear-gradient(90deg, #d4a373, #e6ccb2, #d4a373)',
+                border: '2px solid #8b5a2b',
+                borderRadius: '4px 6px 4px 6px',
+                padding: '4px 12px',
+                boxShadow: '2px 4px 8px rgba(0,0,0,0.3)',
+                color: '#3e2723',
+                fontSize: '11px',
+                fontWeight: '800',
+                position: 'relative',
+                marginTop: '-4px', // tuck under
+                zIndex: -1
+              }}>
+                Nature is always on the move!
+              </div>
+            </div>
+
+
+
+            {/* 3. TOP-RIGHT */}
+            <div style={{
+              position: 'absolute', top: '20px', right: '30px',
+              background: '#d4a373',
+              backgroundImage: 'linear-gradient(135deg, #e6ccb2, #d4a373)',
+              border: '2px solid #8b5a2b',
+              borderRadius: '10px 14px 12px 10px',
+              padding: '16px 24px',
+              boxShadow: '4px 6px 12px rgba(0,0,0,0.4)',
+              transform: 'rotate(3deg)',
+              maxWidth: '220px',
+              textAlign: 'center',
+              pointerEvents: 'auto',
+              color: '#3e2723'
+            }}>
+              <div style={{ position: 'absolute', top: '8px', left: '50%', transform: 'translateX(-50%)', width: '8px', height: '8px', background: '#3e2723', borderRadius: '50%' }} />
+              <p style={{ margin: '8px 0 0 0', fontSize: '18px', fontWeight: '800', lineHeight: '1.3', fontFamily: '"Fraunces", Georgia, serif' }}>
+                Different<br/>animals move<br/>differently.<br/>Let's explore!
+              </p>
+              <div style={{ position: 'absolute', bottom: '-15px', right: '-10px', background: '#22c55e', borderRadius: '50%', padding: '4px', transform: 'rotate(20deg)', border: '2px solid #166534' }}>
+                <Leaf size={20} color="#fff" />
+              </div>
+            </div>
+
+            {/* 4. BOTTOM-LEFT */}
+            <div style={{
+              position: 'absolute', bottom: '10px', left: '10px',
+              background: '#fefcf5', // Cream paper
+              border: '2px solid #d4a373',
+              borderRadius: '4px 16px 16px 4px',
+              padding: '12px 16px 12px 32px', // Extra left padding for holes
+              boxShadow: '2px 8px 20px rgba(0,0,0,0.3)',
+              maxWidth: '240px',
+              pointerEvents: 'auto',
+              transform: 'rotate(-2deg)'
+            }}>
+              {/* Notebook binding holes */}
+              <div style={{ position: 'absolute', left: '12px', top: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#3e2723', boxShadow: 'inset 1px 1px 3px rgba(0,0,0,0.5)' }} />
+                ))}
+              </div>
+              {/* Red line */}
+              <div style={{ position: 'absolute', left: '26px', top: '0', bottom: '0', width: '2px', background: 'rgba(220, 38, 38, 0.3)' }} />
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px', position: 'relative', zIndex: 2 }}>
+                <Lightbulb size={20} color="#d97706" />
+                <h3 style={{ margin: 0, fontSize: '18px', color: '#1e293b', fontWeight: '900', fontFamily: '"Fraunces", serif' }}>Think!</h3>
+              </div>
+              <ul style={{ margin: 0, paddingLeft: '16px', color: '#334155', fontSize: '13px', lineHeight: '1.3', fontWeight: '700', position: 'relative', zIndex: 2 }}>
+                <li style={{ marginBottom: '6px' }}>Why do animals move differently?</li>
+                <li>How does their surrounding help them?</li>
+              </ul>
+            </div>
+
+            {/* 5. BOTTOM-RIGHT (Instruction + Next) */}
+            <div style={{
+              position: 'absolute', bottom: '10px', right: '15px',
+              display: 'flex', alignItems: 'center', gap: '16px',
+              pointerEvents: 'auto'
+            }}>
+              {/* Instruction Card */}
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.75)', backdropFilter: 'blur(10px)',
+                borderRadius: '20px', padding: '16px 24px',
+                display: 'flex', alignItems: 'center', gap: '16px',
+                boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                border: '2px solid rgba(255,255,255,0.6)',
+                maxWidth: '480px', width: 'max-content'
+              }}>
+                <div style={{ background: '#3b82f6', padding: '12px', borderRadius: '14px', color: '#fff', flexShrink: 0 }}>
+                  <Search size={32} />
+                </div>
+                <div>
+                  <h3 style={{ margin: '0 0 6px 0', fontSize: '20px', color: '#1e3a8a', fontWeight: '900' }}>Look around and think!</h3>
+                  <p style={{ margin: 0, fontSize: '16px', color: '#334155', lineHeight: '1.35', fontWeight: '600' }}>
+                    Animals move in different ways. Drag each animal to the correct place based on how it moves.
+                  </p>
+                </div>
+              </div>
+
+              {/* Next Button */}
+              <button 
+                onClick={() => setPage(4)}
+                style={{
+                  background: '#065f46',
+                  color: '#fff',
+                  border: '2px solid #34d399',
+                  borderRadius: '30px',
+                  padding: '12px 24px',
+                  fontSize: '16px',
+                  fontWeight: '800',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
+                  transition: 'transform 0.2s',
+                }}
+              >
+                Next <ArrowRight size={18} />
+              </button>
+            </div>
+
+          </div>
+        </>
       )}
 
       <style>{`
