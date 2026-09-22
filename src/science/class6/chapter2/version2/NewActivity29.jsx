@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, ArrowLeft, PlayCircle, Leaf, Clover, Flower2, TreePine, Search, Lightbulb, Brain, Users, Heart, RotateCcw } from 'lucide-react';
+import { ArrowRight, ArrowLeft, PlayCircle, Leaf, Clover, Flower2, TreePine, Search, Lightbulb, Brain, Users, Heart, RotateCcw, Cloud, Zap, Footprints, Waves, CheckCircle2 } from 'lucide-react';
 import introVideoSrc from '../../../../assets/activity29_intro.mp4';
 import animalMovementsVideoSrc from '../../../../assets/activity29_animal_movements.mp4';
 import antVideo from '../../../../assets/activity29_ant.mp4';
@@ -14,6 +14,13 @@ import pigeonImg from '../../../../assets/activity29/pigeon_thumbnail_1789987956
 import houseflyImg from '../../../../assets/activity29/housefly_thumbnail_1789987971650.jpg';
 import fishImg from '../../../../assets/activity29/fish_thumbnail_1789987984685.jpg';
 
+import birdImg from '../../../../assets/activity29/bird_thumbnail.jpg';
+import monkeyImg from '../../../../assets/activity29/monkey_thumbnail.jpg';
+import rabbitImg from '../../../../assets/activity29/rabbit_thumbnail.jpg';
+import cheetahImg from '../../../../assets/activity29/cheetah_thumbnail.jpg';
+import frogImg from '../../../../assets/activity29/frog_thumbnail.jpg';
+import page4Bg from '../../../../assets/activity29_page4_bg.jpg';
+
 const ANIMAL_DATA = [
   { id: 'ant', image: antImg, name: 'Ant', moveType: 'Walks', bodyPart: 'Legs', videoSrc: antVideo, explanation: "Ants have six strong legs equipped with tiny claws, allowing them to walk smoothly even on walls and ceilings!" },
   { id: 'goat', image: goatImg, name: 'Goat', moveType: 'Walks and jumps', bodyPart: 'Legs', videoSrc: goatVideo, explanation: "Goats use their four muscular legs to walk, run, and expertly jump across rocky terrains." },
@@ -22,14 +29,63 @@ const ANIMAL_DATA = [
   { id: 'fish', image: fishImg, name: 'Fish', moveType: 'Swims', bodyPart: 'Fins', videoSrc: fishVideo, explanation: "Fish glide effortlessly through water using their fins to steer and their tail to propel themselves forward." }
 ];
 
+const PAGE4_ANIMALS = [
+  { id: 'fish', image: fishImg, name: 'Fish', targetZone: 'swims' },
+  { id: 'bird', image: birdImg, name: 'Bird', targetZone: 'flies' },
+  { id: 'monkey', image: monkeyImg, name: 'Monkey', targetZone: 'climbs' },
+  { id: 'rabbit', image: rabbitImg, name: 'Rabbit', targetZone: 'hops' },
+  { id: 'cheetah', image: cheetahImg, name: 'Cheetah', targetZone: 'runs' },
+  { id: 'frog', image: frogImg, name: 'Frog', targetZone: 'hops' }
+];
+
 export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
   const [page, setPage] = useState(1);
   const [videoEnded, setVideoEnded] = useState(false);
   const [selectedAnimal, setSelectedAnimal] = useState(ANIMAL_DATA[0]);
 
+  // --- Page 4 Drag and Drop State ---
+  const [availableAnimals, setAvailableAnimals] = useState(PAGE4_ANIMALS);
+  const [droppedAnimals, setDroppedAnimals] = useState({
+    climbs: [],
+    flies: [],
+    runs: [],
+    hops: [],
+    swims: []
+  });
+  const [isAnswersChecked, setIsAnswersChecked] = useState(false);
 
+  const handleDragStart = (e, animal) => {
+    e.dataTransfer.setData('animalId', animal.id);
+  };
 
-  return (
+  const handleDrop = (e, zoneId) => {
+    e.preventDefault();
+    if (isAnswersChecked) return;
+    const animalId = e.dataTransfer.getData('animalId');
+    const animal = availableAnimals.find(a => a.id === animalId);
+    
+    if (animal) {
+      setAvailableAnimals(prev => prev.filter(a => a.id !== animalId));
+      setDroppedAnimals(prev => ({
+        ...prev,
+        [zoneId]: [...prev[zoneId], animal]
+      }));
+    }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const resetActivity = () => {
+    setAvailableAnimals(PAGE4_ANIMALS);
+    setDroppedAnimals({ climbs: [], flies: [], runs: [], hops: [], swims: [] });
+    setIsAnswersChecked(false);
+  };
+
+  const checkAnswers = () => {
+    setIsAnswersChecked(true);
+  };  return (
     <div style={{
       position: 'relative',
       width: '100%',
@@ -559,6 +615,282 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
           </div>
         </>
       )}
+
+      {/* ------------------------------------------------------------- */}
+      {/* PAGE 4: Nature Landscape (Interactive Area Placeholder)       */}
+      {/* ------------------------------------------------------------- */}
+      {page === 4 && (
+        <>
+          {/* Background Image */}
+          <div style={{
+            position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+            backgroundImage: `url(${page4Bg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            zIndex: 0
+          }} />
+
+          {/* UI Overlay Container */}
+          <div style={{
+            position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+            zIndex: 10, pointerEvents: 'none', display: 'flex', flexDirection: 'column'
+          }}>
+            {/* TOP BAR */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '15px 20px', pointerEvents: 'none' }}>
+              {/* TOP-LEFT TITLE */}
+              <div style={{
+                display: 'flex', flexDirection: 'column', gap: '0px',
+                alignItems: 'center', pointerEvents: 'auto',
+                transform: 'rotate(-4deg)'
+              }}>
+                <div style={{
+                  background: '#d4a373', backgroundImage: 'linear-gradient(90deg, #d4a373, #e6ccb2, #d4a373)',
+                  border: '2px solid #8b5a2b', borderRadius: '8px 12px 10px 8px',
+                  padding: '10px 20px', boxShadow: '4px 6px 12px rgba(0,0,0,0.4)',
+                  position: 'relative', color: '#3e2723', textAlign: 'center'
+                }}>
+                  <div style={{ position: 'absolute', top: '-18px', left: '20%', width: '4px', height: '18px', background: '#5d4037', borderRadius: '2px' }} />
+                  <div style={{ position: 'absolute', top: '-18px', right: '20%', width: '4px', height: '18px', background: '#5d4037', borderRadius: '2px' }} />
+                  <h2 style={{ margin: 0, fontSize: '20px', fontWeight: '900', fontFamily: '"Fraunces", Georgia, serif', letterSpacing: '1px' }}>Activity 2.9</h2>
+                  <h3 style={{ margin: '2px 0 0 0', fontSize: '14px', fontWeight: '700' }}>How Do They Move?</h3>
+                </div>
+              </div>
+            </div>
+
+            {/* MAIN CONTENT */}
+            <div style={{ flex: 1, position: 'relative', pointerEvents: 'none' }}>
+
+              {/* DROP ZONES (Absolutely Positioned) */}
+              <div style={{
+                position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+                pointerEvents: 'none'
+              }}>
+                {[
+                  { id: 'swims', label: 'Swims', icon: <Waves size={20} color="#0284c7" />, color: '#e0f2fe', border: '#7dd3fc', pos: { top: '65%', left: '58%' } },
+                  { id: 'flies', label: 'Flies', icon: <Cloud size={20} color="#6366f1" />, color: '#e0e7ff', border: '#a5b4fc', pos: { top: '8%', left: '52%' } },
+                  { id: 'climbs', label: 'Climbs', icon: <TreePine size={20} color="#16a34a" />, color: '#dcfce7', border: '#86efac', pos: { top: '15%', left: '12%' } },
+                  { id: 'runs', label: 'Runs', icon: <Zap size={20} color="#ea580c" />, color: '#ffedd5', border: '#fdba74', pos: { top: '35%', left: '42%' } },
+                  { id: 'hops', label: 'Hops', icon: <Footprints size={20} color="#d946ef" />, color: '#fae8ff', border: '#f0abfc', pos: { top: '55%', left: '15%' } }
+                ].map(zone => (
+                  <div 
+                    key={zone.id}
+                    onDrop={(e) => handleDrop(e, zone.id)}
+                    onDragOver={handleDragOver}
+                    style={{
+                      position: 'absolute',
+                      top: zone.pos.top,
+                      left: zone.pos.left,
+                      pointerEvents: 'auto',
+                      width: zone.id === 'hops' ? '300px' : '150px',
+                      height: '160px',
+                      background: 'rgba(255,255,255,0.85)',
+                      backdropFilter: 'blur(4px)',
+                      border: `3px dashed ${zone.border}`,
+                      borderRadius: '12px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      padding: '10px',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                      transition: 'all 0.2s',
+                    }}
+                  >
+                    <div style={{ 
+                      background: zone.color, padding: '4px 12px', borderRadius: '20px', 
+                      display: 'flex', alignItems: 'center', gap: '6px', fontWeight: '800', 
+                      color: '#334155', marginBottom: '10px', border: `1px solid ${zone.border}`
+                    }}>
+                      {zone.icon} {zone.label}
+                    </div>
+                    <div style={{ 
+                      display: 'flex', gap: '10px', flex: 1, 
+                      alignItems: 'center', justifyContent: 'center', 
+                      width: '100%', overflow: 'hidden', padding: '5px' 
+                    }}>
+                      {droppedAnimals[zone.id].map(animal => (
+                        <div key={animal.id} style={{ 
+                          position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' 
+                        }}>
+                          <img 
+                            src={animal.image} 
+                            alt={animal.name} 
+                            style={{ 
+                              width: '60px', height: '60px', objectFit: 'cover', 
+                              borderRadius: '50%', border: '3px solid white', 
+                              boxShadow: '0 4px 8px rgba(0,0,0,0.2)' 
+                            }}
+                          />
+                          <span style={{ fontSize: '12px', fontWeight: '700', color: '#334155', marginTop: '4px' }}>
+                            {animal.name}
+                          </span>
+                          {isAnswersChecked && (
+                            <div style={{ position: 'absolute', top: -5, right: -5, background: 'white', borderRadius: '50%' }}>
+                              {animal.targetZone === zone.id ? 
+                                <CheckCircle2 size={20} color="#16a34a" /> : 
+                                <RotateCcw size={20} color="#ef4444" />
+                              }
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                      {droppedAnimals[zone.id].length === 0 && (
+                        <div style={{ color: '#94a3b8', fontSize: '14px', fontWeight: '600', textAlign: 'center' }}>
+                          Drop here
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* RIGHT SIDE CONTAINER */}
+              <div style={{ 
+                position: 'absolute', top: '20px', right: '20px', display: 'flex', flexDirection: 'column', 
+                gap: '12px', alignItems: 'center', pointerEvents: 'none', zIndex: 20
+              }}>
+
+                {/* ANIMALS TO DRAG PANEL (Right) */}
+                <div style={{
+                  width: '280px', height: 'fit-content',
+                  background: 'rgba(20, 50, 20, 0.9)', backdropFilter: 'blur(8px)',
+                  borderRadius: '16px', border: '2px solid rgba(255,255,255,0.2)',
+                  padding: '15px', pointerEvents: 'auto', display: 'flex', flexDirection: 'column',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.3)'
+                }}>
+                  <h3 style={{ margin: '0 0 15px 0', color: 'white', fontSize: '18px', textAlign: 'center', fontWeight: '800', borderBottom: '1px solid rgba(255,255,255,0.2)', paddingBottom: '10px' }}>
+                  Animals to drag
+                </h3>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  {availableAnimals.map(animal => (
+                    <div 
+                      key={animal.id}
+                      draggable={!isAnswersChecked}
+                      onDragStart={(e) => handleDragStart(e, animal)}
+                      style={{
+                        background: 'white', borderRadius: '12px', padding: '8px',
+                        display: 'flex', flexDirection: 'column', alignItems: 'center',
+                        cursor: isAnswersChecked ? 'default' : 'grab',
+                        boxShadow: '0 4px 8px rgba(0,0,0,0.15)',
+                        transition: 'transform 0.2s',
+                      }}
+                    >
+                      <img 
+                        src={animal.image} 
+                        alt={animal.name} 
+                        style={{ width: '70px', height: '70px', objectFit: 'cover', borderRadius: '50%', marginBottom: '6px', border: '2px solid #e2e8f0' }}
+                        draggable="false"
+                      />
+                      <span style={{ fontSize: '14px', fontWeight: '700', color: '#334155' }}>{animal.name}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                {/* NEW THINK SECTION IN PANEL */}
+                <div style={{
+                  marginTop: '15px', paddingTop: '15px', borderTop: '1px solid rgba(255,255,255,0.2)',
+                  background: '#fef3c7', borderRadius: '8px', padding: '12px',
+                  boxShadow: 'inset 0 0 10px rgba(0,0,0,0.05)', position: 'relative'
+                }}>
+                  <div style={{ position: 'absolute', top: 0, bottom: 0, left: '12px', width: '2px', background: '#f87171', opacity: 0.5 }} />
+                  <h4 style={{ margin: '0 0 6px 10px', fontSize: '16px', fontWeight: '800', color: '#92400e', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    💡 Think!
+                  </h4>
+                  <p style={{ margin: '0 0 0 10px', fontSize: '13px', color: '#78350f', fontWeight: '600', lineHeight: 1.4 }}>
+                    Drag the animals to match how they move. Some zones might have more than one animal.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+            {/* Back Button (Bottom Left) */}
+            <div style={{ 
+              position: 'absolute', left: '24px', bottom: '24px', top: 'unset', right: 'unset',
+              margin: 0, transform: 'none', pointerEvents: 'auto', zIndex: 30 
+            }}>
+              <button 
+                onClick={() => setPage(3)}
+                style={{
+                  background: 'rgba(255,255,255,0.9)', color: '#334155',
+                  border: '2px solid rgba(0,0,0,0.1)', borderRadius: '30px',
+                  padding: '10px 20px', fontSize: '15px', fontWeight: '700',
+                  display: 'flex', alignItems: 'center', gap: '6px',
+                  cursor: 'pointer', boxShadow: '0 4px 10px rgba(0,0,0,0.1)'
+                }}
+              >
+                <ArrowLeft size={18} /> Back
+              </button>
+            </div>
+
+            {/* Center Navigation Pill */}
+            <div style={{
+              position: 'absolute', bottom: '24px', left: '50%', transform: 'translateX(-50%)',
+              display: 'flex', gap: '16px', alignItems: 'center',
+              background: 'rgba(20, 60, 30, 0.9)', backdropFilter: 'blur(8px)',
+              padding: '12px 30px', borderRadius: '40px', border: '2px solid rgba(255,255,255,0.2)',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.3)', pointerEvents: 'auto', zIndex: 30
+            }}>
+              <span style={{ color: 'white', fontWeight: '700', fontSize: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Leaf size={16} color="#86efac" /> Observe
+              </span>
+              <span style={{ color: '#86efac', fontWeight: '800' }}>|</span>
+              <span style={{ color: 'white', fontWeight: '700', fontSize: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Brain size={16} color="#86efac" /> Think
+              </span>
+              <span style={{ color: '#86efac', fontWeight: '800' }}>|</span>
+              <span style={{ color: 'white', fontWeight: '700', fontSize: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Leaf size={16} color="#86efac" /> Learn
+              </span>
+              <span style={{ color: '#86efac', fontWeight: '800' }}>|</span>
+              <span style={{ color: 'white', fontWeight: '700', fontSize: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Flower2 size={16} color="#86efac" /> Appreciate Nature
+              </span>
+            </div>
+
+
+
+            {/* Action Buttons (Bottom Right) */}
+            <div style={{ 
+              position: 'absolute', right: '24px', bottom: '24px', top: 'unset', left: 'unset',
+              margin: 0, transform: 'none', pointerEvents: 'auto', zIndex: 30,
+              display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '16px'
+            }}>
+              <button 
+                onClick={resetActivity}
+                style={{
+                  background: 'white', color: '#ef4444',
+                  border: '2px solid #ef4444', borderRadius: '30px',
+                  padding: '12px 24px', fontSize: '16px', fontWeight: '800',
+                  display: 'flex', alignItems: 'center', gap: '8px',
+                  cursor: 'pointer', boxShadow: '0 4px 15px rgba(239,68,68,0.2)',
+                  transition: 'transform 0.2s', margin: 0
+                }}
+              >
+                <RotateCcw size={20} /> Reset
+              </button>
+              
+              <button 
+                onClick={checkAnswers}
+                style={{
+                  background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', color: 'white',
+                  border: 'none', borderRadius: '30px',
+                  padding: '12px 24px', fontSize: '16px', fontWeight: '800',
+                  display: 'flex', alignItems: 'center', gap: '8px',
+                  cursor: 'pointer', boxShadow: '0 4px 15px rgba(16,185,129,0.4)',
+                  transition: 'transform 0.2s', margin: 0
+                }}
+              >
+                <CheckCircle2 size={20} /> Check My Answers
+              </button>
+            </div>
+
+          </div>
+        </>
+      )}
+
 
       <style>{`
         @keyframes fadeIn {
