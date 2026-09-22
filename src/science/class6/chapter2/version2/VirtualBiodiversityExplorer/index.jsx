@@ -1,6 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { X, RefreshCw, Volume2, VolumeX, CheckCircle, ChevronRight, ChevronLeft, Award, ArrowLeft, BookOpen, Target, Eye, EyeOff, ArrowRight, Sprout, Leaf, Flower2, Sparkles, Footprints, Lightbulb, Maximize2, Minimize2, ZoomIn, ZoomOut } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import useWordSyncAudio from '../narration/useWordSyncAudio';
+import NarratedWords from '../narration/NarratedWords';
+import herbsNarrationAudio from '../narration/audio/14_TenderGreenHerbs.mp3';
+import herbsNarrationData from '../narration/herbsNarration.json';
+import shrubsNarrationAudio from '../narration/audio/15_BushyWoodyShrubs.mp3';
+import shrubsNarrationData from '../narration/shrubsNarration.json';
+import treesNarrationAudio from '../narration/audio/16_ToweringWoodyTrees.mp3';
+import treesNarrationData from '../narration/treesNarration.json';
+import { Play, Pause } from 'lucide-react';
 import activityPlantsImage from '../../../../../assets/2.1_plant.png';
 import activityAnimalsImage from '../DiversityInTheLivingWorldNew/images/ch2_activity_2.1_animals_8k.jpg';
 import natureForestAudio from '../../../../../assets/nature_forest_sound.mp3';
@@ -966,70 +975,40 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
   const [polaroidSnap, setPolaroidSnap] = useState(null);
   const [discoveryStarToast, setDiscoveryStarToast] = useState(null);
   const [showHerbsPopup, setShowHerbsPopup] = useState(false);
-  const [isHerbsSpeaking, setIsHerbsSpeaking] = useState(false);
-
-  const toggleHerbsSpeech = () => {
-    if ('speechSynthesis' in window) {
-      if (isHerbsSpeaking) {
-        window.speechSynthesis.cancel();
-        setIsHerbsSpeaking(false);
-      } else {
-        window.speechSynthesis.cancel();
-        const text = "Herbs and tender green stem plants. Herbs are short plants with soft, tender, and flexible green stems that bend easily in the wind without snapping. They usually do not have woody stems and produce branches close to the ground. Herbs have a short life cycle, completing their growth within one or two seasons. Examples in NCERT include Tulsi, mint, tomato, wheat, and grass.";
-        const utter = new SpeechSynthesisUtterance(text);
-        utter.rate = 0.88;
-        utter.pitch = 1.0;
-        utter.onend = () => setIsHerbsSpeaking(false);
-        utter.onerror = () => setIsHerbsSpeaking(false);
-        setIsHerbsSpeaking(true);
-        window.speechSynthesis.speak(utter);
-      }
-    }
-  };
+  // Real narration audio + word-level highlight sync for the Herbs popup
+  const {
+    isPlaying: isHerbsSpeaking,
+    activeWordIndex: herbsActiveWordIndex,
+    pause: pauseHerbsNarration,
+    toggle: toggleHerbsSpeech,
+  } = useWordSyncAudio(herbsNarrationAudio, herbsNarrationData.herbs.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
 
   const [showShrubsPopup, setShowShrubsPopup] = useState(false);
-  const [isShrubsSpeaking, setIsShrubsSpeaking] = useState(false);
-
-  const toggleShrubsSpeech = () => {
-    if ('speechSynthesis' in window) {
-      if (isShrubsSpeaking) {
-        window.speechSynthesis.cancel();
-        setIsShrubsSpeaking(false);
-      } else {
-        window.speechSynthesis.cancel();
-        const text = "Bushy Woody Shrubs. Hard, Woody Stems: Shrubs have hard, woody stems that are relatively thin. Branches Near the Ground: Many branches grow near the base, giving the plant a bushy appearance. Medium Height: Shrubs are generally shorter than trees. Examples: Rose, hibiscus, and mehndi. Think: What gives shrubs their bushy appearance?";
-        const utter = new SpeechSynthesisUtterance(text);
-        utter.rate = 0.88;
-        utter.pitch = 1.0;
-        utter.onend = () => setIsShrubsSpeaking(false);
-        utter.onerror = () => setIsShrubsSpeaking(false);
-        setIsShrubsSpeaking(true);
-        window.speechSynthesis.speak(utter);
-      }
-    }
-  };
+  // Real narration audio + word-level highlight sync for the Shrubs popup
+  const {
+    isPlaying: isShrubsSpeaking,
+    activeWordIndex: shrubsActiveWordIndex,
+    pause: pauseShrubsNarration,
+    toggle: toggleShrubsSpeech,
+  } = useWordSyncAudio(shrubsNarrationAudio, shrubsNarrationData.shrubs.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
 
   const [showTreesPopup, setShowTreesPopup] = useState(false);
-  const [isTreesSpeaking, setIsTreesSpeaking] = useState(false);
-
-  const toggleTreesSpeech = () => {
-    if ('speechSynthesis' in window) {
-      if (isTreesSpeaking) {
-        window.speechSynthesis.cancel();
-        setIsTreesSpeaking(false);
-      } else {
-        window.speechSynthesis.cancel();
-        const text = "Towering Woody Trees. Thick, Woody Trunk: Trees usually have one thick, hard, woody trunk that supports the plant. Bark protects the trunk. Branches and Canopy: Branches usually grow higher up the trunk. The branches and leaves form a leafy cover called the canopy. Height and Lifespan: Trees grow tall, and many live for decades. Examples: Banyan, peepal, neem, mango. Think: Which features help you recognise a tree?";
-        const utter = new SpeechSynthesisUtterance(text);
-        utter.rate = 0.88;
-        utter.pitch = 1.0;
-        utter.onend = () => setIsTreesSpeaking(false);
-        utter.onerror = () => setIsTreesSpeaking(false);
-        setIsTreesSpeaking(true);
-        window.speechSynthesis.speak(utter);
-      }
-    }
-  };
+  // Real narration audio + word-level highlight sync for the Trees popup
+  const {
+    isPlaying: isTreesSpeaking,
+    activeWordIndex: treesActiveWordIndex,
+    pause: pauseTreesNarration,
+    toggle: toggleTreesSpeech,
+  } = useWordSyncAudio(treesNarrationAudio, treesNarrationData.trees.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
 
   const [showCrawlerPopup, setShowCrawlerPopup] = useState(false);
   const [isCrawlerSpeaking, setIsCrawlerSpeaking] = useState(false);
@@ -2106,6 +2085,37 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 }}
               />
 
+              {/* Top Center Title: Activity 2.1 (Attractive Golden Banner, matches Habitats page) */}
+              <div style={{
+                position: 'absolute',
+                top: '16px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 35,
+                pointerEvents: 'none',
+                textAlign: 'center',
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                border: '2px solid rgba(254, 240, 138, 0.85)',
+                borderRadius: '12px',
+                padding: '7px 28px',
+                whiteSpace: 'nowrap',
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
+              }}>
+                <h1 style={{
+                  margin: 0,
+                  fontSize: '24px',
+                  fontWeight: 900,
+                  fontFamily: '"Cinzel", Georgia, serif',
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                  color: '#FFFFFF',
+                  lineHeight: 1.15,
+                  textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+                }}>
+                  Activity 2.1: Let us explore and record
+                </h1>
+              </div>
+
               {/* Slogan Page Style: 60% Translucent Dark Emerald Glossy Forest Panel */}
               {showHerbsPopup ? (
                 <div style={{
@@ -2115,8 +2125,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   width: 'min(465px, calc(100vw - 40px))',
                   maxHeight: 'calc(100% - 85px)',
                   background: 'transparent',
-                  backdropFilter: 'blur(2px)',
-                  WebkitBackdropFilter: 'blur(2px)',
+                  backdropFilter: 'blur(4px)',
+                  WebkitBackdropFilter: 'blur(4px)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
                   borderRadius: '24px',
@@ -2179,10 +2189,59 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       </span>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        {/* Play / Pause Narration Button */}
+                        <button
+                          type="button"
+                          onClick={toggleHerbsSpeech}
+                          aria-label={isHerbsSpeaking ? 'Pause Narration' : 'Play Narration'}
+                          title={isHerbsSpeaking ? 'Pause Narration' : 'Play Narration'}
+                          style={{
+                            background: isHerbsSpeaking
+                              ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                              : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
+                            border: '1.5px solid #34D399',
+                            boxShadow: isHerbsSpeaking
+                              ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                              : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
+                            borderRadius: '18px',
+                            padding: '5px 12px',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            color: '#FFFFFF',
+                            fontWeight: 800,
+                            fontSize: '12px',
+                            fontFamily: '"Outfit", sans-serif',
+                            cursor: 'pointer',
+                            flexShrink: 0,
+                            transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'scale(1.05)';
+                            e.currentTarget.style.borderColor = '#6EE7B7';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'scale(1)';
+                            e.currentTarget.style.borderColor = '#34D399';
+                          }}
+                        >
+                          {isHerbsSpeaking ? (
+                            <>
+                              <Pause size={13} fill="#FFFFFF" />
+                              <span>Pause</span>
+                            </>
+                          ) : (
+                            <>
+                              <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                              <span>Play</span>
+                            </>
+                          )}
+                        </button>
+
                         {/* Close popup button */}
                         <button
                           type="button"
-                          onClick={() => setShowHerbsPopup(false)}
+                          onClick={() => { pauseHerbsNarration(); setShowHerbsPopup(false); }}
                           aria-label="Close popup and view full scenery"
                           title="View full scenery photo"
                           style={{
@@ -2272,7 +2331,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Herbs have soft, green, flexible stems that are not woody.
+                          <NarratedWords
+                            words={herbsNarrationData.herbs.words.slice(0, 10)}
+                            activeIndex={herbsActiveWordIndex}
+                            baseIndex={0}
+                            activeStyle={{ color: '#34D399', textShadow: '0 0 10px rgba(52, 211, 153, 0.9), 0 1px 3px #000000' }}
+                          />
                         </div>
                       </div>
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
@@ -2301,7 +2365,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Many herbs are small plants, though some grow taller.
+                          <NarratedWords
+                            words={herbsNarrationData.herbs.words.slice(10, 19)}
+                            activeIndex={herbsActiveWordIndex}
+                            baseIndex={10}
+                            activeStyle={{ color: '#FCD34D', textShadow: '0 0 10px rgba(252, 211, 77, 0.9), 0 1px 3px #000000' }}
+                          />
                         </div>
                       </div>
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
@@ -2330,7 +2399,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Some live for one or two growing seasons. Others, such as mint, live for several years.
+                          <NarratedWords
+                            words={herbsNarrationData.herbs.words.slice(19, 35)}
+                            activeIndex={herbsActiveWordIndex}
+                            baseIndex={19}
+                            activeStyle={{ color: '#93C5FD', textShadow: '0 0 10px rgba(147, 197, 253, 0.9), 0 1px 3px #000000' }}
+                          />
                         </div>
                       </div>
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
@@ -2359,7 +2433,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Mint, tomato, wheat, and grass.
+                          <NarratedWords
+                            words={herbsNarrationData.herbs.words.slice(35, 40)}
+                            activeIndex={herbsActiveWordIndex}
+                            baseIndex={35}
+                            activeStyle={{ color: '#C4B5FD', textShadow: '0 0 10px rgba(196, 181, 253, 0.9), 0 1px 3px #000000' }}
+                          />
                         </div>
                       </div>
 
@@ -2387,7 +2466,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         }}>
                           <span>Think: </span>
                           <span style={{ fontWeight: 500, color: '#FFFFFF' }}>
-                            How is a herb’s stem different from a tree’s trunk?
+                            <NarratedWords
+                              words={herbsNarrationData.herbs.words.slice(40, 50)}
+                              activeIndex={herbsActiveWordIndex}
+                              baseIndex={40}
+                              activeStyle={{ color: '#FDE047', textShadow: '0 0 10px rgba(253, 224, 71, 0.9), 0 1px 3px #000000' }}
+                            />
                           </span>
                         </div>
                       </div>
@@ -2395,33 +2479,44 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   </div>
                 </div>
               ) : (
-                /* Re-open Button if closed */
-                <div style={{ position: 'absolute', top: '18px', right: '70px', zIndex: 35 }}>
-                  <button
-                    type="button"
-                    onClick={() => setShowHerbsPopup(true)}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      padding: '8px 18px',
-                      borderRadius: '12px',
-                      fontSize: '16px',
-                      fontWeight: 800,
-                      background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.85) 0%, rgba(2, 18, 11, 0.9) 100%)',
-                      border: '1.5px solid rgba(16, 185, 129, 0.5)',
-                      color: '#D1FAE5',
-                      cursor: 'pointer',
-                      fontFamily: '"Outfit", sans-serif',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
-                      transition: 'all 0.2s ease'
-                    }}
-                    title="View Herbs Details"
-                  >
-                    <span>🌿</span>
-                    <span>Show Herbs Details</span>
-                  </button>
-                </div>
+                /* Left-Side Center Arrow Trigger: Opens Herbs Details */
+                <button
+                  type="button"
+                  onClick={() => setShowHerbsPopup(true)}
+                  title="Open Herbs Details"
+                  aria-label="Open Herbs Details"
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    zIndex: 35,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '12px 18px 12px 14px',
+                    background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                    color: '#FFFFFF',
+                    border: '2px solid #FDE68A',
+                    borderLeft: 'none',
+                    borderRadius: '0 20px 20px 0',
+                    boxShadow: '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)',
+                    cursor: 'pointer',
+                    fontFamily: '"Outfit", sans-serif',
+                    transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
+                    e.currentTarget.style.boxShadow = '0 8px 30px rgba(217, 119, 6, 0.75), 0 2px 12px rgba(0, 0, 0, 0.5)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                    e.currentTarget.style.boxShadow = '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)';
+                  }}
+                >
+                  <Leaf size={18} color="#FFFFFF" strokeWidth={2.5} />
+                  <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
+                </button>
               )}
 
               {/* Fullscreen Button at Top-Right */}
@@ -2438,8 +2533,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
                   style={{
                     background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(2px)',
-                    WebkitBackdropFilter: 'blur(2px)',
+                    backdropFilter: 'blur(4px)',
+                    WebkitBackdropFilter: 'blur(4px)',
                     color: '#FEF3C7',
                     border: '1.8px solid rgba(255, 255, 255, 0.35)',
                     borderRadius: '10px',
@@ -2476,8 +2571,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       alignItems: 'center',
                       gap: '6px',
                       background: 'rgba(250, 248, 242, 0.85)',
-                      backdropFilter: 'blur(2px)',
-                      WebkitBackdropFilter: 'blur(2px)',
+                      backdropFilter: 'blur(4px)',
+                      WebkitBackdropFilter: 'blur(4px)',
                       border: '1.8px solid #14452F',
                       color: '#14452F',
                       cursor: 'pointer',
@@ -2553,6 +2648,36 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 }}
               />
 
+              {/* Top Center Title: Shrubs (Attractive Golden Banner, matches Habitats page) */}
+              <div style={{
+                position: 'absolute',
+                top: '16px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 35,
+                pointerEvents: 'none',
+                textAlign: 'center',
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                border: '2px solid rgba(254, 240, 138, 0.85)',
+                borderRadius: '12px',
+                padding: '7px 28px',
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
+              }}>
+                <h1 style={{
+                  margin: 0,
+                  fontSize: '24px',
+                  fontWeight: 900,
+                  fontFamily: '"Cinzel", Georgia, serif',
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: '#FFFFFF',
+                  lineHeight: 1.15,
+                  textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+                }}>
+                  Shrubs
+                </h1>
+              </div>
+
               {/* Slogan Page Style: 60% Translucent Dark Emerald Glossy Forest Panel */}
               {showShrubsPopup ? (
                 <div style={{
@@ -2562,8 +2687,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   width: 'min(465px, calc(100vw - 40px))',
                   maxHeight: 'calc(100% - 85px)',
                   background: 'transparent',
-                  backdropFilter: 'blur(2px)',
-                  WebkitBackdropFilter: 'blur(2px)',
+                  backdropFilter: 'blur(4px)',
+                  WebkitBackdropFilter: 'blur(4px)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
                   borderRadius: '24px',
@@ -2626,10 +2751,59 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       </span>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        {/* Play / Pause Narration Button */}
+                        <button
+                          type="button"
+                          onClick={toggleShrubsSpeech}
+                          aria-label={isShrubsSpeaking ? 'Pause Narration' : 'Play Narration'}
+                          title={isShrubsSpeaking ? 'Pause Narration' : 'Play Narration'}
+                          style={{
+                            background: isShrubsSpeaking
+                              ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                              : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
+                            border: '1.5px solid #34D399',
+                            boxShadow: isShrubsSpeaking
+                              ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                              : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
+                            borderRadius: '18px',
+                            padding: '5px 12px',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            color: '#FFFFFF',
+                            fontWeight: 800,
+                            fontSize: '12px',
+                            fontFamily: '"Outfit", sans-serif',
+                            cursor: 'pointer',
+                            flexShrink: 0,
+                            transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'scale(1.05)';
+                            e.currentTarget.style.borderColor = '#6EE7B7';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'scale(1)';
+                            e.currentTarget.style.borderColor = '#34D399';
+                          }}
+                        >
+                          {isShrubsSpeaking ? (
+                            <>
+                              <Pause size={13} fill="#FFFFFF" />
+                              <span>Pause</span>
+                            </>
+                          ) : (
+                            <>
+                              <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                              <span>Play</span>
+                            </>
+                          )}
+                        </button>
+
                         {/* Close popup button */}
                         <button
                           type="button"
-                          onClick={() => setShowShrubsPopup(false)}
+                          onClick={() => { pauseShrubsNarration(); setShowShrubsPopup(false); }}
                           aria-label="Close popup and view full scenery"
                           title="View full scenery photo"
                           style={{
@@ -2709,7 +2883,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Shrubs have hard, woody stems that are relatively thin.
+                          <NarratedWords
+                            words={shrubsNarrationData.shrubs.words.slice(9, 15)}
+                            activeIndex={shrubsActiveWordIndex}
+                            baseIndex={9}
+                            activeStyle={{ color: '#34D399', textShadow: '0 0 10px rgba(52, 211, 153, 0.9), 0 1px 3px #000000' }}
+                          />
                         </div>
                       </div>
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
@@ -2738,7 +2917,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Many branches grow near the base, giving the plant a bushy appearance.
+                          <NarratedWords
+                            words={shrubsNarrationData.shrubs.words.slice(19, 31)}
+                            activeIndex={shrubsActiveWordIndex}
+                            baseIndex={19}
+                            activeStyle={{ color: '#FCD34D', textShadow: '0 0 10px rgba(252, 211, 77, 0.9), 0 1px 3px #000000' }}
+                          />
                         </div>
                       </div>
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
@@ -2767,7 +2951,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Shrubs are generally shorter than trees.
+                          <NarratedWords
+                            words={shrubsNarrationData.shrubs.words.slice(33, 38)}
+                            activeIndex={shrubsActiveWordIndex}
+                            baseIndex={33}
+                            activeStyle={{ color: '#93C5FD', textShadow: '0 0 10px rgba(147, 197, 253, 0.9), 0 1px 3px #000000' }}
+                          />
                         </div>
                       </div>
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
@@ -2796,7 +2985,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Rose, hibiscus, and mehndi.
+                          <NarratedWords
+                            words={shrubsNarrationData.shrubs.words.slice(40, 44)}
+                            activeIndex={shrubsActiveWordIndex}
+                            baseIndex={40}
+                            activeStyle={{ color: '#C4B5FD', textShadow: '0 0 10px rgba(196, 181, 253, 0.9), 0 1px 3px #000000' }}
+                          />
                         </div>
                       </div>
 
@@ -2824,7 +3018,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         }}>
                           <span>Think: </span>
                           <span style={{ fontWeight: 500, color: '#FFFFFF' }}>
-                            What gives shrubs their bushy appearance?
+                            <NarratedWords
+                              words={shrubsNarrationData.shrubs.words.slice(45, 51)}
+                              activeIndex={shrubsActiveWordIndex}
+                              baseIndex={45}
+                              activeStyle={{ color: '#FDE047', textShadow: '0 0 10px rgba(253, 224, 71, 0.9), 0 1px 3px #000000' }}
+                            />
                           </span>
                         </div>
                       </div>
@@ -2832,33 +3031,44 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   </div>
                 </div>
               ) : (
-                /* Re-open Button if closed */
-                <div style={{ position: 'absolute', top: '18px', right: '70px', zIndex: 35 }}>
-                  <button
-                    type="button"
-                    onClick={() => setShowShrubsPopup(true)}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      padding: '8px 18px',
-                      borderRadius: '12px',
-                      fontSize: '16px',
-                      fontWeight: 800,
-                      background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.85) 0%, rgba(2, 18, 11, 0.9) 100%)',
-                      border: '1.5px solid rgba(16, 185, 129, 0.5)',
-                      color: '#D1FAE5',
-                      cursor: 'pointer',
-                      fontFamily: '"Outfit", sans-serif',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
-                      transition: 'all 0.2s ease'
-                    }}
-                    title="View Shrubs Details"
-                  >
-                    <span>🌿</span>
-                    <span>Show Shrubs Details</span>
-                  </button>
-                </div>
+                /* Left-Side Center Arrow Trigger: Opens Shrubs Details */
+                <button
+                  type="button"
+                  onClick={() => setShowShrubsPopup(true)}
+                  title="Open Shrubs Details"
+                  aria-label="Open Shrubs Details"
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    zIndex: 35,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '12px 18px 12px 14px',
+                    background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                    color: '#FFFFFF',
+                    border: '2px solid #FDE68A',
+                    borderLeft: 'none',
+                    borderRadius: '0 20px 20px 0',
+                    boxShadow: '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)',
+                    cursor: 'pointer',
+                    fontFamily: '"Outfit", sans-serif',
+                    transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
+                    e.currentTarget.style.boxShadow = '0 8px 30px rgba(217, 119, 6, 0.75), 0 2px 12px rgba(0, 0, 0, 0.5)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                    e.currentTarget.style.boxShadow = '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)';
+                  }}
+                >
+                  <Leaf size={18} color="#FFFFFF" strokeWidth={2.5} />
+                  <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
+                </button>
               )}
 
               {/* Fullscreen Button at Top-Right */}
@@ -2875,8 +3085,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
                   style={{
                     background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(2px)',
-                    WebkitBackdropFilter: 'blur(2px)',
+                    backdropFilter: 'blur(4px)',
+                    WebkitBackdropFilter: 'blur(4px)',
                     color: '#FEF3C7',
                     border: '1.8px solid rgba(255, 255, 255, 0.35)',
                     borderRadius: '10px',
@@ -2912,8 +3122,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     alignItems: 'center',
                     gap: '6px',
                     background: 'rgba(250, 248, 242, 0.85)',
-                    backdropFilter: 'blur(2px)',
-                    WebkitBackdropFilter: 'blur(2px)',
+                    backdropFilter: 'blur(4px)',
+                    WebkitBackdropFilter: 'blur(4px)',
                     border: '1.8px solid #14452F',
                     color: '#14452F',
                     cursor: 'pointer',
@@ -2988,6 +3198,36 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 }}
               />
 
+              {/* Top Center Title: Trees (Attractive Golden Banner, matches Habitats page) */}
+              <div style={{
+                position: 'absolute',
+                top: '16px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 35,
+                pointerEvents: 'none',
+                textAlign: 'center',
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                border: '2px solid rgba(254, 240, 138, 0.85)',
+                borderRadius: '12px',
+                padding: '7px 28px',
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
+              }}>
+                <h1 style={{
+                  margin: 0,
+                  fontSize: '24px',
+                  fontWeight: 900,
+                  fontFamily: '"Cinzel", Georgia, serif',
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: '#FFFFFF',
+                  lineHeight: 1.15,
+                  textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+                }}>
+                  Trees
+                </h1>
+              </div>
+
               {/* Slogan Page Style: 60% Translucent Dark Emerald Glossy Forest Panel */}
               {showTreesPopup ? (
                 <div style={{
@@ -2997,8 +3237,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   width: 'min(465px, calc(100vw - 40px))',
                   maxHeight: 'calc(100% - 85px)',
                   background: 'transparent',
-                  backdropFilter: 'blur(2px)',
-                  WebkitBackdropFilter: 'blur(2px)',
+                  backdropFilter: 'blur(4px)',
+                  WebkitBackdropFilter: 'blur(4px)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
                   borderRadius: '24px',
@@ -3061,10 +3301,59 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       </span>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        {/* Play / Pause Narration Button */}
+                        <button
+                          type="button"
+                          onClick={toggleTreesSpeech}
+                          aria-label={isTreesSpeaking ? 'Pause Narration' : 'Play Narration'}
+                          title={isTreesSpeaking ? 'Pause Narration' : 'Play Narration'}
+                          style={{
+                            background: isTreesSpeaking
+                              ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                              : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
+                            border: '1.5px solid #34D399',
+                            boxShadow: isTreesSpeaking
+                              ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                              : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
+                            borderRadius: '18px',
+                            padding: '5px 12px',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            color: '#FFFFFF',
+                            fontWeight: 800,
+                            fontSize: '12px',
+                            fontFamily: '"Outfit", sans-serif',
+                            cursor: 'pointer',
+                            flexShrink: 0,
+                            transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'scale(1.05)';
+                            e.currentTarget.style.borderColor = '#6EE7B7';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'scale(1)';
+                            e.currentTarget.style.borderColor = '#34D399';
+                          }}
+                        >
+                          {isTreesSpeaking ? (
+                            <>
+                              <Pause size={13} fill="#FFFFFF" />
+                              <span>Pause</span>
+                            </>
+                          ) : (
+                            <>
+                              <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                              <span>Play</span>
+                            </>
+                          )}
+                        </button>
+
                         {/* Close popup button */}
                         <button
                           type="button"
-                          onClick={() => setShowTreesPopup(false)}
+                          onClick={() => { pauseTreesNarration(); setShowTreesPopup(false); }}
                           aria-label="Close popup and view full scenery"
                           title="View full scenery photo"
                           style={{
@@ -3144,7 +3433,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Trees usually have one thick, hard, woody trunk that supports the plant. Bark protects the trunk.
+                          <NarratedWords
+                            words={treesNarrationData.trees.words.slice(6, 22)}
+                            activeIndex={treesActiveWordIndex}
+                            baseIndex={6}
+                            activeStyle={{ color: '#34D399', textShadow: '0 0 10px rgba(52, 211, 153, 0.9), 0 1px 3px #000000' }}
+                          />
                         </div>
                       </div>
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
@@ -3173,7 +3467,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Branches usually grow higher up the trunk. The branches and leaves form a leafy cover called the canopy.
+                          <NarratedWords
+                            words={treesNarrationData.trees.words.slice(25, 43)}
+                            activeIndex={treesActiveWordIndex}
+                            baseIndex={25}
+                            activeStyle={{ color: '#FCD34D', textShadow: '0 0 10px rgba(252, 211, 77, 0.9), 0 1px 3px #000000' }}
+                          />
                         </div>
                       </div>
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
@@ -3202,7 +3501,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Trees grow tall, and many live for decades.
+                          <NarratedWords
+                            words={treesNarrationData.trees.words.slice(46, 54)}
+                            activeIndex={treesActiveWordIndex}
+                            baseIndex={46}
+                            activeStyle={{ color: '#93C5FD', textShadow: '0 0 10px rgba(147, 197, 253, 0.9), 0 1px 3px #000000' }}
+                          />
                         </div>
                       </div>
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
@@ -3231,7 +3535,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
-                          Banyan, peepal, neem, mango
+                          <NarratedWords
+                            words={treesNarrationData.trees.words.slice(55, 59)}
+                            activeIndex={treesActiveWordIndex}
+                            baseIndex={55}
+                            activeStyle={{ color: '#C4B5FD', textShadow: '0 0 10px rgba(196, 181, 253, 0.9), 0 1px 3px #000000' }}
+                          />
                         </div>
                       </div>
 
@@ -3259,7 +3568,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         }}>
                           <span>Think: </span>
                           <span style={{ fontWeight: 500, color: '#FFFFFF' }}>
-                            Which features help you recognise a tree?
+                            <NarratedWords
+                              words={treesNarrationData.trees.words.slice(60, 67)}
+                              activeIndex={treesActiveWordIndex}
+                              baseIndex={60}
+                              activeStyle={{ color: '#FDE047', textShadow: '0 0 10px rgba(253, 224, 71, 0.9), 0 1px 3px #000000' }}
+                            />
                           </span>
                         </div>
                       </div>
@@ -3267,33 +3581,44 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   </div>
                 </div>
               ) : (
-                /* Re-open Button if closed */
-                <div style={{ position: 'absolute', top: '18px', right: '70px', zIndex: 35 }}>
-                  <button
-                    type="button"
-                    onClick={() => setShowTreesPopup(true)}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      padding: '8px 18px',
-                      borderRadius: '12px',
-                      fontSize: '16px',
-                      fontWeight: 800,
-                      background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.85) 0%, rgba(2, 18, 11, 0.9) 100%)',
-                      border: '1.5px solid rgba(16, 185, 129, 0.5)',
-                      color: '#D1FAE5',
-                      cursor: 'pointer',
-                      fontFamily: '"Outfit", sans-serif',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
-                      transition: 'all 0.2s ease'
-                    }}
-                    title="View Trees Details"
-                  >
-                    <span>🌳</span>
-                    <span>Show Trees Details</span>
-                  </button>
-                </div>
+                /* Left-Side Center Arrow Trigger: Opens Trees Details */
+                <button
+                  type="button"
+                  onClick={() => setShowTreesPopup(true)}
+                  title="Open Trees Details"
+                  aria-label="Open Trees Details"
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    zIndex: 35,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '12px 18px 12px 14px',
+                    background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                    color: '#FFFFFF',
+                    border: '2px solid #FDE68A',
+                    borderLeft: 'none',
+                    borderRadius: '0 20px 20px 0',
+                    boxShadow: '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)',
+                    cursor: 'pointer',
+                    fontFamily: '"Outfit", sans-serif',
+                    transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
+                    e.currentTarget.style.boxShadow = '0 8px 30px rgba(217, 119, 6, 0.75), 0 2px 12px rgba(0, 0, 0, 0.5)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                    e.currentTarget.style.boxShadow = '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)';
+                  }}
+                >
+                  <Leaf size={18} color="#FFFFFF" strokeWidth={2.5} />
+                  <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
+                </button>
               )}
 
               {/* Fullscreen Button at Top-Right */}
@@ -3310,8 +3635,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
                   style={{
                     background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(2px)',
-                    WebkitBackdropFilter: 'blur(2px)',
+                    backdropFilter: 'blur(4px)',
+                    WebkitBackdropFilter: 'blur(4px)',
                     color: '#FEF3C7',
                     border: '1.8px solid rgba(255, 255, 255, 0.35)',
                     borderRadius: '10px',
@@ -3347,8 +3672,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     alignItems: 'center',
                     gap: '6px',
                     background: 'rgba(250, 248, 242, 0.85)',
-                    backdropFilter: 'blur(2px)',
-                    WebkitBackdropFilter: 'blur(2px)',
+                    backdropFilter: 'blur(4px)',
+                    WebkitBackdropFilter: 'blur(4px)',
                     border: '1.8px solid #14452F',
                     color: '#14452F',
                     cursor: 'pointer',
@@ -3413,8 +3738,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 justifyContent: 'space-between',
                 padding: 'clamp(8px, 1vh, 12px) clamp(16px, 2.2vw, 32px) clamp(12px, 1.6vh, 18px)',
                 background: 'rgba(250, 248, 242, 0.55)',
-                backdropFilter: 'blur(2px)',
-                WebkitBackdropFilter: 'blur(2px)',
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(4px)',
                 borderRadius: 0,
                 border: 'none',
                 boxSizing: 'border-box',
@@ -3450,7 +3775,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     right: 0,
                     top: '2px',
                     background: 'rgba(6, 78, 59, 0.90)',
-                    backdropFilter: 'blur(2px)',
+                    backdropFilter: 'blur(4px)',
                     color: '#D1FAE5',
                     border: '1.5px solid #10B981',
                     borderRadius: '10px',
@@ -3607,7 +3932,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       title="Toggle Projector Zoom: 1x, 1.8x, 2.6x"
                       style={{
                         background: 'rgba(20, 69, 47, 0.90)',
-                        backdropFilter: 'blur(2px)',
+                        backdropFilter: 'blur(4px)',
                         border: '1.5px solid #10B981',
                         borderRadius: '16px',
                         padding: '5px 14px',
@@ -3634,7 +3959,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 <div style={{
                   position: 'relative',
                   background: 'linear-gradient(135deg, rgba(6, 38, 22, 0.30) 0%, rgba(4, 28, 16, 0.30) 45%, rgba(2, 18, 11, 0.32) 100%)',
-                  backdropFilter: 'blur(2px) saturate(180%)',
+                  backdropFilter: 'blur(4px) saturate(180%)',
                   WebkitBackdropFilter: 'blur(2px) saturate(180%)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
@@ -4269,7 +4594,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
                   style={{
                     background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(2px)',
+                    backdropFilter: 'blur(4px)',
                     color: '#FEF3C7',
                     border: '1.8px solid rgba(255, 255, 255, 0.35)',
                     borderRadius: '10px',
@@ -4309,8 +4634,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     alignItems: 'center',
                     gap: '6px',
                     background: 'rgba(250, 248, 242, 0.85)',
-                    backdropFilter: 'blur(2px)',
-                    WebkitBackdropFilter: 'blur(2px)',
+                    backdropFilter: 'blur(4px)',
+                    WebkitBackdropFilter: 'blur(4px)',
                     border: '1.8px solid #14452F',
                     color: '#14452F',
                     cursor: 'pointer',
@@ -4588,7 +4913,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
                   style={{
                     background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(2px)',
+                    backdropFilter: 'blur(4px)',
                     color: '#FEF3C7',
                     border: '1.8px solid rgba(255, 255, 255, 0.35)',
                     borderRadius: '10px',
@@ -4627,8 +4952,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     alignItems: 'center',
                     gap: '6px',
                     background: 'rgba(250, 248, 242, 0.90)',
-                    backdropFilter: 'blur(2px)',
-                    WebkitBackdropFilter: 'blur(2px)',
+                    backdropFilter: 'blur(4px)',
+                    WebkitBackdropFilter: 'blur(4px)',
                     border: '1.8px solid #14452F',
                     color: '#14452F',
                     cursor: 'pointer',
@@ -4822,7 +5147,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 height: '100vh',
                 zIndex: 9999999,
                 background: 'rgba(20, 69, 47, 0.45)',
-                backdropFilter: 'blur(2px)',
+                backdropFilter: 'blur(4px)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -4834,8 +5159,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   width: '100%',
                   maxHeight: '90vh',
                   background: 'rgba(250, 248, 242, 0.55)',
-                  backdropFilter: 'blur(2px)',
-                  WebkitBackdropFilter: 'blur(2px)',
+                  backdropFilter: 'blur(4px)',
+                  WebkitBackdropFilter: 'blur(4px)',
                   borderRadius: '20px',
                   border: '2px solid rgba(20, 69, 47, 0.5)',
                   boxShadow: '0 25px 50px -12px rgba(20, 69, 47, 0.4)',
@@ -4881,7 +5206,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   {/* Specimen Description (18px) */}
                   <div style={{
                     background: 'rgba(255, 255, 255, 0.88)',
-                    backdropFilter: 'blur(2px)',
+                    backdropFilter: 'blur(4px)',
                     border: '1.8px solid #14452F',
                     borderRadius: '14px',
                     padding: '12px 16px',
@@ -4905,7 +5230,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   {scannedOrganism.verifyQ && (
                     <div style={{
                       background: 'rgba(255, 255, 255, 0.92)',
-                      backdropFilter: 'blur(2px)',
+                      backdropFilter: 'blur(4px)',
                       border: '1.8px solid #14452F',
                       borderRadius: '14px',
                       padding: '1rem',
@@ -5097,8 +5422,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
             alignItems: 'center',
             gap: '12px',
             background: 'rgba(3, 20, 12, 0.85)',
-            backdropFilter: 'blur(2px)',
-            WebkitBackdropFilter: 'blur(2px)',
+            backdropFilter: 'blur(4px)',
+            WebkitBackdropFilter: 'blur(4px)',
             border: '1.5px solid rgba(16, 185, 129, 0.45)',
             borderRadius: '32px',
             padding: '6px 10px',
@@ -5186,8 +5511,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
               minWidth: '320px',
               maxHeight: 'calc(100vh - clamp(60px, 8vh, 80px))',
               background: 'transparent',
-              backdropFilter: 'blur(2px)',
-              WebkitBackdropFilter: 'blur(2px)',
+              backdropFilter: 'blur(4px)',
+              WebkitBackdropFilter: 'blur(4px)',
               border: '1.5px solid rgba(16, 185, 129, 0.45)',
               borderRadius: '24px',
               boxShadow: 'inset 1px 1px 2px rgba(255, 255, 255, 0.25), inset -1px -1px 2px rgba(0, 0, 0, 0.3), 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(16, 185, 129, 0.2)',
@@ -5471,8 +5796,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
             alignItems: 'center',
             gap: '12px',
             background: 'rgba(3, 20, 12, 0.85)',
-            backdropFilter: 'blur(2px)',
-            WebkitBackdropFilter: 'blur(2px)',
+            backdropFilter: 'blur(4px)',
+            WebkitBackdropFilter: 'blur(4px)',
             border: '1.5px solid rgba(16, 185, 129, 0.45)',
             borderRadius: '32px',
             padding: '6px 10px',
@@ -5560,8 +5885,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
               minWidth: '320px',
               maxHeight: 'calc(100vh - clamp(60px, 8vh, 80px))',
               background: 'transparent',
-              backdropFilter: 'blur(2px)',
-              WebkitBackdropFilter: 'blur(2px)',
+              backdropFilter: 'blur(4px)',
+              WebkitBackdropFilter: 'blur(4px)',
               border: '1.5px solid rgba(16, 185, 129, 0.45)',
               borderRadius: '24px',
               boxShadow: 'inset 1px 1px 2px rgba(255, 255, 255, 0.25), inset -1px -1px 2px rgba(0, 0, 0, 0.3), 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(16, 185, 129, 0.2)',
@@ -5828,7 +6153,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
             inset: 0,
             zIndex: 999999,
             background: 'rgba(0, 0, 0, 0.85)',
-            backdropFilter: 'blur(2px)',
+            backdropFilter: 'blur(4px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

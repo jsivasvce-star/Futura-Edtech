@@ -16,6 +16,7 @@ export default function useWordSyncAudio(src, words, opts = {}) {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeWordIndex, setActiveWordIndex] = useState(-1);
+  const [currentTime, setCurrentTime] = useState(0);
   const rafRef = useRef(null);
   const wordsRef = useRef(words);
   wordsRef.current = words;
@@ -46,6 +47,7 @@ export default function useWordSyncAudio(src, words, opts = {}) {
 
     const tick = () => {
       const t = audio.currentTime;
+      setCurrentTime(t);
       setActiveWordIndex(findActiveIndex(t));
       rafRef.current = requestAnimationFrame(tick);
     };
@@ -61,6 +63,7 @@ export default function useWordSyncAudio(src, words, opts = {}) {
     const handleEnded = () => {
       handlePauseOrEnd();
       setActiveWordIndex(-1);
+      setCurrentTime(0);
       if (onEnd) onEnd();
     };
 
@@ -98,5 +101,5 @@ export default function useWordSyncAudio(src, words, opts = {}) {
     else audioRef.current.pause();
   }, []);
 
-  return { audioRef, isPlaying, activeWordIndex, play, pause, toggle };
+  return { audioRef, isPlaying, activeWordIndex, currentTime, play, pause, toggle };
 }

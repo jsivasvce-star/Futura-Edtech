@@ -7,7 +7,7 @@ import {
 import confetti from 'canvas-confetti';
 
 import sanskritSlogan from '../../../../assets/sanskrit_slogan.png';
-import CoverPage from '../../../../components/CoverPage';
+import Chapter2CoverPage from './Chapter2CoverPage';
 import Chapter2SloganPage from './Chapter2SloganPage';
 import IntroStoryteller from './IntroStoryteller';
 import coverBgImage from '../../../../assets/cover_page_ch2.png';
@@ -62,6 +62,7 @@ import VenationRootCorrelationLab from './VenationRootCorrelationLab';
 import SeedDissectionLab from './SeedDissectionLab';
 import AnimalHabitatExplorerActivity from './AnimalHabitatExplorer';
 import Tables2_5_2_6_Lab from './Tables2_5_2_6_Lab';
+import Activity2_10Lab from './Activity2_10Lab';
 import AdaptationsLab from './AdaptationsLab';
 import ConservationLab from './ConservationLab';
 import TextbookExercisesLab from './TextbookExercisesLab';
@@ -92,7 +93,7 @@ function getActiveTabNarration(step, section1SubTab, venationSubTab, habitatSubT
     if (venationSubTab === 'venation') {
       return "Activity 2.5, Leaf Venation. Observe reticulate net-like veins in peepal and hibiscus, and parallel linear veins in grass and banana leaves.";
     } else if (venationSubTab === 'roots') {
-      return "Activity 2.6, Root Systems. Compare the deep central taproot with lateral branch roots against the bushy, thread-like fibrous root system.";
+      return "Activity 2.6, Root Systems. Taproot systems feature one thick main root with side roots, while fibrous root systems have many thin roots emerging together.";
     } else if (venationSubTab === 'correlation') {
       return "Activity 2.7, Venation and Root Correlation. Reticulate venation always pairs with taproots, while parallel venation always pairs with fibrous roots.";
     }
@@ -101,7 +102,9 @@ function getActiveTabNarration(step, section1SubTab, venationSubTab, habitatSubT
     if (habitatSubTab === 'mission') {
       return "Activity 2.9, Animal Habitat Explorer. Explore terrestrial, aquatic, desert, and mountain habitats to see how organisms move and survive.";
     } else if (habitatSubTab === 'tables') {
-      return "Table 2.5 and 2.6 Lab. Examine animal locomotion and explore how different organisms adapt to survive in harsh regions.";
+      return "Table 2.5 Animal Locomotion Lab. Examine animal movement and body parts involved.";
+    } else if (habitatSubTab === 'activity2_10') {
+      return "Activity 2.10, Table 2.6 Surroundings Lab. Compare plants and animals found in deserts, mountains, oceans, forests, and other regions.";
     } else if (habitatSubTab === 'adaptations') {
       return "Special Adaptations Lab. Discover how camels thrive in hot and cold deserts, and how mountain animals brave freezing winters.";
     } else if (habitatSubTab === 'conservation') {
@@ -165,11 +168,27 @@ const SUMMARY_QUIZ = [
 ];
 
 export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, onSoundButtonVisibilityChange }) {
-  const [viewMode, setViewMode] = useState('cover'); // 'cover' | 'slogan' | 'scenes' | 'activity'
-  const [currentStep, setCurrentStep] = useState(1);
+  const [viewMode, setViewMode] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    return params.get('view') || 'cover';
+  });
+  const [currentStep, setCurrentStep] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    const s = parseInt(params.get('step'), 10);
+    return (s >= 1 && s <= 10) ? s : 1;
+  });
   const [section1SubTab, setSection1SubTab] = useState('slogan'); // 'slogan' | 'scenes'
-  const [venationSubTab, setVenationSubTab] = useState('venation'); // 'venation' | 'roots' | 'correlation'
-  const [habitatSubTab, setHabitatSubTab] = useState('mission'); // 'mission' | 'tables' | 'adaptations' | 'conservation'
+  const [venationSubTab, setVenationSubTab] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    return params.get('subTab') || 'venation';
+  }); // 'venation' | 'correlation'
+  const [step5Phase, setStep5Phase] = useState('specimens'); // controls which phase InlineSortingActivity (re)mounts into: 'specimens' | 'table23'
+  const [habitatSubTab, setHabitatSubTab] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    const tab = params.get('habitatTab');
+    if (tab === 'tables') return 'activity2_10';
+    return tab || 'mission';
+  }); // 'mission' | 'activity2_10' | 'adaptations' | 'conservation'
   const [tab10ViewMode, setTab10ViewMode] = useState('exercises'); // 'exercises' | 'summary'
   const [isSpeaking, setIsSpeaking] = useState(false);
   
@@ -262,15 +281,15 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
       setCurrentStep(4);
       return;
     }
-    // Step 5: Act 2.3 Grouping -> Step 6: Act 2.4 Detective
+    // Step 5: Act 2.3 Grouping (specimens) -> Step 6: Act 2.4 Detective
     if (currentStep === 5) {
       setCurrentStep(6);
       return;
     }
-    // Step 6: Act 2.4 Detective -> Step 7: Venation & Roots (sub-tab: venation)
+    // Step 6: Act 2.4 Detective -> back into Step 5 at Table 2.3
     if (currentStep === 6) {
-      setVenationSubTab('venation');
-      setCurrentStep(7);
+      setStep5Phase('table23');
+      setCurrentStep(5);
       return;
     }
     // Step 7: Venation & Roots sub-tabs
@@ -300,6 +319,10 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         return;
       }
       if (habitatSubTab === 'tables') {
+        setHabitatSubTab('activity2_10');
+        return;
+      }
+      if (habitatSubTab === 'activity2_10') {
         setHabitatSubTab('adaptations');
         return;
       }
@@ -339,8 +362,9 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
       setCurrentStep(4);
       return;
     }
-    // Step 6 -> Step 5
+    // Step 6 -> Step 5 (specimens)
     if (currentStep === 6) {
+      setStep5Phase('specimens');
       setCurrentStep(5);
       return;
     }
@@ -354,8 +378,9 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         setVenationSubTab('venation');
         return;
       }
-      // Back to Step 6
-      setCurrentStep(6);
+      // Back to Step 5 (grouping phase, just before Venation)
+      setStep5Phase('table23');
+      setCurrentStep(5);
       return;
     }
     // Step 8 -> Step 7 Correlation
@@ -371,6 +396,10 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         return;
       }
       if (habitatSubTab === 'adaptations') {
+        setHabitatSubTab('activity2_10');
+        return;
+      }
+      if (habitatSubTab === 'activity2_10') {
         setHabitatSubTab('tables');
         return;
       }
@@ -402,8 +431,9 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
     }
     if (currentStep === 9) {
       if (habitatSubTab === 'mission') return 'Activity 2.9 · Habitats Explorer';
-      if (habitatSubTab === 'tables') return 'Tables 2.5 & 2.6 · Locomotion';
-      if (habitatSubTab === 'adaptations') return 'Activity 2.10 · Adaptations';
+      if (habitatSubTab === 'tables') return 'Table 2.5 · Locomotion';
+      if (habitatSubTab === 'activity2_10') return 'Activity 2.10 · Surroundings Table 2.6';
+      if (habitatSubTab === 'adaptations') return 'Section 2.3 · Adaptations';
       return 'Conservation · Sacred Groves';
     }
     if (currentStep === 10) {
@@ -418,16 +448,17 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
     if (currentStep === 2) return 'Next: Act 2.1 Animals';
     if (currentStep === 3) return 'Next: Act 2.2 Care';
     if (currentStep === 5) return 'Next: Act 2.4 Detective';
-    if (currentStep === 6) return 'Next: Act 2.5 Venation';
+    if (currentStep === 6) return 'Next: Table 2.3';
     if (currentStep === 7) {
-      if (venationSubTab === 'venation') return 'Next: Act 2.6 Roots';
+      if (venationSubTab === 'venation') return 'Next: Act 2.6 Root Systems';
       if (venationSubTab === 'roots') return 'Next: Act 2.7 Correlation';
       return 'Next: Act 2.8 Seeds';
     }
     if (currentStep === 8) return 'Next: Act 2.9 Habitats';
     if (currentStep === 9) {
-      if (habitatSubTab === 'mission') return 'Next: Locomotion Tables';
-      if (habitatSubTab === 'tables') return 'Next: Adaptations Lab';
+      if (habitatSubTab === 'mission') return 'Next: Table 2.5 Locomotion';
+      if (habitatSubTab === 'tables') return 'Next: Act 2.10 Surroundings';
+      if (habitatSubTab === 'activity2_10') return 'Next: Adaptations Lab';
       if (habitatSubTab === 'adaptations') return 'Next: Conservation Lab';
       return 'Next: Chapter Evaluation';
     }
@@ -440,13 +471,12 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
 
   if (viewMode === 'cover') {
     return (
-      <CoverPage
+      <Chapter2CoverPage
         classNum={6}
         subjectName="CHAPTER 2 · BIOLOGY"
         chapterNum={2}
         title="Diversity in the Living World"
         topics="Plants · Animals · Habitats · Adaptation · Classification"
-        coverGraphic="diversity"
         onBack={onBack}
         onNext={() => {
           setViewMode('activity');
@@ -515,7 +545,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
       fontFamily: '"Plus Jakarta Sans", system-ui, -apple-system, sans-serif'
     }}>
       {/* Dark nature overlay for maximum readability and vibrant glass contrast (only for activities) */}
-      {!(currentStep === 1 && (section1SubTab === 'slogan' || section1SubTab === 'scenes')) && (
+      {!(currentStep === 1 && (section1SubTab === 'slogan' || section1SubTab === 'scenes')) && !(currentStep === 9 && habitatSubTab === 'activity2_10') && (
         <div style={{
           position: 'absolute',
           inset: 0,
@@ -708,6 +738,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         {currentStep === 4 && (
           <div style={{ width: '100%', height: '100%', minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             <AppreciatingBiodiversityActivity 
+              subStep={new URLSearchParams(window.location.hash.replace('#', '?')).get('subStep')}
               onBackToDashboard={() => setCurrentStep(3)} 
               onNextActivity={() => setCurrentStep(5)} 
             />
@@ -720,8 +751,11 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         {currentStep === 5 && (
           <div style={{ width: '100%', height: '100%', minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             <InlineSortingActivity 
+              initialPhase={step5Phase}
               onBackToDashboard={() => setCurrentStep(4)} 
-              onNextActivity={() => setCurrentStep(6)} 
+              onGoToDetective={() => setCurrentStep(6)}
+              onBackToDetective={() => setCurrentStep(6)}
+              onNextActivity={() => setCurrentStep(7)} 
             />
           </div>
         )}
@@ -732,8 +766,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         {currentStep === 6 && (
           <div style={{ width: '100%', height: '100%', minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             <PlantDetectiveActivity 
-              onBackToDashboard={() => setCurrentStep(5)} 
-              onNextActivity={() => setCurrentStep(7)} 
+              onBackToDashboard={() => { setStep5Phase('specimens'); setCurrentStep(5); }} 
+              onNextActivity={() => { setStep5Phase('table23'); setCurrentStep(5); }} 
             />
           </div>
         )}
@@ -774,7 +808,9 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
           <div style={{ width: '100%', height: '100%', minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             <SeedDissectionLab 
               onBackToDashboard={() => setCurrentStep(7)} 
+              onPreviousPage={() => setCurrentStep(7)}
               onNextActivity={() => setCurrentStep(9)} 
+              onNext={() => setCurrentStep(9)} 
             />
           </div>
         )}
@@ -787,18 +823,18 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
             {habitatSubTab === 'mission' && (
               <AnimalHabitatExplorerActivity 
                 onBackToDashboard={() => setCurrentStep(8)} 
-                onNextActivity={() => setHabitatSubTab('tables')} 
+                onNextActivity={() => setHabitatSubTab('activity2_10')} 
               />
             )}
-            {habitatSubTab === 'tables' && (
-              <Tables2_5_2_6_Lab 
-                onBackToDashboard={() => setHabitatSubTab('mission')} 
-                onNextSubModule={() => setHabitatSubTab('adaptations')} 
+            {habitatSubTab === 'activity2_10' && (
+              <Activity2_10Lab 
+                onBack={() => setHabitatSubTab('mission')} 
+                onComplete={() => setHabitatSubTab('adaptations')} 
               />
             )}
             {habitatSubTab === 'adaptations' && (
               <AdaptationsLab 
-                onBackToDashboard={() => setHabitatSubTab('tables')} 
+                onBackToDashboard={() => setHabitatSubTab('activity2_10')} 
                 onNextSubModule={() => setHabitatSubTab('conservation')} 
               />
             )}
@@ -834,7 +870,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 justifyContent: 'space-between',
                 padding: 'clamp(10px, 1.5vh, 16px) clamp(14px, 1.8vw, 20px)',
                 background: 'rgba(15, 23, 42, 0.45)',
-                backdropFilter: 'blur(2px) saturate(180%)',
+                backdropFilter: 'blur(4px) saturate(180%)',
                 WebkitBackdropFilter: 'blur(2px) saturate(180%)',
                 borderRadius: '20px',
                 border: '2px solid rgba(245, 158, 11, 0.45)',
@@ -878,7 +914,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                         cursor: 'pointer',
                         boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35)',
                         fontFamily: '"Outfit", sans-serif',
-                        backdropFilter: 'blur(2px)'
+                        backdropFilter: 'blur(4px)'
                       }}
                     >
                       {isSpeaking ? <VolumeX size={17} /> : <Volume2 size={17} />}
@@ -938,7 +974,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                   {/* Left Column: Key Concept Synthesis Cards */}
                   <div style={{
                     background: 'rgba(15, 23, 42, 0.52)',
-                    backdropFilter: 'blur(2px)',
+                    backdropFilter: 'blur(4px)',
                     WebkitBackdropFilter: 'blur(2px)',
                     border: '1.8px solid rgba(245, 158, 11, 0.4)',
                     borderRadius: '16px',
@@ -988,7 +1024,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                   {/* Right Column: 3 Interactive NCERT Questions */}
                   <div style={{
                     background: 'rgba(15, 23, 42, 0.52)',
-                    backdropFilter: 'blur(2px)',
+                    backdropFilter: 'blur(4px)',
                     WebkitBackdropFilter: 'blur(2px)',
                     border: '1.8px solid rgba(245, 158, 11, 0.4)',
                     borderRadius: '16px',
