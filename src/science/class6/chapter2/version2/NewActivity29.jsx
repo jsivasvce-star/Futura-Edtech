@@ -53,6 +53,7 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
     swims: []
   });
   const [isAnswersChecked, setIsAnswersChecked] = useState(false);
+  const [showInfoPopup, setShowInfoPopup] = useState(false);
 
   const handleDragStart = (e, animal) => {
     e.dataTransfer.setData('animalId', animal.id);
@@ -81,10 +82,12 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
     setAvailableAnimals(PAGE4_ANIMALS);
     setDroppedAnimals({ climbs: [], flies: [], runs: [], hops: [], swims: [] });
     setIsAnswersChecked(false);
+    setShowInfoPopup(false);
   };
 
   const checkAnswers = () => {
     setIsAnswersChecked(true);
+    setShowInfoPopup(true);
   };  return (
     <div style={{
       position: 'relative',
@@ -531,35 +534,24 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
               </div>
             </div>
 
-            {/* 4. BOTTOM-LEFT */}
-            <div style={{
-              position: 'absolute', bottom: '10px', left: '10px',
-              background: '#fefcf5', // Cream paper
-              border: '2px solid #d4a373',
-              borderRadius: '4px 16px 16px 4px',
-              padding: '12px 16px 12px 32px', // Extra left padding for holes
-              boxShadow: '2px 8px 20px rgba(0,0,0,0.3)',
-              maxWidth: '240px',
-              pointerEvents: 'auto',
-              transform: 'rotate(-2deg)'
+            {/* 4. BOTTOM-LEFT (Back Button) */}
+            <div style={{ 
+              position: 'absolute', left: '24px', bottom: '24px',
+              pointerEvents: 'auto', zIndex: 30 
             }}>
-              {/* Notebook binding holes */}
-              <div style={{ position: 'absolute', left: '12px', top: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {[...Array(5)].map((_, i) => (
-                  <div key={i} style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#3e2723', boxShadow: 'inset 1px 1px 3px rgba(0,0,0,0.5)' }} />
-                ))}
-              </div>
-              {/* Red line */}
-              <div style={{ position: 'absolute', left: '26px', top: '0', bottom: '0', width: '2px', background: 'rgba(220, 38, 38, 0.3)' }} />
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px', position: 'relative', zIndex: 2 }}>
-                <Lightbulb size={20} color="#d97706" />
-                <h3 style={{ margin: 0, fontSize: '18px', color: '#1e293b', fontWeight: '900', fontFamily: '"Fraunces", serif' }}>Think!</h3>
-              </div>
-              <ul style={{ margin: 0, paddingLeft: '16px', color: '#334155', fontSize: '13px', lineHeight: '1.3', fontWeight: '700', position: 'relative', zIndex: 2 }}>
-                <li style={{ marginBottom: '6px' }}>Why do animals move differently?</li>
-                <li>How does their surrounding help them?</li>
-              </ul>
+              <button 
+                onClick={() => setPage(2)}
+                style={{
+                  background: 'white', color: '#334155',
+                  border: '2px solid #e2e8f0', borderRadius: '30px',
+                  padding: '12px 24px', fontSize: '16px', fontWeight: '800',
+                  display: 'flex', alignItems: 'center', gap: '8px',
+                  cursor: 'pointer', boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                  transition: 'transform 0.2s', margin: 0
+                }}
+              >
+                <ArrowLeft size={18} /> Back
+              </button>
             </div>
 
             {/* 5. BOTTOM-RIGHT (Instruction + Next) */}
@@ -681,8 +673,9 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
                       top: zone.pos.top,
                       left: zone.pos.left,
                       pointerEvents: 'auto',
-                      width: zone.id === 'hops' ? '300px' : '150px',
-                      height: '160px',
+                      width: '180px',
+                      height: '180px',
+                      boxSizing: 'border-box',
                       background: 'rgba(255,255,255,0.85)',
                       backdropFilter: 'blur(4px)',
                       border: `3px dashed ${zone.border}`,
@@ -886,6 +879,55 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
                 <CheckCircle2 size={20} /> Check My Answers
               </button>
             </div>
+
+            {/* Info Popup Modal */}
+            {showInfoPopup && (
+              <div style={{
+                position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+                background: 'rgba(0, 0, 0, 0.65)', backdropFilter: 'blur(6px)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                zIndex: 100, pointerEvents: 'auto'
+              }}>
+                <div style={{
+                  background: 'white', borderRadius: '20px', padding: '32px 40px',
+                  maxWidth: '550px', boxShadow: '0 24px 48px rgba(0,0,0,0.4)',
+                  animation: 'fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+                }}>
+                  <div style={{
+                    background: '#fef3c7', borderRadius: '12px', padding: '16px',
+                    borderLeft: '4px solid #f59e0b', marginBottom: '24px'
+                  }}>
+                    <h2 style={{ margin: '0 0 8px 0', color: '#92400e', fontSize: '24px', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Lightbulb size={24} color="#d97706" /> What Did We Learn?
+                    </h2>
+                  </div>
+                  <ul style={{ 
+                    color: '#334155', fontSize: '17px', lineHeight: 1.7, 
+                    paddingLeft: '24px', margin: '0 0 32px 0', fontWeight: '600' 
+                  }}>
+                    <li style={{ marginBottom: '12px' }}>Animals move by flying, running, crawling, walking, hopping, or jumping.</li>
+                    <li style={{ marginBottom: '12px' }}>They use different body parts for movement.</li>
+                    <li style={{ marginBottom: '12px' }}>Animals can be grouped by their movement and body parts.</li>
+                    <li style={{ marginBottom: '12px' }}>Animals differ in shape, size, structure, and colour.</li>
+                    <li>Grouping helps us understand animal diversity.</li>
+                  </ul>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <button 
+                      onClick={() => setShowInfoPopup(false)}
+                      style={{
+                        background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                        color: 'white', border: 'none', borderRadius: '30px',
+                        padding: '12px 40px', fontSize: '18px', fontWeight: '800',
+                        cursor: 'pointer', boxShadow: '0 4px 15px rgba(16,185,129,0.4)',
+                        transition: 'transform 0.2s', display: 'flex', alignItems: 'center', gap: '8px'
+                      }}
+                    >
+                      Continue <ArrowRight size={20} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
 
           </div>
         </>
