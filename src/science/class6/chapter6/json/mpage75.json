@@ -1,0 +1,62 @@
+{
+  "audio_file": "mpage75.mp3",
+  "duration": 5.277,
+  "language": "en",
+  "words": [
+    {
+      "text": "Observe",
+      "start": 0.0,
+      "end": 0.64
+    },
+    {
+      "text": "the",
+      "start": 0.64,
+      "end": 0.82
+    },
+    {
+      "text": "two",
+      "start": 0.82,
+      "end": 1.06
+    },
+    {
+      "text": "experiments",
+      "start": 1.06,
+      "end": 1.74
+    },
+    {
+      "text": "and",
+      "start": 1.74,
+      "end": 2.5
+    },
+    {
+      "text": "identify",
+      "start": 2.5,
+      "end": 3.18
+    },
+    {
+      "text": "what",
+      "start": 3.18,
+      "end": 3.56
+    },
+    {
+      "text": "they",
+      "start": 3.56,
+      "end": 3.82
+    },
+    {
+      "text": "show",
+      "start": 3.82,
+      "end": 4.1
+    },
+    {
+      "text": "about",
+      "start": 4.1,
+      "end": 4.48
+    },
+    {
+      "text": "air.",
+      "start": 4.48,
+      "end": 4.82
+    }
+  ]
+}

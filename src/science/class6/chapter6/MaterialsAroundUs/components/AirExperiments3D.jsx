@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-export default function AirExperiments3D({ onComplete }) {
+export default function AirExperiments3D({ onComplete, W = ({i, children}) => <span>{children}</span> }) {
    const [inflate, setInflate] = useState(false);
    const [weigh, setWeigh] = useState(false);
 
@@ -15,7 +15,7 @@ export default function AirExperiments3D({ onComplete }) {
          {/* Experiment 1 */}
          <div style={{ flex: 1, background: '#fff', borderRadius: '16px', border: '1.5px solid var(--line, #ccc)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             <div style={{ padding: '12px 16px', background: 'var(--amber-pale, #f8f9fa)', borderBottom: '1px solid var(--line, #ccc)', fontSize: '26px', fontWeight: '900', color: '#3B2A1F', fontFamily: '"Merriweather", "Georgia", serif' }}>
-               1. Air occupies space
+               <W i={16}>1.</W> <W i={17}>Air</W> <W i={18}>occupies</W> <W i={19}>space</W>
             </div>
             <motion.div 
                style={{ flex: 1, position: 'relative', cursor: 'pointer', overflow: 'hidden' }}
@@ -31,7 +31,7 @@ export default function AirExperiments3D({ onComplete }) {
                      animate={{ opacity: 1, scale: 1 }}
                      style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'rgba(0,0,0,0.75)', padding: '16px 24px', borderRadius: '12px', fontSize: '1.2rem', fontWeight: 'bold', color: 'white', pointerEvents: 'none', textAlign: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }}
                   >
-                     Air occupies space.
+                     <W i={20}>Air</W> <W i={21}>occupies</W> <W i={22}>space.</W>
                   </motion.div>
                )}
             </motion.div>
@@ -40,7 +40,7 @@ export default function AirExperiments3D({ onComplete }) {
          {/* Experiment 2 */}
          <div style={{ flex: 1, background: '#fff', borderRadius: '16px', border: '1.5px solid var(--line, #ccc)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             <div style={{ padding: '12px 16px', background: 'var(--amber-pale, #f8f9fa)', borderBottom: '1px solid var(--line, #ccc)', fontSize: '26px', fontWeight: '900', color: '#3B2A1F', fontFamily: '"Merriweather", "Georgia", serif' }}>
-               2. Air has mass
+               <W i={23}>2.</W> <W i={24}>Air</W> <W i={25}>has</W> <W i={26}>mass</W>
             </div>
             <motion.div 
                style={{ flex: 1, position: 'relative', cursor: 'pointer', overflow: 'hidden' }}
@@ -56,7 +56,7 @@ export default function AirExperiments3D({ onComplete }) {
                      animate={{ opacity: 1, scale: 1 }}
                      style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'rgba(0,0,0,0.75)', padding: '16px 24px', borderRadius: '12px', fontSize: '1.2rem', fontWeight: 'bold', color: 'white', pointerEvents: 'none', textAlign: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }}
                   >
-                     Air has mass.
+                     <W i={27}>Air</W> <W i={28}>has</W> <W i={29}>mass.</W>
                   </motion.div>
                )}
             </motion.div>

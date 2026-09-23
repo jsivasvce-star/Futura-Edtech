@@ -1,13 +1,69 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
-import { Scale, CheckCircle2, AlertCircle, Info, Target, GripHorizontal } from 'lucide-react';
+import { Scale, CheckCircle2, AlertCircle, Info, Target, GripHorizontal, Play, Pause } from 'lucide-react';
 import { RealisticCup } from './Stage8a_Mass_Components/RealisticCup';
 import { WeighingScale } from './Stage8a_Mass_Components/WeighingScale';
+import fpage61Audio from '../../audio/fpage61.mp3?url';
+import fpage61Json from '../../json/fpage61.json';
 
-export default function Stage8a_Mass({ onComplete, addXp }) {
+export default function Stage8a_Mass({ onComplete, addXp, setExtraRightAction }) {
   const [weighedItems, setWeighedItems] = useState({});
   const [currentOnScale, setCurrentOnScale] = useState(null);
+
+  const instructionAudioRef = useRef(null);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [activeWordIndex, setActiveWordIndex] = useState(null);
+
+  const toggleInstructionAudio = () => {
+    if (instructionAudioRef.current) {
+      if (isAudioPlaying) {
+        instructionAudioRef.current.pause();
+      } else {
+        instructionAudioRef.current.play().catch(e => console.error(e));
+      }
+      setIsAudioPlaying(!isAudioPlaying);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (instructionAudioRef.current) {
+      const time = instructionAudioRef.current.currentTime;
+      const activeIdx = fpage61Json.words.findIndex(w => time >= w.start && time < w.end);
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsAudioPlaying(false);
+    setActiveWordIndex(null);
+  };
+
+  useEffect(() => {
+    if (setExtraRightAction) {
+      setExtraRightAction(
+        <button
+          onClick={toggleInstructionAudio}
+          style={{
+            display: 'flex', alignItems: 'center', gap: '8px',
+            background: 'white', color: 'var(--lesson-primary)',
+            border: '2px solid var(--lesson-primary)',
+            padding: '8px 16px', borderRadius: '8px',
+            fontSize: '1rem', fontWeight: 'bold', cursor: 'pointer',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+          }}
+        >
+          {isAudioPlaying ? <Pause size={20} /> : <Play size={20} />}
+          {isAudioPlaying ? "Pause Audio" : "Play Audio"}
+        </button>
+      );
+    }
+    return () => {
+      if (setExtraRightAction) setExtraRightAction(null);
+    };
+  }, [isAudioPlaying, setExtraRightAction]);
 
   const cups = [
     { id: 'water', label: 'Cup A', material: 'Water', mass: 44.92 },
@@ -35,6 +91,12 @@ export default function Stage8a_Mass({ onComplete, addXp }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '100%', height: '100%', color: '#3E2723', background: '#F9F6F0', padding: '0.75rem', boxSizing: 'border-box', overflow: 'hidden' }}>
+      <audio
+        ref={instructionAudioRef}
+        src={fpage61Audio}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
       
       {/* Header */}
       <div style={{ background: '#FDFBF7', border: '1px solid #EAE3D9', borderRadius: '16px', padding: '1rem 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
@@ -43,7 +105,21 @@ export default function Stage8a_Mass({ onComplete, addXp }) {
             <Scale size={32} color="#134e4a" /> Phase 1: How heavy or light?
           </h3>
           <p style={{ margin: 0, fontSize: '1.4rem', fontWeight: '600', color: '#4A3B5C' }}>
-            Activity 6.8: Let us measure. Click each cup to place it on the digital balance to record its mass.
+            Activity 6.8:{' '}
+            {fpage61Json.words.map((w, i) => (
+              <span
+                key={i}
+                style={{
+                  color: activeWordIndex === i ? '#A94727' : 'inherit',
+                  background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                  borderRadius: '4px',
+                  padding: '0 2px',
+                  transition: 'all 0.15s ease-out'
+                }}
+              >
+                {w.text}{i < fpage61Json.words.length - 1 ? ' ' : ''}
+              </span>
+            ))}
           </p>
         </div>
       </div>
@@ -240,5 +316,6 @@ export default function Stage8a_Mass({ onComplete, addXp }) {
 
 Stage8a_Mass.propTypes = {
   onComplete: PropTypes.func,
-  addXp: PropTypes.func
+  addXp: PropTypes.func,
+  setExtraRightAction: PropTypes.func
 };

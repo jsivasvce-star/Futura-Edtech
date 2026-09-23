@@ -1,15 +1,113 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Target, CheckCircle } from 'lucide-react';
+import { Target, CheckCircle, Play, Pause } from 'lucide-react';
 
 import imgBallTennis from '../images/b2_ball_tennis.png';
 import imgBallCricket from '../images/b2_ball_cricket.png';
 import imgBallSponge from '../images/b2_ball_sponge.png';
+import fpage26Audio from '../../audio/fpage26.mp3?url';
+import fpage26Json from '../../json/fpage26.json';
+import fpage27Audio from '../../audio/fpage27.mp3?url';
+import fpage27Json from '../../json/fpage27.json';
+import fpage28Audio from '../../audio/fpage28.mp3?url';
+import fpage28Json from '../../json/fpage28.json';
 
-export default function Stage_SportsBall({ onComplete, addXp }) {
+export default function Stage_SportsBall({ onComplete, addXp, setExtraRightAction }) {
   const [activeBall, setActiveBall] = useState('tennis');
   const [inspected, setInspected] = useState({ tennis: true });
   const [dropState, setDropState] = useState('reset'); // 'reset' or 'dropping'
+  
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordIndex, setActiveWordIndex] = useState(null);
+  const audioRef = React.useRef(null);
+
+  const W = ({ i, children }) => {
+    const isActive = activeWordIndex === i;
+    return (
+      <span
+        style={{
+          color: isActive ? '#A94727' : 'inherit',
+          background: isActive ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+          borderRadius: '4px',
+          padding: '0 2px',
+          transition: 'all 0.15s ease-out'
+        }}
+      >
+        {children}
+      </span>
+    );
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      const time = audioRef.current.currentTime;
+      let activeIdx = -1;
+      if (activeBall === 'tennis') {
+        activeIdx = fpage26Json.words.findIndex(w => time >= w.start && time < w.end);
+      } else if (activeBall === 'cricket') {
+        activeIdx = fpage27Json.words.findIndex(w => time >= w.start && time < w.end);
+      } else if (activeBall === 'exercise') {
+        activeIdx = fpage28Json.words.findIndex(w => time >= w.start && time < w.end);
+      }
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (setExtraRightAction) {
+      if (activeBall === 'tennis' || activeBall === 'cricket' || activeBall === 'exercise') {
+        setExtraRightAction(
+          <button
+            onClick={() => {
+              if (audioRef.current) {
+                if (isPlaying) {
+                  audioRef.current.pause();
+                } else {
+                  audioRef.current.play().catch(console.error);
+                }
+                setIsPlaying(!isPlaying);
+              }
+            }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              background: 'var(--lesson-surface)',
+              color: 'var(--lesson-text)',
+              border: '1px solid var(--lesson-border)',
+              padding: '12px 24px',
+              borderRadius: '8px',
+              fontSize: '18px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+          >
+            {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+            {isPlaying ? "Pause" : "Play"}
+          </button>
+        );
+      } else {
+        setExtraRightAction(null);
+      }
+    }
+    
+    return () => {
+      if (setExtraRightAction) setExtraRightAction(null);
+    };
+  }, [setExtraRightAction, isPlaying, activeBall]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setIsPlaying(false);
+      setActiveWordIndex(null);
+    }
+  }, [activeBall]);
 
   const balls = [
     {
@@ -68,13 +166,40 @@ export default function Stage_SportsBall({ onComplete, addXp }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%', flex: 1, minHeight: 0 }}>
+      {(activeBall === 'tennis' || activeBall === 'cricket' || activeBall === 'exercise') && (
+        <audio
+          ref={audioRef}
+          src={activeBall === 'tennis' ? fpage26Audio : activeBall === 'cricket' ? fpage27Audio : fpage28Audio}
+          onTimeUpdate={handleTimeUpdate}
+          onEnded={() => {
+            setIsPlaying(false);
+            setActiveWordIndex(null);
+          }}
+        />
+      )}
       <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', border: '1px solid var(--lesson-accent-border)' }}>
         <h3 style={{ margin: 0, fontSize: 'clamp(29.04px, 3.63vw, 36.3px)', color: 'var(--heading-main)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Target size={26} style={{ color: '#A64B27' }} />
           Investigation: Sports Equipment Properties
         </h3>
         <p style={{ margin: 0, fontSize: 'clamp(21.78px, 3.025vw, 26.62px)', color: 'var(--heading-sub)' }}>
-          Click each ball to analyze its properties and discover how its material matches its purpose.
+          {activeBall === 'tennis' ? (
+            <>
+              <W i={46}>Click</W> each <W i={48}>ball</W> to analyze <W i={51}>its</W> <W i={11}>properties</W> <W i={5}>and</W> discover <W i={7}>how</W> its <W i={9}>material</W> matches its purpose.
+            </>
+          ) : activeBall === 'cricket' ? (
+            <>
+              <W i={23}>Click</W> each <W i={25}>ball</W> to analyze <W i={28}>its</W> properties and discover how its material matches its purpose.
+            </>
+          ) : activeBall === 'exercise' ? (
+            <>
+              <W i={28}>Click</W> each <W i={30}>ball</W> to analyze <W i={33}>its</W> properties <W i={31}>and</W> discover how its material matches its purpose.
+            </>
+          ) : (
+            <>
+              Click each ball to analyze its properties and discover how its material matches its purpose.
+            </>
+          )}
         </p>
       </div>
 

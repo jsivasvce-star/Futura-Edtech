@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Info, CheckCircle, Star, Box, ChevronRight, ChevronLeft } from 'lucide-react';
+import { Info, CheckCircle, Star, Box, ChevronRight, ChevronLeft, Play, Pause } from 'lucide-react';
+import fpage68Audio from '../../audio/fpage68.mp3?url';
+import fpage68Json from '../../json/fpage68.json';
+import fpage69Audio from '../../audio/fpage69.mp3?url';
+import fpage69Json from '../../json/fpage69.json';
+import fpage70Audio from '../../audio/fpage70.mp3?url';
+import fpage70Json from '../../json/fpage70.json';
 
-export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
+export default function Stage8c_VolumeConcept({ onComplete, addXp, setExtraRightAction }) {
   const [activeStep, setActiveStep] = useState(0);
   const [volumesRevealed, setVolumesRevealed] = useState({
     teaCup: false,
@@ -11,6 +17,105 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
     waterGlass: false,
     bucket: false
   });
+
+  const currentAudioSrc = activeStep === 0 ? fpage68Audio : (activeStep === 1 ? fpage69Audio : (activeStep === 2 ? fpage70Audio : null));
+  const currentJson = activeStep === 0 ? fpage68Json : (activeStep === 1 ? fpage69Json : (activeStep === 2 ? fpage70Json : null));
+
+  const audioPageRef = React.useRef(null);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [activeWordIndex, setActiveWordIndex] = useState(-1);
+
+  React.useEffect(() => {
+    setIsPlayingAudio(false);
+    setActiveWordIndex(-1);
+    if (audioPageRef.current) {
+      audioPageRef.current.pause();
+      audioPageRef.current.currentTime = 0;
+    }
+  }, [activeStep]);
+
+  const toggleAudio = React.useCallback(() => {
+    if (audioPageRef.current) {
+      if (isPlayingAudio) {
+        audioPageRef.current.pause();
+      } else {
+        audioPageRef.current.play().catch(e => console.error(e));
+      }
+      setIsPlayingAudio(!isPlayingAudio);
+    }
+  }, [isPlayingAudio]);
+
+  const handleTimeUpdate = React.useCallback(() => {
+    if (audioPageRef.current && currentJson) {
+      const time = audioPageRef.current.currentTime;
+      const activeIdx = currentJson.words.findIndex(w => time >= w.start && time < w.end);
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  }, [activeWordIndex, currentJson]);
+
+  const renderHighlightedText = React.useCallback((text, startIdx, endIdx) => {
+    const words = text.split(' ');
+    return words.map((w, i) => {
+      let isMatch = false;
+      if (activeWordIndex >= startIdx && activeWordIndex <= endIdx && currentJson) {
+        const activeW = currentJson.words[activeWordIndex].text.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const uiW = w.toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (activeW && uiW && (uiW === activeW || uiW.includes(activeW) || activeW.includes(uiW))) {
+          isMatch = true;
+        }
+      }
+      return (
+        <span
+          key={i}
+          style={{
+            color: isMatch ? '#A94727' : 'inherit',
+            background: isMatch ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+            borderRadius: '4px',
+            transition: 'all 0.1s ease-out'
+          }}
+        >
+          {w}{' '}
+        </span>
+      );
+    });
+  }, [activeWordIndex, currentJson]);
+
+  React.useEffect(() => {
+    if ((activeStep === 0 || activeStep === 1 || activeStep === 2) && typeof setExtraRightAction === 'function') {
+      setExtraRightAction(
+        <button
+          onClick={toggleAudio}
+          className="outline"
+          style={{
+            padding: '0.85rem 1.6rem',
+            fontSize: '1.6rem',
+            fontWeight: 'bold',
+            gap: '0.75rem',
+            borderRadius: '10px',
+            color: '#3E2723',
+            borderColor: '#3E2723',
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
+            background: 'white'
+          }}
+        >
+          {isPlayingAudio ? <Pause size={24} /> : <Play size={24} />}
+          {isPlayingAudio ? "Pause Audio" : "Play Audio"}
+        </button>
+      );
+    } else {
+      if (typeof setExtraRightAction === 'function') {
+        setExtraRightAction(null);
+      }
+      if (audioPageRef.current && isPlayingAudio) {
+        audioPageRef.current.pause();
+        setIsPlayingAudio(false);
+      }
+    }
+  }, [activeStep, setExtraRightAction, isPlayingAudio, toggleAudio]);
 
   const handleReveal = (item) => {
     if (!volumesRevealed[item]) {
@@ -38,7 +143,14 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100vh', color: '#3B2A1F', background: '#FDFBF7', padding: '0', boxSizing: 'border-box', overflow: 'hidden' }}>
-      
+      {currentAudioSrc && (
+        <audio
+          ref={audioPageRef}
+          src={currentAudioSrc}
+          onTimeUpdate={handleTimeUpdate}
+          onEnded={() => setIsPlayingAudio(false)}
+        />
+      )}
       {/* MAIN CONTENT AREA */}
       <div style={{ flex: 1, background: '#FDFBF7', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         
@@ -62,20 +174,26 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
                   
                   {/* Right: Explanation */}
                   <div style={{ flex: '1.2', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                    <h3 style={{ fontSize: '3.5rem', color: '#3B2A1F', margin: '0 0 1rem 0', lineHeight: '1.1', fontWeight: '900', fontFamily: '"Merriweather", "Georgia", serif' }}>WHY CAN&apos;T I ADD MORE WATER?</h3>
+                    <h3 style={{ fontSize: '3.5rem', color: '#3B2A1F', margin: '0 0 1rem 0', lineHeight: '1.1', fontWeight: '900', fontFamily: '"Merriweather", "Georgia", serif' }}>
+                      {renderHighlightedText("WHY CAN'T I ADD MORE WATER?", 0, 5)}
+                    </h3>
                     
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                       <p style={{ margin: 0, color: '#3B2A1F', fontSize: '2.2rem', lineHeight: '1.4' }}>
-                        The bottle has <strong style={{ fontWeight: '900', color: '#A64B27' }}>limited space</strong>.
+                        <span>{renderHighlightedText("The bottle has", 6, 8)}</span> <strong style={{ fontWeight: '900', color: '#A64B27' }}><span>{renderHighlightedText("limited space", 9, 10)}</span>.</strong>
                       </p>
                       <p style={{ margin: 0, color: '#3B2A1F', fontSize: '2.2rem', lineHeight: '1.4' }}>
-                        Once it is full, no more water can fit.
+                        {renderHighlightedText("Once it is full, no more water can fit.", 11, 19)}
                       </p>
                     </div>
                     
                     <div style={{ marginTop: '1.25rem', background: '#FDFBF7', padding: '1rem 1.5rem', borderRadius: '16px', border: '2px dashed #D9C9A3' }}>
-                      <p style={{ margin: '0 0 0.5rem 0', color: '#7A6A52', fontSize: '2rem', fontWeight: '800', fontFamily: '"Merriweather", "Georgia", serif' }}>That amount of space is called</p>
-                      <div style={{ color: '#A64B27', background: '#FFFFFF', display: 'inline-block', padding: '0.25rem 1rem', fontSize: '4.5rem', fontWeight: '900', letterSpacing: '2px', borderRadius: '8px', border: '2px solid #D9C9A3' }}>VOLUME</div>
+                      <p style={{ margin: '0 0 0.5rem 0', color: '#7A6A52', fontSize: '2rem', fontWeight: '800', fontFamily: '"Merriweather", "Georgia", serif' }}>
+                        {renderHighlightedText("That amount of space is called", 20, 25)}
+                      </p>
+                      <div style={{ color: '#A64B27', background: '#FFFFFF', display: 'inline-block', padding: '0.25rem 1rem', fontSize: '4.5rem', fontWeight: '900', letterSpacing: '2px', borderRadius: '8px', border: '2px solid #D9C9A3' }}>
+                        {renderHighlightedText("VOLUME", 26, 26)}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -111,10 +229,10 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
                       How much space can a container hold?
                     </p>
                     <p style={{ margin: '0 0 0.5rem 0', color: '#3B2A1F', fontSize: '2rem', lineHeight: '1.45' }}>
-                      Different containers can hold different amounts of liquid.
+                      {renderHighlightedText("Different containers can hold different amounts of liquid.", 0, 7)}
                     </p>
                     <p style={{ margin: 0, color: '#3B2A1F', fontSize: '2rem', lineHeight: '1.45' }}>
-                      The amount a container can hold is described using <strong style={{ color: '#A64B27', background: '#FFFFFF', padding: '0.2rem 0.5rem', fontWeight: '900', borderRadius: '6px', border: '2px solid #D9C9A3' }}>volume</strong>.
+                      <span>{renderHighlightedText("The amount a container can hold is described using", 8, 16)}</span> <strong style={{ color: '#A64B27', background: '#FFFFFF', padding: '0.2rem 0.5rem', fontWeight: '900', borderRadius: '6px', border: '2px solid #D9C9A3' }}><span>{renderHighlightedText("volume.", 17, 17)}</span></strong>
                     </p>
                   </div>
                   
@@ -151,9 +269,9 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
                   {/* 3. SAME VOLUME BADGE */}
                   <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                     <div style={{ background: '#FDFBF7', padding: '0.75rem 1.5rem', borderRadius: '12px', border: '2px dashed #D9C9A3', textAlign: 'center' }}>
-                      <span style={{ color: '#A64B27', fontWeight: '900', fontSize: '1.8rem' }}>SAME VOLUME</span>
+                      <span style={{ color: '#A64B27', fontWeight: '900', fontSize: '1.8rem' }}>{renderHighlightedText("SAME VOLUME", 50, 63)}</span>
                       <span style={{ color: '#7A6A52', fontWeight: 'bold', fontSize: '1.8rem', margin: '0 1rem' }}>•</span>
-                      <span style={{ color: '#A64B27', fontWeight: '900', fontSize: '1.8rem' }}>DIFFERENT MATERIAL</span>
+                      <span style={{ color: '#A64B27', fontWeight: '900', fontSize: '1.8rem' }}>{renderHighlightedText("DIFFERENT MATERIAL", 50, 63)}</span>
                     </div>
                   </div>
                 </div>
@@ -166,21 +284,21 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
                     <div>
                       <div style={{ fontSize: '2.2rem', fontWeight: '900', color: '#3B2A1F', marginBottom: '0.75rem', letterSpacing: '0.5px', textTransform: 'uppercase', fontFamily: '"Merriweather", "Georgia", serif' }}>Measuring Volume</div>
                       <p style={{ margin: '0 0 0.75rem 0', color: '#3B2A1F', fontSize: '1.8rem', lineHeight: '1.45' }}>
-                        Labels such as <strong style={{ color: '#A64B27' }}>200 mL, 500 mL</strong> and <strong style={{ color: '#A64B27' }}>1 L</strong> tell us how much a container can hold.
+                        <span>{renderHighlightedText("Labels such as", 18, 28)}</span> <strong style={{ color: '#A64B27' }}><span>{renderHighlightedText("200 mL, 500 mL", 18, 28)}</span></strong> <span>{renderHighlightedText("and", 18, 28)}</span> <strong style={{ color: '#A64B27' }}><span>{renderHighlightedText("1 L", 18, 28)}</span></strong> <span>{renderHighlightedText("tell us how much a container can hold.", 18, 28)}</span>
                       </p>
                       <p style={{ margin: '0', color: '#3B2A1F', fontSize: '1.8rem', lineHeight: '1.45' }}>
-                        Volume is measured in <strong style={{ color: '#A64B27' }}>millilitres (mL)</strong> or <strong style={{ color: '#A64B27' }}>litres (L)</strong>.
+                        <span>{renderHighlightedText("Volume is measured in", 18, 28)}</span> <strong style={{ color: '#A64B27' }}><span>{renderHighlightedText("millilitres (mL)", 18, 28)}</span></strong> <span>{renderHighlightedText("or", 18, 28)}</span> <strong style={{ color: '#A64B27' }}><span>{renderHighlightedText("litres (L).", 18, 28)}</span></strong>
                       </p>
                     </div>
 
                     <div style={{ background: '#FDFBF7', border: '2px dashed #D9C9A3', padding: '1rem', borderRadius: '12px', color: '#A64B27', fontWeight: '900', fontSize: '3rem', textAlign: 'center', width: '100%', boxSizing: 'border-box' }}>
-                      1 L = 1000 mL
+                      {renderHighlightedText("1 L = 1000 mL", 29, 36)}
                     </div>
 
                     <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', background: '#FFFFFF', border: '2px solid #D9C9A3', padding: '1rem 1.25rem', borderRadius: '12px', width: '100%', boxSizing: 'border-box' }}>
                       <Info size={36} color="#A64B27" style={{ flexShrink: 0 }} />
                       <p style={{ margin: 0, color: '#3B2A1F', fontSize: '1.6rem', lineHeight: '1.4', fontWeight: '600' }}>
-                        <strong style={{ color: '#A64B27' }}>Look at the label</strong> on a container to see how much it can hold.
+                        <strong style={{ color: '#A64B27' }}><span>{renderHighlightedText("Look at the label", 37, 49)}</span></strong> <span>{renderHighlightedText("on a container to see how much it can hold.", 37, 49)}</span>
                       </p>
                     </div>
 
@@ -211,7 +329,9 @@ export default function Stage8c_VolumeConcept({ onComplete, addXp }) {
             >
               <div style={{ flexShrink: 0 }}>
                 <h3 style={{ fontSize: '3.8rem', color: '#3B2A1F', margin: '0 0 0.5rem 0', fontWeight: '900', fontFamily: '"Merriweather", "Georgia", serif' }}>Explore Different Volumes</h3>
-                <p style={{ color: '#7A6A52', fontSize: '2rem', margin: 0, fontWeight: '600' }}>Click each container to discover how much it can hold.</p>
+                <p style={{ color: '#7A6A52', fontSize: '2rem', margin: 0, fontWeight: '600' }}>
+                  {renderHighlightedText("Click each container to discover how much it can hold.", 0, 9)}
+                </p>
               </div>
               
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', flex: 1, minHeight: 0 }}>

@@ -1,0 +1,77 @@
+{
+  "audio_file": "fpage41.mp3",
+  "duration": 4.911,
+  "language": "en",
+  "words": [
+    {
+      "text": "Press",
+      "start": 0.0,
+      "end": 0.34
+    },
+    {
+      "text": "each",
+      "start": 0.34,
+      "end": 0.62
+    },
+    {
+      "text": "object,",
+      "start": 0.62,
+      "end": 1.02
+    },
+    {
+      "text": "observe",
+      "start": 1.4,
+      "end": 1.74
+    },
+    {
+      "text": "what",
+      "start": 1.74,
+      "end": 1.94
+    },
+    {
+      "text": "happens",
+      "start": 1.94,
+      "end": 2.32
+    },
+    {
+      "text": "and",
+      "start": 2.32,
+      "end": 2.7
+    },
+    {
+      "text": "identify",
+      "start": 2.7,
+      "end": 3.2
+    },
+    {
+      "text": "the",
+      "start": 3.2,
+      "end": 3.44
+    },
+    {
+      "text": "material",
+      "start": 3.44,
+      "end": 3.8
+    },
+    {
+      "text": "it",
+      "start": 3.8,
+      "end": 4.02
+    },
+    {
+      "text": "is",
+      "start": 4.02,
+      "end": 4.22
+    },
+    {
+      "text": "made",
+      "start": 4.22,
+      "end": 4.4
+    },
+    {
+      "text": "of.",
+      "start": 4.4,
+      "end": 4.62
+    }
+  ]
+}

@@ -1,0 +1,577 @@
+{
+  "audio_file": "fpage8.mp3",
+  "duration": 44.016,
+  "language": "en",
+  "words": [
+    {
+      "text": "Look",
+      "start": 0.0,
+      "end": 0.32
+    },
+    {
+      "text": "around",
+      "start": 0.32,
+      "end": 0.66
+    },
+    {
+      "text": "you.",
+      "start": 0.66,
+      "end": 1.02
+    },
+    {
+      "text": "You",
+      "start": 1.36,
+      "end": 1.48
+    },
+    {
+      "text": "can",
+      "start": 1.48,
+      "end": 1.74
+    },
+    {
+      "text": "see",
+      "start": 1.74,
+      "end": 1.9
+    },
+    {
+      "text": "many",
+      "start": 1.9,
+      "end": 2.22
+    },
+    {
+      "text": "things.",
+      "start": 2.22,
+      "end": 2.66
+    },
+    {
+      "text": "A",
+      "start": 2.92,
+      "end": 3.12
+    },
+    {
+      "text": "chair,",
+      "start": 3.12,
+      "end": 3.48
+    },
+    {
+      "text": "a",
+      "start": 3.68,
+      "end": 3.86
+    },
+    {
+      "text": "book,",
+      "start": 3.86,
+      "end": 4.1
+    },
+    {
+      "text": "a",
+      "start": 4.38,
+      "end": 4.56
+    },
+    {
+      "text": "water",
+      "start": 4.56,
+      "end": 4.8
+    },
+    {
+      "text": "bottle,",
+      "start": 4.8,
+      "end": 5.16
+    },
+    {
+      "text": "a",
+      "start": 5.56,
+      "end": 5.7
+    },
+    {
+      "text": "pencil,",
+      "start": 5.7,
+      "end": 6.1
+    },
+    {
+      "text": "and",
+      "start": 6.32,
+      "end": 6.5
+    },
+    {
+      "text": "so",
+      "start": 6.5,
+      "end": 6.76
+    },
+    {
+      "text": "on.",
+      "start": 6.76,
+      "end": 7.1
+    },
+    {
+      "text": "These",
+      "start": 7.48,
+      "end": 7.9
+    },
+    {
+      "text": "are",
+      "start": 7.9,
+      "end": 8.32
+    },
+    {
+      "text": "all",
+      "start": 8.32,
+      "end": 8.62
+    },
+    {
+      "text": "objects.",
+      "start": 8.62,
+      "end": 9.08
+    },
+    {
+      "text": "Even",
+      "start": 9.76,
+      "end": 10.06
+    },
+    {
+      "text": "though",
+      "start": 10.06,
+      "end": 10.32
+    },
+    {
+      "text": "they",
+      "start": 10.32,
+      "end": 10.48
+    },
+    {
+      "text": "look",
+      "start": 10.48,
+      "end": 10.7
+    },
+    {
+      "text": "different,",
+      "start": 10.7,
+      "end": 11.24
+    },
+    {
+      "text": "each",
+      "start": 11.6,
+      "end": 11.94
+    },
+    {
+      "text": "object",
+      "start": 11.94,
+      "end": 12.36
+    },
+    {
+      "text": "is",
+      "start": 12.36,
+      "end": 12.64
+    },
+    {
+      "text": "made",
+      "start": 12.64,
+      "end": 12.82
+    },
+    {
+      "text": "of",
+      "start": 12.82,
+      "end": 13.04
+    },
+    {
+      "text": "some",
+      "start": 13.04,
+      "end": 13.3
+    },
+    {
+      "text": "material.",
+      "start": 13.3,
+      "end": 13.82
+    },
+    {
+      "text": "A",
+      "start": 14.42,
+      "end": 14.66
+    },
+    {
+      "text": "material",
+      "start": 14.66,
+      "end": 15.08
+    },
+    {
+      "text": "is",
+      "start": 15.08,
+      "end": 15.4
+    },
+    {
+      "text": "the",
+      "start": 15.4,
+      "end": 15.58
+    },
+    {
+      "text": "substance",
+      "start": 15.58,
+      "end": 16.12
+    },
+    {
+      "text": "used",
+      "start": 16.12,
+      "end": 16.76
+    },
+    {
+      "text": "to",
+      "start": 16.76,
+      "end": 17.12
+    },
+    {
+      "text": "make",
+      "start": 17.12,
+      "end": 17.34
+    },
+    {
+      "text": "an",
+      "start": 17.34,
+      "end": 17.6
+    },
+    {
+      "text": "object.",
+      "start": 17.6,
+      "end": 17.92
+    },
+    {
+      "text": "An",
+      "start": 18.54,
+      "end": 18.74
+    },
+    {
+      "text": "object",
+      "start": 18.74,
+      "end": 19.12
+    },
+    {
+      "text": "is",
+      "start": 19.12,
+      "end": 19.52
+    },
+    {
+      "text": "anything",
+      "start": 19.52,
+      "end": 19.9
+    },
+    {
+      "text": "we",
+      "start": 19.9,
+      "end": 20.12
+    },
+    {
+      "text": "can",
+      "start": 20.12,
+      "end": 20.4
+    },
+    {
+      "text": "see",
+      "start": 20.4,
+      "end": 20.64
+    },
+    {
+      "text": "or",
+      "start": 20.64,
+      "end": 20.94
+    },
+    {
+      "text": "use",
+      "start": 20.94,
+      "end": 21.14
+    },
+    {
+      "text": "around",
+      "start": 21.14,
+      "end": 21.42
+    },
+    {
+      "text": "us.",
+      "start": 21.42,
+      "end": 21.82
+    },
+    {
+      "text": "For",
+      "start": 22.18,
+      "end": 22.4
+    },
+    {
+      "text": "example,",
+      "start": 22.4,
+      "end": 22.96
+    },
+    {
+      "text": "a",
+      "start": 23.42,
+      "end": 23.56
+    },
+    {
+      "text": "chair",
+      "start": 23.56,
+      "end": 23.76
+    },
+    {
+      "text": "can",
+      "start": 23.76,
+      "end": 24.0
+    },
+    {
+      "text": "be",
+      "start": 24.0,
+      "end": 24.14
+    },
+    {
+      "text": "made",
+      "start": 24.14,
+      "end": 24.34
+    },
+    {
+      "text": "of",
+      "start": 24.34,
+      "end": 24.58
+    },
+    {
+      "text": "wood,",
+      "start": 24.58,
+      "end": 24.98
+    },
+    {
+      "text": "plastic",
+      "start": 25.22,
+      "end": 25.68
+    },
+    {
+      "text": "or",
+      "start": 25.68,
+      "end": 26.0
+    },
+    {
+      "text": "steel.",
+      "start": 26.0,
+      "end": 26.36
+    },
+    {
+      "text": "A",
+      "start": 26.94,
+      "end": 27.12
+    },
+    {
+      "text": "plate",
+      "start": 27.12,
+      "end": 27.4
+    },
+    {
+      "text": "can",
+      "start": 27.4,
+      "end": 27.64
+    },
+    {
+      "text": "be",
+      "start": 27.64,
+      "end": 27.8
+    },
+    {
+      "text": "made",
+      "start": 27.8,
+      "end": 27.98
+    },
+    {
+      "text": "of",
+      "start": 27.98,
+      "end": 28.28
+    },
+    {
+      "text": "steel,",
+      "start": 28.28,
+      "end": 28.62
+    },
+    {
+      "text": "glass",
+      "start": 28.94,
+      "end": 29.3
+    },
+    {
+      "text": "or",
+      "start": 29.3,
+      "end": 29.6
+    },
+    {
+      "text": "plastic.",
+      "start": 29.6,
+      "end": 30.1
+    },
+    {
+      "text": "A",
+      "start": 30.7,
+      "end": 30.88
+    },
+    {
+      "text": "bottle",
+      "start": 30.88,
+      "end": 31.24
+    },
+    {
+      "text": "can",
+      "start": 31.24,
+      "end": 31.52
+    },
+    {
+      "text": "be",
+      "start": 31.52,
+      "end": 31.64
+    },
+    {
+      "text": "made",
+      "start": 31.64,
+      "end": 31.86
+    },
+    {
+      "text": "of",
+      "start": 31.86,
+      "end": 32.1
+    },
+    {
+      "text": "plastic,",
+      "start": 32.1,
+      "end": 32.62
+    },
+    {
+      "text": "glass",
+      "start": 32.92,
+      "end": 33.22
+    },
+    {
+      "text": "or",
+      "start": 33.22,
+      "end": 33.6
+    },
+    {
+      "text": "steel.",
+      "start": 33.6,
+      "end": 33.92
+    },
+    {
+      "text": "One",
+      "start": 34.5,
+      "end": 34.74
+    },
+    {
+      "text": "object",
+      "start": 34.74,
+      "end": 35.16
+    },
+    {
+      "text": "can",
+      "start": 35.16,
+      "end": 35.44
+    },
+    {
+      "text": "be",
+      "start": 35.44,
+      "end": 35.62
+    },
+    {
+      "text": "made",
+      "start": 35.62,
+      "end": 35.88
+    },
+    {
+      "text": "from",
+      "start": 35.88,
+      "end": 36.18
+    },
+    {
+      "text": "different",
+      "start": 36.18,
+      "end": 36.58
+    },
+    {
+      "text": "materials.",
+      "start": 36.58,
+      "end": 37.1
+    },
+    {
+      "text": "And",
+      "start": 37.66,
+      "end": 37.78
+    },
+    {
+      "text": "one",
+      "start": 37.78,
+      "end": 37.96
+    },
+    {
+      "text": "material",
+      "start": 37.96,
+      "end": 38.36
+    },
+    {
+      "text": "can",
+      "start": 38.36,
+      "end": 38.7
+    },
+    {
+      "text": "be",
+      "start": 38.7,
+      "end": 38.96
+    },
+    {
+      "text": "used",
+      "start": 38.96,
+      "end": 39.24
+    },
+    {
+      "text": "to",
+      "start": 39.24,
+      "end": 39.76
+    },
+    {
+      "text": "make",
+      "start": 39.76,
+      "end": 40.1
+    },
+    {
+      "text": "many",
+      "start": 40.1,
+      "end": 40.48
+    },
+    {
+      "text": "different",
+      "start": 40.48,
+      "end": 40.84
+    },
+    {
+      "text": "objects.",
+      "start": 40.84,
+      "end": 41.28
+    },
+    {
+      "text": "Can",
+      "start": 41.8,
+      "end": 41.96
+    },
+    {
+      "text": "you",
+      "start": 41.96,
+      "end": 42.12
+    },
+    {
+      "text": "think",
+      "start": 42.12,
+      "end": 42.32
+    },
+    {
+      "text": "of",
+      "start": 42.32,
+      "end": 42.76
+    },
+    {
+      "text": "more",
+      "start": 42.76,
+      "end": 43.04
+    },
+    {
+      "text": "examples?",
+      "start": 43.04,
+      "end": 43.56
+    }
+  ]
+}
