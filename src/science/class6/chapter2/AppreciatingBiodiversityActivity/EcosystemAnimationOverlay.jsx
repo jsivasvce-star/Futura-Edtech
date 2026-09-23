@@ -7,7 +7,7 @@ const cowImgSrc = '';
 const frogImgSrc = '';
 const squirrelImgSrc = '';
 
-import antImgSrc from '../../../../../assets/ant.png';
+import antImgSrc from '../../../../assets/ant.png';
 
 import crowFrame1 from '../../../../assets/anim_frames/crow_flight_frame_1.png';
 import crowFrame2 from '../../../../assets/anim_frames/crow_flight_frame_2.png';

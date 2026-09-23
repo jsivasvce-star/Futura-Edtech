@@ -12,13 +12,13 @@ import antImg from '../../../../assets/activity29/ant_thumbnail_1789987932035.jp
 import goatImg from '../../../../assets/activity29/goat_thumbnail_1789987944795.jpg';
 import pigeonImg from '../../../../assets/activity29/pigeon_thumbnail_1789987956446.jpg';
 import houseflyImg from '../../../../assets/activity29/housefly_thumbnail_1789987971650.jpg';
-import fishImg from '../../../../assets/activity29/fish_thumbnail_1789987984685.jpg';
+import fishImg from '../../../../assets/activity29/fish_thumbnail_real.png';
 
-import birdImg from '../../../../assets/activity29/bird_thumbnail.jpg';
-import monkeyImg from '../../../../assets/activity29/monkey_thumbnail.jpg';
-import rabbitImg from '../../../../assets/activity29/rabbit_thumbnail.jpg';
-import cheetahImg from '../../../../assets/activity29/cheetah_thumbnail.jpg';
-import frogImg from '../../../../assets/activity29/frog_thumbnail.jpg';
+import birdImg from '../../../../assets/activity29/bird_thumbnail_real.png';
+import monkeyImg from '../../../../assets/activity29/monkey_thumbnail_real.png';
+import rabbitImg from '../../../../assets/activity29/rabbit_thumbnail_real.png';
+import cheetahImg from '../../../../assets/activity29/cheetah_thumbnail_real.png';
+import frogImg from '../../../../assets/activity29/frog_thumbnail_real.png';
 import page4Bg from '../../../../assets/activity29_page4_bg.jpg';
 
 const ANIMAL_DATA = [
@@ -768,12 +768,28 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
                         transition: 'transform 0.2s',
                       }}
                     >
-                      <img 
-                        src={animal.image} 
-                        alt={animal.name} 
-                        style={{ width: '70px', height: '70px', objectFit: 'cover', borderRadius: '50%', marginBottom: '6px', border: '2px solid #e2e8f0' }}
-                        draggable="false"
-                      />
+                      <div style={{
+                        width: '96px',
+                        height: '96px',
+                        borderRadius: '50%',
+                        overflow: 'hidden',
+                        border: '2px solid #e2e8f0',
+                        margin: '0 auto 6px auto',
+                        background: 'transparent',
+                      }}>
+                        <img 
+                          src={animal.image} 
+                          alt={animal.name} 
+                          style={{ 
+                            width: '100%', 
+                            height: '100%', 
+                            objectFit: 'contain', 
+                            objectPosition: 'center', 
+                            display: 'block'
+                          }}
+                          draggable="false"
+                        />
+                      </div>
                       <span style={{ fontSize: '14px', fontWeight: '700', color: '#334155' }}>{animal.name}</span>
                     </div>
                   ))}
