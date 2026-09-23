@@ -505,14 +505,14 @@ const playTone = (type) => {
   }
 };
 
-export default function InlineSortingActivity({ onBackToDashboard, onNextActivity, onGoToDetective, onBackToDetective, initialPhase = 'specimens' }) {
+export default function InlineSortingActivity({ onBackToDashboard, onNextActivity, onGoToDetective, onBackToDetective, initialPhase = 'specimens', initialSpecimenIndex = 0 }) {
   const { theme } = useTheme();
 
   // Mode: 'specimens' (Phase 1) | 'table23' (Phase 1.5) | 'grouping' (Phase 2)
   const [phase, setPhase] = useState(initialPhase);
 
   // Specimen Carousel State (0 to 8)
-  const [currentSpecimenIndex, setCurrentSpecimenIndex] = useState(0);
+  const [currentSpecimenIndex, setCurrentSpecimenIndex] = useState(initialSpecimenIndex);
 
   // Grouping Activity State
   const [activeTabId, setActiveTabId] = useState('plants_animals');
@@ -2060,7 +2060,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               }}>
                 <h3 style={{
                   margin: 0,
-                  fontSize: '22px',
+                  fontSize: '24px',
                   fontWeight: 900,
                   color: '#0F172A'
                 }}>
@@ -2070,7 +2070,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   background: inspectedCard.type === 'plant' ? '#DCFCE7' : '#FEF3C7',
                   color: inspectedCard.type === 'plant' ? '#166534' : '#92400E',
                   fontWeight: 800,
-                  fontSize: '16px',
+                  fontSize: '18px',
                   padding: '4px 12px',
                   borderRadius: '12px'
                 }}>
@@ -2080,7 +2080,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
 
               <p style={{
                 margin: '0 0 16px 0',
-                fontSize: '16px',
+                fontSize: '18px',
                 lineHeight: 1.5,
                 color: '#475569'
               }}>
@@ -2096,7 +2096,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                   border: 'none',
                   borderRadius: '12px',
                   padding: '12px',
-                  fontSize: '16px',
+                  fontSize: '18px',
                   fontWeight: 800,
                   cursor: 'pointer'
                 }}

@@ -15,8 +15,15 @@ import audio13 from './narration/audio/13_RecordingObservations.mp3';
 
 const SCENE_AUDIO = [audio07, audio08, audio09, audio10, audio11, audio12, audio13];
 
-export default function IntroStoryteller({ onComplete, onBack }) {
-  const [currentScene, setCurrentScene] = useState(0);
+export default function IntroStoryteller({ onComplete, onBack, initialScene = 0 }) {
+  const [currentScene, setCurrentScene] = useState(initialScene);
+
+  useEffect(() => {
+    if (typeof initialScene === 'number') {
+      setCurrentScene(initialScene);
+    }
+  }, [initialScene]);
+
   const [imgLoaded, setImgLoaded] = useState(false);
   const { theme = 'light' } = useTheme() || {};
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -104,6 +111,8 @@ export default function IntroStoryteller({ onComplete, onBack }) {
   const handlePrev = () => {
     if (currentScene > 0) {
       setCurrentScene(prev => prev - 1);
+    } else if (onBack) {
+      onBack();
     }
   };
 
@@ -118,7 +127,7 @@ export default function IntroStoryteller({ onComplete, onBack }) {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentScene, totalScenes, onComplete]);
+  }, [currentScene, totalScenes, onComplete, onBack]);
 
   return (
     <div
@@ -203,11 +212,11 @@ export default function IntroStoryteller({ onComplete, onBack }) {
           className="story-subtitle-wrapper"
           style={{
             position: 'absolute',
-            bottom: 'clamp(5.2rem, 10vh, 6.8rem)',
+            bottom: 'clamp(6rem, 11.5vh, 7.5rem)',
             left: '50%',
             transform: 'translateX(-50%)',
-            width: 'fit-content',
-            maxWidth: 'min(1260px, calc(100vw - 4rem))',
+            width: 'max-content',
+            maxWidth: 'min(1420px, 92vw)',
             boxSizing: 'border-box',
             zIndex: 15,
             pointerEvents: 'none',
@@ -215,13 +224,13 @@ export default function IntroStoryteller({ onComplete, onBack }) {
             justifyContent: 'center',
             alignItems: 'center',
             textAlign: 'center',
-            padding: '7px 22px',
-            background: 'rgba(10, 18, 32, 0.72)',
-            backdropFilter: 'blur(4px)',
-            WebkitBackdropFilter: 'blur(8px)',
-            border: '1.5px solid rgba(255, 255, 255, 0.22)',
-            borderRadius: '24px',
-            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.3)'
+            padding: '0 1rem',
+            background: 'transparent',
+            border: 'none',
+            borderRadius: 0,
+            boxShadow: 'none',
+            backdropFilter: 'none',
+            WebkitBackdropFilter: 'none'
           }}
         >
           <style>{`
@@ -234,6 +243,16 @@ export default function IntroStoryteller({ onComplete, onBack }) {
               text-align: center !important;
               text-align-last: center !important;
               justify-content: center !important;
+              white-space: nowrap !important;
+              display: flex !important;
+              flex-wrap: nowrap !important;
+              align-items: center !important;
+              max-width: 92vw !important;
+            }
+            @media (min-width: 1500px) {
+              .story-subtitle-text {
+                font-size: 32px !important;
+              }
             }
           `}</style>
           <div
@@ -241,17 +260,16 @@ export default function IntroStoryteller({ onComplete, onBack }) {
             className="story-subtitle-text"
             style={{
               margin: 0,
-              width: '100%',
-              fontSize: 'clamp(15px, 1.35vw, 19.5px)',
+              width: 'max-content',
+              maxWidth: 'min(1420px, 92vw)',
+              fontSize: 'clamp(22px, 2.05vw, 32px)',
               fontWeight: '700',
-              lineHeight: '1.4',
+              lineHeight: '1.25',
               fontFamily: '"Playfair Display", Georgia, serif',
               textAlign: 'center',
               textAlignLast: 'center',
-              whiteSpace: 'normal',
-              wordBreak: 'normal',
-              overflowWrap: 'break-word',
-              letterSpacing: '0.015em',
+              whiteSpace: 'nowrap',
+              letterSpacing: '0.012em',
               animation: 'subTextFade 0.35s ease-out'
             }}
           >
@@ -263,15 +281,17 @@ export default function IntroStoryteller({ onComplete, onBack }) {
                   key={globalIdx}
                   style={{
                     display: 'inline-block',
+                    whiteSpace: 'nowrap',
                     color: isActive ? '#FFFFFF' : '#FDE047',
-                    background: isActive ? 'rgba(16, 185, 129, 0.90)' : 'transparent',
-                    borderRadius: isActive ? '6px' : 0,
-                    padding: isActive ? '2px 7px' : '0 1px',
-                    margin: '0 3px',
-                    boxShadow: isActive ? '0 0 12px rgba(52, 211, 153, 0.7)' : 'none',
+                    background: isActive ? 'rgba(16, 185, 129, 0.92)' : 'transparent',
+                    borderRadius: '6px',
+                    padding: '2px 6px',
+                    margin: '0 2.5px',
+                    boxSizing: 'border-box',
+                    boxShadow: isActive ? '0 0 18px rgba(52, 211, 153, 0.85), 0 2px 8px rgba(0,0,0,0.6)' : 'none',
                     textShadow: isActive
-                      ? '0 2px 6px rgba(0,0,0,0.9)'
-                      : '0 2px 4px rgba(0, 0, 0, 1), 0 0 14px rgba(0, 0, 0, 0.95)',
+                      ? '0 2px 4px rgba(0, 0, 0, 1), 0 0 10px rgba(0, 0, 0, 0.8)'
+                      : '0 2px 4px #000000, 0 0 14px rgba(0, 0, 0, 0.95), 0 0 24px rgba(0, 0, 0, 0.9), 1px 1px 2px #000000, -1px -1px 2px #000000',
                     transition: 'background 0.12s ease, color 0.12s ease',
                   }}
                 >
@@ -290,59 +310,39 @@ export default function IntroStoryteller({ onComplete, onBack }) {
         left: 'clamp(1rem, 2.5vw, 1.5rem)',
         zIndex: 16,
         display: 'flex',
-        alignItems: 'center',
-        gap: '0.6rem'
+        alignItems: 'center'
       }}>
-        {onBack && (
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); onBack(); }}
-            style={{
-              padding: '0.65rem 1.35rem',
-              fontSize: '15px',
-              fontWeight: '800',
-              borderRadius: '10px',
-              border: '1.8px solid #14452F',
-              background: 'rgba(250, 248, 242, 0.85)',
-              backdropFilter: 'blur(4px)',
-              color: '#14452F',
-              cursor: 'pointer',
-              boxShadow: '0 4px 14px rgba(20, 69, 47, 0.25)',
-              transition: 'all 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              fontFamily: '"Outfit", sans-serif'
-            }}
-          >
-            ← Back to Slogan
-          </button>
-        )}
-        {currentScene > 0 && (
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); handlePrev(); }}
-            style={{
-              padding: '0.65rem 1.35rem',
-              fontSize: '15px',
-              fontWeight: '800',
-              borderRadius: '10px',
-              border: '1.8px solid #14452F',
-              background: 'rgba(250, 248, 242, 0.85)',
-              backdropFilter: 'blur(4px)',
-              color: '#14452F',
-              cursor: 'pointer',
-              boxShadow: '0 4px 14px rgba(20, 69, 47, 0.25)',
-              transition: 'all 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              fontFamily: '"Outfit", sans-serif'
-            }}
-          >
-            ← Previous Scene
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); handlePrev(); }}
+          style={{
+            padding: '0.65rem 1.45rem',
+            fontSize: '15px',
+            fontWeight: '800',
+            borderRadius: '10px',
+            border: '1.8px solid #14452F',
+            background: 'rgba(250, 248, 242, 0.90)',
+            backdropFilter: 'blur(4px)',
+            color: '#14452F',
+            cursor: 'pointer',
+            boxShadow: '0 4px 14px rgba(20, 69, 47, 0.25)',
+            transition: 'all 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            fontFamily: '"Outfit", sans-serif'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
+            e.currentTarget.style.boxShadow = '0 6px 18px rgba(20, 69, 47, 0.35)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0) scale(1)';
+            e.currentTarget.style.boxShadow = '0 4px 14px rgba(20, 69, 47, 0.25)';
+          }}
+        >
+          {currentScene > 0 ? '← Previous Scene' : '← Previous Page'}
+        </button>
       </div>
 
       {/* Floating Bottom Right Advance Button */}
@@ -380,11 +380,7 @@ export default function IntroStoryteller({ onComplete, onBack }) {
             e.currentTarget.style.boxShadow = '0 4px 14px rgba(20, 69, 47, 0.35)';
           }}
         >
-          {currentScene === 0 ? (
-            <span>Next →</span>
-          ) : (
-            <span>{currentScene === totalScenes - 1 ? 'Next: Act 2.1 Plants →' : 'Next Scene →'}</span>
-          )}
+          <span>Next →</span>
         </button>
       </div>
     </div>

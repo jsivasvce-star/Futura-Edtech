@@ -896,9 +896,11 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
         }
 
         .bio-cta-btn {
-          background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-          color: #FFFFFF;
-          border: 1.5px solid #FCD34D;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.06) 48%, rgba(0, 0, 0, 0.20) 52%, rgba(0, 0, 0, 0.55) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.88) 0%, rgba(2, 24, 14, 0.94) 100%);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          color: #FFFBEB;
+          border: 1.8px solid rgba(253, 230, 138, 0.85);
           border-radius: 10px;
           padding: 8px 22px;
           font-size: 16px;
@@ -909,7 +911,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
           align-items: center;
           gap: 8px;
           transition: all 0.2s ease;
-          box-shadow: 0 4px 14px rgba(217, 119, 6, 0.38);
+          box-shadow: 0 10px 28px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25);
           position: relative;
           z-index: 10;
         }
@@ -952,37 +954,19 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
             zIndex: 5,
             flexShrink: 0
           }}>
-            {/* Left: Back to Dashboard */}
-            <button
-              onClick={onBackToDashboard}
-              style={{
-                background: 'rgba(15, 23, 42, 0.50)',
-                border: '2px solid #D4AF37',
-                color: '#F8FAFC',
-                borderRadius: '12px',
-                padding: '6px 16px',
-                fontSize: '20px',
-                fontWeight: '900',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                boxShadow: '0 3px 8px rgba(20, 69, 47, 0.1)',
-                transition: 'transform 0.15s ease'
-              }}
-            >
-              <ArrowLeft size={18} />
-              <span>Dashboard</span>
-            </button>
+            {/* Spacer to keep title centered (Dashboard button removed; Back/Next now live only in bottom corners) */}
+            <div style={{ width: '1px' }} />
 
             {/* Bureau title: Activity 2.4 with Attractive Bold Golden Banner */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, gap: '4px' }}>
               <div style={{
-                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                border: '2px solid rgba(254, 240, 138, 0.85)',
-                borderRadius: '12px',
-                padding: '6px 28px',
-                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)',
+                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: '2px solid rgba(253, 230, 138, 0.85)',
+                borderRadius: '14px',
+                padding: '8px 32px',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
                 textAlign: 'center'
               }}>
                 <h1 style={{
@@ -992,9 +976,9 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
                   fontFamily: '"Cinzel", "Outfit", Georgia, serif',
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
-                  color: '#FFFFFF',
+                  color: '#FFFBEB',
                   lineHeight: 1.15,
-                  textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)'
                 }}>
                   Activity 2.4 · Plant Detective Bureau
                 </h1>
@@ -1013,13 +997,16 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
 
             {/* Right: Solved Cases Trophy Pill */}
             <div style={{
-              background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-              color: '#FFFFFF',
+              background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              color: '#FFFBEB',
               padding: '6px 18px',
               borderRadius: '999px',
               fontSize: '20px',
               fontWeight: '900',
-              boxShadow: '0 4px 12px rgba(20, 69, 47, 0.25)',
+              border: '2px solid rgba(253, 230, 138, 0.85)',
+              boxShadow: '0 10px 26px rgba(0, 0, 0, 0.65), 0 0 16px rgba(245, 158, 11, 0.22)',
               display: 'flex',
               alignItems: 'center',
               gap: '8px'
@@ -1219,9 +1206,11 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
                       playSound('click');
                     }}
                     style={{
-                      background: 'linear-gradient(180deg, #2BAE63 0%, #19814A 100%)',
-                      color: '#FFFFFF',
-                      border: '2px solid rgba(167, 243, 208, 0.55)',
+                      background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                      backdropFilter: 'blur(16px)',
+                      WebkitBackdropFilter: 'blur(16px)',
+                      color: '#FFFBEB',
+                      border: '2px solid rgba(253, 230, 138, 0.85)',
                       borderRadius: '999px',
                       padding: '11px 16px',
                       fontSize: '21px',
@@ -1232,7 +1221,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
                       justifyContent: 'center',
                       gap: '8px',
                       fontFamily: '"Outfit", sans-serif',
-                      boxShadow: '0 8px 20px rgba(0, 0, 0, 0.40)',
+                      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)',
                       transition: 'transform 0.15s ease, box-shadow 0.15s ease',
                       flexShrink: 0
                     }}
@@ -1259,77 +1248,16 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
             zIndex: 20,
             flexShrink: 0
           }}>
-            {/* Left Navigation Buttons: Back & Previous Page */}
+            {/* Left Navigation Button: Back (single, bottom-left corner) */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <button
-                type="button"
-                className="bio-nav-btn"
-                onClick={onBackToDashboard}
-                aria-label="Back to Dashboard"
-              >
-                ← Back
-              </button>
-
               <button
                 type="button"
                 className="bio-nav-btn"
                 onClick={onBackToDashboard}
                 aria-label="Previous Page"
               >
-                ← Previous Page
+                ← Back
               </button>
-            </div>
-
-            {/* Center Solved/Progress Indicator with Globe & Leaves Motif (matching Slogan Page) */}
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '2px'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
-                <svg width="22" height="15" viewBox="0 0 24 16" fill="none" style={{ transform: 'scaleX(-1)' }}>
-                  <path d="M2 14 C8 12, 16 10, 22 2 C18 8, 12 12, 2 14 Z" fill="#2D6A4F" />
-                  <path d="M6 10 C10 6, 16 4, 22 2 C18 8, 12 10, 6 10 Z" fill="#52B788" />
-                </svg>
-                <div style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '24px',
-                  height: '24px',
-                  borderRadius: '50%',
-                  background: '#EAF7EE',
-                  border: '1.8px solid #D4AF37',
-                  boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
-                }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#14452F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-                    <path d="M2 12h20" />
-                  </svg>
-                </div>
-                <svg width="22" height="15" viewBox="0 0 24 16" fill="none">
-                  <path d="M2 14 C8 12, 16 10, 22 2 C18 8, 12 12, 2 14 Z" fill="#2D6A4F" />
-                  <path d="M6 10 C10 6, 16 4, 22 2 C18 8, 12 10, 6 10 Z" fill="#52B788" />
-                </svg>
-              </div>
-
-              <div style={{
-                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                color: '#FFFFFF',
-                border: '1.8px solid rgba(254, 240, 138, 0.85)',
-                borderRadius: '20px',
-                padding: '4px 20px',
-                fontFamily: '"Outfit", sans-serif',
-                fontWeight: 900,
-                fontSize: '16px',
-                letterSpacing: '0.04em',
-                boxShadow: '0 4px 14px rgba(217, 119, 6, 0.45)'
-              }}>
-                Activity 2.4 · {solvedCount} / 3 Cases Solved
-              </div>
             </div>
 
             {/* Right Navigation Button: Next Activity */}
@@ -2184,9 +2112,11 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
                   style={{
                     marginTop: '3px',
                     width: '100%',
-                    background: 'linear-gradient(135deg, #F5B534 0%, #D97706 100%)',
-                    color: '#FFFFFF',
-                    border: '2px solid #FDE68A',
+                    background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    color: '#FFFBEB',
+                    border: '2px solid rgba(253, 230, 138, 0.85)',
                     borderRadius: '13px',
                     padding: '9px 16px',
                     fontSize: '16.5px',
@@ -2197,7 +2127,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
                     justifyContent: 'center',
                     gap: '9px',
                     fontFamily: '"Outfit", sans-serif',
-                    boxShadow: '0 8px 22px rgba(217, 119, 6, 0.45)',
+                    boxShadow: '0 10px 28px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)',
                     flexShrink: 0
                   }}
                 >
@@ -2254,11 +2184,11 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
             <div style={{ fontSize: '24px', fontWeight: '900', color: '#FBBF24', fontFamily: '"Fraunces", Georgia, serif', marginBottom: '6px' }}>
               Detective Badge Earned! 🏆
             </div>
-            <div style={{ fontSize: '18px', fontWeight: '900', color: '#059669', marginBottom: '10px' }}>
+            <div style={{ fontSize: '21px', fontWeight: '900', color: '#059669', marginBottom: '10px' }}>
               Master Chief Botanist Rank Awarded
             </div>
 
-            <div style={{ fontSize: '16px', lineHeight: '1.5', color: '#2D3748', fontWeight: '700', marginBottom: '1.5rem' }}>
+            <div style={{ fontSize: '18px', lineHeight: '1.5', color: '#2D3748', fontWeight: '700', marginBottom: '1.5rem' }}>
               Outstanding work! You investigated, tested stem flexibility, and measured heights to crack all 3 cases:<br />
               <strong>Alpha</strong> = Tulsi (Herb) · <strong>Beta</strong> = Rose (Shrub) · <strong>Gamma</strong> = Neem (Tree)
             </div>
@@ -2281,7 +2211,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
                   color: '#F8FAFC',
                   padding: '10px 18px',
                   borderRadius: '12px',
-                  fontSize: '16px',
+                  fontSize: '18px',
                   fontWeight: '900',
                   cursor: 'pointer'
                 }}
@@ -2294,14 +2224,17 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
                   else if (onBackToDashboard) onBackToDashboard();
                 }}
                 style={{
-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                  color: '#FFFFFF',
-                  border: 'none',
+                  background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  color: '#FFFBEB',
+                  border: '2px solid rgba(253, 230, 138, 0.85)',
                   padding: '10px 20px',
                   borderRadius: '12px',
-                  fontSize: '16px',
+                  fontSize: '18px',
                   fontWeight: '900',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  boxShadow: '0 10px 26px rgba(0, 0, 0, 0.65), 0 0 16px rgba(245, 158, 11, 0.22)'
                 }}
               >
                 {nextLabel ? nextLabel : 'Return to Chapter Map ➔'}

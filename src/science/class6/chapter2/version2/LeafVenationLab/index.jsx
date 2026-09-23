@@ -30,9 +30,9 @@ const VENATION_SPECIMEN_SLIDES = [
 // The interactive venation lab was retired; navigation still flows
 // Activity 2.4 <- here -> Activity 2.6 Root Systems.
 // =========================================================================
-export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onNext }) {
-  const [phase, setPhase] = useState('cover'); // 'cover' | 'specimens'
-  const [specimenIndex, setSpecimenIndex] = useState(0);
+export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onNext, initialPhase = 'cover', initialSpecimenIndex = 0 }) {
+  const [phase, setPhase] = useState(initialPhase); // 'cover' | 'specimens'
+  const [specimenIndex, setSpecimenIndex] = useState(initialSpecimenIndex);
 
   const navBtn = (tone = 'ghost') => ({
     display: 'flex',
@@ -49,10 +49,13 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
     transition: 'transform 0.15s ease, box-shadow 0.15s ease',
     ...(tone === 'primary'
       ? {
-          background: 'linear-gradient(135deg, #F5B534 0%, #D97706 100%)',
-          color: '#FFFFFF',
-          border: '2px solid #FDE68A',
-          boxShadow: '0 8px 22px rgba(217, 119, 6, 0.45)'
+          background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          color: '#FFFBEB',
+          border: '2px solid rgba(253, 230, 138, 0.85)',
+          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+          textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)'
         }
       : tone === 'slides'
       ? {
@@ -62,10 +65,13 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
           boxShadow: '0 8px 22px rgba(22, 101, 52, 0.5)'
         }
       : {
-          background: 'linear-gradient(165deg, rgba(8, 44, 28, 0.92) 0%, rgba(4, 24, 15, 0.95) 100%)',
-          color: '#F8FAFC',
-          border: '2px solid rgba(110, 231, 183, 0.45)',
-          boxShadow: '0 8px 20px rgba(0, 0, 0, 0.40)'
+          background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          color: '#FFFBEB',
+          border: '2px solid rgba(253, 230, 138, 0.85)',
+          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+          textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)'
         })
   });
 
@@ -121,24 +127,41 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
           />
         </div>
 
-        {/* Slide counter */}
-        <div style={{
-          position: 'absolute',
-          top: '22px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          background: 'rgba(7, 22, 14, 0.82)',
-          border: '2px solid rgba(134, 239, 172, 0.5)',
-          borderRadius: '999px',
-          padding: '7px 20px',
-          fontSize: '17px',
-          fontWeight: 900,
-          color: '#D1FAE5',
-          fontFamily: '"Outfit", sans-serif',
-          zIndex: 1010
-        }}>
-          {activeSlide.num} / 07 · {activeSlide.name}
-        </div>
+        {/* Title pill (Habitats Page style) */}
+        {(() => {
+          const displayTitle = activeSlide.name.replace(/\s*Leaf$/i, '');
+          const isLong = displayTitle.length > 18;
+          return (
+            <div style={{
+              position: 'absolute',
+              top: '22px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              maxWidth: '78vw',
+              background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              border: '2px solid rgba(253, 230, 138, 0.85)',
+              borderRadius: '14px',
+              padding: isLong ? '8px 24px' : '8px 32px',
+              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+              zIndex: 1010
+            }}>
+              <h1 style={{
+                margin: 0,
+                fontSize: isLong ? '20px' : '34px',
+                fontWeight: 900,
+                fontFamily: '"Fraunces", Georgia, serif',
+                color: '#FFFBEB',
+                lineHeight: 1.15,
+                whiteSpace: 'nowrap',
+                textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)'
+              }}>
+                {displayTitle}
+              </h1>
+            </div>
+          );
+        })()}
 
         {/* Bottom left: previous slide, or back to the cover */}
         <button
@@ -157,16 +180,18 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            background: 'rgba(255, 255, 255, 0.92)',
-            border: '2px solid #CBD5E1',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '2px solid rgba(253, 230, 138, 0.85)',
             borderRadius: '26px',
             padding: '10px 22px',
             fontSize: '18px',
-            fontWeight: 800,
-            color: '#1E293B',
+            fontWeight: 900,
+            color: '#FFFBEB',
             cursor: 'pointer',
-            boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
-            backdropFilter: 'blur(4px)',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
             zIndex: 1010,
             transition: 'all 0.18s ease'
           }}
@@ -195,15 +220,18 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
-            background: 'linear-gradient(135deg, #15803D 0%, #166534 100%)',
-            border: '2px solid #86EFAC',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '2px solid rgba(253, 230, 138, 0.85)',
             borderRadius: '28px',
             padding: '11px 26px',
             fontSize: '18px',
             fontWeight: 900,
-            color: '#FFFFFF',
+            color: '#FFFBEB',
             cursor: 'pointer',
-            boxShadow: '0 6px 22px rgba(22, 101, 52, 0.5)',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
             zIndex: 1010,
             transition: 'all 0.18s ease'
           }}
@@ -247,16 +275,10 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
         flexShrink: 0
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          {onBackToDashboard && (
-            <button type="button" onClick={onBackToDashboard} style={navBtn()}>
+          {(onPreviousPage || onBackToDashboard) && (
+            <button type="button" onClick={onPreviousPage || onBackToDashboard} style={navBtn()}>
               <ArrowLeft size={18} />
-              <span>Dashboard</span>
-            </button>
-          )}
-          {onPreviousPage && (
-            <button type="button" onClick={onPreviousPage} style={navBtn()}>
-              <ArrowLeft size={18} />
-              <span>Previous</span>
+              <span>Back</span>
             </button>
           )}
         </div>

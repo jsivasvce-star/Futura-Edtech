@@ -1,0 +1,268 @@
+{
+  "grass": {
+    "audioFile": "Grass.mp3",
+    "totalDuration": 29.91,
+    "words": [
+      {
+        "word": "Look",
+        "start": 0.0,
+        "end": 0.289
+      },
+      {
+        "word": "closely",
+        "start": 0.289,
+        "end": 0.795
+      },
+      {
+        "word": "at",
+        "start": 0.795,
+        "end": 0.94
+      },
+      {
+        "word": "the",
+        "start": 0.94,
+        "end": 1.157
+      },
+      {
+        "word": "grass.",
+        "start": 1.157,
+        "end": 1.518
+      },
+      {
+        "word": "Its",
+        "start": 2.154,
+        "end": 2.551
+      },
+      {
+        "word": "Thin,",
+        "start": 2.551,
+        "end": 3.119
+      },
+      {
+        "word": "green",
+        "start": 3.119,
+        "end": 3.83
+      },
+      {
+        "word": "stems,",
+        "start": 3.83,
+        "end": 4.541
+      },
+      {
+        "word": "often",
+        "start": 4.541,
+        "end": 5.251
+      },
+      {
+        "word": "hollow",
+        "start": 5.251,
+        "end": 6.104
+      },
+      {
+        "word": "between",
+        "start": 6.104,
+        "end": 7.099
+      },
+      {
+        "word": "the",
+        "start": 7.099,
+        "end": 7.525
+      },
+      {
+        "word": "joints.",
+        "start": 7.525,
+        "end": 8.378
+      },
+      {
+        "word": "Long,",
+        "start": 8.853,
+        "end": 9.87
+      },
+      {
+        "word": "narrow",
+        "start": 9.87,
+        "end": 11.396
+      },
+      {
+        "word": "leaves",
+        "start": 11.396,
+        "end": 12.922
+      },
+      {
+        "word": "with",
+        "start": 12.922,
+        "end": 13.939
+      },
+      {
+        "word": "parallel",
+        "start": 13.939,
+        "end": 15.973
+      },
+      {
+        "word": "veins.",
+        "start": 15.973,
+        "end": 17.245
+      },
+      {
+        "word": "Grass",
+        "start": 17.739,
+        "end": 18.134
+      },
+      {
+        "word": "also",
+        "start": 18.134,
+        "end": 18.451
+      },
+      {
+        "word": "has",
+        "start": 18.451,
+        "end": 18.688
+      },
+      {
+        "word": "Tiny",
+        "start": 18.688,
+        "end": 19.067
+      },
+      {
+        "word": "flowers",
+        "start": 19.067,
+        "end": 19.731
+      },
+      {
+        "word": "arranged",
+        "start": 19.731,
+        "end": 20.49
+      },
+      {
+        "word": "in",
+        "start": 20.49,
+        "end": 20.68
+      },
+      {
+        "word": "groups",
+        "start": 20.68,
+        "end": 21.249
+      },
+      {
+        "word": "called",
+        "start": 21.249,
+        "end": 21.818
+      },
+      {
+        "word": "spikelets.",
+        "start": 21.818,
+        "end": 22.672
+      },
+      {
+        "word": "Lawn",
+        "start": 23.084,
+        "end": 23.277
+      },
+      {
+        "word": "grass",
+        "start": 23.277,
+        "end": 23.518
+      },
+      {
+        "word": "is",
+        "start": 23.518,
+        "end": 23.614
+      },
+      {
+        "word": "a",
+        "start": 23.614,
+        "end": 23.711
+      },
+      {
+        "word": "short",
+        "start": 23.711,
+        "end": 23.952
+      },
+      {
+        "word": "herb",
+        "start": 23.952,
+        "end": 24.145
+      },
+      {
+        "word": "with",
+        "start": 24.145,
+        "end": 24.338
+      },
+      {
+        "word": "fibrous",
+        "start": 24.338,
+        "end": 24.675
+      },
+      {
+        "word": "roots",
+        "start": 24.675,
+        "end": 24.917
+      },
+      {
+        "word": "that",
+        "start": 24.917,
+        "end": 25.109
+      },
+      {
+        "word": "forms",
+        "start": 25.109,
+        "end": 25.351
+      },
+      {
+        "word": "ground",
+        "start": 25.351,
+        "end": 25.64
+      },
+      {
+        "word": "cover.",
+        "start": 25.64,
+        "end": 25.881
+      },
+      {
+        "word": "What",
+        "start": 26.687,
+        "end": 27.066
+      },
+      {
+        "word": "pattern",
+        "start": 27.066,
+        "end": 27.73
+      },
+      {
+        "word": "can",
+        "start": 27.73,
+        "end": 28.014
+      },
+      {
+        "word": "you",
+        "start": 28.014,
+        "end": 28.298
+      },
+      {
+        "word": "see",
+        "start": 28.298,
+        "end": 28.583
+      },
+      {
+        "word": "in",
+        "start": 28.583,
+        "end": 28.772
+      },
+      {
+        "word": "the",
+        "start": 28.772,
+        "end": 29.057
+      },
+      {
+        "word": "leaf",
+        "start": 29.057,
+        "end": 29.436
+      },
+      {
+        "word": "veins?",
+        "start": 29.436,
+        "end": 29.91
+      }
+    ]
+  }
+}

@@ -330,9 +330,9 @@
         ]
       },
       {
-        "text": "They are joined by Dr. Raghu, a scientist from the nearby research laboratory, and Maniram Chacha, who knows a lot about plants, animals, and bird calls.",
+        "text": "They are joined by Dr. Raghu, a scientist from the nearby research laboratory,",
         "start": 6.711,
-        "end": 17.131,
+        "end": 12.084,
         "words": [
           {
             "word": "They",
@@ -398,7 +398,14 @@
             "word": "laboratory,",
             "start": 11.188,
             "end": 12.084
-          },
+          }
+        ]
+      },
+      {
+        "text": "and Maniram Chacha, who knows a lot about plants, animals, and bird calls.",
+        "start": 12.084,
+        "end": 17.131,
+        "words": [
           {
             "word": "and",
             "start": 12.084,
@@ -1510,9 +1517,9 @@
         ]
       },
       {
-        "text": "The students watch closely and become curious about the different ways living things interact with nature.",
+        "text": "The students watch closely",
         "start": 19.468,
-        "end": 26.938,
+        "end": 21.198,
         "words": [
           {
             "word": "The",
@@ -1533,7 +1540,14 @@
             "word": "closely",
             "start": 20.508,
             "end": 21.198
-          },
+          }
+        ]
+      },
+      {
+        "text": "and become curious about the different ways living things interact with nature.",
+        "start": 21.548,
+        "end": 26.938,
+        "words": [
           {
             "word": "and",
             "start": 21.548,
@@ -1747,9 +1761,9 @@
         ]
       },
       {
-        "text": "Maniram Chacha draws their attention to a monkey and reminds them that the forest is its home.",
+        "text": "Maniram Chacha draws their attention to a monkey,",
         "start": 14.768,
-        "end": 21.907,
+        "end": 18.337,
         "words": [
           {
             "word": "Maniram",
@@ -1790,7 +1804,14 @@
             "word": "monkey",
             "start": 17.707,
             "end": 18.337
-          },
+          }
+        ]
+      },
+      {
+        "text": "and reminds them that the forest is its home.",
+        "start": 18.578,
+        "end": 21.907,
+        "words": [
           {
             "word": "and",
             "start": 18.578,
@@ -1839,9 +1860,9 @@
         ]
       },
       {
-        "text": "The students carefully observe the animals and their surroundings, learning that every living creature has a place to live.",
+        "text": "The students carefully observe the animals and their surroundings,",
         "start": 22.46,
-        "end": 30.4,
+        "end": 26.43,
         "words": [
           {
             "word": "The",
@@ -1887,7 +1908,14 @@
             "word": "surroundings,",
             "start": 25.53,
             "end": 26.43
-          },
+          }
+        ]
+      },
+      {
+        "text": "learning that every living creature has a place to live.",
+        "start": 26.85,
+        "end": 30.4,
+        "words": [
           {
             "word": "learning",
             "start": 26.85,
@@ -2076,9 +2104,9 @@
         ]
       },
       {
-        "text": "Dr. Raghu asks them to record their observations in Table 2.1 for plants and Table 2.2 for animals.",
+        "text": "Dr. Raghu asks them to record their observations in Table 2.1 for plants,",
         "start": 11.788,
-        "end": 21.148,
+        "end": 17.158,
         "words": [
           {
             "word": "Dr.",
@@ -2149,7 +2177,14 @@
             "word": "and",
             "start": 16.738,
             "end": 17.158
-          },
+          }
+        ]
+      },
+      {
+        "text": "and Table 2.2 for animals.",
+        "start": 18.738,
+        "end": 21.148,
+        "words": [
           {
             "word": "Table",
             "start": 18.738,
@@ -2173,9 +2208,9 @@
         ]
       },
       {
-        "text": "The students discuss their findings with their classmates and learn how much variety they have seen during their nature walk.",
+        "text": "The students discuss their findings with their classmates",
         "start": 21.743,
-        "end": 30.423,
+        "end": 25.193,
         "words": [
           {
             "word": "The",
@@ -2216,7 +2251,14 @@
             "word": "classmates",
             "start": 24.333,
             "end": 25.193
-          },
+          }
+        ]
+      },
+      {
+        "text": "and learn how much variety they have seen during their nature walk.",
+        "start": 25.533,
+        "end": 30.423,
+        "words": [
           {
             "word": "and",
             "start": 25.533,

@@ -52,6 +52,7 @@ const ROOT_SPECIMEN_SLIDES = [
     id: 1,
     num: '01',
     name: 'Taproot Vegetables (Mustard, Carrot, Radish, Beetroot, Turnip)',
+    shortTitle: 'Taproot Examples',
     type: 'Taproot System',
     image: specimen01TapBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
@@ -59,6 +60,7 @@ const ROOT_SPECIMEN_SLIDES = [
     id: 2,
     num: '02',
     name: 'Taproot Crops & Trees (Pea, Gram, Bean, Tomato, Sunflower, Hibiscus, Rose, Mango, Neem)',
+    shortTitle: 'Taproot Crops & Trees',
     type: 'Taproot System',
     image: specimen02CropsBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
@@ -66,6 +68,7 @@ const ROOT_SPECIMEN_SLIDES = [
     id: 3,
     num: '03',
     name: 'Onion Fibrous Root',
+    shortTitle: 'Onion',
     type: 'Fibrous Root System',
     image: specimen03OnionBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
@@ -73,6 +76,7 @@ const ROOT_SPECIMEN_SLIDES = [
     id: 4,
     num: '04',
     name: 'Grass Fibrous Root',
+    shortTitle: 'Grass',
     type: 'Fibrous Root System',
     image: specimen04GrassBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
@@ -80,6 +84,7 @@ const ROOT_SPECIMEN_SLIDES = [
     id: 5,
     num: '05',
     name: 'Maize Fibrous Root',
+    shortTitle: 'Maize',
     type: 'Fibrous Root System',
     image: specimen05MaizeBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
@@ -87,6 +92,7 @@ const ROOT_SPECIMEN_SLIDES = [
     id: 6,
     num: '06',
     name: 'Fibrous Root Overview (Grass, Wheat, Rice, Maize, Onion)',
+    shortTitle: 'Fibrous Root Overview',
     type: 'Fibrous Root System',
     image: specimen06OverviewBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   }
@@ -539,12 +545,12 @@ const PlantRootSVG = ({ plantId, color, isWashed }) => {
   }
 };
 
-export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNext }) {
+export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNext, initialSpecimenIndex = 0 }) {
   const { theme } = useTheme();
   const isLight = theme === 'light';
 
   const [phase, setPhase] = useState('specimens'); // 'specimens' | 'lab'
-  const [specimenIndex, setSpecimenIndex] = useState(0);
+  const [specimenIndex, setSpecimenIndex] = useState(initialSpecimenIndex);
 
   const [selectedPlant, setSelectedPlant] = useState(null);
   const [digProgress, setDigProgress] = useState({});
@@ -736,24 +742,41 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           />
         </div>
 
-        {/* Slide counter */}
-        <div style={{
-          position: 'absolute',
-          top: '22px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          background: 'rgba(7, 22, 14, 0.82)',
-          border: '2px solid rgba(134, 239, 172, 0.5)',
-          borderRadius: '999px',
-          padding: '7px 20px',
-          fontSize: '17px',
-          fontWeight: 900,
-          color: '#D1FAE5',
-          fontFamily: '"Outfit", sans-serif',
-          zIndex: 1010
-        }}>
-          {activeSlide.num === '00' ? 'Activity 2.6: Let Us Find Out' : `${activeSlide.num} / 06 · ${activeSlide.name}`}
-        </div>
+        {/* Title pill (Habitats Page style, hidden on the cover slide - title already appears on the wooden sign in the image) */}
+        {activeSlide.num !== '00' && (() => {
+          const displayTitle = activeSlide.shortTitle || activeSlide.name;
+          const isLong = displayTitle.length > 18;
+          return (
+            <div style={{
+              position: 'absolute',
+              top: '22px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              maxWidth: '78vw',
+              background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              border: '2px solid rgba(253, 230, 138, 0.85)',
+              borderRadius: '14px',
+              padding: isLong ? '8px 24px' : '8px 32px',
+              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+              zIndex: 1010
+            }}>
+              <h1 style={{
+                margin: 0,
+                fontSize: isLong ? '20px' : '28px',
+                fontWeight: 900,
+                fontFamily: '"Fraunces", Georgia, serif',
+                color: '#FFFBEB',
+                lineHeight: 1.15,
+                whiteSpace: 'nowrap',
+                textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)'
+              }}>
+                {displayTitle}
+              </h1>
+            </div>
+          );
+        })()}
 
         {/* Floating Bottom Left Control: Back */}
         <button
@@ -773,16 +796,18 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            background: 'rgba(255, 255, 255, 0.92)',
-            border: '2px solid #CBD5E1',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '2px solid rgba(253, 230, 138, 0.85)',
             borderRadius: '26px',
             padding: '10px 22px',
             fontSize: '18px',
-            fontWeight: 800,
-            color: '#1E293B',
+            fontWeight: 900,
+            color: '#FFFBEB',
             cursor: 'pointer',
-            boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
-            backdropFilter: 'blur(4px)',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
             zIndex: 1010,
             transition: 'all 0.18s ease'
           }}
@@ -849,15 +874,18 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
-            background: 'linear-gradient(135deg, #15803D 0%, #166534 100%)',
-            border: '2px solid #86EFAC',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '2px solid rgba(253, 230, 138, 0.85)',
             borderRadius: '28px',
             padding: '11px 26px',
             fontSize: '18px',
             fontWeight: 900,
-            color: '#FFFFFF',
+            color: '#FFFBEB',
             cursor: 'pointer',
-            boxShadow: '0 6px 22px rgba(22, 101, 52, 0.5)',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
             zIndex: 1010,
             transition: 'all 0.18s ease'
           }}
@@ -1050,28 +1078,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
             zIndex: 5,
             flexShrink: 0
           }}>
-            {/* Left: Back to Dashboard */}
-            <button
-              onClick={onBackToDashboard}
-              style={{
-                background: 'rgba(15, 23, 42, 0.50)',
-                border: '2px solid #D4AF37',
-                color: '#F8FAFC',
-                borderRadius: '12px',
-                padding: '5px 14px',
-                fontSize: '16px',
-                fontWeight: '900',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                boxShadow: '0 3px 8px rgba(20, 69, 47, 0.1)',
-                transition: 'transform 0.15s ease'
-              }}
-            >
-              <ArrowLeft size={18} color="#14452F" />
-              <span>Back to Dashboard</span>
-            </button>
+            {/* Spacer to keep title centered (Dashboard button removed; Back/Next now live only in bottom corners) */}
+            <div style={{ width: '1px' }} />
 
             {/* Center: Slogan Title with Vine Branches, Sprout, and Sanskrit Motto */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -1562,24 +1570,15 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
             zIndex: 20,
             flexShrink: 0
           }}>
-            {/* Left Navigation Buttons: Back & Previous Page */}
+            {/* Left Navigation Button: Back (single) */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <button
-                type="button"
-                className="bio-nav-btn"
-                onClick={onBackToDashboard}
-                aria-label="Back to Dashboard"
-              >
-                ← Back
-              </button>
-
               <button
                 type="button"
                 className="bio-nav-btn"
                 onClick={onPreviousPage || onBackToDashboard}
                 aria-label="Previous Page"
               >
-                ← Previous Page
+                ← Back
               </button>
 
               <button

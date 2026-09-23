@@ -13,24 +13,23 @@ import regionOcean from './images/region_ocean.jpg';
 import regionForest from './images/region_forest.jpg';
 import regionOther from './images/region_other.jpg';
 
-import itemCamel from './images/item_camel.jpg';
 import itemCactus from './images/item_cactus.jpg';
-import itemDeodarTree from './images/item_deodar_tree.jpg';
 import itemSnowLeopard from './images/item_snow_leopard.jpg';
-import itemFish from './images/item_fish.jpg';
 import itemDolphin from './images/item_dolphin.jpg';
-import itemLion from './images/item_lion.jpg';
 import itemElephant from './images/item_elephant.jpg';
 import itemMangoTree from './images/item_mango_tree.jpg';
 import itemPineTree from './images/item_pine_tree.jpg';
 import itemKangaroo from './images/item_kangaroo.jpg';
 import itemCoral from './images/item_coral.jpg';
-import itemWhale from './images/item_whale.jpg';
 import itemTurtle from './images/item_turtle.jpg';
 import itemPeacock from './images/item_peacock.jpg';
 import itemFern from './images/item_fern.jpg';
 import itemLotus from './images/item_lotus.jpg';
 import itemWaterLily from './images/item_water_lily.jpg';
+import itemFennecFox from './images/item_fennec_fox.jpg';
+import itemYak from './images/item_yak.jpg';
+import itemDuck from './images/item_duck.jpg';
+import itemRedPanda from './images/item_red_panda.jpg';
 
 // Regions configuration matching Table 2.6 columns
 export const REGIONS = [
@@ -41,16 +40,13 @@ export const REGIONS = [
   { id: 'other', label: 'Any other region', headerBg: '#CCFBF1', headerColor: '#0F766E', image: regionOther }
 ];
 
-// All 18 Specimen cards in exact order as the mockup image
+// Specimen cards for the drawer. Camel, Deodar tree, Fish and Lion are left out
+// since they're already shown pre-filled in row 1 of the table above.
 export const SPECIMENS = [
-  // Row 1 of drawer (9 items)
-  { id: 'camel', name: 'Camel', image: itemCamel, correctRegions: ['desert'] },
+  // Row 1 of drawer
   { id: 'cactus', name: 'Cactus', image: itemCactus, correctRegions: ['desert'] },
-  { id: 'deodar_tree', name: 'Deodar tree', image: itemDeodarTree, correctRegions: ['mountains'] },
   { id: 'snow_leopard', name: 'Snow leopard', image: itemSnowLeopard, correctRegions: ['mountains'] },
-  { id: 'fish', name: 'Fish', image: itemFish, correctRegions: ['ocean', 'other'] },
   { id: 'dolphin', name: 'Dolphin', image: itemDolphin, correctRegions: ['ocean'] },
-  { id: 'lion', name: 'Lion', image: itemLion, correctRegions: ['forest'] },
   { id: 'elephant', name: 'Elephant', image: itemElephant, correctRegions: ['forest'] },
   { id: 'mango_tree', name: 'Mango tree', image: itemMangoTree, correctRegions: ['forest', 'other'] },
 
@@ -58,12 +54,15 @@ export const SPECIMENS = [
   { id: 'pine_tree', name: 'Pine tree', image: itemPineTree, correctRegions: ['mountains'] },
   { id: 'kangaroo', name: 'Kangaroo', image: itemKangaroo, correctRegions: ['other', 'desert'] },
   { id: 'coral', name: 'Coral', image: itemCoral, correctRegions: ['ocean'] },
-  { id: 'whale', name: 'Whale', image: itemWhale, correctRegions: ['ocean'] },
   { id: 'turtle', name: 'Turtle', image: itemTurtle, correctRegions: ['ocean', 'other'] },
   { id: 'peacock', name: 'Peacock', image: itemPeacock, correctRegions: ['forest'] },
   { id: 'fern', name: 'Fern', image: itemFern, correctRegions: ['forest'] },
   { id: 'lotus', name: 'Lotus', image: itemLotus, correctRegions: ['other'] },
-  { id: 'water_lily', name: 'Water lily', image: itemWaterLily, correctRegions: ['other'] }
+  { id: 'water_lily', name: 'Water lily', image: itemWaterLily, correctRegions: ['other'] },
+  { id: 'fennec_fox', name: 'Fennec fox', image: itemFennecFox, correctRegions: ['desert'] },
+  { id: 'yak', name: 'Yak', image: itemYak, correctRegions: ['mountains'] },
+  { id: 'duck', name: 'Duck', image: itemDuck, correctRegions: ['other'] },
+  { id: 'red_panda', name: 'Red panda', image: itemRedPanda, correctRegions: ['mountains'] }
 ];
 
 // Row 1 pre-filled default examples from NCERT Table 2.6
@@ -128,6 +127,37 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
     return Object.values(tableGrid).some(item => item && item.id === specimenId);
   };
 
+  // Each region column fills top-to-bottom (row 1 is only droppable for "other";
+  // rows 2-4 are droppable for every region) so values always land in ascending row order.
+  const REGION_ROW_ORDER = {
+    other: [1, 2, 3, 4],
+    desert: [2, 3, 4],
+    mountains: [2, 3, 4],
+    ocean: [2, 3, 4],
+    forest: [2, 3, 4]
+  };
+
+  const findNextEmptyCell = (regionId) => {
+    const rows = REGION_ROW_ORDER[regionId] || [2, 3, 4];
+    for (const rowNum of rows) {
+      const key = `r${rowNum}-${regionId}`;
+      if (Object.prototype.hasOwnProperty.call(tableGrid, key) && tableGrid[key] === null) {
+        return key;
+      }
+    }
+    return null;
+  };
+
+  // Places a specimen into the next empty row (ascending order) of the given region's
+  // column, and only if that specimen isn't already placed anywhere else in the table.
+  const placeSpecimenInRegion = (specimen, regionId) => {
+    if (isSpecimenPlaced(specimen.id)) return null;
+    const targetKey = findNextEmptyCell(regionId);
+    if (!targetKey) return null;
+    setTableGrid(prev => ({ ...prev, [targetKey]: specimen }));
+    return targetKey;
+  };
+
   // Handle clicking a specimen card in the tray
   const handleSpecimenClick = (specimen) => {
     if (habitatAudio?.playSelect) habitatAudio.playSelect();
@@ -144,13 +174,12 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
       const specimen = SPECIMENS.find(s => s.id === selectedSpecimenId);
       if (!specimen) return;
 
-      if (habitatAudio?.playMatchSuccess) habitatAudio.playMatchSuccess();
-      setTableGrid(prev => ({
-        ...prev,
-        [cellKey]: specimen
-      }));
+      const placedKey = placeSpecimenInRegion(specimen, regionId);
+      if (placedKey) {
+        if (habitatAudio?.playMatchSuccess) habitatAudio.playMatchSuccess();
+        setEvaluationResult(null);
+      }
       setSelectedSpecimenId(null);
-      setEvaluationResult(null);
     } else if (tableGrid[cellKey]) {
       // Remove item on direct click
       if (habitatAudio?.playSelect) habitatAudio.playSelect();
@@ -174,19 +203,18 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
     e.dataTransfer.dropEffect = 'copy';
   };
 
-  const handleDrop = (e, cellKey) => {
+  const handleDrop = (e, cellKey, regionId) => {
     e.preventDefault();
     const specimenId = e.dataTransfer.getData('text/plain') || draggedSpecimenId;
     if (!specimenId) return;
 
     const specimen = SPECIMENS.find(s => s.id === specimenId);
     if (specimen) {
-      if (habitatAudio?.playMatchSuccess) habitatAudio.playMatchSuccess();
-      setTableGrid(prev => ({
-        ...prev,
-        [cellKey]: specimen
-      }));
-      setEvaluationResult(null);
+      const placedKey = placeSpecimenInRegion(specimen, regionId);
+      if (placedKey) {
+        if (habitatAudio?.playMatchSuccess) habitatAudio.playMatchSuccess();
+        setEvaluationResult(null);
+      }
       setSelectedSpecimenId(null);
     }
     setDraggedSpecimenId(null);
@@ -630,7 +658,7 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
         boxSizing: 'border-box',
         zIndex: 15
       }}>
-        {/* Row 1 of Specimen Cards (9 items) */}
+        {/* Row 1 of Specimen Cards */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(9, 1fr)',
@@ -640,13 +668,13 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
           {SPECIMENS.slice(0, 9).map(renderSpecimenCard)}
         </div>
 
-        {/* Row 2 of Specimen Cards (9 items) */}
+        {/* Row 2 of Specimen Cards */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(9, 1fr)',
           gap: '7px'
         }}>
-          {SPECIMENS.slice(9, 18).map(renderSpecimenCard)}
+          {SPECIMENS.slice(9, 17).map(renderSpecimenCard)}
         </div>
       </div>
 
@@ -811,10 +839,10 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
             border: '2px solid #10B981'
           }}>
             <div style={{ fontSize: '42px', marginBottom: '8px' }}>🎉</div>
-            <h3 style={{ margin: '0 0 8px', fontSize: '22px', color: '#064E3B', fontWeight: '900' }}>
+            <h3 style={{ margin: '0 0 8px', fontSize: '24px', color: '#064E3B', fontWeight: '900' }}>
               Splendid Work!
             </h3>
-            <p style={{ margin: '0 0 16px', fontSize: '15px', color: '#334155', lineHeight: 1.5 }}>
+            <p style={{ margin: '0 0 16px', fontSize: '18px', color: '#334155', lineHeight: 1.5 }}>
               You correctly classified plants and animals into their natural surroundings! You now understand how different habitats support distinct living communities.
             </p>
             <div style={{
@@ -825,7 +853,7 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
               marginBottom: '18px',
               fontWeight: '800',
               color: '#065F46',
-              fontSize: '16px'
+              fontSize: '18px'
             }}>
               ⭐ Score: {evaluationResult?.correctCount} / {evaluationResult?.totalPlaced} Correct
             </div>
@@ -839,7 +867,7 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
                   borderRadius: '10px',
                   color: '#334155',
                   fontWeight: '800',
-                  fontSize: '14px',
+                  fontSize: '18px',
                   cursor: 'pointer'
                 }}
               >
@@ -855,7 +883,7 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
                     borderRadius: '10px',
                     color: '#FFFFFF',
                     fontWeight: '900',
-                    fontSize: '14.5px',
+                    fontSize: '18px',
                     cursor: 'pointer',
                     boxShadow: '0 4px 12px rgba(16, 185, 129, 0.4)'
                   }}
@@ -887,7 +915,7 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
         key={cellKey}
         onClick={() => handleCellClick(cellKey, regionId)}
         onDragOver={handleDragOver}
-        onDrop={(e) => handleDrop(e, cellKey)}
+        onDrop={(e) => handleDrop(e, cellKey, regionId)}
         className="table-cell-droppable"
         style={{
           borderRight: cellBorder,
@@ -984,9 +1012,9 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
     return (
       <div
         key={specimen.id}
-        draggable
-        onDragStart={(e) => handleDragStart(e, specimen)}
-        onClick={() => handleSpecimenClick(specimen)}
+        draggable={!isPlaced}
+        onDragStart={(e) => { if (!isPlaced) handleDragStart(e, specimen); }}
+        onClick={() => { if (!isPlaced) handleSpecimenClick(specimen); }}
         className="specimen-card"
         style={{
           background: '#FFFFFF',
@@ -995,13 +1023,13 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          cursor: 'grab',
+          cursor: isPlaced ? 'not-allowed' : 'grab',
           boxShadow: isSelected
             ? '0 0 0 2.5px #F59E0B, 0 6px 16px rgba(245, 158, 11, 0.45)'
             : '0 2px 6px rgba(0,0,0,0.12)',
           border: isSelected ? '1.5px solid #F59E0B' : '1px solid rgba(0,0,0,0.08)',
           position: 'relative',
-          opacity: isPlaced ? 0.75 : 1
+          opacity: isPlaced ? 0.55 : 1
         }}
       >
         {/* Placed badge indicator */}

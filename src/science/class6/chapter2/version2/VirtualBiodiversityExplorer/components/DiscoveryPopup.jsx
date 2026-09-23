@@ -76,13 +76,13 @@ export default function DiscoveryPopup({
             </span>
             <div>
               <span style={{
-                fontSize: '14px',
+                fontSize: '18px',
                 fontWeight: 800,
                 textTransform: 'uppercase',
-                letterSpacing: '0.06em',
+                letterSpacing: '0.04em',
                 background: '#14452F',
                 color: '#FFFFFF',
-                padding: '3px 10px',
+                padding: '4px 12px',
                 borderRadius: '999px',
                 border: '1px solid #10B981',
                 display: 'inline-block'
@@ -91,7 +91,7 @@ export default function DiscoveryPopup({
               </span>
               <h2 style={{
                 fontFamily: '"Fraunces", Georgia, serif',
-                fontSize: '22px',
+                fontSize: '24px',
                 fontWeight: 900,
                 color: '#14452F',
                 margin: '0.35rem 0 0'
@@ -132,10 +132,10 @@ export default function DiscoveryPopup({
             padding: '1rem 1.25rem'
           }}>
             <p style={{
-              fontSize: '16px',
+              fontSize: '18px',
               color: '#2D3748',
-              fontWeight: 600,
-              lineHeight: 1.6,
+              fontWeight: 500,
+              lineHeight: 1.5,
               margin: 0,
               textAlign: 'justify',
               textJustify: 'inter-word'
@@ -158,11 +158,11 @@ export default function DiscoveryPopup({
               <Lightbulb className="w-5 h-5" />
             </div>
             <div style={{ flex: 1 }}>
-              <span style={{ fontSize: '14px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: '#B45309', display: 'block' }}>
+              <span style={{ fontSize: '21px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em', color: '#B45309', display: 'block' }}>
                 Did You Know?
               </span>
               <p style={{
-                fontSize: '16px',
+                fontSize: '18px',
                 color: '#78350F',
                 fontWeight: 600,
                 marginTop: '4px',
@@ -188,7 +188,7 @@ export default function DiscoveryPopup({
               padding: '0.85rem 1.25rem',
               borderRadius: '14px',
               fontWeight: 800,
-              fontSize: '16px',
+              fontSize: '18px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
