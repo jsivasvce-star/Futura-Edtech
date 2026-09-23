@@ -1,8 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Eye, ShieldAlert, EyeOff, User, Target, Camera } from 'lucide-react';
+import { Search, Eye, ShieldAlert, EyeOff, User, Target, Camera, Play, Pause } from 'lucide-react';
+import fpage47Audio from '../../audio/fpage47.mp3?url';
+import fpage47Json from '../../json/fpage47.json';
+import fpage47Audio1 from '../../audio/fpage47-1.mp3?url';
+import fpage47Json1 from '../../json/fpage47-1.json';
+import fpage47Audio2 from '../../audio/fpage47-2.mp3?url';
+import fpage47Json2 from '../../json/fpage47-2.json';
+import fpage47Audio3 from '../../audio/fpage47-3.mp3?url';
+import fpage47Json3 from '../../json/fpage47-3.json';
+import fpage47Audio4 from '../../audio/fpage47-4.mp3?url';
+import fpage47Json4 from '../../json/fpage47-4.json';
 
-export default function Stage6a_Surveillance({ onComplete, addXp }) {
+export default function Stage6a_Surveillance({ onComplete, addXp, setExtraRightAction }) {
   const [selectedSpot, setSelectedSpot] = useState(null);
   const [observations, setObservations] = useState({});
   const [overlayState, setOverlayState] = useState({ spotId: null, phase: null });
@@ -10,6 +20,109 @@ export default function Stage6a_Surveillance({ onComplete, addXp }) {
   const [progress, setProgress] = useState(0);
   const activationTimerRef = useRef(null);
   const completionTimerRef = useRef(null);
+
+  const instructionAudioRef = useRef(null);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [activeWordIndex, setActiveWordIndex] = useState(null);
+
+  const toggleInstructionAudio = useCallback(() => {
+    if (instructionAudioRef.current) {
+      if (isAudioPlaying) {
+        instructionAudioRef.current.pause();
+      } else {
+        instructionAudioRef.current.play().catch(e => console.error(e));
+      }
+      setIsAudioPlaying(!isAudioPlaying);
+    }
+  }, [isAudioPlaying]);
+
+  const handleAudioTimeUpdate = () => {
+    if (instructionAudioRef.current) {
+      const time = instructionAudioRef.current.currentTime;
+      const activeIdx = fpage47Json.words.findIndex(w => time >= w.start && time < w.end);
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsAudioPlaying(false);
+    setActiveWordIndex(null);
+  };
+
+  const obsAudioRef = useRef(null);
+  const [isObsAudioPlaying, setIsObsAudioPlaying] = useState(false);
+  const [activeObsWordIndex, setActiveObsWordIndex] = useState(null);
+
+  const toggleObsAudio = useCallback(() => {
+    if (obsAudioRef.current) {
+      if (isObsAudioPlaying) {
+        obsAudioRef.current.pause();
+      } else {
+        obsAudioRef.current.play().catch(e => console.error(e));
+      }
+      setIsObsAudioPlaying(!isObsAudioPlaying);
+    }
+  }, [isObsAudioPlaying]);
+
+  const currentObsJson = selectedSpot?.id === 'wall' ? fpage47Json1 :
+                         selectedSpot?.id === 'frosted' ? fpage47Json2 :
+                         selectedSpot?.id === 'tree' ? fpage47Json3 :
+                         selectedSpot?.id === 'window' ? fpage47Json4 : null;
+
+  const currentObsAudio = selectedSpot?.id === 'wall' ? fpage47Audio1 :
+                          selectedSpot?.id === 'frosted' ? fpage47Audio2 :
+                          selectedSpot?.id === 'tree' ? fpage47Audio3 :
+                          selectedSpot?.id === 'window' ? fpage47Audio4 : null;
+
+  const handleObsAudioTimeUpdate = () => {
+    if (obsAudioRef.current && currentObsJson) {
+      const time = obsAudioRef.current.currentTime;
+      const activeIdx = currentObsJson.words.findIndex(w => time >= w.start && time < w.end);
+      if (activeIdx !== activeObsWordIndex) {
+        setActiveObsWordIndex(activeIdx);
+      }
+    }
+  };
+
+  const handleObsAudioEnded = () => {
+    setIsObsAudioPlaying(false);
+    setActiveObsWordIndex(null);
+  };
+
+  useEffect(() => {
+    if (obsAudioRef.current) {
+      obsAudioRef.current.pause();
+      obsAudioRef.current.currentTime = 0;
+    }
+    setIsObsAudioPlaying(false);
+    setActiveObsWordIndex(null);
+  }, [selectedSpot]);
+
+  useEffect(() => {
+    if (setExtraRightAction) {
+      setExtraRightAction(
+        <button
+          onClick={toggleInstructionAudio}
+          className="outline"
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+            padding: '0.85rem 1.6rem', borderRadius: '10px',
+            background: 'var(--accent)', color: 'white', border: 'none',
+            cursor: 'pointer', boxShadow: '0 4px 12px rgba(217, 119, 6, 0.3)',
+            fontSize: '1.6rem', fontWeight: 'bold'
+          }}
+        >
+          {isAudioPlaying ? <Pause size={22} /> : <Play size={22} />}
+          {isAudioPlaying ? "Pause" : "Play"}
+        </button>
+      );
+    }
+    return () => {
+      if (setExtraRightAction) setExtraRightAction(null);
+    };
+  }, [setExtraRightAction, isAudioPlaying, toggleInstructionAudio]);
 
   const spots = [
     {
@@ -53,6 +166,28 @@ export default function Stage6a_Surveillance({ onComplete, addXp }) {
       image: '/images/surveillance_window.png'
     }
   ];
+
+  const renderMappedText = (text, indexMap, activeIndex, color, bgColor) => {
+    const words = text.split(' ');
+    return words.map((word, i) => {
+      const audioIdx = indexMap[i];
+      const isActive = activeIndex === audioIdx;
+      return (
+        <React.Fragment key={i}>
+          <span style={{ 
+            color: isActive ? color : 'inherit', 
+            background: isActive ? bgColor : 'transparent', 
+            borderRadius: '4px', 
+            padding: '0 2px', 
+            transition: 'all 0.15s ease-out' 
+          }}>
+            {word}
+          </span>
+          {i < words.length - 1 ? ' ' : ''}
+        </React.Fragment>
+      );
+    });
+  };
 
   const handleSpotClick = (spot) => {
     if (investigatingSpot) return; // Prevent clicks while another is loading
@@ -118,14 +253,59 @@ export default function Stage6a_Surveillance({ onComplete, addXp }) {
   return (
     <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%', height: '100%', color: 'var(--text-primary)' }}>
       
+      {/* Audio Element */}
+      <audio
+        ref={instructionAudioRef}
+        src={fpage47Audio}
+        onTimeUpdate={handleAudioTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
+      <audio
+        ref={obsAudioRef}
+        src={currentObsAudio || undefined}
+        onTimeUpdate={handleObsAudioTimeUpdate}
+        onEnded={handleObsAudioEnded}
+      />
+
       {/* Header */}
       <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '16px', padding: '1.25rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <h3 style={{ margin: 0, fontSize: 'clamp(29.04px, 3.63vw, 36.3px)', fontWeight: '900', color: 'var(--heading-main)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <Search size={24} color="var(--accent)" /> Phase 1: Surveillance Simulator
+            <Search size={24} color="var(--accent)" /> Phase 1:{' '}
+            {fpage47Json.words.slice(0, 2).map((w, i) => (
+              <React.Fragment key={`title-${i}`}>
+                <span
+                  style={{
+                    color: activeWordIndex === i ? 'var(--accent)' : 'inherit',
+                    background: activeWordIndex === i ? 'rgba(217, 119, 6, 0.1)' : 'transparent',
+                    borderRadius: '4px',
+                    padding: '0 2px',
+                    transition: 'all 0.15s ease-out'
+                  }}
+                >
+                  {w.text.replace('.', '')}
+                </span>
+                {i < 1 ? ' ' : ''}
+              </React.Fragment>
+            ))}
           </h3>
           <p style={{ margin: 0, fontSize: 'clamp(21.78px, 3.025vw, 26.62px)', fontWeight: '600', color: 'var(--heading-sub)', lineHeight: '1.5' }}>
-            Click on each location to see if the suspect is visible through the material.
+            {fpage47Json.words.slice(2, 16).map((w, i) => (
+              <React.Fragment key={`p-${i}`}>
+                <span
+                  style={{
+                    color: activeWordIndex === (i + 2) ? 'var(--accent)' : 'inherit',
+                    background: activeWordIndex === (i + 2) ? 'rgba(217, 119, 6, 0.1)' : 'transparent',
+                    borderRadius: '4px',
+                    padding: '0 2px',
+                    transition: 'all 0.15s ease-out'
+                  }}
+                >
+                  {w.text}
+                </span>
+                {i < 13 ? ' ' : ''}
+              </React.Fragment>
+            ))}
           </p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
@@ -289,8 +469,24 @@ export default function Stage6a_Surveillance({ onComplete, addXp }) {
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           
           <div style={{ background: 'var(--surface)', borderRadius: '16px', border: '1px solid var(--border)', padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-            <h4 style={{ margin: '0 0 1rem 0', color: 'var(--heading-section)', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid var(--border)', paddingBottom: '1rem', fontSize: 'clamp(24px, 3vw, 30px)', fontWeight: '800' }}>
-              <Camera size={26} color="var(--accent)" /> Observation Console
+            <h4 style={{ margin: '0 0 1rem 0', color: 'var(--heading-section)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '1rem', fontSize: 'clamp(24px, 3vw, 30px)', fontWeight: '800' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Camera size={26} color="var(--accent)" /> Observation Console
+              </span>
+              {selectedSpot && (
+                <button
+                  onClick={toggleObsAudio}
+                  style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                    padding: '0.5rem 1rem', borderRadius: '8px',
+                    background: 'var(--accent)', color: 'white', border: 'none',
+                    cursor: 'pointer', fontSize: '1.2rem', fontWeight: 'bold'
+                  }}
+                >
+                  {isObsAudioPlaying ? <Pause size={18} /> : <Play size={18} />}
+                  {isObsAudioPlaying ? "Pause" : "Play"}
+                </button>
+              )}
             </h4>
             
             <AnimatePresence mode="wait">
@@ -304,23 +500,54 @@ export default function Stage6a_Surveillance({ onComplete, addXp }) {
                 >
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                     <div style={{ color: 'var(--text-muted)', fontSize: '1.2804rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Target Location</div>
-                    <div style={{ fontSize: '1.8139rem', color: 'var(--text-heading)', fontWeight: 'bold' }}>{selectedSpot.name}</div>
+                    <div style={{ fontSize: '1.8139rem', color: 'var(--text-heading)', fontWeight: 'bold' }}>
+                      {selectedSpot.id === 'wall' && renderMappedText(selectedSpot.name, [3, 4, 5], activeObsWordIndex, 'var(--accent)', 'rgba(217,119,6,0.1)')}
+                      {selectedSpot.id === 'frosted' && renderMappedText(selectedSpot.name, [3, 4, 5], activeObsWordIndex, 'var(--accent)', 'rgba(217,119,6,0.1)')}
+                      {selectedSpot.id === 'tree' && renderMappedText(selectedSpot.name, [3, 4], activeObsWordIndex, 'var(--accent)', 'rgba(217,119,6,0.1)')}
+                      {selectedSpot.id === 'window' && renderMappedText(selectedSpot.name, [3, 4, 5], activeObsWordIndex, 'var(--accent)', 'rgba(217,119,6,0.1)')}
+                    </div>
                   </div>
 
                   <div style={{ background: 'var(--surface)', borderRadius: '12px', padding: '1.25rem', border: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                     <div style={{ color: 'var(--text-muted)', fontSize: '1.2804rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Visibility</div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1.65385rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>
-                      {selectedSpot.icon} {selectedSpot.view}
+                      {selectedSpot.icon}
+                      {selectedSpot.id === 'wall' && renderMappedText(selectedSpot.view, [10, 11], activeObsWordIndex, 'var(--accent)', 'rgba(217,119,6,0.1)')}
+                      {selectedSpot.id === 'frosted' && renderMappedText(selectedSpot.view, [10, 11], activeObsWordIndex, 'var(--accent)', 'rgba(217,119,6,0.1)')}
+                      {selectedSpot.id === 'tree' && renderMappedText(selectedSpot.view, [9, 10], activeObsWordIndex, 'var(--accent)', 'rgba(217,119,6,0.1)')}
+                      {selectedSpot.id === 'window' && renderMappedText(selectedSpot.view, [10, 11], activeObsWordIndex, 'var(--accent)', 'rgba(217,119,6,0.1)')}
                     </div>
                     <div style={{ color: 'var(--text-secondary)', fontSize: '1.3871rem', lineHeight: '1.5' }}>
-                      {selectedSpot.desc}
+                      {selectedSpot.id === 'wall' && currentObsJson?.words.slice(12, 26).map((w, i) => (
+                        <React.Fragment key={`desc-${i}`}><span style={{ color: activeObsWordIndex === (i + 12) ? 'var(--accent)' : 'inherit', background: activeObsWordIndex === (i + 12) ? 'rgba(217,119,6,0.1)' : 'transparent', borderRadius: '4px', padding: '0 2px', transition: 'all 0.15s ease-out' }}>{w.text}</span>{i < 13 ? ' ' : ''}</React.Fragment>
+                      ))}
+                      {selectedSpot.id === 'frosted' && currentObsJson?.words.slice(12, 32).map((w, i) => (
+                        <React.Fragment key={`desc-${i}`}><span style={{ color: activeObsWordIndex === (i + 12) ? 'var(--accent)' : 'inherit', background: activeObsWordIndex === (i + 12) ? 'rgba(217,119,6,0.1)' : 'transparent', borderRadius: '4px', padding: '0 2px', transition: 'all 0.15s ease-out' }}>{w.text}</span>{i < 19 ? ' ' : ''}</React.Fragment>
+                      ))}
+                      {selectedSpot.id === 'tree' && currentObsJson?.words.slice(11, 28).map((w, i) => (
+                        <React.Fragment key={`desc-${i}`}><span style={{ color: activeObsWordIndex === (i + 11) ? 'var(--accent)' : 'inherit', background: activeObsWordIndex === (i + 11) ? 'rgba(217,119,6,0.1)' : 'transparent', borderRadius: '4px', padding: '0 2px', transition: 'all 0.15s ease-out' }}>{w.text}</span>{i < 16 ? ' ' : ''}</React.Fragment>
+                      ))}
+                      {selectedSpot.id === 'window' && currentObsJson?.words.slice(12, 27).map((w, i) => (
+                        <React.Fragment key={`desc-${i}`}><span style={{ color: activeObsWordIndex === (i + 12) ? 'var(--accent)' : 'inherit', background: activeObsWordIndex === (i + 12) ? 'rgba(217,119,6,0.1)' : 'transparent', borderRadius: '4px', padding: '0 2px', transition: 'all 0.15s ease-out' }}>{w.text}</span>{i < 14 ? ' ' : ''}</React.Fragment>
+                      ))}
                     </div>
                   </div>
 
                   <div style={{ background: '#f0fdfa', borderRadius: '12px', padding: '1.25rem', border: '1px solid #ccfbf1', marginTop: 'auto' }}>
                     <div style={{ color: '#0d9488', fontSize: '1.2804rem', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Conclusion</div>
                     <div style={{ color: '#115e59', fontSize: '1.4938rem', lineHeight: '1.5', fontWeight: 'bold' }}>
-                      {selectedSpot.conclusion}
+                      {selectedSpot.id === 'wall' && currentObsJson?.words.slice(27).map((w, i) => (
+                        <React.Fragment key={`conc-${i}`}><span style={{ color: activeObsWordIndex === (i + 27) ? '#0f766e' : 'inherit', background: activeObsWordIndex === (i + 27) ? 'rgba(15,118,110,0.1)' : 'transparent', borderRadius: '4px', padding: '0 2px', transition: 'all 0.15s ease-out' }}>{w.text}</span>{i < (currentObsJson.words.length - 27 - 1) ? ' ' : ''}</React.Fragment>
+                      ))}
+                      {selectedSpot.id === 'frosted' && currentObsJson?.words.slice(33).map((w, i) => (
+                        <React.Fragment key={`conc-${i}`}><span style={{ color: activeObsWordIndex === (i + 33) ? '#0f766e' : 'inherit', background: activeObsWordIndex === (i + 33) ? 'rgba(15,118,110,0.1)' : 'transparent', borderRadius: '4px', padding: '0 2px', transition: 'all 0.15s ease-out' }}>{w.text}</span>{i < (currentObsJson.words.length - 33 - 1) ? ' ' : ''}</React.Fragment>
+                      ))}
+                      {selectedSpot.id === 'tree' && currentObsJson?.words.slice(29).map((w, i) => (
+                        <React.Fragment key={`conc-${i}`}><span style={{ color: activeObsWordIndex === (i + 29) ? '#0f766e' : 'inherit', background: activeObsWordIndex === (i + 29) ? 'rgba(15,118,110,0.1)' : 'transparent', borderRadius: '4px', padding: '0 2px', transition: 'all 0.15s ease-out' }}>{w.text}</span>{i < (currentObsJson.words.length - 29 - 1) ? ' ' : ''}</React.Fragment>
+                      ))}
+                      {selectedSpot.id === 'window' && currentObsJson?.words.slice(28).map((w, i) => (
+                        <React.Fragment key={`conc-${i}`}><span style={{ color: activeObsWordIndex === (i + 28) ? '#0f766e' : 'inherit', background: activeObsWordIndex === (i + 28) ? 'rgba(15,118,110,0.1)' : 'transparent', borderRadius: '4px', padding: '0 2px', transition: 'all 0.15s ease-out' }}>{w.text}</span>{i < (currentObsJson.words.length - 28 - 1) ? ' ' : ''}</React.Fragment>
+                      ))}
                     </div>
                   </div>
                 </motion.div>
@@ -329,7 +556,24 @@ export default function Stage6a_Surveillance({ onComplete, addXp }) {
                   <div style={{ background: 'var(--surface)', padding: '15px', borderRadius: '50%' }}>
                     <Camera size={40} color="var(--border)" />
                   </div>
-                  <span style={{ fontSize: '1.22705rem' }}>Select a location on the left to begin observation.</span>
+                  <span style={{ fontSize: '1.22705rem' }}>
+                    {fpage47Json.words.slice(16, 25).map((w, i) => (
+                      <React.Fragment key={`obs-${i}`}>
+                        <span
+                          style={{
+                            color: activeWordIndex === (i + 16) ? 'var(--accent)' : 'inherit',
+                            background: activeWordIndex === (i + 16) ? 'rgba(217, 119, 6, 0.1)' : 'transparent',
+                            borderRadius: '4px',
+                            padding: '0 2px',
+                            transition: 'all 0.15s ease-out'
+                          }}
+                        >
+                          {w.text}
+                        </span>
+                        {i < 8 ? ' ' : ''}
+                      </React.Fragment>
+                    ))}
+                  </span>
                 </div>
               )}
             </AnimatePresence>

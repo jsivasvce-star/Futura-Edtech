@@ -6,6 +6,18 @@ import potterShapingImg from '../../../../../../assets/potter_shaping_clay.jpg';
 import potteryPatternsImg from '../../../../../../assets/traditional_pottery_patterns.jpg';
 import potteryKilnImg from '../../../../../../assets/traditional_pottery_kiln.jpg';
 import potteryUsesImg from '../../../../../../assets/pottery_uses_storage.jpg';
+import fpage8Audio from '../../../audio/fpage8.mp3?url';
+import fpage8Json from '../../../json/fpage8.json';
+import fpage9Audio from '../../../audio/fpage9.mp3?url';
+import fpage9Json from '../../../json/fpage9.json';
+import fpage10Audio from '../../../audio/fpage10.mp3?url';
+import fpage10Json from '../../../json/fpage10.json';
+import fpage11Audio from '../../../audio/fpage11.mp3?url';
+import fpage11Json from '../../../json/fpage11.json';
+import fpage12Audio from '../../../audio/fpage12.mp3?url';
+import fpage12Json from '../../../json/fpage12.json';
+import fpage13Audio from '../../../audio/fpage13.mp3?url';
+import fpage13Json from '../../../json/fpage13.json';
 const SvgIcons = {
   MagnifyingGlass: () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -61,8 +73,116 @@ const clues = [
   }
 ];
 
-const PotterySpotlight = ({ currentClue, setCurrentClue }) => {
+const PotterySpotlight = ({ currentClue, setCurrentClue, setExtraRightAction }) => {
   const currentData = clues[currentClue - 1];
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordIndex, setActiveWordIndex] = useState(null);
+  const audioRef = useRef(null);
+
+  const getAudioSrc = () => {
+    if (currentClue === 1) return fpage9Audio;
+    if (currentClue === 2) return fpage10Audio;
+    if (currentClue === 3) return fpage11Audio;
+    if (currentClue === 4) return fpage12Audio;
+    if (currentClue === 5) return fpage13Audio;
+    return null;
+  };
+
+  const getAudioJson = () => {
+    if (currentClue === 1) return fpage9Json;
+    if (currentClue === 2) return fpage10Json;
+    if (currentClue === 3) return fpage11Json;
+    if (currentClue === 4) return fpage12Json;
+    if (currentClue === 5) return fpage13Json;
+    return null;
+  };
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.error(e));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  useEffect(() => {
+    if (setExtraRightAction) {
+      if (currentClue >= 1 && currentClue <= 5) {
+        setExtraRightAction(
+          <button
+            onClick={toggleAudio}
+            className="outline"
+            style={{
+              padding: '0.85rem 1.6rem',
+              fontSize: '1.6rem',
+              fontWeight: 'bold',
+              gap: '0.75rem',
+              borderRadius: '10px',
+              color: 'var(--text-primary)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+          >
+            {isPlaying ? <SvgIcons.Pause /> : <SvgIcons.Play />} {isPlaying ? "Pause" : "Play"}
+          </button>
+        );
+      } else {
+        setExtraRightAction(null);
+      }
+    }
+    return () => {
+      if (setExtraRightAction) setExtraRightAction(null);
+    };
+  }, [currentClue, setExtraRightAction, isPlaying]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    setIsPlaying(false);
+    setActiveWordIndex(null);
+  }, [currentClue]);
+
+  const handleTimeUpdate = () => {
+    const json = getAudioJson();
+    if (audioRef.current && json) {
+      const time = audioRef.current.currentTime;
+      const activeIdx = json.words.findIndex(w => time >= w.start && time < w.end);
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordIndex(null);
+  };
+
+  const W = ({ i, children }) => {
+    const indices = Array.isArray(i) ? i : [i];
+    const isActive = indices.includes(activeWordIndex);
+    return (
+      <span
+        style={{
+          color: isActive ? '#FFFFFF' : 'inherit',
+          background: isActive ? '#A94727' : 'transparent',
+          borderRadius: '4px',
+          padding: '0 2px',
+          transition: 'all 0.15s ease-out'
+        }}
+      >
+        {children}
+      </span>
+    );
+  };
 
   const timelineNode = (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 'auto', paddingTop: '8px', flexWrap: 'nowrap', overflow: 'hidden' }}>
@@ -111,10 +231,25 @@ const PotterySpotlight = ({ currentClue, setCurrentClue }) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '0', boxSizing: 'border-box', overflow: 'hidden' }}>
-      
+      {getAudioSrc() && (
+        <audio
+          ref={audioRef}
+          src={getAudioSrc()}
+          onTimeUpdate={handleTimeUpdate}
+          onEnded={handleAudioEnded}
+        />
+      )}
       <div style={{ marginBottom: '8px' }}>
         <h3 style={{ fontSize: '42px', fontFamily: "'Merriweather', Georgia, serif", fontWeight: 700, color: '#4A3B5C', margin: '0 0 8px 0', wordBreak: 'break-word', lineHeight: '1.2' }}>
-          {currentData.title}
+          {currentClue === 1 ? (
+            <><W i={0}>HOW</W> <W i={1}>OLD</W> <W i={2}>IS</W> <W i={3}>POTTERY?</W></>
+          ) : currentClue === 4 ? (
+            <><W i={0}>HOW</W> <W i={1}>WAS</W> <W i={2}>IT</W> <W i={3}>MADE?</W></>
+          ) : currentClue === 5 ? (
+            <><W i={0}>HOW</W> <W i={1}>WAS</W> <W i={2}>IT</W> <W i={3}>USED?</W></>
+          ) : (
+            currentData.title
+          )}
         </h3>
         <div style={{ fontSize: '36px', fontFamily: "'Merriweather', Georgia, serif", fontWeight: 700, color: '#A94727', letterSpacing: '1px' }}>
           DO YOU KNOW?
@@ -141,11 +276,55 @@ const PotterySpotlight = ({ currentClue, setCurrentClue }) => {
         {/* Left Text Box (55-60%) */}
         <div style={{ flex: '1 1 58%', display: 'flex', flexDirection: 'column', justifyContent: 'center', textAlign: 'center' }}>
           <div style={{ fontSize: '56px', fontFamily: "'Merriweather', Georgia, serif", fontWeight: 900, color: '#3E2723', marginBottom: '16px', lineHeight: '1.15', wordBreak: 'break-word' }}>
-            {currentData.bigFact}
+            {currentClue === 1 ? (
+              <span style={{
+                color: (activeWordIndex >= 16 && activeWordIndex <= 21) ? '#FFFFFF' : 'inherit',
+                background: (activeWordIndex >= 16 && activeWordIndex <= 21) ? '#A94727' : 'transparent',
+                borderRadius: '4px', padding: '0 2px', transition: 'all 0.15s'
+              }}>7,000-8,000 YEARS</span>
+            ) : currentClue === 2 ? (
+              <span style={{
+                color: (activeWordIndex >= 16 && activeWordIndex <= 18) ? '#FFFFFF' : 'inherit',
+                background: (activeWordIndex >= 16 && activeWordIndex <= 18) ? '#A94727' : 'transparent',
+                borderRadius: '4px', padding: '0 2px', transition: 'all 0.15s'
+              }}>AROUND 4000 BCE</span>
+            ) : currentClue === 4 ? (
+              <span style={{
+                color: (activeWordIndex === 4) ? '#FFFFFF' : 'inherit',
+                background: (activeWordIndex === 4) ? '#A94727' : 'transparent',
+                borderRadius: '4px', padding: '0 2px', transition: 'all 0.15s'
+              }}>TERRACOTTA</span>
+            ) : currentClue === 5 ? (
+              <><W i={4}>STORAGE</W> <W i={5}>&</W> <W i={6}>COOKING</W></>
+            ) : (
+              currentData.bigFact
+            )}
           </div>
           
           <div style={{ fontFamily: "'Merriweather', Georgia, serif", fontSize: '28px', fontWeight: 600, color: '#3E2723', lineHeight: '1.45', maxWidth: '100%', overflow: 'visible' }}>
-            {currentData.text}
+            {currentClue === 1 ? (
+              <>
+                <W i={4}>The</W> <W i={5}>earliest</W> <W i={6}>pottery</W> <W i={7}>found</W> <W i={8}>in</W> <W i={9}>the</W> <W i={10}>Indian</W> <W i={11}>subcontinent</W> <W i={12}>dates</W> <W i={13}>back</W> <W i={14}>to</W> <W i={[16,17]}>7,000</W> <W i={18}>to</W> <W i={[19,20]}>8,000</W> <W i={21}>years</W> <W i={26}>in</W> <W i={27}>the</W> <W i={28}>Ganga</W> <W i={29}>plains</W> <W i={30}>and</W> <W i={31}>in</W> <W i={32}>Baluchistan.</W>
+              </>
+            ) : currentClue === 2 ? (
+              <>
+                <W i={16}>About</W> <W i={17}>4000</W> <W i={18}>BCE</W> onwards, <W i={[19,20]}>Sindhu-Sarasvati</W> <W i={21}>developed</W> <W i={22}>techniques</W> <W i={23}>of</W> <W i={[24,25]}>wheel-turned</W> <W i={26}>pottery</W> <W i={27}>production,</W> <W i={28}>pigmentation,</W> <W i={29}>application</W> <W i={30}>of</W> <W i={31}>protective</W> <W i={32}>or</W> <W i={33}>decorative</W> <W i={34}>coats</W> <W i={35}>of</W> <W i={36}>multiple</W> <W i={37}>colours,</W> <W i={38}>decorative</W> <W i={39}>painting,</W> <W i={40}>etc.</W>
+              </>
+            ) : currentClue === 3 ? (
+              <>
+                <W i={0}>These</W> <W i={1}>techniques</W> <W i={2}>became</W> <W i={3}>further</W> <W i={4}>sophisticated</W> <W i={5}>during</W> <W i={6}>the</W> <W i={[7,8]}>Sindhu-Sarasvati</W> <W i={9}>Civilisation,</W> <W i={10}>with</W> <W i={11}>a</W> <W i={12}>bright</W> <W i={13}>red</W> <W i={14}>surface</W> <W i={15}>painted</W> <W i={16}>with</W> <W i={[17,18]}>black-coloured</W> <W i={19}>designs</W> <W i={20}>displaying</W> <W i={21}>geometric</W> <W i={22}>patterns,</W> <W i={23}>and</W> <W i={24}>aquatic</W> <W i={25}>and</W> <W i={26}>terrestrial</W> <W i={27}>animals.</W>
+              </>
+            ) : currentClue === 4 ? (
+              <>
+                <W i={5}>The</W> <W i={6}>clay</W> <W i={7}>used</W> <W i={8}>for</W> <W i={9}>making</W> <W i={10}>pots,</W> <W i={11}>dishes,</W> <W i={12}>bowls</W> <W i={13}>and</W> <W i={14}>other</W> <W i={15}>items</W> <W i={16}>was</W> <W i={17}>carefully</W> <W i={18}>selected</W> <W i={19}>and</W> <W i={20}>cleaned,</W> <W i={21}>sieved,</W> <W i={22}>kneaded,</W> <W i={23}>turned</W> <W i={24}>over</W> <W i={25}>a</W> <W i={26}>wheel</W> <W i={27}>and</W> <W i={28}>finally</W> <W i={29}>baked</W> <W i={30}>in</W> <W i={31}>kilns.</W>
+              </>
+            ) : currentClue === 5 ? (
+              <>
+                <W i={13}>Pots</W> <W i={14}>were</W> <W i={15}>used</W> <W i={16}>for</W> <W i={17}>various</W> <W i={18}>purposes,</W> <W i={19}>from</W> <W i={20}>cooking</W> <W i={21}>to</W> <W i={22}>storage</W> <W i={23}>of</W> <W i={24}>food</W> <W i={25}>grains,</W> <W i={26}>oil,</W> <W i={27}>ghee,</W> <W i={28}>and</W> <W i={29}>so</W> <W i={30}>on.</W> <W i={31}>Some</W> <W i={32}>very</W> <W i={33}>large</W> <W i={34}>storage</W> <W i={35}>jars</W> <W i={36}>and</W> <W i={37}>other</W> <W i={38}>pottery</W> <W i={39}>items</W> <W i={40}>are</W> <W i={41}>exhibited</W> <W i={42}>at</W> <W i={43}>the</W> <W i={44}>National</W> <W i={45}>Museum,</W> <W i={46}>New</W> <W i={47}>Delhi.</W>
+              </>
+            ) : (
+              currentData.text
+            )}
           </div>
         </div>
 
@@ -195,11 +374,14 @@ const PotterySpotlight = ({ currentClue, setCurrentClue }) => {
   );
 };
 
-const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowIndex = 0, stageCompleted = false, onNext, onComplete, initialPage = 1 }, ref) => {
+const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowIndex = 0, stageCompleted = false, onNext, onComplete, initialPage = 1, setExtraRightAction }, ref) => {
   const handleProceed = onNext || onComplete;
   
   const [b1Page, setB1Page] = useState(initialPage);
   const [currentClue, setCurrentClue] = useState(1);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordIndex, setActiveWordIndex] = useState(null);
+  const audioRef = useRef(null);
 
   useImperativeHandle(ref, () => ({
     handleGlobalNext: () => {
@@ -243,7 +425,92 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
   const isB2Phase4Done = highestUnlockedIndex > 9 || (currentFlowIndex === 9 && stageCompleted);
   const isB2Phase5Done = highestUnlockedIndex > 10 || (currentFlowIndex === 10 && stageCompleted);
 
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.error(e));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
+  useEffect(() => {
+    if (setExtraRightAction) {
+      if (b1Page === 1 && !isBarrier2 && !isBarrier3) {
+        setExtraRightAction(
+          <button
+            onClick={toggleAudio}
+            className="outline"
+            style={{
+              padding: '0.85rem 1.6rem',
+              fontSize: '1.6rem',
+              fontWeight: 'bold',
+              gap: '0.75rem',
+              borderRadius: '10px',
+              color: 'var(--text-primary)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+          >
+            {isPlaying ? <SvgIcons.Pause /> : <SvgIcons.Play />} {isPlaying ? "Pause" : "Play"}
+          </button>
+        );
+      } else if (b1Page !== 2) {
+        setExtraRightAction(null);
+      }
+    }
+    return () => {
+      if (setExtraRightAction && b1Page === 1) setExtraRightAction(null);
+    };
+  }, [b1Page, isBarrier2, isBarrier3, setExtraRightAction, isPlaying]);
+
+  useEffect(() => {
+    if (b1Page !== 1 || isBarrier2 || isBarrier3) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+      setIsPlaying(false);
+      setActiveWordIndex(null);
+    }
+  }, [b1Page, isBarrier2, isBarrier3]);
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current && typeof fpage8Json !== 'undefined') {
+      const time = audioRef.current.currentTime;
+      const activeIdx = fpage8Json.words.findIndex(w => time >= w.start && time < w.end);
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordIndex(null);
+  };
+
+  const W = ({ i, children }) => {
+    const isActive = activeWordIndex === i;
+    return (
+      <span
+        style={{
+          color: isActive ? '#FFFFFF' : 'inherit',
+          background: isActive ? '#A94727' : 'transparent',
+          borderRadius: '4px',
+          padding: '0 2px',
+          transition: 'all 0.15s ease-out'
+        }}
+      >
+        {children}
+      </span>
+    );
+  };
 
   return (
     <div style={{
@@ -264,6 +531,14 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
       border: (!isBarrier2 && !isBarrier3) ? 'none' : '6px solid #3E2723',
       overflow: 'hidden'
     }}>
+      {(!isBarrier2 && !isBarrier3 && b1Page === 1) && (
+        <audio
+          ref={audioRef}
+          src={fpage8Audio}
+          onTimeUpdate={handleTimeUpdate}
+          onEnded={handleAudioEnded}
+        />
+      )}
       {(!isBarrier2 && !isBarrier3 && b1Page === 1) && (
         <style>{`
           .global-action-bar {
@@ -364,18 +639,18 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
 
                   <div style={{ fontFamily: "'Merriweather', Georgia, serif", color: '#3E2723', position: 'relative', zIndex: 3 }}>
                     <p style={{ margin: '0 0 8px 0', fontSize: '26px', lineHeight: '1.45', fontWeight: 500, color: '#3E2723' }}>
-                      Look around you! You can see many things – a chair, a book, a water bottle, a pencil and so on.
+                      <W i={0}>Look</W> <W i={1}>around</W> <W i={2}>you!</W> <W i={3}>You</W> <W i={4}>can</W> <W i={5}>see</W> <W i={6}>many</W> <W i={7}>things</W> – <W i={8}>a</W> <W i={9}>chair,</W> <W i={10}>a</W> <W i={11}>book,</W> <W i={12}>a</W> <W i={13}>water</W> <W i={14}>bottle,</W> <W i={15}>a</W> <W i={16}>pencil</W> <W i={17}>and</W> <W i={18}>so</W> <W i={19}>on.</W>
                     </p>
                     <p style={{ margin: 0, fontSize: '26px', lineHeight: '1.45', fontWeight: 500, color: '#3E2723' }}>
-                      These are all <strong style={{ color: '#A94727', fontWeight: 700 }}>objects</strong>. Even though they look different, each object is made of some <strong style={{ color: '#A94727', fontWeight: 700 }}>material</strong>.
+                      <W i={20}>These</W> <W i={21}>are</W> <W i={22}>all</W> <strong style={{ color: '#A94727', fontWeight: 700 }}><W i={23}>objects</W></strong>. <W i={24}>Even</W> <W i={25}>though</W> <W i={26}>they</W> <W i={27}>look</W> <W i={28}>different,</W> <W i={29}>each</W> <W i={30}>object</W> <W i={31}>is</W> <W i={32}>made</W> <W i={33}>of</W> <W i={34}>some</W> <strong style={{ color: '#A94727', fontWeight: 700 }}><W i={35}>material</W></strong>.
                     </p>
                   </div>
 
                   {/* Definition Box */}
                   <div style={{ background: 'rgba(253, 251, 247, 0.95)', border: '1.5px solid #D8C3A5', borderLeft: '8px solid #A94727', borderRadius: '12px', padding: '12px 20px', position: 'relative', zIndex: 3 }}>
                     <div style={{ fontFamily: "'Merriweather', Georgia, serif", fontSize: '24px', fontWeight: 500, color: '#3E2723', lineHeight: 1.45 }}>
-                      <div style={{ marginBottom: '4px' }}><strong style={{ color: '#A94727', fontWeight: 700 }}>Material:</strong> The substance used to make an object.</div>
-                      <div><strong style={{ color: '#A94727', fontWeight: 700 }}>Object:</strong> Anything we can see or use around us.</div>
+                      <div style={{ marginBottom: '4px' }}><strong style={{ color: '#A94727', fontWeight: 700 }}><W i={37}>Material:</W></strong> <W i={39}>The</W> <W i={40}>substance</W> <W i={41}>used</W> <W i={42}>to</W> <W i={43}>make</W> <W i={44}>an</W> <W i={45}>object.</W></div>
+                      <div><strong style={{ color: '#A94727', fontWeight: 700 }}><W i={47}>Object:</W></strong> <W i={49}>Anything</W> <W i={50}>we</W> <W i={51}>can</W> <W i={52}>see</W> <W i={53}>or</W> <W i={54}>use</W> <W i={55}>around</W> <W i={56}>us.</W></div>
                     </div>
                   </div>
 
@@ -383,9 +658,9 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
                   <div style={{ background: 'rgba(253, 251, 247, 0.95)', border: '1.5px solid #D8C3A5', borderLeft: '8px solid #A94727', borderRadius: '12px', padding: '12px 20px', position: 'relative', zIndex: 3 }}>
                     <h4 style={{ margin: '0 0 4px 0', color: '#4A3B5C', fontSize: '30px', fontWeight: 700, fontFamily: "'Merriweather', Georgia, serif" }}>Examples:</h4>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontFamily: "'Merriweather', Georgia, serif", fontSize: '23px', fontWeight: 500, color: '#3E2723', lineHeight: 1.45 }}>
-                      <div>• A chair can be made of wood, plastic or steel.</div>
-                      <div>• A plate can be made of steel, glass or plastic.</div>
-                      <div>• A bottle can be made of plastic, glass or steel.</div>
+                      <div>• <W i={59}>A</W> <W i={60}>chair</W> <W i={61}>can</W> <W i={62}>be</W> <W i={63}>made</W> <W i={64}>of</W> <W i={65}>wood,</W> <W i={66}>plastic</W> <W i={67}>or</W> <W i={68}>steel.</W></div>
+                      <div>• <W i={69}>A</W> <W i={70}>plate</W> <W i={71}>can</W> <W i={72}>be</W> <W i={73}>made</W> <W i={74}>of</W> <W i={75}>steel,</W> <W i={76}>glass</W> <W i={77}>or</W> <W i={78}>plastic.</W></div>
+                      <div>• <W i={79}>A</W> <W i={80}>bottle</W> <W i={81}>can</W> <W i={82}>be</W> <W i={83}>made</W> <W i={84}>of</W> <W i={85}>plastic,</W> <W i={86}>glass</W> <W i={87}>or</W> <W i={88}>steel.</W></div>
                     </div>
                   </div>
 
@@ -393,7 +668,7 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
                   <div style={{ background: 'rgba(253, 251, 247, 0.95)', border: '1.5px solid #D8C3A5', borderLeft: '8px solid #A94727', borderRadius: '12px', padding: '12px 20px', position: 'relative', zIndex: 3 }}>
                     <div style={{ fontFamily: "'Merriweather', Georgia, serif", fontSize: '23px', fontWeight: 500, color: '#3E2723', lineHeight: 1.45 }}>
                       <strong style={{ fontWeight: 700, color: '#A94727', fontSize: '30px', fontFamily: "'Merriweather', Georgia, serif", display: 'inline-block', marginBottom: '2px' }}>Think!</strong><br />
-                      One object can be made from different materials. One material can be used to make many different objects. Can you think of more examples?
+                      <W i={89}>One</W> <W i={90}>object</W> <W i={91}>can</W> <W i={92}>be</W> <W i={93}>made</W> <W i={94}>from</W> <W i={95}>different</W> <W i={96}>materials.</W> <W i={98}>One</W> <W i={99}>material</W> <W i={100}>can</W> <W i={101}>be</W> <W i={102}>used</W> <W i={103}>to</W> <W i={104}>make</W> <W i={105}>many</W> <W i={106}>different</W> <W i={107}>objects.</W> <W i={108}>Can</W> <W i={109}>you</W> <W i={110}>think</W> <W i={111}>of</W> <W i={112}>more</W> <W i={113}>examples?</W>
                     </div>
                   </div>
                 </div>
@@ -425,7 +700,7 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
                   <div style={{ width: '100%', height: '4px', background: '#2C4E3D', opacity: 0.9, borderRadius: '2px', marginTop: '12px', marginBottom: '16px' }} />
                 </div>
 
-                <PotterySpotlight currentClue={currentClue} setCurrentClue={setCurrentClue} />
+                <PotterySpotlight currentClue={currentClue} setCurrentClue={setCurrentClue} setExtraRightAction={setExtraRightAction} />
               </div>
             )}
           </>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AlertCircle, CheckCircle, XCircle, Hand, RotateCcw, ArrowRight, BookOpen, Play, Pause } from 'lucide-react';
+import { AlertCircle, CheckCircle, XCircle, Hand, RotateCcw, ArrowRight, BookOpen, Play, Pause, Sparkles, FlaskConical, Info } from 'lucide-react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Text, ContactShadows, Environment, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
@@ -370,6 +370,7 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
   const [cycleKey, setCycleKey] = useState(0);
   const [tapCount, setTapCount] = useState(0);
   const [quizAnswer, setQuizAnswer] = useState(null);
+  const [warningPrompt, setWarningPrompt] = useState(null);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [isSprinkling, setIsSprinkling] = useState(false);
   const [isVibrating, setIsVibrating] = useState(false);
@@ -388,13 +389,54 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
     isPausedRef.current = !isPausedRef.current;
   };
 
+  const handleSprinkle = () => {
+    setIsPaused(false);
+    isPausedRef.current = false;
+    setIsSprinkling(true);
+    setTimeout(() => setIsSprinkling(false), 800);
+  };
+
+  const handleTapGently = () => {
+    setIsPaused(false);
+    isPausedRef.current = false;
+    setTapCount((prev) => prev + 1);
+    setIsVibrating(true);
+    setTimeout(() => setIsVibrating(false), 500);
+  };
+
   const handleReset = () => {
     setIsPaused(false);
     isPausedRef.current = false;
     setTapCount(0);
     setQuizAnswer(null);
+    setWarningPrompt(null);
     setShowFeedbackModal(false);
     setStep('scattering');
+  };
+
+  const handleQuizAnswer = (answer) => {
+    setQuizAnswer(answer);
+    setWarningPrompt(null);
+    if (answer === 'ends') {
+      setShowFeedbackModal(true);
+    }
+  };
+
+  const handleProceedClick = () => {
+    if (!quizAnswer) {
+      setWarningPrompt('Please answer the observation question before proceeding.');
+      return;
+    }
+    if (quizAnswer === 'middle') {
+      setWarningPrompt('Incorrect answer. Please select the correct observation to proceed.');
+      return;
+    }
+    setWarningPrompt(null);
+    if (onComplete) {
+      onComplete();
+    } else if (onGoToQuiz) {
+      onGoToQuiz();
+    }
   };
 
   const handleProceed = () => {
@@ -505,13 +547,22 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
         )}
       </AnimatePresence>
       
-      {/* Dedicated Viewer Container (3D Science Demo Video) */}
-      <div style={{ flex: '1.6', display: 'flex', flexDirection: 'column', minWidth: 0, height: '100%', boxSizing: 'border-box' }}>
+      {/* Dedicated Viewer Container (3D Science Demo Video) - 70% Width */}
+      <div style={{ 
+        flex: '0 0 calc(70% - 0.875rem)', 
+        width: 'calc(70% - 0.875rem)', 
+        maxWidth: 'calc(70% - 0.875rem)', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        minWidth: 0, 
+        height: '100%', 
+        boxSizing: 'border-box' 
+      }}>
         {/* Display Container: Video Player */}
-        <div style={{ position: 'relative', width: '100%', flex: 1, minHeight: '380px', overflow: 'hidden', borderRadius: '24px' }}>
+        <div style={{ position: 'relative', width: '100%', height: '100%', flex: 1, minHeight: 0, overflow: 'hidden', borderRadius: '24px' }}>
           <MagneticPolesVideoPlayer
-            videoSrc="/MagneticPoles/Barmagnet.mp4"
-            fallbackSrc="/assets/Barmagnet.mp4"
+            videoSrc="/assets/stage1_barmagnet.mp4"
+            fallbackSrc="/assets/stage1_barmagnet.mp4"
             externalIsPaused={isPaused}
             onExternalTogglePause={handleTogglePause}
             onExternalReset={handleReset}
@@ -523,75 +574,86 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
         </div>
       </div>
 
-      {/* Right Column: Fullscreen non-scrolling, Halfscreen scrolling */}
+      {/* Right Column: 30% Width */}
       <div 
         className="stage-right-column custom-scrollbar"
         style={{ 
-          flex: '1.35', 
+          flex: '0 0 calc(30% - 0.375rem)', 
+          width: 'calc(30% - 0.375rem)', 
+          maxWidth: 'calc(30% - 0.375rem)', 
           height: '100%',
           maxHeight: '100%',
           minHeight: 0,
           boxSizing: 'border-box',
           display: 'flex', 
           flexDirection: 'column', 
-          gap: '1.15rem', 
+          gap: '0.85rem', 
           minWidth: 0, 
+          overflow: 'hidden',
           fontFamily: "'Inter', system-ui, -apple-system, sans-serif"
         }}
       >
-        {/* CONTAINER 1: Steps of Instructions with Doubled Font Size, Bold and Sharp */}
+        {/* CONTAINER 1: Try the experiment */}
         <div 
           className="stage-container-1"
-          style={{
+          style={{ 
             background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
             border: '1.5px solid #E2E8F0', 
             borderRadius: '24px', 
-            padding: '1.4rem 1.6rem', 
-            boxShadow: '0 8px 30px rgba(217, 119, 6, 0.1)',
+            padding: '0.9rem 0.85rem', 
+            boxShadow: '0 8px 30px rgba(217, 119, 6, 0.08)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
             boxSizing: 'border-box',
             flex: 1,
-            overflowY: 'auto'
+            minHeight: 0
           }}
         >
+          {/* Top Section: Title & 3 Instructions */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)', paddingBottom: '0.6rem', marginBottom: '0.75rem' }}>
-              <h4 style={{ margin: 0, fontSize: '19.5px', color: '#173B5F', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-                <span>📋</span> Steps of Instructions
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)', paddingBottom: '0.4rem', marginBottom: '0.55rem' }}>
+              <h4 style={{ margin: 0, fontSize: '32px', color: '#173B5F', fontWeight: 800, lineHeight: 1.15, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <FlaskConical size={24} color="#173B5F" /> Try to experiment
               </h4>
             </div>
 
-            {/* Bullet Points - Doubled Font Size (34px), Bold, Sharp, and Clearly Legible */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            {/* Numbered Steps */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
               {[
-                'Spread iron filings evenly across the paper surface around the magnet.',
-                'Gently tap the sheet to allow iron filings to align along magnetic field lines.',
-                'Observe where filings cluster most densely near the two ends of the magnet.'
+                'Sprinkle iron filings around the magnet.',
+                'Gently tap the paper.',
+                'Compare the ends with the middle.'
               ].map((instruction, idx) => (
                 <div
                   key={idx}
                   style={{
                     display: 'flex',
-                    alignItems: 'baseline',
-                    gap: '1rem',
-                    padding: '0.2rem 0'
+                    alignItems: 'flex-start',
+                    gap: '0.45rem'
                   }}
                 >
                   <span
                     style={{
-                      width: '16px',
-                      height: '16px',
+                      width: '22px',
+                      height: '22px',
+                      minWidth: '22px',
                       borderRadius: '50%',
                       background: '#173B5F',
-                      display: 'inline-block',
+                      color: '#FFFFFF',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '14px',
+                      fontWeight: 800,
                       flexShrink: 0,
-                      transform: 'translateY(-3px)',
-                      boxShadow: '0 2px 6px rgba(217, 119, 6, 0.4)'
+                      marginTop: '3px',
+                      boxShadow: '0 2px 5px rgba(23, 59, 95, 0.25)'
                     }}
-                  />
-                  <p style={{ margin: 0, fontSize: '17.5px', lineHeight: 1.5, color: '#173B5F', fontWeight: 600 }}>
+                  >
+                    {idx + 1}
+                  </span>
+                  <p style={{ margin: 0, fontSize: '24px', lineHeight: 1.18, color: '#173B5F', fontWeight: 600, letterSpacing: '-0.022em', wordSpacing: '-0.01em' }}>
                     {instruction}
                   </p>
                 </div>
@@ -599,102 +661,164 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
             </div>
           </div>
 
-          {/* Action Buttons: Pause / Resume & Reset */}
-          <div style={{ width: '100%', display: 'flex', gap: '0.85rem', marginTop: '1.25rem', paddingTop: '1rem', borderTop: '2px solid rgba(217, 119, 6, 0.25)' }}>
-            <button
-              onClick={handleTogglePause}
-              className="gold-glow-btn"
-              style={{ 
-                flex: 2, 
-                padding: '0.85rem 1.25rem', 
-                fontSize: '18px', 
-                fontWeight: 900, 
-                borderRadius: '16px', 
-                color: '#FFFFFF', 
-                border: 'none', 
-                cursor: 'pointer', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                gap: '10px',
-                boxShadow: '0 4px 14px rgba(217, 119, 6, 0.35)',
-                transition: 'all 0.2s ease'
+          {/* Bottom Section: Observation box + Action Buttons with NO unnecessary gap */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', marginTop: '0.45rem' }}>
+            {/* Green observation box */}
+            <div
+              style={{
+                padding: '0.55rem 0.85rem',
+                borderRadius: '14px',
+                background: '#ECFDF5',
+                border: '1.5px solid #6EE7B7',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.55rem',
+                boxShadow: '0 2px 8px rgba(16, 185, 129, 0.08)'
               }}
             >
-              {!isPaused ? (
-                <>
-                  <Pause size={22} fill="#FFFFFF" color="#FFFFFF" /> Pause Investigation
-                </>
-              ) : (
-                <>
-                  <Play size={22} fill="#FFFFFF" color="#FFFFFF" /> Resume Investigation
-                </>
-              )}
-            </button>
-            
-            <button
-              onClick={handleReset}
-              style={{ 
-                flex: 1, 
-                padding: '0.85rem 1rem', 
-                fontSize: '18px', 
-                fontWeight: 900, 
-                borderRadius: '16px', 
-                background: '#FFFFFF', 
-                color: '#173B5F', 
-                border: '1.5px solid #E2E8F0', 
-                cursor: 'pointer', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                gap: '8px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              <RotateCcw size={19} /> Reset
-            </button>
+              <Sparkles size={18} color="#059669" style={{ flexShrink: 0 }} />
+              <p style={{ margin: 0, color: '#065F46', fontSize: '23px', fontWeight: 700, lineHeight: 1.15 }}>
+                Look closely: where do most filings collect?
+              </p>
+            </div>
+
+            {/* Action Buttons: Sprinkle, Tap, Reset on One Single Horizontal Line immediately below observation box */}
+            <div style={{ width: '100%', display: 'flex', gap: '0.45rem', flexWrap: 'nowrap' }}>
+              <button
+                type="button"
+                onClick={handleSprinkle}
+                className="gold-glow-btn"
+                style={{ 
+                  flex: 1, 
+                  minWidth: 0,
+                  padding: '0.55rem 0.35rem', 
+                  fontSize: '21px', 
+                  fontWeight: 700, 
+                  lineHeight: 1.1,
+                  borderRadius: '14px', 
+                  color: '#FFFFFF', 
+                  border: 'none', 
+                  cursor: 'pointer', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  gap: '4px',
+                  boxShadow: '0 4px 14px rgba(217, 119, 6, 0.35)',
+                  transition: 'all 0.2s ease',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                <Sparkles size={16} fill="#FFFFFF" color="#FFFFFF" /> Sprinkle
+              </button>
+              
+              <button
+                type="button"
+                onClick={handleTapGently}
+                style={{ 
+                  flex: 1, 
+                  minWidth: 0,
+                  padding: '0.55rem 0.35rem', 
+                  fontSize: '21px', 
+                  fontWeight: 700, 
+                  lineHeight: 1.1,
+                  borderRadius: '14px', 
+                  background: '#FFFFFF', 
+                  color: '#173B5F', 
+                  border: '1.5px solid #CBD5E1', 
+                  cursor: 'pointer', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  gap: '4px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                  transition: 'all 0.2s ease',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                <Hand size={16} color="#173B5F" /> Tap
+              </button>
+
+              <button
+                type="button"
+                onClick={handleReset}
+                style={{ 
+                  flex: 1, 
+                  minWidth: 0,
+                  padding: '0.55rem 0.35rem', 
+                  fontSize: '21px', 
+                  fontWeight: 700, 
+                  lineHeight: 1.1,
+                  borderRadius: '14px', 
+                  background: '#FFFFFF', 
+                  color: '#475569', 
+                  border: '1.5px solid #CBD5E1', 
+                  cursor: 'pointer', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  gap: '4px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                  transition: 'all 0.2s ease',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                <RotateCcw size={15} /> Reset
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* CONTAINER 2: Observation Question */}
+        {/* CONTAINER 2: Check your observation */}
         <div 
           className="stage-container-2"
           style={{ 
             background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
             border: '1.5px solid #E2E8F0', 
             borderRadius: '24px', 
-            padding: '1.25rem 1.45rem', 
+            padding: '0.9rem 0.85rem', 
             boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
             display: 'flex', 
             flexDirection: 'column', 
             justifyContent: 'space-between',
-            boxSizing: 'border-box'
+            boxSizing: 'border-box',
+            flex: 1,
+            minHeight: 0
           }}
         >
+          {/* Top Section: Title + Question + Options */}
           <div>
-            <h4 style={{ color: '#173B5F', margin: 0, fontSize: '19.5px', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.55rem', paddingBottom: '0.55rem', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)' }}>
-              <AlertCircle size={22} color="#173B5F" /> Observation Question
+            <h4 style={{ color: '#173B5F', margin: 0, fontSize: '30px', fontWeight: 800, lineHeight: 1.15, display: 'flex', alignItems: 'center', gap: '0.5rem', paddingBottom: '0.4rem', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)' }}>
+              <AlertCircle size={23} color="#173B5F" /> Check your observation
             </h4>
-            <p style={{ margin: '0.75rem 0', color: '#173B5F', fontSize: '17.5px', lineHeight: 1.5, fontWeight: 700 }}>
-              Do the iron filings stick uniformly all over the magnet, or do they stick more at specific places?
+            
+            <p style={{ margin: '0.45rem 0 0.4rem 0', color: '#173B5F', fontSize: '23px', lineHeight: 1.15, fontWeight: 700 }}>
+              Where is the magnetic pull strongest?
             </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.65rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', marginTop: '0.3rem' }}>
               <button
-                onClick={() => handleQuizAnswer('uniformly')}
+                type="button"
+                onClick={() => handleQuizAnswer('ends')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleQuizAnswer('ends');
+                  }
+                }}
+                aria-pressed={quizAnswer === 'ends'}
                 style={{ 
-                  padding: '0.85rem 1.15rem', 
+                  padding: '0.55rem 0.85rem', 
                   textAlign: 'left', 
-                  fontSize: '17px', 
+                  fontSize: '22px', 
                   fontWeight: 700, 
+                  lineHeight: 1.15,
                   borderRadius: '14px', 
                   cursor: 'pointer', 
-                  background: quizAnswer === 'uniformly' ? '#FEE2E2' : '#FFFFFF', 
-                  borderColor: quizAnswer === 'uniformly' ? '#EF4444' : '#E2E8F0', 
+                  background: quizAnswer === 'ends' ? '#DCFCE7' : '#FFFFFF', 
+                  borderColor: quizAnswer === 'ends' ? '#10B981' : '#CBD5E1', 
                   borderWidth: '1.5px', 
                   borderStyle: 'solid', 
-                  color: quizAnswer === 'uniformly' ? '#991B1B' : '#173B5F', 
+                  color: quizAnswer === 'ends' ? '#064E3B' : '#173B5F', 
                   display: 'flex', 
                   alignItems: 'center', 
                   justifyContent: 'space-between',
@@ -702,24 +826,33 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
                   transition: 'all 0.2s ease'
                 }}
               >
-                <span>A) Filings stick uniformly all over</span>
-                {quizAnswer === 'uniformly' && <XCircle size={20} color="#EF4444" />}
+                <span>At the two ends</span>
+                {quizAnswer === 'ends' && <CheckCircle size={18} color="#10B981" />}
               </button>
 
               <button
-                onClick={() => handleQuizAnswer('ends')}
+                type="button"
+                onClick={() => handleQuizAnswer('middle')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleQuizAnswer('middle');
+                  }
+                }}
+                aria-pressed={quizAnswer === 'middle'}
                 style={{ 
-                  padding: '0.85rem 1.15rem', 
+                  padding: '0.55rem 0.85rem', 
                   textAlign: 'left', 
-                  fontSize: '17px', 
+                  fontSize: '22px', 
                   fontWeight: 700, 
+                  lineHeight: 1.15,
                   borderRadius: '14px', 
                   cursor: 'pointer', 
-                  background: (quizAnswer === 'ends' || step === 'complete') ? '#DCFCE7' : '#FFFFFF', 
-                  borderColor: (quizAnswer === 'ends' || step === 'complete') ? '#10B981' : '#E2E8F0', 
+                  background: quizAnswer === 'middle' ? '#FEE2E2' : '#FFFFFF', 
+                  borderColor: quizAnswer === 'middle' ? '#EF4444' : '#CBD5E1', 
                   borderWidth: '1.5px', 
                   borderStyle: 'solid', 
-                  color: (quizAnswer === 'ends' || step === 'complete') ? '#064E3B' : '#173B5F', 
+                  color: quizAnswer === 'middle' ? '#991B1B' : '#173B5F', 
                   display: 'flex', 
                   alignItems: 'center', 
                   justifyContent: 'space-between',
@@ -727,51 +860,143 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
                   transition: 'all 0.2s ease'
                 }}
               >
-                <span>B) Most filings cluster at the two ends (Poles)</span>
-                {(quizAnswer === 'ends' || step === 'complete') && <CheckCircle size={20} color="#10B981" />}
+                <span>At the middle</span>
+                {quizAnswer === 'middle' && <XCircle size={18} color="#EF4444" />}
               </button>
             </div>
           </div>
 
-          {/* Always-visible Proceed Button */}
-          {(() => {
-            const isReadyToProceed = quizAnswer === 'ends';
-            return (
-              <div style={{ paddingTop: '0.75rem', marginTop: 'auto' }}>
-                <button
-                  onClick={onComplete}
-                  disabled={!isReadyToProceed}
-                  className={isReadyToProceed ? 'gold-glow-btn' : ''}
-                  style={{ 
-                    width: '100%', 
-                    padding: '0.85rem 1.25rem', 
-                    fontSize: '17.5px', 
-                    fontWeight: 900, 
-                    borderRadius: '14px', 
-                    background: isReadyToProceed 
-                      ? undefined 
-                      : '#F1F5F9', 
-                    color: isReadyToProceed 
-                      ? '#FFFFFF' 
-                      : '#94A3B8', 
-                    border: isReadyToProceed 
-                      ? 'none' 
-                      : '1.5px solid #CBD5E1', 
-                    cursor: isReadyToProceed 
-                      ? 'pointer' 
-                      : 'not-allowed', 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center', 
-                    gap: '0.6rem',
-                    transition: 'all 0.25s ease'
+          {/* Bottom Section: Evidence text + Feedback + Next button (No empty space below) */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', marginTop: '0.45rem' }}>
+            {/* Supporting text */}
+            <p style={{ margin: 0, color: '#64748B', fontSize: '19px', lineHeight: 1.2, fontWeight: 500, display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+              <Info size={16} color="#64748B" style={{ flexShrink: 0 }} /> Use the pattern of filings as your evidence.
+            </p>
+
+            {/* In-container corrective feedback when 'middle' is selected */}
+            <AnimatePresence>
+              {quizAnswer === 'middle' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -4, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -4, scale: 0.98 }}
+                  transition={{ duration: 0.2 }}
+                  style={{
+                    padding: '0.45rem 0.75rem',
+                    borderRadius: '12px',
+                    background: '#FEF2F2',
+                    border: '1.5px solid #F87171',
+                    color: '#991B1B',
+                    fontSize: '14px',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.45rem',
+                    boxShadow: '0 3px 10px rgba(239, 68, 68, 0.1)'
                   }}
                 >
-                  Proceed to Stage 2 <ArrowRight size={18} color={isReadyToProceed ? '#FFFFFF' : '#94A3B8'} />
-                </button>
-              </div>
-            );
-          })()}
+                  <XCircle size={16} color="#DC2626" style={{ flexShrink: 0 }} />
+                  <span>Incorrect. Very few filings cling to the middle. Look closely at the two ends and try again!</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* In-container positive feedback when 'ends' is selected */}
+            <AnimatePresence>
+              {quizAnswer === 'ends' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -4, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -4, scale: 0.98 }}
+                  transition={{ duration: 0.2 }}
+                  style={{
+                    padding: '0.45rem 0.75rem',
+                    borderRadius: '12px',
+                    background: '#ECFDF5',
+                    border: '1.5px solid #6EE7B7',
+                    color: '#065F46',
+                    fontSize: '14px',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.45rem',
+                    boxShadow: '0 3px 10px rgba(16, 185, 129, 0.1)'
+                  }}
+                >
+                  <CheckCircle size={16} color="#10B981" style={{ flexShrink: 0 }} />
+                  <span>🎉 Correct! The magnetic pull is strongest at the two ends (poles).</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Warning prompt when attempting to proceed prematurely */}
+            <AnimatePresence>
+              {warningPrompt && (
+                <motion.div
+                  initial={{ opacity: 0, y: -4, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -4, scale: 0.98 }}
+                  transition={{ duration: 0.2 }}
+                  style={{
+                    padding: '0.45rem 0.75rem',
+                    borderRadius: '12px',
+                    background: '#FFFBEB',
+                    border: '1.5px solid #FCD34D',
+                    color: '#92400E',
+                    fontSize: '14px',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.45rem',
+                    boxShadow: '0 3px 10px rgba(245, 158, 11, 0.1)'
+                  }}
+                >
+                  <AlertCircle size={16} color="#D97706" style={{ flexShrink: 0 }} />
+                  <span>{warningPrompt}</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Bottom Button: Next: Bar Magnet → placed clearly at the bottom-right area of the panel */}
+            {(() => {
+              const isReadyToProceed = quizAnswer === 'ends';
+              return (
+                <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+                  <button
+                    type="button"
+                    onClick={handleProceedClick}
+                    className={isReadyToProceed ? 'gold-glow-btn' : ''}
+                    style={{ 
+                      minWidth: '220px',
+                      padding: '0.65rem 1.35rem', 
+                      fontSize: '21px', 
+                      fontWeight: 700, 
+                      lineHeight: 1.1,
+                      borderRadius: '14px', 
+                      background: isReadyToProceed 
+                        ? undefined 
+                        : '#F1F5F9', 
+                      color: isReadyToProceed 
+                        ? '#FFFFFF' 
+                        : '#94A3B8', 
+                      border: isReadyToProceed 
+                        ? 'none' 
+                        : '1.5px solid #CBD5E1', 
+                      cursor: 'pointer', 
+                      display: 'inline-flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center', 
+                      gap: '0.5rem',
+                      transition: 'all 0.25s ease',
+                      boxShadow: isReadyToProceed ? '0 4px 14px rgba(217, 119, 6, 0.35)' : 'none'
+                    }}
+                  >
+                    Next: Bar Magnet <ArrowRight size={18} color={isReadyToProceed ? '#FFFFFF' : '#94A3B8'} />
+                  </button>
+                </div>
+              );
+            })()}
+          </div>
         </div>
       </div>
     </div>

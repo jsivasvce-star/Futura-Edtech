@@ -1,6 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, Lightbulb, RefreshCw, Lock, CheckCircle2, ChevronRight, Check, Folder } from 'lucide-react';
 import classroomBg from '../images/clean_classroom.jpg';
+import fpage14Audio from '../../audio/fpage14.mp3?url';
+import fpage14Json from '../../json/fpage14.json';
+import fpage14popupAudio from '../../audio/fpage14popup.mp3?url';
+import fpage14popupJson from '../../json/fpage14popup.json';
 
 // Placeholders ready for the exact purpose-made thumbnail assets once generated.
 const placeholderImg = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
@@ -18,7 +22,7 @@ const MAGNIFIER_RADIUS = 140;
 const DISCOVERY_RADIUS = 70;
 const HOLD_DURATION_MS = 1000;
 
-export default function Stage1_Intro({ onComplete, addXp }) {
+export default function Stage1_Intro({ onComplete, addXp, setExtraRightAction }) {
   // State
   const [glassPos, setGlassPos] = useState({ x: 300, y: 300 });
   const [isDragging, setIsDragging] = useState(false);
@@ -31,6 +35,95 @@ export default function Stage1_Intro({ onComplete, addXp }) {
   const [inspectionComplete, setInspectionComplete] = useState(false);
   const [isPopActive, setIsPopActive] = useState(false);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordIndex, setActiveWordIndex] = useState(null);
+  const audioRef = useRef(null);
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.error(e));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  useEffect(() => {
+    if (setExtraRightAction) {
+      setExtraRightAction(
+        <button
+          onClick={toggleAudio}
+          className="outline"
+          style={{
+            padding: '0.85rem 1.6rem',
+            fontSize: '1.6rem',
+            fontWeight: 'bold',
+            gap: '0.75rem',
+            borderRadius: '10px',
+            color: 'var(--text-primary)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+          }}
+        >
+          {isPlaying ? (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+          ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          )} {isPlaying ? "Pause" : "Play"}
+        </button>
+      );
+    }
+    return () => {
+      if (setExtraRightAction) setExtraRightAction(null);
+    };
+  }, [setExtraRightAction, isPlaying]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+      setActiveWordIndex(null);
+    }
+  }, [viewState]);
+
+  const handleTimeUpdate = () => {
+    const currentJson = viewState === 'completed' ? fpage14popupJson : fpage14Json;
+    if (audioRef.current && typeof currentJson !== 'undefined') {
+      const time = audioRef.current.currentTime;
+      const activeIdx = currentJson.words.findIndex(w => time >= w.start && time < w.end);
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordIndex(null);
+  };
+
+  const W = ({ i, children }) => {
+    const indices = Array.isArray(i) ? i : [i];
+    const isActive = indices.includes(activeWordIndex);
+    return (
+      <span
+        style={{
+          color: isActive ? '#FFFFFF' : 'inherit',
+          background: isActive ? '#2C6E63' : 'transparent',
+          borderRadius: '4px',
+          padding: '0 2px',
+          transition: 'all 0.15s ease-out'
+        }}
+      >
+        {children}
+      </span>
+    );
+  };
 
   useEffect(() => {
     setIsPopActive(inspectionComplete);
@@ -668,7 +761,7 @@ export default function Stage1_Intro({ onComplete, addXp }) {
                    </div>
                    <h2 style={{ fontSize: '3rem', fontWeight: '900', color: 'var(--lesson-primary)', margin: '0 0 1rem 0' }}>CASE SOLVED!</h2>
                    <p style={{ fontSize: '1.25rem', color: 'var(--lesson-secondary)', margin: '0 0 2rem 0', lineHeight: '1.5', fontWeight: '700' }}>
-                    Excellent work! You discovered what all the everyday objects are made of. Objects are made from materials!
+                    <W i={0}>Excellent</W> <W i={1}>work!</W> <W i={2}>You</W> <W i={3}>discovered</W> <W i={4}>what</W> <W i={5}>all</W> <W i={6}>the</W> <W i={7}>everyday</W> <W i={8}>objects</W> <W i={9}>are</W> <W i={10}>made</W> <W i={11}>of.</W> <W i={12}>Objects</W> <W i={13}>are</W> <W i={14}>made</W> <W i={15}>from</W> <W i={16}>materials!</W>
                    </p>
                  <button onClick={() => { addXp(30); onComplete(); }} style={{ background: 'var(--lesson-accent)', color: 'white', padding: '16px 40px', fontSize: '1.3rem', fontWeight: '900', borderRadius: '16px', border: 'none', cursor: 'pointer', boxShadow: '0 8px 20px rgba(60,36,21,0.4)' }}>
                    PROCEED TO LAB &rarr;
@@ -681,6 +774,7 @@ export default function Stage1_Intro({ onComplete, addXp }) {
 
         {/* RIGHT PANEL: CASE FILE */}
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0, minWidth: 0 }}>
+          <audio ref={audioRef} src={viewState === 'completed' ? fpage14popupAudio : fpage14Audio} onTimeUpdate={handleTimeUpdate} onEnded={handleAudioEnded} />
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: 'var(--lesson-card)', border: '2px solid var(--lesson-border)', borderRadius: '0px', overflow: 'hidden', boxShadow: '0 8px 25px rgba(0,0,0,0.04)' }}>
             
             {/* Header */}
@@ -691,7 +785,7 @@ export default function Stage1_Intro({ onComplete, addXp }) {
             </div>
             
             <p style={{ margin: '0 24px', fontSize: '1.3rem', color: 'var(--lesson-secondary)', fontWeight: '600', lineHeight: '1.4' }}>
-              Move the magnifying glass around the classroom to find objects and identify their materials.
+              <W i={7}>Move</W> <W i={8}>the</W> <W i={9}>magnifying</W> <W i={10}>glass</W> <W i={11}>around</W> <W i={12}>the</W> <W i={13}>classroom</W> <W i={14}>to</W> <W i={15}>find</W> <W i={16}>objects</W> <W i={17}>and</W> <W i={18}>identify</W> <W i={19}>their</W> <W i={20}>materials.</W>
             </p>
 
             <div style={{ margin: '16px 24px', background: '#F9F4EB', borderRadius: '16px', padding: '20px', border: '2px dashed #E8DCC8', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>

@@ -1,0 +1,77 @@
+{
+  "audio_file": "mpage37.mp3",
+  "duration": 7.941,
+  "language": "en",
+  "words": [
+    {
+      "text": "What",
+      "start": 1.12,
+      "end": 1.88
+    },
+    {
+      "text": "do",
+      "start": 1.88,
+      "end": 2.1
+    },
+    {
+      "text": "we",
+      "start": 2.1,
+      "end": 2.26
+    },
+    {
+      "text": "call",
+      "start": 2.26,
+      "end": 2.46
+    },
+    {
+      "text": "materials",
+      "start": 2.46,
+      "end": 3.2
+    },
+    {
+      "text": "that",
+      "start": 3.2,
+      "end": 3.98
+    },
+    {
+      "text": "have",
+      "start": 3.98,
+      "end": 4.26
+    },
+    {
+      "text": "a",
+      "start": 4.26,
+      "end": 4.42
+    },
+    {
+      "text": "shiny",
+      "start": 4.42,
+      "end": 4.74
+    },
+    {
+      "text": "surface",
+      "start": 4.74,
+      "end": 5.42
+    },
+    {
+      "text": "like",
+      "start": 5.42,
+      "end": 6.46
+    },
+    {
+      "text": "iron",
+      "start": 6.46,
+      "end": 6.88
+    },
+    {
+      "text": "or",
+      "start": 6.88,
+      "end": 7.16
+    },
+    {
+      "text": "gold?",
+      "start": 7.16,
+      "end": 7.54
+    }
+  ]
+}

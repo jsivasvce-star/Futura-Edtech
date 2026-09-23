@@ -1,8 +1,14 @@
 /* eslint-disable react/prop-types, no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, ArrowRight, Volume2, VolumeX, RotateCcw } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Volume2, VolumeX, RotateCcw, CheckCircle2 } from 'lucide-react';
 import { voiceService, ELEVENLABS_VOICES } from '../../../../services/elevenLabsService';
 import './ParchmentScroll.css';
+import chap4_1 from '../../../../assets/chap4_1.png';
+import chap4_2 from '../../../../assets/chap4_2.png';
+import chap4_3 from '../../../../assets/chap4_3.png';
+import chap4_4 from '../../../../assets/chap4_4.png';
+import chap4_5 from '../../../../assets/chap4_5.png';
+import chap4_6 from '../../../../assets/chap4_6.png';
 
 export default function IntroMagnets({ onBackToDashboard, onComplete }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,7 +29,7 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
 
   const scenes = [
     {
-      img: '/IntroMagnets/scene_1.png',
+      img: chap4_1,
       subtitle: "Reshma's Birthday Gift",
       lines: [
         {
@@ -41,7 +47,7 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
       ]
     },
     {
-      img: '/IntroMagnets/scene_2.png',
+      img: chap4_2,
       subtitle: "The Spice Ship",
       lines: [
         {
@@ -59,7 +65,7 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
       ]
     },
     {
-      img: '/IntroMagnets/scene_3.png',
+      img: chap4_3,
       subtitle: "The Storm",
       lines: [
         {
@@ -77,7 +83,7 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
       ]
     },
     {
-      img: '/IntroMagnets/scene_4.jpg',
+      img: chap4_4,
       subtitle: "Searching for an Answer",
       lines: [
         {
@@ -125,7 +131,7 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
       ]
     },
     {
-      img: '/IntroMagnets/scene_5.png',
+      img: chap4_5,
       subtitle: "Discovering Magnets",
       lines: [
         {
@@ -173,7 +179,7 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
       ]
     },
     {
-      img: '/IntroMagnets/scene_6_magnets.jpg',
+      img: chap4_6,
       subtitle: "Lodestones to Artificial Magnets",
       lines: [
         {
@@ -935,39 +941,101 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
       {/* COMPLETION MODAL */}
       {isCompleted && (
         <div style={{
-          position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
           backgroundColor: 'rgba(15, 23, 42, 0.65)', backdropFilter: 'blur(6px)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
+          padding: 'clamp(1rem, 2.5vw, 2rem)',
+          boxSizing: 'border-box',
+          overflow: 'hidden',
           zIndex: 100000
         }}>
           <div style={{
             backgroundColor: '#ffffff',
-            border: '1px solid #cbd5e1',
-            borderRadius: '30px',
-            padding: '2.5rem 3rem',
-            maxWidth: '520px',
-            width: '90%',
-            textAlign: 'center',
-            boxShadow: '0 15px 40px rgba(0, 0, 0, 0.18)',
+            border: '1.5px solid #E2E8F0',
+            borderRadius: '36px',
+            padding: 'clamp(2rem, 4vh, 3.5rem) clamp(1.75rem, 3vw, 3rem)',
+            width: 'min(90vw, 76vh, 670px)',
+            height: 'min(90vw, 76vh, 670px)',
+            boxShadow: '0 25px 65px -12px rgba(15, 23, 42, 0.35)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: '1.25rem'
+            justifyContent: 'center',
+            gap: 'clamp(0.85rem, 2.2vh, 1.45rem)',
+            overflow: 'hidden',
+            boxSizing: 'border-box'
           }}>
-            <h2 style={{ fontSize: '1.8rem', fontWeight: 800, margin: 0, color: '#1e293b' }}>
+            {/* Top Success Icon */}
+            <div style={{
+              width: '70px',
+              height: '70px',
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 8px 24px rgba(16, 185, 129, 0.32)',
+              flexShrink: 0
+            }}>
+              <CheckCircle2 size={40} color="#ffffff" strokeWidth={2.4} />
+            </div>
+
+            {/* Outlined Status Badge */}
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              padding: '0.35rem 1.15rem',
+              borderRadius: '9999px',
+              border: '1.5px solid #10B981',
+              backgroundColor: 'rgba(16, 185, 129, 0.08)',
+              color: '#047857',
+              fontSize: '0.85rem',
+              fontWeight: 800,
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase',
+              flexShrink: 0
+            }}>
+              <span>✓</span> Story Completed
+            </div>
+
+            {/* Main Heading - Significantly Larger & Prominent */}
+            <h2 style={{
+              fontSize: 'clamp(2.3rem, 3.6vw, 3.1rem)',
+              fontWeight: 900,
+              margin: 0,
+              color: '#1E293B',
+              letterSpacing: '-0.02em',
+              textAlign: 'center',
+              lineHeight: 1.15
+            }}>
               Story Completed!
             </h2>
-            <p style={{ fontSize: '1.2rem', color: '#475569', lineHeight: 1.5, margin: 0, fontWeight: 600 }}>
+
+            {/* Description Text - Large, Bold & Highly Readable */}
+            <p style={{
+              fontSize: 'clamp(1.35rem, 2.1vw, 1.65rem)',
+              color: '#334155',
+              lineHeight: 1.48,
+              margin: 0,
+              fontWeight: 700,
+              maxWidth: '560px',
+              textAlign: 'center'
+            }}>
               Reshma learned that magnets were essential for navigation. Are you ready to explore magnets yourself?
             </p>
+
+            {/* Action Button: fits naturally inside the square modal */}
             <button
               onClick={onComplete}
               style={{
-                width: '100%',
-                padding: '1.1rem 3rem',
-                fontSize: '1.15rem',
+                width: '84%',
+                maxWidth: '480px',
+                minWidth: '260px',
+                padding: '1.2rem 2.4rem',
+                fontSize: '1.22rem',
                 fontWeight: 800,
-                borderRadius: '40px',
+                borderRadius: '45px',
                 background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
                 color: '#ffffff',
                 border: 'none',
@@ -975,10 +1043,19 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '0.75rem',
-                boxShadow: '0 6px 20px rgba(217, 119, 6, 0.45)',
+                gap: '0.85rem',
+                boxShadow: '0 8px 25px rgba(217, 119, 6, 0.45)',
                 transition: 'all 0.25s ease',
-                marginTop: '0.5rem'
+                marginTop: '0.35rem',
+                flexShrink: 0
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.015)';
+                e.currentTarget.style.boxShadow = '0 10px 30px rgba(217, 119, 6, 0.55)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = '0 8px 25px rgba(217, 119, 6, 0.45)';
               }}
             >
               Continue to Activity 4.1 <ArrowRight size={22} color="#ffffff" />

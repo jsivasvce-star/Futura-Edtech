@@ -15,11 +15,20 @@ import {
   ShieldAlert, 
   Magnet, 
   Check, 
-  Zap, 
-  Volume2, 
-  VolumeX 
+  Zap 
 } from 'lucide-react';
 import './Activity4_1.css';
+import ch4scannerBg from '../../../../assets/ch4scanner.png';
+import ch4clips from '../../../../assets/ch4clips.png';
+import ch4pens from '../../../../assets/ch4pens.png';
+import ch4ruler from '../../../../assets/ch4ruler.png';
+import ch4bottle from '../../../../assets/ch4bottle.png';
+import ch4coin from '../../../../assets/ch4coin.png';
+import ch4eraser from '../../../../assets/ch4eraser.png';
+import ch4compass from '../../../../assets/ch4compass.png';
+import ch4case from '../../../../assets/ch4case.png';
+import ch4pencil from '../../../../assets/ch4pencil.png';
+
 
 // 9 Extracted items based on NCERT Class 6 Chapter 4 Table 4.1 (notebook removed)
 const EVIDENCE_ITEMS = [
@@ -27,12 +36,15 @@ const EVIDENCE_ITEMS = [
     id: 'clips',
     name: 'Paper Clips',
     evidenceNo: '01',
-    material: 'Steel (Iron)',
+    material: 'Steel',
+    materialDisplay: 'Material: Steel',
     isMagnetic: true,
+    statusText: 'MAGNETIC',
     category: 'Magnetic',
+    popupImage: ch4clips,
     image: '/Activity4_1/items/clips.png',
     desc: 'Made of steel wire containing iron, strongly attracted to magnets.',
-    explanation: 'Ferromagnetic material: magnetic domains align with the magnet to create an attractive force.',
+    observation: 'These paper clips are made of steel, which contains iron. A magnet pulls them towards it.',
     tableAttracted: 'Yes',
   },
   {
@@ -40,95 +52,119 @@ const EVIDENCE_ITEMS = [
     name: 'Pens',
     evidenceNo: '02',
     material: 'Plastic Polymer',
+    materialDisplay: 'Material: Plastic Polymer',
     isMagnetic: false,
+    statusText: 'NON-MAGNETIC',
     category: 'Non-Magnetic',
+    popupImage: ch4pens,
     image: '/Activity4_1/items/pens.png',
     desc: 'Synthetic polymer casing, completely non-magnetic.',
-    explanation: 'Plastics lack unpaired magnetic dipoles and are completely unaffected by magnets.',
+    observation: 'The plastic body is not attracted to a magnet. A metal clip or spring may behave differently.',
     tableAttracted: 'No',
   },
   {
     id: 'ruler',
     name: 'Ruler',
     evidenceNo: '03',
-    material: 'Plastic / Acrylic',
+    material: 'Wood',
+    materialDisplay: 'Material: Wood',
     isMagnetic: false,
+    statusText: 'NON-MAGNETIC',
     category: 'Non-Magnetic',
-    image: '/Activity4_1/items/ruler.png',
-    desc: 'Clear acrylic plastic scale, non-ferrous.',
-    explanation: 'Dielectric polymer that experiences zero magnetic attraction.',
+    popupImage: ch4ruler,
+    image: '/Activity4_1/items/woodenruler.png',
+    desc: 'Wooden measuring scale, non-ferrous.',
+    observation: 'Wood is an insulator and not attracted to a magnet. This ruler stays in place.',
     tableAttracted: 'No',
   },
   {
     id: 'coins',
     name: 'Coins',
     evidenceNo: '04',
-    material: 'Nickel-Steel Alloy',
+    material: 'Steel Coins',
+    materialDisplay: 'Material: Steel Coins',
     isMagnetic: true,
+    statusText: 'MAGNETIC',
     category: 'Magnetic',
+    popupImage: ch4coin,
     image: '/Activity4_1/items/coins.png',
     desc: 'Metallic coins minted with nickel and iron alloy core.',
-    explanation: 'Nickel and ferritic alloys have magnetic dipoles that produce strong attraction.',
+    observation: 'These steel coins are attracted to a magnet. Coins made from other metals may behave differently.',
     tableAttracted: 'Yes',
   },
   {
     id: 'bottle',
     name: 'Water Bottle',
     evidenceNo: '05',
-    material: 'Stainless Steel / Glass',
+    material: 'Stainless Steel',
+    materialDisplay: 'Material: Stainless Steel',
     isMagnetic: false,
+    statusText: 'NON-MAGNETIC',
     category: 'Non-Magnetic',
+    popupImage: ch4bottle,
     image: '/Activity4_1/items/bottle.png',
     desc: 'Austenitic stainless steel and glass body.',
-    explanation: 'Austenitic crystal structure has non-magnetic face-centered cubic lattice.',
+    observation: 'This stainless-steel bottle is not attracted to the magnet. Other types of stainless steel can be attracted.',
     tableAttracted: 'No',
   },
   {
     id: 'compass',
     name: 'Compass',
     evidenceNo: '06',
-    material: 'Magnetized Steel Needle',
+    material: 'Magnetic Needle',
+    materialDisplay: 'Material: Needle',
     isMagnetic: true,
+    statusText: 'MAGNETIC',
     category: 'Magnetic',
+    popupImage: ch4compass,
     image: '/Activity4_1/items/compass.png',
     desc: 'Contains a magnetized steel needle pivoted at the center.',
-    explanation: 'The needle itself is a permanent magnet with North and South poles.',
+    observation: "The compass needle is a small magnet. It lines up with Earth's magnetic field and helps find directions.",
     tableAttracted: 'Yes',
   },
   {
     id: 'eraser',
     name: 'Eraser',
     evidenceNo: '07',
-    material: 'Natural Rubber',
+    material: 'Rubber',
+    materialDisplay: 'Material: Rubber',
     isMagnetic: false,
+    statusText: 'NON-MAGNETIC',
     category: 'Non-Magnetic',
+    popupImage: ch4eraser,
     image: '/Activity4_1/items/eraser.png',
     desc: 'Synthetic elastomer rubber, non-ferrous.',
-    explanation: 'Rubber polymer chains possess no unpaired electrons and exhibit no magnetic pull.',
+    observation: 'This eraser is made of rubber. A magnet does not attract it.',
     tableAttracted: 'No',
   },
   {
     id: 'pencil_case',
     name: 'Pencil Case',
     evidenceNo: '08',
-    material: 'Fabric Cloth',
+    material: 'Fabric Body',
+    materialDisplay: 'Material: Fabric Body',
     isMagnetic: false,
+    statusText: 'NON-MAGNETIC',
     category: 'Non-Magnetic',
+    popupImage: ch4case,
     image: '/Activity4_1/items/pencil_case.png',
     desc: 'Woven synthetic cloth textile, non-magnetic.',
-    explanation: 'Textile yarns and fabrics have zero magnetic susceptibility.',
+    observation: 'The fabric body is not attracted to a magnet. The zip or metal fasteners may behave differently.',
     tableAttracted: 'No',
   },
   {
     id: 'pencil',
     name: 'Pencil',
     evidenceNo: '09',
-    material: 'Wood & Graphite',
+    material: 'Wood and Graphite',
+    materialDisplay: 'Material: Wood and Graphite',
     isMagnetic: false,
+    statusText: 'NON-MAGNETIC',
     category: 'Non-Magnetic',
+    popupImage: ch4pencil,
     image: '/Activity4_1/items/pencil.png',
     desc: 'Cedar wood casing with carbon graphite core.',
-    explanation: 'Wood and graphite do not experience attraction to magnetic poles.',
+    observation: 'The wood and graphite are not attracted to a magnet. A metal clip, if present, may behave differently.',
     tableAttracted: 'No',
   },
 ];
@@ -258,7 +294,7 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
   const [scannedMap, setScannedMap] = useState({}); // { [id]: boolean }
   const [showTableModal, setShowTableModal] = useState(false);
   const [showProceedModal, setShowProceedModal] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(true);
+  const soundEnabled = false; // Sounds disabled per design requirement
   // Stores canvas-processed transparent versions of each item image
   const [transparentImgs, setTransparentImgs] = useState({});
 
@@ -398,9 +434,9 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
           height: '100%',
           minHeight: 0,
           background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
-          border: '1.5px solid #E2E8F0',
+          border: '5px solid #0284C7',
           borderRadius: '16px',
-          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08), 0 0 10px rgba(2, 132, 199, 0.25)',
           padding: '0.85rem',
           boxSizing: 'border-box',
           position: 'relative',
@@ -502,7 +538,7 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
                       width: '18px',
                       height: '18px',
                       borderRadius: '50%',
-                      background: item.isMagnetic ? '#16A34A' : '#EF4444',
+                      background: item.isMagnetic ? '#16A34A' : '#0284C7',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -522,40 +558,52 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: '6px',
+                    padding: '2px',
                     position: 'relative',
                     overflow: 'hidden',
-                    marginBottom: '6px',
+                    marginBottom: '2px',
                   }}>
                     <img
                       src={getImgSrc(item)}
                       alt={item.name}
                       style={{
-                        maxWidth: '92%',
-                        maxHeight: '92%',
+                        maxWidth: '100%',
+                        maxHeight: '100%',
                         objectFit: 'contain',
                         display: 'block',
                         transition: 'transform 0.2s ease',
+                        transform: ['bottle', 'compass', 'pencil'].includes(item.id) ? 'scale(1.2)' : 'none',
                       }}
                     />
                   </div>
 
                   {/* Card Footer: Object Name & Status Badge (Only when Scanning or Scanned) */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', flexShrink: 0, alignItems: 'center' }}>
-                    <span style={{
-                      fontSize: '0.88rem',
-                      fontWeight: 900,
-                      color: '#2D3748',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.3px',
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', width: '100%', flexShrink: 0, alignItems: 'center', marginTop: 'auto' }}>
+                    <div style={{
                       width: '100%',
-                      textAlign: 'center',
+                      background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
+                      borderRadius: '8px',
+                      padding: '10px 4px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 4px 12px rgba(23, 59, 95, 0.25)',
+                      boxSizing: 'border-box'
                     }}>
-                      {item.name}
-                    </span>
+                      <span style={{
+                        fontSize: ['clips', 'pens', 'ruler', 'eraser'].includes(item.id) ? '1.32rem' : '1.2rem',
+                        fontWeight: 900,
+                        color: '#FFFFFF',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
+                        textAlign: 'center',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}>
+                        {item.name}
+                      </span>
+                    </div>
 
                     {statusText && (
                       <div style={{
@@ -565,9 +613,9 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
                         gap: '4px',
                         background: statusBg,
                         color: statusColor,
-                        padding: '2px 8px',
+                        padding: '3px 10px',
                         borderRadius: '4px',
-                        fontSize: '0.68rem',
+                        fontSize: '1.15rem',
                         fontWeight: 900,
                         letterSpacing: '0.2px',
                         whiteSpace: 'nowrap',
@@ -604,8 +652,8 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
           minHeight: 0,
           background: '#0B1120',
           borderRadius: '16px',
-          border: '2px solid #1E293B',
-          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.35)',
+          border: '5px solid #0284C7',
+          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.35), 0 0 10px rgba(2, 132, 199, 0.25)',
           overflow: 'hidden',
           position: 'relative',
           boxSizing: 'border-box',
@@ -636,27 +684,6 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              {/* Sound Toggle */}
-              <button
-                onClick={() => setSoundEnabled(!soundEnabled)}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
-                  borderRadius: '6px',
-                  padding: '4px 8px',
-                  color: soundEnabled ? '#38BDF8' : '#94A3B8',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  fontSize: '0.74rem',
-                  fontWeight: 800,
-                }}
-                title={soundEnabled ? 'Mute Sound Effects' : 'Enable Sound Effects'}
-              >
-                {soundEnabled ? <Volume2 size={13} /> : <VolumeX size={13} />}
-                <span>{soundEnabled ? 'FX ON' : 'MUTED'}</span>
-              </button>
 
               {/* Progress Chip */}
               <span style={{
@@ -709,11 +736,19 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundImage: "url('/Activity4_1/science_lab_bg.jpg')",
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
             overflow: 'hidden',
           }}>
+            {/* Dedicated Background Layer (Zoomed 10%) */}
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              backgroundImage: `url(${ch4scannerBg})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              transform: 'scale(1.1)',
+              zIndex: 0,
+            }} />
+
             {/* Subtle Sunlight & Depth Overlay */}
             <div style={{
               position: 'absolute',
@@ -723,154 +758,79 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
               pointerEvents: 'none',
             }} />
 
-            {/* Circular Radar Chamber Container */}
+            {/* Circular Radar Chamber Container - Transparent to reveal background pad */}
             <div style={{
               position: 'relative',
               width: 'min(395px, 82vw)',
               height: 'min(395px, 82vw)',
-              borderRadius: '50%',
-              background: 'radial-gradient(circle at center, rgba(11, 23, 48, 0.90) 0%, rgba(7, 13, 27, 0.96) 80%, rgba(15, 23, 42, 0.98) 100%)',
-              border: '7px solid #1E293B',
-              outline: '3px solid #38BDF8',
-              outlineOffset: '3px',
-              boxShadow: '0 0 24px rgba(56, 189, 248, 0.45), 0 20px 50px rgba(0, 0, 0, 0.65), inset 0 0 40px rgba(56, 189, 248, 0.22)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               zIndex: 2,
             }}>
-              {/* Radar Rotating Sweep Beam */}
+              {/* CENTRAL GLOWING SCANNER HOLOGRAPHIC UI */}
               <div style={{
-                position: 'absolute',
-                inset: 0,
+                position: 'relative',
+                width: '320px',
+                height: '320px',
                 borderRadius: '50%',
-                background: 'conic-gradient(from 0deg, rgba(56, 189, 248, 0) 0deg, rgba(56, 189, 248, 0.18) 45deg, rgba(56, 189, 248, 0) 46deg)',
-                animation: 'radar-sweep 4s linear infinite',
-                pointerEvents: 'none',
-              }} />
-
-              {/* Concentric Cyan Radar Circles */}
-              <div style={{
-                position: 'absolute',
-                width: '78%',
-                height: '78%',
-                borderRadius: '50%',
-                border: '1px solid rgba(56, 189, 248, 0.35)',
-                pointerEvents: 'none',
-              }} />
-              <div style={{
-                position: 'absolute',
-                width: '52%',
-                height: '52%',
-                borderRadius: '50%',
-                border: '1px dashed rgba(56, 189, 248, 0.3)',
-                pointerEvents: 'none',
-              }} />
-              <div style={{
-                position: 'absolute',
-                width: '26%',
-                height: '26%',
-                borderRadius: '50%',
-                border: '1px solid rgba(56, 189, 248, 0.25)',
-                pointerEvents: 'none',
-              }} />
-
-              {/* Crosshair Axes */}
-              <div style={{
-                position: 'absolute',
-                width: '88%',
-                height: '1px',
-                background: 'linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.4) 50%, transparent 100%)',
-                pointerEvents: 'none',
-              }} />
-              <div style={{
-                position: 'absolute',
-                height: '88%',
-                width: '1px',
-                background: 'linear-gradient(180deg, transparent 0%, rgba(56, 189, 248, 0.4) 50%, transparent 100%)',
-                pointerEvents: 'none',
-              }} />
-
-              {/* ACTIVE ITEM ON RADAR PAD */}
-              {selectedItem ? (
-                <div style={{
-                  position: 'relative',
-                  width: '92%',
-                  height: '92%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  zIndex: 4,
-                }}>
-                  {/* Object Image — canvas-processed transparent PNG, floats on dark radar */}
-                  <img
-                    src={getImgSrc(selectedItem)}
-                    alt={selectedItem.name}
-                    style={{
-                      position: 'relative',
-                      zIndex: 5,
-                      maxWidth: '92%',
-                      maxHeight: '92%',
-                      objectFit: 'contain',
-                      filter: scanState === 'scanning'
-                        ? 'drop-shadow(0 0 28px rgba(56, 189, 248, 0.9)) drop-shadow(0 0 12px rgba(56,189,248,0.6)) brightness(1.1)'
-                        : selectedItem.isMagnetic
-                        ? 'drop-shadow(0 0 24px rgba(34, 197, 94, 0.85)) drop-shadow(0 0 10px rgba(34,197,94,0.5))'
-                        : 'drop-shadow(0 0 20px rgba(239, 68, 68, 0.75)) drop-shadow(0 0 8px rgba(239,68,68,0.4))',
-                      transition: 'filter 0.4s ease, transform 0.3s ease',
-                      animation: scanState === 'scanning' ? 'holographic-pulse 1.8s ease-in-out infinite' : 'none',
-                    }}
-                  />
-
-                  {/* Vertical Laser Sweep Line */}
-                  {scanState === 'scanning' && (
-                    <div style={{
-                      position: 'absolute',
-                      left: '5%',
-                      right: '5%',
-                      height: '3px',
-                      background: '#38BDF8',
-                      boxShadow: '0 0 14px #38BDF8, 0 0 24px #0284C7',
-                      zIndex: 6,
-                      animation: 'laser-sweep-vertical 1.35s ease-in-out infinite',
-                      pointerEvents: 'none',
-                    }} />
-                  )}
-                </div>
-              ) : (
-                /* IDLE STATE IN SCANNER RADAR */
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textAlign: 'center',
-                  padding: '1rem',
-                  gap: '0.45rem',
-                  zIndex: 4,
-                  pointerEvents: 'none',
-                }}>
-                  <Search size={48} color="#38BDF8" style={{ filter: 'drop-shadow(0 0 14px rgba(56, 189, 248, 0.6))' }} />
-                  <span style={{
-                    fontSize: '1.45rem',
-                    fontWeight: 900,
-                    color: '#E0F2FE',
-                    letterSpacing: '0.4px',
-                    textShadow: '0 0 12px rgba(56, 189, 248, 0.6)',
+                background: 'transparent',
+                border: 'none',
+                boxShadow: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'hidden',
+                zIndex: 5,
+              }}>
+                {/* ACTIVE ITEM ON RADAR PAD */}
+                {selectedItem ? (
+                  <div style={{
+                    position: 'relative',
+                    width: '92%',
+                    height: '92%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 4,
                   }}>
-                    Scanner Active
-                  </span>
-                  <span style={{
-                    fontSize: '0.88rem',
-                    color: '#94A3B8',
-                    maxWidth: '220px',
-                    lineHeight: 1.4,
-                    fontWeight: 700,
-                  }}>
-                    Click any object on the left to scan it!
-                  </span>
-                </div>
-              )}
+                    {/* Object Image — canvas-processed transparent PNG, floats on dark radar */}
+                    <img
+                      src={getImgSrc(selectedItem)}
+                      alt={selectedItem.name}
+                      style={{
+                        position: 'relative',
+                        zIndex: 5,
+                        maxWidth: '98%',
+                        maxHeight: '98%',
+                        objectFit: 'contain',
+                        filter: scanState === 'scanning'
+                          ? 'drop-shadow(0 0 28px rgba(0, 229, 255, 0.9)) drop-shadow(0 0 12px rgba(0,229,255,0.6)) brightness(1.1)'
+                          : selectedItem.isMagnetic
+                          ? 'drop-shadow(0 0 24px rgba(34, 197, 94, 0.85)) drop-shadow(0 0 10px rgba(34,197,94,0.5))'
+                          : 'drop-shadow(0 0 20px rgba(239, 68, 68, 0.75)) drop-shadow(0 0 8px rgba(239,68,68,0.4))',
+                        transition: 'filter 0.4s ease, transform 0.3s ease',
+                        animation: scanState === 'scanning' ? 'holographic-pulse 1.8s ease-in-out infinite' : 'none',
+                      }}
+                    />
+
+                    {/* Vertical Laser Sweep Line */}
+                    {scanState === 'scanning' && (
+                      <div style={{
+                        position: 'absolute',
+                        left: '5%',
+                        right: '5%',
+                        height: '3px',
+                        background: '#00E5FF',
+                        boxShadow: '0 0 14px #00E5FF, 0 0 24px #00BFFF',
+                        zIndex: 6,
+                        animation: 'laser-sweep-vertical 1.35s ease-in-out infinite',
+                        pointerEvents: 'none',
+                      }} />
+                    )}
+                  </div>
+                ) : null}
+              </div>
 
               {/* Progress HUD Badge while scanning */}
               {scanState === 'scanning' && (
@@ -918,173 +878,105 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
               )}
             </div>
 
-            {/* SCAN RESULTS TELEMETRY CARD - MUCH LARGER & CENTERED IN SCANNING AREA */}
-            <AnimatePresence>
-              {selectedItem && scanState === 'complete' && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '1.25rem',
-                    background: 'rgba(11, 17, 32, 0.72)',
-                    backdropFilter: 'blur(8px)',
-                    zIndex: 25,
-                  }}
-                >
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.84, y: 15 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.84, y: -10 }}
-                    transition={{ type: 'spring', damping: 22, stiffness: 280 }}
-                    style={{
-                      width: '100%',
-                      maxWidth: '440px',
-                      background: 'linear-gradient(150deg, #0F172A 0%, #1E293B 100%)',
-                      border: selectedItem.isMagnetic
-                        ? '2px solid #22C55E'
-                        : '2px solid #EF4444',
-                      borderRadius: '20px',
-                      padding: '1.6rem 1.8rem',
-                      boxShadow: selectedItem.isMagnetic
-                        ? '0 20px 50px rgba(0, 0, 0, 0.65), 0 0 32px rgba(34, 197, 94, 0.3)'
-                        : '0 20px 50px rgba(0, 0, 0, 0.65), 0 0 32px rgba(239, 68, 68, 0.25)',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '1.1rem',
-                      boxSizing: 'border-box',
-                      position: 'relative',
-                    }}
-                  >
-                    {/* Object Header: Image Thumbnail + Name + Material */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                      <div style={{
-                        width: '60px',
-                        height: '60px',
-                        borderRadius: '14px',
-                        background: 'rgba(255, 255, 255, 0.07)',
-                        border: '1.5px solid rgba(255, 255, 255, 0.12)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0,
-                        padding: '6px',
-                      }}>
-                        <img
-                          src={getImgSrc(selectedItem)}
-                          alt={selectedItem.name}
-                          style={{
-                            maxWidth: '100%',
-                            maxHeight: '100%',
-                            objectFit: 'contain',
-                            filter: selectedItem.isMagnetic
-                              ? 'drop-shadow(0 0 8px rgba(34, 197, 94, 0.6))'
-                              : 'drop-shadow(0 0 8px rgba(239, 68, 68, 0.5))',
-                          }}
-                        />
-                      </div>
-
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', minWidth: 0, flex: 1 }}>
-                        <h3 style={{
-                          margin: 0,
-                          fontSize: '1.5rem',
-                          fontWeight: 900,
-                          color: '#FFFFFF',
-                          letterSpacing: '-0.01em',
-                          lineHeight: 1.2,
-                        }}>
-                          {selectedItem.name}
-                        </h3>
-                        <span style={{
-                          fontSize: '0.88rem',
-                          fontWeight: 700,
-                          color: '#94A3B8',
-                        }}>
-                          {selectedItem.material}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Prominent Status Banner */}
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '8px',
-                      padding: '0.75rem 1.2rem',
-                      borderRadius: '12px',
-                      background: selectedItem.isMagnetic
-                        ? 'linear-gradient(135deg, #16A34A 0%, #15803D 100%)'
-                        : 'linear-gradient(135deg, #DC2626 0%, #B91C1C 100%)',
-                      color: '#FFFFFF',
-                      fontSize: '1.1rem',
-                      fontWeight: 900,
-                      letterSpacing: '0.8px',
-                      boxShadow: selectedItem.isMagnetic
-                        ? '0 4px 16px rgba(22, 163, 74, 0.45)'
-                        : '0 4px 16px rgba(220, 38, 38, 0.45)',
-                    }}>
-                      {selectedItem.isMagnetic ? <CheckCircle2 size={22} /> : <XCircle size={22} />}
-                      <span>{selectedItem.isMagnetic ? 'MAGNETIC' : 'NON-MAGNETIC'}</span>
-                    </div>
-
-                    {/* Scientific Explanation Box */}
-                    <div style={{
-                      background: 'rgba(0, 0, 0, 0.3)',
-                      border: '1px solid rgba(255, 255, 255, 0.08)',
-                      borderRadius: '12px',
-                      padding: '1rem 1.15rem',
-                    }}>
-                      <p style={{
-                        margin: 0,
-                        fontSize: '0.98rem',
-                        color: '#E2E8F0',
-                        lineHeight: 1.55,
-                        fontWeight: 600,
-                      }}>
-                        {selectedItem.explanation}
-                      </p>
-                    </div>
-
-                    {/* Proceed to Quiz Button on Telemetry Card when All Scanned */}
-                    {isAllComplete && (
-                      <button
-                        onClick={() => {
-                          if (onComplete) onComplete();
-                        }}
-                        className="gold-glow-btn"
-                        style={{
-                          width: '100%',
-                          padding: '0.85rem 1.25rem',
-                          borderRadius: '12px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          gap: '0.6rem',
-                          fontSize: '1.02rem',
-                          fontWeight: 900,
-                          cursor: 'pointer',
-                          marginTop: '0.2rem',
-                        }}
-                      >
-                        <Sparkles size={18} color="#FFFFFF" />
-                        <span>Proceed to Knowledge Quiz</span>
-                        <ArrowRight size={18} color="#FFFFFF" />
-                      </button>
-                    )}
-                  </motion.div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {/* Scan results are now shown as a full-screen centered popup outside the scanner */}
           </div>
         </div>
       </div>
+
+      {/* ========================================================================= */}
+      {/* SCAN RESULT — FULL-SCREEN CENTERED POPUP (moved from inside scanner)      */}
+      {/* ========================================================================= */}
+      <AnimatePresence>
+        {selectedItem && scanState === 'complete' && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'rgba(11, 17, 32, 0.72)',
+              backdropFilter: 'blur(8px)',
+              zIndex: 999998,
+              padding: '1.5rem',
+              boxSizing: 'border-box',
+            }}
+            onClick={() => {
+              setScanState('idle');
+              setSelectedItem(null);
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.84, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.84, y: -10 }}
+              transition={{ type: 'spring', damping: 22, stiffness: 280 }}
+              onClick={(e) => {
+                e.stopPropagation();
+                setScanState('idle');
+                setSelectedItem(null);
+                if (isAllComplete && selectedItem.id === 'pencil') {
+                   setShowTableModal(true);
+                }
+              }}
+              style={{
+                position: 'relative',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                maxWidth: '90vw',
+                maxHeight: '90vh',
+                cursor: 'pointer',
+              }}
+            >
+              <button
+                style={{
+                  position: 'absolute',
+                  top: '-15px',
+                  right: '-15px',
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  background: '#FFFFFF',
+                  color: '#0F172A',
+                  border: '2px solid #E2E8F0',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  zIndex: 10,
+                }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setScanState('idle');
+                  setSelectedItem(null);
+                  if (isAllComplete && selectedItem.id === 'pencil') {
+                     setShowTableModal(true);
+                  }
+                }}
+              >
+                <span style={{ fontSize: '28px', color: '#000000', fontWeight: 'bold', lineHeight: 1, marginTop: '-2px' }}>&times;</span>
+              </button>
+              <img 
+                src={selectedItem.popupImage} 
+                alt={selectedItem.name + ' observation'} 
+                style={{
+                  maxWidth: '700px',
+                  maxHeight: '65vh',
+                  objectFit: 'contain',
+                  borderRadius: '16px',
+                  boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
+                }}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ========================================================================= */}
       {/* ALL OBJECTS SCANNED — PROCEED TO QUIZ CENTERED POP-UP MODAL               */}
@@ -1119,113 +1011,103 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
               style={{
                 background: '#FFFFFF',
                 borderRadius: '24px',
-                border: '2px solid #A7F3D0',
-                boxShadow: '0 25px 60px rgba(0, 0, 0, 0.35), 0 0 35px rgba(16, 185, 129, 0.2)',
-                maxWidth: '520px',
+                border: '3px solid #86EFAC',
+                boxShadow: '0 25px 60px rgba(0, 0, 0, 0.35)',
+                maxWidth: '670px',
                 width: '100%',
-                padding: '2.2rem 2.2rem',
+                padding: '4rem 2.5rem 3rem',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 textAlign: 'center',
-                gap: '1.25rem',
+                gap: '1.5rem',
                 position: 'relative',
                 boxSizing: 'border-box',
               }}
             >
-              {/* Close Button */}
-              <button
-                onClick={() => setShowProceedModal(false)}
-                style={{
-                  position: 'absolute',
-                  top: '16px',
-                  right: '16px',
-                  background: '#F1F5F9',
-                  border: 'none',
-                  borderRadius: '50%',
-                  width: '32px',
-                  height: '32px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#64748B',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                }}
-                title="Close to review evidence"
-              >
-                <X size={18} />
-              </button>
-
-              {/* Celebration Icon */}
-              <div style={{
-                width: '72px',
-                height: '72px',
-                borderRadius: '24px',
-                background: 'linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%)',
-                border: '2.5px solid #10B981',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 10px 25px rgba(16, 185, 129, 0.3)',
-              }}>
-                <Sparkles size={38} color="#059669" />
-              </div>
-
               {/* Title & Badge */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', alignItems: 'center' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'center', marginTop: '10px' }}>
                 <span style={{
-                  fontSize: '0.8rem',
-                  fontWeight: 800,
+                  fontSize: '1.2rem',
+                  fontWeight: 900,
                   letterSpacing: '1px',
                   textTransform: 'uppercase',
                   color: '#059669',
                   background: '#ECFDF5',
-                  padding: '4px 12px',
-                  borderRadius: '12px',
+                  padding: '8px 20px',
+                  borderRadius: '24px',
                   border: '1px solid #A7F3D0',
                 }}>
-                  All 9 Items Scanned
+                  ALL 9 ITEMS SCANNED
                 </span>
                 <h2 style={{
                   margin: 0,
-                  fontSize: '1.65rem',
+                  fontSize: '2.8rem',
                   fontWeight: 900,
                   color: '#064E3B',
-                  letterSpacing: '-0.02em',
+                  letterSpacing: '-0.01em',
                 }}>
-                  Evidence Collection Complete! 🎉
+                  Evidence Collection Complete!
                 </h2>
               </div>
 
-              {/* Summary Description Box */}
+              {/* Description & Results Container */}
               <div style={{
                 background: '#F8FAFC',
-                borderRadius: '14px',
-                border: '1.5px solid #E2E8F0',
-                padding: '0.85rem 1.15rem',
+                border: '1px solid #E2E8F0',
+                borderRadius: '20px',
+                padding: '2rem',
                 width: '100%',
                 boxSizing: 'border-box',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '0.4rem',
+                gap: '1.75rem',
               }}>
                 <p style={{
                   margin: 0,
-                  fontSize: '1rem',
+                  fontSize: '1.65rem',
                   lineHeight: 1.5,
                   fontWeight: 600,
-                  color: '#334155',
+                  color: '#1E293B',
+                  textAlign: 'center',
                 }}>
                   You have tested all 9 classroom items and determined which materials are attracted by a magnet.
                 </p>
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '0.35rem' }}>
-                  <span style={{ fontSize: '0.84rem', fontWeight: 800, color: '#15803D', background: '#DCFCE7', padding: '3px 10px', borderRadius: '8px' }}>
-                    🧲 3 Magnetic
-                  </span>
-                  <span style={{ fontSize: '0.84rem', fontWeight: 800, color: '#B91C1C', background: '#FEE2E2', padding: '3px 10px', borderRadius: '8px' }}>
-                    🛡️ 6 Non-Magnetic
-                  </span>
+                
+                {/* Side-by-side Large Result Boxes */}
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '1.25rem', width: '100%' }}>
+                  <div style={{ 
+                    flex: 1,
+                    fontSize: '1.65rem', 
+                    fontWeight: 800, 
+                    color: '#064E3B', 
+                    background: '#ECFDF5', 
+                    padding: '1.25rem 1rem', 
+                    borderRadius: '16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '12px',
+                    boxShadow: '0 4px 12px rgba(16, 185, 129, 0.1)',
+                  }}>
+                    <span style={{ fontSize: '2.1rem' }}>🧲</span> 3 Magnetic
+                  </div>
+                  <div style={{ 
+                    flex: 1,
+                    fontSize: '1.65rem', 
+                    fontWeight: 800, 
+                    color: '#0369A1', 
+                    background: '#E0F2FE', 
+                    padding: '1.25rem 1rem', 
+                    borderRadius: '16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '12px',
+                    boxShadow: '0 4px 12px rgba(14, 165, 233, 0.1)',
+                  }}>
+                    <span style={{ fontSize: '2.1rem' }}>⛔</span> 6 Non-Magnetic
+                  </div>
                 </div>
               </div>
 
@@ -1235,47 +1117,27 @@ export default function MagneticTable({ onComplete, onTableCompleted }) {
                   setShowProceedModal(false);
                   if (onComplete) onComplete();
                 }}
-                className="gold-glow-btn"
                 style={{
-                  display: 'inline-flex',
+                  display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '0.75rem',
+                  gap: '1rem',
                   width: '100%',
-                  padding: '1rem 2rem',
-                  fontSize: '1.15rem',
+                  maxWidth: '600px',
+                  padding: '1.25rem',
+                  fontSize: '1.65rem',
                   fontWeight: 900,
-                  color: '#FFFFFF',
-                  background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
-                  borderRadius: '16px',
+                  color: '#0F172A',
+                  background: 'linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%)',
+                  borderRadius: '20px',
                   border: 'none',
                   cursor: 'pointer',
-                  boxShadow: '0 6px 20px rgba(217, 119, 6, 0.45)',
-                  transition: 'all 0.2s ease',
+                  boxShadow: '0 10px 30px rgba(245, 158, 11, 0.35)',
+                  transition: 'transform 0.1s ease',
+                  marginTop: '0.5rem',
                 }}
               >
-                <span>Proceed to Knowledge Quiz</span>
-                <ArrowRight size={22} color="#FFFFFF" />
-              </button>
-
-              {/* Secondary option to review */}
-              <button
-                onClick={() => {
-                  setShowProceedModal(false);
-                  setShowTableModal(true);
-                }}
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  color: '#059669',
-                  fontSize: '0.88rem',
-                  fontWeight: 800,
-                  cursor: 'pointer',
-                  textDecoration: 'underline',
-                  padding: '4px',
-                }}
-              >
-                View NCERT Table 4.1 Summary First
+                <span>Proceed to Knowledge Quiz →</span>
               </button>
             </motion.div>
           </motion.div>

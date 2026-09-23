@@ -1,12 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ShieldAlert, Check, X, ArrowRight, ArrowLeft } from 'lucide-react';
+import { ShieldAlert, Check, X, ArrowRight, ArrowLeft, Play, Pause } from 'lucide-react';
 import newChiefDetectiveImage from '../../../../../../assets/4.detective.png';
 import mb1 from '../../../../../../assets/MB1.png';
 import mb2 from '../../../../../../assets/MB2.png';
 import mb3 from '../../../../../../assets/MB3.png';
 import mb4 from '../../../../../../assets/MB4.png';
 import mb5 from '../../../../../../assets/MB5.png';
+import mpage6Audio from '../../../audio/mpage6.mp3?url';
+import mpage6Json from '../../../json/mpage6.json';
+import mpage7Audio from '../../../audio/mpage7.mp3?url';
+import mpage7Json from '../../../json/mpage7.json';
+import mpage15Audio from '../../../audio/mpage15.mp3?url';
+import mpage15Json from '../../../json/mpage15.json';
+import mpage16Audio from '../../../audio/mpage16.mp3?url';
+import mpage16Json from '../../../json/mpage16.json';
+import mpage21Audio from '../../../audio/mpage21.mp3?url';
+import mpage21Json from '../../../json/mpage21.json';
+import mpage22Audio from '../../../audio/mpage22.mp3?url';
+import mpage22Json from '../../../json/mpage22.json';
+import mpage32Audio from '../../../audio/mpage32.mp3?url';
+import mpage32Json from '../../../json/mpage32.json';
+import mpage33Audio from '../../../audio/mpage33.mp3?url';
+import mpage33Json from '../../../json/mpage33.json';
+import mpage39Audio from '../../../audio/mpage39.mp3?url';
+import mpage39Json from '../../../json/mpage39.json';
+import mpage40Audio from '../../../audio/mpage40.mp3?url';
+import mpage40Json from '../../../json/mpage40.json';
+import mpage45Audio from '../../../audio/mpage45.mp3?url';
+import mpage45Json from '../../../json/mpage45.json';
+import mpage46Audio from '../../../audio/mpage46.mp3?url';
+import mpage46Json from '../../../json/mpage46.json';
+import mpage52Audio from '../../../audio/mpage52.mp3?url';
+import mpage52Json from '../../../json/mpage52.json';
+import mpage53Audio from '../../../audio/mpage53.mp3?url';
+import mpage53Json from '../../../json/mpage53.json';
+import mpage59Audio from '../../../audio/mpage59.mp3?url';
+import mpage59Json from '../../../json/mpage59.json';
+import mpage60Audio from '../../../audio/mpage60.mp3?url';
+import mpage60Json from '../../../json/mpage60.json';
+import mpage65Audio from '../../../audio/mpage65.mp3?url';
+import mpage65Json from '../../../json/mpage65.json';
+import mpage66Audio from '../../../audio/mpage66.mp3?url';
+import mpage66Json from '../../../json/mpage66.json';
+
 export default function MissionBriefingSpread({ data, onContinue, onBack }) {
   const [currentPage, setCurrentPage] = useState(1);
   const BLAKE_IMG_URL = '/images/chief_detective_blake.png';
@@ -26,6 +63,79 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
   } else if (typeof displayTitle === 'string') {
     displayTitle = displayTitle.replace('Barrier 2', 'Barrier\u00A02');
   }
+
+  const isBarrier2Mystery = displayTitle.includes('The Classroom Mystery');
+  const isPhase2Identification = displayTitle.includes('Phase 2: Identification');
+  const isBarrier2GroupingMaterials = displayTitle.includes('Grouping Materials');
+  const isAppearanceStage = displayTitle.includes('Appearance (Stage 6.3.1)');
+  const isHardnessStage = displayTitle.includes('Hardness (Stage 6.3.2)');
+  const isTransparencyStage = displayTitle.includes('Transparency (Stage 6.3.3)');
+  const isSolubilityStage = displayTitle.includes('Solubility (Stage 6.3.4)');
+  const isMassStage = displayTitle.includes('Mass (Stage 6.3.5)');
+  const isVolumeStage = displayTitle.includes('Volume (Stage 6.3.6)') || displayTitle.includes('Barrier 3');
+  const hasAudio = isBarrier2Mystery || isPhase2Identification || isBarrier2GroupingMaterials || isAppearanceStage || isHardnessStage || isTransparencyStage || isSolubilityStage || isMassStage || isVolumeStage;
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+  const [activeWordIndex, setActiveWordIndex] = useState(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    setIsPlaying(false);
+    setActiveWordIndex(null);
+  }, [currentPage]);
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.error(e));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current && hasAudio) {
+      const time = audioRef.current.currentTime;
+      let words = [];
+      if (isPhase2Identification) {
+        words = currentPage === 1 ? mpage15Json.words : mpage16Json.words;
+      } else if (isBarrier2GroupingMaterials) {
+        words = currentPage === 1 ? mpage21Json.words : mpage22Json.words;
+      } else if (isAppearanceStage) {
+        words = currentPage === 1 ? mpage32Json.words : mpage33Json.words;
+      } else if (isHardnessStage) {
+        words = currentPage === 1 ? mpage39Json.words : mpage40Json.words;
+      } else if (isTransparencyStage) {
+        words = currentPage === 1 ? mpage45Json.words : mpage46Json.words;
+      } else if (isSolubilityStage) {
+        words = currentPage === 1 ? mpage52Json.words : mpage53Json.words;
+      } else if (isMassStage) {
+        words = currentPage === 1 ? mpage59Json.words : mpage60Json.words;
+      } else if (isVolumeStage) {
+        words = currentPage === 1 ? mpage65Json.words : mpage66Json.words;
+      } else if (currentPage === 1) {
+        words = mpage6Json.words;
+      } else if (currentPage === 2) {
+        words = mpage7Json.words;
+      }
+      
+      const activeIdx = words.findIndex(w => time >= w.start && time < w.end);
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordIndex(null);
+  };
 
   const isUserPage = displayTitle.includes('The Classroom Mystery') || displayTitle.includes('Barrier 4');
   const colorMainHeading = isUserPage ? '#2C4E3D' : 'var(--lesson-primary)';
@@ -377,6 +487,16 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
         `}
       </style>
 
+      {(hasAudio) && (
+        <audio
+          key={currentPage}
+          ref={audioRef}
+          src={isPhase2Identification ? (currentPage === 1 ? mpage15Audio : mpage16Audio) : (isBarrier2GroupingMaterials ? (currentPage === 1 ? mpage21Audio : mpage22Audio) : (isAppearanceStage ? (currentPage === 1 ? mpage32Audio : mpage33Audio) : (isHardnessStage ? (currentPage === 1 ? mpage39Audio : mpage40Audio) : (isTransparencyStage ? (currentPage === 1 ? mpage45Audio : mpage46Audio) : (isSolubilityStage ? (currentPage === 1 ? mpage52Audio : mpage53Audio) : (isMassStage ? (currentPage === 1 ? mpage59Audio : mpage60Audio) : (isVolumeStage ? (currentPage === 1 ? mpage65Audio : mpage66Audio) : (currentPage === 1 ? mpage6Audio : mpage7Audio))))))))}
+          onTimeUpdate={handleTimeUpdate}
+          onEnded={handleAudioEnded}
+        />
+      )}
+
       <motion.div 
         className="book-frame"
         initial={{ opacity: 0, y: 20 }}
@@ -410,16 +530,218 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
               >
                 <div className="speech-speaker">CHIEF BLAKE</div>
                 <p style={{ margin: 0, fontSize: '28px', color: 'var(--lesson-text)', lineHeight: '1.45', fontWeight: '600' }}>
-                  {data.dialogue || "Good morning, Detective. Headquarters has received an unusual science case. Study your investigation brief carefully before proceeding!"}
+                  {isPhase2Identification ? (
+                    <>
+                      {mpage15Json.words.slice(0, 25).map((w, i) => (
+                        <React.Fragment key={i}>
+                          <span
+                            style={{
+                              color: activeWordIndex === i ? '#A94727' : 'var(--lesson-text)',
+                              background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                              borderRadius: '4px',
+                              padding: '0 2px',
+                              transition: 'all 0.15s ease-out'
+                            }}
+                          >
+                            {w.text}
+                          </span>
+                          {i < mpage15Json.words.slice(0, 25).length - 1 ? ' ' : ''}
+                        </React.Fragment>
+                      ))}
+                    </>
+                  ) : isBarrier2Mystery ? (
+                    <>
+                      {mpage6Json.words.slice(0, 25).map((w, i) => (
+                        <React.Fragment key={i}>
+                          <span
+                            style={{
+                              color: activeWordIndex === i ? '#A94727' : 'var(--lesson-text)',
+                              background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                              borderRadius: '4px',
+                              padding: '0 2px',
+                              transition: 'all 0.15s ease-out'
+                            }}
+                          >
+                            {w.text}
+                          </span>
+                          {i < mpage6Json.words.slice(0, 25).length - 1 ? ' ' : ''}
+                        </React.Fragment>
+                      ))}
+                    </>
+                  ) : isBarrier2GroupingMaterials && currentPage === 1 ? (
+                    <>
+                      {mpage21Json.words.slice(0, 24).map((w, i) => (
+                        <React.Fragment key={i}>
+                          <span
+                            style={{
+                              color: activeWordIndex === i ? '#A94727' : 'var(--lesson-text)',
+                              background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                              borderRadius: '4px',
+                              padding: '0 2px',
+                              transition: 'all 0.15s ease-out'
+                            }}
+                          >
+                            {w.text}
+                          </span>
+                          {i < mpage21Json.words.slice(0, 24).length - 1 ? ' ' : ''}
+                        </React.Fragment>
+                      ))}
+                    </>
+                  ) : isAppearanceStage && currentPage === 1 ? (
+                    <>
+                      {mpage32Json.words.slice(0, 34).map((w, i) => (
+                        <React.Fragment key={i}>
+                          <span
+                            style={{
+                              color: activeWordIndex === i ? '#A94727' : 'var(--lesson-text)',
+                              background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                              borderRadius: '4px',
+                              padding: '0 2px',
+                              transition: 'all 0.15s ease-out'
+                            }}
+                          >
+                            {w.text}
+                          </span>
+                          {i < mpage32Json.words.slice(0, 34).length - 1 ? ' ' : ''}
+                        </React.Fragment>
+                      ))}
+                    </>
+                  ) : isHardnessStage && currentPage === 1 ? (
+                    <>
+                      {mpage39Json.words.slice(0, 24).map((w, i) => (
+                        <React.Fragment key={i}>
+                          <span
+                            style={{
+                              color: activeWordIndex === i ? '#A94727' : 'var(--lesson-text)',
+                              background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                              borderRadius: '4px',
+                              padding: '0 2px',
+                              transition: 'all 0.15s ease-out'
+                            }}
+                          >
+                            {w.text}
+                          </span>
+                          {i < mpage39Json.words.slice(0, 24).length - 1 ? ' ' : ''}
+                        </React.Fragment>
+                      ))}
+                    </>
+                  ) : isTransparencyStage && currentPage === 1 ? (
+                    <>
+                      {mpage45Json.words.map((w, i) => (
+                        <React.Fragment key={i}>
+                          <span
+                            style={{
+                              color: activeWordIndex === i ? '#A94727' : 'var(--lesson-text)',
+                              background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                              borderRadius: '4px',
+                              padding: '0 2px',
+                              transition: 'all 0.15s ease-out'
+                            }}
+                          >
+                            {w.text}
+                          </span>
+                          {i < mpage45Json.words.length - 1 ? ' ' : ''}
+                        </React.Fragment>
+                      ))}
+                    </>
+                  ) : isSolubilityStage && currentPage === 1 ? (
+                    <>
+                      {mpage52Json.words.map((w, i) => (
+                        <React.Fragment key={i}>
+                          <span
+                            style={{
+                              color: activeWordIndex === i ? '#A94727' : 'var(--lesson-text)',
+                              background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                              borderRadius: '4px',
+                              padding: '0 2px',
+                              transition: 'all 0.15s ease-out'
+                            }}
+                          >
+                            {w.text}
+                          </span>
+                          {i < mpage52Json.words.length - 1 ? ' ' : ''}
+                        </React.Fragment>
+                      ))}
+                    </>
+                  ) : isMassStage && currentPage === 1 ? (
+                    <>
+                      {mpage59Json.words.map((w, i) => (
+                        <React.Fragment key={i}>
+                          <span
+                            style={{
+                              color: activeWordIndex === i ? '#A94727' : 'var(--lesson-text)',
+                              background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                              borderRadius: '4px',
+                              padding: '0 2px',
+                              transition: 'all 0.15s ease-out'
+                            }}
+                          >
+                            {w.text}
+                          </span>
+                          {i < mpage59Json.words.length - 1 ? ' ' : ''}
+                        </React.Fragment>
+                      ))}
+                    </>
+                  ) : isVolumeStage && currentPage === 1 ? (
+                    <>
+                      {mpage65Json.words.map((w, i) => (
+                        <React.Fragment key={i}>
+                          <span
+                            style={{
+                              color: activeWordIndex === i ? '#A94727' : 'var(--lesson-text)',
+                              background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                              borderRadius: '4px',
+                              padding: '0 2px',
+                              transition: 'all 0.15s ease-out'
+                            }}
+                          >
+                            {w.text}
+                          </span>
+                          {i < mpage65Json.words.length - 1 ? ' ' : ''}
+                        </React.Fragment>
+                      ))}
+                    </>
+                  ) : (
+                    data.dialogue || "Good morning, Detective. Headquarters has received an unusual science case. Study your investigation brief carefully before proceeding!"
+                  )}
                 </p>
               </motion.div>
 
               <button className="spread-back-btn" onClick={onBack}>
                 <ArrowLeft size={20} /> Back
               </button>
-              <button className="start-btn" onClick={() => setCurrentPage(2)}>
-                Next <ArrowRight size={22} />
-              </button>
+              
+              <div style={{ position: 'absolute', bottom: '18px', right: '28px', zIndex: 10000, display: 'flex', gap: '16px', alignItems: 'center' }}>
+                {(isPhase2Identification || (currentPage === 1 && isBarrier2Mystery) || (currentPage === 1 && isBarrier2GroupingMaterials) || (currentPage === 1 && isAppearanceStage) || (currentPage === 1 && isHardnessStage) || (currentPage === 1 && isTransparencyStage) || (currentPage === 1 && isSolubilityStage) || (currentPage === 1 && isMassStage) || (currentPage === 1 && isVolumeStage)) && (
+                  <button
+                    onClick={toggleAudio}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      background: '#d97706',
+                      color: 'white',
+                      border: '3px solid #FEF08A',
+                      padding: '15px 24px',
+                      borderRadius: '42px',
+                      fontSize: '24px',
+                      fontWeight: 'bold',
+                      cursor: 'pointer',
+                      boxShadow: '0 6px 20px rgba(217, 119, 6, 0.5)',
+                      transition: 'all 0.2s',
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.borderColor = '#FEF3C7'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.borderColor = '#FEF08A'; }}
+                  >
+                    {isPlaying ? <Pause size={24} /> : <Play size={24} />}
+                    {isPlaying ? "Pause" : "Play"}
+                  </button>
+                )}
+                <button className="start-btn" style={{ position: 'static', bottom: 'auto', right: 'auto' }} onClick={() => setCurrentPage(2)}>
+                  Next <ArrowRight size={22} />
+                </button>
+              </div>
             </div>
           )}
 
@@ -437,7 +759,182 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
                 </h1>
                 
                 <div className="mission-content">
-                  <p style={{ fontSize: '28px' }}>{data.description || "Review the handbook and proceed to the activity area to complete the required tasks for this barrier."}</p>
+                  <p style={{ fontSize: '28px', color: 'var(--lesson-text)', lineHeight: '1.45', fontWeight: '600', margin: 0 }}>
+                    {isPhase2Identification && currentPage === 2 ? (
+                      <>
+                        {mpage16Json.words.slice(0, 10).map((w, i) => (
+                          <React.Fragment key={i}>
+                            <span
+                              style={{
+                                color: activeWordIndex === i ? '#A94727' : 'var(--lesson-text)',
+                                background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                                borderRadius: '4px',
+                                padding: '0 2px',
+                                transition: 'all 0.15s ease-out'
+                              }}
+                            >
+                              {w.text}
+                            </span>
+                            {i < mpage16Json.words.slice(0, 10).length - 1 ? ' ' : ''}
+                          </React.Fragment>
+                        ))}
+                      </>
+                    ) : isBarrier2Mystery && currentPage === 2 ? (
+                      <>
+                        {mpage7Json.words.map((w, i) => (
+                          <React.Fragment key={i}>
+                            <span
+                              style={{
+                                color: activeWordIndex === i ? '#A94727' : 'var(--lesson-text)',
+                                background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                                borderRadius: '4px',
+                                padding: '0 2px',
+                                transition: 'all 0.15s ease-out'
+                              }}
+                            >
+                              {w.text}
+                            </span>
+                            {i < mpage7Json.words.length - 1 ? ' ' : ''}
+                          </React.Fragment>
+                        ))}
+                      </>
+                    ) : isBarrier2GroupingMaterials && currentPage === 2 ? (
+                      <>
+                        {mpage22Json.words.slice(0, 31).map((w, i) => (
+                          <React.Fragment key={i}>
+                            <span
+                              style={{
+                                color: activeWordIndex === i ? '#A94727' : 'var(--lesson-text)',
+                                background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                                borderRadius: '4px',
+                                padding: '0 2px',
+                                transition: 'all 0.15s ease-out'
+                              }}
+                            >
+                              {w.text}
+                            </span>
+                            {i < mpage22Json.words.slice(0, 31).length - 1 ? ' ' : ''}
+                          </React.Fragment>
+                        ))}
+                      </>
+                    ) : isAppearanceStage && currentPage === 2 ? (
+                      <>
+                        {mpage33Json.words.slice(0, 20).map((w, i) => (
+                          <React.Fragment key={i}>
+                            <span
+                              style={{
+                                color: activeWordIndex === i ? '#A94727' : 'var(--lesson-text)',
+                                background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                                borderRadius: '4px',
+                                padding: '0 2px',
+                                transition: 'all 0.15s ease-out'
+                              }}
+                            >
+                              {w.text}
+                            </span>
+                            {i < mpage33Json.words.slice(0, 20).length - 1 ? ' ' : ''}
+                          </React.Fragment>
+                        ))}
+                      </>
+                    ) : isHardnessStage && currentPage === 2 ? (
+                      <>
+                        {mpage40Json.words.slice(0, 38).map((w, i) => (
+                          <React.Fragment key={i}>
+                            <span
+                              style={{
+                                color: activeWordIndex === i ? '#A94727' : 'var(--lesson-text)',
+                                background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                                borderRadius: '4px',
+                                padding: '0 2px',
+                                transition: 'all 0.15s ease-out'
+                              }}
+                            >
+                              {w.text}
+                            </span>
+                            {i < mpage40Json.words.slice(0, 38).length - 1 ? ' ' : ''}
+                          </React.Fragment>
+                        ))}
+                      </>
+                    ) : isTransparencyStage && currentPage === 2 ? (
+                      <>
+                        {mpage46Json.words.slice(0, 26).map((w, i) => (
+                          <React.Fragment key={i}>
+                            <span
+                              style={{
+                                color: activeWordIndex === i ? '#A94727' : 'var(--lesson-text)',
+                                background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                                borderRadius: '4px',
+                                padding: '0 2px',
+                                transition: 'all 0.15s ease-out'
+                              }}
+                            >
+                              {w.text}
+                            </span>
+                            {i < mpage46Json.words.slice(0, 26).length - 1 ? ' ' : ''}
+                          </React.Fragment>
+                        ))}
+                      </>
+                    ) : isSolubilityStage && currentPage === 2 ? (
+                      <>
+                        {mpage53Json.words.slice(0, 32).map((w, i) => (
+                          <React.Fragment key={i}>
+                            <span
+                              style={{
+                                color: activeWordIndex === i ? '#A94727' : 'var(--lesson-text)',
+                                background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                                borderRadius: '4px',
+                                padding: '0 2px',
+                                transition: 'all 0.15s ease-out'
+                              }}
+                            >
+                              {w.text}
+                            </span>
+                            {i < mpage53Json.words.slice(0, 32).length - 1 ? ' ' : ''}
+                          </React.Fragment>
+                        ))}
+                      </>
+                    ) : isMassStage && currentPage === 2 ? (
+                      <>
+                        {mpage60Json.words.slice(0, 21).map((w, i) => (
+                          <React.Fragment key={i}>
+                            <span
+                              style={{
+                                color: activeWordIndex === i ? '#A94727' : 'var(--lesson-text)',
+                                background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                                borderRadius: '4px',
+                                padding: '0 2px',
+                                transition: 'all 0.15s ease-out'
+                              }}
+                            >
+                              {w.text}
+                            </span>
+                            {i < mpage60Json.words.slice(0, 21).length - 1 ? ' ' : ''}
+                          </React.Fragment>
+                        ))}
+                      </>
+                    ) : isVolumeStage && currentPage === 2 ? (
+                      <>
+                        {mpage66Json.words.slice(0, 20).map((w, i) => (
+                          <React.Fragment key={i}>
+                            <span
+                              style={{
+                                color: activeWordIndex === i ? '#A94727' : 'var(--lesson-text)',
+                                background: activeWordIndex === i ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+                                borderRadius: '4px',
+                                padding: '0 2px',
+                                transition: 'all 0.15s ease-out'
+                              }}
+                            >
+                              {w.text}
+                            </span>
+                            {i < mpage66Json.words.slice(0, 20).length - 1 ? ' ' : ''}
+                          </React.Fragment>
+                        ))}
+                      </>
+                    ) : (
+                      data.description || "Review the handbook and proceed to the activity area to complete the required tasks for this barrier."
+                    )}
+                  </p>
                 </div>
                 
                 <div className="mission-box">
@@ -474,9 +971,37 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
               <button className="spread-back-btn" onClick={() => setCurrentPage(1)}>
                 <ArrowLeft size={20} /> Back
               </button>
-              <button className="start-btn" onClick={handleStart}>
-                Acknowledge & Begin <ArrowRight size={22} />
-              </button>
+              <div style={{ position: 'absolute', bottom: '18px', right: '28px', zIndex: 10000, display: 'flex', gap: '16px', alignItems: 'center' }}>
+                {(isPhase2Identification || (currentPage === 2 && isBarrier2Mystery) || (currentPage === 2 && isBarrier2GroupingMaterials) || (currentPage === 2 && isAppearanceStage) || (currentPage === 2 && isHardnessStage) || (currentPage === 2 && isTransparencyStage) || (currentPage === 2 && isSolubilityStage) || (currentPage === 2 && isMassStage) || (currentPage === 2 && isVolumeStage)) && (
+                  <button
+                    onClick={toggleAudio}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      background: '#d97706',
+                      color: 'white',
+                      border: '3px solid #FEF08A',
+                      padding: '15px 24px',
+                      borderRadius: '42px',
+                      fontSize: '24px',
+                      fontWeight: 'bold',
+                      cursor: 'pointer',
+                      boxShadow: '0 6px 20px rgba(217, 119, 6, 0.5)',
+                      transition: 'all 0.2s',
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.borderColor = '#FEF3C7'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.borderColor = '#FEF08A'; }}
+                  >
+                    {isPlaying ? <Pause size={24} /> : <Play size={24} />}
+                    {isPlaying ? "Pause" : "Play"}
+                  </button>
+                )}
+                <button className="start-btn" style={{ position: 'static', bottom: 'auto', right: 'auto' }} onClick={handleStart}>
+                  Acknowledge & Begin <ArrowRight size={22} />
+                </button>
+              </div>
             </div>
           )}
         </div>

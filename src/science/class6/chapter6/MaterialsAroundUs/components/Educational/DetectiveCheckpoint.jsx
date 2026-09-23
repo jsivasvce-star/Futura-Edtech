@@ -12,6 +12,67 @@ import stage6_3_4Bg from '../../../../../../assets/stage6_3_4_checkpoint_bg.png'
 import stage6_3_5Bg from '../../../../../../assets/stage6_3_5_checkpoint_bg.png';
 import stage6_3_6Bg from '../../../../../../assets/stage6_3_6_checkpoint_bg.png';
 import barrier4Bg from '../../../../../../assets/barrier4_checkpoint_bg.png';
+import { Play, Pause } from 'lucide-react';
+import React from 'react';
+import mpage18Audio from '../../../audio/mpage18.mp3?url';
+import mpage18Json from '../../../json/mpage18.json';
+import mpage19Audio from '../../../audio/mpage19.mp3?url';
+import mpage19Json from '../../../json/mpage19.json';
+import mpage20Audio from '../../../audio/mpage20.mp3?url';
+import mpage20Json from '../../../json/mpage20.json';
+import mpage29Audio from '../../../audio/mpage29.mp3?url';
+import mpage29Json from '../../../json/mpage29.json';
+import mpage30Audio from '../../../audio/mpage30.mp3?url';
+import mpage30Json from '../../../json/mpage30.json';
+import mpage31Audio from '../../../audio/mpage31.mp3?url';
+import mpage31Json from '../../../json/mpage31.json';
+import mpage35Audio from '../../../audio/mpage35.mp3?url';
+import mpage35Json from '../../../json/mpage35.json';
+import mpage36Audio from '../../../audio/mpage36.mp3?url';
+import mpage36Json from '../../../json/mpage36.json';
+import mpage37Audio from '../../../audio/mpage37.mp3?url';
+import mpage37Json from '../../../json/mpage37.json';
+import mpage38Audio from '../../../audio/mpage38.mp3?url';
+import mpage38Json from '../../../json/mpage38.json';
+import mpage42Audio from '../../../audio/mpage42.mp3?url';
+import mpage42Json from '../../../json/mpage42.json';
+import mpage43Audio from '../../../audio/mpage43.mp3?url';
+import mpage43Json from '../../../json/mpage43.json';
+import mpage44Audio from '../../../audio/mpage44.mp3?url';
+import mpage44Json from '../../../json/mpage44.json';
+import mpage49Audio from '../../../audio/mpage49.mp3?url';
+import mpage49Json from '../../../json/mpage49.json';
+import mpage50Audio from '../../../audio/mpage50.mp3?url';
+import mpage50Json from '../../../json/mpage50.json';
+import mpage51Audio from '../../../audio/mpage51.mp3?url';
+import mpage51Json from '../../../json/mpage51.json';
+import mpage56Audio from '../../../audio/mpage56.mp3?url';
+import mpage56Json from '../../../json/mpage56.json';
+import mpage57Audio from '../../../audio/mpage57.mp3?url';
+import mpage57Json from '../../../json/mpage57.json';
+import mpage58Audio from '../../../audio/mpage58.mp3?url';
+import mpage58Json from '../../../json/mpage58.json';
+import mpage62Audio from '../../../audio/mpage62.mp3?url';
+import mpage62Json from '../../../json/mpage62.json';
+import mpage63Audio from '../../../audio/mpage63.mp3?url';
+import mpage63Json from '../../../json/mpage63.json';
+import mpage64Json from '../../../json/mpage64.json';
+import mpage65Audio from '../../../audio/mpage65.mp3?url';
+import mpage65Json from '../../../json/mpage65.json';
+import mpage71Audio from '../../../audio/mpage71.mp3?url';
+import mpage71Json from '../../../json/mpage71.json';
+import mpage72Audio from '../../../audio/mpage72.mp3?url';
+import mpage72Json from '../../../json/mpage72.json';
+import mpage73Audio from '../../../audio/mpage73.mp3?url';
+import mpage73Json from '../../../json/mpage73.json';
+import mpage77Audio from '../../../audio/mpage77.mp3?url';
+import mpage77Json from '../../../json/mpage77.json';
+import mpage78Audio from '../../../audio/mpage78.mp3?url';
+import mpage78Json from '../../../json/mpage78.json';
+import mpage79Audio from '../../../audio/mpage79.mp3?url';
+import mpage79Json from '../../../json/mpage79.json';
+import mpage80Audio from '../../../audio/mpage80.mp3?url';
+import mpage80Json from '../../../json/mpage80.json';
 
 export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed, onBack }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,6 +85,113 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
   const [quizComplete, setQuizComplete] = useState(false);
   const [showCaseLog, setShowCaseLog] = useState(false);
   const [showHint, setShowHint] = useState(false);
+
+  const audioRef = React.useRef(null);
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [activeWordIndex, setActiveWordIndex] = React.useState(null);
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.error(e));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    let currentJson;
+    if (currentPage === 1) {
+      if (data.title?.includes("Barrier 1")) {
+        currentJson = mpage18Json;
+      } else if (data.title?.includes("Barrier 2")) {
+        currentJson = mpage29Json;
+      } else if (data.title?.includes("6.3.1")) {
+        currentJson = mpage35Json;
+      } else if (data.title?.includes("6.3.2")) {
+        currentJson = mpage42Json;
+      } else if (data.title?.includes("6.3.3")) {
+        currentJson = mpage49Json;
+      } else if (data.title?.includes("6.3.5")) {
+        currentJson = mpage62Json;
+      } else if (data.title?.includes("6.3.6")) {
+        currentJson = mpage71Json;
+      } else if (data.title?.includes("Barrier 3")) {
+        currentJson = mpage65Json;
+      } else if (data.title?.includes("Barrier 4")) {
+        currentJson = mpage77Json;
+      }
+    } else {
+      if (data.title?.includes("Barrier 2") && currentQ === 0) {
+        currentJson = mpage30Json;
+      } else if (data.title?.includes("Barrier 2") && currentQ === 1) {
+        currentJson = mpage31Json;
+      } else if (data.title?.includes("6.3.1") && currentQ === 0) {
+        currentJson = mpage37Json;
+      } else if (data.title?.includes("6.3.1") && currentQ === 1) {
+        currentJson = mpage38Json;
+      } else if (data.title?.includes("6.3.2") && currentQ === 0) {
+        currentJson = mpage43Json;
+      } else if (data.title?.includes("6.3.2") && currentQ === 1) {
+        currentJson = mpage44Json;
+      } else if (data.title?.includes("6.3.3") && currentQ === 0) {
+        currentJson = mpage50Json;
+      } else if (data.title?.includes("6.3.3") && currentQ === 1) {
+        currentJson = mpage51Json;
+      } else if (data.title?.includes("6.3.4") && currentQ === 1) {
+        currentJson = mpage58Json;
+      } else if (data.title?.includes("6.3.5") && currentQ === 0) {
+        currentJson = mpage63Json;
+      } else if (data.title?.includes("6.3.5") && currentQ === 1) {
+        currentJson = mpage64Json;
+      } else if (data.title?.includes("6.3.6") && currentQ === 0) {
+        currentJson = mpage72Json;
+      } else if (data.title?.includes("6.3.6") && currentQ === 1) {
+        currentJson = mpage73Json;
+      } else if (data.title?.includes("Barrier 4") && currentQ === 0) {
+        currentJson = mpage78Json;
+      } else if (data.title?.includes("Barrier 4") && currentQ === 1) {
+        currentJson = mpage79Json;
+      } else if (data.title?.includes("Barrier 4") && currentQ === 2) {
+        currentJson = mpage80Json;
+      } else {
+        currentJson = currentQ === 0 ? mpage19Json : mpage20Json;
+      }
+    }
+
+    if (audioRef.current && typeof currentJson !== 'undefined') {
+      const time = audioRef.current.currentTime;
+      const activeIdx = currentJson.words.findIndex(w => time >= w.start && time < w.end);
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordIndex(null);
+  };
+
+  const W = ({ i, children }) => {
+    const indices = Array.isArray(i) ? i : [i];
+    const isActive = indices.includes(activeWordIndex);
+    return (
+      <span
+        style={{
+          color: isActive ? '#FFFFFF' : 'inherit',
+          background: isActive ? '#A94727' : 'transparent',
+          borderRadius: '4px',
+          padding: '0 2px',
+          transition: 'all 0.15s ease-out'
+        }}
+      >
+        {children}
+      </span>
+    );
+  };
 
   const BLAKE_IMG_URL = '/images/chief_detective_blake.png';
 
@@ -276,6 +444,13 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
           box-shadow: 0 6px 16px rgba(217, 119, 6, 0.35);
         }
       `}</style>
+      
+      <audio 
+        ref={audioRef} 
+        src={currentPage === 1 ? (data.title?.includes("Barrier 2") ? mpage29Audio : data.title?.includes("6.3.1") ? mpage35Audio : data.title?.includes("6.3.2") ? mpage42Audio : data.title?.includes("6.3.3") ? mpage49Audio : data.title?.includes("6.3.4") ? mpage56Audio : data.title?.includes("6.3.5") ? mpage62Audio : data.title?.includes("6.3.6") ? mpage71Audio : data.title?.includes("Barrier 3") ? mpage65Audio : data.title?.includes("Barrier 4") ? mpage77Audio : mpage18Audio) : (data.title?.includes("Barrier 2") && currentQ === 0 ? mpage30Audio : data.title?.includes("Barrier 2") && currentQ === 1 ? mpage31Audio : data.title?.includes("6.3.1") && currentQ === 0 ? mpage37Audio : data.title?.includes("6.3.1") && currentQ === 1 ? mpage38Audio : data.title?.includes("6.3.2") && currentQ === 0 ? mpage43Audio : data.title?.includes("6.3.2") && currentQ === 1 ? mpage44Audio : data.title?.includes("6.3.3") && currentQ === 0 ? mpage50Audio : data.title?.includes("6.3.3") && currentQ === 1 ? mpage51Audio : data.title?.includes("6.3.4") && currentQ === 0 ? mpage57Audio : data.title?.includes("6.3.4") && currentQ === 1 ? mpage58Audio : data.title?.includes("6.3.5") && currentQ === 0 ? mpage63Audio : data.title?.includes("6.3.5") && currentQ === 1 ? mpage64Audio : data.title?.includes("6.3.6") && currentQ === 0 ? mpage72Audio : data.title?.includes("6.3.6") && currentQ === 1 ? mpage73Audio : data.title?.includes("Barrier 4") && currentQ === 0 ? mpage78Audio : data.title?.includes("Barrier 4") && currentQ === 1 ? mpage79Audio : data.title?.includes("Barrier 4") && currentQ === 2 ? mpage80Audio : (currentQ === 0 ? mpage19Audio : mpage20Audio))} 
+        onTimeUpdate={handleTimeUpdate} 
+        onEnded={handleAudioEnded} 
+      />
 
       <motion.div 
         className="book-frame"
@@ -313,10 +488,92 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
             <div className="speech-speaker-chk">CHIEF BLAKE</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <p style={{ margin: 0, fontSize: '28px', color: 'var(--lesson-text)', lineHeight: '1.45', fontWeight: '600', fontFamily: "'Merriweather', Georgia, serif" }}>
-                {data.dialogue || "Well done, detective! You've explored the Barrier. Now let's verify your understanding and log our discoveries."}
+                {data.title?.includes("Barrier 1") ? (
+                  <>
+                    <W i={0}>Excellent</W> <W i={1}>work,</W> Detective. <W i={2}>You</W> <W i={3}>have</W> <W i={4}>successfully</W> <W i={5}>completed</W> <W i={6}>today's</W> <W i={7}>investigation.</W> <W i={8}>Let's</W> <W i={9}>record</W> <W i={10}>our</W> <W i={11}>findings</W> <W i={12}>in</W> <W i={13}>your</W> permanent <W i={14}>Investigation</W> <W i={15}>Handbook.</W>
+                  </>
+                ) : data.title?.includes("Barrier 2") ? (
+                  <>
+                    <W i={0}>Brilliant</W> deduction, <W i={1}>Detective.</W> <W i={2}>You</W> <W i={3}>successfully</W> <W i={4}>grouped</W> <W i={6}>materials</W> <W i={7}>and</W> <W i={8}>discovered</W> <W i={9}>how</W> <W i={10}>their</W> <W i={11}>properties</W> <W i={12}>match</W> <W i={13}>their</W> <W i={14}>purpose.</W> <W i={15}>Let's</W> <W i={16}>log</W> <W i={17}>this</W> <W i={18}>in</W> <W i={19}>your</W> <W i={20}>handbook.</W>
+                  </>
+                ) : data.title?.includes("6.3.1") ? (
+                  <>
+                    <W i={0}>Fantastic</W> <W i={1}>work</W> <W i={2}>Detective!</W> <W i={3}>You</W> <W i={4}>proved</W> <W i={5}>that</W> <W i={6}>observing</W> <W i={7}>and</W> <W i={8}>testing</W> <W i={9}>for</W> <W i={10}>lustre</W> <W i={11}>helps</W> <W i={12}>us</W> <W i={13}>identify</W> <W i={14}>materials</W> <W i={15}>correctly.</W>
+                  </>
+                ) : data.title?.includes("6.3.2") ? (
+                  <>
+                    <W i={0}>Excellent!</W> <W i={1}>You</W> <W i={2}>verified</W> <W i={3}>that</W> <W i={4}>hardness</W> <W i={5}>is</W> <W i={6}>determined</W> <W i={7}>by</W> <W i={8}>how</W> <W i={9}>easily</W> <W i={10}>a</W> <W i={11}>material</W> <W i={12}>can</W> <W i={13}>be</W> <W i={14}>compressed</W> <W i={15}>or</W> <W i={16}>scratched.</W> <W i={17}>This</W> <W i={18}>is</W> <W i={19}>vital</W> <W i={20}>evidence.</W>
+                  </>
+                ) : data.title?.includes("6.3.3") ? (
+                  <>
+                    <W i={0}>Great</W> <W i={1}>detective</W> <W i={2}>work!</W> <W i={3}>You</W> <W i={4}>have</W> <W i={5}>successfully</W> <W i={6}>mastered</W> <W i={7}>how</W> <W i={8}>visibility</W> <W i={9}>works</W> <W i={10}>through</W> <W i={11}>different</W> <W i={12}>materials.</W>
+                  </>
+                ) : data.title?.includes("6.3.4") ? (
+                  <>
+                    <W i={0}>Fantastic</W> <W i={1}>work!</W> <W i={2}>You</W> <W i={3}>have</W> <W i={4}>successfully</W> <W i={5}>identified</W> <W i={6}>which</W> <W i={7}>materials</W> <W i={8}>dissolve</W> <W i={9}>in</W> <W i={10}>water</W> <W i={11}>and</W> <W i={12}>which</W> <W i={13}>do</W> <W i={14}>not.</W>
+                  </>
+                ) : data.title?.includes("6.3.5") ? (
+                  <>
+                    <W i={0}>Incredible</W> <W i={1}>work,</W> <W i={2}>Detective.</W> <W i={3}>You</W> <W i={4}>have</W> <W i={5}>proven</W> <W i={6}>that</W> <W i={7}>we</W> <W i={8}>can</W> <W i={9}>measure</W> <W i={10}>how</W> <W i={11}>heavy</W> <W i={12}>objects</W> <W i={13}>are.</W>
+                  </>
+                ) : data.title?.includes("6.3.6") ? (
+                  <>
+                    <W i={0}>Excellent!</W> <W i={1}>You</W> <W i={2}>have</W> <W i={3}>uncovered</W> <W i={4}>the</W> <W i={5}>final</W> <W i={6}>fundamental</W> <W i={7}>property</W> <W i={8}>of</W> <W i={9}>all</W> <W i={10}>materials.</W>
+                  </>
+                ) : data.title?.includes("Barrier 3") ? (
+                  <>
+                    <W i={0}>There</W> <W i={1}>is</W> <W i={2}>one</W> <W i={3}>final</W> <W i={4}>puzzle</W> <W i={5}>for</W> <W i={6}>Barrier</W> <W i={7}>3.</W> <W i={8}>Besides</W> <W i={9}>mass,</W> <W i={10}>what</W> <W i={11}>else</W> <W i={12}>do</W> <W i={13}>all</W> <W i={14}>materials</W> <W i={15}>share?</W> <W i={16}>Investigate</W> <W i={17}>the</W> <W i={18}>concept</W> <W i={19}>of</W> <W i={20}>volume.</W>
+                  </>
+                ) : data.title?.includes("Barrier 4") ? (
+                  <>
+                    <W i={0}>Brilliant</W> <W i={1}>work!</W> <W i={2}>We</W> <W i={3}>have</W> <W i={4}>explored</W> <W i={5}>and</W> <W i={6}>understood</W> <W i={7}>the</W> <W i={8}>various</W> <W i={9}>properties</W> <W i={10}>of</W> <W i={11}>materials</W> <W i={12}>in</W> <W i={13}>the</W> <W i={14}>modern</W> <W i={15}>world.</W> <W i={16}>But</W> <W i={17}>I</W> <W i={18}>am</W> <W i={19}>curious...</W> <W i={20}>how</W> <W i={21}>did</W> <W i={22}>people</W> <W i={23}>classify</W> <W i={24}>them</W> <W i={25}>in</W> <W i={26}>ancient</W> <W i={27}>times?</W>
+                  </>
+                ) : (
+                  data.dialogue || "Well done, detective! You've explored the Barrier. Now let's verify your understanding and log our discoveries."
+                )}
               </p>
               <p style={{ margin: 0, fontSize: '28px', color: 'var(--lesson-secondary)', lineHeight: '1.45', fontWeight: '600', fontFamily: "'Merriweather', Georgia, serif" }}>
-                Answer each question carefully. Correct answers will be added to our Case Log.
+                {data.title?.includes("Barrier 1") ? (
+                  <>
+                    <W i={16}>Answer</W> <W i={17}>each</W> <W i={18}>question</W> <W i={19}>carefully.</W> <W i={20}>Correct</W> <W i={21}>answers</W> <W i={22}>will</W> <W i={23}>be</W> <W i={24}>added</W> <W i={25}>to</W> <W i={26}>our</W> <W i={27}>Case</W> <W i={28}>Log.</W>
+                  </>
+                ) : data.title?.includes("Barrier 2") ? (
+                  <>
+                    <W i={21}>Answer</W> <W i={22}>each</W> <W i={23}>question</W> <W i={24}>carefully.</W> <W i={26}>Correct</W> <W i={27}>answers</W> <W i={28}>will</W> <W i={29}>be</W> <W i={30}>added</W> <W i={31}>to</W> our <W i={33}>Case</W> <W i={34}>Log.</W>
+                  </>
+                ) : data.title?.includes("6.3.1") ? (
+                  <>
+                    <W i={21}>Answer</W> <W i={22}>each</W> <W i={23}>question</W> <W i={24}>carefully.</W> <W i={25}>Correct</W> <W i={26}>answers</W> <W i={27}>will</W> <W i={28}>be</W> <W i={29}>added</W> <W i={30}>to</W> <W i={31}>our</W> <W i={32}>Case</W> <W i={33}>Log.</W>
+                  </>
+                ) : data.title?.includes("6.3.2") ? (
+                  <>
+                    <W i={21}>Answer</W> <W i={22}>each</W> <W i={23}>question</W> <W i={24}>carefully.</W> <W i={25}>Correct</W> <W i={26}>answers</W> <W i={27}>will</W> <W i={28}>be</W> <W i={29}>added</W> <W i={30}>to</W> <W i={31}>our</W> <W i={32}>Case</W> <W i={33}>Log.</W>
+                  </>
+                ) : data.title?.includes("6.3.3") ? (
+                  <>
+                    <W i={13}>Answer</W> <W i={14}>each</W> <W i={15}>question</W> <W i={16}>carefully.</W> <W i={17}>Correct</W> <W i={18}>answers</W> <W i={19}>will</W> <W i={20}>be</W> <W i={21}>added</W> <W i={22}>to</W> <W i={23}>our</W> <W i={24}>Case</W> <W i={25}>Log.</W>
+                  </>
+                ) : data.title?.includes("6.3.4") ? (
+                  <>
+                    <W i={15}>Answer</W> <W i={16}>each</W> <W i={17}>question</W> <W i={18}>carefully.</W> <W i={19}>Correct</W> <W i={20}>answers</W> <W i={21}>will</W> <W i={22}>be</W> <W i={23}>added</W> <W i={24}>to</W> <W i={25}>our</W> <W i={26}>Case</W> <W i={27}>Log.</W>
+                  </>
+                ) : data.title?.includes("6.3.5") ? (
+                  <>
+                    <W i={14}>Answer</W> <W i={15}>each</W> <W i={16}>question</W> <W i={17}>carefully.</W> <W i={18}>Correct</W> <W i={19}>answers</W> <W i={20}>will</W> <W i={21}>be</W> <W i={22}>added</W> <W i={23}>to</W> <W i={24}>our</W> <W i={25}>Case</W> <W i={26}>Log.</W>
+                  </>
+                ) : data.title?.includes("6.3.6") ? (
+                  <>
+                    <W i={11}>Answer</W> <W i={12}>each</W> <W i={13}>question</W> <W i={14}>carefully.</W> <W i={15}>Correct</W> <W i={16}>answers</W> <W i={17}>will</W> <W i={18}>be</W> <W i={19}>added</W> <W i={20}>to</W> <W i={21}>our</W> <W i={22}>Case</W> <W i={23}>Log.</W>
+                  </>
+                ) : data.title?.includes("Barrier 3") ? (
+                  "Answer each question carefully. Correct answers will be added to our Case Log."
+                ) : data.title?.includes("Barrier 4") ? (
+                  <>
+                    <W i={28}>Answer</W> <W i={29}>each</W> <W i={30}>question</W> <W i={31}>carefully.</W> <W i={32}>Correct</W> <W i={33}>answers</W> <W i={34}>will</W> <W i={35}>be</W> <W i={36}>added</W> <W i={37}>to</W> <W i={38}>our</W> <W i={39}>Case</W> <W i={40}>Log.</W>
+                  </>
+                ) : (
+                  "Answer each question carefully. Correct answers will be added to our Case Log."
+                )}
               </p>
             </div>
           </motion.div>
@@ -326,9 +583,47 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
               <ArrowLeft size={24} /> Back
             </button>
           )}
-          <button className="start-btn" onClick={() => setCurrentPage(2)} style={{ fontSize: '24px', fontWeight: '700', padding: '12px 28px' }}>
-            Next <ArrowRight size={26} />
-          </button>
+
+          {data.title?.includes("Barrier 1") || data.title?.includes("Barrier 2") || data.title?.includes("6.3.1") || data.title?.includes("6.3.2") || data.title?.includes("6.3.3") || data.title?.includes("6.3.4") || data.title?.includes("6.3.5") || data.title?.includes("6.3.6") || data.title?.includes("Barrier 3") || data.title?.includes("Barrier 4") ? (
+            <div style={{ position: 'absolute', bottom: '18px', right: '28px', zIndex: 100, display: 'flex', gap: '16px', alignItems: 'center' }}>
+              <button
+                onClick={toggleAudio}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  background: '#d97706',
+                  color: 'white',
+                  border: '3px solid #FEF08A',
+                  padding: '12px 24px',
+                  borderRadius: '42px',
+                  fontSize: '24px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(217, 119, 6, 0.4)',
+                  transition: 'all 0.2s',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.borderColor = '#FEF3C7'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.borderColor = '#FEF08A'; }}
+              >
+                {isPlaying ? <Pause size={24} /> : <Play size={24} />}
+                {isPlaying ? "Pause" : "Play"}
+              </button>
+              <button className="start-btn" style={{ position: 'static', bottom: 'auto', right: 'auto', margin: 0 }} onClick={() => {
+                if (audioRef.current) {
+                  audioRef.current.pause();
+                }
+                setCurrentPage(2);
+              }}>
+                Next <ArrowRight size={26} />
+              </button>
+            </div>
+          ) : (
+            <button className="start-btn" onClick={() => setCurrentPage(2)}>
+              Next <ArrowRight size={26} />
+            </button>
+          )}
         </div>
       )}
 
@@ -352,17 +647,67 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
             zIndex: 0
           }} />
 
-          <button className="spread-back-btn" style={{ bottom: '18px', left: '24px', zIndex: 1000, fontSize: '24px', fontWeight: '700', padding: '12px 24px' }} onClick={() => setCurrentPage(1)}>
+          <button className="spread-back-btn" style={{ bottom: '18px', left: '24px', zIndex: 1000, fontSize: '24px', fontWeight: '700', padding: '12px 24px' }} onClick={() => {
+            if (audioRef.current) {
+              audioRef.current.pause();
+              setIsPlaying(false);
+              setActiveWordIndex(null);
+            }
+            setCurrentPage(1);
+          }}>
             <ArrowLeft size={24} /> Back
           </button>
           
-          <button 
-            className="start-btn" 
-            style={{ bottom: '18px', right: '28px', zIndex: 1000, fontSize: '24px', fontWeight: '700', padding: '12px 28px' }} 
-            onClick={() => { if (onProceed) onProceed(); }}
-          >
-            Next <ArrowRight size={26} />
-          </button>
+          {data.title?.includes("Barrier 1") || (data.title?.includes("Barrier 2") && (currentQ === 0 || currentQ === 1)) || (data.title?.includes("6.3.1") && (currentQ === 0 || currentQ === 1)) || (data.title?.includes("6.3.2") && (currentQ === 0 || currentQ === 1)) || (data.title?.includes("6.3.3") && (currentQ === 0 || currentQ === 1)) || (data.title?.includes("6.3.4") && (currentQ === 0 || currentQ === 1)) || (data.title?.includes("6.3.5") && (currentQ === 0 || currentQ === 1)) || (data.title?.includes("6.3.6") && (currentQ === 0 || currentQ === 1)) || (data.title?.includes("Barrier 3") && (currentQ === 0 || currentQ === 1)) || (data.title?.includes("Barrier 4") && (currentQ === 0 || currentQ === 1 || currentQ === 2)) ? (
+            <div style={{ position: 'absolute', bottom: '18px', right: '28px', zIndex: 1000, display: 'flex', gap: '16px', alignItems: 'center' }}>
+              <button
+                onClick={toggleAudio}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  background: '#d97706',
+                  color: 'white',
+                  border: '3px solid #FEF08A',
+                  padding: '12px 24px',
+                  borderRadius: '42px',
+                  fontSize: '24px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(217, 119, 6, 0.4)',
+                  transition: 'all 0.2s',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.borderColor = '#FEF3C7'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.borderColor = '#FEF08A'; }}
+              >
+                {isPlaying ? <Pause size={24} /> : <Play size={24} />}
+                {isPlaying ? "Pause" : "Play"}
+              </button>
+              <button 
+                className="start-btn" 
+                style={{ position: 'static', bottom: 'auto', right: 'auto', margin: 0 }} 
+                onClick={() => {
+                  if (audioRef.current) {
+                    audioRef.current.pause();
+                    setIsPlaying(false);
+                    setActiveWordIndex(null);
+                  }
+                  if (onProceed) onProceed(); 
+                }}
+              >
+                Next <ArrowRight size={26} />
+              </button>
+            </div>
+          ) : (
+            <button 
+              className="start-btn" 
+              style={{ bottom: '18px', right: '28px', zIndex: 1000, fontSize: '24px', fontWeight: '700', padding: '12px 28px' }} 
+              onClick={() => { if (onProceed) onProceed(); }}
+            >
+              Next <ArrowRight size={26} />
+            </button>
+          )}
 
           {/* Header */}
           <div style={{ padding: '0.5rem 2.5rem 0.5rem 1.5rem', borderBottom: '1px solid var(--lesson-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.5)' }}>
@@ -395,7 +740,87 @@ export default function DetectiveCheckpoint({ data, onComplete, addXp, onProceed
               <div style={{ background: 'var(--lesson-primary)', color: 'white', width: '48px', height: '48px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '1.5rem' }}>
                 Q
               </div>
-              {q.question}
+              {data.title?.includes("Barrier 1") ? (
+                currentQ === 0 ? (
+                  <span>
+                    <W i={0}>What</W> <W i={1}>do</W> <W i={2}>we</W> <W i={3}>call</W> <W i={4}>the</W> "<W i={5}>stuff</W>" <W i={6}>that</W> <W i={7}>an</W> <W i={8}>object</W> <W i={9}>is</W> <W i={10}>made</W> <W i={11}>of?</W>
+                  </span>
+                ) : (
+                  <span>
+                    <W i={0}>Can</W> <W i={1}>a</W> <W i={2}>single</W> <W i={3}>object</W> <W i={4}>like</W> <W i={5}>a</W> <W i={6}>plate</W> <W i={7}>be</W> <W i={8}>made</W> <W i={9}>from</W> <W i={10}>different</W> <W i={11}>materials,</W> <W i={12}>like</W> <W i={13}>glass,</W> <W i={14}>steel</W> <W i={15}>or</W> <W i={16}>plastic?</W>
+                  </span>
+                )
+              ) : data.title?.includes("Barrier 2") && currentQ === 0 ? (
+                <span>
+                  <W i={0}>Why</W> <W i={1}>do</W> <W i={2}>we</W> <W i={3}>group</W> <W i={4}>objects</W> <W i={5}>together</W> (Classification)?
+                </span>
+              ) : data.title?.includes("Barrier 2") && currentQ === 1 ? (
+                <span>
+                  <W i={0}>Why</W> <W i={1}>is</W> <W i={2}>a</W> <W i={3}>cooking</W> <W i={4}>pot</W> <W i={5}>made</W> <W i={6}>of</W> <W i={7}>metal</W> <W i={8}>instead</W> <W i={9}>of</W> <W i={10}>paper?</W>
+                </span>
+              ) : data.title?.includes("6.3.1") && currentQ === 0 ? (
+                <span>
+                  <W i={0}>What</W> <W i={1}>do</W> <W i={2}>we</W> <W i={3}>call</W> <W i={4}>materials</W> <W i={5}>that</W> <W i={6}>have</W> <W i={7}>a</W> <W i={8}>shiny</W> <W i={9}>surface,</W> <W i={10}>like</W> <W i={11}>iron</W> <W i={12}>or</W> <W i={13}>gold?</W>
+                </span>
+              ) : data.title?.includes("6.3.1") && currentQ === 1 ? (
+                <span>
+                  <W i={0}>Are</W> <W i={1}>all</W> <W i={2}>lustrous</W> <W i={3}>materials</W> <W i={4}>metals?</W>
+                </span>
+              ) : data.title?.includes("6.3.2") && currentQ === 0 ? (
+                <span>
+                  <W i={0}>What</W> <W i={1}>do</W> <W i={2}>we</W> <W i={3}>call</W> <W i={4}>materials</W> <W i={5}>that</W> <W i={6}>are</W> <W i={7}>difficult</W> <W i={8}>to</W> <W i={9}>compress</W> <W i={10}>or</W> <W i={11}>scratch?</W>
+                </span>
+              ) : data.title?.includes("6.3.2") && currentQ === 1 ? (
+                <span>
+                  <W i={0}>Which</W> <W i={1}>of</W> <W i={2}>the</W> <W i={3}>following</W> <W i={4}>is</W> <W i={5}>an</W> <W i={6}>example</W> <W i={7}>of</W> <W i={8}>a</W> <W i={9}>soft</W> <W i={10}>material?</W>
+                </span>
+              ) : data.title?.includes("6.3.3") && currentQ === 0 ? (
+                <span>
+                  <W i={0}>Which</W> <W i={1}>material</W> <W i={2}>allows</W> <W i={3}>you</W> <W i={4}>to</W> <W i={5}>see</W> <W i={6}>clearly</W> <W i={7}>through</W> <W i={8}>it?</W>
+                </span>
+              ) : data.title?.includes("6.3.3") && currentQ === 1 ? (
+                <span>
+                  <W i={0}>If</W> <W i={1}>you</W> <W i={2}>can</W> <W i={3}>see</W> <W i={4}>through</W> <W i={5}>an</W> <W i={6}>object,</W> <W i={7}>but</W> <W i={8}>not</W> <W i={9}>clearly,</W> <W i={10}>what</W> <W i={11}>property</W> <W i={12}>does</W> <W i={13}>it</W> <W i={14}>have?</W>
+                </span>
+              ) : data.title?.includes("6.3.4") && currentQ === 0 ? (
+                <span>
+                  <W i={0}>What</W> <W i={1}>do</W> <W i={2}>we</W> <W i={3}>call</W> <W i={4}>a</W> <W i={5}>material</W> <W i={6}>that</W> <W i={7}>completely</W> <W i={8}>disappears</W> <W i={9}>when</W> <W i={10}>mixed</W> <W i={11}>with</W> <W i={12}>water,</W> <W i={13}>like</W> <W i={14}>salt?</W>
+                </span>
+              ) : data.title?.includes("6.3.4") && currentQ === 1 ? (
+                <span>
+                  <W i={0}>Which</W> <W i={1}>of</W> <W i={2}>the</W> <W i={3}>following</W> <W i={4}>materials</W> <W i={5}>is</W> <W i={6}>insoluble</W> <W i={7}>in</W> <W i={8}>water?</W>
+                </span>
+              ) : data.title?.includes("6.3.5") && currentQ === 0 ? (
+                <span>
+                  <W i={0}>What</W> <W i={1}>property</W> <W i={2}>tells</W> <W i={3}>us</W> <W i={4}>how</W> <W i={5}>heavy</W> <W i={6}>or</W> <W i={7}>light</W> <W i={8}>an</W> <W i={9}>object</W> <W i={10}>is?</W>
+                </span>
+              ) : data.title?.includes("6.3.5") && currentQ === 1 ? (
+                <span>
+                  <W i={0}>If</W> <W i={1}>an</W> <W i={2}>object</W> <W i={3}>is</W> <W i={4}>heavier</W> <W i={5}>than</W> <W i={6}>another,</W> <W i={7}>it</W> <W i={8}>has:</W>
+                </span>
+              ) : data.title?.includes("6.3.6") && currentQ === 0 ? (
+                <span>
+                  <W i={0}>The</W> <W i={1}>amount</W> <W i={2}>of</W> <W i={3}>space</W> <W i={4}>occupied</W> <W i={5}>by</W> <W i={6}>an</W> <W i={7}>object</W> <W i={8}>is</W> <W i={9}>called</W> <W i={10}>its:</W>
+                </span>
+              ) : data.title?.includes("6.3.6") && currentQ === 1 ? (
+                <span>
+                  <W i={0}>If</W> <W i={1}>a</W> <W i={2}>water</W> <W i={3}>bottle</W> <W i={4}>and</W> <W i={5}>a</W> <W i={6}>milk</W> <W i={7}>bottle</W> <W i={8}>both</W> <W i={9}>have</W> <W i={10}>"500</W> <W i={11}>mL"</W> <W i={12}>written</W> <W i={13}>on</W> <W i={14}>them,</W> <W i={15}>they</W> <W i={16}>have</W> <W i={17}>the</W> <W i={18}>same:</W>
+                </span>
+              ) : data.title?.includes("Barrier 4") && currentQ === 0 ? (
+                <span>
+                  <W i={0}>Anything</W> <W i={1}>that</W> <W i={2}>occupies</W> <W i={3}>space</W> <W i={4}>and</W> <W i={5}>has</W> <W i={6}>mass</W> <W i={7}>is</W> <W i={8}>called:</W>
+                </span>
+              ) : data.title?.includes("Barrier 4") && currentQ === 1 ? (
+                <span>
+                  <W i={0}>Is</W> <W i={1}>air</W> <W i={2}>considered</W> <W i={3}>matter?</W>
+                </span>
+              ) : data.title?.includes("Barrier 4") && currentQ === 2 ? (
+                <span>
+                  <W i={0}>Which</W> <W i={1}>of</W> <W i={2}>the</W> <W i={3}>following</W> <W i={4}>is</W> <W i={5}>the</W> <W i={6}>standard</W> <W i={7}>(SI)</W> <W i={8}>unit</W> <W i={9}>of</W> <W i={10}>Mass?</W>
+                </span>
+              ) : (
+                q.question
+              )}
             </h3>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '0.75rem' }}>

@@ -1,0 +1,82 @@
+{
+  "audio_file": "mpage57.mp3",
+  "duration": 6.4,
+  "language": "en",
+  "words": [
+    {
+      "text": "What",
+      "start": 0.0,
+      "end": 0.36
+    },
+    {
+      "text": "do",
+      "start": 0.36,
+      "end": 0.54
+    },
+    {
+      "text": "we",
+      "start": 0.54,
+      "end": 0.72
+    },
+    {
+      "text": "call",
+      "start": 0.72,
+      "end": 0.9
+    },
+    {
+      "text": "a",
+      "start": 0.9,
+      "end": 1.18
+    },
+    {
+      "text": "material",
+      "start": 1.18,
+      "end": 1.52
+    },
+    {
+      "text": "that",
+      "start": 1.52,
+      "end": 1.84
+    },
+    {
+      "text": "completely",
+      "start": 1.84,
+      "end": 2.42
+    },
+    {
+      "text": "disappears",
+      "start": 2.42,
+      "end": 3.04
+    },
+    {
+      "text": "when",
+      "start": 3.04,
+      "end": 3.36
+    },
+    {
+      "text": "mixed",
+      "start": 3.36,
+      "end": 3.64
+    },
+    {
+      "text": "with",
+      "start": 3.64,
+      "end": 3.9
+    },
+    {
+      "text": "water,",
+      "start": 3.9,
+      "end": 4.3
+    },
+    {
+      "text": "like",
+      "start": 4.84,
+      "end": 5.0
+    },
+    {
+      "text": "salt?",
+      "start": 5.0,
+      "end": 5.38
+    }
+  ]
+}

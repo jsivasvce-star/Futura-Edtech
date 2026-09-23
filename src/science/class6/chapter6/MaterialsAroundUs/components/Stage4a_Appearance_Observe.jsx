@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, X, FlashlightOff } from "lucide-react";
+import { Check, X, FlashlightOff, Play, Pause } from "lucide-react";
+import { useRef } from "react";
+
+import fpage34Audio from "../../audio/fpage34.mp3?url";
+import fpage34Json from "../../json/fpage34.json";
+
+import fpage34popupAudio from "../../audio/fpage34popup.mp3?url";
+import fpage34popupJson from "../../json/fpage34popup.json";
 
 import paperImg      from "../../../../../assets/paper image.webp";
 import cardboardImg  from "../../../../../assets/cardboard image.jpg";
@@ -53,6 +60,51 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
 
   const [showCorrect, setShowCorrect] = useState(false);
 
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordIndex, setActiveWordIndex] = useState(null);
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.error(e));
+      }
+      setIsPlaying(prev => !prev);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      const time = audioRef.current.currentTime;
+      const activeIdx = fpage34popupJson.words.findIndex(w => time >= w.start && time < w.end);
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordIndex(null);
+  };
+
+  const W = ({ i, children }) => {
+    const isActive = activeWordIndex === i;
+    return (
+      <span style={{
+        color: isActive ? '#facc15' : 'inherit',
+        background: isActive ? 'rgba(250, 204, 21, 0.15)' : 'transparent',
+        borderRadius: '4px',
+        padding: '0 2px',
+        transition: 'all 0.15s ease-out'
+      }}>
+        {children}
+      </span>
+    );
+  };
+
   useEffect(() => {
     let timer;
     if (torchOn) {
@@ -94,6 +146,7 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
       boxShadow: "0 12px 32px rgba(0,0,0,0.5)",
       position: 'relative'
     }}>
+      <audio ref={audioRef} src={fpage34popupAudio} onTimeUpdate={handleTimeUpdate} onEnded={handleAudioEnded} />
       {/* Header */}
       <div style={{
         padding: "0.4rem 1.5rem",
@@ -108,6 +161,30 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
             Investigating: {mat.name}
           </div>
         </div>
+        <button
+          onClick={toggleAudio}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            background: 'transparent',
+            color: '#fdfbf7',
+            border: '2px solid #a0744e',
+            padding: '8px 16px',
+            borderRadius: '42px',
+            fontSize: '18px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            marginRight: '8px'
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(160, 116, 78, 0.2)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; }}
+        >
+          {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+          {isPlaying ? "Pause" : "Play"}
+        </button>
         <button onClick={onCancel} style={{
           background: '#4a3525', border: '4px solid #fdfbf7',
           borderRadius: '50%', width: '64px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -213,7 +290,7 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
                     display: "flex", flexDirection: "column", alignItems: "center", gap: "1.25rem"
                   }}>
                     <div style={{ fontSize: "1.65rem", fontWeight: 700, color: "#8a6545" }}>{mat.name}</div>
-                    <div style={{ fontSize: "2.415rem", fontWeight: 900, color: "#4a3525", marginBottom: 12 }}>What did you observe?</div>
+                    <div style={{ fontSize: "2.415rem", fontWeight: 900, color: "#4a3525", marginBottom: 12 }}><W i={19}>What</W> <W i={20}>did</W> <W i={21}>you</W> <W i={22}>observe?</W></div>
                     
                     {showCorrect ? (
                       <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#16a34a", padding: "1.25rem", textAlign: "center", width: "100%", background: "#dcfce7", borderRadius: 10, border: "2px solid #22c55e" }}>
@@ -271,7 +348,7 @@ const TorchObservation = ({ mat, onDone, onCancel }) => {
               Observation
             </div>
             <div style={{ fontSize: "1.6126rem", color: "#fdfbf7", lineHeight: 1.3, marginBottom: "0.5rem" }}>
-              Turn the torch ON and OFF and observe what happens to the light.
+              <W i={5}>Turn</W> <W i={6}>the</W> <W i={7}>torch</W> <W i={8}>ON</W> <W i={9}>and</W> <W i={10}>OFF</W> <W i={11}>and</W> <W i={12}>observe</W> <W i={13}>what</W> <W i={14}>happens</W> <W i={15}>to</W> <W i={16}>the</W> <W i={17}>light.</W>
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -599,10 +676,90 @@ const WhichSideActivity = ({ onSolve }) => {
 };
 
 // ── Main component ────────────────────────────────────────────────────────────
-export default function Stage4a_Appearance_Observe({ onComplete, addXp }) {
+export default function Stage4a_Appearance_Observe({ onComplete, addXp, setExtraRightAction }) {
   const [observations, setObservations]     = useState({});
   const [activeMat, setActiveMat]           = useState(null);
   const [challengeSolved, setChallengeSolved] = useState(false);
+
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordIndex, setActiveWordIndex] = useState(null);
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.error(e));
+      }
+      setIsPlaying(prev => !prev);
+    }
+  };
+
+  useEffect(() => {
+    if (setExtraRightAction) {
+      setExtraRightAction(
+        <button
+          onClick={toggleAudio}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            background: 'var(--lesson-surface)',
+            color: 'var(--lesson-text)',
+            border: '1px solid var(--lesson-border)',
+            padding: '12px 24px',
+            borderRadius: '8px',
+            fontSize: '18px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'var(--lesson-surface-hover)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'var(--lesson-surface)'; }}
+        >
+          {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+          {isPlaying ? "Pause" : "Play"}
+        </button>
+      );
+    }
+    return () => {
+      if (setExtraRightAction) {
+        setExtraRightAction(null);
+      }
+    };
+  }, [isPlaying, setExtraRightAction]);
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      const time = audioRef.current.currentTime;
+      const activeIdx = fpage34Json.words.findIndex(w => time >= w.start && time < w.end);
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordIndex(null);
+  };
+
+  const W = ({ i, children }) => {
+    const isActive = activeWordIndex === i;
+    return (
+      <span style={{
+        color: isActive ? '#A94727' : 'inherit',
+        background: isActive ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+        borderRadius: '4px',
+        padding: '0 2px',
+        transition: 'all 0.15s ease-out'
+      }}>
+        {children}
+      </span>
+    );
+  };
 
   const doneCount = Object.keys(observations).length;
   const allDone   = doneCount === MATERIALS.length;
@@ -643,6 +800,7 @@ export default function Stage4a_Appearance_Observe({ onComplete, addXp }) {
       fontFamily: "'Inter', 'Segoe UI', sans-serif",
       position: "relative",
     }}>
+      <audio ref={audioRef} src={fpage34Audio} onTimeUpdate={handleTimeUpdate} onEnded={handleAudioEnded} />
       {/* Title */}
       <div className="glass-panel" style={{
         padding: "0.85rem 1.25rem",
@@ -657,7 +815,7 @@ export default function Stage4a_Appearance_Observe({ onComplete, addXp }) {
             🔦 Shine Hunt – Torch Observation Lab
           </h3>
           <p style={{ margin: "4px 0 0", fontSize: "clamp(21.78px, 3.025vw, 26.62px)", color: "#D35F2D", fontWeight: 700 }}>
-            Shine the torch on each object and observe what happens to the light.
+            <W i={0}>Shine</W> <W i={1}>the</W> <W i={2}>torch</W> <W i={3}>on</W> <W i={4}>each</W> <W i={5}>object</W> <W i={6}>and</W> <W i={7}>observe</W> <W i={8}>what</W> <W i={9}>happens</W> <W i={10}>to</W> <W i={11}>the</W> <W i={12}>light.</W>
           </p>
         </div>
       </div>
@@ -675,7 +833,7 @@ export default function Stage4a_Appearance_Observe({ onComplete, addXp }) {
                 padding: "0.65rem 1rem", fontSize: "1.5435rem",
                 color: "#4F386E", fontWeight: "bold", flexShrink: 0,
               }}>
-                🔦 Click any material to open the torch observation.{doneCount > 0 ? "  (" + doneCount + "/6 done)" : ""}
+                🔦 <W i={13}>Click</W> <W i={14}>any</W> <W i={15}>material</W> <W i={16}>to</W> <W i={17}>open</W> <W i={18}>the</W> <W i={19}>torch</W> <W i={20}>observation.</W>{doneCount > 0 ? "  (" + doneCount + "/6 done)" : ""}
               </div>
 
               <div style={{

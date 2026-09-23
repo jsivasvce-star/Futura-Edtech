@@ -1,0 +1,373 @@
+{
+  "botany": {
+    "audioFile": "05_HerbsShrubsTreesClimbers.mp3",
+    "totalDuration": 40.02,
+    "words": [
+      {
+        "word": "Herbs,",
+        "start": 1.02,
+        "end": 1.35
+      },
+      {
+        "word": "Shrubs,",
+        "start": 1.36,
+        "end": 1.9
+      },
+      {
+        "word": "Trees,",
+        "start": 2.04,
+        "end": 2.51
+      },
+      {
+        "word": "and",
+        "start": 2.52,
+        "end": 2.84
+      },
+      {
+        "word": "Climbers.",
+        "start": 2.85,
+        "end": 3.2
+      },
+      {
+        "word": "Herbs",
+        "start": 3.21,
+        "end": 3.45
+      },
+      {
+        "word": "like",
+        "start": 4.05,
+        "end": 4.15
+      },
+      {
+        "word": "the",
+        "start": 4.16,
+        "end": 4.21
+      },
+      {
+        "word": "tomato",
+        "start": 4.22,
+        "end": 4.53
+      },
+      {
+        "word": "plant",
+        "start": 4.54,
+        "end": 4.93
+      },
+      {
+        "word": "are",
+        "start": 6.71,
+        "end": 6.84
+      },
+      {
+        "word": "usually",
+        "start": 6.85,
+        "end": 7.55
+      },
+      {
+        "word": "small",
+        "start": 7.78,
+        "end": 8.14
+      },
+      {
+        "word": "plants",
+        "start": 8.15,
+        "end": 8.55
+      },
+      {
+        "word": "with",
+        "start": 8.56,
+        "end": 8.72
+      },
+      {
+        "word": "soft",
+        "start": 8.73,
+        "end": 9.16
+      },
+      {
+        "word": "green",
+        "start": 9.17,
+        "end": 9.42
+      },
+      {
+        "word": "stems.",
+        "start": 9.43,
+        "end": 10.02
+      },
+      {
+        "word": "Shrubs",
+        "start": 11.51,
+        "end": 11.87
+      },
+      {
+        "word": "like",
+        "start": 11.88,
+        "end": 11.99
+      },
+      {
+        "word": "the",
+        "start": 12.76,
+        "end": 13.03
+      },
+      {
+        "word": "rose",
+        "start": 13.04,
+        "end": 13.24
+      },
+      {
+        "word": "are",
+        "start": 13.25,
+        "end": 13.39
+      },
+      {
+        "word": "woody",
+        "start": 13.4,
+        "end": 13.75
+      },
+      {
+        "word": "plants",
+        "start": 13.76,
+        "end": 14.26
+      },
+      {
+        "word": "with",
+        "start": 14.4,
+        "end": 14.56
+      },
+      {
+        "word": "many",
+        "start": 14.57,
+        "end": 14.88
+      },
+      {
+        "word": "branches",
+        "start": 14.89,
+        "end": 15.47
+      },
+      {
+        "word": "growing",
+        "start": 15.71,
+        "end": 16.1
+      },
+      {
+        "word": "near",
+        "start": 16.11,
+        "end": 16.28
+      },
+      {
+        "word": "the",
+        "start": 16.29,
+        "end": 16.4
+      },
+      {
+        "word": "ground.",
+        "start": 16.41,
+        "end": 16.9
+      },
+      {
+        "word": "Trees",
+        "start": 18.7,
+        "end": 19.02
+      },
+      {
+        "word": "like",
+        "start": 19.97,
+        "end": 20.25
+      },
+      {
+        "word": "the",
+        "start": 20.26,
+        "end": 20.49
+      },
+      {
+        "word": "mango",
+        "start": 20.7,
+        "end": 20.95
+      },
+      {
+        "word": "grow",
+        "start": 20.96,
+        "end": 21.04
+      },
+      {
+        "word": "tall",
+        "start": 21.05,
+        "end": 21.56
+      },
+      {
+        "word": "with",
+        "start": 22.02,
+        "end": 22.16
+      },
+      {
+        "word": "a",
+        "start": 22.17,
+        "end": 22.22
+      },
+      {
+        "word": "thick",
+        "start": 22.23,
+        "end": 23.05
+      },
+      {
+        "word": "woody",
+        "start": 23.06,
+        "end": 23.4
+      },
+      {
+        "word": "trunk",
+        "start": 23.41,
+        "end": 23.92
+      },
+      {
+        "word": "and",
+        "start": 24.24,
+        "end": 24.43
+      },
+      {
+        "word": "branches",
+        "start": 24.44,
+        "end": 24.97
+      },
+      {
+        "word": "higher",
+        "start": 24.98,
+        "end": 25.41
+      },
+      {
+        "word": "above",
+        "start": 25.42,
+        "end": 25.73
+      },
+      {
+        "word": "the",
+        "start": 25.74,
+        "end": 25.86
+      },
+      {
+        "word": "ground.",
+        "start": 25.87,
+        "end": 26.43
+      },
+      {
+        "word": "Climbers",
+        "start": 27.13,
+        "end": 27.39
+      },
+      {
+        "word": "like",
+        "start": 27.4,
+        "end": 27.48
+      },
+      {
+        "word": "the",
+        "start": 27.49,
+        "end": 27.62
+      },
+      {
+        "word": "money",
+        "start": 27.63,
+        "end": 27.81
+      },
+      {
+        "word": "plant",
+        "start": 28.39,
+        "end": 28.82
+      },
+      {
+        "word": "have",
+        "start": 29.9,
+        "end": 30.81
+      },
+      {
+        "word": "weak",
+        "start": 30.82,
+        "end": 31.29
+      },
+      {
+        "word": "stems",
+        "start": 31.3,
+        "end": 31.91
+      },
+      {
+        "word": "and",
+        "start": 32.25,
+        "end": 32.44
+      },
+      {
+        "word": "need",
+        "start": 32.45,
+        "end": 32.67
+      },
+      {
+        "word": "support",
+        "start": 32.68,
+        "end": 33.11
+      },
+      {
+        "word": "to",
+        "start": 33.12,
+        "end": 33.23
+      },
+      {
+        "word": "grow",
+        "start": 33.24,
+        "end": 33.52
+      },
+      {
+        "word": "upwards.",
+        "start": 33.53,
+        "end": 34.23
+      },
+      {
+        "word": "Think:",
+        "start": 35.08,
+        "end": 35.61
+      },
+      {
+        "word": "Which",
+        "start": 36.33,
+        "end": 36.6
+      },
+      {
+        "word": "plant",
+        "start": 36.61,
+        "end": 37.01
+      },
+      {
+        "word": "in",
+        "start": 37.02,
+        "end": 37.16
+      },
+      {
+        "word": "this",
+        "start": 37.17,
+        "end": 37.36
+      },
+      {
+        "word": "picture",
+        "start": 37.37,
+        "end": 37.96
+      },
+      {
+        "word": "needs",
+        "start": 38.3,
+        "end": 38.6
+      },
+      {
+        "word": "support",
+        "start": 38.61,
+        "end": 39.05
+      },
+      {
+        "word": "to",
+        "start": 39.06,
+        "end": 39.18
+      },
+      {
+        "word": "climb?",
+        "start": 39.19,
+        "end": 39.73
+      }
+    ]
+  }
+}

@@ -5,12 +5,12 @@
     "cues": [
       {
         "text": "A beautiful morning welcomes us to the Green Valley School.",
-        "start": 0.0,
+        "start": 0,
         "end": 3.84,
         "words": [
           {
             "word": "A",
-            "start": 0.0,
+            "start": 0,
             "end": 0.14
           },
           {
@@ -279,12 +279,12 @@
     "cues": [
       {
         "text": "The students are ready for an exciting nature walk.",
-        "start": 0.0,
+        "start": 0,
         "end": 3.76,
         "words": [
           {
             "word": "The",
-            "start": 0.0,
+            "start": 0,
             "end": 0.16
           },
           {
@@ -310,7 +310,7 @@
           {
             "word": "an",
             "start": 1.85,
-            "end": 2.0
+            "end": 2
           },
           {
             "word": "exciting",
@@ -330,9 +330,9 @@
         ]
       },
       {
-        "text": "They are joined by Dr.",
+        "text": "They are joined by Dr. Raghu, a scientist from the nearby research laboratory, and Maniram Chacha, who knows a lot about plants, animals, and bird calls.",
         "start": 6.711,
-        "end": 8.176,
+        "end": 17.131,
         "words": [
           {
             "word": "They",
@@ -358,14 +358,7 @@
             "word": "Dr.",
             "start": 7.932,
             "end": 8.176
-          }
-        ]
-      },
-      {
-        "text": "Raghu, a scientist from the nearby research laboratory, and Maniram Chacha, who knows a lot about plants, animals, and bird calls.",
-        "start": 8.176,
-        "end": 17.131,
-        "words": [
+          },
           {
             "word": "Raghu,",
             "start": 8.176,
@@ -526,9 +519,9 @@
         ]
       },
       {
-        "text": "As they enter the forest, Dr.",
+        "text": "As they enter the forest, Dr. Raghu reminds everyone to observe carefully.",
         "start": 21.99,
-        "end": 24.38,
+        "end": 27.71,
         "words": [
           {
             "word": "As",
@@ -559,14 +552,7 @@
             "word": "Dr.",
             "start": 23.98,
             "end": 24.38
-          }
-        ]
-      },
-      {
-        "text": "Raghu reminds everyone to observe carefully.",
-        "start": 24.39,
-        "end": 27.71,
-        "words": [
+          },
           {
             "word": "Raghu",
             "start": 24.39,
@@ -674,12 +660,12 @@
     "cues": [
       {
         "text": "The students now take a closer look at the plants around them.",
-        "start": 0.0,
+        "start": 0,
         "end": 4.42,
         "words": [
           {
             "word": "The",
-            "start": 0.0,
+            "start": 0,
             "end": 0.16
           },
           {
@@ -740,22 +726,15 @@
         ]
       },
       {
-        "text": "Dr.",
+        "text": "Dr. Raghu points to a small herb with a soft green stem and then to a woody shrub.",
         "start": 5.416,
-        "end": 5.836,
+        "end": 12.006,
         "words": [
           {
             "word": "Dr.",
             "start": 5.416,
             "end": 5.836
-          }
-        ]
-      },
-      {
-        "text": "Raghu points to a small herb with a soft green stem and then to a woody shrub.",
-        "start": 5.846,
-        "end": 12.006,
-        "words": [
+          },
           {
             "word": "Raghu",
             "start": 5.846,
@@ -985,12 +964,12 @@
     "cues": [
       {
         "text": "The forest suddenly comes alive with the sounds of birds.",
-        "start": 0.0,
+        "start": 0,
         "end": 4.17,
         "words": [
           {
             "word": "The",
-            "start": 0.0,
+            "start": 0,
             "end": 0.16
           },
           {
@@ -1006,7 +985,7 @@
           {
             "word": "comes",
             "start": 1.6,
-            "end": 2.0
+            "end": 2
           },
           {
             "word": "alive",
@@ -1625,12 +1604,12 @@
     "cues": [
       {
         "text": "The students continue exploring the forest with their notebooks and magnifying glasses.",
-        "start": 0.0,
+        "start": 0,
         "end": 5.89,
         "words": [
           {
             "word": "The",
-            "start": 0.0,
+            "start": 0,
             "end": 0.16
           },
           {
@@ -1691,22 +1670,15 @@
         ]
       },
       {
-        "text": "Dr.",
+        "text": "Dr. Raghu points towards something above the trees, and everyone looks up with curiosity.",
         "start": 6.997,
-        "end": 7.407,
+        "end": 13.667,
         "words": [
           {
             "word": "Dr.",
             "start": 6.997,
             "end": 7.407
-          }
-        ]
-      },
-      {
-        "text": "Raghu points towards something above the trees, and everyone looks up with curiosity.",
-        "start": 7.417,
-        "end": 13.667,
-        "words": [
+          },
           {
             "word": "Raghu",
             "start": 7.417,
@@ -1976,12 +1948,12 @@
     "cues": [
       {
         "text": "After exploring the forest, the students gather together to share what they have discovered.",
-        "start": 0.0,
+        "start": 0,
         "end": 0.863,
         "words": [
           {
             "word": "After",
-            "start": 0.0,
+            "start": 0,
             "end": 0.055
           },
           {
@@ -2104,22 +2076,15 @@
         ]
       },
       {
-        "text": "Dr.",
+        "text": "Dr. Raghu asks them to record their observations in Table 2.1 for plants and Table 2.2 for animals.",
         "start": 11.788,
-        "end": 12.158,
+        "end": 21.148,
         "words": [
           {
             "word": "Dr.",
             "start": 11.788,
             "end": 12.158
-          }
-        ]
-      },
-      {
-        "text": "Raghu asks them to record their observations in Table 2.1 for plants and Table 2.2 for animals.",
-        "start": 12.168,
-        "end": 21.148,
-        "words": [
+          },
           {
             "word": "Raghu",
             "start": 12.168,

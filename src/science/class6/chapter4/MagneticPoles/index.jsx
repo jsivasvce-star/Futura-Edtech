@@ -19,8 +19,8 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
   });
 
   const handleStage1Complete = () => {
-    setProgress(prev => ({ ...prev, investigate: true, quiz: true }));
-    setActiveTab('quiz');
+    setProgress(prev => ({ ...prev, investigate: true }));
+    setActiveTab('breaking');
   };
 
   const handleStage2Complete = () => {
@@ -81,101 +81,138 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
       fontFamily: "system-ui, -apple-system, sans-serif"
     }}>
 
-      {/* Top Header Bar Container (Single Unified Enclosing Container) */}
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'auto 1fr auto', 
-        alignItems: 'center', 
-        padding: '0.75rem 1.5rem',
-        marginBottom: '0.65rem',
-        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
-        border: '1.5px solid #E2E8F0',
-        borderRadius: '24px',
-        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+      {/* 1. BACK BUTTON: Positioned in the TOP-LEFT CORNER of the page, clearly above and to the left of tab 1 */}
+      <button 
+        onClick={onBackToDashboard} 
+        className="gold-glow-btn magnetic-poles-back-btn"
+        style={{ 
+          position: 'absolute',
+          top: '0.65rem',
+          left: '0.85rem',
+          zIndex: 1000,
+          padding: '0.45rem 1.15rem', 
+          fontSize: '17px', 
+          fontWeight: 700,
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          borderRadius: '16px',
+          cursor: 'pointer',
+          boxShadow: '0 4px 14px rgba(217, 119, 6, 0.35)',
+          whiteSpace: 'nowrap',
+          textDecoration: 'none',
+          border: 'none'
+        }}
+      >
+        <ArrowLeft size={20} color="#FFFFFF" /> Back
+      </button>
+
+      {/* 2. HEADER: Title and Subtitle centered horizontally near the top */}
+      <header style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        width: '100%',
+        paddingTop: '0.15rem',
+        marginBottom: '0.55rem',
         flexShrink: 0,
         position: 'relative',
-        zIndex: 100
+        zIndex: 10
       }}>
-        {/* Left: Back Button */}
-        <button 
-          onClick={onBackToDashboard} 
-          className="gold-glow-btn"
-          style={{ 
-            position: 'relative', zIndex: 100,
-            padding: '0.75rem 1.5rem', 
-            fontSize: '1.08rem', 
-            fontWeight: 900,
-            gap: '0.6rem',
-            borderRadius: '16px',
-            textDecoration: 'none'
-          }}
-        >
-          <ArrowLeft size={22} color="#FFFFFF" /> Back to Chapter 4
-        </button>
+        <h1 style={{ 
+          margin: 0, 
+          fontSize: '32px', 
+          fontWeight: 800, 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          gap: '0.75rem', 
+          color: '#064E3B', 
+          letterSpacing: '-0.01em',
+          whiteSpace: 'nowrap'
+        }}>
+          <Compass size={30} style={{ color: '#173B5F' }} />
+          Activity 4.2: Poles of a Magnet
+        </h1>
+        <span style={{ 
+          fontSize: '18px', 
+          color: '#047857', 
+          fontWeight: 600,
+          marginTop: '2px'
+        }}>
+          Class 6 Science — Observe iron filings & magnetic poles
+        </span>
+      </header>
 
-        {/* Center: Title & Subtitle */}
-        <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <h2 style={{ 
-            margin: 0, 
-            fontSize: '1.65rem', 
-            fontWeight: 900, 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center', 
-            gap: '0.75rem', 
-            color: '#064E3B', 
-            letterSpacing: '-0.01em' 
-          }}>
-            <Compass size={26} style={{ color: '#173B5F' }} />
-            Activity 4.2: Poles of Magnet
-          </h2>
-          <span style={{ 
-            fontSize: '1rem', 
-            color: '#047857', 
-            fontWeight: 800 
-          }}>
-            Class 6 Science — Observe iron filings & magnetic poles
-          </span>
-        </div>
-
-        {/* Right: Tabbed Navigation Bar */}
-        <nav className="tabs-container" style={{ display: 'flex', gap: '0.65rem', margin: 0, background: 'transparent', border: 'none', padding: 0 }}>
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            const isCompleted = progress[tab.id];
-            const isActive = activeTab === tab.id;
-            
-            return (
-              <button
-                key={tab.id}
-                onClick={() => !tab.locked && setActiveTab(tab.id)}
-                disabled={tab.locked}
-                className={isActive ? 'gold-glow-btn' : ''}
-                style={{
-                  opacity: tab.locked ? 0.45 : 1,
-                  cursor: tab.locked ? 'not-allowed' : 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.55rem',
-                  padding: '0.7rem 1.35rem',
-                  fontSize: '1.05rem',
-                  fontWeight: 900,
-                  borderRadius: '24px',
-                  background: isActive ? undefined : '#FFFFFF',
-                  color: isActive ? '#FFFFFF' : tab.locked ? '#94A3B8' : '#334155',
-                  border: isActive ? 'none' : '2px solid #CBD5E1',
-                  transition: 'all 0.2s ease',
-                  boxShadow: isActive ? '0 4px 14px rgba(217, 119, 6, 0.35)' : '0 2px 6px rgba(0,0,0,0.04)'
-                }}
-              >
-                <Icon size={20} color={isActive ? '#FFFFFF' : tab.locked ? '#94A3B8' : '#059669'} />
-                <span>{tab.name}</span>
-                {isCompleted && !isActive && <CheckCircle size={18} color="#10B981" />}
-              </button>
-            );
-          })}
-        </nav>
-      </div>
+      {/* 3. TOP ACTIVITY STEPS: 5 small horizontal step/activity cards in one row */}
+      <nav className="tabs-container" style={{ 
+        display: 'flex', 
+        gap: '0.65rem', 
+        margin: 0, 
+        marginBottom: '0.55rem',
+        background: 'transparent', 
+        border: 'none', 
+        padding: 0,
+        width: '100%',
+        flexWrap: 'nowrap',
+        flexShrink: 0,
+        zIndex: 10
+      }}>
+        {tabs.map((tab) => {
+          const Icon = tab.icon;
+          const isCompleted = progress[tab.id];
+          const isActive = activeTab === tab.id;
+          
+          return (
+            <button
+              key={tab.id}
+              onClick={() => !tab.locked && setActiveTab(tab.id)}
+              disabled={tab.locked}
+              className={isActive ? 'gold-glow-btn' : ''}
+              style={{
+                flex: 1,
+                minWidth: 0,
+                opacity: tab.locked ? 0.45 : 1,
+                cursor: tab.locked ? 'not-allowed' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.55rem',
+                padding: '0.55rem 0.75rem',
+                fontSize: '18px',
+                fontWeight: 700,
+                borderRadius: '16px',
+                background: isActive 
+                  ? undefined 
+                  : isCompleted 
+                    ? '#F0FDF4' 
+                    : 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+                color: isActive 
+                  ? '#FFFFFF' 
+                  : tab.locked 
+                    ? '#94A3B8' 
+                    : isCompleted 
+                      ? '#065F46' 
+                      : '#173B5F',
+                border: isActive 
+                  ? 'none' 
+                  : isCompleted 
+                    ? '1.5px solid #86EFAC' 
+                    : '1.5px solid #CBD5E1',
+                transition: 'all 0.2s ease',
+                boxShadow: isActive ? '0 4px 14px rgba(217, 119, 6, 0.35)' : '0 2px 6px rgba(0,0,0,0.04)',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              <Icon size={20} color={isActive ? '#FFFFFF' : tab.locked ? '#94A3B8' : isCompleted ? '#10B981' : '#173B5F'} style={{ flexShrink: 0 }} />
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{tab.name}</span>
+              {isCompleted && !isActive && <CheckCircle size={18} color="#10B981" style={{ flexShrink: 0 }} />}
+            </button>
+          );
+        })}
+      </nav>
 
       {/* Main Active Stage Panel (Non-scrolling flex child) */}
       <main style={{ 

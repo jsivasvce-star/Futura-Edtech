@@ -927,7 +927,11 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
   // Tabs and general phases
   const [activeTab, setActiveTab] = useState('board'); // board
-  const [phase, setPhase] = useState(subStep === 'board' ? 'board' : (subStep === 'pick' ? 'pick' : 'timer')); // timer | pick | board | completed
+  const [phase, setPhase] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    const effectiveSubStep = subStep || params.get('subStep');
+    return effectiveSubStep === 'board' ? 'board' : (effectiveSubStep === 'pick' ? 'pick' : 'timer');
+  }); // timer | pick | board | completed
 
   const [timer, setTimer] = useState(10);
   const [timerRunning, setTimerRunning] = useState(false);
@@ -937,7 +941,11 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
   const [plantPage, setPlantPage] = useState(0); // 0 = Page 1 (1-2), 1 = Page 2 (3-4), 2 = Page 3 (5-6)
   const [animalPage, setAnimalPage] = useState(0); // 0 = Page 1 (1-2), 1 = Page 2 (3-4), 2 = Page 3 (5-6)
   const [pickMode, setPickMode] = useState('stepper'); // 'stepper' only
-  const [boardCards, setBoardCards] = useState((subStep === 'board' || subStep === 'quiz') ? [{ name: 'You', plant: 'Tulsi', animal: 'Crow', isMe: true }, ...CLASSMATES] : []);
+  const [boardCards, setBoardCards] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    const effectiveSubStep = subStep || params.get('subStep');
+    return (effectiveSubStep === 'board' || effectiveSubStep === 'quiz') ? [{ name: 'You', plant: 'Tulsi', animal: 'Crow', isMe: true }, ...CLASSMATES] : [];
+  });
   const [boardPage, setBoardPage] = useState(1);
   const [boardFilter, setBoardFilter] = useState('all'); // all | me
   const [cardLikes, setCardLikes] = useState({
@@ -1532,42 +1540,29 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: 'rgba(28, 18, 10, 0.85)',
-                color: '#FDE047',
-                border: '1.2px solid rgba(245, 158, 11, 0.6)',
-                borderRadius: '16px',
-                padding: '2px 14px',
-                fontFamily: '"Outfit", sans-serif',
-                fontWeight: 900,
-                fontSize: '13px',
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.35)'
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                border: '2px solid rgba(254, 240, 138, 0.85)',
+                borderRadius: '12px',
+                padding: '7px 22px',
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
               }}>
-                <span>CLASS 6 • SCIENCE</span>
-                <span style={{ color: 'rgba(245, 158, 11, 0.6)' }}>•</span>
-                <span>ACTIVITY 2.2</span>
+                <h1 style={{
+                  margin: 0,
+                  fontFamily: '"Fraunces", Georgia, serif',
+                  fontSize: '22px',
+                  fontWeight: 900,
+                  color: '#FFFFFF',
+                  textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)',
+                  letterSpacing: '0.01em',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}>
+                  <span style={{ fontSize: '18px' }}>🌿</span>
+                  <span>Activity 2.2: Let us appreciate</span>
+                  <span style={{ fontSize: '18px' }}>🌿</span>
+                </h1>
               </div>
-
-              <h1 style={{
-                margin: 0,
-                fontFamily: '"Fraunces", Georgia, serif',
-                fontSize: '22px',
-                fontWeight: 900,
-                color: '#FEF3C7',
-                background: 'linear-gradient(135deg, #FDE68A 0%, #F59E0B 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                textShadow: '0 2px 10px rgba(0, 0, 0, 0.9)',
-                letterSpacing: '0.01em',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}>
-                <span style={{ WebkitTextFillColor: 'initial', fontSize: '18px' }}>🌿</span>
-                <span>Activity 2.2: Let us appreciate</span>
-                <span style={{ WebkitTextFillColor: 'initial', fontSize: '18px' }}>🌿</span>
-              </h1>
             </div>
 
             {/* Right: Reset Button */}
@@ -1577,7 +1572,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 onClick={handleReset}
                 style={{
                   background: 'rgba(28, 18, 10, 0.85)',
-                  backdropFilter: 'blur(2px)',
+                  backdropFilter: 'blur(4px)',
                   WebkitBackdropFilter: 'blur(2px)',
                   border: '1.5px solid rgba(245, 158, 11, 0.6)',
                   borderRadius: '20px',
@@ -1619,7 +1614,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             <div style={{
               position: 'relative',
               background: 'linear-gradient(145deg, rgba(6, 36, 24, 0.75) 0%, rgba(3, 22, 14, 0.82) 100%)',
-              backdropFilter: 'blur(2px) saturate(180%)',
+              backdropFilter: 'blur(4px) saturate(180%)',
               WebkitBackdropFilter: 'blur(2px) saturate(180%)',
               border: '1.5px solid rgba(167, 243, 208, 0.35)',
               borderRadius: '20px',
@@ -1772,7 +1767,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
               width: '100%',
               maxWidth: '100%',
               background: 'rgba(255, 255, 255, 0.06)',
-              backdropFilter: 'blur(2px)',
+              backdropFilter: 'blur(4px)',
               WebkitBackdropFilter: 'blur(2px)',
               border: '1.5px solid rgba(255, 255, 255, 0.30)',
               borderRadius: '24px',
@@ -1793,7 +1788,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
               }}>
                 <div className="font-blur-area" style={{
                   background: 'rgba(30, 58, 138, 0.55)',
-                  backdropFilter: 'blur(2px)',
+                  backdropFilter: 'blur(4px)',
                   WebkitBackdropFilter: 'blur(2px)',
                   border: '1.2px solid rgba(147, 197, 253, 0.5)',
                   borderRadius: '14px',
@@ -1812,7 +1807,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 </div>
                 <div className="font-blur-area" style={{
                   background: 'rgba(30, 58, 138, 0.55)',
-                  backdropFilter: 'blur(2px)',
+                  backdropFilter: 'blur(4px)',
                   WebkitBackdropFilter: 'blur(2px)',
                   border: '1.2px solid rgba(147, 197, 253, 0.5)',
                   borderRadius: '14px',
@@ -2140,7 +2135,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 onClick={handleReset}
                 style={{
                   background: 'rgba(15, 23, 42, 0.75)',
-                  backdropFilter: 'blur(2px)',
+                  backdropFilter: 'blur(4px)',
                   WebkitBackdropFilter: 'blur(2px)',
                   border: '1.2px solid rgba(255, 255, 255, 0.4)',
                   borderRadius: '20px',
@@ -2180,7 +2175,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             <div className="content-box" style={{
               width: 'min(95vw, 1260px)',
               background: 'rgba(255, 255, 255, 0.42)',
-              backdropFilter: 'blur(2px) saturate(160%)',
+              backdropFilter: 'blur(4px) saturate(160%)',
               WebkitBackdropFilter: 'blur(2px) saturate(160%)',
               border: '1.5px solid rgba(255, 255, 255, 0.6)',
               borderRadius: '24px',
@@ -2557,7 +2552,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   onClick={() => setPhase('timer')}
                   style={{
                     background: 'rgba(255, 255, 255, 0.6)',
-                    backdropFilter: 'blur(2px)',
+                    backdropFilter: 'blur(4px)',
                     WebkitBackdropFilter: 'blur(2px)',
                     border: '1.2px solid rgba(6, 78, 59, 0.3)',
                     borderRadius: '20px',
@@ -2680,42 +2675,29 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: 'rgba(28, 18, 10, 0.85)',
-                color: '#FDE047',
-                border: '1.2px solid rgba(245, 158, 11, 0.6)',
-                borderRadius: '16px',
-                padding: '2px 14px',
-                fontFamily: '"Outfit", sans-serif',
-                fontWeight: 900,
-                fontSize: '13px',
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.35)'
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                border: '2px solid rgba(254, 240, 138, 0.85)',
+                borderRadius: '12px',
+                padding: '7px 22px',
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
               }}>
-                <span>CLASS 6 • SCIENCE</span>
-                <span style={{ color: 'rgba(245, 158, 11, 0.6)' }}>•</span>
-                <span>ACTIVITY 2.2</span>
+                <h1 style={{
+                  margin: 0,
+                  fontFamily: '"Fraunces", Georgia, serif',
+                  fontSize: '22px',
+                  fontWeight: 900,
+                  color: '#FFFFFF',
+                  textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)',
+                  letterSpacing: '0.01em',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}>
+                  <span style={{ fontSize: '18px' }}>🌿</span>
+                  <span>Activity 2.2: Let us appreciate</span>
+                  <span style={{ fontSize: '18px' }}>🌿</span>
+                </h1>
               </div>
-
-              <h1 style={{
-                margin: 0,
-                fontFamily: '"Fraunces", Georgia, serif',
-                fontSize: '22px',
-                fontWeight: 900,
-                color: '#FEF3C7',
-                background: 'linear-gradient(135deg, #FDE68A 0%, #F59E0B 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                textShadow: '0 2px 10px rgba(0, 0, 0, 0.9)',
-                letterSpacing: '0.01em',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}>
-                <span style={{ WebkitTextFillColor: 'initial', fontSize: '18px' }}>🌿</span>
-                <span>Activity 2.2: Let us appreciate</span>
-                <span style={{ WebkitTextFillColor: 'initial', fontSize: '18px' }}>🌿</span>
-              </h1>
             </div>
 
             {/* Right: Reset Control in dark amber glass */}
@@ -2768,17 +2750,20 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
               <div style={{
                 position: 'relative',
                 background: 'linear-gradient(180deg, rgba(6, 44, 28, 0.94) 0%, rgba(3, 30, 18, 0.97) 100%)',
-                backdropFilter: 'blur(16px)',
+                backdropFilter: 'blur(4px)',
                 WebkitBackdropFilter: 'blur(16px)',
                 border: '1.8px solid rgba(110, 231, 183, 0.5)',
                 borderRadius: '20px',
-                padding: '12px 16px',
+                padding: '12px 14px',
                 boxShadow: '0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(16, 185, 129, 0.2)',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 gap: '8px',
-                overflow: 'hidden',
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                scrollbarWidth: 'thin',
+                scrollbarColor: 'rgba(110, 231, 183, 0.35) transparent',
                 boxSizing: 'border-box'
               }}>
                 {/* Header */}
@@ -2789,12 +2774,12 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     gap: '6px',
                     color: '#A7F3D0',
                     fontWeight: 800,
-                    fontSize: '20px',
+                    fontSize: '14px',
                     letterSpacing: '0.04em',
                     textTransform: 'uppercase',
                     fontFamily: '"Outfit", sans-serif'
                   }}>
-                    <span>🍃</span>
+                    <span style={{ fontSize: '15px' }}>🍃</span>
                     <span>ACTIVITY 2.2</span>
                   </div>
 
@@ -2802,7 +2787,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     fontFamily: '"Outfit", sans-serif',
                     color: '#FCD34D',
                     fontWeight: 900,
-                    fontSize: '24px',
+                    fontSize: '20px',
                     margin: '1px 0 0 0',
                     lineHeight: 1.15,
                     textShadow: '0 2px 6px rgba(0,0,0,0.95)'
@@ -2819,19 +2804,20 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   flexDirection: 'column',
                   gap: '8px',
                   flex: 1,
+                  minHeight: 0,
                   justifyContent: 'space-evenly'
                 }}>
                   {/* Point 1: Our Shared Observations */}
                   <div style={{
-                    fontSize: '20px',
-                    lineHeight: 1.28,
+                    fontSize: '14.5px',
+                    lineHeight: 1.34,
                     color: '#FFFFFF',
                     fontFamily: '"Inter", sans-serif',
                     textAlign: 'justify',
                     textJustify: 'inter-word',
                     textShadow: '0 1px 3px rgba(0,0,0,0.9)'
                   }}>
-                    <span style={{ color: '#6EE7B7', fontWeight: 800, fontFamily: '"Outfit", sans-serif', fontSize: '21px' }}>
+                    <span style={{ color: '#6EE7B7', fontWeight: 800, fontFamily: '"Outfit", sans-serif', fontSize: '15px' }}>
                       • Our Shared Observations:
                     </span>{' '}
                     <span>Six students contributed one plant and one animal each—12 examples: 6 plants and 6 animals.</span>
@@ -2839,15 +2825,15 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
                   {/* Point 2: Notice the Diversity */}
                   <div style={{
-                    fontSize: '20px',
-                    lineHeight: 1.28,
+                    fontSize: '14.5px',
+                    lineHeight: 1.34,
                     color: '#FFFFFF',
                     fontFamily: '"Inter", sans-serif',
                     textAlign: 'justify',
                     textJustify: 'inter-word',
                     textShadow: '0 1px 3px rgba(0,0,0,0.9)'
                   }}>
-                    <span style={{ color: '#6EE7B7', fontWeight: 800, fontFamily: '"Outfit", sans-serif', fontSize: '21px' }}>
+                    <span style={{ color: '#6EE7B7', fontWeight: 800, fontFamily: '"Outfit", sans-serif', fontSize: '15px' }}>
                       • Notice the Diversity:
                     </span>{' '}
                     <span>Compare their shapes, sizes and habitats. Many more varieties exist in nature.</span>
@@ -2855,15 +2841,15 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
                   {/* Point 3: What Is Biodiversity? */}
                   <div style={{
-                    fontSize: '20px',
-                    lineHeight: 1.28,
+                    fontSize: '14.5px',
+                    lineHeight: 1.34,
                     color: '#FFFFFF',
                     fontFamily: '"Inter", sans-serif',
                     textAlign: 'justify',
                     textJustify: 'inter-word',
                     textShadow: '0 1px 3px rgba(0,0,0,0.9)'
                   }}>
-                    <span style={{ color: '#6EE7B7', fontWeight: 800, fontFamily: '"Outfit", sans-serif', fontSize: '21px' }}>
+                    <span style={{ color: '#6EE7B7', fontWeight: 800, fontFamily: '"Outfit", sans-serif', fontSize: '15px' }}>
                       • What Is Biodiversity?
                     </span>{' '}
                     <span>The variety of living things in a region, including its plants and animals.</span>
@@ -2871,15 +2857,15 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
                   {/* Point 4: Living Things Depend on Each Other */}
                   <div style={{
-                    fontSize: '20px',
-                    lineHeight: 1.28,
+                    fontSize: '14.5px',
+                    lineHeight: 1.34,
                     color: '#FFFFFF',
                     fontFamily: '"Inter", sans-serif',
                     textAlign: 'justify',
                     textJustify: 'inter-word',
                     textShadow: '0 1px 3px rgba(0,0,0,0.9)'
                   }}>
-                    <span style={{ color: '#6EE7B7', fontWeight: 800, fontFamily: '"Outfit", sans-serif', fontSize: '21px' }}>
+                    <span style={{ color: '#6EE7B7', fontWeight: 800, fontFamily: '"Outfit", sans-serif', fontSize: '15px' }}>
                       • Living Things Depend on Each Other:
                     </span>{' '}
                     <span>Trees provide food and shelter. Some animals help spread seeds.</span>
@@ -2890,22 +2876,22 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 <div style={{
                   background: 'rgba(245, 158, 11, 0.16)',
                   border: '1.5px solid rgba(245, 158, 11, 0.5)',
-                  borderRadius: '12px',
-                  padding: '7px 12px',
+                  borderRadius: '11px',
+                  padding: '7px 11px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
                   boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
                   flexShrink: 0
                 }}>
-                  <span style={{ fontSize: '22px', flexShrink: 0 }}>💡</span>
+                  <span style={{ fontSize: '19px', flexShrink: 0 }}>💡</span>
                   <div style={{
-                    fontSize: '20px',
+                    fontSize: '13.5px',
                     color: '#FEF08A',
                     fontFamily: '"Outfit", sans-serif',
                     lineHeight: 1.25
                   }}>
-                    <strong style={{ color: '#FDE047', fontWeight: 900, fontSize: '21px' }}>Think:</strong>{' '}
+                    <strong style={{ color: '#FDE047', fontWeight: 900, fontSize: '14.5px' }}>Think:</strong>{' '}
                     How do plants and animals support each other?
                   </div>
                 </div>
@@ -3313,7 +3299,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                         alignItems: 'center',
                                         gap: '5px',
                                         background: isSelected ? 'rgba(6, 78, 59, 0.95)' : 'rgba(15, 23, 42, 0.85)',
-                                        backdropFilter: 'blur(2px)',
+                                        backdropFilter: 'blur(4px)',
                                         color: isSelected ? '#FEF08A' : '#ffffff',
                                         border: isSelected ? '1.5px solid #10B981' : '1px solid rgba(255, 255, 255, 0.35)',
                                         borderRadius: '14px',
@@ -3436,7 +3422,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                                         alignItems: 'center',
                                         gap: '5px',
                                         background: isSelected ? 'rgba(6, 78, 59, 0.95)' : 'rgba(15, 23, 42, 0.85)',
-                                        backdropFilter: 'blur(2px)',
+                                        backdropFilter: 'blur(4px)',
                                         color: isSelected ? '#FEF08A' : '#ffffff',
                                         border: isSelected ? '1.5px solid #10B981' : '1px solid rgba(255, 255, 255, 0.35)',
                                         borderRadius: '14px',
@@ -3869,7 +3855,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             right: 0,
             bottom: 0,
             background: 'rgba(15, 23, 42, 0.72)',
-            backdropFilter: 'blur(2px)',
+            backdropFilter: 'blur(4px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -4223,7 +4209,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             right: 0,
             bottom: 0,
             background: 'rgba(2, 20, 14, 0.78)',
-            backdropFilter: 'blur(5px)',
+            backdropFilter: 'blur(4px)',
             WebkitBackdropFilter: 'blur(5px)',
             display: 'flex',
             alignItems: 'center',

@@ -1,0 +1,57 @@
+{
+  "audio_file": "fpage70.mp3",
+  "duration": 3.056,
+  "language": "en",
+  "words": [
+    {
+      "text": "Click",
+      "start": 0.0,
+      "end": 0.4
+    },
+    {
+      "text": "each",
+      "start": 0.4,
+      "end": 0.74
+    },
+    {
+      "text": "container",
+      "start": 0.74,
+      "end": 1.1
+    },
+    {
+      "text": "to",
+      "start": 1.1,
+      "end": 1.36
+    },
+    {
+      "text": "discover",
+      "start": 1.36,
+      "end": 1.7
+    },
+    {
+      "text": "how",
+      "start": 1.7,
+      "end": 2.0
+    },
+    {
+      "text": "much",
+      "start": 2.0,
+      "end": 2.16
+    },
+    {
+      "text": "it",
+      "start": 2.16,
+      "end": 2.32
+    },
+    {
+      "text": "can",
+      "start": 2.32,
+      "end": 2.5
+    },
+    {
+      "text": "hold.",
+      "start": 2.5,
+      "end": 2.66
+    }
+  ]
+}

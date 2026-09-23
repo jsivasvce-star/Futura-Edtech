@@ -154,13 +154,18 @@ export default function IntroStoryteller({ onComplete, onBack }) {
           src={scene.img}
           alt={scene.title}
           onLoad={() => setImgLoaded(true)}
+          ref={(el) => {
+            if (el && el.complete && !imgLoaded) {
+              setImgLoaded(true);
+            }
+          }}
           style={{
             position: 'absolute',
             inset: 0,
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            transition: 'opacity 0.5s ease',
+            transition: 'opacity 0.4s ease',
             opacity: imgLoaded ? 1 : 0,
             filter: 'none'
           }}
@@ -195,13 +200,14 @@ export default function IntroStoryteller({ onComplete, onBack }) {
       {/* Scene Subtitles with real-narration word-by-word highlight */}
       {activeCue && (
         <div
+          className="story-subtitle-wrapper"
           style={{
             position: 'absolute',
-            bottom: 'clamp(6.6rem, 13vh, 8.6rem)',
+            bottom: 'clamp(5.2rem, 10vh, 6.8rem)',
             left: '50%',
             transform: 'translateX(-50%)',
-            width: 'min(1100px, calc(100% - 3rem))',
-            maxWidth: 'calc(100% - 3rem)',
+            width: 'fit-content',
+            maxWidth: 'min(1260px, calc(100vw - 4rem))',
             boxSizing: 'border-box',
             zIndex: 15,
             pointerEvents: 'none',
@@ -209,7 +215,13 @@ export default function IntroStoryteller({ onComplete, onBack }) {
             justifyContent: 'center',
             alignItems: 'center',
             textAlign: 'center',
-            padding: '0 1rem'
+            padding: '7px 22px',
+            background: 'rgba(10, 18, 32, 0.72)',
+            backdropFilter: 'blur(4px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            border: '1.5px solid rgba(255, 255, 255, 0.22)',
+            borderRadius: '24px',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.3)'
           }}
         >
           <style>{`
@@ -217,21 +229,29 @@ export default function IntroStoryteller({ onComplete, onBack }) {
               0% { opacity: 0; transform: translateY(4px); }
               100% { opacity: 1; transform: translateY(0); }
             }
+            .story-subtitle-text,
+            .story-subtitle-wrapper .story-subtitle-text {
+              text-align: center !important;
+              text-align-last: center !important;
+              justify-content: center !important;
+            }
           `}</style>
-          <p
+          <div
             key={`${currentScene}-${activeCueBaseIndex}`}
+            className="story-subtitle-text"
             style={{
               margin: 0,
               width: '100%',
-              fontSize: 'clamp(19px, 2.3vw, 30px)',
+              fontSize: 'clamp(15px, 1.35vw, 19.5px)',
               fontWeight: '700',
-              lineHeight: '1.35',
+              lineHeight: '1.4',
               fontFamily: '"Playfair Display", Georgia, serif',
               textAlign: 'center',
+              textAlignLast: 'center',
               whiteSpace: 'normal',
               wordBreak: 'normal',
-              overflowWrap: 'normal',
-              letterSpacing: '0.02em',
+              overflowWrap: 'break-word',
+              letterSpacing: '0.015em',
               animation: 'subTextFade 0.35s ease-out'
             }}
           >
@@ -242,21 +262,24 @@ export default function IntroStoryteller({ onComplete, onBack }) {
                 <span
                   key={globalIdx}
                   style={{
+                    display: 'inline-block',
                     color: isActive ? '#FFFFFF' : '#FDE047',
-                    background: isActive ? 'rgba(16, 185, 129, 0.85)' : 'transparent',
+                    background: isActive ? 'rgba(16, 185, 129, 0.90)' : 'transparent',
                     borderRadius: isActive ? '6px' : 0,
-                    padding: isActive ? '0 4px' : 0,
+                    padding: isActive ? '2px 7px' : '0 1px',
+                    margin: '0 3px',
+                    boxShadow: isActive ? '0 0 12px rgba(52, 211, 153, 0.7)' : 'none',
                     textShadow: isActive
                       ? '0 2px 6px rgba(0,0,0,0.9)'
-                      : '0 2px 4px rgba(0, 0, 0, 1), 0 0 16px rgba(0, 0, 0, 0.98), -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000',
+                      : '0 2px 4px rgba(0, 0, 0, 1), 0 0 14px rgba(0, 0, 0, 0.95)',
                     transition: 'background 0.12s ease, color 0.12s ease',
                   }}
                 >
-                  {w.word}{i < activeCue.words.length - 1 ? ' ' : ''}
+                  {w.word}
                 </span>
               );
             })}
-          </p>
+          </div>
         </div>
       )}
 
@@ -281,7 +304,7 @@ export default function IntroStoryteller({ onComplete, onBack }) {
               borderRadius: '10px',
               border: '1.8px solid #14452F',
               background: 'rgba(250, 248, 242, 0.85)',
-              backdropFilter: 'blur(2px)',
+              backdropFilter: 'blur(4px)',
               color: '#14452F',
               cursor: 'pointer',
               boxShadow: '0 4px 14px rgba(20, 69, 47, 0.25)',
@@ -306,7 +329,7 @@ export default function IntroStoryteller({ onComplete, onBack }) {
               borderRadius: '10px',
               border: '1.8px solid #14452F',
               background: 'rgba(250, 248, 242, 0.85)',
-              backdropFilter: 'blur(2px)',
+              backdropFilter: 'blur(4px)',
               color: '#14452F',
               cursor: 'pointer',
               boxShadow: '0 4px 14px rgba(20, 69, 47, 0.25)',
