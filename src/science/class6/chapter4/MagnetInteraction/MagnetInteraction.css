@@ -145,16 +145,14 @@
   background: #0A1931 !important;
 }
 
-/* Right Column Layout: Deterministic container sizing without unpredictable media-query squishing */
+/* Right Column Layout: Clean fit-content card sizing matching design reference */
 .magnet-interaction-root .stage-right-column {
-  flex: 1.15;
-  height: 100%;
-  max-height: 100%;
-  min-height: 0;
+  width: 500px;
+  max-width: 500px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1rem;
   min-width: 0;
   overflow-y: auto;
   overflow-x: hidden;
@@ -163,14 +161,15 @@
 
 .magnet-interaction-root .stage-right-column .stage-container-1 {
   flex-shrink: 0 !important;
-  height: auto !important;
+  height: fit-content !important;
   min-height: fit-content !important;
   box-sizing: border-box !important;
 }
 
 .magnet-interaction-root .stage-right-column .stage-container-2 {
-  flex: 1 !important;
-  min-height: 0 !important;
+  flex-shrink: 0 !important;
+  height: fit-content !important;
+  min-height: fit-content !important;
   box-sizing: border-box !important;
 }
 

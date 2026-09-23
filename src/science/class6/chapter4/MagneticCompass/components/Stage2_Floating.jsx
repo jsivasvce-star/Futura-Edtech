@@ -290,7 +290,7 @@ export default function Stage2_Floating({ onComplete }) {
             className="cardinal-direction-badge"
             style={{
               position: 'absolute',
-              top: '44px',
+              top: '76px',
               left: '50%',
               transform: 'translateX(-50%)',
               zIndex: 25,

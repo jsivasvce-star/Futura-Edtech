@@ -26,67 +26,56 @@ function TrayItemCard({ step, isPlaced, isUnlocked, onClick, renderThumbnail }) 
     <div
       onClick={() => !isDisabled && onClick(step.id)}
       style={{
-        opacity: isDisabled ? (isPlaced ? 0.85 : 0.45) : 1,
+        opacity: isUnlocked ? 1 : 0.5,
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '0.75rem',
-        padding: '1rem',
-        borderRadius: '18px',
-        background: isPlaced ? '#DCFCE7' : isUnlocked ? '#FFFFFF' : '#F8FAFC',
-        border: isPlaced
-          ? '2px solid #86EFAC'
-          : isUnlocked
-          ? '2px solid #214A70'
-          : '1.5px solid #E2E8F0',
-        color: '#064E3B',
+        gap: '0.65rem',
+        padding: '0.85rem 1rem',
+        borderRadius: '16px',
+        background: '#FFFFFF',
+        border: isUnlocked ? '1.5px solid #0A2540' : '1.5px solid #E2E8F0',
         cursor: isDisabled ? (isPlaced ? 'default' : 'not-allowed') : 'pointer',
         transition: 'all 0.2s ease',
-        position: 'relative',
-        fontWeight: 800,
-        boxShadow: isPlaced
-          ? '0 2px 10px rgba(16, 185, 129, 0.12)'
-          : isUnlocked
-          ? '0 4px 16px rgba(23, 59, 95, 0.12)'
-          : '0 2px 6px rgba(0,0,0,0.03)',
-        userSelect: 'none',
         boxSizing: 'border-box',
-        flex: 1,
-        minHeight: 0
+        boxShadow: isUnlocked ? '0 2px 8px rgba(10, 37, 64, 0.06)' : 'none'
       }}
     >
+      {/* Centered top display of the magnetic airplane asset in soft grey/off-white box */}
       <div style={{
         width: '100%',
-        flex: 1,
-        minHeight: 0,
-        background: isPlaced ? '#F0FDF4' : '#F3F7F9',
-        border: `1.5px solid ${isPlaced ? '#A7F3D0' : '#E2E8F0'}`,
-        borderRadius: '14px',
+        height: '95px',
+        background: '#F8FAFC',
+        border: '1px solid #E2E8F0',
+        borderRadius: '12px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        flexShrink: 0,
-        opacity: isUnlocked ? 1 : 0.4,
-        padding: '0.85rem',
-        boxSizing: 'border-box',
-        position: 'relative'
+        padding: '0.5rem',
+        boxSizing: 'border-box'
       }}>
         {renderThumbnail(step.id)}
       </div>
 
-      <div style={{ textAlign: 'center', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.35rem' }}>
-        <div style={{ fontSize: '1.35rem', fontWeight: 900, color: isPlaced ? '#047857' : '#173B5F', letterSpacing: '-0.01em' }}>
+      <div style={{ textAlign: 'center', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
+        <div style={{ fontSize: '16.5px', fontWeight: 800, color: isUnlocked ? '#0A2540' : '#94A3B8' }}>
           {step.name}
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', justifyContent: 'center' }}>
           {isPlaced ? (
-            <><CheckCircle2 size={20} style={{ color: '#16A34A' }} /> <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#15803D' }}>Placed in Airspace</span></>
+            <>
+              <CheckCircle2 size={16} color="#16A34A" />
+              <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#15803D' }}>Placed in Corridor</span>
+            </>
           ) : !isUnlocked ? (
-            <><Lock size={18} style={{ color: '#94A3B8' }} /> <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#94A3B8' }}>Locked</span></>
+            <>
+              <Lock size={15} color="#94A3B8" />
+              <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#94A3B8' }}>Locked</span>
+            </>
           ) : (
-            <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#173B5F' }}>👆 Click to Place in Corridor</span>
+            <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#0A2540' }}>👆 Click to Place in Corridor</span>
           )}
         </div>
       </div>
@@ -249,7 +238,7 @@ export default function Stage1_Build({ onComplete, onNext }) {
       {/* Main 2-Column Layout */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: '1fr 440px',
+        gridTemplateColumns: '1fr 500px',
         gap: '1.25rem',
         flex: 1,
         height: '100%',
@@ -347,89 +336,126 @@ export default function Stage1_Build({ onComplete, onNext }) {
           </CanvasArea>
         </div>
 
-        {/* RIGHT Column: Two Golden Containers */}
+        {/* RIGHT Column: Steps and Controls Panel matching Reference */}
         <div className="stage-right-column" style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: '1.25rem',
-          height: '100%',
+          gap: '0.85rem',
+          height: 'fit-content',
+          maxHeight: '100%',
           minHeight: 0,
           boxSizing: 'border-box'
         }}>
-          {/* Container 1: Steps of Instructions (Tightened Height, Crisp Alignment) */}
+          {/* Card 1: Steps of Instructions */}
           <div className="stage-container-1" style={{
-            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
-            border: '1.5px solid #E2E8F0',
+            background: '#FFFDF5',
+            border: '1.5px solid #0A2540',
             borderRadius: '24px',
-            padding: '1rem 1.4rem',
-            boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+            padding: '1.25rem 1.45rem',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.06)',
             display: 'flex',
             flexDirection: 'column',
-            gap: '0.65rem',
-            overflow: 'hidden',
+            gap: '0.95rem',
+            height: 'fit-content',
             flexShrink: 0
           }}>
-            <h3 style={{ margin: 0, fontSize: '23px', fontWeight: 900, color: '#1E1B4B' }}>
+            <h3 style={{ margin: 0, fontSize: '28px', fontWeight: 900, color: '#0A2540', textAlign: 'left' }}>
               Steps of Instructions
             </h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', overflow: 'hidden' }}>
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
-                <div className="gold-step-badge" style={{ flexShrink: 0, marginTop: '3px' }}>1</div>
-                <span style={{ fontSize: '21px', color: '#173B5F', lineHeight: 1.35, fontWeight: 700 }}>
-                  Click Airplane A in the tray below to place it into the left flight corridor.
-                </span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
+                <div style={{
+                  width: '42px',
+                  height: '42px',
+                  borderRadius: '50%',
+                  background: '#D97706',
+                  color: '#FFFFFF',
+                  fontSize: '24px',
+                  fontWeight: 900,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                  marginTop: '3px'
+                }}>1</div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontSize: '28px', color: '#0A2540', lineHeight: 1.3, fontWeight: 800 }}>
+                    Click Airplane A in the tray below
+                  </span>
+                  <span style={{ fontSize: '24px', color: '#334155', lineHeight: 1.35, fontWeight: 600, marginTop: '3px' }}>
+                    It will Placed it into the left flight corridor.
+                  </span>
+                </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
-                <div className="gold-step-badge" style={{ flexShrink: 0, marginTop: '3px' }}>2</div>
-                <span style={{ fontSize: '21px', color: '#173B5F', lineHeight: 1.35, fontWeight: 700 }}>
-                  Click Airplane B in the tray below to place it into the right flight corridor.
-                </span>
+
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
+                <div style={{
+                  width: '42px',
+                  height: '42px',
+                  borderRadius: '50%',
+                  background: '#D97706',
+                  color: '#FFFFFF',
+                  fontSize: '24px',
+                  fontWeight: 900,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                  marginTop: '3px'
+                }}>2</div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontSize: '28px', color: '#0A2540', lineHeight: 1.3, fontWeight: 800 }}>
+                    Click Airplane B in the tray below
+                  </span>
+                  <span style={{ fontSize: '24px', color: '#334155', lineHeight: 1.35, fontWeight: 600, marginTop: '3px' }}>
+                    It will Placed it into the right flight corridor.
+                  </span>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Container 2: Flight Components & Controls */}
+          {/* Card 2: Flight Components */}
           <div className="stage-container-2" style={{
-            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
-            border: '1.5px solid #E2E8F0',
+            background: '#FFFFFF',
+            border: '1.5px solid #0A2540',
             borderRadius: '24px',
-            padding: '1.35rem 1.6rem',
-            boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+            padding: '1.15rem 1.35rem',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.06)',
             display: 'flex',
             flexDirection: 'column',
             gap: '0.85rem',
-            flex: 1,
-            minHeight: 0
+            height: 'fit-content',
+            flexShrink: 0
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 style={{ margin: 0, fontSize: '21px', fontWeight: 900, color: '#1E1B4B' }}>
+              <h3 style={{ margin: 0, fontSize: '26px', fontWeight: 900, color: '#0A2540' }}>
                 Flight Components
               </h3>
               <button
                 onClick={handleReset}
                 style={{
-                  padding: '0.45rem 0.95rem',
-                  borderRadius: '14px',
+                  padding: '0.45rem 1rem',
+                  borderRadius: '20px',
                   background: '#FFFFFF',
-                  color: '#173B5F',
-                  border: '1.5px solid #E2E8F0',
+                  color: '#0A2540',
+                  border: '1.5px solid #0A2540',
                   cursor: 'pointer',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.45rem',
-                  fontSize: '15px',
+                  gap: '0.4rem',
+                  fontSize: '16px',
                   fontWeight: 800,
                   flexShrink: 0,
                   transition: 'all 0.2s ease'
                 }}
               >
-                <RotateCcw size={15} color="#173B5F" /> Reset
+                <RotateCcw size={16} color="#0A2540" /> Reset
               </button>
             </div>
 
             {/* Flight Components List */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', flex: 1, minHeight: 0 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
               {STEPS.map((step) => (
                 <TrayItemCard
                   key={step.id}
@@ -446,26 +472,25 @@ export default function Stage1_Build({ onComplete, onNext }) {
             <button
               onClick={() => { onComplete(); onNext(); }}
               disabled={!success}
-              className={success ? 'gold-glow-btn' : ''}
               style={{
                 width: '100%',
                 padding: '0.85rem 1.4rem',
-                fontSize: '18px',
-                fontWeight: 900,
-                borderRadius: '16px',
+                fontSize: '22px',
+                fontWeight: 800,
+                borderRadius: '14px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '0.65rem',
-                background: success ? undefined : '#F1F5F9',
-                color: success ? '#FFFFFF' : '#94A3B8',
-                border: success ? undefined : '1.5px solid #CBD5E1',
+                gap: '0.6rem',
+                background: success ? '#D97706' : '#F8FAFC',
+                color: success ? '#FFFFFF' : '#CBD5E1',
+                border: success ? 'none' : '1.5px solid #E2E8F0',
+                boxShadow: success ? '0 4px 12px rgba(217, 119, 6, 0.25)' : 'none',
                 cursor: success ? 'pointer' : 'not-allowed',
-                marginTop: 'auto',
-                transition: 'all 0.25s ease'
+                transition: 'all 0.2s ease'
               }}
             >
-              Proceed to Explore <ArrowRight size={20} color={success ? '#FFFFFF' : '#94A3B8'} />
+              Proceed to Explore <ArrowRight size={22} color={success ? '#FFFFFF' : '#CBD5E1'} />
             </button>
           </div>
         </div>

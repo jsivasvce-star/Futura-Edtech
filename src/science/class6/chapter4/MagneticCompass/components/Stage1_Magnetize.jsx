@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle, RotateCcw, ArrowRight, Play, BookOpen, HelpCircle, Leaf, Sparkles, Compass, Maximize2, Minimize2 } from 'lucide-react';
 import * as THREE from 'three';
 
@@ -575,6 +575,129 @@ export default function Stage1_Magnetize({ onComplete }) {
               </Suspense>
             </Canvas>
           </div>
+
+          {/* Annotation Callout Boxes Matching Reference Image 2 */}
+          <AnimatePresence>
+            {isTesting && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.35 }}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  zIndex: 25,
+                  pointerEvents: 'none'
+                }}
+              >
+                {/* SVG Pointer Connector Lines */}
+                <svg
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    pointerEvents: 'none'
+                  }}
+                >
+                  {/* Left connector: from callout bottom-center directly touching iron filings cluster at loop */}
+                  <line
+                    x1="22%"
+                    y1="23%"
+                    x2="28.5%"
+                    y2="56.5%"
+                    stroke="#FFFFFF"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    filter="drop-shadow(0 2px 4px rgba(0,0,0,0.25))"
+                  />
+                  <circle
+                    cx="28.5%"
+                    cy="56.5%"
+                    r="6"
+                    fill="#FFFFFF"
+                    stroke="#CBD5E1"
+                    strokeWidth="1.5"
+                    filter="drop-shadow(0 2px 4px rgba(0,0,0,0.25))"
+                  />
+
+                  {/* Right connector: from callout bottom-left directly touching magnetized needle shaft */}
+                  <line
+                    x1="60%"
+                    y1="36%"
+                    x2="50.5%"
+                    y2="56.5%"
+                    stroke="#FFFFFF"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    filter="drop-shadow(0 2px 4px rgba(0,0,0,0.25))"
+                  />
+                  <circle
+                    cx="50.5%"
+                    cy="56.5%"
+                    r="6"
+                    fill="#FFFFFF"
+                    stroke="#CBD5E1"
+                    strokeWidth="1.5"
+                    filter="drop-shadow(0 2px 4px rgba(0,0,0,0.25))"
+                  />
+                </svg>
+
+                {/* Left Annotation Box: "Iron filings cling to the needle" */}
+                <motion.div
+                  initial={{ scale: 0.88, opacity: 0, y: -8 }}
+                  animate={{ scale: 1, opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15, duration: 0.35, ease: 'easeOut' }}
+                  style={{
+                    position: 'absolute',
+                    top: '15%',
+                    left: '6%',
+                    background: '#FFFDF5',
+                    border: '2px solid #FDE68A',
+                    borderRadius: '20px',
+                    padding: '0.65rem 1.35rem',
+                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
+                    fontSize: '1.25rem',
+                    fontWeight: 900,
+                    color: '#0A2540',
+                    letterSpacing: '-0.01em',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  Iron filings cling to the needle
+                </motion.div>
+
+                {/* Right Annotation Box: "Magnetized steel needle" */}
+                <motion.div
+                  initial={{ scale: 0.88, opacity: 0, y: -8 }}
+                  animate={{ scale: 1, opacity: 1, y: 0 }}
+                  transition={{ delay: 0.25, duration: 0.35, ease: 'easeOut' }}
+                  style={{
+                    position: 'absolute',
+                    top: '29%',
+                    left: '56%',
+                    background: '#FFFDF5',
+                    border: '2px solid #FDE68A',
+                    borderRadius: '20px',
+                    padding: '0.65rem 1.35rem',
+                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
+                    fontSize: '1.25rem',
+                    fontWeight: 900,
+                    color: '#0A2540',
+                    letterSpacing: '-0.01em',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  Magnetized steel needle
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
