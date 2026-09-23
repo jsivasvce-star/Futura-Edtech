@@ -139,33 +139,33 @@ export default function Stage3_Explore({ onComplete, onNext }) {
         minHeight: 0,
         boxSizing: 'border-box'
       }}>
-        {/* Container 1: Steps of Instructions (2x Scaled Typography, No-Scroll Containment) */}
+        {/* Container 1: Steps of Instructions (Tightened Height, Crisp Alignment) */}
         <div className="stage-container-1" style={{
           background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
           border: '1.5px solid #E2E8F0',
           borderRadius: '24px',
-          padding: '1.25rem 1.5rem',
+          padding: '1rem 1.4rem',
           boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '0.85rem',
+          gap: '0.65rem',
           overflow: 'hidden',
           flexShrink: 0
         }}>
-          <h3 style={{ margin: 0, fontSize: '24px', fontWeight: 900, color: '#1E1B4B' }}>
+          <h3 style={{ margin: 0, fontSize: '23px', fontWeight: 900, color: '#1E1B4B' }}>
             Steps of Instructions
           </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', overflow: 'hidden' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', overflow: 'hidden' }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
-              <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#173B5F', marginTop: '0.65rem', flexShrink: 0 }} />
-              <span style={{ fontSize: '25px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
-                Select "1. Same Poles" to observe like poles (N + N) repelling apart.
+              <div className="gold-step-badge" style={{ flexShrink: 0, marginTop: '3px' }}>1</div>
+              <span style={{ fontSize: '21px', color: '#173B5F', lineHeight: 1.35, fontWeight: 700 }}>
+                Select "Same Poles" to observe like poles (N + N) repelling apart.
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
-              <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#173B5F', marginTop: '0.65rem', flexShrink: 0 }} />
-              <span style={{ fontSize: '25px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
-                Select "2. Different Poles" to observe opposite poles (N + S) attracting together.
+              <div className="gold-step-badge" style={{ flexShrink: 0, marginTop: '3px' }}>2</div>
+              <span style={{ fontSize: '21px', color: '#173B5F', lineHeight: 1.35, fontWeight: 700 }}>
+                Select "Different Poles" to observe opposite poles (N + S) attracting together.
               </span>
             </div>
           </div>
@@ -176,11 +176,11 @@ export default function Stage3_Explore({ onComplete, onNext }) {
           background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
           border: '1.5px solid #E2E8F0',
           borderRadius: '24px',
-          padding: '1.35rem 1.6rem',
+          padding: '1.25rem 1.5rem',
           boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '0.85rem',
+          gap: '0.75rem',
           flex: 1,
           minHeight: 0
         }}>
@@ -188,18 +188,18 @@ export default function Stage3_Explore({ onComplete, onNext }) {
             Explore Controls
           </h3>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
             {/* 1. Start / Pause Flight Animation Button */}
             <button
               onClick={() => setIsRunning(!isRunning)}
               className="gold-glow-btn"
               style={{
                 width: '100%',
-                padding: '0.8rem 1rem',
+                padding: '0.75rem 1rem',
                 borderRadius: '16px',
                 color: '#FFFFFF',
                 fontWeight: 900,
-                fontSize: '17.5px',
+                fontSize: '17px',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
@@ -219,94 +219,104 @@ export default function Stage3_Explore({ onComplete, onNext }) {
               )}
             </button>
 
-            {/* 2. Same Poles Button */}
-            <button 
-              onClick={() => handleSelectMode("same")} 
-              className={interactionMode === "same" ? "gold-glow-btn" : ""}
-              style={{ 
-                width: "100%", 
-                padding: "0.8rem 1.15rem",
-                borderRadius: "16px",
-                fontSize: "17.5px",
+            {/* 2. Explore Same and Different Poles Button */}
+            <button
+              onClick={() => handleSelectMode(interactionMode === "same" ? "different" : "same")}
+              className="gold-glow-btn"
+              style={{
+                width: '100%',
+                padding: '0.75rem 1rem',
+                borderRadius: '16px',
+                color: '#FFFFFF',
                 fontWeight: 900,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                background: interactionMode === "same" 
-                  ? undefined 
-                  : "#FFFFFF",
-                color: interactionMode === "same" ? "#FFFFFF" : "#065F46",
-                border: interactionMode === "same" ? "none" : "1.5px solid #E2E8F0",
-                boxShadow: interactionMode === "same" 
-                  ? undefined 
-                  : "0 2px 6px rgba(0,0,0,0.03)",
-                transition: "all 0.2s ease"
+                fontSize: '16.5px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.6rem',
+                transition: 'all 0.2s ease'
               }}
             >
-              <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                {hasTestedSame && <CheckCircle size={20} color={interactionMode === "same" ? "#FFFFFF" : "#059669"} />}
-                🛡️ 1. Same Poles
-              </span>
-              <span style={{ 
-                fontSize: "0.88rem", 
-                fontWeight: 800, 
-                background: interactionMode === "same" ? "rgba(255, 255, 255, 0.25)" : "#EAF2F6", 
-                color: interactionMode === "same" ? "#FFFFFF" : "#173B5F", 
-                padding: "4px 10px", 
-                borderRadius: "10px" 
-              }}>
-                {hasTestedSame ? "Tested ✓" : "Repels Apart ⬅️ ➡️"}
-              </span>
+              Explore Same and Different Poles
             </button>
 
-            {/* 3. Different Poles Button */}
-            <button 
-              onClick={() => handleSelectMode("different")} 
-              className={interactionMode === "different" ? "gold-glow-btn" : ""}
-              style={{ 
-                width: "100%", 
-                padding: "0.8rem 1.15rem",
-                borderRadius: "16px",
-                fontSize: "17.5px",
-                fontWeight: 900,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                background: interactionMode === "different" 
-                  ? undefined 
-                  : "#FFFFFF",
-                color: interactionMode === "different" ? "#FFFFFF" : "#065F46",
-                border: interactionMode === "different" ? "none" : "1.5px solid #E2E8F0",
-                boxShadow: interactionMode === "different" 
-                  ? undefined 
-                  : "0 2px 6px rgba(0,0,0,0.03)",
-                transition: "all 0.2s ease"
-              }}
-            >
-              <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                {hasTestedDifferent && <CheckCircle size={20} color={interactionMode === "different" ? "#FFFFFF" : "#059669"} />}
-                💥 2. Different Poles
-              </span>
-              <span style={{ 
-                fontSize: "0.88rem", 
-                fontWeight: 800, 
-                background: interactionMode === "different" ? "rgba(255, 255, 255, 0.25)" : "#EAF2F6", 
-                color: interactionMode === "different" ? "#FFFFFF" : "#173B5F", 
-                padding: "4px 10px", 
-                borderRadius: "10px" 
-              }}>
-                {hasTestedDifferent ? "Tested ✓" : "Attracts & Collides 💥"}
-              </span>
-            </button>
-
-            {/* 4. Day / Night Environment Mode Toggle Row */}
+            {/* 3. Same Poles & Different Poles Row (Side-by-Side directly below) */}
             <div style={{
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
-              gap: '0.65rem',
-              marginTop: '0.1rem'
+              gap: '0.65rem'
+            }}>
+              <button 
+                onClick={() => handleSelectMode("same")} 
+                className={interactionMode === "same" ? "gold-glow-btn" : ""}
+                style={{ 
+                  padding: "0.75rem 1rem",
+                  borderRadius: "16px",
+                  fontSize: "16.5px",
+                  fontWeight: 900,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: interactionMode === "same" 
+                    ? undefined 
+                    : "#FFFFFF",
+                  color: interactionMode === "same" ? "#FFFFFF" : "#173B5F",
+                  border: interactionMode === "same" ? "none" : "1.5px solid #E2E8F0",
+                  boxShadow: interactionMode === "same" 
+                    ? undefined 
+                    : "0 2px 6px rgba(0,0,0,0.03)",
+                  transition: "all 0.2s ease"
+                }}
+              >
+                Same Poles
+              </button>
+
+              <button 
+                onClick={() => handleSelectMode("different")} 
+                className={interactionMode === "different" ? "gold-glow-btn" : ""}
+                style={{ 
+                  padding: "0.75rem 1rem",
+                  borderRadius: "16px",
+                  fontSize: "16.5px",
+                  fontWeight: 900,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: interactionMode === "different" 
+                    ? undefined 
+                    : "#FFFFFF",
+                  color: interactionMode === "different" ? "#FFFFFF" : "#173B5F",
+                  border: interactionMode === "different" ? "none" : "1.5px solid #E2E8F0",
+                  boxShadow: interactionMode === "different" 
+                    ? undefined 
+                    : "0 2px 6px rgba(0,0,0,0.03)",
+                  transition: "all 0.2s ease"
+                }}
+              >
+                Different Poles
+              </button>
+            </div>
+
+            {/* 4. Explore Day and Night Section Title (Bold, Dark Blue) */}
+            <div style={{
+              fontSize: '18px',
+              fontWeight: 900,
+              color: '#1E3A8A',
+              marginTop: '0.15rem',
+              marginBottom: '-0.15rem',
+              letterSpacing: '-0.01em'
+            }}>
+              Explore Day and Night
+            </div>
+
+            {/* 5. Day / Night Environment Mode Toggle Row (Side-by-Side directly below) */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '0.65rem'
             }}>
               <button
                 onClick={() => setEnvironmentMode('day')}
@@ -328,7 +338,7 @@ export default function Stage3_Explore({ onComplete, onNext }) {
                   transition: 'all 0.2s ease'
                 }}
               >
-                ☀️ Day
+                Day
               </button>
               <button
                 onClick={() => setEnvironmentMode('night')}
@@ -350,7 +360,7 @@ export default function Stage3_Explore({ onComplete, onNext }) {
                   transition: 'all 0.2s ease'
                 }}
               >
-                🌙 Night
+                Night
               </button>
             </div>
           </div>

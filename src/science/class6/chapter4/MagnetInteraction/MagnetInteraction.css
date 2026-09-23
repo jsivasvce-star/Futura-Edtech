@@ -1,9 +1,39 @@
-/* Activity 4.6 Attraction & Repulsion of Magnets Styles */
+/* Activity 4.6 Attraction & Repulsion of Magnets Styles - Warm Gold & Unified Theme */
 
-.magnet-interaction-root .gold-glow-btn {
+@keyframes gentle-gold-glow {
+  0%, 100% {
+    box-shadow: 0 4px 18px rgba(245, 158, 11, 0.45), 0 0 16px rgba(245, 158, 11, 0.25);
+    border-color: rgba(251, 191, 36, 0.7);
+  }
+  50% {
+    box-shadow: 0 8px 28px rgba(217, 119, 6, 0.7), 0 0 24px rgba(251, 191, 36, 0.45);
+    border-color: rgba(253, 230, 138, 0.9);
+  }
+}
+
+@keyframes gentle-shimmer {
+  0% {
+    transform: translateX(-150%) skewX(-25deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  45% {
+    opacity: 0.85;
+  }
+  60%, 100% {
+    transform: translateX(250%) skewX(-25deg);
+    opacity: 0;
+  }
+}
+
+.magnet-interaction-root .gold-glow-btn,
+.gold-glow-btn {
   position: relative !important;
-  background: linear-gradient(135deg, #214A70 0%, #173B5F 50%, #0A1931 100%) !important;
-  border: 1.5px solid #38BDF8 !important;
+  overflow: hidden !important;
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
+  border: 1.5px solid #FCD34D !important;
   border-radius: 16px;
   color: #FFFFFF !important;
   font-weight: 900 !important;
@@ -11,24 +41,82 @@
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 0.55rem !important;
-  box-shadow: 0 4px 14px rgba(10, 25, 49, 0.35) !important;
-  transition: all 0.2s ease !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35) !important;
+  gap: 0.65rem !important;
+  animation: gentle-gold-glow 3s infinite ease-in-out !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
 }
 
-.magnet-interaction-root .gold-glow-btn * {
+.magnet-interaction-root .gold-glow-btn *,
+.gold-glow-btn * {
   color: #FFFFFF !important;
 }
 
-.magnet-interaction-root .gold-glow-btn:hover {
-  transform: translateY(-2px) !important;
-  background: linear-gradient(135deg, #1E3A8A 0%, #173B5F 50%, #0A1931 100%) !important;
-  box-shadow: 0 6px 18px rgba(10, 25, 49, 0.5) !important;
+.magnet-interaction-root .gold-glow-btn::after,
+.gold-glow-btn::after {
+  content: '' !important;
+  position: absolute !important;
+  top: -70% !important;
+  left: 0 !important;
+  width: 50% !important;
+  height: 240% !important;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.65) 50%,
+    rgba(255, 255, 255, 0) 100%
+  ) !important;
+  animation: gentle-shimmer 3.8s infinite ease-in-out !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
 }
 
-.magnet-interaction-root .gold-glow-btn:active {
+.magnet-interaction-root .gold-glow-btn:hover,
+.gold-glow-btn:hover {
+  transform: translateY(-2px) scale(1.02) !important;
+  background: linear-gradient(135deg, #FBBF24 0%, #B45309 100%) !important;
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.55), 0 0 20px rgba(245, 158, 11, 0.4) !important;
+}
+
+.magnet-interaction-root .gold-glow-btn:active,
+.gold-glow-btn:active {
   transform: translateY(0) scale(0.98) !important;
+}
+
+/* Gold Step Number Badge */
+.gold-step-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.gold-step-badge::after {
+  content: '';
+  position: absolute;
+  top: -70%;
+  left: 0;
+  width: 50%;
+  height: 240%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.65) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: gentle-shimmer 3.8s infinite ease-in-out;
+  pointer-events: none;
 }
 
 /* Custom Navy Scrollbar */

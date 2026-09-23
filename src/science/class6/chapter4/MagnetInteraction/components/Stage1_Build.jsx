@@ -356,32 +356,32 @@ export default function Stage1_Build({ onComplete, onNext }) {
           minHeight: 0,
           boxSizing: 'border-box'
         }}>
-          {/* Container 1: Steps of Instructions (2x Scaled Typography, No-Scroll Containment) */}
+          {/* Container 1: Steps of Instructions (Tightened Height, Crisp Alignment) */}
           <div className="stage-container-1" style={{
             background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
-            padding: '1.25rem 1.5rem',
+            padding: '1rem 1.4rem',
             boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
             display: 'flex',
             flexDirection: 'column',
-            gap: '0.85rem',
+            gap: '0.65rem',
             overflow: 'hidden',
             flexShrink: 0
           }}>
-            <h3 style={{ margin: 0, fontSize: '24px', fontWeight: 900, color: '#1E1B4B' }}>
+            <h3 style={{ margin: 0, fontSize: '23px', fontWeight: 900, color: '#1E1B4B' }}>
               Steps of Instructions
             </h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', overflow: 'hidden' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', overflow: 'hidden' }}>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
-                <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#173B5F', marginTop: '0.65rem', flexShrink: 0 }} />
-                <span style={{ fontSize: '25px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
+                <div className="gold-step-badge" style={{ flexShrink: 0, marginTop: '3px' }}>1</div>
+                <span style={{ fontSize: '21px', color: '#173B5F', lineHeight: 1.35, fontWeight: 700 }}>
                   Click Airplane A in the tray below to place it into the left flight corridor.
                 </span>
               </div>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
-                <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#173B5F', marginTop: '0.65rem', flexShrink: 0 }} />
-                <span style={{ fontSize: '25px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
+                <div className="gold-step-badge" style={{ flexShrink: 0, marginTop: '3px' }}>2</div>
+                <span style={{ fontSize: '21px', color: '#173B5F', lineHeight: 1.35, fontWeight: 700 }}>
                   Click Airplane B in the tray below to place it into the right flight corridor.
                 </span>
               </div>

@@ -148,9 +148,9 @@ export default function Simulation({ onComplete, onNext }) {
 
   useEffect(() => {
     const img1 = new Image();
-    img1.src = '/assets/magnet_bar_steampunk_ns.png';
+    img1.src = '/assets/vintage_bar_magnet_ns.png';
     const img2 = new Image();
-    img2.src = '/assets/magnet_bar_steampunk_sn.png';
+    img2.src = '/assets/vintage_bar_magnet_sn.png';
   }, []);
 
   const toggleFullscreen = () => {
@@ -461,20 +461,7 @@ export default function Simulation({ onComplete, onNext }) {
               { num: '4', text: 'Flip or drag the magnet to explore a new direction.' }
             ].map((step) => (
               <div key={step.num} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <div style={{
-                  width: '38px',
-                  height: '38px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #214A70 0%, #0A1931 100%)',
-                  color: '#FFFFFF',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: 900,
-                  fontSize: '1.35rem',
-                  flexShrink: 0,
-                  boxShadow: '0 2px 8px rgba(10, 25, 49, 0.3)'
-                }}>
+                <div className="gold-step-badge">
                   {step.num}
                 </div>
                 <span style={{
@@ -771,15 +758,15 @@ export default function Simulation({ onComplete, onNext }) {
                 onClick={!isAnimating ? handleFlipMagnet : undefined}
                 title="Click to Flip Polarity (North ↔ South)"
                 style={{
-                  width: '168px',
-                  height: '56px',
+                  width: '172px',
+                  height: '66px',
                   position: 'relative',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: isAnimating ? 'default' : 'pointer',
                   userSelect: 'none',
-                  filter: 'drop-shadow(0 6px 14px rgba(0, 0, 0, 0.2))',
+                  filter: 'drop-shadow(0 8px 18px rgba(0, 0, 0, 0.35))',
                   transition: 'transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.18s ease'
                 }}
                 onMouseEnter={(e) => {
@@ -790,9 +777,9 @@ export default function Simulation({ onComplete, onNext }) {
                 }}
               >
                 <img 
-                  key={isFlipped ? 'steampunk-sn' : 'steampunk-ns'}
-                  src={isFlipped ? '/assets/magnet_bar_steampunk_sn.png' : '/assets/magnet_bar_steampunk_ns.png'}
-                  alt={isFlipped ? "Bar Magnet (South-North Polarity)" : "Bar Magnet (North-South Polarity)"}
+                  key={isFlipped ? 'vintage-sn' : 'vintage-ns'}
+                  src={isFlipped ? '/assets/vintage_bar_magnet_sn.png' : '/assets/vintage_bar_magnet_ns.png'}
+                  alt={isFlipped ? "Vintage Bar Magnet (South-North Polarity)" : "Vintage Bar Magnet (North-South Polarity)"}
                   draggable={false}
                   style={{
                     width: '100%',
@@ -828,23 +815,22 @@ export default function Simulation({ onComplete, onNext }) {
             style={{
               padding: '0.65rem 1.35rem',
               borderRadius: '16px',
-              background: 'rgba(255, 255, 255, 0.95)',
-              border: '1.5px solid #E2E8F0',
-              color: '#173B5F',
-              fontWeight: 900,
               fontSize: '1.05rem',
+              fontWeight: 900,
               cursor: isAnimating ? 'not-allowed' : 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '0.55rem',
-              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.18)',
-              backdropFilter: 'blur(8px)',
               transition: 'all 0.2s ease',
-              opacity: isAnimating ? 0.6 : 1
+              opacity: isAnimating ? 0.6 : 1,
+              background: 'linear-gradient(135deg, #1E3A8A 0%, #0F172A 100%)',
+              border: '1.5px solid #3B82F6',
+              color: '#FFFFFF',
+              boxShadow: '0 4px 14px rgba(15, 23, 42, 0.35)'
             }}
           >
-            <RefreshCw size={18} color="#173B5F" />
+            <RefreshCw size={18} color="#FFFFFF" />
             <span>Flip Magnet</span>
           </button>
 

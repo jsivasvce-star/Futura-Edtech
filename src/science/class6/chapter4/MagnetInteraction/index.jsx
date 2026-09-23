@@ -75,7 +75,7 @@ export default function MagnetInteractionActivity({ onBackToDashboard, onComplet
       overflow: 'hidden',
       boxSizing: 'border-box',
       padding: '0.6rem 1.2rem',
-      backgroundImage: `url('/sunrise_sky_backdrop.jpg')`,
+      backgroundImage: `url('/SuspendedMagnet/science_lab_bg.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',
@@ -142,22 +142,19 @@ export default function MagnetInteractionActivity({ onBackToDashboard, onComplet
           </h2>
         </div>
 
-        {/* Right: Next / Finish Step Button */}
+        {/* Right: Next / Finish Step Button with Warm Gold Glow */}
         <button
           onClick={handleNext}
+          className="gold-glow-btn"
           style={{
             padding: '0.55rem 1.45rem',
             fontSize: '1rem',
             fontWeight: 900,
             borderRadius: '16px',
-            background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
-            color: '#FFFFFF',
-            border: '1.5px solid #38BDF8',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             gap: '0.5rem',
-            boxShadow: '0 4px 14px rgba(23, 59, 95, 0.35)',
             transition: 'all 0.2s ease'
           }}
         >

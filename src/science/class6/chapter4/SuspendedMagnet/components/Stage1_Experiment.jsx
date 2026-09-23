@@ -396,10 +396,10 @@ export default function Stage1_Experiment({ onComplete }) {
         )}
       </AnimatePresence>
 
-      {/* Left Side: 3D Interactive Lab Setup (65% width) */}
+      {/* Left Side: 3D Lab Simulation Area */}
       <div style={{
-        flex: '0 0 65%',
-        maxWidth: '65%',
+        flex: '0 0 calc(64% - 0.65rem)',
+        maxWidth: 'calc(64% - 0.65rem)',
         display: 'flex',
         flexDirection: 'column',
         minWidth: 0,
@@ -593,8 +593,8 @@ export default function Stage1_Experiment({ onComplete }) {
         </div>
       </div>
 
-      {/* Right Side: Interactive Controls & Observation Panel (35% width, 2× Scaled Typography) */}
-      <div className="stage-right-column" style={{ flex: '0 0 35%', maxWidth: '35%' }}>
+      {/* Right Side: Interactive Controls & Observation Panel */}
+      <div className="stage-right-column" style={{ flex: '0 0 calc(36% - 0.65rem)', maxWidth: 'calc(36% - 0.65rem)' }}>
         {/* Container 1: Try the experiment */}
         <div 
           className="stage-container-1"

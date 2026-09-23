@@ -145,19 +145,16 @@ export default function Activity4_6({ onBackToDashboard, onComplete }) {
         {/* Right: Next Step Button */}
         <button
           onClick={handleNext}
+          className="gold-glow-btn"
           style={{
             padding: '0.55rem 1.45rem',
             fontSize: '1rem',
             fontWeight: 900,
             borderRadius: '16px',
-            background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
-            color: '#FFFFFF',
-            border: '1.5px solid #38BDF8',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             gap: '0.5rem',
-            boxShadow: '0 4px 14px rgba(23, 59, 95, 0.35)',
             transition: 'all 0.2s ease'
           }}
         >
