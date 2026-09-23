@@ -663,10 +663,11 @@ const SHLOKA_IMAGE_WORDS = [
 export default function Chapter2SloganPage({
   chapterNum = 2,
   title = "Diversity in the Living World",
+  initialPage = 1,
   onBack,
   onEnterLab,
 }) {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const [isPlayingSloganAudio, setIsPlayingSloganAudio] = useState(false);
   const [isPlayingMeaningAudio, setIsPlayingMeaningAudio] = useState(false);
   const [isPlayingWhyStudyAudio, setIsPlayingWhyStudyAudio] = useState(false);
@@ -1203,11 +1204,11 @@ export default function Chapter2SloganPage({
           box-shadow: none;
         }
         .bio-cta-btn {
-          background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-          color: #FFFFFF;
-          border: 1.8px solid #FDE68A;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%);
+          color: #FFFBEB;
+          border: 2px solid rgba(253, 230, 138, 0.85);
           border-radius: 12px;
-          padding: 9px 28px;
+          padding: 8px 24px;
           font-size: 16px;
           font-weight: 900;
           font-family: 'Outfit', sans-serif;
@@ -1216,7 +1217,10 @@ export default function Chapter2SloganPage({
           align-items: center;
           gap: 8px;
           transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-          box-shadow: 0 4px 18px rgba(217, 119, 6, 0.5), 0 0 16px rgba(245, 158, 11, 0.4);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55);
+          text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55);
           position: relative;
           overflow: hidden;
           z-index: 10;
@@ -1237,10 +1241,11 @@ export default function Chapter2SloganPage({
           left: 140%;
         }
         .bio-cta-btn:hover {
-          background: linear-gradient(135deg, #FBBF24 0%, #B45309 100%);
-          border-color: #FFFFFF;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.10) 48%, rgba(0, 0, 0, 0.15) 52%, rgba(0, 0, 0, 0.45) 100%), linear-gradient(135deg, rgba(16, 185, 129, 0.88) 0%, rgba(4, 120, 87, 0.94) 100%);
+          color: #FFFFFF;
+          border-color: #FEF08A;
           transform: translateY(-2px) scale(1.02);
-          box-shadow: 0 6px 24px rgba(217, 119, 6, 0.7), 0 0 22px rgba(245, 158, 11, 0.6);
+          box-shadow: 0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50), inset 0 1.5px 2px rgba(255, 255, 255, 0.90);
         }
         .bio-photo-box {
           flex: 0 0 65%;
@@ -2342,7 +2347,7 @@ export default function Chapter2SloganPage({
       {/* ============================================================ */}
       {currentPage === 3 && (
         <>
-          {/* Top Center Title: Adaptations (Attractive Golden Banner) */}
+          {/* Top Center Title: Adaptations (Deep Obsidian-Emerald Banner, matching Next button theme) */}
           <div style={{
             position: 'absolute',
             top: '16px',
@@ -2351,11 +2356,13 @@ export default function Chapter2SloganPage({
             zIndex: 35,
             pointerEvents: 'none',
             textAlign: 'center',
-            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-            border: '2px solid rgba(254, 240, 138, 0.85)',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '2px solid rgba(253, 230, 138, 0.85)',
             borderRadius: '12px',
             padding: '7px 28px',
-            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)'
           }}>
             <h1 style={{
               margin: 0,
@@ -2364,23 +2371,23 @@ export default function Chapter2SloganPage({
               fontFamily: '"Cinzel", Georgia, serif',
               letterSpacing: '0.14em',
               textTransform: 'uppercase',
-              color: '#FFFFFF',
+              color: '#FFFBEB',
               lineHeight: 1.15,
-              textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+              textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)'
             }}>
               Adaptations
             </h1>
           </div>
 
 
-          {/* Page 3 Bottom-Left: Previous Page Button (hidden when popup covers it) */}
+          {/* Page 3 Bottom-Left: Previous Page Button (always visible, including when popup is open) */}
           <div style={{
             position: 'absolute',
             bottom: '16px',
             left: '24px',
-            zIndex: 35,
-            opacity: showPage3Popup ? 0 : 1,
-            pointerEvents: showPage3Popup ? 'none' : 'auto',
+            zIndex: 45,
+            opacity: 1,
+            pointerEvents: 'auto',
             transition: 'opacity 0.2s ease'
           }}>
             <button
@@ -2430,7 +2437,7 @@ export default function Chapter2SloganPage({
                 top: '16px',
                 left: '18px',
                 width: 'min(480px, 42vw)',
-                maxHeight: 'calc(100vh - 36px)',
+                maxHeight: 'calc(100vh - 76px)',
                 zIndex: 40,
                 backdropFilter: 'blur(4px)',
                 WebkitBackdropFilter: 'blur(2px)',
@@ -2816,28 +2823,33 @@ export default function Chapter2SloganPage({
                 alignItems: 'center',
                 gap: '8px',
                 padding: '12px 18px 12px 14px',
-                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                color: '#FFFFFF',
-                border: '2px solid #FDE68A',
+                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                color: '#FFFBEB',
+                border: '2px solid rgba(253, 230, 138, 0.85)',
                 borderLeft: 'none',
                 borderRadius: '0 20px 20px 0',
-                boxShadow: '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
                 cursor: 'pointer',
                 fontFamily: '"Outfit", sans-serif',
                 fontWeight: 900,
                 fontSize: '15px',
+                textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
                 transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
-                e.currentTarget.style.boxShadow = '0 8px 30px rgba(217, 119, 6, 0.75), 0 2px 12px rgba(0, 0, 0, 0.5)';
+                e.currentTarget.style.borderColor = '#FEF08A';
+                e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
-                e.currentTarget.style.boxShadow = '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)';
+                e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)';
               }}
             >
-              <BookOpen size={18} color="#FFFFFF" strokeWidth={2.5} />
+              <BookOpen size={18} color="#FFFBEB" strokeWidth={2.5} />
               <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
             </button>
           )}
@@ -2849,7 +2861,7 @@ export default function Chapter2SloganPage({
       {/* ============================================================ */}
       {currentPage === 4 && (
         <>
-          {/* Top Center Title: Plant Groups (Attractive Golden Banner) */}
+          {/* Top Center Title: Plant Groups (Deep Obsidian-Emerald Banner, matching Next button theme) */}
           <div style={{
             position: 'absolute',
             top: '16px',
@@ -2858,11 +2870,13 @@ export default function Chapter2SloganPage({
             zIndex: 35,
             pointerEvents: 'none',
             textAlign: 'center',
-            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-            border: '2px solid rgba(254, 240, 138, 0.85)',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '2px solid rgba(253, 230, 138, 0.85)',
             borderRadius: '12px',
             padding: '7px 28px',
-            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)'
           }}>
             <h1 style={{
               margin: 0,
@@ -2871,9 +2885,9 @@ export default function Chapter2SloganPage({
               fontFamily: '"Cinzel", Georgia, serif',
               letterSpacing: '0.14em',
               textTransform: 'uppercase',
-              color: '#FFFFFF',
+              color: '#FFFBEB',
               lineHeight: 1.15,
-              textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+              textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)'
             }}>
               Plant Groups
             </h1>
@@ -2882,14 +2896,14 @@ export default function Chapter2SloganPage({
 
 
 
-          {/* Page 4 Bottom-Left: Previous Page Button */}
+          {/* Page 4 Bottom-Left: Previous Page Button (always visible, including when popup is open) */}
           <div style={{
             position: 'absolute',
             bottom: '16px',
             left: '24px',
-            zIndex: 35,
-            opacity: showPage4Popup ? 0 : 1,
-            pointerEvents: showPage4Popup ? 'none' : 'auto',
+            zIndex: 45,
+            opacity: 1,
+            pointerEvents: 'auto',
             transition: 'opacity 0.25s ease'
           }}>
             <button
@@ -2939,7 +2953,7 @@ export default function Chapter2SloganPage({
                 top: '16px',
                 left: '18px',
                 width: 'min(480px, 42vw)',
-                maxHeight: 'calc(100vh - 36px)',
+                maxHeight: 'calc(100vh - 76px)',
                 zIndex: 40,
                 backdropFilter: 'blur(4px)',
                 WebkitBackdropFilter: 'blur(2px)',
@@ -3329,28 +3343,33 @@ export default function Chapter2SloganPage({
                 alignItems: 'center',
                 gap: '8px',
                 padding: '12px 18px 12px 14px',
-                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                color: '#FFFFFF',
-                border: '2px solid #FDE68A',
+                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                color: '#FFFBEB',
+                border: '2px solid rgba(253, 230, 138, 0.85)',
                 borderLeft: 'none',
                 borderRadius: '0 20px 20px 0',
-                boxShadow: '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
                 cursor: 'pointer',
                 fontFamily: '"Outfit", sans-serif',
                 fontWeight: 900,
                 fontSize: '15px',
+                textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
                 transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
-                e.currentTarget.style.boxShadow = '0 8px 30px rgba(217, 119, 6, 0.75), 0 2px 12px rgba(0, 0, 0, 0.5)';
+                e.currentTarget.style.borderColor = '#FEF08A';
+                e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
-                e.currentTarget.style.boxShadow = '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)';
+                e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)';
               }}
             >
-              <BookOpen size={18} color="#FFFFFF" strokeWidth={2.5} />
+              <BookOpen size={18} color="#FFFBEB" strokeWidth={2.5} />
               <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
             </button>
           )}
@@ -3362,7 +3381,7 @@ export default function Chapter2SloganPage({
       {/* ============================================================ */}
       {currentPage === 5 && (
         <>
-          {/* Top Center Title: Conservation (Attractive Golden Banner) */}
+          {/* Top Center Title: Conservation (Deep Obsidian-Emerald Banner, matching Next button theme) */}
           <div style={{
             position: 'absolute',
             top: '16px',
@@ -3371,11 +3390,13 @@ export default function Chapter2SloganPage({
             zIndex: 35,
             pointerEvents: 'none',
             textAlign: 'center',
-            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-            border: '2px solid rgba(254, 240, 138, 0.85)',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '2px solid rgba(253, 230, 138, 0.85)',
             borderRadius: '12px',
             padding: '7px 28px',
-            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)'
           }}>
             <h1 style={{
               margin: 0,
@@ -3384,9 +3405,9 @@ export default function Chapter2SloganPage({
               fontFamily: '"Cinzel", Georgia, serif',
               letterSpacing: '0.14em',
               textTransform: 'uppercase',
-              color: '#FFFFFF',
+              color: '#FFFBEB',
               lineHeight: 1.15,
-              textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+              textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)'
             }}>
               Conservation
             </h1>
@@ -3395,14 +3416,14 @@ export default function Chapter2SloganPage({
 
 
 
-          {/* Page 5 Bottom-Left: Previous Page Button */}
+          {/* Page 5 Bottom-Left: Previous Page Button (always visible, including when popup is open) */}
           <div style={{
             position: 'absolute',
             bottom: '16px',
             left: '24px',
-            zIndex: 35,
-            opacity: showPage5Popup ? 0 : 1,
-            pointerEvents: showPage5Popup ? 'none' : 'auto',
+            zIndex: 45,
+            opacity: 1,
+            pointerEvents: 'auto',
             transition: 'opacity 0.25s ease'
           }}>
             <button
@@ -3452,7 +3473,7 @@ export default function Chapter2SloganPage({
                 top: '16px',
                 left: '18px',
                 width: 'min(480px, 42vw)',
-                maxHeight: 'calc(100vh - 36px)',
+                maxHeight: 'calc(100vh - 76px)',
                 zIndex: 40,
                 backdropFilter: 'blur(4px)',
                 WebkitBackdropFilter: 'blur(2px)',
@@ -3815,28 +3836,33 @@ export default function Chapter2SloganPage({
                 alignItems: 'center',
                 gap: '8px',
                 padding: '12px 18px 12px 14px',
-                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                color: '#FFFFFF',
-                border: '2px solid #FDE68A',
+                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                color: '#FFFBEB',
+                border: '2px solid rgba(253, 230, 138, 0.85)',
                 borderLeft: 'none',
                 borderRadius: '0 20px 20px 0',
-                boxShadow: '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
                 cursor: 'pointer',
                 fontFamily: '"Outfit", sans-serif',
                 fontWeight: 900,
                 fontSize: '15px',
+                textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
                 transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
-                e.currentTarget.style.boxShadow = '0 8px 30px rgba(217, 119, 6, 0.75), 0 2px 12px rgba(0, 0, 0, 0.5)';
+                e.currentTarget.style.borderColor = '#FEF08A';
+                e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
-                e.currentTarget.style.boxShadow = '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)';
+                e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)';
               }}
             >
-              <BookOpen size={18} color="#FFFFFF" strokeWidth={2.5} />
+              <BookOpen size={18} color="#FFFBEB" strokeWidth={2.5} />
               <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
             </button>
           )}

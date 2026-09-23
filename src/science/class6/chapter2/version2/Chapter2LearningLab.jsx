@@ -166,10 +166,23 @@ const SUMMARY_QUIZ = [
 ];
 
 export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, onSoundButtonVisibilityChange }) {
-  const [viewMode, setViewMode] = useState('cover'); // 'cover' | 'slogan' | 'scenes' | 'activity'
-  const [currentStep, setCurrentStep] = useState(1);
+  const [viewMode, setViewMode] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    if (params.get('sloganPage')) return 'slogan';
+    if (params.get('step')) return 'activity';
+    return 'cover';
+  }); // 'cover' | 'slogan' | 'scenes' | 'activity'
+  const [currentStep, setCurrentStep] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    const s = parseInt(params.get('step'), 10);
+    return !isNaN(s) ? s : 1;
+  });
   const [section1SubTab, setSection1SubTab] = useState('slogan'); // 'slogan' | 'scenes'
-  const [sloganInitialPage, setSloganInitialPage] = useState(1);
+  const [sloganInitialPage, setSloganInitialPage] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    const p = parseInt(params.get('sloganPage'), 10);
+    return !isNaN(p) ? p : 1;
+  });
   const [introInitialScene, setIntroInitialScene] = useState(0);
   const [venationSubTab, setVenationSubTab] = useState(() => {
     const params = new URLSearchParams(window.location.hash.replace('#', '?'));

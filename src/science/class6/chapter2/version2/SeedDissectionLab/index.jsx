@@ -185,17 +185,29 @@ export default function SeedDissectionLab({ onBackToDashboard, onPreviousPage, o
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '10px',
-                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                color: '#FFFFFF',
-                border: '2px solid #FDE68A',
-                borderRadius: '14px',
+                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                color: '#FFFBEB',
+                border: '2px solid rgba(253, 230, 138, 0.85)',
+                borderRadius: '26px',
                 padding: '10px 22px',
                 fontSize: '20px',
                 fontWeight: 900,
                 fontFamily: '"Outfit", sans-serif',
                 cursor: 'pointer',
-                boxShadow: '0 8px 24px rgba(217, 119, 6, 0.55), 0 0 16px rgba(245, 158, 11, 0.4)',
-                flexShrink: 0
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+                textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+                flexShrink: 0,
+                transition: 'all 0.18s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.04)';
+                e.currentTarget.style.borderColor = '#FEF08A';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
               }}
             >
               <span>Next</span>
