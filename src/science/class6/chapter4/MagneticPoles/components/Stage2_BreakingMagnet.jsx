@@ -518,7 +518,15 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.65rem' }}>
               <button
+                type="button"
                 onClick={() => handleQuizAnswer('yes')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleQuizAnswer('yes');
+                  }
+                }}
+                aria-pressed={quizAnswer === 'yes'}
                 style={{
                   padding: '0.85rem 1.15rem',
                   textAlign: 'left',
@@ -543,7 +551,15 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
               </button>
 
               <button
+                type="button"
                 onClick={() => handleQuizAnswer('no')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleQuizAnswer('no');
+                  }
+                }}
+                aria-pressed={quizAnswer === 'no'}
                 style={{
                   padding: '0.85rem 1.15rem',
                   textAlign: 'left',
@@ -567,6 +583,64 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
                 {quizAnswer === 'no' && <CheckCircle size={20} color="#10B981" />}
               </button>
             </div>
+
+            {/* In-container positive feedback when 'no' is selected */}
+            <AnimatePresence>
+              {quizAnswer === 'no' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -6, scale: 0.97 }}
+                  transition={{ duration: 0.2 }}
+                  style={{
+                    marginTop: '0.75rem',
+                    padding: '0.75rem 1rem',
+                    borderRadius: '14px',
+                    background: '#ECFDF5',
+                    border: '1.5px solid #6EE7B7',
+                    color: '#065F46',
+                    fontSize: '15px',
+                    fontWeight: 800,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.55rem',
+                    boxShadow: '0 4px 14px rgba(16, 185, 129, 0.12)',
+                  }}
+                >
+                  <CheckCircle size={20} color="#10B981" style={{ flexShrink: 0 }} />
+                  <span>🎉 Correct! A single isolated magnetic pole cannot exist. Every magnet always has both North and South poles!</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* In-container corrective feedback when 'yes' is selected */}
+            <AnimatePresence>
+              {quizAnswer === 'yes' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -6, scale: 0.97 }}
+                  transition={{ duration: 0.2 }}
+                  style={{
+                    marginTop: '0.75rem',
+                    padding: '0.75rem 1rem',
+                    borderRadius: '14px',
+                    background: '#FEF2F2',
+                    border: '1.5px solid #F87171',
+                    color: '#991B1B',
+                    fontSize: '15px',
+                    fontWeight: 800,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.55rem',
+                    boxShadow: '0 4px 14px rgba(239, 68, 68, 0.12)',
+                  }}
+                >
+                  <XCircle size={20} color="#DC2626" style={{ flexShrink: 0 }} />
+                  <span>Incorrect. Single isolated magnetic poles cannot exist! When broken, each piece becomes a complete magnet with two poles. Try again!</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* Prompt when user attempts to proceed without answering */}
@@ -581,18 +655,18 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
                   marginTop: '0.75rem',
                   padding: '0.75rem 1rem',
                   borderRadius: '14px',
-                  background: '#FEF2F2',
-                  border: '1.5px solid #F87171',
-                  color: '#991B1B',
+                  background: '#FFFBEB',
+                  border: '1.5px solid #FCD34D',
+                  color: '#92400E',
                   fontSize: '15px',
                   fontWeight: 800,
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.55rem',
-                  boxShadow: '0 4px 14px rgba(239, 68, 68, 0.12)',
+                  boxShadow: '0 4px 14px rgba(245, 158, 11, 0.12)',
                 }}
               >
-                <AlertCircle size={20} color="#DC2626" style={{ flexShrink: 0 }} />
+                <AlertCircle size={20} color="#D97706" style={{ flexShrink: 0 }} />
                 <span>{warningPrompt}</span>
               </motion.div>
             )}

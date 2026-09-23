@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import backgroundPhy from '../../../../assets/Backgroundphy.jpeg';
 import './Chapter4Flow.css';
 
 // 10 Curated Learning Modules for Chapter 4
@@ -105,20 +106,17 @@ export default function Chapter4Flow({ onBackToDashboard, onLaunchActivity }) {
   );
 
   return (
-    <div className="nautical-map-viewport">
+    <div 
+      className="nautical-map-viewport"
+      style={{
+        backgroundImage: `url(${backgroundPhy})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}
+    >
       {/* 1376:768 Precision Map Stage matching custom illustration aspect ratio */}
       <div className="nautical-map-stage">
-        
-        {/* Full-bleed Custom Illustrated Clean Antique Nautical Expedition Map Backdrop */}
-        <img 
-          src="/assets/nautical_expedition_map_clean.jpg" 
-          alt="16th Century Clean Antique Nautical Expedition Map" 
-          className="map-backdrop-img"
-        />
-
-        {/* Ambient Burnt-Edge Vignette Overlay */}
-        <div className="map-vignette-overlay" />
-
         {/* Top-Center Brass Nameplate Plaque */}
         <header className="flow-top-header">
           <motion.div 
