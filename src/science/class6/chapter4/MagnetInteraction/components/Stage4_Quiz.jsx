@@ -77,32 +77,32 @@ export default function Stage4_Quiz({ onComplete }) {
     return (
       <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: 'transparent', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
         <div style={{ 
-          maxWidth: '520px', 
+          maxWidth: '560px', 
           width: '90%', 
-          padding: '2.5rem 3rem', 
+          padding: '2.8rem 3.2rem', 
           textAlign: 'center', 
           background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
-          borderRadius: '24px', 
+          borderRadius: '28px', 
           border: '1.5px solid #E2E8F0',
-          boxShadow: '0 8px 30px rgba(217, 119, 6, 0.08)',
+          boxShadow: '0 12px 40px rgba(23, 59, 95, 0.12)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '1.25rem'
+          gap: '1.45rem'
         }}>
-          <h2 style={{ fontSize: '1.8rem', margin: 0, color: '#064E3B', fontWeight: 900 }}>Quiz Completed! 🎉</h2>
+          <h2 style={{ fontSize: '2.2rem', margin: 0, color: '#173B5F', fontWeight: 900 }}>Quiz Completed! 🎉</h2>
           
-          <p style={{ color: '#065F46', margin: 0, fontSize: '1.2rem', fontWeight: 600 }}>
-            You scored <strong style={{ color: '#047857' }}>{score}</strong> out of {QUESTIONS.length}
+          <p style={{ color: '#1E293B', margin: 0, fontSize: '1.45rem', fontWeight: 700 }}>
+            You scored <strong style={{ color: '#173B5F', fontSize: '1.6rem' }}>{score}</strong> out of {QUESTIONS.length}
           </p>
 
           <button
             onClick={() => { if (onComplete) onComplete(score); }}
             className="gold-glow-btn"
             style={{
-              padding: '0.9rem 2.8rem',
-              borderRadius: '30px',
-              fontSize: '1.1rem',
+              padding: '1rem 3.2rem',
+              borderRadius: '32px',
+              fontSize: '1.25rem',
               fontWeight: 900,
               cursor: 'pointer',
               marginTop: '0.6rem'
@@ -130,10 +130,12 @@ export default function Stage4_Quiz({ onComplete }) {
       fontFamily: 'system-ui, -apple-system, sans-serif'
     }}>
       <div style={{ width: '100%', maxWidth: '1250px', display: 'flex', flexDirection: 'column' }}>
-        {/* Top Bar */}
+        {/* Top Bar (Dark Blue Headers) */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', padding: '0 0.5rem', flexShrink: 0 }}>
-          <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.5rem', fontWeight: 900 }}>Test Your Knowledge</h3>
-          <div style={{ color: '#047857', fontSize: '1.25rem', fontWeight: 800 }}>
+          <h3 style={{ margin: 0, color: '#173B5F', fontSize: '1.85rem', fontWeight: 900, letterSpacing: '-0.01em' }}>
+            Test Your Knowledge
+          </h3>
+          <div style={{ color: '#173B5F', fontSize: '1.45rem', fontWeight: 800 }}>
             Question {currentQ + 1} of {QUESTIONS.length}
           </div>
         </div>
@@ -144,50 +146,54 @@ export default function Stage4_Quiz({ onComplete }) {
           border: '1.5px solid #E2E8F0',
           borderRadius: '28px', 
           padding: '2.4rem 3.2rem', 
-          boxShadow: '0 8px 30px rgba(217, 119, 6, 0.08)',
+          boxShadow: '0 8px 30px rgba(23, 59, 95, 0.08)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '1.4rem',
+          gap: '1.35rem',
           width: '100%',
           boxSizing: 'border-box'
         }}>
-          {/* Title */}
-          <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.75rem', fontWeight: 900 }}>
+          {/* Title in Dark Blue */}
+          <h3 style={{ margin: 0, color: '#173B5F', fontSize: '1.9rem', fontWeight: 900 }}>
             {question.title}
           </h3>
 
-          {/* Question Text */}
-          <p style={{ margin: 0, fontSize: '1.38rem', lineHeight: '1.6', fontWeight: 600, color: '#065F46' }}>
+          {/* Question Text in Dark Blue */}
+          <p style={{ margin: 0, fontSize: '1.55rem', lineHeight: '1.55', fontWeight: 700, color: '#173B5F' }}>
             {question.question}
           </p>
 
-          {/* Option Buttons */}
+          {/* Option Buttons (Dark Blue #0a1931 Background with Crisp White Text) */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
             {question.options.map((opt) => {
               const isSelected = selectedOption === opt;
               const isCorrect = opt === question.correctAnswer;
 
-              let bgColor = '#FFFFFF';
-              let borderColor = '#E2E8F0';
-              let textColor = '#065F46';
+              let bgColor = '#0a1931';
+              let borderColor = '#1e293b';
+              let textColor = '#FFFFFF';
               let icon = null;
 
               if (showResult) {
                 if (isCorrect) {
-                  bgColor = '#DCFCE7';
-                  borderColor = '#10B981';
-                  textColor = '#064E3B';
-                  icon = <CheckCircle size={26} color="#10B981" />;
+                  bgColor = '#064e3b';
+                  borderColor = '#34d399';
+                  textColor = '#FFFFFF';
+                  icon = <CheckCircle size={28} color="#34d399" />;
                 } else if (isSelected) {
-                  bgColor = '#FEE2E2';
-                  borderColor = '#EF4444';
-                  textColor = '#991B1B';
-                  icon = <XCircle size={26} color="#EF4444" />;
+                  bgColor = '#7f1d1d';
+                  borderColor = '#f87171';
+                  textColor = '#FFFFFF';
+                  icon = <XCircle size={28} color="#f87171" />;
+                } else {
+                  bgColor = '#0a1931';
+                  borderColor = '#1e293b';
+                  textColor = '#cbd5e1';
                 }
               } else if (isSelected) {
-                borderColor = '#10B981';
-                bgColor = '#DCFCE7';
-                textColor = '#064E3B';
+                borderColor = '#38bdf8';
+                bgColor = '#173b5f';
+                textColor = '#FFFFFF';
               }
 
               return (
@@ -200,18 +206,18 @@ export default function Stage4_Quiz({ onComplete }) {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    padding: '1.25rem 1.85rem',
+                    padding: '1.25rem 2rem',
                     borderRadius: '20px',
                     background: bgColor,
-                    border: `1.5px solid ${borderColor}`,
+                    border: `2px solid ${borderColor}`,
                     color: textColor,
                     cursor: showResult ? 'default' : 'pointer',
                     textAlign: 'left',
-                    fontSize: '1.25rem',
+                    fontSize: '1.35rem',
                     fontWeight: 800,
                     transition: 'all 0.2s ease',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
-                    opacity: showResult && !isCorrect && !isSelected ? 0.6 : 1
+                    boxShadow: '0 4px 14px rgba(10, 25, 49, 0.25)',
+                    opacity: showResult && !isCorrect && !isSelected ? 0.55 : 1
                   }}
                 >
                   <span>{opt}</span>
@@ -223,10 +229,10 @@ export default function Stage4_Quiz({ onComplete }) {
 
           {/* Explanation & Next Question Button */}
           {showResult && (
-            <div style={{ marginTop: '0.6rem', display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
-              <div style={{ padding: '1.1rem 1.6rem', background: '#F0FDF4', borderRadius: '18px', border: '1.5px solid #A7F3D0', borderLeft: '6px solid #059669' }}>
-                <h4 style={{ margin: '0 0 0.35rem 0', fontSize: '1.2rem', fontWeight: 900, color: '#064E3B' }}>Explanation</h4>
-                <p style={{ margin: 0, color: '#065F46', fontSize: '1.18rem', lineHeight: '1.55', fontWeight: 600 }}>{question.explanation}</p>
+            <div style={{ marginTop: '0.6rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div style={{ padding: '1.2rem 1.8rem', background: '#F0FDF4', borderRadius: '18px', border: '1.5px solid #A7F3D0', borderLeft: '6px solid #059669' }}>
+                <h4 style={{ margin: '0 0 0.35rem 0', fontSize: '1.35rem', fontWeight: 900, color: '#064E3B' }}>Explanation</h4>
+                <p style={{ margin: 0, color: '#065F46', fontSize: '1.3rem', lineHeight: '1.55', fontWeight: 600 }}>{question.explanation}</p>
               </div>
               
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -234,9 +240,9 @@ export default function Stage4_Quiz({ onComplete }) {
                   onClick={handleNextQuestion}
                   className="gold-glow-btn"
                   style={{
-                    padding: '1.1rem 3rem',
+                    padding: '1.15rem 3.2rem',
                     borderRadius: '32px',
-                    fontSize: '1.25rem',
+                    fontSize: '1.3rem',
                     fontWeight: 900,
                     cursor: 'pointer'
                   }}

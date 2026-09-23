@@ -1,30 +1,69 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, BookOpen, Compass, TestTube2, Sparkles, CheckCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Compass, HelpCircle, Sparkles } from 'lucide-react';
 import Simulation from './Simulation';
 import Questions from './Questions';
 import DidYouKnow from './DidYouKnow';
 import './Activity4_6.css';
 
+const STEPS_NAV = [
+  { id: 'simulation', name: '1. Compass & Bar Magnet', icon: Compass },
+  { id: 'questions', name: '2. Quiz', icon: HelpCircle },
+  { id: 'didyouknow', name: '3. Did You Know?', icon: Sparkles }
+];
+
 export default function Activity4_6({ onBackToDashboard, onComplete }) {
-  const [activeTab, setActiveTab] = useState('simulation');
-  const [simCompleted, setSimCompleted] = useState(false);
-  const [questionsCompleted, setQuestionsCompleted] = useState(false);
-  const [didYouKnowCompleted, setDidYouKnowCompleted] = useState(false);
+  const [stepIndex, setStepIndex] = useState(0);
+  const [progress, setProgress] = useState({
+    simulation: false,
+    questions: false,
+    didyouknow: false
+  });
 
-  const tabs = [
-    { id: 'simulation', label: '1. Interactive Lab', icon: TestTube2 },
-    { id: 'questions', label: '2. Concept Check', icon: BookOpen, disabled: !simCompleted },
-    { id: 'didyouknow', label: '3. Did You Know?', icon: Sparkles, disabled: !questionsCompleted }
-  ];
-
-  const handleDidYouKnowComplete = () => {
-    setDidYouKnowCompleted(true);
-    if (onComplete) onComplete();
+  const handleSimComplete = () => {
+    setProgress(prev => ({ ...prev, simulation: true }));
   };
 
+  const handleSimNext = () => {
+    setProgress(prev => ({ ...prev, simulation: true }));
+    setStepIndex(1);
+  };
+
+  const handleQuestionsComplete = () => {
+    setProgress(prev => ({ ...prev, questions: true }));
+  };
+
+  const handleQuestionsNext = () => {
+    setProgress(prev => ({ ...prev, questions: true }));
+    setStepIndex(2);
+  };
+
+  const handleDidYouKnowComplete = () => {
+    setProgress(prev => ({ ...prev, didyouknow: true }));
+    if (onComplete) onComplete();
+    else if (onBackToDashboard) onBackToDashboard();
+  };
+
+  const handleBack = () => {
+    if (stepIndex > 0) {
+      setStepIndex(stepIndex - 1);
+    } else if (onBackToDashboard) {
+      onBackToDashboard();
+    }
+  };
+
+  const handleNext = () => {
+    if (stepIndex < STEPS_NAV.length - 1) {
+      setStepIndex(stepIndex + 1);
+    } else {
+      handleDidYouKnowComplete();
+    }
+  };
+
+  const currentStep = STEPS_NAV[stepIndex];
+
   return (
-    <div style={{ 
+    <div className="activity-4-6-root" style={{ 
       position: 'fixed',
       top: 0,
       left: 0,
@@ -35,157 +74,120 @@ export default function Activity4_6({ onBackToDashboard, onComplete }) {
       flexDirection: 'column', 
       overflow: 'hidden',
       boxSizing: 'border-box',
-      padding: '0.65rem 0.85rem',
-      backgroundColor: 'transparent',
-      fontFamily: 'system-ui, -apple-system, sans-serif'
+      padding: '0.6rem 1.2rem',
+      backgroundImage: `url('/SuspendedMagnet/science_lab_bg.jpg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
+      backgroundRepeat: 'no-repeat',
+      fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif"
     }}>
-      {/* Top Header Bar Container (Enclosing Golden Card) */}
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'auto 1fr auto', 
-        alignItems: 'center', 
-        padding: '0.65rem 1.25rem',
-        marginBottom: '0.45rem',
-        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+      {/* Unified Solid White Top Header Navigation Bar (Matches Finding Directions Navbar) */}
+      <header style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '0.55rem 1.4rem',
+        marginBottom: '0.65rem',
+        background: '#FFFFFF',
         border: '1.5px solid #E2E8F0',
         borderRadius: '24px',
-        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
         flexShrink: 0,
-        position: 'relative',
-        zIndex: 100
+        zIndex: 100,
+        width: '100%',
+        boxSizing: 'border-box'
       }}>
-        {/* Left Column: Back Button */}
-        <button 
-          onClick={onBackToDashboard}
-          className="gold-glow-btn"
-          style={{ 
-            position: 'relative', zIndex: 100,
-            padding: '0.6rem 1.25rem', 
-            fontSize: '0.92rem', 
-            gap: '0.5rem',
-            borderRadius: '16px',
-            border: 'none',
+        {/* Left: Back Button */}
+        <button
+          onClick={handleBack}
+          style={{
+            padding: '0.55rem 1.25rem',
+            fontSize: '1rem',
             fontWeight: 900,
+            borderRadius: '16px',
+            background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
+            color: '#FFFFFF',
+            border: 'none',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
+            gap: '0.5rem',
+            boxShadow: '0 4px 12px rgba(23, 59, 95, 0.25)',
             transition: 'all 0.2s ease'
           }}
         >
-          <ArrowLeft size={18} color="#FFFFFF" /> Back to Chapter 4
+          <ArrowLeft size={18} color="#FFFFFF" /> Back
         </button>
 
-        {/* Center Column: Title */}
-        <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <h2 style={{ margin: 0, fontSize: '1.42rem', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.65rem', color: '#064E3B', letterSpacing: '-0.02em' }}>
-            <Compass size={26} style={{ color: '#173B5F' }} />
-            Activity 4.7: Compass & Bar Magnet
+        {/* Center: Current Stage Title */}
+        <div style={{
+          textAlign: 'center',
+          flex: 1,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <h2 style={{
+            margin: 0,
+            fontSize: '1.85rem',
+            fontWeight: 900,
+            color: '#173B5F',
+            letterSpacing: '-0.02em',
+            background: 'transparent',
+            border: 'none',
+            padding: 0
+          }}>
+            {currentStep.name}
           </h2>
-          <span style={{ fontSize: '0.88rem', color: '#047857', fontWeight: 800 }}>Class 6 Science — Make Your Own Magnet & Explore Induction</span>
         </div>
 
-        {/* Right Column: Active Navigation Tabs */}
-        <nav className="tabs-container" style={{ 
-          display: 'flex', 
-          gap: '0.5rem', 
-          margin: 0,
-          background: '#FFFFFF',
-          padding: '0.35rem 0.5rem',
-          borderRadius: '30px',
-          border: '1.5px solid #E2E8F0',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
-        }}>
-          {tabs.map(tab => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            
-            return (
-              <button
-                key={tab.id}
-                onClick={() => !tab.disabled && setActiveTab(tab.id)}
-                disabled={tab.disabled}
-                className={isActive ? "gold-glow-btn" : ""}
-                style={{
-                  opacity: tab.disabled ? 0.45 : 1,
-                  cursor: tab.disabled ? 'not-allowed' : 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.45rem',
-                  padding: '0.55rem 1.05rem',
-                  fontSize: '0.92rem',
-                  fontWeight: 900,
-                  borderRadius: '20px',
-                  background: isActive ? undefined : 'transparent',
-                  color: isActive ? '#FFFFFF' : tab.disabled ? '#94A3B8' : '#173B5F',
-                  border: 'none',
-                  boxShadow: 'none',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                <Icon size={17} color={isActive ? '#FFFFFF' : tab.disabled ? '#94A3B8' : '#173B5F'} />
-                <span>{tab.label}</span>
-                {tab.id === 'simulation' && simCompleted && (
-                  <CheckCircle size={15} style={{ color: isActive ? '#FFFFFF' : '#10B981', marginLeft: '0.2rem' }} />
-                )}
-                {tab.id === 'questions' && questionsCompleted && (
-                  <CheckCircle size={15} style={{ color: isActive ? '#FFFFFF' : '#10B981', marginLeft: '0.2rem' }} />
-                )}
-              </button>
-            );
-          })}
-        </nav>
-      </div>
+        {/* Right: Next Step Button */}
+        <button
+          onClick={handleNext}
+          className="gold-glow-btn"
+          style={{
+            padding: '0.55rem 1.45rem',
+            fontSize: '1rem',
+            fontWeight: 900,
+            borderRadius: '16px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          {stepIndex === STEPS_NAV.length - 1 ? 'Finish Activity' : 'Next'} <ArrowRight size={18} color="#FFFFFF" />
+        </button>
+      </header>
 
-      {/* Main Interactive Stage Container */}
+      {/* Main Interactive Activity Stage */}
       <main style={{ 
         width: '100%', 
         flex: 1, 
         minHeight: 0, 
-        overflow: 'hidden', 
         display: 'flex', 
         flexDirection: 'column', 
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden', 
         position: 'relative', 
         zIndex: 1 
       }}>
         <AnimatePresence mode="wait">
-          {activeTab === 'simulation' && (
-            <motion.div
-              key="simulation"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-            >
-              <Simulation onComplete={() => setSimCompleted(true)} onNext={() => setActiveTab('questions')} />
-            </motion.div>
-          )}
-
-          {activeTab === 'questions' && (
-            <motion.div
-              key="questions"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-            >
-              <Questions onComplete={() => setQuestionsCompleted(true)} onNext={() => setActiveTab('didyouknow')} />
-            </motion.div>
-          )}
-
-          {activeTab === 'didyouknow' && (
-            <motion.div
-              key="didyouknow"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-            >
-              <DidYouKnow onComplete={handleDidYouKnowComplete} onBackToQuiz={() => setActiveTab('questions')} />
-            </motion.div>
-          )}
+          <motion.div
+            key={currentStep.id}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.22 }}
+            style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
+          >
+            {stepIndex === 0 && <Simulation onComplete={handleSimComplete} onNext={handleSimNext} />}
+            {stepIndex === 1 && <Questions onComplete={handleQuestionsComplete} onNext={handleQuestionsNext} />}
+            {stepIndex === 2 && <DidYouKnow onComplete={handleDidYouKnowComplete} onBackToQuiz={() => setStepIndex(1)} />}
+          </motion.div>
         </AnimatePresence>
       </main>
     </div>
