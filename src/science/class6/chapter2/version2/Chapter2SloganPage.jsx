@@ -1,10 +1,19 @@
 // Class 6 Science Chapter 2 Interactive Slogan & Exploration Page
 import React, { useState, useEffect, useRef } from 'react';
-import { Volume2, VolumeX, Maximize2, Minimize2, ArrowRight, ArrowLeft, X, Sparkles, Eye, BookOpen, ChevronRight } from 'lucide-react';
+import { Volume2, VolumeX, Maximize2, Minimize2, ArrowRight, ArrowLeft, X, Sparkles, Eye, BookOpen, ChevronRight, Play, Pause } from 'lucide-react';
 import { speakNaturalIndianMale, stopNarration } from '../../../../services/elevenLabsService';
 import useWordSyncAudio from './narration/useWordSyncAudio';
 import sloganNarrationData from './narration/sloganPageNarration.json';
 import bioNarrationAudio from './narration/audio/03_HabitatsAndTheBiosphere.mp3';
+import habitatsNarrationData from './narration/habitatsNarration.json';
+import shlokaNarrationData from './narration/shlokaNarration.json';
+import shlokaNarrationAudio from './narration/audio/02_Shloka.mp3';
+import desertNarrationAudio from './narration/audio/04_DesertAdaptations.mp3';
+import botanyNarrationAudio from './narration/audio/05_HerbsShrubsTreesClimbers.mp3';
+import botanyNarrationData from './narration/botanyNarration.json';
+import conservationNarrationAudio from './narration/audio/06_SacredGroves.mp3';
+import conservationNarrationData from './narration/conservationNarration.json';
+import desertNarrationData from './narration/desertNarration.json';
 
 // Cinematic Real Living Nature Photograph (National Geographic Sanctuary)
 import cinematicLivingNatureImage from './DiversityInTheLivingWorldNew/images/ch2_cinematic_living_nature.jpg';
@@ -21,6 +30,47 @@ import botanyImage from './DiversityInTheLivingWorldNew/images/ch2_plant_detecti
 import conservationImage from './DiversityInTheLivingWorldNew/images/ch2_sacred_grove.jpg';
 
 const TOTAL_PAGES = 5;
+
+// Real-time word highlight wrapper for popup text
+const BioWord = ({ children, index, activeIndex, isPlaying, color = 'emerald' }) => {
+  const isActive = isPlaying && (Array.isArray(index) ? index.includes(activeIndex) : activeIndex === index);
+  const isAmber = color === 'amber';
+  const isCyan = color === 'cyan';
+  const highlightBg = isAmber
+    ? 'rgba(245, 158, 11, 0.50)'
+    : isCyan
+    ? 'rgba(6, 182, 212, 0.50)'
+    : 'rgba(16, 185, 129, 0.50)';
+  const highlightShadow = isAmber
+    ? '0 0 16px rgba(245, 158, 11, 0.95), inset 0 0 8px rgba(255, 255, 255, 0.6)'
+    : isCyan
+    ? '0 0 16px rgba(34, 211, 238, 0.95), inset 0 0 8px rgba(255, 255, 255, 0.6)'
+    : '0 0 16px rgba(52, 211, 153, 0.95), inset 0 0 8px rgba(255, 255, 255, 0.6)';
+  const highlightTextShadow = isAmber
+    ? '0 0 12px rgba(245, 158, 11, 0.95), 0 2px 4px rgba(0, 0, 0, 0.9)'
+    : isCyan
+    ? '0 0 12px rgba(34, 211, 238, 0.95), 0 2px 4px rgba(0, 0, 0, 0.9)'
+    : '0 0 12px rgba(52, 211, 153, 0.95), 0 2px 4px rgba(0, 0, 0, 0.9)';
+
+  return (
+    <span
+      style={{
+        display: 'inline-block',
+        color: isActive ? '#FFFFFF' : 'inherit',
+        background: isActive ? highlightBg : 'transparent',
+        borderRadius: isActive ? '6px' : '0px',
+        padding: isActive ? '0 5px' : '0px',
+        margin: isActive ? '0 1px' : '0px',
+        boxShadow: isActive ? highlightShadow : 'none',
+        transform: isActive ? 'scale(1.05)' : 'scale(1)',
+        transition: 'all 0.12s cubic-bezier(0.16, 1, 0.3, 1)',
+        textShadow: isActive ? highlightTextShadow : 'inherit',
+      }}
+    >
+      {children}
+    </span>
+  );
+};
 
 // Golden & Emerald Leafy Vine Branch extending outwards flanking the main title
 const TitleVineBranch = ({ side = 'left' }) => (
@@ -562,26 +612,83 @@ const PAGE_3_FACTS = [
   }
 ];
 
+// Coordinate map for words in ch2_cinematic_living_nature.jpg (percentages of 3840x2160)
+const SHLOKA_IMAGE_WORDS = [
+  // Line 1: “Trees stand in the Sun and give shade
+  { word: 'Trees', left: 55.50, top: 58.33, width: 6.50, height: 3.70, activeIndices: [9, 57], timeRanges: [[5.20, 5.65], [30.20, 30.70]], color: 'amber' },
+  { word: 'stand', left: 62.50, top: 58.33, width: 5.70, height: 3.70, activeIndices: [10], timeRanges: [[5.65, 5.85]], color: 'amber' },
+  { word: 'in', left: 68.75, top: 58.33, width: 2.00, height: 3.70, activeIndices: [11], timeRanges: [[5.85, 6.00]], color: 'amber' },
+  { word: 'the', left: 71.35, top: 58.33, width: 3.10, height: 3.70, activeIndices: [12], timeRanges: [[6.00, 6.10]], color: 'amber' },
+  { word: 'Sun', left: 74.90, top: 58.33, width: 4.00, height: 3.70, activeIndices: [13], timeRanges: [[6.10, 6.45]], color: 'amber' },
+  { word: 'and', left: 79.40, top: 58.33, width: 4.00, height: 3.70, activeIndices: [14], timeRanges: [[6.45, 6.65]], color: 'amber' },
+  { word: 'give', left: 83.70, top: 58.33, width: 4.30, height: 3.70, activeIndices: [15], timeRanges: [[6.65, 7.00]], color: 'amber' },
+  { word: 'shade', left: 88.20, top: 58.33, width: 6.30, height: 3.70, activeIndices: [16, 59], timeRanges: [[7.00, 7.45], [30.90, 31.40]], color: 'emerald' },
+
+  // Line 2: to others. Their fruits are also for others.
+  { word: 'to', left: 54.50, top: 63.43, width: 2.00, height: 3.70, activeIndices: [17], timeRanges: [[7.40, 7.55]], color: 'amber' },
+  { word: 'others.', left: 57.00, top: 63.43, width: 6.70, height: 3.70, activeIndices: [18], timeRanges: [[7.55, 7.80]], color: 'amber' },
+  { word: 'Their', left: 64.60, top: 63.43, width: 4.70, height: 3.70, activeIndices: [19], timeRanges: [[7.85, 8.10]], color: 'amber' },
+  { word: 'fruits', left: 69.70, top: 63.43, width: 6.50, height: 3.70, activeIndices: [20, 61], timeRanges: [[8.10, 8.55], [31.80, 32.30]], color: 'amber' },
+  { word: 'are', left: 76.65, top: 63.43, width: 3.40, height: 3.70, activeIndices: [21], timeRanges: [[9.00, 9.25]], color: 'amber' },
+  { word: 'also', left: 80.40, top: 63.43, width: 4.00, height: 3.70, activeIndices: [22], timeRanges: [[9.20, 9.50]], color: 'amber' },
+  { word: 'for', left: 84.60, top: 63.43, width: 3.70, height: 3.70, activeIndices: [23], timeRanges: [[9.50, 9.80]], color: 'amber' },
+  { word: 'others.', left: 88.55, top: 63.43, width: 6.80, height: 3.70, activeIndices: [24], timeRanges: [[9.80, 10.65]], color: 'amber' },
+
+  // Line 3: Likewise, good people bear all hardships
+  { word: 'Likewise,', left: 54.60, top: 68.52, width: 9.30, height: 3.70, activeIndices: [25], timeRanges: [[11.55, 12.30]], color: 'amber' },
+  { word: 'good', left: 64.40, top: 68.52, width: 5.10, height: 3.70, activeIndices: [26], timeRanges: [[12.65, 13.00]], color: 'amber' },
+  { word: 'people', left: 69.90, top: 68.52, width: 6.70, height: 3.70, activeIndices: [27], timeRanges: [[13.00, 13.35]], color: 'amber' },
+  { word: 'bear', left: 77.10, top: 68.52, width: 4.70, height: 3.70, activeIndices: [28], timeRanges: [[13.35, 13.70]], color: 'amber' },
+  { word: 'all', left: 82.15, top: 68.52, width: 2.70, height: 3.70, activeIndices: [29], timeRanges: [[13.70, 14.00]], color: 'amber' },
+  { word: 'hardships', left: 85.15, top: 68.52, width: 10.15, height: 3.70, activeIndices: [30, 45], timeRanges: [[14.00, 14.85], [21.65, 24.80]], color: 'amber' },
+
+  // Line 4: and bring welfare to others. They give
+  { word: 'and', left: 56.00, top: 73.61, width: 4.10, height: 3.70, activeIndices: [31], timeRanges: [[15.40, 15.65]], color: 'amber' },
+  { word: 'bring', left: 60.55, top: 73.61, width: 5.60, height: 3.70, activeIndices: [32], timeRanges: [[15.65, 16.00]], color: 'amber' },
+  { word: 'welfare', left: 66.40, top: 73.61, width: 7.60, height: 3.70, activeIndices: [33, 49], timeRanges: [[16.00, 16.50], [25.50, 28.90]], color: 'emerald' },
+  { word: 'to', left: 74.45, top: 73.61, width: 2.00, height: 3.70, activeIndices: [34], timeRanges: [[16.75, 17.00]], color: 'amber' },
+  { word: 'others.', left: 76.95, top: 73.61, width: 6.75, height: 3.70, activeIndices: [35], timeRanges: [[17.00, 17.45]], color: 'amber' },
+  { word: 'They', left: 84.45, top: 73.61, width: 4.40, height: 3.70, activeIndices: [36], timeRanges: [[18.05, 18.35]], color: 'amber' },
+  { word: 'give', left: 89.00, top: 73.61, width: 5.00, height: 3.70, activeIndices: [37], timeRanges: [[18.30, 18.65]], color: 'amber' },
+
+  // Line 5: to others whatever they have earned.”
+  { word: 'to', left: 56.10, top: 78.70, width: 2.00, height: 3.70, activeIndices: [38], timeRanges: [[18.60, 18.85]], color: 'amber' },
+  { word: 'others', left: 58.60, top: 78.70, width: 6.30, height: 3.70, activeIndices: [39], timeRanges: [[18.80, 19.10]], color: 'amber' },
+  { word: 'whatever', left: 65.35, top: 78.70, width: 9.40, height: 3.70, activeIndices: [40], timeRanges: [[19.25, 19.80]], color: 'amber' },
+  { word: 'they', left: 75.20, top: 78.70, width: 4.40, height: 3.70, activeIndices: [41], timeRanges: [[19.80, 20.05]], color: 'amber' },
+  { word: 'have', left: 80.00, top: 78.70, width: 4.80, height: 3.70, activeIndices: [42], timeRanges: [[20.05, 20.25]], color: 'amber' },
+  { word: 'earned.”', left: 85.25, top: 78.70, width: 8.80, height: 3.70, activeIndices: [43], timeRanges: [[20.25, 20.75]], color: 'amber' },
+];
+
 export default function Chapter2SloganPage({
   chapterNum = 2,
   title = "Diversity in the Living World",
   onBack,
   onEnterLab,
 }) {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    const p = parseInt(params.get('sloganPage'), 10);
+    return (p >= 1 && p <= 5) ? p : 1;
+  });
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isPlayingSloganAudio, setIsPlayingSloganAudio] = useState(false);
   const [isPlayingMeaningAudio, setIsPlayingMeaningAudio] = useState(false);
   const [isPlayingWhyStudyAudio, setIsPlayingWhyStudyAudio] = useState(false);
-  const [isPlayingBioAudio, setIsPlayingBioAudio] = useState(false);
   const [isPlayingAdaptationAudio, setIsPlayingAdaptationAudio] = useState(false);
-  const [isPlayingBotanyAudio, setIsPlayingBotanyAudio] = useState(false);
-  const [isPlayingConservationAudio, setIsPlayingConservationAudio] = useState(false);
   const [isSloganPopOpen, setIsSloganPopOpen] = useState(true);
-  const [showPage2Popup, setShowPage2Popup] = useState(false);
-  const [showPage3Popup, setShowPage3Popup] = useState(false);
-  const [showPage4Popup, setShowPage4Popup] = useState(false);
-  const [showPage5Popup, setShowPage5Popup] = useState(false);
+  const [showPage2Popup, setShowPage2Popup] = useState(true);
+  const [showPage3Popup, setShowPage3Popup] = useState(true);
+  const [showPage4Popup, setShowPage4Popup] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    const p = parseInt(params.get('sloganPage'), 10);
+    return p === 4 ? true : false;
+  });
+  const [showPage5Popup, setShowPage5Popup] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    const p = parseInt(params.get('sloganPage'), 10);
+    return p === 5 ? true : false;
+  });
   const [page3ActiveTab, setPage3ActiveTab] = useState(0);
   const [page4ActiveTab, setPage4ActiveTab] = useState(0);
   const [page5ActiveTab, setPage5ActiveTab] = useState(0);
@@ -591,19 +698,74 @@ export default function Chapter2SloganPage({
   const whyStudyAudioRef = useRef(null);
   const containerRef = useRef(null);
 
-  // Real narration audio + word-level highlight sync for the Habitats & Biosphere page
+  // Real narration audio + word-level sync for Page 1 (Sanskrit Shloka & English Meaning)
+  const [isShlokaCircleHovered, setIsShlokaCircleHovered] = useState(false);
   const {
+    isPlaying: isPlayingShlokaAudio,
+    activeWordIndex: shlokaActiveWordIndex,
+    currentTime: shlokaCurrentTime,
+    toggle: toggleShlokaAudio,
+    pause: pauseShlokaAudio,
+  } = useWordSyncAudio(shlokaNarrationAudio, shlokaNarrationData.shloka.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
+
+  // Real narration audio + word-level highlight sync for Page 2 (Habitats & Biosphere)
+  const [isBioCircleHovered, setIsBioCircleHovered] = useState(false);
+  const {
+    isPlaying: isPlayingBioAudio,
     activeWordIndex: bioActiveWordIndex,
+    currentTime: bioCurrentTime,
     play: playBioNarration,
     pause: pauseBioNarration,
-  } = useWordSyncAudio(bioNarrationAudio, sloganNarrationData.bio.words, {
+  } = useWordSyncAudio(bioNarrationAudio, habitatsNarrationData.bio.words, {
     autoPlay: false,
-    onEnd: () => setIsPlayingBioAudio(false),
+    onEnd: () => {},
+  });
+
+  // Real narration audio + word-level highlight sync for Page 3 (Desert Adaptations)
+  const [isDesertCircleHovered, setIsDesertCircleHovered] = useState(false);
+  const {
+    isPlaying: isPlayingDesertAudio,
+    activeWordIndex: desertActiveWordIndex,
+    currentTime: desertCurrentTime,
+    play: playDesertNarration,
+    pause: pauseDesertNarration,
+    toggle: toggleDesertAudio,
+  } = useWordSyncAudio(desertNarrationAudio, desertNarrationData.desert.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
+
+  // Real narration audio + word-level highlight sync for Page 4 (Botany / Plant Groups)
+  const {
+    isPlaying: isPlayingBotanyAudio,
+    activeWordIndex: botanyActiveWordIndex,
+    pause: pauseBotanyNarration,
+    toggle: toggleBotanyAudio,
+  } = useWordSyncAudio(botanyNarrationAudio, botanyNarrationData.botany.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
+
+  // Real narration audio + word-level highlight sync for Page 5 (Conservation / Sacred Groves)
+  const {
+    isPlaying: isPlayingConservationAudio,
+    activeWordIndex: conservationActiveWordIndex,
+    pause: pauseConservationNarration,
+    toggle: toggleConservationAudio,
+  } = useWordSyncAudio(conservationNarrationAudio, conservationNarrationData.conservation.words, {
+    autoPlay: false,
+    onEnd: () => {},
   });
 
   // Stop audio on page change or unmount
   useEffect(() => {
     return () => {
+      pauseShlokaAudio();
+      pauseBioNarration();
+      pauseDesertNarration();
       if (sloganAudioRef.current) {
         sloganAudioRef.current.pause();
         sloganAudioRef.current = null;
@@ -620,21 +782,29 @@ export default function Chapter2SloganPage({
       setIsPlayingSloganAudio(false);
       setIsPlayingMeaningAudio(false);
       setIsPlayingWhyStudyAudio(false);
-      setIsPlayingBioAudio(false);
       setIsPlayingAdaptationAudio(false);
-      setIsPlayingBotanyAudio(false);
-      setIsPlayingConservationAudio(false);
+      pauseBotanyNarration();
+      pauseConservationNarration();
     };
-  }, [currentPage]);
+  }, [currentPage, pauseShlokaAudio, pauseBioNarration, pauseDesertNarration, pauseBotanyNarration, pauseConservationNarration]);
 
-  // Page 2: Trigger attractive popup message after 4 seconds of full-image viewing
+  // Sync currentPage if sloganPage URL query parameter changes
+  useEffect(() => {
+    const handleHashChange = () => {
+      const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+      const p = parseInt(params.get('sloganPage'), 10);
+      if (p >= 1 && p <= 5) {
+        setCurrentPage(p);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  // Page 2: Open attractive popup message with play narration controls
   useEffect(() => {
     if (currentPage === 2) {
-      setShowPage2Popup(false);
-      const timer = setTimeout(() => {
-        setShowPage2Popup(true);
-      }, 4000);
-      return () => clearTimeout(timer);
+      setShowPage2Popup(true);
     } else {
       setShowPage2Popup(false);
       if (isPlayingBioAudio) {
@@ -644,22 +814,19 @@ export default function Chapter2SloganPage({
     }
   }, [currentPage]);
 
-  // Page 3: Trigger attractive popup message after 4 seconds of full-image viewing
+  // Page 3: Open attractive popup message with play narration controls
   useEffect(() => {
     if (currentPage === 3) {
-      setShowPage3Popup(false);
-      const timer = setTimeout(() => {
-        setShowPage3Popup(true);
-      }, 4000);
-      return () => clearTimeout(timer);
+      setShowPage3Popup(true);
     } else {
       setShowPage3Popup(false);
+      pauseDesertNarration();
       if (isPlayingAdaptationAudio) {
         stopNarration();
         setIsPlayingAdaptationAudio(false);
       }
     }
-  }, [currentPage]);
+  }, [currentPage, pauseDesertNarration]);
 
   // Page 4: Trigger attractive popup message after 4 seconds of full-image viewing
   useEffect(() => {
@@ -672,8 +839,7 @@ export default function Chapter2SloganPage({
     } else {
       setShowPage4Popup(false);
       if (isPlayingBotanyAudio) {
-        stopNarration();
-        setIsPlayingBotanyAudio(false);
+        pauseBotanyNarration();
       }
     }
   }, [currentPage]);
@@ -689,8 +855,7 @@ export default function Chapter2SloganPage({
     } else {
       setShowPage5Popup(false);
       if (isPlayingConservationAudio) {
-        stopNarration();
-        setIsPlayingConservationAudio(false);
+        pauseConservationNarration();
       }
     }
   }, [currentPage]);
@@ -862,8 +1027,8 @@ export default function Chapter2SloganPage({
   const toggleBioAudio = () => {
     if (isPlayingBioAudio) {
       pauseBioNarration();
-      setIsPlayingBioAudio(false);
     } else {
+      pauseShlokaAudio();
       if (sloganAudioRef.current) sloganAudioRef.current.pause();
       if (meaningAudioRef.current) meaningAudioRef.current.pause();
       if (whyStudyAudioRef.current) whyStudyAudioRef.current.pause();
@@ -871,9 +1036,11 @@ export default function Chapter2SloganPage({
       setIsPlayingSloganAudio(false);
       setIsPlayingMeaningAudio(false);
       setIsPlayingWhyStudyAudio(false);
+      setIsPlayingAdaptationAudio(false);
+      pauseBotanyNarration();
+      pauseConservationNarration();
 
       playBioNarration();
-      setIsPlayingBioAudio(true);
     }
   };
 
@@ -883,6 +1050,8 @@ export default function Chapter2SloganPage({
       stopNarration();
       setIsPlayingAdaptationAudio(false);
     } else {
+      pauseShlokaAudio();
+      pauseBioNarration();
       if (sloganAudioRef.current) sloganAudioRef.current.pause();
       if (meaningAudioRef.current) meaningAudioRef.current.pause();
       if (whyStudyAudioRef.current) whyStudyAudioRef.current.pause();
@@ -890,7 +1059,8 @@ export default function Chapter2SloganPage({
       setIsPlayingSloganAudio(false);
       setIsPlayingMeaningAudio(false);
       setIsPlayingWhyStudyAudio(false);
-      setIsPlayingBioAudio(false);
+      pauseBotanyNarration();
+      pauseConservationNarration();
 
       speakNaturalIndianMale({
         text: "Desert Adaptations. What Is Adaptation? A feature or behaviour that helps a living thing survive in its habitat. The Ship of the Desert: A camel’s broad, padded feet help prevent it from sinking into sand. Its long eyelashes help protect its eyes from blowing dust. Saving Water: Camels conserve water by reducing water loss from their bodies. This helps them survive for long periods without drinking. Think: Why is saving water important in a desert?",
@@ -901,57 +1071,7 @@ export default function Chapter2SloganPage({
     }
   };
 
-  // Toggle Page 4 Botany & Plant Detective lesson narration
-  const toggleBotanyAudio = () => {
-    if (isPlayingBotanyAudio) {
-      stopNarration();
-      setIsPlayingBotanyAudio(false);
-    } else {
-      if (sloganAudioRef.current) sloganAudioRef.current.pause();
-      if (meaningAudioRef.current) meaningAudioRef.current.pause();
-      if (whyStudyAudioRef.current) whyStudyAudioRef.current.pause();
-      stopNarration();
-      setIsPlayingSloganAudio(false);
-      setIsPlayingMeaningAudio(false);
-      setIsPlayingWhyStudyAudio(false);
-      setIsPlayingBioAudio(false);
-      setIsPlayingAdaptationAudio(false);
-
-      speakNaturalIndianMale({
-        text: "Herbs, Shrubs, Trees, and Climbers. Herbs like the tomato plant are usually small plants with soft green stems. Shrubs like the rose are woody plants with many branches growing near the ground. Trees like the mango grow tall with a thick woody trunk and branches higher above the ground. Climbers like the money plant have weak stems and need support to grow upwards. Think: Which plant in this picture needs support to climb?",
-        onEnd: () => setIsPlayingBotanyAudio(false),
-        onError: () => setIsPlayingBotanyAudio(false)
-      });
-      setIsPlayingBotanyAudio(true);
-    }
-  };
-
   // Toggle Page 5 Sacred Groves & Conservation lesson narration
-  const toggleConservationAudio = () => {
-    if (isPlayingConservationAudio) {
-      stopNarration();
-      setIsPlayingConservationAudio(false);
-    } else {
-      if (sloganAudioRef.current) sloganAudioRef.current.pause();
-      if (meaningAudioRef.current) meaningAudioRef.current.pause();
-      if (whyStudyAudioRef.current) whyStudyAudioRef.current.pause();
-      stopNarration();
-      setIsPlayingSloganAudio(false);
-      setIsPlayingMeaningAudio(false);
-      setIsPlayingWhyStudyAudio(false);
-      setIsPlayingBioAudio(false);
-      setIsPlayingAdaptationAudio(false);
-      setIsPlayingBotanyAudio(false);
-
-      speakNaturalIndianMale({
-        text: "Sacred Groves. Protected by Tradition: Sacred groves are patches of forest protected by local communities because of their cultural or religious importance. A Home for Wildlife: They shelter native wildlife and help protect valuable medicinal plants. Community Conservation: Local rules help prevent tree cutting and harm to animals, keeping these forests safe. Think: How does protecting a forest help the plants and animals living there?",
-        onEnd: () => setIsPlayingConservationAudio(false),
-        onError: () => setIsPlayingConservationAudio(false)
-      });
-      setIsPlayingConservationAudio(true);
-    }
-  };
-
   // Force-hide global floating music / volume button while slogan page is mounted
   useEffect(() => {
     const musicControls = document.getElementById('global-theme-music-controls');
@@ -1324,6 +1444,62 @@ export default function Chapter2SloganPage({
           border-color: #F59E0B;
           box-shadow: 0 20px 45px rgba(0, 0, 0, 0.55), 0 0 22px rgba(245, 158, 11, 0.35);
         }
+
+        @keyframes subtlePulseGlow {
+          0%, 100% {
+            box-shadow: 0 0 16px rgba(52, 211, 153, 0.45), inset 0 0 10px rgba(52, 211, 153, 0.25);
+            transform: scale(1);
+          }
+          50% {
+            box-shadow: 0 0 28px rgba(52, 211, 153, 0.85), inset 0 0 14px rgba(52, 211, 153, 0.45);
+            transform: scale(1.06);
+          }
+        }
+        .ch2-circle-btn {
+          cursor: pointer;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .ch2-circle-btn:hover {
+          background: rgba(255, 255, 255, 0.25) !important;
+          border-color: rgba(255, 255, 255, 0.8) !important;
+          transform: scale(1.08) !important;
+        }
+        .ch2-circle-btn:active {
+          transform: scale(0.95) !important;
+        }
+        @media (max-aspect-ratio: 16/9) {
+          .shloka-aspect-layer {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            aspect-ratio: 16 / 9;
+            pointer-events: none;
+            z-index: 20;
+          }
+        }
+        @media (min-aspect-ratio: 16/9) {
+          .shloka-aspect-layer {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            transform: translateY(-50%);
+            pointer-events: none;
+            z-index: 20;
+          }
+        }
+        @keyframes definitionFloat {
+          0% {
+            opacity: 0;
+            transform: translate(-50%, 6px);
+          }
+          100% {
+            opacity: 1;
+            transform: translate(-50%, 0);
+          }
+        }
       `}</style>
 
       {/* ============================================================ */}
@@ -1361,21 +1537,63 @@ export default function Chapter2SloganPage({
             imageRendering: 'high-quality',
             transform: 'translateZ(0) scale(1.01)',
             backfaceVisibility: 'hidden',
-            filter: currentPage === 2
-              ? 'contrast(0.80) saturate(0.85) brightness(1.03) blur(1.1px)'
+            filter: (currentPage === 2 || currentPage === 3 || currentPage === 4 || currentPage === 5)
+              ? 'none'
               : 'contrast(0.88) saturate(0.92) brightness(1.04) blur(0.5px)'
           }}
         />
       </div>
 
-      {/* Floating Fullscreen Control for Page 1 (Top-Right) */}
+      {/* Floating Controls for Page 1 (Top-Right): Circular Narration Button & Fullscreen */}
       {currentPage === 1 && (
         <div style={{
           position: 'absolute',
           top: '16px',
           right: '20px',
-          zIndex: 35
+          zIndex: 35,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px'
         }}>
+          {/* Single Transparent Circle Button to Start/Pause Shloka Narration */}
+          <button
+            type="button"
+            className="ch2-circle-btn"
+            onClick={toggleShlokaAudio}
+            onMouseEnter={() => setIsShlokaCircleHovered(true)}
+            onMouseLeave={() => setIsShlokaCircleHovered(false)}
+            title={isPlayingShlokaAudio ? 'Pause Shloka Narration' : 'Start Shloka Narration (Voice Over)'}
+            aria-label={isPlayingShlokaAudio ? 'Pause Shloka Narration' : 'Start Shloka Narration'}
+            style={{
+              width: '42px',
+              height: '42px',
+              borderRadius: '50%',
+              background: isPlayingShlokaAudio
+                ? 'rgba(16, 185, 129, 0.35)'
+                : isShlokaCircleHovered
+                ? 'rgba(255, 255, 255, 0.25)'
+                : 'rgba(255, 255, 255, 0.12)',
+              backdropFilter: 'blur(4px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              border: isPlayingShlokaAudio
+                ? '2px solid #34d399'
+                : '1.5px solid rgba(255, 255, 255, 0.45)',
+              boxShadow: isPlayingShlokaAudio
+                ? '0 0 20px rgba(52, 211, 153, 0.8), inset 0 0 10px rgba(52, 211, 153, 0.35)'
+                : '0 4px 14px rgba(0, 0, 0, 0.35)',
+              color: isPlayingShlokaAudio ? '#34d399' : '#ffffff',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+              animation: isPlayingShlokaAudio ? 'subtlePulseGlow 2.5s infinite ease-in-out' : 'none',
+            }}
+          >
+            {isPlayingShlokaAudio ? <Pause size={18} fill="#34d399" /> : <Play size={18} fill="currentColor" style={{ marginLeft: '2px' }} />}
+          </button>
+
+          {/* Fullscreen Button */}
           <button
             type="button"
             onClick={toggleFullscreen}
@@ -1458,26 +1676,238 @@ export default function Chapter2SloganPage({
         </div>
       )}
 
-
-
       {/* ============================================================ */}
       {/* PAGE 1: FULLSCREEN LIVING ECOSYSTEM WITH SANSKRIT SLOGAN     */}
-      {/* (NO POP-UP BOX, NO TITLE, INTERACTIVE AUDIO HOTSPOTS)        */}
+      {/* (SYNCHRONIZED AUDIO NARRATION WORD HIGHLIGHTS OVERLAY)       */}
       {/* ============================================================ */}
       {currentPage === 1 && (
         <div
           className="animate-bio-stage"
           style={{
-            position: 'relative',
+            position: 'absolute',
+            inset: 0,
             width: '100%',
             height: '100%',
-            flex: '1 1 auto',
-            minHeight: 0,
             overflow: 'hidden',
             zIndex: 10,
             pointerEvents: 'none'
           }}
-        />
+        >
+          {/* Responsive aspect layer matching objectFit: 'cover' & objectPosition: 'right center' */}
+          <div className="shloka-aspect-layer">
+            {/* Title Pill Aura ("SANSKRIT SHLOKA") */}
+            <div
+              style={{
+                position: 'absolute',
+                left: '58.0%',
+                top: '3.40%',
+                width: '36.6%',
+                height: '7.60%',
+                borderRadius: '9999px',
+                border: isPlayingShlokaAudio && (shlokaCurrentTime >= 3.20 && shlokaCurrentTime <= 4.80)
+                  ? '2.5px solid rgba(52, 211, 153, 0.95)'
+                  : '2.5px solid transparent',
+                boxShadow: isPlayingShlokaAudio && (shlokaCurrentTime >= 3.20 && shlokaCurrentTime <= 4.80)
+                  ? '0 0 28px rgba(52, 211, 153, 0.75), inset 0 0 16px rgba(52, 211, 153, 0.35)'
+                  : 'none',
+                transition: 'all 0.25s ease',
+                pointerEvents: 'none',
+              }}
+            />
+
+            {/* Word in Title: SANSKRIT */}
+            <div
+              style={{
+                position: 'absolute',
+                left: '64.2%',
+                top: '4.70%',
+                width: '12.0%',
+                height: '5.00%',
+                borderRadius: '8px',
+                background: isPlayingShlokaAudio && (shlokaActiveWordIndex === 5 || (shlokaCurrentTime >= 3.40 && shlokaCurrentTime < 3.85))
+                  ? 'rgba(52, 211, 153, 0.42)'
+                  : 'transparent',
+                border: isPlayingShlokaAudio && (shlokaActiveWordIndex === 5 || (shlokaCurrentTime >= 3.40 && shlokaCurrentTime < 3.85))
+                  ? '2px solid #34D399'
+                  : '2px solid transparent',
+                boxShadow: isPlayingShlokaAudio && (shlokaActiveWordIndex === 5 || (shlokaCurrentTime >= 3.40 && shlokaCurrentTime < 3.85))
+                  ? '0 0 22px rgba(52, 211, 153, 0.95), inset 0 0 10px rgba(255, 255, 255, 0.6)'
+                  : 'none',
+                transform: isPlayingShlokaAudio && (shlokaActiveWordIndex === 5 || (shlokaCurrentTime >= 3.40 && shlokaCurrentTime < 3.85))
+                  ? 'scale(1.05)'
+                  : 'scale(1)',
+                transition: 'all 0.18s cubic-bezier(0.16, 1, 0.3, 1)',
+                pointerEvents: 'none',
+              }}
+            />
+
+            {/* Word in Title: SHLOKA */}
+            <div
+              style={{
+                position: 'absolute',
+                left: '77.0%',
+                top: '4.70%',
+                width: '10.5%',
+                height: '5.00%',
+                borderRadius: '8px',
+                background: isPlayingShlokaAudio && (shlokaActiveWordIndex === 6 || shlokaActiveWordIndex === 63 || (shlokaCurrentTime >= 3.85 && shlokaCurrentTime < 4.50) || (shlokaCurrentTime >= 32.80 && shlokaCurrentTime < 33.60))
+                  ? 'rgba(245, 158, 11, 0.45)'
+                  : 'transparent',
+                border: isPlayingShlokaAudio && (shlokaActiveWordIndex === 6 || shlokaActiveWordIndex === 63 || (shlokaCurrentTime >= 3.85 && shlokaCurrentTime < 4.50) || (shlokaCurrentTime >= 32.80 && shlokaCurrentTime < 33.60))
+                  ? '2px solid #F59E0B'
+                  : '2px solid transparent',
+                boxShadow: isPlayingShlokaAudio && (shlokaActiveWordIndex === 6 || shlokaActiveWordIndex === 63 || (shlokaCurrentTime >= 3.85 && shlokaCurrentTime < 4.50) || (shlokaCurrentTime >= 32.80 && shlokaCurrentTime < 33.60))
+                  ? '0 0 22px rgba(245, 158, 11, 0.95), inset 0 0 10px rgba(255, 255, 255, 0.6)'
+                  : 'none',
+                transform: isPlayingShlokaAudio && (shlokaActiveWordIndex === 6 || shlokaActiveWordIndex === 63 || (shlokaCurrentTime >= 3.85 && shlokaCurrentTime < 4.50) || (shlokaCurrentTime >= 32.80 && shlokaCurrentTime < 33.60))
+                  ? 'scale(1.05)'
+                  : 'scale(1)',
+                transition: 'all 0.18s cubic-bezier(0.16, 1, 0.3, 1)',
+                pointerEvents: 'none',
+              }}
+            />
+
+            {/* English Meaning Pill Aura */}
+            <div
+              style={{
+                position: 'absolute',
+                left: '58.0%',
+                top: '48.0%',
+                width: '36.6%',
+                height: '7.60%',
+                borderRadius: '9999px',
+                border: isPlayingShlokaAudio && (shlokaCurrentTime >= 5.15 && shlokaCurrentTime <= 20.80)
+                  ? '2.5px solid rgba(245, 158, 11, 0.85)'
+                  : '2.5px solid transparent',
+                boxShadow: isPlayingShlokaAudio && (shlokaCurrentTime >= 5.15 && shlokaCurrentTime <= 20.80)
+                  ? '0 0 26px rgba(245, 158, 11, 0.6), inset 0 0 15px rgba(245, 158, 11, 0.3)'
+                  : 'none',
+                transition: 'all 0.25s ease',
+                pointerEvents: 'none',
+              }}
+            />
+
+            {/* Synchronized Word Highlights across English Meaning */}
+            {SHLOKA_IMAGE_WORDS.map((item, idx) => {
+              const isWordActive = isPlayingShlokaAudio && (
+                item.activeIndices.includes(shlokaActiveWordIndex) ||
+                item.timeRanges.some(([st, en]) => shlokaCurrentTime >= st && shlokaCurrentTime < en)
+              );
+              const isEmerald = item.color === 'emerald';
+
+              return (
+                <div
+                  key={idx}
+                  style={{
+                    position: 'absolute',
+                    left: `${item.left}%`,
+                    top: `${item.top}%`,
+                    width: `${item.width}%`,
+                    height: `${item.height}%`,
+                    borderRadius: '8px',
+                    background: isWordActive
+                      ? isEmerald
+                        ? 'rgba(52, 211, 153, 0.40)'
+                        : 'rgba(245, 158, 11, 0.42)'
+                      : 'transparent',
+                    border: isWordActive
+                      ? isEmerald
+                        ? '2px solid #34D399'
+                        : '2px solid #F59E0B'
+                      : '2px solid transparent',
+                    boxShadow: isWordActive
+                      ? isEmerald
+                        ? '0 0 20px rgba(52, 211, 153, 0.9), 0 0 35px rgba(52, 211, 153, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.6)'
+                        : '0 0 20px rgba(245, 158, 11, 0.9), 0 0 35px rgba(251, 191, 36, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.6)'
+                      : 'none',
+                    transform: isWordActive ? 'scale(1.05)' : 'scale(1)',
+                    transition: 'all 0.16s cubic-bezier(0.16, 1, 0.3, 1)',
+                    pointerEvents: 'none',
+                  }}
+                />
+              );
+            })}
+
+            {/* Floating Definition Pill: "hardships" = difficulties */}
+            {isPlayingShlokaAudio && (shlokaCurrentTime >= 21.65 && shlokaCurrentTime <= 24.90) && (
+              <div
+                style={{
+                  position: 'absolute',
+                  left: '88%',
+                  top: '64.5%',
+                  transform: 'translateX(-50%)',
+                  background: 'rgba(15, 23, 42, 0.88)',
+                  backdropFilter: 'blur(4px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  border: '1.5px solid #F59E0B',
+                  borderRadius: '20px',
+                  padding: '5px 14px',
+                  color: '#FEF3C7',
+                  fontSize: 'clamp(11px, 1.1vw, 15px)',
+                  fontWeight: '700',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.5), 0 0 18px rgba(245, 158, 11, 0.45)',
+                  whiteSpace: 'nowrap',
+                  animation: 'definitionFloat 0.3s ease-out forwards',
+                  pointerEvents: 'none',
+                  zIndex: 25,
+                }}
+              >
+                ⚡ hardships = <span style={{ color: '#FDE68A' }}>difficulties</span>
+              </div>
+            )}
+
+            {/* Floating Definition Pill: "welfare" = well-being of others */}
+            {isPlayingShlokaAudio && (shlokaCurrentTime >= 25.40 && shlokaCurrentTime <= 28.90) && (
+              <div
+                style={{
+                  position: 'absolute',
+                  left: '70%',
+                  top: '78.5%',
+                  transform: 'translateX(-50%)',
+                  background: 'rgba(15, 23, 42, 0.88)',
+                  backdropFilter: 'blur(4px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  border: '1.5px solid #34D399',
+                  borderRadius: '20px',
+                  padding: '5px 14px',
+                  color: '#ECFDF5',
+                  fontSize: 'clamp(11px, 1.1vw, 15px)',
+                  fontWeight: '700',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.5), 0 0 18px rgba(52, 211, 153, 0.45)',
+                  whiteSpace: 'nowrap',
+                  animation: 'definitionFloat 0.3s ease-out forwards',
+                  pointerEvents: 'none',
+                  zIndex: 25,
+                }}
+              >
+                💚 welfare = <span style={{ color: '#A7F3D0' }}>well-being of others</span>
+              </div>
+            )}
+
+            {/* Tagline Golden Shimmer ("Wisdom for a Kinder World") */}
+            <div
+              style={{
+                position: 'absolute',
+                left: '54.0%',
+                top: '86.8%',
+                width: '38.0%',
+                height: '5.2%',
+                borderRadius: '12px',
+                border: isPlayingShlokaAudio && (shlokaCurrentTime >= 34.50 && shlokaCurrentTime <= 37.80)
+                  ? '2px solid #F59E0B'
+                  : '2px solid transparent',
+                background: isPlayingShlokaAudio && (shlokaCurrentTime >= 34.50 && shlokaCurrentTime <= 37.80)
+                  ? 'rgba(245, 158, 11, 0.22)'
+                  : 'transparent',
+                boxShadow: isPlayingShlokaAudio && (shlokaCurrentTime >= 34.50 && shlokaCurrentTime <= 37.80)
+                  ? '0 0 28px rgba(245, 158, 11, 0.7), inset 0 0 12px rgba(251, 191, 36, 0.3)'
+                  : 'none',
+                transition: 'all 0.25s ease',
+                pointerEvents: 'none',
+              }}
+            />
+          </div>
+        </div>
       )}
 
       {/* ============================================================ */}
@@ -1485,13 +1915,47 @@ export default function Chapter2SloganPage({
       {/* ============================================================ */}
       {currentPage === 2 && (
         <>
-          {/* Floating Fullscreen Control for Page 2 (Top-Right) */}
+          {/* Top Center Title: Habitats (Attractive Golden Banner) */}
           <div style={{
             position: 'absolute',
             top: '16px',
-            right: '20px',
-            zIndex: 35
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 35,
+            pointerEvents: 'none',
+            textAlign: 'center',
+            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+            border: '2px solid rgba(254, 240, 138, 0.85)',
+            borderRadius: '12px',
+            padding: '7px 28px',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
           }}>
+            <h1 style={{
+              margin: 0,
+              fontSize: '24px',
+              fontWeight: 900,
+              fontFamily: '"Cinzel", Georgia, serif',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              color: '#FFFFFF',
+              lineHeight: 1.15,
+              textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+            }}>
+              Habitats
+            </h1>
+          </div>
+
+          {/* Top-Right Control Toolbar: Fullscreen Only */}
+          <div style={{
+            position: 'absolute',
+            top: '16px',
+            right: '24px',
+            zIndex: 35,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px'
+          }}>
+            {/* Fullscreen Button */}
             <button
               type="button"
               onClick={toggleFullscreen}
@@ -1524,57 +1988,6 @@ export default function Chapter2SloganPage({
             </button>
           </div>
 
-          {/* Top Center Textbook Title in Complementary Golden Amber */}
-          <div style={{
-            position: 'absolute',
-            top: '16px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            zIndex: 35,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            textAlign: 'center',
-            pointerEvents: 'none'
-          }}>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.35) 100%)',
-              border: '1.5px solid #F59E0B',
-              borderRadius: '20px',
-              padding: '2px 14px',
-              marginBottom: '2px',
-              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35)',
-              backdropFilter: 'blur(4px)'
-            }}>
-              <span style={{
-                fontSize: '12px',
-                fontWeight: 900,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: '#FEF3C7',
-                fontFamily: '"Outfit", sans-serif'
-              }}>
-                CLASS 6 SCIENCE • CHAPTER 2
-              </span>
-            </div>
-            <h1 style={{
-              margin: 0,
-              fontSize: '24px',
-              fontWeight: 900,
-              fontFamily: '"Fraunces", Georgia, serif',
-              background: 'linear-gradient(135deg, #FDE68A 0%, #F59E0B 50%, #FBBF24 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              textShadow: '0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(245, 158, 11, 0.45)',
-              letterSpacing: '-0.01em',
-              lineHeight: 1.15
-            }}>
-              🌿 Section 2.1: Diversity in Plants and Animals 🌿
-            </h1>
-          </div>
 
           {/* Page 2 Bottom-Left: Previous Page Button (hidden when popup covers it) */}
           <div style={{
@@ -1635,7 +2048,7 @@ export default function Chapter2SloganPage({
                 width: 'min(480px, 42vw)',
                 maxHeight: 'calc(100vh - 36px)',
                 zIndex: 40,
-                backdropFilter: 'blur(2px)',
+                backdropFilter: 'blur(4px)',
                 WebkitBackdropFilter: 'blur(2px)',
                 background: 'transparent',
                 border: '1.8px solid rgba(110, 231, 183, 0.55)',
@@ -1663,7 +2076,7 @@ export default function Chapter2SloganPage({
                 scrollbarWidth: 'thin'
               }}>
 
-                {/* Top bar: Pill Badge + Close Button */}
+                {/* Top bar: Pill Badge + Circle Narration Button + Close Button */}
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -1691,39 +2104,91 @@ export default function Chapter2SloganPage({
                     <span style={{ color: '#34D399' }}>HABITATS</span>
                   </span>
 
-                  <button
-                    type="button"
-                    onClick={() => setShowPage2Popup(false)}
-                    aria-label="Close message and view full scenery"
-                    title="View full scenery photo"
-                    style={{
-                      background: 'rgba(2, 18, 10, 0.65)',
-                      border: '1.5px solid rgba(255, 255, 255, 0.30)',
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                      borderRadius: '10px',
-                      width: '36px',
-                      height: '36px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'rgba(255, 255, 255, 0.95)',
-                      cursor: 'pointer',
-                      flexShrink: 0,
-                      transition: 'all 0.2s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.55)';
-                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.85)';
-                      e.currentTarget.style.color = '#FFFFFF';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(2, 18, 10, 0.65)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.30)';
-                      e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
-                    }}
-                  >
-                    <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
-                  </button>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {/* Play / Pause Narration Button inside popup */}
+                    <button
+                      type="button"
+                      onClick={toggleBioAudio}
+                      aria-label={isPlayingBioAudio ? 'Pause Narration' : 'Play Narration'}
+                      title={isPlayingBioAudio ? 'Pause Narration' : 'Play Narration'}
+                      style={{
+                        background: isPlayingBioAudio
+                          ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                          : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
+                        border: '1.8px solid #34D399',
+                        boxShadow: isPlayingBioAudio
+                          ? '0 0 16px rgba(52, 211, 153, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                          : '0 4px 12px rgba(0, 0, 0, 0.35), 0 0 10px rgba(52, 211, 153, 0.25)',
+                        borderRadius: '20px',
+                        padding: '6px 14px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        color: '#FFFFFF',
+                        fontWeight: 800,
+                        fontSize: '13px',
+                        fontFamily: '"Outfit", sans-serif',
+                        cursor: 'pointer',
+                        flexShrink: 0,
+                        transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                        e.currentTarget.style.borderColor = '#6EE7B7';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                        e.currentTarget.style.borderColor = '#34D399';
+                      }}
+                    >
+                      {isPlayingBioAudio ? (
+                        <>
+                          <Pause size={15} fill="#FFFFFF" />
+                          <span>Pause</span>
+                        </>
+                      ) : (
+                        <>
+                          <Play size={15} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                          <span>Play</span>
+                        </>
+                      )}
+                    </button>
+
+                    {/* Close Button */}
+                    <button
+                      type="button"
+                      onClick={() => setShowPage2Popup(false)}
+                      aria-label="Close message and view full scenery"
+                      title="View full scenery photo"
+                      style={{
+                        background: 'rgba(2, 18, 10, 0.65)',
+                        border: '1.5px solid rgba(255, 255, 255, 0.30)',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+                        borderRadius: '10px',
+                        width: '36px',
+                        height: '36px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'rgba(255, 255, 255, 0.95)',
+                        cursor: 'pointer',
+                        flexShrink: 0,
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'rgba(239, 68, 68, 0.55)';
+                        e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.85)';
+                        e.currentTarget.style.color = '#FFFFFF';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(2, 18, 10, 0.65)';
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.30)';
+                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
+                      }}
+                    >
+                      <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
+                    </button>
+                  </div>
                 </div>
 
                 {/* Title Section */}
@@ -1743,7 +2208,10 @@ export default function Chapter2SloganPage({
                     textTransform: 'uppercase',
                     textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 24px rgba(52, 211, 153, 0.65), 0 0 40px rgba(16, 185, 129, 0.25)'
                   }}>
-                    HABITATS &amp; THE BIOSPHERE
+                    <BioWord index={[0, 1, 2]} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>HABITATS</BioWord>{' '}
+                    <BioWord index={3} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>&amp;</BioWord>{' '}
+                    <BioWord index={4} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>THE</BioWord>{' '}
+                    <BioWord index={5} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>BIOSPHERE</BioWord>
                   </h2>
                 </div>
 
@@ -1770,15 +2238,29 @@ export default function Chapter2SloganPage({
                     </div>
                     <div style={{
                       fontSize: '18px',
-                      color: '#E2E8F0',
-                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
                       fontWeight: 500,
                       lineHeight: 1.6,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',
                       textJustify: 'inter-word'
                     }}>
-                      A habitat is the natural home where living things get what they need to survive.
+                      <BioWord index={6} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>A</BioWord>{' '}
+                      <BioWord index={7} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>habitat</BioWord>{' '}
+                      <BioWord index={8} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>is</BioWord>{' '}
+                      <BioWord index={9} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>the</BioWord>{' '}
+                      <BioWord index={10} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>natural</BioWord>{' '}
+                      <BioWord index={11} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>home</BioWord>{' '}
+                      <BioWord index={12} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>where</BioWord>{' '}
+                      <BioWord index={13} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>living</BioWord>{' '}
+                      <BioWord index={14} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>things</BioWord>{' '}
+                      <BioWord index={15} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>get</BioWord>{' '}
+                      <BioWord index={16} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>what</BioWord>{' '}
+                      <BioWord index={17} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>they</BioWord>{' '}
+                      <BioWord index={18} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>need</BioWord>{' '}
+                      <BioWord index={19} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>to</BioWord>{' '}
+                      <BioWord index={20} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>survive.</BioWord>
                     </div>
                   </div>
 
@@ -1797,19 +2279,39 @@ export default function Chapter2SloganPage({
                       textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(125, 211, 252, 0.4)'
                     }}>
                       <span style={{ fontSize: '18px' }}>🦌</span>
-                      <span>Look Around</span>
+                      <span>
+                        <BioWord index={21} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>Look</BioWord>{' '}
+                        <BioWord index={22} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>Around</BioWord>
+                      </span>
                     </div>
                     <div style={{
                       fontSize: '18px',
-                      color: '#E0F2FE',
-                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
                       fontWeight: 500,
                       lineHeight: 1.6,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',
                       textJustify: 'inter-word'
                     }}>
-                      The deer and peacock drink from the stream. Trees shelter the squirrel. Plants use sunlight to make food.
+                      <BioWord index={23} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>The</BioWord>{' '}
+                      <BioWord index={24} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>deer</BioWord>{' '}
+                      <BioWord index={25} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>and</BioWord>{' '}
+                      <BioWord index={26} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>peacock</BioWord>{' '}
+                      <BioWord index={27} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>drink</BioWord>{' '}
+                      <BioWord index={28} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>from</BioWord>{' '}
+                      <BioWord index={29} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>the</BioWord>{' '}
+                      <BioWord index={30} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>stream.</BioWord>{' '}
+                      <BioWord index={31} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>Trees</BioWord>{' '}
+                      <BioWord index={32} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>shelter</BioWord>{' '}
+                      <BioWord index={33} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>the</BioWord>{' '}
+                      <BioWord index={34} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>squirrel.</BioWord>{' '}
+                      <BioWord index={35} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>Plants</BioWord>{' '}
+                      <BioWord index={36} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>use</BioWord>{' '}
+                      <BioWord index={37} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>sunlight</BioWord>{' '}
+                      <BioWord index={38} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>to</BioWord>{' '}
+                      <BioWord index={39} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>make</BioWord>{' '}
+                      <BioWord index={40} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>food.</BioWord>
                     </div>
                   </div>
 
@@ -1828,29 +2330,46 @@ export default function Chapter2SloganPage({
                       textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(251, 191, 36, 0.45)'
                     }}>
                       <span style={{ fontSize: '18px' }}>🌍</span>
-                      <span>The Biosphere</span>
+                      <span>
+                        <BioWord index={41} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">The</BioWord>{' '}
+                        <BioWord index={[42, 43]} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">Biosphere</BioWord>
+                      </span>
                     </div>
                     <div style={{
                       fontSize: '18px',
-                      color: '#FEF3C7',
-                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
                       fontWeight: 500,
                       lineHeight: 1.6,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',
                       textJustify: 'inter-word'
                     }}>
-                      All parts of Earth where life exists—on land, in water, and in the air.
+                      <BioWord index={44} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">All</BioWord>{' '}
+                      <BioWord index={45} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">parts</BioWord>{' '}
+                      <BioWord index={46} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">of</BioWord>{' '}
+                      <BioWord index={47} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">Earth</BioWord>{' '}
+                      <BioWord index={48} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">where</BioWord>{' '}
+                      <BioWord index={49} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">life</BioWord>{' '}
+                      <BioWord index={50} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">exists—</BioWord>{' '}
+                      <BioWord index={51} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">on</BioWord>{' '}
+                      <BioWord index={52} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">land,</BioWord>{' '}
+                      <BioWord index={53} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">in</BioWord>{' '}
+                      <BioWord index={54} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">water,</BioWord>{' '}
+                      <BioWord index={55} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">and</BioWord>{' '}
+                      <BioWord index={56} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">in</BioWord>{' '}
+                      <BioWord index={57} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">the</BioWord>{' '}
+                      <BioWord index={58} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">air.</BioWord>
                     </div>
                   </div>
 
                   {/* Callout box: Think */}
                   <div style={{
-                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.16) 100%)',
-                    border: '1.5px solid rgba(253, 230, 138, 0.45)',
+                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.28) 0%, rgba(217, 119, 6, 0.22) 100%)',
+                    border: '1.5px solid rgba(253, 230, 138, 0.55)',
                     borderRadius: '14px',
                     padding: '10px 14px',
-                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35)',
                     display: 'flex',
                     alignItems: 'flex-start',
                     gap: '10px'
@@ -1858,49 +2377,28 @@ export default function Chapter2SloganPage({
                     <span style={{ fontSize: '18px', lineHeight: 1 }}>💡</span>
                     <div style={{
                       fontSize: '18px',
-                      color: '#FCD34D',
-                      fontWeight: 700,
-                      fontStyle: 'italic',
+                      color: '#FFFFFF',
+                      fontWeight: 600,
                       fontFamily: '"Outfit", sans-serif',
                       lineHeight: 1.5,
                       textAlign: 'justify',
                       textJustify: 'inter-word',
-                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.95), 0 0 12px rgba(252, 211, 77, 0.3)'
+                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.6)'
                     }}>
-                      Think: What might happen if the stream dried up?
+                      <strong style={{ color: '#FDE047', fontWeight: 900, marginRight: '4px', textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 12px rgba(245, 158, 11, 0.6)' }}>
+                        <BioWord index={[59, 60]} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">Think:</BioWord>
+                      </strong>{' '}
+                      <BioWord index={61} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">What</BioWord>{' '}
+                      <BioWord index={62} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">might</BioWord>{' '}
+                      <BioWord index={63} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">happen</BioWord>{' '}
+                      <BioWord index={64} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">if</BioWord>{' '}
+                      <BioWord index={65} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">the</BioWord>{' '}
+                      <BioWord index={66} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">stream</BioWord>{' '}
+                      <BioWord index={67} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">dried</BioWord>{' '}
+                      <BioWord index={68} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">up?</BioWord>
                     </div>
                   </div>
                 </div>
-
-                {/* Read-along caption: real narration audio with word-by-word highlight */}
-                {isPlayingBioAudio && (
-                  <div style={{
-                    background: 'rgba(2, 18, 10, 0.55)',
-                    border: '1.5px solid rgba(110, 231, 183, 0.45)',
-                    borderRadius: '14px',
-                    padding: '12px 16px',
-                    marginTop: 'clamp(4px, 0.8vh, 8px)',
-                    fontSize: '16px',
-                    lineHeight: 1.6,
-                    fontFamily: '"Outfit", sans-serif',
-                    color: 'rgba(254, 240, 138, 0.55)'
-                  }}>
-                    {sloganNarrationData.bio.words.map((w, i) => (
-                      <span
-                        key={i}
-                        style={{
-                          color: i === bioActiveWordIndex ? '#FFFFFF' : 'rgba(254, 240, 138, 0.55)',
-                          background: i === bioActiveWordIndex ? 'rgba(16, 185, 129, 0.75)' : 'transparent',
-                          borderRadius: i === bioActiveWordIndex ? '5px' : 0,
-                          padding: i === bioActiveWordIndex ? '0 3px' : 0,
-                          transition: 'background 0.12s ease, color 0.12s ease'
-                        }}
-                      >
-                        {w.word}{i < sloganNarrationData.bio.words.length - 1 ? '\u00A0' : ''}
-                      </span>
-                    ))}
-                  </div>
-                )}
 
                 {/* Note: Listen Explanation and View Full Scenery buttons removed as requested */}
               </div>
@@ -1957,13 +2455,47 @@ export default function Chapter2SloganPage({
       {/* ============================================================ */}
       {currentPage === 3 && (
         <>
-          {/* Floating Fullscreen Control for Page 3 (Top-Right) */}
+          {/* Top Center Title: Adaptations (Attractive Golden Banner) */}
+          <div style={{
+            position: 'absolute',
+            top: '16px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 35,
+            pointerEvents: 'none',
+            textAlign: 'center',
+            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+            border: '2px solid rgba(254, 240, 138, 0.85)',
+            borderRadius: '12px',
+            padding: '7px 28px',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
+          }}>
+            <h1 style={{
+              margin: 0,
+              fontSize: '24px',
+              fontWeight: 900,
+              fontFamily: '"Cinzel", Georgia, serif',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              color: '#FFFFFF',
+              lineHeight: 1.15,
+              textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+            }}>
+              Adaptations
+            </h1>
+          </div>
+
+          {/* Floating Controls for Page 3 (Top-Right): Fullscreen Only */}
           <div style={{
             position: 'absolute',
             top: '16px',
             right: '20px',
-            zIndex: 35
+            zIndex: 35,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px'
           }}>
+            {/* Fullscreen Button */}
             <button
               type="button"
               onClick={toggleFullscreen}
@@ -1994,58 +2526,6 @@ export default function Chapter2SloganPage({
             >
               {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
             </button>
-          </div>
-
-          {/* Top Title: Chapter 2 Section 2.2 matching textbook */}
-          <div style={{
-            position: 'absolute',
-            top: '16px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            zIndex: 35,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            textAlign: 'center',
-            pointerEvents: 'none'
-          }}>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              background: 'linear-gradient(135deg, rgba(14, 165, 233, 0.25) 0%, rgba(2, 132, 199, 0.35) 100%)',
-              border: '1.5px solid #38BDF8',
-              borderRadius: '20px',
-              padding: '2px 14px',
-              marginBottom: '2px',
-              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35)',
-              backdropFilter: 'blur(4px)'
-            }}>
-              <span style={{
-                fontSize: '12px',
-                fontWeight: 900,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: '#E0F2FE',
-                fontFamily: '"Outfit", sans-serif'
-              }}>
-                CLASS 6 SCIENCE • CHAPTER 2
-              </span>
-            </div>
-            <h1 style={{
-              margin: 0,
-              fontSize: '24px',
-              fontWeight: 900,
-              fontFamily: '"Fraunces", Georgia, serif',
-              background: 'linear-gradient(135deg, #BAE6FD 0%, #38BDF8 50%, #0284C7 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              textShadow: '0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(56, 189, 248, 0.45)',
-              letterSpacing: '-0.01em',
-              lineHeight: 1.15
-            }}>
-              🐫 Section 2.2: Habitats & Adaptations 🐫
-            </h1>
           </div>
 
           {/* Page 3 Bottom-Left: Previous Page Button (hidden when popup covers it) */}
@@ -2107,7 +2587,7 @@ export default function Chapter2SloganPage({
                 width: 'min(480px, 42vw)',
                 maxHeight: 'calc(100vh - 36px)',
                 zIndex: 40,
-                backdropFilter: 'blur(2px)',
+                backdropFilter: 'blur(4px)',
                 WebkitBackdropFilter: 'blur(2px)',
                 background: 'transparent',
                 border: '1.8px solid rgba(251, 191, 36, 0.55)',
@@ -2135,7 +2615,7 @@ export default function Chapter2SloganPage({
                 scrollbarWidth: 'thin'
               }}>
 
-                {/* Top bar: Pill Badge + Close Button */}
+                {/* Top bar: Pill Badge + Circle Narration Button + Close Button */}
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -2163,39 +2643,91 @@ export default function Chapter2SloganPage({
                     <span style={{ color: '#F59E0B' }}>ADAPTATION</span>
                   </span>
 
-                  <button
-                    type="button"
-                    onClick={() => setShowPage3Popup(false)}
-                    aria-label="Close message and view full scenery"
-                    title="View full scenery photo"
-                    style={{
-                      background: 'rgba(28, 16, 4, 0.65)',
-                      border: '1.5px solid rgba(255, 255, 255, 0.30)',
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                      borderRadius: '10px',
-                      width: '36px',
-                      height: '36px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'rgba(255, 255, 255, 0.95)',
-                      cursor: 'pointer',
-                      flexShrink: 0,
-                      transition: 'all 0.2s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.55)';
-                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.85)';
-                      e.currentTarget.style.color = '#FFFFFF';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(28, 16, 4, 0.65)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.30)';
-                      e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
-                    }}
-                  >
-                    <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
-                  </button>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {/* Play / Pause Narration Button inside popup */}
+                    <button
+                      type="button"
+                      onClick={toggleDesertAudio}
+                      aria-label={isPlayingDesertAudio ? 'Pause Narration' : 'Play Narration'}
+                      title={isPlayingDesertAudio ? 'Pause Narration' : 'Play Narration'}
+                      style={{
+                        background: isPlayingDesertAudio
+                          ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)'
+                          : 'linear-gradient(135deg, rgba(245, 158, 11, 0.45) 0%, rgba(217, 119, 6, 0.35) 100%)',
+                        border: '1.8px solid #FBBF24',
+                        boxShadow: isPlayingDesertAudio
+                          ? '0 0 16px rgba(245, 158, 11, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                          : '0 4px 12px rgba(0, 0, 0, 0.35), 0 0 10px rgba(245, 158, 11, 0.25)',
+                        borderRadius: '20px',
+                        padding: '6px 14px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        color: '#FFFFFF',
+                        fontWeight: 800,
+                        fontSize: '13px',
+                        fontFamily: '"Outfit", sans-serif',
+                        cursor: 'pointer',
+                        flexShrink: 0,
+                        transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                        e.currentTarget.style.borderColor = '#FDE68A';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                        e.currentTarget.style.borderColor = '#FBBF24';
+                      }}
+                    >
+                      {isPlayingDesertAudio ? (
+                        <>
+                          <Pause size={15} fill="#FFFFFF" />
+                          <span>Pause</span>
+                        </>
+                      ) : (
+                        <>
+                          <Play size={15} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                          <span>Play</span>
+                        </>
+                      )}
+                    </button>
+
+                    {/* Close Button */}
+                    <button
+                      type="button"
+                      onClick={() => setShowPage3Popup(false)}
+                      aria-label="Close message and view full scenery"
+                      title="View full scenery photo"
+                      style={{
+                        background: 'rgba(28, 16, 4, 0.65)',
+                        border: '1.5px solid rgba(255, 255, 255, 0.30)',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+                        borderRadius: '10px',
+                        width: '36px',
+                        height: '36px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'rgba(255, 255, 255, 0.95)',
+                        cursor: 'pointer',
+                        flexShrink: 0,
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'rgba(239, 68, 68, 0.55)';
+                        e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.85)';
+                        e.currentTarget.style.color = '#FFFFFF';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(28, 16, 4, 0.65)';
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.30)';
+                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
+                      }}
+                    >
+                      <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
+                    </button>
+                  </div>
                 </div>
 
                 {/* Title Section */}
@@ -2215,7 +2747,8 @@ export default function Chapter2SloganPage({
                     textTransform: 'uppercase',
                     textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 24px rgba(245, 158, 11, 0.65), 0 0 40px rgba(217, 119, 6, 0.25)'
                   }}>
-                    DESERT ADAPTATIONS
+                    <BioWord index={0} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">DESERT</BioWord>{' '}
+                    <BioWord index={1} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">ADAPTATIONS</BioWord>
                   </h2>
                 </div>
 
@@ -2238,19 +2771,35 @@ export default function Chapter2SloganPage({
                       textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(251, 191, 36, 0.45)'
                     }}>
                       <span style={{ fontSize: '18px' }}>🦎</span>
-                      <span>What Is Adaptation?</span>
+                      <span>
+                        <BioWord index={2} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">What</BioWord>{' '}
+                        <BioWord index={3} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Is</BioWord>{' '}
+                        <BioWord index={4} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Adaptation?</BioWord>
+                      </span>
                     </div>
                     <div style={{
                       fontSize: '18px',
-                      color: '#FEF3C7',
-                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
                       fontWeight: 500,
                       lineHeight: 1.6,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',
                       textJustify: 'inter-word'
                     }}>
-                      A feature or behaviour that helps a living thing survive in its habitat.
+                      <BioWord index={5} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">A</BioWord>{' '}
+                      <BioWord index={6} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">feature</BioWord>{' '}
+                      <BioWord index={7} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">or</BioWord>{' '}
+                      <BioWord index={8} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">behaviour</BioWord>{' '}
+                      <BioWord index={9} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">that</BioWord>{' '}
+                      <BioWord index={10} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">helps</BioWord>{' '}
+                      <BioWord index={11} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">a</BioWord>{' '}
+                      <BioWord index={12} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">living</BioWord>{' '}
+                      <BioWord index={13} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">thing</BioWord>{' '}
+                      <BioWord index={14} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">survive</BioWord>{' '}
+                      <BioWord index={15} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">in</BioWord>{' '}
+                      <BioWord index={16} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">its</BioWord>{' '}
+                      <BioWord index={17} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">habitat.</BioWord>
                     </div>
                   </div>
 
@@ -2269,19 +2818,46 @@ export default function Chapter2SloganPage({
                       textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(251, 191, 36, 0.45)'
                     }}>
                       <span style={{ fontSize: '18px' }}>🐪</span>
-                      <span>The Ship of the Desert</span>
+                      <span>
+                        <BioWord index={18} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">The</BioWord>{' '}
+                        <BioWord index={19} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Ship</BioWord>{' '}
+                        <BioWord index={20} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">of</BioWord>{' '}
+                        <BioWord index={21} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">the</BioWord>{' '}
+                        <BioWord index={22} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Desert</BioWord>
+                      </span>
                     </div>
                     <div style={{
                       fontSize: '18px',
-                      color: '#FEF3C7',
-                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
                       fontWeight: 500,
                       lineHeight: 1.6,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',
                       textJustify: 'inter-word'
                     }}>
-                      A camel’s broad, padded feet help prevent it from sinking into sand. Its long eyelashes help protect its eyes from blowing dust.
+                      <BioWord index={23} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">A</BioWord>{' '}
+                      <BioWord index={24} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">camel’s</BioWord>{' '}
+                      <BioWord index={25} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">broad,</BioWord>{' '}
+                      <BioWord index={26} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">padded</BioWord>{' '}
+                      <BioWord index={27} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">feet</BioWord>{' '}
+                      <BioWord index={28} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">help</BioWord>{' '}
+                      <BioWord index={29} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">prevent</BioWord>{' '}
+                      <BioWord index={30} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">it</BioWord>{' '}
+                      <BioWord index={31} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">from</BioWord>{' '}
+                      <BioWord index={32} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">sinking</BioWord>{' '}
+                      <BioWord index={33} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">into</BioWord>{' '}
+                      <BioWord index={34} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">sand.</BioWord>{' '}
+                      <BioWord index={35} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Its</BioWord>{' '}
+                      <BioWord index={36} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">long</BioWord>{' '}
+                      <BioWord index={37} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">eyelashes</BioWord>{' '}
+                      <BioWord index={38} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">help</BioWord>{' '}
+                      <BioWord index={39} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">protect</BioWord>{' '}
+                      <BioWord index={40} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">its</BioWord>{' '}
+                      <BioWord index={41} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">eyes</BioWord>{' '}
+                      <BioWord index={42} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">from</BioWord>{' '}
+                      <BioWord index={43} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">blowing</BioWord>{' '}
+                      <BioWord index={44} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">dust.</BioWord>
                     </div>
                   </div>
 
@@ -2300,29 +2876,50 @@ export default function Chapter2SloganPage({
                       textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(34, 211, 238, 0.4)'
                     }}>
                       <span style={{ fontSize: '18px' }}>💧</span>
-                      <span>Saving Water</span>
+                      <span>
+                        <BioWord index={45} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">Saving</BioWord>{' '}
+                        <BioWord index={46} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">Water</BioWord>
+                      </span>
                     </div>
                     <div style={{
                       fontSize: '18px',
-                      color: '#E0F2FE',
-                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
                       fontWeight: 500,
                       lineHeight: 1.6,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',
                       textJustify: 'inter-word'
                     }}>
-                      Camels conserve water by reducing water loss from their bodies. This helps them survive for long periods without drinking.
+                      <BioWord index={47} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">Camels</BioWord>{' '}
+                      <BioWord index={48} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">conserve</BioWord>{' '}
+                      <BioWord index={49} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">water</BioWord>{' '}
+                      <BioWord index={50} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">by</BioWord>{' '}
+                      <BioWord index={51} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">reducing</BioWord>{' '}
+                      <BioWord index={52} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">water</BioWord>{' '}
+                      <BioWord index={53} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">loss</BioWord>{' '}
+                      <BioWord index={54} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">from</BioWord>{' '}
+                      <BioWord index={55} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">their</BioWord>{' '}
+                      <BioWord index={56} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">bodies.</BioWord>{' '}
+                      <BioWord index={57} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">This</BioWord>{' '}
+                      <BioWord index={58} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">helps</BioWord>{' '}
+                      <BioWord index={59} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">them</BioWord>{' '}
+                      <BioWord index={60} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">survive</BioWord>{' '}
+                      <BioWord index={61} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">for</BioWord>{' '}
+                      <BioWord index={62} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">long</BioWord>{' '}
+                      <BioWord index={63} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">periods</BioWord>{' '}
+                      <BioWord index={64} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">without</BioWord>{' '}
+                      <BioWord index={65} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">drinking.</BioWord>
                     </div>
                   </div>
 
                   {/* Callout box: Think */}
                   <div style={{
-                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.16) 100%)',
-                    border: '1.5px solid rgba(253, 230, 138, 0.45)',
+                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.28) 0%, rgba(217, 119, 6, 0.22) 100%)',
+                    border: '1.5px solid rgba(253, 230, 138, 0.55)',
                     borderRadius: '14px',
                     padding: '10px 14px',
-                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35)',
                     display: 'flex',
                     alignItems: 'flex-start',
                     gap: '10px'
@@ -2330,16 +2927,25 @@ export default function Chapter2SloganPage({
                     <span style={{ fontSize: '18px', lineHeight: 1 }}>💡</span>
                     <div style={{
                       fontSize: '18px',
-                      color: '#FCD34D',
-                      fontWeight: 700,
-                      fontStyle: 'italic',
+                      color: '#FFFFFF',
+                      fontWeight: 600,
                       fontFamily: '"Outfit", sans-serif',
                       lineHeight: 1.5,
                       textAlign: 'justify',
                       textJustify: 'inter-word',
-                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.95), 0 0 12px rgba(252, 211, 77, 0.3)'
+                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.6)'
                     }}>
-                      Think: Why is saving water important in a desert?
+                      <strong style={{ color: '#FDE047', fontWeight: 900, marginRight: '4px', textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 12px rgba(245, 158, 11, 0.6)' }}>
+                        <BioWord index={66} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Think:</BioWord>
+                      </strong>{' '}
+                      <BioWord index={67} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Why</BioWord>{' '}
+                      <BioWord index={68} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">is</BioWord>{' '}
+                      <BioWord index={69} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">saving</BioWord>{' '}
+                      <BioWord index={70} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">water</BioWord>{' '}
+                      <BioWord index={71} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">important</BioWord>{' '}
+                      <BioWord index={72} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">in</BioWord>{' '}
+                      <BioWord index={73} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">a</BioWord>{' '}
+                      <BioWord index={74} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">desert?</BioWord>
                     </div>
                   </div>
                 </div>
@@ -2399,6 +3005,36 @@ export default function Chapter2SloganPage({
       {/* ============================================================ */}
       {currentPage === 4 && (
         <>
+          {/* Top Center Title: Plant Groups (Attractive Golden Banner) */}
+          <div style={{
+            position: 'absolute',
+            top: '16px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 35,
+            pointerEvents: 'none',
+            textAlign: 'center',
+            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+            border: '2px solid rgba(254, 240, 138, 0.85)',
+            borderRadius: '12px',
+            padding: '7px 28px',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
+          }}>
+            <h1 style={{
+              margin: 0,
+              fontSize: '24px',
+              fontWeight: 900,
+              fontFamily: '"Cinzel", Georgia, serif',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              color: '#FFFFFF',
+              lineHeight: 1.15,
+              textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+            }}>
+              Plant Groups
+            </h1>
+          </div>
+
           {/* Floating Fullscreen Control for Page 4 (Top-Right) */}
           <div style={{
             position: 'absolute',
@@ -2438,57 +3074,7 @@ export default function Chapter2SloganPage({
             </button>
           </div>
 
-          {/* Top Title: Chapter 2 Section 2.3 matching textbook */}
-          <div style={{
-            position: 'absolute',
-            top: '16px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            zIndex: 35,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            textAlign: 'center',
-            pointerEvents: 'none'
-          }}>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.35) 100%)',
-              border: '1.5px solid #F59E0B',
-              borderRadius: '20px',
-              padding: '2px 14px',
-              marginBottom: '2px',
-              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35)',
-              backdropFilter: 'blur(4px)'
-            }}>
-              <span style={{
-                fontSize: '12px',
-                fontWeight: 900,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: '#FEF3C7',
-                fontFamily: '"Outfit", sans-serif'
-              }}>
-                CLASS 6 SCIENCE • CHAPTER 2
-              </span>
-            </div>
-            <h1 style={{
-              margin: 0,
-              fontSize: '24px',
-              fontWeight: 900,
-              fontFamily: '"Fraunces", Georgia, serif',
-              background: 'linear-gradient(135deg, #FDE68A 0%, #F59E0B 50%, #FBBF24 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              textShadow: '0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(245, 158, 11, 0.45)',
-              letterSpacing: '-0.01em',
-              lineHeight: 1.15
-            }}>
-              🌿 Section 2.3: Plants – Form and Function 🌿
-            </h1>
-          </div>
+
 
           {/* Page 4 Bottom-Left: Previous Page Button */}
           <div style={{
@@ -2549,7 +3135,7 @@ export default function Chapter2SloganPage({
                 width: 'min(480px, 42vw)',
                 maxHeight: 'calc(100vh - 36px)',
                 zIndex: 40,
-                backdropFilter: 'blur(2px)',
+                backdropFilter: 'blur(4px)',
                 WebkitBackdropFilter: 'blur(2px)',
                 background: 'transparent',
                 border: '1.8px solid rgba(167, 243, 208, 0.55)',
@@ -2605,6 +3191,56 @@ export default function Chapter2SloganPage({
                     <span style={{ color: '#34D399' }}>PLANT GROUPS</span>
                   </span>
 
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {/* Play / Pause Narration Button inside popup */}
+                    <button
+                      type="button"
+                      onClick={toggleBotanyAudio}
+                      aria-label={isPlayingBotanyAudio ? 'Pause Narration' : 'Play Narration'}
+                      title={isPlayingBotanyAudio ? 'Pause Narration' : 'Play Narration'}
+                      style={{
+                        background: isPlayingBotanyAudio
+                          ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                          : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
+                        border: '1.8px solid #34D399',
+                        boxShadow: isPlayingBotanyAudio
+                          ? '0 0 16px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                          : '0 4px 12px rgba(0, 0, 0, 0.35), 0 0 10px rgba(16, 185, 129, 0.25)',
+                        borderRadius: '20px',
+                        padding: '6px 14px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        color: '#FFFFFF',
+                        fontWeight: 800,
+                        fontSize: '13px',
+                        fontFamily: '"Outfit", sans-serif',
+                        cursor: 'pointer',
+                        flexShrink: 0,
+                        transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                        e.currentTarget.style.borderColor = '#6EE7B7';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                        e.currentTarget.style.borderColor = '#34D399';
+                      }}
+                    >
+                      {isPlayingBotanyAudio ? (
+                        <>
+                          <Pause size={15} fill="#FFFFFF" />
+                          <span>Pause</span>
+                        </>
+                      ) : (
+                        <>
+                          <Play size={15} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                          <span>Play</span>
+                        </>
+                      )}
+                    </button>
+
                   <button
                     type="button"
                     onClick={() => setShowPage4Popup(false)}
@@ -2638,6 +3274,7 @@ export default function Chapter2SloganPage({
                   >
                     <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
                   </button>
+                  </div>
                 </div>
 
                 {/* Title Section */}
@@ -2657,7 +3294,11 @@ export default function Chapter2SloganPage({
                     textTransform: 'uppercase',
                     textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 24px rgba(52, 211, 153, 0.65), 0 0 40px rgba(16, 185, 129, 0.25)'
                   }}>
-                    HERBS, SHRUBS, TREES &amp; CLIMBERS
+                    <BioWord index={0} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>HERBS,</BioWord>{' '}
+                    <BioWord index={1} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>SHRUBS,</BioWord>{' '}
+                    <BioWord index={2} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>TREES</BioWord>{' '}
+                    <BioWord index={3} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>&amp;</BioWord>{' '}
+                    <BioWord index={4} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>CLIMBERS</BioWord>
                   </h2>
                 </div>
 
@@ -2684,15 +3325,21 @@ export default function Chapter2SloganPage({
                     </div>
                     <div style={{
                       fontSize: '18px',
-                      color: '#E2E8F0',
-                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
                       fontWeight: 500,
                       lineHeight: 1.6,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',
                       textJustify: 'inter-word'
                     }}>
-                      Usually small plants with soft, green stems.
+                      <BioWord index={11} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>Usually</BioWord>{' '}
+                      <BioWord index={12} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>small</BioWord>{' '}
+                      <BioWord index={13} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>plants</BioWord>{' '}
+                      <BioWord index={14} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>with</BioWord>{' '}
+                      <BioWord index={15} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>soft,</BioWord>{' '}
+                      <BioWord index={16} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>green</BioWord>{' '}
+                      <BioWord index={17} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>stems.</BioWord>
                     </div>
                   </div>
 
@@ -2715,15 +3362,23 @@ export default function Chapter2SloganPage({
                     </div>
                     <div style={{
                       fontSize: '18px',
-                      color: '#FFE4E6',
-                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
                       fontWeight: 500,
                       lineHeight: 1.6,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',
                       textJustify: 'inter-word'
                     }}>
-                      Woody plants with many branches growing near the ground.
+                      <BioWord index={23} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="cyan">Woody</BioWord>{' '}
+                      <BioWord index={24} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="cyan">plants</BioWord>{' '}
+                      <BioWord index={25} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="cyan">with</BioWord>{' '}
+                      <BioWord index={26} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="cyan">many</BioWord>{' '}
+                      <BioWord index={27} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="cyan">branches</BioWord>{' '}
+                      <BioWord index={28} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="cyan">growing</BioWord>{' '}
+                      <BioWord index={29} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="cyan">near</BioWord>{' '}
+                      <BioWord index={30} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="cyan">the</BioWord>{' '}
+                      <BioWord index={31} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="cyan">ground.</BioWord>
                     </div>
                   </div>
 
@@ -2746,15 +3401,27 @@ export default function Chapter2SloganPage({
                     </div>
                     <div style={{
                       fontSize: '18px',
-                      color: '#FEF3C7',
-                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
                       fontWeight: 500,
                       lineHeight: 1.6,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',
                       textJustify: 'inter-word'
                     }}>
-                      Grow tall, with a thick, woody trunk and branches higher above the ground.
+                      <BioWord index={36} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">Grow</BioWord>{' '}
+                      <BioWord index={37} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">tall,</BioWord>{' '}
+                      <BioWord index={38} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">with</BioWord>{' '}
+                      <BioWord index={39} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">a</BioWord>{' '}
+                      <BioWord index={40} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">thick,</BioWord>{' '}
+                      <BioWord index={41} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">woody</BioWord>{' '}
+                      <BioWord index={42} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">trunk</BioWord>{' '}
+                      <BioWord index={43} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">and</BioWord>{' '}
+                      <BioWord index={44} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">branches</BioWord>{' '}
+                      <BioWord index={45} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">higher</BioWord>{' '}
+                      <BioWord index={46} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">above</BioWord>{' '}
+                      <BioWord index={47} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">the</BioWord>{' '}
+                      <BioWord index={48} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">ground.</BioWord>
                     </div>
                   </div>
 
@@ -2765,37 +3432,45 @@ export default function Chapter2SloganPage({
                     <div style={{
                       fontSize: '18px',
                       fontWeight: 800,
-                      color: '#A78BFA',
+                      color: '#34D399',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
                       fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(167, 139, 250, 0.4)'
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(52, 211, 153, 0.4)'
                     }}>
                       <span style={{ fontSize: '18px' }}>🪴</span>
                       <span>Climbers — Money Plant</span>
                     </div>
                     <div style={{
                       fontSize: '18px',
-                      color: '#EDE9FE',
-                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
                       fontWeight: 500,
                       lineHeight: 1.6,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',
                       textJustify: 'inter-word'
                     }}>
-                      Have weak stems and need support to grow upwards.
+                      <BioWord index={54} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">Have</BioWord>{' '}
+                      <BioWord index={55} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">weak</BioWord>{' '}
+                      <BioWord index={56} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">stems</BioWord>{' '}
+                      <BioWord index={57} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">and</BioWord>{' '}
+                      <BioWord index={58} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">need</BioWord>{' '}
+                      <BioWord index={59} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">support</BioWord>{' '}
+                      <BioWord index={60} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">to</BioWord>{' '}
+                      <BioWord index={61} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">grow</BioWord>{' '}
+                      <BioWord index={62} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">upwards.</BioWord>
                     </div>
                   </div>
 
                   {/* Callout box: Think */}
                   <div style={{
-                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.22) 0%, rgba(5, 150, 105, 0.16) 100%)',
-                    border: '1.5px solid rgba(167, 243, 208, 0.45)',
+                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(5, 150, 105, 0.22) 100%)',
+                    border: '1.5px solid rgba(167, 243, 208, 0.55)',
                     borderRadius: '14px',
                     padding: '10px 14px',
-                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35)',
                     display: 'flex',
                     alignItems: 'flex-start',
                     gap: '10px'
@@ -2803,16 +3478,26 @@ export default function Chapter2SloganPage({
                     <span style={{ fontSize: '18px', lineHeight: 1 }}>💡</span>
                     <div style={{
                       fontSize: '18px',
-                      color: '#FCD34D',
-                      fontWeight: 700,
-                      fontStyle: 'italic',
+                      color: '#FFFFFF',
+                      fontWeight: 600,
                       fontFamily: '"Outfit", sans-serif',
                       lineHeight: 1.5,
                       textAlign: 'justify',
                       textJustify: 'inter-word',
-                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.95), 0 0 12px rgba(252, 211, 77, 0.3)'
+                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.6)'
                     }}>
-                      Think: Which plant in this picture needs support to climb?
+                      <strong style={{ color: '#FDE047', fontWeight: 900, marginRight: '4px', textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 12px rgba(245, 158, 11, 0.6)' }}>
+                        <BioWord index={63} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">Think:</BioWord>
+                      </strong>{' '}
+                      <BioWord index={64} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">Which</BioWord>{' '}
+                      <BioWord index={65} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">plant</BioWord>{' '}
+                      <BioWord index={66} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">in</BioWord>{' '}
+                      <BioWord index={67} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">this</BioWord>{' '}
+                      <BioWord index={68} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">picture</BioWord>{' '}
+                      <BioWord index={69} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">needs</BioWord>{' '}
+                      <BioWord index={70} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">support</BioWord>{' '}
+                      <BioWord index={71} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">to</BioWord>{' '}
+                      <BioWord index={72} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">climb?</BioWord>
                     </div>
                   </div>
                 </div>
@@ -2872,6 +3557,36 @@ export default function Chapter2SloganPage({
       {/* ============================================================ */}
       {currentPage === 5 && (
         <>
+          {/* Top Center Title: Conservation (Attractive Golden Banner) */}
+          <div style={{
+            position: 'absolute',
+            top: '16px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 35,
+            pointerEvents: 'none',
+            textAlign: 'center',
+            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+            border: '2px solid rgba(254, 240, 138, 0.85)',
+            borderRadius: '12px',
+            padding: '7px 28px',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
+          }}>
+            <h1 style={{
+              margin: 0,
+              fontSize: '24px',
+              fontWeight: 900,
+              fontFamily: '"Cinzel", Georgia, serif',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              color: '#FFFFFF',
+              lineHeight: 1.15,
+              textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+            }}>
+              Conservation
+            </h1>
+          </div>
+
           {/* Floating Fullscreen Control for Page 5 (Top-Right) */}
           <div style={{
             position: 'absolute',
@@ -2911,57 +3626,7 @@ export default function Chapter2SloganPage({
             </button>
           </div>
 
-          {/* Top Title: Chapter 2 Section 2.4 matching textbook */}
-          <div style={{
-            position: 'absolute',
-            top: '16px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            zIndex: 35,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            textAlign: 'center',
-            pointerEvents: 'none'
-          }}>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.35) 100%)',
-              border: '1.5px solid #F59E0B',
-              borderRadius: '20px',
-              padding: '2px 14px',
-              marginBottom: '2px',
-              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35)',
-              backdropFilter: 'blur(4px)'
-            }}>
-              <span style={{
-                fontSize: '12px',
-                fontWeight: 900,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: '#FEF3C7',
-                fontFamily: '"Outfit", sans-serif'
-              }}>
-                CLASS 6 SCIENCE • CHAPTER 2
-              </span>
-            </div>
-            <h1 style={{
-              margin: 0,
-              fontSize: '24px',
-              fontWeight: 900,
-              fontFamily: '"Fraunces", Georgia, serif',
-              background: 'linear-gradient(135deg, #FDE68A 0%, #F59E0B 50%, #FBBF24 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              textShadow: '0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(245, 158, 11, 0.45)',
-              letterSpacing: '-0.01em',
-              lineHeight: 1.15
-            }}>
-              🕊️ Section 2.4: Biodiversity & Conservation 🕊️
-            </h1>
-          </div>
+
 
           {/* Page 5 Bottom-Left: Previous Page Button */}
           <div style={{
@@ -3022,7 +3687,7 @@ export default function Chapter2SloganPage({
                 width: 'min(480px, 42vw)',
                 maxHeight: 'calc(100vh - 36px)',
                 zIndex: 40,
-                backdropFilter: 'blur(2px)',
+                backdropFilter: 'blur(4px)',
                 WebkitBackdropFilter: 'blur(2px)',
                 background: 'transparent',
                 border: '1.8px solid rgba(167, 243, 208, 0.55)',
@@ -3078,6 +3743,56 @@ export default function Chapter2SloganPage({
                     <span style={{ color: '#34D399' }}>CONSERVATION</span>
                   </span>
 
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {/* Play / Pause Narration Button inside popup */}
+                    <button
+                      type="button"
+                      onClick={toggleConservationAudio}
+                      aria-label={isPlayingConservationAudio ? 'Pause Narration' : 'Play Narration'}
+                      title={isPlayingConservationAudio ? 'Pause Narration' : 'Play Narration'}
+                      style={{
+                        background: isPlayingConservationAudio
+                          ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                          : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
+                        border: '1.8px solid #34D399',
+                        boxShadow: isPlayingConservationAudio
+                          ? '0 0 16px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                          : '0 4px 12px rgba(0, 0, 0, 0.35), 0 0 10px rgba(16, 185, 129, 0.25)',
+                        borderRadius: '20px',
+                        padding: '6px 14px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        color: '#FFFFFF',
+                        fontWeight: 800,
+                        fontSize: '13px',
+                        fontFamily: '"Outfit", sans-serif',
+                        cursor: 'pointer',
+                        flexShrink: 0,
+                        transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                        e.currentTarget.style.borderColor = '#6EE7B7';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                        e.currentTarget.style.borderColor = '#34D399';
+                      }}
+                    >
+                      {isPlayingConservationAudio ? (
+                        <>
+                          <Pause size={15} fill="#FFFFFF" />
+                          <span>Pause</span>
+                        </>
+                      ) : (
+                        <>
+                          <Play size={15} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                          <span>Play</span>
+                        </>
+                      )}
+                    </button>
+
                   <button
                     type="button"
                     onClick={() => setShowPage5Popup(false)}
@@ -3111,6 +3826,7 @@ export default function Chapter2SloganPage({
                   >
                     <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
                   </button>
+                  </div>
                 </div>
 
                 {/* Title Section */}
@@ -3130,7 +3846,8 @@ export default function Chapter2SloganPage({
                     textTransform: 'uppercase',
                     textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 24px rgba(52, 211, 153, 0.65), 0 0 40px rgba(16, 185, 129, 0.25)'
                   }}>
-                    SACRED GROVES
+                    <BioWord index={0} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>SACRED</BioWord>{' '}
+                    <BioWord index={1} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>GROVES</BioWord>
                   </h2>
                 </div>
 
@@ -3157,15 +3874,31 @@ export default function Chapter2SloganPage({
                     </div>
                     <div style={{
                       fontSize: '18px',
-                      color: '#E2E8F0',
-                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
                       fontWeight: 500,
                       lineHeight: 1.6,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',
                       textJustify: 'inter-word'
                     }}>
-                      Sacred groves are patches of forest protected by local communities because of their cultural or religious importance.
+                      <BioWord index={5} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>Sacred</BioWord>{' '}
+                      <BioWord index={6} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>groves</BioWord>{' '}
+                      <BioWord index={7} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>are</BioWord>{' '}
+                      <BioWord index={8} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>patches</BioWord>{' '}
+                      <BioWord index={9} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>of</BioWord>{' '}
+                      <BioWord index={10} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>forest</BioWord>{' '}
+                      <BioWord index={11} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>protected</BioWord>{' '}
+                      <BioWord index={12} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>by</BioWord>{' '}
+                      <BioWord index={13} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>local</BioWord>{' '}
+                      <BioWord index={14} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>communities</BioWord>{' '}
+                      <BioWord index={15} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>because</BioWord>{' '}
+                      <BioWord index={16} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>of</BioWord>{' '}
+                      <BioWord index={17} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>their</BioWord>{' '}
+                      <BioWord index={18} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>cultural</BioWord>{' '}
+                      <BioWord index={19} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>or</BioWord>{' '}
+                      <BioWord index={20} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>religious</BioWord>{' '}
+                      <BioWord index={21} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>importance.</BioWord>
                     </div>
                   </div>
 
@@ -3188,15 +3921,24 @@ export default function Chapter2SloganPage({
                     </div>
                     <div style={{
                       fontSize: '18px',
-                      color: '#E0F2FE',
-                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
                       fontWeight: 500,
                       lineHeight: 1.6,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',
                       textJustify: 'inter-word'
                     }}>
-                      They shelter native wildlife and help protect valuable medicinal plants.
+                      <BioWord index={26} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">They</BioWord>{' '}
+                      <BioWord index={27} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">shelter</BioWord>{' '}
+                      <BioWord index={28} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">native</BioWord>{' '}
+                      <BioWord index={29} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">wildlife</BioWord>{' '}
+                      <BioWord index={30} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">and</BioWord>{' '}
+                      <BioWord index={31} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">help</BioWord>{' '}
+                      <BioWord index={32} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">protect</BioWord>{' '}
+                      <BioWord index={33} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">valuable</BioWord>{' '}
+                      <BioWord index={34} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">medicinal</BioWord>{' '}
+                      <BioWord index={35} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">plants.</BioWord>
                     </div>
                   </div>
 
@@ -3219,25 +3961,38 @@ export default function Chapter2SloganPage({
                     </div>
                     <div style={{
                       fontSize: '18px',
-                      color: '#FEF3C7',
-                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
                       fontWeight: 500,
                       lineHeight: 1.6,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',
                       textJustify: 'inter-word'
                     }}>
-                      Local rules help prevent tree cutting and harm to animals, keeping these forests safe.
+                      <BioWord index={38} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">Local</BioWord>{' '}
+                      <BioWord index={39} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">rules</BioWord>{' '}
+                      <BioWord index={40} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">help</BioWord>{' '}
+                      <BioWord index={41} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">prevent</BioWord>{' '}
+                      <BioWord index={42} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">tree</BioWord>{' '}
+                      <BioWord index={43} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">cutting</BioWord>{' '}
+                      <BioWord index={44} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">and</BioWord>{' '}
+                      <BioWord index={45} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">harm</BioWord>{' '}
+                      <BioWord index={46} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">to</BioWord>{' '}
+                      <BioWord index={47} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">animals,</BioWord>{' '}
+                      <BioWord index={48} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">keeping</BioWord>{' '}
+                      <BioWord index={49} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">these</BioWord>{' '}
+                      <BioWord index={50} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">forests</BioWord>{' '}
+                      <BioWord index={51} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">safe.</BioWord>
                     </div>
                   </div>
 
                   {/* Callout box: Think */}
                   <div style={{
-                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.22) 0%, rgba(5, 150, 105, 0.16) 100%)',
-                    border: '1.5px solid rgba(167, 243, 208, 0.45)',
+                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(5, 150, 105, 0.22) 100%)',
+                    border: '1.5px solid rgba(167, 243, 208, 0.55)',
                     borderRadius: '14px',
                     padding: '10px 14px',
-                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35)',
                     display: 'flex',
                     alignItems: 'flex-start',
                     gap: '10px'
@@ -3245,16 +4000,29 @@ export default function Chapter2SloganPage({
                     <span style={{ fontSize: '18px', lineHeight: 1 }}>💡</span>
                     <div style={{
                       fontSize: '18px',
-                      color: '#FCD34D',
-                      fontWeight: 700,
-                      fontStyle: 'italic',
+                      color: '#FFFFFF',
+                      fontWeight: 600,
                       fontFamily: '"Outfit", sans-serif',
                       lineHeight: 1.5,
                       textAlign: 'justify',
                       textJustify: 'inter-word',
-                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.95), 0 0 12px rgba(252, 211, 77, 0.3)'
+                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.6)'
                     }}>
-                      Think: How does protecting a forest help the plants and animals living there?
+                      <strong style={{ color: '#FDE047', fontWeight: 900, marginRight: '4px', textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 12px rgba(245, 158, 11, 0.6)' }}>
+                        <BioWord index={52} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">Think:</BioWord>
+                      </strong>{' '}
+                      <BioWord index={53} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">How</BioWord>{' '}
+                      <BioWord index={54} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">does</BioWord>{' '}
+                      <BioWord index={55} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">protecting</BioWord>{' '}
+                      <BioWord index={56} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">a</BioWord>{' '}
+                      <BioWord index={57} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">forest</BioWord>{' '}
+                      <BioWord index={58} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">help</BioWord>{' '}
+                      <BioWord index={59} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">the</BioWord>{' '}
+                      <BioWord index={60} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">plants</BioWord>{' '}
+                      <BioWord index={61} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">and</BioWord>{' '}
+                      <BioWord index={62} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">animals</BioWord>{' '}
+                      <BioWord index={63} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">living</BioWord>{' '}
+                      <BioWord index={64} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">there?</BioWord>
                     </div>
                   </div>
                 </div>

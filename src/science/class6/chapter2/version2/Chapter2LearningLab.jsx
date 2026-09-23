@@ -11,7 +11,7 @@ import CoverPage from '../../../../components/CoverPage';
 import Chapter2SloganPage from './Chapter2SloganPage';
 import IntroStoryteller from './IntroStoryteller';
 import coverBgImage from '../../../../assets/cover_page_ch2.png';
-import coverBgVideo from './cover_video_upscale.mp4';
+import coverBgVideo from '../../../../assets/in_this_video_just_add_those_b (1).mp4';
 import natureGreeneryBg from '../../../../assets/nature_greenery_bg.jpg';
 
 // 14 Distinct 8K Realistic Photographic Backgrounds (Zero Duplicates Across Activities)
@@ -61,7 +61,8 @@ import RootSystemsLab from './RootSystemsLab';
 import VenationRootCorrelationLab from './VenationRootCorrelationLab';
 import SeedDissectionLab from './SeedDissectionLab';
 import AnimalHabitatExplorerActivity from './AnimalHabitatExplorer';
-import Tables2_5_2_6_Lab from './Tables2_5_2_6_Lab';
+import NewActivity29 from './NewActivity29';
+import Activity2_10Lab from './Activity2_10Lab';
 import AdaptationsLab from './AdaptationsLab';
 import ConservationLab from './ConservationLab';
 import TextbookExercisesLab from './TextbookExercisesLab';
@@ -787,18 +788,24 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
             {habitatSubTab === 'mission' && (
               <AnimalHabitatExplorerActivity 
                 onBackToDashboard={() => setCurrentStep(8)} 
-                onNextActivity={() => setHabitatSubTab('tables')} 
+                onNextActivity={() => setHabitatSubTab('new_activity_29')} 
               />
             )}
-            {habitatSubTab === 'tables' && (
-              <Tables2_5_2_6_Lab 
+            {habitatSubTab === 'new_activity_29' && (
+              <NewActivity29 
                 onBackToDashboard={() => setHabitatSubTab('mission')} 
-                onNextSubModule={() => setHabitatSubTab('adaptations')} 
+                onNextActivity={() => setHabitatSubTab('activity2_10')} 
+              />
+            )}
+            {habitatSubTab === 'activity2_10' && (
+              <Activity2_10Lab 
+                onBack={() => setHabitatSubTab('new_activity_29')} 
+                onComplete={() => setHabitatSubTab('adaptations')} 
               />
             )}
             {habitatSubTab === 'adaptations' && (
               <AdaptationsLab 
-                onBackToDashboard={() => setHabitatSubTab('tables')} 
+                onBackToDashboard={() => setHabitatSubTab('activity2_10')} 
                 onNextSubModule={() => setHabitatSubTab('conservation')} 
               />
             )}
@@ -834,8 +841,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 justifyContent: 'space-between',
                 padding: 'clamp(10px, 1.5vh, 16px) clamp(14px, 1.8vw, 20px)',
                 background: 'rgba(15, 23, 42, 0.45)',
-                backdropFilter: 'blur(2px) saturate(180%)',
-                WebkitBackdropFilter: 'blur(2px) saturate(180%)',
+                backdropFilter: 'blur(20px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                 borderRadius: '20px',
                 border: '2px solid rgba(245, 158, 11, 0.45)',
                 boxShadow: '0 12px 40px rgba(0, 0, 0, 0.4)',
@@ -878,7 +885,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                         cursor: 'pointer',
                         boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35)',
                         fontFamily: '"Outfit", sans-serif',
-                        backdropFilter: 'blur(2px)'
+                        backdropFilter: 'blur(12px)'
                       }}
                     >
                       {isSpeaking ? <VolumeX size={17} /> : <Volume2 size={17} />}
@@ -938,8 +945,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                   {/* Left Column: Key Concept Synthesis Cards */}
                   <div style={{
                     background: 'rgba(15, 23, 42, 0.52)',
-                    backdropFilter: 'blur(2px)',
-                    WebkitBackdropFilter: 'blur(2px)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
                     border: '1.8px solid rgba(245, 158, 11, 0.4)',
                     borderRadius: '16px',
                     padding: 'clamp(10px, 1.4vh, 16px)',
@@ -988,8 +995,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                   {/* Right Column: 3 Interactive NCERT Questions */}
                   <div style={{
                     background: 'rgba(15, 23, 42, 0.52)',
-                    backdropFilter: 'blur(2px)',
-                    WebkitBackdropFilter: 'blur(2px)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
                     border: '1.8px solid rgba(245, 158, 11, 0.4)',
                     borderRadius: '16px',
                     padding: 'clamp(10px, 1.4vh, 16px)',

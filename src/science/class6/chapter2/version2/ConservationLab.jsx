@@ -115,7 +115,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
       flexDirection: 'column',
       justifyContent: 'space-between',
       background: 'rgba(15, 23, 42, 0.50)',
-      backdropFilter: 'blur(2px)',
+      backdropFilter: 'blur(4px)',
       WebkitBackdropFilter: 'blur(2px)',
       borderRadius: '20px',
       border: '2px solid #D4AF37',

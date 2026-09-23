@@ -15,6 +15,11 @@ import isolatedLunchbox from '../images/isolated_lunchbox.jpg';
 import isolatedTumbler from '../images/isolated_tumbler.jpg';
 import isolatedSpoon from '../images/isolated_spoon.jpg';
 import isolatedCandle from '../images/isolated_candle.jpg';
+import { Play, Pause } from 'lucide-react';
+import fpage17Audio from '../../audio/fpage17.mp3?url';
+import fpage17Json from '../../json/fpage17.json';
+import fpage17popupAudio from '../../audio/fpage17popup.mp3?url';
+import fpage17popupJson from '../../json/fpage17popup.json';
 
 // Custom Item SVGs removed to use actual realistic PNGs
 const BigTumblerVisual = ({ width = "100%", height = "100%" }) => (
@@ -53,13 +58,113 @@ const BigTumblerVisual = ({ width = "100%", height = "100%" }) => (
   </svg>
 );
 
-export default function Stage2_Identify({ onComplete, addXp }) {
+export default function Stage2_Identify({ onComplete, addXp, setExtraRightAction }) {
   const [selectedObj, setSelectedObj] = useState(null);
   const [scannedObjects, setScannedObjects] = useState({});
   const [scanState, setScanState] = useState('idle'); // 'idle', 'scanning', 'correct', 'incorrect'
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [selectedMaterialOption, setSelectedMaterialOption] = useState(null);
   const [scanProgress, setScanProgress] = useState(0);
+
+  const isAllCompleted = Object.keys(scannedObjects).length === 6;
+
+  const audioRef = React.useRef(null);
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [activeWordIndex, setActiveWordIndex] = React.useState(null);
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.error(e));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    const currentJson = isAllCompleted ? fpage17popupJson : fpage17Json;
+    if (audioRef.current && typeof currentJson !== 'undefined') {
+      const time = audioRef.current.currentTime;
+      const activeIdx = currentJson.words.findIndex(w => time >= w.start && time < w.end);
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordIndex(null);
+  };
+
+  React.useEffect(() => {
+    const isVisible = isAllCompleted || !selectedObj;
+    if (setExtraRightAction) {
+      if (isVisible) {
+        setExtraRightAction(
+          <button
+            onClick={toggleAudio}
+            className="outline"
+            style={{
+              padding: '0.85rem 1.6rem',
+              fontSize: '1.6rem',
+              fontWeight: 'bold',
+              gap: '0.75rem',
+              borderRadius: '10px',
+              color: 'var(--text-primary)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+          >
+            {isPlaying ? (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+            ) : (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            )} {isPlaying ? "Pause" : "Play"}
+          </button>
+        );
+      } else {
+        setExtraRightAction(null);
+        if (audioRef.current) {
+          audioRef.current.pause();
+          setIsPlaying(false);
+          setActiveWordIndex(null);
+        }
+      }
+    }
+  }, [setExtraRightAction, isPlaying, selectedObj, isAllCompleted]);
+
+  // Pause and reset audio when completion state changes
+  React.useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+      setActiveWordIndex(null);
+    }
+  }, [isAllCompleted]);
+
+  const W = ({ i, children }) => {
+    const indices = Array.isArray(i) ? i : [i];
+    const isActive = indices.includes(activeWordIndex);
+    return (
+      <span
+        style={{
+          color: isActive ? '#FFFFFF' : 'inherit',
+          background: isActive ? '#A94727' : 'transparent',
+          borderRadius: '4px',
+          padding: '0 2px',
+          transition: 'all 0.15s ease-out'
+        }}
+      >
+        {children}
+      </span>
+    );
+  };
 
   const objectsToScan = [
     {
@@ -211,7 +316,11 @@ export default function Stage2_Identify({ onComplete, addXp }) {
     }
   };
 
-  const allCompleted = Object.keys(scannedObjects).length === objectsToScan.length;
+  const allCompleted = isAllCompleted;
+
+  // React.useEffect logic above has a dependency on allCompleted which might be uninitialized at line 98. 
+  // Let's ensure all variables used in useEffect are correctly hoisted if necessary, but actually allCompleted 
+  // is just Object.keys(scannedObjects).length === objectsToScan.length, so let's rely on scannedObjects in deps.
 
   const getScannerBackground = () => {
     if (scanState === 'scanning' || isDraggingOver) return `url('${scannerActiveBg}')`;
@@ -221,6 +330,7 @@ export default function Stage2_Identify({ onComplete, addXp }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%', flex: 1, minHeight: 0 }}>
+      <audio ref={audioRef} src={isAllCompleted ? fpage17popupAudio : fpage17Audio} onTimeUpdate={handleTimeUpdate} onEnded={handleAudioEnded} />
       <style>{`
         .interactive-tray-item {
           transition: all 0.2s ease-in-out;
@@ -523,9 +633,11 @@ export default function Stage2_Identify({ onComplete, addXp }) {
                     <Award size={40} style={{ color: '#A94727' }} />
                   </div>
                   <div>
-                    <h3 style={{ margin: 0, color: 'var(--lesson-surface)', fontSize: '3rem', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>Scan Complete!</h3>
+                    <h3 style={{ margin: 0, color: 'var(--lesson-surface)', fontSize: '3rem', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+                      <W i={0}>Scan</W> <W i={1}>Complete!</W>
+                    </h3>
                     <p style={{ color: 'var(--lesson-border)', fontSize: '1.6rem', marginTop: '0.75rem', maxWidth: '500px', lineHeight: '1.5', textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
-                      You have successfully scanned and identified materials for all objects. Click <strong style={{ color: 'var(--lesson-surface)' }}>"Proceed to next"</strong> in the bottom right corner!
+                      <W i={2}>You</W> <W i={3}>have</W> <W i={4}>successfully</W> <W i={5}>scanned</W> <W i={6}>and</W> <W i={7}>identified</W> <W i={9}>materials</W> <W i={10}>for</W> <W i={11}>all</W> <W i={13}>objects.</W> <W i={14}>Click</W> <strong style={{ color: 'var(--lesson-surface)' }}>"<W i={15}>Proceed</W> <W i={16}>to</W> <W i={17}>next</W>"</strong> in the bottom right corner!
                     </p>
                   </div>
                 </div>
@@ -534,7 +646,7 @@ export default function Stage2_Identify({ onComplete, addXp }) {
                   <Search size={64} />
                   <span style={{ fontWeight: 'bold', fontSize: '2rem', color: '#f6f1e4', textShadow: '0 2px 6px rgba(0,0,0,0.8), 0 1px 2px rgba(0,0,0,0.9)' }}>Scanner Active</span>
                   <span style={{ fontSize: '1.5rem', maxWidth: '400px', lineHeight: '1.5', color: '#f6f1e4', textShadow: '0 2px 6px rgba(0,0,0,0.8), 0 1px 2px rgba(0,0,0,0.9)' }}>
-                    Drag an object from the Evidence Tray and drop it here to scan it!
+                    <W i={18}>Drag</W> an <W i={20}>object</W> from the Evidence Tray <W i={24}>and</W> drop <W i={29}>it</W> here <W i={21}>to</W> scan it!
                   </span>
                 </div>
               ) : null}

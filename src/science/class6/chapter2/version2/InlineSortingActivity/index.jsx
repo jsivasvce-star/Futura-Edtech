@@ -25,7 +25,6 @@ import specimen06MintBlended from './specimen_06_mint_blended.png';
 import specimen07BanyanBlended from './specimen_07_banyan_blended.png';
 import specimen08CottonBlended from './specimen_08_cotton_blended.png';
 import specimen09SunflowerBlended from './specimen_09_sunflower_blended.png';
-import PlantDetective from '../PlantDetective';
 import natureGreeneryBg from '../../../../../assets/nature_greenery_bg.jpg';
 
 // =========================================================================
@@ -506,10 +505,10 @@ const playTone = (type) => {
   }
 };
 
-export default function InlineSortingActivity({ onBackToDashboard, onNextActivity, initialPhase = 'specimens' }) {
+export default function InlineSortingActivity({ onBackToDashboard, onNextActivity, onGoToDetective, onBackToDetective, initialPhase = 'specimens' }) {
   const { theme } = useTheme();
 
-  // Mode: 'specimens' (Phase 1) | 'plant_detective' (Phase 1.25) | 'table23' (Phase 1.5) | 'grouping' (Phase 2)
+  // Mode: 'specimens' (Phase 1) | 'table23' (Phase 1.5) | 'grouping' (Phase 2)
   const [phase, setPhase] = useState(initialPhase);
 
   // Specimen Carousel State (0 to 8)
@@ -762,52 +761,6 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               }}
             />
 
-                        {/* Direct Vector Tick Mark for "Use your evidence. Which group fits this plant?" */}
-            {(() => {
-              const cardPositions = {
-                Herb: { left: '60.4%', width: '11.4%', top: '57.5%', height: '17.0%' },
-                Shrub: { left: '72.6%', width: '11.4%', top: '57.5%', height: '17.0%' },
-                Tree: { left: '84.8%', width: '11.4%', top: '57.5%', height: '17.0%' }
-              };
-              const activePos = cardPositions[activeSpecimen.type];
-              if (!activePos) return null;
-
-              return (
-                <div
-                  key={`evidence-group-tick-${activeSpecimen.id}`}
-                  style={{
-                    position: 'absolute',
-                    left: activePos.left,
-                    top: activePos.top,
-                    width: activePos.width,
-                    height: activePos.height,
-                    pointerEvents: 'none',
-                    zIndex: 42,
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    justifyContent: 'flex-end',
-                    padding: '3.5% 4%'
-                  }}
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    width="28"
-                    height="28"
-                    fill="none"
-                    stroke="#14452F"
-                    strokeWidth="3.4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    style={{
-                      filter: 'drop-shadow(0 1.5px 2px rgba(0,0,0,0.25))',
-                      animation: 'popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
-                    }}
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                </div>
-              );
-            })()}
 
             {/* Direct Clickable Hotspots overlaying the 9 discovery trail items */}
             {SPECIMEN_SLIDES.map((sp, idx) => {
@@ -862,7 +815,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               color: '#1E293B',
               cursor: 'pointer',
               boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
-              backdropFilter: 'blur(2px)',
+              backdropFilter: 'blur(4px)',
               zIndex: 50,
               transition: 'all 0.18s ease'
             }}
@@ -878,8 +831,10 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               playTone('click');
               if (currentSpecimenIndex < SPECIMEN_SLIDES.length - 1) {
                 setCurrentSpecimenIndex(prev => prev + 1);
+              } else if (onGoToDetective) {
+                onGoToDetective();
               } else {
-                setPhase('plant_detective');
+                setPhase('table23');
               }
             }}
             style={{
@@ -907,44 +862,9 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             {currentSpecimenIndex < SPECIMEN_SLIDES.length - 1 ? (
               <>Next <ArrowRight size={20} /></>
             ) : (
-              <>Enter Plant Mystery Bureau <ArrowRight size={20} /></>
+              <>Continue to Act 2.4 Detective <ArrowRight size={20} /></>
             )}
           </button>
-        </div>
-      )}
-
-      {/* ========================================================================= */}
-      {/* PHASE 1.25: ACTIVITY 2.4 - PLANT MYSTERY / DETECTIVE BUREAU              */}
-      {/* ========================================================================= */}
-      {phase === 'plant_detective' && (
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          backgroundImage: `url('${natureGreeneryBg}')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-          zIndex: 40
-        }}>
-          {/* Nature atmosphere gradient overlay */}
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(180deg, rgba(2,15,8,0.54) 0%, rgba(5,30,15,0.38) 40%, rgba(2,18,8,0.50) 100%)',
-            zIndex: 0,
-            pointerEvents: 'none'
-          }} />
-          <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
-            <PlantDetective 
-              onBackToDashboard={() => setPhase('specimens')}
-              onNextActivity={() => setPhase('table23')}
-              nextLabel="Next: Table 2.3 ➔"
-            />
-          </div>
         </div>
       )}
 
@@ -1014,7 +934,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             overflow: 'hidden',
             boxSizing: 'border-box',
             background: 'linear-gradient(165deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 253, 244, 0.94) 45%, rgba(220, 252, 231, 0.90) 100%)',
-            backdropFilter: 'blur(16px)',
+            backdropFilter: 'blur(4px)',
             WebkitBackdropFilter: 'blur(16px)',
             border: '2.5px solid #86EFAC',
             borderRadius: '24px',
@@ -1223,7 +1143,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
 
           {/* Back / Next Nav */}
           <button
-            onClick={() => { playTone('click'); setPhase('plant_detective'); }}
+            onClick={() => { playTone('click'); if (onBackToDetective) onBackToDetective(); else setPhase('specimens'); }}
             style={{
               position: 'absolute',
               bottom: '14px',
@@ -1294,133 +1214,84 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
           {/* TOP SECTION: ROW 1 (TITLES & RULE) + ROW 2 (FULL-WIDTH TABS BAR)      */}
           {/* ===================================================================== */}
           <div style={{
+            position: 'relative',
             display: 'flex',
             flexDirection: 'column',
             gap: '6px',
             flexShrink: 0
           }}>
-            {/* Top Row: Wood Sign (Left), Grouping Rule Banner (Center), Trophy & Quote (Right) */}
+            {/* Top Right Corner: Hanging Wood Trophy Sign + Sky Script */}
             <div style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '12px',
-              width: '100%'
+              flexDirection: 'column',
+              alignItems: 'flex-end',
+              gap: '2px',
+              flexShrink: 0,
+              zIndex: 20
             }}>
-              {/* Left: Wood Board - Chapter Concept Sign */}
+              {/* Trophy Sign */}
               <div style={{
-                background: 'linear-gradient(180deg, #D4A373 0%, #B07D48 100%)',
-                border: '2.5px solid #7F4F24',
+                background: 'linear-gradient(180deg, #8C5E2D 0%, #5C3814 100%)',
+                border: '2.5px solid #3F2309',
                 borderRadius: '12px',
                 padding: '4px 12px',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.18)',
-                flexShrink: 0,
-                maxWidth: '250px'
-              }}>
-                <h2 style={{
-                  margin: 0,
-                  fontFamily: '"Outfit", sans-serif',
-                  fontSize: '20px',
-                  fontWeight: 900,
-                  color: '#2B1705',
-                  lineHeight: 1.15
-                }}>
-                  Different lives. Shared features.
-                </h2>
-                <p style={{
-                  margin: '2px 0 0 0',
-                  fontSize: '17px',
-                  fontWeight: 700,
-                  fontStyle: 'italic',
-                  fontFamily: '"Inter", sans-serif',
-                  color: '#3F2309',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px'
-                }}>
-                  Explore. Observe. Group. Learn. 🍃
-                </p>
-              </div>
-
-              {/* Center: Grouping Rule Mint Banner (Fully Visible, No Truncation) */}
-              <div style={{
-                flex: '1 1 auto',
-                minWidth: 0,
-                background: 'rgba(236, 253, 245, 0.96)',
-                border: '1.8px solid #A7F3D0',
-                borderRadius: '12px',
-                padding: '6px 14px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.22)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                color: '#FFFFFF'
               }}>
-                <span style={{ fontSize: '20px', flexShrink: 0 }}>💡</span>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', minWidth: 0 }}>
-                  <span style={{
-                    fontSize: '19px',
-                    fontWeight: 800,
-                    color: '#065F46',
-                    whiteSpace: 'nowrap',
-                    flexShrink: 0
-                  }}>
-                    Grouping rule:
-                  </span>
-                  <span style={{
-                    fontSize: '18px',
-                    fontWeight: 700,
-                    color: '#1E293B',
-                    lineHeight: 1.2
-                  }}>
-                    {activeTab.rule}
-                  </span>
-                </div>
-              </div>
-
-              {/* Top Right: Hanging Wood Trophy Sign + Sky Script */}
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-end',
-                gap: '2px',
-                flexShrink: 0
-              }}>
-                {/* Trophy Sign */}
-                <div style={{
-                  background: 'linear-gradient(180deg, #8C5E2D 0%, #5C3814 100%)',
-                  border: '2.5px solid #3F2309',
-                  borderRadius: '12px',
-                  padding: '4px 12px',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.22)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  color: '#FFFFFF'
-                }}>
-                  <span style={{ fontSize: '20px' }}>🏆</span>
-                  <div>
-                    <div style={{ fontSize: '20px', fontWeight: 900, color: '#FEF08A', lineHeight: 1 }}>
-                      {completedTabs.length} / {CRITERIA_TABS.length}
-                    </div>
-                    <div style={{ fontSize: '18px', fontWeight: 700, fontFamily: '"Inter", sans-serif', color: '#E2E8F0', marginTop: '1px' }}>
-                      challenges complete
-                    </div>
+                <span style={{ fontSize: '20px' }}>🏆</span>
+                <div>
+                  <div style={{ fontSize: '20px', fontWeight: 900, color: '#FEF08A', lineHeight: 1 }}>
+                    {completedTabs.length} / {CRITERIA_TABS.length}
+                  </div>
+                  <div style={{ fontSize: '18px', fontWeight: 700, fontFamily: '"Inter", sans-serif', color: '#E2E8F0', marginTop: '1px' }}>
+                    challenges complete
                   </div>
                 </div>
-
-                {/* Banner Quote */}
-                <div style={{
-                  fontSize: '18px',
-                  fontWeight: 700,
-                  fontStyle: 'italic',
-                  color: '#1E293B',
-                  textAlign: 'right',
-                  whiteSpace: 'nowrap',
-                  textShadow: '0 1px 3px rgba(255,255,255,0.9)'
-                }}>
-                  {activeTab.bannerQuote}
-                </div>
               </div>
+
+              {/* Banner Quote */}
+              <div style={{
+                fontSize: '18px',
+                fontWeight: 700,
+                fontStyle: 'italic',
+                color: '#1E293B',
+                textAlign: 'right',
+                whiteSpace: 'nowrap',
+                textShadow: '0 1px 3px rgba(255,255,255,0.9)'
+              }}>
+                {activeTab.bannerQuote}
+              </div>
+            </div>
+
+            {/* Top Center Title: Activity 2.3 (Attractive Emerald Banner, matches Habitats page) */}
+            <div style={{
+              alignSelf: 'center',
+              textAlign: 'center',
+              background: 'linear-gradient(135deg, #16A34A 0%, #14532D 100%)',
+              border: '2px solid rgba(187, 247, 208, 0.85)',
+              borderRadius: '12px',
+              padding: '7px 28px',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(22, 163, 74, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.5)'
+            }}>
+              <h1 style={{
+                margin: 0,
+                fontSize: '24px',
+                fontWeight: 900,
+                fontFamily: '"Cinzel", Georgia, serif',
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                color: '#FFFFFF',
+                lineHeight: 1.15,
+                textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+              }}>
+                Activity 2.3: Let Us Group
+              </h1>
             </div>
 
             {/* Row 2: 6 Criteria Tabs (Full Width, Centered, No Overlap) */}
@@ -1433,9 +1304,9 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               background: 'rgba(255, 255, 255, 0.75)',
               padding: '3px 12px',
               borderRadius: '28px',
-              backdropFilter: 'blur(2px)',
+              backdropFilter: 'blur(4px)',
               width: 'fit-content',
-              margin: '0 auto',
+              margin: '38px auto 0',
               boxShadow: '0 2px 10px rgba(0,0,0,0.06)'
             }}>
               {CRITERIA_TABS.map(tab => {
@@ -1923,7 +1794,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                         background: selectedCardId 
                           ? 'rgba(255,255,255,0.92)' 
                           : (group.bgImg ? 'rgba(255,255,255,0.45)' : 'transparent'),
-                        backdropFilter: group.bgImg ? 'blur(3px)' : 'none',
+                        backdropFilter: group.bgImg ? 'blur(4px)' : 'none',
                         flexShrink: 0,
                         transition: 'all 0.2s ease',
                         zIndex: 2
@@ -2017,7 +1888,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               fontSize: '18px',
               fontWeight: 700,
               color: '#334155',
-              backdropFilter: 'blur(2px)',
+              backdropFilter: 'blur(4px)',
               flexShrink: 1,
               minWidth: 0
             }}>
@@ -2077,7 +1948,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
             flexShrink: 0
           }}>
             <button
-              onClick={() => { playTone('click'); setPhase('specimens'); }}
+              onClick={() => { playTone('click'); setPhase('table23'); }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -2130,7 +2001,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
           position: 'fixed',
           inset: 0,
           background: 'rgba(0,0,0,0.7)',
-          backdropFilter: 'blur(2px)',
+          backdropFilter: 'blur(4px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

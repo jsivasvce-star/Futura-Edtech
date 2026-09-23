@@ -2,10 +2,127 @@ import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import PropTypes from 'prop-types';
 import AirExperiments3D from './AirExperiments3D';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Play, Pause } from 'lucide-react';
+import mpage74Audio from '../../audio/mpage74.mp3?url';
+import mpage74Json from '../../json/mpage74.json';
+import mpage75Audio from '../../audio/mpage75.mp3?url';
+import mpage75Json from '../../json/mpage75.json';
+import fpage76Audio from '../../audio/fpage76.mp3?url';
+import fpage76Json from '../../json/fpage76.json';
 
-const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
+const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler, setExtraRightAction }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [completed, setCompleted] = useState({ 1: false, 2: false, 3: false });
+
+  const audioPageRef = React.useRef(null);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [activeWordIndex, setActiveWordIndex] = useState(-1);
+
+  React.useEffect(() => {
+    setIsPlayingAudio(false);
+    setActiveWordIndex(-1);
+    if (audioPageRef.current) {
+      audioPageRef.current.pause();
+      audioPageRef.current.currentTime = 0;
+    }
+  }, [currentStep]);
+
+  const toggleAudio = React.useCallback(() => {
+    if (audioPageRef.current) {
+      if (isPlayingAudio) {
+        audioPageRef.current.pause();
+      } else {
+        audioPageRef.current.play().catch(e => console.error(e));
+      }
+      setIsPlayingAudio(!isPlayingAudio);
+    }
+  }, [isPlayingAudio]);
+
+  const handleTimeUpdate = React.useCallback(() => {
+    if (audioPageRef.current) {
+      const time = audioPageRef.current.currentTime;
+      let activeIdx = -1;
+      if (currentStep === 1) {
+        activeIdx = mpage74Json.words.findIndex(w => time >= w.start && time < w.end);
+      } else if (currentStep === 2) {
+        activeIdx = mpage75Json.words.findIndex(w => time >= w.start && time < w.end);
+      } else if (currentStep === 3) {
+        activeIdx = fpage76Json.words.findIndex(w => time >= w.start && time < w.end);
+      }
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  }, [activeWordIndex, currentStep]);
+
+  const W = ({ children }) => {
+    let isActive = false;
+    if (activeWordIndex >= 0) {
+      let activeText = '';
+      if (currentStep === 1 && mpage74Json.words[activeWordIndex]) {
+         activeText = mpage74Json.words[activeWordIndex].text.toLowerCase().replace(/[^a-z0-9]/g, '');
+      } else if (currentStep === 2 && mpage75Json.words[activeWordIndex]) {
+         activeText = mpage75Json.words[activeWordIndex].text.toLowerCase().replace(/[^a-z0-9]/g, '');
+      } else if (currentStep === 3 && fpage76Json.words[activeWordIndex]) {
+         activeText = fpage76Json.words[activeWordIndex].text.toLowerCase().replace(/[^a-z0-9]/g, '');
+      }
+      
+      const uiText = (typeof children === 'string' ? children : Array.isArray(children) ? children.join('') : '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      
+      if (activeText && uiText && (uiText === activeText || uiText.includes(activeText) || activeText.includes(uiText))) {
+        isActive = true;
+      }
+    }
+
+    return (
+      <span
+        style={{
+          color: isActive ? '#FFFFFF' : 'inherit',
+          background: isActive ? '#A94727' : 'transparent',
+          borderRadius: '4px',
+          padding: '0 2px',
+          transition: 'all 0.15s ease-out'
+        }}
+      >
+        {children}
+      </span>
+    );
+  };
+
+  React.useEffect(() => {
+    if ((currentStep === 1 || currentStep === 2 || currentStep === 3) && typeof setExtraRightAction === 'function') {
+      setExtraRightAction(
+        <button
+          onClick={toggleAudio}
+          className="outline"
+          style={{
+            padding: '0.85rem 1.6rem',
+            fontSize: '1.6rem',
+            fontWeight: 'bold',
+            gap: '0.75rem',
+            borderRadius: '10px',
+            color: '#3E2723',
+            borderColor: '#3E2723',
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
+            background: 'white'
+          }}
+        >
+          {isPlayingAudio ? <Pause size={24} /> : <Play size={24} />}
+          {isPlayingAudio ? "Pause Audio" : "Play Audio"}
+        </button>
+      );
+    } else {
+      if (typeof setExtraRightAction === 'function') {
+        setExtraRightAction(null);
+      }
+      if (audioPageRef.current && isPlayingAudio) {
+        audioPageRef.current.pause();
+        setIsPlayingAudio(false);
+      }
+    }
+  }, [currentStep, setExtraRightAction, isPlayingAudio, toggleAudio]);
 
   const goStep = (n) => {
     setCurrentStep(n);
@@ -100,6 +217,17 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
 
   return (
     <div className="case-wrap" style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', borderRadius: '16px', border: '2px solid var(--border-color)', background: 'var(--bg-cream)' }}>
+      {(currentStep === 1 || currentStep === 2 || currentStep === 3) && (
+        <audio
+          ref={audioPageRef}
+          src={currentStep === 1 ? mpage74Audio : currentStep === 2 ? mpage75Audio : fpage76Audio}
+          onTimeUpdate={handleTimeUpdate}
+          onEnded={() => {
+            setIsPlayingAudio(false);
+            setActiveWordIndex(-1);
+          }}
+        />
+      )}
       <style>{`
         .case-wrap {
           --bg-cream: #FDFBF7;
@@ -498,10 +626,10 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
         <div className={`c-panel ${currentStep === 1 ? 'active' : ''}`}>
           <div className="clue1-layout">
             <div className="clue1-left">
-              <h2 style={{ margin: '0 0 12px 0' }}>What makes something "matter"?</h2>
+              <h2 style={{ margin: '0 0 12px 0' }}><W i={0}>What</W> <W i={1}>makes</W> <W i={2}>something</W> <W i={3}>"matter"?</W></h2>
               <p className="lead" style={{ margin: '0 0 16px 0' }}>
-                <span style={{ display: 'block', marginBottom: '8px' }}>Everything around us is made of <b>matter</b>.</span>
-                <span style={{ display: 'block' }}>Matter has two important properties:</span>
+                <span style={{ display: 'block', marginBottom: '8px' }}><W i={4}>Everything</W> <W i={5}>around</W> <W i={6}>us</W> <W i={7}>is</W> <W i={8}>made</W> <W i={9}>of</W> <b><W i={10}>matter</W></b>.</span>
+                <span style={{ display: 'block' }}><W i={11}>Matter</W> <W i={12}>has</W> <W i={13}>two</W> <W i={14}>important</W> <W i={15}>properties:</W></span>
               </p>
               
               <div className="prop-card">
@@ -509,8 +637,8 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
                 </div>
                 <div className="prop-txt">
-                  <h4>It occupies space.</h4>
-                  <p>Matter takes up space. This space is called <b>volume</b>.</p>
+                  <h4><W i={16}>It</W> <W i={17}>occupies</W> <W i={18}>space.</W></h4>
+                  <p><W i={19}>Matter</W> <W i={20}>takes</W> <W i={21}>up</W> <W i={22}>space.</W> <W i={23}>This</W> <W i={24}>space</W> <W i={25}>is</W> <W i={26}>called</W> <b><W i={27}>volume</W></b>.</p>
                 </div>
               </div>
 
@@ -519,17 +647,17 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3.8 3.8l16.4 16.4"></path><path d="M3.8 20.2l16.4-16.4"></path><circle cx="12" cy="12" r="10"></circle></svg>
                 </div>
                 <div className="prop-txt">
-                  <h4>It has mass.</h4>
-                  <p><b>Mass</b> tells us how much matter is present.</p>
+                  <h4><W i={28}>It</W> <W i={29}>has</W> <W i={30}>mass.</W></h4>
+                  <p><b><W i={31}>Mass</W></b> <W i={32}>tells</W> <W i={33}>us</W> <W i={34}>how</W> <W i={35}>much</W> <W i={36}>matter</W> <W i={37}>is</W> <W i={38}>present.</W></p>
                 </div>
               </div>
 
-              <p className="body">Water, sand, pebbles and a cup are all <b>matter</b>.<br/>Anything that <b>occupies space</b> and <b>has mass</b> is called <b>matter</b>.</p>
+              <p className="body"><W i={39}>Water,</W> <W i={40}>sand,</W> <W i={41}>pebbles</W> <W i={42}>and</W> <W i={43}>a</W> <W i={44}>cup</W> <W i={45}>are</W> <W i={46}>all</W> <b><W i={47}>matter</W></b>.<br/><W i={48}>Anything</W> <W i={49}>that</W> <b><W i={50}>occupies</W> <W i={51}>space</W></b> <W i={52}>and</W> <b><W i={53}>has</W> <W i={54}>mass</W></b> <W i={55}>is</W> <W i={56}>called</W> <b><W i={57}>matter</W></b>.</p>
 
-              <div className="question-txt">What do these objects have in common?</div>
+              <div className="question-txt"><W i={58}>What</W> <W i={59}>do</W> <W i={60}>these</W> <W i={61}>objects</W> <W i={62}>have</W> <W i={63}>in</W> <W i={64}>common?</W></div>
               
               <div className="chip-opts" style={{ fontSize: '26px', fontWeight: 700, color: 'var(--subtitle-orange)', width: '100%' }}>
-                They occupy space and have mass — so they are matter.
+                <W i={65}>They</W> <W i={66}>occupy</W> <W i={67}>space</W> <W i={68}>and</W> <W i={69}>have</W> <W i={70}>mass</W> <W i={71}>—</W> <W i={72}>so</W> <W i={73}>they</W> <W i={74}>are</W> <W i={75}>matter.</W>
               </div>
 
 
@@ -583,11 +711,11 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
 
         {/* STEP 2: Investigate Air */}
         <div className={`c-panel ${currentStep === 2 ? 'active' : ''}`}>
-          <h2 className="gen">Evidence Tray: Interrogate the air</h2>
-          <p className="sub">Observe the two experiments and identify what they show about air.</p>
+          <h2 className="gen"><W i={0}>Evidence</W> <W i={1}>Tray:</W> <W i={2}>Interrogate</W> <W i={3}>the</W> <W i={4}>air</W></h2>
+          <p className="sub"><W i={5}>Observe</W> <W i={6}>the</W> <W i={7}>two</W> <W i={8}>experiments</W> <W i={9}>and</W> <W i={10}>identify</W> <W i={11}>what</W> <W i={12}>they</W> <W i={13}>show</W> <W i={14}>about</W> <W i={15}>air.</W></p>
           
           <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
-             {currentStep === 2 && <AirExperiments3D onComplete={handleAirComplete} />}
+             {currentStep === 2 && <AirExperiments3D onComplete={handleAirComplete} W={W} />}
           </div>
 
           <AnimatePresence>
@@ -638,8 +766,8 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler }) => {
 
         {/* STEP 3: Sort Evidence */}
         <div className={`c-panel ${currentStep === 3 ? 'active' : ''}`}>
-          <h2 className="gen">Evidence Tray: Sort the evidence</h2>
-          <p className="sub"><strong style={{ color: 'var(--lesson-primary)', fontSize: '1.1em', fontWeight: '900' }}>CLICK 👆</strong> a unit to sort it as MASS or VOLUME.</p>
+          <h2 className="gen"><W>Evidence</W> <W>Tray:</W> <W>Sort</W> <W>the</W> <W>evidence</W></h2>
+          <p className="sub"><strong style={{ color: 'var(--lesson-primary)', fontSize: '1.1em', fontWeight: '900' }}><W>CLICK</W> 👆</strong> <W>a</W> <W>unit</W> <W>to</W> <W>sort</W> <W>it</W> <W>as</W> <W>MASS</W> <W>or</W> <W>VOLUME.</W></p>
           
           <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
             <div className="c-sort-tray">

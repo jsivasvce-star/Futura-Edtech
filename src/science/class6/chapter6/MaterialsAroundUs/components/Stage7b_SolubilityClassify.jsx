@@ -1,9 +1,85 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Search, CheckCircle2, Target } from 'lucide-react';
+import { Search, CheckCircle2, Target, Play, Pause } from 'lucide-react';
+import fpage55Audio from '../../audio/fpage55.mp3?url';
+import fpage55Json from '../../json/fpage55.json';
 
-export default function Stage7b_SolubilityClassify({ onComplete, addXp }) {
+export default function Stage7b_SolubilityClassify({ onComplete, addXp, setExtraRightAction }) {
   const [classifications, setClassifications] = useState({});
+
+  const instructionAudioRef = useRef(null);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [activeWordIndex, setActiveWordIndex] = useState(null);
+
+  const toggleInstructionAudio = () => {
+    if (instructionAudioRef.current) {
+      if (isAudioPlaying) {
+        instructionAudioRef.current.pause();
+      } else {
+        instructionAudioRef.current.play().catch(e => console.error(e));
+      }
+      setIsAudioPlaying(!isAudioPlaying);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (instructionAudioRef.current) {
+      const time = instructionAudioRef.current.currentTime;
+      const activeIdx = fpage55Json.words.findIndex(w => time >= w.start && time < w.end);
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsAudioPlaying(false);
+    setActiveWordIndex(null);
+  };
+
+  useEffect(() => {
+    if (setExtraRightAction) {
+      setExtraRightAction(
+        <button
+          onClick={toggleInstructionAudio}
+          style={{
+            display: 'flex', alignItems: 'center', gap: '8px',
+            background: 'white', color: 'var(--lesson-primary)',
+            border: '2px solid var(--lesson-primary)',
+            padding: '8px 16px', borderRadius: '8px',
+            fontSize: '1rem', fontWeight: 'bold', cursor: 'pointer',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+          }}
+        >
+          {isAudioPlaying ? <Pause size={20} /> : <Play size={20} />}
+          {isAudioPlaying ? "Pause Audio" : "Play Audio"}
+        </button>
+      );
+    }
+    return () => {
+      if (setExtraRightAction) setExtraRightAction(null);
+    };
+  }, [setExtraRightAction, isAudioPlaying]);
+
+  const renderWords = (startIdx, endIdx, defaultStyles = {}) => {
+    return fpage55Json.words.slice(startIdx, endIdx + 1).map((w, i) => {
+      const actualIdx = startIdx + i;
+      return (
+        <span
+          key={actualIdx}
+          style={{
+            ...defaultStyles,
+            color: activeWordIndex === actualIdx ? '#A94727' : 'inherit',
+            background: activeWordIndex === actualIdx ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+            borderRadius: '4px',
+            transition: 'all 0.15s ease-out'
+          }}
+        >
+          {w.text}{' '}
+        </span>
+      );
+    });
+  };
 
   const items = [
     { id: 'sugar', name: 'Sugar', correct: 'Soluble', image: '/images/solubility_sugar.png' },
@@ -51,6 +127,13 @@ export default function Stage7b_SolubilityClassify({ onComplete, addXp }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', width: '100%', height: '100%', color: '#3E2723', overflow: 'hidden' }}>
       
+      <audio
+        ref={instructionAudioRef}
+        src={fpage55Audio}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
+
       {/* Header */}
       <div style={{ background: 'var(--lesson-background)', border: '1px solid var(--lesson-border)', borderRadius: '16px', padding: '1rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.02)', flexShrink: 0 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', flex: 1 }}>
@@ -58,7 +141,7 @@ export default function Stage7b_SolubilityClassify({ onComplete, addXp }) {
             <Search size={40} color="#A94727" /> Phase 2: Table 6.5
           </h3>
           <p style={{ margin: 0, fontSize: '1.35rem', color: '#4A3B5C', fontWeight: '500' }}>
-            Now that you&apos;ve tested the materials, let&apos;s classify them based on whether they disappear in water.
+            {renderWords(0, 15)}
           </p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
@@ -245,5 +328,6 @@ export default function Stage7b_SolubilityClassify({ onComplete, addXp }) {
 
 Stage7b_SolubilityClassify.propTypes = {
   onComplete: PropTypes.func,
-  addXp: PropTypes.func
+  addXp: PropTypes.func,
+  setExtraRightAction: PropTypes.func
 };
