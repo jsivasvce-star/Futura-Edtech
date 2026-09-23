@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Search, Box, CheckCircle, Lightbulb } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Search, Box, CheckCircle, Lightbulb, Play, Pause } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 import cottonVideo from '../../../../../assets/1.cottonball.mp4';
@@ -7,6 +7,8 @@ import spongeVideo from '../../../../../assets/1.sponge.mp4';
 import eraserVideo from '../../../../../assets/1.eraserss.mp4';
 import stoneVideo from '../../../../../assets/1.stone.mp4';
 import ironVideo from '../../../../../assets/1.ironrod.mp4';
+import fpage41Audio from '../../audio/fpage41.mp3?url';
+import fpage41Json from '../../json/fpage41.json';
 
 const objectsData = [
   { 
@@ -61,7 +63,7 @@ const objectsData = [
   }
 ];
 
-export default function Stage4c_Hardness_Observe({ onComplete, addXp }) {
+export default function Stage4c_Hardness_Observe({ onComplete, addXp, setExtraRightAction }) {
   const [selectedId, setSelectedId] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVideoFinished, setIsVideoFinished] = useState(false);
@@ -73,6 +75,64 @@ export default function Stage4c_Hardness_Observe({ onComplete, addXp }) {
       return acc;
     }, {})
   );
+
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const instructionAudioRef = useRef(null);
+  const [activeWordIndex, setActiveWordIndex] = useState(null);
+
+  const toggleInstructionAudio = useCallback(() => {
+    if (instructionAudioRef.current) {
+      if (isAudioPlaying) {
+        instructionAudioRef.current.pause();
+      } else {
+        if (isPlaying && videoRef.current) {
+           videoRef.current.pause();
+           setIsPlaying(false);
+        }
+        instructionAudioRef.current.play().catch(e => console.error(e));
+      }
+      setIsAudioPlaying(!isAudioPlaying);
+    }
+  }, [isAudioPlaying, isPlaying]);
+
+  const handleAudioTimeUpdate = () => {
+    if (instructionAudioRef.current) {
+      const time = instructionAudioRef.current.currentTime;
+      const activeIdx = fpage41Json.words.findIndex(w => time >= w.start && time < w.end);
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsAudioPlaying(false);
+    setActiveWordIndex(null);
+  };
+
+  useEffect(() => {
+    if (setExtraRightAction) {
+      setExtraRightAction(
+        <button
+          onClick={toggleInstructionAudio}
+          className="outline"
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+            padding: '0.85rem 1.6rem', borderRadius: '10px',
+            background: 'var(--accent)', color: 'white', border: 'none',
+            cursor: 'pointer', boxShadow: '0 4px 12px rgba(217, 119, 6, 0.3)',
+            fontSize: '1.6rem', fontWeight: 'bold'
+          }}
+        >
+          {isAudioPlaying ? <Pause size={22} /> : <Play size={22} />}
+          {isAudioPlaying ? "Pause" : "Play"}
+        </button>
+      );
+    }
+    return () => {
+      if (setExtraRightAction) setExtraRightAction(null);
+    };
+  }, [setExtraRightAction, isAudioPlaying, toggleInstructionAudio]);
 
   const activeObj = objectsData.find(o => o.id === selectedId);
   const activeState = progress[selectedId];
@@ -96,6 +156,11 @@ export default function Stage4c_Hardness_Observe({ onComplete, addXp }) {
   }, [completedCount, onComplete]);
 
   const handlePress = () => {
+    if (instructionAudioRef.current && isAudioPlaying) {
+      instructionAudioRef.current.pause();
+      setIsAudioPlaying(false);
+      setActiveWordIndex(null);
+    }
     if (videoRef.current && !isPlaying) {
       videoRef.current.currentTime = 0;
       videoRef.current.play();
@@ -144,14 +209,37 @@ export default function Stage4c_Hardness_Observe({ onComplete, addXp }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '0.75rem', width: '100%', overflow: 'hidden' }}>
       
+      <audio
+        ref={instructionAudioRef}
+        src={fpage41Audio}
+        onTimeUpdate={handleAudioTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
       {/* Header */}
-      <div className="glass-panel" style={{ flex: '0 0 auto', display: 'flex', flexDirection: 'column', gap: '0.15rem', border: '1px solid var(--accent-border)', padding: '0.75rem 1rem' }}>
-        <h3 style={{ margin: 0, fontSize: 'clamp(29.04px, 3.63vw, 36.3px)', fontWeight: '900', color: 'var(--heading-main)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          🕵️ Material Detective – Press & Identify
-        </h3>
-        <p style={{ margin: 0, fontSize: 'clamp(21.78px, 3.025vw, 26.62px)', fontWeight: '600', color: 'var(--heading-sub)', lineHeight: '1.5' }}>
-          Press each object, observe what happens and identify the material it is made of.
-        </p>
+      <div className="glass-panel" style={{ flex: '0 0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid var(--accent-border)', padding: '0.75rem 1rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
+          <h3 style={{ margin: 0, fontSize: 'clamp(29.04px, 3.63vw, 36.3px)', fontWeight: '900', color: 'var(--heading-main)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            🕵️ Material Detective – Press & Identify
+          </h3>
+          <p style={{ margin: 0, fontSize: 'clamp(21.78px, 3.025vw, 26.62px)', fontWeight: '600', color: 'var(--heading-sub)', lineHeight: '1.5' }}>
+            {fpage41Json.words.map((w, i) => (
+              <React.Fragment key={i}>
+                <span
+                  style={{
+                    color: activeWordIndex === i ? 'var(--accent)' : 'inherit',
+                    background: activeWordIndex === i ? 'rgba(217, 119, 6, 0.1)' : 'transparent',
+                    borderRadius: '4px',
+                    padding: '0 2px',
+                    transition: 'all 0.15s ease-out'
+                  }}
+                >
+                  {w.text}
+                </span>
+                {i < fpage41Json.words.length - 1 ? ' ' : ''}
+              </React.Fragment>
+            ))}
+          </p>
+        </div>
       </div>
 
       <div style={{ display: 'flex', gap: '1rem', width: '100%', flex: 1, minHeight: 0 }}>

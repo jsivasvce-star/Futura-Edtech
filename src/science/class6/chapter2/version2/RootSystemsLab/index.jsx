@@ -29,52 +29,66 @@ import fib1Img from '../../../../../assets/fib_1.png';
 const PLANT_IMG_1 = { mustard: mustard1Img, grass: grass1Img, hibiscus: hib1Img, marigold: marigold1Img, wheat: wheat1Img };
 const PLANT_IMG_2 = { mustard: mustard2Img, grass: grass2Img, hibiscus: hib2Img, marigold: marigold2Img, wheat: wheat2Img };
 const ROOT_CLOSE_IMG = { taproot: tap1Img, fibrous: fib1Img };
+import activity26Cover from './activity26_cover.jpg';
+import specimen01TapBlended from './specimen_01_tap_blended.png';
+import specimen02CropsBlended from './specimen_02_crops_blended.png';
+import specimen03OnionBlended from './specimen_03_onion_blended.png';
+import specimen04GrassBlended from './specimen_04_grass_blended.png';
+import specimen05MaizeBlended from './specimen_05_maize_blended.png';
+import specimen06OverviewBlended from './specimen_06_overview_blended.png';
 
 // =========================================================================
 // FULLSCREEN SPECIMEN SLIDES (ACTIVITY 2.6) — EXACT 16:9 HD SPECIMENS
 // =========================================================================
 const ROOT_SPECIMEN_SLIDES = [
   {
+    id: 0,
+    num: '00',
+    name: 'Activity 2.6: Let Us Find Out',
+    type: 'Cover',
+    image: activity26Cover
+  },
+  {
     id: 1,
     num: '01',
     name: 'Taproot Vegetables (Mustard, Carrot, Radish, Beetroot, Turnip)',
     type: 'Taproot System',
-    image: '/activities/class6_chapter2/roots/root_01_tap_vegetables.png'
+    image: specimen01TapBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
   {
     id: 2,
     num: '02',
     name: 'Taproot Crops & Trees (Pea, Gram, Bean, Tomato, Sunflower, Hibiscus, Rose, Mango, Neem)',
     type: 'Taproot System',
-    image: '/activities/class6_chapter2/roots/root_02_tap_crops.png'
+    image: specimen02CropsBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
   {
     id: 3,
     num: '03',
     name: 'Onion Fibrous Root',
     type: 'Fibrous Root System',
-    image: '/activities/class6_chapter2/roots/root_03_fibrous_onion.png'
+    image: specimen03OnionBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
   {
     id: 4,
     num: '04',
     name: 'Grass Fibrous Root',
     type: 'Fibrous Root System',
-    image: '/activities/class6_chapter2/roots/root_04_fibrous_grass.png'
+    image: specimen04GrassBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
   {
     id: 5,
     num: '05',
     name: 'Maize Fibrous Root',
     type: 'Fibrous Root System',
-    image: '/activities/class6_chapter2/roots/root_05_fibrous_maize.png'
+    image: specimen05MaizeBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   },
   {
     id: 6,
     num: '06',
     name: 'Fibrous Root Overview (Grass, Wheat, Rice, Maize, Onion)',
     type: 'Fibrous Root System',
-    image: '/activities/class6_chapter2/roots/root_06_fibrous_overview.png'
+    image: specimen06OverviewBlended // Ultra-HD 2.7K crisp blended specimen matching reference fade
   }
 ];
 
@@ -656,10 +670,16 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
     if (phase !== 'specimens') return;
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowLeft') {
-        setSpecimenIndex(prev => Math.max(0, prev - 1));
+        if (specimenIndex > 0) {
+          setSpecimenIndex(prev => prev - 1);
+        } else if (onPreviousPage) {
+          onPreviousPage();
+        }
       } else if (e.key === 'ArrowRight' || e.key === ' ') {
         if (specimenIndex < ROOT_SPECIMEN_SLIDES.length - 1) {
           setSpecimenIndex(prev => prev + 1);
+        } else if (onNext) {
+          onNext();
         } else {
           setPhase('lab');
         }
@@ -667,7 +687,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [phase, specimenIndex]);
+  }, [phase, specimenIndex, onPreviousPage, onNext]);
 
   if (phase === 'specimens') {
     const activeSlide = ROOT_SPECIMEN_SLIDES[specimenIndex];
@@ -716,6 +736,25 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           />
         </div>
 
+        {/* Slide counter */}
+        <div style={{
+          position: 'absolute',
+          top: '22px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          background: 'rgba(7, 22, 14, 0.82)',
+          border: '2px solid rgba(134, 239, 172, 0.5)',
+          borderRadius: '999px',
+          padding: '7px 20px',
+          fontSize: '17px',
+          fontWeight: 900,
+          color: '#D1FAE5',
+          fontFamily: '"Outfit", sans-serif',
+          zIndex: 1010
+        }}>
+          {activeSlide.num === '00' ? 'Activity 2.6: Let Us Find Out' : `${activeSlide.num} / 06 · ${activeSlide.name}`}
+        </div>
+
         {/* Floating Bottom Left Control: Back */}
         <button
           onClick={() => {
@@ -743,7 +782,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
             color: '#1E293B',
             cursor: 'pointer',
             boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
-            backdropFilter: 'blur(8px)',
+            backdropFilter: 'blur(4px)',
             zIndex: 1010,
             transition: 'all 0.18s ease'
           }}
@@ -766,7 +805,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           border: '1.5px solid rgba(110, 231, 183, 0.4)',
           borderRadius: '24px',
           padding: '7px 18px',
-          backdropFilter: 'blur(10px)',
+          backdropFilter: 'blur(4px)',
           zIndex: 1010,
           boxShadow: '0 4px 16px rgba(0,0,0,0.35)'
         }}>
@@ -792,11 +831,13 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           </span>
         </div>
 
-        {/* Floating Bottom Right: Next Slide or Enter Lab */}
+        {/* Floating Bottom Right: Next Slide or Next Activity */}
         <button
           onClick={() => {
             if (specimenIndex < ROOT_SPECIMEN_SLIDES.length - 1) {
               setSpecimenIndex(prev => prev + 1);
+            } else if (onNext) {
+              onNext();
             } else {
               setPhase('lab');
             }
@@ -826,7 +867,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           {specimenIndex < ROOT_SPECIMEN_SLIDES.length - 1 ? (
             <>Next <ArrowRight size={20} /></>
           ) : (
-            <>Enter Activity 2.6 Lab <ArrowRight size={20} /></>
+            <>Next: Act 2.7 Correlation <ArrowRight size={20} /></>
           )}
         </button>
       </div>
@@ -981,8 +1022,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           flexDirection: 'column',
           justifyContent: 'space-between',
           background: 'rgba(15, 23, 42, 0.50)',
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
+          backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(2px)',
           border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           padding: '0.45rem 1.4rem 0.4rem',
@@ -1640,8 +1681,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           flexDirection: 'column',
           justifyContent: 'space-between',
           background: 'rgba(15, 23, 42, 0.50)',
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
+          backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(2px)',
           border: '2.5px solid rgba(20, 69, 47, 0.5)',
           borderRadius: '24px',
           boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',

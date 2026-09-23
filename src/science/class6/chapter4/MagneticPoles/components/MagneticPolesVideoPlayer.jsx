@@ -281,7 +281,7 @@ export default function MagneticPolesVideoPlayer({
                   fontWeight: 900,
                   padding: '2px 8px',
                   borderRadius: '10px',
-                  background: isStepActive ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'transparent',
+                  background: isStepActive ? 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)' : 'transparent',
                   color: isStepActive ? '#FFFFFF' : '#94A3B8',
                   boxShadow: isStepActive ? '0 2px 8px rgba(217, 119, 6, 0.4)' : 'none',
                   transition: 'all 0.25s ease'
@@ -350,7 +350,7 @@ export default function MagneticPolesVideoPlayer({
               gap: '2px',
               textAlign: 'center',
             }}>
-              <span style={{ fontSize: '0.74rem', fontWeight: 900, letterSpacing: '0.5px', color: '#FDE68A' }}>
+              <span style={{ fontSize: '0.74rem', fontWeight: 900, letterSpacing: '0.5px', color: '#E2E8F0' }}>
                 NEUTRAL ZONE
               </span>
               <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#CBD5E1' }}>
@@ -414,7 +414,7 @@ export default function MagneticPolesVideoPlayer({
                   width: '74px',
                   height: '74px',
                   borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                  background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
                   border: '3px solid rgba(255, 255, 255, 0.9)',
                   boxShadow: '0 8px 30px rgba(217, 119, 6, 0.6), 0 0 30px rgba(245, 158, 11, 0.4)',
                   cursor: 'pointer',
@@ -478,7 +478,7 @@ export default function MagneticPolesVideoPlayer({
               left: 0,
               height: '100%',
               width: `${progressPercent}%`,
-              background: 'linear-gradient(90deg, #38BDF8 0%, #F59E0B 100%)',
+              background: 'linear-gradient(90deg, #38BDF8 0%, #214A70 100%)',
               borderRadius: '4px',
               boxShadow: '0 0 10px rgba(56, 189, 248, 0.8)',
               transition: 'width 0.1s linear',

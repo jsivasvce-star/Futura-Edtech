@@ -112,9 +112,9 @@ function drawToyCar(ctx, cx, cy, w, h) {
 
   // 3. Aerodynamic Toy Car Body
   const gCar = ctx.createLinearGradient(0, cy - h * 0.2, 0, cy + h * 0.35);
-  gCar.addColorStop(0, "#F59E0B");
-  gCar.addColorStop(0.5, "#D97706");
-  gCar.addColorStop(1, "#78350F");
+  gCar.addColorStop(0, "#214A70");
+  gCar.addColorStop(0.5, "#173B5F");
+  gCar.addColorStop(1, "#173B5F");
 
   ctx.fillStyle = gCar;
   ctx.beginPath();
@@ -123,8 +123,8 @@ function drawToyCar(ctx, cx, cy, w, h) {
 
   // Cabin Roof
   const gRoof = ctx.createLinearGradient(0, cy - h * 0.35, 0, cy);
-  gRoof.addColorStop(0, "#FEF3C7");
-  gRoof.addColorStop(1, "#F59E0B");
+  gRoof.addColorStop(0, "#EAF2F6");
+  gRoof.addColorStop(1, "#214A70");
   ctx.fillStyle = gRoof;
   ctx.beginPath();
   roundRect(ctx, cx - w * 0.32, cy - h * 0.34, w * 0.64, h * 0.32, 8);
@@ -138,7 +138,7 @@ function drawToyCar(ctx, cx, cy, w, h) {
   ctx.fill();
 
   // Headlight (Yellow LED)
-  ctx.fillStyle = "#FDE047";
+  ctx.fillStyle = "#E2E8F0";
   roundRect(ctx, cx - w * 0.48, cy + h * 0.04, w * 0.05, h * 0.15, 3);
   ctx.fill();
 

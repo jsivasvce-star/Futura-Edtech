@@ -1,0 +1,32 @@
+{
+  "audio_file": "mpage38.mp3",
+  "duration": 2.508,
+  "language": "en",
+  "words": [
+    {
+      "text": "Are",
+      "start": 0.0,
+      "end": 0.32
+    },
+    {
+      "text": "all",
+      "start": 0.32,
+      "end": 0.56
+    },
+    {
+      "text": "lustrous",
+      "start": 0.56,
+      "end": 1.04
+    },
+    {
+      "text": "materials",
+      "start": 1.04,
+      "end": 1.56
+    },
+    {
+      "text": "metals?",
+      "start": 1.56,
+      "end": 2.04
+    }
+  ]
+}

@@ -75,9 +75,9 @@ export default function ChallengeMode({ onComplete }) {
           width: '90%', 
           padding: '2.5rem 3rem', 
           textAlign: 'center', 
-          background: 'linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 50%, #FEF3C7 100%)', 
+          background: 'linear-gradient(145deg, #FFFFFF 0%, #F3F7F9 50%, #EAF2F6 100%)', 
           borderRadius: '30px', 
-          border: '1.5px solid #FDE68A',
+          border: '1.5px solid #E2E8F0',
           boxShadow: '0 8px 30px rgba(217, 119, 6, 0.08)',
           display: 'flex',
           flexDirection: 'column',
@@ -185,7 +185,7 @@ export default function ChallengeMode({ onComplete }) {
             fontWeight: 900,
             letterSpacing: '-0.02em'
           }}>
-            <Trophy size={30} style={{ color: '#F59E0B' }} /> Predict the Outcome
+            <Trophy size={30} style={{ color: '#214A70' }} /> Predict the Outcome
           </h2>
           <div style={{ 
             display: 'flex', 
@@ -197,15 +197,15 @@ export default function ChallengeMode({ onComplete }) {
             border: '2px solid #A7F3D0',
             boxShadow: '0 4px 14px rgba(6, 78, 59, 0.06)'
           }}>
-            <Star size={24} fill="#F59E0B" color="#F59E0B" /> 
+            <Star size={24} fill="#214A70" color="#214A70" /> 
             <span style={{ fontWeight: 900, fontSize: '1.18rem', color: '#064E3B' }}>{stars} Stars</span>
           </div>
         </div>
 
         {/* Main Card Container */}
         <div className="glass-panel" style={{ 
-          background: 'linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 50%, #FEF3C7 100%)', 
-          border: '1.5px solid #FDE68A',
+          background: 'linear-gradient(145deg, #FFFFFF 0%, #F3F7F9 50%, #EAF2F6 100%)', 
+          border: '1.5px solid #E2E8F0',
           borderRadius: '28px', 
           padding: '2.75rem 3.25rem', 
           boxShadow: '0 10px 32px rgba(217, 119, 6, 0.08)',
@@ -223,12 +223,12 @@ export default function ChallengeMode({ onComplete }) {
             textTransform: 'uppercase', 
             fontSize: '1.05rem', 
             fontWeight: 900, 
-            color: '#D97706', 
+            color: '#173B5F', 
             letterSpacing: '0.08em',
-            background: '#FEF3C7',
+            background: '#EAF2F6',
             padding: '0.5rem 1.25rem',
             borderRadius: '16px',
-            border: '1.5px solid #FCD34D'
+            border: '1.5px solid #E2E8F0'
           }}>
             {c.title}
           </div>
@@ -242,7 +242,7 @@ export default function ChallengeMode({ onComplete }) {
             background: '#F0FDF4', 
             borderRadius: '20px', 
             border: '2px solid #A7F3D0', 
-            borderLeft: '6px solid #D97706', 
+            borderLeft: '6px solid #173B5F', 
             color: '#0F172A', 
             fontWeight: 700,
             letterSpacing: '-0.01em'
@@ -259,7 +259,7 @@ export default function ChallengeMode({ onComplete }) {
             alignItems: 'center', 
             gap: '0.75rem' 
           }}>
-            <HelpCircle size={26} style={{ color: '#D97706', flexShrink: 0 }} /> 
+            <HelpCircle size={26} style={{ color: '#173B5F', flexShrink: 0 }} /> 
             <span>{c.question}</span>
           </div>
 
@@ -288,8 +288,8 @@ export default function ChallengeMode({ onComplete }) {
                   icon = <XCircle size={26} color="#EF4444" />;
                 }
               } else if (isSelected) {
-                borderColor = '#D97706';
-                bg = '#FEF3C7';
+                borderColor = '#173B5F';
+                bg = '#EAF2F6';
               }
 
               return (
@@ -317,7 +317,7 @@ export default function ChallengeMode({ onComplete }) {
                   onMouseEnter={(e) => {
                     if (!showResult) {
                       e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.borderColor = '#D97706';
+                      e.currentTarget.style.borderColor = '#173B5F';
                     }
                   }}
                   onMouseLeave={(e) => {

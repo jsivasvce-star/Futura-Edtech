@@ -1,12 +1,10 @@
 import React, { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 
-// Missing imports commented out to fix build
-const crowImgSrc = '';
-const sparrowImgSrc = '';
-const cowImgSrc = '';
-const frogImgSrc = '';
-const squirrelImgSrc = '';
-
+import crowImgSrc from '../../../../assets/crow.png';
+import sparrowImgSrc from '../../../../assets/sparrow.png';
+import cowImgSrc from '../../../../assets/brown_cow.png';
+import frogImgSrc from '../../../../assets/frog.png';
+import squirrelImgSrc from '../../../../assets/squirrel.png';
 import antImgSrc from '../../../../assets/ant.png';
 
 import crowFrame1 from '../../../../assets/anim_frames/crow_flight_frame_1.png';

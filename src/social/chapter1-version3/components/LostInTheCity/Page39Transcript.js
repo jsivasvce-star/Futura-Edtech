@@ -1,0 +1,21 @@
+export const PAGE39_TRANSCRIPT = [
+  { "audioWord": "Which", "start": 0.0, "end": 0.46, "pageWordId": "q-1", "matchType": "matched" },
+  { "audioWord": "direction", "start": 0.46, "end": 0.98, "pageWordId": "q-2", "matchType": "matched" },
+  { "audioWord": "is", "start": 0.98, "end": 1.62, "pageWordId": "q-3", "matchType": "matched" },
+  { "audioWord": "Assam", "start": 1.62, "end": 2.0, "pageWordId": "q-4", "matchType": "matched" },
+  { "audioWord": "from", "start": 2.0, "end": 2.34, "pageWordId": "q-5", "matchType": "matched" },
+  { "audioWord": "Chennai", "start": 2.34, "end": 2.68, "pageWordId": "q-6", "matchType": "matched" },
+  { "audioWord": "on", "start": 2.68, "end": 2.86, "pageWordId": "q-7", "matchType": "matched" },
+  { "audioWord": "the", "start": 2.86, "end": 3.0, "pageWordId": "q-8", "matchType": "matched" },
+  { "audioWord": "map?", "start": 3.0, "end": 3.2, "pageWordId": "q-9", "matchType": "matched" },
+  { "audioWord": "Take", "start": 4.04, "end": 4.26, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "a", "start": 4.26, "end": 4.34, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "look", "start": 4.34, "end": 4.44, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "at", "start": 4.44, "end": 4.64, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "the", "start": 4.64, "end": 4.8, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "map", "start": 4.8, "end": 5.0, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "and", "start": 5.0, "end": 5.44, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "choose", "start": 5.44, "end": 5.68, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "the", "start": 5.68, "end": 5.94, "pageWordId": "none", "matchType": "unmatched" },
+  { "audioWord": "direction.", "start": 5.94, "end": 6.28, "pageWordId": "none", "matchType": "unmatched" }
+];

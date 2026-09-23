@@ -73,7 +73,7 @@ function BarrierLoader() {
 const BADGE_CONFIG = {
   wood: {
     1: { title: '📄 Part 1: Paper Sheet (Cellulose)', bg: 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)', border: '#7DD3FC' },
-    2: { title: '🪵 Part 2: Rustic Timber Log (Wood)', bg: 'linear-gradient(135deg, #B45309 0%, #78350F 100%)', border: '#FDE68A' },
+    2: { title: '🪵 Part 2: Rustic Timber Log (Wood)', bg: 'linear-gradient(135deg, #173B5F 0%, #173B5F 100%)', border: '#E2E8F0' },
     3: { title: '🌱 Part 3: Sprouting Plant (Sapling)', bg: 'linear-gradient(135deg, #15803D 0%, #166534 100%)', border: '#86EFAC' },
     4: { title: '🌳 Part 4: Living Oak Tree (Full Tree)', bg: 'linear-gradient(135deg, #065F46 0%, #064E3B 100%)', border: '#6EE7B7' }
   },
@@ -90,10 +90,10 @@ const BADGE_CONFIG = {
     4: { title: '🫙 Part 4: Glass Storage Container', bg: 'linear-gradient(135deg, #0F766E 0%, #134E4A 100%)', border: '#2DD4BF' }
   },
   cardboard: {
-    1: { title: '📦 Part 1: Small Box (Kraft Carton)', bg: 'linear-gradient(135deg, #B45309 0%, #92400E 100%)', border: '#FDE68A' },
-    2: { title: '📄 Part 2: Cardboard Sheet (Single Wall)', bg: 'linear-gradient(135deg, #B45309 0%, #92400E 100%)', border: '#FDE68A' },
-    3: { title: '📚 Part 3: 3 Layers Cardboard (Triple Wall)', bg: 'linear-gradient(135deg, #B45309 0%, #78350F 100%)', border: '#FDE68A' },
-    4: { title: '📦 Part 4: Shipping Cardboard Box', bg: 'linear-gradient(135deg, #92400E 0%, #78350F 100%)', border: '#FDE68A' }
+    1: { title: '📦 Part 1: Small Box (Kraft Carton)', bg: 'linear-gradient(135deg, #173B5F 0%, #173B5F 100%)', border: '#E2E8F0' },
+    2: { title: '📄 Part 2: Cardboard Sheet (Single Wall)', bg: 'linear-gradient(135deg, #173B5F 0%, #173B5F 100%)', border: '#E2E8F0' },
+    3: { title: '📚 Part 3: 3 Layers Cardboard (Triple Wall)', bg: 'linear-gradient(135deg, #173B5F 0%, #173B5F 100%)', border: '#E2E8F0' },
+    4: { title: '📦 Part 4: Shipping Cardboard Box', bg: 'linear-gradient(135deg, #173B5F 0%, #173B5F 100%)', border: '#E2E8F0' }
   }
 };
 
@@ -159,7 +159,7 @@ export default function Barrier3DCanvas({ type = null, treeStage = 1, stage = nu
               <directionalLight
                 position={[0, 6, -6]}
                 intensity={0.4}
-                color="#fef3c7"
+                color="#EAF2F6"
               />
 
               {/* Realistic Ground Contact Shadows */}

@@ -1,0 +1,102 @@
+{
+  "audio_file": "page27.mp3",
+  "duration": 6.165,
+  "language": "en",
+  "words": [
+    {
+      "text": "East",
+      "start": 0.0,
+      "end": 0.44
+    },
+    {
+      "text": "-East",
+      "start": 0.44,
+      "end": 0.64
+    },
+    {
+      "text": "is",
+      "start": 0.64,
+      "end": 0.78
+    },
+    {
+      "text": "a",
+      "start": 0.78,
+      "end": 0.92
+    },
+    {
+      "text": "main",
+      "start": 0.92,
+      "end": 1.08
+    },
+    {
+      "text": "direction,",
+      "start": 1.08,
+      "end": 1.64
+    },
+    {
+      "text": "to",
+      "start": 2.08,
+      "end": 2.16
+    },
+    {
+      "text": "the",
+      "start": 2.16,
+      "end": 2.28
+    },
+    {
+      "text": "right",
+      "start": 2.28,
+      "end": 2.44
+    },
+    {
+      "text": "of",
+      "start": 2.44,
+      "end": 2.72
+    },
+    {
+      "text": "north,",
+      "start": 2.72,
+      "end": 2.92
+    },
+    {
+      "text": "the",
+      "start": 3.5,
+      "end": 3.58
+    },
+    {
+      "text": "sun",
+      "start": 3.58,
+      "end": 3.82
+    },
+    {
+      "text": "rises",
+      "start": 3.82,
+      "end": 4.26
+    },
+    {
+      "text": "in",
+      "start": 4.26,
+      "end": 4.54
+    },
+    {
+      "text": "the",
+      "start": 4.54,
+      "end": 4.68
+    },
+    {
+      "text": "east",
+      "start": 4.68,
+      "end": 4.98
+    },
+    {
+      "text": "every",
+      "start": 4.98,
+      "end": 5.48
+    },
+    {
+      "text": "morning.",
+      "start": 5.48,
+      "end": 5.78
+    }
+  ]
+}

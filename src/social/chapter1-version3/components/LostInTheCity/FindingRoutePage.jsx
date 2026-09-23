@@ -6,6 +6,40 @@ import townMapFig from './assets/town_map_fig1.jpg';
 import townMapStraightFig from './assets/town_map_straight_3d.jpg';
 import CityExplorerMap from './CityExplorerMap';
 import TownMap3DExplorer from './TownMap3DExplorer';
+import { Play, Pause } from 'lucide-react';
+import page5Audio from '../audio/page5.mp3?url';
+import page5p2Audio from '../audio/page5p2.mp3?url';
+import { PAGE5_TRANSCRIPT } from './Page5Transcript';
+import { PAGE5P2_TRANSCRIPT } from './Page5p2Transcript';
+
+const WordRenderer = ({ text, idPrefix, defaultColor, highlightColor, activeWordId }) => {
+  const words = text.trim().split(/\s+/);
+  return (
+    <>
+      {words.map((word, index) => {
+        const wordId = `${idPrefix}-${index + 1}`;
+        const isHighlighted = activeWordId === wordId;
+        return (
+          <React.Fragment key={index}>
+            <span
+              data-word-id={wordId}
+              style={{
+                color: isHighlighted ? highlightColor : defaultColor,
+                background: isHighlighted ? 'rgba(180, 83, 9, 0.1)' : 'transparent',
+                borderRadius: '4px',
+                padding: '0 2px',
+                transition: 'all 0.15s ease-out'
+              }}>
+              {word}
+            </span>
+            {index < words.length - 1 ? ' ' : ''}
+          </React.Fragment>
+        );
+      })}
+    </>
+  );
+};
+
 
 /* ── 1. CLASSIC GRID MAP CONFIG (Fig. 1.1) ─────────────────────── */
 const N_CLASSIC = {
@@ -832,6 +866,59 @@ const DraggableDirectionHUD = ({
 
 /* ── 8. MAIN ROUTE ACTIVITY COMPONENT ───────────────────────────── */
 export default function FindingRoutePage({ onMissionUnlock, onBeginChapter, onBack }) {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordId, setActiveWordId] = useState(null);
+  const audioRef = useRef(null);
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      const time = audioRef.current.currentTime;
+      const currentTranscript = mapMode === 'city' ? PAGE5P2_TRANSCRIPT : PAGE5_TRANSCRIPT;
+      const activeWord = currentTranscript.find(w => time >= w.start && time < w.end);
+      let newActiveId = null;
+      if (activeWord && activeWord.matchType === 'matched') {
+        newActiveId = activeWord.pageWordId;
+      }
+      if (newActiveId !== activeWordId) {
+        setActiveWordId(newActiveId);
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordId(null);
+  };
+
+  // Only display audio controls on 'town' mode
+  const audioButton = true ? (
+    <button
+      type="button"
+      onClick={toggleAudio}
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: '6px',
+        padding: '8px 16px', background: '#d97706',
+        border: 'none', borderRadius: '999px',
+        fontSize: '14px', fontWeight: 800, color: '#fff',
+        cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+        marginRight: '8px'
+      }}
+    >
+      {isPlaying ? "Pause" : "Play"}
+    </button>
+  ) : null;
+
   const [mapMode, setMapMode] = useState('3d');
   const [mapFull, setMapFull] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
@@ -1264,6 +1351,7 @@ export default function FindingRoutePage({ onMissionUnlock, onBeginChapter, onBa
             {(mapMode === '3d' || (mapMode !== 'city' && mapMode !== 'classic')) && (
               <div style={{ position: 'absolute', inset: 0, paddingTop: '58px', background: '#F7F1E2' }}>
                 <TownMap3DExplorer
+                  activeWordId={activeWordId}
                   hideSidebar={false}
                   showQuiz={showQuiz}
                   onComplete={(stats) => {
@@ -1282,6 +1370,7 @@ export default function FindingRoutePage({ onMissionUnlock, onBeginChapter, onBa
             {mapMode === 'city' && (
               <div style={{ position: 'absolute', inset: 0, paddingTop: '58px', background: '#F7F1E2' }}>
                 <CityExplorerMap
+                  activeWordId={activeWordId}
                   onComplete={() => {
                     setWinCity(true);
                     if (onMissionUnlock) onMissionUnlock();
@@ -1584,6 +1673,12 @@ export default function FindingRoutePage({ onMissionUnlock, onBeginChapter, onBa
         </div>
 
       </div>
+      <audio
+        ref={audioRef}
+        src={mapMode === 'city' ? page5p2Audio : page5Audio}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
       <ChapterBackFooter
         onBack={onBack}
         nextLabel="Next Activity"
@@ -1592,6 +1687,7 @@ export default function FindingRoutePage({ onMissionUnlock, onBeginChapter, onBa
         }}
         nextDisabled={false}
         nextVariant="green"
+        beforeNextContent={audioButton}
       />
     </div>
   );

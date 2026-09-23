@@ -866,7 +866,7 @@ export default function Stage3_Sandbox({ onComplete }) {
                 border: '1px solid rgba(167, 243, 208, 0.45)',
                 boxShadow: '0 4px 14px rgba(0,0,0,0.18)',
               }}>
-                <Hand size={14} color="#FDE68A" />
+                <Hand size={14} color="#E2E8F0" />
                 <span>Hold & drag anywhere to rotate & tilt magnet</span>
               </div>
 
@@ -918,8 +918,8 @@ export default function Stage3_Sandbox({ onComplete }) {
         <div
           className="stage-container-1"
           style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-            border: '1.5px solid #FDE68A',
+            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
             padding: '1.25rem 1.45rem',
             boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
@@ -931,7 +931,7 @@ export default function Stage3_Sandbox({ onComplete }) {
         >
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)', paddingBottom: '0.6rem', marginBottom: '0.75rem' }}>
-              <h4 style={{ margin: 0, fontSize: '19.5px', color: '#78350F', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+              <h4 style={{ margin: 0, fontSize: '19.5px', color: '#173B5F', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
                 <span>📋</span> Steps of Instructions
               </h4>
             </div>
@@ -957,13 +957,13 @@ export default function Stage3_Sandbox({ onComplete }) {
                       width: '9px',
                       height: '9px',
                       borderRadius: '50%',
-                      background: '#D97706',
+                      background: '#173B5F',
                       display: 'inline-block',
                       flexShrink: 0,
                       transform: 'translateY(-2px)'
                     }}
                   />
-                  <p style={{ margin: 0, fontSize: '17.5px', lineHeight: 1.5, color: '#78350F', fontWeight: 600 }}>
+                  <p style={{ margin: 0, fontSize: '17.5px', lineHeight: 1.5, color: '#173B5F', fontWeight: 600 }}>
                     {instruction}
                   </p>
                 </div>
@@ -983,7 +983,7 @@ export default function Stage3_Sandbox({ onComplete }) {
             >
               <h5
                 style={{
-                  color: '#78350F',
+                  color: '#173B5F',
                   margin: 0,
                   fontSize: '18px',
                   fontWeight: 900,
@@ -992,7 +992,7 @@ export default function Stage3_Sandbox({ onComplete }) {
                   gap: '0.45rem',
                 }}
               >
-                <Shapes size={18} color="#D97706" /> Choose Magnet Shape:
+                <Shapes size={18} color="#173B5F" /> Choose Magnet Shape:
               </h5>
 
               <div style={{ display: 'flex', gap: '0.55rem' }}>
@@ -1003,7 +1003,7 @@ export default function Stage3_Sandbox({ onComplete }) {
                     padding: '0.75rem 0.5rem',
                     borderRadius: '12px',
                     border: '1.5px solid',
-                    borderColor: shape === 'horseshoe' ? '#10B981' : '#FDE68A',
+                    borderColor: shape === 'horseshoe' ? '#10B981' : '#E2E8F0',
                     background: shape === 'horseshoe' ? '#DCFCE7' : '#FFFFFF',
                     color: shape === 'horseshoe' ? '#064E3B' : '#065F46',
                     fontWeight: 800,
@@ -1023,7 +1023,7 @@ export default function Stage3_Sandbox({ onComplete }) {
                     padding: '0.75rem 0.5rem',
                     borderRadius: '12px',
                     border: '1.5px solid',
-                    borderColor: shape === 'ring' ? '#10B981' : '#FDE68A',
+                    borderColor: shape === 'ring' ? '#10B981' : '#E2E8F0',
                     background: shape === 'ring' ? '#DCFCE7' : '#FFFFFF',
                     color: shape === 'ring' ? '#064E3B' : '#065F46',
                     fontWeight: 800,
@@ -1043,7 +1043,7 @@ export default function Stage3_Sandbox({ onComplete }) {
                     padding: '0.75rem 0.5rem',
                     borderRadius: '12px',
                     border: '1.5px solid',
-                    borderColor: shape === 'bar' ? '#10B981' : '#FDE68A',
+                    borderColor: shape === 'bar' ? '#10B981' : '#E2E8F0',
                     background: shape === 'bar' ? '#DCFCE7' : '#FFFFFF',
                     color: shape === 'bar' ? '#064E3B' : '#065F46',
                     fontWeight: 800,
@@ -1100,8 +1100,8 @@ export default function Stage3_Sandbox({ onComplete }) {
                 fontWeight: 800,
                 borderRadius: '14px',
                 background: '#FFFFFF',
-                color: '#92400E',
-                border: '1.5px solid #FDE68A',
+                color: '#173B5F',
+                border: '1.5px solid #E2E8F0',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
@@ -1120,8 +1120,8 @@ export default function Stage3_Sandbox({ onComplete }) {
         <div
           className="stage-container-2"
           style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-            border: '1.5px solid #FDE68A',
+            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
             padding: '1.25rem 1.45rem',
             boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
@@ -1134,7 +1134,7 @@ export default function Stage3_Sandbox({ onComplete }) {
           <div>
             <h4
               style={{
-                color: '#78350F',
+                color: '#173B5F',
                 margin: 0,
                 fontSize: '19.5px',
                 fontWeight: 900,
@@ -1145,16 +1145,16 @@ export default function Stage3_Sandbox({ onComplete }) {
                 borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)'
               }}
             >
-              <Shapes size={22} color="#D97706" /> Observation Summary
+              <Shapes size={22} color="#173B5F" /> Observation Summary
             </h4>
-            <p style={{ margin: '0.75rem 0', color: '#78350F', fontSize: '17.5px', lineHeight: 1.5, fontWeight: 700 }}>
+            <p style={{ margin: '0.75rem 0', color: '#173B5F', fontSize: '17.5px', lineHeight: 1.5, fontWeight: 700 }}>
               Do all magnet shapes exhibit the same concentration of magnetic poles?
             </p>
             <ul
               style={{
                 margin: '0.65rem 0 0 0',
                 paddingLeft: '1.25rem',
-                color: '#78350F',
+                color: '#173B5F',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '0.55rem',
@@ -1164,13 +1164,13 @@ export default function Stage3_Sandbox({ onComplete }) {
               }}
             >
               <li>
-                <strong style={{ color: '#92400E' }}>Horseshoe:</strong> Filings cluster tightly at both curved tips.
+                <strong style={{ color: '#173B5F' }}>Horseshoe:</strong> Filings cluster tightly at both curved tips.
               </li>
               <li>
-                <strong style={{ color: '#92400E' }}>Ring:</strong> Filings concentrate on opposite circular pole faces.
+                <strong style={{ color: '#173B5F' }}>Ring:</strong> Filings concentrate on opposite circular pole faces.
               </li>
               <li>
-                <strong style={{ color: '#92400E' }}>Bar:</strong> Filings gather heavily at the two distant ends.
+                <strong style={{ color: '#173B5F' }}>Bar:</strong> Filings gather heavily at the two distant ends.
               </li>
             </ul>
           </div>

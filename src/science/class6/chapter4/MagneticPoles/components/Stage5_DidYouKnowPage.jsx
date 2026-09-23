@@ -154,9 +154,9 @@ export default function Stage5_DidYouKnowPage({ onComplete, onBackToQuiz }) {
         <span
           key={i}
           style={{
-            color: isCurrentWord ? '#D97706' : '#1E293B',
+            color: isCurrentWord ? '#173B5F' : '#1E293B',
             fontWeight: isCurrentWord ? 800 : 500,
-            backgroundColor: isCurrentWord ? '#FEF3C7' : 'transparent',
+            backgroundColor: isCurrentWord ? '#EAF2F6' : 'transparent',
             borderRadius: isCurrentWord ? '4px' : '0px',
             padding: isCurrentWord ? '0 3px' : '0',
             transition: 'all 0.1s ease',
@@ -231,8 +231,8 @@ export default function Stage5_DidYouKnowPage({ onComplete, onBackToQuiz }) {
         {/* RIGHT COLUMN: Single, Static Page Container with Sliding Carousel (Same Background Color) */}
         <div
           style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-            border: '1.5px solid #FDE68A',
+            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
             boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
             padding: '1.15rem 1.35rem',
@@ -258,13 +258,13 @@ export default function Stage5_DidYouKnowPage({ onComplete, onBackToQuiz }) {
             flexShrink: 0
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-              <Sparkles size={20} color="#D97706" />
-              <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 900, color: '#78350F' }}>
+              <Sparkles size={20} color="#173B5F" />
+              <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 900, color: '#173B5F' }}>
                 Scientific Facts
               </h3>
               <span style={{
                 background: 'rgba(217, 119, 6, 0.15)',
-                color: '#92400E',
+                color: '#173B5F',
                 fontSize: '0.8rem',
                 fontWeight: 800,
                 borderRadius: '12px',
@@ -282,12 +282,12 @@ export default function Stage5_DidYouKnowPage({ onComplete, onBackToQuiz }) {
                 title="Previous Page"
                 style={{
                   background: pageIndex === 0 ? 'rgba(255, 255, 255, 0.4)' : '#FFFFFF',
-                  border: '1.5px solid #FDE68A',
+                  border: '1.5px solid #E2E8F0',
                   borderRadius: '12px',
                   padding: '0.35rem 0.75rem',
                   cursor: pageIndex === 0 ? 'not-allowed' : 'pointer',
                   opacity: pageIndex === 0 ? 0.45 : 1,
-                  color: '#78350F',
+                  color: '#173B5F',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.25rem',
@@ -311,7 +311,7 @@ export default function Stage5_DidYouKnowPage({ onComplete, onBackToQuiz }) {
                       width: pageIndex === idx ? '22px' : '9px',
                       height: '9px',
                       borderRadius: '10px',
-                      background: pageIndex === idx ? '#D97706' : '#FDE68A',
+                      background: pageIndex === idx ? '#173B5F' : '#E2E8F0',
                       border: 'none',
                       cursor: 'pointer',
                       padding: 0,
@@ -328,12 +328,12 @@ export default function Stage5_DidYouKnowPage({ onComplete, onBackToQuiz }) {
                 className={pageIndex === 0 ? 'gold-glow-btn' : ''}
                 style={{
                   background: pageIndex === 1 ? 'rgba(255, 255, 255, 0.4)' : undefined,
-                  border: pageIndex === 1 ? '1.5px solid #FDE68A' : 'none',
+                  border: pageIndex === 1 ? '1.5px solid #E2E8F0' : 'none',
                   borderRadius: '12px',
                   padding: '0.35rem 0.8rem',
                   cursor: pageIndex === 1 ? 'not-allowed' : 'pointer',
                   opacity: pageIndex === 1 ? 0.45 : 1,
-                  color: pageIndex === 0 ? '#FFFFFF' : '#78350F',
+                  color: pageIndex === 0 ? '#FFFFFF' : '#173B5F',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.25rem',
@@ -376,7 +376,7 @@ export default function Stage5_DidYouKnowPage({ onComplete, onBackToQuiz }) {
                       onClick={() => setActiveFactId(fact.id)}
                       style={{
                         background: '#FFFFFF',
-                        border: isActive ? '2px solid #D97706' : '1.5px solid #FDE68A',
+                        border: isActive ? '2px solid #173B5F' : '1.5px solid #E2E8F0',
                         borderRadius: '18px',
                         boxShadow: isActive ? '0 6px 18px rgba(217, 119, 6, 0.14)' : '0 2px 8px rgba(217, 119, 6, 0.05)',
                         padding: pageIndex === 0 ? '0.85rem 1.15rem' : '1.15rem 1.35rem',
@@ -398,7 +398,7 @@ export default function Stage5_DidYouKnowPage({ onComplete, onBackToQuiz }) {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
                           <span style={{
                             background: 'rgba(217, 119, 6, 0.12)',
-                            color: '#B45309',
+                            color: '#173B5F',
                             fontSize: '12px',
                             fontWeight: 900,
                             borderRadius: '8px',
@@ -427,11 +427,11 @@ export default function Stage5_DidYouKnowPage({ onComplete, onBackToQuiz }) {
                           }}
                           title={isCurrentlyPlaying ? 'Pause Audio' : 'Listen to fact'}
                           style={{
-                            background: isCurrentlyPlaying ? '#D97706' : '#FFFFFF',
-                            border: '1.5px solid #FDE68A',
+                            background: isCurrentlyPlaying ? '#173B5F' : '#FFFFFF',
+                            border: '1.5px solid #E2E8F0',
                             borderRadius: '12px',
                             padding: '0.38rem 0.8rem',
-                            color: isCurrentlyPlaying ? '#FFFFFF' : '#B45309',
+                            color: isCurrentlyPlaying ? '#FFFFFF' : '#173B5F',
                             display: 'flex',
                             alignItems: 'center',
                             gap: '0.35rem',

@@ -117,10 +117,10 @@ export default function Stage2_Floating({ onComplete }) {
                 <div key={i} style={{ 
                   position: 'absolute', width: '100%', height: '100%', borderRadius: '50%', 
                   background: i === 15 
-                    ? 'radial-gradient(circle at 35% 35%, #FDE68A 0%, #F59E0B 45%, #D97706 80%, #78350F 100%)' 
-                    : (i % 2 === 0 ? '#D97706' : '#B45309'), 
+                    ? 'radial-gradient(circle at 35% 35%, #E2E8F0 0%, #214A70 45%, #173B5F 80%, #173B5F 100%)' 
+                    : (i % 2 === 0 ? '#173B5F' : '#173B5F'), 
                   boxShadow: i === 15 ? 'inset 0 0 12px rgba(120, 53, 15, 0.5), 0 0 4px rgba(245, 158, 11, 0.4)' : 'none',
-                  border: i === 15 ? '1.5px solid #FEF3C7' : 'none',
+                  border: i === 15 ? '1.5px solid #EAF2F6' : 'none',
                   transform: `translateZ(${i * 0.8}px)` 
                 }} />
               ))}
@@ -327,8 +327,8 @@ export default function Stage2_Floating({ onComplete }) {
         <div 
           className="stage-container-1"
           style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-            border: '1.5px solid #FDE68A',
+            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
             boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
             padding: '1.25rem 1.45rem',
@@ -343,19 +343,19 @@ export default function Stage2_Floating({ onComplete }) {
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                <Compass size={24} color="#D97706" />
+                <Compass size={24} color="#173B5F" />
                 <h3 style={{ margin: 0, fontSize: '19.5px', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.01em' }}>
                   Stage 2: Make a Compass
                 </h3>
               </div>
               <span style={{
                 background: step === 'settled' ? '#DCFCE7' : 'rgba(217, 119, 6, 0.12)',
-                color: step === 'settled' ? '#15803D' : '#B45309',
+                color: step === 'settled' ? '#15803D' : '#173B5F',
                 fontWeight: 900,
                 fontSize: '0.88rem',
                 padding: '0.3rem 0.8rem',
                 borderRadius: '12px',
-                border: step === 'settled' ? '1.5px solid #86EFAC' : '1.5px solid #FDE68A'
+                border: step === 'settled' ? '1.5px solid #86EFAC' : '1.5px solid #E2E8F0'
               }}>
                 Step {step === 'settled' ? (spinCount > 0 ? 3 : 2) : 1} of 3
               </span>
@@ -392,7 +392,7 @@ export default function Stage2_Floating({ onComplete }) {
                       width: '9px',
                       height: '9px',
                       borderRadius: '50%',
-                      background: '#D97706',
+                      background: '#173B5F',
                       display: 'inline-block',
                       flexShrink: 0,
                       transform: 'translateY(-2px)'
@@ -401,7 +401,7 @@ export default function Stage2_Floating({ onComplete }) {
                   <p style={{
                     margin: 0,
                     fontSize: '17.5px',
-                    color: '#78350F',
+                    color: '#173B5F',
                     fontWeight: 600,
                     lineHeight: 1.5
                   }}>
@@ -447,8 +447,8 @@ export default function Stage2_Floating({ onComplete }) {
         <div 
           className="stage-container-2"
           style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-            border: '1.5px solid #FDE68A',
+            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
             boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
             padding: '1.25rem 1.45rem',
@@ -463,7 +463,7 @@ export default function Stage2_Floating({ onComplete }) {
             <h5 style={{ margin: '0 0 0.4rem 0', color: '#1E1B4B', fontSize: '19.5px', fontWeight: 900, letterSpacing: '-0.01em' }}>
               🔍 Scientific Observation
             </h5>
-            <p style={{ margin: 0, fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 600 }}>
+            <p style={{ margin: 0, fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 600 }}>
               {step === 'settled'
                 ? "The magnetized needle always comes to rest pointing along the North-South direction, working just like a real navigational compass!"
                 : "Rotate the needle in different directions and let it settle to observe its natural alignment."}

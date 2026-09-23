@@ -100,15 +100,15 @@ export default function Quiz({ onComplete }) {
 
   if (isFinished) {
     return (
-      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: '#FFFFFF', fontFamily: "'Inter', sans-serif" }}>
+      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: 'transparent', fontFamily: "'Inter', sans-serif" }}>
         <div style={{ 
           maxWidth: '620px', 
           width: '90%', 
           padding: '3rem 3.5rem', 
           textAlign: 'center', 
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
           borderRadius: '28px', 
-          border: '1.5px solid #FDE68A',
+          border: '1.5px solid #E2E8F0',
           boxShadow: '0 12px 40px rgba(217, 119, 6, 0.12)',
           display: 'flex',
           flexDirection: 'column',
@@ -150,13 +150,13 @@ export default function Quiz({ onComplete }) {
       boxSizing: 'border-box',
       overflow: 'hidden',
       borderRadius: '24px',
-      backgroundColor: '#FFFFFF',
+      backgroundColor: 'transparent',
       fontFamily: 'system-ui, -apple-system, sans-serif'
     }}>
       <div style={{ width: '100%', maxWidth: '1250px', display: 'flex', flexDirection: 'column' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', padding: '0 0.5rem', flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <HelpCircle size={30} color="#D97706" />
+            <HelpCircle size={30} color="#173B5F" />
             <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.65rem', fontWeight: 900 }}>
               Stage 4: Quiz
             </h3>
@@ -167,8 +167,8 @@ export default function Quiz({ onComplete }) {
         </div>
 
         <div className="glass-panel" style={{ 
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
-          border: '1.5px solid #FDE68A',
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
+          border: '1.5px solid #E2E8F0',
           borderRadius: '28px', 
           padding: '2.4rem 3.2rem', 
           boxShadow: '0 10px 35px rgba(217, 119, 6, 0.1)',
@@ -184,7 +184,7 @@ export default function Quiz({ onComplete }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
             {currentQ.options.map((option, index) => {
               let bgColor = '#FFFFFF';
-              let borderColor = '#FDE68A';
+              let borderColor = '#E2E8F0';
               let textColor = '#065F46';
               let icon = null;
 

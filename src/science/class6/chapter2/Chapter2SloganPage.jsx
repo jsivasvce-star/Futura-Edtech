@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Volume2, VolumeX, Maximize2, Minimize2, ArrowRight, ArrowLeft, X, Sparkles, Eye } from 'lucide-react';
+import { Volume2, VolumeX, Maximize2, Minimize2, ArrowRight, ArrowLeft, X, Sparkles, Eye, BookOpen, ChevronRight } from 'lucide-react';
 import { speakNaturalIndianMale, stopNarration } from '../../../../services/elevenLabsService';
 
 // Cinematic Real Living Nature Photograph (National Geographic Sanctuary)
@@ -613,13 +613,13 @@ export default function Chapter2SloganPage({
     };
   }, [currentPage]);
 
-  // Page 2: Trigger attractive popup message after 6 seconds of full-image viewing
+  // Page 2: Trigger attractive popup message after 4 seconds of full-image viewing
   useEffect(() => {
     if (currentPage === 2) {
       setShowPage2Popup(false);
       const timer = setTimeout(() => {
         setShowPage2Popup(true);
-      }, 6000);
+      }, 4000);
       return () => clearTimeout(timer);
     } else {
       setShowPage2Popup(false);
@@ -630,13 +630,13 @@ export default function Chapter2SloganPage({
     }
   }, [currentPage]);
 
-  // Page 3: Trigger attractive popup message after 6 seconds of full-image viewing
+  // Page 3: Trigger attractive popup message after 4 seconds of full-image viewing
   useEffect(() => {
     if (currentPage === 3) {
       setShowPage3Popup(false);
       const timer = setTimeout(() => {
         setShowPage3Popup(true);
-      }, 6000);
+      }, 4000);
       return () => clearTimeout(timer);
     } else {
       setShowPage3Popup(false);
@@ -647,13 +647,13 @@ export default function Chapter2SloganPage({
     }
   }, [currentPage]);
 
-  // Page 4: Trigger attractive popup message after 6 seconds of full-image viewing
+  // Page 4: Trigger attractive popup message after 4 seconds of full-image viewing
   useEffect(() => {
     if (currentPage === 4) {
       setShowPage4Popup(false);
       const timer = setTimeout(() => {
         setShowPage4Popup(true);
-      }, 6000);
+      }, 4000);
       return () => clearTimeout(timer);
     } else {
       setShowPage4Popup(false);
@@ -664,13 +664,13 @@ export default function Chapter2SloganPage({
     }
   }, [currentPage]);
 
-  // Page 5: Trigger attractive popup message after 6 seconds of full-image viewing
+  // Page 5: Trigger attractive popup message after 4 seconds of full-image viewing
   useEffect(() => {
     if (currentPage === 5) {
       setShowPage5Popup(false);
       const timer = setTimeout(() => {
         setShowPage5Popup(true);
-      }, 6000);
+      }, 4000);
       return () => clearTimeout(timer);
     } else {
       setShowPage5Popup(false);
@@ -859,7 +859,7 @@ export default function Chapter2SloganPage({
       setIsPlayingWhyStudyAudio(false);
 
       speakNaturalIndianMale({
-        text: "Biosphere and Habitats. A habitat is the natural home where plants and animals find food, water, and shelter to live and grow. The biosphere is the living zone on Earth where all life exists together. In this forest sanctuary, spotted deer and peacocks drink fresh stream water, squirrels live in tree branches, and plants make food from sunlight. Everything in nature is interconnected!",
+        text: "Habitats and the Biosphere. A Shared Home: A habitat is the natural home where living things get what they need to survive. Look Around: The deer and peacock drink from the stream. Trees shelter the squirrel. Plants use sunlight to make food. The Biosphere: All parts of Earth where life exists, on land, in water, and in the air. Think: What might happen if the stream dried up?",
         onEnd: () => setIsPlayingBioAudio(false),
         onError: () => setIsPlayingBioAudio(false)
       });
@@ -883,7 +883,7 @@ export default function Chapter2SloganPage({
       setIsPlayingBioAudio(false);
 
       speakNaturalIndianMale({
-        text: "Desert and Surrounding Adaptations. Camels have long legs and wide hooves to walk over sand dunes without sinking, store food in their humps, and lose minimal water. Desert plants store water in swollen fleshy stems, mountain deodars have sloping branches to shed snow, and fish have streamlined bodies to glide through water.",
+        text: "Desert Adaptations. What Is Adaptation? A feature or behaviour that helps a living thing survive in its habitat. The Ship of the Desert: A camel’s broad, padded feet help prevent it from sinking into sand. Its long eyelashes help protect its eyes from blowing dust. Saving Water: Camels conserve water by reducing water loss from their bodies. This helps them survive for long periods without drinking. Think: Why is saving water important in a desert?",
         onEnd: () => setIsPlayingAdaptationAudio(false),
         onError: () => setIsPlayingAdaptationAudio(false)
       });
@@ -907,9 +907,8 @@ export default function Chapter2SloganPage({
       setIsPlayingBioAudio(false);
       setIsPlayingAdaptationAudio(false);
 
-      const activeLesson = PAGE_4_LESSONS[page4ActiveTab] || PAGE_4_LESSONS[0];
       speakNaturalIndianMale({
-        text: activeLesson.audioText,
+        text: "Herbs, Shrubs, Trees, and Climbers. Herbs like the tomato plant are usually small plants with soft green stems. Shrubs like the rose are woody plants with many branches growing near the ground. Trees like the mango grow tall with a thick woody trunk and branches higher above the ground. Climbers like the money plant have weak stems and need support to grow upwards. Think: Which plant in this picture needs support to climb?",
         onEnd: () => setIsPlayingBotanyAudio(false),
         onError: () => setIsPlayingBotanyAudio(false)
       });
@@ -934,9 +933,8 @@ export default function Chapter2SloganPage({
       setIsPlayingAdaptationAudio(false);
       setIsPlayingBotanyAudio(false);
 
-      const activeLesson = PAGE_5_LESSONS[page5ActiveTab] || PAGE_5_LESSONS[0];
       speakNaturalIndianMale({
-        text: activeLesson.audioText,
+        text: "Sacred Groves. Protected by Tradition: Sacred groves are patches of forest protected by local communities because of their cultural or religious importance. A Home for Wildlife: They shelter native wildlife and help protect valuable medicinal plants. Community Conservation: Local rules help prevent tree cutting and harm to animals, keeping these forests safe. Think: How does protecting a forest help the plants and animals living there?",
         onEnd: () => setIsPlayingConservationAudio(false),
         onError: () => setIsPlayingConservationAudio(false)
       });
@@ -1517,6 +1515,58 @@ export default function Chapter2SloganPage({
             </button>
           </div>
 
+          {/* Top Title: Chapter 2 Section 2.1 matching textbook */}
+          <div style={{
+            position: 'absolute',
+            top: '16px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 35,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center',
+            pointerEvents: 'none'
+          }}>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.35) 100%)',
+              border: '1.5px solid #F59E0B',
+              borderRadius: '20px',
+              padding: '2px 14px',
+              marginBottom: '2px',
+              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35)',
+              backdropFilter: 'blur(4px)'
+            }}>
+              <span style={{
+                fontSize: '12px',
+                fontWeight: 900,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: '#FEF3C7',
+                fontFamily: '"Outfit", sans-serif'
+              }}>
+                CLASS 6 SCIENCE • CHAPTER 2
+              </span>
+            </div>
+            <h1 style={{
+              margin: 0,
+              fontSize: '24px',
+              fontWeight: 900,
+              fontFamily: '"Fraunces", Georgia, serif',
+              background: 'linear-gradient(135deg, #FDE68A 0%, #F59E0B 50%, #FBBF24 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              textShadow: '0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(245, 158, 11, 0.45)',
+              letterSpacing: '-0.01em',
+              lineHeight: 1.15
+            }}>
+              🌿 Section 2.1: Diversity in Plants and Animals 🌿
+            </h1>
+          </div>
+
           {/* Page 2 Bottom-Left: Previous Page Button (hidden when popup covers it) */}
           <div style={{
             position: 'absolute',
@@ -1572,15 +1622,16 @@ export default function Chapter2SloganPage({
               style={{
                 position: 'absolute',
                 top: '16px',
-                left: '16px',
-                bottom: '16px',
-                width: 'min(420px, 36vw)',
-                maxHeight: 'calc(100vh - 32px)',
+                left: '18px',
+                width: 'min(480px, 42vw)',
+                maxHeight: 'calc(100vh - 36px)',
                 zIndex: 40,
-                background: 'linear-gradient(145deg, rgba(8, 28, 18, 0.16) 0%, rgba(3, 18, 10, 0.10) 100%)',
-                border: '1.5px solid rgba(167, 243, 208, 0.35)',
+                backdropFilter: 'blur(2px)',
+                WebkitBackdropFilter: 'blur(2px)',
+                background: 'transparent',
+                border: '1.8px solid rgba(110, 231, 183, 0.55)',
                 borderRadius: '24px',
-                boxShadow: '0 16px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.20), 0 0 15px rgba(16, 185, 129, 0.10)',
+                boxShadow: '0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 24px rgba(16, 185, 129, 0.20)',
                 boxSizing: 'border-box',
                 display: 'flex',
                 flexDirection: 'column',
@@ -1596,41 +1647,38 @@ export default function Chapter2SloganPage({
                 justifyContent: 'space-between',
                 flex: 1,
                 padding: 'clamp(14px, 2vh, 20px) clamp(16px, 2vw, 22px)',
-                gap: 'clamp(8px, 1.4vh, 14px)',
+                gap: 'clamp(8px, 1.2vh, 14px)',
                 position: 'relative',
                 zIndex: 5,
                 overflowY: 'auto',
-                scrollbarWidth: 'none'
+                scrollbarWidth: 'thin'
               }}>
 
-                {/* Top bar: NCERT Badge + Close Button (Font Area with blur) */}
+                {/* Top bar: Pill Badge + Close Button */}
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between'
+                  justifyContent: 'space-between',
+                  gap: '12px'
                 }}>
                   <span style={{
-                    background: 'linear-gradient(135deg, rgba(6, 28, 18, 0.58) 0%, rgba(2, 18, 10, 0.50) 100%)',
-                    backdropFilter: 'blur(18px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(18px) saturate(180%)',
+                    background: 'linear-gradient(135deg, rgba(6, 28, 18, 0.70) 0%, rgba(2, 18, 10, 0.60) 100%)',
                     color: '#A7F3D0',
-                    border: '1.2px solid rgba(110, 231, 183, 0.50)',
+                    border: '1.5px solid rgba(110, 231, 183, 0.55)',
                     boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
-                    padding: '6px 16px',
+                    padding: '5px 16px',
                     borderRadius: '22px',
                     fontFamily: '"Outfit", sans-serif',
                     fontWeight: 800,
-                    fontSize: '16px',
-                    letterSpacing: '0.06em',
+                    fontSize: '18px',
+                    letterSpacing: '0.04em',
                     textTransform: 'uppercase',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '7px',
+                    gap: '8px',
                     textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                   }}>
                     <span style={{ fontSize: '18px' }}>🌿</span>
-                    <span style={{ color: '#E2E8F0' }}>NCERT CLASS 6</span>
-                    <span style={{ color: '#F59E0B' }}>•</span>
                     <span style={{ color: '#6EE7B7' }}>HABITATS</span>
                   </span>
 
@@ -1640,10 +1688,8 @@ export default function Chapter2SloganPage({
                     aria-label="Close message and view full scenery"
                     title="View full scenery photo"
                     style={{
-                      background: 'rgba(2, 18, 10, 0.55)',
-                      backdropFilter: 'blur(18px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(18px) saturate(180%)',
-                      border: '1.2px solid rgba(255, 255, 255, 0.25)',
+                      background: 'rgba(2, 18, 10, 0.65)',
+                      border: '1.5px solid rgba(255, 255, 255, 0.30)',
                       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                       borderRadius: '10px',
                       width: '36px',
@@ -1653,16 +1699,17 @@ export default function Chapter2SloganPage({
                       justifyContent: 'center',
                       color: 'rgba(255, 255, 255, 0.95)',
                       cursor: 'pointer',
+                      flexShrink: 0,
                       transition: 'all 0.2s ease'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.45)';
-                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.75)';
+                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.55)';
+                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.85)';
                       e.currentTarget.style.color = '#FFFFFF';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(2, 18, 10, 0.55)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+                      e.currentTarget.style.background = 'rgba(2, 18, 10, 0.65)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.30)';
                       e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
                     }}
                   >
@@ -1670,185 +1717,169 @@ export default function Chapter2SloganPage({
                   </button>
                 </div>
 
-                {/* Title Section: Font Area with rich blur and complementary sunlit-gold & mint typography */}
+                {/* Title Section */}
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '5px',
-                  background: 'linear-gradient(135deg, rgba(4, 24, 15, 0.62) 0%, rgba(2, 14, 9, 0.54) 100%)',
-                  backdropFilter: 'blur(20px) saturate(180%)',
-                  WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                  padding: '12px 18px',
-                  borderRadius: '18px',
-                  border: '1.5px solid rgba(110, 231, 183, 0.35)',
-                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.45), inset 0 1px 1.5px rgba(255, 255, 255, 0.25)'
+                  gap: '4px'
                 }}>
-                  <h3 style={{
+                  <h2 style={{
                     fontFamily: '"Outfit", sans-serif',
                     fontWeight: 900,
-                    fontSize: '24px',
+                    fontSize: '20px',
                     margin: 0,
-                    color: '#FFFDF0',
+                    color: '#6EE7B7',
                     lineHeight: 1.25,
-                    letterSpacing: '-0.01em',
-                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.95), 0 0 14px rgba(254, 240, 138, 0.35)'
+                    letterSpacing: '0.02em',
+                    textTransform: 'uppercase',
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 18px rgba(110, 231, 183, 0.55)'
                   }}>
-                    Living Habitats &amp; Biosphere
-                  </h3>
-                  <div style={{
-                    fontSize: '16px',
-                    color: '#FDE68A',
-                    fontWeight: 700,
-                    fontStyle: 'italic',
-                    fontFamily: '"Outfit", sans-serif',
-                    textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)'
-                  }}>
-                    Nature's Shared Home &amp; Interdependence 🍃
-                  </div>
+                    HABITATS &amp; THE BIOSPHERE
+                  </h2>
                 </div>
 
-                {/* Info Cards: Font Area with rich blur and nature-harmonized complementary colors */}
+                {/* Info Panel: Content Sections */}
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 'clamp(8px, 1.4vh, 12px)'
+                  gap: '10px'
                 }}>
-                  {/* Card 1: Habitat (Forest Canopy & Mossy Green Harmony) */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(6, 40, 24, 0.58) 0%, rgba(2, 22, 14, 0.52) 100%)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                    borderRadius: '16px',
-                    padding: 'clamp(10px, 1.4vh, 14px) clamp(14px, 1.6vw, 18px)',
-                    border: '1.5px solid rgba(52, 211, 153, 0.40)',
-                    borderLeft: '4.5px solid #10B981',
-                    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
-                    transition: 'all 0.25s ease'
-                  }}>
+                  {/* Section 1: A Shared Home */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <div style={{
-                      fontSize: '20px',
+                      fontSize: '18px',
                       fontWeight: 800,
                       color: '#A7F3D0',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
                       fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.95)'
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                     }}>
-                      <span style={{ fontSize: '20px' }}>🏡</span>
-                      <span>What is a Habitat?</span>
+                      <span style={{ fontSize: '18px' }}>🏡</span>
+                      <span>A Shared Home</span>
                     </div>
                     <div style={{
-                      fontSize: '16px',
+                      fontSize: '18px',
                       color: '#F8FAFC',
-                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
                       fontWeight: 500,
-                      marginTop: '6px',
-                      lineHeight: 1.55,
-                      fontFamily: '"Inter", sans-serif'
-                    }}>
-                      The place where plants and animals live, providing food, water, air, and shelter needed for survival.
-                    </div>
-                  </div>
-
-                  {/* Card 2: Biosphere (Golden Sunbeam & Earth Amber Harmony) */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(42, 24, 4, 0.58) 0%, rgba(20, 12, 2, 0.52) 100%)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                    borderRadius: '16px',
-                    padding: 'clamp(10px, 1.4vh, 14px) clamp(14px, 1.6vw, 18px)',
-                    border: '1.5px solid rgba(251, 191, 36, 0.40)',
-                    borderLeft: '4.5px solid #F59E0B',
-                    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
-                    transition: 'all 0.25s ease'
-                  }}>
-                    <div style={{
-                      fontSize: '20px',
-                      fontWeight: 800,
-                      color: '#FDE68A',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.95)'
-                    }}>
-                      <span style={{ fontSize: '20px' }}>🌍</span>
-                      <span>The Biosphere</span>
-                    </div>
-                    <div style={{
-                      fontSize: '16px',
-                      color: '#FFFBEB',
-                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
-                      fontWeight: 500,
-                      marginTop: '6px',
                       lineHeight: 1.55,
                       fontFamily: '"Inter", sans-serif',
-                      textAlign: 'justify'
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
                     }}>
-                      The narrow zone of Earth where land, water, and air interact together to sustain all diverse living forms.
+                      A habitat is the natural home where living things get what they need to survive.
                     </div>
                   </div>
 
-                  {/* Card 3: Coexistence (River Water & Peacock Turquoise Harmony) */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(6, 36, 38, 0.58) 0%, rgba(2, 20, 22, 0.52) 100%)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                    borderRadius: '16px',
-                    padding: 'clamp(10px, 1.4vh, 14px) clamp(14px, 1.6vw, 18px)',
-                    border: '1.5px solid rgba(34, 211, 238, 0.40)',
-                    borderLeft: '4.5px solid #06B6D4',
-                    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
-                    transition: 'all 0.25s ease'
-                  }}>
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Section 2: Look Around */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <div style={{
-                      fontSize: '20px',
+                      fontSize: '18px',
                       fontWeight: 800,
                       color: '#67E8F9',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
                       fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.95)'
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                     }}>
-                      <span style={{ fontSize: '20px' }}>🦌</span>
-                      <span>Coexistence in This Scene</span>
+                      <span style={{ fontSize: '18px' }}>🦌</span>
+                      <span>Look Around</span>
                     </div>
                     <div style={{
-                      fontSize: '16px',
+                      fontSize: '18px',
                       color: '#F0FDFA',
-                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
                       fontWeight: 500,
-                      marginTop: '6px',
                       lineHeight: 1.55,
                       fontFamily: '"Inter", sans-serif',
-                      textAlign: 'justify'
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
                     }}>
-                      Deer and peafowl drink freshwater stream water, squirrels forage in trees, and plants thrive on sunlight!
+                      The deer and peacock drink from the stream. Trees shelter the squirrel. Plants use sunlight to make food.
+                    </div>
+                  </div>
+
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Section 3: The Biosphere */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#FDE68A',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🌍</span>
+                      <span>The Biosphere</span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FFFBEB',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
+                      fontWeight: 500,
+                      lineHeight: 1.55,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      All parts of Earth where life exists—on land, in water, and in the air.
+                    </div>
+                  </div>
+
+                  {/* Callout box: Think */}
+                  <div style={{
+                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.16) 100%)',
+                    border: '1.5px solid rgba(253, 230, 138, 0.45)',
+                    borderRadius: '14px',
+                    padding: '10px 14px',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '10px'
+                  }}>
+                    <span style={{ fontSize: '18px', lineHeight: 1 }}>💡</span>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FEF08A',
+                      fontWeight: 700,
+                      fontStyle: 'italic',
+                      fontFamily: '"Outfit", sans-serif',
+                      lineHeight: 1.45,
+                      textAlign: 'justify',
+                      textJustify: 'inter-word',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.9)'
+                    }}>
+                      Think: What might happen if the stream dried up?
                     </div>
                   </div>
                 </div>
 
-                {/* Action Buttons: Font Area with blur and rich interactive luster */}
+                {/* Action Buttons */}
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '10px',
-                  paddingTop: 'clamp(2px, 0.6vh, 6px)'
+                  paddingTop: 'clamp(4px, 0.8vh, 8px)'
                 }}>
                   <button
                     type="button"
                     onClick={toggleBioAudio}
                     style={{
-                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.65) 0%, rgba(5, 150, 105, 0.50) 100%)',
-                      backdropFilter: 'blur(18px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(18px) saturate(180%)',
+                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.70) 0%, rgba(5, 150, 105, 0.55) 100%)',
                       color: '#FFFFFF',
                       border: '1.5px solid rgba(110, 231, 183, 0.75)',
                       borderRadius: '26px',
-                      padding: '11px 24px',
-                      fontSize: '16px',
+                      padding: '9px 22px',
+                      fontSize: '18px',
                       fontWeight: 800,
                       fontFamily: '"Outfit", sans-serif',
                       cursor: 'pointer',
@@ -1879,16 +1910,14 @@ export default function Chapter2SloganPage({
                     type="button"
                     onClick={() => setShowPage2Popup(false)}
                     style={{
-                      background: 'rgba(2, 18, 10, 0.55)',
-                      backdropFilter: 'blur(18px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(18px) saturate(180%)',
+                      background: 'rgba(2, 18, 10, 0.60)',
                       border: '1.5px solid rgba(255, 255, 255, 0.30)',
                       borderRadius: '26px',
-                      padding: '11px 22px',
+                      padding: '9px 20px',
                       color: '#F8FAFC',
                       fontFamily: '"Outfit", sans-serif',
                       fontWeight: 800,
-                      fontSize: '16px',
+                      fontSize: '18px',
                       cursor: 'pointer',
                       display: 'inline-flex',
                       alignItems: 'center',
@@ -1905,7 +1934,7 @@ export default function Chapter2SloganPage({
                       e.currentTarget.style.boxShadow = '0 6px 22px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.35)';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(2, 18, 10, 0.55)';
+                      e.currentTarget.style.background = 'rgba(2, 18, 10, 0.60)';
                       e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.30)';
                       e.currentTarget.style.transform = 'translateY(0)';
                       e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.20)';
@@ -1919,49 +1948,47 @@ export default function Chapter2SloganPage({
             </div>
           )}
 
-          {/* Re-open Trigger Pill when Popup is Minimized: Transparent Cream & Emerald */}
+          {/* Left-Side Center Arrow Trigger: Opens Page 2 Popup */}
           {!showPage2Popup && (
             <button
               type="button"
               onClick={() => setShowPage2Popup(true)}
-              className="bio-pill-float"
+              title="Open Biosphere & Habitats Notes"
+              aria-label="Open Biosphere & Habitats Notes"
               style={{
                 position: 'absolute',
-                bottom: '22px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 30,
-                padding: '8px 24px',
-                fontSize: '16px',
-                background: 'linear-gradient(135deg, rgba(255, 253, 245, 0.82) 0%, rgba(254, 248, 230, 0.72) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                color: '#064E3B',
-                border: '1.8px solid #059669',
-                borderRadius: '24px',
-                fontFamily: '"Outfit", sans-serif',
-                fontWeight: 900,
-                boxShadow: '0 4px 18px rgba(0, 0, 0, 0.25), 0 0 14px rgba(16, 185, 129, 0.35)',
-                cursor: 'pointer',
+                left: 0,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                zIndex: 35,
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                transition: 'all 0.25s ease'
+                padding: '12px 18px 12px 14px',
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                color: '#FFFFFF',
+                border: '2px solid #FDE68A',
+                borderLeft: 'none',
+                borderRadius: '0 20px 20px 0',
+                boxShadow: '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)',
+                cursor: 'pointer',
+                fontFamily: '"Outfit", sans-serif',
+                fontWeight: 900,
+                fontSize: '15px',
+                transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 253, 245, 0.95) 0%, rgba(254, 248, 230, 0.88) 100%)';
-                e.currentTarget.style.borderColor = '#15803D';
-                e.currentTarget.style.transform = 'translateX(-50%) translateY(-2px) scale(1.02)';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
+                e.currentTarget.style.boxShadow = '0 8px 30px rgba(217, 119, 6, 0.75), 0 2px 12px rgba(0, 0, 0, 0.5)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 253, 245, 0.82) 0%, rgba(254, 248, 230, 0.72) 100%)';
-                e.currentTarget.style.borderColor = '#059669';
-                e.currentTarget.style.transform = 'translateX(-50%) translateY(0) scale(1)';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                e.currentTarget.style.boxShadow = '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)';
               }}
             >
-              <Sparkles size={16} color="#D97706" />
-              <span>🌍 01 · Biosphere & Habitats</span>
-              <span style={{ opacity: 0.85, fontSize: '16px', fontWeight: 650, color: '#047857' }}>(Tap to read notes)</span>
+              <BookOpen size={18} color="#FFFFFF" strokeWidth={2.5} />
+              <span>Notes</span>
+              <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
             </button>
           )}
         </>
@@ -2013,6 +2040,58 @@ export default function Chapter2SloganPage({
             </button>
           </div>
 
+          {/* Top Title: Chapter 2 Section 2.2 matching textbook */}
+          <div style={{
+            position: 'absolute',
+            top: '16px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 35,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center',
+            pointerEvents: 'none'
+          }}>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: 'linear-gradient(135deg, rgba(14, 165, 233, 0.25) 0%, rgba(2, 132, 199, 0.35) 100%)',
+              border: '1.5px solid #38BDF8',
+              borderRadius: '20px',
+              padding: '2px 14px',
+              marginBottom: '2px',
+              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35)',
+              backdropFilter: 'blur(4px)'
+            }}>
+              <span style={{
+                fontSize: '12px',
+                fontWeight: 900,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: '#E0F2FE',
+                fontFamily: '"Outfit", sans-serif'
+              }}>
+                CLASS 6 SCIENCE • CHAPTER 2
+              </span>
+            </div>
+            <h1 style={{
+              margin: 0,
+              fontSize: '24px',
+              fontWeight: 900,
+              fontFamily: '"Fraunces", Georgia, serif',
+              background: 'linear-gradient(135deg, #BAE6FD 0%, #38BDF8 50%, #0284C7 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              textShadow: '0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(56, 189, 248, 0.45)',
+              letterSpacing: '-0.01em',
+              lineHeight: 1.15
+            }}>
+              🐫 Section 2.2: Habitats & Adaptations 🐫
+            </h1>
+          </div>
+
           {/* Page 3 Bottom-Left: Previous Page Button (hidden when popup covers it) */}
           <div style={{
             position: 'absolute',
@@ -2061,22 +2140,23 @@ export default function Chapter2SloganPage({
             </button>
           </div>
 
-          {/* ATTRACTIVE POPUP MESSAGE: MORPHOLOGY & ADAPTATION (TRANSPARENT GLASS PANEL POPUP WITH SLIGHT BLUR IN FONT AREA ONLY) */}
+          {/* ATTRACTIVE POPUP MESSAGE: DESERT ADAPTATIONS (TRANSPARENT GLASS PANEL POPUP WITH BLUR & COMPLEMENTARY COLORS) */}
           {showPage3Popup && (
             <div
               className="bio-panel-left-enter"
               style={{
                 position: 'absolute',
                 top: '16px',
-                left: '16px',
-                bottom: '16px',
-                width: 'min(420px, 36vw)',
-                maxHeight: 'calc(100vh - 32px)',
+                left: '18px',
+                width: 'min(480px, 42vw)',
+                maxHeight: 'calc(100vh - 36px)',
                 zIndex: 40,
-                background: 'linear-gradient(145deg, rgba(28, 18, 5, 0.22) 0%, rgba(18, 10, 2, 0.16) 100%)',
-                border: '1.5px solid rgba(251, 191, 36, 0.35)',
+                backdropFilter: 'blur(2px)',
+                WebkitBackdropFilter: 'blur(2px)',
+                background: 'transparent',
+                border: '1.8px solid rgba(251, 191, 36, 0.55)',
                 borderRadius: '24px',
-                boxShadow: '0 16px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.20), 0 0 15px rgba(245, 158, 11, 0.10)',
+                boxShadow: '0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 24px rgba(245, 158, 11, 0.20)',
                 boxSizing: 'border-box',
                 display: 'flex',
                 flexDirection: 'column',
@@ -2092,42 +2172,39 @@ export default function Chapter2SloganPage({
                 justifyContent: 'space-between',
                 flex: 1,
                 padding: 'clamp(14px, 2vh, 20px) clamp(16px, 2vw, 22px)',
-                gap: 'clamp(8px, 1.4vh, 14px)',
+                gap: 'clamp(8px, 1.2vh, 14px)',
                 position: 'relative',
                 zIndex: 5,
                 overflowY: 'auto',
-                scrollbarWidth: 'none'
+                scrollbarWidth: 'thin'
               }}>
 
-                {/* Top bar: NCERT Badge + Close Button (Font Area with slight blur) */}
+                {/* Top bar: Pill Badge + Close Button */}
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between'
+                  justifyContent: 'space-between',
+                  gap: '12px'
                 }}>
                   <span style={{
-                    background: 'rgba(0, 0, 0, 0.32)',
-                    backdropFilter: 'blur(8px)',
-                    WebkitBackdropFilter: 'blur(8px)',
+                    background: 'linear-gradient(135deg, rgba(40, 24, 6, 0.70) 0%, rgba(20, 12, 3, 0.60) 100%)',
                     color: '#FDE68A',
-                    border: '1.2px solid rgba(251, 191, 36, 0.45)',
-                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                    padding: '6px 16px',
+                    border: '1.5px solid rgba(251, 191, 36, 0.55)',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
+                    padding: '5px 16px',
                     borderRadius: '22px',
                     fontFamily: '"Outfit", sans-serif',
                     fontWeight: 800,
-                    fontSize: '16px',
-                    letterSpacing: '0.06em',
+                    fontSize: '18px',
+                    letterSpacing: '0.04em',
                     textTransform: 'uppercase',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '7px',
+                    gap: '8px',
                     textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                   }}>
                     <span style={{ fontSize: '18px' }}>🌵</span>
-                    <span>NCERT CLASS 6</span>
-                    <span style={{ opacity: 0.6 }}>•</span>
-                    <span>ADAPTATION</span>
+                    <span style={{ color: '#FCD34D' }}>ADAPTATION</span>
                   </span>
 
                   <button
@@ -2136,10 +2213,8 @@ export default function Chapter2SloganPage({
                     aria-label="Close message and view full scenery"
                     title="View full scenery photo"
                     style={{
-                      background: 'rgba(28, 16, 4, 0.55)',
-                      backdropFilter: 'blur(18px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(18px) saturate(180%)',
-                      border: '1.2px solid rgba(255, 255, 255, 0.25)',
+                      background: 'rgba(28, 16, 4, 0.65)',
+                      border: '1.5px solid rgba(255, 255, 255, 0.30)',
                       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                       borderRadius: '10px',
                       width: '36px',
@@ -2149,16 +2224,17 @@ export default function Chapter2SloganPage({
                       justifyContent: 'center',
                       color: 'rgba(255, 255, 255, 0.95)',
                       cursor: 'pointer',
+                      flexShrink: 0,
                       transition: 'all 0.2s ease'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.45)';
-                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.75)';
+                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.55)';
+                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.85)';
                       e.currentTarget.style.color = '#FFFFFF';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(28, 16, 4, 0.55)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+                      e.currentTarget.style.background = 'rgba(28, 16, 4, 0.65)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.30)';
                       e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
                     }}
                   >
@@ -2166,258 +2242,198 @@ export default function Chapter2SloganPage({
                   </button>
                 </div>
 
-                {/* Title Section: Font Area Blur, 24px Title, 16px Subtitle */}
+                {/* Title Section */}
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '5px',
-                  background: 'linear-gradient(135deg, rgba(38, 22, 6, 0.65) 0%, rgba(20, 10, 2, 0.58) 100%)',
-                  backdropFilter: 'blur(20px) saturate(180%)',
-                  WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                  padding: '12px 18px',
-                  borderRadius: '18px',
-                  border: '1.5px solid rgba(251, 191, 36, 0.40)',
-                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.45), inset 0 1px 1.5px rgba(255, 255, 255, 0.25)'
+                  gap: '4px'
                 }}>
-                  <h3 style={{
+                  <h2 style={{
                     fontFamily: '"Outfit", sans-serif',
                     fontWeight: 900,
-                    fontSize: '24px',
+                    fontSize: '20px',
                     margin: 0,
-                    color: '#FFFDF0',
+                    color: '#FCD34D',
                     lineHeight: 1.25,
-                    letterSpacing: '-0.01em',
-                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.95), 0 0 14px rgba(254, 240, 138, 0.35)'
+                    letterSpacing: '0.02em',
+                    textTransform: 'uppercase',
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 18px rgba(251, 191, 36, 0.55)'
                   }}>
-                    Desert & Surrounding Adaptations
-                  </h3>
-                  <div style={{
-                    fontSize: '16px',
-                    color: '#FDE68A',
-                    fontWeight: 700,
-                    fontStyle: 'italic',
-                    fontFamily: '"Outfit", sans-serif',
-                    textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)'
-                  }}>
-                    Special Traits for Arid Survival
-                  </div>
+                    DESERT ADAPTATIONS
+                  </h2>
                 </div>
 
-                {/* Info Cards: Font Area Blur with Warm Desert Sand & Golden Sunset Harmony */}
+                {/* Info Panel: Content Sections */}
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 'clamp(8px, 1.4vh, 12px)'
+                  gap: '10px'
                 }}>
-                  {/* Card 1: Camel Adaptations */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(48, 28, 6, 0.68) 0%, rgba(26, 14, 3, 0.58) 100%)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                    borderRadius: '16px',
-                    padding: 'clamp(10px, 1.4vh, 14px) clamp(13px, 1.6vw, 17px)',
-                    border: '1.5px solid rgba(251, 191, 36, 0.45)',
-                    borderLeft: '4.5px solid #F59E0B',
-                    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 0 14px rgba(245, 158, 11, 0.15)',
-                    transition: 'all 0.25s ease'
-                  }}>
+                  {/* Section 1: What Is Adaptation? */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <div style={{
-                      fontSize: '20px',
+                      fontSize: '18px',
                       fontWeight: 800,
                       color: '#FDE68A',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
                       fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.5)'
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                     }}>
-                      <span style={{ fontSize: '20px' }}>🐪</span>
+                      <span style={{ fontSize: '18px' }}>🦎</span>
+                      <span>What Is Adaptation?</span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#F8FAFC',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
+                      fontWeight: 500,
+                      lineHeight: 1.55,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      A feature or behaviour that helps a living thing survive in its habitat.
+                    </div>
+                  </div>
+
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Section 2: The Ship of the Desert */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#FDE68A',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🐪</span>
                       <span>The Ship of the Desert</span>
                     </div>
                     <div style={{
-                      fontSize: '16px',
+                      fontSize: '18px',
                       color: '#FFFBEB',
-                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
                       fontWeight: 500,
-                      marginTop: '5px',
                       lineHeight: 1.55,
-                      fontFamily: '"Inter", sans-serif'
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
                     }}>
-                      Wide padded feet prevent sinking in sand. Long eyelashes and sealable nostrils block windblown dust.
+                      A camel’s broad, padded feet help prevent it from sinking into sand. Its long eyelashes help protect its eyes from blowing dust.
                     </div>
                   </div>
 
-                  {/* Card 2: Water Conservation */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(42, 22, 6, 0.68) 0%, rgba(22, 10, 2, 0.58) 100%)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                    borderRadius: '16px',
-                    padding: 'clamp(10px, 1.4vh, 14px) clamp(13px, 1.6vw, 17px)',
-                    border: '1.5px solid rgba(245, 158, 11, 0.45)',
-                    borderLeft: '4.5px solid #D97706',
-                    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 0 14px rgba(217, 119, 6, 0.15)',
-                    transition: 'all 0.25s ease'
-                  }}>
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Section 3: Saving Water */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <div style={{
-                      fontSize: '20px',
+                      fontSize: '18px',
                       fontWeight: 800,
-                      color: '#FDE68A',
+                      color: '#67E8F9',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
                       fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.5)'
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                     }}>
-                      <span style={{ fontSize: '20px' }}>💧</span>
-                      <span>Extreme Water Retention</span>
+                      <span style={{ fontSize: '18px' }}>💧</span>
+                      <span>Saving Water</span>
                     </div>
                     <div style={{
-                      fontSize: '16px',
-                      color: '#FFFBEB',
-                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
+                      fontSize: '18px',
+                      color: '#F0FDFA',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
                       fontWeight: 500,
-                      marginTop: '5px',
                       lineHeight: 1.55,
-                      fontFamily: '"Inter", sans-serif'
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
                     }}>
-                      Excretes concentrated urine, completely dry dung, and does not sweat, surviving weeks without surface water.
+                      Camels conserve water by reducing water loss from their bodies. This helps them survive for long periods without drinking.
+                    </div>
+                  </div>
+
+                  {/* Callout box: Think */}
+                  <div style={{
+                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.16) 100%)',
+                    border: '1.5px solid rgba(253, 230, 138, 0.45)',
+                    borderRadius: '14px',
+                    padding: '10px 14px',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '10px'
+                  }}>
+                    <span style={{ fontSize: '18px', lineHeight: 1 }}>💡</span>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FEF08A',
+                      fontWeight: 700,
+                      fontStyle: 'italic',
+                      fontFamily: '"Outfit", sans-serif',
+                      lineHeight: 1.45,
+                      textAlign: 'justify',
+                      textJustify: 'inter-word',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.9)'
+                    }}>
+                      Think: Why is saving water important in a desert?
                     </div>
                   </div>
                 </div>
 
-                {/* Action Buttons: Font Area Blur, 16px Font */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '10px',
-                  paddingTop: 'clamp(2px, 0.6vh, 6px)'
-                }}>
-                  <button
-                    type="button"
-                    onClick={toggleAdaptationAudio}
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.65) 0%, rgba(217, 119, 6, 0.52) 100%)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
-                      color: '#FFFFFF',
-                      border: '1.2px solid rgba(251, 191, 36, 0.65)',
-                      borderRadius: '28px',
-                      padding: '11px 24px',
-                      fontSize: '16px',
-                      fontWeight: 700,
-                      fontFamily: '"Outfit", sans-serif',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      width: 'fit-content',
-                      boxShadow: '0 4px 18px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.35)',
-                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                      transition: 'all 0.25s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 6px 24px rgba(245, 158, 11, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5)';
-                      e.currentTarget.style.borderColor = 'rgba(251, 191, 36, 0.85)';
-                      e.currentTarget.style.background = 'linear-gradient(135deg, rgba(245, 158, 11, 0.72) 0%, rgba(217, 119, 6, 0.58) 100%)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 4px 18px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.35)';
-                      e.currentTarget.style.borderColor = 'rgba(251, 191, 36, 0.55)';
-                      e.currentTarget.style.background = 'linear-gradient(135deg, rgba(245, 158, 11, 0.65) 0%, rgba(217, 119, 6, 0.52) 100%)';
-                    }}
-                  >
-                    {isPlayingAdaptationAudio ? <VolumeX size={18} color="#FDE68A" /> : <Volume2 size={18} color="#FDE68A" />}
-                    <span>{isPlayingAdaptationAudio ? 'Stop Narration' : 'Listen Explanation'}</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setShowPage3Popup(false)}
-                    style={{
-                      background: 'rgba(28, 16, 4, 0.55)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
-                      border: '1.2px solid rgba(255, 255, 255, 0.28)',
-                      borderRadius: '28px',
-                      padding: '11px 22px',
-                      color: '#F8FAFC',
-                      fontFamily: '"Outfit", sans-serif',
-                      fontWeight: 700,
-                      fontSize: '16px',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      width: 'fit-content',
-                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                      transition: 'all 0.25s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(28, 16, 4, 0.55)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.28)';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                    }}
-                  >
-                    <Eye size={18} />
-                    <span>View Full Scenery →</span>
-                  </button>
-                </div>
+                {/* Note: Listen Explanation and View Full Scenery buttons removed as requested */}
               </div>
             </div>
           )}
 
-          {/* Re-open Trigger Pill when Popup is Minimized: Transparent Cream & Desert Amber */}
+          {/* Left-Side Center Arrow Trigger: Opens Page 3 Popup */}
           {!showPage3Popup && (
             <button
               type="button"
               onClick={() => setShowPage3Popup(true)}
-              className="bio-pill-float"
+              title="Open Desert Habitats Notes"
+              aria-label="Open Desert Habitats Notes"
               style={{
                 position: 'absolute',
-                bottom: '22px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 30,
-                padding: '8px 24px',
-                fontSize: '16px',
-                background: 'linear-gradient(135deg, rgba(255, 253, 245, 0.85) 0%, rgba(254, 248, 230, 0.75) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                color: '#78350F',
-                border: '1.8px solid #D97706',
-                borderRadius: '24px',
-                fontFamily: '"Outfit", sans-serif',
-                fontWeight: 900,
-                boxShadow: '0 4px 18px rgba(0, 0, 0, 0.25), 0 0 14px rgba(245, 158, 11, 0.35)',
-                cursor: 'pointer',
+                left: 0,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                zIndex: 35,
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                transition: 'all 0.25s ease'
+                padding: '12px 18px 12px 14px',
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                color: '#FFFFFF',
+                border: '2px solid #FDE68A',
+                borderLeft: 'none',
+                borderRadius: '0 20px 20px 0',
+                boxShadow: '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)',
+                cursor: 'pointer',
+                fontFamily: '"Outfit", sans-serif',
+                fontWeight: 900,
+                fontSize: '15px',
+                transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 253, 245, 0.96) 0%, rgba(254, 248, 230, 0.90) 100%)';
-                e.currentTarget.style.borderColor = '#B45309';
-                e.currentTarget.style.transform = 'translateX(-50%) translateY(-2px) scale(1.02)';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
+                e.currentTarget.style.boxShadow = '0 8px 30px rgba(217, 119, 6, 0.75), 0 2px 12px rgba(0, 0, 0, 0.5)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 253, 245, 0.85) 0%, rgba(254, 248, 230, 0.75) 100%)';
-                e.currentTarget.style.borderColor = '#D97706';
-                e.currentTarget.style.transform = 'translateX(-50%) translateY(0) scale(1)';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                e.currentTarget.style.boxShadow = '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)';
               }}
             >
-              <Sparkles size={16} color="#D97706" />
-              <span>🐫 02 · Desert Adaptation & Flora</span>
-              <span style={{ opacity: 0.85, fontSize: '16px', fontWeight: 650, color: '#B45309' }}>(Tap to read notes)</span>
+              <BookOpen size={18} color="#FFFFFF" strokeWidth={2.5} />
+              <span>Notes</span>
+              <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
             </button>
           )}
         </>
@@ -2469,6 +2485,58 @@ export default function Chapter2SloganPage({
             </button>
           </div>
 
+          {/* Top Title: Chapter 2 Section 2.3 matching textbook */}
+          <div style={{
+            position: 'absolute',
+            top: '16px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 35,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center',
+            pointerEvents: 'none'
+          }}>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.35) 100%)',
+              border: '1.5px solid #F59E0B',
+              borderRadius: '20px',
+              padding: '2px 14px',
+              marginBottom: '2px',
+              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35)',
+              backdropFilter: 'blur(4px)'
+            }}>
+              <span style={{
+                fontSize: '12px',
+                fontWeight: 900,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: '#FEF3C7',
+                fontFamily: '"Outfit", sans-serif'
+              }}>
+                CLASS 6 SCIENCE • CHAPTER 2
+              </span>
+            </div>
+            <h1 style={{
+              margin: 0,
+              fontSize: '24px',
+              fontWeight: 900,
+              fontFamily: '"Fraunces", Georgia, serif',
+              background: 'linear-gradient(135deg, #FDE68A 0%, #F59E0B 50%, #FBBF24 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              textShadow: '0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(245, 158, 11, 0.45)',
+              letterSpacing: '-0.01em',
+              lineHeight: 1.15
+            }}>
+              🌿 Section 2.3: Plants – Form and Function 🌿
+            </h1>
+          </div>
+
           {/* Page 4 Bottom-Left: Previous Page Button */}
           <div style={{
             position: 'absolute',
@@ -2517,22 +2585,23 @@ export default function Chapter2SloganPage({
             </button>
           </div>
 
-          {/* ATTRACTIVE POPUP MESSAGE: BOTANICAL TAXONOMY (60% TRANSPARENT GLOSSY EMERALD PANEL) */}
+          {/* ATTRACTIVE POPUP MESSAGE: HERBS, SHRUBS, TREES & CLIMBERS */}
           {showPage4Popup && (
             <div
               className="bio-panel-left-enter"
               style={{
                 position: 'absolute',
                 top: '16px',
-                left: '16px',
-                bottom: '16px',
-                width: 'min(420px, 36vw)',
-                maxHeight: 'calc(100vh - 32px)',
+                left: '18px',
+                width: 'min(480px, 42vw)',
+                maxHeight: 'calc(100vh - 36px)',
                 zIndex: 40,
-                background: 'linear-gradient(145deg, rgba(8, 28, 18, 0.22) 0%, rgba(3, 18, 10, 0.16) 100%)',
-                border: '1.5px solid rgba(167, 243, 208, 0.35)',
+                backdropFilter: 'blur(2px)',
+                WebkitBackdropFilter: 'blur(2px)',
+                background: 'transparent',
+                border: '1.8px solid rgba(167, 243, 208, 0.55)',
                 borderRadius: '24px',
-                boxShadow: '0 16px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.20), 0 0 15px rgba(16, 185, 129, 0.10)',
+                boxShadow: '0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 24px rgba(16, 185, 129, 0.20)',
                 boxSizing: 'border-box',
                 display: 'flex',
                 flexDirection: 'column',
@@ -2541,50 +2610,46 @@ export default function Chapter2SloganPage({
                 transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
               }}
             >
-              {/* Top glossy shine removed for transparency */}
-
-              {/* Inner content wrapper with padding - vertically centered */}
+              {/* Inner content wrapper with padding */}
               <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'center',
+                justifyContent: 'space-between',
                 flex: 1,
-                padding: 'clamp(14px, 2.2vh, 26px) clamp(16px, 2.2vw, 26px)',
-                gap: 'clamp(8px, 1.4vh, 14px)',
+                padding: 'clamp(14px, 2vh, 20px) clamp(16px, 2vw, 22px)',
+                gap: 'clamp(8px, 1.2vh, 14px)',
                 position: 'relative',
                 zIndex: 5,
                 overflowY: 'auto',
-                pointerEvents: 'auto'
+                scrollbarWidth: 'thin'
               }}>
-                {/* Top bar: NCERT Badge + Close Button (Font Area Blur) */}
+
+                {/* Top bar: Pill Badge + Close Button */}
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between'
+                  justifyContent: 'space-between',
+                  gap: '12px'
                 }}>
                   <span style={{
-                    background: 'linear-gradient(135deg, rgba(6, 30, 20, 0.62) 0%, rgba(2, 18, 10, 0.52) 100%)',
-                    backdropFilter: 'blur(18px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(18px) saturate(180%)',
+                    background: 'linear-gradient(135deg, rgba(6, 28, 18, 0.70) 0%, rgba(2, 18, 10, 0.60) 100%)',
                     color: '#A7F3D0',
-                    border: '1.2px solid rgba(110, 231, 183, 0.50)',
+                    border: '1.5px solid rgba(110, 231, 183, 0.55)',
                     boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
-                    padding: '6px 16px',
+                    padding: '5px 16px',
                     borderRadius: '22px',
                     fontFamily: '"Outfit", sans-serif',
                     fontWeight: 800,
-                    fontSize: '16px',
-                    letterSpacing: '0.06em',
+                    fontSize: '18px',
+                    letterSpacing: '0.04em',
                     textTransform: 'uppercase',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '7px',
+                    gap: '8px',
                     textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                   }}>
                     <span style={{ fontSize: '18px' }}>🌱</span>
-                    <span style={{ color: '#E2E8F0' }}>NCERT CLASS 6</span>
-                    <span style={{ color: '#F59E0B' }}>•</span>
-                    <span style={{ color: '#6EE7B7' }}>BOTANY</span>
+                    <span style={{ color: '#6EE7B7' }}>PLANT GROUPS</span>
                   </span>
 
                   <button
@@ -2593,10 +2658,8 @@ export default function Chapter2SloganPage({
                     aria-label="Close message and view full scenery"
                     title="View full scenery photo"
                     style={{
-                      background: 'rgba(2, 18, 10, 0.55)',
-                      backdropFilter: 'blur(18px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(18px) saturate(180%)',
-                      border: '1.2px solid rgba(255, 255, 255, 0.25)',
+                      background: 'rgba(2, 18, 10, 0.65)',
+                      border: '1.5px solid rgba(255, 255, 255, 0.30)',
                       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                       borderRadius: '10px',
                       width: '36px',
@@ -2606,16 +2669,17 @@ export default function Chapter2SloganPage({
                       justifyContent: 'center',
                       color: 'rgba(255, 255, 255, 0.95)',
                       cursor: 'pointer',
+                      flexShrink: 0,
                       transition: 'all 0.2s ease'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.45)';
-                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.75)';
+                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.55)';
+                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.85)';
                       e.currentTarget.style.color = '#FFFFFF';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(2, 18, 10, 0.55)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+                      e.currentTarget.style.background = 'rgba(2, 18, 10, 0.65)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.30)';
                       e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
                     }}
                   >
@@ -2623,304 +2687,229 @@ export default function Chapter2SloganPage({
                   </button>
                 </div>
 
-                {/* Lesson Tabs Selector (Font Area Blur, 16px font) */}
-                <div style={{
-                  display: 'flex',
-                  gap: '8px',
-                  flexWrap: 'wrap'
-                }}>
-                  {PAGE_4_LESSONS.map((lesson, idx) => {
-                    const isActive = page4ActiveTab === idx;
-                    return (
-                      <button
-                        key={lesson.id}
-                        type="button"
-                        onClick={() => {
-                          setPage4ActiveTab(idx);
-                          if (isPlayingBotanyAudio) {
-                            stopNarration();
-                            setIsPlayingBotanyAudio(false);
-                          }
-                        }}
-                        style={{
-                          background: isActive
-                            ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.65) 0%, rgba(5, 150, 105, 0.52) 100%)'
-                            : 'rgba(4, 22, 14, 0.55)',
-                          backdropFilter: 'blur(18px) saturate(180%)',
-                          WebkitBackdropFilter: 'blur(18px) saturate(180%)',
-                          color: isActive ? '#FFFDF0' : '#A7F3D0',
-                          border: isActive ? '1.5px solid #A7F3D0' : '1.2px solid rgba(167, 243, 208, 0.25)',
-                          borderRadius: '16px',
-                          padding: '6px 14px',
-                          fontSize: '16px',
-                          fontWeight: 800,
-                          fontFamily: '"Outfit", sans-serif',
-                          cursor: 'pointer',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                          transition: 'all 0.2s ease',
-                          boxShadow: isActive ? '0 4px 12px rgba(16, 185, 129, 0.4)' : '0 2px 6px rgba(0, 0, 0, 0.2)',
-                          textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
-                        }}
-                      >
-                        <span style={{ fontSize: '16px' }}>{lesson.icon}</span>
-                        <span>{lesson.shortTab}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* Title Section: Font Area Blur, 24px Title, 16px Subtitle */}
+                {/* Title Section */}
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '5px',
-                  background: 'linear-gradient(135deg, rgba(6, 30, 20, 0.65) 0%, rgba(2, 18, 12, 0.58) 100%)',
-                  backdropFilter: 'blur(20px) saturate(180%)',
-                  WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                  padding: '12px 18px',
-                  borderRadius: '18px',
-                  border: '1.5px solid rgba(110, 231, 183, 0.40)',
-                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.45), inset 0 1px 1.5px rgba(255, 255, 255, 0.25)'
+                  gap: '4px'
                 }}>
-                  <h3 style={{
+                  <h2 style={{
                     fontFamily: '"Outfit", sans-serif',
                     fontWeight: 900,
-                    fontSize: '24px',
+                    fontSize: '20px',
                     margin: 0,
-                    color: '#FFFDF0',
+                    color: '#6EE7B7',
                     lineHeight: 1.25,
-                    letterSpacing: '-0.01em',
-                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.95), 0 0 14px rgba(110, 231, 183, 0.35)'
+                    letterSpacing: '0.02em',
+                    textTransform: 'uppercase',
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 18px rgba(110, 231, 183, 0.55)'
                   }}>
-                    {PAGE_4_LESSONS[page4ActiveTab]?.title}
-                  </h3>
+                    HERBS, SHRUBS, TREES &amp; CLIMBERS
+                  </h2>
+                </div>
+
+                {/* Info Panel: Content Sections */}
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px'
+                }}>
+                  {/* Section 1: Herbs — Tomato */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#A7F3D0',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🍅</span>
+                      <span>Herbs — Tomato</span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#F8FAFC',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
+                      fontWeight: 500,
+                      lineHeight: 1.55,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      Usually small plants with soft, green stems.
+                    </div>
+                  </div>
+
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Section 2: Shrubs — Rose */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#FECDD3',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🌹</span>
+                      <span>Shrubs — Rose</span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FFF1F2',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
+                      fontWeight: 500,
+                      lineHeight: 1.55,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      Woody plants with many branches growing near the ground.
+                    </div>
+                  </div>
+
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Section 3: Trees — Mango */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#FDE68A',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🥭</span>
+                      <span>Trees — Mango</span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FFFBEB',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
+                      fontWeight: 500,
+                      lineHeight: 1.55,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      Grow tall, with a thick, woody trunk and branches higher above the ground.
+                    </div>
+                  </div>
+
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Section 4: Climbers — Money Plant */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#67E8F9',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🪴</span>
+                      <span>Climbers — Money Plant</span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#F0FDFA',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
+                      fontWeight: 500,
+                      lineHeight: 1.55,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      Have weak stems and need support to grow upwards.
+                    </div>
+                  </div>
+
+                  {/* Callout box: Think */}
                   <div style={{
-                    fontSize: '16px',
-                    color: '#FDE68A',
-                    fontWeight: 700,
-                    fontStyle: 'italic',
-                    fontFamily: '"Outfit", sans-serif',
-                    textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)'
+                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.22) 0%, rgba(5, 150, 105, 0.16) 100%)',
+                    border: '1.5px solid rgba(167, 243, 208, 0.45)',
+                    borderRadius: '14px',
+                    padding: '10px 14px',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '10px'
                   }}>
-                    {page4ActiveTab === 0 ? 'Herbs, Shrubs & Trees (Table 2.3, p.16)' : page4ActiveTab === 1 ? 'Leaf Venation & Root Link (Table 2.4, p.19)' : 'Chickpea Dicot vs Maize Monocot (p.20)'}
+                    <span style={{ fontSize: '18px', lineHeight: 1 }}>💡</span>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FEF08A',
+                      fontWeight: 700,
+                      fontStyle: 'italic',
+                      fontFamily: '"Outfit", sans-serif',
+                      lineHeight: 1.45,
+                      textAlign: 'justify',
+                      textJustify: 'inter-word',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.9)'
+                    }}>
+                      Think: Which plant in this picture needs support to climb?
+                    </div>
                   </div>
                 </div>
 
-                {/* Info Cards - Font Area Blur with Greenhouse Harmonized Complementary Colors */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 'clamp(8px, 1.3vh, 12px)'
-                }}>
-                  {PAGE_4_LESSONS[page4ActiveTab]?.cards?.map((card, idx) => {
-                    const themeIdx = idx % 3;
-                    const cardTheme = themeIdx === 0
-                      ? {
-                          // Fresh Mint & Herb Emerald (Tomato Plant & Tender Herbs)
-                          bg: 'linear-gradient(135deg, rgba(6, 42, 24, 0.68) 0%, rgba(2, 22, 14, 0.58) 100%)',
-                          border: '1.5px solid rgba(52, 211, 153, 0.45)',
-                          borderLeft: '4.5px solid #10B981',
-                          titleColor: '#A7F3D0',
-                          descColor: '#F0FDF4',
-                          shadowGlow: '0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 0 14px rgba(16, 185, 129, 0.15)'
-                        }
-                      : themeIdx === 1
-                      ? {
-                          // Rose Blossom Pink & Terracotta Rose (Rose Bush & Lady Emma Hamilton)
-                          bg: 'linear-gradient(135deg, rgba(46, 16, 26, 0.68) 0%, rgba(26, 8, 16, 0.58) 100%)',
-                          border: '1.5px solid rgba(251, 113, 133, 0.45)',
-                          borderLeft: '4.5px solid #F43F5E',
-                          titleColor: '#FECDD3',
-                          descColor: '#FFF1F2',
-                          shadowGlow: '0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 0 14px rgba(244, 63, 94, 0.15)'
-                        }
-                      : {
-                          // Sunlit Amber Gold & Honey Wood (Mango Tree & Antique Brass Workbench)
-                          bg: 'linear-gradient(135deg, rgba(45, 28, 6, 0.68) 0%, rgba(25, 14, 3, 0.58) 100%)',
-                          border: '1.5px solid rgba(251, 191, 36, 0.45)',
-                          borderLeft: '4.5px solid #F59E0B',
-                          titleColor: '#FDE68A',
-                          descColor: '#FFFBEB',
-                          shadowGlow: '0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 0 14px rgba(245, 158, 11, 0.15)'
-                        };
-                    return (
-                      <div
-                        key={idx}
-                        style={{
-                          background: cardTheme.bg,
-                          backdropFilter: 'blur(20px) saturate(180%)',
-                          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                          borderRadius: '16px',
-                          padding: 'clamp(9px, 1.3vh, 13px) clamp(13px, 1.6vw, 17px)',
-                          border: cardTheme.border,
-                          borderLeft: cardTheme.borderLeft,
-                          boxShadow: cardTheme.shadowGlow,
-                          transition: 'all 0.25s ease'
-                        }}
-                      >
-                        <div style={{
-                          fontSize: '20px',
-                          fontWeight: 800,
-                          color: cardTheme.titleColor,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 2px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.5)'
-                        }}>
-                          <span style={{ fontSize: '20px' }}>{card.icon}</span>
-                          <span>{card.title}</span>
-                        </div>
-                        <div style={{
-                          fontSize: '16px',
-                          color: cardTheme.descColor,
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
-                          fontWeight: 500,
-                          marginTop: '4px',
-                          lineHeight: 1.55,
-                          fontFamily: '"Inter", sans-serif'
-                        }}>
-                          {card.desc}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Action Buttons - 16px font size with Crystal Gloss Sheen */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '10px',
-                  paddingTop: 'clamp(4px, 0.8vh, 10px)'
-                }}>
-                  <button
-                    type="button"
-                    onClick={toggleBotanyAudio}
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.50) 0%, rgba(5, 150, 105, 0.38) 100%)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
-                      color: '#FFFFFF',
-                      border: '1.2px solid rgba(110, 231, 183, 0.65)',
-                      borderRadius: '28px',
-                      padding: '11px 24px',
-                      fontSize: '16px',
-                      fontWeight: 700,
-                      fontFamily: '"Outfit", sans-serif',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      width: 'fit-content',
-                      boxShadow: '0 4px 18px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.35)',
-                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                      transition: 'all 0.25s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 6px 24px rgba(16, 185, 129, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5)';
-                      e.currentTarget.style.borderColor = 'rgba(110, 231, 183, 0.85)';
-                      e.currentTarget.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.58) 0%, rgba(5, 150, 105, 0.42) 100%)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 4px 18px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.35)';
-                      e.currentTarget.style.borderColor = 'rgba(110, 231, 183, 0.55)';
-                      e.currentTarget.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.32) 100%)';
-                    }}
-                  >
-                    {isPlayingBotanyAudio ? <VolumeX size={18} color="#A7F3D0" /> : <Volume2 size={18} color="#A7F3D0" />}
-                    <span>{isPlayingBotanyAudio ? 'Stop Narration' : 'Listen Explanation'}</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setShowPage4Popup(false)}
-                    style={{
-                      background: 'rgba(2, 18, 10, 0.55)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
-                      border: '1.2px solid rgba(255, 255, 255, 0.28)',
-                      borderRadius: '28px',
-                      padding: '11px 22px',
-                      fontSize: '16px',
-                      fontWeight: 700,
-                      color: '#F8FAFC',
-                      fontFamily: '"Outfit", sans-serif',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      width: 'fit-content',
-                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                      transition: 'all 0.25s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(2, 18, 10, 0.55)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.28)';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                    }}
-                  >
-                    <span>View Full Scenery</span>
-                    <ArrowRight size={17} />
-                  </button>
-                </div>
+                {/* Note: Listen Explanation and View Full Scenery buttons removed as requested */}
               </div>
             </div>
           )}
 
-          {/* Re-open Trigger Pill when Popup is Minimized: Transparent Emerald */}
+          {/* Left-Side Center Arrow Trigger: Opens Page 4 Popup */}
           {!showPage4Popup && (
             <button
               type="button"
               onClick={() => setShowPage4Popup(true)}
-              className="bio-pill-float"
+              title="Open Plant Classification Notes"
+              aria-label="Open Plant Classification Notes"
               style={{
                 position: 'absolute',
-                bottom: '22px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 30,
-                padding: '8px 24px',
-                fontSize: '16px',
-                background: 'linear-gradient(135deg, rgba(255, 253, 245, 0.85) 0%, rgba(254, 248, 230, 0.75) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                color: '#065F46',
-                border: '1.8px solid #059669',
-                borderRadius: '24px',
-                fontFamily: '"Outfit", sans-serif',
-                fontWeight: 900,
-                boxShadow: '0 4px 18px rgba(0, 0, 0, 0.25), 0 0 14px rgba(16, 185, 129, 0.35)',
-                cursor: 'pointer',
+                left: 0,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                zIndex: 35,
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                transition: 'all 0.25s ease'
+                padding: '12px 18px 12px 14px',
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                color: '#FFFFFF',
+                border: '2px solid #FDE68A',
+                borderLeft: 'none',
+                borderRadius: '0 20px 20px 0',
+                boxShadow: '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)',
+                cursor: 'pointer',
+                fontFamily: '"Outfit", sans-serif',
+                fontWeight: 900,
+                fontSize: '15px',
+                transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 253, 245, 0.96) 0%, rgba(254, 248, 230, 0.90) 100%)';
-                e.currentTarget.style.borderColor = '#047857';
-                e.currentTarget.style.transform = 'translateX(-50%) translateY(-2px) scale(1.02)';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
+                e.currentTarget.style.boxShadow = '0 8px 30px rgba(217, 119, 6, 0.75), 0 2px 12px rgba(0, 0, 0, 0.5)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 253, 245, 0.85) 0%, rgba(254, 248, 230, 0.75) 100%)';
-                e.currentTarget.style.borderColor = '#059669';
-                e.currentTarget.style.transform = 'translateX(-50%) translateY(0) scale(1)';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                e.currentTarget.style.boxShadow = '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)';
               }}
             >
-              <Sparkles size={16} color="#059669" />
-              <span>🌿 03 · Plant Detective & Taxonomy</span>
-              <span style={{ opacity: 0.85, fontSize: '16px', fontWeight: 650, color: '#047857' }}>(Tap to read notes)</span>
+              <BookOpen size={18} color="#FFFFFF" strokeWidth={2.5} />
+              <span>Notes</span>
+              <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
             </button>
           )}
         </>
@@ -2972,6 +2961,58 @@ export default function Chapter2SloganPage({
             </button>
           </div>
 
+          {/* Top Title: Chapter 2 Section 2.4 matching textbook */}
+          <div style={{
+            position: 'absolute',
+            top: '16px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 35,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center',
+            pointerEvents: 'none'
+          }}>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.35) 100%)',
+              border: '1.5px solid #F59E0B',
+              borderRadius: '20px',
+              padding: '2px 14px',
+              marginBottom: '2px',
+              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35)',
+              backdropFilter: 'blur(4px)'
+            }}>
+              <span style={{
+                fontSize: '12px',
+                fontWeight: 900,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: '#FEF3C7',
+                fontFamily: '"Outfit", sans-serif'
+              }}>
+                CLASS 6 SCIENCE • CHAPTER 2
+              </span>
+            </div>
+            <h1 style={{
+              margin: 0,
+              fontSize: '24px',
+              fontWeight: 900,
+              fontFamily: '"Fraunces", Georgia, serif',
+              background: 'linear-gradient(135deg, #FDE68A 0%, #F59E0B 50%, #FBBF24 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              textShadow: '0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(245, 158, 11, 0.45)',
+              letterSpacing: '-0.01em',
+              lineHeight: 1.15
+            }}>
+              🕊️ Section 2.4: Biodiversity & Conservation 🕊️
+            </h1>
+          </div>
+
           {/* Page 5 Bottom-Left: Previous Page Button */}
           <div style={{
             position: 'absolute',
@@ -3020,22 +3061,23 @@ export default function Chapter2SloganPage({
             </button>
           </div>
 
-          {/* ATTRACTIVE POPUP MESSAGE: SACRED GROVES & CONSERVATION (TRANSPARENT GLASS PANEL POPUP WITH SLIGHT BLUR IN FONT AREA ONLY) */}
+          {/* ATTRACTIVE POPUP MESSAGE: SACRED GROVES */}
           {showPage5Popup && (
             <div
               className="bio-panel-left-enter"
               style={{
                 position: 'absolute',
                 top: '16px',
-                left: '16px',
-                bottom: '16px',
-                width: 'min(420px, 36vw)',
-                maxHeight: 'calc(100vh - 32px)',
+                left: '18px',
+                width: 'min(480px, 42vw)',
+                maxHeight: 'calc(100vh - 36px)',
                 zIndex: 40,
-                background: 'linear-gradient(145deg, rgba(8, 28, 18, 0.22) 0%, rgba(3, 18, 10, 0.16) 100%)',
-                border: '1.5px solid rgba(167, 243, 208, 0.35)',
+                backdropFilter: 'blur(2px)',
+                WebkitBackdropFilter: 'blur(2px)',
+                background: 'transparent',
+                border: '1.8px solid rgba(167, 243, 208, 0.55)',
                 borderRadius: '24px',
-                boxShadow: '0 16px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.20), 0 0 15px rgba(16, 185, 129, 0.10)',
+                boxShadow: '0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 24px rgba(16, 185, 129, 0.20)',
                 boxSizing: 'border-box',
                 display: 'flex',
                 flexDirection: 'column',
@@ -3044,50 +3086,46 @@ export default function Chapter2SloganPage({
                 transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
               }}
             >
-              {/* Top glossy shine removed for transparency */}
-
-              {/* Inner content wrapper with padding - vertically centered */}
+              {/* Inner content wrapper with padding */}
               <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'center',
+                justifyContent: 'space-between',
                 flex: 1,
-                padding: 'clamp(14px, 2.2vh, 26px) clamp(16px, 2.2vw, 26px)',
-                gap: 'clamp(8px, 1.4vh, 14px)',
+                padding: 'clamp(14px, 2vh, 20px) clamp(16px, 2vw, 22px)',
+                gap: 'clamp(8px, 1.2vh, 14px)',
                 position: 'relative',
                 zIndex: 5,
                 overflowY: 'auto',
-                pointerEvents: 'auto'
+                scrollbarWidth: 'thin'
               }}>
-                {/* Top bar: NCERT Badge + Close Button (Font Area Blur) */}
+
+                {/* Top bar: Pill Badge + Close Button */}
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between'
+                  justifyContent: 'space-between',
+                  gap: '12px'
                 }}>
                   <span style={{
-                    background: 'linear-gradient(135deg, rgba(30, 20, 4, 0.62) 0%, rgba(18, 10, 2, 0.52) 100%)',
-                    backdropFilter: 'blur(18px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(18px) saturate(180%)',
-                    color: '#FDE68A',
-                    border: '1.2px solid rgba(251, 191, 36, 0.50)',
+                    background: 'linear-gradient(135deg, rgba(24, 36, 14, 0.70) 0%, rgba(12, 22, 8, 0.60) 100%)',
+                    color: '#A7F3D0',
+                    border: '1.5px solid rgba(110, 231, 183, 0.55)',
                     boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
-                    padding: '6px 16px',
+                    padding: '5px 16px',
                     borderRadius: '22px',
                     fontFamily: '"Outfit", sans-serif',
                     fontWeight: 800,
-                    fontSize: '16px',
-                    letterSpacing: '0.06em',
+                    fontSize: '18px',
+                    letterSpacing: '0.04em',
                     textTransform: 'uppercase',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '7px',
+                    gap: '8px',
                     textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                   }}>
-                    <span style={{ fontSize: '18px' }}>🕊️</span>
-                    <span style={{ color: '#E2E8F0' }}>NCERT CLASS 6</span>
-                    <span style={{ color: '#10B981' }}>•</span>
-                    <span style={{ color: '#FDE68A' }}>CONSERVATION</span>
+                    <span style={{ fontSize: '18px' }}>🦚</span>
+                    <span style={{ color: '#6EE7B7' }}>CONSERVATION</span>
                   </span>
 
                   <button
@@ -3096,10 +3134,8 @@ export default function Chapter2SloganPage({
                     aria-label="Close message and view full scenery"
                     title="View full scenery photo"
                     style={{
-                      background: 'rgba(18, 10, 2, 0.55)',
-                      backdropFilter: 'blur(18px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(18px) saturate(180%)',
-                      border: '1.2px solid rgba(255, 255, 255, 0.25)',
+                      background: 'rgba(12, 22, 8, 0.65)',
+                      border: '1.5px solid rgba(255, 255, 255, 0.30)',
                       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                       borderRadius: '10px',
                       width: '36px',
@@ -3109,16 +3145,17 @@ export default function Chapter2SloganPage({
                       justifyContent: 'center',
                       color: 'rgba(255, 255, 255, 0.95)',
                       cursor: 'pointer',
+                      flexShrink: 0,
                       transition: 'all 0.2s ease'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.45)';
-                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.75)';
+                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.55)';
+                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.85)';
                       e.currentTarget.style.color = '#FFFFFF';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(18, 10, 2, 0.55)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+                      e.currentTarget.style.background = 'rgba(12, 22, 8, 0.65)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.30)';
                       e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
                     }}
                   >
@@ -3126,304 +3163,198 @@ export default function Chapter2SloganPage({
                   </button>
                 </div>
 
-                {/* Lesson Tabs Selector (Font Area Blur, 16px font) */}
-                <div style={{
-                  display: 'flex',
-                  gap: '8px',
-                  flexWrap: 'wrap'
-                }}>
-                  {PAGE_5_LESSONS.map((lesson, idx) => {
-                    const isActive = page5ActiveTab === idx;
-                    return (
-                      <button
-                        key={lesson.id}
-                        type="button"
-                        onClick={() => {
-                          setPage5ActiveTab(idx);
-                          if (isPlayingConservationAudio) {
-                            stopNarration();
-                            setIsPlayingConservationAudio(false);
-                          }
-                        }}
-                        style={{
-                          background: isActive
-                            ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.65) 0%, rgba(217, 119, 6, 0.52) 100%)'
-                            : 'rgba(28, 16, 4, 0.55)',
-                          backdropFilter: 'blur(18px) saturate(180%)',
-                          WebkitBackdropFilter: 'blur(18px) saturate(180%)',
-                          color: isActive ? '#FFFDF0' : '#FDE68A',
-                          border: isActive ? '1.5px solid #FDE68A' : '1.2px solid rgba(251, 191, 36, 0.25)',
-                          borderRadius: '16px',
-                          padding: '6px 14px',
-                          fontSize: '16px',
-                          fontWeight: 800,
-                          fontFamily: '"Outfit", sans-serif',
-                          cursor: 'pointer',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                          transition: 'all 0.2s ease',
-                          boxShadow: isActive ? '0 4px 12px rgba(245, 158, 11, 0.4)' : '0 2px 6px rgba(0, 0, 0, 0.2)',
-                          textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
-                        }}
-                      >
-                        <span style={{ fontSize: '16px' }}>{lesson.icon}</span>
-                        <span>{lesson.shortTab}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* Title Section: Font Area Blur, 24px Title, 16px Subtitle */}
+                {/* Title Section */}
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '5px',
-                  background: 'linear-gradient(135deg, rgba(30, 18, 4, 0.65) 0%, rgba(16, 8, 2, 0.58) 100%)',
-                  backdropFilter: 'blur(20px) saturate(180%)',
-                  WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                  padding: '12px 18px',
-                  borderRadius: '18px',
-                  border: '1.5px solid rgba(251, 191, 36, 0.40)',
-                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.45), inset 0 1px 1.5px rgba(255, 255, 255, 0.25)'
+                  gap: '4px'
                 }}>
-                  <h3 style={{
+                  <h2 style={{
                     fontFamily: '"Outfit", sans-serif',
                     fontWeight: 900,
-                    fontSize: '24px',
+                    fontSize: '20px',
                     margin: 0,
-                    color: '#FFFDF0',
+                    color: '#6EE7B7',
                     lineHeight: 1.25,
-                    letterSpacing: '-0.01em',
-                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.95), 0 0 14px rgba(254, 240, 138, 0.35)'
+                    letterSpacing: '0.02em',
+                    textTransform: 'uppercase',
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 18px rgba(110, 231, 183, 0.55)'
                   }}>
-                    {PAGE_5_LESSONS[page5ActiveTab]?.title}
-                  </h3>
+                    SACRED GROVES
+                  </h2>
+                </div>
+
+                {/* Info Panel: Content Sections */}
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px'
+                }}>
+                  {/* Section 1: Protected by Tradition */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#A7F3D0',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🌳</span>
+                      <span>Protected by Tradition</span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#F8FAFC',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
+                      fontWeight: 500,
+                      lineHeight: 1.55,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      Sacred groves are patches of forest protected by local communities because of their cultural or religious importance.
+                    </div>
+                  </div>
+
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Section 2: A Home for Wildlife */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#67E8F9',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🌿</span>
+                      <span>A Home for Wildlife</span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#F0FDFA',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
+                      fontWeight: 500,
+                      lineHeight: 1.55,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      They shelter native wildlife and help protect valuable medicinal plants.
+                    </div>
+                  </div>
+
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Section 3: Community Conservation */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#FDE68A',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🤝</span>
+                      <span>Community Conservation</span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FFFBEB',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
+                      fontWeight: 500,
+                      lineHeight: 1.55,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      Local rules help prevent tree cutting and harm to animals, keeping these forests safe.
+                    </div>
+                  </div>
+
+                  {/* Callout box: Think */}
                   <div style={{
-                    fontSize: '16px',
-                    color: '#FDE68A',
-                    fontWeight: 700,
-                    fontStyle: 'italic',
-                    fontFamily: '"Outfit", sans-serif',
-                    textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)'
+                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.22) 0%, rgba(5, 150, 105, 0.16) 100%)',
+                    border: '1.5px solid rgba(167, 243, 208, 0.45)',
+                    borderRadius: '14px',
+                    padding: '10px 14px',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '10px'
                   }}>
-                    {page5ActiveTab === 0 ? 'Traditionally Protected Forests (NCERT p.29)' : page5ActiveTab === 1 ? 'Dr. Janaki Ammal & Silent Valley (p.22-23)' : 'Protecting Biodiversity for Future (p.29)'}
+                    <span style={{ fontSize: '18px', lineHeight: 1 }}>💡</span>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FEF08A',
+                      fontWeight: 700,
+                      fontStyle: 'italic',
+                      fontFamily: '"Outfit", sans-serif',
+                      lineHeight: 1.45,
+                      textAlign: 'justify',
+                      textJustify: 'inter-word',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.9)'
+                    }}>
+                      Think: How does protecting a forest help the plants and animals living there?
+                    </div>
                   </div>
                 </div>
 
-                {/* Info Cards - Font Area Blur with Forest Conservation Harmonized Colors */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 'clamp(8px, 1.3vh, 12px)'
-                }}>
-                  {PAGE_5_LESSONS[page5ActiveTab]?.cards?.map((card, idx) => {
-                    const themeIdx = idx % 3;
-                    const cardTheme = themeIdx === 0
-                      ? {
-                          // Sunlit Amber Gold (Sacred Groves & Ancient Canopy)
-                          bg: 'linear-gradient(135deg, rgba(45, 28, 6, 0.68) 0%, rgba(25, 14, 3, 0.58) 100%)',
-                          border: '1.5px solid rgba(251, 191, 36, 0.45)',
-                          borderLeft: '4.5px solid #F59E0B',
-                          titleColor: '#FDE68A',
-                          descColor: '#FFFBEB',
-                          shadowGlow: '0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 0 14px rgba(245, 158, 11, 0.15)'
-                        }
-                      : themeIdx === 1
-                      ? {
-                          // Deep Forest Emerald (Silent Valley & Botanical Heritage)
-                          bg: 'linear-gradient(135deg, rgba(6, 42, 24, 0.68) 0%, rgba(2, 22, 14, 0.58) 100%)',
-                          border: '1.5px solid rgba(52, 211, 153, 0.45)',
-                          borderLeft: '4.5px solid #10B981',
-                          titleColor: '#A7F3D0',
-                          descColor: '#F0FDF4',
-                          shadowGlow: '0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 0 14px rgba(16, 185, 129, 0.15)'
-                        }
-                      : {
-                          // Radiant River Topaz (Biosphere Ecosystems & Clean Waters)
-                          bg: 'linear-gradient(135deg, rgba(6, 36, 45, 0.68) 0%, rgba(2, 20, 26, 0.58) 100%)',
-                          border: '1.5px solid rgba(103, 232, 249, 0.45)',
-                          borderLeft: '4.5px solid #06B6D4',
-                          titleColor: '#67E8F9',
-                          descColor: '#F0FDFA',
-                          shadowGlow: '0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 0 14px rgba(6, 182, 212, 0.15)'
-                        };
-                    return (
-                      <div
-                        key={idx}
-                        style={{
-                          background: cardTheme.bg,
-                          backdropFilter: 'blur(20px) saturate(180%)',
-                          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                          borderRadius: '16px',
-                          padding: 'clamp(9px, 1.3vh, 13px) clamp(13px, 1.6vw, 17px)',
-                          border: cardTheme.border,
-                          borderLeft: cardTheme.borderLeft,
-                          boxShadow: cardTheme.shadowGlow,
-                          transition: 'all 0.25s ease'
-                        }}
-                      >
-                        <div style={{
-                          fontSize: '20px',
-                          fontWeight: 800,
-                          color: cardTheme.titleColor,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          fontFamily: '"Outfit", sans-serif',
-                          textShadow: '0 2px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.5)'
-                        }}>
-                          <span style={{ fontSize: '20px' }}>{card.icon}</span>
-                          <span>{card.title}</span>
-                        </div>
-                        <div style={{
-                          fontSize: '16px',
-                          color: cardTheme.descColor,
-                          textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)',
-                          fontWeight: 500,
-                          marginTop: '4px',
-                          lineHeight: 1.55,
-                          fontFamily: '"Inter", sans-serif'
-                        }}>
-                          {card.desc}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Action Buttons - 16px font size with Crystal Gloss Sheen */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '10px',
-                  paddingTop: 'clamp(4px, 0.8vh, 10px)'
-                }}>
-                  <button
-                    type="button"
-                    onClick={toggleConservationAudio}
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.65) 0%, rgba(217, 119, 6, 0.52) 100%)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
-                      color: '#FFFFFF',
-                      border: '1.2px solid rgba(251, 191, 36, 0.65)',
-                      borderRadius: '28px',
-                      padding: '11px 24px',
-                      fontSize: '16px',
-                      fontWeight: 700,
-                      fontFamily: '"Outfit", sans-serif',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      width: 'fit-content',
-                      boxShadow: '0 4px 18px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.35)',
-                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                      transition: 'all 0.25s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 6px 24px rgba(245, 158, 11, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5)';
-                      e.currentTarget.style.borderColor = 'rgba(251, 191, 36, 0.85)';
-                      e.currentTarget.style.background = 'linear-gradient(135deg, rgba(245, 158, 11, 0.72) 0%, rgba(217, 119, 6, 0.58) 100%)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 4px 18px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.35)';
-                      e.currentTarget.style.borderColor = 'rgba(251, 191, 36, 0.55)';
-                      e.currentTarget.style.background = 'linear-gradient(135deg, rgba(245, 158, 11, 0.65) 0%, rgba(217, 119, 6, 0.52) 100%)';
-                    }}
-                  >
-                    {isPlayingConservationAudio ? <VolumeX size={18} color="#FDE68A" /> : <Volume2 size={18} color="#FDE68A" />}
-                    <span>{isPlayingConservationAudio ? 'Stop Narration' : 'Listen Explanation'}</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setShowPage5Popup(false)}
-                    style={{
-                      background: 'rgba(18, 10, 2, 0.55)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
-                      border: '1.2px solid rgba(255, 255, 255, 0.28)',
-                      borderRadius: '28px',
-                      padding: '11px 22px',
-                      fontSize: '16px',
-                      fontWeight: 700,
-                      color: '#F8FAFC',
-                      fontFamily: '"Outfit", sans-serif',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      width: 'fit-content',
-                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                      transition: 'all 0.25s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(18, 10, 2, 0.55)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.28)';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                    }}
-                  >
-                    <span>View Full Scenery</span>
-                    <ArrowRight size={17} />
-                  </button>
-                </div>
+                {/* Note: Listen Explanation and View Full Scenery buttons removed as requested */}
               </div>
             </div>
           )}
 
-          {/* Re-open Trigger Pill when Popup is Minimized: Transparent Amber */}
+          {/* Left-Side Center Arrow Trigger: Opens Page 5 Popup */}
           {!showPage5Popup && (
             <button
               type="button"
               onClick={() => setShowPage5Popup(true)}
-              className="bio-pill-float"
+              title="Open Sacred Groves Notes"
+              aria-label="Open Sacred Groves Notes"
               style={{
                 position: 'absolute',
-                bottom: '22px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 30,
-                padding: '8px 24px',
-                fontSize: '16px',
-                background: 'linear-gradient(135deg, rgba(255, 253, 245, 0.85) 0%, rgba(254, 248, 226, 0.75) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                color: '#78350F',
-                border: '1.8px solid #D97706',
-                borderRadius: '24px',
-                fontFamily: '"Outfit", sans-serif',
-                fontWeight: 900,
-                boxShadow: '0 4px 18px rgba(0, 0, 0, 0.25), 0 0 14px rgba(245, 158, 11, 0.35)',
-                cursor: 'pointer',
+                left: 0,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                zIndex: 35,
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                transition: 'all 0.25s ease'
+                padding: '12px 18px 12px 14px',
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                color: '#FFFFFF',
+                border: '2px solid #FDE68A',
+                borderLeft: 'none',
+                borderRadius: '0 20px 20px 0',
+                boxShadow: '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)',
+                cursor: 'pointer',
+                fontFamily: '"Outfit", sans-serif',
+                fontWeight: 900,
+                fontSize: '15px',
+                transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 253, 245, 0.96) 0%, rgba(254, 248, 230, 0.90) 100%)';
-                e.currentTarget.style.borderColor = '#B45309';
-                e.currentTarget.style.transform = 'translateX(-50%) translateY(-2px) scale(1.02)';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
+                e.currentTarget.style.boxShadow = '0 8px 30px rgba(217, 119, 6, 0.75), 0 2px 12px rgba(0, 0, 0, 0.5)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 253, 245, 0.85) 0%, rgba(254, 248, 230, 0.75) 100%)';
-                e.currentTarget.style.borderColor = '#D97706';
-                e.currentTarget.style.transform = 'translateX(-50%) translateY(0) scale(1)';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                e.currentTarget.style.boxShadow = '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)';
               }}
             >
-              <Sparkles size={16} color="#D97706" />
-              <span>🕊️ 04 · Sacred Groves & Conservation</span>
-              <span style={{ opacity: 0.85, fontSize: '16px', fontWeight: 650, color: '#B45309' }}>(Tap to read notes)</span>
+              <BookOpen size={18} color="#FFFFFF" strokeWidth={2.5} />
+              <span>Notes</span>
+              <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
             </button>
           )}
         </>

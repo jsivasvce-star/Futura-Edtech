@@ -100,15 +100,15 @@ export default function Questions({ onComplete, onNext }) {
 
   if (isFinished) {
     return (
-      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: '#FFFFFF' }}>
+      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: 'transparent' }}>
         <div style={{ 
           maxWidth: '520px', 
           width: '90%', 
           padding: '2.5rem 3rem', 
           textAlign: 'center', 
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
           borderRadius: '30px', 
-          border: '1.5px solid #FDE68A',
+          border: '1.5px solid #E2E8F0',
           boxShadow: '0 15px 40px rgba(217, 119, 6, 0.12)',
           display: 'flex',
           flexDirection: 'column',
@@ -154,7 +154,7 @@ export default function Questions({ onComplete, onNext }) {
       padding: '0.5rem', 
       overflow: 'hidden',
       boxSizing: 'border-box',
-      backgroundColor: '#FFFFFF'
+      backgroundColor: 'transparent'
     }}>
       <div style={{ width: '100%', maxWidth: '1250px', display: 'flex', flexDirection: 'column' }}>
         {/* Top Bar */}
@@ -167,8 +167,8 @@ export default function Questions({ onComplete, onNext }) {
 
         {/* Main Quiz Card */}
         <div className="glass-panel" style={{ 
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
-          border: '1.5px solid #FDE68A',
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
+          border: '1.5px solid #E2E8F0',
           borderRadius: '28px', 
           padding: '2.4rem 3.2rem', 
           boxShadow: '0 8px 30px rgba(217, 119, 6, 0.08)',
@@ -195,7 +195,7 @@ export default function Questions({ onComplete, onNext }) {
               const isCorrect = option === q.correctAnswer;
 
               let bgColor = '#FFFFFF';
-              let borderColor = '#FDE68A';
+              let borderColor = '#E2E8F0';
               let textColor = '#064E3B';
               let icon = null;
 
@@ -212,9 +212,9 @@ export default function Questions({ onComplete, onNext }) {
                   icon = <XCircle size={26} color="#EF4444" />;
                 }
               } else if (isSelected) {
-                borderColor = '#D97706';
-                bgColor = '#FEF3C7';
-                textColor = '#92400E';
+                borderColor = '#173B5F';
+                bgColor = '#EAF2F6';
+                textColor = '#173B5F';
               }
 
               return (
@@ -251,7 +251,7 @@ export default function Questions({ onComplete, onNext }) {
           {/* Explanation & Next Question Button */}
           {showFeedback && (
             <div style={{ marginTop: '0.6rem', animation: 'fadeIn 0.35s ease' }}>
-              <div style={{ padding: '1.1rem 1.6rem', background: '#FFFFFF', borderRadius: '18px', border: '1.5px solid #FDE68A', borderLeft: '6px solid #D97706' }}>
+              <div style={{ padding: '1.1rem 1.6rem', background: '#FFFFFF', borderRadius: '18px', border: '1.5px solid #E2E8F0', borderLeft: '6px solid #173B5F' }}>
                 <h4 style={{ margin: '0 0 0.35rem 0', fontSize: '1.2rem', fontWeight: 900, color: '#064E3B' }}>Explanation</h4>
                 <p style={{ margin: 0, color: '#065F46', fontSize: '1.18rem', lineHeight: '1.55', fontWeight: 600 }}>{q.explanation}</p>
               </div>

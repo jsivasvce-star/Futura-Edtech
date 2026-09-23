@@ -30,9 +30,9 @@ export default function PencilsShape({
         <defs>
           {/* Pencil Wooden Body Gradient */}
           <linearGradient id="pencilWood" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#fef08a" />
-            <stop offset="25%" stopColor="#eab308" />
-            <stop offset="70%" stopColor="#ca8a04" />
+            <stop offset="0%" stopColor="#EAF2F6" />
+            <stop offset="25%" stopColor="#214A70" />
+            <stop offset="70%" stopColor="#173B5F" />
             <stop offset="100%" stopColor="#854d0e" />
           </linearGradient>
 
@@ -52,8 +52,8 @@ export default function PencilsShape({
 
           {/* Sharpened Wood Tip */}
           <linearGradient id="pencilTipWood" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#fde047" />
-            <stop offset="100%" stopColor="#d97706" />
+            <stop offset="0%" stopColor="#E2E8F0" />
+            <stop offset="100%" stopColor="#173B5F" />
           </linearGradient>
 
           {/* Graphite Lead */}
@@ -80,11 +80,11 @@ export default function PencilsShape({
             {/* Yellow Hexagonal Hex Body */}
             <rect x="4" y="25" width="18" height="60" fill="url(#pencilWood)" stroke="#a16207" strokeWidth="0.5" />
             {/* Longitudinal Facet Highlight Lines */}
-            <line x1="10" y1="25" x2="10" y2="85" stroke="#fef08a" strokeWidth="1" opacity="0.6" />
+            <line x1="10" y1="25" x2="10" y2="85" stroke="#EAF2F6" strokeWidth="1" opacity="0.6" />
             <line x1="16" y1="25" x2="16" y2="85" stroke="#a16207" strokeWidth="1" opacity="0.5" />
 
             {/* Sharpened Cone Tip */}
-            <polygon points="4,85 22,85 13,98" fill="url(#pencilTipWood)" stroke="#b45309" strokeWidth="0.5" />
+            <polygon points="4,85 22,85 13,98" fill="url(#pencilTipWood)" stroke="#173B5F" strokeWidth="0.5" />
 
             {/* Graphite Point */}
             <polygon points="10,93.5 16,93.5 13,98" fill="url(#pencilGraphite)" />

@@ -4,6 +4,49 @@ import { Compass, ArrowRight, Sunrise, Sunset, Navigation, CheckCircle2, ArrowLe
 import ChapterBackFooter from '../ChapterBackFooter';
 import { ScrollableWithNav } from '../ContentScrollNav';
 import ExploreIndiaActivity from '../LostInTheCity/ExploreIndiaActivity';
+import page24Audio from '../audio/page24.mp3?url';
+import page25Audio from '../audio/page25.mp3?url';
+import seAudio from '../audio/se.mp3?url';
+import neAudio from '../audio/ne.mp3?url';
+import eastAudio from '../audio/east.mp3?url';
+import southAudio from '../audio/south.mp3?url';
+import swAudio from '../audio/sw.mp3?url';
+import westAudio from '../audio/west.mp3?url';
+import nwAudio from '../audio/nw.mp3?url';
+import { NE_TRANSCRIPT } from './NETranscript';
+import { EAST_TRANSCRIPT } from './EastTranscript';
+import { SE_TRANSCRIPT } from './SETranscript';
+import { SOUTH_TRANSCRIPT } from './SouthTranscript';
+import { SW_TRANSCRIPT } from './SWTranscript';
+import { WEST_TRANSCRIPT } from './WestTranscript';
+import { NW_TRANSCRIPT } from './NWTranscript';
+import { PAGE24_TRANSCRIPT } from './Page24Transcript';
+import { PAGE25_TRANSCRIPT } from './Page25Transcript';
+
+const WordRenderer = ({ text, idPrefix, defaultColor, highlightColor, activeWordId }) => {
+  const words = text.trim().split(/\s+/);
+  return (
+    <>
+      {words.map((word, index) => {
+        const wordId = `${idPrefix}-${index + 1}`;
+        const isActive = activeWordId === wordId;
+        return (
+          <span
+            key={wordId}
+            style={{
+              color: isActive ? highlightColor : defaultColor,
+              transition: 'color 0.2s ease',
+              display: 'inline-block',
+              marginRight: '0.25em'
+            }}
+          >
+            {word}
+          </span>
+        );
+      })}
+    </>
+  );
+};
 
 const DIRECTIONS = [
   { 
@@ -98,6 +141,71 @@ export default function Directions({ onComplete, onBack }) {
   const [pulseCompass, setPulseCompass] = useState(false);
   const [answers, setAnswers] = useState({});
 
+  const [activeWordId, setActiveWordId] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+
+  // Stop audio when navigating away from text screen or unmounting
+  React.useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    setIsPlaying(false);
+    setActiveWordId(null);
+  }, [currentScreen, activeDir]);
+
+  React.useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
+  }, []);
+
+  const handleTimeUpdate = () => {
+    if (!audioRef.current) return;
+    const currentTime = audioRef.current.currentTime;
+    let foundWordId = null;
+    let transcript = PAGE24_TRANSCRIPT;
+    if (currentScreen === 'compass') {
+      if (activeDir === 'N') transcript = PAGE25_TRANSCRIPT;
+      else if (activeDir === 'NE') transcript = NE_TRANSCRIPT;
+      else if (activeDir === 'E') transcript = EAST_TRANSCRIPT;
+      else if (activeDir === 'SE') transcript = SE_TRANSCRIPT;
+      else if (activeDir === 'S') transcript = SOUTH_TRANSCRIPT;
+      else if (activeDir === 'SW') transcript = SW_TRANSCRIPT;
+      else if (activeDir === 'W') transcript = WEST_TRANSCRIPT;
+      else if (activeDir === 'NW') transcript = NW_TRANSCRIPT;
+    }
+    
+    for (const word of transcript) {
+      if (currentTime >= word.start && currentTime <= word.end) {
+        if (word.matchType === 'matched') {
+          foundWordId = word.pageWordId;
+        }
+        break;
+      }
+    }
+    setActiveWordId(foundWordId);
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordId(null);
+  };
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.error("Audio play failed:", e));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
   const isAllViewed = viewedDirs.size === 8;
 
   const handleDirClick = (id) => {
@@ -129,6 +237,12 @@ export default function Directions({ onComplete, onBack }) {
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+      <audio
+        ref={audioRef}
+        src={currentScreen === 'compass' ? (activeDir === 'N' ? page25Audio : activeDir === 'NE' ? neAudio : activeDir === 'E' ? eastAudio : activeDir === 'SE' ? seAudio : activeDir === 'S' ? southAudio : activeDir === 'SW' ? swAudio : activeDir === 'W' ? westAudio : activeDir === 'NW' ? nwAudio : page24Audio) : page24Audio}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
       
       {/* If India Map Activity is active */}
       <div style={{ position: 'absolute', inset: 0, opacity: activeTab === 'india-map' ? 1 : 0, pointerEvents: activeTab === 'india-map' ? 'auto' : 'none', zIndex: activeTab === 'india-map' ? 10 : 1, transition: 'opacity 0.2s ease', display: 'flex', flexDirection: 'column', minHeight: 0, background: 'linear-gradient(160deg, #F7F1E2 0%, #EFE6D2 100%)', borderRadius: '16px', border: '2px solid #F2DFBC', boxShadow: '0 8px 30px rgba(60,40,20,0.06)', overflow: 'hidden' }}>
@@ -145,7 +259,7 @@ export default function Directions({ onComplete, onBack }) {
       
       {/* Top Bar (Only shown on compass to provide Back to Reading) */}
       {currentScreen === 'compass' && (
-        <div style={{ padding: '0.6rem 1.25rem', borderBottom: '1.5px solid #F2DFBC', background: '#FFF9F0', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', flexShrink: 0 }}>
+        <div style={{ padding: '0.6rem 1.25rem', borderBottom: '1.5px solid #F2DFBC', background: '#FFF9F0', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', flexShrink: 0, gap: '12px' }}>
           <button 
             onClick={() => {
               setCurrentScreen('text');
@@ -182,39 +296,59 @@ export default function Directions({ onComplete, onBack }) {
                         <div style={{ background: '#FFFFFF', borderRadius: '16px', padding: '20px 24px', border: '1.5px solid #F2DFBC', boxShadow: '0 4px 12px rgba(60,40,20,0.04)' }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px' }}>
                             <span style={{ background: '#FEF3C7', color: '#92400E', padding: '4px 12px', borderRadius: '8px', border: '1px solid #FDE68A', display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '15px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                              <Compass size={16} color="#D97706" /> Finding Directions
+                              <Compass size={16} color="#D97706" /> <WordRenderer text="Finding directions." idPrefix="intro-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
                             </span>
                           </div>
                           <p style={{ color: '#3D2E24', fontSize: '17.5px', lineHeight: 1.5, margin: 0, fontWeight: 600 }}>
-                            Maps have <b>three main parts</b>: Directions, Distance, and Symbols. Directions help us find where places are.
+                            <WordRenderer text="Maps have three main parts – directions, distance, and symbols." idPrefix="intro-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                            <br/><br/>
+                            <WordRenderer text="Directions help us find where places are." idPrefix="intro-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
                           </p>
                         </div>
 
                         {/* Section 2 - The Four Cardinal Directions & Sun */}
                         <div style={{ background: '#FFFFFF', borderRadius: '16px', padding: '20px 24px', border: '1.5px solid #F2DFBC', boxShadow: '0 4px 12px rgba(60,40,20,0.04)' }}>
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                            <h3 style={{ color: '#78350F', fontSize: '23px', margin: 0, fontWeight: 900, fontFamily: '"Fraunces", serif' }}>Main Directions</h3>
+                            <h3 style={{ color: '#78350F', fontSize: '23px', margin: 0, fontWeight: 900, fontFamily: '"Fraunces", serif' }}>
+                              <WordRenderer text="Main directions." idPrefix="main-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                            </h3>
                           </div>
                           
                           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
                             <div style={{ background: '#FEF2F2', border: '1.5px solid #FECACA', padding: '12px', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', fontFamily: '"Space Grotesk", sans-serif' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#DC2626', fontWeight: 900, fontSize: '17px' }}><ArrowUp size={16} strokeWidth={3} /> NORTH</div>
-                              <div style={{ fontSize: '13.5px', color: '#991B1B', marginTop: '6px', fontWeight: 700 }}>Map: Top</div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#DC2626', fontWeight: 900, fontSize: '17px' }}>
+                                <ArrowUp size={16} strokeWidth={3} /> <WordRenderer text="north," idPrefix="north" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                              </div>
+                              <div style={{ fontSize: '13.5px', color: '#991B1B', marginTop: '6px', fontWeight: 700 }}>
+                                <WordRenderer text="Map: top," idPrefix="north-map" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                              </div>
                             </div>
 
                             <div style={{ background: '#FEF3C7', border: '1.5px solid #FDE68A', padding: '12px', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', fontFamily: '"Space Grotesk", sans-serif' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#D97706', fontWeight: 900, fontSize: '17px' }}><ArrowRight size={16} strokeWidth={3} /> EAST</div>
-                              <div style={{ fontSize: '13.5px', color: '#92400E', marginTop: '6px', fontWeight: 700 }}>Map: Right</div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#D97706', fontWeight: 900, fontSize: '17px' }}>
+                                <ArrowRight size={16} strokeWidth={3} /> <WordRenderer text="east," idPrefix="east" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                              </div>
+                              <div style={{ fontSize: '13.5px', color: '#92400E', marginTop: '6px', fontWeight: 700 }}>
+                                <WordRenderer text="Map: right," idPrefix="east-map" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                              </div>
                             </div>
 
                             <div style={{ background: '#EFF6FF', border: '1.5px solid #BFDBFE', padding: '12px', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', fontFamily: '"Space Grotesk", sans-serif' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#2563EB', fontWeight: 900, fontSize: '17px' }}><ArrowDown size={16} strokeWidth={3} /> SOUTH</div>
-                              <div style={{ fontSize: '13.5px', color: '#1E40AF', marginTop: '6px', fontWeight: 700 }}>Map: Bottom</div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#2563EB', fontWeight: 900, fontSize: '17px' }}>
+                                <ArrowDown size={16} strokeWidth={3} /> <WordRenderer text="south" idPrefix="south" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                              </div>
+                              <div style={{ fontSize: '13.5px', color: '#1E40AF', marginTop: '6px', fontWeight: 700 }}>
+                                <WordRenderer text="Map: bottom" idPrefix="south-map" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                              </div>
                             </div>
 
                             <div style={{ background: '#FAF5FF', border: '1.5px solid #E9D5FF', padding: '12px', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', fontFamily: '"Space Grotesk", sans-serif' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#7C3AED', fontWeight: 900, fontSize: '17px' }}><ArrowLeft size={16} strokeWidth={3} /> WEST</div>
-                              <div style={{ fontSize: '13.5px', color: '#5B21B6', marginTop: '6px', fontWeight: 700 }}>Map: Left</div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#7C3AED', fontWeight: 900, fontSize: '17px' }}>
+                                <ArrowLeft size={16} strokeWidth={3} /> <WordRenderer text="west." idPrefix="west" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                              </div>
+                              <div style={{ fontSize: '13.5px', color: '#5B21B6', marginTop: '6px', fontWeight: 700 }}>
+                                <WordRenderer text="Map: left." idPrefix="west-map" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -222,26 +356,31 @@ export default function Directions({ onComplete, onBack }) {
                         {/* Section 3 - Intermediate Directions */}
                         <div style={{ background: '#FFFFFF', borderRadius: '16px', padding: '20px 24px', border: '1.5px solid #F2DFBC', boxShadow: '0 4px 12px rgba(60,40,20,0.04)' }}>
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-                            <h3 style={{ color: '#78350F', fontSize: '23px', margin: 0, fontWeight: 900, fontFamily: '"Fraunces", serif' }}>In-Between Directions</h3>
-                            <span style={{ fontSize: '14px', color: '#92400E', fontWeight: 700 }}>Halfway points</span>
+                            <h3 style={{ color: '#78350F', fontSize: '23px', margin: 0, fontWeight: 900, fontFamily: '"Fraunces", serif' }}>
+                              <WordRenderer text="In between directions." idPrefix="inbetween-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                            </h3>
                           </div>
                           <p style={{ color: '#3D2E24', margin: '0 0 14px 0', fontSize: '17.5px', fontWeight: 600, lineHeight: 1.4 }}>
-                            These directions help us find places exactly. They are halfway between the main directions.
+                            <WordRenderer text="They help us describe the position of a place more exactly." idPrefix="inbetween-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                            {' '}
+                            <WordRenderer text="There are also directions between the main directions." idPrefix="inbetween-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
                           </p>
                           
                           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
                             {[
-                              { id: 'NE', name: 'North-East', desc: 'Between N & E' },
-                              { id: 'SE', name: 'South-East', desc: 'Between S & E' },
-                              { id: 'SW', name: 'South-West', desc: 'Between S & W' },
-                              { id: 'NW', name: 'North-West', desc: 'Between N & W' },
+                              { id: 'NE', name: 'north -east,' },
+                              { id: 'SE', name: 'south -east,' },
+                              { id: 'SW', name: 'south -west' },
+                              { id: 'NW', name: 'north -west.' },
                             ].map(item => (
                               <div
                                 key={item.id}
                                 style={{ background: '#FFF9F0', border: '1.5px solid #F2DFBC', borderRadius: '10px', padding: '12px 6px', textAlign: 'center', fontFamily: '"Space Grotesk", sans-serif' }}
                               >
                                 <div style={{ fontSize: '20px', fontWeight: 900, color: '#78350F' }}>{item.id}</div>
-                                <div style={{ fontSize: '13.5px', color: '#92400E', marginTop: '4px', fontWeight: 700 }}>{item.name}</div>
+                                <div style={{ fontSize: '13.5px', color: '#92400E', marginTop: '4px', fontWeight: 700 }}>
+                                  <WordRenderer text={item.name} idPrefix={`${item.id}-name`} activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                                </div>
                               </div>
                             ))}
                           </div>
@@ -262,31 +401,31 @@ export default function Directions({ onComplete, onBack }) {
                     </span>
                   </div>
                   <h3 style={{ margin: '0 0 14px 0', color: '#78350F', fontSize: '24px', fontWeight: 900, fontFamily: '"Fraunces", serif' }}>
-                    What is the <span style={{ background: '#FEF3C7', color: '#92400E', padding: '4px 10px', borderRadius: '8px', border: '1px solid #FDE68A' }}>North Line (N)</span>?
+                    <WordRenderer text="What is the" idPrefix="northline-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" /> <span style={{ background: '#FEF3C7', color: '#92400E', padding: '4px 10px', borderRadius: '8px', border: '1px solid #FDE68A' }}><WordRenderer text="north line?" idPrefix="northline-n" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" /></span>
                   </h3>
                   <p style={{ color: '#3D2E24', fontSize: '18px', lineHeight: 1.6, margin: '0 0 20px 0', fontWeight: 600 }}>
-                    Maps usually show an arrow with <b>'N'</b> at the top right. This is the <b>North Line</b>. Finding North helps you find all other directions easily.
+                    <WordRenderer text="Maps usually show an arrow with an N at the top right. This is the north line. Finding north helps us find all the other directions easily." idPrefix="northline-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
                   </p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#FFF9F0', border: '1px dashed #F2DFBC', padding: '14px 18px', borderRadius: '12px', fontSize: '17px', color: '#78350F', fontWeight: 700 }}>
                     <span style={{ fontSize: '22px' }}>📍</span>
-                    <span>Remember: <b>North is at the top of every standard map</b>.</span>
+                    <span><WordRenderer text="Remember, north is at the top of every standard map." idPrefix="rem" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" /></span>
                   </div>
                 </div>
 
                 {/* Section 2 - The Magnetic Compass Fact & Science */}
                 <div style={{ background: '#FFF9F0', borderRadius: '16px', padding: '24px 32px', border: '1.5px solid #F2DFBC', boxShadow: '0 4px 12px rgba(60,40,20,0.04)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#92400E', fontSize: '15.5px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '18px' }}>
-                    <Lightbulb size={18} color="#D97706" /> How Does a Compass Work?
+                    <Lightbulb size={18} color="#D97706" /> <WordRenderer text="How does a compass work?" idPrefix="compass-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
                   </div>
                   <p style={{ color: '#3D2E24', margin: '0 0 20px 0', fontSize: '18px', lineHeight: 1.6, fontWeight: 600 }}>
-                    A <b>compass</b> is a tool used to find directions. Its needle <b>always points North-South</b> because Earth acts like a giant magnet.
+                    <WordRenderer text="A compass is a tool used to find directions. Its needle always points north -south because the earth acts like a giant magnet." idPrefix="compass-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
                   </p>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                     <div style={{ background: '#FFFFFF', border: '1px solid #F2DFBC', padding: '14px 18px', borderRadius: '12px', fontSize: '16px', color: '#92400E', fontWeight: 700 }}>
-                      🧲 <b>Red Tip</b>: Points to Magnetic North
+                      🧲 <b><WordRenderer text="red tip points to magnetic north" idPrefix="red" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" /></b>
                     </div>
                     <div style={{ background: '#FFFFFF', border: '1px solid #F2DFBC', padding: '14px 18px', borderRadius: '12px', fontSize: '16px', color: '#1E40AF', fontWeight: 700 }}>
-                      ⚪ <b>Silver Tip</b>: Points to South
+                      ⚪ <b><WordRenderer text="silver tip points to south." idPrefix="silver" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" /></b>
                     </div>
                   </div>
                 </div>
@@ -305,22 +444,39 @@ export default function Directions({ onComplete, onBack }) {
                 >
                   <ArrowLeft size={18} /> Previous
                 </button>
-                <button
-                  onClick={() => {
-                    setCurrentScreen('compass');
-                    setActiveDir('N');
-                    handleDirClick('N');
-                    setPulseCompass(true);
-                  }}
-                  style={{
-                    fontFamily: '"Space Grotesk", sans-serif', fontWeight: 800, fontSize: '15px',
-                    background: '#D97706', color: '#FFFFFF', border: 'none', borderRadius: '999px',
-                    padding: '10px 24px', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px',
-                    boxShadow: '0 4px 12px rgba(217,119,6,0.25)'
-                  }}
-                >
-                  Explore Compass <Compass size={18} />
-                </button>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <button
+                    onClick={toggleAudio}
+                    style={{
+                      padding: '10px 20px', borderRadius: '999px', border: '1px solid #FDE68A',
+                      background: '#FEF3C7', color: '#92400E', fontSize: '15px', fontWeight: 800,
+                      cursor: 'pointer', transition: 'all 0.2s ease', display: 'flex', alignItems: 'center', gap: '8px',
+                      fontFamily: '"Space Grotesk", sans-serif'
+                    }}
+                  >
+                    {isPlaying ? (
+                      <><span style={{ width: 14, height: 14, background: '#D97706', borderRadius: '2px' }} /> Pause</>
+                    ) : (
+                      <><svg width="14" height="14" viewBox="0 0 24 24" fill="#D97706"><path d="M5 3l14 9-14 9V3z" /></svg> Play</>
+                    )}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setCurrentScreen('compass');
+                      setActiveDir('N');
+                      handleDirClick('N');
+                      setPulseCompass(true);
+                    }}
+                    style={{
+                      fontFamily: '"Space Grotesk", sans-serif', fontWeight: 800, fontSize: '15px',
+                      background: '#D97706', color: '#FFFFFF', border: 'none', borderRadius: '999px',
+                      padding: '10px 24px', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px',
+                      boxShadow: '0 4px 12px rgba(217,119,6,0.25)'
+                    }}
+                  >
+                    <WordRenderer text="Explore Compass" idPrefix="btn" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" /> <Compass size={18} />
+                  </button>
+                </div>
               </div>
 
             </div>
@@ -350,7 +506,25 @@ export default function Directions({ onComplete, onBack }) {
                       </div>
                       <div>
                         <h2 style={{ fontSize: '1.85rem', margin: 0, color: '#78350F', lineHeight: 1.15, fontFamily: '"Fraunces", serif', fontWeight: 900 }}>
-                          {getActiveInfo()?.label}
+                          {activeDir === 'N' ? (
+                            <WordRenderer text={getActiveInfo()?.label} idPrefix="N-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                          ) : activeDir === 'NE' ? (
+                            <WordRenderer text={getActiveInfo()?.label} idPrefix="NE-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                          ) : activeDir === 'E' ? (
+                            <WordRenderer text={getActiveInfo()?.label} idPrefix="E-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                          ) : activeDir === 'SE' ? (
+                            <WordRenderer text={getActiveInfo()?.label} idPrefix="SE-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                          ) : activeDir === 'S' ? (
+                            <WordRenderer text={getActiveInfo()?.label} idPrefix="S-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                          ) : activeDir === 'SW' ? (
+                            <WordRenderer text={getActiveInfo()?.label} idPrefix="SW-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                          ) : activeDir === 'W' ? (
+                            <WordRenderer text={getActiveInfo()?.label} idPrefix="W-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                          ) : activeDir === 'NW' ? (
+                            <WordRenderer text={getActiveInfo()?.label} idPrefix="NW-title" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                          ) : (
+                            getActiveInfo()?.label
+                          )}
                         </h2>
                         <div style={{ fontSize: '15px', color: '#92400E', fontWeight: 700, marginTop: '5px' }}>
                           {getActiveInfo()?.type} • Bearing: {getActiveInfo()?.angle}°
@@ -361,7 +535,25 @@ export default function Directions({ onComplete, onBack }) {
                     {/* Direction Explanation */}
                     <div style={{ background: '#FFFFFF', padding: '16px 20px', borderRadius: '16px', border: '1.5px solid #F2DFBC' }}>
                       <p style={{ color: '#3D2E24', fontSize: '16.5px', lineHeight: 1.6, margin: 0, fontWeight: 600 }}>
-                        {getActiveInfo()?.description}
+                        {activeDir === 'N' ? (
+                          <WordRenderer text="North is one of the four main directions. On a compass, it is at the top. Most maps have a small arrow marked 'N' (the North Line) that points North." idPrefix="N-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                        ) : activeDir === 'NE' ? (
+                          <WordRenderer text="North-East is an intermediate direction. It is exactly halfway between North and East." idPrefix="NE-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                        ) : activeDir === 'E' ? (
+                          <WordRenderer text="East is a main direction, to the right of North. The Sun rises in the East every morning." idPrefix="E-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                        ) : activeDir === 'SE' ? (
+                          <WordRenderer text="South-East is an intermediate direction. It is located halfway between South and East." idPrefix="SE-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                        ) : activeDir === 'S' ? (
+                          <WordRenderer text="South is a main direction. It is directly opposite North, at the bottom of the compass." idPrefix="S-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                        ) : activeDir === 'SW' ? (
+                          <WordRenderer text="South-West is an intermediate direction. It is located halfway between South and West." idPrefix="SW-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                        ) : activeDir === 'W' ? (
+                          <WordRenderer text="West is a main direction, to the left of North. The Sun sets in the West every evening." idPrefix="W-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                        ) : activeDir === 'NW' ? (
+                          <WordRenderer text="North-West is an intermediate direction. It is located halfway between North and West." idPrefix="NW-desc" activeWordId={activeWordId} defaultColor="inherit" highlightColor="#451a03" />
+                        ) : (
+                          getActiveInfo()?.description
+                        )}
                       </p>
                     </div>
 
@@ -549,26 +741,45 @@ export default function Directions({ onComplete, onBack }) {
                   >
                     <ArrowLeft size={18} /> Previous
                   </button>
-                  <button
-                    onClick={() => {
-                      if (activeDir === 'NW') {
-                        setActiveTab('india-map');
-                        return;
-                      }
-                      const currentIndex = DIRECTIONS.findIndex(d => d.id === activeDir);
-                      const nextIndex = (currentIndex + 1) % DIRECTIONS.length;
-                      handleDirClick(DIRECTIONS[nextIndex].id);
-                    }}
-                    style={{
-                      fontFamily: '"Space Grotesk", sans-serif', fontWeight: 800, fontSize: '15px',
-                      background: '#D97706', color: '#FFFFFF', border: 'none',
-                      borderRadius: '999px', padding: '10px 24px', cursor: 'pointer',
-                      transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px',
-                      boxShadow: '0 4px 12px rgba(217,119,6,0.25)'
-                    }}
-                  >
-                    {activeDir === 'NW' ? 'Next Activity' : 'Next'} <ArrowRight size={18} />
-                  </button>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    {(['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'].includes(activeDir)) && (
+                      <button
+                        onClick={toggleAudio}
+                        style={{
+                          padding: '10px 20px', borderRadius: '999px', border: '1px solid #FDE68A',
+                          background: '#FEF3C7', color: '#92400E', fontSize: '15px', fontWeight: 800,
+                          cursor: 'pointer', transition: 'all 0.2s ease', display: 'flex', alignItems: 'center', gap: '8px',
+                          fontFamily: '"Space Grotesk", sans-serif'
+                        }}
+                      >
+                        {isPlaying ? (
+                          <><span style={{ width: 14, height: 14, background: '#D97706', borderRadius: '2px' }} /> Pause</>
+                        ) : (
+                          <><svg width="14" height="14" viewBox="0 0 24 24" fill="#D97706"><path d="M5 3l14 9-14 9V3z" /></svg> Play</>
+                        )}
+                      </button>
+                    )}
+                    <button
+                      onClick={() => {
+                        if (activeDir === 'NW') {
+                          setActiveTab('india-map');
+                          return;
+                        }
+                        const currentIndex = DIRECTIONS.findIndex(d => d.id === activeDir);
+                        const nextIndex = (currentIndex + 1) % DIRECTIONS.length;
+                        handleDirClick(DIRECTIONS[nextIndex].id);
+                      }}
+                      style={{
+                        fontFamily: '"Space Grotesk", sans-serif', fontWeight: 800, fontSize: '15px',
+                        background: '#D97706', color: '#FFFFFF', border: 'none',
+                        borderRadius: '999px', padding: '10px 24px', cursor: 'pointer',
+                        transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px',
+                        boxShadow: '0 4px 12px rgba(217,119,6,0.25)'
+                      }}
+                    >
+                      {activeDir === 'NW' ? 'Next Activity' : 'Next'} <ArrowRight size={18} />
+                    </button>
+                  </div>
                 </div>
               )}
             </motion.div>

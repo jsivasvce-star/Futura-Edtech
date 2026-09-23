@@ -1603,3 +1603,10 @@ body.focus-mode-active:has(.focus-trigger-top:hover) .lab-internal-header {
 .pulse-ring-element {
   animation: ring-blink-svg 1.2s infinite ease-in-out !important;
 }
+/* Global Background for Physics Chapter 4 */
+body.physics-chapter4-bg {
+  background-image: url('./assets/Backgroundphy.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}

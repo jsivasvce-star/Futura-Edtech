@@ -1,6 +1,19 @@
+// Class 6 Science Chapter 2 Interactive Slogan & Exploration Page
 import React, { useState, useEffect, useRef } from 'react';
-import { Volume2, VolumeX, Maximize2, Minimize2, ArrowRight, ArrowLeft, X, Sparkles, Eye } from 'lucide-react';
+import { Volume2, VolumeX, Maximize2, Minimize2, ArrowRight, ArrowLeft, X, Sparkles, Eye, BookOpen, ChevronRight, Play, Pause } from 'lucide-react';
 import { speakNaturalIndianMale, stopNarration } from '../../../../services/elevenLabsService';
+import useWordSyncAudio from './narration/useWordSyncAudio';
+import sloganNarrationData from './narration/sloganPageNarration.json';
+import bioNarrationAudio from './narration/audio/03_HabitatsAndTheBiosphere.mp3';
+import habitatsNarrationData from './narration/habitatsNarration.json';
+import shlokaNarrationData from './narration/shlokaNarration.json';
+import shlokaNarrationAudio from './narration/audio/02_Shloka.mp3';
+import desertNarrationAudio from './narration/audio/04_DesertAdaptations.mp3';
+import botanyNarrationAudio from './narration/audio/05_HerbsShrubsTreesClimbers.mp3';
+import botanyNarrationData from './narration/botanyNarration.json';
+import conservationNarrationAudio from './narration/audio/06_SacredGroves.mp3';
+import conservationNarrationData from './narration/conservationNarration.json';
+import desertNarrationData from './narration/desertNarration.json';
 
 // Cinematic Real Living Nature Photograph (National Geographic Sanctuary)
 import cinematicLivingNatureImage from './DiversityInTheLivingWorldNew/images/ch2_cinematic_living_nature.jpg';
@@ -17,6 +30,47 @@ import botanyImage from './DiversityInTheLivingWorldNew/images/ch2_plant_detecti
 import conservationImage from './DiversityInTheLivingWorldNew/images/ch2_sacred_grove.jpg';
 
 const TOTAL_PAGES = 5;
+
+// Real-time word highlight wrapper for popup text
+const BioWord = ({ children, index, activeIndex, isPlaying, color = 'emerald' }) => {
+  const isActive = isPlaying && (Array.isArray(index) ? index.includes(activeIndex) : activeIndex === index);
+  const isAmber = color === 'amber';
+  const isCyan = color === 'cyan';
+  const highlightBg = isAmber
+    ? 'rgba(245, 158, 11, 0.50)'
+    : isCyan
+    ? 'rgba(6, 182, 212, 0.50)'
+    : 'rgba(16, 185, 129, 0.50)';
+  const highlightShadow = isAmber
+    ? '0 0 16px rgba(245, 158, 11, 0.95), inset 0 0 8px rgba(255, 255, 255, 0.6)'
+    : isCyan
+    ? '0 0 16px rgba(34, 211, 238, 0.95), inset 0 0 8px rgba(255, 255, 255, 0.6)'
+    : '0 0 16px rgba(52, 211, 153, 0.95), inset 0 0 8px rgba(255, 255, 255, 0.6)';
+  const highlightTextShadow = isAmber
+    ? '0 0 12px rgba(245, 158, 11, 0.95), 0 2px 4px rgba(0, 0, 0, 0.9)'
+    : isCyan
+    ? '0 0 12px rgba(34, 211, 238, 0.95), 0 2px 4px rgba(0, 0, 0, 0.9)'
+    : '0 0 12px rgba(52, 211, 153, 0.95), 0 2px 4px rgba(0, 0, 0, 0.9)';
+
+  return (
+    <span
+      style={{
+        display: 'inline-block',
+        color: isActive ? '#FFFFFF' : 'inherit',
+        background: isActive ? highlightBg : 'transparent',
+        borderRadius: isActive ? '6px' : '0px',
+        padding: isActive ? '0 5px' : '0px',
+        margin: isActive ? '0 1px' : '0px',
+        boxShadow: isActive ? highlightShadow : 'none',
+        transform: isActive ? 'scale(1.05)' : 'scale(1)',
+        transition: 'all 0.12s cubic-bezier(0.16, 1, 0.3, 1)',
+        textShadow: isActive ? highlightTextShadow : 'inherit',
+      }}
+    >
+      {children}
+    </span>
+  );
+};
 
 // Golden & Emerald Leafy Vine Branch extending outwards flanking the main title
 const TitleVineBranch = ({ side = 'left' }) => (
@@ -558,26 +612,83 @@ const PAGE_3_FACTS = [
   }
 ];
 
+// Coordinate map for words in ch2_cinematic_living_nature.jpg (percentages of 3840x2160)
+const SHLOKA_IMAGE_WORDS = [
+  // Line 1: “Trees stand in the Sun and give shade
+  { word: 'Trees', left: 55.50, top: 58.33, width: 6.50, height: 3.70, activeIndices: [9, 57], timeRanges: [[5.20, 5.65], [30.20, 30.70]], color: 'amber' },
+  { word: 'stand', left: 62.50, top: 58.33, width: 5.70, height: 3.70, activeIndices: [10], timeRanges: [[5.65, 5.85]], color: 'amber' },
+  { word: 'in', left: 68.75, top: 58.33, width: 2.00, height: 3.70, activeIndices: [11], timeRanges: [[5.85, 6.00]], color: 'amber' },
+  { word: 'the', left: 71.35, top: 58.33, width: 3.10, height: 3.70, activeIndices: [12], timeRanges: [[6.00, 6.10]], color: 'amber' },
+  { word: 'Sun', left: 74.90, top: 58.33, width: 4.00, height: 3.70, activeIndices: [13], timeRanges: [[6.10, 6.45]], color: 'amber' },
+  { word: 'and', left: 79.40, top: 58.33, width: 4.00, height: 3.70, activeIndices: [14], timeRanges: [[6.45, 6.65]], color: 'amber' },
+  { word: 'give', left: 83.70, top: 58.33, width: 4.30, height: 3.70, activeIndices: [15], timeRanges: [[6.65, 7.00]], color: 'amber' },
+  { word: 'shade', left: 88.20, top: 58.33, width: 6.30, height: 3.70, activeIndices: [16, 59], timeRanges: [[7.00, 7.45], [30.90, 31.40]], color: 'emerald' },
+
+  // Line 2: to others. Their fruits are also for others.
+  { word: 'to', left: 54.50, top: 63.43, width: 2.00, height: 3.70, activeIndices: [17], timeRanges: [[7.40, 7.55]], color: 'amber' },
+  { word: 'others.', left: 57.00, top: 63.43, width: 6.70, height: 3.70, activeIndices: [18], timeRanges: [[7.55, 7.80]], color: 'amber' },
+  { word: 'Their', left: 64.60, top: 63.43, width: 4.70, height: 3.70, activeIndices: [19], timeRanges: [[7.85, 8.10]], color: 'amber' },
+  { word: 'fruits', left: 69.70, top: 63.43, width: 6.50, height: 3.70, activeIndices: [20, 61], timeRanges: [[8.10, 8.55], [31.80, 32.30]], color: 'amber' },
+  { word: 'are', left: 76.65, top: 63.43, width: 3.40, height: 3.70, activeIndices: [21], timeRanges: [[9.00, 9.25]], color: 'amber' },
+  { word: 'also', left: 80.40, top: 63.43, width: 4.00, height: 3.70, activeIndices: [22], timeRanges: [[9.20, 9.50]], color: 'amber' },
+  { word: 'for', left: 84.60, top: 63.43, width: 3.70, height: 3.70, activeIndices: [23], timeRanges: [[9.50, 9.80]], color: 'amber' },
+  { word: 'others.', left: 88.55, top: 63.43, width: 6.80, height: 3.70, activeIndices: [24], timeRanges: [[9.80, 10.65]], color: 'amber' },
+
+  // Line 3: Likewise, good people bear all hardships
+  { word: 'Likewise,', left: 54.60, top: 68.52, width: 9.30, height: 3.70, activeIndices: [25], timeRanges: [[11.55, 12.30]], color: 'amber' },
+  { word: 'good', left: 64.40, top: 68.52, width: 5.10, height: 3.70, activeIndices: [26], timeRanges: [[12.65, 13.00]], color: 'amber' },
+  { word: 'people', left: 69.90, top: 68.52, width: 6.70, height: 3.70, activeIndices: [27], timeRanges: [[13.00, 13.35]], color: 'amber' },
+  { word: 'bear', left: 77.10, top: 68.52, width: 4.70, height: 3.70, activeIndices: [28], timeRanges: [[13.35, 13.70]], color: 'amber' },
+  { word: 'all', left: 82.15, top: 68.52, width: 2.70, height: 3.70, activeIndices: [29], timeRanges: [[13.70, 14.00]], color: 'amber' },
+  { word: 'hardships', left: 85.15, top: 68.52, width: 10.15, height: 3.70, activeIndices: [30, 45], timeRanges: [[14.00, 14.85], [21.65, 24.80]], color: 'amber' },
+
+  // Line 4: and bring welfare to others. They give
+  { word: 'and', left: 56.00, top: 73.61, width: 4.10, height: 3.70, activeIndices: [31], timeRanges: [[15.40, 15.65]], color: 'amber' },
+  { word: 'bring', left: 60.55, top: 73.61, width: 5.60, height: 3.70, activeIndices: [32], timeRanges: [[15.65, 16.00]], color: 'amber' },
+  { word: 'welfare', left: 66.40, top: 73.61, width: 7.60, height: 3.70, activeIndices: [33, 49], timeRanges: [[16.00, 16.50], [25.50, 28.90]], color: 'emerald' },
+  { word: 'to', left: 74.45, top: 73.61, width: 2.00, height: 3.70, activeIndices: [34], timeRanges: [[16.75, 17.00]], color: 'amber' },
+  { word: 'others.', left: 76.95, top: 73.61, width: 6.75, height: 3.70, activeIndices: [35], timeRanges: [[17.00, 17.45]], color: 'amber' },
+  { word: 'They', left: 84.45, top: 73.61, width: 4.40, height: 3.70, activeIndices: [36], timeRanges: [[18.05, 18.35]], color: 'amber' },
+  { word: 'give', left: 89.00, top: 73.61, width: 5.00, height: 3.70, activeIndices: [37], timeRanges: [[18.30, 18.65]], color: 'amber' },
+
+  // Line 5: to others whatever they have earned.”
+  { word: 'to', left: 56.10, top: 78.70, width: 2.00, height: 3.70, activeIndices: [38], timeRanges: [[18.60, 18.85]], color: 'amber' },
+  { word: 'others', left: 58.60, top: 78.70, width: 6.30, height: 3.70, activeIndices: [39], timeRanges: [[18.80, 19.10]], color: 'amber' },
+  { word: 'whatever', left: 65.35, top: 78.70, width: 9.40, height: 3.70, activeIndices: [40], timeRanges: [[19.25, 19.80]], color: 'amber' },
+  { word: 'they', left: 75.20, top: 78.70, width: 4.40, height: 3.70, activeIndices: [41], timeRanges: [[19.80, 20.05]], color: 'amber' },
+  { word: 'have', left: 80.00, top: 78.70, width: 4.80, height: 3.70, activeIndices: [42], timeRanges: [[20.05, 20.25]], color: 'amber' },
+  { word: 'earned.”', left: 85.25, top: 78.70, width: 8.80, height: 3.70, activeIndices: [43], timeRanges: [[20.25, 20.75]], color: 'amber' },
+];
+
 export default function Chapter2SloganPage({
   chapterNum = 2,
   title = "Diversity in the Living World",
   onBack,
   onEnterLab,
 }) {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    const p = parseInt(params.get('sloganPage'), 10);
+    return (p >= 1 && p <= 5) ? p : 1;
+  });
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isPlayingSloganAudio, setIsPlayingSloganAudio] = useState(false);
   const [isPlayingMeaningAudio, setIsPlayingMeaningAudio] = useState(false);
   const [isPlayingWhyStudyAudio, setIsPlayingWhyStudyAudio] = useState(false);
-  const [isPlayingBioAudio, setIsPlayingBioAudio] = useState(false);
   const [isPlayingAdaptationAudio, setIsPlayingAdaptationAudio] = useState(false);
-  const [isPlayingBotanyAudio, setIsPlayingBotanyAudio] = useState(false);
-  const [isPlayingConservationAudio, setIsPlayingConservationAudio] = useState(false);
   const [isSloganPopOpen, setIsSloganPopOpen] = useState(true);
-  const [showPage2Popup, setShowPage2Popup] = useState(false);
-  const [showPage3Popup, setShowPage3Popup] = useState(false);
-  const [showPage4Popup, setShowPage4Popup] = useState(false);
-  const [showPage5Popup, setShowPage5Popup] = useState(false);
+  const [showPage2Popup, setShowPage2Popup] = useState(true);
+  const [showPage3Popup, setShowPage3Popup] = useState(true);
+  const [showPage4Popup, setShowPage4Popup] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    const p = parseInt(params.get('sloganPage'), 10);
+    return p === 4 ? true : false;
+  });
+  const [showPage5Popup, setShowPage5Popup] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    const p = parseInt(params.get('sloganPage'), 10);
+    return p === 5 ? true : false;
+  });
   const [page3ActiveTab, setPage3ActiveTab] = useState(0);
   const [page4ActiveTab, setPage4ActiveTab] = useState(0);
   const [page5ActiveTab, setPage5ActiveTab] = useState(0);
@@ -587,9 +698,74 @@ export default function Chapter2SloganPage({
   const whyStudyAudioRef = useRef(null);
   const containerRef = useRef(null);
 
+  // Real narration audio + word-level sync for Page 1 (Sanskrit Shloka & English Meaning)
+  const [isShlokaCircleHovered, setIsShlokaCircleHovered] = useState(false);
+  const {
+    isPlaying: isPlayingShlokaAudio,
+    activeWordIndex: shlokaActiveWordIndex,
+    currentTime: shlokaCurrentTime,
+    toggle: toggleShlokaAudio,
+    pause: pauseShlokaAudio,
+  } = useWordSyncAudio(shlokaNarrationAudio, shlokaNarrationData.shloka.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
+
+  // Real narration audio + word-level highlight sync for Page 2 (Habitats & Biosphere)
+  const [isBioCircleHovered, setIsBioCircleHovered] = useState(false);
+  const {
+    isPlaying: isPlayingBioAudio,
+    activeWordIndex: bioActiveWordIndex,
+    currentTime: bioCurrentTime,
+    play: playBioNarration,
+    pause: pauseBioNarration,
+  } = useWordSyncAudio(bioNarrationAudio, habitatsNarrationData.bio.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
+
+  // Real narration audio + word-level highlight sync for Page 3 (Desert Adaptations)
+  const [isDesertCircleHovered, setIsDesertCircleHovered] = useState(false);
+  const {
+    isPlaying: isPlayingDesertAudio,
+    activeWordIndex: desertActiveWordIndex,
+    currentTime: desertCurrentTime,
+    play: playDesertNarration,
+    pause: pauseDesertNarration,
+    toggle: toggleDesertAudio,
+  } = useWordSyncAudio(desertNarrationAudio, desertNarrationData.desert.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
+
+  // Real narration audio + word-level highlight sync for Page 4 (Botany / Plant Groups)
+  const {
+    isPlaying: isPlayingBotanyAudio,
+    activeWordIndex: botanyActiveWordIndex,
+    pause: pauseBotanyNarration,
+    toggle: toggleBotanyAudio,
+  } = useWordSyncAudio(botanyNarrationAudio, botanyNarrationData.botany.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
+
+  // Real narration audio + word-level highlight sync for Page 5 (Conservation / Sacred Groves)
+  const {
+    isPlaying: isPlayingConservationAudio,
+    activeWordIndex: conservationActiveWordIndex,
+    pause: pauseConservationNarration,
+    toggle: toggleConservationAudio,
+  } = useWordSyncAudio(conservationNarrationAudio, conservationNarrationData.conservation.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
+
   // Stop audio on page change or unmount
   useEffect(() => {
     return () => {
+      pauseShlokaAudio();
+      pauseBioNarration();
+      pauseDesertNarration();
       if (sloganAudioRef.current) {
         sloganAudioRef.current.pause();
         sloganAudioRef.current = null;
@@ -606,21 +782,29 @@ export default function Chapter2SloganPage({
       setIsPlayingSloganAudio(false);
       setIsPlayingMeaningAudio(false);
       setIsPlayingWhyStudyAudio(false);
-      setIsPlayingBioAudio(false);
       setIsPlayingAdaptationAudio(false);
-      setIsPlayingBotanyAudio(false);
-      setIsPlayingConservationAudio(false);
+      pauseBotanyNarration();
+      pauseConservationNarration();
     };
-  }, [currentPage]);
+  }, [currentPage, pauseShlokaAudio, pauseBioNarration, pauseDesertNarration, pauseBotanyNarration, pauseConservationNarration]);
 
-  // Page 2: Trigger attractive popup message after 5 seconds of full-image viewing
+  // Sync currentPage if sloganPage URL query parameter changes
+  useEffect(() => {
+    const handleHashChange = () => {
+      const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+      const p = parseInt(params.get('sloganPage'), 10);
+      if (p >= 1 && p <= 5) {
+        setCurrentPage(p);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  // Page 2: Open attractive popup message with play narration controls
   useEffect(() => {
     if (currentPage === 2) {
-      setShowPage2Popup(false);
-      const timer = setTimeout(() => {
-        setShowPage2Popup(true);
-      }, 5000);
-      return () => clearTimeout(timer);
+      setShowPage2Popup(true);
     } else {
       setShowPage2Popup(false);
       if (isPlayingBioAudio) {
@@ -630,53 +814,48 @@ export default function Chapter2SloganPage({
     }
   }, [currentPage]);
 
-  // Page 3: Trigger attractive popup message after 5 seconds of full-image viewing
+  // Page 3: Open attractive popup message with play narration controls
   useEffect(() => {
     if (currentPage === 3) {
-      setShowPage3Popup(false);
-      const timer = setTimeout(() => {
-        setShowPage3Popup(true);
-      }, 5000);
-      return () => clearTimeout(timer);
+      setShowPage3Popup(true);
     } else {
       setShowPage3Popup(false);
+      pauseDesertNarration();
       if (isPlayingAdaptationAudio) {
         stopNarration();
         setIsPlayingAdaptationAudio(false);
       }
     }
-  }, [currentPage]);
+  }, [currentPage, pauseDesertNarration]);
 
-  // Page 4: Trigger attractive popup message after 6 seconds of full-image viewing
+  // Page 4: Trigger attractive popup message after 4 seconds of full-image viewing
   useEffect(() => {
     if (currentPage === 4) {
       setShowPage4Popup(false);
       const timer = setTimeout(() => {
         setShowPage4Popup(true);
-      }, 6000);
+      }, 4000);
       return () => clearTimeout(timer);
     } else {
       setShowPage4Popup(false);
       if (isPlayingBotanyAudio) {
-        stopNarration();
-        setIsPlayingBotanyAudio(false);
+        pauseBotanyNarration();
       }
     }
   }, [currentPage]);
 
-  // Page 5: Trigger attractive popup message after 6 seconds of full-image viewing
+  // Page 5: Trigger attractive popup message after 4 seconds of full-image viewing
   useEffect(() => {
     if (currentPage === 5) {
       setShowPage5Popup(false);
       const timer = setTimeout(() => {
         setShowPage5Popup(true);
-      }, 6000);
+      }, 4000);
       return () => clearTimeout(timer);
     } else {
       setShowPage5Popup(false);
       if (isPlayingConservationAudio) {
-        stopNarration();
-        setIsPlayingConservationAudio(false);
+        pauseConservationNarration();
       }
     }
   }, [currentPage]);
@@ -847,9 +1026,9 @@ export default function Chapter2SloganPage({
   // Toggle Page 2 Biosphere & Habitats lesson narration
   const toggleBioAudio = () => {
     if (isPlayingBioAudio) {
-      stopNarration();
-      setIsPlayingBioAudio(false);
+      pauseBioNarration();
     } else {
+      pauseShlokaAudio();
       if (sloganAudioRef.current) sloganAudioRef.current.pause();
       if (meaningAudioRef.current) meaningAudioRef.current.pause();
       if (whyStudyAudioRef.current) whyStudyAudioRef.current.pause();
@@ -857,13 +1036,11 @@ export default function Chapter2SloganPage({
       setIsPlayingSloganAudio(false);
       setIsPlayingMeaningAudio(false);
       setIsPlayingWhyStudyAudio(false);
+      setIsPlayingAdaptationAudio(false);
+      pauseBotanyNarration();
+      pauseConservationNarration();
 
-      speakNaturalIndianMale({
-        text: "Biosphere and Habitats. A habitat is the natural home where plants and animals find food, water, and shelter to live and grow. The biosphere is the living zone on Earth where all life exists together. In this forest sanctuary, spotted deer and peacocks drink fresh stream water, squirrels live in tree branches, and plants make food from sunlight. Everything in nature is interconnected!",
-        onEnd: () => setIsPlayingBioAudio(false),
-        onError: () => setIsPlayingBioAudio(false)
-      });
-      setIsPlayingBioAudio(true);
+      playBioNarration();
     }
   };
 
@@ -873,6 +1050,8 @@ export default function Chapter2SloganPage({
       stopNarration();
       setIsPlayingAdaptationAudio(false);
     } else {
+      pauseShlokaAudio();
+      pauseBioNarration();
       if (sloganAudioRef.current) sloganAudioRef.current.pause();
       if (meaningAudioRef.current) meaningAudioRef.current.pause();
       if (whyStudyAudioRef.current) whyStudyAudioRef.current.pause();
@@ -880,10 +1059,11 @@ export default function Chapter2SloganPage({
       setIsPlayingSloganAudio(false);
       setIsPlayingMeaningAudio(false);
       setIsPlayingWhyStudyAudio(false);
-      setIsPlayingBioAudio(false);
+      pauseBotanyNarration();
+      pauseConservationNarration();
 
       speakNaturalIndianMale({
-        text: "Desert and Surrounding Adaptations. Camels have long legs and wide hooves to walk over sand dunes without sinking, store food in their humps, and lose minimal water. Desert plants store water in swollen fleshy stems, mountain deodars have sloping branches to shed snow, and fish have streamlined bodies to glide through water.",
+        text: "Desert Adaptations. What Is Adaptation? A feature or behaviour that helps a living thing survive in its habitat. The Ship of the Desert: A camel’s broad, padded feet help prevent it from sinking into sand. Its long eyelashes help protect its eyes from blowing dust. Saving Water: Camels conserve water by reducing water loss from their bodies. This helps them survive for long periods without drinking. Think: Why is saving water important in a desert?",
         onEnd: () => setIsPlayingAdaptationAudio(false),
         onError: () => setIsPlayingAdaptationAudio(false)
       });
@@ -891,59 +1071,7 @@ export default function Chapter2SloganPage({
     }
   };
 
-  // Toggle Page 4 Botany & Plant Detective lesson narration
-  const toggleBotanyAudio = () => {
-    if (isPlayingBotanyAudio) {
-      stopNarration();
-      setIsPlayingBotanyAudio(false);
-    } else {
-      if (sloganAudioRef.current) sloganAudioRef.current.pause();
-      if (meaningAudioRef.current) meaningAudioRef.current.pause();
-      if (whyStudyAudioRef.current) whyStudyAudioRef.current.pause();
-      stopNarration();
-      setIsPlayingSloganAudio(false);
-      setIsPlayingMeaningAudio(false);
-      setIsPlayingWhyStudyAudio(false);
-      setIsPlayingBioAudio(false);
-      setIsPlayingAdaptationAudio(false);
-
-      const activeLesson = PAGE_4_LESSONS[page4ActiveTab] || PAGE_4_LESSONS[0];
-      speakNaturalIndianMale({
-        text: activeLesson.audioText,
-        onEnd: () => setIsPlayingBotanyAudio(false),
-        onError: () => setIsPlayingBotanyAudio(false)
-      });
-      setIsPlayingBotanyAudio(true);
-    }
-  };
-
   // Toggle Page 5 Sacred Groves & Conservation lesson narration
-  const toggleConservationAudio = () => {
-    if (isPlayingConservationAudio) {
-      stopNarration();
-      setIsPlayingConservationAudio(false);
-    } else {
-      if (sloganAudioRef.current) sloganAudioRef.current.pause();
-      if (meaningAudioRef.current) meaningAudioRef.current.pause();
-      if (whyStudyAudioRef.current) whyStudyAudioRef.current.pause();
-      stopNarration();
-      setIsPlayingSloganAudio(false);
-      setIsPlayingMeaningAudio(false);
-      setIsPlayingWhyStudyAudio(false);
-      setIsPlayingBioAudio(false);
-      setIsPlayingAdaptationAudio(false);
-      setIsPlayingBotanyAudio(false);
-
-      const activeLesson = PAGE_5_LESSONS[page5ActiveTab] || PAGE_5_LESSONS[0];
-      speakNaturalIndianMale({
-        text: activeLesson.audioText,
-        onEnd: () => setIsPlayingConservationAudio(false),
-        onError: () => setIsPlayingConservationAudio(false)
-      });
-      setIsPlayingConservationAudio(true);
-    }
-  };
-
   // Force-hide global floating music / volume button while slogan page is mounted
   useEffect(() => {
     const musicControls = document.getElementById('global-theme-music-controls');
@@ -1316,6 +1444,62 @@ export default function Chapter2SloganPage({
           border-color: #F59E0B;
           box-shadow: 0 20px 45px rgba(0, 0, 0, 0.55), 0 0 22px rgba(245, 158, 11, 0.35);
         }
+
+        @keyframes subtlePulseGlow {
+          0%, 100% {
+            box-shadow: 0 0 16px rgba(52, 211, 153, 0.45), inset 0 0 10px rgba(52, 211, 153, 0.25);
+            transform: scale(1);
+          }
+          50% {
+            box-shadow: 0 0 28px rgba(52, 211, 153, 0.85), inset 0 0 14px rgba(52, 211, 153, 0.45);
+            transform: scale(1.06);
+          }
+        }
+        .ch2-circle-btn {
+          cursor: pointer;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .ch2-circle-btn:hover {
+          background: rgba(255, 255, 255, 0.25) !important;
+          border-color: rgba(255, 255, 255, 0.8) !important;
+          transform: scale(1.08) !important;
+        }
+        .ch2-circle-btn:active {
+          transform: scale(0.95) !important;
+        }
+        @media (max-aspect-ratio: 16/9) {
+          .shloka-aspect-layer {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            aspect-ratio: 16 / 9;
+            pointer-events: none;
+            z-index: 20;
+          }
+        }
+        @media (min-aspect-ratio: 16/9) {
+          .shloka-aspect-layer {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            transform: translateY(-50%);
+            pointer-events: none;
+            z-index: 20;
+          }
+        }
+        @keyframes definitionFloat {
+          0% {
+            opacity: 0;
+            transform: translate(-50%, 6px);
+          }
+          100% {
+            opacity: 1;
+            transform: translate(-50%, 0);
+          }
+        }
       `}</style>
 
       {/* ============================================================ */}
@@ -1348,31 +1532,74 @@ export default function Chapter2SloganPage({
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            objectPosition: 'center center',
+            objectPosition: (currentPage === 1 || currentPage === 2) ? 'right center' : 'center center',
             display: 'block',
             imageRendering: 'high-quality',
-            transform: 'translateZ(0)',
-            backfaceVisibility: 'hidden'
+            transform: 'translateZ(0) scale(1.01)',
+            backfaceVisibility: 'hidden',
+            filter: (currentPage === 2 || currentPage === 3 || currentPage === 4 || currentPage === 5)
+              ? 'none'
+              : 'contrast(0.88) saturate(0.92) brightness(1.04) blur(0.5px)'
           }}
         />
       </div>
 
-      {/* Floating Fullscreen Control for Page 1 (Top-Right) */}
+      {/* Floating Controls for Page 1 (Top-Right): Circular Narration Button & Fullscreen */}
       {currentPage === 1 && (
         <div style={{
           position: 'absolute',
           top: '16px',
           right: '20px',
-          zIndex: 35
+          zIndex: 35,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px'
         }}>
+          {/* Single Transparent Circle Button to Start/Pause Shloka Narration */}
+          <button
+            type="button"
+            className="ch2-circle-btn"
+            onClick={toggleShlokaAudio}
+            onMouseEnter={() => setIsShlokaCircleHovered(true)}
+            onMouseLeave={() => setIsShlokaCircleHovered(false)}
+            title={isPlayingShlokaAudio ? 'Pause Shloka Narration' : 'Start Shloka Narration (Voice Over)'}
+            aria-label={isPlayingShlokaAudio ? 'Pause Shloka Narration' : 'Start Shloka Narration'}
+            style={{
+              width: '42px',
+              height: '42px',
+              borderRadius: '50%',
+              background: isPlayingShlokaAudio
+                ? 'rgba(16, 185, 129, 0.35)'
+                : isShlokaCircleHovered
+                ? 'rgba(255, 255, 255, 0.25)'
+                : 'rgba(255, 255, 255, 0.12)',
+              backdropFilter: 'blur(4px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              border: isPlayingShlokaAudio
+                ? '2px solid #34d399'
+                : '1.5px solid rgba(255, 255, 255, 0.45)',
+              boxShadow: isPlayingShlokaAudio
+                ? '0 0 20px rgba(52, 211, 153, 0.8), inset 0 0 10px rgba(52, 211, 153, 0.35)'
+                : '0 4px 14px rgba(0, 0, 0, 0.35)',
+              color: isPlayingShlokaAudio ? '#34d399' : '#ffffff',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+              animation: isPlayingShlokaAudio ? 'subtlePulseGlow 2.5s infinite ease-in-out' : 'none',
+            }}
+          >
+            {isPlayingShlokaAudio ? <Pause size={18} fill="#34d399" /> : <Play size={18} fill="currentColor" style={{ marginLeft: '2px' }} />}
+          </button>
+
+          {/* Fullscreen Button */}
           <button
             type="button"
             onClick={toggleFullscreen}
             title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
             style={{
               background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
               color: '#FEF3C7',
               border: '1.8px solid rgba(255, 255, 255, 0.35)',
               borderRadius: '10px',
@@ -1449,26 +1676,238 @@ export default function Chapter2SloganPage({
         </div>
       )}
 
-
-
       {/* ============================================================ */}
       {/* PAGE 1: FULLSCREEN LIVING ECOSYSTEM WITH SANSKRIT SLOGAN     */}
-      {/* (NO POP-UP BOX, NO TITLE, INTERACTIVE AUDIO HOTSPOTS)        */}
+      {/* (SYNCHRONIZED AUDIO NARRATION WORD HIGHLIGHTS OVERLAY)       */}
       {/* ============================================================ */}
       {currentPage === 1 && (
         <div
           className="animate-bio-stage"
           style={{
-            position: 'relative',
+            position: 'absolute',
+            inset: 0,
             width: '100%',
             height: '100%',
-            flex: '1 1 auto',
-            minHeight: 0,
             overflow: 'hidden',
             zIndex: 10,
             pointerEvents: 'none'
           }}
-        />
+        >
+          {/* Responsive aspect layer matching objectFit: 'cover' & objectPosition: 'right center' */}
+          <div className="shloka-aspect-layer">
+            {/* Title Pill Aura ("SANSKRIT SHLOKA") */}
+            <div
+              style={{
+                position: 'absolute',
+                left: '58.0%',
+                top: '3.40%',
+                width: '36.6%',
+                height: '7.60%',
+                borderRadius: '9999px',
+                border: isPlayingShlokaAudio && (shlokaCurrentTime >= 3.20 && shlokaCurrentTime <= 4.80)
+                  ? '2.5px solid rgba(52, 211, 153, 0.95)'
+                  : '2.5px solid transparent',
+                boxShadow: isPlayingShlokaAudio && (shlokaCurrentTime >= 3.20 && shlokaCurrentTime <= 4.80)
+                  ? '0 0 28px rgba(52, 211, 153, 0.75), inset 0 0 16px rgba(52, 211, 153, 0.35)'
+                  : 'none',
+                transition: 'all 0.25s ease',
+                pointerEvents: 'none',
+              }}
+            />
+
+            {/* Word in Title: SANSKRIT */}
+            <div
+              style={{
+                position: 'absolute',
+                left: '64.2%',
+                top: '4.70%',
+                width: '12.0%',
+                height: '5.00%',
+                borderRadius: '8px',
+                background: isPlayingShlokaAudio && (shlokaActiveWordIndex === 5 || (shlokaCurrentTime >= 3.40 && shlokaCurrentTime < 3.85))
+                  ? 'rgba(52, 211, 153, 0.42)'
+                  : 'transparent',
+                border: isPlayingShlokaAudio && (shlokaActiveWordIndex === 5 || (shlokaCurrentTime >= 3.40 && shlokaCurrentTime < 3.85))
+                  ? '2px solid #34D399'
+                  : '2px solid transparent',
+                boxShadow: isPlayingShlokaAudio && (shlokaActiveWordIndex === 5 || (shlokaCurrentTime >= 3.40 && shlokaCurrentTime < 3.85))
+                  ? '0 0 22px rgba(52, 211, 153, 0.95), inset 0 0 10px rgba(255, 255, 255, 0.6)'
+                  : 'none',
+                transform: isPlayingShlokaAudio && (shlokaActiveWordIndex === 5 || (shlokaCurrentTime >= 3.40 && shlokaCurrentTime < 3.85))
+                  ? 'scale(1.05)'
+                  : 'scale(1)',
+                transition: 'all 0.18s cubic-bezier(0.16, 1, 0.3, 1)',
+                pointerEvents: 'none',
+              }}
+            />
+
+            {/* Word in Title: SHLOKA */}
+            <div
+              style={{
+                position: 'absolute',
+                left: '77.0%',
+                top: '4.70%',
+                width: '10.5%',
+                height: '5.00%',
+                borderRadius: '8px',
+                background: isPlayingShlokaAudio && (shlokaActiveWordIndex === 6 || shlokaActiveWordIndex === 63 || (shlokaCurrentTime >= 3.85 && shlokaCurrentTime < 4.50) || (shlokaCurrentTime >= 32.80 && shlokaCurrentTime < 33.60))
+                  ? 'rgba(245, 158, 11, 0.45)'
+                  : 'transparent',
+                border: isPlayingShlokaAudio && (shlokaActiveWordIndex === 6 || shlokaActiveWordIndex === 63 || (shlokaCurrentTime >= 3.85 && shlokaCurrentTime < 4.50) || (shlokaCurrentTime >= 32.80 && shlokaCurrentTime < 33.60))
+                  ? '2px solid #F59E0B'
+                  : '2px solid transparent',
+                boxShadow: isPlayingShlokaAudio && (shlokaActiveWordIndex === 6 || shlokaActiveWordIndex === 63 || (shlokaCurrentTime >= 3.85 && shlokaCurrentTime < 4.50) || (shlokaCurrentTime >= 32.80 && shlokaCurrentTime < 33.60))
+                  ? '0 0 22px rgba(245, 158, 11, 0.95), inset 0 0 10px rgba(255, 255, 255, 0.6)'
+                  : 'none',
+                transform: isPlayingShlokaAudio && (shlokaActiveWordIndex === 6 || shlokaActiveWordIndex === 63 || (shlokaCurrentTime >= 3.85 && shlokaCurrentTime < 4.50) || (shlokaCurrentTime >= 32.80 && shlokaCurrentTime < 33.60))
+                  ? 'scale(1.05)'
+                  : 'scale(1)',
+                transition: 'all 0.18s cubic-bezier(0.16, 1, 0.3, 1)',
+                pointerEvents: 'none',
+              }}
+            />
+
+            {/* English Meaning Pill Aura */}
+            <div
+              style={{
+                position: 'absolute',
+                left: '58.0%',
+                top: '48.0%',
+                width: '36.6%',
+                height: '7.60%',
+                borderRadius: '9999px',
+                border: isPlayingShlokaAudio && (shlokaCurrentTime >= 5.15 && shlokaCurrentTime <= 20.80)
+                  ? '2.5px solid rgba(245, 158, 11, 0.85)'
+                  : '2.5px solid transparent',
+                boxShadow: isPlayingShlokaAudio && (shlokaCurrentTime >= 5.15 && shlokaCurrentTime <= 20.80)
+                  ? '0 0 26px rgba(245, 158, 11, 0.6), inset 0 0 15px rgba(245, 158, 11, 0.3)'
+                  : 'none',
+                transition: 'all 0.25s ease',
+                pointerEvents: 'none',
+              }}
+            />
+
+            {/* Synchronized Word Highlights across English Meaning */}
+            {SHLOKA_IMAGE_WORDS.map((item, idx) => {
+              const isWordActive = isPlayingShlokaAudio && (
+                item.activeIndices.includes(shlokaActiveWordIndex) ||
+                item.timeRanges.some(([st, en]) => shlokaCurrentTime >= st && shlokaCurrentTime < en)
+              );
+              const isEmerald = item.color === 'emerald';
+
+              return (
+                <div
+                  key={idx}
+                  style={{
+                    position: 'absolute',
+                    left: `${item.left}%`,
+                    top: `${item.top}%`,
+                    width: `${item.width}%`,
+                    height: `${item.height}%`,
+                    borderRadius: '8px',
+                    background: isWordActive
+                      ? isEmerald
+                        ? 'rgba(52, 211, 153, 0.40)'
+                        : 'rgba(245, 158, 11, 0.42)'
+                      : 'transparent',
+                    border: isWordActive
+                      ? isEmerald
+                        ? '2px solid #34D399'
+                        : '2px solid #F59E0B'
+                      : '2px solid transparent',
+                    boxShadow: isWordActive
+                      ? isEmerald
+                        ? '0 0 20px rgba(52, 211, 153, 0.9), 0 0 35px rgba(52, 211, 153, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.6)'
+                        : '0 0 20px rgba(245, 158, 11, 0.9), 0 0 35px rgba(251, 191, 36, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.6)'
+                      : 'none',
+                    transform: isWordActive ? 'scale(1.05)' : 'scale(1)',
+                    transition: 'all 0.16s cubic-bezier(0.16, 1, 0.3, 1)',
+                    pointerEvents: 'none',
+                  }}
+                />
+              );
+            })}
+
+            {/* Floating Definition Pill: "hardships" = difficulties */}
+            {isPlayingShlokaAudio && (shlokaCurrentTime >= 21.65 && shlokaCurrentTime <= 24.90) && (
+              <div
+                style={{
+                  position: 'absolute',
+                  left: '88%',
+                  top: '64.5%',
+                  transform: 'translateX(-50%)',
+                  background: 'rgba(15, 23, 42, 0.88)',
+                  backdropFilter: 'blur(4px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  border: '1.5px solid #F59E0B',
+                  borderRadius: '20px',
+                  padding: '5px 14px',
+                  color: '#FEF3C7',
+                  fontSize: 'clamp(11px, 1.1vw, 15px)',
+                  fontWeight: '700',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.5), 0 0 18px rgba(245, 158, 11, 0.45)',
+                  whiteSpace: 'nowrap',
+                  animation: 'definitionFloat 0.3s ease-out forwards',
+                  pointerEvents: 'none',
+                  zIndex: 25,
+                }}
+              >
+                ⚡ hardships = <span style={{ color: '#FDE68A' }}>difficulties</span>
+              </div>
+            )}
+
+            {/* Floating Definition Pill: "welfare" = well-being of others */}
+            {isPlayingShlokaAudio && (shlokaCurrentTime >= 25.40 && shlokaCurrentTime <= 28.90) && (
+              <div
+                style={{
+                  position: 'absolute',
+                  left: '70%',
+                  top: '78.5%',
+                  transform: 'translateX(-50%)',
+                  background: 'rgba(15, 23, 42, 0.88)',
+                  backdropFilter: 'blur(4px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  border: '1.5px solid #34D399',
+                  borderRadius: '20px',
+                  padding: '5px 14px',
+                  color: '#ECFDF5',
+                  fontSize: 'clamp(11px, 1.1vw, 15px)',
+                  fontWeight: '700',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.5), 0 0 18px rgba(52, 211, 153, 0.45)',
+                  whiteSpace: 'nowrap',
+                  animation: 'definitionFloat 0.3s ease-out forwards',
+                  pointerEvents: 'none',
+                  zIndex: 25,
+                }}
+              >
+                💚 welfare = <span style={{ color: '#A7F3D0' }}>well-being of others</span>
+              </div>
+            )}
+
+            {/* Tagline Golden Shimmer ("Wisdom for a Kinder World") */}
+            <div
+              style={{
+                position: 'absolute',
+                left: '54.0%',
+                top: '86.8%',
+                width: '38.0%',
+                height: '5.2%',
+                borderRadius: '12px',
+                border: isPlayingShlokaAudio && (shlokaCurrentTime >= 34.50 && shlokaCurrentTime <= 37.80)
+                  ? '2px solid #F59E0B'
+                  : '2px solid transparent',
+                background: isPlayingShlokaAudio && (shlokaCurrentTime >= 34.50 && shlokaCurrentTime <= 37.80)
+                  ? 'rgba(245, 158, 11, 0.22)'
+                  : 'transparent',
+                boxShadow: isPlayingShlokaAudio && (shlokaCurrentTime >= 34.50 && shlokaCurrentTime <= 37.80)
+                  ? '0 0 28px rgba(245, 158, 11, 0.7), inset 0 0 12px rgba(251, 191, 36, 0.3)'
+                  : 'none',
+                transition: 'all 0.25s ease',
+                pointerEvents: 'none',
+              }}
+            />
+          </div>
+        </div>
       )}
 
       {/* ============================================================ */}
@@ -1476,21 +1915,53 @@ export default function Chapter2SloganPage({
       {/* ============================================================ */}
       {currentPage === 2 && (
         <>
-          {/* Floating Fullscreen Control for Page 2 (Top-Right) */}
+          {/* Top Center Title: Habitats (Attractive Golden Banner) */}
           <div style={{
             position: 'absolute',
             top: '16px',
-            right: '20px',
-            zIndex: 35
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 35,
+            pointerEvents: 'none',
+            textAlign: 'center',
+            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+            border: '2px solid rgba(254, 240, 138, 0.85)',
+            borderRadius: '12px',
+            padding: '7px 28px',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
           }}>
+            <h1 style={{
+              margin: 0,
+              fontSize: '24px',
+              fontWeight: 900,
+              fontFamily: '"Cinzel", Georgia, serif',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              color: '#FFFFFF',
+              lineHeight: 1.15,
+              textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+            }}>
+              Habitats
+            </h1>
+          </div>
+
+          {/* Top-Right Control Toolbar: Fullscreen Only */}
+          <div style={{
+            position: 'absolute',
+            top: '16px',
+            right: '24px',
+            zIndex: 35,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px'
+          }}>
+            {/* Fullscreen Button */}
             <button
               type="button"
               onClick={toggleFullscreen}
               title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
               style={{
                 background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
                 color: '#FEF3C7',
                 border: '1.8px solid rgba(255, 255, 255, 0.35)',
                 borderRadius: '10px',
@@ -1516,6 +1987,7 @@ export default function Chapter2SloganPage({
               {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
             </button>
           </div>
+
 
           {/* Page 2 Bottom-Left: Previous Page Button (hidden when popup covers it) */}
           <div style={{
@@ -1572,16 +2044,16 @@ export default function Chapter2SloganPage({
               style={{
                 position: 'absolute',
                 top: '16px',
-                left: '16px',
-                width: 'min(420px, 36vw)',
-                maxHeight: '78vh',
+                left: '18px',
+                width: 'min(480px, 42vw)',
+                maxHeight: 'calc(100vh - 36px)',
                 zIndex: 40,
-                background: 'linear-gradient(145deg, rgba(8, 28, 18, 0.38) 0%, rgba(3, 18, 10, 0.30) 100%)',
-                backdropFilter: 'blur(16px) saturate(160%)',
-                WebkitBackdropFilter: 'blur(16px) saturate(160%)',
-                border: '1.5px solid rgba(167, 243, 208, 0.35)',
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(2px)',
+                background: 'transparent',
+                border: '1.8px solid rgba(110, 231, 183, 0.55)',
                 borderRadius: '24px',
-                boxShadow: '0 16px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.20), 0 0 15px rgba(16, 185, 129, 0.10)',
+                boxShadow: '0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 24px rgba(16, 185, 129, 0.20)',
                 boxSizing: 'border-box',
                 display: 'flex',
                 flexDirection: 'column',
@@ -1597,335 +2069,382 @@ export default function Chapter2SloganPage({
                 justifyContent: 'space-between',
                 flex: 1,
                 padding: 'clamp(14px, 2vh, 20px) clamp(16px, 2vw, 22px)',
-                gap: 'clamp(6px, 1vh, 10px)',
+                gap: 'clamp(8px, 1.2vh, 14px)',
                 position: 'relative',
                 zIndex: 5,
                 overflowY: 'auto',
-                scrollbarWidth: 'none'
+                scrollbarWidth: 'thin'
               }}>
 
-                {/* Top bar: NCERT Badge + Close Button (Font Area with blur) */}
+                {/* Top bar: Pill Badge + Circle Narration Button + Close Button */}
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between'
+                  justifyContent: 'space-between',
+                  gap: '12px'
                 }}>
                   <span style={{
-                    background: 'linear-gradient(135deg, rgba(6, 28, 18, 0.32) 0%, rgba(2, 18, 10, 0.26) 100%)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                    background: 'linear-gradient(135deg, rgba(6, 28, 18, 0.70) 0%, rgba(2, 18, 10, 0.60) 100%)',
                     color: '#A7F3D0',
-                    border: '1.2px solid rgba(110, 231, 183, 0.50)',
+                    border: '1.5px solid rgba(110, 231, 183, 0.55)',
                     boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
-                    padding: '6px 16px',
+                    padding: '5px 16px',
                     borderRadius: '22px',
                     fontFamily: '"Outfit", sans-serif',
                     fontWeight: 800,
-                    fontSize: '16px',
-                    letterSpacing: '0.06em',
+                    fontSize: '18px',
+                    letterSpacing: '0.04em',
                     textTransform: 'uppercase',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '7px',
+                    gap: '8px',
                     textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                   }}>
                     <span style={{ fontSize: '18px' }}>🌿</span>
-                    <span style={{ color: '#6EE7B7' }}>HABITATS</span>
+                    <span style={{ color: '#34D399' }}>HABITATS</span>
                   </span>
 
-                  <button
-                    type="button"
-                    onClick={() => setShowPage2Popup(false)}
-                    aria-label="Close message and view full scenery"
-                    title="View full scenery photo"
-                    style={{
-                      background: 'rgba(2, 18, 10, 0.55)',
-                      backdropFilter: 'blur(18px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(18px) saturate(180%)',
-                      border: '1.2px solid rgba(255, 255, 255, 0.25)',
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                      borderRadius: '10px',
-                      width: '36px',
-                      height: '36px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'rgba(255, 255, 255, 0.95)',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.45)';
-                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.75)';
-                      e.currentTarget.style.color = '#FFFFFF';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(2, 18, 10, 0.55)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
-                      e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
-                    }}
-                  >
-                    <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
-                  </button>
-                </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {/* Play / Pause Narration Button inside popup */}
+                    <button
+                      type="button"
+                      onClick={toggleBioAudio}
+                      aria-label={isPlayingBioAudio ? 'Pause Narration' : 'Play Narration'}
+                      title={isPlayingBioAudio ? 'Pause Narration' : 'Play Narration'}
+                      style={{
+                        background: isPlayingBioAudio
+                          ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                          : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
+                        border: '1.8px solid #34D399',
+                        boxShadow: isPlayingBioAudio
+                          ? '0 0 16px rgba(52, 211, 153, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                          : '0 4px 12px rgba(0, 0, 0, 0.35), 0 0 10px rgba(52, 211, 153, 0.25)',
+                        borderRadius: '20px',
+                        padding: '6px 14px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        color: '#FFFFFF',
+                        fontWeight: 800,
+                        fontSize: '13px',
+                        fontFamily: '"Outfit", sans-serif',
+                        cursor: 'pointer',
+                        flexShrink: 0,
+                        transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                        e.currentTarget.style.borderColor = '#6EE7B7';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                        e.currentTarget.style.borderColor = '#34D399';
+                      }}
+                    >
+                      {isPlayingBioAudio ? (
+                        <>
+                          <Pause size={15} fill="#FFFFFF" />
+                          <span>Pause</span>
+                        </>
+                      ) : (
+                        <>
+                          <Play size={15} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                          <span>Play</span>
+                        </>
+                      )}
+                    </button>
 
-                {/* Title Section: Font Area with rich blur and complementary sunlit-gold & mint typography */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '5px'
-                }}>
-                  <h3 style={{
-                    fontFamily: '"Outfit", sans-serif',
-                    fontWeight: 900,
-                    fontSize: '24px',
-                    margin: 0,
-                    color: '#6EE7B7',
-                    lineHeight: 1.25,
-                    letterSpacing: '-0.01em',
-                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 18px rgba(110, 231, 183, 0.55)'
-                  }}>
-                    Living Habitats &amp; Biosphere
-                  </h3>
-                  <div style={{
-                    fontSize: '16px',
-                    color: '#FDE68A',
-                    fontWeight: 700,
-                    fontStyle: 'italic',
-                    fontFamily: '"Outfit", sans-serif',
-                    textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)'
-                  }}>
-                    Nature's Shared Home &amp; Interdependence 🍃
+                    {/* Close Button */}
+                    <button
+                      type="button"
+                      onClick={() => setShowPage2Popup(false)}
+                      aria-label="Close message and view full scenery"
+                      title="View full scenery photo"
+                      style={{
+                        background: 'rgba(2, 18, 10, 0.65)',
+                        border: '1.5px solid rgba(255, 255, 255, 0.30)',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+                        borderRadius: '10px',
+                        width: '36px',
+                        height: '36px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'rgba(255, 255, 255, 0.95)',
+                        cursor: 'pointer',
+                        flexShrink: 0,
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'rgba(239, 68, 68, 0.55)';
+                        e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.85)';
+                        e.currentTarget.style.color = '#FFFFFF';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(2, 18, 10, 0.65)';
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.30)';
+                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
+                      }}
+                    >
+                      <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
+                    </button>
                   </div>
                 </div>
 
-                {/* Info Panel: SINGLE unified glass panel (blur applied only to text/content area) */}
+                {/* Title Section */}
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '4px'
+                }}>
+                  <h2 style={{
+                    fontFamily: '"Outfit", sans-serif',
+                    fontWeight: 900,
+                    fontSize: '20px',
+                    margin: 0,
+                    color: '#34D399',
+                    lineHeight: 1.25,
+                    letterSpacing: '0.02em',
+                    textTransform: 'uppercase',
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 24px rgba(52, 211, 153, 0.65), 0 0 40px rgba(16, 185, 129, 0.25)'
+                  }}>
+                    <BioWord index={[0, 1, 2]} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>HABITATS</BioWord>{' '}
+                    <BioWord index={3} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>&amp;</BioWord>{' '}
+                    <BioWord index={4} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>THE</BioWord>{' '}
+                    <BioWord index={5} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>BIOSPHERE</BioWord>
+                  </h2>
+                </div>
+
+                {/* Info Panel: Content Sections */}
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '10px'
                 }}>
-                  {/* Row 1: Habitat */}
+                  {/* Section 1: A Shared Home */}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <div style={{
-                      fontSize: '20px',
+                      fontSize: '18px',
                       fontWeight: 800,
-                      color: '#A7F3D0',
+                      color: '#6EE7B7',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
                       fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(110, 231, 183, 0.4)'
                     }}>
-                      <span style={{ fontSize: '20px' }}>🏡</span>
-                      <span>What is a Habitat?</span>
+                      <span style={{ fontSize: '18px' }}>🏡</span>
+                      <span>A Shared Home</span>
                     </div>
                     <div style={{
-                      fontSize: '16px',
-                      color: '#F8FAFC',
-                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
-                      fontWeight: 500,
-                      lineHeight: 1.55,
-                      fontFamily: '"Inter", sans-serif',
-                      textAlign: 'justify'
-                    }}>
-                      Where plants and animals live, finding food, water, air, and shelter.
-                    </div>
-                  </div>
-
-                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
-
-                  {/* Row 2: Biosphere */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <div style={{
-                      fontSize: '20px',
-                      fontWeight: 800,
-                      color: '#FDE68A',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
-                    }}>
-                      <span style={{ fontSize: '20px' }}>🌍</span>
-                      <span>The Biosphere</span>
-                    </div>
-                    <div style={{
-                      fontSize: '16px',
-                      color: '#FFFBEB',
-                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
-                      fontWeight: 500,
-                      lineHeight: 1.55,
-                      fontFamily: '"Inter", sans-serif',
-                      textAlign: 'justify'
-                    }}>
-                      Earth’s thin life zone, where land, water, and air sustain living things.
-                    </div>
-                  </div>
-
-                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
-
-                  {/* Row 3: Coexistence */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <div style={{
-                      fontSize: '20px',
-                      fontWeight: 800,
-                      color: '#67E8F9',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
-                    }}>
-                      <span style={{ fontSize: '20px' }}>🦌</span>
-                      <span>Coexistence in This Scene</span>
-                    </div>
-                    <div style={{
-                      fontSize: '16px',
-                      color: '#F0FDFA',
-                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
-                      fontWeight: 500,
-                      lineHeight: 1.55,
-                      fontFamily: '"Inter", sans-serif',
-                      textAlign: 'justify'
-                    }}>
-                      Deer drink stream water, squirrels forage in trees, plants soak up sunlight!
-                    </div>
-                  </div>
-                </div>
-
-                {/* Action Buttons: Font Area with blur and rich interactive luster */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '10px',
-                  paddingTop: 'clamp(2px, 0.6vh, 6px)'
-                }}>
-                  <button
-                    type="button"
-                    onClick={toggleBioAudio}
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.65) 0%, rgba(5, 150, 105, 0.50) 100%)',
-                      backdropFilter: 'blur(18px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(18px) saturate(180%)',
+                      fontSize: '18px',
                       color: '#FFFFFF',
-                      border: '1.5px solid rgba(110, 231, 183, 0.75)',
-                      borderRadius: '26px',
-                      padding: '11px 24px',
-                      fontSize: '16px',
-                      fontWeight: 800,
-                      fontFamily: '"Outfit", sans-serif',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      width: 'fit-content',
-                      boxShadow: '0 6px 20px rgba(16, 185, 129, 0.35), inset 0 1px 1.5px rgba(255, 255, 255, 0.40)',
-                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                      transition: 'all 0.25s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 8px 26px rgba(16, 185, 129, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.6)';
-                      e.currentTarget.style.borderColor = '#86EFAC';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 6px 20px rgba(16, 185, 129, 0.35), inset 0 1px 1.5px rgba(255, 255, 255, 0.40)';
-                      e.currentTarget.style.borderColor = 'rgba(110, 231, 183, 0.75)';
-                    }}
-                  >
-                    {isPlayingBioAudio ? <VolumeX size={18} color="#FEF08A" /> : <Volume2 size={18} color="#FEF08A" />}
-                    <span>{isPlayingBioAudio ? 'Stop Narration' : 'Listen Explanation'}</span>
-                  </button>
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
+                      fontWeight: 500,
+                      lineHeight: 1.6,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      <BioWord index={6} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>A</BioWord>{' '}
+                      <BioWord index={7} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>habitat</BioWord>{' '}
+                      <BioWord index={8} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>is</BioWord>{' '}
+                      <BioWord index={9} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>the</BioWord>{' '}
+                      <BioWord index={10} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>natural</BioWord>{' '}
+                      <BioWord index={11} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>home</BioWord>{' '}
+                      <BioWord index={12} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>where</BioWord>{' '}
+                      <BioWord index={13} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>living</BioWord>{' '}
+                      <BioWord index={14} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>things</BioWord>{' '}
+                      <BioWord index={15} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>get</BioWord>{' '}
+                      <BioWord index={16} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>what</BioWord>{' '}
+                      <BioWord index={17} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>they</BioWord>{' '}
+                      <BioWord index={18} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>need</BioWord>{' '}
+                      <BioWord index={19} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>to</BioWord>{' '}
+                      <BioWord index={20} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>survive.</BioWord>
+                    </div>
+                  </div>
 
-                  <button
-                    type="button"
-                    onClick={() => setShowPage2Popup(false)}
-                    style={{
-                      background: 'rgba(2, 18, 10, 0.55)',
-                      backdropFilter: 'blur(18px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(18px) saturate(180%)',
-                      border: '1.5px solid rgba(255, 255, 255, 0.30)',
-                      borderRadius: '26px',
-                      padding: '11px 22px',
-                      color: '#F8FAFC',
-                      fontFamily: '"Outfit", sans-serif',
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Section 2: Look Around */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
                       fontWeight: 800,
-                      fontSize: '16px',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
+                      color: '#7DD3FC',
+                      display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
-                      width: 'fit-content',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.20)',
-                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                      transition: 'all 0.25s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.22)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.50)';
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 6px 22px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.35)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(2, 18, 10, 0.55)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.30)';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.20)';
-                    }}
-                  >
-                    <Eye size={18} color="#6EE7B7" />
-                    <span>View Full Scenery →</span>
-                  </button>
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(125, 211, 252, 0.4)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🦌</span>
+                      <span>
+                        <BioWord index={21} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>Look</BioWord>{' '}
+                        <BioWord index={22} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>Around</BioWord>
+                      </span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
+                      fontWeight: 500,
+                      lineHeight: 1.6,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      <BioWord index={23} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>The</BioWord>{' '}
+                      <BioWord index={24} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>deer</BioWord>{' '}
+                      <BioWord index={25} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>and</BioWord>{' '}
+                      <BioWord index={26} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>peacock</BioWord>{' '}
+                      <BioWord index={27} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>drink</BioWord>{' '}
+                      <BioWord index={28} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>from</BioWord>{' '}
+                      <BioWord index={29} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>the</BioWord>{' '}
+                      <BioWord index={30} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>stream.</BioWord>{' '}
+                      <BioWord index={31} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>Trees</BioWord>{' '}
+                      <BioWord index={32} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>shelter</BioWord>{' '}
+                      <BioWord index={33} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>the</BioWord>{' '}
+                      <BioWord index={34} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>squirrel.</BioWord>{' '}
+                      <BioWord index={35} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>Plants</BioWord>{' '}
+                      <BioWord index={36} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>use</BioWord>{' '}
+                      <BioWord index={37} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>sunlight</BioWord>{' '}
+                      <BioWord index={38} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>to</BioWord>{' '}
+                      <BioWord index={39} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>make</BioWord>{' '}
+                      <BioWord index={40} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>food.</BioWord>
+                    </div>
+                  </div>
+
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Section 3: The Biosphere */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#FBBF24',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(251, 191, 36, 0.45)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🌍</span>
+                      <span>
+                        <BioWord index={41} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">The</BioWord>{' '}
+                        <BioWord index={[42, 43]} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">Biosphere</BioWord>
+                      </span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
+                      fontWeight: 500,
+                      lineHeight: 1.6,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      <BioWord index={44} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">All</BioWord>{' '}
+                      <BioWord index={45} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">parts</BioWord>{' '}
+                      <BioWord index={46} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">of</BioWord>{' '}
+                      <BioWord index={47} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">Earth</BioWord>{' '}
+                      <BioWord index={48} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">where</BioWord>{' '}
+                      <BioWord index={49} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">life</BioWord>{' '}
+                      <BioWord index={50} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">exists—</BioWord>{' '}
+                      <BioWord index={51} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">on</BioWord>{' '}
+                      <BioWord index={52} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">land,</BioWord>{' '}
+                      <BioWord index={53} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">in</BioWord>{' '}
+                      <BioWord index={54} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">water,</BioWord>{' '}
+                      <BioWord index={55} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">and</BioWord>{' '}
+                      <BioWord index={56} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">in</BioWord>{' '}
+                      <BioWord index={57} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">the</BioWord>{' '}
+                      <BioWord index={58} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">air.</BioWord>
+                    </div>
+                  </div>
+
+                  {/* Callout box: Think */}
+                  <div style={{
+                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.28) 0%, rgba(217, 119, 6, 0.22) 100%)',
+                    border: '1.5px solid rgba(253, 230, 138, 0.55)',
+                    borderRadius: '14px',
+                    padding: '10px 14px',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35)',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '10px'
+                  }}>
+                    <span style={{ fontSize: '18px', lineHeight: 1 }}>💡</span>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FFFFFF',
+                      fontWeight: 600,
+                      fontFamily: '"Outfit", sans-serif',
+                      lineHeight: 1.5,
+                      textAlign: 'justify',
+                      textJustify: 'inter-word',
+                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.6)'
+                    }}>
+                      <strong style={{ color: '#FDE047', fontWeight: 900, marginRight: '4px', textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 12px rgba(245, 158, 11, 0.6)' }}>
+                        <BioWord index={[59, 60]} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">Think:</BioWord>
+                      </strong>{' '}
+                      <BioWord index={61} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">What</BioWord>{' '}
+                      <BioWord index={62} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">might</BioWord>{' '}
+                      <BioWord index={63} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">happen</BioWord>{' '}
+                      <BioWord index={64} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">if</BioWord>{' '}
+                      <BioWord index={65} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">the</BioWord>{' '}
+                      <BioWord index={66} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">stream</BioWord>{' '}
+                      <BioWord index={67} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">dried</BioWord>{' '}
+                      <BioWord index={68} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">up?</BioWord>
+                    </div>
+                  </div>
                 </div>
+
+                {/* Note: Listen Explanation and View Full Scenery buttons removed as requested */}
               </div>
             </div>
           )}
 
-          {/* Re-open Trigger Pill when Popup is Minimized: Transparent Cream & Emerald */}
+          {/* Left-Side Center Arrow Trigger: Opens Page 2 Popup */}
           {!showPage2Popup && (
             <button
               type="button"
               onClick={() => setShowPage2Popup(true)}
-              className="bio-pill-float"
+              title="Open Biosphere & Habitats Notes"
+              aria-label="Open Biosphere & Habitats Notes"
               style={{
                 position: 'absolute',
-                bottom: '22px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 30,
-                padding: '8px 24px',
-                fontSize: '16px',
-                background: 'linear-gradient(135deg, rgba(255, 253, 245, 0.82) 0%, rgba(254, 248, 230, 0.72) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                color: '#064E3B',
-                border: '1.8px solid #059669',
-                borderRadius: '24px',
-                fontFamily: '"Outfit", sans-serif',
-                fontWeight: 900,
-                boxShadow: '0 4px 18px rgba(0, 0, 0, 0.25), 0 0 14px rgba(16, 185, 129, 0.35)',
-                cursor: 'pointer',
+                left: 0,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                zIndex: 35,
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                transition: 'all 0.25s ease'
+                padding: '12px 18px 12px 14px',
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                color: '#FFFFFF',
+                border: '2px solid #FDE68A',
+                borderLeft: 'none',
+                borderRadius: '0 20px 20px 0',
+                boxShadow: '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)',
+                cursor: 'pointer',
+                fontFamily: '"Outfit", sans-serif',
+                fontWeight: 900,
+                fontSize: '15px',
+                transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 253, 245, 0.95) 0%, rgba(254, 248, 230, 0.88) 100%)';
-                e.currentTarget.style.borderColor = '#15803D';
-                e.currentTarget.style.transform = 'translateX(-50%) translateY(-2px) scale(1.02)';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
+                e.currentTarget.style.boxShadow = '0 8px 30px rgba(217, 119, 6, 0.75), 0 2px 12px rgba(0, 0, 0, 0.5)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 253, 245, 0.82) 0%, rgba(254, 248, 230, 0.72) 100%)';
-                e.currentTarget.style.borderColor = '#059669';
-                e.currentTarget.style.transform = 'translateX(-50%) translateY(0) scale(1)';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                e.currentTarget.style.boxShadow = '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)';
               }}
             >
-              <Sparkles size={16} color="#D97706" />
-              <span>🌍 01 · Biosphere & Habitats</span>
-              <span style={{ opacity: 0.85, fontSize: '16px', fontWeight: 650, color: '#047857' }}>(Tap to read notes)</span>
+              <BookOpen size={18} color="#FFFFFF" strokeWidth={2.5} />
+              <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
             </button>
           )}
         </>
@@ -1936,21 +2455,53 @@ export default function Chapter2SloganPage({
       {/* ============================================================ */}
       {currentPage === 3 && (
         <>
-          {/* Floating Fullscreen Control for Page 3 (Top-Right) */}
+          {/* Top Center Title: Adaptations (Attractive Golden Banner) */}
+          <div style={{
+            position: 'absolute',
+            top: '16px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 35,
+            pointerEvents: 'none',
+            textAlign: 'center',
+            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+            border: '2px solid rgba(254, 240, 138, 0.85)',
+            borderRadius: '12px',
+            padding: '7px 28px',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
+          }}>
+            <h1 style={{
+              margin: 0,
+              fontSize: '24px',
+              fontWeight: 900,
+              fontFamily: '"Cinzel", Georgia, serif',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              color: '#FFFFFF',
+              lineHeight: 1.15,
+              textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+            }}>
+              Adaptations
+            </h1>
+          </div>
+
+          {/* Floating Controls for Page 3 (Top-Right): Fullscreen Only */}
           <div style={{
             position: 'absolute',
             top: '16px',
             right: '20px',
-            zIndex: 35
+            zIndex: 35,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px'
           }}>
+            {/* Fullscreen Button */}
             <button
               type="button"
               onClick={toggleFullscreen}
               title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
               style={{
                 background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
                 color: '#FEF3C7',
                 border: '1.8px solid rgba(255, 255, 255, 0.35)',
                 borderRadius: '10px',
@@ -2025,23 +2576,23 @@ export default function Chapter2SloganPage({
             </button>
           </div>
 
-          {/* ATTRACTIVE POPUP MESSAGE: MORPHOLOGY & ADAPTATION (TRANSPARENT GLASS PANEL POPUP WITH SLIGHT BLUR IN FONT AREA ONLY) */}
+          {/* ATTRACTIVE POPUP MESSAGE: DESERT ADAPTATIONS (TRANSPARENT GLASS PANEL POPUP WITH BLUR & COMPLEMENTARY COLORS) */}
           {showPage3Popup && (
             <div
               className="bio-panel-left-enter"
               style={{
                 position: 'absolute',
                 top: '16px',
-                left: '16px',
-                width: 'min(420px, 36vw)',
-                maxHeight: '78vh',
+                left: '18px',
+                width: 'min(480px, 42vw)',
+                maxHeight: 'calc(100vh - 36px)',
                 zIndex: 40,
-                background: 'linear-gradient(145deg, rgba(28, 18, 5, 0.42) 0%, rgba(18, 10, 2, 0.34) 100%)',
-                backdropFilter: 'blur(16px) saturate(160%)',
-                WebkitBackdropFilter: 'blur(16px) saturate(160%)',
-                border: '1.5px solid rgba(251, 191, 36, 0.35)',
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(2px)',
+                background: 'transparent',
+                border: '1.8px solid rgba(251, 191, 36, 0.55)',
                 borderRadius: '24px',
-                boxShadow: '0 16px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.20), 0 0 15px rgba(245, 158, 11, 0.10)',
+                boxShadow: '0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 24px rgba(245, 158, 11, 0.20)',
                 boxSizing: 'border-box',
                 display: 'flex',
                 flexDirection: 'column',
@@ -2057,305 +2608,393 @@ export default function Chapter2SloganPage({
                 justifyContent: 'space-between',
                 flex: 1,
                 padding: 'clamp(14px, 2vh, 20px) clamp(16px, 2vw, 22px)',
-                gap: 'clamp(6px, 1vh, 10px)',
+                gap: 'clamp(8px, 1.2vh, 14px)',
                 position: 'relative',
                 zIndex: 5,
                 overflowY: 'auto',
-                scrollbarWidth: 'none'
+                scrollbarWidth: 'thin'
               }}>
 
-                {/* Top bar: NCERT Badge + Close Button (Font Area with slight blur) */}
+                {/* Top bar: Pill Badge + Circle Narration Button + Close Button */}
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between'
+                  justifyContent: 'space-between',
+                  gap: '12px'
                 }}>
                   <span style={{
-                    background: 'linear-gradient(135deg, rgba(40, 24, 6, 0.32) 0%, rgba(20, 12, 3, 0.26) 100%)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                    background: 'linear-gradient(135deg, rgba(40, 24, 6, 0.70) 0%, rgba(20, 12, 3, 0.60) 100%)',
                     color: '#FDE68A',
-                    border: '1.2px solid rgba(251, 191, 36, 0.45)',
-                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                    padding: '6px 16px',
+                    border: '1.5px solid rgba(251, 191, 36, 0.55)',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
+                    padding: '5px 16px',
                     borderRadius: '22px',
                     fontFamily: '"Outfit", sans-serif',
                     fontWeight: 800,
-                    fontSize: '16px',
-                    letterSpacing: '0.06em',
+                    fontSize: '18px',
+                    letterSpacing: '0.04em',
                     textTransform: 'uppercase',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '7px',
+                    gap: '8px',
                     textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                   }}>
                     <span style={{ fontSize: '18px' }}>🌵</span>
-                    <span>ADAPTATION</span>
+                    <span style={{ color: '#F59E0B' }}>ADAPTATION</span>
                   </span>
 
-                  <button
-                    type="button"
-                    onClick={() => setShowPage3Popup(false)}
-                    aria-label="Close message and view full scenery"
-                    title="View full scenery photo"
-                    style={{
-                      background: 'rgba(28, 16, 4, 0.30)',
-                      backdropFilter: 'blur(20px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                      border: '1.2px solid rgba(255, 255, 255, 0.25)',
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                      borderRadius: '10px',
-                      width: '36px',
-                      height: '36px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'rgba(255, 255, 255, 0.95)',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.45)';
-                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.75)';
-                      e.currentTarget.style.color = '#FFFFFF';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(28, 16, 4, 0.30)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
-                      e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
-                    }}
-                  >
-                    <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
-                  </button>
-                </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {/* Play / Pause Narration Button inside popup */}
+                    <button
+                      type="button"
+                      onClick={toggleDesertAudio}
+                      aria-label={isPlayingDesertAudio ? 'Pause Narration' : 'Play Narration'}
+                      title={isPlayingDesertAudio ? 'Pause Narration' : 'Play Narration'}
+                      style={{
+                        background: isPlayingDesertAudio
+                          ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)'
+                          : 'linear-gradient(135deg, rgba(245, 158, 11, 0.45) 0%, rgba(217, 119, 6, 0.35) 100%)',
+                        border: '1.8px solid #FBBF24',
+                        boxShadow: isPlayingDesertAudio
+                          ? '0 0 16px rgba(245, 158, 11, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                          : '0 4px 12px rgba(0, 0, 0, 0.35), 0 0 10px rgba(245, 158, 11, 0.25)',
+                        borderRadius: '20px',
+                        padding: '6px 14px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        color: '#FFFFFF',
+                        fontWeight: 800,
+                        fontSize: '13px',
+                        fontFamily: '"Outfit", sans-serif',
+                        cursor: 'pointer',
+                        flexShrink: 0,
+                        transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                        e.currentTarget.style.borderColor = '#FDE68A';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                        e.currentTarget.style.borderColor = '#FBBF24';
+                      }}
+                    >
+                      {isPlayingDesertAudio ? (
+                        <>
+                          <Pause size={15} fill="#FFFFFF" />
+                          <span>Pause</span>
+                        </>
+                      ) : (
+                        <>
+                          <Play size={15} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                          <span>Play</span>
+                        </>
+                      )}
+                    </button>
 
-                {/* Title Section: Font Area Blur, 24px Title, 16px Subtitle */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '5px'
-                }}>
-                  <h3 style={{
-                    fontFamily: '"Outfit", sans-serif',
-                    fontWeight: 900,
-                    fontSize: '24px',
-                    margin: 0,
-                    color: '#FCD34D',
-                    lineHeight: 1.25,
-                    letterSpacing: '-0.01em',
-                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 18px rgba(251, 191, 36, 0.55)'
-                  }}>
-                    Desert & Surrounding Adaptations
-                  </h3>
-                  <div style={{
-                    fontSize: '16px',
-                    color: '#FDE68A',
-                    fontWeight: 700,
-                    fontStyle: 'italic',
-                    fontFamily: '"Outfit", sans-serif',
-                    textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)'
-                  }}>
-                    Special Traits for Arid Survival
+                    {/* Close Button */}
+                    <button
+                      type="button"
+                      onClick={() => setShowPage3Popup(false)}
+                      aria-label="Close message and view full scenery"
+                      title="View full scenery photo"
+                      style={{
+                        background: 'rgba(28, 16, 4, 0.65)',
+                        border: '1.5px solid rgba(255, 255, 255, 0.30)',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+                        borderRadius: '10px',
+                        width: '36px',
+                        height: '36px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'rgba(255, 255, 255, 0.95)',
+                        cursor: 'pointer',
+                        flexShrink: 0,
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'rgba(239, 68, 68, 0.55)';
+                        e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.85)';
+                        e.currentTarget.style.color = '#FFFFFF';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(28, 16, 4, 0.65)';
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.30)';
+                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
+                      }}
+                    >
+                      <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
+                    </button>
                   </div>
                 </div>
 
-                {/* Info Panel: SINGLE unified glass panel (blur applied only to text/content area) */}
+                {/* Title Section */}
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '4px'
+                }}>
+                  <h2 style={{
+                    fontFamily: '"Outfit", sans-serif',
+                    fontWeight: 900,
+                    fontSize: '20px',
+                    margin: 0,
+                    color: '#F59E0B',
+                    lineHeight: 1.25,
+                    letterSpacing: '0.02em',
+                    textTransform: 'uppercase',
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 24px rgba(245, 158, 11, 0.65), 0 0 40px rgba(217, 119, 6, 0.25)'
+                  }}>
+                    <BioWord index={0} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">DESERT</BioWord>{' '}
+                    <BioWord index={1} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">ADAPTATIONS</BioWord>
+                  </h2>
+                </div>
+
+                {/* Info Panel: Content Sections */}
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '10px'
                 }}>
-                  {/* Row 1: Camel Adaptations */}
+                  {/* Section 1: What Is Adaptation? */}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <div style={{
-                      fontSize: '20px',
+                      fontSize: '18px',
                       fontWeight: 800,
-                      color: '#FDE68A',
+                      color: '#FBBF24',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
                       fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 12px rgba(0, 0, 0, 0.65)'
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(251, 191, 36, 0.45)'
                     }}>
-                      <span style={{ fontSize: '20px' }}>🐪</span>
-                      <span>The Ship of the Desert</span>
+                      <span style={{ fontSize: '18px' }}>🦎</span>
+                      <span>
+                        <BioWord index={2} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">What</BioWord>{' '}
+                        <BioWord index={3} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Is</BioWord>{' '}
+                        <BioWord index={4} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Adaptation?</BioWord>
+                      </span>
                     </div>
                     <div style={{
-                      fontSize: '16px',
-                      color: '#FFFBEB',
-                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
+                      fontSize: '18px',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
                       fontWeight: 500,
-                      lineHeight: 1.55,
+                      lineHeight: 1.6,
                       fontFamily: '"Inter", sans-serif',
-                      textAlign: 'justify'
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
                     }}>
-                      Padded feet stop it sinking in sand; long lashes block blowing dust.
+                      <BioWord index={5} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">A</BioWord>{' '}
+                      <BioWord index={6} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">feature</BioWord>{' '}
+                      <BioWord index={7} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">or</BioWord>{' '}
+                      <BioWord index={8} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">behaviour</BioWord>{' '}
+                      <BioWord index={9} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">that</BioWord>{' '}
+                      <BioWord index={10} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">helps</BioWord>{' '}
+                      <BioWord index={11} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">a</BioWord>{' '}
+                      <BioWord index={12} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">living</BioWord>{' '}
+                      <BioWord index={13} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">thing</BioWord>{' '}
+                      <BioWord index={14} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">survive</BioWord>{' '}
+                      <BioWord index={15} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">in</BioWord>{' '}
+                      <BioWord index={16} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">its</BioWord>{' '}
+                      <BioWord index={17} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">habitat.</BioWord>
                     </div>
                   </div>
 
                   <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
-                  {/* Row 2: Water Conservation */}
+                  {/* Section 2: The Ship of the Desert */}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <div style={{
-                      fontSize: '20px',
+                      fontSize: '18px',
                       fontWeight: 800,
-                      color: '#FDE68A',
+                      color: '#FBBF24',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
                       fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 12px rgba(0, 0, 0, 0.65)'
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(251, 191, 36, 0.45)'
                     }}>
-                      <span style={{ fontSize: '20px' }}>💧</span>
-                      <span>Extreme Water Retention</span>
+                      <span style={{ fontSize: '18px' }}>🐪</span>
+                      <span>
+                        <BioWord index={18} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">The</BioWord>{' '}
+                        <BioWord index={19} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Ship</BioWord>{' '}
+                        <BioWord index={20} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">of</BioWord>{' '}
+                        <BioWord index={21} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">the</BioWord>{' '}
+                        <BioWord index={22} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Desert</BioWord>
+                      </span>
                     </div>
                     <div style={{
-                      fontSize: '16px',
-                      color: '#FFFBEB',
-                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
+                      fontSize: '18px',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
                       fontWeight: 500,
-                      lineHeight: 1.55,
+                      lineHeight: 1.6,
                       fontFamily: '"Inter", sans-serif',
-                      textAlign: 'justify'
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
                     }}>
-                      Barely sweats or urinates, surviving weeks without drinking water.
+                      <BioWord index={23} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">A</BioWord>{' '}
+                      <BioWord index={24} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">camel’s</BioWord>{' '}
+                      <BioWord index={25} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">broad,</BioWord>{' '}
+                      <BioWord index={26} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">padded</BioWord>{' '}
+                      <BioWord index={27} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">feet</BioWord>{' '}
+                      <BioWord index={28} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">help</BioWord>{' '}
+                      <BioWord index={29} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">prevent</BioWord>{' '}
+                      <BioWord index={30} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">it</BioWord>{' '}
+                      <BioWord index={31} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">from</BioWord>{' '}
+                      <BioWord index={32} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">sinking</BioWord>{' '}
+                      <BioWord index={33} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">into</BioWord>{' '}
+                      <BioWord index={34} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">sand.</BioWord>{' '}
+                      <BioWord index={35} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Its</BioWord>{' '}
+                      <BioWord index={36} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">long</BioWord>{' '}
+                      <BioWord index={37} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">eyelashes</BioWord>{' '}
+                      <BioWord index={38} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">help</BioWord>{' '}
+                      <BioWord index={39} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">protect</BioWord>{' '}
+                      <BioWord index={40} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">its</BioWord>{' '}
+                      <BioWord index={41} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">eyes</BioWord>{' '}
+                      <BioWord index={42} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">from</BioWord>{' '}
+                      <BioWord index={43} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">blowing</BioWord>{' '}
+                      <BioWord index={44} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">dust.</BioWord>
+                    </div>
+                  </div>
+
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Section 3: Saving Water */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#22D3EE',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(34, 211, 238, 0.4)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>💧</span>
+                      <span>
+                        <BioWord index={45} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">Saving</BioWord>{' '}
+                        <BioWord index={46} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">Water</BioWord>
+                      </span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
+                      fontWeight: 500,
+                      lineHeight: 1.6,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      <BioWord index={47} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">Camels</BioWord>{' '}
+                      <BioWord index={48} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">conserve</BioWord>{' '}
+                      <BioWord index={49} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">water</BioWord>{' '}
+                      <BioWord index={50} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">by</BioWord>{' '}
+                      <BioWord index={51} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">reducing</BioWord>{' '}
+                      <BioWord index={52} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">water</BioWord>{' '}
+                      <BioWord index={53} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">loss</BioWord>{' '}
+                      <BioWord index={54} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">from</BioWord>{' '}
+                      <BioWord index={55} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">their</BioWord>{' '}
+                      <BioWord index={56} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">bodies.</BioWord>{' '}
+                      <BioWord index={57} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">This</BioWord>{' '}
+                      <BioWord index={58} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">helps</BioWord>{' '}
+                      <BioWord index={59} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">them</BioWord>{' '}
+                      <BioWord index={60} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">survive</BioWord>{' '}
+                      <BioWord index={61} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">for</BioWord>{' '}
+                      <BioWord index={62} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">long</BioWord>{' '}
+                      <BioWord index={63} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">periods</BioWord>{' '}
+                      <BioWord index={64} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">without</BioWord>{' '}
+                      <BioWord index={65} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">drinking.</BioWord>
+                    </div>
+                  </div>
+
+                  {/* Callout box: Think */}
+                  <div style={{
+                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.28) 0%, rgba(217, 119, 6, 0.22) 100%)',
+                    border: '1.5px solid rgba(253, 230, 138, 0.55)',
+                    borderRadius: '14px',
+                    padding: '10px 14px',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35)',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '10px'
+                  }}>
+                    <span style={{ fontSize: '18px', lineHeight: 1 }}>💡</span>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FFFFFF',
+                      fontWeight: 600,
+                      fontFamily: '"Outfit", sans-serif',
+                      lineHeight: 1.5,
+                      textAlign: 'justify',
+                      textJustify: 'inter-word',
+                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.6)'
+                    }}>
+                      <strong style={{ color: '#FDE047', fontWeight: 900, marginRight: '4px', textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 12px rgba(245, 158, 11, 0.6)' }}>
+                        <BioWord index={66} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Think:</BioWord>
+                      </strong>{' '}
+                      <BioWord index={67} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Why</BioWord>{' '}
+                      <BioWord index={68} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">is</BioWord>{' '}
+                      <BioWord index={69} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">saving</BioWord>{' '}
+                      <BioWord index={70} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">water</BioWord>{' '}
+                      <BioWord index={71} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">important</BioWord>{' '}
+                      <BioWord index={72} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">in</BioWord>{' '}
+                      <BioWord index={73} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">a</BioWord>{' '}
+                      <BioWord index={74} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">desert?</BioWord>
                     </div>
                   </div>
                 </div>
 
-                {/* Action Buttons: Font Area Blur, 16px Font */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '10px',
-                  paddingTop: 'clamp(2px, 0.6vh, 6px)'
-                }}>
-                  <button
-                    type="button"
-                    onClick={toggleAdaptationAudio}
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.65) 0%, rgba(217, 119, 6, 0.52) 100%)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
-                      color: '#FFFFFF',
-                      border: '1.2px solid rgba(251, 191, 36, 0.65)',
-                      borderRadius: '28px',
-                      padding: '11px 24px',
-                      fontSize: '16px',
-                      fontWeight: 700,
-                      fontFamily: '"Outfit", sans-serif',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      width: 'fit-content',
-                      boxShadow: '0 4px 18px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.35)',
-                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                      transition: 'all 0.25s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 6px 24px rgba(245, 158, 11, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5)';
-                      e.currentTarget.style.borderColor = 'rgba(251, 191, 36, 0.85)';
-                      e.currentTarget.style.background = 'linear-gradient(135deg, rgba(245, 158, 11, 0.72) 0%, rgba(217, 119, 6, 0.58) 100%)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 4px 18px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.35)';
-                      e.currentTarget.style.borderColor = 'rgba(251, 191, 36, 0.55)';
-                      e.currentTarget.style.background = 'linear-gradient(135deg, rgba(245, 158, 11, 0.65) 0%, rgba(217, 119, 6, 0.52) 100%)';
-                    }}
-                  >
-                    {isPlayingAdaptationAudio ? <VolumeX size={18} color="#FDE68A" /> : <Volume2 size={18} color="#FDE68A" />}
-                    <span>{isPlayingAdaptationAudio ? 'Stop Narration' : 'Listen Explanation'}</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setShowPage3Popup(false)}
-                    style={{
-                      background: 'rgba(28, 16, 4, 0.55)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
-                      border: '1.2px solid rgba(255, 255, 255, 0.28)',
-                      borderRadius: '28px',
-                      padding: '11px 22px',
-                      color: '#F8FAFC',
-                      fontFamily: '"Outfit", sans-serif',
-                      fontWeight: 700,
-                      fontSize: '16px',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      width: 'fit-content',
-                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                      transition: 'all 0.25s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(28, 16, 4, 0.55)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.28)';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                    }}
-                  >
-                    <Eye size={18} />
-                    <span>View Full Scenery →</span>
-                  </button>
-                </div>
+                {/* Note: Listen Explanation and View Full Scenery buttons removed as requested */}
               </div>
             </div>
           )}
 
-          {/* Re-open Trigger Pill when Popup is Minimized: Transparent Cream & Desert Amber */}
+          {/* Left-Side Center Arrow Trigger: Opens Page 3 Popup */}
           {!showPage3Popup && (
             <button
               type="button"
               onClick={() => setShowPage3Popup(true)}
-              className="bio-pill-float"
+              title="Open Desert Habitats Notes"
+              aria-label="Open Desert Habitats Notes"
               style={{
                 position: 'absolute',
-                bottom: '22px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 30,
-                padding: '8px 24px',
-                fontSize: '16px',
-                background: 'linear-gradient(135deg, rgba(255, 253, 245, 0.85) 0%, rgba(254, 248, 230, 0.75) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                color: '#78350F',
-                border: '1.8px solid #D97706',
-                borderRadius: '24px',
-                fontFamily: '"Outfit", sans-serif',
-                fontWeight: 900,
-                boxShadow: '0 4px 18px rgba(0, 0, 0, 0.25), 0 0 14px rgba(245, 158, 11, 0.35)',
-                cursor: 'pointer',
+                left: 0,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                zIndex: 35,
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                transition: 'all 0.25s ease'
+                padding: '12px 18px 12px 14px',
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                color: '#FFFFFF',
+                border: '2px solid #FDE68A',
+                borderLeft: 'none',
+                borderRadius: '0 20px 20px 0',
+                boxShadow: '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)',
+                cursor: 'pointer',
+                fontFamily: '"Outfit", sans-serif',
+                fontWeight: 900,
+                fontSize: '15px',
+                transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 253, 245, 0.96) 0%, rgba(254, 248, 230, 0.90) 100%)';
-                e.currentTarget.style.borderColor = '#B45309';
-                e.currentTarget.style.transform = 'translateX(-50%) translateY(-2px) scale(1.02)';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
+                e.currentTarget.style.boxShadow = '0 8px 30px rgba(217, 119, 6, 0.75), 0 2px 12px rgba(0, 0, 0, 0.5)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 253, 245, 0.85) 0%, rgba(254, 248, 230, 0.75) 100%)';
-                e.currentTarget.style.borderColor = '#D97706';
-                e.currentTarget.style.transform = 'translateX(-50%) translateY(0) scale(1)';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                e.currentTarget.style.boxShadow = '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)';
               }}
             >
-              <Sparkles size={16} color="#D97706" />
-              <span>🐫 02 · Desert Adaptation & Flora</span>
-              <span style={{ opacity: 0.85, fontSize: '16px', fontWeight: 650, color: '#B45309' }}>(Tap to read notes)</span>
+              <BookOpen size={18} color="#FFFFFF" strokeWidth={2.5} />
+              <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
             </button>
           )}
         </>
@@ -2366,6 +3005,36 @@ export default function Chapter2SloganPage({
       {/* ============================================================ */}
       {currentPage === 4 && (
         <>
+          {/* Top Center Title: Plant Groups (Attractive Golden Banner) */}
+          <div style={{
+            position: 'absolute',
+            top: '16px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 35,
+            pointerEvents: 'none',
+            textAlign: 'center',
+            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+            border: '2px solid rgba(254, 240, 138, 0.85)',
+            borderRadius: '12px',
+            padding: '7px 28px',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
+          }}>
+            <h1 style={{
+              margin: 0,
+              fontSize: '24px',
+              fontWeight: 900,
+              fontFamily: '"Cinzel", Georgia, serif',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              color: '#FFFFFF',
+              lineHeight: 1.15,
+              textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+            }}>
+              Plant Groups
+            </h1>
+          </div>
+
           {/* Floating Fullscreen Control for Page 4 (Top-Right) */}
           <div style={{
             position: 'absolute',
@@ -2379,8 +3048,6 @@ export default function Chapter2SloganPage({
               title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
               style={{
                 background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
                 color: '#FEF3C7',
                 border: '1.8px solid rgba(255, 255, 255, 0.35)',
                 borderRadius: '10px',
@@ -2406,6 +3073,8 @@ export default function Chapter2SloganPage({
               {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
             </button>
           </div>
+
+
 
           {/* Page 4 Bottom-Left: Previous Page Button */}
           <div style={{
@@ -2455,23 +3124,23 @@ export default function Chapter2SloganPage({
             </button>
           </div>
 
-          {/* ATTRACTIVE POPUP MESSAGE: BOTANICAL TAXONOMY (60% TRANSPARENT GLOSSY EMERALD PANEL) */}
+          {/* ATTRACTIVE POPUP MESSAGE: HERBS, SHRUBS, TREES & CLIMBERS */}
           {showPage4Popup && (
             <div
               className="bio-panel-left-enter"
               style={{
                 position: 'absolute',
                 top: '16px',
-                left: '16px',
-                width: 'min(420px, 36vw)',
-                maxHeight: '78vh',
+                left: '18px',
+                width: 'min(480px, 42vw)',
+                maxHeight: 'calc(100vh - 36px)',
                 zIndex: 40,
-                background: 'linear-gradient(145deg, rgba(8, 28, 18, 0.42) 0%, rgba(3, 18, 10, 0.34) 100%)',
-                backdropFilter: 'blur(16px) saturate(160%)',
-                WebkitBackdropFilter: 'blur(16px) saturate(160%)',
-                border: '1.5px solid rgba(167, 243, 208, 0.35)',
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(2px)',
+                background: 'transparent',
+                border: '1.8px solid rgba(167, 243, 208, 0.55)',
                 borderRadius: '24px',
-                boxShadow: '0 16px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.20), 0 0 15px rgba(16, 185, 129, 0.10)',
+                boxShadow: '0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 24px rgba(16, 185, 129, 0.20)',
                 boxSizing: 'border-box',
                 display: 'flex',
                 flexDirection: 'column',
@@ -2480,49 +3149,97 @@ export default function Chapter2SloganPage({
                 transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
               }}
             >
-              {/* Top glossy shine removed for transparency */}
-
-              {/* Inner content wrapper with padding - vertically centered */}
+              {/* Inner content wrapper with padding */}
               <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'center',
+                justifyContent: 'space-between',
                 flex: 1,
-                padding: 'clamp(14px, 2.2vh, 26px) clamp(16px, 2.2vw, 26px)',
-                gap: 'clamp(6px, 1vh, 10px)',
+                padding: 'clamp(14px, 2vh, 20px) clamp(16px, 2vw, 22px)',
+                gap: 'clamp(8px, 1.2vh, 14px)',
                 position: 'relative',
                 zIndex: 5,
                 overflowY: 'auto',
-                pointerEvents: 'auto'
+                scrollbarWidth: 'thin'
               }}>
-                {/* Top bar: NCERT Badge + Close Button (Font Area Blur) */}
+
+                {/* Top bar: Pill Badge + Close Button */}
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between'
+                  justifyContent: 'space-between',
+                  gap: '12px'
                 }}>
                   <span style={{
-                    background: 'linear-gradient(135deg, rgba(6, 30, 20, 0.32) 0%, rgba(2, 18, 10, 0.26) 100%)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                    background: 'linear-gradient(135deg, rgba(6, 28, 18, 0.70) 0%, rgba(2, 18, 10, 0.60) 100%)',
                     color: '#A7F3D0',
-                    border: '1.2px solid rgba(110, 231, 183, 0.50)',
+                    border: '1.5px solid rgba(110, 231, 183, 0.55)',
                     boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
-                    padding: '6px 16px',
+                    padding: '5px 16px',
                     borderRadius: '22px',
                     fontFamily: '"Outfit", sans-serif',
                     fontWeight: 800,
-                    fontSize: '16px',
-                    letterSpacing: '0.06em',
+                    fontSize: '18px',
+                    letterSpacing: '0.04em',
                     textTransform: 'uppercase',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '7px',
+                    gap: '8px',
                     textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                   }}>
                     <span style={{ fontSize: '18px' }}>🌱</span>
-                    <span style={{ color: '#6EE7B7' }}>BOTANY</span>
+                    <span style={{ color: '#34D399' }}>PLANT GROUPS</span>
                   </span>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {/* Play / Pause Narration Button inside popup */}
+                    <button
+                      type="button"
+                      onClick={toggleBotanyAudio}
+                      aria-label={isPlayingBotanyAudio ? 'Pause Narration' : 'Play Narration'}
+                      title={isPlayingBotanyAudio ? 'Pause Narration' : 'Play Narration'}
+                      style={{
+                        background: isPlayingBotanyAudio
+                          ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                          : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
+                        border: '1.8px solid #34D399',
+                        boxShadow: isPlayingBotanyAudio
+                          ? '0 0 16px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                          : '0 4px 12px rgba(0, 0, 0, 0.35), 0 0 10px rgba(16, 185, 129, 0.25)',
+                        borderRadius: '20px',
+                        padding: '6px 14px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        color: '#FFFFFF',
+                        fontWeight: 800,
+                        fontSize: '13px',
+                        fontFamily: '"Outfit", sans-serif',
+                        cursor: 'pointer',
+                        flexShrink: 0,
+                        transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                        e.currentTarget.style.borderColor = '#6EE7B7';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                        e.currentTarget.style.borderColor = '#34D399';
+                      }}
+                    >
+                      {isPlayingBotanyAudio ? (
+                        <>
+                          <Pause size={15} fill="#FFFFFF" />
+                          <span>Pause</span>
+                        </>
+                      ) : (
+                        <>
+                          <Play size={15} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                          <span>Play</span>
+                        </>
+                      )}
+                    </button>
 
                   <button
                     type="button"
@@ -2530,10 +3247,8 @@ export default function Chapter2SloganPage({
                     aria-label="Close message and view full scenery"
                     title="View full scenery photo"
                     style={{
-                      background: 'rgba(2, 18, 10, 0.30)',
-                      backdropFilter: 'blur(20px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                      border: '1.2px solid rgba(255, 255, 255, 0.25)',
+                      background: 'rgba(2, 18, 10, 0.65)',
+                      border: '1.5px solid rgba(255, 255, 255, 0.30)',
                       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                       borderRadius: '10px',
                       width: '36px',
@@ -2543,233 +3258,295 @@ export default function Chapter2SloganPage({
                       justifyContent: 'center',
                       color: 'rgba(255, 255, 255, 0.95)',
                       cursor: 'pointer',
+                      flexShrink: 0,
                       transition: 'all 0.2s ease'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.45)';
-                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.75)';
+                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.55)';
+                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.85)';
                       e.currentTarget.style.color = '#FFFFFF';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(2, 18, 10, 0.30)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+                      e.currentTarget.style.background = 'rgba(2, 18, 10, 0.65)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.30)';
                       e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
                     }}
                   >
                     <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
                   </button>
-                </div>
-
-                {/* Title Section: Font Area Blur, 24px Title, 16px Subtitle */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '5px'
-                }}>
-                  <h3 style={{
-                    fontFamily: '"Outfit", sans-serif',
-                    fontWeight: 900,
-                    fontSize: '24px',
-                    margin: 0,
-                    color: '#6EE7B7',
-                    lineHeight: 1.25,
-                    letterSpacing: '-0.01em',
-                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 18px rgba(110, 231, 183, 0.55)'
-                  }}>
-                    {PAGE_4_LESSONS[page4ActiveTab]?.title}
-                  </h3>
-                  <div style={{
-                    fontSize: '16px',
-                    color: '#FDE68A',
-                    fontWeight: 700,
-                    fontStyle: 'italic',
-                    fontFamily: '"Outfit", sans-serif',
-                    textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)'
-                  }}>
-                    {page4ActiveTab === 0 ? 'Herbs, Shrubs & Trees (Table 2.3, p.16)' : page4ActiveTab === 1 ? 'Leaf Venation & Root Link (Table 2.4, p.19)' : 'Chickpea Dicot vs Maize Monocot (p.20)'}
                   </div>
                 </div>
 
-                {/* Info Cards - Font Area Blur with Greenhouse Harmonized Complementary Colors */}
+                {/* Title Section */}
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '4px'
+                }}>
+                  <h2 style={{
+                    fontFamily: '"Outfit", sans-serif',
+                    fontWeight: 900,
+                    fontSize: '20px',
+                    margin: 0,
+                    color: '#34D399',
+                    lineHeight: 1.25,
+                    letterSpacing: '0.02em',
+                    textTransform: 'uppercase',
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 24px rgba(52, 211, 153, 0.65), 0 0 40px rgba(16, 185, 129, 0.25)'
+                  }}>
+                    <BioWord index={0} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>HERBS,</BioWord>{' '}
+                    <BioWord index={1} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>SHRUBS,</BioWord>{' '}
+                    <BioWord index={2} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>TREES</BioWord>{' '}
+                    <BioWord index={3} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>&amp;</BioWord>{' '}
+                    <BioWord index={4} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>CLIMBERS</BioWord>
+                  </h2>
+                </div>
+
+                {/* Info Panel: Content Sections */}
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '10px'
                 }}>
-                  {PAGE_4_LESSONS[page4ActiveTab]?.cards?.map((card, idx) => {
-                    const themeIdx = idx % 3;
-                    const accentColor = themeIdx === 0 ? '#10B981' : themeIdx === 1 ? '#F43F5E' : '#F59E0B';
-                    const titleColor = themeIdx === 0 ? '#A7F3D0' : themeIdx === 1 ? '#FECDD3' : '#FDE68A';
-                    const descColor = themeIdx === 0 ? '#F0FDF4' : themeIdx === 1 ? '#FFF1F2' : '#FFFBEB';
-                    const isLast = idx === (PAGE_4_LESSONS[page4ActiveTab]?.cards?.length ?? 0) - 1;
-                    return (
-                      <React.Fragment key={idx}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', borderLeft: `4.5px solid ${accentColor}`, paddingLeft: '12px' }}>
-                          <div style={{
-                            fontSize: '20px',
-                            fontWeight: 800,
-                            color: titleColor,
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            fontFamily: '"Outfit", sans-serif',
-                            textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 12px rgba(0, 0, 0, 0.65)'
-                          }}>
-                            <span style={{ fontSize: '20px' }}>{card.icon}</span>
-                            <span>{card.title}</span>
-                          </div>
-                          <div style={{
-                            fontSize: '16px',
-                            color: descColor,
-                            textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
-                            fontWeight: 500,
-                            lineHeight: 1.55,
-                            fontFamily: '"Inter", sans-serif',
-                            textAlign: 'justify'
-                          }}>
-                            {card.desc}
-                          </div>
-                        </div>
-                        {!isLast && (
-                          <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
-                        )}
-                      </React.Fragment>
-                    );
-                  })}
-                </div>
-
-                {/* Action Buttons - 16px font size with Crystal Gloss Sheen */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '10px',
-                  paddingTop: 'clamp(4px, 0.8vh, 10px)'
-                }}>
-                  <button
-                    type="button"
-                    onClick={toggleBotanyAudio}
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.50) 0%, rgba(5, 150, 105, 0.38) 100%)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
+                  {/* Section 1: Herbs — Tomato */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#6EE7B7',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(110, 231, 183, 0.4)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🍅</span>
+                      <span>Herbs — Tomato</span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
                       color: '#FFFFFF',
-                      border: '1.2px solid rgba(110, 231, 183, 0.65)',
-                      borderRadius: '28px',
-                      padding: '11px 24px',
-                      fontSize: '16px',
-                      fontWeight: 700,
-                      fontFamily: '"Outfit", sans-serif',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      width: 'fit-content',
-                      boxShadow: '0 4px 18px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.35)',
-                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                      transition: 'all 0.25s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 6px 24px rgba(16, 185, 129, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5)';
-                      e.currentTarget.style.borderColor = 'rgba(110, 231, 183, 0.85)';
-                      e.currentTarget.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.58) 0%, rgba(5, 150, 105, 0.42) 100%)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 4px 18px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.35)';
-                      e.currentTarget.style.borderColor = 'rgba(110, 231, 183, 0.55)';
-                      e.currentTarget.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.32) 100%)';
-                    }}
-                  >
-                    {isPlayingBotanyAudio ? <VolumeX size={18} color="#A7F3D0" /> : <Volume2 size={18} color="#A7F3D0" />}
-                    <span>{isPlayingBotanyAudio ? 'Stop Narration' : 'Listen Explanation'}</span>
-                  </button>
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
+                      fontWeight: 500,
+                      lineHeight: 1.6,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      <BioWord index={11} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>Usually</BioWord>{' '}
+                      <BioWord index={12} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>small</BioWord>{' '}
+                      <BioWord index={13} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>plants</BioWord>{' '}
+                      <BioWord index={14} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>with</BioWord>{' '}
+                      <BioWord index={15} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>soft,</BioWord>{' '}
+                      <BioWord index={16} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>green</BioWord>{' '}
+                      <BioWord index={17} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio}>stems.</BioWord>
+                    </div>
+                  </div>
 
-                  <button
-                    type="button"
-                    onClick={() => setShowPage4Popup(false)}
-                    style={{
-                      background: 'rgba(2, 18, 10, 0.55)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
-                      border: '1.2px solid rgba(255, 255, 255, 0.28)',
-                      borderRadius: '28px',
-                      padding: '11px 22px',
-                      fontSize: '16px',
-                      fontWeight: 700,
-                      color: '#F8FAFC',
-                      fontFamily: '"Outfit", sans-serif',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Section 2: Shrubs — Rose */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#FDA4AF',
+                      display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
-                      width: 'fit-content',
-                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                      transition: 'all 0.25s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(2, 18, 10, 0.55)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.28)';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                    }}
-                  >
-                    <span>View Full Scenery</span>
-                    <ArrowRight size={17} />
-                  </button>
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(253, 164, 175, 0.4)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🌹</span>
+                      <span>Shrubs — Rose</span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
+                      fontWeight: 500,
+                      lineHeight: 1.6,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      <BioWord index={23} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="cyan">Woody</BioWord>{' '}
+                      <BioWord index={24} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="cyan">plants</BioWord>{' '}
+                      <BioWord index={25} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="cyan">with</BioWord>{' '}
+                      <BioWord index={26} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="cyan">many</BioWord>{' '}
+                      <BioWord index={27} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="cyan">branches</BioWord>{' '}
+                      <BioWord index={28} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="cyan">growing</BioWord>{' '}
+                      <BioWord index={29} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="cyan">near</BioWord>{' '}
+                      <BioWord index={30} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="cyan">the</BioWord>{' '}
+                      <BioWord index={31} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="cyan">ground.</BioWord>
+                    </div>
+                  </div>
+
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Section 3: Trees — Mango */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#FBBF24',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(251, 191, 36, 0.45)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🥭</span>
+                      <span>Trees — Mango</span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
+                      fontWeight: 500,
+                      lineHeight: 1.6,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      <BioWord index={36} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">Grow</BioWord>{' '}
+                      <BioWord index={37} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">tall,</BioWord>{' '}
+                      <BioWord index={38} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">with</BioWord>{' '}
+                      <BioWord index={39} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">a</BioWord>{' '}
+                      <BioWord index={40} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">thick,</BioWord>{' '}
+                      <BioWord index={41} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">woody</BioWord>{' '}
+                      <BioWord index={42} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">trunk</BioWord>{' '}
+                      <BioWord index={43} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">and</BioWord>{' '}
+                      <BioWord index={44} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">branches</BioWord>{' '}
+                      <BioWord index={45} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">higher</BioWord>{' '}
+                      <BioWord index={46} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">above</BioWord>{' '}
+                      <BioWord index={47} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">the</BioWord>{' '}
+                      <BioWord index={48} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">ground.</BioWord>
+                    </div>
+                  </div>
+
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Section 4: Climbers — Money Plant */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#34D399',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(52, 211, 153, 0.4)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🪴</span>
+                      <span>Climbers — Money Plant</span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
+                      fontWeight: 500,
+                      lineHeight: 1.6,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      <BioWord index={54} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">Have</BioWord>{' '}
+                      <BioWord index={55} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">weak</BioWord>{' '}
+                      <BioWord index={56} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">stems</BioWord>{' '}
+                      <BioWord index={57} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">and</BioWord>{' '}
+                      <BioWord index={58} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">need</BioWord>{' '}
+                      <BioWord index={59} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">support</BioWord>{' '}
+                      <BioWord index={60} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">to</BioWord>{' '}
+                      <BioWord index={61} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">grow</BioWord>{' '}
+                      <BioWord index={62} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">upwards.</BioWord>
+                    </div>
+                  </div>
+
+                  {/* Callout box: Think */}
+                  <div style={{
+                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(5, 150, 105, 0.22) 100%)',
+                    border: '1.5px solid rgba(167, 243, 208, 0.55)',
+                    borderRadius: '14px',
+                    padding: '10px 14px',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35)',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '10px'
+                  }}>
+                    <span style={{ fontSize: '18px', lineHeight: 1 }}>💡</span>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FFFFFF',
+                      fontWeight: 600,
+                      fontFamily: '"Outfit", sans-serif',
+                      lineHeight: 1.5,
+                      textAlign: 'justify',
+                      textJustify: 'inter-word',
+                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.6)'
+                    }}>
+                      <strong style={{ color: '#FDE047', fontWeight: 900, marginRight: '4px', textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 12px rgba(245, 158, 11, 0.6)' }}>
+                        <BioWord index={63} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="amber">Think:</BioWord>
+                      </strong>{' '}
+                      <BioWord index={64} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">Which</BioWord>{' '}
+                      <BioWord index={65} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">plant</BioWord>{' '}
+                      <BioWord index={66} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">in</BioWord>{' '}
+                      <BioWord index={67} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">this</BioWord>{' '}
+                      <BioWord index={68} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">picture</BioWord>{' '}
+                      <BioWord index={69} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">needs</BioWord>{' '}
+                      <BioWord index={70} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">support</BioWord>{' '}
+                      <BioWord index={71} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">to</BioWord>{' '}
+                      <BioWord index={72} activeIndex={botanyActiveWordIndex} isPlaying={isPlayingBotanyAudio} color="emerald">climb?</BioWord>
+                    </div>
+                  </div>
                 </div>
+
+                {/* Note: Listen Explanation and View Full Scenery buttons removed as requested */}
               </div>
             </div>
           )}
 
-          {/* Re-open Trigger Pill when Popup is Minimized: Transparent Emerald */}
+          {/* Left-Side Center Arrow Trigger: Opens Page 4 Popup */}
           {!showPage4Popup && (
             <button
               type="button"
               onClick={() => setShowPage4Popup(true)}
-              className="bio-pill-float"
+              title="Open Plant Classification Notes"
+              aria-label="Open Plant Classification Notes"
               style={{
                 position: 'absolute',
-                bottom: '22px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 30,
-                padding: '8px 24px',
-                fontSize: '16px',
-                background: 'linear-gradient(135deg, rgba(255, 253, 245, 0.85) 0%, rgba(254, 248, 230, 0.75) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                color: '#065F46',
-                border: '1.8px solid #059669',
-                borderRadius: '24px',
-                fontFamily: '"Outfit", sans-serif',
-                fontWeight: 900,
-                boxShadow: '0 4px 18px rgba(0, 0, 0, 0.25), 0 0 14px rgba(16, 185, 129, 0.35)',
-                cursor: 'pointer',
+                left: 0,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                zIndex: 35,
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                transition: 'all 0.25s ease'
+                padding: '12px 18px 12px 14px',
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                color: '#FFFFFF',
+                border: '2px solid #FDE68A',
+                borderLeft: 'none',
+                borderRadius: '0 20px 20px 0',
+                boxShadow: '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)',
+                cursor: 'pointer',
+                fontFamily: '"Outfit", sans-serif',
+                fontWeight: 900,
+                fontSize: '15px',
+                transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 253, 245, 0.96) 0%, rgba(254, 248, 230, 0.90) 100%)';
-                e.currentTarget.style.borderColor = '#047857';
-                e.currentTarget.style.transform = 'translateX(-50%) translateY(-2px) scale(1.02)';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
+                e.currentTarget.style.boxShadow = '0 8px 30px rgba(217, 119, 6, 0.75), 0 2px 12px rgba(0, 0, 0, 0.5)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 253, 245, 0.85) 0%, rgba(254, 248, 230, 0.75) 100%)';
-                e.currentTarget.style.borderColor = '#059669';
-                e.currentTarget.style.transform = 'translateX(-50%) translateY(0) scale(1)';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                e.currentTarget.style.boxShadow = '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)';
               }}
             >
-              <Sparkles size={16} color="#059669" />
-              <span>🌿 03 · Plant Detective & Taxonomy</span>
-              <span style={{ opacity: 0.85, fontSize: '16px', fontWeight: 650, color: '#047857' }}>(Tap to read notes)</span>
+              <BookOpen size={18} color="#FFFFFF" strokeWidth={2.5} />
+              <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
             </button>
           )}
         </>
@@ -2780,6 +3557,36 @@ export default function Chapter2SloganPage({
       {/* ============================================================ */}
       {currentPage === 5 && (
         <>
+          {/* Top Center Title: Conservation (Attractive Golden Banner) */}
+          <div style={{
+            position: 'absolute',
+            top: '16px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 35,
+            pointerEvents: 'none',
+            textAlign: 'center',
+            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+            border: '2px solid rgba(254, 240, 138, 0.85)',
+            borderRadius: '12px',
+            padding: '7px 28px',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
+          }}>
+            <h1 style={{
+              margin: 0,
+              fontSize: '24px',
+              fontWeight: 900,
+              fontFamily: '"Cinzel", Georgia, serif',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              color: '#FFFFFF',
+              lineHeight: 1.15,
+              textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+            }}>
+              Conservation
+            </h1>
+          </div>
+
           {/* Floating Fullscreen Control for Page 5 (Top-Right) */}
           <div style={{
             position: 'absolute',
@@ -2793,8 +3600,6 @@ export default function Chapter2SloganPage({
               title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
               style={{
                 background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
                 color: '#FEF3C7',
                 border: '1.8px solid rgba(255, 255, 255, 0.35)',
                 borderRadius: '10px',
@@ -2820,6 +3625,8 @@ export default function Chapter2SloganPage({
               {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
             </button>
           </div>
+
+
 
           {/* Page 5 Bottom-Left: Previous Page Button */}
           <div style={{
@@ -2869,23 +3676,23 @@ export default function Chapter2SloganPage({
             </button>
           </div>
 
-          {/* ATTRACTIVE POPUP MESSAGE: SACRED GROVES & CONSERVATION (TRANSPARENT GLASS PANEL POPUP WITH SLIGHT BLUR IN FONT AREA ONLY) */}
+          {/* ATTRACTIVE POPUP MESSAGE: SACRED GROVES */}
           {showPage5Popup && (
             <div
               className="bio-panel-left-enter"
               style={{
                 position: 'absolute',
                 top: '16px',
-                left: '16px',
-                width: 'min(420px, 36vw)',
-                maxHeight: '78vh',
+                left: '18px',
+                width: 'min(480px, 42vw)',
+                maxHeight: 'calc(100vh - 36px)',
                 zIndex: 40,
-                background: 'linear-gradient(145deg, rgba(8, 28, 18, 0.42) 0%, rgba(3, 18, 10, 0.34) 100%)',
-                backdropFilter: 'blur(16px) saturate(160%)',
-                WebkitBackdropFilter: 'blur(16px) saturate(160%)',
-                border: '1.5px solid rgba(167, 243, 208, 0.35)',
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(2px)',
+                background: 'transparent',
+                border: '1.8px solid rgba(167, 243, 208, 0.55)',
                 borderRadius: '24px',
-                boxShadow: '0 16px 45px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.20), 0 0 15px rgba(16, 185, 129, 0.10)',
+                boxShadow: '0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 24px rgba(16, 185, 129, 0.20)',
                 boxSizing: 'border-box',
                 display: 'flex',
                 flexDirection: 'column',
@@ -2894,49 +3701,97 @@ export default function Chapter2SloganPage({
                 transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
               }}
             >
-              {/* Top glossy shine removed for transparency */}
-
-              {/* Inner content wrapper with padding - vertically centered */}
+              {/* Inner content wrapper with padding */}
               <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'center',
+                justifyContent: 'space-between',
                 flex: 1,
-                padding: 'clamp(14px, 2.2vh, 26px) clamp(16px, 2.2vw, 26px)',
-                gap: 'clamp(6px, 1vh, 10px)',
+                padding: 'clamp(14px, 2vh, 20px) clamp(16px, 2vw, 22px)',
+                gap: 'clamp(8px, 1.2vh, 14px)',
                 position: 'relative',
                 zIndex: 5,
                 overflowY: 'auto',
-                pointerEvents: 'auto'
+                scrollbarWidth: 'thin'
               }}>
-                {/* Top bar: NCERT Badge + Close Button (Font Area Blur) */}
+
+                {/* Top bar: Pill Badge + Close Button */}
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between'
+                  justifyContent: 'space-between',
+                  gap: '12px'
                 }}>
                   <span style={{
-                    background: 'linear-gradient(135deg, rgba(30, 20, 4, 0.32) 0%, rgba(18, 10, 2, 0.26) 100%)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                    color: '#FDE68A',
-                    border: '1.2px solid rgba(251, 191, 36, 0.50)',
+                    background: 'linear-gradient(135deg, rgba(24, 36, 14, 0.70) 0%, rgba(12, 22, 8, 0.60) 100%)',
+                    color: '#A7F3D0',
+                    border: '1.5px solid rgba(110, 231, 183, 0.55)',
                     boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
-                    padding: '6px 16px',
+                    padding: '5px 16px',
                     borderRadius: '22px',
                     fontFamily: '"Outfit", sans-serif',
                     fontWeight: 800,
-                    fontSize: '16px',
-                    letterSpacing: '0.06em',
+                    fontSize: '18px',
+                    letterSpacing: '0.04em',
                     textTransform: 'uppercase',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '7px',
+                    gap: '8px',
                     textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                   }}>
-                    <span style={{ fontSize: '18px' }}>🕊️</span>
-                    <span style={{ color: '#FDE68A' }}>CONSERVATION</span>
+                    <span style={{ fontSize: '18px' }}>🦚</span>
+                    <span style={{ color: '#34D399' }}>CONSERVATION</span>
                   </span>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {/* Play / Pause Narration Button inside popup */}
+                    <button
+                      type="button"
+                      onClick={toggleConservationAudio}
+                      aria-label={isPlayingConservationAudio ? 'Pause Narration' : 'Play Narration'}
+                      title={isPlayingConservationAudio ? 'Pause Narration' : 'Play Narration'}
+                      style={{
+                        background: isPlayingConservationAudio
+                          ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                          : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
+                        border: '1.8px solid #34D399',
+                        boxShadow: isPlayingConservationAudio
+                          ? '0 0 16px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                          : '0 4px 12px rgba(0, 0, 0, 0.35), 0 0 10px rgba(16, 185, 129, 0.25)',
+                        borderRadius: '20px',
+                        padding: '6px 14px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        color: '#FFFFFF',
+                        fontWeight: 800,
+                        fontSize: '13px',
+                        fontFamily: '"Outfit", sans-serif',
+                        cursor: 'pointer',
+                        flexShrink: 0,
+                        transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                        e.currentTarget.style.borderColor = '#6EE7B7';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                        e.currentTarget.style.borderColor = '#34D399';
+                      }}
+                    >
+                      {isPlayingConservationAudio ? (
+                        <>
+                          <Pause size={15} fill="#FFFFFF" />
+                          <span>Pause</span>
+                        </>
+                      ) : (
+                        <>
+                          <Play size={15} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                          <span>Play</span>
+                        </>
+                      )}
+                    </button>
 
                   <button
                     type="button"
@@ -2944,10 +3799,8 @@ export default function Chapter2SloganPage({
                     aria-label="Close message and view full scenery"
                     title="View full scenery photo"
                     style={{
-                      background: 'rgba(18, 10, 2, 0.30)',
-                      backdropFilter: 'blur(20px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                      border: '1.2px solid rgba(255, 255, 255, 0.25)',
+                      background: 'rgba(12, 22, 8, 0.65)',
+                      border: '1.5px solid rgba(255, 255, 255, 0.30)',
                       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                       borderRadius: '10px',
                       width: '36px',
@@ -2957,233 +3810,268 @@ export default function Chapter2SloganPage({
                       justifyContent: 'center',
                       color: 'rgba(255, 255, 255, 0.95)',
                       cursor: 'pointer',
+                      flexShrink: 0,
                       transition: 'all 0.2s ease'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.45)';
-                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.75)';
+                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.55)';
+                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.85)';
                       e.currentTarget.style.color = '#FFFFFF';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(18, 10, 2, 0.30)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+                      e.currentTarget.style.background = 'rgba(12, 22, 8, 0.65)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.30)';
                       e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
                     }}
                   >
                     <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
                   </button>
-                </div>
-
-                {/* Title Section: Font Area Blur, 24px Title, 16px Subtitle */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '5px'
-                }}>
-                  <h3 style={{
-                    fontFamily: '"Outfit", sans-serif',
-                    fontWeight: 900,
-                    fontSize: '24px',
-                    margin: 0,
-                    color: '#FCD34D',
-                    lineHeight: 1.25,
-                    letterSpacing: '-0.01em',
-                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 18px rgba(251, 191, 36, 0.55)'
-                  }}>
-                    {PAGE_5_LESSONS[page5ActiveTab]?.title}
-                  </h3>
-                  <div style={{
-                    fontSize: '16px',
-                    color: '#FDE68A',
-                    fontWeight: 700,
-                    fontStyle: 'italic',
-                    fontFamily: '"Outfit", sans-serif',
-                    textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)'
-                  }}>
-                    {page5ActiveTab === 0 ? 'Traditionally Protected Forests (p.29)' : page5ActiveTab === 1 ? 'Dr. Janaki Ammal & Silent Valley (p.22-23)' : 'Protecting Biodiversity for Future (p.29)'}
                   </div>
                 </div>
 
-                {/* Info Cards - Font Area Blur with Forest Conservation Harmonized Colors */}
+                {/* Title Section */}
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '4px'
+                }}>
+                  <h2 style={{
+                    fontFamily: '"Outfit", sans-serif',
+                    fontWeight: 900,
+                    fontSize: '20px',
+                    margin: 0,
+                    color: '#34D399',
+                    lineHeight: 1.25,
+                    letterSpacing: '0.02em',
+                    textTransform: 'uppercase',
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 24px rgba(52, 211, 153, 0.65), 0 0 40px rgba(16, 185, 129, 0.25)'
+                  }}>
+                    <BioWord index={0} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>SACRED</BioWord>{' '}
+                    <BioWord index={1} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>GROVES</BioWord>
+                  </h2>
+                </div>
+
+                {/* Info Panel: Content Sections */}
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '10px'
                 }}>
-                  {PAGE_5_LESSONS[page5ActiveTab]?.cards?.map((card, idx) => {
-                    const themeIdx = idx % 3;
-                    const accentColor = themeIdx === 0 ? '#F59E0B' : themeIdx === 1 ? '#10B981' : '#06B6D4';
-                    const titleColor = themeIdx === 0 ? '#FDE68A' : themeIdx === 1 ? '#A7F3D0' : '#67E8F9';
-                    const descColor = themeIdx === 0 ? '#FFFBEB' : themeIdx === 1 ? '#F0FDF4' : '#F0FDFA';
-                    const isLast = idx === (PAGE_5_LESSONS[page5ActiveTab]?.cards?.length ?? 0) - 1;
-                    return (
-                      <React.Fragment key={idx}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', borderLeft: `4.5px solid ${accentColor}`, paddingLeft: '12px' }}>
-                          <div style={{
-                            fontSize: '20px',
-                            fontWeight: 800,
-                            color: titleColor,
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            fontFamily: '"Outfit", sans-serif',
-                            textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 12px rgba(0, 0, 0, 0.65)'
-                          }}>
-                            <span style={{ fontSize: '20px' }}>{card.icon}</span>
-                            <span>{card.title}</span>
-                          </div>
-                          <div style={{
-                            fontSize: '16px',
-                            color: descColor,
-                            textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.6)',
-                            fontWeight: 500,
-                            lineHeight: 1.55,
-                            fontFamily: '"Inter", sans-serif',
-                            textAlign: 'justify'
-                          }}>
-                            {card.desc}
-                          </div>
-                        </div>
-                        {!isLast && (
-                          <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
-                        )}
-                      </React.Fragment>
-                    );
-                  })}
-                </div>
-
-                {/* Action Buttons - 16px font size with Crystal Gloss Sheen */}
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '10px',
-                  paddingTop: 'clamp(4px, 0.8vh, 10px)'
-                }}>
-                  <button
-                    type="button"
-                    onClick={toggleConservationAudio}
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.65) 0%, rgba(217, 119, 6, 0.52) 100%)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
+                  {/* Section 1: Protected by Tradition */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#6EE7B7',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(110, 231, 183, 0.4)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🌳</span>
+                      <span>Protected by Tradition</span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
                       color: '#FFFFFF',
-                      border: '1.2px solid rgba(251, 191, 36, 0.65)',
-                      borderRadius: '28px',
-                      padding: '11px 24px',
-                      fontSize: '16px',
-                      fontWeight: 700,
-                      fontFamily: '"Outfit", sans-serif',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      width: 'fit-content',
-                      boxShadow: '0 4px 18px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.35)',
-                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                      transition: 'all 0.25s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 6px 24px rgba(245, 158, 11, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5)';
-                      e.currentTarget.style.borderColor = 'rgba(251, 191, 36, 0.85)';
-                      e.currentTarget.style.background = 'linear-gradient(135deg, rgba(245, 158, 11, 0.72) 0%, rgba(217, 119, 6, 0.58) 100%)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 4px 18px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.35)';
-                      e.currentTarget.style.borderColor = 'rgba(251, 191, 36, 0.55)';
-                      e.currentTarget.style.background = 'linear-gradient(135deg, rgba(245, 158, 11, 0.65) 0%, rgba(217, 119, 6, 0.52) 100%)';
-                    }}
-                  >
-                    {isPlayingConservationAudio ? <VolumeX size={18} color="#FDE68A" /> : <Volume2 size={18} color="#FDE68A" />}
-                    <span>{isPlayingConservationAudio ? 'Stop Narration' : 'Listen Explanation'}</span>
-                  </button>
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
+                      fontWeight: 500,
+                      lineHeight: 1.6,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      <BioWord index={5} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>Sacred</BioWord>{' '}
+                      <BioWord index={6} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>groves</BioWord>{' '}
+                      <BioWord index={7} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>are</BioWord>{' '}
+                      <BioWord index={8} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>patches</BioWord>{' '}
+                      <BioWord index={9} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>of</BioWord>{' '}
+                      <BioWord index={10} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>forest</BioWord>{' '}
+                      <BioWord index={11} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>protected</BioWord>{' '}
+                      <BioWord index={12} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>by</BioWord>{' '}
+                      <BioWord index={13} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>local</BioWord>{' '}
+                      <BioWord index={14} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>communities</BioWord>{' '}
+                      <BioWord index={15} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>because</BioWord>{' '}
+                      <BioWord index={16} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>of</BioWord>{' '}
+                      <BioWord index={17} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>their</BioWord>{' '}
+                      <BioWord index={18} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>cultural</BioWord>{' '}
+                      <BioWord index={19} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>or</BioWord>{' '}
+                      <BioWord index={20} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>religious</BioWord>{' '}
+                      <BioWord index={21} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>importance.</BioWord>
+                    </div>
+                  </div>
 
-                  <button
-                    type="button"
-                    onClick={() => setShowPage5Popup(false)}
-                    style={{
-                      background: 'rgba(18, 10, 2, 0.55)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
-                      border: '1.2px solid rgba(255, 255, 255, 0.28)',
-                      borderRadius: '28px',
-                      padding: '11px 22px',
-                      fontSize: '16px',
-                      fontWeight: 700,
-                      color: '#F8FAFC',
-                      fontFamily: '"Outfit", sans-serif',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Section 2: A Home for Wildlife */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#7DD3FC',
+                      display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
-                      width: 'fit-content',
-                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-                      transition: 'all 0.25s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(18, 10, 2, 0.55)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.28)';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                    }}
-                  >
-                    <span>View Full Scenery</span>
-                    <ArrowRight size={17} />
-                  </button>
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(125, 211, 252, 0.4)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🌿</span>
+                      <span>A Home for Wildlife</span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
+                      fontWeight: 500,
+                      lineHeight: 1.6,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      <BioWord index={26} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">They</BioWord>{' '}
+                      <BioWord index={27} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">shelter</BioWord>{' '}
+                      <BioWord index={28} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">native</BioWord>{' '}
+                      <BioWord index={29} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">wildlife</BioWord>{' '}
+                      <BioWord index={30} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">and</BioWord>{' '}
+                      <BioWord index={31} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">help</BioWord>{' '}
+                      <BioWord index={32} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">protect</BioWord>{' '}
+                      <BioWord index={33} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">valuable</BioWord>{' '}
+                      <BioWord index={34} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">medicinal</BioWord>{' '}
+                      <BioWord index={35} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">plants.</BioWord>
+                    </div>
+                  </div>
+
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Section 3: Community Conservation */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#FBBF24',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(251, 191, 36, 0.45)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🤝</span>
+                      <span>Community Conservation</span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FFFFFF',
+                      textShadow: '0 2px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.7)',
+                      fontWeight: 500,
+                      lineHeight: 1.6,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      <BioWord index={38} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">Local</BioWord>{' '}
+                      <BioWord index={39} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">rules</BioWord>{' '}
+                      <BioWord index={40} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">help</BioWord>{' '}
+                      <BioWord index={41} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">prevent</BioWord>{' '}
+                      <BioWord index={42} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">tree</BioWord>{' '}
+                      <BioWord index={43} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">cutting</BioWord>{' '}
+                      <BioWord index={44} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">and</BioWord>{' '}
+                      <BioWord index={45} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">harm</BioWord>{' '}
+                      <BioWord index={46} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">to</BioWord>{' '}
+                      <BioWord index={47} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">animals,</BioWord>{' '}
+                      <BioWord index={48} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">keeping</BioWord>{' '}
+                      <BioWord index={49} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">these</BioWord>{' '}
+                      <BioWord index={50} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">forests</BioWord>{' '}
+                      <BioWord index={51} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">safe.</BioWord>
+                    </div>
+                  </div>
+
+                  {/* Callout box: Think */}
+                  <div style={{
+                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(5, 150, 105, 0.22) 100%)',
+                    border: '1.5px solid rgba(167, 243, 208, 0.55)',
+                    borderRadius: '14px',
+                    padding: '10px 14px',
+                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35)',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '10px'
+                  }}>
+                    <span style={{ fontSize: '18px', lineHeight: 1 }}>💡</span>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FFFFFF',
+                      fontWeight: 600,
+                      fontFamily: '"Outfit", sans-serif',
+                      lineHeight: 1.5,
+                      textAlign: 'justify',
+                      textJustify: 'inter-word',
+                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.6)'
+                    }}>
+                      <strong style={{ color: '#FDE047', fontWeight: 900, marginRight: '4px', textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 12px rgba(245, 158, 11, 0.6)' }}>
+                        <BioWord index={52} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">Think:</BioWord>
+                      </strong>{' '}
+                      <BioWord index={53} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">How</BioWord>{' '}
+                      <BioWord index={54} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">does</BioWord>{' '}
+                      <BioWord index={55} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">protecting</BioWord>{' '}
+                      <BioWord index={56} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">a</BioWord>{' '}
+                      <BioWord index={57} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">forest</BioWord>{' '}
+                      <BioWord index={58} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">help</BioWord>{' '}
+                      <BioWord index={59} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">the</BioWord>{' '}
+                      <BioWord index={60} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">plants</BioWord>{' '}
+                      <BioWord index={61} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">and</BioWord>{' '}
+                      <BioWord index={62} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">animals</BioWord>{' '}
+                      <BioWord index={63} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">living</BioWord>{' '}
+                      <BioWord index={64} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">there?</BioWord>
+                    </div>
+                  </div>
                 </div>
+
+                {/* Note: Listen Explanation and View Full Scenery buttons removed as requested */}
               </div>
             </div>
           )}
 
-          {/* Re-open Trigger Pill when Popup is Minimized: Transparent Amber */}
+          {/* Left-Side Center Arrow Trigger: Opens Page 5 Popup */}
           {!showPage5Popup && (
             <button
               type="button"
               onClick={() => setShowPage5Popup(true)}
-              className="bio-pill-float"
+              title="Open Sacred Groves Notes"
+              aria-label="Open Sacred Groves Notes"
               style={{
                 position: 'absolute',
-                bottom: '22px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 30,
-                padding: '8px 24px',
-                fontSize: '16px',
-                background: 'linear-gradient(135deg, rgba(255, 253, 245, 0.85) 0%, rgba(254, 248, 226, 0.75) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                color: '#78350F',
-                border: '1.8px solid #D97706',
-                borderRadius: '24px',
-                fontFamily: '"Outfit", sans-serif',
-                fontWeight: 900,
-                boxShadow: '0 4px 18px rgba(0, 0, 0, 0.25), 0 0 14px rgba(245, 158, 11, 0.35)',
-                cursor: 'pointer',
+                left: 0,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                zIndex: 35,
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                transition: 'all 0.25s ease'
+                padding: '12px 18px 12px 14px',
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                color: '#FFFFFF',
+                border: '2px solid #FDE68A',
+                borderLeft: 'none',
+                borderRadius: '0 20px 20px 0',
+                boxShadow: '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)',
+                cursor: 'pointer',
+                fontFamily: '"Outfit", sans-serif',
+                fontWeight: 900,
+                fontSize: '15px',
+                transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 253, 245, 0.96) 0%, rgba(254, 248, 230, 0.90) 100%)';
-                e.currentTarget.style.borderColor = '#B45309';
-                e.currentTarget.style.transform = 'translateX(-50%) translateY(-2px) scale(1.02)';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
+                e.currentTarget.style.boxShadow = '0 8px 30px rgba(217, 119, 6, 0.75), 0 2px 12px rgba(0, 0, 0, 0.5)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(255, 253, 245, 0.85) 0%, rgba(254, 248, 230, 0.75) 100%)';
-                e.currentTarget.style.borderColor = '#D97706';
-                e.currentTarget.style.transform = 'translateX(-50%) translateY(0) scale(1)';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                e.currentTarget.style.boxShadow = '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)';
               }}
             >
-              <Sparkles size={16} color="#D97706" />
-              <span>🕊️ 04 · Sacred Groves & Conservation</span>
-              <span style={{ opacity: 0.85, fontSize: '16px', fontWeight: 650, color: '#B45309' }}>(Tap to read notes)</span>
+              <BookOpen size={18} color="#FFFFFF" strokeWidth={2.5} />
+              <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
             </button>
           )}
         </>

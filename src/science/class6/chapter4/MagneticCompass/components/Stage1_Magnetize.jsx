@@ -620,8 +620,8 @@ export default function Stage1_Magnetize({ onComplete }) {
         <div 
           className="stage-container-1"
           style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-            border: '1.5px solid #FDE68A',
+            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
             boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
             padding: '1.25rem 1.45rem',
@@ -638,19 +638,19 @@ export default function Stage1_Magnetize({ onComplete }) {
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                <Magnet size={24} color="#D97706" />
+                <Magnet size={24} color="#173B5F" />
                 <h3 style={{ margin: 0, fontSize: '19.5px', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.01em' }}>
                   Stage 1: Magnetize
                 </h3>
               </div>
               <span style={{
                 background: testComplete ? '#DCFCE7' : 'rgba(217, 119, 6, 0.12)',
-                color: testComplete ? '#15803D' : '#B45309',
+                color: testComplete ? '#15803D' : '#173B5F',
                 fontWeight: 900,
                 fontSize: '0.88rem',
                 padding: '0.3rem 0.8rem',
                 borderRadius: '12px',
-                border: testComplete ? '1.5px solid #86EFAC' : '1.5px solid #FDE68A'
+                border: testComplete ? '1.5px solid #86EFAC' : '1.5px solid #E2E8F0'
               }}>
                 Step {testComplete ? 3 : isMagnetized ? 2 : 1} of 3
               </span>
@@ -686,7 +686,7 @@ export default function Stage1_Magnetize({ onComplete }) {
                       width: '9px',
                       height: '9px',
                       borderRadius: '50%',
-                      background: '#D97706',
+                      background: '#173B5F',
                       display: 'inline-block',
                       flexShrink: 0,
                       transform: 'translateY(-2px)'
@@ -695,7 +695,7 @@ export default function Stage1_Magnetize({ onComplete }) {
                   <p style={{
                     margin: 0,
                     fontSize: '17.5px',
-                    color: '#78350F',
+                    color: '#173B5F',
                     fontWeight: 600,
                     lineHeight: 1.5
                   }}>
@@ -716,12 +716,12 @@ export default function Stage1_Magnetize({ onComplete }) {
                   justifyContent: 'space-between',
                   marginBottom: '0.35rem',
                   fontSize: '0.95rem',
-                  color: '#78350F',
+                  color: '#173B5F',
                   fontWeight: 800,
                 }}
               >
                 <span>Strokes: {strokeCount} / {maxStrokes}</span>
-                <span style={{ color: isMagnetized ? '#16A34A' : '#D97706', fontWeight: 900 }}>
+                <span style={{ color: isMagnetized ? '#16A34A' : '#173B5F', fontWeight: 900 }}>
                   {Math.round((strokeCount / maxStrokes) * 100)}%
                 </span>
               </div>
@@ -729,10 +729,10 @@ export default function Stage1_Magnetize({ onComplete }) {
                 style={{
                   width: '100%',
                   height: '9px',
-                  background: '#FEF3C7',
+                  background: '#EAF2F6',
                   borderRadius: '6px',
                   overflow: 'hidden',
-                  border: '1px solid #FDE68A'
+                  border: '1px solid #E2E8F0'
                 }}
               >
                 <motion.div
@@ -741,7 +741,7 @@ export default function Stage1_Magnetize({ onComplete }) {
                     height: '100%',
                     background: isMagnetized
                       ? 'linear-gradient(135deg, #16A34A 0%, #15803D 100%)'
-                      : 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                      : 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
                   }}
                 />
               </div>
@@ -819,8 +819,8 @@ export default function Stage1_Magnetize({ onComplete }) {
                   justifyContent: 'center',
                   gap: '0.4rem',
                   background: '#FFFFFF',
-                  color: strokeCount > 0 || isAutoStroking || isTesting ? '#D97706' : '#94A3B8',
-                  border: '1.5px solid #FDE68A',
+                  color: strokeCount > 0 || isAutoStroking || isTesting ? '#173B5F' : '#94A3B8',
+                  border: '1.5px solid #E2E8F0',
                   cursor: strokeCount > 0 || isAutoStroking || isTesting ? 'pointer' : 'not-allowed',
                   boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
                   transition: 'all 0.2s ease',
@@ -828,7 +828,7 @@ export default function Stage1_Magnetize({ onComplete }) {
               >
                 <RotateCcw
                   size={16}
-                  color={strokeCount > 0 || isAutoStroking || isTesting ? '#D97706' : '#94A3B8'}
+                  color={strokeCount > 0 || isAutoStroking || isTesting ? '#173B5F' : '#94A3B8'}
                 />{' '}
                 Reset
               </button>
@@ -840,8 +840,8 @@ export default function Stage1_Magnetize({ onComplete }) {
         <div 
           className="stage-container-2"
           style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-            border: testComplete ? '2px solid #86EFAC' : '1.5px solid #FDE68A',
+            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            border: testComplete ? '2px solid #86EFAC' : '1.5px solid #E2E8F0',
             borderRadius: '24px',
             boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
             padding: '1.25rem 1.45rem',
@@ -865,12 +865,12 @@ export default function Stage1_Magnetize({ onComplete }) {
                 letterSpacing: '-0.01em'
               }}
             >
-              <CheckCircle size={22} color={testComplete ? '#15803D' : '#D97706'} /> {testComplete ? 'Magnetization Complete!' : 'Observation Check'}
+              <CheckCircle size={22} color={testComplete ? '#15803D' : '#173B5F'} /> {testComplete ? 'Magnetization Complete!' : 'Observation Check'}
             </h4>
             <p
               style={{
                 margin: 0,
-                color: '#78350F',
+                color: '#173B5F',
                 fontSize: '17.5px',
                 fontWeight: 600,
                 lineHeight: 1.45,

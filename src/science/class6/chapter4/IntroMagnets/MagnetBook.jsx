@@ -96,11 +96,11 @@ export default function MagnetBook({ isOpen, currentPage, totalPages, onNext, on
               </div>
 
               {currentPage < totalPages ? (
-                <button onClick={onNext} style={{ background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)', color: 'white', border: 'none', padding: '0.4rem 1.2rem', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', boxShadow: '0 2px 8px rgba(217, 119, 6, 0.35)', fontWeight: 800 }}>
+                <button onClick={onNext} style={{ background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)', color: 'white', border: 'none', padding: '0.4rem 1.2rem', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', boxShadow: '0 2px 8px rgba(217, 119, 6, 0.35)', fontWeight: 800 }}>
                   Next <ChevronRight size={18} />
                 </button>
               ) : (
-                <button onClick={onFinish} style={{ background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)', color: 'white', border: 'none', padding: '0.4rem 1.2rem', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', boxShadow: '0 2px 8px rgba(217, 119, 6, 0.35)', fontWeight: 800 }}>
+                <button onClick={onFinish} style={{ background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)', color: 'white', border: 'none', padding: '0.4rem 1.2rem', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', boxShadow: '0 2px 8px rgba(217, 119, 6, 0.35)', fontWeight: 800 }}>
                   Finish <CheckCircle2 size={18} />
                 </button>
               )}
@@ -125,11 +125,11 @@ export default function MagnetBook({ isOpen, currentPage, totalPages, onNext, on
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
             borderLeft: '1px solid rgba(255,255,255,0.1)'
           }}>
-            <div style={{ border: '2px solid #fbbf24', width: '85%', height: '90%', borderRadius: '4px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', textAlign: 'center', padding: '1rem' }}>
-              <Magnet size={64} color="#fbbf24" style={{ marginBottom: '2rem', opacity: 0.9 }} />
-              <h1 style={{ color: '#fbbf24', fontSize: '2.5rem', margin: 0, fontFamily: 'serif', textShadow: '2px 2px 4px rgba(0,0,0,0.3)', lineHeight: '1.2' }}>Introduction to Magnets</h1>
-              <div style={{ height: '2px', width: '60%', backgroundColor: '#fbbf24', margin: '1.5rem 0', opacity: 0.7 }}></div>
-              <div style={{ color: '#fbbf24', fontSize: '1.2rem', letterSpacing: '2px', opacity: 0.8 }}>Reshma's Story</div>
+            <div style={{ border: '2px solid #214A70', width: '85%', height: '90%', borderRadius: '4px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', textAlign: 'center', padding: '1rem' }}>
+              <Magnet size={64} color="#214A70" style={{ marginBottom: '2rem', opacity: 0.9 }} />
+              <h1 style={{ color: '#214A70', fontSize: '2.5rem', margin: 0, fontFamily: 'serif', textShadow: '2px 2px 4px rgba(0,0,0,0.3)', lineHeight: '1.2' }}>Introduction to Magnets</h1>
+              <div style={{ height: '2px', width: '60%', backgroundColor: '#214A70', margin: '1.5rem 0', opacity: 0.7 }}></div>
+              <div style={{ color: '#214A70', fontSize: '1.2rem', letterSpacing: '2px', opacity: 0.8 }}>Reshma's Story</div>
             </div>
           </div>
           

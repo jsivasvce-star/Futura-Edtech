@@ -203,7 +203,7 @@ export default function BreakingMagnetDemoPlayer({
       const cp = clamp(eT * 1.5, 0, 1);
       if (cp > 0) {
         ctx.save(); ctx.globalAlpha = clamp(cp * 1.6, 0, 1) * (1 - clamp((eT - 0.7) * 3, 0, 1));
-        ctx.strokeStyle = "#FDE68A"; ctx.lineWidth = 2.5; ctx.shadowColor = "#F59E0B"; ctx.shadowBlur = 12;
+        ctx.strokeStyle = "#E2E8F0"; ctx.lineWidth = 2.5; ctx.shadowColor = "#214A70"; ctx.shadowBlur = 12;
         const top = cy - barH * 0.8, bot = cy + barH * 0.8, segs = 8;
         ctx.beginPath(); ctx.moveTo(cx, top);
         for (let i = 1; i <= segs; i++) {
@@ -213,7 +213,7 @@ export default function BreakingMagnetDemoPlayer({
         ctx.stroke(); ctx.restore();
       }
       if (eT > 0.1) {
-        ctx.save(); ctx.globalAlpha = clamp(eT * 3, 0, 1); ctx.fillStyle = "#FDE68A";
+        ctx.save(); ctx.globalAlpha = clamp(eT * 3, 0, 1); ctx.fillStyle = "#E2E8F0";
         ctx.font = `800 ${Math.max(11, barH * 0.28)}px Inter,sans-serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
         ctx.fillText("Breaking...", cx, cy - barH * 1.6); ctx.restore();
       }
@@ -245,7 +245,7 @@ export default function BreakingMagnetDemoPlayer({
         ctx.save(); ctx.globalAlpha = ca;
         roundRect(ctx, cx - callW / 2, callY, callW, callH, 10);
         ctx.fillStyle = "rgba(15,23,42,0.92)"; ctx.fill(); ctx.strokeStyle = "rgba(34,197,94,0.55)"; ctx.lineWidth = 1.5; ctx.stroke();
-        ctx.fillStyle = "#FDE68A"; ctx.font = `800 ${Math.max(9, barH * 0.24)}px Inter,sans-serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        ctx.fillStyle = "#E2E8F0"; ctx.font = `800 ${Math.max(9, barH * 0.24)}px Inter,sans-serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
         ctx.fillText("Magnetic poles always exist in pairs", cx, callY + callH * 0.35);
         ctx.fillStyle = "#94A3B8"; ctx.font = `600 ${Math.max(8, barH * 0.19)}px Inter,sans-serif`;
         ctx.fillText("Isolated magnetic monopoles do not exist", cx, callY + callH * 0.72);
@@ -364,7 +364,7 @@ export default function BreakingMagnetDemoPlayer({
           {[{n:1,l:"Whole Magnet"},{n:2,l:"Break & Split"},{n:3,l:"Dipole Formation"}].map(p => {
             const active = phaseIndex === p.n - 1;
             return <span key={p.n} style={{ fontSize:"0.71rem", fontWeight:900, padding:"2px 8px", borderRadius:"10px",
-              background: active ? "linear-gradient(135deg,#F59E0B 0%,#D97706 100%)" : "transparent",
+              background: active ? "linear-gradient(135deg,#214A70 0%,#173B5F 100%)" : "transparent",
               color: active ? "#FFF" : "#94A3B8", boxShadow: active ? "0 2px 8px rgba(217,119,6,0.4)" : "none", transition:"all 0.25s" }}>
               {p.n}. {p.l}
             </span>;
@@ -391,7 +391,7 @@ export default function BreakingMagnetDemoPlayer({
           <motion.div initial={{scale:0.8,opacity:0}} animate={{scale:1,opacity:1}} exit={{scale:0.8,opacity:0}} transition={{type:"spring",damping:20,stiffness:300}}
             style={{ position:"absolute", zIndex:25, pointerEvents:"auto" }}>
             <button onClick={isEnded ? handleReplay : togglePlay}
-              style={{ width:"74px", height:"74px", borderRadius:"50%", background:"linear-gradient(135deg,#F59E0B 0%,#D97706 100%)",
+              style={{ width:"74px", height:"74px", borderRadius:"50%", background:"linear-gradient(135deg,#214A70 0%,#173B5F 100%)",
                 border:"3px solid rgba(255,255,255,0.85)", boxShadow:"0 8px 30px rgba(217,119,6,0.6),0 0 30px rgba(245,158,11,0.4)",
                 cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", transition:"transform 0.2s" }}
               onMouseEnter={e => e.currentTarget.style.transform = "scale(1.08)"}
@@ -409,7 +409,7 @@ export default function BreakingMagnetDemoPlayer({
           zIndex:30, boxShadow:"0 8px 25px rgba(0,0,0,0.5)", pointerEvents:showControls||!isPlaying?"auto":"none" }}>
         <div ref={progressBarRef} onClick={handleSeek}
           style={{ position:"relative", width:"100%", height:"8px", background:"rgba(255,255,255,0.18)", borderRadius:"4px", cursor:"pointer", overflow:"hidden" }}>
-          <div style={{ position:"absolute", top:0, left:0, height:"100%", width:`${pct}%`, background:"linear-gradient(90deg,#38BDF8 0%,#22C55E 50%,#F59E0B 100%)", borderRadius:"4px", transition:"width 0.1s linear" }} />
+          <div style={{ position:"absolute", top:0, left:0, height:"100%", width:`${pct}%`, background:"linear-gradient(90deg,#38BDF8 0%,#22C55E 50%,#214A70 100%)", borderRadius:"4px", transition:"width 0.1s linear" }} />
         </div>
         <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
           <div style={{ display:"flex", alignItems:"center", gap:"10px" }}>
@@ -429,7 +429,7 @@ export default function BreakingMagnetDemoPlayer({
               <Layers size={13} /><span>{showAnnotations?"Labels ON":"Labels OFF"}</span>
             </button>
             <button onClick={() => setIsLooping(v => !v)}
-              style={{ background:isLooping?"rgba(245,158,11,0.2)":"transparent", border:isLooping?"1px solid #F59E0B":"1px solid rgba(255,255,255,0.2)", borderRadius:"8px", padding:"4px 8px", display:"flex", alignItems:"center", gap:"5px", color:isLooping?"#FBBF24":"#94A3B8", cursor:"pointer", fontSize:"0.74rem", fontWeight:800 }}>
+              style={{ background:isLooping?"rgba(245,158,11,0.2)":"transparent", border:isLooping?"1px solid #214A70":"1px solid rgba(255,255,255,0.2)", borderRadius:"8px", padding:"4px 8px", display:"flex", alignItems:"center", gap:"5px", color:isLooping?"#214A70":"#94A3B8", cursor:"pointer", fontSize:"0.74rem", fontWeight:800 }}>
               <Repeat size={13} /><span>{isLooping?"Loop":"Once"}</span>
             </button>
             <button onClick={() => setIsMuted(v => !v)} title={isMuted?"Unmute":"Mute"}

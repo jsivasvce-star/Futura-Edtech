@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useImperativeHandle, forwardRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Play, 
@@ -10,16 +10,17 @@ import {
   Minimize2 
 } from 'lucide-react';
 
-export default function BreakingMagnetVideoPlayer({
+const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer({
   videoSrc = '/MagneticPoles/breaking_magnet_demonstration.mp4',
   fallbackSrc = '/assets/WhatsApp Video 2026-09-16 at 2.06.03 PM.mp4',
   broken = false,
   showPoles = false,
   onPhaseChange,
   onExternalReset,
+  onPlaybackStateChange,
   autoPlay = true,
   loop = false,
-}) {
+}, ref) {
   const videoRef = useRef(null);
   const containerRef = useRef(null);
   const progressScrubberRef = useRef(null);
@@ -42,7 +43,64 @@ export default function BreakingMagnetVideoPlayer({
     if (videoRef.current) {
       videoRef.current.pause();
     }
-  }, []);
+    if (onPlaybackStateChange) {
+      onPlaybackStateChange(false);
+    }
+  }, [onPlaybackStateChange]);
+
+  // Imperative handle for parent component control (Pause, Resume, Reset)
+  useImperativeHandle(ref, () => ({
+    pause: () => {
+      if (videoRef.current) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+        if (onPlaybackStateChange) onPlaybackStateChange(false);
+      }
+    },
+    resume: () => {
+      const video = videoRef.current;
+      if (!video) return;
+      if (video.ended) {
+        video.currentTime = 0;
+        setIsEnded(false);
+      }
+      video.play().then(() => {
+        setIsPlaying(true);
+        if (onPlaybackStateChange) onPlaybackStateChange(true);
+      }).catch(() => {});
+    },
+    play: () => {
+      const video = videoRef.current;
+      if (!video) return;
+      if (video.ended) {
+        video.currentTime = 0;
+        setIsEnded(false);
+      }
+      video.play().then(() => {
+        setIsPlaying(true);
+        if (onPlaybackStateChange) onPlaybackStateChange(true);
+      }).catch(() => {});
+    },
+    reset: () => {
+      const video = videoRef.current;
+      if (!video) return;
+      video.currentTime = 0;
+      setIsEnded(false);
+      video.play().then(() => {
+        setIsPlaying(true);
+        if (onPlaybackStateChange) onPlaybackStateChange(true);
+      }).catch(() => {
+        // In case audio autoplay restriction triggers, play muted
+        video.muted = true;
+        setIsMuted(true);
+        video.play().then(() => {
+          setIsPlaying(true);
+          if (onPlaybackStateChange) onPlaybackStateChange(true);
+        }).catch(() => {});
+      });
+    },
+    getIsPlaying: () => isPlaying
+  }), [isPlaying, onPlaybackStateChange]);
 
   // Initialize playback and duration
   useEffect(() => {
@@ -240,8 +298,12 @@ export default function BreakingMagnetVideoPlayer({
         onPlay={() => {
           setIsPlaying(true);
           setIsEnded(false);
+          if (onPlaybackStateChange) onPlaybackStateChange(true);
         }}
-        onPause={() => setIsPlaying(false)}
+        onPause={() => {
+          setIsPlaying(false);
+          if (onPlaybackStateChange) onPlaybackStateChange(false);
+        }}
         onEnded={handleEnded}
         onClick={isEnded ? handleReplay : togglePlay}
         style={{
@@ -294,7 +356,7 @@ export default function BreakingMagnetVideoPlayer({
                   fontWeight: 900,
                   padding: '2px 8px',
                   borderRadius: '10px',
-                  background: isStepActive ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'transparent',
+                  background: isStepActive ? 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)' : 'transparent',
                   color: isStepActive ? '#FFFFFF' : '#94A3B8',
                   boxShadow: isStepActive ? '0 2px 8px rgba(217, 119, 6, 0.4)' : 'none',
                   transition: 'all 0.25s ease'
@@ -352,7 +414,7 @@ export default function BreakingMagnetVideoPlayer({
             <div style={{
               background: 'rgba(15, 23, 42, 0.88)',
               backdropFilter: 'blur(8px)',
-              border: '1.5px solid #F59E0B',
+              border: '1.5px solid #214A70',
               borderRadius: '12px',
               padding: '6px 14px',
               boxShadow: '0 4px 14px rgba(245, 158, 11, 0.35)',
@@ -362,7 +424,7 @@ export default function BreakingMagnetVideoPlayer({
               gap: '2px',
               textAlign: 'center',
             }}>
-              <span style={{ fontSize: '0.74rem', fontWeight: 900, color: '#FBBF24' }}>
+              <span style={{ fontSize: '0.74rem', fontWeight: 900, color: '#214A70' }}>
                 Magnetic Dipoles
               </span>
               <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#F8FAFC' }}>
@@ -425,7 +487,7 @@ export default function BreakingMagnetVideoPlayer({
                   width: '74px',
                   height: '74px',
                   borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                  background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
                   border: '3px solid rgba(255, 255, 255, 0.9)',
                   boxShadow: '0 8px 30px rgba(217, 119, 6, 0.6), 0 0 30px rgba(245, 158, 11, 0.4)',
                   cursor: 'pointer',
@@ -491,7 +553,7 @@ export default function BreakingMagnetVideoPlayer({
               left: 0,
               height: '100%',
               width: `${progressPercent}%`,
-              background: 'linear-gradient(90deg, #38BDF8 0%, #22C55E 50%, #F59E0B 100%)',
+              background: 'linear-gradient(90deg, #38BDF8 0%, #22C55E 50%, #214A70 100%)',
               borderRadius: '4px',
               transition: 'width 0.1s linear',
             }}
@@ -598,4 +660,6 @@ export default function BreakingMagnetVideoPlayer({
       </motion.div>
     </div>
   );
-}
+});
+
+export default BreakingMagnetVideoPlayer;

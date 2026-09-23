@@ -71,6 +71,8 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
     'Stage 6.3.1': true, 'Stage 6.3.2': true, 'Stage 6.3.3': true, 'Stage 6.3.4': true, 'Stage 6.3.5': true, 'Stage 6.3.6': true
   });
   
+  const [extraRightAction, setExtraRightAction] = useState(null);
+
   const toggleNode = (id) => setExpandedNodes(prev => ({ ...prev, [id]: !prev[id] }));
 
   
@@ -139,11 +141,13 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
   return (
     <>
       <FullscreenButton />
-      {showCover ? (
+      <div style={{ display: showCover ? 'block' : 'none', width: '100%', height: '100%' }}>
         <ChapterCover onOpenBook={() => { setShowCover(false); setShowIntroSpread(true); }} onBack={onBackToDashboard} />
-      ) : showIntroSpread ? (
+      </div>
+      <div style={{ display: showIntroSpread ? 'block' : 'none', width: '100%', height: '100%' }}>
         <ChapterIntroSpread onContinue={() => setShowIntroSpread(false)} onBack={() => { setShowIntroSpread(false); setShowCover(true); }} />
-      ) : (
+      </div>
+      <div style={{ display: (!showCover && !showIntroSpread) ? 'block' : 'none', width: '100%', height: '100%' }}>
         <div className="activity-workspace materials-around-us-theme" style={{ 
           paddingTop: 0, 
           paddingBottom: 0, 
@@ -364,6 +368,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
                   stageCompleted={stageCompleted} 
                   initialPage={handbookInitialPage}
                   onNext={() => setShowHandbook(false)}
+                  setExtraRightAction={setExtraRightAction}
                 />
               </div>
             ) : (
@@ -374,6 +379,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
                   {...(currentNode.props || {})} 
                   onComplete={handleStageComplete} 
                   addXp={addXp} 
+                  setExtraRightAction={setExtraRightAction}
                 />
               </div>
             )
@@ -391,7 +397,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
                   </div>
                 )}
                 <div style={{ position: 'relative', zIndex: 10, flex: 1, display: 'flex', backgroundColor: 'rgba(0, 0, 0, 0.4)' }}>
-                  <InvestigationHandbook ref={stageRef} data={currentNode} onComplete={handleNext} />
+                  <InvestigationHandbook ref={stageRef} data={currentNode} onComplete={handleNext} setExtraRightAction={setExtraRightAction} />
                 </div>
               </div>
             );
@@ -488,10 +494,12 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
         </div>
 
         <div className="global-action-bar-center">
-          {/* Science Detective removed as requested */}
+          
         </div>
         
         <div className="global-action-bar-right">
+          {extraRightAction}
+          
           <button 
             onClick={() => {
               setResetKey(prev => prev + 1);
@@ -537,7 +545,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
       </div>
       )}
     </div>
-    )}
+      </div>
   </>
   );
 }

@@ -693,7 +693,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                   boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
                 }}
               >
-                ACTIVITY 2.9–2.10 • HABITATS LAB
+                ACTIVITY 2.9 • HABITATS LAB
               </span>
             </div>
 
@@ -967,7 +967,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                     top: '8px',
                     left: '8px',
                     background: 'rgba(20, 69, 47, 0.90)',
-                    backdropFilter: 'blur(6px)',
+                    backdropFilter: 'blur(4px)',
                     color: '#D1FAE5',
                     borderRadius: '8px',
                     padding: '3px 12px',
@@ -988,7 +988,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                     bottom: '8px',
                     right: '8px',
                     background: 'rgba(10, 59, 36, 0.85)',
-                    backdropFilter: 'blur(6px)',
+                    backdropFilter: 'blur(4px)',
                     color: '#FCD34D',
                     borderRadius: '6px',
                     padding: '2px 10px',
@@ -1207,7 +1207,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                     top: '8px',
                     right: '8px',
                     background: 'rgba(20, 69, 47, 0.90)',
-                    backdropFilter: 'blur(6px)',
+                    backdropFilter: 'blur(4px)',
                     color: '#D1FAE5',
                     borderRadius: '8px',
                     padding: '3px 12px',
@@ -1230,7 +1230,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                     left: '8px',
                     right: '8px',
                     background: 'rgba(10, 59, 36, 0.88)',
-                    backdropFilter: 'blur(6px)',
+                    backdropFilter: 'blur(4px)',
                     color: '#FFFFFF',
                     borderRadius: '8px',
                     padding: '4px 12px',
@@ -1734,7 +1734,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
             position: 'fixed',
             inset: 0,
             backgroundColor: 'rgba(10, 45, 30, 0.72)',
-            backdropFilter: 'blur(6px)',
+            backdropFilter: 'blur(4px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -1850,7 +1850,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                 zIndex: 5
               }}
             >
-              💡 <strong>Ready for Chapter 2 Next Mission:</strong> Advance to Tables 2.5 &amp; 2.6 to explore animal locomotion and physical movement across terrestrial and aquatic ecosystems!
+              💡 <strong>Ready for Chapter 2 Next Mission:</strong> Advance to Activity 2.10 to explore where plants and animals live across different habitats!
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', position: 'relative', zIndex: 5 }}>
@@ -1862,7 +1862,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
                   if (onNextActivity) onNextActivity();
                 }}
               >
-                <span>Advance to Tables 2.5 &amp; 2.6: Animal Locomotion</span>
+                <span>Advance to Activity 2.10: Animal &amp; Plant Habitats</span>
                 <ChevronRight size={17} strokeWidth={2.5} />
               </button>
             </div>
@@ -1916,7 +1916,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
               boxShadow: '0 2px 8px rgba(20, 69, 47, 0.25)'
             }}
           >
-            Activity 2.9–2.10 · Field Mission
+            Activity 2.9 · Field Mission
           </div>
         </div>
 
@@ -1926,7 +1926,7 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
           onClick={onNextActivity}
           aria-label="Next Subtab"
         >
-          <span>Next: Tables 2.5 &amp; 2.6</span>
+          <span>Next: Activity 2.10</span>
           <ArrowRight size={17} strokeWidth={2.5} />
         </button>
       </footer>

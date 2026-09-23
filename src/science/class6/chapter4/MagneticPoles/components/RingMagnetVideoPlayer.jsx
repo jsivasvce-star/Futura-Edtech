@@ -288,7 +288,7 @@ export default function RingMagnetVideoPlayer({
                   fontWeight: 900,
                   padding: '2px 8px',
                   borderRadius: '10px',
-                  background: isStepActive ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'transparent',
+                  background: isStepActive ? 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)' : 'transparent',
                   color: isStepActive ? '#FFFFFF' : '#94A3B8',
                   boxShadow: isStepActive ? '0 2px 8px rgba(217, 119, 6, 0.4)' : 'none',
                   transition: 'all 0.25s ease'
@@ -346,7 +346,7 @@ export default function RingMagnetVideoPlayer({
             <div style={{
               background: 'rgba(15, 23, 42, 0.88)',
               backdropFilter: 'blur(8px)',
-              border: '1.5px solid #F59E0B',
+              border: '1.5px solid #214A70',
               borderRadius: '12px',
               padding: '6px 14px',
               boxShadow: '0 4px 14px rgba(245, 158, 11, 0.35)',
@@ -356,7 +356,7 @@ export default function RingMagnetVideoPlayer({
               gap: '2px',
               textAlign: 'center',
             }}>
-              <span style={{ fontSize: '0.74rem', fontWeight: 900, color: '#FBBF24' }}>
+              <span style={{ fontSize: '0.74rem', fontWeight: 900, color: '#214A70' }}>
                 Center Hole
               </span>
               <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#F8FAFC' }}>
@@ -419,7 +419,7 @@ export default function RingMagnetVideoPlayer({
                   width: '74px',
                   height: '74px',
                   borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                  background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
                   border: '3px solid rgba(255, 255, 255, 0.9)',
                   boxShadow: '0 8px 30px rgba(217, 119, 6, 0.6), 0 0 30px rgba(245, 158, 11, 0.4)',
                   cursor: 'pointer',
@@ -485,7 +485,7 @@ export default function RingMagnetVideoPlayer({
               left: 0,
               height: '100%',
               width: `${progressPercent}%`,
-              background: 'linear-gradient(90deg, #38BDF8 0%, #22C55E 50%, #F59E0B 100%)',
+              background: 'linear-gradient(90deg, #38BDF8 0%, #22C55E 50%, #214A70 100%)',
               borderRadius: '4px',
               transition: 'width 0.1s linear',
             }}

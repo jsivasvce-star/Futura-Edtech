@@ -139,8 +139,8 @@ export default function Stage3_Explore({ onComplete, onNext }) {
       }}>
         {/* Container 1: Steps of Instructions */}
         <div className="stage-container-1" style={{
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-          border: '1.5px solid #FDE68A',
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+          border: '1.5px solid #E2E8F0',
           borderRadius: '24px',
           padding: '1.4rem 1.6rem',
           boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
@@ -153,14 +153,14 @@ export default function Stage3_Explore({ onComplete, onNext }) {
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
-              <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
+              <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
                 Select "1. Same Poles" to observe like poles (N + N) repelling apart.
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
-              <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
+              <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
                 Select "2. Different Poles" to observe opposite poles (N + S) attracting together.
               </span>
             </div>
@@ -169,8 +169,8 @@ export default function Stage3_Explore({ onComplete, onNext }) {
 
         {/* Container 2: Controls & Actions */}
         <div className="stage-container-2" style={{
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-          border: '1.5px solid #FDE68A',
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+          border: '1.5px solid #E2E8F0',
           borderRadius: '24px',
           padding: '1.4rem 1.6rem',
           boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
@@ -233,7 +233,7 @@ export default function Stage3_Explore({ onComplete, onNext }) {
                   ? undefined 
                   : "#FFFFFF",
                 color: interactionMode === "same" ? "#FFFFFF" : "#065F46",
-                border: interactionMode === "same" ? "none" : "1.5px solid #FDE68A",
+                border: interactionMode === "same" ? "none" : "1.5px solid #E2E8F0",
                 boxShadow: interactionMode === "same" 
                   ? undefined 
                   : "0 2px 6px rgba(0,0,0,0.03)",
@@ -247,8 +247,8 @@ export default function Stage3_Explore({ onComplete, onNext }) {
               <span style={{ 
                 fontSize: "0.88rem", 
                 fontWeight: 800, 
-                background: interactionMode === "same" ? "rgba(255, 255, 255, 0.25)" : "#FEF3C7", 
-                color: interactionMode === "same" ? "#FFFFFF" : "#92400E", 
+                background: interactionMode === "same" ? "rgba(255, 255, 255, 0.25)" : "#EAF2F6", 
+                color: interactionMode === "same" ? "#FFFFFF" : "#173B5F", 
                 padding: "4px 10px", 
                 borderRadius: "10px" 
               }}>
@@ -274,7 +274,7 @@ export default function Stage3_Explore({ onComplete, onNext }) {
                   ? undefined 
                   : "#FFFFFF",
                 color: interactionMode === "different" ? "#FFFFFF" : "#065F46",
-                border: interactionMode === "different" ? "none" : "1.5px solid #FDE68A",
+                border: interactionMode === "different" ? "none" : "1.5px solid #E2E8F0",
                 boxShadow: interactionMode === "different" 
                   ? undefined 
                   : "0 2px 6px rgba(0,0,0,0.03)",
@@ -288,8 +288,8 @@ export default function Stage3_Explore({ onComplete, onNext }) {
               <span style={{ 
                 fontSize: "0.88rem", 
                 fontWeight: 800, 
-                background: interactionMode === "different" ? "rgba(255, 255, 255, 0.25)" : "#FEF3C7", 
-                color: interactionMode === "different" ? "#FFFFFF" : "#92400E", 
+                background: interactionMode === "different" ? "rgba(255, 255, 255, 0.25)" : "#EAF2F6", 
+                color: interactionMode === "different" ? "#FFFFFF" : "#173B5F", 
                 padding: "4px 10px", 
                 borderRadius: "10px" 
               }}>
@@ -344,7 +344,7 @@ export default function Stage3_Explore({ onComplete, onNext }) {
               transition={{ type: 'spring', bounce: 0.5, duration: 0.6 }}
               style={{
                 background: '#FFFFFF',
-                border: '1.5px solid #FDE68A',
+                border: '1.5px solid #E2E8F0',
                 borderRadius: '24px',
                 padding: '2.4rem 2.6rem',
                 maxWidth: '500px',

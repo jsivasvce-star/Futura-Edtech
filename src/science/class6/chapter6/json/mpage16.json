@@ -1,0 +1,132 @@
+{
+  "audio_file": "mpage16.mp3",
+  "duration": 12.539,
+  "language": "en",
+  "words": [
+    {
+      "text": "Use",
+      "start": 0.0,
+      "end": 0.46
+    },
+    {
+      "text": "your",
+      "start": 0.46,
+      "end": 0.76
+    },
+    {
+      "text": "scanner",
+      "start": 0.76,
+      "end": 1.1
+    },
+    {
+      "text": "to",
+      "start": 1.1,
+      "end": 1.62
+    },
+    {
+      "text": "analyze",
+      "start": 1.62,
+      "end": 2.1
+    },
+    {
+      "text": "the",
+      "start": 2.1,
+      "end": 2.46
+    },
+    {
+      "text": "evidence",
+      "start": 2.46,
+      "end": 2.72
+    },
+    {
+      "text": "from",
+      "start": 2.72,
+      "end": 3.04
+    },
+    {
+      "text": "the",
+      "start": 3.04,
+      "end": 3.28
+    },
+    {
+      "text": "classroom.",
+      "start": 3.28,
+      "end": 3.84
+    },
+    {
+      "text": "Your",
+      "start": 5.06,
+      "end": 5.12
+    },
+    {
+      "text": "objective",
+      "start": 5.12,
+      "end": 5.6
+    },
+    {
+      "text": "is",
+      "start": 5.6,
+      "end": 5.88
+    },
+    {
+      "text": "to",
+      "start": 5.88,
+      "end": 6.06
+    },
+    {
+      "text": "scan",
+      "start": 6.06,
+      "end": 6.42
+    },
+    {
+      "text": "the",
+      "start": 6.42,
+      "end": 6.72
+    },
+    {
+      "text": "evidence.",
+      "start": 6.72,
+      "end": 7.2
+    },
+    {
+      "text": "Once",
+      "start": 8.0,
+      "end": 8.36
+    },
+    {
+      "text": "you",
+      "start": 8.36,
+      "end": 8.6
+    },
+    {
+      "text": "are",
+      "start": 8.6,
+      "end": 8.78
+    },
+    {
+      "text": "ready,",
+      "start": 8.78,
+      "end": 9.44
+    },
+    {
+      "text": "click",
+      "start": 10.18,
+      "end": 10.42
+    },
+    {
+      "text": "Acknowledge",
+      "start": 10.42,
+      "end": 11.22
+    },
+    {
+      "text": "and",
+      "start": 11.22,
+      "end": 11.68
+    },
+    {
+      "text": "begin.",
+      "start": 11.68,
+      "end": 12.08
+    }
+  ]
+}

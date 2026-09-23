@@ -1,272 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
-import {
-  ArrowLeft,
-  ArrowRight,
-  RefreshCw,
-  Award,
-  Volume2,
-  VolumeX,
-  Maximize2,
-  Minimize2,
-  Eye,
-  CheckCircle2,
-  Sparkles,
-  Layers,
-  ChevronRight
-} from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { ArrowLeft, ArrowRight, RotateCcw, Check, Lightbulb, Leaf, Trophy, GripVertical } from 'lucide-react';
 import confetti from 'canvas-confetti';
+
+import bgImg from './activity27_bg.jpg';
 import { correlationAudio } from './correlationAudio';
 
-// High-Resolution Botanical Photographic Assets
-// 1. Lemon Grass
-import grassPlantImg from '../../../../../assets/grass_1.png';
-import lemongrassLeafImg from '../../../../../assets/lemongrass_leaf.png';
-import lemongrassRootImg from '../../../../../assets/lemongrass_root.png';
-
-// 2. Marigold
-import marigoldPlantImg from '../../../../../assets/marigold_1.png';
-import marigoldLeafImg from '../../../../../assets/marigold_leaf.png';
-import marigoldRootImg from '../../../../../assets/marigold_root.png';
-
-// 3. Sadabahar (Periwinkle)
-import sadabaharPlantImg from '../../../../../assets/sadabahar_plant.png';
-import sadabaharLeafImg from '../../../../../assets/sadabahar_leaf.png';
-import sadabaharRootImg from '../../../../../assets/sadabahar_root.png';
-
-// 4. Mustard
-import mustardPlantImg from '../../../../../assets/mustard_1.png';
-import mustardLeafImg from '../../../../../assets/mustard_leaf.png';
-import mustardRootImg from '../../../../../assets/mustard_root.png';
-
-// 5. Chickpea (Gram)
-import chickpeaPlantImg from '../../../../../assets/chickpea_plant.png';
-import chickpeaLeafImg from '../../../../../assets/chickpea_leaf.png';
-import chickpeaRootImg from '../../../../../assets/chickpea_root.png';
-
-// ============================================================
-// ORNATE BOTANICAL SVG ELEMENTS (EXACT MATCH TO SLOGAN PAGE)
-// ============================================================
-
-const TitleVineBranch = ({ side = 'left' }) => (
-  <svg
-    width="54"
-    height="26"
-    viewBox="0 0 80 32"
-    fill="none"
-    style={{
-      transform: side === 'right' ? 'scaleX(-1)' : 'none',
-      flexShrink: 0,
-      opacity: 0.95
-    }}
-  >
-    <path
-      d="M75 16 C55 14, 35 8, 8 2"
-      stroke="#1B4D3E"
-      strokeWidth="2.6"
-      strokeLinecap="round"
-    />
-    <path d="M12 4 C16 1, 24 3, 26 8 C26 12, 20 14, 16 12 C12 10, 10 7, 12 4 Z" fill="#2D6A4F" />
-    <path d="M28 7 C34 4, 42 7, 43 13 C43 17, 37 19, 33 16 C29 13, 26 10, 28 7 Z" fill="#40916C" />
-    <path d="M46 11 C52 9, 60 12, 61 17 C61 21, 55 23, 51 20 C47 17, 44 14, 46 11 Z" fill="#52B788" />
-    <path d="M22 14 C26 18, 25 24, 21 26 C17 28, 13 25, 14 20 C15 16, 19 13, 22 14 Z" fill="#2D6A4F" />
-    <path d="M40 18 C44 22, 43 27, 39 29 C35 31, 31 28, 32 23 C33 20, 37 17, 40 18 Z" fill="#40916C" />
-  </svg>
-);
-
-const TitleSprout = () => (
-  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '-2px', marginBottom: '4px' }}>
-    <svg width="28" height="18" viewBox="0 0 32 20" fill="none">
-      <path d="M16 20 C16 12, 16 4, 16 2" stroke="#1B4D3E" strokeWidth="2.4" strokeLinecap="round" />
-      <path d="M16 8 C11 5, 4 8, 3 13 C4 17, 10 17, 14 13 C16 11, 16 9, 16 8 Z" fill="#2D6A4F" />
-      <path d="M16 8 C21 5, 28 8, 29 13 C28 17, 22 17, 18 13 C16 11, 16 9, 16 8 Z" fill="#40916C" />
-      <path d="M16 3 C14 1, 15 0, 16 0 C17 0, 18 1, 16 3 Z" fill="#52B788" />
-    </svg>
-  </div>
-);
-
-const TopCornerFoliage = ({ side = 'left' }) => (
-  <div
-    style={{
-      position: 'absolute',
-      top: 0,
-      [side]: 0,
-      width: 'clamp(130px, 13vw, 200px)',
-      height: 'clamp(70px, 8vh, 100px)',
-      pointerEvents: 'none',
-      zIndex: 4,
-      overflow: 'hidden',
-      transform: side === 'right' ? 'scaleX(-1)' : 'none',
-      opacity: 0.95
-    }}
-  >
-    <svg width="100%" height="100%" viewBox="0 0 200 110" preserveAspectRatio="none" fill="none">
-      <path d="M0 0 C45 22, 100 38, 155 32 C175 30, 192 24, 200 18" stroke="#0D3B24" strokeWidth="4.5" strokeLinecap="round" />
-      <path d="M65 28 C88 50, 122 66, 150 70" stroke="#1B4D3E" strokeWidth="2.8" strokeLinecap="round" />
-      <path d="M35 16 C50 38, 72 65, 88 86" stroke="#1B4D3E" strokeWidth="2.2" strokeLinecap="round" />
-      <path d="M38 12 C54 2, 74 10, 80 24 C68 31, 48 26, 38 12 Z" fill="#2D6A4F" />
-      <path d="M75 22 C96 14, 118 22, 124 38 C110 45, 88 38, 75 22 Z" fill="#14452F" />
-      <path d="M118 28 C140 20, 162 27, 168 43 C154 50, 132 43, 118 28 Z" fill="#40916C" />
-      <path d="M150 28 C172 22, 188 30, 194 43 C180 49, 164 43, 150 28 Z" fill="#2D6A4F" />
-      <path d="M55 33 C72 27, 88 38, 90 52 C76 57, 60 49, 55 33 Z" fill="#52B788" />
-      <path d="M92 44 C108 38, 125 48, 126 62 C112 67, 97 59, 92 44 Z" fill="#40916C" />
-    </svg>
-  </div>
-);
-
-const TopMountainBackdrop = () => (
-  <div
-    style={{
-      position: 'absolute',
-      top: 0,
-      left: '8%',
-      right: '8%',
-      height: '90px',
-      pointerEvents: 'none',
-      zIndex: 1,
-      opacity: 0.16,
-      overflow: 'hidden'
-    }}
-  >
-    <svg width="100%" height="90" viewBox="0 0 1000 90" preserveAspectRatio="none" fill="none">
-      <path d="M0 80 Q160 36 260 62 T520 32 T760 58 T1000 42 L1000 90 L0 90 Z" fill="#52B788" />
-      <path d="M100 85 Q290 42 440 68 T720 46 T1000 62 L1000 90 L0 90 Z" fill="#2D6A4F" />
-    </svg>
-  </div>
-);
-
-const CardCornerLeaves = ({ position = 'top-left' }) => {
-  const transforms = {
-    'top-left': 'scale(1, 1)',
-    'top-right': 'scale(-1, 1)',
-    'bottom-left': 'scale(1, -1)',
-    'bottom-right': 'scale(-1, -1)'
-  };
-  return (
-    <svg
-      width="36"
-      height="36"
-      viewBox="0 0 52 52"
-      fill="none"
-      style={{
-        position: 'absolute',
-        top: position.includes('top') ? '6px' : 'auto',
-        bottom: position.includes('bottom') ? '6px' : 'auto',
-        left: position.includes('left') ? '6px' : 'auto',
-        right: position.includes('right') ? '6px' : 'auto',
-        transform: transforms[position],
-        opacity: 0.85,
-        pointerEvents: 'none',
-        zIndex: 2
-      }}
-    >
-      <path d="M6 6 C18 9, 28 18, 32 30 C34 36, 32 44, 28 50" stroke="#1B4D3E" strokeWidth="2.2" strokeLinecap="round" />
-      <path d="M12 12 C18 9, 25 12, 26 18 C27 23, 21 26, 16 23 C12 20, 9 15, 12 12 Z" fill="#1B4D3E" />
-      <path d="M22 22 C29 19, 36 22, 37 28 C37 33, 31 36, 26 33 C21 30, 19 25, 22 22 Z" fill="#2D6A4F" />
-      <path d="M8 25 C13 22, 19 24, 20 29 C20 33, 15 36, 11 34 C7 32, 6 27, 8 25 Z" fill="#40916C" />
-    </svg>
-  );
-};
-
-const BottomNatureSilhouettes = () => (
-  <div
-    style={{
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      height: '48px',
-      overflow: 'hidden',
-      pointerEvents: 'none',
-      opacity: 0.28,
-      zIndex: 1
-    }}
-  >
-    <svg width="100%" height="48" viewBox="0 0 1200 48" preserveAspectRatio="none" fill="none">
-      <path d="M0 36 Q220 22 440 32 T880 26 T1200 34 L1200 48 L0 48 Z" fill="#52B788" />
-      <path d="M0 40 Q320 28 640 38 T1200 32 L1200 48 L0 48 Z" fill="#2D6A4F" />
-      <circle cx="110" cy="30" r="12" fill="#1B4D3E" />
-      <circle cx="124" cy="26" r="9" fill="#1B4D3E" />
-      <rect x="115" y="34" width="4" height="12" fill="#1B4D3E" />
-      <path d="M210 20 Q215 16 220 20 Q225 16 230 20" stroke="#1B4D3E" strokeWidth="1.6" strokeLinecap="round" />
-      <path d="M820 18 Q825 14 830 18 Q835 14 840 18" stroke="#1B4D3E" strokeWidth="1.6" strokeLinecap="round" />
-      <circle cx="1020" cy="26" r="14" fill="#1B4D3E" />
-      <circle cx="1036" cy="22" r="10" fill="#1B4D3E" />
-      <rect x="1025" y="32" width="4" height="14" fill="#1B4D3E" />
-    </svg>
-  </div>
-);
-
-// ============================================================
-// BOTANICAL SPECIMEN DATA (5 PLANTS FROM NCERT TABLE 2.4)
-// ============================================================
-
-const PLANTS_DATA = [
-  {
-    id: 'lemongrass',
-    num: '01',
-    name: 'Lemon Grass',
-    family: 'Poaceae (Monocot)',
-    venation: 'parallel',
-    root: 'fibrous',
-    plantImg: grassPlantImg,
-    leafImg: lemongrassLeafImg,
-    rootImg: lemongrassRootImg,
-    hint: 'Slender lemon grass blade with parallel longitudinal veins. Uprooting shows a dense cluster of fibrous roots originating from the stem base.',
-    botanicalNote: 'Monocot plant: parallel venation channels sap through parallel vascular bundles, supported by adventitious fibrous roots.'
-  },
-  {
-    id: 'marigold',
-    num: '02',
-    name: 'Marigold',
-    family: 'Asteraceae (Dicot)',
-    venation: 'reticulate',
-    root: 'taproot',
-    plantImg: marigoldPlantImg,
-    leafImg: marigoldLeafImg,
-    rootImg: marigoldRootImg,
-    hint: 'Serrated pinnate marigold leaf with a distinct central midrib and branching vein network. Excavation reveals a stout central taproot with lateral branch rootlets.',
-    botanicalNote: 'Dicot plant: the reticulate vein network delivers water efficiently from the deep central taproot across every serrated leaf lobe.'
-  },
-  {
-    id: 'sadabahar',
-    num: '03',
-    name: 'Sadabahar (Periwinkle)',
-    family: 'Apocynaceae (Dicot)',
-    venation: 'reticulate',
-    root: 'taproot',
-    plantImg: sadabaharPlantImg,
-    leafImg: sadabaharLeafImg,
-    rootImg: sadabaharRootImg,
-    hint: 'Glossy oval leaves with prominent pale midrib and fine net-like veins. Ground excavation reveals a deep, woody primary taproot.',
-    botanicalNote: 'Evergreen dicot shrub: sturdy taproot system allows it to reach deep water tables, reflected in glossy reticulate foliage.'
-  },
-  {
-    id: 'mustard',
-    num: '04',
-    name: 'Mustard',
-    family: 'Brassicaceae (Dicot)',
-    venation: 'reticulate',
-    root: 'taproot',
-    plantImg: mustardPlantImg,
-    leafImg: mustardLeafImg,
-    rootImg: mustardRootImg,
-    hint: 'Broad wavy mustard leaf with a stout central vein and intricate netted side-veins. Excavation exposes a thick conical primary taproot.',
-    botanicalNote: 'Classic dicot herb: central primary taproot elongates directly from the embryo radicle during seed germination.'
-  },
-  {
-    id: 'chickpea',
-    num: '05',
-    name: 'Chickpea (Gram)',
-    family: 'Fabaceae (Dicot)',
-    venation: 'reticulate',
-    root: 'taproot',
-    plantImg: chickpeaPlantImg,
-    leafImg: chickpeaLeafImg,
-    rootImg: chickpeaRootImg,
-    hint: 'Feathery compound leaves with delicate oval leaflets showing fine net venation. Supported by a conical taproot with lateral feeder roots.',
-    botanicalNote: 'Leguminous dicot: taproot system penetrates deeply to anchor the plant and host nitrogen-fixing nodules.'
-  }
-];
+import specimen01LemongrassBlended from './specimen_01_lemongrass_blended.png';
+import specimen02MarigoldBlended from './specimen_02_marigold_blended.png';
+import specimen03SadabaharBlended from './specimen_03_sadabahar_blended.png';
+import specimen04ChickpeaBlended from './specimen_04_chickpea_blended.png';
+import specimen05WheatBlended from './specimen_05_wheat_blended.png';
 
 // =========================================================================
 // FULLSCREEN SPECIMEN SLIDES (ACTIVITY 2.7) — EXACT 16:9 HD SPECIMENS
@@ -278,7 +21,7 @@ const CORRELATION_SPECIMEN_SLIDES = [
     name: 'Lemongrass',
     venation: 'Parallel venation',
     root: 'Fibrous root system',
-    image: '/activities/class6_chapter2/correlation/lemongrass.png'
+    image: specimen01LemongrassBlended
   },
   {
     id: 2,
@@ -286,7 +29,7 @@ const CORRELATION_SPECIMEN_SLIDES = [
     name: 'Marigold',
     venation: 'Reticulate venation',
     root: 'Tap root system',
-    image: '/activities/class6_chapter2/correlation/marigold.png'
+    image: specimen02MarigoldBlended
   },
   {
     id: 3,
@@ -294,7 +37,7 @@ const CORRELATION_SPECIMEN_SLIDES = [
     name: 'Sadabahar (Periwinkle)',
     venation: 'Reticulate venation',
     root: 'Tap root system',
-    image: '/activities/class6_chapter2/correlation/sadabhar.png'
+    image: specimen03SadabaharBlended
   },
   {
     id: 4,
@@ -302,7 +45,7 @@ const CORRELATION_SPECIMEN_SLIDES = [
     name: 'Chickpea',
     venation: 'Reticulate venation',
     root: 'Tap root system',
-    image: '/activities/class6_chapter2/correlation/chickpea.png'
+    image: specimen04ChickpeaBlended
   },
   {
     id: 5,
@@ -310,129 +53,225 @@ const CORRELATION_SPECIMEN_SLIDES = [
     name: 'Wheat',
     venation: 'Parallel venation',
     root: 'Fibrous root system',
-    image: '/activities/class6_chapter2/correlation/wheat.png'
+    image: specimen05WheatBlended
   }
 ];
 
+// Specimen photographs — 12 realistic botanical images
+import lemongrassImg from './plants/lemongrass.jpg';
+import marigoldImg from './plants/marigold.jpg';
+import sadabaharImg from './plants/sadabahar.jpg';
+import chickpeaImg from './plants/chickpea.jpg';
+import wheatImg from './plants/wheat.jpg';
+import maizeImg from './plants/maize.jpg';
+import onionImg from './plants/onion.jpg';
+import grassImg from './plants/grass.jpg';
+import hibiscusImg from './plants/hibiscus.jpg';
+import roseImg from './plants/rose.jpg';
+import neemImg from './plants/neem.jpg';
+import mangoImg from './plants/mango.jpg';
+
+// =========================================================================
+// NCERT CLASS 6 · TABLE 2.4 — leaf venation always tracks the root system:
+// parallel venation -> fibrous roots, reticulate venation -> tap root.
+// =========================================================================
+const PLANTS = [
+  { id: 'lemongrass', name: 'Lemongrass', img: lemongrassImg, venation: 'parallel', root: 'fibrous' },
+  { id: 'marigold', name: 'Marigold', img: marigoldImg, venation: 'reticulate', root: 'tap' },
+  { id: 'sadabahar', name: 'Sadabahar', img: sadabaharImg, venation: 'reticulate', root: 'tap' },
+  { id: 'chickpea', name: 'Chickpea', img: chickpeaImg, venation: 'reticulate', root: 'tap' },
+  { id: 'wheat', name: 'Wheat', img: wheatImg, venation: 'parallel', root: 'fibrous' },
+  { id: 'maize', name: 'Maize', img: maizeImg, venation: 'parallel', root: 'fibrous' },
+  { id: 'onion', name: 'Onion', img: onionImg, venation: 'parallel', root: 'fibrous' },
+  { id: 'grass', name: 'Grass', img: grassImg, venation: 'parallel', root: 'fibrous' },
+  { id: 'hibiscus', name: 'Hibiscus', img: hibiscusImg, venation: 'reticulate', root: 'tap' },
+  { id: 'rose', name: 'Rose', img: roseImg, venation: 'reticulate', root: 'tap' },
+  { id: 'neem', name: 'Neem', img: neemImg, venation: 'reticulate', root: 'tap' },
+  { id: 'mango', name: 'Mango', img: mangoImg, venation: 'reticulate', root: 'tap' }
+];
+
+// Vector Icons & Drawings exactly matching Image 2
+const StemHeaderIcon = () => (
+  <svg width="34" height="34" viewBox="0 0 32 32" fill="none" style={{ flexShrink: 0 }}>
+    <path d="M7 25C7 25 8.5 15.5 18 8C24 3.5 27 4.5 27 4.5C27 4.5 27.5 7.5 22.5 13.5C14.5 23 7 25 7 25Z" fill="#0D472B"/>
+    <path d="M7.5 24.5C13.5 18 19.5 12 26 5" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round"/>
+    <path d="M14 18.5C15 16.5 18 17 20 16" stroke="#FFFFFF" strokeWidth="1.3" strokeLinecap="round"/>
+    <path d="M18 14.5C19 12.5 22 13 24 12" stroke="#FFFFFF" strokeWidth="1.3" strokeLinecap="round"/>
+    <path d="M11 20.5C9.5 19.5 10.5 17.5 12.5 16.5" stroke="#FFFFFF" strokeWidth="1.3" strokeLinecap="round"/>
+    <path d="M15 16.5C13.5 15.5 14.5 13.5 16.5 12.5" stroke="#FFFFFF" strokeWidth="1.3" strokeLinecap="round"/>
+  </svg>
+);
+
+const RootCircleIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+    <path d="M12 2V8" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round"/>
+    <path d="M12 8V22" stroke="#FFFFFF" strokeWidth="2.4" strokeLinecap="round"/>
+    <path d="M12 11L6 16" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round"/>
+    <path d="M12 11L18 16" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round"/>
+    <path d="M12 15L8 19" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round"/>
+    <path d="M12 15L16 19" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round"/>
+    <path d="M9 13.5L7 11" stroke="#FFFFFF" strokeWidth="1.4" strokeLinecap="round"/>
+    <path d="M15 13.5L17 11" stroke="#FFFFFF" strokeWidth="1.4" strokeLinecap="round"/>
+  </svg>
+);
+
+const ReticulateIcon = () => (
+  <svg width="26" height="26" viewBox="0 0 32 32" fill="none" style={{ flexShrink: 0 }}>
+    <path d="M6 26C6 26 8 16 18 8C24 3.2 27 4 27 4C27 4 27.8 7 23 13C15 23 6 26 6 26Z" fill="#0D472B"/>
+    <path d="M7 25C13 19 20 12 26 5" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round"/>
+    <path d="M13 19C14 17 17 18 19 17" stroke="#FFFFFF" strokeWidth="1.2" strokeLinecap="round"/>
+    <path d="M17 15C18 13 21 14 23 13" stroke="#FFFFFF" strokeWidth="1.2" strokeLinecap="round"/>
+    <path d="M11 21C9 20 10 18 12 17" stroke="#FFFFFF" strokeWidth="1.2" strokeLinecap="round"/>
+    <path d="M15 17C13 16 14 14 16 13" stroke="#FFFFFF" strokeWidth="1.2" strokeLinecap="round"/>
+  </svg>
+);
+
+const ParallelIcon = () => (
+  <svg width="26" height="26" viewBox="0 0 32 32" fill="none" style={{ flexShrink: 0 }}>
+    <path d="M8 27C11 19 16 10 24 5C23 13 18 22 10 28L8 27Z" fill="#0D472B"/>
+    <path d="M9 26C13 18 18 10 23 6" stroke="#FFFFFF" strokeWidth="1.2" strokeLinecap="round"/>
+    <path d="M11 27C14 20 18 13 22 8" stroke="#FFFFFF" strokeWidth="1" strokeLinecap="round"/>
+    <path d="M8 25C11 17 16 9 21 5.5" stroke="#FFFFFF" strokeWidth="1" strokeLinecap="round"/>
+  </svg>
+);
+
+const FibrousIcon = () => (
+  <svg width="26" height="26" viewBox="0 0 32 32" fill="none" style={{ flexShrink: 0 }}>
+    <path d="M16 3V9" stroke="#4A2411" strokeWidth="2.8" strokeLinecap="round"/>
+    <path d="M16 9C12 15 8 21 6 28" stroke="#4A2411" strokeWidth="2.2" strokeLinecap="round"/>
+    <path d="M16 9C20 15 24 21 26 28" stroke="#4A2411" strokeWidth="2.2" strokeLinecap="round"/>
+    <path d="M16 9C14 16 12 23 10 29" stroke="#4A2411" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M16 9C18 16 20 23 22 29" stroke="#4A2411" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M16 9V29" stroke="#4A2411" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M11 18L7 22" stroke="#4A2411" strokeWidth="1.5" strokeLinecap="round"/>
+    <path d="M21 18L25 22" stroke="#4A2411" strokeWidth="1.5" strokeLinecap="round"/>
+  </svg>
+);
+
+const TapIcon = () => (
+  <svg width="26" height="26" viewBox="0 0 32 32" fill="none" style={{ flexShrink: 0 }}>
+    <path d="M12 4C10 2 8 2 8 2C8 2 9 4 11 5.5" stroke="#4A2411" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="#4A2411"/>
+    <path d="M20 4C22 2 24 2 24 2C24 2 23 4 21 5.5" stroke="#4A2411" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="#4A2411"/>
+    <path d="M16 6V1.5" stroke="#4A2411" strokeWidth="2.2" strokeLinecap="round"/>
+    <path d="M12 6.5C12 6.5 12.5 16 15.5 27C15.7 27.8 16.3 27.8 16.5 27C19.5 16 20 6.5 20 6.5H12Z" fill="#4A2411"/>
+    <path d="M13 11L7 13.5" stroke="#4A2411" strokeWidth="1.8" strokeLinecap="round"/>
+    <path d="M19 11L25 13.5" stroke="#4A2411" strokeWidth="1.8" strokeLinecap="round"/>
+    <path d="M14 16L8 19" stroke="#4A2411" strokeWidth="1.6" strokeLinecap="round"/>
+    <path d="M18 16L24 19" stroke="#4A2411" strokeWidth="1.6" strokeLinecap="round"/>
+    <path d="M14.8 21L10.5 24" stroke="#4A2411" strokeWidth="1.4" strokeLinecap="round"/>
+    <path d="M17.2 21L21.5 24" stroke="#4A2411" strokeWidth="1.4" strokeLinecap="round"/>
+  </svg>
+);
+
+const ReticulateDrawing = () => (
+  <svg width="86" height="66" viewBox="0 0 80 75" fill="none">
+    <path d="M18 64C24 45 42 22 68 12C63 32 45 56 18 64Z" stroke="#8FA89B" strokeWidth="1.8" fill="rgba(143, 168, 155, 0.08)"/>
+    <path d="M18 64C34 47 50 30 68 12" stroke="#8FA89B" strokeWidth="1.8" strokeLinecap="round"/>
+    <path d="M30 52C36 46 44 48 48 44" stroke="#8FA89B" strokeWidth="1.4" strokeLinecap="round"/>
+    <path d="M42 40C48 34 54 36 58 32" stroke="#8FA89B" strokeWidth="1.4" strokeLinecap="round"/>
+    <path d="M25 57C28 50 32 48 36 46" stroke="#8FA89B" strokeWidth="1.4" strokeLinecap="round"/>
+    <path d="M36 46C39 39 44 38 48 35" stroke="#8FA89B" strokeWidth="1.4" strokeLinecap="round"/>
+  </svg>
+);
+
+const ParallelDrawing = () => (
+  <svg width="86" height="66" viewBox="0 0 80 75" fill="none">
+    <path d="M22 66C28 46 42 24 64 12C57 32 42 54 24 67L22 66Z" stroke="#8FA89B" strokeWidth="1.8" fill="rgba(143, 168, 155, 0.08)"/>
+    <path d="M23 64C30 46 42 26 62 13" stroke="#8FA89B" strokeWidth="1.3" strokeLinecap="round"/>
+    <path d="M26 66C33 48 46 29 60 17" stroke="#8FA89B" strokeWidth="1.1" strokeLinecap="round"/>
+    <path d="M20 62C27 43 38 23 58 12" stroke="#8FA89B" strokeWidth="1.1" strokeLinecap="round"/>
+  </svg>
+);
+
+const FibrousDrawing = () => (
+  <svg width="86" height="66" viewBox="0 0 80 75" fill="none">
+    <path d="M40 8V20" stroke="#B09B88" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M40 20C32 32 22 45 16 64" stroke="#B09B88" strokeWidth="1.6" strokeLinecap="round"/>
+    <path d="M40 20C48 32 58 45 64 64" stroke="#B09B88" strokeWidth="1.6" strokeLinecap="round"/>
+    <path d="M40 20C37 35 34 48 32 66" stroke="#B09B88" strokeWidth="1.5" strokeLinecap="round"/>
+    <path d="M40 20C43 35 46 48 48 66" stroke="#B09B88" strokeWidth="1.5" strokeLinecap="round"/>
+    <path d="M40 20V67" stroke="#B09B88" strokeWidth="1.5" strokeLinecap="round"/>
+    <path d="M27 38L20 46" stroke="#B09B88" strokeWidth="1.3" strokeLinecap="round"/>
+    <path d="M53 38L60 46" stroke="#B09B88" strokeWidth="1.3" strokeLinecap="round"/>
+    <path d="M35 44L28 53" stroke="#B09B88" strokeWidth="1.3" strokeLinecap="round"/>
+    <path d="M45 44L52 53" stroke="#B09B88" strokeWidth="1.3" strokeLinecap="round"/>
+  </svg>
+);
+
+const TapDrawing = () => (
+  <svg width="86" height="66" viewBox="0 0 80 75" fill="none">
+    <path d="M37 8H43L41 24C40.5 40 40.2 55 40 68C39.8 55 39.5 40 39 24L37 8Z" stroke="#B09B88" strokeWidth="1.8" fill="rgba(176, 155, 136, 0.12)"/>
+    <path d="M39 24L26 33" stroke="#B09B88" strokeWidth="1.5" strokeLinecap="round"/>
+    <path d="M41 26L54 35" stroke="#B09B88" strokeWidth="1.5" strokeLinecap="round"/>
+    <path d="M39.5 36L28 47" stroke="#B09B88" strokeWidth="1.4" strokeLinecap="round"/>
+    <path d="M40.5 38L52 49" stroke="#B09B88" strokeWidth="1.4" strokeLinecap="round"/>
+    <path d="M39.8 48L32 58" stroke="#B09B88" strokeWidth="1.3" strokeLinecap="round"/>
+    <path d="M40.2 50L48 60" stroke="#B09B88" strokeWidth="1.3" strokeLinecap="round"/>
+    <path d="M29 40L23 44" stroke="#B09B88" strokeWidth="1.1" strokeLinecap="round"/>
+    <path d="M51 42L57 46" stroke="#B09B88" strokeWidth="1.1" strokeLinecap="round"/>
+  </svg>
+);
+
+const ZONES = [
+  { id: 'reticulate', group: 'venation', label: 'Reticulate venation', icon: <ReticulateIcon />, drawing: <ReticulateDrawing /> },
+  { id: 'parallel', group: 'venation', label: 'Parallel venation', icon: <ParallelIcon />, drawing: <ParallelDrawing /> },
+  { id: 'fibrous', group: 'root', label: 'Fibrous root', icon: <FibrousIcon />, drawing: <FibrousDrawing /> },
+  { id: 'tap', group: 'root', label: 'Tap root', icon: <TapIcon />, drawing: <TapDrawing /> }
+];
+
+
+const TONE = {
+  venation: {
+    panelBg: '#EDF7ED',
+    panelBorder: '#C8E6C9',
+    zoneCardBg: '#E8F5EC',
+    zoneCardBorder: '#C8E6C9',
+    zoneDropBg: 'rgba(255, 255, 255, 0.45)',
+    zoneDropBorder: '#A5D6A7',
+    heading: '#0F3D24',
+    badge: '#0D472B',
+    dropText: '#8A9A86'
+  },
+  root: {
+    panelBg: '#FBF2E9',
+    panelBorder: '#E5D0BA',
+    zoneCardBg: '#F6E8D7',
+    zoneCardBorder: '#E8DACB',
+    zoneDropBg: 'rgba(255, 255, 255, 0.45)',
+    zoneDropBorder: '#D7CCC8',
+    heading: '#3E1E0F',
+    badge: '#4A2411',
+    dropText: '#9E8E7E'
+  }
+};
+
 export default function VenationRootCorrelationLab({ onBackToDashboard, onPreviousPage, onNext }) {
-  const containerRef = useRef(null);
   const [phase, setPhase] = useState('specimens'); // 'specimens' | 'lab'
   const [specimenIndex, setSpecimenIndex] = useState(0);
 
-  const [isMuted, setIsMuted] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-
-  // Active Specimen Selection
-  const [selectedPlantIndex, setSelectedPlantIndex] = useState(0);
-  const [inspectionView, setInspectionView] = useState('plant'); // 'plant' | 'leaf' | 'root'
-
-  // Table 2.4 Answers State
-  const [answers, setAnswers] = useState(() =>
-    Object.fromEntries(PLANTS_DATA.map((p) => [p.id, { venation: null, root: null }]))
-  );
+  // plantId -> { venation: zoneId | null, root: zoneId | null }
+  const [placements, setPlacements] = useState({});
   const [checked, setChecked] = useState(false);
-  const [results, setResults] = useState({});
-  const [showEurekaModal, setShowEurekaModal] = useState(false);
-
-  const activePlant = PLANTS_DATA[selectedPlantIndex];
-  const allFilled = PLANTS_DATA.every((p) => answers[p.id].venation && answers[p.id].root);
-
-  const toggleMute = () => {
-    const next = !isMuted;
-    setIsMuted(next);
-    correlationAudio.setMuted(next);
-  };
-
-  const toggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      if (containerRef.current) {
-        containerRef.current.requestFullscreen().catch(() => {});
-      } else {
-        document.documentElement.requestFullscreen().catch(() => {});
-      }
-      setIsFullscreen(true);
-    } else {
-      document.exitFullscreen().catch(() => {});
-      setIsFullscreen(false);
-    }
-  };
-
-  const handleSelectPlant = (index) => {
-    correlationAudio.playSpecimenSelect(isMuted);
-    setSelectedPlantIndex(index);
-    setInspectionView('plant');
-  };
-
-  const handleNextPlant = () => {
-    correlationAudio.playSwitch(isMuted);
-    setSelectedPlantIndex((prev) => (prev + 1) % PLANTS_DATA.length);
-    setInspectionView('plant');
-  };
-
-  const handlePrevPlant = () => {
-    correlationAudio.playSwitch(isMuted);
-    setSelectedPlantIndex((prev) => (prev - 1 + PLANTS_DATA.length) % PLANTS_DATA.length);
-    setInspectionView('plant');
-  };
-
-  const handleToggleInspectionView = (view) => {
-    correlationAudio.playToggleView(isMuted);
-    setInspectionView(view);
-  };
-
-  const handleSetAnswer = (plantId, field, value) => {
-    if (checked) return;
-    correlationAudio.playOptionSelect(isMuted);
-    setAnswers((prev) => ({
-      ...prev,
-      [plantId]: { ...prev[plantId], [field]: value }
-    }));
-  };
-
-  const handleCheckAnswers = () => {
-    correlationAudio.playSwitch(isMuted);
-    const res = {};
-    PLANTS_DATA.forEach((p) => {
-      res[p.id] = {
-        venation: answers[p.id].venation === p.venation,
-        root: answers[p.id].root === p.root
-      };
-    });
-    setResults(res);
-    setChecked(true);
-
-    const isAllCorrect = PLANTS_DATA.every((p) => res[p.id].venation && res[p.id].root);
-    if (isAllCorrect) {
-      correlationAudio.playSuccessChime(isMuted);
-      confetti({
-        particleCount: 160,
-        spread: 90,
-        origin: { y: 0.55 }
-      });
-      setTimeout(() => {
-        setShowEurekaModal(true);
-      }, 700);
-    }
-  };
-
-  const handleResetLab = () => {
-    correlationAudio.playSwitch(isMuted);
-    setAnswers(Object.fromEntries(PLANTS_DATA.map((p) => [p.id, { venation: null, root: null }])));
-    setChecked(false);
-    setResults({});
-    setShowEurekaModal(false);
-    setSelectedPlantIndex(0);
-    setInspectionView('plant');
-  };
+  const [selectedId, setSelectedId] = useState(null);
+  const [dragId, setDragId] = useState(null);
+  const [hoverZone, setHoverZone] = useState(null);
 
   useEffect(() => {
     if (phase !== 'specimens') return;
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowLeft') {
-        setSpecimenIndex(prev => Math.max(0, prev - 1));
+        if (specimenIndex > 0) {
+          setSpecimenIndex(prev => prev - 1);
+          correlationAudio.playSwitch();
+        } else if (onPreviousPage) {
+          onPreviousPage();
+        } else if (onBackToDashboard) {
+          onBackToDashboard();
+        }
       } else if (e.key === 'ArrowRight' || e.key === ' ') {
         if (specimenIndex < CORRELATION_SPECIMEN_SLIDES.length - 1) {
           setSpecimenIndex(prev => prev + 1);
+          correlationAudio.playSwitch();
         } else {
           setPhase('lab');
         }
@@ -440,7 +279,356 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [phase, specimenIndex]);
+  }, [phase, specimenIndex, onPreviousPage, onBackToDashboard]);
+  const getPlacement = (plantId) => placements[plantId] || { venation: null, root: null };
+
+  const assign = (plantId, zone) => {
+    if (!plantId) return;
+    const current = placements[plantId] || { venation: null, root: null };
+    const otherGroup = zone.group === 'venation' ? 'root' : 'venation';
+
+    setPlacements(prev => ({
+      ...prev,
+      [plantId]: { ...(prev[plantId] || { venation: null, root: null }), [zone.group]: zone.id }
+    }));
+    setChecked(false);
+
+    // If the other group hasn't been assigned yet, keep the plant selected for easy 1-2 tapping!
+    if (!current[otherGroup]) {
+      setSelectedId(plantId);
+    } else {
+      setSelectedId(null);
+    }
+  };
+
+  const unassign = (plantId, group) => {
+    setPlacements(prev => ({
+      ...prev,
+      [plantId]: { ...getPlacement(plantId), [group]: null }
+    }));
+    setChecked(false);
+  };
+
+  const plantsInZone = (zone) =>
+    PLANTS.filter(p => getPlacement(p.id)[zone.group] === zone.id);
+
+  const isZoneSolved = (zone) => {
+    const expected = PLANTS.filter(p => p[zone.group] === zone.id).map(p => p.id).sort();
+    const actual = plantsInZone(zone).map(p => p.id).sort();
+    return expected.length === actual.length && expected.every((id, i) => id === actual[i]);
+  };
+
+  const solvedCount = useMemo(
+    () => ZONES.filter(isZoneSolved).length,
+    [placements] // eslint-disable-line react-hooks/exhaustive-deps
+  );
+
+  const allPlaced = PLANTS.every(p => {
+    const pl = getPlacement(p.id);
+    return pl.venation && pl.root;
+  });
+
+  const allSolved = solvedCount === ZONES.length;
+
+  const handleCheck = () => {
+    setChecked(true);
+    if (allSolved) {
+      confetti({ particleCount: 140, spread: 78, origin: { y: 0.6 } });
+    }
+  };
+
+  const handleClear = () => {
+    setPlacements({});
+    setChecked(false);
+    setSelectedId(null);
+  };
+
+  // ---------------------------------------------------------------------
+  const PlantCard = ({ plant }) => {
+    const pl = getPlacement(plant.id);
+    const done = pl.venation && pl.root;
+    const isSelected = selectedId === plant.id;
+
+    return (
+      <button
+        type="button"
+        data-plant={plant.id}
+        draggable
+        onDragStart={(e) => {
+          setDragId(plant.id);
+          e.dataTransfer.effectAllowed = 'move';
+          try { e.dataTransfer.setData('text/plain', plant.id); } catch (err) {}
+        }}
+        onDragEnd={() => setDragId(null)}
+        onClick={() => setSelectedId(isSelected ? null : plant.id)}
+        title={done ? `${plant.name} - filed in both groups` : `Select ${plant.name}, then click a group`}
+        style={{
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'stretch',
+          width: '100%',
+          height: '100%',
+          minHeight: 0,
+          background: '#FFFFFF',
+          border: `2.5px solid ${isSelected ? '#F59E0B' : done ? '#16A34A' : 'rgba(15, 23, 42, 0.12)'}`,
+          borderRadius: '14px',
+          padding: 0,
+          overflow: 'hidden',
+          cursor: 'grab',
+          textAlign: 'left',
+          boxShadow: isSelected
+            ? '0 10px 24px rgba(245, 158, 11, 0.45)'
+            : '0 4px 12px rgba(15, 23, 42, 0.14)',
+          opacity: dragId === plant.id ? 0.45 : 1,
+          transform: isSelected ? 'translateY(-3px)' : 'none',
+          transition: 'transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease',
+          fontFamily: '"Outfit", sans-serif'
+        }}
+      >
+        {/* Portrait specimen photo fills the card */}
+        <div style={{
+          flex: 1,
+          minHeight: 0,
+          width: '100%',
+          overflow: 'hidden',
+          background: '#FFFFFF'
+        }}>
+          <img
+            src={plant.img}
+            alt={plant.name}
+            draggable={false}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center',
+              display: 'block'
+            }}
+          />
+        </div>
+
+        <div style={{
+          width: '100%',
+          boxSizing: 'border-box',
+          flexShrink: 0,
+          padding: '7px 10px',
+          background: '#FFFFFF',
+          borderTop: '1.5px solid rgba(15, 23, 42, 0.08)',
+          fontSize: '20px',
+          fontWeight: 800,
+          color: '#14532D',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '6px'
+        }}>
+          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {plant.name}
+          </span>
+          <span style={{ display: 'flex', gap: '4px', flexShrink: 0 }}>
+            <span style={{
+              width: '10px', height: '10px', borderRadius: '50%',
+              background: pl.venation ? '#16A34A' : 'rgba(15,23,42,0.16)'
+            }} />
+            <span style={{
+              width: '10px', height: '10px', borderRadius: '50%',
+              background: pl.root ? '#B45309' : 'rgba(15,23,42,0.16)'
+            }} />
+          </span>
+        </div>
+
+        {done && (
+          <span style={{
+            position: 'absolute', top: '7px', right: '7px',
+            width: '26px', height: '26px', borderRadius: '50%',
+            background: '#16A34A', color: '#FFFFFF',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '15px', fontWeight: 900,
+            boxShadow: '0 2px 7px rgba(0,0,0,0.35)'
+          }}>&#10003;</span>
+        )}
+
+        {/* Drag handle affordance — signals the image itself can be dragged */}
+        <span style={{
+          position: 'absolute', top: '7px', left: '7px',
+          display: 'flex', alignItems: 'center', gap: '3px',
+          background: 'rgba(15, 23, 42, 0.55)', color: '#FFFFFF',
+          borderRadius: '999px', padding: '3px 8px 3px 5px',
+          fontSize: '13px', fontWeight: 800,
+          pointerEvents: 'none',
+          fontFamily: '"Outfit", sans-serif'
+        }}>
+          <GripVertical size={13} />
+          Drag
+        </span>
+      </button>
+    );
+  };
+
+  // ---------------------------------------------------------------------
+  // Drop Zone exactly matching Image 2
+  const DropZone = ({ zone }) => {
+    const tone = TONE[zone.group];
+    const members = plantsInZone(zone);
+    const solved = isZoneSolved(zone);
+    const isHover = hoverZone === zone.id;
+
+    return (
+      <div
+        data-zone={zone.id}
+        onDragOver={(e) => { e.preventDefault(); setHoverZone(zone.id); }}
+        onDragLeave={() => setHoverZone(null)}
+        onDrop={(e) => { e.preventDefault(); setHoverZone(null); assign(dragId, zone); setDragId(null); }}
+        onClick={() => selectedId && assign(selectedId, zone)}
+        style={{
+          background: tone.zoneCardBg,
+          border: `1px solid ${tone.zoneCardBorder}`,
+          borderRadius: '14px',
+          padding: '10px 12px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px',
+          cursor: selectedId ? 'copy' : 'default',
+          transition: 'background 0.15s ease, border-color 0.15s ease'
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px', minWidth: 0 }}>
+          <span style={{
+            display: 'flex', alignItems: 'center', gap: '7px',
+            fontSize: '18px', fontWeight: 900, color: tone.heading,
+            fontFamily: '"Fraunces", Georgia, serif',
+            whiteSpace: 'nowrap',
+            minWidth: 0,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}>
+            {zone.icon}
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{zone.label}</span>
+          </span>
+          {checked && (
+            <span style={{
+              fontSize: '13px', fontWeight: 900,
+              color: solved ? '#166534' : '#B91C1C',
+              background: solved ? '#DCFCE7' : '#FEE2E2',
+              border: `1.5px solid ${solved ? '#86EFAC' : '#FCA5A5'}`,
+              padding: '1px 7px', borderRadius: '999px', whiteSpace: 'nowrap',
+              flexShrink: 0
+            }}>
+              {solved ? 'Correct' : 'Not yet'}
+            </span>
+          )}
+        </div>
+
+        {/* Inner dashed drop box */}
+        <div style={{
+          flex: 1,
+          minHeight: '98px',
+          background: isHover ? 'rgba(255, 255, 255, 0.95)' : tone.zoneDropBg,
+          border: `1.5px dashed ${isHover ? '#F59E0B' : checked && solved ? '#16A34A' : tone.zoneDropBorder}`,
+          borderRadius: '12px',
+          padding: '8px 10px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: members.length === 0 ? 'center' : 'flex-start',
+          justifyContent: members.length === 0 ? 'center' : 'flex-start',
+          gap: '6px',
+          transition: 'border-color 0.15s ease, background 0.15s ease'
+        }}>
+          {members.length === 0 ? (
+            <>
+              {zone.drawing}
+              <span style={{
+                fontSize: '15px',
+                fontStyle: 'italic',
+                fontWeight: 600,
+                color: tone.dropText,
+                fontFamily: '"Outfit", sans-serif'
+              }}>
+                Drop plants here
+              </span>
+            </>
+          ) : (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', width: '100%' }}>
+              {members.map(p => {
+                const right = p[zone.group] === zone.id;
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); unassign(p.id, zone.group); }}
+                    title={`Remove ${p.name}`}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '5px',
+                      background: checked ? (right ? '#DCFCE7' : '#FEE2E2') : '#FFFFFF',
+                      border: `1.5px solid ${checked ? (right ? '#4ADE80' : '#FCA5A5') : 'rgba(15,23,42,0.15)'}`,
+                      borderRadius: '999px',
+                      padding: '2px 8px 2px 3px',
+                      fontSize: '15px', fontWeight: 800, color: '#14532D',
+                      cursor: 'pointer', fontFamily: '"Outfit", sans-serif',
+                      boxShadow: '0 2px 5px rgba(15,23,42,0.08)'
+                    }}
+                  >
+                    <img
+                      src={p.img}
+                      alt=""
+                      style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }}
+                    />
+                    <span>{p.name}</span>
+                    {checked && <span>{right ? '✓' : '✕'}</span>}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  // ---------------------------------------------------------------------
+  // Group Panel exactly matching Image 2
+  const GroupPanel = ({ title, icon, group }) => {
+    const tone = TONE[group];
+    return (
+      <div style={{
+        background: tone.panelBg,
+        border: `1.5px solid ${tone.panelBorder}`,
+        borderRadius: '18px',
+        padding: '12px 16px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px',
+        flex: 1,
+        minHeight: 0,
+        boxShadow: '0 4px 16px rgba(0,0,0,0.04)'
+      }}>
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '10px',
+          fontSize: '25px', fontWeight: 900, color: tone.heading,
+          fontFamily: '"Fraunces", Georgia, serif'
+        }}>
+          {group === 'venation' ? (
+            icon
+          ) : (
+            <div style={{
+              width: '36px', height: '36px', borderRadius: '50%',
+              background: tone.badge,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexShrink: 0
+            }}>
+              {icon}
+            </div>
+          )}
+          {title}
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', alignItems: 'stretch', flex: 1 }}>
+          {ZONES.filter(z => z.group === group).map(z => <DropZone key={z.id} zone={z} />)}
+        </div>
+      </div>
+    );
+  };
 
   if (phase === 'specimens') {
     const activeSlide = CORRELATION_SPECIMEN_SLIDES[specimenIndex];
@@ -489,9 +677,29 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           />
         </div>
 
+        {/* Slide counter */}
+        <div style={{
+          position: 'absolute',
+          top: '22px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          background: 'rgba(7, 22, 14, 0.82)',
+          border: '2px solid rgba(134, 239, 172, 0.5)',
+          borderRadius: '999px',
+          padding: '7px 20px',
+          fontSize: '17px',
+          fontWeight: 900,
+          color: '#D1FAE5',
+          fontFamily: '"Outfit", sans-serif',
+          zIndex: 1010
+        }}>
+          {activeSlide.num} / 05 · {activeSlide.name}
+        </div>
+
         {/* Floating Bottom Left Control: Back */}
         <button
           onClick={() => {
+            correlationAudio.playSwitch();
             if (specimenIndex > 0) {
               setSpecimenIndex(prev => prev - 1);
             } else if (onPreviousPage) {
@@ -516,7 +724,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
             color: '#1E293B',
             cursor: 'pointer',
             boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
-            backdropFilter: 'blur(8px)',
+            backdropFilter: 'blur(4px)',
             zIndex: 1010,
             transition: 'all 0.18s ease'
           }}
@@ -539,14 +747,17 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           border: '1.5px solid rgba(110, 231, 183, 0.4)',
           borderRadius: '24px',
           padding: '7px 18px',
-          backdropFilter: 'blur(10px)',
+          backdropFilter: 'blur(4px)',
           zIndex: 1010,
           boxShadow: '0 4px 16px rgba(0,0,0,0.35)'
         }}>
           {CORRELATION_SPECIMEN_SLIDES.map((s, idx) => (
             <button
               key={s.id}
-              onClick={() => setSpecimenIndex(idx)}
+              onClick={() => {
+                correlationAudio.playSwitch();
+                setSpecimenIndex(idx);
+              }}
               style={{
                 width: idx === specimenIndex ? '28px' : '10px',
                 height: '10px',
@@ -568,6 +779,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
         {/* Floating Bottom Right: Next Slide or Enter Lab */}
         <button
           onClick={() => {
+            correlationAudio.playSwitch();
             if (specimenIndex < CORRELATION_SPECIMEN_SLIDES.length - 1) {
               setSpecimenIndex(prev => prev + 1);
             } else {
@@ -602,1176 +814,382 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
             <>Enter Activity 2.7 Lab <ArrowRight size={20} /></>
           )}
         </button>
+
+        {/* Floating Left Arrow */}
+        {specimenIndex > 0 && (
+          <button
+            onClick={() => {
+              correlationAudio.playSwitch();
+              setSpecimenIndex(prev => prev - 1);
+            }}
+            style={{
+              position: 'absolute',
+              left: '26px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: '48px',
+              height: '48px',
+              borderRadius: '50%',
+              background: 'rgba(7, 22, 14, 0.65)',
+              border: '1.5px solid rgba(134, 239, 172, 0.4)',
+              color: '#FFFFFF',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              zIndex: 1010,
+              backdropFilter: 'blur(4px)',
+              transition: 'all 0.18s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(-50%) scale(1)'}
+            title="Previous Specimen"
+          >
+            <ArrowLeft size={24} />
+          </button>
+        )}
+
+        {/* Floating Right Arrow */}
+        {specimenIndex < CORRELATION_SPECIMEN_SLIDES.length - 1 && (
+          <button
+            onClick={() => {
+              correlationAudio.playSwitch();
+              setSpecimenIndex(prev => prev + 1);
+            }}
+            style={{
+              position: 'absolute',
+              right: '26px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: '48px',
+              height: '48px',
+              borderRadius: '50%',
+              background: 'rgba(7, 22, 14, 0.65)',
+              border: '1.5px solid rgba(134, 239, 172, 0.4)',
+              color: '#FFFFFF',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              zIndex: 1010,
+              backdropFilter: 'blur(4px)',
+              transition: 'all 0.18s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(-50%) scale(1)'}
+            title="Next Specimen"
+          >
+            <ArrowRight size={24} />
+          </button>
+        )}
       </div>
     );
   }
 
   return (
-    <div
-      ref={containerRef}
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: '100vh',
-        maxHeight: '100vh',
-        background: 'transparent',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: 'clamp(4px, 0.8vh, 8px) clamp(10px, 1.2vw, 20px)',
-        boxSizing: 'border-box',
-        overflow: 'hidden',
-        userSelect: 'none',
-        fontFamily: '"Outfit", "Plus Jakarta Sans", system-ui, sans-serif',
-        color: '#F8FAFC'
-      }}
-    >
-      <TopCornerFoliage side="left" />
-      <TopCornerFoliage side="right" />
-      <TopMountainBackdrop />
-      <BottomNatureSilhouettes />
+    <div style={{
+      flex: 1,
+      minHeight: 0,
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '10px',
+      padding: '0.7rem 1rem',
+      boxSizing: 'border-box',
+      overflow: 'hidden',
+      backgroundImage: `url(${bgImg})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundColor: '#DCEBF5',
+      fontFamily: '"Outfit", sans-serif'
+    }}>
 
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,600;1,9..144,700&family=Outfit:wght@700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
-
-        /* Justified text formatting */
-        p, .bio-desc-text {
-          text-align: justify !important;
-          text-justify: inter-word !important;
-          hyphens: auto;
-        }
-
-        .bio-nav-btn {
-          background: rgba(15, 23, 42, 0.65);
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
-          color: #F1F5F9;
-          border: 1.8px solid rgba(255, 255, 255, 0.25);
-          border-radius: 10px;
-          padding: 6px 14px;
-          font-size: 16px;
-          font-weight: 800;
-          font-family: 'Outfit', sans-serif;
-          cursor: pointer;
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          transition: all 0.15s ease;
-          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
-          position: relative;
-          z-index: 10;
-        }
-        .bio-nav-btn:hover:not(:disabled) {
-          background: rgba(245, 158, 11, 0.25);
-          color: #FBBF24;
-          border-color: #F59E0B;
-          transform: translateY(-1px);
-        }
-        .bio-nav-btn:disabled {
-          opacity: 0.32;
-          cursor: not-allowed;
-          box-shadow: none;
-        }
-
-        .bio-cta-btn {
-          background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-          color: #FFFFFF;
-          border: 1.8px solid #FDE68A;
-          border-radius: 10px;
-          padding: 6px 18px;
-          font-size: 16px;
-          font-weight: 900;
-          font-family: 'Outfit', sans-serif;
-          cursor: pointer;
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          transition: all 0.15s ease;
-          box-shadow: 0 4px 14px rgba(217, 119, 6, 0.42);
-          position: relative;
-          z-index: 10;
-        }
-        .bio-cta-btn:hover:not(:disabled) {
-          background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
-          border-color: #FFFFFF;
-          transform: translateY(-1px);
-          box-shadow: 0 6px 18px rgba(217, 119, 6, 0.55);
-        }
-        .bio-cta-btn:disabled {
-          opacity: 0.32;
-          cursor: not-allowed;
-          box-shadow: none;
-        }
-
-        .bio-parchment-card {
-          background: rgba(15, 23, 42, 0.50);
-          backdrop-filter: blur(20px) saturate(180%);
-          -webkit-backdrop-filter: blur(20px) saturate(180%);
-          border: 1.8px solid rgba(245, 158, 11, 0.4);
-          border-radius: 16px;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-          position: relative;
-          box-sizing: border-box;
-          overflow: hidden;
-          color: #F8FAFC;
-          transition: all 0.22s ease;
-        }
-        .bio-parchment-card:hover {
-          border-color: rgba(245, 158, 11, 0.65);
-          box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), 0 0 18px rgba(245, 158, 11, 0.25);
-        }
-      `}</style>
-
-      {/* ============================================================ */}
-      {/* 1. COMPACT STREAMLINED HEADER SECTION (ZERO SCROLL FIT)      */}
-      {/* ============================================================ */}
-      <header
-        style={{
-          position: 'relative',
-          width: '100%',
-          maxWidth: '1540px',
-          textAlign: 'center',
-          flexShrink: 0,
-          marginBottom: 'clamp(2px, 0.5vh, 6px)',
-          zIndex: 20
-        }}
-      >
-        {/* TOP CONTROLS BAR: DASHBOARD (LEFT) & TOOLS (RIGHT) */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-          {/* LEFT: DASHBOARD BUTTON */}
-          <button
-            type="button"
-            className="bio-nav-btn"
-            onClick={onBackToDashboard}
-            aria-label="Back to Dashboard"
-          >
-            <ArrowLeft size={16} strokeWidth={2.4} />
-            <span>Dashboard</span>
-          </button>
-
-          {/* CENTER: BADGES & MAIN TITLE */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
-              <span
-                style={{
-                  background: '#14452F',
-                  color: '#FFFFFF',
-                  borderRadius: '16px',
-                  padding: '2px 14px',
-                  fontFamily: '"Outfit", sans-serif',
-                  fontWeight: 900,
-                  fontSize: '16px',
-                  letterSpacing: '0.05em',
-                  textTransform: 'uppercase',
-                  boxShadow: '0 2px 6px rgba(20, 69, 47, 0.24)'
-                }}
-              >
-                CLASS 6 • SCIENCE
-              </span>
-
-              <span
-                style={{
-                  background: '#14452F',
-                  color: '#34D399',
-                  borderRadius: '16px',
-                  padding: '2px 14px',
-                  fontFamily: '"Outfit", sans-serif',
-                  fontWeight: 900,
-                  fontSize: '16px',
-                  letterSpacing: '0.05em',
-                  textTransform: 'uppercase',
-                  border: '1.8px solid #FDE68A',
-                  boxShadow: '0 2px 6px rgba(20, 69, 47, 0.24)'
-                }}
-              >
-                ACTIVITY 2.7 • BOTANY LAB
-              </span>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-              <TitleVineBranch side="left" />
-              <h1
-                style={{
-                  fontFamily: '"Fraunces", Georgia, serif',
-                  fontWeight: 900,
-                  fontSize: '22px',
-                  color: '#F8FAFC',
-                  margin: 0,
-                  lineHeight: 1.15,
-                  letterSpacing: '-0.01em',
-                  textShadow: '0 1px 4px rgba(10, 59, 36, 0.10)'
-                }}
-              >
-                Venation ↔ Root Correlation Lab
-              </h1>
-              <TitleVineBranch side="right" />
-            </div>
-            <TitleSprout />
+      {/* ---------------- Header: wooden title sign + progress ---------------- */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '14px', flexShrink: 0 }}>
+        <div style={{
+          background: 'linear-gradient(170deg, #D6A96A 0%, #BE8B4A 48%, #A3702F 100%)',
+          border: '3px solid #8A5C22',
+          borderRadius: '10px',
+          padding: '8px 22px 10px',
+          boxShadow: '0 10px 26px rgba(60, 38, 10, 0.45)'
+        }}>
+          <div style={{
+            fontSize: '28px', fontWeight: 900, color: '#2A1706', lineHeight: 1.12,
+            fontFamily: '"Fraunces", Georgia, serif'
+          }}>
+            Activity 2.7: Let us relate and analyse
           </div>
-
-          {/* RIGHT: SOUND, RESET, FULLSCREEN ROW */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <button
-              type="button"
-              onClick={toggleMute}
-              style={{
-                background: isMuted ? 'rgba(239, 68, 68, 0.15)' : 'rgba(20, 69, 47, 0.92)',
-                color: isMuted ? '#DC2626' : '#D1FAE5',
-                border: `1.5px solid ${isMuted ? '#EF4444' : '#2D6A4F'}`,
-                borderRadius: '8px',
-                padding: '6px 12px',
-                fontSize: '16px',
-                fontWeight: 800,
-                fontFamily: "'Outfit', sans-serif",
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '5px',
-                boxShadow: '0 2px 6px rgba(20, 69, 47, 0.18)'
-              }}
-            >
-              {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-              <span>{isMuted ? 'Muted' : 'Sound On'}</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={handleResetLab}
-              title="Reset Observations"
-              style={{
-                background: 'rgba(20, 69, 47, 0.92)',
-                color: '#D1FAE5',
-                border: '1.5px solid #2D6A4F',
-                borderRadius: '8px',
-                padding: '6px 12px',
-                fontSize: '16px',
-                fontWeight: 800,
-                fontFamily: "'Outfit', sans-serif",
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '5px',
-                boxShadow: '0 2px 6px rgba(20, 69, 47, 0.18)'
-              }}
-            >
-              <RefreshCw size={15} />
-              <span>Reset</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={toggleFullscreen}
-              title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
-              style={{
-                background: 'rgba(20, 69, 47, 0.92)',
-                color: '#D1FAE5',
-                border: '1.5px solid #2D6A4F',
-                borderRadius: '8px',
-                padding: '6px 8px',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 2px 6px rgba(20, 69, 47, 0.18)'
-              }}
-            >
-              {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
-            </button>
+          <div style={{ fontSize: '20px', fontWeight: 700, color: '#4A2E10', fontStyle: 'italic', marginTop: '2px' }}>
+            Explore. Observe. Group. Learn.
           </div>
         </div>
 
-        {/* INSTRUCTIONAL BANNER (STREAMLINED & JUSTIFIED) */}
-        <div
-          className="bio-parchment-card"
-          style={{
-            padding: '6px 16px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '12px',
-            width: '100%',
-            maxWidth: '1540px',
-            margin: '4px auto 0',
-            boxSizing: 'border-box'
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, minWidth: 0 }}>
-            <div
-              style={{
-                width: '32px',
-                height: '32px',
-                borderRadius: '8px',
-                background: '#14452F',
-                color: '#34D399',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0
-              }}
-            >
-              <Eye size={18} />
-            </div>
-            <div style={{ fontSize: '16px', color: '#1B4D3E', fontWeight: 600, textAlign: 'justify', lineHeight: 1.35, flex: 1, minWidth: 0 }}>
-              <strong style={{ color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif', marginRight: '6px', fontSize: '16px' }}>
-                Correlation Task:
-              </strong>
-              Select a plant specimen from the dock, inspect its <strong>[Leaf Venation]</strong> and <strong>[Root System]</strong> in the 70% botanical viewer, then record observations in Table 2.4.
-            </div>
-          </div>
-
-          <div
-            style={{
-              background: '#14452F',
-              color: '#FDE68A',
-              padding: '4px 14px',
-              borderRadius: '14px',
-              fontSize: '16px',
-              fontWeight: 800,
-              fontFamily: "'Outfit', sans-serif",
-              flexShrink: 0,
-              whiteSpace: 'nowrap'
-            }}
-          >
-            {PLANTS_DATA.filter((p) => answers[p.id].venation && answers[p.id].root).length} / {PLANTS_DATA.length} Recorded
-          </div>
-        </div>
-      </header>
-
-      {/* ========================================================================= */}
-      {/* 2. MAIN 2-COLUMN WORKSPACE: 70% IMAGE ALLOCATION + 30% CONTENT ALLOCATION */}
-      {/* ========================================================================= */}
-      <main
-        style={{
-          width: '100%',
-          maxWidth: '1540px',
-          flex: 1,
-          minHeight: 0,
-          display: 'grid',
-          gridTemplateColumns: 'calc(70% - clamp(6px, 0.8vw, 10px)) calc(30% - clamp(6px, 0.8vw, 10px))',
-          gap: 'clamp(10px, 1.2vw, 18px)',
-          alignItems: 'stretch',
-          position: 'relative',
-          zIndex: 10,
-          boxSizing: 'border-box',
-          overflow: 'hidden'
-        }}
-      >
-        {/* ========================================================== */}
-        {/* LEFT COLUMN (70%): BOTANICAL SPECIMEN DISPLAY WORKBENCH    */}
-        {/* ========================================================== */}
-        {/* LEFT COLUMN (70%): BOTANICAL SPECIMEN DISPLAY WORKBENCH    */}
-        {/* ========================================================== */}
-        <section
-          className="bio-parchment-card"
-          style={{
-            padding: 'clamp(6px, 0.9vh, 10px) clamp(8px, 1vw, 12px)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 'clamp(4px, 0.6vh, 6px)',
-            height: '100%',
-            minHeight: 0,
-            boxSizing: 'border-box'
-          }}
-        >
-          <CardCornerLeaves position="top-left" />
-          <CardCornerLeaves position="bottom-right" />
-
-          {/* TOP TOOLBAR: ACTIVE SPECIMEN TITLE, 3-WAY VIEW SWITCHER & NEXT/PREV NAVIGATION */}
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              background: '#FFFFFF',
-              borderRadius: '10px',
-              padding: '4px 10px',
-              border: '1.5px solid #2D6A4F',
-              position: 'relative',
-              zIndex: 5,
-              flexShrink: 0,
-              gap: '8px'
-            }}
-          >
-            {/* SPECIMEN COUNTER & NAME */}
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', minWidth: 0, flexShrink: 1 }}>
-              <span
-                style={{
-                  background: '#14452F',
-                  color: '#FFFFFF',
-                  padding: '2px 8px',
-                  borderRadius: '6px',
-                  fontSize: '16px',
-                  fontWeight: 900,
-                  fontFamily: "'Outfit', sans-serif",
-                  whiteSpace: 'nowrap'
-                }}
-              >
-                {selectedPlantIndex + 1} / {PLANTS_DATA.length}
-              </span>
-              <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 900, color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif', whiteSpace: 'nowrap' }}>
-                {activePlant.name}
-              </h2>
-              <span style={{ fontSize: '16px', fontWeight: 700, color: '#10B981', fontFamily: "'Outfit', sans-serif", whiteSpace: 'nowrap' }}>
-                ({activePlant.family})
-              </span>
-            </div>
-
-            {/* 3-WAY VIEW SWITCHER */}
-            <div style={{ display: 'flex', gap: '4px', flexShrink: 0 }}>
-              <button
-                type="button"
-                onClick={() => handleToggleInspectionView('plant')}
-                style={{
-                  padding: '4px 10px',
-                  borderRadius: '7px',
-                  background: inspectionView === 'plant' ? '#14452F' : 'rgba(255, 255, 255, 0.85)',
-                  border: inspectionView === 'plant' ? '2px solid #10B981' : '1.5px solid #2D6A4F',
-                  color: inspectionView === 'plant' ? '#FFFFFF' : '#14452F',
-                  fontSize: '16px',
-                  fontWeight: 800,
-                  fontFamily: "'Outfit', sans-serif",
-                  cursor: 'pointer',
-                  whiteSpace: 'nowrap',
-                  transition: 'all 0.15s ease'
-                }}
-              >
-                🌱 Whole Plant
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleToggleInspectionView('leaf')}
-                style={{
-                  padding: '4px 10px',
-                  borderRadius: '7px',
-                  background: inspectionView === 'leaf' ? '#14452F' : 'rgba(255, 255, 255, 0.85)',
-                  border: inspectionView === 'leaf' ? '2px solid #10B981' : '1.5px solid #2D6A4F',
-                  color: inspectionView === 'leaf' ? '#FFFFFF' : '#14452F',
-                  fontSize: '16px',
-                  fontWeight: 800,
-                  fontFamily: "'Outfit', sans-serif",
-                  cursor: 'pointer',
-                  whiteSpace: 'nowrap',
-                  transition: 'all 0.15s ease'
-                }}
-              >
-                🍃 Leaf Macro
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleToggleInspectionView('root')}
-                style={{
-                  padding: '4px 10px',
-                  borderRadius: '7px',
-                  background: inspectionView === 'root' ? '#14452F' : 'rgba(255, 255, 255, 0.85)',
-                  border: inspectionView === 'root' ? '2px solid #10B981' : '1.5px solid #2D6A4F',
-                  color: inspectionView === 'root' ? '#FFFFFF' : '#14452F',
-                  fontSize: '16px',
-                  fontWeight: 800,
-                  fontFamily: "'Outfit', sans-serif",
-                  cursor: 'pointer',
-                  whiteSpace: 'nowrap',
-                  transition: 'all 0.15s ease'
-                }}
-              >
-                🥕 Root System
-              </button>
-            </div>
-
-            {/* SPECIMEN NAVIGATION: PREV & NEXT BUTTONS */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
-              <button
-                type="button"
-                onClick={handlePrevPlant}
-                aria-label="Previous Specimen"
-                style={{
-                  padding: '4px 10px',
-                  borderRadius: '7px',
-                  background: 'rgba(15, 23, 42, 0.45)',
-                  border: '1.5px solid #2D6A4F',
-                  color: '#F8FAFC',
-                  fontSize: '16px',
-                  fontWeight: 800,
-                  fontFamily: "'Outfit', sans-serif",
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  whiteSpace: 'nowrap'
-                }}
-              >
-                ← Prev
-              </button>
-
-              <button
-                type="button"
-                onClick={handleNextPlant}
-                aria-label="Next Specimen"
-                style={{
-                  padding: '4px 14px',
-                  borderRadius: '7px',
-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                  border: '2px solid #047857',
-                  color: '#FFFFFF',
-                  fontSize: '16px',
-                  fontWeight: 900,
-                  fontFamily: "'Outfit', sans-serif",
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  boxShadow: '0 2px 8px rgba(16, 185, 129, 0.35)',
-                  whiteSpace: 'nowrap',
-                  transition: 'all 0.15s ease'
-                }}
-              >
-                <span>Next Specimen</span>
-                <span style={{ fontSize: '18px', lineHeight: 1 }}>→</span>
-              </button>
-            </div>
-          </div>
-
-          {/* 8K SPECIMEN PHOTOGRAPHIC DISPLAY VIEWPORT (70% ALLOCATION, ZERO EMPTY SPACE) */}
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              flex: 1,
-              minHeight: 0,
-              borderRadius: '12px',
-              background: '#0B291A',
-              border: '2px solid #D4AF37',
-              boxShadow: '0 4px 20px rgba(10, 59, 36, 0.15)',
-              overflow: 'hidden',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              zIndex: 5
-            }}
-          >
-            <img
-              key={`${activePlant.id}-${inspectionView}`}
-              src={
-                inspectionView === 'plant'
-                  ? activePlant.plantImg
-                  : inspectionView === 'leaf'
-                  ? activePlant.leafImg
-                  : activePlant.rootImg
-              }
-              alt={`${activePlant.name} ${inspectionView}`}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                display: 'block',
-                filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25))',
-                transition: 'transform 0.25s ease'
-              }}
-            />
-
-            {/* VIEW IDENTIFIER BADGE */}
-            <div
-              style={{
-                position: 'absolute',
-                top: '10px',
-                right: '10px',
-                background: 'rgba(20, 69, 47, 0.88)',
-                backdropFilter: 'blur(6px)',
-                color: '#D1FAE5',
-                borderRadius: '8px',
-                padding: '4px 12px',
-                fontSize: '16px',
-                fontWeight: 800,
-                fontFamily: "'Outfit', sans-serif",
-                boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(52, 211, 153, 0.3)',
-                zIndex: 6
-              }}
-            >
-              {inspectionView === 'plant'
-                ? 'Specimen Portrait'
-                : inspectionView === 'leaf'
-                ? `8K Leaf Macro (${activePlant.venation === 'parallel' ? 'Parallel' : 'Reticulate'})`
-                : `8K Excavated Root (${activePlant.root === 'taproot' ? 'Taproot' : 'Fibrous'})`}
-            </div>
-
-            {/* INTEGRATED OBSERVATION GUIDE DOCKED AT BOTTOM OF IMAGE */}
-            <div
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                background: 'linear-gradient(180deg, rgba(10, 42, 26, 0) 0%, rgba(10, 42, 26, 0.82) 28%, rgba(10, 42, 26, 0.95) 100%)',
-                backdropFilter: 'blur(6px)',
-                padding: '10px 16px 8px 16px',
-                color: '#E6F9EE',
-                fontSize: '16px',
-                lineHeight: 1.35,
-                textAlign: 'justify',
-                borderTop: '1px solid rgba(52, 211, 153, 0.25)',
-                zIndex: 6
-              }}
-            >
-              <strong style={{ color: '#6EE7B7' }}>Observation Guide:</strong> {activePlant.hint}
-            </div>
-          </div>
-        </section>
-
-        {/* ========================================================== */}
-        {/* RIGHT COLUMN (30%): TABLE 2.4 BOTANICAL FIELD NOTEBOOK     */}
-        {/* ========================================================== */}
-        <section
-          className="bio-parchment-card"
-          style={{
-            padding: 'clamp(8px, 1.1vh, 12px) clamp(10px, 1.2vw, 14px)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            gap: 'clamp(4px, 0.6vh, 6px)',
-            height: '100%',
-            minHeight: 0,
-            boxSizing: 'border-box'
-          }}
-        >
-          <CardCornerLeaves position="top-right" />
-          <CardCornerLeaves position="bottom-left" />
-
-          {/* NOTEBOOK HEADER */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 5, flexShrink: 0 }}>
-            <div>
-              <span
-                style={{
-                  background: '#14452F',
-                  color: '#FFFFFF',
-                  padding: '2px 10px',
-                  borderRadius: '10px',
-                  fontFamily: '"Outfit", sans-serif',
-                  fontWeight: 900,
-                  fontSize: '16px',
-                  letterSpacing: '0.05em',
-                  textTransform: 'uppercase'
-                }}
-              >
-                FIELD NOTEBOOK
-              </span>
-              <h2 style={{ margin: '2px 0 0 0', fontSize: '18px', fontWeight: 900, color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
-                Table 2.4 · Venation & Root
-              </h2>
-            </div>
-
-            <div style={{ fontSize: '16px', fontWeight: 800, color: '#F8FAFC', fontFamily: "'Outfit', sans-serif" }}>
-              5 Specimens
-            </div>
-          </div>
-
-          {/* MINI COLUMN LEGEND */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '6px',
-              padding: '0 4px',
-              fontSize: '16px',
-              fontWeight: 800,
-              color: '#F8FAFC',
-              flexShrink: 0
-            }}
-          >
-            <div style={{ textAlign: 'center', borderBottom: '1.5px solid rgba(20, 69, 47, 0.25)', paddingBottom: '1px' }}>
-              🍃 Leaf Venation
-            </div>
-            <div style={{ textAlign: 'center', borderBottom: '1.5px solid rgba(20, 69, 47, 0.25)', paddingBottom: '1px' }}>
-              🥕 Root System
-            </div>
-          </div>
-
-          {/* 5 COMPACT PLANT ROWS IN TABLE 2.4 (FIT ON SCREEN WITHOUT SCROLL) */}
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              gap: 'clamp(3px, 0.5vh, 6px)',
-              position: 'relative',
-              zIndex: 5,
-              flex: 1,
-              minHeight: 0
-            }}
-          >
-            {PLANTS_DATA.map((plant, idx) => {
-              const isSelected = selectedPlantIndex === idx;
-              const plantAns = answers[plant.id];
-              const plantRes = results[plant.id];
-              const isAnswered = plantAns.venation && plantAns.root;
-
-              return (
-                <div
-                  key={plant.id}
-                  onClick={() => handleSelectPlant(idx)}
-                  style={{
-                    background: isSelected ? '#FFFFFF' : 'rgba(255, 255, 255, 0.82)',
-                    border: isSelected ? '2px solid #10B981' : '1.5px solid #2D6A4F',
-                    borderRadius: '10px',
-                    padding: '4px 8px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '3px',
-                    boxShadow: isSelected ? '0 2px 10px rgba(16, 185, 129, 0.20)' : '0 1px 3px rgba(0,0,0,0.04)',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease',
-                    flexShrink: 0
-                  }}
-                >
-                  {/* PLANT NAME & NUMBER WITH COMPLETION STATUS */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <span
-                        style={{
-                          width: '20px',
-                          height: '20px',
-                          borderRadius: '50%',
-                          background: isSelected ? '#10B981' : '#14452F',
-                          color: isSelected ? '#064E3B' : '#FFFFFF',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontSize: '16px',
-                          fontWeight: 900,
-                          fontFamily: "'Outfit', sans-serif"
-                        }}
-                      >
-                        {idx + 1}
-                      </span>
-                      <span style={{ fontSize: '16px', fontWeight: 800, color: '#F8FAFC' }}>
-                        {plant.name}
-                      </span>
-                    </div>
-
-                    {isAnswered && (
-                      <span style={{ fontSize: '16px', color: '#10B981', fontWeight: 900 }}>
-                        {checked ? (plantRes?.venation && plantRes?.root ? '✅ 100%' : '⚠️ Review') : '✓ Done'}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* 2-COLUMN BUTTONS: VENATION (LEFT) | ROOT SYSTEM (RIGHT) */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
-                    {/* LEAF VENATION PAIR */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3px' }}>
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSetAnswer(plant.id, 'venation', 'reticulate');
-                        }}
-                        style={{
-                          padding: '3px 2px',
-                          borderRadius: '6px',
-                          background: plantAns.venation === 'reticulate' ? '#14452F' : 'rgba(255, 255, 255, 0.9)',
-                          border: plantAns.venation === 'reticulate' ? '2px solid #10B981' : '1.2px solid #2D6A4F',
-                          color: plantAns.venation === 'reticulate' ? '#FFFFFF' : '#14452F',
-                          fontSize: '16px',
-                          fontWeight: 800,
-                          fontFamily: "'Outfit', sans-serif",
-                          cursor: checked ? 'default' : 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          gap: '2px',
-                          whiteSpace: 'nowrap'
-                        }}
-                        title="Reticulate Venation"
-                      >
-                        <span>Reticulate</span>
-                        {checked && plantAns.venation === 'reticulate' && (
-                          <span>{plantRes?.venation ? '✅' : '❌'}</span>
-                        )}
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSetAnswer(plant.id, 'venation', 'parallel');
-                        }}
-                        style={{
-                          padding: '3px 2px',
-                          borderRadius: '6px',
-                          background: plantAns.venation === 'parallel' ? '#14452F' : 'rgba(255, 255, 255, 0.9)',
-                          border: plantAns.venation === 'parallel' ? '2px solid #10B981' : '1.2px solid #2D6A4F',
-                          color: plantAns.venation === 'parallel' ? '#FFFFFF' : '#14452F',
-                          fontSize: '16px',
-                          fontWeight: 800,
-                          fontFamily: "'Outfit', sans-serif",
-                          cursor: checked ? 'default' : 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          gap: '2px',
-                          whiteSpace: 'nowrap'
-                        }}
-                        title="Parallel Venation"
-                      >
-                        <span>Parallel</span>
-                        {checked && plantAns.venation === 'parallel' && (
-                          <span>{plantRes?.venation ? '✅' : '❌'}</span>
-                        )}
-                      </button>
-                    </div>
-
-                    {/* ROOT SYSTEM PAIR */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3px' }}>
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSetAnswer(plant.id, 'root', 'taproot');
-                        }}
-                        style={{
-                          padding: '3px 2px',
-                          borderRadius: '6px',
-                          background: plantAns.root === 'taproot' ? '#14452F' : 'rgba(255, 255, 255, 0.9)',
-                          border: plantAns.root === 'taproot' ? '2px solid #10B981' : '1.2px solid #2D6A4F',
-                          color: plantAns.root === 'taproot' ? '#FFFFFF' : '#14452F',
-                          fontSize: '16px',
-                          fontWeight: 800,
-                          fontFamily: "'Outfit', sans-serif",
-                          cursor: checked ? 'default' : 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          gap: '2px',
-                          whiteSpace: 'nowrap'
-                        }}
-                        title="Taproot System"
-                      >
-                        <span>Taproot</span>
-                        {checked && plantAns.root === 'taproot' && (
-                          <span>{plantRes?.root ? '✅' : '❌'}</span>
-                        )}
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSetAnswer(plant.id, 'root', 'fibrous');
-                        }}
-                        style={{
-                          padding: '3px 2px',
-                          borderRadius: '6px',
-                          background: plantAns.root === 'fibrous' ? '#14452F' : 'rgba(255, 255, 255, 0.9)',
-                          border: plantAns.root === 'fibrous' ? '2px solid #10B981' : '1.2px solid #2D6A4F',
-                          color: plantAns.root === 'fibrous' ? '#FFFFFF' : '#14452F',
-                          fontSize: '16px',
-                          fontWeight: 800,
-                          fontFamily: "'Outfit', sans-serif",
-                          cursor: checked ? 'default' : 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          gap: '2px',
-                          whiteSpace: 'nowrap'
-                        }}
-                        title="Fibrous Root System"
-                      >
-                        <span>Fibrous</span>
-                        {checked && plantAns.root === 'fibrous' && (
-                          <span>{plantRes?.root ? '✅' : '❌'}</span>
-                        )}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* CHECK / SUBMIT BUTTON */}
-          <div style={{ position: 'relative', zIndex: 5, flexShrink: 0 }}>
-            <button
-              type="button"
-              onClick={handleCheckAnswers}
-              disabled={!allFilled}
-              className="bio-cta-btn"
-              style={{ width: '100%', justifyContent: 'center', padding: '7px 16px', fontSize: '16px' }}
-            >
-              <Sparkles size={18} />
-              <span>{allFilled ? 'Verify & Check Table 2.4' : 'Fill All 5 Rows to Check'}</span>
-            </button>
-          </div>
-        </section>
-      </main>
-
-      {/* ============================================================ */}
-      {/* 3. GOLDEN BOTANICAL CORRELATION LAW SYNTHESIS (EUREKA MODAL) */}
-      {/* ============================================================ */}
-      {showEurekaModal && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            backgroundColor: 'rgba(10, 45, 30, 0.72)',
-            backdropFilter: 'blur(6px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 100,
-            padding: '20px'
-          }}
-        >
-          <div
-            className="bio-parchment-card"
-            style={{
-              width: '100%',
-              maxWidth: '820px',
-              padding: '32px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '18px',
-              boxShadow: '0 24px 60px rgba(0, 0, 0, 0.45)',
-              position: 'relative'
-            }}
-          >
-            <CardCornerLeaves position="top-left" />
-            <CardCornerLeaves position="top-right" />
-            <CardCornerLeaves position="bottom-left" />
-            <CardCornerLeaves position="bottom-right" />
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', position: 'relative', zIndex: 5 }}>
-              <div
-                style={{
-                  width: '56px',
-                  height: '56px',
-                  borderRadius: '16px',
-                  background: '#14452F',
-                  color: '#FCD34D',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0
-                }}
-              >
-                <Award size={36} />
-              </div>
-              <div>
-                <div
-                  style={{
-                    display: 'inline-block',
-                    background: '#14452F',
-                    color: '#34D399',
-                    borderRadius: '16px',
-                    padding: '3px 14px',
-                    fontSize: '16px',
-                    fontWeight: 800,
-                    fontFamily: "'Outfit', sans-serif",
-                    marginBottom: '4px'
-                  }}
-                >
-                  EUREKA! THE GRAND DISCOVERY
-                </div>
-                <h2 style={{ margin: 0, fontSize: '24px', fontWeight: 900, color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
-                  The Golden Law of Botanical Correlation
-                </h2>
-              </div>
-            </div>
-
-            <p style={{ margin: 0, fontSize: '16px', color: '#1B4D3E', fontWeight: 600, lineHeight: 1.5, position: 'relative', zIndex: 5 }}>
-              Congratulations! By analyzing Table 2.4, you discovered the fundamental botanical rule connecting plant leaves to their root systems:
-            </p>
-
-            {/* 2-COLUMN SYNTHESIS CARDS */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', position: 'relative', zIndex: 5 }}>
-              {/* DICOT LAW */}
-              <div
-                style={{
-                  background: '#FFFFFF',
-                  borderRadius: '14px',
-                  padding: '16px',
-                  border: '2px solid #D4AF37',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '8px'
-                }}
-              >
-                <div style={{ fontSize: '18px', fontWeight: 900, color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
-                  🕸️ Reticulate Venation
-                </div>
-                <div style={{ fontSize: '20px', fontWeight: 900, color: '#10B981', fontFamily: "'Outfit', sans-serif" }}>
-                  ALWAYS HAS ➔ 🥕 Taproot
-                </div>
-                <div style={{ fontSize: '16px', color: '#374151' }}>
-                  Marigold, Sadabahar, Mustard, Chickpea (Dicots)
-                </div>
-              </div>
-
-              {/* MONOCOT LAW */}
-              <div
-                style={{
-                  background: '#FFFFFF',
-                  borderRadius: '14px',
-                  padding: '16px',
-                  border: '2px solid #D97706',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '8px'
-                }}
-              >
-                <div style={{ fontSize: '18px', fontWeight: 900, color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
-                  📏 Parallel Venation
-                </div>
-                <div style={{ fontSize: '20px', fontWeight: 900, color: '#D97706', fontFamily: "'Outfit', sans-serif" }}>
-                  ALWAYS HAS ➔ 🌾 Fibrous Roots
-                </div>
-                <div style={{ fontSize: '16px', color: '#374151' }}>
-                  Lemon Grass, Wheat, Maize, Grass (Monocots)
-                </div>
-              </div>
-            </div>
-
-            <div
-              style={{
-                background: '#EAF7EE',
-                borderLeft: '4px solid #10B981',
-                borderRadius: '8px',
-                padding: '12px 16px',
-                fontSize: '16px',
-                color: '#0F3822',
-                lineHeight: 1.5,
-                position: 'relative',
-                zIndex: 5
-              }}
-            >
-              💡 <strong>Botanist’s Superpower:</strong> You NEVER need to pull out a plant from the soil to know its root system! Just inspect its leaf venation, and you can reliably predict whether it has a taproot or fibrous root system!
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', position: 'relative', zIndex: 5, marginTop: '6px' }}>
-              <button
-                type="button"
-                className="bio-cta-btn"
-                onClick={() => {
-                  setShowEurekaModal(false);
-                  if (onNext) onNext();
-                }}
-              >
-                <span>Advance to Activity 2.8: Seed Dissection</span>
-                <ChevronRight size={20} strokeWidth={2.5} />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ============================================================ */}
-      {/* 4. BOTTOM NAVIGATION BAR (MATCHING SLOGAN PAGE EXACTLY)      */}
-      {/* ============================================================ */}
-      <footer
-        style={{
-          width: '100%',
-          maxWidth: '1540px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexShrink: 0,
-          padding: 'clamp(2px, 0.4vh, 4px) 4px',
-          boxSizing: 'border-box',
-          position: 'relative',
-          zIndex: 20
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
           <button
             type="button"
-            className="bio-nav-btn"
-            onClick={onPreviousPage}
-            aria-label="Previous Activity"
-          >
-            ← Previous Activity
-          </button>
-
-          <button
-            type="button"
-            className="bio-nav-btn"
             onClick={() => {
-              setSpecimenIndex(0);
+              correlationAudio.playSwitch();
               setPhase('specimens');
+              setSpecimenIndex(0);
             }}
-            style={{ background: '#064E3B', borderColor: '#34D399', color: '#D1FAE5' }}
-            aria-label="View Specimen Slides"
+            title="View Activity 2.7 Specimen Slides"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '7px',
+              background: 'rgba(255, 255, 255, 0.93)',
+              border: '2px solid rgba(22, 101, 52, 0.25)',
+              borderRadius: '999px',
+              padding: '7px 16px',
+              fontSize: '18px',
+              fontWeight: 800,
+              color: '#14532D',
+              boxShadow: '0 6px 18px rgba(15, 23, 42, 0.18)',
+              cursor: 'pointer',
+              transition: 'transform 0.15s ease, box-shadow 0.15s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
           >
-            🔍 Specimen Slides
+            <ArrowLeft size={16} />
+            <span>Specimen Slides</span>
           </button>
+
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '9px',
+            background: 'rgba(255, 255, 255, 0.93)',
+            border: '2px solid rgba(22, 101, 52, 0.25)',
+            borderRadius: '999px',
+            padding: '7px 16px',
+            fontSize: '20px', fontWeight: 900, color: '#14532D',
+            boxShadow: '0 6px 18px rgba(15, 23, 42, 0.18)'
+          }}>
+            <Leaf size={17} color="#16A34A" />
+            <span>Venation &amp; Root</span>
+          </div>
+
+          <div style={{
+            background: 'linear-gradient(170deg, #C08F4E 0%, #9A6C2E 100%)',
+            border: '2.5px solid #7A5320',
+            borderRadius: '10px',
+            padding: '6px 16px',
+            textAlign: 'center',
+            boxShadow: '0 8px 20px rgba(60, 38, 10, 0.42)'
+          }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: '8px',
+              fontSize: '26px', fontWeight: 900, color: '#FFF7E3',
+              fontFamily: '"Fraunces", Georgia, serif'
+            }}>
+              <Trophy size={17} color="#FDE68A" />
+              {solvedCount} / {ZONES.length}
+            </div>
+            <div style={{ fontSize: '16px', fontWeight: 800, color: '#FBE7C0', marginTop: '-1px' }}>
+              groups complete
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ---------------- Grouping rule ---------------- */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: '10px',
+        background: 'rgba(255, 255, 255, 0.92)',
+        border: '2px solid rgba(22, 101, 52, 0.18)',
+        borderRadius: '999px',
+        padding: '7px 18px',
+        flexShrink: 0,
+        boxShadow: '0 5px 16px rgba(15, 23, 42, 0.12)'
+      }}>
+        <Lightbulb size={18} color="#D97706" />
+        <span style={{ fontSize: '20px', fontWeight: 900, color: '#14532D' }}>Grouping rule:</span>
+        <span style={{ fontSize: '20px', fontWeight: 600, color: '#334155' }}>
+          {selectedId
+            ? `${PLANTS.find(p => p.id === selectedId)?.name} selected — now click the group it belongs to.`
+            : 'Drag a plant from the left into the correct venation group and the correct root group. (You can also tap a plant, then tap a group.)'}
+        </span>
+      </div>
+
+      {/* ---------------- Main: plants dock + grouping panels ---------------- */}
+      <div style={{
+        flex: 1,
+        minHeight: 0,
+        display: 'grid',
+        gridTemplateColumns: 'minmax(0, 54fr) minmax(0, 46fr)',
+        gap: '12px'
+      }}>
+        {/* Plants dock */}
+        <div style={{
+          background: 'rgba(255, 255, 255, 0.93)',
+          border: '2px solid rgba(22, 101, 52, 0.18)',
+          borderRadius: '18px',
+          padding: '12px 14px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+          minHeight: 0,
+          boxShadow: '0 10px 28px rgba(15, 23, 42, 0.16)'
+        }}>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '10px',
+            fontSize: '27px', fontWeight: 900, color: '#14532D',
+            fontFamily: '"Fraunces", Georgia, serif', flexShrink: 0
+          }}>
+            <span style={{
+              width: '34px', height: '34px', borderRadius: '50%',
+              background: '#166534', color: '#FFFFFF',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '17px'
+            }}>🌿</span>
+            Plants
+          </div>
+
+          <div style={{
+            flex: 1,
+            minHeight: 0,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
+            gridTemplateRows: 'repeat(3, minmax(0, 1fr))',
+            gap: '10px'
+          }}>
+            {PLANTS.map(p => <PlantCard key={p.id} plant={p} />)}
+          </div>
         </div>
 
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '2px'
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
-            <svg width="22" height="15" viewBox="0 0 24 16" fill="none" style={{ transform: 'scaleX(-1)' }}>
-              <path d="M2 14 C8 12, 16 10, 22 2 C18 8, 12 12, 2 14 Z" fill="#2D6A4F" />
-              <path d="M6 10 C10 6, 16 4, 22 2 C18 8, 12 10, 6 10 Z" fill="#52B788" />
-            </svg>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '24px',
-                height: '24px',
-                borderRadius: '50%',
-                background: '#EAF7EE',
-                border: '1.8px solid #D4AF37',
-                boxShadow: '0 2px 6px rgba(20, 69, 47, 0.25)'
-              }}
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#14452F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-                <path d="M2 12h20" />
-              </svg>
-            </div>
-            <svg width="22" height="15" viewBox="0 0 24 16" fill="none">
-              <path d="M2 14 C8 12, 16 10, 22 2 C18 8, 12 10, 6 10 Z" fill="#2D6A4F" />
-              <path d="M6 10 C10 6, 16 4, 22 2 C18 8, 12 10, 6 10 Z" fill="#52B788" />
-            </svg>
-          </div>
+        {/* Grouping panels */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', minHeight: 0 }}>
+          <GroupPanel title="Type of stem" icon={<StemHeaderIcon />} group="venation" />
+          <GroupPanel title="Type of root" icon={<RootCircleIcon />} group="root" />
+        </div>
+      </div>
 
-          <div
-            style={{
-              background: '#14452F',
-              color: '#FFFFFF',
-              borderRadius: '20px',
-              padding: '4px 20px',
-              fontFamily: '"Outfit", sans-serif',
-              fontWeight: 900,
-              fontSize: '16px',
-              letterSpacing: '0.05em',
-              boxShadow: '0 3px 10px rgba(20, 69, 47, 0.32)'
-            }}
-          >
-            Activity 2.7 · Table 2.4 Correlation Lab
-          </div>
+      {/* ---------------- Footer: hint, clear, check, navigation ---------------- */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+        <button
+          type="button"
+          onClick={onPreviousPage || onBackToDashboard}
+          style={footBtn('ghost')}
+        >
+          <ArrowLeft size={16} />
+          <span>Previous</span>
+        </button>
+
+        <div style={{
+          flex: 1,
+          minWidth: 0,
+          display: 'flex', alignItems: 'center', gap: '9px',
+          background: 'rgba(255, 255, 255, 0.92)',
+          border: '2px solid rgba(22, 101, 52, 0.18)',
+          borderRadius: '999px',
+          padding: '7px 18px',
+          boxShadow: '0 5px 16px rgba(15, 23, 42, 0.12)'
+        }}>
+          <Leaf size={17} color="#16A34A" />
+          <span style={{
+            fontSize: '20px', fontWeight: 700, color: '#334155',
+            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'
+          }}>
+            {checked && allSolved
+              ? 'Every group is correct — parallel veins always go with fibrous roots, and reticulate veins with a tap root.'
+              : checked
+              ? 'Some plants are in the wrong group. Look at the leaf veins again, then fix the red ones.'
+              : 'Look for a feature shared by every member of a group.'}
+          </span>
         </div>
 
         <button
           type="button"
-          className="bio-cta-btn"
-          onClick={onNext}
-          aria-label="Next Activity"
+          onClick={() => {
+            correlationAudio.playSwitch();
+            setPhase('specimens');
+            setSpecimenIndex(CORRELATION_SPECIMEN_SLIDES.length - 1);
+          }}
+          title="Review Activity 2.7 Specimen Slides"
+          style={footBtn('ghost')}
         >
-          <span>Next: Act 2.8 Seed Dissection</span>
-          <ArrowRight size={17} strokeWidth={2.5} />
+          <ArrowLeft size={16} />
+          <span>Specimen Slides</span>
         </button>
-      </footer>
+
+        <button type="button" onClick={handleClear} style={footBtn('ghost')}>
+          <RotateCcw size={16} />
+          <span>Clear</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={handleCheck}
+          disabled={!allPlaced}
+          title={allPlaced ? 'Check my answers' : 'Place every plant in a venation group and a root group first'}
+          style={footBtn(allPlaced ? 'check' : 'disabled')}
+        >
+          <Check size={17} />
+          <span>{allPlaced ? 'Check my answers' : 'Place all 12 plants'}</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={onNext}
+          title="Next: Activity 2.8 Seed Dissection"
+          style={footBtn('primary')}
+        >
+          <span>Next</span>
+          <ArrowRight size={18} />
+        </button>
+      </div>
     </div>
   );
+}
+
+// Shared footer button styling
+function footBtn(kind) {
+  const base = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '7px',
+    borderRadius: '999px',
+    padding: '9px 20px',
+    fontSize: '20px',
+    fontWeight: 900,
+    fontFamily: '"Outfit", sans-serif',
+    cursor: 'pointer',
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+    transition: 'transform 0.15s ease, box-shadow 0.15s ease'
+  };
+
+  if (kind === 'primary') {
+    return {
+      ...base,
+      background: 'linear-gradient(135deg, #F5B534 0%, #D97706 100%)',
+      color: '#FFFFFF',
+      border: '2px solid #FDE68A',
+      boxShadow: '0 8px 22px rgba(217, 119, 6, 0.5)'
+    };
+  }
+  if (kind === 'check') {
+    return {
+      ...base,
+      background: 'linear-gradient(180deg, #17803D 0%, #0F5132 100%)',
+      color: '#FFFFFF',
+      border: '2px solid rgba(167, 243, 208, 0.5)',
+      boxShadow: '0 8px 20px rgba(6, 60, 34, 0.45)'
+    };
+  }
+  if (kind === 'disabled') {
+    return {
+      ...base,
+      background: 'rgba(255, 255, 255, 0.96)',
+      color: 'rgba(15, 23, 42, 0.58)',
+      border: '2px solid rgba(15, 23, 42, 0.18)',
+      cursor: 'not-allowed',
+      boxShadow: '0 5px 14px rgba(15, 23, 42, 0.16)'
+    };
+  }
+  return {
+    ...base,
+    background: 'rgba(255, 255, 255, 0.93)',
+    color: '#14532D',
+    border: '2px solid rgba(22, 101, 52, 0.22)',
+    boxShadow: '0 5px 14px rgba(15, 23, 42, 0.14)'
+  };
 }

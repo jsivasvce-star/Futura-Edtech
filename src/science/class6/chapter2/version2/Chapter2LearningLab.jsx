@@ -62,7 +62,7 @@ import VenationRootCorrelationLab from './VenationRootCorrelationLab';
 import SeedDissectionLab from './SeedDissectionLab';
 import AnimalHabitatExplorerActivity from './AnimalHabitatExplorer';
 import NewActivity29 from './NewActivity29';
-import Tables2_5_2_6_Lab from './Tables2_5_2_6_Lab';
+import Activity2_10Lab from './Activity2_10Lab';
 import AdaptationsLab from './AdaptationsLab';
 import ConservationLab from './ConservationLab';
 import TextbookExercisesLab from './TextbookExercisesLab';
@@ -794,18 +794,18 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
             {habitatSubTab === 'new_activity_29' && (
               <NewActivity29 
                 onBackToDashboard={() => setHabitatSubTab('mission')} 
-                onNextActivity={() => setHabitatSubTab('tables')} 
+                onNextActivity={() => setHabitatSubTab('activity2_10')} 
               />
             )}
-            {habitatSubTab === 'tables' && (
-              <Tables2_5_2_6_Lab 
-                onBackToDashboard={() => setHabitatSubTab('new_activity_29')} 
-                onNextSubModule={() => setHabitatSubTab('adaptations')} 
+            {habitatSubTab === 'activity2_10' && (
+              <Activity2_10Lab 
+                onBack={() => setHabitatSubTab('new_activity_29')} 
+                onComplete={() => setHabitatSubTab('adaptations')} 
               />
             )}
             {habitatSubTab === 'adaptations' && (
               <AdaptationsLab 
-                onBackToDashboard={() => setHabitatSubTab('tables')} 
+                onBackToDashboard={() => setHabitatSubTab('activity2_10')} 
                 onNextSubModule={() => setHabitatSubTab('conservation')} 
               />
             )}

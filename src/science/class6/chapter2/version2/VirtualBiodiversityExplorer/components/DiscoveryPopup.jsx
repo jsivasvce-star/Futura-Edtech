@@ -38,7 +38,7 @@ export default function DiscoveryPopup({
       justifyContent: 'center',
       padding: '1rem',
       background: 'rgba(15, 23, 42, 0.65)',
-      backdropFilter: 'blur(8px)'
+      backdropFilter: 'blur(4px)'
     }}>
       {/* Pop-up Card */}
       <div style={{

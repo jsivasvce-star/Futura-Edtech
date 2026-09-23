@@ -56,7 +56,7 @@ export default function MagneticCompassActivity({ onBackToDashboard, onComplete 
       overflow: 'hidden',
       boxSizing: 'border-box',
       padding: '0.65rem 0.85rem',
-      backgroundColor: '#FFFFFF',
+      backgroundColor: 'transparent',
       fontFamily: "system-ui, -apple-system, sans-serif"
     }}>
 
@@ -67,8 +67,8 @@ export default function MagneticCompassActivity({ onBackToDashboard, onComplete 
         alignItems: 'center', 
         padding: '0.65rem 1.25rem',
         marginBottom: '0.65rem',
-        background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-        border: '1.5px solid #FDE68A',
+        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+        border: '1.5px solid #E2E8F0',
         borderRadius: '24px',
         boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
         flexShrink: 0,
@@ -94,7 +94,7 @@ export default function MagneticCompassActivity({ onBackToDashboard, onComplete 
         {/* Center: Title & Subtitle */}
         <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 0.5rem' }}>
           <h2 style={{ margin: 0, fontSize: '1.3rem', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.65rem', color: '#064E3B', letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
-            <Compass size={24} style={{ color: '#D97706' }} />
+            <Compass size={24} style={{ color: '#173B5F' }} />
             Activity 4.4: Making a Simple Magnetic Compass
           </h2>
           <span style={{ fontSize: '0.82rem', color: '#047857', fontWeight: 700, whiteSpace: 'nowrap' }}>Class 6 Science — Constructing a Floating Compass</span>

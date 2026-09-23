@@ -33,7 +33,7 @@
   --mut-local: #64748B;
   --dim-local: #94A3B8;
   --indigo-local: #3B82F6;
-  --gold-local: #F59E0B;
+  --gold-local: #214A70;
   --mint-local: #10B981;
   --coral-local: #EF4444;
   --red-local: #DC2626;
@@ -281,8 +281,8 @@
 }
 
 [data-theme="light"] .fun-with-magnets .reveal.warn {
-  background: #FEF3C7;
-  border-color: #F59E0B;
+  background: #EAF2F6;
+  border-color: #214A70;
 }
 
 .fun-with-magnets .reveal.warn b {

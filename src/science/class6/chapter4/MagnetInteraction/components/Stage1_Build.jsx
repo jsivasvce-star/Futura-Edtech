@@ -35,14 +35,14 @@ function TrayItemCard({ step, isPlaced, isUnlocked, isSelected, onClick, renderT
         gap: '0.75rem',
         padding: '1rem',
         borderRadius: '16px',
-        background: isPlaced ? '#DCFCE7' : isSelected ? '#FEF9C3' : isCurrent ? '#FEF3C7' : '#FFFFFF',
+        background: isPlaced ? '#DCFCE7' : isSelected ? '#EAF2F6' : isCurrent ? '#EAF2F6' : '#FFFFFF',
         border: isPlaced
           ? '1.5px solid #86EFAC'
           : isSelected
-          ? '2.5px solid #D97706'
+          ? '2.5px solid #173B5F'
           : isCurrent
-          ? '2px solid #F59E0B'
-          : '1.5px solid #FDE68A',
+          ? '2px solid #214A70'
+          : '1.5px solid #E2E8F0',
         color: '#064E3B',
         cursor: isDisabled ? (isPlaced ? 'default' : 'not-allowed') : 'pointer',
         transition: 'all 0.2s ease',
@@ -64,8 +64,8 @@ function TrayItemCard({ step, isPlaced, isUnlocked, isSelected, onClick, renderT
         width: '100%',
         flex: 1,
         minHeight: 0,
-        background: isPlaced ? '#F0FDF4' : '#FFFBEB',
-        border: `1.5px solid ${isPlaced ? '#A7F3D0' : '#FDE68A'}`,
+        background: isPlaced ? '#F0FDF4' : '#F3F7F9',
+        border: `1.5px solid ${isPlaced ? '#A7F3D0' : '#E2E8F0'}`,
         borderRadius: '12px',
         display: 'flex',
         alignItems: 'center',
@@ -83,7 +83,7 @@ function TrayItemCard({ step, isPlaced, isUnlocked, isSelected, onClick, renderT
           width: '26px',
           height: '26px',
           borderRadius: '50%',
-          background: isPlaced ? '#059669' : isUnlocked ? '#D97706' : '#CBD5E1',
+          background: isPlaced ? '#059669' : isUnlocked ? '#173B5F' : '#CBD5E1',
           color: '#FFFFFF',
           display: 'flex',
           alignItems: 'center',
@@ -105,9 +105,9 @@ function TrayItemCard({ step, isPlaced, isUnlocked, isSelected, onClick, renderT
           ) : !isUnlocked ? (
             <><Lock size={16} style={{ color: '#94A3B8' }} /> <span style={{ fontSize: '0.95rem', fontWeight: 800, color: '#94A3B8' }}>Locked</span></>
           ) : isSelected ? (
-            <span style={{ fontSize: '0.98rem', fontWeight: 800, color: '#92400E' }}>✓ Selected — click a corridor</span>
+            <span style={{ fontSize: '0.98rem', fontWeight: 800, color: '#173B5F' }}>✓ Selected — click a corridor</span>
           ) : (
-            <span style={{ fontSize: '0.98rem', fontWeight: 700, color: '#92400E' }}>👆 Click to select</span>
+            <span style={{ fontSize: '0.98rem', fontWeight: 700, color: '#173B5F' }}>👆 Click to select</span>
           )}
         </div>
       </div>
@@ -345,7 +345,7 @@ export default function Stage1_Build({ onComplete, onNext }) {
                   zIndex: 5
                 }}>
                   <span style={{
-                    color: selectedId === 'carA' ? '#F59E0B' : '#94A3B8',
+                    color: selectedId === 'carA' ? '#214A70' : '#94A3B8',
                     fontWeight: 900,
                     fontSize: '1.05rem',
                     textShadow: '0 2px 8px rgba(0,0,0,0.6)'
@@ -366,7 +366,7 @@ export default function Stage1_Build({ onComplete, onNext }) {
                   zIndex: 5
                 }}>
                   <span style={{
-                    color: selectedId === 'carB' ? '#F59E0B' : '#94A3B8',
+                    color: selectedId === 'carB' ? '#214A70' : '#94A3B8',
                     fontWeight: 900,
                     fontSize: '1.05rem',
                     textShadow: '0 2px 8px rgba(0,0,0,0.6)'
@@ -438,8 +438,8 @@ export default function Stage1_Build({ onComplete, onNext }) {
         }}>
           {/* Container 1: Steps of Instructions */}
           <div className="stage-container-1" style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-            border: '1.5px solid #FDE68A',
+            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
             padding: '1.4rem 1.6rem',
             boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
@@ -452,14 +452,14 @@ export default function Stage1_Build({ onComplete, onNext }) {
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
-                <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+                <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
+                <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
                   Click Airplane A in the tray below to select it, then click the left flight corridor.
                 </span>
               </div>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#D97706', marginTop: '0.48rem', flexShrink: 0 }} />
-                <span style={{ fontSize: '17.5px', color: '#78350F', lineHeight: 1.45, fontWeight: 700 }}>
+                <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
+                <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
                   Click Airplane B to select it, then click the right parallel flight corridor.
                 </span>
               </div>
@@ -468,8 +468,8 @@ export default function Stage1_Build({ onComplete, onNext }) {
 
           {/* Container 2: Flight Components & Controls */}
           <div className="stage-container-2" style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-            border: '1.5px solid #FDE68A',
+            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
             padding: '1.4rem 1.6rem',
             boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
@@ -489,8 +489,8 @@ export default function Stage1_Build({ onComplete, onNext }) {
                   padding: '0.45rem 0.95rem',
                   borderRadius: '14px',
                   background: '#FFFFFF',
-                  color: '#92400E',
-                  border: '1.5px solid #FDE68A',
+                  color: '#173B5F',
+                  border: '1.5px solid #E2E8F0',
                   cursor: 'pointer',
                   boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
                   display: 'flex',
@@ -502,7 +502,7 @@ export default function Stage1_Build({ onComplete, onNext }) {
                   transition: 'all 0.2s ease'
                 }}
               >
-                <RotateCcw size={15} color="#D97706" /> Reset
+                <RotateCcw size={15} color="#173B5F" /> Reset
               </button>
             </div>
 
@@ -573,7 +573,7 @@ export default function Stage1_Build({ onComplete, onNext }) {
               transition={{ type: 'spring', bounce: 0.5, duration: 0.6 }}
               style={{
                 background: '#FFFFFF',
-                border: '1.5px solid #FDE68A',
+                border: '1.5px solid #E2E8F0',
                 borderRadius: '24px',
                 padding: '2.2rem',
                 maxWidth: '440px',
@@ -586,8 +586,8 @@ export default function Stage1_Build({ onComplete, onNext }) {
                 fontFamily: 'system-ui, -apple-system, sans-serif'
               }}
             >
-              <div style={{ width: '58px', height: '58px', background: '#FEF3C7', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #FDE68A' }}>
-                <Info size={30} color="#D97706" />
+              <div style={{ width: '58px', height: '58px', background: '#EAF2F6', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #E2E8F0' }}>
+                <Info size={30} color="#173B5F" />
               </div>
 
               <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.45rem', fontWeight: 900 }}>

@@ -1,7 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Map, MapPin, Clock, Compass, Globe2, ChevronRight, ChevronLeft, Maximize2, X } from 'lucide-react';
 import compassMapImg from './assets/CompassMap.jpg';
 import RotatingCompass from './RotatingCompass';
+import { Play, Pause } from 'lucide-react';
+import page3Audio from '../audio/page3.mp3?url';
+import page4Audio from '../audio/page4.mp3?url';
+import { PAGE3_TRANSCRIPT } from './Page3Transcript';
+import { PAGE4_TRANSCRIPT } from './Page4Transcript';
+
+const WordRenderer = ({ text, idPrefix, defaultColor, highlightColor, activeWordId }) => {
+  const words = text.trim().split(/\s+/);
+  return (
+    <>
+      {words.map((word, index) => {
+        const wordId = `${idPrefix}-${index + 1}`;
+        const isHighlighted = activeWordId === wordId;
+        const cleanWord = word.replace('\n', '');
+        return (
+          <React.Fragment key={index}>
+            <span
+              data-word-id={wordId}
+              style={{
+                color: isHighlighted ? highlightColor : defaultColor,
+                background: isHighlighted ? 'rgba(180, 83, 9, 0.1)' : 'transparent',
+                borderRadius: '4px',
+                padding: '0 2px',
+                transition: 'all 0.15s ease-out'
+              }}>
+              {cleanWord}
+            </span>
+            {index < words.length - 1 ? ' ' : ''}
+          </React.Fragment>
+        );
+      })}
+    </>
+  );
+};
+
 
 const PAGE_PADDING = 'clamp(20px, 2.6vw, 42px)';
 const HEADER_TITLE_STYLE = {
@@ -21,6 +56,51 @@ export default function BigQuestionsPage({ onBack, onMissionUnlock, onBeginChapt
   const [slide, setSlide] = useState(0);
   const [turnDir, setTurnDir] = useState('fwd');
   const isLast = slide === 1;
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordId, setActiveWordId] = useState(null);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    setIsPlaying(false);
+    setActiveWordId(null);
+  }, [slide]);
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      const time = audioRef.current.currentTime;
+      const transcript = slide === 0 ? PAGE3_TRANSCRIPT : slide === 1 ? PAGE4_TRANSCRIPT : [];
+      const activeWord = transcript.find(w => time >= w.start && time < w.end);
+      let newActiveId = null;
+      if (activeWord && activeWord.matchType === 'matched') {
+        newActiveId = activeWord.pageWordId;
+      }
+      if (newActiveId !== activeWordId) {
+        setActiveWordId(newActiveId);
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordId(null);
+  };
+
 
   useEffect(() => {
     if (!artZoomed) return;
@@ -140,6 +220,15 @@ export default function BigQuestionsPage({ onBack, onMissionUnlock, onBeginChapt
         .book-slide-back { animation: bookTurnBack 0.38s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
       `}</style>
 
+      {/* Audio Element */}
+      <audio
+        key={`audio-${slide}`}
+        ref={audioRef}
+        src={slide === 0 ? page3Audio : slide === 1 ? page4Audio : undefined}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
+
       <div style={{ flex: 1, minHeight: 0, overflow: 'hidden', position: 'relative', display: 'flex', flexDirection: 'column', padding: '24px 28px 10px' }}>
         <div key={slide} className={turnDir === 'fwd' ? 'book-slide-fwd' : 'book-slide-back'} style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
 
@@ -160,7 +249,7 @@ export default function BigQuestionsPage({ onBack, onMissionUnlock, onBeginChapt
                 boxShadow: '0 8px 24px rgba(14,42,69,.08)'
               }}>
                 <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
-                  <h2 style={{ ...HEADER_TITLE_STYLE, color: '#0A2540' }}>Every Place Has an Address</h2>
+                  <h2 style={{ ...HEADER_TITLE_STYLE, color: '#0A2540' }}><WordRenderer text="Every Place Has an Address" idPrefix="title" activeWordId={activeWordId} defaultColor="#0A2540" highlightColor="#451a03" /></h2>
                 </div>
                 
                 <div style={{
@@ -172,7 +261,7 @@ export default function BigQuestionsPage({ onBack, onMissionUnlock, onBeginChapt
                   flexShrink: 0
                 }}>
                   <p style={{ fontSize: '24px', color: '#3D2E24', lineHeight: 1.5, margin: 0, fontWeight: 600, textAlign: 'justify', textJustify: 'inter-word' }}>
-                    A compass helps us describe where a place is. Explore the four main directions and see how each direction is shown on a compass.
+                    <WordRenderer text="A compass helps us describe where a place is. Explore the four main directions and see how each direction is shown on a compass." idPrefix="intro" activeWordId={activeWordId} defaultColor="#3D2E24" highlightColor="#451a03" />
                   </p>
                 </div>
                 
@@ -217,7 +306,7 @@ export default function BigQuestionsPage({ onBack, onMissionUnlock, onBeginChapt
                     margin: 0, 
                     lineHeight: 1.2 
                   }}>
-                    The 4 Main Directions
+                    <WordRenderer text="The 4 Main Directions" idPrefix="subtitle" activeWordId={activeWordId} defaultColor="#0A2540" highlightColor="#451a03" />
                   </h3>
                 </div>
 
@@ -233,22 +322,30 @@ export default function BigQuestionsPage({ onBack, onMissionUnlock, onBeginChapt
                     {
                       symbol: 'N',
                       name: 'North',
-                      text: 'Points toward the North Pole. A magnetic compass needle always points North, and North is shown at the top of most maps.'
+                      idPrefixName: 'N-title',
+                      text: 'Points toward the North Pole. A magnetic compass needle always points North, and North is shown at the top of most maps.',
+                      idPrefixText: 'N-text'
                     },
                     {
                       symbol: 'E',
                       name: 'East',
-                      text: 'The direction where the Sun rises each morning. When you face North, East is directly to your right.'
+                      idPrefixName: 'E-title',
+                      text: 'The direction where the Sun rises each morning. When you face North, East is directly to your right.',
+                      idPrefixText: 'E-text'
                     },
                     {
                       symbol: 'S',
                       name: 'South',
-                      text: 'Opposite to North, pointing toward the South Pole. On most maps, South is shown at the bottom.'
+                      idPrefixName: 'S-title',
+                      text: 'Opposite to North, pointing toward the South Pole. On most maps, South is shown at the bottom.',
+                      idPrefixText: 'S-text'
                     },
                     {
                       symbol: 'W',
                       name: 'West',
-                      text: 'The direction where the Sun sets each evening. When you face North, West is directly to your left.'
+                      idPrefixName: 'W-title',
+                      text: 'The direction where the Sun sets each evening. When you face North, West is directly to your left.',
+                      idPrefixText: 'W-text'
                     }
                   ].map((item) => (
                     <div
@@ -296,7 +393,7 @@ export default function BigQuestionsPage({ onBack, onMissionUnlock, onBeginChapt
                           lineHeight: 1.2,
                           marginBottom: '2px'
                         }}>
-                          {item.name}
+                          <WordRenderer text={item.name} idPrefix={item.idPrefixName} activeWordId={activeWordId} defaultColor="#0A2540" highlightColor="#451a03" />
                         </span>
                         <p style={{
                           margin: 0,
@@ -305,7 +402,7 @@ export default function BigQuestionsPage({ onBack, onMissionUnlock, onBeginChapt
                           color: '#3D2E24',
                           fontWeight: 500
                         }}>
-                          {item.text}
+                          <WordRenderer text={item.text} idPrefix={item.idPrefixText} activeWordId={activeWordId} defaultColor="#3D2E24" highlightColor="#451a03" />
                         </p>
                       </div>
                     </div>
@@ -332,7 +429,7 @@ export default function BigQuestionsPage({ onBack, onMissionUnlock, onBeginChapt
                 boxShadow: '0 8px 24px rgba(14,42,69,.08)'
               }}>
                 <div style={{ flexShrink: 0, padding: '0 0 8px 0', borderBottom: '1.5px solid #F2DFBC' }}>
-                  <h2 style={HEADER_TITLE_STYLE}>What Will We Discover?</h2>
+                  <h2 style={HEADER_TITLE_STYLE}><WordRenderer text="What Will We Discover?" idPrefix="title" activeWordId={activeWordId} defaultColor="#78350F" highlightColor="#451a03" /></h2>
                 </div>
                 <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', gap: '14px', overflow: 'hidden', paddingTop: '8px' }}>
                   {cards.map((card) => {
@@ -377,7 +474,7 @@ export default function BigQuestionsPage({ onBack, onMissionUnlock, onBeginChapt
                             lineHeight: 1.2,
                             marginBottom: '4px'
                           }}>
-                            {card.title}
+                            <WordRenderer text={card.title} idPrefix={`c-${card.id}-t`} activeWordId={activeWordId} defaultColor="#0A2540" highlightColor="#451a03" />
                           </span>
                           <p style={{
                             margin: 0,
@@ -386,7 +483,7 @@ export default function BigQuestionsPage({ onBack, onMissionUnlock, onBeginChapt
                             color: '#3D2E24',
                             fontWeight: 500
                           }}>
-                            {card.question}
+                            <WordRenderer text={card.question} idPrefix={`c-${card.id}-q`} activeWordId={activeWordId} defaultColor="#3D2E24" highlightColor="#451a03" />
                           </p>
                         </div>
                       </div>
@@ -471,7 +568,7 @@ export default function BigQuestionsPage({ onBack, onMissionUnlock, onBeginChapt
                       Mission
                     </h4>
                     <p style={{ color: '#78350F', fontSize: '20px', lineHeight: 1.45, margin: 0, fontWeight: 600, textAlign: 'justify', textJustify: 'inter-word' }}>
-                      By the end of this chapter, you will be able to locate places on Earth, read maps confidently, and understand how coordinates and time help us navigate our world.
+                      <WordRenderer text="By the end of this chapter, you will be able to locate places on Earth, read maps confidently, and understand how coordinates and time help us navigate our world." idPrefix="mission" activeWordId={activeWordId} defaultColor="#78350F" highlightColor="#451a03" />
                     </p>
                   </div>
 
@@ -573,6 +670,24 @@ export default function BigQuestionsPage({ onBack, onMissionUnlock, onBeginChapt
 
         {/* Nav Buttons parallel */}
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          {/* Audio Speaker Button */}
+          <button
+            type="button"
+            onClick={toggleAudio}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '6px',
+              padding: '8px 16px', background: '#d97706',
+              border: 'none', borderRadius: '999px',
+              fontSize: '14px', fontWeight: 800, color: '#fff',
+              cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+              marginRight: 'auto',
+              opacity: (slide === 0 || slide === 1) ? 1 : 0,
+              pointerEvents: (slide === 0 || slide === 1) ? 'auto' : 'none'
+            }}
+          >
+            {isPlaying ? "Pause" : "Play"}
+          </button>
+
           <button
             type="button"
             onClick={() => {

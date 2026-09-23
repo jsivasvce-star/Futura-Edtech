@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutGrid, Check, Award, ArrowRight, BookOpen, Home, Utensils, AlertCircle } from 'lucide-react';
+import { LayoutGrid, Check, Award, ArrowRight, BookOpen, Home, Utensils, AlertCircle, Play, Pause } from 'lucide-react';
 
 import itemRegister from '../images/b2_item_register.png';
 import itemDuster from '../images/b2_item_duster.png';
@@ -27,7 +27,12 @@ import imgBasketPlastic from '../../../../../assets/plastic baskettttt.png';
 import imgBasketCloth from '../../../../../assets/cloth basket.png';
 import imgBasketPaper from '../../../../../assets/paper basket.png';
 
-export default function Stage3_Classification({ defaultPhase = 'use', onComplete, addXp }) {
+import fpage23Audio from '../../audio/fpage23.mp3?url';
+import fpage23Json from '../../json/fpage23.json';
+import fpage24Audio from '../../audio/fpage24.mp3?url';
+import fpage24Json from '../../json/fpage24.json';
+
+export default function Stage3_Classification({ defaultPhase = 'use', onComplete, addXp, setExtraRightAction }) {
   const phase = defaultPhase; // controlled externally via props
   const [usePlacements, setUsePlacements] = useState({});
   const [materialPlacements, setMaterialPlacements] = useState({});
@@ -37,6 +42,92 @@ export default function Stage3_Classification({ defaultPhase = 'use', onComplete
   const [draggingOverShelf, setDraggingOverShelf] = useState(null);
   const [draggingOverBasket, setDraggingOverBasket] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+  
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordIndex, setActiveWordIndex] = useState(null);
+  const audioRef = React.useRef(null);
+
+  const W = ({ i, children }) => {
+    const isActive = activeWordIndex === i;
+    return (
+      <span
+        style={{
+          color: isActive ? '#A94727' : 'inherit',
+          background: isActive ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+          borderRadius: '4px',
+          padding: '0 2px',
+          transition: 'all 0.15s ease-out'
+        }}
+      >
+        {children}
+      </span>
+    );
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      const time = audioRef.current.currentTime;
+      let activeIdx = -1;
+      if (phase === 'use') {
+        activeIdx = fpage23Json.words.findIndex(w => time >= w.start && time < w.end);
+      } else if (phase === 'material') {
+        activeIdx = fpage24Json.words.findIndex(w => time >= w.start && time < w.end);
+      }
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (setExtraRightAction && (phase === 'use' || phase === 'material')) {
+      setExtraRightAction(
+        <button
+          onClick={() => {
+            if (audioRef.current) {
+              if (isPlaying) {
+                audioRef.current.pause();
+              } else {
+                audioRef.current.play().catch(console.error);
+              }
+              setIsPlaying(!isPlaying);
+            }
+          }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            background: 'var(--lesson-surface)',
+            color: 'var(--lesson-text)',
+            border: '1px solid var(--lesson-border)',
+            padding: '12px 24px',
+            borderRadius: '8px',
+            fontSize: '18px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+          }}
+        >
+          {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+          {isPlaying ? "Pause" : "Play"}
+        </button>
+      );
+    }
+    
+    return () => {
+      if (setExtraRightAction) setExtraRightAction(null);
+    };
+  }, [setExtraRightAction, phase, isPlaying]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setIsPlaying(false);
+      setActiveWordIndex(null);
+    }
+  }, [phase]);
 
   const allItems = [
     { id: 'register', name: 'Attendance Register', icon: itemRegister, correctUse: 'School Shelf', correctMaterial: 'Paper', useHint: 'Think about where teachers take attendance.', materialHint: 'Think about what the pages of a register are made of.' },
@@ -193,6 +284,17 @@ export default function Stage3_Classification({ defaultPhase = 'use', onComplete
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%', flex: 1, minHeight: 0 }}>
+      {(phase === 'use' || phase === 'material') && (
+        <audio
+          ref={audioRef}
+          src={phase === 'use' ? fpage23Audio : fpage24Audio}
+          onTimeUpdate={handleTimeUpdate}
+          onEnded={() => {
+            setIsPlaying(false);
+            setActiveWordIndex(null);
+          }}
+        />
+      )}
       {/* Dynamic phase header */}
       <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', border: '1px solid var(--lesson-accent-border)' }}>
         <h3 style={{ margin: 0, fontSize: 'clamp(29.04px, 3.63vw, 36.3px)', fontWeight: '900', color: 'var(--heading-main)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -204,8 +306,16 @@ export default function Stage3_Classification({ defaultPhase = 'use', onComplete
         </h3>
         <p style={{ margin: 0, fontSize: 'clamp(21.78px, 3.025vw, 26.62px)', fontWeight: '600', color: 'var(--heading-sub)', lineHeight: '1.5' }}>
           {phase === 'briefing' && 'Review your findings from the classroom scan before analyzing them.'}
-          {phase === 'use' && 'Drag collected items to shelves, or select them based on how they are used.'}
-          {phase === 'material' && 'Drag items from the evidence tray to the correct material basket.'}
+          {phase === 'use' && (
+            <>
+              <W i={22}>Drag</W> collected <W i={4}>items</W> <W i={25}>to</W> <W i={13}>shelves,</W> or select them based on <W i={6}>how</W> <W i={7}>they</W> <W i={8}>are</W> <W i={9}>used.</W>
+            </>
+          )}
+          {phase === 'material' && (
+            <>
+              Drag <W i={4}>items</W> from the evidence tray to the correct <W i={8}>material</W> basket.
+            </>
+          )}
           {phase === 'demo' && 'Inspect how the same objects fit into different groups depending on the property we look at.'}
         </p>
       </div>

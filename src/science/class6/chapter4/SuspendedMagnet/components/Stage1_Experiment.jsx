@@ -96,7 +96,7 @@ function SuspendedMagnet3D({ targetRotation, isSpinning }) {
       {/* Antiqued Brass Suspension Hook Ring */}
       <mesh position={[0, 0.95, 0]}>
         <torusGeometry args={[0.2, 0.045, 16, 32]} />
-        <meshStandardMaterial color="#FDE047" emissive="#CA8A04" emissiveIntensity={0.35} roughness={0.18} metalness={0.9} />
+        <meshStandardMaterial color="#E2E8F0" emissive="#173B5F" emissiveIntensity={0.35} roughness={0.18} metalness={0.9} />
       </mesh>
 
       {/* Rotating 3D Magnet Assembly */}
@@ -105,7 +105,7 @@ function SuspendedMagnet3D({ targetRotation, isSpinning }) {
         <pointLight position={[-3.1, 0.5, 3.2]} intensity={5.2} color="#FF6B6B" distance={18} />
         <pointLight position={[3.1, 0.5, 3.2]} intensity={5.2} color="#60A5FA" distance={18} />
         <pointLight position={[0, 2.5, 3.5]} intensity={4.5} color="#FFFFFF" distance={20} />
-        <pointLight position={[0, -2.0, 2.8]} intensity={2.8} color="#FFFBEB" distance={16} />
+        <pointLight position={[0, -2.0, 2.8]} intensity={2.8} color="#F3F7F9" distance={16} />
         <pointLight position={[-3.1, 0.5, -3.2]} intensity={4.0} color="#FF4444" distance={16} />
         <pointLight position={[3.1, 0.5, -3.2]} intensity={4.0} color="#3B82F6" distance={16} />
 
@@ -243,8 +243,8 @@ function SuspendedMagnet3D({ targetRotation, isSpinning }) {
         <mesh position={[0, 0, 0]}>
           <boxGeometry args={[0.45, 1.38, 1.94]} />
           <meshStandardMaterial
-            color="#FBBF24"
-            emissive="#D97706"
+            color="#214A70"
+            emissive="#173B5F"
             emissiveIntensity={0.45}
             roughness={0.08}
             metalness={0.96}
@@ -395,7 +395,7 @@ export default function Stage1_Experiment({ onComplete }) {
                   fontSize: '1rem',
                   fontWeight: 900,
                   borderRadius: '14px',
-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                  background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
                   color: '#FFFFFF',
                   border: 'none',
                   cursor: 'pointer',
@@ -447,8 +447,8 @@ export default function Stage1_Experiment({ onComplete }) {
             gap: '0.5rem'
           }}>
             <div style={{
-              background: 'linear-gradient(135deg, #78350F 0%, #451A03 100%)',
-              border: '1.5px solid #B45309',
+              background: 'linear-gradient(135deg, #173B5F 0%, #0A1C2E 100%)',
+              border: '1.5px solid #173B5F',
               borderRadius: '20px',
               padding: '0.4rem 0.9rem',
               fontSize: '0.82rem',
@@ -459,7 +459,7 @@ export default function Stage1_Experiment({ onComplete }) {
               alignItems: 'center',
               gap: '0.45rem'
             }}>
-              <Compass size={16} color="#F59E0B" /> HEADING: NORTH-SOUTH
+              <Compass size={16} color="#214A70" /> HEADING: NORTH-SOUTH
             </div>
           </div>
 
@@ -515,13 +515,13 @@ export default function Stage1_Experiment({ onComplete }) {
               <directionalLight
                 position={[8, 18, 12]}
                 intensity={2.6}
-                color="#FFFDF5"
+                color="#F3F7F9"
                 castShadow
                 shadow-mapSize={[1024, 1024]}
                 shadow-bias={-0.0001}
               />
               <directionalLight position={[-8, 8, -8]} intensity={1.3} color="#E0F2FE" />
-              <directionalLight position={[0, -6, 8]} intensity={0.9} color="#FEF3C7" />
+              <directionalLight position={[0, -6, 8]} intensity={0.9} color="#EAF2F6" />
 
               {/* Realistic 3D Suspended Bar Magnet (Static to Touch/Click) */}
               <SuspendedMagnet3D targetRotation={targetRotation} isSpinning={isSpinning} />
@@ -539,8 +539,8 @@ export default function Stage1_Experiment({ onComplete }) {
         <div 
           className="stage-container-1"
           style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-            border: '1.5px solid #FDE68A',
+            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
             boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
             padding: '1.25rem 1.45rem',
@@ -555,19 +555,19 @@ export default function Stage1_Experiment({ onComplete }) {
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                <BookOpen size={24} color="#D97706" />
+                <BookOpen size={24} color="#173B5F" />
                 <h3 style={{ margin: 0, fontSize: '19.5px', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.01em' }}>
                   Stage 1: Experiment
                 </h3>
               </div>
               <span style={{
                 background: quizAnswer === 'yes' ? '#DCFCE7' : 'rgba(217, 119, 6, 0.12)',
-                color: quizAnswer === 'yes' ? '#15803D' : '#B45309',
+                color: quizAnswer === 'yes' ? '#15803D' : '#173B5F',
                 fontWeight: 900,
                 fontSize: '0.88rem',
                 padding: '0.3rem 0.8rem',
                 borderRadius: '12px',
-                border: quizAnswer === 'yes' ? '1.5px solid #86EFAC' : '1.5px solid #FDE68A'
+                border: quizAnswer === 'yes' ? '1.5px solid #86EFAC' : '1.5px solid #E2E8F0'
               }}>
                 Step {spinCount >= 1 ? (quizAnswer === 'yes' ? 3 : 2) : 1} of 3
               </span>
@@ -602,14 +602,14 @@ export default function Stage1_Experiment({ onComplete }) {
                     width: '9px',
                     height: '9px',
                     borderRadius: '50%',
-                    background: '#D97706',
+                    background: '#173B5F',
                     marginTop: '0.48rem',
                     flexShrink: 0
                   }} />
                   <p style={{
                     margin: 0,
                     fontSize: '17.5px',
-                    color: '#78350F',
+                    color: '#173B5F',
                     fontWeight: 600,
                     lineHeight: 1.45
                   }}>
@@ -659,14 +659,14 @@ export default function Stage1_Experiment({ onComplete }) {
                 alignItems: 'center',
                 gap: '0.45rem',
                 background: '#FFFFFF',
-                color: '#D97706',
-                border: '1.5px solid #FDE68A',
+                color: '#173B5F',
+                border: '1.5px solid #E2E8F0',
                 cursor: 'pointer',
                 boxShadow: '0 2px 8px rgba(217, 119, 6, 0.08)',
                 transition: 'all 0.2s ease'
               }}
             >
-              <RotateCcw size={18} color="#D97706" /> Restart
+              <RotateCcw size={18} color="#173B5F" /> Restart
             </button>
           </div>
         </div>
@@ -675,8 +675,8 @@ export default function Stage1_Experiment({ onComplete }) {
         <div 
           className="stage-container-2"
           style={{
-            background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-            border: quizAnswer === 'yes' ? '2px solid #86EFAC' : '1.5px solid #FDE68A',
+            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            border: quizAnswer === 'yes' ? '2px solid #86EFAC' : '1.5px solid #E2E8F0',
             borderRadius: '24px',
             boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
             padding: '1.25rem 1.45rem',
@@ -709,7 +709,7 @@ export default function Stage1_Experiment({ onComplete }) {
                 cursor: 'pointer',
                 background: quizAnswer === 'yes' ? '#DCFCE7' : '#FFFFFF',
                 color: quizAnswer === 'yes' ? '#065F46' : '#1E1B4B',
-                border: quizAnswer === 'yes' ? '2px solid #16A34A' : '1.5px solid #FDE68A',
+                border: quizAnswer === 'yes' ? '2px solid #16A34A' : '1.5px solid #E2E8F0',
                 boxShadow: quizAnswer === 'yes' ? '0 4px 14px rgba(5, 150, 105, 0.25)' : '0 2px 6px rgba(0, 0, 0, 0.04)',
                 display: 'flex',
                 alignItems: 'center',
@@ -718,7 +718,7 @@ export default function Stage1_Experiment({ onComplete }) {
                 transition: 'all 0.2s ease'
               }}
             >
-              <CheckCircle size={19} color={quizAnswer === 'yes' ? '#16A34A' : '#D97706'} /> Yes, Always!
+              <CheckCircle size={19} color={quizAnswer === 'yes' ? '#16A34A' : '#173B5F'} /> Yes, Always!
             </button>
             <button
               onClick={() => handleQuizAnswer('no')}
@@ -731,7 +731,7 @@ export default function Stage1_Experiment({ onComplete }) {
                 cursor: 'pointer',
                 background: quizAnswer === 'no' ? '#FEE2E2' : '#FFFFFF',
                 color: quizAnswer === 'no' ? '#991B1B' : '#64748B',
-                border: quizAnswer === 'no' ? '2px solid #DC2626' : '1.5px solid #FDE68A',
+                border: quizAnswer === 'no' ? '2px solid #DC2626' : '1.5px solid #E2E8F0',
                 boxShadow: quizAnswer === 'no' ? '0 4px 14px rgba(220, 38, 38, 0.2)' : '0 2px 6px rgba(0, 0, 0, 0.04)',
                 display: 'flex',
                 alignItems: 'center',
@@ -746,7 +746,7 @@ export default function Stage1_Experiment({ onComplete }) {
 
           {/* Proceed Button Row */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '0.2rem' }}>
-            <span style={{ fontSize: '0.95rem', color: '#78350F', fontWeight: 800 }}>
+            <span style={{ fontSize: '0.95rem', color: '#173B5F', fontWeight: 800 }}>
               Stage 1 of 2 ● ○
             </span>
 

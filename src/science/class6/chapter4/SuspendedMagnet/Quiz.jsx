@@ -73,15 +73,15 @@ export default function Quiz({ onComplete }) {
 
   if (isFinished) {
     return (
-      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: '#FFFFFF' }}>
+      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: 'transparent' }}>
         <div style={{ 
           maxWidth: '520px', 
           width: '90%', 
           padding: '2.5rem 3rem', 
           textAlign: 'center', 
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
           borderRadius: '24px', 
-          border: '1.5px solid #FDE68A',
+          border: '1.5px solid #E2E8F0',
           boxShadow: '0 8px 30px rgba(217, 119, 6, 0.08)',
           display: 'flex',
           flexDirection: 'column',
@@ -92,7 +92,7 @@ export default function Quiz({ onComplete }) {
           <h2 style={{ fontSize: '1.8rem', margin: 0, color: '#064E3B', fontWeight: 900 }}>Quiz Completed! 🎉</h2>
           
           <p style={{ color: '#065F46', margin: 0, fontSize: '1.2rem', fontWeight: 600 }}>
-            You scored <strong style={{ color: '#D97706' }}>{score}</strong> out of {quizData.length}
+            You scored <strong style={{ color: '#173B5F' }}>{score}</strong> out of {quizData.length}
           </p>
 
           <button
@@ -123,14 +123,14 @@ export default function Quiz({ onComplete }) {
       padding: '0.75rem 1rem', 
       overflowY: 'auto',
       boxSizing: 'border-box',
-      backgroundColor: '#FFFFFF',
+      backgroundColor: 'transparent',
       fontFamily: "'Inter', system-ui, -apple-system, sans-serif"
     }}>
       <div style={{ width: '100%', maxWidth: '1250px', display: 'flex', flexDirection: 'column' }}>
         {/* Top Bar */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', padding: '0 0.5rem', flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <HelpCircle size={30} color="#D97706" />
+            <HelpCircle size={30} color="#173B5F" />
             <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.65rem', fontWeight: 900 }}>
               Stage 3: Quiz
             </h3>
@@ -142,8 +142,8 @@ export default function Quiz({ onComplete }) {
 
         {/* Main Quiz Card */}
         <div style={{ 
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
-          border: '1.5px solid #FDE68A',
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
+          border: '1.5px solid #E2E8F0',
           borderRadius: '28px', 
           padding: '2.4rem 3.2rem', 
           boxShadow: '0 10px 35px rgba(217, 119, 6, 0.1)',
@@ -167,7 +167,7 @@ export default function Quiz({ onComplete }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
             {currentQ.options.map((option, index) => {
               let bgColor = '#FFFFFF';
-              let borderColor = '#FDE68A';
+              let borderColor = '#E2E8F0';
               let textColor = '#064E3B';
               let icon = null;
 
@@ -184,9 +184,9 @@ export default function Quiz({ onComplete }) {
                   icon = <XCircle size={26} color="#EF4444" />;
                 }
               } else if (index === selectedOption) {
-                borderColor = '#D97706';
-                bgColor = '#FEF3C7';
-                textColor = '#92400E';
+                borderColor = '#173B5F';
+                bgColor = '#EAF2F6';
+                textColor = '#173B5F';
               }
 
               return (
@@ -222,7 +222,7 @@ export default function Quiz({ onComplete }) {
 
           {showResult && (
             <div style={{ marginTop: '0.6rem', animation: 'fadeIn 0.35s ease' }}>
-              <div style={{ padding: '1.1rem 1.6rem', background: '#FFFBEB', borderRadius: '18px', borderLeft: '5px solid #D97706', border: '1.5px solid #FDE68A', borderLeftWidth: '5px' }}>
+              <div style={{ padding: '1.1rem 1.6rem', background: '#F3F7F9', borderRadius: '18px', borderLeft: '5px solid #173B5F', border: '1.5px solid #E2E8F0', borderLeftWidth: '5px' }}>
                 <h4 style={{ margin: '0 0 0.4rem 0', fontSize: '1.18rem', fontWeight: 900, color: '#064E3B' }}>Explanation</h4>
                 <p style={{ margin: 0, color: '#065F46', fontSize: '1.15rem', lineHeight: 1.6, fontWeight: 600 }}>{currentQ.explanation}</p>
               </div>

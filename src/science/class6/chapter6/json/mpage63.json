@@ -1,0 +1,62 @@
+{
+  "audio_file": "mpage63.mp3",
+  "duration": 3.605,
+  "language": "en",
+  "words": [
+    {
+      "text": "What",
+      "start": 0.0,
+      "end": 0.48
+    },
+    {
+      "text": "property",
+      "start": 0.48,
+      "end": 0.86
+    },
+    {
+      "text": "tells",
+      "start": 0.86,
+      "end": 1.14
+    },
+    {
+      "text": "us",
+      "start": 1.14,
+      "end": 1.38
+    },
+    {
+      "text": "how",
+      "start": 1.38,
+      "end": 1.64
+    },
+    {
+      "text": "heavy",
+      "start": 1.64,
+      "end": 1.9
+    },
+    {
+      "text": "or",
+      "start": 1.9,
+      "end": 2.16
+    },
+    {
+      "text": "light",
+      "start": 2.16,
+      "end": 2.38
+    },
+    {
+      "text": "an",
+      "start": 2.38,
+      "end": 2.62
+    },
+    {
+      "text": "object",
+      "start": 2.62,
+      "end": 2.82
+    },
+    {
+      "text": "is?",
+      "start": 2.82,
+      "end": 3.2
+    }
+  ]
+}

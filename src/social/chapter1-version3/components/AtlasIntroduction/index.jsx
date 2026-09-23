@@ -1,13 +1,94 @@
-import React, { useState } from 'react';
-import { Compass, CheckCircle2, ArrowLeft } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Compass, CheckCircle2, ArrowLeft, Play, Pause } from 'lucide-react';
 import AtlasBook from './AtlasBook';
 import ChapterBackFooter from '../ChapterBackFooter';
 import { theme } from './theme';
+import page6Audio from '../audio/page6.mp3?url';
+import { PAGE6_TRANSCRIPT } from './Page6Transcript';
+
+const WordRenderer = ({ text, idPrefix, defaultColor, highlightColor, activeWordId }) => {
+  const words = text.trim().split(/\s+/);
+  return (
+    <>
+      {words.map((word, index) => {
+        const wordId = `${idPrefix}-${index + 1}`;
+        const isHighlighted = activeWordId === wordId;
+        return (
+          <React.Fragment key={index}>
+            <span
+              data-word-id={wordId}
+              style={{
+                color: isHighlighted ? highlightColor : defaultColor,
+                background: isHighlighted ? 'rgba(180, 83, 9, 0.1)' : 'transparent',
+                borderRadius: '4px',
+                padding: '0 2px',
+                transition: 'all 0.15s ease-out'
+              }}>
+              {word}
+            </span>
+            {index < words.length - 1 ? ' ' : ''}
+          </React.Fragment>
+        );
+      })}
+    </>
+  );
+};
 
 export default function AtlasIntroduction({ onNextActivity, onBack }) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [isCompleted, setIsCompleted] = useState(false);
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordId, setActiveWordId] = useState(null);
+  const audioRef = useRef(null);
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      const time = audioRef.current.currentTime;
+      const activeWord = PAGE6_TRANSCRIPT.find(w => time >= w.start && time < w.end);
+      let newActiveId = null;
+      if (activeWord && activeWord.matchType === 'matched') {
+        newActiveId = activeWord.pageWordId;
+      }
+      if (newActiveId !== activeWordId) {
+        setActiveWordId(newActiveId);
+      }
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setActiveWordId(null);
+  };
+
+  const audioButton = (
+    <button
+      type="button"
+      onClick={toggleAudio}
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: '6px',
+        padding: '8px 16px', background: '#d97706',
+        border: 'none', borderRadius: '999px',
+        fontSize: '14px', fontWeight: 800, color: '#fff',
+        cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+        marginRight: '8px'
+      }}
+    >
+      {isPlaying ? "Pause" : "Play"}
+    </button>
+  );
 
   const handleNext = () => setCurrentPage(p => Math.min(3, p + 1));
   const handlePrev = () => setCurrentPage(p => Math.max(1, p - 1));
@@ -69,15 +150,15 @@ export default function AtlasIntroduction({ onNextActivity, onBack }) {
           </div>
 
           <h1 style={{ fontSize: theme.typography.sizes.title, color: theme.colors.primary, margin: `0 0 ${theme.spacing.s2} 0`, lineHeight: 1.15, fontFamily: theme.typography.fonts.heading, fontWeight: 900 }}>
-            Atlas : A Collection of Maps
+            <WordRenderer text="Atlas : A Collection of Maps" idPrefix="atlas" activeWordId={activeWordId} defaultColor={theme.colors.primary} highlightColor="#451a03" />
           </h1>
 
           <div style={{ fontSize: theme.typography.sizes.body, lineHeight: 1.55, color: theme.colors.text }}>
             <p style={{ margin: `0 0 ${theme.spacing.s2} 0`, color: theme.colors.text, fontWeight: 600, fontSize: 'inherit', lineHeight: 'inherit', textAlign: 'justify', textJustify: 'inter-word', hyphens: 'auto' }}>
-              An Atlas is a special book that contains many different kinds of maps.
+              <WordRenderer text="An Atlas is a special book that contains many different kinds of maps." idPrefix="an" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" />
             </p>
             <p style={{ margin: 0, color: theme.colors.text, fontWeight: 600, fontSize: 'inherit', lineHeight: 'inherit', textAlign: 'justify', textJustify: 'inter-word', hyphens: 'auto' }}>
-              Open the Atlas and discover how each map helps us understand the world.
+              <WordRenderer text="Open the Atlas and discover how each map helps us understand the world." idPrefix="open" activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" />
             </p>
           </div>
           </div>
@@ -92,13 +173,15 @@ export default function AtlasIntroduction({ onNextActivity, onBack }) {
                 { label: 'Explore the Atlas', done: isOpen },
                 { label: 'Discover 3 Types of Maps', done: currentPage === 3 },
                 { label: 'Complete the Journey', done: isCompleted }
-              ].map(step => (
+              ].map((step, index) => (
                 <div
                   key={step.label}
                   style={{ display: 'flex', gap: theme.spacing.s2, alignItems: 'center', flex: '1 1 0', minHeight: 0, background: theme.colors.paper, border: `1.5px solid ${theme.colors.border}`, borderRadius: theme.radius.sm, padding: `${theme.spacing.fluid.xs} ${theme.spacing.s3}` }}
                 >
                   <CheckCircle2 size={19} color={step.done ? theme.colors.buttonGreen : theme.colors.primaryActive} style={{ flexShrink: 0 }} />
-                  <div style={{ fontSize: theme.typography.sizes.body, color: theme.colors.text, fontWeight: 700, lineHeight: 1.25 }}>{step.label}</div>
+                  <div style={{ fontSize: theme.typography.sizes.body, color: theme.colors.text, fontWeight: 700, lineHeight: 1.25 }}>
+                    <WordRenderer text={step.label} idPrefix={`item${index + 1}`} activeWordId={activeWordId} defaultColor={theme.colors.text} highlightColor="#451a03" />
+                  </div>
                 </div>
               ))}
             </div>
@@ -119,6 +202,13 @@ export default function AtlasIntroduction({ onNextActivity, onBack }) {
 
       </div>
       </div>
+      
+      <audio
+        ref={audioRef}
+        src={page6Audio}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleAudioEnded}
+      />
 
       <ChapterBackFooter
         onBack={onBack}
@@ -126,6 +216,7 @@ export default function AtlasIntroduction({ onNextActivity, onBack }) {
         onNext={!isOpen ? () => setIsOpen(true) : onNextActivity}
         nextDisabled={false}
         nextVariant="orange"
+        beforeNextContent={!isOpen ? audioButton : null}
       />
     </div>
     </div>

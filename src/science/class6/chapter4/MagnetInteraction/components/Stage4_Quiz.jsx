@@ -75,15 +75,15 @@ export default function Stage4_Quiz({ onComplete }) {
 
   if (isFinished) {
     return (
-      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: '#FFFFFF', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: 'transparent', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
         <div style={{ 
           maxWidth: '520px', 
           width: '90%', 
           padding: '2.5rem 3rem', 
           textAlign: 'center', 
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
           borderRadius: '24px', 
-          border: '1.5px solid #FDE68A',
+          border: '1.5px solid #E2E8F0',
           boxShadow: '0 8px 30px rgba(217, 119, 6, 0.08)',
           display: 'flex',
           flexDirection: 'column',
@@ -126,7 +126,7 @@ export default function Stage4_Quiz({ onComplete }) {
       padding: '0.5rem 1rem', 
       boxSizing: 'border-box',
       overflow: 'hidden',
-      backgroundColor: '#FFFFFF',
+      backgroundColor: 'transparent',
       fontFamily: 'system-ui, -apple-system, sans-serif'
     }}>
       <div style={{ width: '100%', maxWidth: '1250px', display: 'flex', flexDirection: 'column' }}>
@@ -140,8 +140,8 @@ export default function Stage4_Quiz({ onComplete }) {
 
         {/* Main Quiz Card */}
         <div className="glass-panel" style={{ 
-          background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)', 
-          border: '1.5px solid #FDE68A',
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
+          border: '1.5px solid #E2E8F0',
           borderRadius: '28px', 
           padding: '2.4rem 3.2rem', 
           boxShadow: '0 8px 30px rgba(217, 119, 6, 0.08)',
@@ -168,7 +168,7 @@ export default function Stage4_Quiz({ onComplete }) {
               const isCorrect = opt === question.correctAnswer;
 
               let bgColor = '#FFFFFF';
-              let borderColor = '#FDE68A';
+              let borderColor = '#E2E8F0';
               let textColor = '#065F46';
               let icon = null;
 

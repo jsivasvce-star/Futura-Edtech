@@ -1,16 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Award, ArrowLeft, CheckCircle2, ArrowRight, Ruler, Eye, 
-  Sparkles, RotateCcw, Zap, Search, Hand, FlaskConical
+  Sparkles, RotateCcw, Zap, Search
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useTheme } from '../../../../../ThemeContext';
 import tulsi24Img from '../../../../../assets/tulsi_2.4.png';
-import tulsiFlexImg from '../../../../../assets/tulsi_flex.png';
+import tulsiFlexImg from './images/pd_alpha_flex_v2.png';
 import rose24Img from '../../../../../assets/rose_2.4.png';
-import roseFlexImg from '../../../../../assets/rose_flex.png';
+import roseFlexImg from './images/pd_beta_flex_v2.png';
+import potRealisticImg from './images/pd_pot_realistic.png';
 import neem24Img from '../../../../../assets/neem_2.4.png';
-import neemFlexImg from '../../../../../assets/neem_flex.png';
+import neemFlexImg from './images/pd_gamma_flex_v2.png';
+import bureauBgImg from './images/pd_bureau_bg.jpg';
+import alphaSpecimenImg from './images/pd_alpha_specimen.png';
+import alphaBenchImg from './images/pd_alpha_bench.png';
+import betaBenchImg from './images/pd_beta_bench.png';
+import gammaBenchImg from './images/pd_gamma_bench_v2.png';
+import gammaCardImg from './images/pd_gamma_card_v2.png';
 
 // =========================================================================
 // SLOGAN PAGE BOTANICAL ORNAMENTS & NATURE MOTIFS
@@ -107,25 +114,19 @@ const BottomNatureSilhouette = () => (
 // Forensic traits breakdown for covering card space with rich scientific intel (concise single-line values)
 const PLANT_TRAITS = {
   plantA: {
-    height: 'Short',
-    stemColor: 'Green',
-    stem: 'Tender',
-    stemThickness: 'Thin',
-    branch: 'Close to the ground'
+    stem: 'Soft & Green',
+    branch: 'Few or None',
+    height: 'Short (0.4 m)'
   },
   plantB: {
-    height: 'Medium',
-    stemColor: 'Brown',
-    stem: 'Hard & Woody',
-    stemThickness: 'Thin',
-    branch: 'Near the base'
+    stem: 'Hard & Thin Woody',
+    branch: 'Near Ground Base',
+    height: 'Medium (1.6 m)'
   },
   plantC: {
-    height: 'Tall',
-    stemColor: 'Brown',
-    stem: 'Hard Trunk',
-    stemThickness: 'Thick',
-    branch: 'High up'
+    stem: 'Thick Hard Trunk',
+    branch: 'High on Trunk',
+    height: 'Tall (> 5 m)'
   }
 };
 
@@ -145,9 +146,9 @@ const MYSTERY_PLANTS = [
     summary: 'Herbs have green, soft, tender stems and stay short with few branches.',
     scaleMeters: 0.4,
     zones: {
-      leaves: { x: 50, y: 26 },
-      stem: { x: 50, y: 52 },
-      base: { x: 50, y: 78 }
+      leaves: { x: 68, y: 26 },
+      stem: { x: 68, y: 52 },
+      base: { x: 68, y: 78 }
     },
     loupeFindings: {
       leaves: {
@@ -195,9 +196,9 @@ const MYSTERY_PLANTS = [
     summary: 'Shrubs have hard, thin woody stems that branch near the ground.',
     scaleMeters: 1.6,
     zones: {
-      leaves: { x: 50, y: 26 },
-      stem: { x: 50, y: 52 },
-      base: { x: 50, y: 78 }
+      leaves: { x: 68, y: 26 },
+      stem: { x: 68, y: 52 },
+      base: { x: 68, y: 78 }
     },
     loupeFindings: {
       leaves: {
@@ -245,9 +246,9 @@ const MYSTERY_PLANTS = [
     summary: 'Trees grow very tall with a thick hard woody trunk branching high above.',
     scaleMeters: 12.0,
     zones: {
-      leaves: { x: 50, y: 24 },
-      stem: { x: 50, y: 52 },
-      base: { x: 50, y: 78 }
+      leaves: { x: 68, y: 24 },
+      stem: { x: 68, y: 52 },
+      base: { x: 68, y: 72 }
     },
     loupeFindings: {
       leaves: {
@@ -305,9 +306,16 @@ const CLUE_OPTIONS = {
 };
 
 const PLANT_IMAGES = {
-  plantA: tulsi24Img,
+  plantA: alphaBenchImg,
+  plantB: betaBenchImg,
+  plantC: gammaBenchImg
+};
+
+// Archive case-card portraits (lens zones are tuned against PLANT_IMAGES, so keep them separate)
+const CARD_IMAGES = {
+  plantA: alphaSpecimenImg,
   plantB: rose24Img,
-  plantC: neem24Img
+  plantC: gammaCardImg
 };
 
 const PLANT_FLEX_IMAGES = {
@@ -416,19 +424,77 @@ const playSound = (type = 'click') => {
   }
 };
 
-export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
+export default function PlantDetective({ onBackToDashboard, onNextActivity, nextLabel }) {
   const { theme } = useTheme();
-  const [selectedPlantId, setSelectedPlantId] = useState('plantA');
-  const [subPage, setSubPage] = useState(1); // 1: Archives, 2: Detective Lab Bench
-  
-  // New Flow States
-  const [labStep, setLabStep] = useState(1); // 1: Scanner, 2: Bend Test, 3: Identify
-  const [scannerState, setScannerState] = useState('idle'); // idle, scanning, complete
-  const [draggedPlantId, setDraggedPlantId] = useState(null);
-  
+  const [selectedPlantId, setSelectedPlantId] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    return params.get('case') || 'plantA';
+  });
+  const [subPage, setSubPage] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    const p = parseInt(params.get('subPage'), 10);
+    return (p === 1 || p === 2) ? p : 1;
+  });
+  const [activeTool, setActiveTool] = useState('loupe'); // 'loupe' | 'bend' | 'scale'
+  const [loupeZone, setLoupeZone] = useState('stem'); // 'leaves' | 'stem' | 'base'
   const [bendLevel, setBendLevel] = useState(0); // 0 to 100%
+
+  // Real optical lens coordinates & zoom
+  const [lensPos, setLensPos] = useState({ x: 68, y: 52 });
+  const [zoomLevel, setZoomLevel] = useState(2.8); // 2.8x or 4.2x optical magnification
+  const [isDraggingLens, setIsDraggingLens] = useState(false);
+  const lensOn = true; // magnifier is always in hand on the bench
   const stageRef = useRef(null);
   const plantImgRef = useRef(null);
+
+  // Dynamic specimen bounding metrics for pixel-perfect optical magnification
+  const [plantMetrics, setPlantMetrics] = useState({
+    w: 240,
+    h: 270,
+    left: 180,
+    top: 25,
+    stageW: 600,
+    stageH: 330
+  });
+
+  const updatePlantMetrics = () => {
+    if (plantImgRef.current && stageRef.current) {
+      const imgRect = plantImgRef.current.getBoundingClientRect();
+      const stageRect = stageRef.current.getBoundingClientRect();
+      if (imgRect.width > 0 && imgRect.height > 0 && stageRect.width > 0 && stageRect.height > 0) {
+        setPlantMetrics({
+          w: imgRect.width,
+          h: imgRect.height,
+          left: imgRect.left - stageRect.left,
+          top: imgRect.top - stageRect.top,
+          stageW: stageRect.width,
+          stageH: stageRect.height
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    updatePlantMetrics();
+    const handleResize = () => updatePlantMetrics();
+    window.addEventListener('resize', handleResize);
+    const timer = setTimeout(updatePlantMetrics, 60);
+    const timer2 = setTimeout(updatePlantMetrics, 320);
+
+    let observer;
+    if (typeof ResizeObserver !== 'undefined') {
+      observer = new ResizeObserver(() => updatePlantMetrics());
+      if (stageRef.current) observer.observe(stageRef.current);
+      if (plantImgRef.current) observer.observe(plantImgRef.current);
+    }
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(timer);
+      clearTimeout(timer2);
+      if (observer) observer.disconnect();
+    };
+  }, [selectedPlantId, activeTool]);
 
   // Student deductions for 3 plants
   const [answers, setAnswers] = useState({
@@ -438,15 +504,14 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
   });
 
   const [results, setResults] = useState({
-    plantA: null,
-    plantB: null,
-    plantC: null
+    plantA: false,
+    plantB: false,
+    plantC: false
   });
 
   const [showCelebration, setShowCelebration] = useState(false);
   const [springOffset, setSpringOffset] = useState(0); // Damped elastic bounce angle
   const [isDraggingStem, setIsDraggingStem] = useState(false);
-  const [hasTestedBend, setHasTestedBend] = useState(false);
   const springAnimRef = useRef(null);
 
   const activePlant = MYSTERY_PLANTS.find(p => p.id === selectedPlantId) || MYSTERY_PLANTS[0];
@@ -459,22 +524,39 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
     setBendLevel(0);
     setSpringOffset(0);
     setIsDraggingStem(false);
-    setHasTestedBend(false);
-    setScannerState('idle'); // Reset scanner on plant change
+    setLoupeZone('stem');
+    const target = activePlant.zones.stem;
+    setLensPos(target);
+    setTimeout(updatePlantMetrics, 40);
   }, [selectedPlantId]);
 
-  useEffect(() => {
-    if (labStep === 2) {
-      if (bendLevel > 8 || (activePlant.id === 'plantC' && isDraggingStem)) {
-        setHasTestedBend(true);
-      }
+  // Update lens position when clicking preset zones
+  const handleSelectZone = (zoneKey) => {
+    setLoupeZone(zoneKey);
+    const target = activePlant.zones[zoneKey];
+    if (target) {
+      setLensPos(target);
     }
-  }, [bendLevel, activePlant.id, labStep, isDraggingStem]);
+    playSound('zoom');
+  };
 
-
-  // Dragging interaction for Stem Bend Test
+  // Dragging interaction for both Magnifier and Stem Bend Test
   const handleStageMouseMove = (e) => {
-    if (labStep === 2) {
+    if (activeTool === 'loupe') {
+      if (!isDraggingLens || !stageRef.current) return;
+      const rect = stageRef.current.getBoundingClientRect();
+      const xPct = Math.max(20, Math.min(80, ((e.clientX - rect.left) / rect.width) * 100));
+      const yPct = Math.max(20, Math.min(80, ((e.clientY - rect.top) / rect.height) * 100));
+      setLensPos({ x: xPct, y: yPct });
+
+      if (yPct < 38) {
+        setLoupeZone('leaves');
+      } else if (yPct > 66) {
+        setLoupeZone('base');
+      } else {
+        setLoupeZone('stem');
+      }
+    } else if (activeTool === 'bend') {
       if (!isDraggingStem || !stageRef.current) return;
       const rect = stageRef.current.getBoundingClientRect();
       const clientX = e.touches && e.touches[0] ? e.touches[0].clientX : e.clientX;
@@ -495,6 +577,10 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
   };
 
   const handleStageMouseUp = () => {
+    if (isDraggingLens) {
+      setIsDraggingLens(false);
+      playSound('click');
+    }
     if (isDraggingStem) {
       setIsDraggingStem(false);
       if (springAnimRef.current) cancelAnimationFrame(springAnimRef.current);
@@ -532,17 +618,6 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
       }
     }
   };
-
-  const handlePlantDrop = (plantId) => {
-    setSelectedPlantId(plantId);
-    setScannerState('scanning');
-    playSound('zoom');
-    setTimeout(() => {
-      setScannerState('complete');
-      playSound('fanfare');
-    }, 2500); // 2.5 seconds scanning animation
-  };
-
 
   const handlePresetBend = (pct) => {
     if (springAnimRef.current) cancelAnimationFrame(springAnimRef.current);
@@ -601,15 +676,15 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
     playSound('click');
   };
 
-  const handleStampCategory = () => {
-    const currentAns = answers[selectedPlantId];
-    if (!currentAns) return;
-
-    const isCorrect = 
-      currentAns.category === activePlant.correctAnswers.category &&
-      currentAns.stem === activePlant.correctAnswers.stem &&
-      currentAns.branch === activePlant.correctAnswers.branch &&
-      currentAns.flex === activePlant.correctAnswers.flex;
+  const handleStampCategory = (cat) => {
+    const isCorrect = cat === activePlant.correctAnswers.category;
+    setAnswers(prev => ({
+      ...prev,
+      [selectedPlantId]: {
+        ...prev[selectedPlantId],
+        category: cat
+      }
+    }));
 
     if (isCorrect) {
       playSound('stamp');
@@ -624,7 +699,6 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
         }, 400);
       }
     } else {
-      setResults(prev => ({ ...prev, [selectedPlantId]: false }));
       playSound('creak');
     }
   };
@@ -633,12 +707,10 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
     const currentIndex = MYSTERY_PLANTS.findIndex(p => p.id === selectedPlantId);
     const nextIndex = (currentIndex + 1) % MYSTERY_PLANTS.length;
     setSelectedPlantId(MYSTERY_PLANTS[nextIndex].id);
-    setLabStep(1);
-    setScannerState('idle');
+    setActiveTool('loupe');
+    setLoupeZone('stem');
     setBendLevel(0);
     setSpringOffset(0);
-    setIdentificationAnswer(null);
-    setIdentificationStatus(null);
     playSound('click');
   };
 
@@ -656,7 +728,18 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
       ? `${((bendLevel / 100) * 4.2).toFixed(1)} N`
       : `${((bendLevel / 100) * 1.5).toFixed(1)} N`;
 
-  // No magnifier variables needed
+  // Dynamic lens-to-plant optical mapping
+  const stageLensX = (lensPos.x / 100) * plantMetrics.stageW;
+  const stageLensY = (lensPos.y / 100) * plantMetrics.stageH;
+  const relX = stageLensX - plantMetrics.left;
+  const relY = stageLensY - plantMetrics.top;
+  const magnifiedImgX = 120 - relX * zoomLevel;
+  const magnifiedImgY = 95 - relY * zoomLevel;
+  const magnifiedImgW = plantMetrics.w * zoomLevel;
+  const magnifiedImgH = plantMetrics.h * zoomLevel;
+  const metricsReady = plantMetrics.stageW > 0 && plantMetrics.stageH > 0;
+  const lensLeft = metricsReady ? `${stageLensX - 120}px` : `calc(${lensPos.x}% - 120px)`;
+  const lensTop = metricsReady ? `${stageLensY - 95}px` : `calc(${lensPos.y}% - 95px)`;
 
   return (
     <div
@@ -668,7 +751,11 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        background: 'url(/botanical_bg.jpg) center/cover no-repeat',
+        backgroundImage: `url(${bureauBgImg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#0B1F14',
         color: 'var(--ink)',
         fontFamily: '"Outfit", sans-serif',
         overflow: 'hidden',
@@ -687,9 +774,9 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
         }
 
         .detective-tool-tab {
-          background: rgba(6, 78, 59, 0.6); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-          border: 2px solid rgba(167, 243, 208, 0.3);
-          color: #A7F3D0;
+          background: rgba(250, 248, 242, 0.55); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+          border: 2px solid #14452F;
+          color: #14452F;
           font-size: 16px;
           font-weight: 900;
           padding: 7px 16px;
@@ -704,36 +791,41 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
         .detective-tool-tab.active {
           background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
           color: #FFFFFF;
-          border-color: #FCD34D;
-          box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35);
+          border-color: #10B981;
+          box-shadow: 0 4px 12px rgba(20, 69, 47, 0.25);
         }
 
         .clue-chip {
-          background: #FFFFFF;
-          border: 1.8px solid rgba(20, 69, 47, 0.25);
-          color: #14452F;
-          font-size: 16px;
+          background: linear-gradient(180deg, #FFFFFF 0%, #F3FAF4 100%);
+          border: 2px solid rgba(15, 23, 42, 0.10);
+          color: #14532D;
+          font-size: 14.5px;
           font-weight: 800;
-          padding: 6px 8px;
-          border-radius: 10px;
+          padding: 6px 9px;
+          border-radius: 11px;
           cursor: pointer;
           transition: all 0.15s ease;
           font-family: 'Outfit', sans-serif;
-          text-align: center;
+          text-align: left;
+          line-height: 1.2;
           flex: 1;
+          box-shadow: 0 3px 9px rgba(0, 0, 0, 0.25);
+        }
+        .clue-chip:hover {
+          border-color: #86EFAC;
         }
         .clue-chip.selected {
-          background: #14452F;
-          color: #FFFFFF;
-          border-color: #10B981;
-          box-shadow: 0 2px 8px rgba(20, 69, 47, 0.25);
+          background: #F2FDF5;
+          color: #14532D;
+          border-color: #22C55E;
+          box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.35), 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         .verdict-stamp {
-          border-radius: 12px;
-          font-size: 16px;
+          border-radius: 11px;
+          font-size: 14.5px;
           font-weight: 900;
-          padding: 10px;
+          padding: 7px;
           cursor: pointer;
           display: flex;
           align-items: center;
@@ -753,9 +845,11 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
         }
 
         @keyframes bioScanLine {
-          0% { top: 24%; opacity: 0.85; }
-          50% { top: 90%; opacity: 1; }
-          100% { top: 24%; opacity: 0.85; }
+          0%   { top: 2%;  opacity: 0; }
+          10%  { opacity: 1; }
+          50%  { top: 96%; opacity: 1; }
+          60%  { opacity: 0; }
+          100% { top: 2%;  opacity: 0; }
         }
         @keyframes bioScanGlow {
           0%, 100% { opacity: 0.25; }
@@ -839,30 +933,20 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: 'rgba(15, 23, 42, 0.50)',
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
-          border: '2.5px solid rgba(20, 69, 47, 0.5)',
+          background: 'transparent',
+          border: 'none',
           borderRadius: '24px',
-          padding: '0.45rem 1.4rem 0.4rem',
-          boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',
+          padding: '0.5rem 1.4rem 0.4rem',
+          boxShadow: 'none',
           boxSizing: 'border-box',
           overflow: 'hidden',
           position: 'relative'
         }}>
-          {/* Slogan Page Hanging Corner Foliage */}
-          <TopCornerFoliage side="left" />
-          <TopCornerFoliage side="right" />
-
-          {/* Slogan Page Bottom Nature Silhouette */}
-          <BottomNatureSilhouette />
-
           {/* Slogan-Style Botanical Centered Header */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            borderBottom: '2.5px solid rgba(20, 69, 47, 0.2)',
             paddingBottom: '0.3rem',
             position: 'relative',
             zIndex: 5,
@@ -876,8 +960,8 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                 border: '2px solid #D4AF37',
                 color: '#F8FAFC',
                 borderRadius: '12px',
-                padding: '5px 14px',
-                fontSize: '16px',
+                padding: '6px 16px',
+                fontSize: '20px',
                 fontWeight: '900',
                 cursor: 'pointer',
                 display: 'flex',
@@ -891,44 +975,39 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
               <span>Dashboard</span>
             </button>
 
-            {/* Center: Title flanked by Vine Branches, Sprout, and Sanskrit Motto */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <TitleVineBranch side="left" />
-                <div style={{
-                  fontSize: '22px',
-                  fontWeight: '900',
-                  color: '#F8FAFC',
-                  fontFamily: '"Fraunces", Georgia, serif',
-                  textAlign: 'center',
-                  letterSpacing: '-0.3px',
-                  textShadow: '0 2px 4px rgba(0,0,0,0.5)',
-                  background: 'linear-gradient(180deg, #5c3a21 0%, #3e2312 100%)',
-                  padding: '8px 24px',
-                  borderRadius: '12px',
-                  border: '2px solid #8b5a2b',
-                  boxShadow: '0 8px 16px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.2)'
+            {/* Bureau title: Activity 2.4 with Attractive Bold Golden Banner */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, gap: '4px' }}>
+              <div style={{
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                border: '2px solid rgba(254, 240, 138, 0.85)',
+                borderRadius: '12px',
+                padding: '6px 28px',
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)',
+                textAlign: 'center'
+              }}>
+                <h1 style={{
+                  margin: 0,
+                  fontSize: '24px',
+                  fontWeight: 900,
+                  fontFamily: '"Cinzel", "Outfit", Georgia, serif',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: '#FFFFFF',
+                  lineHeight: 1.15,
+                  textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
                 }}>
                   Activity 2.4 · Plant Detective Bureau
-                </div>
-                <TitleVineBranch side="right" />
+                </h1>
               </div>
-
-              <TitleSprout />
-
               <div style={{
-                fontSize: '16px',
-                color: '#A7F3D0',
+                fontSize: '13px',
                 fontWeight: '800',
-                fontFamily: '"Outfit", sans-serif',
-                background: 'rgba(6, 78, 59, 0.6)',
-                border: '1.5px solid rgba(167, 243, 208, 0.3)',
-                padding: '1px 14px',
-                borderRadius: '999px',
-                marginTop: '1px',
-                boxShadow: '0 2px 6px rgba(0, 0, 0, 0.2)'
+                color: '#FDE68A',
+                letterSpacing: '0.16em',
+                textTransform: 'uppercase',
+                textShadow: '0 2px 8px rgba(0, 0, 0, 0.85)'
               }}>
-                ✦ सर्वभूतहिते रताः · Herbs, Shrubs, and Trees Laboratory ✦
+                Investigate · Observe · Classify
               </div>
             </div>
 
@@ -936,16 +1015,16 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
             <div style={{
               background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
               color: '#FFFFFF',
-              padding: '5px 16px',
+              padding: '6px 18px',
               borderRadius: '999px',
-              fontSize: '16px',
+              fontSize: '20px',
               fontWeight: '900',
               boxShadow: '0 4px 12px rgba(20, 69, 47, 0.25)',
               display: 'flex',
               alignItems: 'center',
               gap: '8px'
             }}>
-              <Award size={18} color="#FBBF24" />
+              <Award size={20} color="#FBBF24" />
               <span>Solved: {solvedCount} / 3 Cases</span>
             </div>
           </div>
@@ -964,6 +1043,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
           }}>
             {MYSTERY_PLANTS.map(plant => {
               const isSolved = results[plant.id] === true;
+              const [caseNo, codeName] = plant.caseCode.split('·').map(s => s.trim());
               const traits = PLANT_TRAITS[plant.id] || {
                 stem: 'Botanical cortex',
                 branch: 'Lateral growth',
@@ -974,279 +1054,196 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                 <div
                   key={plant.id}
                   style={{
-                    background: 'rgba(15, 23, 42, 0.50)',
-                    border: `2.4px solid ${isSolved ? '#059669' : '#14452F'}`,
+                    background: 'linear-gradient(165deg, rgba(8, 44, 28, 0.38) 0%, rgba(4, 24, 15, 0.50) 100%)',
+                    backdropFilter: 'blur(4px)',
+                    WebkitBackdropFilter: 'blur(4px)',
+                    border: `2.4px solid ${isSolved ? '#059669' : 'rgba(110, 231, 183, 0.45)'}`,
                     borderRadius: '18px',
                     padding: '0.75rem 1rem',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    boxShadow: isSolved ? '0 8px 24px rgba(5, 150, 105, 0.18)' : '0 8px 24px rgba(20, 69, 47, 0.12)',
+                    boxShadow: isSolved ? '0 14px 34px rgba(0, 0, 0, 0.45)' : '0 14px 34px rgba(0, 0, 0, 0.45)',
                     position: 'relative',
                     overflow: 'hidden',
                     gap: '6px'
                   }}
                 >
-                  <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, gap: '5px' }}>
-                    {/* Top Case Badge & Classified Status Header */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div style={{
-                        background: isSolved ? '#059669' : '#14452F',
-                        color: '#FFFFFF',
-                        padding: '3px 10px',
-                        borderRadius: '8px',
-                        fontSize: '16px',
-                        fontWeight: '900',
-                        fontFamily: '"JetBrains Mono", monospace'
-                      }}>
-                        {plant.caseCode}
-                      </div>
-
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <span style={{ fontSize: '16px', fontWeight: '900', color: '#92400E', whiteSpace: 'nowrap' }}>
-                          📂 CLASSIFIED
-                        </span>
-                        <span style={{
-                          fontSize: '16px',
+                  <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, gap: '5px' }}>
+                    {/* Case label + code name */}
+                    <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '8px' }}>
+                      <div>
+                        <div style={{
+                          fontSize: '18px',
                           fontWeight: '900',
-                          color: isSolved ? '#065F46' : '#B91C1C',
-                          background: isSolved ? '#D1FAE5' : '#FEE2E2',
-                          border: `1.5px solid ${isSolved ? '#6EE7B7' : '#FCA5A5'}`,
+                          color: '#A7F3D0',
+                          letterSpacing: '0.16em',
+                          fontFamily: '"JetBrains Mono", monospace',
+                          textTransform: 'uppercase'
+                        }}>
+                          {caseNo}
+                        </div>
+                        <div style={{
+                          fontSize: '32px',
+                          fontWeight: '900',
+                          color: '#FFFFFF',
+                          fontFamily: '"Fraunces", Georgia, serif',
+                          letterSpacing: '0.01em',
+                          lineHeight: 1.05
+                        }}>
+                          {codeName}
+                        </div>
+                      </div>
+                      {isSolved && (
+                        <span style={{
+                          fontSize: '18px',
+                          fontWeight: '900',
+                          color: '#065F46',
+                          background: '#D1FAE5',
+                          border: '1.5px solid #6EE7B7',
                           padding: '2px 8px',
                           borderRadius: '8px',
                           whiteSpace: 'nowrap'
                         }}>
-                          {isSolved ? '✓ SOLVED' : '● UNRESOLVED'}
+                          ✓ SOLVED
                         </span>
-                      </div>
+                      )}
                     </div>
 
-                    {/* Plant Case Title */}
-                    <div style={{ fontSize: '20px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif', margin: '2px 0' }}>
-                      {plant.displayName}
-                    </div>
-
-                    {/* Specimen Chamber with Active Bio-Scan Animation - Enlarged to 215px */}
+                    {/* Specimen Photo Frame - clean, plain presentation */}
                     <div style={{
-                      height: '215px',
-                      background: 'linear-gradient(180deg, #FFFFFF 0%, #F0FDF4 100%)',
+                      flex: 1,
+                      minHeight: '215px',
+                      background: 'linear-gradient(180deg, #F4FBF2 0%, #DCF0DA 100%)',
                       borderRadius: '14px',
-                      border: '2px solid #D4AF37',
+                      border: '2px solid rgba(167, 243, 208, 0.5)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      padding: '8px 12px',
+                      padding: '12px',
                       position: 'relative',
                       overflow: 'hidden',
                       boxShadow: 'inset 0 3px 8px rgba(20, 69, 47, 0.08)'
                     }}>
-                      {/* Integrated Top HUD Header Strip */}
+                      {/* Sweeping green bio-scan */}
                       <div style={{
                         position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: '25px',
-                        background: 'rgba(20, 69, 47, 0.94)',
-                        backdropFilter: 'blur(4px)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        padding: '0 10px',
+                        left: '6px',
+                        right: '6px',
+                        height: '3px',
+                        borderRadius: '3px',
+                        background: 'linear-gradient(90deg, transparent 0%, #10B981 16%, #A7F3D0 50%, #10B981 84%, transparent 100%)',
+                        boxShadow: '0 0 14px 3px rgba(16, 185, 129, 0.85)',
+                        animation: 'bioScanLine 3.4s ease-in-out infinite',
+                        pointerEvents: 'none',
                         zIndex: 3
-                      }}>
-                        <span style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                          fontSize: '16px',
-                          fontWeight: '900',
-                          color: '#34D399',
-                          fontFamily: '"JetBrains Mono", monospace'
-                        }}>
-                          <span style={{
-                            display: 'inline-block',
-                            width: '7px',
-                            height: '7px',
-                            borderRadius: '50%',
-                            background: '#34D399',
-                            animation: 'scanPulseDot 1.4s ease-in-out infinite'
-                          }} />
-                          BIO-SCAN ACTIVE
-                        </span>
-                        <span style={{
-                          fontSize: '16px',
-                          fontWeight: '800',
-                          color: '#A7F3D0',
-                          fontFamily: '"JetBrains Mono", monospace'
-                        }}>
-                          2.8× MACRO
-                        </span>
-                      </div>
-
-                      {/* Viewfinder Corner Brackets */}
-                      <span style={{ position: 'absolute', top: '27px', left: '8px', fontSize: '18px', lineHeight: 1, color: '#059669', fontWeight: '900', userSelect: 'none' }}>⌜</span>
-                      <span style={{ position: 'absolute', top: '27px', right: '8px', fontSize: '18px', lineHeight: 1, color: '#059669', fontWeight: '900', userSelect: 'none' }}>⌝</span>
-                      <span style={{ position: 'absolute', bottom: '6px', left: '8px', fontSize: '18px', lineHeight: 1, color: '#059669', fontWeight: '900', userSelect: 'none' }}>⌞</span>
-                      <span style={{ position: 'absolute', bottom: '6px', right: '8px', fontSize: '18px', lineHeight: 1, color: '#059669', fontWeight: '900', userSelect: 'none' }}>⌟</span>
-
-                      {/* Animated Bio-Scan Laser Beam Moving Vertically */}
+                      }} />
                       <div style={{
                         position: 'absolute',
-                        left: '4px',
-                        right: '4px',
-                        height: '2.5px',
-                        background: isSolved 
-                          ? 'linear-gradient(90deg, transparent 0%, #10B981 18%, #34D399 50%, #10B981 82%, transparent 100%)'
-                          : 'linear-gradient(90deg, transparent 0%, #10B981 18%, #6EE7B7 50%, #10B981 82%, transparent 100%)',
-                        boxShadow: isSolved 
-                          ? '0 0 12px 2px rgba(16, 185, 129, 0.85)'
-                          : '0 0 12px 2px rgba(16, 185, 129, 0.95)',
-                        animation: 'bioScanLine 2.8s ease-in-out infinite',
+                        inset: '6px',
+                        background: 'radial-gradient(ellipse at center, rgba(16, 185, 129, 0.20) 0%, transparent 70%)',
+                        animation: 'bioScanGlow 3.4s ease-in-out infinite',
                         pointerEvents: 'none',
                         zIndex: 2
                       }} />
 
-                      {/* Ambient Holographic Light */}
-                      <div style={{
-                        position: 'absolute',
-                        inset: '25px 6px 6px 6px',
-                        background: 'radial-gradient(circle at center, rgba(16, 185, 129, 0.14) 0%, transparent 70%)',
-                        animation: 'bioScanGlow 3s ease-in-out infinite',
-                        pointerEvents: 'none'
-                      }} />
-
-                      {/* Specimen Plant Image - Substantially Enlarged to 175px */}
                       <img
-                        src={PLANT_IMAGES[plant.id]}
+                        src={CARD_IMAGES[plant.id]}
                         alt={plant.displayName}
                         style={{
-                          maxHeight: '175px',
-                          maxWidth: '90%',
+                          maxHeight: '100%',
+                          maxWidth: '96%',
                           objectFit: 'contain',
                           position: 'relative',
                           zIndex: 1,
-                          marginTop: '20px',
                           filter: 'drop-shadow(0 6px 14px rgba(20, 69, 47, 0.25))',
                           transition: 'transform 0.2s ease'
                         }}
                       />
                     </div>
 
-                    {/* Forensic Botanical Traits Dossier Table */}
-                    <div style={{
-                      background: '#FFFFFF',
-                      border: '1.5px solid #CBD5E1',
-                      borderRadius: '12px',
-                      padding: '8px 12px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '5px',
-                      boxShadow: '0 2px 5px rgba(0, 0, 0, 0.03)'
-                    }}>
-                      <div style={{
-                        fontSize: '16px',
-                        fontWeight: '800',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                      }}>
-                        <span style={{ color: '#475569', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                          <span style={{ color: '#059669' }}>🌿</span> Stem:
-                        </span>
-                        <span style={{ color: '#0F172A', fontWeight: '800' }}>{traits.stem}</span>
-                      </div>
-
-                      <div style={{
-                        fontSize: '16px',
-                        fontWeight: '800',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                      }}>
-                        <span style={{ color: '#475569', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                          <span style={{ color: '#D97706' }}>🌳</span> Branches:
-                        </span>
-                        <span style={{ color: '#0F172A', fontWeight: '800' }}>{traits.branch}</span>
-                      </div>
-
-                      <div style={{
-                        fontSize: '16px',
-                        fontWeight: '800',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                      }}>
-                        <span style={{ color: '#475569', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                          <span style={{ color: '#2563EB' }}>📏</span> Height:
-                        </span>
-                        <span style={{ color: '#0F172A', fontWeight: '800' }}>{traits.height}</span>
-                      </div>
-                    </div>
-
-                    {/* Target Classification Banner */}
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      background: 'rgba(20, 69, 47, 0.06)',
-                      border: '1.5px dashed rgba(20, 69, 47, 0.25)',
-                      borderRadius: '10px',
-                      padding: '6px 12px'
-                    }}>
-                      <span style={{ fontSize: '16px', fontWeight: '800', color: '#F8FAFC', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <span>🔬</span> Classification Target:
-                      </span>
-                      <span style={{
-                        fontSize: '16px',
-                        fontWeight: '900',
-                        color: isSolved ? '#059669' : '#D97706',
-                        fontFamily: '"Outfit", sans-serif'
-                      }}>
-                        {isSolved ? `Solved: ${plant.realName} (${plant.category})` : 'Herb, Shrub, or Tree?'}
-                      </span>
-                    </div>
+                    {/* Botanical Traits */}
+                    {(() => {
+                      const rows = [
+                        { icon: '🌿', label: 'Stem:', value: traits.stem, accent: '#FFFFFF' },
+                        { icon: '🌳', label: 'Branches:', value: traits.branch, accent: '#FFFFFF' },
+                        { icon: '📏', label: 'Height:', value: traits.height, accent: '#FFFFFF' },
+                        {
+                          icon: '🎯',
+                          label: 'Classification Target:',
+                          value: isSolved ? `${plant.realName} (${plant.category})` : 'Herb, Shrub, or Tree?',
+                          accent: isSolved ? '#6EE7B7' : '#FCD34D'
+                        }
+                      ];
+                      return (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', padding: '2px 2px 0' }}>
+                          {rows.map((row, ri) => (
+                            <div
+                              key={row.label}
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                gap: '10px',
+                                fontSize: '20px',
+                                fontWeight: '800',
+                                paddingTop: ri === 3 ? '7px' : 0,
+                                borderTop: ri === 3 ? '1.5px solid rgba(167, 243, 208, 0.22)' : 'none'
+                              }}
+                            >
+                              <span style={{ display: 'flex', alignItems: 'center', gap: '7px', color: '#D1FAE5', whiteSpace: 'nowrap' }}>
+                                <span>{row.icon}</span> {row.label}
+                              </span>
+                              <span style={{
+                                color: row.accent,
+                                fontWeight: '900',
+                                textAlign: 'right',
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis'
+                              }}>
+                                {row.value}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    })()}
                   </div>
 
+                  {/* Slogan-Style Action Button */}
+                  <button
+                    onClick={() => {
+                      setSelectedPlantId(plant.id);
+                      setSubPage(2);
+                      playSound('click');
+                    }}
+                    style={{
+                      background: 'linear-gradient(180deg, #2BAE63 0%, #19814A 100%)',
+                      color: '#FFFFFF',
+                      border: '2px solid rgba(167, 243, 208, 0.55)',
+                      borderRadius: '999px',
+                      padding: '11px 16px',
+                      fontSize: '21px',
+                      fontWeight: '900',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      fontFamily: '"Outfit", sans-serif',
+                      boxShadow: '0 8px 20px rgba(0, 0, 0, 0.40)',
+                      transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+                      flexShrink: 0
+                    }}
+                  >
+                    <span>🌿</span>
+                    <span>{isSolved ? 'Review Case Evidence' : 'Start Investigation'}</span>
+                    <ArrowRight size={18} />
+                  </button>
                 </div>
               );
             })}
-          </div>
-
-          {/* Centered Start Investigation Button */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            marginTop: '6px',
-            marginBottom: '4px',
-            flexShrink: 0
-          }}>
-            <button
-              onClick={() => {
-                setSubPage(2);
-                playSound('click');
-              }}
-              style={{
-                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                color: '#FFFFFF',
-                border: 'none',
-                borderRadius: '12px',
-                padding: '12px 24px',
-                fontSize: '20px',
-                fontWeight: '900',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '10px',
-                fontFamily: '"Outfit", sans-serif',
-                boxShadow: '0 4px 14px rgba(217, 119, 6, 0.38)',
-                transition: 'transform 0.15s ease, box-shadow 0.15s ease'
-              }}
-            >
-              <span>🔍 Start Investigation</span>
-              <ArrowRight size={20} strokeWidth={2.5} />
-            </button>
           </div>
 
           {/* ==================== Slogan-Style Bottom Navigation Footer (Back, Previous Page & Next) ==================== */}
@@ -1320,15 +1317,16 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
               </div>
 
               <div style={{
-                background: '#14452F',
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                 color: '#FFFFFF',
+                border: '1.8px solid rgba(254, 240, 138, 0.85)',
                 borderRadius: '20px',
-                padding: '3px 18px',
+                padding: '4px 20px',
                 fontFamily: '"Outfit", sans-serif',
                 fontWeight: 900,
                 fontSize: '16px',
                 letterSpacing: '0.04em',
-                boxShadow: '0 3px 10px rgba(20, 69, 47, 0.3)'
+                boxShadow: '0 4px 14px rgba(217, 119, 6, 0.45)'
               }}>
                 Activity 2.4 · {solvedCount} / 3 Cases Solved
               </div>
@@ -1341,11 +1339,11 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                 className="bio-cta-btn"
                 onClick={() => {
                   if (onNextActivity) onNextActivity();
-                  else onBackToDashboard('next_activity');
+                  else if (onBackToDashboard) onBackToDashboard('next_activity');
                 }}
                 aria-label="Next Activity"
               >
-                <span>Next: Act 2.5 Leaf Venation</span>
+                <span>{nextLabel || "Next: Table 2.3"}</span>
                 <ArrowRight size={18} strokeWidth={2.5} />
               </button>
             </div>
@@ -1360,25 +1358,25 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
         <div style={{
           flex: 1,
           minHeight: 0,
+          marginTop: '4px',
           display: 'flex',
           flexDirection: 'column',
-          background: 'rgba(15, 23, 42, 0.50)',
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
-          border: '2.5px solid rgba(20, 69, 47, 0.5)',
+          background: 'transparent',
+          border: 'none',
           borderRadius: '24px',
-          boxShadow: '0 16px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.30)',
+          boxShadow: 'none',
           boxSizing: 'border-box',
           overflow: 'hidden'
         }}>
-          {/* Top Bar */}
+          {/* Floating Archives button */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '0.55rem 1.2rem',
-            background: 'rgba(6, 78, 59, 0.30)',
-            borderBottom: '2.5px solid rgba(167, 243, 208, 0.2)'
+            padding: '0 0.2rem 6px',
+            flexShrink: 0,
+            background: 'transparent',
+            border: 'none'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <button
@@ -1387,312 +1385,302 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                   playSound('click');
                 }}
                 style={{
-                  background: 'rgba(6, 78, 59, 0.60)',
-                  border: '2px solid #D4AF37',
+                  background: 'linear-gradient(165deg, rgba(8, 44, 28, 0.95) 0%, rgba(4, 24, 15, 0.97) 100%)',
+                  border: '2px solid rgba(110, 231, 183, 0.45)',
                   color: '#F8FAFC',
-                  borderRadius: '10px',
-                  padding: '5px 12px',
+                  borderRadius: '12px',
+                  padding: '6px 16px',
                   fontSize: '16px',
                   fontWeight: '900',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '6px'
+                  gap: '7px',
+                  boxShadow: '0 8px 20px rgba(0, 0, 0, 0.40)'
                 }}
               >
                 <ArrowLeft size={16} />
-                <span>Dashboard</span>
+                <span>Archives</span>
               </button>
             </div>
 
-            {/* Step Indicators */}
+            {/* Top Center Title on Bench: Activity 2.4 Attractive Bold Banner */}
+            <div style={{
+              background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+              border: '2px solid rgba(254, 240, 138, 0.85)',
+              borderRadius: '12px',
+              padding: '5px 22px',
+              boxShadow: '0 6px 20px rgba(0, 0, 0, 0.45), 0 0 16px rgba(245, 158, 11, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.7)',
+              position: 'absolute',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              pointerEvents: 'none',
+              zIndex: 30
+            }}>
+              <h1 style={{
+                margin: 0,
+                fontSize: '20px',
+                fontWeight: 900,
+                fontFamily: '"Cinzel", "Outfit", Georgia, serif',
+                letterSpacing: '0.10em',
+                textTransform: 'uppercase',
+                color: '#FFFFFF',
+                lineHeight: 1.15,
+                textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+              }}>
+                Activity 2.4 · Plant Detective
+              </h1>
+            </div>
+
+            {/* Status & Next Button */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <button
-                onClick={() => { setLabStep(1); playSound('click'); }}
-                style={{
-                  background: labStep >= 1 ? '#D97706' : 'rgba(255,255,255,0.1)',
-                  color: labStep >= 1 ? '#FFFFFF' : '#94A3B8',
-                  padding: '4px 12px',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                  fontWeight: '900',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontFamily: '"Outfit", sans-serif'
-                }}
-              >
-                {labStep > 1 && <CheckCircle2 size={14} />} Step 1: Plant Scanner
-              </button>
-              <button
-                onClick={() => { setLabStep(2); playSound('click'); }}
-                style={{
-                  background: labStep >= 2 ? '#D97706' : 'rgba(255,255,255,0.1)',
-                  color: labStep >= 2 ? '#FFFFFF' : '#94A3B8',
-                  padding: '4px 12px',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                  fontWeight: '900',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontFamily: '"Outfit", sans-serif'
-                }}
-              >
-                {labStep > 2 && <CheckCircle2 size={14} />} Step 2: Stem Bend Test
-              </button>
-              <button
-                onClick={() => { setLabStep(3); playSound('click'); }}
-                style={{
-                  background: labStep >= 3 ? '#D97706' : 'rgba(255,255,255,0.1)',
-                  color: labStep >= 3 ? '#FFFFFF' : '#94A3B8',
-                  padding: '4px 12px',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                  fontWeight: '900',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontFamily: '"Outfit", sans-serif'
-                }}
-              >
-                Step 3: Identify Plant Group
-              </button>
             </div>
           </div>
 
-          {/* MAIN LAB STAGE */}
-          <div style={{ flex: 1, display: 'flex', overflow: 'hidden', padding: '10px 12px' }}>
-            {labStep === 1 && (
-              <div style={{ width: '100%', height: '100%', display: 'flex', gap: '12px' }}>
-                {/* Left: 3 Plants */}
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ fontSize: '20px', fontWeight: '900', color: '#F8FAFC' }}>Mystery Plants</div>
-                  <div style={{ display: 'flex', gap: '12px', flex: 1 }}>
-                    {MYSTERY_PLANTS.map((plant) => (
-                      <div
-                        key={plant.id}
-                        style={{
-                          flex: 1,
-                          background: 'rgba(15, 23, 42, 0.5)',
-                          border: '2px solid rgba(20, 69, 47, 0.5)',
-                          borderRadius: '16px',
-                          padding: '10px',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          opacity: (scannerState !== 'idle' && selectedPlantId !== plant.id) ? 0.4 : 1
-                        }}
-                      >
-                        <img src={PLANT_IMAGES[plant.id]} alt={plant.displayName} style={{ maxHeight: '140px', objectFit: 'contain' }} />
-                        <div style={{ marginTop: '8px', textAlign: 'center' }}>
-                          <div style={{ color: '#F8FAFC', fontWeight: '900', fontSize: '18px' }}>{plant.displayName}</div>
-                          <div style={{ color: results[plant.id] === true ? '#34D399' : '#94A3B8', fontSize: '14px', fontWeight: results[plant.id] === true ? '900' : 'normal' }}>
-                            {results[plant.id] === true ? `✓ Solved: ${plant.realName}` : `(${plant.caseCode.split('·')[0].trim()})`}
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => {
-                            if (scannerState === 'idle') {
-                              handlePlantDrop(plant.id);
-                            }
-                          }}
-                          disabled={scannerState !== 'idle'}
-                          style={{
-                            marginTop: '10px',
-                            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                            color: '#FFF',
-                            border: 'none',
-                            padding: '6px 12px',
-                            borderRadius: '8px',
-                            fontSize: '14px',
-                            fontWeight: '900',
-                            cursor: scannerState === 'idle' ? 'pointer' : 'not-allowed',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '6px'
-                          }}
-                        >
-                          <Search size={16} /> Scan Plant
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                  <div style={{ textAlign: 'center', color: '#6EE7B7', fontWeight: '800', marginTop: '10px' }}>
-                    Click "Scan Plant" to scan a mystery plant! ↗
-                  </div>
-                </div>
-
-                {/* Right: Scanner */}
-                <div 
-                  style={{
-                    flex: 1,
-                    border: '3px dashed #10B981',
-                    borderRadius: '24px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    background: 'rgba(16, 185, 129, 0.05)',
-                    position: 'relative',
-                    overflow: 'hidden'
-                  }}
+          {/* MAIN 68% / 32% STAGE */}
+          <div style={{
+            flex: 1,
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0, 68fr) minmax(0, 32fr)',
+            gap: '12px',
+            padding: '10px 12px',
+            boxSizing: 'border-box',
+            overflow: 'hidden'
+          }}>
+            {/* ========================================================================= */}
+            {/* LEFT 68%: INTERACTIVE FORENSIC BENCH                                      */}
+            {/* ========================================================================= */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '8px',
+              height: '100%',
+              minHeight: 0,
+              overflow: 'hidden'
+            }}>
+              {/* 2 Step-by-Step Detective Tool Tabs */}
+              <div style={{
+                display: 'flex',
+                gap: '8px',
+                alignSelf: 'flex-start',
+                flexShrink: 0,
+                background: 'linear-gradient(165deg, rgba(8, 44, 28, 0.93) 0%, rgba(4, 24, 15, 0.96) 100%)',
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(6px)',
+                border: '2px solid rgba(110, 231, 183, 0.40)',
+                borderRadius: '14px',
+                padding: '5px 8px',
+                boxShadow: '0 10px 24px rgba(0, 0, 0, 0.40)'
+              }}>
+                <button
+                  className={`detective-tool-tab ${activeTool === 'loupe' ? 'active' : ''}`}
+                  onClick={() => { setActiveTool('loupe'); playSound('click'); }}
                 >
-                  <div style={{ position: 'absolute', top: '16px', right: '16px', background: '#064E3B', padding: '6px 12px', borderRadius: '8px', color: '#A7F3D0', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '6px', zIndex: 2 }}>
-                    <Search size={18} /> PLANT SCANNER
-                  </div>
+                  <span>🔬 Step 1: Detective Magnifier</span>
+                </button>
+                <button
+                  className={`detective-tool-tab ${activeTool === 'bend' ? 'active' : ''}`}
+                  onClick={() => { setActiveTool('bend'); playSound('click'); }}
+                >
+                  <span>🖐️ Step 2: Stem Bend Test</span>
+                </button>
+              </div>
 
-                  {scannerState === 'idle' && (
-                    <div style={{ textAlign: 'center', color: '#10B981', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
-                      <div style={{ fontSize: '48px' }}>🍃</div>
-                      <div style={{ fontSize: '20px', fontWeight: '900' }}>Select a plant to scan!</div>
-                    </div>
-                  )}
-
-                  {scannerState === 'scanning' && (
-                    <div style={{ textAlign: 'center', position: 'relative', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                      <img src={PLANT_IMAGES[selectedPlantId]} style={{ maxHeight: '200px', opacity: 0.8 }} />
-                      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: '#34D399', boxShadow: '0 0 15px 5px rgba(52,211,153,0.5)', animation: 'bioScanLine 2.5s infinite ease-in-out' }} />
-                      <div style={{ marginTop: '20px', color: '#A7F3D0', fontSize: '22px', fontWeight: '900' }}>Scanning...</div>
-                      <div style={{ color: '#6EE7B7', fontSize: '16px' }}>Looking at the plant's features...</div>
-                    </div>
-                  )}
-
-                  {scannerState === 'complete' && (
-                    <div style={{ width: '100%', height: '100%', padding: '16px', display: 'flex', gap: '16px', alignItems: 'stretch', zIndex: 1 }}>
-                      {/* Left: Plant Image and Case Info */}
-                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px', background: 'rgba(6, 78, 59, 0.60)', border: '2px solid rgba(167, 243, 208, 0.3)', borderRadius: '16px', padding: '12px' }}>
-                        <img src={PLANT_IMAGES[selectedPlantId]} style={{ maxHeight: '160px', objectFit: 'contain' }} />
-                        <div style={{ textAlign: 'center' }}>
-                          <div style={{ color: '#94A3B8', fontSize: '14px', fontWeight: '800' }}>{MYSTERY_PLANTS.find(p => p.id === selectedPlantId)?.caseCode}</div>
-                          <div style={{ color: '#F8FAFC', fontSize: '18px', fontWeight: '900' }}>
-                            {results[selectedPlantId] === true 
-                              ? MYSTERY_PLANTS.find(p => p.id === selectedPlantId)?.realName 
-                              : MYSTERY_PLANTS.find(p => p.id === selectedPlantId)?.displayName}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Middle: Characteristics */}
-                      <div style={{ flex: 1.2, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#10B981', fontSize: '20px', fontWeight: '900' }}>
-                          <CheckCircle2 size={24} /> SCAN COMPLETE!
-                        </div>
-                        <div style={{ color: '#F8FAFC', fontSize: '14px', marginBottom: '4px' }}>Here are the observed characteristics:</div>
-                        
-                        <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A7F3D0', fontWeight: '800', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '4px' }}>
-                          <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><ArrowRight size={14}/> Height</span>
-                          <span style={{ color: '#F8FAFC' }}>{PLANT_TRAITS[selectedPlantId].height}</span>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A7F3D0', fontWeight: '800', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '4px' }}>
-                          <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>🍃 Stem Colour</span>
-                          <span style={{ color: '#F8FAFC' }}>{PLANT_TRAITS[selectedPlantId].stemColor || 'Green/Brown'}</span>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A7F3D0', fontWeight: '800', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '4px' }}>
-                          <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>🎋 Stem Texture</span>
-                          <span style={{ color: '#F8FAFC' }}>{PLANT_TRAITS[selectedPlantId].stem}</span>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A7F3D0', fontWeight: '800', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '4px' }}>
-                          <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>📏 Stem Thickness</span>
-                          <span style={{ color: '#F8FAFC' }}>{PLANT_TRAITS[selectedPlantId].stemThickness || 'Thin'}</span>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A7F3D0', fontWeight: '800', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '4px' }}>
-                          <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>🌿 Branching Habit</span>
-                          <span style={{ color: '#F8FAFC' }}>{PLANT_TRAITS[selectedPlantId].branch}</span>
-                        </div>
-                      </div>
-
-                      {/* Right: Fun Fact and Button */}
-                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px', justifyContent: 'space-between' }}>
-                        <div style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '12px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#FBBF24', fontWeight: '800', marginBottom: '8px' }}>
-                            💡 Fun Fact
-                          </div>
-                          <div style={{ color: '#E2E8F0', fontSize: '14px', lineHeight: 1.5 }}>
-                            {MYSTERY_PLANTS.find(p => p.id === selectedPlantId)?.funFact}
-                          </div>
-                        </div>
-
-                        <button
-                          onClick={() => { setLabStep(2); playSound('click'); }}
+              {/* Main Interactive Stage Box */}
+              <div style={{
+                flex: 1,
+                minHeight: 0,
+                position: 'relative',
+                background: 'transparent',
+                borderRadius: '20px',
+                border: 'none',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+                boxShadow: 'none'
+              }}>
+                {/* CENTER INTERACTIVE VISUAL CANVAS */}
+                <div 
+                  ref={stageRef}
+                  onMouseMove={handleStageMouseMove}
+                  style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}
+                >
+                  
+                  {/* ---------------------------------------------------- */}
+                  {/* TOOL 1: SEAMLESS REALISTIC DETECTIVE MAGNIFYING LENS */}
+                  {/* ---------------------------------------------------- */}
+                  {activeTool === 'loupe' && (
+                    <div style={{ width: '100%', height: '100%', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {/* Specimen Center Canvas with Full Magnifying Glass Setup */}
+                      <div style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                        {/* Base Plant Image - Cleanly Sized without Overlap */}
+                        {/* Specimen stays in the layout so the lens can measure against it,
+                            but is not painted - only the magnified view inside the glass shows. */}
+                        <img
+                          ref={plantImgRef}
+                          onLoad={updatePlantMetrics}
+                          src={PLANT_IMAGES[activePlant.id]}
+                          alt={activePlant.displayName}
+                          aria-hidden="false"
                           style={{
-                            width: '100%',
-                            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                            color: '#FFF',
-                            border: 'none',
-                            padding: '12px',
-                            borderRadius: '12px',
-                            fontSize: '16px',
-                            fontWeight: '900',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            gap: '8px'
+                            maxHeight: '80%',
+                            maxWidth: '68%',
+                            height: 'auto',
+                            width: 'auto',
+                            objectFit: 'contain',
+                            marginBottom: '6px',
+                            transform: 'translate(clamp(110px, 13vw, 260px), -3vh)',
+                            opacity: 1,
+                            filter: 'drop-shadow(0 16px 32px rgba(10, 40, 24, 0.45))',
+                            transition: 'opacity 0.2s ease',
+                            pointerEvents: 'none',
+                            userSelect: 'none'
+                          }}
+                        />
+
+                        {/* ============================================================ */}
+                        {/* UNIFIED SVG DETECTIVE MAGNIFYING GLASS                       */}
+                        {/* ============================================================ */}
+                        {lensOn && (
+                        <div
+                          onMouseDown={() => setIsDraggingLens(true)}
+                          onTouchStart={() => setIsDraggingLens(true)}
+                          style={{
+                            position: 'absolute',
+                            left: lensLeft,
+                            top: lensTop,
+                            width: '240px',
+                            height: '320px',
+                            cursor: isDraggingLens ? 'grabbing' : 'grab',
+                            zIndex: 20,
+                            transition: isDraggingLens ? 'none' : 'left 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                            userSelect: 'none'
                           }}
                         >
-                          Proceed to Stem Bend Test <ArrowRight size={18} />
-                        </button>
+                          <svg
+                            width="240"
+                            height="320"
+                            viewBox="0 0 240 320"
+                            style={{
+                              overflow: 'visible',
+                              filter: 'drop-shadow(0 16px 30px rgba(0, 0, 0, 0.42)) drop-shadow(0 4px 9px rgba(0, 0, 0, 0.28))'
+                            }}
+                          >
+                            <defs>
+                              {/* Polished gold, lit from the upper left */}
+                              <linearGradient id="pdGold" x1="12%" y1="0%" x2="88%" y2="100%">
+                                <stop offset="0%" stopColor="#FFF3C4" />
+                                <stop offset="14%" stopColor="#F6D982" />
+                                <stop offset="30%" stopColor="#E8BC55" />
+                                <stop offset="46%" stopColor="#C89A2E" />
+                                <stop offset="60%" stopColor="#FFF1C8" />
+                                <stop offset="76%" stopColor="#DCB14A" />
+                                <stop offset="90%" stopColor="#A87F1E" />
+                                <stop offset="100%" stopColor="#7E5C12" />
+                              </linearGradient>
+
+                              {/* Collar / pommel banding */}
+                              <linearGradient id="pdGoldBand" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stopColor="#8A6414" />
+                                <stop offset="18%" stopColor="#E7C264" />
+                                <stop offset="38%" stopColor="#FFF4CE" />
+                                <stop offset="62%" stopColor="#DDB44C" />
+                                <stop offset="84%" stopColor="#A17A1C" />
+                                <stop offset="100%" stopColor="#6E4F0E" />
+                              </linearGradient>
+
+                              {/* Dark figured ebony grip */}
+                              <linearGradient id="pdWood" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stopColor="#2A1206" />
+                                <stop offset="16%" stopColor="#5A2E14" />
+                                <stop offset="34%" stopColor="#7A4420" />
+                                <stop offset="52%" stopColor="#4E2611" />
+                                <stop offset="74%" stopColor="#2E1408" />
+                                <stop offset="100%" stopColor="#170902" />
+                              </linearGradient>
+
+                              <clipPath id="pdAperture">
+                                <circle cx="120" cy="95" r="76" />
+                              </clipPath>
+                            </defs>
+
+                            {/* ---------- Handle assembly, falling to the lower left ---------- */}
+                            <g transform="translate(43, 129) rotate(66)">
+                              {/* Stepped gold collar */}
+                              <rect x="-13" y="-6" width="26" height="15" rx="4" fill="url(#pdGold)" stroke="#7E5C12" strokeWidth="1" />
+                              <rect x="-15" y="8" width="30" height="9" rx="3.5" fill="url(#pdGoldBand)" stroke="#7E5C12" strokeWidth="0.9" />
+                              <rect x="-12.5" y="16" width="25" height="22" rx="4" fill="url(#pdGold)" stroke="#7E5C12" strokeWidth="1" />
+                              <rect x="-14" y="37" width="28" height="8" rx="3" fill="url(#pdGoldBand)" stroke="#7E5C12" strokeWidth="0.9" />
+
+                              {/* Ebony grip */}
+                              <path
+                                d="M -12 45 C -13.5 70, -13.5 108, -12 138 L 12 138 C 13.5 108, 13.5 70, 12 45 Z"
+                                fill="url(#pdWood)"
+                                stroke="#120701"
+                                strokeWidth="1.2"
+                              />
+                              {/* Grain striations */}
+                              <path d="M -6.5 50 C -8 78, -8 110, -6.5 134" stroke="#8A5024" strokeWidth="1.5" fill="none" opacity="0.55" strokeLinecap="round" />
+                              <path d="M -1 49 C -2 80, -2 108, -1 135" stroke="#6E3A17" strokeWidth="1.1" fill="none" opacity="0.5" strokeLinecap="round" />
+                              <path d="M 5 51 C 4 80, 4 108, 5 133" stroke="#3A1B0A" strokeWidth="1.4" fill="none" opacity="0.6" strokeLinecap="round" />
+                              <path d="M 9 53 C 8.2 80, 8.2 106, 9 131" stroke="#1C0C03" strokeWidth="1.6" fill="none" opacity="0.5" strokeLinecap="round" />
+
+                              {/* Gold pommel */}
+                              <rect x="-13.5" y="136" width="27" height="9" rx="3.5" fill="url(#pdGoldBand)" stroke="#7E5C12" strokeWidth="0.9" />
+                              <path d="M -12.5 144 L 12.5 144 L 10 162 Q 0 166 -10 162 Z" fill="url(#pdGold)" stroke="#7E5C12" strokeWidth="1" />
+                            </g>
+
+                            {/* ---------- Glass ---------- */}
+                            <circle cx="120" cy="95" r="76" fill="rgba(236, 250, 244, 0.10)" />
+
+                            <g clipPath="url(#pdAperture)">
+                              <image
+                                href={PLANT_IMAGES[activePlant.id]}
+                                x={magnifiedImgX}
+                                y={magnifiedImgY}
+                                width={magnifiedImgW}
+                                height={magnifiedImgH}
+                                preserveAspectRatio="none"
+                              />
+                            </g>
+
+                            {/* Specular sheen */}
+                            <g clipPath="url(#pdAperture)" pointerEvents="none">
+                              <ellipse cx="88" cy="52" rx="40" ry="21" fill="#FFFFFF" opacity="0.26" transform="rotate(-32 88 52)" />
+                              <ellipse cx="150" cy="140" rx="22" ry="11" fill="#FFFFFF" opacity="0.10" transform="rotate(-32 150 140)" />
+                            </g>
+
+                            {/* ---------- Heavy polished gold rim ---------- */}
+                            <circle cx="120" cy="95" r="76" fill="none" stroke="#4A3407" strokeWidth="2" opacity="0.65" />
+                            <circle cx="120" cy="95" r="83" fill="none" stroke="url(#pdGold)" strokeWidth="14" />
+                            <circle cx="120" cy="95" r="77.5" fill="none" stroke="#FFF6D6" strokeWidth="1.4" opacity="0.65" />
+                            <circle cx="120" cy="95" r="89.4" fill="none" stroke="#FFF2C6" strokeWidth="1.3" opacity="0.5" />
+                            <circle cx="120" cy="95" r="90.6" fill="none" stroke="#6E4F0E" strokeWidth="1.2" opacity="0.7" />
+
+                            {/* Small knob on the rim, upper right */}
+                            <g transform="translate(189, 43) rotate(38)">
+                              <rect x="-8" y="-9" width="16" height="12" rx="3" fill="url(#pdGoldBand)" stroke="#7E5C12" strokeWidth="0.9" />
+                              <rect x="-6" y="-14" width="12" height="6" rx="2.5" fill="url(#pdGold)" stroke="#7E5C12" strokeWidth="0.8" />
+                            </g>
+                          </svg>
+                        </div>
+                        )}
                       </div>
                     </div>
                   )}
-                </div>
-              </div>
-            )}
-            {labStep === 2 && (
-              <div style={{ width: '100%', height: '100%', display: 'grid', gridTemplateColumns: 'minmax(0, 68fr) minmax(0, 32fr)', gap: '12px' }}>
-                {/* Left: Bend Test Rig (Original) */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', height: '100%', position: 'relative' }}>
-                  <div style={{
-                    flex: 1,
-                    position: 'relative',
-                    background: 'radial-gradient(circle at 50% 45%, rgba(6, 78, 59, 0.70) 0%, rgba(6, 78, 59, 0.40) 100%)',
-                    borderRadius: '20px',
-                    border: '2.5px solid rgba(167, 243, 208, 0.4)',
-                    overflow: 'hidden',
-                    display: 'flex',
-                    flexDirection: 'column'
-                  }}>
-                    <div style={{
-                      position: 'absolute',
-                      top: '12px',
-                      left: '16px',
-                      zIndex: 2,
-                      background: '#064E3B',
-                      padding: '8px 16px',
-                      borderRadius: '10px',
-                      color: '#A7F3D0',
-                      fontWeight: '900',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
-                    }}>
-                      <FlaskConical size={18} /> STEM BEND TEST: {activePlant.caseCode}
-                    </div>
 
-                  {(() => {
+                  {/* ---------------------------------------------------- */}
+                  {/* TOOL 2: REALISTIC TACTILE STEM BEND RIG (NCERT BIOMECHANICS) */}
+                  {/* ---------------------------------------------------- */}
+                  {activeTool === 'bend' && (() => {
                     const angleRad = (currentDeflectionAngle * Math.PI) / 180;
                     const laserX = 300 + 240 * Math.sin(angleRad);
                     const laserY = 345 - 240 * Math.cos(angleRad);
 
                     return (
                       <div 
-                        ref={stageRef}
                         onMouseDown={() => setIsDraggingStem(true)}
                         onTouchStart={() => setIsDraggingStem(true)}
-                        onMouseMove={handleStageMouseMove}
-                        onMouseUp={handleStageMouseUp}
-                        onMouseLeave={handleStageMouseUp}
-                        onTouchMove={handleStageMouseMove}
-                        onTouchEnd={handleStageMouseUp}
                         style={{
                           width: '100%',
                           height: '100%',
@@ -1780,25 +1768,27 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
 
                           {/* Radial Angle Marks & Text Readouts */}
                           {/* 0° Upright */}
-                          <line x1="300" y1="105" x2="300" y2="88" stroke="#14452F" strokeWidth="2.5" />
-                          <text x="295" y="80" textAnchor="end" fill="#14452F" fontSize="16" fontWeight="900">0° Upright</text>
+                          <line x1="300" y1="105" x2="300" y2="86" stroke="#0F172A" strokeWidth="2.5" />
+                          <g stroke="#FFFFFF" strokeWidth="3.4" paintOrder="stroke" strokeLinejoin="round">
+                            <text x="300" y="58" textAnchor="middle" fill="#0F172A" fontSize="17" fontWeight="900">0°</text>
+                            <text x="300" y="76" textAnchor="middle" fill="#0F172A" fontSize="13.5" fontWeight="800">Upright</text>
 
-                          {/* 15° Tick */}
-                          <line x1="362.1" y1="113.2" x2="366.8" y2="95.8" stroke="#DC2626" strokeWidth="2" />
-                          <text x="372" y="90" fill="#DC2626" fontSize="16" fontWeight="900">15°</text>
+                            {/* 15° Trunk Rigidity */}
+                            <text x="392" y="66" textAnchor="middle" fill="#DC2626" fontSize="17" fontWeight="900">15°</text>
+                            <text x="392" y="84" textAnchor="middle" fill="#DC2626" fontSize="13" fontWeight="800">Trunk Rigidity</text>
 
-                          {/* 35° Tick */}
-                          <line x1="437.6" y1="148.4" x2="447.8" y2="134.4" stroke="#F59E0B" strokeWidth="2" />
-                          <text x="454" y="130" fill="#D97706" fontSize="16" fontWeight="900">35°</text>
+                            {/* 35° Shrub Resistance */}
+                            <text x="482" y="110" textAnchor="middle" fill="#D97706" fontSize="17" fontWeight="900">35°</text>
+                            <text x="482" y="128" textAnchor="middle" fill="#D97706" fontSize="13" fontWeight="800">Shrub Resistance</text>
 
-                          {/* 60° Max Tick */}
-                          <line x1="507.8" y1="225" x2="522.5" y2="216.5" stroke="#10B981" strokeWidth="2.5" />
-                          <text x="530" y="222" fill="#059669" fontSize="16" fontWeight="900">60° Max</text>
+                            {/* 60° Max (Herb Flexibility) */}
+                            <text x="522" y="206" textAnchor="middle" fill="#059669" fontSize="17" fontWeight="900">60°</text>
+                            <text x="522" y="224" textAnchor="middle" fill="#059669" fontSize="12.5" fontWeight="800">Max (Herb Flexibility)</text>
+                          </g>
 
-                          {/* Zone Category Badges on Protractor */}
-                          <text x="325" y="66" fill="#DC2626" fontSize="16" fontWeight="900">Trunk Rigidity</text>
-                          <text x="410" y="105" fill="#D97706" fontSize="16" fontWeight="900">Shrub Resistance</text>
-                          <text x="475" y="175" fill="#059669" fontSize="16" fontWeight="900">Herb Flexibility</text>
+                          <line x1="362.1" y1="113.2" x2="368.5" y2="94" stroke="#DC2626" strokeWidth="2.4" />
+                          <line x1="437.6" y1="148.4" x2="450" y2="132" stroke="#F59E0B" strokeWidth="2.4" />
+                          <line x1="507.8" y1="225" x2="524" y2="215" stroke="#10B981" strokeWidth="2.6" />
 
                           {/* Live Radiant Laser Pointer Line */}
                           <line
@@ -1812,71 +1802,37 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                             filter="url(#laserGlow)"
                           />
 
-                          {/* Target Angle Flag Indicator */}
-                          <circle cx={laserX} cy={laserY} r="18" fill={activePlant.bendResult.color} stroke="#FFFFFF" strokeWidth="2.5" />
-                          <text x={laserX} y={laserY + 5} textAnchor="middle" fill="#FFFFFF" fontSize="16" fontWeight="900">
-                            {Math.round(currentDeflectionAngle)}°
-                          </text>
-                        </svg>
+                          {/* Current-bend tick on the arc */}
+                          <line
+                            x1={300 + 224 * Math.sin(angleRad)}
+                            y1={345 - 224 * Math.cos(angleRad)}
+                            x2={300 + 258 * Math.sin(angleRad)}
+                            y2={345 - 258 * Math.cos(angleRad)}
+                            stroke="#15803D"
+                            strokeWidth="6"
+                            strokeLinecap="round"
+                          />
 
-                        {/* Top-Left HUD Forensic Biomechanics Card */}
-                        <div style={{
-                          position: 'absolute',
-                          top: '12px',
-                          left: '14px',
-                          background: 'rgba(6, 78, 59, 0.80)',
-                          backdropFilter: 'blur(8px)',
-                          border: '2px solid rgba(167, 243, 208, 0.5)',
-                          borderRadius: '16px',
-                          padding: '10px 14px',
-                          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.25)',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          gap: '3px',
-                          maxWidth: '300px',
-                          zIndex: 15,
-                          pointerEvents: 'none'
-                        }}>
-                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
-                            <span style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC' }}>
-                              Deflection:
-                            </span>
-                            <span style={{
-                              fontSize: '22px',
-                              fontWeight: '900',
-                              color: activePlant.bendResult.color,
-                              fontFamily: '"JetBrains Mono", monospace'
-                            }}>
+                          {/* "N deg / Current Bend" callout — fixed in the left free space near "Upright" */}
+                          <g transform="translate(80, 150)">
+                            <rect
+                              x="0"
+                              y="0"
+                              width="118"
+                              height="52"
+                              rx="11"
+                              fill="rgba(10, 58, 34, 0.94)"
+                              stroke="#4ADE80"
+                              strokeWidth="2"
+                            />
+                            <text x="59" y="23" textAnchor="middle" fill="#FFFFFF" fontSize="20" fontWeight="900">
                               {Math.round(currentDeflectionAngle)}°
-                            </span>
-                          </div>
-
-                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
-                            <span style={{ fontSize: '16px', fontWeight: '800', color: '#A7F3D0' }}>
-                              Applied Force:
-                            </span>
-                            <span style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC' }}>
-                              {appliedForce}
-                            </span>
-                          </div>
-
-                          <div style={{
-                            fontSize: '16px',
-                            fontWeight: '900',
-                            color: activePlant.bendResult.color,
-                            background: activePlant.bendResult.color + '1A',
-                            border: `1.5px solid ${activePlant.bendResult.color}`,
-                            padding: '2px 8px',
-                            borderRadius: '6px',
-                            marginTop: '2px'
-                          }}>
-                            {activePlant.bendResult.badge}
-                          </div>
-
-                          <div style={{ fontSize: '16px', fontWeight: '700', color: '#F8FAFC', lineHeight: 1.3, marginTop: '2px' }}>
-                            {activePlant.bendResult.bubble}
-                          </div>
-                        </div>
+                            </text>
+                            <text x="59" y="41" textAnchor="middle" fill="#A7F3D0" fontSize="13" fontWeight="800">
+                              Current Bend
+                            </text>
+                          </g>
+                        </svg>
 
                         {/* Interactive Plant Specimen Anchored in Rig */}
                         <div
@@ -1884,11 +1840,11 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                           onTouchStart={() => setIsDraggingStem(true)}
                           style={{
                             position: 'absolute',
-                            bottom: '44px',
+                            bottom: '20px',
                             left: '50%',
-                            marginLeft: '-130px',
-                            width: '260px',
-                            height: '310px',
+                            marginLeft: '-105px',
+                            width: '360px',
+                            height: '400px',
                             display: 'flex',
                             alignItems: 'flex-end',
                             justifyContent: 'center',
@@ -1939,68 +1895,49 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                           </div>
                         </div>
 
-                        {/* Heavy-Duty Forensic Specimen Vice Clamp at Base */}
+                        {/* Plant sits directly on the table, root/soil clump resting on the surface */}
                         <div style={{
                           position: 'absolute',
-                          bottom: '6px',
+                          bottom: '2px',
+                          left: '50%',
+                          marginLeft: '-45px',
                           display: 'flex',
                           flexDirection: 'column',
                           alignItems: 'center',
-                          zIndex: 12,
+                          zIndex: 8,
                           pointerEvents: 'none'
                         }}>
-                          {/* Isometric Terracotta Root Pot */}
+                          {/* Soft contact shadow grounding the specimen on the table surface */}
                           <div style={{
-                            width: '110px',
-                            height: '30px',
-                            background: 'linear-gradient(180deg, #9A3412 0%, #7C2D12 100%)',
-                            borderRadius: '4px 4px 10px 10px',
-                            border: '2px solid #431407',
-                            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginBottom: '-8px'
-                          }}>
-                            <span style={{ fontSize: '16px', fontWeight: '900', color: '#FED7AA' }}>🌱 Root Ball</span>
-                          </div>
+                            width: '170px',
+                            height: '22px',
+                            borderRadius: '50%',
+                            background: 'radial-gradient(ellipse at center, rgba(20, 12, 4, 0.42) 0%, rgba(20, 12, 4, 0.18) 55%, transparent 80%)',
+                            marginBottom: '2px'
+                          }} />
 
-                          {/* Solid Steel Vice Mechanism with Brass Adjustment Wheels */}
-                          <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '6px',
-                            background: 'linear-gradient(180deg, #1E293B 0%, #0F172A 100%)',
-                            border: '2px solid #F59E0B',
-                            borderRadius: '12px',
-                            padding: '5px 16px',
-                            boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
-                            color: '#FFFFFF'
-                          }}>
-                            <div style={{ width: '10px', height: '20px', background: '#F59E0B', borderRadius: '3px', border: '1.5px solid #78350F' }} />
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                              <span style={{ fontSize: '18px' }}>🔩</span>
-                              <span style={{ fontSize: '16px', fontWeight: '900', color: '#FEF3C7' }}>
-                                BOTANICAL VICE · BASE LOCKED
-                              </span>
-                            </div>
-                            <div style={{ width: '10px', height: '20px', background: '#F59E0B', borderRadius: '3px', border: '1.5px solid #78350F' }} />
-                          </div>
                         </div>
                       </div>
                     );
                   })()}
+                </div>
 
-                    <div style={{
-                      background: 'rgba(6, 78, 59, 0.60)',
-                      borderTop: '2px solid rgba(167, 243, 208, 0.3)',
-                      padding: '8px 14px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      gap: '10px'
-                    }}>
-
+                {/* 3. BOTTOM CONTROL STRIP - bend test only; the magnifier bench stays clear */}
+                {activeTool === 'bend' && (
+                <div style={{
+                  background: 'linear-gradient(165deg, rgba(8, 44, 28, 0.93) 0%, rgba(4, 24, 15, 0.96) 100%)',
+                  border: '2px solid rgba(110, 231, 183, 0.40)',
+                  borderRadius: '16px',
+                  marginTop: '8px',
+                  padding: '8px 14px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '10px',
+                  boxShadow: '0 10px 26px rgba(0, 0, 0, 0.40)',
+                  overflow: 'hidden'
+                }}>
+                  {activeTool === 'bend' && (
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: '14px' }}>
                       {/* Interactive Applied Force Slider */}
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1 }}>
@@ -2030,291 +1967,246 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                           }}
                         />
                       </div>
-
-                      {/* Tactile Preset Buttons */}
-                      <div style={{ display: 'flex', gap: '6px' }}>
-                        <button
-                          onClick={() => handlePresetBend(35)}
-                          style={{
-                            background: bendLevel === 35 ? '#14452F' : '#FFFFFF',
-                            color: bendLevel === 35 ? '#FFFFFF' : '#14452F',
-                            border: '1.8px solid #D4AF37',
-                            borderRadius: '8px',
-                            padding: '4px 10px',
-                            fontSize: '16px',
-                            fontWeight: '900',
-                            cursor: 'pointer'
-                          }}
-                        >
-                          🖐️ Gentle (35%)
-                        </button>
-
-                        <button
-                          onClick={() => handlePresetBend(100)}
-                          style={{
-                            background: bendLevel === 100 ? '#14452F' : '#FFFFFF',
-                            color: bendLevel === 100 ? '#FFFFFF' : '#14452F',
-                            border: '1.8px solid #D4AF37',
-                            borderRadius: '8px',
-                            padding: '4px 10px',
-                            fontSize: '16px',
-                            fontWeight: '900',
-                            cursor: 'pointer'
-                          }}
-                        >
-                          💪 Max Pull (100%)
-                        </button>
-
-                        <button
-                          onClick={handleReleaseButton}
-                          style={{
-                            background: '#FFFFFF',
-                            color: '#D97706',
-                            border: '1.8px solid #D97706',
-                            borderRadius: '8px',
-                            padding: '4px 10px',
-                            fontSize: '16px',
-                            fontWeight: '900',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '4px'
-                          }}
-                        >
-                          <RotateCcw size={14} />
-                          <span>Release / Spring</span>
-                        </button>
-                      </div>
-
-                      <span style={{ fontSize: '16px', color: '#059669', fontWeight: '800', whiteSpace: 'nowrap' }}>
-                        ✨ Tip: Drag stem or use buttons!
-                      </span>
                     </div>
-                    </div>
+                  )}
+                </div>
+                )}
+              </div>
+            </div>
+
+            {/* ========================================================================= */}
+            {/* RIGHT 32%: COMPACT DETECTIVE EVIDENCE LOG (ZERO SCROLLBAR)                */}
+            {/* ========================================================================= */}
+            <div style={{
+              background: `
+                linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.05) 15%, rgba(255, 255, 255, 0) 32%),
+                linear-gradient(170deg, rgba(27, 107, 69, 0.55) 0%, rgba(16, 73, 47, 0.60) 45%, rgba(8, 44, 27, 0.66) 100%)
+              `,
+              backdropFilter: 'blur(4px)',
+              WebkitBackdropFilter: 'blur(2px)',
+              border: '2px solid rgba(134, 239, 172, 0.55)',
+              borderRadius: '22px',
+              padding: '11px 13px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '6px',
+              height: '100%',
+              minHeight: 0,
+              overflowY: 'auto',
+              overflowX: 'hidden',
+              boxShadow: [
+                'inset 0 1.5px 0 rgba(255, 255, 255, 0.30)',
+                'inset 0 -1.5px 0 rgba(0, 0, 0, 0.35)',
+                'inset 0 30px 52px -30px rgba(190, 255, 220, 0.22)',
+                '0 18px 42px rgba(0, 0, 0, 0.52)'
+              ].join(', '),
+              boxSizing: 'border-box'
+            }}>
+              {/* Notebook Header */}
+              <div style={{ borderBottom: '2px solid rgba(20, 69, 47, 0.2)', paddingBottom: '6px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '16px', fontWeight: '900', color: '#D97706', fontFamily: '"JetBrains Mono", monospace' }}>
+                    {activePlant.caseCode}
+                  </span>
+                  <span style={{ fontSize: '18px' }}>{activePlant.emoji}</span>
+                </div>
+              </div>
+
+              {/* DETECTIVE CLUE CARD (MOVED TO RIGHT EVIDENCE LOG) */}
+              <div style={{
+                background: 'linear-gradient(150deg, rgba(38, 54, 22, 0.96) 0%, rgba(24, 40, 18, 0.97) 100%)',
+                borderRadius: '14px',
+                padding: '8px 11px',
+                border: '2px solid rgba(217, 174, 74, 0.85)',
+                boxShadow: '0 8px 22px rgba(0, 0, 0, 0.42)',
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '10px'
+              }}>
+                <span style={{ fontSize: '21px', lineHeight: 1.1, flexShrink: 0 }}>💡</span>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', minWidth: 0 }}>
+                  <span style={{
+                    alignSelf: 'flex-start',
+                    fontSize: '14.5px',
+                    fontWeight: '900',
+                    color: '#0B3B22',
+                    background: '#6EE7B7',
+                    padding: '1px 10px',
+                    borderRadius: '7px',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    Detective Clue:
+                  </span>
+                  <div style={{ fontSize: '14.5px', fontWeight: '700', color: '#F4FBEF', lineHeight: 1.3 }}>
+                    {activeTool === 'loupe' && activePlant.loupeFindings[loupeZone].desc}
+                    {activeTool === 'bend' && activePlant.bendResult.bubble}
                   </div>
                 </div>
+              </div>
 
-                {/* Right: Instructions & Next Button */}
-                <div style={{
-                  background: 'rgba(6, 78, 59, 0.70)',
-                  border: '2.5px solid rgba(167, 243, 208, 0.4)',
-                  borderRadius: '20px',
-                  padding: '16px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '16px',
-                  color: '#F8FAFC'
-                }}>
-                  <div style={{ fontSize: '22px', fontWeight: '900', color: '#D97706' }}>Stem Bend Test</div>
-                  <div style={{ fontSize: '18px', fontWeight: '700' }}>Drag the stem to bend it!</div>
-                  <div style={{ background: 'rgba(255,255,255,0.1)', padding: '12px', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                     <span style={{ fontSize: '32px' }}>🖐️</span>
-                     <span style={{ fontSize: '16px', fontWeight: '800' }}>Apply force to see how flexible the stem is.</span>
-                  </div>
-                  
-                  <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <div style={{ fontSize: '16px', fontWeight: '900', color: '#A7F3D0' }}>Observe the response:</div>
-                    <div style={{ background: '#064E3B', padding: '12px', borderRadius: '12px', fontSize: '18px', fontWeight: '900', color: '#34D399', textAlign: 'center', minHeight: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      {hasTestedBend ? activePlant.bendResult.badge : 'Waiting for bend...'}
-                    </div>
+              {/* Clue 1: Stem Texture */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '14.5px', fontWeight: '900', color: '#F8FAFC' }}>
+                    1. Stem Texture
+                  </span>
+                  {currentAnswers.stem !== null && <span style={{ fontSize: '13px', color: '#6EE7B7', fontWeight: '900' }}>✓ Logged</span>}
+                </div>
+                <div style={{ display: 'flex', gap: '6px' }}>
+                  {CLUE_OPTIONS.stem.map(opt => (
                     <button
-                      onClick={() => { setLabStep(3); playSound('click'); }}
-                      disabled={!hasTestedBend}
-                      style={{
-                        marginTop: '12px',
-                        background: hasTestedBend ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#94A3B8',
-                        color: '#FFF',
-                        border: 'none',
-                        padding: '12px',
-                        borderRadius: '12px',
-                        fontSize: '18px',
-                        fontWeight: '900',
-                        cursor: hasTestedBend ? 'pointer' : 'not-allowed',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        gap: '8px'
-                      }}
+                      key={opt.idx}
+                      onClick={() => handleSelectClue('stem', opt.idx)}
+                      className={`clue-chip ${currentAnswers.stem === opt.idx ? 'selected' : ''}`}
                     >
-                      Next <ArrowRight size={20} />
+                      {opt.label}
                     </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Clue 2: Branching Position */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '14.5px', fontWeight: '900', color: '#F8FAFC' }}>
+                    2. Branching Habit
+                  </span>
+                  {currentAnswers.branch !== null && <span style={{ fontSize: '13px', color: '#6EE7B7', fontWeight: '900' }}>✓ Logged</span>}
+                </div>
+                <div style={{ display: 'flex', gap: '6px' }}>
+                  {CLUE_OPTIONS.branch.map(opt => (
+                    <button
+                      key={opt.idx}
+                      onClick={() => handleSelectClue('branch', opt.idx)}
+                      className={`clue-chip ${currentAnswers.branch === opt.idx ? 'selected' : ''}`}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Clue 3: Stem Flexibility (Bend Test) */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '14.5px', fontWeight: '900', color: '#F8FAFC' }}>
+                    3. Stem Flexibility
+                  </span>
+                  {currentAnswers.flex !== null && <span style={{ fontSize: '13px', color: '#6EE7B7', fontWeight: '900' }}>✓ Logged</span>}
+                </div>
+                <div style={{ display: 'flex', gap: '6px' }}>
+                  {CLUE_OPTIONS.flex.map(opt => (
+                    <button
+                      key={opt.idx}
+                      onClick={() => handleSelectClue('flex', opt.idx)}
+                      className={`clue-chip ${currentAnswers.flex === opt.idx ? 'selected' : ''}`}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Final Deduction Verdict Section */}
+              <div style={{
+                borderTop: '1.5px solid rgba(167, 243, 208, 0.28)',
+                paddingTop: '9px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '6px'
+              }}>
+                <span style={{ fontSize: '14.5px', fontWeight: '900', color: '#F8FAFC' }}>
+                  Final Deduction: What Category Is It?
+                </span>
+
+                {isCaseSolved ? (
+                  <div style={{
+                    background: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
+                    color: '#FFFFFF',
+                    borderRadius: '12px',
+                    padding: '10px 12px',
+                    boxShadow: '0 4px 14px rgba(5, 150, 105, 0.3)'
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '16px', fontWeight: '900' }}>★ CASE CRACKED: {activePlant.category.toUpperCase()}!</span>
+                      <span style={{ fontSize: '16px' }}>✓</span>
+                    </div>
+                    <div style={{ fontSize: '18px', fontWeight: '900', fontFamily: '"Fraunces", Georgia, serif', marginTop: '2px' }}>
+                      {activePlant.realName}
+                    </div>
+                    <div style={{ fontSize: '16px', marginTop: '3px', opacity: 0.95 }}>
+                      {activePlant.funFact}
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div style={{ display: 'flex', gap: '6px' }}>
+                    {[
+                      { cat: 'Herb', label: '🌿 HERB', color: '#10B981' },
+                      { cat: 'Shrub', label: '🌺 SHRUB', color: '#F59E0B' },
+                      { cat: 'Tree', label: '🌳 TREE', color: '#059669' }
+                    ].map(item => (
+                      <button
+                        key={item.cat}
+                        onClick={() => handleStampCategory(item.cat)}
+                        className="verdict-stamp"
+                        style={{
+                          background: currentAnswers.category === item.cat ? '#14452F' : '#FFFFFF',
+                          color: currentAnswers.category === item.cat ? '#FFFFFF' : '#14452F',
+                          border: `2px solid ${item.color}`,
+                          boxShadow: currentAnswers.category === item.cat ? '0 4px 12px rgba(20, 69, 47, 0.25)' : 'none'
+                        }}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* Friendly Hint if Wrong */}
+                {currentAnswers.category && !isCaseSolved && (
+                  <div style={{
+                    background: '#FEF2F2',
+                    border: '1.5px solid #EF4444',
+                    borderRadius: '8px',
+                    padding: '6px 8px',
+                    fontSize: '16px',
+                    color: '#991B1B',
+                    fontWeight: '800'
+                  }}>
+                    ❌ Clues don't match! Try checking the Stem Bend test on the left!
+                  </div>
+                )}
+
+                {/* Case Panel CTA */}
+                <button
+                  onClick={handleNextCase}
+                  style={{
+                    marginTop: '3px',
+                    width: '100%',
+                    background: 'linear-gradient(135deg, #F5B534 0%, #D97706 100%)',
+                    color: '#FFFFFF',
+                    border: '2px solid #FDE68A',
+                    borderRadius: '13px',
+                    padding: '9px 16px',
+                    fontSize: '16.5px',
+                    fontWeight: '900',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '9px',
+                    fontFamily: '"Outfit", sans-serif',
+                    boxShadow: '0 8px 22px rgba(217, 119, 6, 0.45)',
+                    flexShrink: 0
+                  }}
+                >
+                  <Search size={19} />
+                  <span>{isCaseSolved ? 'Next Case' : 'Start Investigation'}</span>
+                  <ArrowRight size={19} />
+                </button>
               </div>
-            )}
-            {labStep === 3 && (
-              <div style={{ width: '100%', height: '100%', display: 'flex', gap: '16px', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ flex: 1, height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'rgba(6, 78, 59, 0.80)', border: '2px solid rgba(167, 243, 208, 0.3)', borderRadius: '24px', padding: '20px' }}>
-                   <img src={PLANT_IMAGES[activePlant.id]} style={{ maxHeight: '250px', objectFit: 'contain', filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.3))' }} />
-                   <div style={{ marginTop: '16px', fontSize: '20px', fontWeight: '900', color: '#A7F3D0' }}>{activePlant.caseCode}</div>
-                   <div style={{ fontSize: '24px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", serif' }}>
-                     {results[activePlant.id] === true ? activePlant.realName : activePlant.displayName}
-                   </div>
-                </div>
-
-                <div style={{ flex: 1.5, display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                   {results[selectedPlantId] == null ? (
-                     <div style={{ background: '#FFF', borderRadius: '24px', padding: '30px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#D97706', fontSize: '24px', fontWeight: '900' }}>
-                         <Search size={28} /> IDENTIFY PLANT GROUP
-                       </div>
-                       {(() => {
-                         const currentAns = answers[selectedPlantId] || {};
-                         const isAllSelected = currentAns.stem != null && currentAns.branch != null && currentAns.flex != null && currentAns.category != null;
-                         
-                         return (
-                           <>
-                             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                               {[{ title: '1. Stem Texture', key: 'stem', options: CLUE_OPTIONS.stem },
-                                 { title: '2. Branching Habit', key: 'branch', options: CLUE_OPTIONS.branch },
-                                 { title: '3. Stem Flexibility', key: 'flex', options: CLUE_OPTIONS.flex }].map(question => (
-                                 <div key={question.key} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                                   <div style={{ fontSize: '14px', fontWeight: '700', color: '#64748B' }}>{question.title}</div>
-                                   <div style={{ display: 'flex', gap: '8px' }}>
-                                     {question.options.map(opt => {
-                                       const isSelected = currentAns[question.key] === opt.idx;
-                                       return (
-                                         <div 
-                                           key={opt.idx}
-                                           onClick={() => handleSelectClue(question.key, opt.idx)}
-                                           style={{
-                                             flex: 1, padding: '8px 4px', borderRadius: '8px', fontSize: '13px', fontWeight: '800', textAlign: 'center',
-                                             cursor: 'pointer', transition: 'all 0.2s',
-                                             background: isSelected ? '#ECFDF5' : '#F8FAFC',
-                                             color: isSelected ? '#059669' : '#94A3B8',
-                                             border: `2px solid ${isSelected ? '#10B981' : '#F1F5F9'}`
-                                           }}>
-                                           {opt.label}
-                                         </div>
-                                       );
-                                     })}
-                                   </div>
-                                 </div>
-                               ))}
-                             </div>
-
-                             <div style={{ width: '100%', height: '2px', background: '#F1F5F9', margin: '4px 0' }} />
-                             
-                             <div style={{ fontSize: '18px', color: '#0F172A', fontWeight: '900' }}>Final Deduction:</div>
-                             
-                             <div style={{ display: 'flex', gap: '12px' }}>
-                               {[ {cat: 'Herb', icon: '🌿'}, {cat: 'Shrub', icon: '🌺'}, {cat: 'Tree', icon: '🌳'}].map(item => (
-                                 <button
-                                   key={item.cat}
-                                   onClick={() => handleSelectClue('category', item.cat)}
-                                   style={{
-                                     flex: 1,
-                                     padding: '20px',
-                                     borderRadius: '16px',
-                                     border: `3px solid ${currentAns.category === item.cat ? '#10B981' : '#E2E8F0'}`,
-                                     background: currentAns.category === item.cat ? '#ECFDF5' : '#FFF',
-                                     display: 'flex',
-                                     flexDirection: 'column',
-                                     alignItems: 'center',
-                                     gap: '10px',
-                                     cursor: 'pointer',
-                                     transition: 'all 0.2s'
-                                   }}
-                                 >
-                                   <span style={{ fontSize: '32px' }}>{item.icon}</span>
-                                   <span style={{ fontSize: '20px', fontWeight: '900', color: '#0F172A' }}>{item.cat.toUpperCase()}</span>
-                                 </button>
-                               ))}
-                             </div>
-
-                             <button
-                               onClick={handleStampCategory}
-                               disabled={!isAllSelected}
-                               style={{
-                                 marginTop: '10px',
-                                 padding: '16px',
-                                 borderRadius: '12px',
-                                 background: isAllSelected ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)' : '#94A3B8',
-                                 color: '#FFF',
-                                 fontSize: '20px',
-                                 fontWeight: '900',
-                                 border: 'none',
-                                 cursor: isAllSelected ? 'pointer' : 'not-allowed'
-                               }}
-                             >
-                               Submit Answer
-                             </button>
-                           </>
-                         );
-                       })()}
-                     </div>
-                   ) : (
-                     <div style={{ background: '#FFF', borderRadius: '24px', padding: '30px', display: 'flex', flexDirection: 'column', gap: '20px', border: `4px solid ${results[selectedPlantId] === true ? '#10B981' : '#EF4444'}` }}>
-                       {results[selectedPlantId] === true ? (
-                         <>
-                           <div style={{ color: '#10B981', fontSize: '32px', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                             <CheckCircle2 size={36} /> CORRECT MATCH!
-                           </div>
-                           <div style={{ display: 'flex', gap: '20px' }}>
-                             <div style={{ flex: 1 }}>
-                               <div style={{ fontSize: '16px', color: '#64748B', fontWeight: '800' }}>OBSERVED FEATURES</div>
-                               <ul style={{ color: '#0F172A', fontWeight: '700', marginTop: '6px', paddingLeft: '20px', lineHeight: 1.6 }}>
-                                 <li>Height: {PLANT_TRAITS[selectedPlantId].height}</li>
-                                 <li>Stem: {PLANT_TRAITS[selectedPlantId].stemColor}, {PLANT_TRAITS[selectedPlantId].stem}</li>
-                                 <li>Branching: {PLANT_TRAITS[selectedPlantId].branch}</li>
-                               </ul>
-                             </div>
-                             <div style={{ flex: 1, borderLeft: '2px solid #E2E8F0', paddingLeft: '20px' }}>
-                               <div style={{ fontSize: '16px', color: '#64748B', fontWeight: '800' }}>Why?</div>
-                               <div style={{ fontSize: '16px', color: '#0F172A', fontWeight: '600', lineHeight: 1.6 }}>{activePlant.funFact}</div>
-                             </div>
-                           </div>
-                           <button
-                             onClick={handleNextCase}
-                             style={{
-                               marginTop: '10px',
-                               padding: '16px',
-                               borderRadius: '12px',
-                               background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                               color: '#FFF',
-                               fontSize: '20px',
-                               fontWeight: '900',
-                               border: 'none',
-                               cursor: 'pointer'
-                             }}
-                           >
-                             Next Case ➔
-                           </button>
-                         </>
-                       ) : (
-                         <>
-                           <div style={{ color: '#EF4444', fontSize: '32px', fontWeight: '900', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
-                             ❌ TRY AGAIN!
-                           </div>
-                           <div style={{ fontSize: '18px', color: '#475569', fontWeight: '700', textAlign: 'center' }}>
-                             Look at the plant's height, stem and branching again.<br/>Use the observed clues to choose the correct group.
-                           </div>
-                           <button
-                             onClick={() => { 
-                               setResults(prev => ({ ...prev, [selectedPlantId]: null }));
-                               setAnswers(prev => ({ ...prev, [selectedPlantId]: null }));
-                             }}
-                             style={{
-                               marginTop: '10px',
-                               padding: '16px',
-                               borderRadius: '12px',
-                               background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                               color: '#FFF',
-                               fontSize: '20px',
-                               fontWeight: '900',
-                               border: 'none',
-                               cursor: 'pointer'
-                             }}
-                           >
-                             Try Again
-                           </button>
-                         </>
-                       )}
-                     </div>
-                   )}
-                </div>
-              </div>
-            )}
+            </div>
           </div>
         </div>
       )}
@@ -2324,8 +2216,8 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
         <div style={{
           position: 'absolute',
           inset: 0,
-          background: 'rgba(6, 78, 59, 0.78)',
-          backdropFilter: 'blur(8px)',
+          background: 'rgba(15, 23, 42, 0.78)',
+          backdropFilter: 'blur(4px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -2333,7 +2225,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
           zIndex: 50
         }}>
           <div style={{
-            background: 'rgba(6, 78, 59, 0.80)',
+            background: 'rgba(15, 23, 42, 0.50)',
             border: '2.8px solid #14452F',
             borderRadius: '24px',
             padding: '2rem',
@@ -2379,7 +2271,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                     plantB: { stem: null, branch: null, height: null, category: null },
                     plantC: { stem: null, branch: null, height: null, category: null }
                   });
-                  setResults({ plantA: null, plantB: null, plantC: null });
+                  setResults({ plantA: false, plantB: false, plantC: false });
                   setShowCelebration(false);
                   setSelectedPlantId('plantA');
                 }}
@@ -2397,7 +2289,10 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                 Play Again
               </button>
               <button
-                onClick={onBackToDashboard}
+                onClick={() => {
+                  if (onNextActivity) onNextActivity();
+                  else if (onBackToDashboard) onBackToDashboard();
+                }}
                 style={{
                   background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                   color: '#FFFFFF',
@@ -2409,7 +2304,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity }) {
                   cursor: 'pointer'
                 }}
               >
-                Return to Chapter Map ➔
+                {nextLabel ? nextLabel : 'Return to Chapter Map ➔'}
               </button>
             </div>
           </div>

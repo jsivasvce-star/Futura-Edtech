@@ -1,0 +1,22 @@
+export const CITIES_TRANSCRIPT = [
+  { "audioWord": "cities,", "start": 0.0, "end": 0.66, "pageWordId": "feature-3-title-1", "matchType": "matched" },
+  { "audioWord": "big", "start": 1.18, "end": 1.38, "pageWordId": "feature-3-desc-1", "matchType": "matched" },
+  { "audioWord": "towns", "start": 1.38, "end": 1.7, "pageWordId": "feature-3-desc-2", "matchType": "matched" },
+  { "audioWord": "where", "start": 1.7, "end": 1.94, "pageWordId": "feature-3-desc-3", "matchType": "matched" },
+  { "audioWord": "many", "start": 1.94, "end": 2.2, "pageWordId": "feature-3-desc-4", "matchType": "matched" },
+  { "audioWord": "people", "start": 2.2, "end": 2.5, "pageWordId": "feature-3-desc-5", "matchType": "matched" },
+  { "audioWord": "live", "start": 2.5, "end": 2.7, "pageWordId": "feature-3-desc-6", "matchType": "matched" },
+  { "audioWord": "and", "start": 2.7, "end": 3.02, "pageWordId": "feature-3-desc-7", "matchType": "matched" },
+  { "audioWord": "work,", "start": 3.02, "end": 3.32, "pageWordId": "feature-3-desc-8", "matchType": "matched" },
+  { "audioWord": "boundaries,", "start": 3.64, "end": 3.96, "pageWordId": "feature-4-title-1", "matchType": "matched" },
+  { "audioWord": "the", "start": 4.62, "end": 4.74, "pageWordId": "feature-4-desc-1", "matchType": "matched" },
+  { "audioWord": "lines", "start": 4.74, "end": 4.92, "pageWordId": "feature-4-desc-2", "matchType": "matched" },
+  { "audioWord": "on", "start": 4.92, "end": 5.14, "pageWordId": "feature-4-desc-3", "matchType": "matched" },
+  { "audioWord": "the", "start": 5.14, "end": 5.28, "pageWordId": "feature-4-desc-4", "matchType": "matched" },
+  { "audioWord": "map", "start": 5.28, "end": 5.5, "pageWordId": "feature-4-desc-5", "matchType": "matched" },
+  { "audioWord": "that", "start": 5.5, "end": 5.86, "pageWordId": "feature-4-desc-6", "matchType": "matched" },
+  { "audioWord": "separate", "start": 5.86, "end": 6.22, "pageWordId": "feature-4-desc-7", "matchType": "matched" },
+  { "audioWord": "states", "start": 6.22, "end": 6.58, "pageWordId": "feature-4-desc-8", "matchType": "matched" },
+  { "audioWord": "and", "start": 6.58, "end": 6.88, "pageWordId": "feature-4-desc-9", "matchType": "matched" },
+  { "audioWord": "countries.", "start": 6.88, "end": 7.22, "pageWordId": "feature-4-desc-10", "matchType": "matched" }
+];
