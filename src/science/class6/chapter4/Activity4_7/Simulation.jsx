@@ -556,7 +556,7 @@ export default function Simulation({ onComplete, onNext }) {
     <div style={{
       padding: '0.65rem',
       display: 'grid',
-      gridTemplateColumns: '430px 1fr',
+      gridTemplateColumns: '1fr 430px',
       gap: '1.25rem',
       height: '100%',
       minHeight: 0,
@@ -567,6 +567,7 @@ export default function Simulation({ onComplete, onNext }) {
 
       {/* Left Column: Two Golden Containers (Instructions & Controls) */}
       <div className="stage-right-column" style={{
+        order: 2,
         display: 'flex',
         flexDirection: 'column',
         gap: '1.65rem',
@@ -748,7 +749,7 @@ export default function Simulation({ onComplete, onNext }) {
       </div>
 
       {/* Right Column: Ocean Themed Interactive Stage */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.65rem', height: '100%', minHeight: 0 }}>
+      <div style={{ order: 1, flex: 1, display: 'flex', flexDirection: 'column', gap: '0.65rem', height: '100%', minHeight: 0 }}>
 
         {/* Top Header Stage Bar */}
         <div style={{
