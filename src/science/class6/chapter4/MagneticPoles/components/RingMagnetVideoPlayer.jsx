@@ -11,8 +11,8 @@ import {
 } from 'lucide-react';
 
 export default function RingMagnetVideoPlayer({
-  videoSrc = '/MagneticPoles/Ringmagnet.mp4',
-  fallbackSrc = '/assets/Ringmagnet.mp4',
+  videoSrc = '/assets/stage3_ringmagnet.mp4',
+  fallbackSrc = '/assets/stage3_ringmagnet.mp4',
   externalIsPaused = false,
   onExternalTogglePause,
   onExternalReset,
@@ -248,8 +248,7 @@ export default function RingMagnetVideoPlayer({
       >
         <source src={videoSrc} type="video/mp4" />
         <source src={fallbackSrc} type="video/mp4" />
-        <source src="/MagneticPoles/Ringmagnet.mp4" type="video/mp4" />
-        <source src="/assets/Ringmagnet.mp4" type="video/mp4" />
+        <source src="/assets/stage3_ringmagnet.mp4" type="video/mp4" />
         Your browser does not support HTML5 video playback.
       </video>
 

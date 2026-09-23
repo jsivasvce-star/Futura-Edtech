@@ -11,8 +11,8 @@ import {
 } from 'lucide-react';
 
 const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer({
-  videoSrc = '/MagneticPoles/breaking_magnet_demonstration.mp4',
-  fallbackSrc = '/assets/WhatsApp Video 2026-09-16 at 2.06.03 PM.mp4',
+  videoSrc = '/assets/stage 2.mp4',
+  fallbackSrc = '/assets/stage 2.mp4',
   broken = false,
   showPoles = false,
   onPhaseChange,
@@ -316,7 +316,7 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
       >
         <source src={videoSrc} type="video/mp4" />
         <source src={fallbackSrc} type="video/mp4" />
-        <source src="/assets/breaking_magnet.mp4" type="video/mp4" />
+        <source src="/assets/stage 2.mp4" type="video/mp4" />
         Your browser does not support HTML5 video playback.
       </video>
 

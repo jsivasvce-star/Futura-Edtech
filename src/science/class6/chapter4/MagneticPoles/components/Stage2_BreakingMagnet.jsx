@@ -318,8 +318,8 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
         >
           <BreakingMagnetVideoPlayer
             ref={videoPlayerRef}
-            videoSrc="/MagneticPoles/breaking_magnet_demonstration.mp4"
-            fallbackSrc="/assets/WhatsApp Video 2026-09-16 at 2.06.03 PM.mp4"
+            videoSrc="/assets/stage 2.mp4"
+            fallbackSrc="/assets/stage 2.mp4"
             onPlaybackStateChange={setIsPlaying}
             onPhaseChange={handleVideoPhaseChange}
             onExternalReset={handleReset}

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo, useCallback, Suspense } fr
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Text, OrbitControls, ContactShadows, Environment, useTexture } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Hand, RotateCcw, Shapes, Flag, BookOpen, CheckCircle, ArrowRight, Play, Pause } from 'lucide-react';
+import { Hand, RotateCcw, Shapes, Flag, BookOpen, CheckCircle, ArrowRight, ArrowLeft, Play, Pause } from 'lucide-react';
 import RingMagnetVideoPlayer from './RingMagnetVideoPlayer';
 import MagneticPolesVideoPlayer from './MagneticPolesVideoPlayer';
 import * as THREE from 'three';
@@ -519,16 +519,80 @@ function FilingsSystem({ step, isSprinkling, isVibrating, shape, cycleKey, isPau
 }
 
 // ----------------------------------------------------
-// 3. MAIN COMPONENT
+// 3. PAGE CONFIGURATIONS FOR THREE SEQUENTIAL SCREENS
+// ----------------------------------------------------
+const SHAPE_PAGES = {
+  horseshoe: {
+    pageNumber: 1,
+    title: 'Horseshoe Magnet',
+    icon: '🧲',
+    instructions: [
+      'Sprinkle iron filings around the horseshoe magnet.',
+      'Gently tap/vibrate the sheet to align the filings.',
+      'Observe where the iron filings gather most strongly.',
+      'Identify the two magnetic poles at the curved ends/tips.',
+      'Explain that magnetic attraction is strongest near the poles.'
+    ],
+    observationQuestion: 'Where are the magnetic poles located on a horseshoe magnet?',
+    observations: [
+      { label: 'Curved Ends (Tips)', text: 'Filings cluster tightly at both curved tips of the U-shape.' },
+      { label: 'Two Magnetic Poles', text: 'The North and South poles are located at these two tips, not along the curved arch.' },
+      { label: 'Magnetic Attraction', text: 'Attraction is strongest near the poles, with very few filings on the curved bend.' }
+    ]
+  },
+  ring: {
+    pageNumber: 2,
+    title: 'Ring Magnet',
+    icon: '⭕',
+    instructions: [
+      'Select the ring magnet.',
+      'Sprinkle iron filings around the magnet.',
+      'Gently tap/vibrate the sheet to align the filings.',
+      'Observe how the filings arrange around the circular magnet.',
+      'Identify the opposite magnetic pole faces.',
+      'Observe that the central opening is not itself a magnetic pole.'
+    ],
+    observationQuestion: 'Where are the magnetic poles located on a ring magnet?',
+    observations: [
+      { label: 'Opposite Faces', text: 'Filings concentrate primarily on the top and bottom circular flat faces.' },
+      { label: 'Pole Distribution', text: 'One full circular face acts as the North pole and the opposite face acts as South.' },
+      { label: 'Central Opening', text: 'The central hole is open space and does not act as a magnetic pole.' }
+    ]
+  },
+  bar: {
+    pageNumber: 3,
+    title: 'Bar Magnet',
+    icon: '🔲',
+    instructions: [
+      'Place/select the bar magnet.',
+      'Sprinkle iron filings around the magnet.',
+      'Gently tap/vibrate the sheet to align the filings.',
+      'Observe where the filings gather most strongly.',
+      'Identify the North and South poles at the two ends.',
+      'Observe that magnetic attraction is strongest near the poles.'
+    ],
+    observationQuestion: 'Where are the magnetic poles located on a bar magnet?',
+    observations: [
+      { label: 'Opposite Ends', text: 'Filings gather heavily near both ends of the rectangular bar magnet.' },
+      { label: 'North & South Poles', text: 'The two ends represent the distinct North (N) and South (S) magnetic poles.' },
+      { label: 'Magnetic Pull', text: 'Magnetic attraction is strongest near the poles and weakest near the center.' }
+    ]
+  }
+};
+
+// ----------------------------------------------------
+// 4. MAIN COMPONENT
 // ----------------------------------------------------
 export default function Stage3_Sandbox({ onComplete }) {
   const [step, setStep] = useState('waiting');
   const [cycleKey, setCycleKey] = useState(0);
   const [tapCount, setTapCount] = useState(0);
-  const [shape, setShape] = useState('ring'); // 'horseshoe', 'ring', 'bar'
+  const [shape, setShape] = useState('horseshoe'); // 'horseshoe' (Page 1), 'ring' (Page 2), 'bar' (Page 3)
   const [isSprinkling, setIsSprinkling] = useState(false);
   const [isVibrating, setIsVibrating] = useState(false);
   const hasArrivedRef = useRef(false);
+
+  const currentShapeData = SHAPE_PAGES[shape] || SHAPE_PAGES.horseshoe;
 
   // Synchronize phase with RingMagnetVideoPlayer
   const handleVideoPhaseChange = useCallback((phaseName, progress) => {
@@ -662,16 +726,35 @@ export default function Stage3_Sandbox({ onComplete }) {
     };
   }, [handleArrival, shape]);
 
-  const handleShapeChange = (newShape) => {
+  const handlePageChange = (newShape) => {
     setShape(newShape);
     clearLoopTimers();
     setIsPaused(false);
     isPausedRef.current = false;
     setTapCount(0);
     if (newShape === 'horseshoe') {
+      hasArrivedRef.current = true;
       executePhase('sprinkle', 1800);
     } else {
       setStep('initial');
+    }
+  };
+
+  const handleNextPage = () => {
+    if (shape === 'horseshoe') {
+      handlePageChange('ring');
+    } else if (shape === 'ring') {
+      handlePageChange('bar');
+    } else if (shape === 'bar') {
+      if (onComplete) onComplete();
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (shape === 'bar') {
+      handlePageChange('ring');
+    } else if (shape === 'ring') {
+      handlePageChange('horseshoe');
     }
   };
 
@@ -746,8 +829,8 @@ export default function Stage3_Sandbox({ onComplete }) {
             }}
           >
             <RingMagnetVideoPlayer
-              videoSrc="/MagneticPoles/Ringmagnet.mp4"
-              fallbackSrc="/assets/Ringmagnet.mp4"
+              videoSrc="/assets/stage3_ringmagnet.mp4"
+              fallbackSrc="/assets/stage3_ringmagnet.mp4"
               externalIsPaused={isPaused}
               onExternalTogglePause={handleTogglePause}
               onExternalReset={handleReset}
@@ -762,22 +845,30 @@ export default function Stage3_Sandbox({ onComplete }) {
             style={{
               position: 'relative',
               width: '100%',
-              flex: 1,
-              minHeight: '380px',
+              maxWidth: '100%',
+              maxHeight: '100%',
+              aspectRatio: '1466 / 1073',
+              margin: 'auto',
               overflow: 'hidden',
               borderRadius: '24px',
+              border: '1.5px solid #A7F3D0',
+              boxShadow: '0 12px 30px rgba(6, 78, 59, 0.16)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              userSelect: 'none',
+              boxSizing: 'border-box',
             }}
           >
-            <MagneticPolesVideoPlayer
-              videoSrc="/MagneticPoles/Barmagnet.mp4"
-              fallbackSrc="/assets/Barmagnet.mp4"
-              externalIsPaused={isPaused}
-              onExternalTogglePause={handleTogglePause}
-              onExternalReset={handleReset}
-              onPhaseChange={handleVideoPhaseChange}
-              currentStep={step}
-              autoPlay={true}
-              loop={false}
+            <img
+              src="/assets/stage3_bar.png"
+              alt="Stage 3 Bar Magnet"
+              style={{
+                width: '100%',
+                height: '100%',
+                display: 'block',
+                borderRadius: '24px',
+              }}
             />
           </div>
         ) : (
@@ -932,24 +1023,33 @@ export default function Stage3_Sandbox({ onComplete }) {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)', paddingBottom: '0.6rem', marginBottom: '0.75rem' }}>
               <h4 style={{ margin: 0, fontSize: '19.5px', color: '#173B5F', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-                <span>📋</span> Steps of Instructions
+                <span>{currentShapeData.icon}</span> {currentShapeData.title}
               </h4>
+              <span style={{
+                fontSize: '13.5px',
+                fontWeight: 800,
+                color: '#065F46',
+                background: '#DCFCE7',
+                padding: '3px 10px',
+                borderRadius: '12px',
+                border: '1px solid #86EFAC',
+                letterSpacing: '0.02em',
+                flexShrink: 0
+              }}>
+                Page {currentShapeData.pageNumber} of 3
+              </span>
             </div>
 
-            {/* Bullet Points - Single-line brown instructions */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-              {[
-                'Select a magnet shape and click "1. Sprinkle" for iron filings.',
-                'Click "2. Tap Paper" to gently vibrate sheet and align filings.',
-                'Observe that filings cluster at magnetic poles in every shape.'
-              ].map((instruction, idx) => (
+            {/* Bullet Points - Shape Specific Instructions */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {currentShapeData.instructions.map((instruction, idx) => (
                 <div
                   key={idx}
                   style={{
                     display: 'flex',
                     alignItems: 'baseline',
                     gap: '0.75rem',
-                    padding: '0.1rem 0'
+                    padding: '0.05rem 0'
                   }}
                 >
                   <span
@@ -963,157 +1063,87 @@ export default function Stage3_Sandbox({ onComplete }) {
                       transform: 'translateY(-2px)'
                     }}
                   />
-                  <p style={{ margin: 0, fontSize: '17.5px', lineHeight: 1.5, color: '#173B5F', fontWeight: 600 }}>
+                  <p style={{ margin: 0, fontSize: '17px', lineHeight: 1.45, color: '#173B5F', fontWeight: 600 }}>
                     {instruction}
                   </p>
                 </div>
               ))}
             </div>
-
-            {/* Magnet Shape Selector */}
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.55rem',
-                marginTop: '0.85rem',
-                paddingTop: '0.65rem',
-                borderTop: '1px solid rgba(217, 119, 6, 0.2)'
-              }}
-            >
-              <h5
-                style={{
-                  color: '#173B5F',
-                  margin: 0,
-                  fontSize: '18px',
-                  fontWeight: 900,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.45rem',
-                }}
-              >
-                <Shapes size={18} color="#173B5F" /> Choose Magnet Shape:
-              </h5>
-
-              <div style={{ display: 'flex', gap: '0.55rem' }}>
-                <button
-                  onClick={() => handleShapeChange('horseshoe')}
-                  style={{
-                    flex: 1,
-                    padding: '0.75rem 0.5rem',
-                    borderRadius: '12px',
-                    border: '1.5px solid',
-                    borderColor: shape === 'horseshoe' ? '#10B981' : '#E2E8F0',
-                    background: shape === 'horseshoe' ? '#DCFCE7' : '#FFFFFF',
-                    color: shape === 'horseshoe' ? '#064E3B' : '#065F46',
-                    fontWeight: 800,
-                    fontSize: '16.5px',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    boxShadow: shape === 'horseshoe' ? '0 2px 8px rgba(16, 185, 129, 0.2)' : '0 2px 6px rgba(0,0,0,0.02)',
-                  }}
-                >
-                  Horseshoe 🧲
-                </button>
-
-                <button
-                  onClick={() => handleShapeChange('ring')}
-                  style={{
-                    flex: 1,
-                    padding: '0.75rem 0.5rem',
-                    borderRadius: '12px',
-                    border: '1.5px solid',
-                    borderColor: shape === 'ring' ? '#10B981' : '#E2E8F0',
-                    background: shape === 'ring' ? '#DCFCE7' : '#FFFFFF',
-                    color: shape === 'ring' ? '#064E3B' : '#065F46',
-                    fontWeight: 800,
-                    fontSize: '16.5px',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    boxShadow: shape === 'ring' ? '0 2px 8px rgba(16, 185, 129, 0.2)' : '0 2px 6px rgba(0,0,0,0.02)',
-                  }}
-                >
-                  Ring ⭕
-                </button>
-
-                <button
-                  onClick={() => handleShapeChange('bar')}
-                  style={{
-                    flex: 1,
-                    padding: '0.75rem 0.5rem',
-                    borderRadius: '12px',
-                    border: '1.5px solid',
-                    borderColor: shape === 'bar' ? '#10B981' : '#E2E8F0',
-                    background: shape === 'bar' ? '#DCFCE7' : '#FFFFFF',
-                    color: shape === 'bar' ? '#064E3B' : '#065F46',
-                    fontWeight: 800,
-                    fontSize: '16.5px',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    boxShadow: shape === 'bar' ? '0 2px 8px rgba(16, 185, 129, 0.2)' : '0 2px 6px rgba(0,0,0,0.02)',
-                  }}
-                >
-                  Bar 🔲
-                </button>
-              </div>
-            </div>
           </div>
 
           {/* Action Controls */}
-          <div style={{ width: '100%', display: 'flex', gap: '0.65rem', marginTop: 'auto', paddingTop: '0.85rem', borderTop: '1px solid rgba(217, 119, 6, 0.2)' }}>
-            <button
-              onClick={handleTogglePause}
-              className="gold-glow-btn"
-              style={{
-                flex: 2,
-                padding: '0.8rem 0.85rem',
-                fontSize: '17px',
-                fontWeight: 900,
-                borderRadius: '14px',
-                color: '#FFFFFF',
-                border: 'none',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              {!isPaused ? (
-                <>
-                  <Pause size={18} fill="#FFFFFF" color="#FFFFFF" /> Pause Investigation
-                </>
-              ) : (
-                <>
-                  <Play size={18} fill="#FFFFFF" color="#FFFFFF" /> Resume Investigation
-                </>
-              )}
-            </button>
+          {shape !== 'bar' ? (
+            <div style={{ width: '100%', display: 'flex', gap: '0.65rem', marginTop: 'auto', paddingTop: '0.85rem', borderTop: '1px solid rgba(217, 119, 6, 0.2)' }}>
+              <button
+                onClick={handleTogglePause}
+                className="gold-glow-btn"
+                style={{
+                  flex: 2,
+                  padding: '0.8rem 0.85rem',
+                  fontSize: '17px',
+                  fontWeight: 900,
+                  borderRadius: '14px',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                {!isPaused ? (
+                  <>
+                    <Pause size={18} fill="#FFFFFF" color="#FFFFFF" /> Pause Investigation
+                  </>
+                ) : (
+                  <>
+                    <Play size={18} fill="#FFFFFF" color="#FFFFFF" /> Resume Investigation
+                  </>
+                )}
+              </button>
 
-            <button
-              onClick={handleReset}
-              style={{
-                flex: 1,
-                padding: '0.8rem 0.6rem',
-                fontSize: '17px',
-                fontWeight: 800,
-                borderRadius: '14px',
-                background: '#FFFFFF',
-                color: '#173B5F',
-                border: '1.5px solid #E2E8F0',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '6px',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              <RotateCcw size={16} /> Reset
-            </button>
-          </div>
+              <button
+                onClick={handleReset}
+                style={{
+                  flex: 1,
+                  padding: '0.8rem 0.6rem',
+                  fontSize: '17px',
+                  fontWeight: 800,
+                  borderRadius: '14px',
+                  background: '#FFFFFF',
+                  color: '#173B5F',
+                  border: '1.5px solid #E2E8F0',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <RotateCcw size={16} /> Reset
+              </button>
+            </div>
+          ) : (
+            <div style={{
+              width: '100%',
+              marginTop: 'auto',
+              paddingTop: '0.85rem',
+              borderTop: '1px solid rgba(217, 119, 6, 0.2)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.55rem',
+              color: '#065F46',
+              fontSize: '16px',
+              fontWeight: 700
+            }}>
+              <CheckCircle size={19} color="#10B981" style={{ flexShrink: 0 }} />
+              <span>Observe filings cluster at North (N) & South (S) poles.</span>
+            </div>
+          )}
         </div>
 
         {/* CONTAINER 2: Observation Summary */}
@@ -1147,43 +1177,63 @@ export default function Stage3_Sandbox({ onComplete }) {
             >
               <Shapes size={22} color="#173B5F" /> Observation Summary
             </h4>
-            <p style={{ margin: '0.75rem 0', color: '#173B5F', fontSize: '17.5px', lineHeight: 1.5, fontWeight: 700 }}>
-              Do all magnet shapes exhibit the same concentration of magnetic poles?
+            <p style={{ margin: '0.75rem 0', color: '#173B5F', fontSize: '17.5px', lineHeight: 1.45, fontWeight: 700 }}>
+              {currentShapeData.observationQuestion}
             </p>
             <ul
               style={{
-                margin: '0.65rem 0 0 0',
+                margin: '0.55rem 0 0 0',
                 paddingLeft: '1.25rem',
                 color: '#173B5F',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '0.55rem',
                 fontSize: '17px',
-                lineHeight: '1.5',
+                lineHeight: '1.45',
                 fontWeight: 600,
               }}
             >
-              <li>
-                <strong style={{ color: '#173B5F' }}>Horseshoe:</strong> Filings cluster tightly at both curved tips.
-              </li>
-              <li>
-                <strong style={{ color: '#173B5F' }}>Ring:</strong> Filings concentrate on opposite circular pole faces.
-              </li>
-              <li>
-                <strong style={{ color: '#173B5F' }}>Bar:</strong> Filings gather heavily at the two distant ends.
-              </li>
+              {currentShapeData.observations.map((obs, idx) => (
+                <li key={idx}>
+                  <strong style={{ color: '#173B5F' }}>{obs.label}:</strong> {obs.text}
+                </li>
+              ))}
             </ul>
           </div>
 
-          <div style={{ paddingTop: '0.75rem', marginTop: 'auto' }}>
+          {/* Navigation Controls: Previous and Next / Finish */}
+          <div style={{ paddingTop: '0.75rem', marginTop: 'auto', display: 'flex', gap: '0.65rem' }}>
+            {shape !== 'horseshoe' && (
+              <button
+                onClick={handlePrevPage}
+                style={{
+                  flex: 1,
+                  padding: '0.85rem 0.85rem',
+                  fontSize: '17px',
+                  fontWeight: 800,
+                  borderRadius: '14px',
+                  background: '#FFFFFF',
+                  color: '#173B5F',
+                  border: '1.5px solid #CBD5E1',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <ArrowLeft size={18} /> Previous
+              </button>
+            )}
+
             <button
-              onClick={() => {
-                if (onComplete) onComplete();
-              }}
+              onClick={handleNextPage}
               className="gold-glow-btn"
               style={{
-                width: '100%',
-                padding: '0.85rem 1.25rem',
+                flex: shape === 'horseshoe' ? 1 : 1.6,
+                padding: '0.85rem 1.15rem',
                 fontSize: '17.5px',
                 fontWeight: 900,
                 borderRadius: '14px',
@@ -1194,7 +1244,19 @@ export default function Stage3_Sandbox({ onComplete }) {
                 transition: 'all 0.25s ease',
               }}
             >
-              <Flag size={18} color="#FFFFFF" /> Finish Activity & Proceed to Quiz
+              {shape === 'horseshoe' ? (
+                <>
+                  Next: Ring Magnet <ArrowRight size={18} color="#FFFFFF" />
+                </>
+              ) : shape === 'ring' ? (
+                <>
+                  Next: Bar Magnet <ArrowRight size={18} color="#FFFFFF" />
+                </>
+              ) : (
+                <>
+                  <Flag size={18} color="#FFFFFF" /> Finish Activity & Proceed to Quiz
+                </>
+              )}
             </button>
           </div>
         </div>

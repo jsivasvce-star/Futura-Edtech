@@ -1,7 +1,7 @@
 /* Activity 4.3 Magnetic Poles Styles */
 
 .gold-glow-btn {
-  position: relative !important;
+  position: relative;
   background: linear-gradient(135deg, #214A70 0%, #173B5F 50%, #173B5F 100%) !important;
   border: 1.5px solid rgba(254, 240, 138, 0.6) !important;
   border-radius: 16px;
@@ -29,6 +29,13 @@
 
 .gold-glow-btn:active {
   transform: translateY(0) scale(0.98) !important;
+}
+
+.magnetic-poles-back-btn {
+  position: absolute !important;
+  top: 0.65rem !important;
+  left: 0.85rem !important;
+  z-index: 1000 !important;
 }
 
 /* Custom scrollbar for control panels */

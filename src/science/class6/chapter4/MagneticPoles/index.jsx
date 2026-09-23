@@ -81,17 +81,17 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
       fontFamily: "system-ui, -apple-system, sans-serif"
     }}>
 
-      {/* 1. BACK BUTTON: Strictly fixed in the TOP-LEFT CORNER of the page */}
+      {/* 1. BACK BUTTON: Positioned in the TOP-LEFT CORNER of the page, clearly above and to the left of tab 1 */}
       <button 
         onClick={onBackToDashboard} 
-        className="gold-glow-btn"
+        className="gold-glow-btn magnetic-poles-back-btn"
         style={{ 
-          position: 'fixed',
-          top: '0.75rem',
+          position: 'absolute',
+          top: '0.65rem',
           left: '0.85rem',
           zIndex: 1000,
-          padding: '0.55rem 1.25rem', 
-          fontSize: '18px', 
+          padding: '0.45rem 1.15rem', 
+          fontSize: '17px', 
           fontWeight: 700,
           display: 'inline-flex',
           alignItems: 'center',
@@ -104,7 +104,7 @@ export default function MagneticPolesActivity({ onBackToDashboard, onComplete })
           border: 'none'
         }}
       >
-        <ArrowLeft size={22} color="#FFFFFF" /> Back
+        <ArrowLeft size={20} color="#FFFFFF" /> Back
       </button>
 
       {/* 2. HEADER: Title and Subtitle centered horizontally near the top */}
