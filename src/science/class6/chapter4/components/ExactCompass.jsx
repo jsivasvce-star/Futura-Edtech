@@ -37,22 +37,32 @@ export default function ExactCompass({
         style={{ position: 'absolute', inset: 0, overflow: 'visible' }}
       >
         <defs>
-          {/* Metallic Antique Brass Outer Bezel Gradient */}
-          <radialGradient id="exactCompassBrassBezel" cx="38%" cy="32%" r="68%">
-            <stop offset="0%" stopColor="#FFF2A3" />
-            <stop offset="15%" stopColor="#E6B743" />
-            <stop offset="42%" stopColor="#A87319" />
-            <stop offset="70%" stopColor="#6E440C" />
-            <stop offset="90%" stopColor="#452705" />
-            <stop offset="100%" stopColor="#2A1602" />
+          {/* Metallic Antique Brass Outer Bezel Gradient matching Image 2 */}
+          <radialGradient id="exactCompassBrassBezel" cx="36%" cy="30%" r="70%">
+            <stop offset="0%" stopColor="#FFF7B3" />
+            <stop offset="12%" stopColor="#E2B74B" />
+            <stop offset="35%" stopColor="#A4741E" />
+            <stop offset="60%" stopColor="#6C4510" />
+            <stop offset="82%" stopColor="#3E2407" />
+            <stop offset="100%" stopColor="#1E1002" />
           </radialGradient>
 
-          {/* Stepped Brass Inner Lip Gradient */}
-          <radialGradient id="exactCompassInnerLip" cx="50%" cy="50%" r="50%">
-            <stop offset="84%" stopColor="#1E0E01" />
-            <stop offset="91%" stopColor="#784C0E" />
-            <stop offset="97%" stopColor="#F5D061" />
-            <stop offset="100%" stopColor="#3B1E04" />
+          {/* Stepped Brass Deep Inner Ridge Gradient */}
+          <radialGradient id="exactCompassInnerLip" cx="48%" cy="45%" r="55%">
+            <stop offset="78%" stopColor="#180C01" />
+            <stop offset="84%" stopColor="#5A3408" />
+            <stop offset="91%" stopColor="#DCA838" />
+            <stop offset="96%" stopColor="#FFF2A3" />
+            <stop offset="100%" stopColor="#2A1402" />
+          </radialGradient>
+
+          {/* Concentric Step Bevel Gradient */}
+          <radialGradient id="exactCompassStepBevel" cx="50%" cy="50%" r="50%">
+            <stop offset="86%" stopColor="#140801" />
+            <stop offset="90%" stopColor="#4A2D0C" />
+            <stop offset="95%" stopColor="#C8962D" />
+            <stop offset="98%" stopColor="#FFEF9E" />
+            <stop offset="100%" stopColor="#241202" />
           </radialGradient>
 
           {/* Dial Face Cream Parchment Gradient */}
@@ -72,35 +82,35 @@ export default function ExactCompass({
             <stop offset="100%" stopColor="#451A03" />
           </radialGradient>
 
-          {/* Drop Shadows */}
+          {/* Heavy Antique Drop Shadows */}
           <filter id="exactCompassCasingShadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="16" stdDeviation="20" floodColor="#000000" floodOpacity="0.55" />
-            <feDropShadow dx="0" dy="4" stdDeviation="8" floodColor="#000000" floodOpacity="0.4" />
+            <feDropShadow dx="0" dy="18" stdDeviation="22" floodColor="#000000" floodOpacity="0.65" />
+            <feDropShadow dx="0" dy="6" stdDeviation="10" floodColor="#000000" floodOpacity="0.45" />
           </filter>
 
-          {/* Thumb Loop Linear Antique Brass Gradient (Matching Compass Casing) */}
-          <linearGradient id="exactCompassThumbLoopGrad" x1="20%" y1="0%" x2="80%" y2="100%">
-            <stop offset="0%" stopColor="#FFF2A3" />
-            <stop offset="18%" stopColor="#E6B743" />
-            <stop offset="45%" stopColor="#A87319" />
-            <stop offset="75%" stopColor="#6E440C" />
-            <stop offset="90%" stopColor="#452705" />
-            <stop offset="100%" stopColor="#2A1602" />
+          {/* Antique Brass Loop Gradient matching Image 2 */}
+          <linearGradient id="exactCompassThumbLoopGrad" x1="15%" y1="0%" x2="85%" y2="100%">
+            <stop offset="0%" stopColor="#FFF7B3" />
+            <stop offset="16%" stopColor="#D8A535" />
+            <stop offset="45%" stopColor="#966619" />
+            <stop offset="75%" stopColor="#5E390A" />
+            <stop offset="92%" stopColor="#381E04" />
+            <stop offset="100%" stopColor="#1E0E01" />
           </linearGradient>
 
-          {/* Hinge Mounting Bracket Gradient */}
-          <linearGradient id="exactCompassHingeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#452705" />
-            <stop offset="25%" stopColor="#E6B743" />
-            <stop offset="50%" stopColor="#FFF8C4" />
-            <stop offset="75%" stopColor="#A87319" />
-            <stop offset="100%" stopColor="#2A1602" />
+          {/* Turned Collar Knob Gradient */}
+          <linearGradient id="exactCompassKnobGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#2E1703" />
+            <stop offset="20%" stopColor="#B88625" />
+            <stop offset="50%" stopColor="#FFF2A3" />
+            <stop offset="78%" stopColor="#8A5612" />
+            <stop offset="100%" stopColor="#1F0E01" />
           </linearGradient>
 
           {/* Thumb Loop Drop Shadow */}
           <filter id="exactCompassThumbLoopShadow" x="-40%" y="-40%" width="180%" height="180%">
-            <feDropShadow dx="0" dy="8" stdDeviation="10" floodColor="#000000" floodOpacity="0.45" />
-            <feDropShadow dx="0" dy="2" stdDeviation="4" floodColor="#000000" floodOpacity="0.3" />
+            <feDropShadow dx="0" dy="8" stdDeviation="10" floodColor="#000000" floodOpacity="0.5" />
+            <feDropShadow dx="0" dy="2" stdDeviation="4" floodColor="#000000" floodOpacity="0.35" />
           </filter>
 
           <filter id="exactCompassNeedleShadow" x="-30%" y="-30%" width="160%" height="160%">
@@ -108,88 +118,93 @@ export default function ExactCompass({
           </filter>
         </defs>
 
-        {/* 0. Top Brass Thumb Loop / Carry Ring (Behind Main Casing) */}
+        {/* 0. Top Brass Swiveling Carry Ring & Turned Collar (Matching Image 2) */}
         {showThumbLoop && (
           <g filter="url(#exactCompassThumbLoopShadow)">
-            {/* Outer Rim Contour */}
-            <ellipse cx="150" cy="-26" rx="35" ry="33" fill="none" stroke="#1F1002" strokeWidth="1.5" />
-            {/* Main Volumetric Brass Loop */}
-            <ellipse cx="150" cy="-26" rx="29.5" ry="27.5" fill="none" stroke="url(#exactCompassThumbLoopGrad)" strokeWidth="11" />
-            {/* Top-Left Specular Highlight Sheen */}
+            {/* Top Swiveling Ring */}
+            <circle cx="150" cy="-30" r="30" fill="none" stroke="#180C01" strokeWidth="2" />
+            <circle cx="150" cy="-30" r="26" fill="none" stroke="url(#exactCompassThumbLoopGrad)" strokeWidth="9.5" />
+            <circle cx="150" cy="-30" r="21" fill="none" stroke="#241202" strokeWidth="1.8" />
+            {/* Specular Highlight Sheen Arc */}
             <path
-              d="M 124 -36 A 29.5 27.5 0 0 1 176 -36"
+              d="M 127 -42 A 26 26 0 0 1 173 -42"
               fill="none"
               stroke="#FFFAD2"
               strokeWidth="2.2"
-              opacity="0.8"
+              opacity="0.85"
             />
-            {/* Inner Dark Contour */}
-            <ellipse cx="150" cy="-26" rx="24" ry="22" fill="none" stroke="#2A1602" strokeWidth="1.5" />
+
+            {/* Cylindrical Turned Brass Collar / Knob Base (Connecting Ring to Casing) */}
+            <rect 
+              x="138" 
+              y="-10" 
+              width="24" 
+              height="15" 
+              rx="3" 
+              fill="url(#exactCompassKnobGrad)" 
+              stroke="#180C01" 
+              strokeWidth="1.5" 
+            />
+            {/* Stepped Collar Ring */}
+            <rect 
+              x="135" 
+              y="-2" 
+              width="30" 
+              height="8" 
+              rx="2.5" 
+              fill="url(#exactCompassKnobGrad)" 
+              stroke="#180C01" 
+              strokeWidth="1.5" 
+            />
+            <line x1="135" y1="2" x2="165" y2="2" stroke="#FFF5B8" strokeWidth="1" opacity="0.8" />
           </g>
         )}
 
-        {/* 1. Heavy Polished Antique Brass Outer Casing */}
+        {/* 1. Heavy Polished Antique Brass Outer Casing (Matching Image 2) */}
         <circle 
           cx="150" 
           cy="150" 
-          r="146" 
+          r="147" 
           fill="url(#exactCompassBrassBezel)" 
-          stroke="#1F1002" 
-          strokeWidth="3" 
+          stroke="#180C01" 
+          strokeWidth="3.2" 
           filter="url(#exactCompassCasingShadow)" 
         />
 
-        {/* Top Brass Hinge / Mounting Bracket (Locking Thumb Loop to Casing) */}
-        {showThumbLoop && (
-          <g>
-            {/* Bracket Base Block */}
-            <rect 
-              x="133" 
-              y="-4" 
-              width="34" 
-              height="16" 
-              rx="4" 
-              ry="4" 
-              fill="url(#exactCompassHingeGrad)" 
-              stroke="#1F1002" 
-              strokeWidth="2" 
-            />
-            {/* Stepped Inner Inset */}
-            <rect 
-              x="136" 
-              y="-2" 
-              width="28" 
-              height="12" 
-              rx="2.5" 
-              ry="2.5" 
-              fill="none" 
-              stroke="#FFF8C4" 
-              strokeWidth="1.2" 
-              opacity="0.6" 
-            />
-            {/* Center Pivot Brass Rivet Pin */}
-            <circle cx="150" cy="4" r="4.2" fill="url(#exactCompassPivotSphere)" stroke="#1F1002" strokeWidth="1.2" />
-            {/* Pivot Specular Dot */}
-            <circle cx="148.5" cy="2.5" r="1.3" fill="#FFFFFF" opacity="0.9" />
-          </g>
-        )}
-
-        {/* 2. Stepped Bezel Rings */}
+        {/* Outer Highlight Chamfer Ring */}
         <circle 
           cx="150" 
           cy="150" 
-          r="133" 
+          r="144" 
           fill="none" 
-          stroke="url(#exactCompassInnerLip)" 
-          strokeWidth="7" 
+          stroke="rgba(255, 247, 179, 0.45)" 
+          strokeWidth="1.8" 
+        />
+
+        {/* 2. Concentric Stepped Brass Bezel Grooves & Chamfers (Matching Image 2) */}
+        <circle 
+          cx="150" 
+          cy="150" 
+          r="137" 
+          fill="none" 
+          stroke="url(#exactCompassStepBevel)" 
+          strokeWidth="6.5" 
         />
         <circle 
           cx="150" 
           cy="150" 
-          r="126.5" 
+          r="131" 
           fill="none" 
-          stroke="#261302" 
-          strokeWidth="2" 
+          stroke="url(#exactCompassInnerLip)" 
+          strokeWidth="7.5" 
+        />
+        <circle 
+          cx="150" 
+          cy="150" 
+          r="126" 
+          fill="none" 
+          stroke="#1E0E01" 
+          strokeWidth="2.5" 
         />
 
         {/* 3. Warm Cream Parchment Dial Face */}

@@ -11,8 +11,8 @@ import {
 } from 'lucide-react';
 
 export default function MagneticPolesVideoPlayer({
-  videoSrc = '/MagneticPoles/Barmagnet.mp4',
-  fallbackSrc = '/assets/Barmagnet.mp4',
+  videoSrc = '/assets/stage1_barmagnet.mp4',
+  fallbackSrc = '/assets/stage1_barmagnet.mp4',
   externalIsPaused = false,
   onExternalTogglePause,
   onExternalReset,
@@ -240,8 +240,7 @@ export default function MagneticPolesVideoPlayer({
       >
         <source src={videoSrc} type="video/mp4" />
         <source src={fallbackSrc} type="video/mp4" />
-        <source src="/MagneticPoles/Barmagnet.mp4" type="video/mp4" />
-        <source src="/assets/Barmagnet.mp4" type="video/mp4" />
+        <source src="/assets/stage1_barmagnet.mp4" type="video/mp4" />
         Your browser does not support HTML5 video playback.
       </video>
 
@@ -277,9 +276,9 @@ export default function MagneticPolesVideoPlayer({
               <span
                 key={p.num}
                 style={{
-                  fontSize: '0.72rem',
-                  fontWeight: 900,
-                  padding: '2px 8px',
+                  fontSize: '14.5px',
+                  fontWeight: 800,
+                  padding: '3px 9px',
                   borderRadius: '10px',
                   background: isStepActive ? 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)' : 'transparent',
                   color: isStepActive ? '#FFFFFF' : '#94A3B8',
@@ -320,7 +319,7 @@ export default function MagneticPolesVideoPlayer({
               backdropFilter: 'blur(6px)',
               border: '1.5px solid #FCA5A5',
               borderRadius: '12px',
-              padding: '6px 12px',
+              padding: '6px 14px',
               color: '#FFFFFF',
               boxShadow: '0 4px 16px rgba(220, 38, 38, 0.45)',
               display: 'flex',
@@ -328,10 +327,10 @@ export default function MagneticPolesVideoPlayer({
               gap: '2px',
               textAlign: 'center',
             }}>
-              <span style={{ fontSize: '0.74rem', fontWeight: 900, letterSpacing: '0.5px' }}>
+              <span style={{ fontSize: '18px', fontWeight: 700, letterSpacing: '0.5px' }}>
                 NORTH POLE (N)
               </span>
-              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#FEE2E2' }}>
+              <span style={{ fontSize: '14px', fontWeight: 600, color: '#FEE2E2' }}>
                 Maximum Attraction
               </span>
             </div>
@@ -342,7 +341,7 @@ export default function MagneticPolesVideoPlayer({
               backdropFilter: 'blur(6px)',
               border: '1.5px solid #94A3B8',
               borderRadius: '12px',
-              padding: '5px 12px',
+              padding: '6px 14px',
               color: '#F1F5F9',
               boxShadow: '0 4px 14px rgba(0,0,0,0.3)',
               display: 'flex',
@@ -350,10 +349,10 @@ export default function MagneticPolesVideoPlayer({
               gap: '2px',
               textAlign: 'center',
             }}>
-              <span style={{ fontSize: '0.74rem', fontWeight: 900, letterSpacing: '0.5px', color: '#E2E8F0' }}>
+              <span style={{ fontSize: '18px', fontWeight: 700, letterSpacing: '0.5px', color: '#E2E8F0' }}>
                 NEUTRAL ZONE
               </span>
-              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#CBD5E1' }}>
+              <span style={{ fontSize: '14px', fontWeight: 600, color: '#CBD5E1' }}>
                 Minimum Attraction
               </span>
             </div>
@@ -364,7 +363,7 @@ export default function MagneticPolesVideoPlayer({
               backdropFilter: 'blur(6px)',
               border: '1.5px solid #93C5FD',
               borderRadius: '12px',
-              padding: '6px 12px',
+              padding: '6px 14px',
               color: '#FFFFFF',
               boxShadow: '0 4px 16px rgba(37, 99, 235, 0.45)',
               display: 'flex',
@@ -372,10 +371,10 @@ export default function MagneticPolesVideoPlayer({
               gap: '2px',
               textAlign: 'center',
             }}>
-              <span style={{ fontSize: '0.74rem', fontWeight: 900, letterSpacing: '0.5px' }}>
+              <span style={{ fontSize: '18px', fontWeight: 700, letterSpacing: '0.5px' }}>
                 SOUTH POLE (S)
               </span>
-              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#DBEAFE' }}>
+              <span style={{ fontSize: '14px', fontWeight: 600, color: '#DBEAFE' }}>
                 Maximum Attraction
               </span>
             </div>
@@ -537,7 +536,7 @@ export default function MagneticPolesVideoPlayer({
               <RotateCcw size={16} />
             </button>
 
-            <span style={{ fontSize: '0.82rem', fontWeight: 800, color: '#E2E8F0', letterSpacing: '0.3px', userSelect: 'none', marginLeft: '2px' }}>
+            <span style={{ fontSize: '15px', fontWeight: 800, color: '#E2E8F0', letterSpacing: '0.3px', userSelect: 'none', marginLeft: '4px' }}>
               {formatTime(currentTime)} / {formatTime(duration)}
             </span>
           </div>

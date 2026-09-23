@@ -102,22 +102,42 @@ export default function Quiz({ onComplete }) {
     return (
       <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: 'transparent', fontFamily: "'Inter', sans-serif" }}>
         <div style={{ 
-          maxWidth: '620px', 
-          width: '90%', 
-          padding: '3rem 3.5rem', 
+          width: 'min(90vw, 76vh, 670px)', 
+          height: 'min(90vw, 76vh, 670px)', 
+          padding: 'clamp(2rem, 4vh, 3.5rem) clamp(1.75rem, 3vw, 3rem)', 
           textAlign: 'center', 
           background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
-          borderRadius: '28px', 
+          borderRadius: '36px', 
           border: '1.5px solid #E2E8F0',
-          boxShadow: '0 12px 40px rgba(217, 119, 6, 0.12)',
+          boxShadow: '0 25px 65px -12px rgba(15, 23, 42, 0.35)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '1.5rem'
+          justifyContent: 'center',
+          gap: 'clamp(1.5rem, 3.5vh, 2.5rem)',
+          overflow: 'hidden',
+          boxSizing: 'border-box'
         }}>
-          <h2 style={{ fontSize: '2.2rem', margin: 0, color: '#064E3B', fontFamily: 'system-ui, -apple-system, sans-serif', fontWeight: 900 }}>Quiz Completed! 🎉</h2>
+          <h2 style={{ 
+            fontSize: 'clamp(2.6rem, 3.8vw, 2.95rem)', 
+            margin: 0, 
+            color: '#064E3B', 
+            fontFamily: 'system-ui, -apple-system, sans-serif', 
+            fontWeight: 900, 
+            textAlign: 'center', 
+            lineHeight: 1.15 
+          }}>
+            Quiz Completed! 🎉
+          </h2>
           
-          <p style={{ color: '#065F46', margin: 0, fontSize: '1.4rem', fontWeight: 600, fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+          <p style={{ 
+            color: '#065F46', 
+            margin: 0, 
+            fontSize: 'clamp(1.65rem, 2.3vw, 1.85rem)', 
+            fontWeight: 600, 
+            fontFamily: 'system-ui, -apple-system, sans-serif', 
+            textAlign: 'center' 
+          }}>
             You scored <strong style={{ color: '#047857' }}>{score}</strong> out of {quizData.length}
           </p>
 
@@ -125,10 +145,14 @@ export default function Quiz({ onComplete }) {
             onClick={() => { if (onComplete) onComplete(score); }}
             className="gold-glow-btn"
             style={{
-              padding: '1.05rem 3.2rem',
-              fontSize: '1.2rem',
-              marginTop: '0.6rem',
-              borderRadius: '18px'
+              width: '84%',
+              maxWidth: '480px',
+              minWidth: '260px',
+              padding: '1.2rem 2.4rem',
+              fontSize: '21px',
+              fontWeight: 800,
+              borderRadius: '45px',
+              marginTop: '0.4rem'
             }}
           >
             Finish Activity

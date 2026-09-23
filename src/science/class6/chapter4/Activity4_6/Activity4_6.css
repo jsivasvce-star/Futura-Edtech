@@ -1,13 +1,13 @@
-/* Activity 4.6 Luminous Gold Gradients & Accents Theme */
+/* Activity 4.6 Compass & Bar Magnet Theme - Warm Gold & Unified Theme */
 
 @keyframes gentle-gold-glow {
   0%, 100% {
-    box-shadow: 0 4px 18px rgba(245, 158, 11, 0.45), 0 0 16px rgba(251, 191, 36, 0.35);
-    border-color: rgba(253, 230, 138, 0.9);
+    box-shadow: 0 4px 18px rgba(245, 158, 11, 0.45), 0 0 16px rgba(245, 158, 11, 0.25);
+    border-color: rgba(251, 191, 36, 0.7);
   }
   50% {
-    box-shadow: 0 8px 30px rgba(245, 158, 11, 0.8), 0 0 26px rgba(251, 191, 36, 0.65), 0 0 40px rgba(217, 119, 6, 0.3);
-    border-color: rgba(254, 240, 138, 1);
+    box-shadow: 0 8px 28px rgba(217, 119, 6, 0.7), 0 0 24px rgba(251, 191, 36, 0.45);
+    border-color: rgba(253, 230, 138, 0.9);
   }
 }
 
@@ -28,28 +28,32 @@
   }
 }
 
+.activity-4-6-root .gold-glow-btn,
 .gold-glow-btn {
   position: relative !important;
   overflow: hidden !important;
-  background: linear-gradient(135deg, #214A70 0%, #173B5F 50%, #173B5F 100%) !important;
-  border: 1.5px solid rgba(254, 240, 138, 0.6) !important;
-  border-radius: 16px;
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
+  border: 1.5px solid #FCD34D !important;
+  border-radius: 18px;
   color: #FFFFFF !important;
   font-weight: 900 !important;
   cursor: pointer !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 0.55rem !important;
+  gap: 0.65rem !important;
   animation: gentle-gold-glow 3s infinite ease-in-out !important;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35) !important;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
 }
 
+.activity-4-6-root .gold-glow-btn *,
 .gold-glow-btn * {
   color: #FFFFFF !important;
 }
 
+.activity-4-6-root .gold-glow-btn::after,
 .gold-glow-btn::after {
   content: '' !important;
   position: absolute !important;
@@ -68,112 +72,111 @@
   z-index: 2 !important;
 }
 
+.activity-4-6-root .gold-glow-btn:hover,
 .gold-glow-btn:hover {
-  transform: translateY(-2px) scale(1.03) !important;
-  background: linear-gradient(135deg, #214A70 0%, #214A70 50%, #173B5F 100%) !important;
-  box-shadow: 0 10px 34px rgba(245, 158, 11, 0.9), 0 0 30px rgba(251, 191, 36, 0.75) !important;
+  transform: translateY(-2px) scale(1.02) !important;
+  background: linear-gradient(135deg, #FBBF24 0%, #B45309 100%) !important;
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.55), 0 0 20px rgba(245, 158, 11, 0.4) !important;
 }
 
+.activity-4-6-root .gold-glow-btn:active,
 .gold-glow-btn:active {
   transform: translateY(0) scale(0.98) !important;
 }
 
-.gold-accent-btn {
-  background: #F3F7F9 !important;
-  border: 1.5px solid #E2E8F0 !important;
-  color: #173B5F !important;
-  font-weight: 800 !important;
-  border-radius: 14px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.08);
+/* Gold Step Number Badge */
+.gold-step-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.35);
+  position: relative;
+  overflow: hidden;
 }
 
-.gold-accent-btn:hover {
-  background: #EAF2F6 !important;
-  border-color: #173B5F !important;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.2);
+.gold-step-badge::after {
+  content: '';
+  position: absolute;
+  top: -70%;
+  left: 0;
+  width: 50%;
+  height: 240%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.65) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: gentle-shimmer 3.8s infinite ease-in-out;
+  pointer-events: none;
 }
 
-/* Custom Amber Scrollbar */
-.custom-scrollbar {
+/* Custom Amber / Navy Scrollbar */
+.activity-4-6-root .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #214A70 rgba(254, 243, 199, 0.7);
+  scrollbar-color: #214A70 rgba(226, 232, 240, 0.7);
 }
-.custom-scrollbar::-webkit-scrollbar {
+.activity-4-6-root .custom-scrollbar::-webkit-scrollbar {
   width: 7px;
 }
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(254, 243, 199, 0.5);
+.activity-4-6-root .custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(226, 232, 240, 0.5);
   border-radius: 10px;
 }
-.custom-scrollbar::-webkit-scrollbar-thumb {
+.activity-4-6-root .custom-scrollbar::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #214A70 0%, #173B5F 100%) !important;
   border-radius: 10px !important;
-  border: 1.5px solid rgba(254, 243, 199, 0.8) !important;
+  border: 1.5px solid rgba(226, 232, 240, 0.8) !important;
 }
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+.activity-4-6-root .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #173B5F !important;
 }
 
-/* Right Column Layout: Fullscreen non-scrolling, Halfscreen scrolling */
-.stage-right-column {
-  flex: 1.15;
+/* Left Column Layout: Fit nicely without forced scroll or clipping */
+.activity-4-6-root .stage-left-column {
+  width: 480px;
   height: 100%;
   max-height: 100%;
   min-height: 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 1.65rem;
-  min-width: 0;
+  justifyContent: flex-start;
+  gap: 1.15rem;
+  overflow-y: auto;
   overflow-x: hidden;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
   scrollbar-width: thin;
-  scrollbar-color: #214A70 rgba(254, 243, 199, 0.7);
+  scrollbar-color: #214A70 rgba(226, 232, 240, 0.7);
 }
 
-.stage-right-column::-webkit-scrollbar {
+.activity-4-6-root .stage-left-column::-webkit-scrollbar {
   width: 7px;
 }
-.stage-right-column::-webkit-scrollbar-track {
-  background: rgba(254, 243, 199, 0.5);
+.activity-4-6-root .stage-left-column::-webkit-scrollbar-track {
+  background: rgba(226, 232, 240, 0.5);
   border-radius: 10px;
 }
-.stage-right-column::-webkit-scrollbar-thumb {
+.activity-4-6-root .stage-left-column::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #214A70 0%, #173B5F 100%);
   border-radius: 10px;
 }
-.stage-right-column::-webkit-scrollbar-thumb:hover {
+.activity-4-6-root .stage-left-column::-webkit-scrollbar-thumb:hover {
   background: #173B5F;
 }
 
-/* Fullscreen: non-scrolling, containers expand gracefully to fill height */
-@media (min-width: 1367px) and (min-height: 821px) {
-  .stage-right-column {
-    overflow-y: hidden !important;
-  }
-  .stage-right-column .stage-container-1 {
-    flex: 1 !important;
-    min-height: 0 !important;
-  }
-  .stage-right-column .stage-container-2 {
-    flex: 1.15 !important;
-    min-height: 0 !important;
-  }
-}
-
-/* Halfscreen or smaller viewports: Enable smooth scrolling and prevent container squishing */
-@media (max-width: 1366px), (max-height: 820px) {
-  .stage-right-column {
-    overflow-y: auto !important;
-    padding-right: 0.45rem !important;
-  }
-  .stage-right-column .stage-container-1,
-  .stage-right-column .stage-container-2 {
-    flex: none !important;
-    flex-shrink: 0 !important;
-    min-height: fit-content !important;
-  }
+.activity-4-6-root .stage-left-column .stage-container-1,
+.activity-4-6-root .stage-left-column .stage-container-2 {
+  flex: initial !important;
+  height: auto !important;
+  min-height: fit-content !important;
+  box-sizing: border-box !important;
 }

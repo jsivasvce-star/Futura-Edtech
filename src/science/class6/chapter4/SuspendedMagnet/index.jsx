@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Compass, RotateCw, ArrowLeft, CheckCircle, HelpCircle, Sparkles } from 'lucide-react';
+import { Compass, RotateCw, ArrowLeft, ArrowRight, CheckCircle, HelpCircle, Sparkles } from 'lucide-react';
 import Stage1_Experiment from './components/Stage1_Experiment';
 import Stage2_Conclusion from './components/Stage2_Conclusion';
 import Quiz from './Quiz';
 import DidYouKnow from './DidYouKnow';
 import './SuspendedMagnet.css';
 
+const STEPS_NAV = [
+  { id: 'experiment', name: '1. Let us Experiment', icon: RotateCw },
+  { id: 'conclusion', name: '2. Conclusion', icon: Compass },
+  { id: 'quiz', name: '3. Quiz', icon: HelpCircle },
+  { id: 'didyouknow', name: '4. Did You Know?', icon: Sparkles }
+];
+
 export default function SuspendedMagnetActivity({ onBackToDashboard, onComplete }) {
-  const [activeTab, setActiveTab] = useState('experiment');
+  const [stepIndex, setStepIndex] = useState(0);
   const [progress, setProgress] = useState({
     experiment: false,
     conclusion: false,
@@ -18,33 +25,45 @@ export default function SuspendedMagnetActivity({ onBackToDashboard, onComplete 
 
   const handleStage1Complete = () => {
     setProgress(prev => ({ ...prev, experiment: true }));
-    setActiveTab('conclusion');
+    setStepIndex(1);
   };
 
   const handleStage2Complete = () => {
     setProgress(prev => ({ ...prev, conclusion: true }));
-    setActiveTab('quiz');
+    setStepIndex(2);
   };
 
   const handleQuizComplete = () => {
     setProgress(prev => ({ ...prev, quiz: true }));
-    setActiveTab('didyouknow');
+    setStepIndex(3);
   };
 
   const handleDidYouKnowComplete = () => {
     setProgress(prev => ({ ...prev, didyouknow: true }));
     if (onComplete) onComplete();
+    else if (onBackToDashboard) onBackToDashboard();
   };
 
-  const tabs = [
-    { id: 'experiment', name: '1. Let us Experiment', icon: RotateCw, component: <Stage1_Experiment onComplete={handleStage1Complete} /> },
-    { id: 'conclusion', name: '2. Conclusion', icon: Compass, component: <Stage2_Conclusion onComplete={handleStage2Complete} />, locked: !progress.experiment },
-    { id: 'quiz', name: '3. Quiz', icon: HelpCircle, component: <Quiz onComplete={handleQuizComplete} />, locked: !progress.conclusion },
-    { id: 'didyouknow', name: '4. Did You Know?', icon: Sparkles, component: <DidYouKnow onComplete={handleDidYouKnowComplete} onBackToQuiz={() => setActiveTab('quiz')} />, locked: !progress.quiz }
-  ];
+  const handleBack = () => {
+    if (stepIndex > 0) {
+      setStepIndex(stepIndex - 1);
+    } else if (onBackToDashboard) {
+      onBackToDashboard();
+    }
+  };
+
+  const handleNext = () => {
+    if (stepIndex < STEPS_NAV.length - 1) {
+      setStepIndex(stepIndex + 1);
+    } else {
+      handleDidYouKnowComplete();
+    }
+  };
+
+  const currentStep = STEPS_NAV[stepIndex];
 
   return (
-    <div style={{ 
+    <div className="suspended-magnet-root" style={{ 
       position: 'fixed',
       top: 0,
       left: 0,
@@ -55,106 +74,94 @@ export default function SuspendedMagnetActivity({ onBackToDashboard, onComplete 
       flexDirection: 'column', 
       overflow: 'hidden',
       boxSizing: 'border-box',
-      padding: '0.65rem 0.85rem',
-      backgroundColor: 'transparent',
-      fontFamily: "system-ui, -apple-system, sans-serif"
+      padding: '0.6rem 1.2rem',
+      backgroundImage: `url('/SuspendedMagnet/science_lab_bg.jpg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
+      backgroundRepeat: 'no-repeat',
+      fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif"
     }}>
-
-      {/* Top Header Bar Container (Single Unified Enclosing Container) */}
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'auto 1fr auto', 
-        alignItems: 'center', 
-        padding: '0.65rem 1.25rem',
+      {/* Unified Solid White Top Header Navigation Bar */}
+      <header style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '0.55rem 1.4rem',
         marginBottom: '0.65rem',
-        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+        background: '#FFFFFF',
         border: '1.5px solid #E2E8F0',
         borderRadius: '24px',
-        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
         flexShrink: 0,
-        position: 'relative',
-        zIndex: 100
+        zIndex: 100,
+        width: '100%',
+        boxSizing: 'border-box'
       }}>
         {/* Left: Back Button */}
-        <button 
-          onClick={onBackToDashboard} 
-          className="gold-glow-btn"
-          style={{ 
-            position: 'relative', zIndex: 100,
-            padding: '0.6rem 1.25rem', 
-            fontSize: '0.9rem', 
+        <button
+          onClick={handleBack}
+          style={{
+            padding: '0.55rem 1.25rem',
+            fontSize: '1rem',
+            fontWeight: 900,
+            borderRadius: '16px',
+            background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
+            color: '#FFFFFF',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
             gap: '0.5rem',
-            borderRadius: '14px',
-            textDecoration: 'none'
+            boxShadow: '0 4px 12px rgba(23, 59, 95, 0.25)',
+            transition: 'all 0.2s ease'
           }}
         >
-          <ArrowLeft size={18} color="#FFFFFF" /> Back to Chapter 4
+          <ArrowLeft size={18} color="#FFFFFF" /> Back
         </button>
 
-        {/* Center: Title & Subtitle */}
-        <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <h2 style={{ 
-            margin: 0, 
-            fontSize: '1.35rem', 
-            fontWeight: 900, 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center', 
-            gap: '0.65rem', 
-            color: '#064E3B', 
-            letterSpacing: '-0.01em' 
+        {/* Center: Current Stage Title (Title Only, Completely Transparent, Crisp Dark Blue) */}
+        <div style={{
+          textAlign: 'center',
+          flex: 1,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <h2 style={{
+            margin: 0,
+            fontSize: '1.85rem',
+            fontWeight: 900,
+            color: '#173B5F',
+            letterSpacing: '-0.02em',
+            background: 'transparent',
+            border: 'none',
+            padding: 0
           }}>
-            <Compass size={26} style={{ color: '#173B5F' }} />
-            Activity 4.3: Finding Directions
+            {currentStep.name}
           </h2>
-          <span style={{ 
-            fontSize: '0.82rem', 
-            color: '#047857', 
-            fontWeight: 700 
-          }}>
-            Class 6 Science — A Freely Suspended Bar Magnet
-          </span>
         </div>
 
-        {/* Right: Tabbed Navigation Bar (Without extra wrapping container) */}
-        <nav className="tabs-container" style={{ display: 'flex', gap: '0.5rem', margin: 0, background: 'transparent', border: 'none', padding: 0 }}>
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            const isCompleted = progress[tab.id];
-            const isActive = activeTab === tab.id;
-            
-            return (
-              <button
-                key={tab.id}
-                onClick={() => !tab.locked && setActiveTab(tab.id)}
-                disabled={tab.locked}
-                className={isActive ? 'gold-glow-btn' : ''}
-                style={{
-                  opacity: tab.locked ? 0.45 : 1,
-                  cursor: tab.locked ? 'not-allowed' : 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.45rem',
-                  padding: '0.55rem 1.1rem',
-                  fontSize: '0.88rem',
-                  fontWeight: 800,
-                  borderRadius: '24px',
-                  background: isActive ? undefined : '#FFFFFF',
-                  color: isActive ? '#FFFFFF' : tab.locked ? '#94A3B8' : '#334155',
-                  border: isActive ? 'none' : '1.5px solid #CBD5E1',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                <Icon size={16} color={isActive ? '#FFFFFF' : tab.locked ? '#94A3B8' : '#059669'} />
-                <span>{tab.name}</span>
-                {isCompleted && !isActive && <CheckCircle size={14} color="#10B981" />}
-              </button>
-            );
-          })}
-        </nav>
-      </div>
+        {/* Right: Next Step Button */}
+        <button
+          onClick={handleNext}
+          className="gold-glow-btn"
+          style={{
+            padding: '0.55rem 1.45rem',
+            fontSize: '1rem',
+            fontWeight: 900,
+            borderRadius: '16px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem'
+          }}
+        >
+          {stepIndex === STEPS_NAV.length - 1 ? 'Finish Activity' : 'Next'} <ArrowRight size={18} color="#FFFFFF" />
+        </button>
+      </header>
 
-      {/* Main Stage Canvas */}
+      {/* Main Interactive Activity Stage */}
       <main style={{ 
         width: '100%', 
         flex: 1, 
@@ -169,14 +176,17 @@ export default function SuspendedMagnetActivity({ onBackToDashboard, onComplete 
       }}>
         <AnimatePresence mode="wait">
           <motion.div
-            key={activeTab}
+            key={currentStep.id}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.22 }}
             style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
           >
-            {tabs.find(t => t.id === activeTab)?.component}
+            {stepIndex === 0 && <Stage1_Experiment onComplete={handleStage1Complete} />}
+            {stepIndex === 1 && <Stage2_Conclusion onComplete={handleStage2Complete} />}
+            {stepIndex === 2 && <Quiz onComplete={handleQuizComplete} />}
+            {stepIndex === 3 && <DidYouKnow onComplete={handleDidYouKnowComplete} onBackToQuiz={() => setStepIndex(2)} />}
           </motion.div>
         </AnimatePresence>
       </main>

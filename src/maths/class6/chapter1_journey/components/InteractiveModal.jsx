@@ -4,6 +4,7 @@ import ErrorBoundary from '../../../../components/ErrorBoundary';
 import PatternWhyExperience from './PatternWhyExperience';
 import FigureItOutExperience from './FigureItOutExperience';
 import PatternsInNumbersExplore from './PatternsInNumbersExplore';
+import SectionNextButton from './SectionNextButton';
 
 import traffic1 from '../../../../assets/traffic_1.jpeg';
 import traffic2 from '../../../../assets/traffic_2.jpeg';
@@ -346,7 +347,6 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
 
     let isMounted = true;
     let animFrameId = null;
-    let delayTimer = null;
 
     const audio = new Audio(audioSrc);
     // Slow down playback for clear, natural, and easy-to-follow narration
@@ -380,21 +380,11 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
       if (!isMounted) return;
       // Remove the final word highlight when audio finishes
       setCurrentWordIndex(-1);
-
-      // For Images 1–7 only: Wait an additional 5 seconds, then move to next image
-      if (currentSlide < TRAFFIC_SLIDES.length - 1) {
-        delayTimer = setTimeout(() => {
-          if (isMounted) {
-            setCurrentSlide((prev) => prev + 1);
-          }
-        }, 5000);
-      }
     };
 
     return () => {
       isMounted = false;
       if (animFrameId) cancelAnimationFrame(animFrameId);
-      if (delayTimer) clearTimeout(delayTimer);
       audio.pause();
       audio.currentTime = 0;
     };
@@ -621,225 +611,9 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
         }}>
           {activeLessonTab === 1 && (
             <>
-              {/* LEFT SIDE: Content panel (exactly 20% width) */}
+              {/* LEFT SIDE: Large Image / Nature Scene Area (maximum space) */}
               <div style={{
-                flex: '0 0 20%',
-                width: '20%',
-                maxWidth: '20%',
-                minWidth: '20%',
-                height: '100%',
-                backgroundColor: '#ffffff',
-                borderRight: '1px solid #cbd5e1',
-                padding: 'clamp(8px, 1.2vh, 14px) clamp(8px, 0.9vw, 12px)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
-                boxSizing: 'border-box',
-                zIndex: 5,
-                overflowY: 'auto'
-              }}>
-                {/* Visual Card matching screenshot layout */}
-                <div style={{
-                  backgroundColor: '#ffffff',
-                  border: '1.5px solid #d1d5db',
-                  borderRadius: '12px',
-                  overflow: 'hidden',
-                  boxShadow: '0 3px 12px rgba(0, 0, 0, 0.06)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  width: '100%',
-                  boxSizing: 'border-box'
-                }}>
-                  {/* Dark Forest Green Header Banner */}
-                  <div style={{
-                    backgroundColor: '#1b4332',
-                    padding: 'clamp(8px, 1.3vh, 12px) clamp(10px, 1vw, 14px)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px'
-                  }}>
-                    <span style={{ fontSize: '1.35rem', lineHeight: 1 }}>🍃</span>
-                    <h2 style={{
-                      fontFamily: '"Times New Roman", Times, Georgia, serif',
-                      fontSize: 'clamp(1.15rem, 1.35vw, 1.45rem)',
-                      fontWeight: 700,
-                      color: '#ffffff',
-                      margin: 0,
-                      lineHeight: 1.2,
-                      letterSpacing: '0.01em'
-                    }}>
-                      Explore Nature
-                    </h2>
-                  </div>
-
-                  {/* Card Content Body */}
-                  <div style={{
-                    padding: 'clamp(10px, 1.5vh, 14px) clamp(10px, 1vw, 14px)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '10px',
-                    boxSizing: 'border-box'
-                  }}>
-                    {/* Instruction */}
-                    <p style={{
-                      fontFamily: '"Times New Roman", Times, Georgia, serif',
-                      fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
-                      color: '#0f172a',
-                      lineHeight: 1.45,
-                      margin: 0,
-                      fontWeight: 600
-                    }}>
-                      Click the sunflower, leaves, fern, flower, rocks, and shell to explore their mathematical patterns.
-                    </p>
-
-                    {/* 6 Clickable Object Rows with Small Thumbnails */}
-                    <div style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '6px',
-                      marginTop: '2px'
-                    }}>
-                      {NATURE_OBJECTS.map((item) => {
-                        const isSelected = selectedNatureObj?.id === item.id;
-                        return (
-                          <button
-                            key={item.id}
-                            type="button"
-                            onClick={() => setSelectedNatureObj(isSelected ? null : item)}
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'space-between',
-                              width: '100%',
-                              padding: 'clamp(6px, 0.8vh, 8px) clamp(8px, 0.8vw, 12px)',
-                              backgroundColor: isSelected ? '#ecfdf5' : '#ffffff',
-                              border: `1.5px solid ${isSelected ? '#10b981' : '#e2e8f0'}`,
-                              borderRadius: '8px',
-                              cursor: 'pointer',
-                              transition: 'all 0.15s ease',
-                              boxSizing: 'border-box',
-                              boxShadow: isSelected ? '0 2px 6px rgba(16, 185, 129, 0.2)' : 'none'
-                            }}
-                            onMouseEnter={(e) => {
-                              if (!isSelected) {
-                                e.currentTarget.style.borderColor = '#cbd5e1';
-                                e.currentTarget.style.backgroundColor = '#f8fafc';
-                              }
-                            }}
-                            onMouseLeave={(e) => {
-                              if (!isSelected) {
-                                e.currentTarget.style.borderColor = '#e2e8f0';
-                                e.currentTarget.style.backgroundColor = '#ffffff';
-                              }
-                            }}
-                          >
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                              <img
-                                src={item.image}
-                                alt={item.name}
-                                style={{
-                                  width: '30px',
-                                  height: '30px',
-                                  borderRadius: '50%',
-                                  objectFit: 'cover',
-                                  border: `1.5px solid ${isSelected ? '#10b981' : '#cbd5e1'}`,
-                                  flexShrink: 0
-                                }}
-                              />
-                              <span style={{
-                                fontFamily: '"Times New Roman", Times, Georgia, serif',
-                                fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
-                                fontWeight: isSelected ? 700 : 600,
-                                color: isSelected ? '#065f46' : '#1e293b'
-                              }}>
-                                {item.name}
-                              </span>
-                            </div>
-                            <span style={{
-                              fontFamily: '"Times New Roman", Times, Georgia, serif',
-                              fontSize: '1.2rem',
-                              fontWeight: 700,
-                              color: isSelected ? '#10b981' : '#94a3b8'
-                            }}>
-                              ›
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    {/* Selected Pattern Details Display (when an object is clicked) */}
-                    {selectedNatureObj && (
-                      <div style={{
-                        marginTop: '4px',
-                        padding: 'clamp(10px, 1.4vh, 14px)',
-                        backgroundColor: '#f0fdf4',
-                        border: '1.5px solid #86efac',
-                        borderRadius: '8px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '8px'
-                      }}>
-                        <h4 style={{
-                          fontFamily: '"Times New Roman", Times, Georgia, serif',
-                          fontSize: 'clamp(1.05rem, 1.2vw, 1.25rem)',
-                          fontWeight: 700,
-                          color: '#14532d',
-                          margin: 0,
-                          lineHeight: 1.25
-                        }}>
-                          {selectedNatureObj.heading}
-                        </h4>
-                        <p style={{
-                          fontFamily: '"Times New Roman", Times, Georgia, serif',
-                          fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
-                          color: '#1e293b',
-                          lineHeight: 1.5,
-                          margin: 0,
-                          fontWeight: 500
-                        }}>
-                          {selectedNatureObj.description}
-                        </p>
-                        <button
-                          type="button"
-                          onClick={() => setSelectedNatureObj(null)}
-                          style={{
-                            marginTop: '2px',
-                            padding: '5px 10px',
-                            fontSize: '0.95rem',
-                            fontFamily: '"Times New Roman", Times, Georgia, serif',
-                            fontWeight: 700,
-                            color: '#166534',
-                            border: '1px solid #166534',
-                            borderRadius: '6px',
-                            backgroundColor: '#ffffff',
-                            cursor: 'pointer',
-                            alignSelf: 'flex-start',
-                            transition: 'all 0.15s ease'
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = '#166534';
-                            e.currentTarget.style.color = '#ffffff';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = '#ffffff';
-                            e.currentTarget.style.color = '#166534';
-                          }}
-                        >
-                          ← Full Nature Scene
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* RIGHT SIDE: Large Image / Nature Scene Area (exactly 80% width) */}
-              <div style={{
-                flex: '0 0 80%',
-                width: '80%',
-                maxWidth: '80%',
-                minWidth: '80%',
+                flex: 1,
                 height: '100%',
                 position: 'relative',
                 overflow: 'hidden',
@@ -895,29 +669,31 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                   />
                 ))}
               </div>
-            </>
-          )}
 
-          {activeLessonTab === 2 && (
-            <>
-              {/* LEFT SIDE: Content panel (exactly 20% width) */}
+              {/* RIGHT SIDE: Content panel (minimum required space) */}
               <div style={{
-                flex: '0 0 20%',
-                width: '20%',
-                maxWidth: '20%',
-                minWidth: '20%',
+                flex: '0 0 clamp(320px, 25vw, 380px)',
+                width: 'clamp(320px, 25vw, 380px)',
                 height: '100%',
                 backgroundColor: '#ffffff',
-                borderRight: '1px solid #cbd5e1',
-                padding: 'clamp(8px, 1.2vh, 14px) clamp(8px, 0.9vw, 12px)',
+                borderLeft: '1px solid #cbd5e1',
+                padding: 'clamp(10px, 1.4vh, 16px) clamp(10px, 1vw, 14px)',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'flex-start',
                 boxSizing: 'border-box',
                 zIndex: 5,
-                overflowY: 'auto'
+                overflow: 'hidden'
               }}>
-                {/* Visual Card matching screenshot layout */}
+                <div style={{
+                  flex: 1,
+                  minHeight: 0,
+                  overflowY: 'auto',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                  boxSizing: 'border-box'
+                }}>
+                  {/* Visual Card matching screenshot layout */}
                 <div style={{
                   backgroundColor: '#ffffff',
                   border: '1.5px solid #d1d5db',
@@ -932,65 +708,65 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                   {/* Dark Forest Green Header Banner */}
                   <div style={{
                     backgroundColor: '#1b4332',
-                    padding: 'clamp(8px, 1.3vh, 12px) clamp(10px, 1vw, 14px)',
+                    padding: 'clamp(10px, 1.4vh, 14px) clamp(12px, 1.1vw, 16px)',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '8px'
+                    gap: '10px'
                   }}>
-                    <span style={{ fontSize: '1.35rem', lineHeight: 1 }}>🏠</span>
+                    <span style={{ fontSize: '1.6rem', lineHeight: 1 }}>🍃</span>
                     <h2 style={{
                       fontFamily: '"Times New Roman", Times, Georgia, serif',
-                      fontSize: 'clamp(1.15rem, 1.35vw, 1.45rem)',
-                      fontWeight: 700,
+                      fontSize: 'clamp(1.5rem, 1.8vw, 2.1rem)',
+                      fontWeight: 900,
                       color: '#ffffff',
                       margin: 0,
                       lineHeight: 1.2,
                       letterSpacing: '0.01em'
                     }}>
-                      Explore Home
+                      Explore Nature
                     </h2>
                   </div>
 
                   {/* Card Content Body */}
                   <div style={{
-                    padding: 'clamp(10px, 1.5vh, 14px) clamp(10px, 1vw, 14px)',
+                    padding: 'clamp(12px, 1.6vh, 16px) clamp(12px, 1.1vw, 16px)',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '10px',
+                    gap: '12px',
                     boxSizing: 'border-box'
                   }}>
                     {/* Instruction */}
                     <p style={{
                       fontFamily: '"Times New Roman", Times, Georgia, serif',
-                      fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
+                      fontSize: 'clamp(1.18rem, 1.32vw, 1.52rem)',
                       color: '#0f172a',
-                      lineHeight: 1.45,
+                      lineHeight: 1.35,
                       margin: 0,
-                      fontWeight: 600
+                      fontWeight: 700
                     }}>
-                      Click the stairs, book, window, clock, and tiles to explore their mathematical patterns.
+                      Click the sunflower, leaves, fern, flower, rocks, and shell to explore their mathematical patterns.
                     </p>
 
-                    {/* 5 Clickable Object Rows with Small Thumbnails */}
+                    {/* 6 Clickable Object Rows with Small Thumbnails */}
                     <div style={{
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: '6px',
+                      gap: '8px',
                       marginTop: '2px'
                     }}>
-                      {HOME_OBJECTS.map((item) => {
-                        const isSelected = selectedHomeObj?.id === item.id;
+                      {NATURE_OBJECTS.map((item) => {
+                        const isSelected = selectedNatureObj?.id === item.id;
                         return (
                           <button
                             key={item.id}
                             type="button"
-                            onClick={() => setSelectedHomeObj(isSelected ? null : item)}
+                            onClick={() => setSelectedNatureObj(isSelected ? null : item)}
                             style={{
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'space-between',
                               width: '100%',
-                              padding: 'clamp(6px, 0.8vh, 8px) clamp(8px, 0.8vw, 12px)',
+                              padding: '8px 12px',
                               backgroundColor: isSelected ? '#ecfdf5' : '#ffffff',
                               border: `1.5px solid ${isSelected ? '#10b981' : '#e2e8f0'}`,
                               borderRadius: '8px',
@@ -1017,8 +793,8 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                                 src={item.image}
                                 alt={item.name}
                                 style={{
-                                  width: '30px',
-                                  height: '30px',
+                                  width: '32px',
+                                  height: '32px',
                                   borderRadius: '50%',
                                   objectFit: 'cover',
                                   border: `1.5px solid ${isSelected ? '#10b981' : '#cbd5e1'}`,
@@ -1027,8 +803,8 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                               />
                               <span style={{
                                 fontFamily: '"Times New Roman", Times, Georgia, serif',
-                                fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
-                                fontWeight: isSelected ? 700 : 600,
+                                fontSize: 'clamp(1.25rem, 1.4vw, 1.55rem)',
+                                fontWeight: isSelected ? 800 : 700,
                                 color: isSelected ? '#065f46' : '#1e293b'
                               }}>
                                 {item.name}
@@ -1036,8 +812,8 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                             </div>
                             <span style={{
                               fontFamily: '"Times New Roman", Times, Georgia, serif',
-                              fontSize: '1.2rem',
-                              fontWeight: 700,
+                              fontSize: '1.3rem',
+                              fontWeight: 800,
                               color: isSelected ? '#10b981' : '#94a3b8'
                             }}>
                               ›
@@ -1048,10 +824,10 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                     </div>
 
                     {/* Selected Pattern Details Display (when an object is clicked) */}
-                    {selectedHomeObj && (
+                    {selectedNatureObj && (
                       <div style={{
                         marginTop: '4px',
-                        padding: 'clamp(10px, 1.4vh, 14px)',
+                        padding: '12px 14px',
                         backgroundColor: '#f0fdf4',
                         border: '1.5px solid #86efac',
                         borderRadius: '8px',
@@ -1061,35 +837,35 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                       }}>
                         <h4 style={{
                           fontFamily: '"Times New Roman", Times, Georgia, serif',
-                          fontSize: 'clamp(1.05rem, 1.2vw, 1.25rem)',
-                          fontWeight: 700,
+                          fontSize: 'clamp(1.4rem, 1.6vw, 1.95rem)',
+                          fontWeight: 900,
                           color: '#14532d',
                           margin: 0,
-                          lineHeight: 1.25
+                          lineHeight: 1.2
                         }}>
-                          {selectedHomeObj.heading}
+                          {selectedNatureObj.heading}
                         </h4>
                         <p style={{
                           fontFamily: '"Times New Roman", Times, Georgia, serif',
-                          fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
+                          fontSize: 'clamp(1.18rem, 1.32vw, 1.52rem)',
                           color: '#1e293b',
-                          lineHeight: 1.5,
+                          lineHeight: 1.4,
                           margin: 0,
-                          fontWeight: 500
+                          fontWeight: 700
                         }}>
-                          {selectedHomeObj.description}
+                          {selectedNatureObj.description}
                         </p>
                         <button
                           type="button"
-                          onClick={() => setSelectedHomeObj(null)}
+                          onClick={() => setSelectedNatureObj(null)}
                           style={{
-                            marginTop: '2px',
-                            padding: '5px 10px',
-                            fontSize: '0.95rem',
+                            marginTop: '4px',
+                            padding: '6px 14px',
+                            fontSize: 'clamp(1.1rem, 1.25vw, 1.35rem)',
                             fontFamily: '"Times New Roman", Times, Georgia, serif',
-                            fontWeight: 700,
+                            fontWeight: 800,
                             color: '#166534',
-                            border: '1px solid #166534',
+                            border: '1.5px solid #166534',
                             borderRadius: '6px',
                             backgroundColor: '#ffffff',
                             cursor: 'pointer',
@@ -1105,7 +881,7 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                             e.currentTarget.style.color = '#166534';
                           }}
                         >
-                          ← Full Home Scene
+                          ← Full Nature Scene
                         </button>
                       </div>
                     )}
@@ -1113,12 +889,20 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                 </div>
               </div>
 
-              {/* RIGHT SIDE: Large Image / Home Scene Area (exactly 80% width) */}
+              {/* Bottom-right pinned Next button: Section 1 -> Section 2 */}
+              <SectionNextButton onClick={() => {
+                setActiveLessonTab(2);
+                setSelectedNatureObj(null);
+              }} />
+            </div>
+          </>
+        )}
+
+          {activeLessonTab === 2 && (
+            <>
+              {/* LEFT SIDE: Large Image / Home Scene Area (maximum space) */}
               <div style={{
-                flex: '0 0 80%',
-                width: '80%',
-                maxWidth: '80%',
-                minWidth: '80%',
+                flex: 1,
                 height: '100%',
                 position: 'relative',
                 overflow: 'hidden',
@@ -1174,29 +958,31 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                   />
                 ))}
               </div>
-            </>
-          )}
 
-          {activeLessonTab === 3 && (
-            <>
-              {/* LEFT SIDE: Content panel (exactly 20% width) */}
+              {/* RIGHT SIDE: Content panel (minimum required space) */}
               <div style={{
-                flex: '0 0 20%',
-                width: '20%',
-                maxWidth: '20%',
-                minWidth: '20%',
+                flex: '0 0 clamp(320px, 25vw, 380px)',
+                width: 'clamp(320px, 25vw, 380px)',
                 height: '100%',
                 backgroundColor: '#ffffff',
-                borderRight: '1px solid #cbd5e1',
-                padding: 'clamp(8px, 1.2vh, 14px) clamp(8px, 0.9vw, 12px)',
+                borderLeft: '1px solid #cbd5e1',
+                padding: 'clamp(10px, 1.4vh, 16px) clamp(10px, 1vw, 14px)',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'flex-start',
                 boxSizing: 'border-box',
                 zIndex: 5,
-                overflowY: 'auto'
+                overflow: 'hidden'
               }}>
-                {/* Visual Card matching screenshot layout */}
+                <div style={{
+                  flex: 1,
+                  minHeight: 0,
+                  overflowY: 'auto',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                  boxSizing: 'border-box'
+                }}>
+                  {/* Visual Card matching screenshot layout */}
                 <div style={{
                   backgroundColor: '#ffffff',
                   border: '1.5px solid #d1d5db',
@@ -1211,65 +997,65 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                   {/* Dark Forest Green Header Banner */}
                   <div style={{
                     backgroundColor: '#1b4332',
-                    padding: 'clamp(8px, 1.3vh, 12px) clamp(10px, 1vw, 14px)',
+                    padding: 'clamp(10px, 1.4vh, 14px) clamp(12px, 1.1vw, 16px)',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '8px'
+                    gap: '10px'
                   }}>
-                    <span style={{ fontSize: '1.35rem', lineHeight: 1 }}>🏫</span>
+                    <span style={{ fontSize: '1.6rem', lineHeight: 1 }}>🏠</span>
                     <h2 style={{
                       fontFamily: '"Times New Roman", Times, Georgia, serif',
-                      fontSize: 'clamp(1.15rem, 1.35vw, 1.45rem)',
-                      fontWeight: 700,
+                      fontSize: 'clamp(1.5rem, 1.8vw, 2.1rem)',
+                      fontWeight: 900,
                       color: '#ffffff',
                       margin: 0,
                       lineHeight: 1.2,
                       letterSpacing: '0.01em'
                     }}>
-                      Explore School
+                      Explore Home
                     </h2>
                   </div>
 
                   {/* Card Content Body */}
                   <div style={{
-                    padding: 'clamp(10px, 1.5vh, 14px) clamp(10px, 1vw, 14px)',
+                    padding: 'clamp(12px, 1.6vh, 16px) clamp(12px, 1.1vw, 16px)',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '10px',
+                    gap: '12px',
                     boxSizing: 'border-box'
                   }}>
                     {/* Instruction */}
                     <p style={{
                       fontFamily: '"Times New Roman", Times, Georgia, serif',
-                      fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
+                      fontSize: 'clamp(1.18rem, 1.32vw, 1.52rem)',
                       color: '#0f172a',
-                      lineHeight: 1.45,
+                      lineHeight: 1.35,
                       margin: 0,
-                      fontWeight: 600
+                      fontWeight: 700
                     }}>
-                      Click the desk, corridor, board, and sports court to explore their mathematical patterns.
+                      Click the stairs, book, window, clock, and tiles to explore their mathematical patterns.
                     </p>
 
-                    {/* 4 Clickable Object Rows with Small Thumbnails */}
+                    {/* 5 Clickable Object Rows with Small Thumbnails */}
                     <div style={{
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: '6px',
+                      gap: '8px',
                       marginTop: '2px'
                     }}>
-                      {SCHOOL_OBJECTS.map((item) => {
-                        const isSelected = selectedSchoolObj?.id === item.id;
+                      {HOME_OBJECTS.map((item) => {
+                        const isSelected = selectedHomeObj?.id === item.id;
                         return (
                           <button
                             key={item.id}
                             type="button"
-                            onClick={() => setSelectedSchoolObj(isSelected ? null : item)}
+                            onClick={() => setSelectedHomeObj(isSelected ? null : item)}
                             style={{
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'space-between',
                               width: '100%',
-                              padding: 'clamp(6px, 0.8vh, 8px) clamp(8px, 0.8vw, 12px)',
+                              padding: '8px 12px',
                               backgroundColor: isSelected ? '#ecfdf5' : '#ffffff',
                               border: `1.5px solid ${isSelected ? '#10b981' : '#e2e8f0'}`,
                               borderRadius: '8px',
@@ -1296,8 +1082,8 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                                 src={item.image}
                                 alt={item.name}
                                 style={{
-                                  width: '30px',
-                                  height: '30px',
+                                  width: '32px',
+                                  height: '32px',
                                   borderRadius: '50%',
                                   objectFit: 'cover',
                                   border: `1.5px solid ${isSelected ? '#10b981' : '#cbd5e1'}`,
@@ -1306,8 +1092,8 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                               />
                               <span style={{
                                 fontFamily: '"Times New Roman", Times, Georgia, serif',
-                                fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
-                                fontWeight: isSelected ? 700 : 600,
+                                fontSize: 'clamp(1.25rem, 1.4vw, 1.55rem)',
+                                fontWeight: isSelected ? 800 : 700,
                                 color: isSelected ? '#065f46' : '#1e293b'
                               }}>
                                 {item.name}
@@ -1315,8 +1101,8 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                             </div>
                             <span style={{
                               fontFamily: '"Times New Roman", Times, Georgia, serif',
-                              fontSize: '1.2rem',
-                              fontWeight: 700,
+                              fontSize: '1.3rem',
+                              fontWeight: 800,
                               color: isSelected ? '#10b981' : '#94a3b8'
                             }}>
                               ›
@@ -1327,10 +1113,10 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                     </div>
 
                     {/* Selected Pattern Details Display (when an object is clicked) */}
-                    {selectedSchoolObj && (
+                    {selectedHomeObj && (
                       <div style={{
                         marginTop: '4px',
-                        padding: 'clamp(10px, 1.4vh, 14px)',
+                        padding: '12px 14px',
                         backgroundColor: '#f0fdf4',
                         border: '1.5px solid #86efac',
                         borderRadius: '8px',
@@ -1340,35 +1126,35 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                       }}>
                         <h4 style={{
                           fontFamily: '"Times New Roman", Times, Georgia, serif',
-                          fontSize: 'clamp(1.05rem, 1.2vw, 1.25rem)',
-                          fontWeight: 700,
+                          fontSize: 'clamp(1.4rem, 1.6vw, 1.95rem)',
+                          fontWeight: 900,
                           color: '#14532d',
                           margin: 0,
-                          lineHeight: 1.25
+                          lineHeight: 1.2
                         }}>
-                          {selectedSchoolObj.heading}
+                          {selectedHomeObj.heading}
                         </h4>
                         <p style={{
                           fontFamily: '"Times New Roman", Times, Georgia, serif',
-                          fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
+                          fontSize: 'clamp(1.18rem, 1.32vw, 1.52rem)',
                           color: '#1e293b',
-                          lineHeight: 1.5,
+                          lineHeight: 1.4,
                           margin: 0,
-                          fontWeight: 500
+                          fontWeight: 700
                         }}>
-                          {selectedSchoolObj.description}
+                          {selectedHomeObj.description}
                         </p>
                         <button
                           type="button"
-                          onClick={() => setSelectedSchoolObj(null)}
+                          onClick={() => setSelectedHomeObj(null)}
                           style={{
-                            marginTop: '2px',
-                            padding: '5px 10px',
-                            fontSize: '0.95rem',
+                            marginTop: '4px',
+                            padding: '6px 14px',
+                            fontSize: 'clamp(1.1rem, 1.25vw, 1.35rem)',
                             fontFamily: '"Times New Roman", Times, Georgia, serif',
-                            fontWeight: 700,
+                            fontWeight: 800,
                             color: '#166534',
-                            border: '1px solid #166534',
+                            border: '1.5px solid #166534',
                             borderRadius: '6px',
                             backgroundColor: '#ffffff',
                             cursor: 'pointer',
@@ -1384,7 +1170,7 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                             e.currentTarget.style.color = '#166534';
                           }}
                         >
-                          ← Full School Scene
+                          ← Full Home Scene
                         </button>
                       </div>
                     )}
@@ -1392,12 +1178,20 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                 </div>
               </div>
 
-              {/* RIGHT SIDE: Large Image / School Scene Area (exactly 80% width) */}
+              {/* Bottom-right pinned Next button: Section 2 -> Section 3 */}
+              <SectionNextButton onClick={() => {
+                setActiveLessonTab(3);
+                setSelectedHomeObj(null);
+              }} />
+            </div>
+          </>
+        )}
+
+          {activeLessonTab === 3 && (
+            <>
+              {/* LEFT SIDE: Large Image / School Scene Area (maximum space) */}
               <div style={{
-                flex: '0 0 80%',
-                width: '80%',
-                maxWidth: '80%',
-                minWidth: '80%',
+                flex: 1,
                 height: '100%',
                 position: 'relative',
                 overflow: 'hidden',
@@ -1453,29 +1247,31 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                   />
                 ))}
               </div>
-            </>
-          )}
 
-          {activeLessonTab === 4 && (
-            <>
-              {/* LEFT SIDE: Content panel (exactly 20% width) */}
+              {/* RIGHT SIDE: Content panel (minimum required space) */}
               <div style={{
-                flex: '0 0 20%',
-                width: '20%',
-                maxWidth: '20%',
-                minWidth: '20%',
+                flex: '0 0 clamp(320px, 25vw, 380px)',
+                width: 'clamp(320px, 25vw, 380px)',
                 height: '100%',
                 backgroundColor: '#ffffff',
-                borderRight: '1px solid #cbd5e1',
-                padding: 'clamp(8px, 1.2vh, 14px) clamp(8px, 0.9vw, 12px)',
+                borderLeft: '1px solid #cbd5e1',
+                padding: 'clamp(10px, 1.4vh, 16px) clamp(10px, 1vw, 14px)',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'flex-start',
                 boxSizing: 'border-box',
                 zIndex: 5,
-                overflowY: 'auto'
+                overflow: 'hidden'
               }}>
-                {/* Visual Card matching screenshot layout */}
+                <div style={{
+                  flex: 1,
+                  minHeight: 0,
+                  overflowY: 'auto',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                  boxSizing: 'border-box'
+                }}>
+                  {/* Visual Card matching screenshot layout */}
                 <div style={{
                   backgroundColor: '#ffffff',
                   border: '1.5px solid #d1d5db',
@@ -1490,65 +1286,65 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                   {/* Dark Forest Green Header Banner */}
                   <div style={{
                     backgroundColor: '#1b4332',
-                    padding: 'clamp(8px, 1.3vh, 12px) clamp(10px, 1vw, 14px)',
+                    padding: 'clamp(10px, 1.4vh, 14px) clamp(12px, 1.1vw, 16px)',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '8px'
+                    gap: '10px'
                   }}>
-                    <span style={{ fontSize: '1.35rem', lineHeight: 1 }}>🚴</span>
+                    <span style={{ fontSize: '1.6rem', lineHeight: 1 }}>🏫</span>
                     <h2 style={{
                       fontFamily: '"Times New Roman", Times, Georgia, serif',
-                      fontSize: 'clamp(1.15rem, 1.35vw, 1.45rem)',
-                      fontWeight: 700,
+                      fontSize: 'clamp(1.5rem, 1.8vw, 2.1rem)',
+                      fontWeight: 900,
                       color: '#ffffff',
                       margin: 0,
                       lineHeight: 1.2,
                       letterSpacing: '0.01em'
                     }}>
-                      Explore Everyday Activity
+                      Explore School
                     </h2>
                   </div>
 
                   {/* Card Content Body */}
                   <div style={{
-                    padding: 'clamp(10px, 1.5vh, 14px) clamp(10px, 1vw, 14px)',
+                    padding: 'clamp(12px, 1.6vh, 16px) clamp(12px, 1.1vw, 16px)',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '10px',
+                    gap: '12px',
                     boxSizing: 'border-box'
                   }}>
                     {/* Instruction */}
                     <p style={{
                       fontFamily: '"Times New Roman", Times, Georgia, serif',
-                      fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
+                      fontSize: 'clamp(1.18rem, 1.32vw, 1.52rem)',
                       color: '#0f172a',
-                      lineHeight: 1.45,
+                      lineHeight: 1.35,
                       margin: 0,
-                      fontWeight: 600
+                      fontWeight: 700
                     }}>
-                      Click cricket, shopping, zebra crossing, and bicycle to explore their mathematical patterns.
+                      Click the desk, corridor, board, and sports court to explore their mathematical patterns.
                     </p>
 
                     {/* 4 Clickable Object Rows with Small Thumbnails */}
                     <div style={{
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: '6px',
+                      gap: '8px',
                       marginTop: '2px'
                     }}>
-                      {EVERYDAY_OBJECTS.map((item) => {
-                        const isSelected = selectedEverydayObj?.id === item.id;
+                      {SCHOOL_OBJECTS.map((item) => {
+                        const isSelected = selectedSchoolObj?.id === item.id;
                         return (
                           <button
                             key={item.id}
                             type="button"
-                            onClick={() => setSelectedEverydayObj(isSelected ? null : item)}
+                            onClick={() => setSelectedSchoolObj(isSelected ? null : item)}
                             style={{
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'space-between',
                               width: '100%',
-                              padding: 'clamp(6px, 0.8vh, 8px) clamp(8px, 0.8vw, 12px)',
+                              padding: '8px 12px',
                               backgroundColor: isSelected ? '#ecfdf5' : '#ffffff',
                               border: `1.5px solid ${isSelected ? '#10b981' : '#e2e8f0'}`,
                               borderRadius: '8px',
@@ -1575,8 +1371,8 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                                 src={item.image}
                                 alt={item.name}
                                 style={{
-                                  width: '30px',
-                                  height: '30px',
+                                  width: '32px',
+                                  height: '32px',
                                   borderRadius: '50%',
                                   objectFit: 'cover',
                                   border: `1.5px solid ${isSelected ? '#10b981' : '#cbd5e1'}`,
@@ -1585,8 +1381,8 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                               />
                               <span style={{
                                 fontFamily: '"Times New Roman", Times, Georgia, serif',
-                                fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
-                                fontWeight: isSelected ? 700 : 600,
+                                fontSize: 'clamp(1.25rem, 1.4vw, 1.55rem)',
+                                fontWeight: isSelected ? 800 : 700,
                                 color: isSelected ? '#065f46' : '#1e293b'
                               }}>
                                 {item.name}
@@ -1594,8 +1390,8 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                             </div>
                             <span style={{
                               fontFamily: '"Times New Roman", Times, Georgia, serif',
-                              fontSize: '1.2rem',
-                              fontWeight: 700,
+                              fontSize: '1.3rem',
+                              fontWeight: 800,
                               color: isSelected ? '#10b981' : '#94a3b8'
                             }}>
                               ›
@@ -1606,10 +1402,10 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                     </div>
 
                     {/* Selected Pattern Details Display (when an object is clicked) */}
-                    {selectedEverydayObj && (
+                    {selectedSchoolObj && (
                       <div style={{
                         marginTop: '4px',
-                        padding: 'clamp(10px, 1.4vh, 14px)',
+                        padding: '12px 14px',
                         backgroundColor: '#f0fdf4',
                         border: '1.5px solid #86efac',
                         borderRadius: '8px',
@@ -1619,35 +1415,35 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                       }}>
                         <h4 style={{
                           fontFamily: '"Times New Roman", Times, Georgia, serif',
-                          fontSize: 'clamp(1.05rem, 1.2vw, 1.25rem)',
-                          fontWeight: 700,
+                          fontSize: 'clamp(1.4rem, 1.6vw, 1.95rem)',
+                          fontWeight: 900,
                           color: '#14532d',
                           margin: 0,
-                          lineHeight: 1.25
+                          lineHeight: 1.2
                         }}>
-                          {selectedEverydayObj.heading}
+                          {selectedSchoolObj.heading}
                         </h4>
                         <p style={{
                           fontFamily: '"Times New Roman", Times, Georgia, serif',
-                          fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
+                          fontSize: 'clamp(1.18rem, 1.32vw, 1.52rem)',
                           color: '#1e293b',
-                          lineHeight: 1.5,
+                          lineHeight: 1.4,
                           margin: 0,
-                          fontWeight: 500
+                          fontWeight: 700
                         }}>
-                          {selectedEverydayObj.description}
+                          {selectedSchoolObj.description}
                         </p>
                         <button
                           type="button"
-                          onClick={() => setSelectedEverydayObj(null)}
+                          onClick={() => setSelectedSchoolObj(null)}
                           style={{
-                            marginTop: '2px',
-                            padding: '5px 10px',
-                            fontSize: '0.95rem',
+                            marginTop: '4px',
+                            padding: '6px 14px',
+                            fontSize: 'clamp(1.1rem, 1.25vw, 1.35rem)',
                             fontFamily: '"Times New Roman", Times, Georgia, serif',
-                            fontWeight: 700,
+                            fontWeight: 800,
                             color: '#166534',
-                            border: '1px solid #166534',
+                            border: '1.5px solid #166534',
                             borderRadius: '6px',
                             backgroundColor: '#ffffff',
                             cursor: 'pointer',
@@ -1663,7 +1459,7 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                             e.currentTarget.style.color = '#166534';
                           }}
                         >
-                          ← Full Everyday Activity
+                          ← Full School Scene
                         </button>
                       </div>
                     )}
@@ -1671,12 +1467,20 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                 </div>
               </div>
 
-              {/* RIGHT SIDE: Large Image / Video Scene Area (exactly 80% width) */}
+              {/* Bottom-right pinned Next button: Section 3 -> Section 4 */}
+              <SectionNextButton onClick={() => {
+                setActiveLessonTab(4);
+                setSelectedSchoolObj(null);
+              }} />
+            </div>
+          </>
+        )}
+
+          {activeLessonTab === 4 && (
+            <>
+              {/* LEFT SIDE: Large Image / Video Scene Area (maximum space) */}
               <div style={{
-                flex: '0 0 80%',
-                width: '80%',
-                maxWidth: '80%',
-                minWidth: '80%',
+                flex: 1,
                 height: '100%',
                 position: 'relative',
                 overflow: 'hidden',
@@ -1750,29 +1554,31 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                   />
                 ))}
               </div>
-            </>
-          )}
 
-          {activeLessonTab === 5 && (
-            <>
-              {/* LEFT SIDE: Content panel (exactly 20% width) */}
+              {/* RIGHT SIDE: Content panel (minimum required space) */}
               <div style={{
-                flex: '0 0 20%',
-                width: '20%',
-                maxWidth: '20%',
-                minWidth: '20%',
+                flex: '0 0 clamp(320px, 25vw, 380px)',
+                width: 'clamp(320px, 25vw, 380px)',
                 height: '100%',
                 backgroundColor: '#ffffff',
-                borderRight: '1px solid #cbd5e1',
-                padding: 'clamp(8px, 1.2vh, 14px) clamp(8px, 0.9vw, 12px)',
+                borderLeft: '1px solid #cbd5e1',
+                padding: 'clamp(10px, 1.4vh, 16px) clamp(10px, 1vw, 14px)',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'flex-start',
                 boxSizing: 'border-box',
                 zIndex: 5,
-                overflowY: 'auto'
+                overflow: 'hidden'
               }}>
-                {/* Visual Card matching screenshot layout */}
+                <div style={{
+                  flex: 1,
+                  minHeight: 0,
+                  overflowY: 'auto',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                  boxSizing: 'border-box'
+                }}>
+                  {/* Visual Card matching screenshot layout */}
                 <div style={{
                   backgroundColor: '#ffffff',
                   border: '1.5px solid #d1d5db',
@@ -1787,65 +1593,65 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                   {/* Dark Forest Green Header Banner */}
                   <div style={{
                     backgroundColor: '#1b4332',
-                    padding: 'clamp(8px, 1.3vh, 12px) clamp(10px, 1vw, 14px)',
+                    padding: 'clamp(10px, 1.4vh, 14px) clamp(12px, 1.1vw, 16px)',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '8px'
+                    gap: '10px'
                   }}>
-                    <span style={{ fontSize: '1.35rem', lineHeight: 1 }}>💻</span>
+                    <span style={{ fontSize: '1.6rem', lineHeight: 1 }}>🚴</span>
                     <h2 style={{
                       fontFamily: '"Times New Roman", Times, Georgia, serif',
-                      fontSize: 'clamp(1.15rem, 1.35vw, 1.45rem)',
-                      fontWeight: 700,
+                      fontSize: 'clamp(1.5rem, 1.8vw, 2.1rem)',
+                      fontWeight: 900,
                       color: '#ffffff',
                       margin: 0,
                       lineHeight: 1.2,
                       letterSpacing: '0.01em'
                     }}>
-                      Explore Technology
+                      Explore Everyday Activity
                     </h2>
                   </div>
 
                   {/* Card Content Body */}
                   <div style={{
-                    padding: 'clamp(10px, 1.5vh, 14px) clamp(10px, 1vw, 14px)',
+                    padding: 'clamp(12px, 1.6vh, 16px) clamp(12px, 1.1vw, 16px)',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '10px',
+                    gap: '12px',
                     boxSizing: 'border-box'
                   }}>
                     {/* Instruction */}
                     <p style={{
                       fontFamily: '"Times New Roman", Times, Georgia, serif',
-                      fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
+                      fontSize: 'clamp(1.18rem, 1.32vw, 1.52rem)',
                       color: '#0f172a',
-                      lineHeight: 1.45,
+                      lineHeight: 1.35,
                       margin: 0,
-                      fontWeight: 600
+                      fontWeight: 700
                     }}>
-                      Click satellite, phone, and keyboard to explore their mathematical patterns.
+                      Click cricket, shopping, zebra crossing, and bicycle to explore their mathematical patterns.
                     </p>
 
-                    {/* 3 Clickable Object Rows with Small Thumbnails */}
+                    {/* 4 Clickable Object Rows with Small Thumbnails */}
                     <div style={{
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: '6px',
+                      gap: '8px',
                       marginTop: '2px'
                     }}>
-                      {TECHNOLOGY_OBJECTS.map((item) => {
-                        const isSelected = selectedTechnologyObj?.id === item.id;
+                      {EVERYDAY_OBJECTS.map((item) => {
+                        const isSelected = selectedEverydayObj?.id === item.id;
                         return (
                           <button
                             key={item.id}
                             type="button"
-                            onClick={() => setSelectedTechnologyObj(isSelected ? null : item)}
+                            onClick={() => setSelectedEverydayObj(isSelected ? null : item)}
                             style={{
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'space-between',
                               width: '100%',
-                              padding: 'clamp(6px, 0.8vh, 8px) clamp(8px, 0.8vw, 12px)',
+                              padding: '8px 12px',
                               backgroundColor: isSelected ? '#ecfdf5' : '#ffffff',
                               border: `1.5px solid ${isSelected ? '#10b981' : '#e2e8f0'}`,
                               borderRadius: '8px',
@@ -1872,8 +1678,8 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                                 src={item.image}
                                 alt={item.name}
                                 style={{
-                                  width: '30px',
-                                  height: '30px',
+                                  width: '32px',
+                                  height: '32px',
                                   borderRadius: '50%',
                                   objectFit: 'cover',
                                   border: `1.5px solid ${isSelected ? '#10b981' : '#cbd5e1'}`,
@@ -1882,8 +1688,8 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                               />
                               <span style={{
                                 fontFamily: '"Times New Roman", Times, Georgia, serif',
-                                fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
-                                fontWeight: isSelected ? 700 : 600,
+                                fontSize: 'clamp(1.25rem, 1.4vw, 1.55rem)',
+                                fontWeight: isSelected ? 800 : 700,
                                 color: isSelected ? '#065f46' : '#1e293b'
                               }}>
                                 {item.name}
@@ -1891,8 +1697,8 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                             </div>
                             <span style={{
                               fontFamily: '"Times New Roman", Times, Georgia, serif',
-                              fontSize: '1.2rem',
-                              fontWeight: 700,
+                              fontSize: '1.3rem',
+                              fontWeight: 800,
                               color: isSelected ? '#10b981' : '#94a3b8'
                             }}>
                               ›
@@ -1903,10 +1709,10 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                     </div>
 
                     {/* Selected Pattern Details Display (when an object is clicked) */}
-                    {selectedTechnologyObj && (
+                    {selectedEverydayObj && (
                       <div style={{
                         marginTop: '4px',
-                        padding: 'clamp(10px, 1.4vh, 14px)',
+                        padding: '12px 14px',
                         backgroundColor: '#f0fdf4',
                         border: '1.5px solid #86efac',
                         borderRadius: '8px',
@@ -1916,35 +1722,35 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                       }}>
                         <h4 style={{
                           fontFamily: '"Times New Roman", Times, Georgia, serif',
-                          fontSize: 'clamp(1.05rem, 1.2vw, 1.25rem)',
-                          fontWeight: 700,
+                          fontSize: 'clamp(1.4rem, 1.6vw, 1.95rem)',
+                          fontWeight: 900,
                           color: '#14532d',
                           margin: 0,
-                          lineHeight: 1.25
+                          lineHeight: 1.2
                         }}>
-                          {selectedTechnologyObj.heading}
+                          {selectedEverydayObj.heading}
                         </h4>
                         <p style={{
                           fontFamily: '"Times New Roman", Times, Georgia, serif',
-                          fontSize: 'clamp(1rem, 1.1vw, 1.15rem)',
+                          fontSize: 'clamp(1.18rem, 1.32vw, 1.52rem)',
                           color: '#1e293b',
-                          lineHeight: 1.5,
+                          lineHeight: 1.4,
                           margin: 0,
-                          fontWeight: 500
+                          fontWeight: 700
                         }}>
-                          {selectedTechnologyObj.description}
+                          {selectedEverydayObj.description}
                         </p>
                         <button
                           type="button"
-                          onClick={() => setSelectedTechnologyObj(null)}
+                          onClick={() => setSelectedEverydayObj(null)}
                           style={{
-                            marginTop: '2px',
-                            padding: '5px 10px',
-                            fontSize: '0.95rem',
+                            marginTop: '4px',
+                            padding: '6px 14px',
+                            fontSize: 'clamp(1.1rem, 1.25vw, 1.35rem)',
                             fontFamily: '"Times New Roman", Times, Georgia, serif',
-                            fontWeight: 700,
+                            fontWeight: 800,
                             color: '#166534',
-                            border: '1px solid #166534',
+                            border: '1.5px solid #166534',
                             borderRadius: '6px',
                             backgroundColor: '#ffffff',
                             cursor: 'pointer',
@@ -1960,7 +1766,7 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                             e.currentTarget.style.color = '#166534';
                           }}
                         >
-                          ← Full Technology Scene
+                          ← Full Everyday Activity
                         </button>
                       </div>
                     )}
@@ -1968,12 +1774,20 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                 </div>
               </div>
 
-              {/* RIGHT SIDE: Large Image / Video Scene Area (exactly 80% width) */}
+              {/* Bottom-right pinned Next button: Section 4 -> Section 5 */}
+              <SectionNextButton onClick={() => {
+                setActiveLessonTab(5);
+                setSelectedEverydayObj(null);
+              }} />
+            </div>
+          </>
+        )}
+
+          {activeLessonTab === 5 && (
+            <>
+              {/* LEFT SIDE: Large Image / Video Scene Area (maximum space) */}
               <div style={{
-                flex: '0 0 80%',
-                width: '80%',
-                maxWidth: '80%',
-                minWidth: '80%',
+                flex: 1,
                 height: '100%',
                 position: 'relative',
                 overflow: 'hidden',
@@ -2047,18 +1861,247 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
                   />
                 ))}
               </div>
-            </>
-          )}
 
-          {activeLessonTab === 6 && (
-            <div style={{ flex: 1, width: '100%', height: '100%', position: 'relative' }}>
-              <PatternWhyExperience />
+              {/* RIGHT SIDE: Content panel (minimum required space) */}
+              <div style={{
+                flex: '0 0 clamp(320px, 25vw, 380px)',
+                width: 'clamp(320px, 25vw, 380px)',
+                height: '100%',
+                backgroundColor: '#ffffff',
+                borderLeft: '1px solid #cbd5e1',
+                padding: 'clamp(10px, 1.4vh, 16px) clamp(10px, 1vw, 14px)',
+                display: 'flex',
+                flexDirection: 'column',
+                boxSizing: 'border-box',
+                zIndex: 5,
+                overflow: 'hidden'
+              }}>
+                <div style={{
+                  flex: 1,
+                  minHeight: 0,
+                  overflowY: 'auto',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                  boxSizing: 'border-box'
+                }}>
+                  {/* Visual Card matching screenshot layout */}
+                <div style={{
+                  backgroundColor: '#ffffff',
+                  border: '1.5px solid #d1d5db',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  boxShadow: '0 3px 12px rgba(0, 0, 0, 0.06)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                  boxSizing: 'border-box'
+                }}>
+                  {/* Dark Forest Green Header Banner */}
+                  <div style={{
+                    backgroundColor: '#1b4332',
+                    padding: 'clamp(10px, 1.4vh, 14px) clamp(12px, 1.1vw, 16px)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px'
+                  }}>
+                    <span style={{ fontSize: '1.6rem', lineHeight: 1 }}>💻</span>
+                    <h2 style={{
+                      fontFamily: '"Times New Roman", Times, Georgia, serif',
+                      fontSize: 'clamp(1.5rem, 1.8vw, 2.1rem)',
+                      fontWeight: 900,
+                      color: '#ffffff',
+                      margin: 0,
+                      lineHeight: 1.2,
+                      letterSpacing: '0.01em'
+                    }}>
+                      Explore Technology
+                    </h2>
+                  </div>
+
+                  {/* Card Content Body */}
+                  <div style={{
+                    padding: 'clamp(12px, 1.6vh, 16px) clamp(12px, 1.1vw, 16px)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '12px',
+                    boxSizing: 'border-box'
+                  }}>
+                    {/* Instruction */}
+                    <p style={{
+                      fontFamily: '"Times New Roman", Times, Georgia, serif',
+                      fontSize: 'clamp(1.18rem, 1.32vw, 1.52rem)',
+                      color: '#0f172a',
+                      lineHeight: 1.35,
+                      margin: 0,
+                      fontWeight: 700
+                    }}>
+                      Click satellite, phone, and keyboard to explore their mathematical patterns.
+                    </p>
+
+                    {/* 3 Clickable Object Rows with Small Thumbnails */}
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '8px',
+                      marginTop: '2px'
+                    }}>
+                      {TECHNOLOGY_OBJECTS.map((item) => {
+                        const isSelected = selectedTechnologyObj?.id === item.id;
+                        return (
+                          <button
+                            key={item.id}
+                            type="button"
+                            onClick={() => setSelectedTechnologyObj(isSelected ? null : item)}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              width: '100%',
+                              padding: '8px 12px',
+                              backgroundColor: isSelected ? '#ecfdf5' : '#ffffff',
+                              border: `1.5px solid ${isSelected ? '#10b981' : '#e2e8f0'}`,
+                              borderRadius: '8px',
+                              cursor: 'pointer',
+                              transition: 'all 0.15s ease',
+                              boxSizing: 'border-box',
+                              boxShadow: isSelected ? '0 2px 6px rgba(16, 185, 129, 0.2)' : 'none'
+                            }}
+                            onMouseEnter={(e) => {
+                              if (!isSelected) {
+                                e.currentTarget.style.borderColor = '#cbd5e1';
+                                e.currentTarget.style.backgroundColor = '#f8fafc';
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              if (!isSelected) {
+                                e.currentTarget.style.borderColor = '#e2e8f0';
+                                e.currentTarget.style.backgroundColor = '#ffffff';
+                              }
+                            }}
+                          >
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                              <img
+                                src={item.image}
+                                alt={item.name}
+                                style={{
+                                  width: '32px',
+                                  height: '32px',
+                                  borderRadius: '50%',
+                                  objectFit: 'cover',
+                                  border: `1.5px solid ${isSelected ? '#10b981' : '#cbd5e1'}`,
+                                  flexShrink: 0
+                                }}
+                              />
+                              <span style={{
+                                fontFamily: '"Times New Roman", Times, Georgia, serif',
+                                fontSize: 'clamp(1.25rem, 1.4vw, 1.55rem)',
+                                fontWeight: isSelected ? 800 : 700,
+                                color: isSelected ? '#065f46' : '#1e293b'
+                              }}>
+                                {item.name}
+                              </span>
+                            </div>
+                            <span style={{
+                              fontFamily: '"Times New Roman", Times, Georgia, serif',
+                              fontSize: '1.3rem',
+                              fontWeight: 800,
+                              color: isSelected ? '#10b981' : '#94a3b8'
+                            }}>
+                              ›
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Selected Pattern Details Display (when an object is clicked) */}
+                    {selectedTechnologyObj && (
+                      <div style={{
+                        marginTop: '4px',
+                        padding: '12px 14px',
+                        backgroundColor: '#f0fdf4',
+                        border: '1.5px solid #86efac',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '8px'
+                      }}>
+                        <h4 style={{
+                          fontFamily: '"Times New Roman", Times, Georgia, serif',
+                          fontSize: 'clamp(1.4rem, 1.6vw, 1.95rem)',
+                          fontWeight: 900,
+                          color: '#14532d',
+                          margin: 0,
+                          lineHeight: 1.2
+                        }}>
+                          {selectedTechnologyObj.heading}
+                        </h4>
+                        <p style={{
+                          fontFamily: '"Times New Roman", Times, Georgia, serif',
+                          fontSize: 'clamp(1.18rem, 1.32vw, 1.52rem)',
+                          color: '#1e293b',
+                          lineHeight: 1.4,
+                          margin: 0,
+                          fontWeight: 700
+                        }}>
+                          {selectedTechnologyObj.description}
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedTechnologyObj(null)}
+                          style={{
+                            marginTop: '4px',
+                            padding: '6px 14px',
+                            fontSize: 'clamp(1.1rem, 1.25vw, 1.35rem)',
+                            fontFamily: '"Times New Roman", Times, Georgia, serif',
+                            fontWeight: 800,
+                            color: '#166534',
+                            border: '1.5px solid #166534',
+                            borderRadius: '6px',
+                            backgroundColor: '#ffffff',
+                            cursor: 'pointer',
+                            alignSelf: 'flex-start',
+                            transition: 'all 0.15s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = '#166534';
+                            e.currentTarget.style.color = '#ffffff';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = '#ffffff';
+                            e.currentTarget.style.color = '#166534';
+                          }}
+                        >
+                          ← Full Technology Scene
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom-right pinned Next button: Section 5 -> Section 6 */}
+              <SectionNextButton onClick={() => {
+                setActiveLessonTab(6);
+                setSelectedTechnologyObj(null);
+              }} />
             </div>
-          )}
+          </>
+        )}
+
+        {activeLessonTab === 6 && (
+          <div style={{ flex: 1, width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
+            <PatternWhyExperience onNext={() => setActiveLessonTab(7)} />
+          </div>
+        )}
 
           {activeLessonTab === 7 && (
-            <div style={{ flex: 1, width: '100%', height: '100%', position: 'relative' }}>
-              <FigureItOutExperience />
+            <div style={{ flex: 1, width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
+              <FigureItOutExperience onNext={() => {
+                if (onCompleteNode) onCompleteNode();
+                if (onClose) onClose();
+              }} />
             </div>
           )}
         </div>
@@ -2110,43 +2153,6 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
           }}
           loading="eager"
         />
-
-        {activeImage.id === 8 && (
-          <button
-            type="button"
-            onClick={() => setCurrentSlide(TRAFFIC_SLIDES.length)}
-            style={{
-              position: 'absolute',
-              bottom: '24px',
-              right: '28px',
-              zIndex: 10,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '10px 22px',
-              background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-              color: '#ffffff',
-              fontSize: '0.95rem',
-              fontWeight: '800',
-              fontFamily: '"Space Grotesk", sans-serif',
-              border: '1.5px solid rgba(254, 243, 199, 0.4)',
-              borderRadius: '12px',
-              cursor: 'pointer',
-              boxShadow: '0 8px 24px rgba(217, 119, 6, 0.45), 0 2px 6px rgba(0,0,0,0.3)',
-              transition: 'all 0.2s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
-              e.currentTarget.style.boxShadow = '0 12px 28px rgba(217, 119, 6, 0.6), 0 4px 10px rgba(0,0,0,0.4)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0) scale(1)';
-              e.currentTarget.style.boxShadow = '0 8px 24px rgba(217, 119, 6, 0.45), 0 2px 6px rgba(0,0,0,0.3)';
-            }}
-          >
-            <span>Next →</span>
-          </button>
-        )}
       </div>
 
       {/* ── BOTTOM 10%: COMPACT CLEAN NARRATION TEXT AREA (TIMES NEW ROMAN) ── */}
@@ -2162,6 +2168,7 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
         padding: '6px 24px',
         boxSizing: 'border-box',
         userSelect: 'none',
+        position: 'relative',
       }}>
         <p style={{
           fontFamily: '"Times New Roman", Times, Georgia, serif',
@@ -2170,7 +2177,7 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
           color: '#f8fafc',
           margin: 0,
           textAlign: 'center',
-          maxWidth: '1200px',
+          maxWidth: 'min(1100px, calc(100% - 240px))',
         }}>
           {words.map((word, idx) => {
             const isCurrent = currentWordIndex === idx;
@@ -2195,6 +2202,43 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
             );
           })}
         </p>
+
+        <button
+          type="button"
+          onClick={() => setCurrentSlide((prev) => prev + 1)}
+          style={{
+            position: 'absolute',
+            right: '24px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            zIndex: 10,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            padding: '10px 22px',
+            background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+            color: '#ffffff',
+            fontSize: '0.95rem',
+            fontWeight: '800',
+            fontFamily: '"Space Grotesk", sans-serif',
+            border: '1.5px solid rgba(254, 243, 199, 0.4)',
+            borderRadius: '12px',
+            cursor: 'pointer',
+            boxShadow: '0 8px 24px rgba(217, 119, 6, 0.45), 0 2px 6px rgba(0,0,0,0.3)',
+            transition: 'all 0.2s ease',
+            whiteSpace: 'nowrap',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(calc(-50% - 2px)) scale(1.02)';
+            e.currentTarget.style.boxShadow = '0 12px 28px rgba(217, 119, 6, 0.6), 0 4px 10px rgba(0,0,0,0.4)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+            e.currentTarget.style.boxShadow = '0 8px 24px rgba(217, 119, 6, 0.45), 0 2px 6px rgba(0,0,0,0.3)';
+          }}
+        >
+          <span>Next →</span>
+        </button>
       </div>
     </div>
   );
