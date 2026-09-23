@@ -1,0 +1,223 @@
+{
+  "rose": {
+    "audioFile": "Rose.mp3",
+    "totalDuration": 28.186,
+    "words": [
+      {
+        "word": "Look",
+        "start": 0.0,
+        "end": 0.278
+      },
+      {
+        "word": "at",
+        "start": 0.278,
+        "end": 0.417
+      },
+      {
+        "word": "the",
+        "start": 0.417,
+        "end": 0.625
+      },
+      {
+        "word": "rose",
+        "start": 0.625,
+        "end": 0.903
+      },
+      {
+        "word": "plant.",
+        "start": 0.903,
+        "end": 1.251
+      },
+      {
+        "word": "Thin,",
+        "start": 1.873,
+        "end": 2.254
+      },
+      {
+        "word": "woody",
+        "start": 2.254,
+        "end": 2.731
+      },
+      {
+        "word": "stems",
+        "start": 2.731,
+        "end": 3.208
+      },
+      {
+        "word": "with",
+        "start": 3.208,
+        "end": 3.589
+      },
+      {
+        "word": "sharp",
+        "start": 3.589,
+        "end": 4.066
+      },
+      {
+        "word": "prickles,",
+        "start": 4.066,
+        "end": 4.828
+      },
+      {
+        "word": "commonly",
+        "start": 4.828,
+        "end": 5.591
+      },
+      {
+        "word": "called",
+        "start": 5.591,
+        "end": 6.163
+      },
+      {
+        "word": "thorns.",
+        "start": 6.163,
+        "end": 6.735
+      },
+      {
+        "word": "Compound",
+        "start": 7.82,
+        "end": 9.16
+      },
+      {
+        "word": "leaves",
+        "start": 9.16,
+        "end": 10.165
+      },
+      {
+        "word": "made",
+        "start": 10.165,
+        "end": 10.835
+      },
+      {
+        "word": "of",
+        "start": 10.835,
+        "end": 11.17
+      },
+      {
+        "word": "leaflets",
+        "start": 11.17,
+        "end": 12.511
+      },
+      {
+        "word": "with",
+        "start": 12.511,
+        "end": 13.181
+      },
+      {
+        "word": "toothed",
+        "start": 13.181,
+        "end": 14.353
+      },
+      {
+        "word": "edges.",
+        "start": 14.353,
+        "end": 15.191
+      },
+      {
+        "word": "Fragrant",
+        "start": 15.542,
+        "end": 16.474
+      },
+      {
+        "word": "pink",
+        "start": 16.474,
+        "end": 16.94
+      },
+      {
+        "word": "or",
+        "start": 16.94,
+        "end": 17.173
+      },
+      {
+        "word": "red",
+        "start": 17.173,
+        "end": 17.522
+      },
+      {
+        "word": "blooms.",
+        "start": 17.522,
+        "end": 18.221
+      },
+      {
+        "word": "A",
+        "start": 19.163,
+        "end": 19.321
+      },
+      {
+        "word": "medium-sized",
+        "start": 19.321,
+        "end": 20.269
+      },
+      {
+        "word": "shrub",
+        "start": 20.269,
+        "end": 20.664
+      },
+      {
+        "word": "with",
+        "start": 20.664,
+        "end": 20.98
+      },
+      {
+        "word": "prickly",
+        "start": 20.98,
+        "end": 21.533
+      },
+      {
+        "word": "branches.",
+        "start": 21.533,
+        "end": 22.165
+      },
+      {
+        "word": "How",
+        "start": 24.52,
+        "end": 24.741
+      },
+      {
+        "word": "is",
+        "start": 24.741,
+        "end": 24.888
+      },
+      {
+        "word": "a",
+        "start": 24.888,
+        "end": 25.035
+      },
+      {
+        "word": "compound",
+        "start": 25.035,
+        "end": 25.625
+      },
+      {
+        "word": "leaf",
+        "start": 25.625,
+        "end": 25.919
+      },
+      {
+        "word": "different",
+        "start": 25.919,
+        "end": 26.582
+      },
+      {
+        "word": "from",
+        "start": 26.582,
+        "end": 26.876
+      },
+      {
+        "word": "a",
+        "start": 26.876,
+        "end": 27.024
+      },
+      {
+        "word": "simple",
+        "start": 27.024,
+        "end": 27.465
+      },
+      {
+        "word": "leaf?",
+        "start": 27.465,
+        "end": 27.76
+      }
+    ]
+  }
+}

@@ -699,52 +699,7 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               }}
             />
 
-                        {/* Direct Vector Tick Mark for "Use your evidence. Which group fits this plant?" */}
-            {(() => {
-              const cardPositions = {
-                Herb: { left: '60.4%', width: '11.4%', top: '57.5%', height: '17.0%' },
-                Shrub: { left: '72.6%', width: '11.4%', top: '57.5%', height: '17.0%' },
-                Tree: { left: '84.8%', width: '11.4%', top: '57.5%', height: '17.0%' }
-              };
-              const activePos = cardPositions[activeSpecimen.type];
-              if (!activePos) return null;
 
-              return (
-                <div
-                  key={`evidence-group-tick-${activeSpecimen.id}`}
-                  style={{
-                    position: 'absolute',
-                    left: activePos.left,
-                    top: activePos.top,
-                    width: activePos.width,
-                    height: activePos.height,
-                    pointerEvents: 'none',
-                    zIndex: 42,
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    justifyContent: 'flex-end',
-                    padding: '3.5% 4%'
-                  }}
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    width="28"
-                    height="28"
-                    fill="none"
-                    stroke="#14452F"
-                    strokeWidth="3.4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    style={{
-                      filter: 'drop-shadow(0 1.5px 2px rgba(0,0,0,0.25))',
-                      animation: 'popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
-                    }}
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                </div>
-              );
-            })()}
 
             {/* Direct Clickable Hotspots overlaying the 9 discovery trail items */}
             {SPECIMEN_SLIDES.map((sp, idx) => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { X, RefreshCw, Volume2, VolumeX, CheckCircle, ChevronRight, ChevronLeft, Award, ArrowLeft, BookOpen, Target, Eye, EyeOff, ArrowRight, Sprout, Leaf, Flower2, Sparkles, Footprints, Lightbulb, Maximize2, Minimize2, ZoomIn, ZoomOut } from 'lucide-react';
+import { X, RefreshCw, Volume2, VolumeX, CheckCircle, ChevronRight, ChevronLeft, Award, ArrowLeft, BookOpen, Target, Eye, EyeOff, ArrowRight, Sprout, Leaf, Flower2, Sparkles, Footprints, Lightbulb, ZoomIn, ZoomOut } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import useWordSyncAudio from '../narration/useWordSyncAudio';
 import NarratedWords from '../narration/NarratedWords';
@@ -9,6 +9,20 @@ import shrubsNarrationAudio from '../narration/audio/15_BushyWoodyShrubs.mp3';
 import shrubsNarrationData from '../narration/shrubsNarration.json';
 import treesNarrationAudio from '../narration/audio/16_ToweringWoodyTrees.mp3';
 import treesNarrationData from '../narration/treesNarration.json';
+import hibiscusNarrationAudio from '../narration/audio/Hibiscus.mp3';
+import hibiscusNarrationData from '../narration/hibiscusNarration.json';
+import roseNarrationAudio from '../narration/audio/Rose.mp3';
+import roseNarrationData from '../narration/roseNarration.json';
+import sunflowerNarrationAudio from '../narration/audio/Sunflower.mp3';
+import sunflowerNarrationData from '../narration/sunflowerNarration.json';
+import neemNarrationAudio from '../narration/audio/Neem.mp3';
+import neemNarrationData from '../narration/neemNarration.json';
+import grassNarrationAudio from '../narration/audio/Grass.mp3';
+import grassNarrationData from '../narration/grassNarration.json';
+import waterlilyNarrationAudio from '../narration/audio/WaterLily.mp3';
+import waterlilyNarrationData from '../narration/waterlilyNarration.json';
+import tulsiNarrationAudio from '../narration/audio/Tulsi.mp3';
+import tulsiNarrationData from '../narration/tulsiNarration.json';
 import { Play, Pause } from 'lucide-react';
 import activityPlantsImage from '../../../../../assets/2.1_plant.png';
 import activityAnimalsImage from '../DiversityInTheLivingWorldNew/images/ch2_activity_2.1_animals_8k.jpg';
@@ -170,6 +184,396 @@ const ANIMAL_BUTTON_THEMES = {
   butterfly: GREEN_BUTTON_THEME,
   frog: GREEN_BUTTON_THEME,
   ant: GREEN_BUTTON_THEME
+};
+
+// Specimen-Specific Background-Image-Harmonized Color Palettes
+// Each palette pulls direct color accents from the specimen's photo while ensuring AAA readability
+const SPECIMEN_COLOR_PALETTES = {
+  // --- PLANTS ---
+  waterlily: {
+    cardBg: 'linear-gradient(150deg, rgba(3, 26, 30, 0.88) 0%, rgba(2, 16, 20, 0.94) 100%)',
+    cardBorder: 'rgba(56, 189, 248, 0.50)',
+    cardGlow: '0 0 35px rgba(56, 189, 248, 0.25)',
+    titleColor: '#FDE047',
+    titleSubColor: '#F472B6', // Lotus Pink
+    badgeBg: 'linear-gradient(135deg, rgba(14, 165, 233, 0.30) 0%, rgba(2, 132, 199, 0.22) 100%)',
+    badgeBorder: 'rgba(56, 189, 248, 0.55)',
+    badgeColor: '#7DD3FC',
+    stemTitle: '#2DD4BF', // Aquatic Spongy Stem
+    stemBorder: '#14B8A6',
+    stemBody: '#E6FFFA',
+    leavesTitle: '#34D399', // Floating Round Leaf
+    leavesBorder: '#10B981',
+    leavesBody: '#ECFDF5',
+    flowersTitle: '#F472B6', // Fragrant Lotus Pink Petals
+    flowersBorder: '#EC4899',
+    flowersBody: '#FDF2F8',
+    otherTitle: '#38BDF8', // Pond Water & Mud
+    otherBorder: '#0284C7',
+    otherBody: '#F0F9FF',
+    thinkTitle: '#FDE047',
+    thinkBorder: '#F59E0B',
+    thinkBody: '#FEF9C3'
+  },
+  water_lily: {
+    cardBg: 'linear-gradient(150deg, rgba(3, 26, 30, 0.88) 0%, rgba(2, 16, 20, 0.94) 100%)',
+    cardBorder: 'rgba(56, 189, 248, 0.50)',
+    cardGlow: '0 0 35px rgba(56, 189, 248, 0.25)',
+    titleColor: '#FDE047',
+    titleSubColor: '#F472B6',
+    badgeBg: 'linear-gradient(135deg, rgba(14, 165, 233, 0.30) 0%, rgba(2, 132, 199, 0.22) 100%)',
+    badgeBorder: 'rgba(56, 189, 248, 0.55)',
+    badgeColor: '#7DD3FC',
+    stemTitle: '#2DD4BF',
+    stemBorder: '#14B8A6',
+    stemBody: '#E6FFFA',
+    leavesTitle: '#34D399',
+    leavesBorder: '#10B981',
+    leavesBody: '#ECFDF5',
+    flowersTitle: '#F472B6',
+    flowersBorder: '#EC4899',
+    flowersBody: '#FDF2F8',
+    otherTitle: '#38BDF8',
+    otherBorder: '#0284C7',
+    otherBody: '#F0F9FF',
+    thinkTitle: '#FDE047',
+    thinkBorder: '#F59E0B',
+    thinkBody: '#FEF9C3'
+  },
+  hibiscus: {
+    cardBg: 'linear-gradient(150deg, rgba(22, 6, 12, 0.88) 0%, rgba(4, 20, 12, 0.94) 100%)',
+    cardBorder: 'rgba(248, 113, 113, 0.50)',
+    cardGlow: '0 0 35px rgba(248, 113, 113, 0.25)',
+    titleColor: '#FDE047',
+    titleSubColor: '#F87171', // Hibiscus Crimson
+    badgeBg: 'linear-gradient(135deg, rgba(239, 68, 68, 0.30) 0%, rgba(185, 28, 28, 0.22) 100%)',
+    badgeBorder: 'rgba(248, 113, 113, 0.55)',
+    badgeColor: '#FECACA',
+    stemTitle: '#FBBF24', // Thin Woody Stem
+    stemBorder: '#F59E0B',
+    stemBody: '#FFFBEB',
+    leavesTitle: '#4ADE80', // Toothed Serrated Leaves
+    leavesBorder: '#22C55E',
+    leavesBody: '#F0FDF4',
+    flowersTitle: '#F87171', // Bright Red Petals
+    flowersBorder: '#EF4444',
+    flowersBody: '#FFF1F2',
+    otherTitle: '#34D399', // Shrub Architecture
+    otherBorder: '#10B981',
+    otherBody: '#ECFDF5',
+    thinkTitle: '#FDE047',
+    thinkBorder: '#F59E0B',
+    thinkBody: '#FEF9C3'
+  },
+  rose: {
+    cardBg: 'linear-gradient(150deg, rgba(26, 6, 16, 0.88) 0%, rgba(6, 20, 14, 0.94) 100%)',
+    cardBorder: 'rgba(251, 113, 133, 0.50)',
+    cardGlow: '0 0 35px rgba(251, 113, 133, 0.25)',
+    titleColor: '#FFE4E6',
+    titleSubColor: '#FB7185', // Rose Petal Pink
+    badgeBg: 'linear-gradient(135deg, rgba(244, 63, 94, 0.30) 0%, rgba(190, 18, 60, 0.22) 100%)',
+    badgeBorder: 'rgba(251, 113, 133, 0.55)',
+    badgeColor: '#FFE4E6',
+    stemTitle: '#FBBF24', // Prickly Thorny Woody Stem
+    stemBorder: '#F59E0B',
+    stemBody: '#FFFBEB',
+    leavesTitle: '#34D399', // Glossy Compound Leaves
+    leavesBorder: '#10B981',
+    leavesBody: '#ECFDF5',
+    flowersTitle: '#FB7185', // Velvety Crimson Petals
+    flowersBorder: '#F43F5E',
+    flowersBody: '#FFF1F2',
+    otherTitle: '#2DD4BF', // Garden Shrub
+    otherBorder: '#14B8A6',
+    otherBody: '#F0FDFA',
+    thinkTitle: '#FDE047',
+    thinkBorder: '#F59E0B',
+    thinkBody: '#FEF9C3'
+  },
+  sunflower: {
+    cardBg: 'linear-gradient(150deg, rgba(26, 18, 4, 0.88) 0%, rgba(6, 22, 12, 0.94) 100%)',
+    cardBorder: 'rgba(250, 204, 21, 0.50)',
+    cardGlow: '0 0 35px rgba(250, 204, 21, 0.25)',
+    titleColor: '#FEF08A',
+    titleSubColor: '#FACC15', // Radiant Sunflower Gold
+    badgeBg: 'linear-gradient(135deg, rgba(234, 179, 8, 0.30) 0%, rgba(161, 98, 7, 0.22) 100%)',
+    badgeBorder: 'rgba(250, 204, 21, 0.55)',
+    badgeColor: '#FEF08A',
+    stemTitle: '#4ADE80', // Thick Fibrous Green Stem
+    stemBorder: '#22C55E',
+    stemBody: '#F0FDF4',
+    leavesTitle: '#4ADE80', // Broad Rough Leaves
+    leavesBorder: '#22C55E',
+    leavesBody: '#F0FDF4',
+    flowersTitle: '#FACC15', // Golden Yellow Ray Florets
+    flowersBorder: '#EAB308',
+    flowersBody: '#FEFCE8',
+    otherTitle: '#F59E0B', // Sun Tracking & Disc Florets
+    otherBorder: '#D97706',
+    otherBody: '#FEF3C7',
+    thinkTitle: '#FDE047',
+    thinkBorder: '#F59E0B',
+    thinkBody: '#FEF9C3'
+  },
+  tulsi: {
+    cardBg: 'linear-gradient(150deg, rgba(18, 8, 26, 0.88) 0%, rgba(4, 24, 14, 0.94) 100%)',
+    cardBorder: 'rgba(192, 132, 252, 0.50)',
+    cardGlow: '0 0 35px rgba(192, 132, 252, 0.25)',
+    titleColor: '#FDE047',
+    titleSubColor: '#C084FC', // Lavender Blossom
+    badgeBg: 'linear-gradient(135deg, rgba(168, 85, 247, 0.30) 0%, rgba(126, 34, 206, 0.22) 100%)',
+    badgeBorder: 'rgba(192, 132, 252, 0.55)',
+    badgeColor: '#E9D5FF',
+    stemTitle: '#86EFAC', // Soft Tender Green Stem
+    stemBorder: '#22C55E',
+    stemBody: '#F0FDF4',
+    leavesTitle: '#34D399', // Aromatic Oval Leaves
+    leavesBorder: '#10B981',
+    leavesBody: '#ECFDF5',
+    flowersTitle: '#C084FC', // Purple Flower Spikes
+    flowersBorder: '#A855F7',
+    flowersBody: '#FAF5FF',
+    otherTitle: '#2DD4BF', // Medicinal Herb
+    otherBorder: '#14B8A6',
+    otherBody: '#F0FDFA',
+    thinkTitle: '#FDE047',
+    thinkBorder: '#F59E0B',
+    thinkBody: '#FEF9C3'
+  },
+  neem: {
+    cardBg: 'linear-gradient(150deg, rgba(4, 26, 18, 0.88) 0%, rgba(2, 16, 10, 0.94) 100%)',
+    cardBorder: 'rgba(74, 222, 128, 0.50)',
+    cardGlow: '0 0 35px rgba(74, 222, 128, 0.25)',
+    titleColor: '#FEF08A',
+    titleSubColor: '#4ADE80', // Canopy Jade
+    badgeBg: 'linear-gradient(135deg, rgba(34, 197, 94, 0.30) 0%, rgba(21, 128, 61, 0.22) 100%)',
+    badgeBorder: 'rgba(74, 222, 128, 0.55)',
+    badgeColor: '#BBF7D0',
+    stemTitle: '#F59E0B', // Thick Hard Woody Bark
+    stemBorder: '#D97706',
+    stemBody: '#FEF3C7',
+    leavesTitle: '#4ADE80', // Serrated Compound Leaves
+    leavesBorder: '#22C55E',
+    leavesBody: '#F0FDF4',
+    flowersTitle: '#FDE047', // Small Fragrant White/Cream Flowers
+    flowersBorder: '#EAB308',
+    flowersBody: '#FEFCE8',
+    otherTitle: '#34D399', // Towering Canopy & Medicinal Bark
+    otherBorder: '#10B981',
+    otherBody: '#ECFDF5',
+    thinkTitle: '#FDE047',
+    thinkBorder: '#F59E0B',
+    thinkBody: '#FEF9C3'
+  },
+  grass: {
+    cardBg: 'linear-gradient(150deg, rgba(6, 26, 12, 0.88) 0%, rgba(2, 14, 7, 0.94) 100%)',
+    cardBorder: 'rgba(134, 239, 172, 0.50)',
+    cardGlow: '0 0 35px rgba(134, 239, 172, 0.25)',
+    titleColor: '#FEF08A',
+    titleSubColor: '#86EFAC', // Meadow Green
+    badgeBg: 'linear-gradient(135deg, rgba(34, 197, 94, 0.30) 0%, rgba(21, 128, 61, 0.22) 100%)',
+    badgeBorder: 'rgba(134, 239, 172, 0.55)',
+    badgeColor: '#DCFCE7',
+    stemTitle: '#86EFAC', // Slender Flexible Green Stem
+    stemBorder: '#22C55E',
+    stemBody: '#F0FDF4',
+    leavesTitle: '#4ADE80', // Parallel-Veined Narrow Blades
+    leavesBorder: '#22C55E',
+    leavesBody: '#F0FDF4',
+    flowersTitle: '#A3E635', // Green-Yellow Spikelets
+    flowersBorder: '#84CC16',
+    flowersBody: '#F7FEE7',
+    otherTitle: '#34D399', // Fibrous Root Mat & Turf
+    otherBorder: '#10B981',
+    otherBody: '#ECFDF5',
+    thinkTitle: '#FDE047',
+    thinkBorder: '#F59E0B',
+    thinkBody: '#FEF9C3'
+  },
+
+  // --- ANIMALS ---
+  frog: {
+    cardBg: 'linear-gradient(150deg, rgba(3, 26, 22, 0.88) 0%, rgba(2, 16, 12, 0.94) 100%)',
+    cardBorder: 'rgba(52, 211, 153, 0.50)',
+    cardGlow: '0 0 35px rgba(52, 211, 153, 0.25)',
+    titleColor: '#FEF08A',
+    titleSubColor: '#34D399', // Amphibian Green
+    badgeBg: 'linear-gradient(135deg, rgba(16, 185, 129, 0.30) 0%, rgba(5, 150, 105, 0.22) 100%)',
+    badgeBorder: 'rgba(52, 211, 153, 0.55)',
+    badgeColor: '#A7F3D0',
+    habitatTitle: '#38BDF8', // Freshwater Pond & Lily Pads
+    habitatBorder: '#0284C7',
+    habitatBody: '#F0F9FF',
+    movementTitle: '#4ADE80', // Muscular Leaping Legs & Webbed Feet
+    movementBorder: '#22C55E',
+    movementBody: '#F0FDF4',
+    adaptationsTitle: '#FBBF24', // Moist Respiratory Skin & Bulging Eyes
+    adaptationsBorder: '#F59E0B',
+    adaptationsBody: '#FFFBEB',
+    thinkTitle: '#FDE047',
+    thinkBorder: '#F59E0B',
+    thinkBody: '#FEF9C3'
+  },
+  'indian pond frog': {
+    cardBg: 'linear-gradient(150deg, rgba(3, 26, 22, 0.88) 0%, rgba(2, 16, 12, 0.94) 100%)',
+    cardBorder: 'rgba(52, 211, 153, 0.50)',
+    cardGlow: '0 0 35px rgba(52, 211, 153, 0.25)',
+    titleColor: '#FEF08A',
+    titleSubColor: '#34D399',
+    badgeBg: 'linear-gradient(135deg, rgba(16, 185, 129, 0.30) 0%, rgba(5, 150, 105, 0.22) 100%)',
+    badgeBorder: 'rgba(52, 211, 153, 0.55)',
+    badgeColor: '#A7F3D0',
+    habitatTitle: '#38BDF8',
+    habitatBorder: '#0284C7',
+    habitatBody: '#F0F9FF',
+    movementTitle: '#4ADE80',
+    movementBorder: '#22C55E',
+    movementBody: '#F0FDF4',
+    adaptationsTitle: '#FBBF24',
+    adaptationsBorder: '#F59E0B',
+    adaptationsBody: '#FFFBEB',
+    thinkTitle: '#FDE047',
+    thinkBorder: '#F59E0B',
+    thinkBody: '#FEF9C3'
+  },
+  butterfly: {
+    cardBg: 'linear-gradient(150deg, rgba(26, 14, 4, 0.88) 0%, rgba(6, 20, 12, 0.94) 100%)',
+    cardBorder: 'rgba(251, 146, 60, 0.50)',
+    cardGlow: '0 0 35px rgba(251, 146, 60, 0.25)',
+    titleColor: '#FEF08A',
+    titleSubColor: '#FB923C', // Monarch Wing Coral
+    badgeBg: 'linear-gradient(135deg, rgba(249, 115, 22, 0.30) 0%, rgba(194, 65, 12, 0.22) 100%)',
+    badgeBorder: 'rgba(251, 146, 60, 0.55)',
+    badgeColor: '#FFEDD5',
+    habitatTitle: '#34D399',
+    habitatBorder: '#10B981',
+    habitatBody: '#ECFDF5',
+    movementTitle: '#F472B6',
+    movementBorder: '#EC4899',
+    movementBody: '#FDF2F8',
+    adaptationsTitle: '#FACC15',
+    adaptationsBorder: '#EAB308',
+    adaptationsBody: '#FEFCE8',
+    thinkTitle: '#FDE047',
+    thinkBorder: '#F59E0B',
+    thinkBody: '#FEF9C3'
+  },
+  sparrow: {
+    cardBg: 'linear-gradient(150deg, rgba(8, 20, 30, 0.88) 0%, rgba(4, 14, 20, 0.94) 100%)',
+    cardBorder: 'rgba(96, 165, 250, 0.50)',
+    cardGlow: '0 0 35px rgba(96, 165, 250, 0.25)',
+    titleColor: '#FEF08A',
+    titleSubColor: '#60A5FA', // Sky Blue
+    badgeBg: 'linear-gradient(135deg, rgba(59, 130, 246, 0.30) 0%, rgba(29, 78, 216, 0.22) 100%)',
+    badgeBorder: 'rgba(96, 165, 250, 0.55)',
+    badgeColor: '#BFDBFE',
+    habitatTitle: '#34D399',
+    habitatBorder: '#10B981',
+    habitatBody: '#ECFDF5',
+    movementTitle: '#38BDF8',
+    movementBorder: '#0284C7',
+    movementBody: '#F0F9FF',
+    adaptationsTitle: '#FBBF24',
+    adaptationsBorder: '#F59E0B',
+    adaptationsBody: '#FFFBEB',
+    thinkTitle: '#FDE047',
+    thinkBorder: '#F59E0B',
+    thinkBody: '#FEF9C3'
+  },
+  crow: {
+    cardBg: 'linear-gradient(150deg, rgba(12, 16, 22, 0.88) 0%, rgba(4, 10, 16, 0.94) 100%)',
+    cardBorder: 'rgba(148, 163, 184, 0.50)',
+    cardGlow: '0 0 35px rgba(148, 163, 184, 0.25)',
+    titleColor: '#F8FAFC',
+    titleSubColor: '#94A3B8', // Feathery Slate
+    badgeBg: 'linear-gradient(135deg, rgba(100, 116, 139, 0.30) 0%, rgba(51, 65, 85, 0.22) 100%)',
+    badgeBorder: 'rgba(148, 163, 184, 0.55)',
+    badgeColor: '#E2E8F0',
+    habitatTitle: '#34D399',
+    habitatBorder: '#10B981',
+    habitatBody: '#ECFDF5',
+    movementTitle: '#38BDF8',
+    movementBorder: '#0284C7',
+    movementBody: '#F0F9FF',
+    adaptationsTitle: '#FBBF24',
+    adaptationsBorder: '#F59E0B',
+    adaptationsBody: '#FFFBEB',
+    thinkTitle: '#FDE047',
+    thinkBorder: '#F59E0B',
+    thinkBody: '#FEF9C3'
+  },
+  squirrel: {
+    cardBg: 'linear-gradient(150deg, rgba(24, 14, 8, 0.88) 0%, rgba(8, 18, 12, 0.94) 100%)',
+    cardBorder: 'rgba(251, 146, 60, 0.50)',
+    cardGlow: '0 0 35px rgba(251, 146, 60, 0.25)',
+    titleColor: '#FEF08A',
+    titleSubColor: '#F59E0B', // Amber Fur
+    badgeBg: 'linear-gradient(135deg, rgba(245, 158, 11, 0.30) 0%, rgba(180, 83, 9, 0.22) 100%)',
+    badgeBorder: 'rgba(251, 146, 60, 0.55)',
+    badgeColor: '#FED7AA',
+    habitatTitle: '#34D399',
+    habitatBorder: '#10B981',
+    habitatBody: '#ECFDF5',
+    movementTitle: '#4ADE80',
+    movementBorder: '#22C55E',
+    movementBody: '#F0FDF4',
+    adaptationsTitle: '#FBBF24',
+    adaptationsBorder: '#F59E0B',
+    adaptationsBody: '#FFFBEB',
+    thinkTitle: '#FDE047',
+    thinkBorder: '#F59E0B',
+    thinkBody: '#FEF9C3'
+  },
+  cow: {
+    cardBg: 'linear-gradient(150deg, rgba(8, 26, 16, 0.88) 0%, rgba(3, 16, 10, 0.94) 100%)',
+    cardBorder: 'rgba(74, 222, 128, 0.50)',
+    cardGlow: '0 0 35px rgba(74, 222, 128, 0.25)',
+    titleColor: '#FEF08A',
+    titleSubColor: '#4ADE80', // Pasture Green
+    badgeBg: 'linear-gradient(135deg, rgba(34, 197, 94, 0.30) 0%, rgba(21, 128, 61, 0.22) 100%)',
+    badgeBorder: 'rgba(74, 222, 128, 0.55)',
+    badgeColor: '#BBF7D0',
+    habitatTitle: '#34D399',
+    habitatBorder: '#10B981',
+    habitatBody: '#ECFDF5',
+    movementTitle: '#4ADE80',
+    movementBorder: '#22C55E',
+    movementBody: '#F0FDF4',
+    adaptationsTitle: '#FBBF24',
+    adaptationsBorder: '#F59E0B',
+    adaptationsBody: '#FFFBEB',
+    thinkTitle: '#FDE047',
+    thinkBorder: '#F59E0B',
+    thinkBody: '#FEF9C3'
+  },
+  ant: {
+    cardBg: 'linear-gradient(150deg, rgba(22, 10, 6, 0.88) 0%, rgba(6, 18, 12, 0.94) 100%)',
+    cardBorder: 'rgba(249, 115, 22, 0.50)',
+    cardGlow: '0 0 35px rgba(249, 115, 22, 0.25)',
+    titleColor: '#FEF08A',
+    titleSubColor: '#F97316', // Earth Ant Orange
+    badgeBg: 'linear-gradient(135deg, rgba(234, 88, 12, 0.30) 0%, rgba(154, 52, 18, 0.22) 100%)',
+    badgeBorder: 'rgba(249, 115, 22, 0.55)',
+    badgeColor: '#FED7AA',
+    habitatTitle: '#34D399',
+    habitatBorder: '#10B981',
+    habitatBody: '#ECFDF5',
+    movementTitle: '#4ADE80',
+    movementBorder: '#22C55E',
+    movementBody: '#F0FDF4',
+    adaptationsTitle: '#FBBF24',
+    adaptationsBorder: '#F59E0B',
+    adaptationsBody: '#FFFBEB',
+    thinkTitle: '#FDE047',
+    thinkBorder: '#F59E0B',
+    thinkBody: '#FEF9C3'
+  }
+};
+
+const getSpecimenPalette = (specimen) => {
+  if (!specimen) return SPECIMEN_COLOR_PALETTES.waterlily;
+  const key = (specimen.id || specimen.name || '').toLowerCase().replace(/\s+/g, '_');
+  return SPECIMEN_COLOR_PALETTES[key] || SPECIMEN_COLOR_PALETTES[specimen.id] || SPECIMEN_COLOR_PALETTES.waterlily;
 };
 
 const ANIMAL_IMAGE_ASSETS = {
@@ -933,7 +1337,7 @@ const RealisticRoleMedallion = ({ categoryId, size = 30 }) => {
   );
 };
 
-export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFilter = 'plant', onNextSection, onNextActivity, isFullscreen = false }) {
+export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFilter = 'plant', onNextSection, onNextActivity, isFullscreen = false, initialSubPage }) {
   const { theme } = useTheme();
   const [notebook, setNotebook] = useState([]);
   const [bonusLog, setBonusLog] = useState([]);
@@ -943,21 +1347,6 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
   const [modalPlantPage, setModalPlantPage] = useState(1);
   const [modalAnimalPage, setModalAnimalPage] = useState(1);
   const [categoryStep, setCategoryStep] = useState(0); // 0: Herbs, 1: Shrubs, 2: Trees
-  const [fsActive, setFsActive] = useState(false);
-
-  useEffect(() => {
-    const handleFs = () => setFsActive(Boolean(document.fullscreenElement));
-    document.addEventListener('fullscreenchange', handleFs);
-    return () => document.removeEventListener('fullscreenchange', handleFs);
-  }, []);
-
-  const toggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(() => {});
-    } else {
-      document.exitFullscreen().catch(() => {});
-    }
-  };
 
   const openPlantModal = (plant) => {
     setModalPlantPage(1);
@@ -1171,6 +1560,76 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
 
   const [showPlantDetailPopup, setShowPlantDetailPopup] = useState(false);
   const [isPlantSpeaking, setIsPlantSpeaking] = useState(false);
+  // Real narration audio + word-level highlight sync for the Hibiscus Table 2.1 popup
+  const {
+    isPlaying: isHibiscusSpeaking,
+    activeWordIndex: hibiscusActiveWordIndex,
+    pause: pauseHibiscusNarration,
+    toggle: toggleHibiscusSpeech,
+  } = useWordSyncAudio(hibiscusNarrationAudio, hibiscusNarrationData.hibiscus.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
+  // Real narration audio + word-level highlight sync for the Rose Table 2.1 popup
+  const {
+    isPlaying: isRoseSpeaking,
+    activeWordIndex: roseActiveWordIndex,
+    pause: pauseRoseNarration,
+    toggle: toggleRoseSpeech,
+  } = useWordSyncAudio(roseNarrationAudio, roseNarrationData.rose.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
+  // Real narration audio + word-level highlight sync for the Sunflower Table 2.1 popup
+  const {
+    isPlaying: isSunflowerSpeaking,
+    activeWordIndex: sunflowerActiveWordIndex,
+    pause: pauseSunflowerNarration,
+    toggle: toggleSunflowerSpeech,
+  } = useWordSyncAudio(sunflowerNarrationAudio, sunflowerNarrationData.sunflower.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
+  // Real narration audio + word-level highlight sync for the Neem Table 2.1 popup
+  const {
+    isPlaying: isNeemSpeaking,
+    activeWordIndex: neemActiveWordIndex,
+    pause: pauseNeemNarration,
+    toggle: toggleNeemSpeech,
+  } = useWordSyncAudio(neemNarrationAudio, neemNarrationData.neem.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
+  // Real narration audio + word-level highlight sync for the Grass Table 2.1 popup
+  const {
+    isPlaying: isGrassSpeaking,
+    activeWordIndex: grassActiveWordIndex,
+    pause: pauseGrassNarration,
+    toggle: toggleGrassSpeech,
+  } = useWordSyncAudio(grassNarrationAudio, grassNarrationData.grass.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
+  // Real narration audio + word-level highlight sync for the Water Lily Table 2.1 popup
+  const {
+    isPlaying: isWaterlilySpeaking,
+    activeWordIndex: waterlilyActiveWordIndex,
+    pause: pauseWaterlilyNarration,
+    toggle: toggleWaterlilySpeech,
+  } = useWordSyncAudio(waterlilyNarrationAudio, waterlilyNarrationData.waterlily.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
+  // Real narration audio + word-level highlight sync for the Tulsi Table 2.1 popup
+  const {
+    isPlaying: isTulsiSpeaking,
+    activeWordIndex: tulsiActiveWordIndex,
+    pause: pauseTulsiNarration,
+    toggle: toggleTulsiSpeech,
+  } = useWordSyncAudio(tulsiNarrationAudio, tulsiNarrationData.tulsi.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
 
   // Auto-display NCERT Observation Popup after 5 seconds of viewing the full-screen specimen
   useEffect(() => {
@@ -1215,6 +1674,13 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
       window.speechSynthesis.cancel();
     }
     setIsPlantSpeaking(false);
+    pauseHibiscusNarration();
+    pauseRoseNarration();
+    pauseSunflowerNarration();
+    pauseNeemNarration();
+    pauseGrassNarration();
+    pauseWaterlilyNarration();
+    pauseTulsiNarration();
     setInfoCardPlant(null);
   };
 
@@ -1584,7 +2050,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
           type: 'animal',
           category: 'Amphibian · Carnivore',
           tactileTrait: 'Webbed hind feet & moist permeable skin',
-          x: 83, y: 88.5, radius: 15, w: 22, h: 20,
+          x: 78, y: 82, radius: 15, w: 15, h: 13,
           details: 'An amphibian with smooth green skin resting near ponds and moist shores. It uses its strong hind legs to jump on land and webbed feet to swim swiftly in water.',
           fact: 'Frogs can breathe through their lungs on land and directly through their moist skin underwater — they are true amphibians!',
           verifyQ: { q: 'What type of habitat does an Indian Pond Frog live in?', opts: ['Only on dry land', 'Only in deep ocean', 'Both in freshwater and on moist shores', 'Only in desert sand'], correct: 2 },
@@ -1646,7 +2112,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
   const [verifyAnswer, setVerifyAnswer] = useState(null);
   const [verifyChecked, setVerifyChecked] = useState(false);
   const [verifyCorrect, setVerifyCorrect] = useState(false);
-  const [subPage, setSubPage] = useState(typeFilter === 'animal' ? 2 : 1);
+  const [subPage, setSubPage] = useState(initialSubPage !== undefined ? initialSubPage : (typeFilter === 'animal' ? 2 : 1));
   useEffect(() => {
     if (typeFilter === 'animal') {
       setSubPage(2);
@@ -2094,23 +2560,25 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 zIndex: 35,
                 pointerEvents: 'none',
                 textAlign: 'center',
-                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                border: '2px solid rgba(254, 240, 138, 0.85)',
-                borderRadius: '12px',
-                padding: '7px 28px',
+                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.88) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                border: '2px solid rgba(253, 230, 138, 0.85)',
+                borderRadius: '14px',
+                padding: '7px 30px',
                 whiteSpace: 'nowrap',
-                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 24px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)'
               }}>
                 <h1 style={{
                   margin: 0,
                   fontSize: '24px',
                   fontWeight: 900,
                   fontFamily: '"Cinzel", Georgia, serif',
-                  letterSpacing: '0.06em',
+                  letterSpacing: '0.08em',
                   textTransform: 'uppercase',
-                  color: '#FFFFFF',
+                  color: '#FFFBEB',
                   lineHeight: 1.15,
-                  textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 16px rgba(253, 230, 138, 0.55)'
                 }}>
                   Activity 2.1: Let us explore and record
                 </h1>
@@ -2120,16 +2588,16 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
               {showHerbsPopup ? (
                 <div style={{
                   position: 'absolute',
-                  top: '16px',
+                  top: '20px',
                   right: '20px',
-                  width: 'min(465px, calc(100vw - 40px))',
-                  maxHeight: 'calc(100% - 85px)',
+                  width: 'min(500px, calc(100vw - 40px))',
+                  maxHeight: 'calc(100% - 70px)',
                   background: 'transparent',
                   backdropFilter: 'blur(4px)',
                   WebkitBackdropFilter: 'blur(4px)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
-                  borderRadius: '24px',
+                  borderRadius: '20px',
                   boxShadow: 'inset 1px 1px 2px rgba(255, 255, 255, 0.22), inset -1px -1px 2px rgba(0, 0, 0, 0.25), 0 16px 45px rgba(0, 0, 0, 0.55), 0 0 35px rgba(16, 185, 129, 0.15)',
                   zIndex: 35,
                   display: 'flex',
@@ -2149,7 +2617,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       background: 'linear-gradient(175deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%)',
                       pointerEvents: 'none',
                       zIndex: 2,
-                      borderRadius: '24px 24px 0 0'
+                      borderRadius: '20px 20px 0 0'
                     }}
                   />
 
@@ -2159,11 +2627,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     flexDirection: 'column',
                     justifyContent: 'flex-start',
                     flex: 1,
-                    padding: 'clamp(14px, 2vh, 20px) clamp(16px, 2vw, 22px)',
-                    gap: 'clamp(10px, 1.4vh, 14px)',
+                    padding: '12px 18px',
+                    gap: '8px',
                     position: 'relative',
                     zIndex: 5,
-                    overflowY: 'auto'
+                    overflowY: 'auto',
+                    scrollbarWidth: 'none'
                   }}>
                     {/* Header Row: Badge & Close Controls */}
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
@@ -2172,19 +2641,19 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         color: '#A7F3D0',
                         border: '1.2px solid rgba(110, 231, 183, 0.45)',
                         boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-                        padding: '5px 14px',
-                        borderRadius: '22px',
+                        padding: '4px 14px',
+                        borderRadius: '20px',
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 800,
-                        fontSize: '16px',
-                        letterSpacing: '0.06em',
+                        fontSize: '18px',
+                        letterSpacing: '0.04em',
                         textTransform: 'uppercase',
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '6px',
                         textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                       }}>
-                        <span style={{ fontSize: '16px' }}>🌿</span>
+                        <span style={{ fontSize: '18px' }}>🌿</span>
                         <span>HERBS</span>
                       </span>
 
@@ -2203,14 +2672,14 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             boxShadow: isHerbsSpeaking
                               ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
                               : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
-                            borderRadius: '18px',
+                            borderRadius: '16px',
                             padding: '5px 12px',
                             display: 'inline-flex',
                             alignItems: 'center',
                             gap: '5px',
                             color: '#FFFFFF',
                             fontWeight: 800,
-                            fontSize: '12px',
+                            fontSize: '14px',
                             fontFamily: '"Outfit", sans-serif',
                             cursor: 'pointer',
                             flexShrink: 0,
@@ -2249,8 +2718,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             border: '1.2px solid rgba(255, 255, 255, 0.22)',
                             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                             borderRadius: '10px',
-                            width: '30px',
-                            height: '30px',
+                            width: '32px',
+                            height: '32px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -2269,20 +2738,20 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
                           }}
                         >
-                          <span style={{ fontSize: '16px', fontWeight: 900, lineHeight: 1 }}>✕</span>
+                          <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
                         </button>
                       </div>
                     </div>
 
                     {/* Title Section: 24px Title */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                       <h3 style={{
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 900,
                         fontSize: '24px',
                         margin: 0,
                         color: '#FCD34D',
-                        lineHeight: 1.25,
+                        lineHeight: 1.2,
                         letterSpacing: '0.02em',
                         textTransform: 'uppercase',
                         textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000, 0 0 16px rgba(252, 211, 77, 0.5)'
@@ -2290,7 +2759,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         TENDER GREEN HERBS
                       </h3>
                       <div style={{
-                        fontSize: '16px',
+                        fontSize: '18px',
                         color: '#6EE7B7',
                         fontWeight: 600,
                         fontStyle: 'italic',
@@ -2301,33 +2770,33 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       </div>
                     </div>
 
-                    {/* Info Panel: single unified glass panel with 20px-24px justified text */}
+                    {/* Info Panel */}
                     <div style={{
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: 'clamp(10px, 1.4vh, 13px)'
+                      gap: '6px'
                     }}>
                       {/* Section 1: Soft Green Stems */}
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #10B981`, paddingLeft: '12px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #10B981`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '22px',
+                          fontSize: '21px',
                           fontWeight: 800,
                           color: '#A7F3D0',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '7px',
+                          gap: '8px',
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span>🌱</span>
+                          <span style={{ fontSize: '21px' }}>🌱</span>
                           <span>Soft Green Stems</span>
                         </div>
                         <div style={{
-                          fontSize: '20px',
+                          fontSize: '18px',
                           color: '#FFFFFF',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
-                          fontWeight: 450,
+                          fontWeight: 500,
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
@@ -2342,26 +2811,26 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* Section 2: Size */}
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #F59E0B`, paddingLeft: '12px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #F59E0B`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '22px',
+                          fontSize: '21px',
                           fontWeight: 800,
                           color: '#FDE68A',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '7px',
+                          gap: '8px',
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span>📏</span>
+                          <span style={{ fontSize: '21px' }}>📏</span>
                           <span>Size</span>
                         </div>
                         <div style={{
-                          fontSize: '20px',
+                          fontSize: '18px',
                           color: '#FFFFFF',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
-                          fontWeight: 450,
+                          fontWeight: 500,
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
@@ -2376,26 +2845,26 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* Section 3: Life Cycle */}
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #3B82F6`, paddingLeft: '12px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #3B82F6`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '22px',
+                          fontSize: '21px',
                           fontWeight: 800,
                           color: '#BFDBFE',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '7px',
+                          gap: '8px',
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span>🔄</span>
+                          <span style={{ fontSize: '21px' }}>🔄</span>
                           <span>Life Cycle</span>
                         </div>
                         <div style={{
-                          fontSize: '20px',
+                          fontSize: '18px',
                           color: '#FFFFFF',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
-                          fontWeight: 450,
+                          fontWeight: 500,
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
@@ -2410,22 +2879,22 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* Section 4: Examples */}
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #8B5CF6`, paddingLeft: '12px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #8B5CF6`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '22px',
+                          fontSize: '21px',
                           fontWeight: 800,
                           color: '#DDD6FE',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '7px',
+                          gap: '8px',
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span>🌿</span>
+                          <span style={{ fontSize: '21px' }}>🌿</span>
                           <span>Examples</span>
                         </div>
                         <div style={{
-                          fontSize: '20px',
+                          fontSize: '18px',
                           color: '#FEF08A',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
@@ -2444,19 +2913,19 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
 
                       {/* Think Prompt Box */}
                       <div style={{
-                        marginTop: '3px',
+                        marginTop: '2px',
                         background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(16, 185, 129, 0.18) 100%)',
-                        border: '1.5px solid rgba(251, 191, 36, 0.45)',
-                        borderRadius: '14px',
-                        padding: '10px 14px',
+                        border: '1.2px solid rgba(251, 191, 36, 0.45)',
+                        borderRadius: '10px',
+                        padding: '8px 12px',
                         display: 'flex',
                         alignItems: 'flex-start',
                         gap: '10px',
                         boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
                       }}>
-                        <span style={{ fontSize: '22px', lineHeight: 1 }}>💡</span>
+                        <span style={{ fontSize: '20px', lineHeight: 1.2 }}>💡</span>
                         <div style={{
-                          fontSize: '20px',
+                          fontSize: '18px',
                           fontWeight: 800,
                           color: '#FDE047',
                           fontFamily: '"Outfit", sans-serif',
@@ -2464,7 +2933,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           lineHeight: 1.4,
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)'
                         }}>
-                          <span>Think: </span>
+                          <span style={{ fontSize: '21px', fontWeight: 900 }}>Think: </span>
                           <span style={{ fontWeight: 500, color: '#FFFFFF' }}>
                             <NarratedWords
                               words={herbsNarrationData.herbs.words.slice(40, 50)}
@@ -2495,61 +2964,35 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     alignItems: 'center',
                     gap: '8px',
                     padding: '12px 18px 12px 14px',
-                    background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                    color: '#FFFFFF',
-                    border: '2px solid #FDE68A',
+                    background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                    color: '#FFFBEB',
+                    border: '2px solid rgba(253, 230, 138, 0.85)',
                     borderLeft: 'none',
                     borderRadius: '0 20px 20px 0',
-                    boxShadow: '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)',
                     cursor: 'pointer',
                     fontFamily: '"Outfit", sans-serif',
+                    fontWeight: 900,
+                    fontSize: '15px',
                     transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
-                    e.currentTarget.style.boxShadow = '0 8px 30px rgba(217, 119, 6, 0.75), 0 2px 12px rgba(0, 0, 0, 0.5)';
+                    e.currentTarget.style.borderColor = '#FEF08A';
+                    e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.80), 0 0 24px rgba(251, 191, 36, 0.45)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
-                    e.currentTarget.style.boxShadow = '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)';
+                    e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)';
                   }}
                 >
-                  <Leaf size={18} color="#FFFFFF" strokeWidth={2.5} />
-                  <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
+                  <Leaf size={18} color="#FFFBEB" strokeWidth={2.5} />
+                  <ChevronRight size={22} color="#FEF08A" strokeWidth={3} />
                 </button>
               )}
-
-              {/* Fullscreen Button at Top-Right */}
-              <div style={{
-                position: 'absolute',
-                top: '18px',
-                right: showHerbsPopup ? '490px' : '20px',
-                zIndex: 35,
-                transition: 'all 0.2s ease'
-              }}>
-                <button
-                  type="button"
-                  onClick={toggleFullscreen}
-                  title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
-                  style={{
-                    background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(4px)',
-                    WebkitBackdropFilter: 'blur(4px)',
-                    color: '#FEF3C7',
-                    border: '1.8px solid rgba(255, 255, 255, 0.35)',
-                    borderRadius: '10px',
-                    padding: '8px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
-                    transition: 'all 0.25s ease'
-                  }}
-                >
-                  {fsActive ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
-                </button>
-              </div>
 
               {/* Bottom-Left: Previous Page */}
               {onBackToDashboard && (
@@ -2563,27 +3006,38 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     type="button"
                     onClick={onBackToDashboard}
                     style={{
-                      padding: '8px 22px',
+                      padding: '8px 24px',
                       fontSize: '16px',
-                      fontWeight: 800,
-                      borderRadius: '10px',
+                      fontWeight: 900,
+                      borderRadius: '12px',
                       display: 'inline-flex',
                       alignItems: 'center',
-                      gap: '6px',
-                      background: 'rgba(250, 248, 242, 0.85)',
-                      backdropFilter: 'blur(4px)',
-                      WebkitBackdropFilter: 'blur(4px)',
-                      border: '1.8px solid #14452F',
-                      color: '#14452F',
+                      gap: '8px',
+                      background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                      backdropFilter: 'blur(16px)',
+                      WebkitBackdropFilter: 'blur(16px)',
+                      border: '2px solid rgba(253, 230, 138, 0.85)',
+                      color: '#FFFBEB',
                       cursor: 'pointer',
                       fontFamily: '"Outfit", sans-serif',
-                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
-                      transition: 'all 0.18s ease'
+                      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)',
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+                      transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
+                      e.currentTarget.style.borderColor = '#FEF08A';
+                      e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                      e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                      e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)';
                     }}
                     title="Return to Previous Page"
                     aria-label="Previous Page"
                   >
-                    <ChevronLeft size={18} /> Previous Page
+                    <ChevronLeft size={18} strokeWidth={2.5} /> Previous Page
                   </button>
                 </div>
               )}
@@ -2606,13 +3060,23 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     borderRadius: '10px',
                     fontSize: '17px',
                     fontWeight: 900,
-                    background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                    border: '1.5px solid #10B981',
-                    color: '#ffffff',
+                    background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.06) 48%, rgba(0, 0, 0, 0.20) 52%, rgba(0, 0, 0, 0.55) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.88) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                    border: '1.8px solid rgba(253, 230, 138, 0.85)',
+                    color: '#FFFBEB',
                     cursor: 'pointer',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                    boxShadow: '0 10px 28px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.80)',
                     fontFamily: '"Outfit", sans-serif',
-                    transition: 'all 0.18s ease'
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
+                    e.currentTarget.style.borderColor = '#FEF08A';
+                    e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                    e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                    e.currentTarget.style.boxShadow = '0 10px 28px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)';
                   }}
                   title="Advance to Shrubs"
                   aria-label="Next Page"
@@ -2657,11 +3121,13 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 zIndex: 35,
                 pointerEvents: 'none',
                 textAlign: 'center',
-                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                border: '2px solid rgba(254, 240, 138, 0.85)',
-                borderRadius: '12px',
-                padding: '7px 28px',
-                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
+                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.88) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                border: '2px solid rgba(253, 230, 138, 0.85)',
+                borderRadius: '14px',
+                padding: '7px 30px',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 24px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)'
               }}>
                 <h1 style={{
                   margin: 0,
@@ -2670,9 +3136,9 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   fontFamily: '"Cinzel", Georgia, serif',
                   letterSpacing: '0.14em',
                   textTransform: 'uppercase',
-                  color: '#FFFFFF',
+                  color: '#FFFBEB',
                   lineHeight: 1.15,
-                  textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 16px rgba(253, 230, 138, 0.55)'
                 }}>
                   Shrubs
                 </h1>
@@ -2682,16 +3148,16 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
               {showShrubsPopup ? (
                 <div style={{
                   position: 'absolute',
-                  top: '16px',
+                  top: '20px',
                   right: '20px',
-                  width: 'min(465px, calc(100vw - 40px))',
-                  maxHeight: 'calc(100% - 85px)',
+                  width: 'min(500px, calc(100vw - 40px))',
+                  maxHeight: 'calc(100% - 70px)',
                   background: 'transparent',
                   backdropFilter: 'blur(4px)',
                   WebkitBackdropFilter: 'blur(4px)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
-                  borderRadius: '24px',
+                  borderRadius: '20px',
                   boxShadow: 'inset 1px 1px 2px rgba(255, 255, 255, 0.22), inset -1px -1px 2px rgba(0, 0, 0, 0.25), 0 16px 45px rgba(0, 0, 0, 0.55), 0 0 35px rgba(16, 185, 129, 0.15)',
                   zIndex: 35,
                   display: 'flex',
@@ -2711,7 +3177,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       background: 'linear-gradient(175deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%)',
                       pointerEvents: 'none',
                       zIndex: 2,
-                      borderRadius: '24px 24px 0 0'
+                      borderRadius: '20px 20px 0 0'
                     }}
                   />
 
@@ -2721,11 +3187,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     flexDirection: 'column',
                     justifyContent: 'flex-start',
                     flex: 1,
-                    padding: 'clamp(14px, 2vh, 20px) clamp(16px, 2vw, 22px)',
-                    gap: 'clamp(10px, 1.4vh, 14px)',
+                    padding: '12px 18px',
+                    gap: '8px',
                     position: 'relative',
                     zIndex: 5,
-                    overflowY: 'auto'
+                    overflowY: 'auto',
+                    scrollbarWidth: 'none'
                   }}>
                     {/* Header Row: Badge & Close Controls */}
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
@@ -2734,19 +3201,19 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         color: '#A7F3D0',
                         border: '1.2px solid rgba(110, 231, 183, 0.45)',
                         boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-                        padding: '5px 14px',
-                        borderRadius: '22px',
+                        padding: '4px 14px',
+                        borderRadius: '20px',
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 800,
-                        fontSize: '16px',
-                        letterSpacing: '0.06em',
+                        fontSize: '18px',
+                        letterSpacing: '0.04em',
                         textTransform: 'uppercase',
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '6px',
                         textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                       }}>
-                        <span style={{ fontSize: '16px' }}>🌿</span>
+                        <span style={{ fontSize: '18px' }}>🌿</span>
                         <span>SHRUBS</span>
                       </span>
 
@@ -2765,14 +3232,14 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             boxShadow: isShrubsSpeaking
                               ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
                               : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
-                            borderRadius: '18px',
+                            borderRadius: '16px',
                             padding: '5px 12px',
                             display: 'inline-flex',
                             alignItems: 'center',
                             gap: '5px',
                             color: '#FFFFFF',
                             fontWeight: 800,
-                            fontSize: '12px',
+                            fontSize: '14px',
                             fontFamily: '"Outfit", sans-serif',
                             cursor: 'pointer',
                             flexShrink: 0,
@@ -2811,8 +3278,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             border: '1.2px solid rgba(255, 255, 255, 0.22)',
                             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                             borderRadius: '10px',
-                            width: '30px',
-                            height: '30px',
+                            width: '32px',
+                            height: '32px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -2831,20 +3298,20 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
                           }}
                         >
-                          <span style={{ fontSize: '16px', fontWeight: 900, lineHeight: 1 }}>✕</span>
+                          <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
                         </button>
                       </div>
                     </div>
 
                     {/* Title Section: 24px Title */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                       <h3 style={{
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 900,
                         fontSize: '24px',
                         margin: 0,
                         color: '#FB7185',
-                        lineHeight: 1.25,
+                        lineHeight: 1.2,
                         letterSpacing: '0.02em',
                         textTransform: 'uppercase',
                         textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000, 0 0 16px rgba(251, 113, 133, 0.5)'
@@ -2853,40 +3320,40 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       </h3>
                     </div>
 
-                    {/* Info Panel: single unified glass panel with 20px-24px justified text */}
+                    {/* Info Panel */}
                     <div style={{
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: 'clamp(10px, 1.4vh, 13px)'
+                      gap: '6px'
                     }}>
                       {/* Section 1: Hard, Woody Stems */}
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #10B981`, paddingLeft: '12px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #10B981`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '22px',
+                          fontSize: '21px',
                           fontWeight: 800,
                           color: '#A7F3D0',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '7px',
+                          gap: '8px',
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span>🪵</span>
+                          <span style={{ fontSize: '21px' }}>🪵</span>
                           <span>Hard, Woody Stems</span>
                         </div>
                         <div style={{
-                          fontSize: '20px',
+                          fontSize: '18px',
                           color: '#FFFFFF',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
-                          fontWeight: 450,
+                          fontWeight: 500,
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
                           <NarratedWords
-                            words={shrubsNarrationData.shrubs.words.slice(9, 15)}
+                            words={shrubsNarrationData.shrubs.words.slice(6, 15)}
                             activeIndex={shrubsActiveWordIndex}
-                            baseIndex={9}
+                            baseIndex={6}
                             activeStyle={{ color: '#34D399', textShadow: '0 0 10px rgba(52, 211, 153, 0.9), 0 1px 3px #000000' }}
                           />
                         </div>
@@ -2894,26 +3361,26 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* Section 2: Branches Near the Ground */}
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #F59E0B`, paddingLeft: '12px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #F59E0B`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '22px',
+                          fontSize: '21px',
                           fontWeight: 800,
                           color: '#FDE68A',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '7px',
+                          gap: '8px',
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span>🌿</span>
+                          <span style={{ fontSize: '21px' }}>🌿</span>
                           <span>Branches Near the Ground</span>
                         </div>
                         <div style={{
-                          fontSize: '20px',
+                          fontSize: '18px',
                           color: '#FFFFFF',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
-                          fontWeight: 450,
+                          fontWeight: 500,
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
@@ -2928,31 +3395,31 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* Section 3: Medium Height */}
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #3B82F6`, paddingLeft: '12px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #3B82F6`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '22px',
+                          fontSize: '21px',
                           fontWeight: 800,
                           color: '#BFDBFE',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '7px',
+                          gap: '8px',
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span>📏</span>
+                          <span style={{ fontSize: '21px' }}>📏</span>
                           <span>Medium Height</span>
                         </div>
                         <div style={{
-                          fontSize: '20px',
+                          fontSize: '18px',
                           color: '#FFFFFF',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
-                          fontWeight: 450,
+                          fontWeight: 500,
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
                           <NarratedWords
-                            words={shrubsNarrationData.shrubs.words.slice(33, 38)}
+                            words={shrubsNarrationData.shrubs.words.slice(33, 39)}
                             activeIndex={shrubsActiveWordIndex}
                             baseIndex={33}
                             activeStyle={{ color: '#93C5FD', textShadow: '0 0 10px rgba(147, 197, 253, 0.9), 0 1px 3px #000000' }}
@@ -2962,22 +3429,22 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* Section 4: Examples */}
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #8B5CF6`, paddingLeft: '12px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #8B5CF6`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '22px',
+                          fontSize: '21px',
                           fontWeight: 800,
                           color: '#DDD6FE',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '7px',
+                          gap: '8px',
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span>🌺</span>
+                          <span style={{ fontSize: '21px' }}>🌺</span>
                           <span>Examples</span>
                         </div>
                         <div style={{
-                          fontSize: '20px',
+                          fontSize: '18px',
                           color: '#FEF08A',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
@@ -2996,19 +3463,19 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
 
                       {/* Think Prompt Box */}
                       <div style={{
-                        marginTop: '3px',
+                        marginTop: '2px',
                         background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(16, 185, 129, 0.18) 100%)',
-                        border: '1.5px solid rgba(251, 191, 36, 0.45)',
-                        borderRadius: '14px',
-                        padding: '10px 14px',
+                        border: '1.2px solid rgba(251, 191, 36, 0.45)',
+                        borderRadius: '10px',
+                        padding: '8px 12px',
                         display: 'flex',
                         alignItems: 'flex-start',
                         gap: '10px',
                         boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
                       }}>
-                        <span style={{ fontSize: '22px', lineHeight: 1 }}>💡</span>
+                        <span style={{ fontSize: '20px', lineHeight: 1.2 }}>💡</span>
                         <div style={{
-                          fontSize: '20px',
+                          fontSize: '18px',
                           fontWeight: 800,
                           color: '#FDE047',
                           fontFamily: '"Outfit", sans-serif',
@@ -3016,7 +3483,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           lineHeight: 1.4,
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)'
                         }}>
-                          <span>Think: </span>
+                          <span style={{ fontSize: '21px', fontWeight: 900 }}>Think: </span>
                           <span style={{ fontWeight: 500, color: '#FFFFFF' }}>
                             <NarratedWords
                               words={shrubsNarrationData.shrubs.words.slice(45, 51)}
@@ -3047,61 +3514,35 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     alignItems: 'center',
                     gap: '8px',
                     padding: '12px 18px 12px 14px',
-                    background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                    color: '#FFFFFF',
-                    border: '2px solid #FDE68A',
+                    background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                    color: '#FFFBEB',
+                    border: '2px solid rgba(253, 230, 138, 0.85)',
                     borderLeft: 'none',
                     borderRadius: '0 20px 20px 0',
-                    boxShadow: '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)',
                     cursor: 'pointer',
                     fontFamily: '"Outfit", sans-serif',
+                    fontWeight: 900,
+                    fontSize: '15px',
                     transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
-                    e.currentTarget.style.boxShadow = '0 8px 30px rgba(217, 119, 6, 0.75), 0 2px 12px rgba(0, 0, 0, 0.5)';
+                    e.currentTarget.style.borderColor = '#FEF08A';
+                    e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.80), 0 0 24px rgba(251, 191, 36, 0.45)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
-                    e.currentTarget.style.boxShadow = '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)';
+                    e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)';
                   }}
                 >
-                  <Leaf size={18} color="#FFFFFF" strokeWidth={2.5} />
-                  <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
+                  <Leaf size={18} color="#FFFBEB" strokeWidth={2.5} />
+                  <ChevronRight size={22} color="#FEF08A" strokeWidth={3} />
                 </button>
               )}
-
-              {/* Fullscreen Button at Top-Right */}
-              <div style={{
-                position: 'absolute',
-                top: '18px',
-                right: showShrubsPopup ? '490px' : '20px',
-                zIndex: 35,
-                transition: 'all 0.2s ease'
-              }}>
-                <button
-                  type="button"
-                  onClick={toggleFullscreen}
-                  title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
-                  style={{
-                    background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(4px)',
-                    WebkitBackdropFilter: 'blur(4px)',
-                    color: '#FEF3C7',
-                    border: '1.8px solid rgba(255, 255, 255, 0.35)',
-                    borderRadius: '10px',
-                    padding: '8px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
-                    transition: 'all 0.25s ease'
-                  }}
-                >
-                  {fsActive ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
-                </button>
-              </div>
 
               {/* Bottom-Left: Back to Herbs */}
               <div style={{
@@ -3114,27 +3555,38 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   type="button"
                   onClick={() => setCategoryStep(0)}
                   style={{
-                    padding: '8px 22px',
+                    padding: '8px 24px',
                     fontSize: '16px',
-                    fontWeight: 800,
-                    borderRadius: '10px',
+                    fontWeight: 900,
+                    borderRadius: '12px',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '6px',
-                    background: 'rgba(250, 248, 242, 0.85)',
-                    backdropFilter: 'blur(4px)',
-                    WebkitBackdropFilter: 'blur(4px)',
-                    border: '1.8px solid #14452F',
-                    color: '#14452F',
+                    gap: '8px',
+                    background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    border: '2px solid rgba(253, 230, 138, 0.85)',
+                    color: '#FFFBEB',
                     cursor: 'pointer',
                     fontFamily: '"Outfit", sans-serif',
-                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
-                    transition: 'all 0.18s ease'
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)',
+                    textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+                    transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
+                    e.currentTarget.style.borderColor = '#FEF08A';
+                    e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                    e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)';
                   }}
                   title="Return to Herbs"
                   aria-label="Previous Page"
                 >
-                  <ChevronLeft size={18} /> Back: Herbs
+                  <ChevronLeft size={18} strokeWidth={2.5} /> Back: Herbs
                 </button>
               </div>
 
@@ -3156,13 +3608,23 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     borderRadius: '10px',
                     fontSize: '17px',
                     fontWeight: 900,
-                    background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                    border: '1.5px solid #10B981',
-                    color: '#ffffff',
+                    background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.06) 48%, rgba(0, 0, 0, 0.20) 52%, rgba(0, 0, 0, 0.55) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.88) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                    border: '1.8px solid rgba(253, 230, 138, 0.85)',
+                    color: '#FFFBEB',
                     cursor: 'pointer',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                    boxShadow: '0 10px 28px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.80)',
                     fontFamily: '"Outfit", sans-serif',
-                    transition: 'all 0.18s ease'
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
+                    e.currentTarget.style.borderColor = '#FEF08A';
+                    e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                    e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                    e.currentTarget.style.boxShadow = '0 10px 28px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)';
                   }}
                   title="Advance to Trees"
                   aria-label="Next Page"
@@ -3207,11 +3669,13 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 zIndex: 35,
                 pointerEvents: 'none',
                 textAlign: 'center',
-                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                border: '2px solid rgba(254, 240, 138, 0.85)',
-                borderRadius: '12px',
-                padding: '7px 28px',
-                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.55), 0 0 20px rgba(245, 158, 11, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.7)'
+                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.88) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                border: '2px solid rgba(253, 230, 138, 0.85)',
+                borderRadius: '14px',
+                padding: '7px 30px',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 24px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)'
               }}>
                 <h1 style={{
                   margin: 0,
@@ -3220,9 +3684,9 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   fontFamily: '"Cinzel", Georgia, serif',
                   letterSpacing: '0.14em',
                   textTransform: 'uppercase',
-                  color: '#FFFFFF',
+                  color: '#FFFBEB',
                   lineHeight: 1.15,
-                  textShadow: '0 2px 6px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 0, 0, 0.35)'
+                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 16px rgba(253, 230, 138, 0.55)'
                 }}>
                   Trees
                 </h1>
@@ -3232,16 +3696,16 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
               {showTreesPopup ? (
                 <div style={{
                   position: 'absolute',
-                  top: '16px',
+                  top: '20px',
                   right: '20px',
-                  width: 'min(465px, calc(100vw - 40px))',
-                  maxHeight: 'calc(100% - 85px)',
+                  width: 'min(500px, calc(100vw - 40px))',
+                  maxHeight: 'calc(100% - 70px)',
                   background: 'transparent',
                   backdropFilter: 'blur(4px)',
                   WebkitBackdropFilter: 'blur(4px)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
-                  borderRadius: '24px',
+                  borderRadius: '20px',
                   boxShadow: 'inset 1px 1px 2px rgba(255, 255, 255, 0.22), inset -1px -1px 2px rgba(0, 0, 0, 0.25), 0 16px 45px rgba(0, 0, 0, 0.55), 0 0 35px rgba(16, 185, 129, 0.15)',
                   zIndex: 35,
                   display: 'flex',
@@ -3261,7 +3725,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       background: 'linear-gradient(175deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%)',
                       pointerEvents: 'none',
                       zIndex: 2,
-                      borderRadius: '24px 24px 0 0'
+                      borderRadius: '20px 20px 0 0'
                     }}
                   />
 
@@ -3269,13 +3733,14 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   <div style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'center',
+                    justifyContent: 'flex-start',
                     flex: 1,
-                    padding: 'clamp(14px, 2vh, 22px) clamp(16px, 2vw, 22px)',
-                    gap: 'clamp(10px, 1.5vh, 14px)',
+                    padding: '12px 18px',
+                    gap: '8px',
                     position: 'relative',
                     zIndex: 5,
-                    overflowY: 'auto'
+                    overflowY: 'auto',
+                    scrollbarWidth: 'none'
                   }}>
                     {/* Header Row: Badge & Audio/Close Controls */}
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
@@ -3284,19 +3749,19 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         color: '#A7F3D0',
                         border: '1.2px solid rgba(110, 231, 183, 0.45)',
                         boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-                        padding: '5px 14px',
-                        borderRadius: '22px',
+                        padding: '4px 14px',
+                        borderRadius: '20px',
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 800,
-                        fontSize: '16px',
-                        letterSpacing: '0.06em',
+                        fontSize: '18px',
+                        letterSpacing: '0.04em',
                         textTransform: 'uppercase',
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '6px',
                         textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                       }}>
-                        <span style={{ fontSize: '16px' }}>🌳</span>
+                        <span style={{ fontSize: '18px' }}>🌳</span>
                         <span>TREES</span>
                       </span>
 
@@ -3315,14 +3780,14 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             boxShadow: isTreesSpeaking
                               ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
                               : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
-                            borderRadius: '18px',
+                            borderRadius: '16px',
                             padding: '5px 12px',
                             display: 'inline-flex',
                             alignItems: 'center',
                             gap: '5px',
                             color: '#FFFFFF',
                             fontWeight: 800,
-                            fontSize: '12px',
+                            fontSize: '14px',
                             fontFamily: '"Outfit", sans-serif',
                             cursor: 'pointer',
                             flexShrink: 0,
@@ -3361,8 +3826,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             border: '1.2px solid rgba(255, 255, 255, 0.22)',
                             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                             borderRadius: '10px',
-                            width: '30px',
-                            height: '30px',
+                            width: '32px',
+                            height: '32px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -3381,20 +3846,20 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
                           }}
                         >
-                          <span style={{ fontSize: '16px', fontWeight: 900, lineHeight: 1 }}>✕</span>
+                          <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
                         </button>
                       </div>
                     </div>
 
                     {/* Title Section: 24px Title */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                       <h3 style={{
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 900,
                         fontSize: '24px',
                         margin: 0,
                         color: '#FBBF24',
-                        lineHeight: 1.25,
+                        lineHeight: 1.2,
                         letterSpacing: '0.02em',
                         textTransform: 'uppercase',
                         textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 2px #000000, 0 0 16px rgba(251, 191, 36, 0.5)'
@@ -3403,33 +3868,33 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       </h3>
                     </div>
 
-                    {/* Info Panel: single unified glass panel with 20px-24px justified text */}
+                    {/* Info Panel */}
                     <div style={{
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: 'clamp(10px, 1.4vh, 13px)'
+                      gap: '6px'
                     }}>
                       {/* Section 1: Thick, Woody Trunk */}
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #10B981`, paddingLeft: '12px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #10B981`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '22px',
+                          fontSize: '21px',
                           fontWeight: 800,
                           color: '#A7F3D0',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '7px',
+                          gap: '8px',
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span>🪵</span>
+                          <span style={{ fontSize: '21px' }}>🪵</span>
                           <span>Thick, Woody Trunk</span>
                         </div>
                         <div style={{
-                          fontSize: '20px',
+                          fontSize: '18px',
                           color: '#FFFFFF',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
-                          fontWeight: 450,
+                          fontWeight: 500,
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
@@ -3444,26 +3909,26 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* Section 2: Branches and Canopy */}
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #F59E0B`, paddingLeft: '12px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #F59E0B`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '22px',
+                          fontSize: '21px',
                           fontWeight: 800,
                           color: '#FDE68A',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '7px',
+                          gap: '8px',
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span>🍃</span>
+                          <span style={{ fontSize: '21px' }}>🍃</span>
                           <span>Branches and Canopy</span>
                         </div>
                         <div style={{
-                          fontSize: '20px',
+                          fontSize: '18px',
                           color: '#FFFFFF',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
-                          fontWeight: 450,
+                          fontWeight: 500,
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
@@ -3478,26 +3943,26 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* Section 3: Height and Lifespan */}
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #3B82F6`, paddingLeft: '12px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #3B82F6`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '22px',
+                          fontSize: '21px',
                           fontWeight: 800,
                           color: '#BFDBFE',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '7px',
+                          gap: '8px',
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span>⏳</span>
+                          <span style={{ fontSize: '21px' }}>⏳</span>
                           <span>Height and Lifespan</span>
                         </div>
                         <div style={{
-                          fontSize: '20px',
+                          fontSize: '18px',
                           color: '#FFFFFF',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
-                          fontWeight: 450,
+                          fontWeight: 500,
                           lineHeight: 1.45,
                           fontFamily: '"Inter", sans-serif'
                         }}>
@@ -3512,22 +3977,22 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
                       {/* Section 4: Examples */}
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', borderLeft: `4.5px solid #8B5CF6`, paddingLeft: '12px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #8B5CF6`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '22px',
+                          fontSize: '21px',
                           fontWeight: 800,
                           color: '#DDD6FE',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '7px',
+                          gap: '8px',
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span>🌳</span>
+                          <span style={{ fontSize: '21px' }}>🌳</span>
                           <span>Examples</span>
                         </div>
                         <div style={{
-                          fontSize: '20px',
+                          fontSize: '18px',
                           color: '#FEF08A',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
@@ -3546,19 +4011,19 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
 
                       {/* Think Prompt Box */}
                       <div style={{
-                        marginTop: '3px',
+                        marginTop: '2px',
                         background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(16, 185, 129, 0.18) 100%)',
-                        border: '1.5px solid rgba(251, 191, 36, 0.45)',
-                        borderRadius: '14px',
-                        padding: '10px 14px',
+                        border: '1.2px solid rgba(251, 191, 36, 0.45)',
+                        borderRadius: '10px',
+                        padding: '8px 12px',
                         display: 'flex',
                         alignItems: 'flex-start',
                         gap: '10px',
                         boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
                       }}>
-                        <span style={{ fontSize: '22px', lineHeight: 1 }}>💡</span>
+                        <span style={{ fontSize: '20px', lineHeight: 1.2 }}>💡</span>
                         <div style={{
-                          fontSize: '20px',
+                          fontSize: '18px',
                           fontWeight: 800,
                           color: '#FDE047',
                           fontFamily: '"Outfit", sans-serif',
@@ -3566,7 +4031,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           lineHeight: 1.4,
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)'
                         }}>
-                          <span>Think: </span>
+                          <span style={{ fontSize: '21px', fontWeight: 900 }}>Think: </span>
                           <span style={{ fontWeight: 500, color: '#FFFFFF' }}>
                             <NarratedWords
                               words={treesNarrationData.trees.words.slice(60, 67)}
@@ -3597,61 +4062,35 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     alignItems: 'center',
                     gap: '8px',
                     padding: '12px 18px 12px 14px',
-                    background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                    color: '#FFFFFF',
-                    border: '2px solid #FDE68A',
+                    background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                    color: '#FFFBEB',
+                    border: '2px solid rgba(253, 230, 138, 0.85)',
                     borderLeft: 'none',
                     borderRadius: '0 20px 20px 0',
-                    boxShadow: '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)',
                     cursor: 'pointer',
                     fontFamily: '"Outfit", sans-serif',
+                    fontWeight: 900,
+                    fontSize: '15px',
                     transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
-                    e.currentTarget.style.boxShadow = '0 8px 30px rgba(217, 119, 6, 0.75), 0 2px 12px rgba(0, 0, 0, 0.5)';
+                    e.currentTarget.style.borderColor = '#FEF08A';
+                    e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.80), 0 0 24px rgba(251, 191, 36, 0.45)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
-                    e.currentTarget.style.boxShadow = '0 6px 24px rgba(217, 119, 6, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4)';
+                    e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)';
                   }}
                 >
-                  <Leaf size={18} color="#FFFFFF" strokeWidth={2.5} />
-                  <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
+                  <Leaf size={18} color="#FFFBEB" strokeWidth={2.5} />
+                  <ChevronRight size={22} color="#FEF08A" strokeWidth={3} />
                 </button>
               )}
-
-              {/* Fullscreen Button at Top-Right */}
-              <div style={{
-                position: 'absolute',
-                top: '18px',
-                right: showTreesPopup ? '490px' : '20px',
-                zIndex: 35,
-                transition: 'all 0.2s ease'
-              }}>
-                <button
-                  type="button"
-                  onClick={toggleFullscreen}
-                  title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
-                  style={{
-                    background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(4px)',
-                    WebkitBackdropFilter: 'blur(4px)',
-                    color: '#FEF3C7',
-                    border: '1.8px solid rgba(255, 255, 255, 0.35)',
-                    borderRadius: '10px',
-                    padding: '8px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
-                    transition: 'all 0.25s ease'
-                  }}
-                >
-                  {fsActive ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
-                </button>
-              </div>
 
               {/* Bottom-Left: Back to Shrubs */}
               <div style={{
@@ -3664,27 +4103,38 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   type="button"
                   onClick={() => setCategoryStep(1)}
                   style={{
-                    padding: '8px 22px',
+                    padding: '8px 24px',
                     fontSize: '16px',
-                    fontWeight: 800,
-                    borderRadius: '10px',
+                    fontWeight: 900,
+                    borderRadius: '12px',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '6px',
-                    background: 'rgba(250, 248, 242, 0.85)',
-                    backdropFilter: 'blur(4px)',
-                    WebkitBackdropFilter: 'blur(4px)',
-                    border: '1.8px solid #14452F',
-                    color: '#14452F',
+                    gap: '8px',
+                    background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    border: '2px solid rgba(253, 230, 138, 0.85)',
+                    color: '#FFFBEB',
                     cursor: 'pointer',
                     fontFamily: '"Outfit", sans-serif',
-                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
-                    transition: 'all 0.18s ease'
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)',
+                    textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+                    transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
+                    e.currentTarget.style.borderColor = '#FEF08A';
+                    e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                    e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)';
                   }}
                   title="Return to Shrubs"
                   aria-label="Previous Page"
                 >
-                  <ChevronLeft size={18} /> Back: Shrubs
+                  <ChevronLeft size={18} strokeWidth={2.5} /> Back: Shrubs
                 </button>
               </div>
 
@@ -3707,16 +4157,28 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     alignItems: 'center',
                     gap: '8px',
                     padding: '8px 24px',
-                    borderRadius: '10px',
+                    borderRadius: '12px',
                     fontSize: '17px',
                     fontWeight: 900,
-                    background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                    border: '1.5px solid #10B981',
-                    color: '#ffffff',
+                    background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.06) 48%, rgba(0, 0, 0, 0.20) 52%, rgba(0, 0, 0, 0.55) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.88) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    border: '1.8px solid rgba(253, 230, 138, 0.85)',
+                    color: '#FFFBEB',
                     cursor: 'pointer',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                    boxShadow: '0 10px 28px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.80)',
                     fontFamily: '"Outfit", sans-serif',
-                    transition: 'all 0.18s ease'
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
+                    e.currentTarget.style.borderColor = '#FEF08A';
+                    e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                    e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                    e.currentTarget.style.boxShadow = '0 10px 28px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)';
                   }}
                   title="Explore Table 2.1"
                   aria-label="Next Page"
@@ -3765,32 +4227,6 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 paddingBottom: 'clamp(4px, 0.8vh, 8px)',
                 marginBottom: 'clamp(6px, 0.9vh, 8px)'
               }}>
-                {/* Fullscreen Button at Top-Right (matching Slogan Page) */}
-                <button
-                  type="button"
-                  onClick={toggleFullscreen}
-                  title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
-                  style={{
-                    position: 'absolute',
-                    right: 0,
-                    top: '2px',
-                    background: 'rgba(6, 78, 59, 0.90)',
-                    backdropFilter: 'blur(4px)',
-                    color: '#D1FAE5',
-                    border: '1.5px solid #10B981',
-                    borderRadius: '10px',
-                    padding: '8px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'all 0.18s ease',
-                    zIndex: 30
-                  }}
-                >
-                  {fsActive ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
-                </button>
-
                 {/* Top Badges: CLASS 6 • SCIENCE and ACTIVITY 2.1 */}
                 <div style={{
                   display: 'flex',
@@ -4574,41 +5010,36 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
 
               
 
-              {/* Top-Right Utility Bar: Target Rings & Fullscreen Controls */}
+              {/* Top-Center Title: Table 2.1 */}
               <div style={{
                 position: 'absolute',
                 top: '18px',
-                right: '20px',
-                zIndex: 35,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 34,
+                padding: '10px 28px',
+                borderRadius: '14px',
+                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: '2px solid rgba(253, 230, 138, 0.85)',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+                pointerEvents: 'none',
+                maxWidth: '78%'
               }}>
-
-
-
-                {/* Fullscreen Button */}
-                <button
-                  type="button"
-                  onClick={toggleFullscreen}
-                  title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
-                  style={{
-                    background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(4px)',
-                    color: '#FEF3C7',
-                    border: '1.8px solid rgba(255, 255, 255, 0.35)',
-                    borderRadius: '10px',
-                    padding: '8px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
-                    transition: 'all 0.25s ease'
-                  }}
-                >
-                  {fsActive ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
-                </button>
+                <h1 style={{
+                  margin: 0,
+                  fontFamily: '"Fraunces", Georgia, serif',
+                  fontWeight: 900,
+                  fontSize: '19px',
+                  color: '#FFFBEB',
+                  textAlign: 'center',
+                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+                  letterSpacing: '-0.01em',
+                  lineHeight: 1.2
+                }}>
+                  Table 2.1: Observations of different plants around us
+                </h1>
               </div>
 
 
@@ -4626,27 +5057,38 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     setCategoryStep(2);
                   }}
                   style={{
-                    padding: '8px 22px',
+                    padding: '8px 24px',
                     fontSize: '16px',
-                    fontWeight: 800,
-                    borderRadius: '10px',
+                    fontWeight: 900,
+                    borderRadius: '12px',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '6px',
-                    background: 'rgba(250, 248, 242, 0.85)',
-                    backdropFilter: 'blur(4px)',
-                    WebkitBackdropFilter: 'blur(4px)',
-                    border: '1.8px solid #14452F',
-                    color: '#14452F',
+                    gap: '8px',
+                    background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    border: '2px solid rgba(253, 230, 138, 0.85)',
+                    color: '#FFFBEB',
                     cursor: 'pointer',
                     fontFamily: '"Outfit", sans-serif',
-                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
-                    transition: 'all 0.18s ease'
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)',
+                    textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+                    transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
+                    e.currentTarget.style.borderColor = '#FEF08A';
+                    e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                    e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)';
                   }}
                   title="Return to Trees"
                   aria-label="Previous Page"
                 >
-                  <ChevronLeft size={18} /> Back: Trees
+                  <ChevronLeft size={18} strokeWidth={2.5} /> Back: Trees
                 </button>
               </div>
 
@@ -4666,16 +5108,28 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       alignItems: 'center',
                       gap: '8px',
                       padding: '8px 24px',
-                      borderRadius: '10px',
+                      borderRadius: '12px',
                       fontSize: '17px',
                       fontWeight: 900,
-                      background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                      border: '1.5px solid #10B981',
-                      color: '#ffffff',
+                      background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.06) 48%, rgba(0, 0, 0, 0.20) 52%, rgba(0, 0, 0, 0.55) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.88) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                      backdropFilter: 'blur(16px)',
+                      WebkitBackdropFilter: 'blur(16px)',
+                      border: '1.8px solid rgba(253, 230, 138, 0.85)',
+                      color: '#FFFBEB',
                       cursor: 'pointer',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                      boxShadow: '0 10px 28px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.80)',
                       fontFamily: '"Outfit", sans-serif',
-                      transition: 'all 0.18s ease'
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
+                      e.currentTarget.style.borderColor = '#FEF08A';
+                      e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                      e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                      e.currentTarget.style.boxShadow = '0 10px 28px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)';
                     }}
                     title="Advance to Next Activity"
                     aria-label="Next Page"
@@ -4894,40 +5348,36 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
 
               
 
-              {/* Top-Right Utility Bar: Target Rings & Fullscreen Controls */}
+              {/* Top-Center Title: Table 2.2 */}
               <div style={{
                 position: 'absolute',
                 top: '18px',
-                right: '20px',
-                zIndex: 35,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 34,
+                padding: '10px 28px',
+                borderRadius: '14px',
+                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: '2px solid rgba(253, 230, 138, 0.85)',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+                pointerEvents: 'none',
+                maxWidth: '78%'
               }}>
-
-
-                {/* Fullscreen Button */}
-                <button
-                  type="button"
-                  onClick={toggleFullscreen}
-                  title={fsActive ? 'Exit Fullscreen' : 'Enter Fullscreen'}
-                  style={{
-                    background: 'rgba(20, 69, 47, 0.85)',
-                    backdropFilter: 'blur(4px)',
-                    color: '#FEF3C7',
-                    border: '1.8px solid rgba(255, 255, 255, 0.35)',
-                    borderRadius: '10px',
-                    padding: '8px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
-                    transition: 'all 0.25s ease'
-                  }}
-                >
-                  {fsActive ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
-                </button>
+                <h1 style={{
+                  margin: 0,
+                  fontFamily: '"Fraunces", Georgia, serif',
+                  fontWeight: 900,
+                  fontSize: '19px',
+                  color: '#FFFBEB',
+                  textAlign: 'center',
+                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+                  letterSpacing: '-0.01em',
+                  lineHeight: 1.2
+                }}>
+                  Table 2.2: Observations of different animals around us
+                </h1>
               </div>
 
               {/* Bottom-Left: Navigation Back */}
@@ -4944,27 +5394,38 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     else if (onNextSection) onNextSection();
                   }}
                   style={{
-                    padding: '8px 20px',
-                    fontSize: '15px',
-                    fontWeight: 800,
-                    borderRadius: '10px',
+                    padding: '8px 24px',
+                    fontSize: '16px',
+                    fontWeight: 900,
+                    borderRadius: '12px',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '6px',
-                    background: 'rgba(250, 248, 242, 0.90)',
-                    backdropFilter: 'blur(4px)',
-                    WebkitBackdropFilter: 'blur(4px)',
-                    border: '1.8px solid #14452F',
-                    color: '#14452F',
+                    gap: '8px',
+                    background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    border: '2px solid rgba(253, 230, 138, 0.85)',
+                    color: '#FFFBEB',
                     cursor: 'pointer',
                     fontFamily: '"Outfit", sans-serif',
-                    boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
-                    transition: 'all 0.18s ease'
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)',
+                    textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+                    transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
+                    e.currentTarget.style.borderColor = '#FEF08A';
+                    e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                    e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)';
                   }}
                   title="Return to Previous Activity"
                   aria-label="Previous Activity"
                 >
-                  <ChevronLeft size={18} /> Back
+                  <ChevronLeft size={18} strokeWidth={2.5} /> Back
                 </button>
               </div>
 
@@ -4986,19 +5447,29 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     borderRadius: '10px',
                     fontSize: '17px',
                     fontWeight: 900,
-                    background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
-                    border: '1.5px solid #10B981',
-                    color: '#ffffff',
+                    background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.06) 48%, rgba(0, 0, 0, 0.20) 52%, rgba(0, 0, 0, 0.55) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.88) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                    border: '1.8px solid rgba(253, 230, 138, 0.85)',
+                    color: '#FFFBEB',
                     cursor: 'pointer',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+                    boxShadow: '0 10px 28px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.80)',
                     fontFamily: '"Outfit", sans-serif',
-                    transition: 'all 0.18s ease'
+                    transition: 'all 0.2s ease'
                   }}
-                  title="Advance to Activity 2.2 (Appreciating Biodiversity)"
-                  aria-label="Next Activity"
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
+                    e.currentTarget.style.borderColor = '#FEF08A';
+                    e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                    e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                    e.currentTarget.style.boxShadow = '0 10px 28px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)';
+                  }}
+                  title="Advance to Botanical Field Scanner"
+                  aria-label="Next Page"
                 >
-                  <span>{notebook.length >= filteredTargets.length ? '🎉 Walk Complete! Next Activity' : 'Next Page: Act 2.2 Appreciating'}</span>
-                  <ArrowRight size={18} strokeWidth={2.6} />
+                  <span>Next: Field Scanner</span>
+                  <ChevronRight size={18} strokeWidth={2.6} />
                 </button>
               </div>
 
@@ -5421,78 +5892,104 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
             display: 'flex',
             alignItems: 'center',
             gap: '12px',
-            background: 'rgba(3, 20, 12, 0.85)',
-            backdropFilter: 'blur(4px)',
-            WebkitBackdropFilter: 'blur(4px)',
-            border: '1.5px solid rgba(16, 185, 129, 0.45)',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(0, 0, 0, 0.45) 100%), rgba(2, 20, 12, 0.88)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '1.8px solid rgba(253, 230, 138, 0.60)',
             borderRadius: '32px',
-            padding: '6px 10px',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.75), 0 0 24px rgba(16, 185, 129, 0.3)',
+            padding: '6px 12px',
+            boxShadow: '0 12px 36px rgba(0, 0, 0, 0.75), 0 0 24px rgba(245, 158, 11, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.35)',
             boxSizing: 'border-box'
           }}>
-            {/* Back to Garden Button */}
+            {/* Back to Garden Button (Styled like Habitats Page bio-nav-btn) */}
             <button
               type="button"
               onClick={closePlantModal}
               style={{
-                background: 'rgba(250, 248, 242, 0.95)',
-                color: '#14452F',
-                border: '1.6px solid #14452F',
+                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                color: '#FFFBEB',
+                border: '2px solid rgba(253, 230, 138, 0.85)',
                 borderRadius: '24px',
-                padding: '8px 22px',
+                padding: '8px 24px',
                 fontSize: '16px',
                 fontWeight: 900,
+                fontFamily: '"Outfit", sans-serif',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
-                fontFamily: '"Outfit", sans-serif',
-                transition: 'all 0.18s ease',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)',
+                textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+                transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
                 whiteSpace: 'nowrap'
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.transform = 'scale(1.03)';
-                e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.4)';
+                e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
+                e.currentTarget.style.borderColor = '#FEF08A';
+                e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)';
+                e.currentTarget.style.background = 'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.10) 48%, rgba(0, 0, 0, 0.15) 52%, rgba(0, 0, 0, 0.45) 100%), linear-gradient(135deg, rgba(16, 185, 129, 0.88) 0%, rgba(4, 120, 87, 0.94) 100%)';
+                e.currentTarget.style.color = '#FFFFFF';
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)';
+                e.currentTarget.style.background = 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)';
+                e.currentTarget.style.color = '#FFFBEB';
               }}
               title="Return to Botanical Garden"
             >
-              <ChevronLeft size={18} strokeWidth={3} />
+              <ChevronLeft size={18} strokeWidth={2.8} />
               <span>Back to Garden</span>
             </button>
 
-            {/* Show / Hide Observations Button */}
+            {/* Show / Hide Observations Button (Styled like Habitats Page bio-cta-btn) */}
             <button
               type="button"
               onClick={() => setShowPlantDetailPopup(!showPlantDetailPopup)}
               style={{
-                background: showPlantDetailPopup ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)' : 'rgba(250, 248, 242, 0.95)',
-                color: showPlantDetailPopup ? '#FFFFFF' : '#14452F',
-                border: '1.6px solid ' + (showPlantDetailPopup ? '#34D399' : '#14452F'),
+                background: showPlantDetailPopup
+                  ? 'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.10) 48%, rgba(0, 0, 0, 0.15) 52%, rgba(0, 0, 0, 0.45) 100%), linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(4, 120, 87, 0.98) 100%)'
+                  : 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                color: showPlantDetailPopup ? '#FFFFFF' : '#FFFBEB',
+                border: showPlantDetailPopup
+                  ? '2px solid #6EE7B7'
+                  : '2px solid rgba(253, 230, 138, 0.85)',
                 borderRadius: '24px',
-                padding: '8px 22px',
+                padding: '8px 24px',
                 fontSize: '16px',
                 fontWeight: 900,
+                fontFamily: '"Outfit", sans-serif',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
-                fontFamily: '"Outfit", sans-serif',
-                transition: 'all 0.18s ease',
+                boxShadow: showPlantDetailPopup
+                  ? '0 0 24px rgba(52, 211, 153, 0.85), 0 10px 30px rgba(0, 0, 0, 0.70), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)'
+                  : '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)',
+                textShadow: showPlantDetailPopup
+                  ? '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(110, 231, 183, 0.85)'
+                  : '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+                transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
                 whiteSpace: 'nowrap'
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.transform = 'scale(1.03)';
-                e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.4)';
+                e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
+                e.currentTarget.style.borderColor = showPlantDetailPopup ? '#A7F3D0' : '#FEF08A';
+                e.currentTarget.style.boxShadow = showPlantDetailPopup
+                  ? '0 0 30px rgba(52, 211, 153, 0.95), 0 12px 34px rgba(0, 0, 0, 0.75)'
+                  : '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)';
+                e.currentTarget.style.color = '#FFFFFF';
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                e.currentTarget.style.borderColor = showPlantDetailPopup ? '#6EE7B7' : 'rgba(253, 230, 138, 0.85)';
+                e.currentTarget.style.boxShadow = showPlantDetailPopup
+                  ? '0 0 24px rgba(52, 211, 153, 0.85), 0 10px 30px rgba(0, 0, 0, 0.70), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)'
+                  : '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)';
+                e.currentTarget.style.color = showPlantDetailPopup ? '#FFFFFF' : '#FFFBEB';
               }}
               title={showPlantDetailPopup ? 'Hide observations and view full specimen image' : 'Show botanical observation details'}
             >
@@ -5573,36 +6070,395 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     <span>TABLE 2.1</span>
                   </span>
 
-                  {/* Minimize Button */}
-                  <button
-                    type="button"
-                    onClick={() => setShowPlantDetailPopup(false)}
-                    title="Hide observations and view full specimen image"
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.12)',
-                      border: '1.2px solid rgba(255, 255, 255, 0.25)',
-                      borderRadius: '12px',
-                      padding: '4px 12px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      color: '#FEF3C7',
-                      fontSize: '20px',
-                      fontWeight: 800,
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.4)';
-                      e.currentTarget.style.color = '#FFFFFF';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)';
-                      e.currentTarget.style.color = '#FEF3C7';
-                    }}
-                  >
-                    <span>✕ Close</span>
-                  </button>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    {/* Play / Pause Narration Button (Hibiscus only — real recorded audio available) */}
+                    {infoCardPlant.id === 'hibiscus' && (
+                      <button
+                        type="button"
+                        onClick={toggleHibiscusSpeech}
+                        aria-label={isHibiscusSpeaking ? 'Pause Narration' : 'Play Narration'}
+                        title={isHibiscusSpeaking ? 'Pause Narration' : 'Play Narration'}
+                        style={{
+                          background: isHibiscusSpeaking
+                            ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                            : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
+                          border: '1.5px solid #34D399',
+                          boxShadow: isHibiscusSpeaking
+                            ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                            : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
+                          borderRadius: '14px',
+                          padding: '5px 12px',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          color: '#FFFFFF',
+                          fontWeight: 800,
+                          fontSize: '14px',
+                          fontFamily: '"Outfit", sans-serif',
+                          cursor: 'pointer',
+                          flexShrink: 0,
+                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'scale(1.05)';
+                          e.currentTarget.style.borderColor = '#6EE7B7';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'scale(1)';
+                          e.currentTarget.style.borderColor = '#34D399';
+                        }}
+                      >
+                        {isHibiscusSpeaking ? (
+                          <>
+                            <Pause size={13} fill="#FFFFFF" />
+                            <span>Pause</span>
+                          </>
+                        ) : (
+                          <>
+                            <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                            <span>Play</span>
+                          </>
+                        )}
+                      </button>
+                    )}
+
+                    {/* Play / Pause Narration Button (Rose only — real recorded audio available) */}
+                    {infoCardPlant.id === 'rose' && (
+                      <button
+                        type="button"
+                        onClick={toggleRoseSpeech}
+                        aria-label={isRoseSpeaking ? 'Pause Narration' : 'Play Narration'}
+                        title={isRoseSpeaking ? 'Pause Narration' : 'Play Narration'}
+                        style={{
+                          background: isRoseSpeaking
+                            ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                            : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
+                          border: '1.5px solid #34D399',
+                          boxShadow: isRoseSpeaking
+                            ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                            : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
+                          borderRadius: '14px',
+                          padding: '5px 12px',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          color: '#FFFFFF',
+                          fontWeight: 800,
+                          fontSize: '14px',
+                          fontFamily: '"Outfit", sans-serif',
+                          cursor: 'pointer',
+                          flexShrink: 0,
+                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'scale(1.05)';
+                          e.currentTarget.style.borderColor = '#6EE7B7';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'scale(1)';
+                          e.currentTarget.style.borderColor = '#34D399';
+                        }}
+                      >
+                        {isRoseSpeaking ? (
+                          <>
+                            <Pause size={13} fill="#FFFFFF" />
+                            <span>Pause</span>
+                          </>
+                        ) : (
+                          <>
+                            <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                            <span>Play</span>
+                          </>
+                        )}
+                      </button>
+                    )}
+
+                    {/* Play / Pause Narration Button (Sunflower only — real recorded audio available) */}
+                    {infoCardPlant.id === 'sunflower' && (
+                      <button
+                        type="button"
+                        onClick={toggleSunflowerSpeech}
+                        aria-label={isSunflowerSpeaking ? 'Pause Narration' : 'Play Narration'}
+                        title={isSunflowerSpeaking ? 'Pause Narration' : 'Play Narration'}
+                        style={{
+                          background: isSunflowerSpeaking
+                            ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                            : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
+                          border: '1.5px solid #34D399',
+                          boxShadow: isSunflowerSpeaking
+                            ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                            : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
+                          borderRadius: '14px',
+                          padding: '5px 12px',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          color: '#FFFFFF',
+                          fontWeight: 800,
+                          fontSize: '14px',
+                          fontFamily: '"Outfit", sans-serif',
+                          cursor: 'pointer',
+                          flexShrink: 0,
+                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'scale(1.05)';
+                          e.currentTarget.style.borderColor = '#6EE7B7';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'scale(1)';
+                          e.currentTarget.style.borderColor = '#34D399';
+                        }}
+                      >
+                        {isSunflowerSpeaking ? (
+                          <>
+                            <Pause size={13} fill="#FFFFFF" />
+                            <span>Pause</span>
+                          </>
+                        ) : (
+                          <>
+                            <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                            <span>Play</span>
+                          </>
+                        )}
+                      </button>
+                    )}
+
+                    {/* Play / Pause Narration Button (Neem only — real recorded audio available) */}
+                    {infoCardPlant.id === 'neem' && (
+                      <button
+                        type="button"
+                        onClick={toggleNeemSpeech}
+                        aria-label={isNeemSpeaking ? 'Pause Narration' : 'Play Narration'}
+                        title={isNeemSpeaking ? 'Pause Narration' : 'Play Narration'}
+                        style={{
+                          background: isNeemSpeaking
+                            ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                            : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
+                          border: '1.5px solid #34D399',
+                          boxShadow: isNeemSpeaking
+                            ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                            : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
+                          borderRadius: '14px',
+                          padding: '5px 12px',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          color: '#FFFFFF',
+                          fontWeight: 800,
+                          fontSize: '14px',
+                          fontFamily: '"Outfit", sans-serif',
+                          cursor: 'pointer',
+                          flexShrink: 0,
+                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'scale(1.05)';
+                          e.currentTarget.style.borderColor = '#6EE7B7';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'scale(1)';
+                          e.currentTarget.style.borderColor = '#34D399';
+                        }}
+                      >
+                        {isNeemSpeaking ? (
+                          <>
+                            <Pause size={13} fill="#FFFFFF" />
+                            <span>Pause</span>
+                          </>
+                        ) : (
+                          <>
+                            <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                            <span>Play</span>
+                          </>
+                        )}
+                      </button>
+                    )}
+
+                    {/* Play / Pause Narration Button (Grass only — real recorded audio available) */}
+                    {infoCardPlant.id === 'grass' && (
+                      <button
+                        type="button"
+                        onClick={toggleGrassSpeech}
+                        aria-label={isGrassSpeaking ? 'Pause Narration' : 'Play Narration'}
+                        title={isGrassSpeaking ? 'Pause Narration' : 'Play Narration'}
+                        style={{
+                          background: isGrassSpeaking
+                            ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                            : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
+                          border: '1.5px solid #34D399',
+                          boxShadow: isGrassSpeaking
+                            ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                            : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
+                          borderRadius: '14px',
+                          padding: '5px 12px',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          color: '#FFFFFF',
+                          fontWeight: 800,
+                          fontSize: '14px',
+                          fontFamily: '"Outfit", sans-serif',
+                          cursor: 'pointer',
+                          flexShrink: 0,
+                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'scale(1.05)';
+                          e.currentTarget.style.borderColor = '#6EE7B7';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'scale(1)';
+                          e.currentTarget.style.borderColor = '#34D399';
+                        }}
+                      >
+                        {isGrassSpeaking ? (
+                          <>
+                            <Pause size={13} fill="#FFFFFF" />
+                            <span>Pause</span>
+                          </>
+                        ) : (
+                          <>
+                            <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                            <span>Play</span>
+                          </>
+                        )}
+                      </button>
+                    )}
+
+                    {/* Play / Pause Narration Button (Water Lily only — real recorded audio available) */}
+                    {infoCardPlant.id === 'waterlily' && (
+                      <button
+                        type="button"
+                        onClick={toggleWaterlilySpeech}
+                        aria-label={isWaterlilySpeaking ? 'Pause Narration' : 'Play Narration'}
+                        title={isWaterlilySpeaking ? 'Pause Narration' : 'Play Narration'}
+                        style={{
+                          background: isWaterlilySpeaking
+                            ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                            : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
+                          border: '1.5px solid #34D399',
+                          boxShadow: isWaterlilySpeaking
+                            ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                            : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
+                          borderRadius: '14px',
+                          padding: '5px 12px',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          color: '#FFFFFF',
+                          fontWeight: 800,
+                          fontSize: '14px',
+                          fontFamily: '"Outfit", sans-serif',
+                          cursor: 'pointer',
+                          flexShrink: 0,
+                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'scale(1.05)';
+                          e.currentTarget.style.borderColor = '#6EE7B7';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'scale(1)';
+                          e.currentTarget.style.borderColor = '#34D399';
+                        }}
+                      >
+                        {isWaterlilySpeaking ? (
+                          <>
+                            <Pause size={13} fill="#FFFFFF" />
+                            <span>Pause</span>
+                          </>
+                        ) : (
+                          <>
+                            <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                            <span>Play</span>
+                          </>
+                        )}
+                      </button>
+                    )}
+
+                    {/* Play / Pause Narration Button (Tulsi only — real recorded audio available) */}
+                    {infoCardPlant.id === 'tulsi' && (
+                      <button
+                        type="button"
+                        onClick={toggleTulsiSpeech}
+                        aria-label={isTulsiSpeaking ? 'Pause Narration' : 'Play Narration'}
+                        title={isTulsiSpeaking ? 'Pause Narration' : 'Play Narration'}
+                        style={{
+                          background: isTulsiSpeaking
+                            ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                            : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
+                          border: '1.5px solid #34D399',
+                          boxShadow: isTulsiSpeaking
+                            ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                            : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
+                          borderRadius: '14px',
+                          padding: '5px 12px',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          color: '#FFFFFF',
+                          fontWeight: 800,
+                          fontSize: '14px',
+                          fontFamily: '"Outfit", sans-serif',
+                          cursor: 'pointer',
+                          flexShrink: 0,
+                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'scale(1.05)';
+                          e.currentTarget.style.borderColor = '#6EE7B7';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'scale(1)';
+                          e.currentTarget.style.borderColor = '#34D399';
+                        }}
+                      >
+                        {isTulsiSpeaking ? (
+                          <>
+                            <Pause size={13} fill="#FFFFFF" />
+                            <span>Pause</span>
+                          </>
+                        ) : (
+                          <>
+                            <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                            <span>Play</span>
+                          </>
+                        )}
+                      </button>
+                    )}
+
+                    {/* Minimize Button */}
+                    <button
+                      type="button"
+                      onClick={() => { pauseHibiscusNarration(); pauseRoseNarration(); pauseSunflowerNarration(); pauseNeemNarration(); pauseGrassNarration(); pauseWaterlilyNarration(); pauseTulsiNarration(); setShowPlantDetailPopup(false); }}
+                      title="Hide observations and view full specimen image"
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.12)',
+                        border: '1.2px solid rgba(255, 255, 255, 0.25)',
+                        borderRadius: '12px',
+                        padding: '4px 12px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        color: '#FEF3C7',
+                        fontSize: '20px',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'rgba(239, 68, 68, 0.4)';
+                        e.currentTarget.style.color = '#FFFFFF';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)';
+                        e.currentTarget.style.color = '#FEF3C7';
+                      }}
+                    >
+                      <span>✕ Close</span>
+                    </button>
+                  </div>
                 </div>
 
                 {/* Title */}
@@ -5658,7 +6514,56 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <span>🌱 STEM</span>
                     </div>
                     <div style={{ fontSize: '20px', color: '#FFFFFF', fontWeight: 500, lineHeight: 1.35, fontFamily: '"Inter", sans-serif', textAlign: 'justify', textJustify: 'inter-word', textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)' }}>
-                      {infoCardPlant.tableInfo?.stem || '—'}
+                      {infoCardPlant.id === 'hibiscus' ? (
+                        <NarratedWords
+                          words={hibiscusNarrationData.hibiscus.words.slice(4, 12)}
+                          activeIndex={hibiscusActiveWordIndex}
+                          baseIndex={4}
+                          activeStyle={{ color: '#34D399', textShadow: '0 0 10px rgba(52, 211, 153, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'rose' ? (
+                        <NarratedWords
+                          words={roseNarrationData.rose.words.slice(5, 14)}
+                          activeIndex={roseActiveWordIndex}
+                          baseIndex={5}
+                          activeStyle={{ color: '#34D399', textShadow: '0 0 10px rgba(52, 211, 153, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'sunflower' ? (
+                        <NarratedWords
+                          words={sunflowerNarrationData.sunflower.words.slice(4, 11)}
+                          activeIndex={sunflowerActiveWordIndex}
+                          baseIndex={4}
+                          activeStyle={{ color: '#34D399', textShadow: '0 0 10px rgba(52, 211, 153, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'neem' ? (
+                        <NarratedWords
+                          words={neemNarrationData.neem.words.slice(6, 16)}
+                          activeIndex={neemActiveWordIndex}
+                          baseIndex={6}
+                          activeStyle={{ color: '#34D399', textShadow: '0 0 10px rgba(52, 211, 153, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'grass' ? (
+                        <NarratedWords
+                          words={grassNarrationData.grass.words.slice(6, 14)}
+                          activeIndex={grassActiveWordIndex}
+                          baseIndex={6}
+                          activeStyle={{ color: '#34D399', textShadow: '0 0 10px rgba(52, 211, 153, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'waterlily' ? (
+                        <NarratedWords
+                          words={waterlilyNarrationData.waterlily.words.slice(15, 23)}
+                          activeIndex={waterlilyActiveWordIndex}
+                          baseIndex={15}
+                          activeStyle={{ color: '#34D399', textShadow: '0 0 10px rgba(52, 211, 153, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'tulsi' ? (
+                        <NarratedWords
+                          words={tulsiNarrationData.tulsi.words.slice(6, 17)}
+                          activeIndex={tulsiActiveWordIndex}
+                          baseIndex={6}
+                          activeStyle={{ color: '#34D399', textShadow: '0 0 10px rgba(52, 211, 153, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : (infoCardPlant.tableInfo?.stem || '—')}
                     </div>
                   </div>
                   <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
@@ -5669,7 +6574,56 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <span>🍃 LEAVES</span>
                     </div>
                     <div style={{ fontSize: '20px', color: '#FFFFFF', fontWeight: 500, lineHeight: 1.35, fontFamily: '"Inter", sans-serif', textAlign: 'justify', textJustify: 'inter-word', textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)' }}>
-                      {infoCardPlant.tableInfo?.leaves || '—'}
+                      {infoCardPlant.id === 'hibiscus' ? (
+                        <NarratedWords
+                          words={hibiscusNarrationData.hibiscus.words.slice(12, 17)}
+                          activeIndex={hibiscusActiveWordIndex}
+                          baseIndex={12}
+                          activeStyle={{ color: '#6EE7B7', textShadow: '0 0 10px rgba(110, 231, 183, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'rose' ? (
+                        <NarratedWords
+                          words={roseNarrationData.rose.words.slice(14, 22)}
+                          activeIndex={roseActiveWordIndex}
+                          baseIndex={14}
+                          activeStyle={{ color: '#6EE7B7', textShadow: '0 0 10px rgba(110, 231, 183, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'sunflower' ? (
+                        <NarratedWords
+                          words={sunflowerNarrationData.sunflower.words.slice(11, 18)}
+                          activeIndex={sunflowerActiveWordIndex}
+                          baseIndex={11}
+                          activeStyle={{ color: '#6EE7B7', textShadow: '0 0 10px rgba(110, 231, 183, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'neem' ? (
+                        <NarratedWords
+                          words={neemNarrationData.neem.words.slice(17, 27)}
+                          activeIndex={neemActiveWordIndex}
+                          baseIndex={17}
+                          activeStyle={{ color: '#6EE7B7', textShadow: '0 0 10px rgba(110, 231, 183, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'grass' ? (
+                        <NarratedWords
+                          words={grassNarrationData.grass.words.slice(14, 20)}
+                          activeIndex={grassActiveWordIndex}
+                          baseIndex={14}
+                          activeStyle={{ color: '#6EE7B7', textShadow: '0 0 10px rgba(110, 231, 183, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'waterlily' ? (
+                        <NarratedWords
+                          words={waterlilyNarrationData.waterlily.words.slice(24, 32)}
+                          activeIndex={waterlilyActiveWordIndex}
+                          baseIndex={24}
+                          activeStyle={{ color: '#6EE7B7', textShadow: '0 0 10px rgba(110, 231, 183, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'tulsi' ? (
+                        <NarratedWords
+                          words={tulsiNarrationData.tulsi.words.slice(18, 26)}
+                          activeIndex={tulsiActiveWordIndex}
+                          baseIndex={18}
+                          activeStyle={{ color: '#6EE7B7', textShadow: '0 0 10px rgba(110, 231, 183, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : (infoCardPlant.tableInfo?.leaves || '—')}
                     </div>
                   </div>
                   <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
@@ -5680,7 +6634,56 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <span>🌸 FLOWERS</span>
                     </div>
                     <div style={{ fontSize: '20px', color: '#FFFFFF', fontWeight: 500, lineHeight: 1.35, fontFamily: '"Inter", sans-serif', textAlign: 'justify', textJustify: 'inter-word', textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)' }}>
-                      {infoCardPlant.tableInfo?.flowers || '—'}
+                      {infoCardPlant.id === 'hibiscus' ? (
+                        <NarratedWords
+                          words={hibiscusNarrationData.hibiscus.words.slice(17, 21)}
+                          activeIndex={hibiscusActiveWordIndex}
+                          baseIndex={17}
+                          activeStyle={{ color: '#F9A8D4', textShadow: '0 0 10px rgba(249, 168, 212, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'rose' ? (
+                        <NarratedWords
+                          words={roseNarrationData.rose.words.slice(22, 27)}
+                          activeIndex={roseActiveWordIndex}
+                          baseIndex={22}
+                          activeStyle={{ color: '#F9A8D4', textShadow: '0 0 10px rgba(249, 168, 212, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'sunflower' ? (
+                        <NarratedWords
+                          words={sunflowerNarrationData.sunflower.words.slice(18, 28)}
+                          activeIndex={sunflowerActiveWordIndex}
+                          baseIndex={18}
+                          activeStyle={{ color: '#F9A8D4', textShadow: '0 0 10px rgba(249, 168, 212, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'neem' ? (
+                        <NarratedWords
+                          words={neemNarrationData.neem.words.slice(30, 34)}
+                          activeIndex={neemActiveWordIndex}
+                          baseIndex={30}
+                          activeStyle={{ color: '#F9A8D4', textShadow: '0 0 10px rgba(249, 168, 212, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'grass' ? (
+                        <NarratedWords
+                          words={grassNarrationData.grass.words.slice(23, 30)}
+                          activeIndex={grassActiveWordIndex}
+                          baseIndex={23}
+                          activeStyle={{ color: '#F9A8D4', textShadow: '0 0 10px rgba(249, 168, 212, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'waterlily' ? (
+                        <NarratedWords
+                          words={waterlilyNarrationData.waterlily.words.slice(32, 42)}
+                          activeIndex={waterlilyActiveWordIndex}
+                          baseIndex={32}
+                          activeStyle={{ color: '#F9A8D4', textShadow: '0 0 10px rgba(249, 168, 212, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'tulsi' ? (
+                        <NarratedWords
+                          words={tulsiNarrationData.tulsi.words.slice(27, 35)}
+                          activeIndex={tulsiActiveWordIndex}
+                          baseIndex={27}
+                          activeStyle={{ color: '#F9A8D4', textShadow: '0 0 10px rgba(249, 168, 212, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : (infoCardPlant.tableInfo?.flowers || '—')}
                     </div>
                   </div>
                   <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
@@ -5691,7 +6694,56 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <span>📖 OTHER OBSERVATIONS</span>
                     </div>
                     <div style={{ fontSize: '20px', color: '#FFFFFF', fontWeight: 500, lineHeight: 1.35, fontFamily: '"Inter", sans-serif', textAlign: 'justify', textJustify: 'inter-word', textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)' }}>
-                      {infoCardPlant.tableInfo?.notes || '—'}
+                      {infoCardPlant.id === 'hibiscus' ? (
+                        <NarratedWords
+                          words={hibiscusNarrationData.hibiscus.words.slice(21, 30)}
+                          activeIndex={hibiscusActiveWordIndex}
+                          baseIndex={21}
+                          activeStyle={{ color: '#93C5FD', textShadow: '0 0 10px rgba(147, 197, 253, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'rose' ? (
+                        <NarratedWords
+                          words={roseNarrationData.rose.words.slice(27, 33)}
+                          activeIndex={roseActiveWordIndex}
+                          baseIndex={27}
+                          activeStyle={{ color: '#93C5FD', textShadow: '0 0 10px rgba(147, 197, 253, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'sunflower' ? (
+                        <NarratedWords
+                          words={sunflowerNarrationData.sunflower.words.slice(28, 42)}
+                          activeIndex={sunflowerActiveWordIndex}
+                          baseIndex={28}
+                          activeStyle={{ color: '#93C5FD', textShadow: '0 0 10px rgba(147, 197, 253, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'neem' ? (
+                        <NarratedWords
+                          words={neemNarrationData.neem.words.slice(34, 43)}
+                          activeIndex={neemActiveWordIndex}
+                          baseIndex={34}
+                          activeStyle={{ color: '#93C5FD', textShadow: '0 0 10px rgba(147, 197, 253, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'grass' ? (
+                        <NarratedWords
+                          words={grassNarrationData.grass.words.slice(30, 43)}
+                          activeIndex={grassActiveWordIndex}
+                          baseIndex={30}
+                          activeStyle={{ color: '#93C5FD', textShadow: '0 0 10px rgba(147, 197, 253, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'waterlily' ? (
+                        <NarratedWords
+                          words={waterlilyNarrationData.waterlily.words.slice(5, 14)}
+                          activeIndex={waterlilyActiveWordIndex}
+                          baseIndex={5}
+                          activeStyle={{ color: '#93C5FD', textShadow: '0 0 10px rgba(147, 197, 253, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : infoCardPlant.id === 'tulsi' ? (
+                        <NarratedWords
+                          words={tulsiNarrationData.tulsi.words.slice(37, 47)}
+                          activeIndex={tulsiActiveWordIndex}
+                          baseIndex={37}
+                          activeStyle={{ color: '#93C5FD', textShadow: '0 0 10px rgba(147, 197, 253, 0.9), 0 1px 3px #000000' }}
+                        />
+                      ) : (infoCardPlant.tableInfo?.notes || '—')}
                     </div>
                   </div>
 
@@ -5732,7 +6784,56 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           textJustify: 'inter-word',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)'
                         }}>
-                          {infoCardPlant.tableInfo?.think || (infoCardPlant.id === 'sunflower' ? 'Do mature sunflower heads keep following the sun?' : (infoCardPlant.id === 'rose' ? 'How is a compound leaf different from a simple leaf?' : 'What makes hibiscus a shrub?'))}
+                          {infoCardPlant.id === 'hibiscus' ? (
+                            <NarratedWords
+                              words={hibiscusNarrationData.hibiscus.words.slice(30, 35)}
+                              activeIndex={hibiscusActiveWordIndex}
+                              baseIndex={30}
+                              activeStyle={{ color: '#FDE047', textShadow: '0 0 10px rgba(253, 224, 71, 0.9), 0 1px 3px #000000' }}
+                            />
+                          ) : infoCardPlant.id === 'rose' ? (
+                            <NarratedWords
+                              words={roseNarrationData.rose.words.slice(33, 43)}
+                              activeIndex={roseActiveWordIndex}
+                              baseIndex={33}
+                              activeStyle={{ color: '#FDE047', textShadow: '0 0 10px rgba(253, 224, 71, 0.9), 0 1px 3px #000000' }}
+                            />
+                          ) : infoCardPlant.id === 'sunflower' ? (
+                            <NarratedWords
+                              words={sunflowerNarrationData.sunflower.words.slice(42, 50)}
+                              activeIndex={sunflowerActiveWordIndex}
+                              baseIndex={42}
+                              activeStyle={{ color: '#FDE047', textShadow: '0 0 10px rgba(253, 224, 71, 0.9), 0 1px 3px #000000' }}
+                            />
+                          ) : infoCardPlant.id === 'neem' ? (
+                            <NarratedWords
+                              words={neemNarrationData.neem.words.slice(43, 52)}
+                              activeIndex={neemActiveWordIndex}
+                              baseIndex={43}
+                              activeStyle={{ color: '#FDE047', textShadow: '0 0 10px rgba(253, 224, 71, 0.9), 0 1px 3px #000000' }}
+                            />
+                          ) : infoCardPlant.id === 'grass' ? (
+                            <NarratedWords
+                              words={grassNarrationData.grass.words.slice(43, 52)}
+                              activeIndex={grassActiveWordIndex}
+                              baseIndex={43}
+                              activeStyle={{ color: '#FDE047', textShadow: '0 0 10px rgba(253, 224, 71, 0.9), 0 1px 3px #000000' }}
+                            />
+                          ) : infoCardPlant.id === 'waterlily' ? (
+                            <NarratedWords
+                              words={waterlilyNarrationData.waterlily.words.slice(44, 53)}
+                              activeIndex={waterlilyActiveWordIndex}
+                              baseIndex={44}
+                              activeStyle={{ color: '#FDE047', textShadow: '0 0 10px rgba(253, 224, 71, 0.9), 0 1px 3px #000000' }}
+                            />
+                          ) : infoCardPlant.id === 'tulsi' ? (
+                            <NarratedWords
+                              words={tulsiNarrationData.tulsi.words.slice(49, 57)}
+                              activeIndex={tulsiActiveWordIndex}
+                              baseIndex={49}
+                              activeStyle={{ color: '#FDE047', textShadow: '0 0 10px rgba(253, 224, 71, 0.9), 0 1px 3px #000000' }}
+                            />
+                          ) : (infoCardPlant.tableInfo?.think || (infoCardPlant.id === 'sunflower' ? 'Do mature sunflower heads keep following the sun?' : (infoCardPlant.id === 'rose' ? 'How is a compound leaf different from a simple leaf?' : 'What makes hibiscus a shrub?')))}
                         </div>
                       </div>
                     </>
@@ -5795,78 +6896,104 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
             display: 'flex',
             alignItems: 'center',
             gap: '12px',
-            background: 'rgba(3, 20, 12, 0.85)',
-            backdropFilter: 'blur(4px)',
-            WebkitBackdropFilter: 'blur(4px)',
-            border: '1.5px solid rgba(16, 185, 129, 0.45)',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(0, 0, 0, 0.45) 100%), rgba(2, 20, 12, 0.88)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '1.8px solid rgba(253, 230, 138, 0.60)',
             borderRadius: '32px',
-            padding: '6px 10px',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.75), 0 0 24px rgba(16, 185, 129, 0.3)',
+            padding: '6px 12px',
+            boxShadow: '0 12px 36px rgba(0, 0, 0, 0.75), 0 0 24px rgba(245, 158, 11, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.35)',
             boxSizing: 'border-box'
           }}>
-            {/* Back to Animals Button */}
+            {/* Back to Animals Button (Styled like Habitats Page bio-nav-btn) */}
             <button
               type="button"
               onClick={closeAnimalModal}
               style={{
-                background: 'rgba(250, 248, 242, 0.95)',
-                color: '#14452F',
-                border: '1.6px solid #14452F',
+                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                color: '#FFFBEB',
+                border: '2px solid rgba(253, 230, 138, 0.85)',
                 borderRadius: '24px',
-                padding: '8px 22px',
+                padding: '8px 24px',
                 fontSize: '16px',
                 fontWeight: 900,
+                fontFamily: '"Outfit", sans-serif',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
-                fontFamily: '"Outfit", sans-serif',
-                transition: 'all 0.18s ease',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)',
+                textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+                transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
                 whiteSpace: 'nowrap'
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.transform = 'scale(1.03)';
-                e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.4)';
+                e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
+                e.currentTarget.style.borderColor = '#FEF08A';
+                e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)';
+                e.currentTarget.style.background = 'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.10) 48%, rgba(0, 0, 0, 0.15) 52%, rgba(0, 0, 0, 0.45) 100%), linear-gradient(135deg, rgba(16, 185, 129, 0.88) 0%, rgba(4, 120, 87, 0.94) 100%)';
+                e.currentTarget.style.color = '#FFFFFF';
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)';
+                e.currentTarget.style.background = 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)';
+                e.currentTarget.style.color = '#FFFBEB';
               }}
               title="Return to Zoological Field Scanner"
             >
-              <ChevronLeft size={18} strokeWidth={3} />
+              <ChevronLeft size={18} strokeWidth={2.8} />
               <span>Back to Animals</span>
             </button>
 
-            {/* Show / Hide Observations Button */}
+            {/* Show / Hide Observations Button (Styled like Habitats Page bio-cta-btn) */}
             <button
               type="button"
               onClick={() => setShowAnimalDetailPopup(!showAnimalDetailPopup)}
               style={{
-                background: showAnimalDetailPopup ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)' : 'rgba(250, 248, 242, 0.95)',
-                color: showAnimalDetailPopup ? '#FFFFFF' : '#14452F',
-                border: '1.6px solid ' + (showAnimalDetailPopup ? '#34D399' : '#14452F'),
+                background: showAnimalDetailPopup
+                  ? 'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.10) 48%, rgba(0, 0, 0, 0.15) 52%, rgba(0, 0, 0, 0.45) 100%), linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(4, 120, 87, 0.98) 100%)'
+                  : 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                color: showAnimalDetailPopup ? '#FFFFFF' : '#FFFBEB',
+                border: showAnimalDetailPopup
+                  ? '2px solid #6EE7B7'
+                  : '2px solid rgba(253, 230, 138, 0.85)',
                 borderRadius: '24px',
-                padding: '8px 22px',
+                padding: '8px 24px',
                 fontSize: '16px',
                 fontWeight: 900,
+                fontFamily: '"Outfit", sans-serif',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
-                fontFamily: '"Outfit", sans-serif',
-                transition: 'all 0.18s ease',
+                boxShadow: showAnimalDetailPopup
+                  ? '0 0 24px rgba(52, 211, 153, 0.85), 0 10px 30px rgba(0, 0, 0, 0.70), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)'
+                  : '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)',
+                textShadow: showAnimalDetailPopup
+                  ? '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(110, 231, 183, 0.85)'
+                  : '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+                transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
                 whiteSpace: 'nowrap'
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.transform = 'scale(1.03)';
-                e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.4)';
+                e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
+                e.currentTarget.style.borderColor = showAnimalDetailPopup ? '#A7F3D0' : '#FEF08A';
+                e.currentTarget.style.boxShadow = showAnimalDetailPopup
+                  ? '0 0 30px rgba(52, 211, 153, 0.95), 0 12px 34px rgba(0, 0, 0, 0.75)'
+                  : '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)';
+                e.currentTarget.style.color = '#FFFFFF';
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                e.currentTarget.style.borderColor = showAnimalDetailPopup ? '#6EE7B7' : 'rgba(253, 230, 138, 0.85)';
+                e.currentTarget.style.boxShadow = showAnimalDetailPopup
+                  ? '0 0 24px rgba(52, 211, 153, 0.85), 0 10px 30px rgba(0, 0, 0, 0.70), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)'
+                  : '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)';
+                e.currentTarget.style.color = showAnimalDetailPopup ? '#FFFFFF' : '#FFFBEB';
               }}
               title={showAnimalDetailPopup ? "Hide observations and view full specimen image" : "Show zoological observation details"}
             >

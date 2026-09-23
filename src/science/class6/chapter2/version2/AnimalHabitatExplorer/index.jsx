@@ -6,8 +6,6 @@ import {
   Award,
   Volume2,
   VolumeX,
-  Maximize2,
-  Minimize2,
   CheckCircle2,
   Sparkles,
   ChevronRight,
@@ -319,7 +317,6 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
   const containerRef = useRef(null);
   const [phase, setPhase] = useState(initialPhase); // 1: Habitat, 2: Feeding, 3: Movement
   const [isMuted, setIsMuted] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Specimen Navigation State (50% - 50% Single Page View)
   const [activeSpecimenIndex, setActiveSpecimenIndex] = useState(0);
@@ -365,20 +362,6 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
     const next = !isMuted;
     setIsMuted(next);
     habitatAudio.setMuted(next);
-  };
-
-  const toggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      if (containerRef.current) {
-        containerRef.current.requestFullscreen().catch(() => {});
-      } else {
-        document.documentElement.requestFullscreen().catch(() => {});
-      }
-      setIsFullscreen(true);
-    } else {
-      document.exitFullscreen().catch(() => {});
-      setIsFullscreen(false);
-    }
   };
 
   // 50% - 50% Single Page Specimen & Habitat Derivations
@@ -647,17 +630,8 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
             gap: '12px'
           }}
         >
-          {/* LEFT: DASHBOARD BUTTON */}
-          <button
-            type="button"
-            className="bio-nav-btn"
-            onClick={onBackToDashboard}
-            aria-label="Back to Dashboard"
-            style={{ padding: '6px 14px', fontSize: '16px', flexShrink: 0 }}
-          >
-            <ArrowLeft size={18} strokeWidth={2.4} />
-            <span>Dashboard</span>
-          </button>
+          {/* Spacer to keep title centered (Dashboard button removed; Back/Next now live only in bottom corners) */}
+          <div style={{ width: '1px', flexShrink: 0 }} />
 
           {/* CENTER: BADGES & TITLE */}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', minWidth: 0 }}>
@@ -765,26 +739,6 @@ export default function AnimalHabitatExplorer({ onBackToDashboard, onNextActivit
             >
               <RefreshCw size={15} />
               <span>Reset</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={toggleFullscreen}
-              title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
-              style={{
-                background: 'rgba(20, 69, 47, 0.92)',
-                color: '#D1FAE5',
-                border: '1.5px solid #2D6A4F',
-                borderRadius: '8px',
-                padding: '6px 8px',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 2px 6px rgba(20, 69, 47, 0.2)'
-              }}
-            >
-              {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
             </button>
           </div>
         </div>
