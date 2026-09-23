@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Eye, EyeOff, CheckCircle2, GripVertical, FileSearch } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Eye, EyeOff, CheckCircle2, GripVertical, FileSearch, Play, Pause } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import fpage48Audio from '../../audio/fpage48.mp3?url';
+import fpage48Json from '../../json/fpage48.json';
 
 import imgFrostedGlass from "../../../../../assets/2.froastedjar.jpg";
 import imgEraser from "../../../../../assets/2.eraser.jpg";
@@ -167,7 +169,7 @@ function Tray({ type, droppedItems, isDragOver, onDragOver, onDragLeave, onDrop,
   );
 }
 
-export default function Stage6b_Classify({ onComplete, addXp }) {
+export default function Stage6b_Classify({ onComplete, addXp, setExtraRightAction }) {
   const [objectLocations, setObjectLocations] = useState({});
   const [observationLog, setObservationLog] = useState([]);
   const [testedItems, setTestedItems] = useState(new Set());
@@ -176,13 +178,87 @@ export default function Stage6b_Classify({ onComplete, addXp }) {
   const [draggingId, setDraggingId] = useState(null);
 
   const items = [
-    { id: 'tumbler', name: 'Glass Tumbler' },
-    { id: 'butter', name: 'Butter Paper' },
-    { id: 'eraser', name: 'Eraser' },
-    { id: 'frosted', name: 'Frosted Jar' },
-    { id: 'wood', name: 'Wooden Board' },
-    { id: 'window', name: 'Plastic Bottle' },
+    { id: 'tumbler', name: 'Glass Tumbler', indices: [20, 21] },
+    { id: 'butter', name: 'Butter Paper', indices: [22, 23] },
+    { id: 'eraser', name: 'Eraser', indices: [24] },
+    { id: 'frosted', name: 'Frosted Jar', indices: [25, 26] },
+    { id: 'wood', name: 'Wooden Board', indices: [27, 28] },
+    { id: 'window', name: 'Plastic Bottle', indices: [29, 30] },
   ];
+
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordIndex, setActiveWordIndex] = useState(null);
+
+  const toggleAudio = useCallback(() => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(console.error);
+      }
+      setIsPlaying(!isPlaying);
+    }
+  }, [isPlaying]);
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      const time = audioRef.current.currentTime;
+      const activeIdx = fpage48Json.words.findIndex(w => time >= w.start && time < w.end);
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  };
+
+  const handleEnded = () => {
+    setIsPlaying(false);
+    setActiveWordIndex(null);
+  };
+
+  useEffect(() => {
+    if (setExtraRightAction) {
+      setExtraRightAction(
+        <button
+          onClick={toggleAudio}
+          style={{
+            display: 'flex', alignItems: 'center', gap: '6px',
+            padding: '8px 16px', borderRadius: '8px',
+            background: 'var(--accent)', color: 'white', border: 'none',
+            cursor: 'pointer', fontSize: '1.2rem', fontWeight: 'bold'
+          }}
+        >
+          {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+          {isPlaying ? 'Pause' : 'Play'}
+        </button>
+      );
+    }
+    return () => {
+      if (setExtraRightAction) setExtraRightAction(null);
+    };
+  }, [setExtraRightAction, isPlaying, toggleAudio]);
+
+  const renderMappedText = (text, indexMap, activeIndex, color, bgColor) => {
+    const words = text.split(' ');
+    return words.map((word, i) => {
+      const audioIdx = indexMap[i];
+      const isActive = activeIndex === audioIdx;
+      return (
+        <React.Fragment key={i}>
+          <span style={{ 
+            color: isActive ? color : 'inherit', 
+            background: isActive ? bgColor : 'transparent', 
+            borderRadius: '4px', 
+            padding: '0 2px', 
+            transition: 'all 0.15s ease-out' 
+          }}>
+            {word}
+          </span>
+          {i < words.length - 1 ? ' ' : ''}
+        </React.Fragment>
+      );
+    });
+  };
 
   const handleDragStart = (e, id) => { 
     e.dataTransfer.setData('text/plain', id); 
@@ -237,15 +313,16 @@ export default function Stage6b_Classify({ onComplete, addXp }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', width: '100%', height: '100%', color: 'var(--text-primary)', overflow: 'hidden', padding: '0.5rem 0.5rem 0 0.5rem', boxSizing: 'border-box' }}>
+      <audio ref={audioRef} src={fpage48Audio} onTimeUpdate={handleTimeUpdate} onEnded={handleEnded} />
       
       {/* Header */}
       <div style={{ flexShrink: 0, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '12px', padding: '0.5rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h3 style={{ margin: 0, fontSize: 'clamp(26px, 3.2vw, 32px)', fontWeight: '900', color: 'var(--heading-main)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <FileSearch size={24} color="var(--accent)" /> Phase 2: Activity 6.6 — Let us Classify
+            <FileSearch size={24} color="var(--accent)" /> Phase 2: {renderMappedText("Activity 6.6 — Let us Classify", [null, null, null, 0, 1, 2], activeWordIndex, 'var(--accent)', 'rgba(217,119,6,0.1)')}
           </h3>
           <p style={{ margin: '4px 0 0 0', fontSize: 'clamp(20px, 2.8vw, 24px)', fontWeight: '600', color: 'var(--heading-sub)', lineHeight: '1.5' }}>
-            Explore the Materials — drag any object into a tray and observe how it appears.
+            {renderMappedText("Explore the Materials — drag any object into a tray and observe how it appears.", [3, 4, 5, null, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], activeWordIndex, 'var(--accent)', 'rgba(217,119,6,0.1)')}
           </p>
         </div>
         <div style={{
@@ -263,7 +340,7 @@ export default function Stage6b_Classify({ onComplete, addXp }) {
       {/* Unused Object Source Area */}
       <div style={{ flexShrink: 0, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '12px', padding: '0.5rem 1rem', minHeight: '135px' }}>
         <h4 style={{ margin: 0, fontSize: '1.4rem', fontWeight: '800', color: 'var(--heading-section)', borderBottom: '1px solid var(--border)', paddingBottom: '0.4rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <GripVertical size={20} /> Available Objects
+          <GripVertical size={20} /> {renderMappedText("Available Objects", [17, 18], activeWordIndex, 'var(--accent)', 'rgba(217,119,6,0.1)')}
         </h4>
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center', minHeight: '85px' }}>
           {availableObjects.length === 0 ? (
@@ -293,7 +370,9 @@ export default function Stage6b_Classify({ onComplete, addXp }) {
                 >
                   <div style={{ position: 'absolute', top: '4px', left: '4px' }}><GripVertical size={14} color="#94a3b8" /></div>
                   <ObjectVisual id={item.id} size={54} customStyle={{ width: '100%', height: '70px', mixBlendMode: 'multiply' }} />
-                  <div style={{ fontSize: '1.15rem', fontWeight: '800', color: '#1e293b', textAlign: 'center', lineHeight: 1.1 }}>{item.name}</div>
+                  <div style={{ fontSize: '1.15rem', fontWeight: '800', color: '#1e293b', textAlign: 'center', lineHeight: 1.1 }}>
+                    {renderMappedText(item.name, item.indices, activeWordIndex, 'var(--accent)', 'rgba(217,119,6,0.1)')}
+                  </div>
                 </div>
               );
             })

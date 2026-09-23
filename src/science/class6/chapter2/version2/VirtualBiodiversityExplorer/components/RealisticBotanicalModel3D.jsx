@@ -1126,7 +1126,7 @@ function RealisticBotanicalModel3DInner({
       }}>
         <div style={{
           background: '#ffffff',
-          backdropFilter: 'blur(2px)',
+          backdropFilter: 'blur(4px)',
           border: '1.5px solid #a7f3d0',
           borderRadius: '10px',
           padding: '4px 10px',

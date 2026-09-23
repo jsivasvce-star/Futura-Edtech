@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, ArrowRight } from 'lucide-react';
+import { Shield, ArrowRight, Play, Pause } from 'lucide-react';
 
 import vidTumblerCloth from '../../../../../assets/3.cloth_tumbler.mp4';
 import vidTumblerPaper from '../../../../../assets/3.paper_tumbler.mp4';
@@ -8,8 +8,91 @@ import vidTumblerGlass from '../../../../../assets/3.glass_tumbler.mp4';
 import vidTumblerMetal from '../../../../../assets/3.steel_tumbler.mp4';
 import vidPotPaper from '../../../../../assets/3.paper_pot.mp4';
 import vidPotMetal from '../../../../../assets/3.steel_pot.mp4';
+import fpage25Audio from '../../audio/fpage25.mp3?url';
+import fpage25Json from '../../json/fpage25.json';
 
-export default function Stage5_Suitability({ onComplete, addXp }) {
+export default function Stage5_Suitability({ onComplete, addXp, setExtraRightAction }) {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [activeWordIndex, setActiveWordIndex] = useState(null);
+  const audioRef = React.useRef(null);
+
+  const W = ({ i, children }) => {
+    const isActive = activeWordIndex === i;
+    return (
+      <span
+        style={{
+          color: isActive ? '#A94727' : 'inherit',
+          background: isActive ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+          borderRadius: '4px',
+          padding: '0 2px',
+          transition: 'all 0.15s ease-out'
+        }}
+      >
+        {children}
+      </span>
+    );
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      const time = audioRef.current.currentTime;
+      const activeIdx = fpage25Json.words.findIndex(w => time >= w.start && time < w.end);
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (setExtraRightAction) {
+      setExtraRightAction(
+        <button
+          onClick={() => {
+            if (audioRef.current) {
+              if (isPlaying) {
+                audioRef.current.pause();
+              } else {
+                audioRef.current.play().catch(console.error);
+              }
+              setIsPlaying(!isPlaying);
+            }
+          }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            background: 'var(--lesson-surface)',
+            color: 'var(--lesson-text)',
+            border: '1px solid var(--lesson-border)',
+            padding: '12px 24px',
+            borderRadius: '8px',
+            fontSize: '18px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+          }}
+        >
+          {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+          {isPlaying ? "Pause" : "Play"}
+        </button>
+      );
+    }
+    
+    return () => {
+      if (setExtraRightAction) setExtraRightAction(null);
+    };
+  }, [setExtraRightAction, isPlaying]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setIsPlaying(false);
+      setActiveWordIndex(null);
+    }
+  }, []);
+
   // Tumbler state
   const [tumblerMaterial, setTumblerMaterial] = useState('cloth');
   const [tumblerTested, setTumblerTested] = useState(false);
@@ -110,13 +193,22 @@ export default function Stage5_Suitability({ onComplete, addXp }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%', height: '100%', overflow: 'hidden' }}>
+      <audio
+        ref={audioRef}
+        src={fpage25Audio}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={() => {
+          setIsPlaying(false);
+          setActiveWordIndex(null);
+        }}
+      />
       {/* Intro */}
       <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', border: '1px solid var(--lesson-accent-border)', flex: '0 0 auto' }}>
         <h3 style={{ margin: 0, fontSize: 'clamp(29.04px, 3.63vw, 36.3px)', color: 'var(--heading-main)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Shield size={22} style={{ color: 'var(--lesson-accent)' }} /> Activity 6.3: Let Us Think (Material Suitability)
         </h3>
         <p style={{ margin: 0, fontSize: 'clamp(21.78px, 3.025vw, 26.62px)', color: 'var(--heading-sub)', lineHeight: '1.4' }}>
-          Select a material and observe whether it is suitable for its intended use.
+          Select <W i={10}>a</W> <W i={11}>material</W> <W i={12}>and</W> observe whether it is <W i={5}>suitable</W> <W i={6}>for</W> its intended use.
         </p>
       </div>
 

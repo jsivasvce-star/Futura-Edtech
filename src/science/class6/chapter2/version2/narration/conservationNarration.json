@@ -1,0 +1,333 @@
+{
+  "conservation": {
+    "audioFile": "06_SacredGroves.mp3",
+    "totalDuration": 36.86,
+    "words": [
+      {
+        "word": "Sacred",
+        "start": 0.0,
+        "end": 0.74
+      },
+      {
+        "word": "Groves.",
+        "start": 1.38,
+        "end": 2.06
+      },
+      {
+        "word": "Protected",
+        "start": 3.87,
+        "end": 4.5
+      },
+      {
+        "word": "by",
+        "start": 5.36,
+        "end": 5.56
+      },
+      {
+        "word": "Tradition:",
+        "start": 6.18,
+        "end": 6.63
+      },
+      {
+        "word": "Sacred",
+        "start": 6.64,
+        "end": 6.91
+      },
+      {
+        "word": "groves",
+        "start": 7.28,
+        "end": 7.5
+      },
+      {
+        "word": "are",
+        "start": 7.51,
+        "end": 7.57
+      },
+      {
+        "word": "patches",
+        "start": 7.58,
+        "end": 7.92
+      },
+      {
+        "word": "of",
+        "start": 7.93,
+        "end": 8.21
+      },
+      {
+        "word": "forest",
+        "start": 8.22,
+        "end": 8.59
+      },
+      {
+        "word": "protected",
+        "start": 8.87,
+        "end": 9.45
+      },
+      {
+        "word": "by",
+        "start": 9.46,
+        "end": 9.51
+      },
+      {
+        "word": "local",
+        "start": 9.52,
+        "end": 9.81
+      },
+      {
+        "word": "communities",
+        "start": 9.82,
+        "end": 10.29
+      },
+      {
+        "word": "because",
+        "start": 10.72,
+        "end": 11.09
+      },
+      {
+        "word": "of",
+        "start": 11.1,
+        "end": 11.28
+      },
+      {
+        "word": "their",
+        "start": 11.29,
+        "end": 11.61
+      },
+      {
+        "word": "cultural",
+        "start": 11.62,
+        "end": 11.89
+      },
+      {
+        "word": "or",
+        "start": 11.9,
+        "end": 11.99
+      },
+      {
+        "word": "religious",
+        "start": 12.83,
+        "end": 13.68
+      },
+      {
+        "word": "importance.",
+        "start": 14.27,
+        "end": 14.99
+      },
+      {
+        "word": "A",
+        "start": 15.0,
+        "end": 15.33
+      },
+      {
+        "word": "Home",
+        "start": 15.34,
+        "end": 15.53
+      },
+      {
+        "word": "for",
+        "start": 16.06,
+        "end": 16.23
+      },
+      {
+        "word": "Wildlife:",
+        "start": 16.24,
+        "end": 17.02
+      },
+      {
+        "word": "They",
+        "start": 17.66,
+        "end": 17.72
+      },
+      {
+        "word": "shelter",
+        "start": 17.73,
+        "end": 18.2
+      },
+      {
+        "word": "native",
+        "start": 18.21,
+        "end": 18.76
+      },
+      {
+        "word": "wildlife",
+        "start": 19.26,
+        "end": 19.97
+      },
+      {
+        "word": "and",
+        "start": 19.98,
+        "end": 20.16
+      },
+      {
+        "word": "help",
+        "start": 20.17,
+        "end": 20.5
+      },
+      {
+        "word": "protect",
+        "start": 20.51,
+        "end": 21.05
+      },
+      {
+        "word": "valuable",
+        "start": 21.46,
+        "end": 21.76
+      },
+      {
+        "word": "medicinal",
+        "start": 22.09,
+        "end": 22.64
+      },
+      {
+        "word": "plants.",
+        "start": 22.65,
+        "end": 23.46
+      },
+      {
+        "word": "Community",
+        "start": 24.13,
+        "end": 24.64
+      },
+      {
+        "word": "Conservation:",
+        "start": 24.65,
+        "end": 25.65
+      },
+      {
+        "word": "Local",
+        "start": 26.35,
+        "end": 26.84
+      },
+      {
+        "word": "rules",
+        "start": 26.85,
+        "end": 26.96
+      },
+      {
+        "word": "help",
+        "start": 26.97,
+        "end": 27.08
+      },
+      {
+        "word": "prevent",
+        "start": 27.09,
+        "end": 27.79
+      },
+      {
+        "word": "tree",
+        "start": 27.8,
+        "end": 27.91
+      },
+      {
+        "word": "cutting",
+        "start": 27.92,
+        "end": 28.26
+      },
+      {
+        "word": "and",
+        "start": 28.27,
+        "end": 28.43
+      },
+      {
+        "word": "harm",
+        "start": 28.44,
+        "end": 28.55
+      },
+      {
+        "word": "to",
+        "start": 28.56,
+        "end": 28.88
+      },
+      {
+        "word": "animals,",
+        "start": 29.33,
+        "end": 29.61
+      },
+      {
+        "word": "keeping",
+        "start": 29.62,
+        "end": 30.01
+      },
+      {
+        "word": "these",
+        "start": 30.02,
+        "end": 30.15
+      },
+      {
+        "word": "forests",
+        "start": 30.57,
+        "end": 31.15
+      },
+      {
+        "word": "safe.",
+        "start": 31.23,
+        "end": 31.4
+      },
+      {
+        "word": "Think:",
+        "start": 31.5,
+        "end": 31.67
+      },
+      {
+        "word": "How",
+        "start": 31.68,
+        "end": 31.9
+      },
+      {
+        "word": "does",
+        "start": 31.91,
+        "end": 32.14
+      },
+      {
+        "word": "protecting",
+        "start": 32.15,
+        "end": 32.72
+      },
+      {
+        "word": "a",
+        "start": 32.73,
+        "end": 32.81
+      },
+      {
+        "word": "forest",
+        "start": 32.82,
+        "end": 33.48
+      },
+      {
+        "word": "help",
+        "start": 33.49,
+        "end": 34.0
+      },
+      {
+        "word": "the",
+        "start": 34.01,
+        "end": 34.12
+      },
+      {
+        "word": "plants",
+        "start": 34.13,
+        "end": 34.6
+      },
+      {
+        "word": "and",
+        "start": 34.61,
+        "end": 34.76
+      },
+      {
+        "word": "animals",
+        "start": 34.77,
+        "end": 35.52
+      },
+      {
+        "word": "living",
+        "start": 35.89,
+        "end": 36.48
+      },
+      {
+        "word": "there?",
+        "start": 36.49,
+        "end": 36.86
+      }
+    ]
+  }
+}

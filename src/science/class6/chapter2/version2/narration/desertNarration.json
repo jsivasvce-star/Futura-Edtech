@@ -1,0 +1,383 @@
+{
+  "desert": {
+    "audioFile": "04_DesertAdaptations.mp3",
+    "totalDuration": 39.31,
+    "words": [
+      {
+        "word": "Desert",
+        "start": 0.75,
+        "end": 1.17
+      },
+      {
+        "word": "Adaptations.",
+        "start": 1.18,
+        "end": 2.05
+      },
+      {
+        "word": "What",
+        "start": 2.942,
+        "end": 3.922
+      },
+      {
+        "word": "Is",
+        "start": 3.932,
+        "end": 4.162
+      },
+      {
+        "word": "Adaptation?",
+        "start": 4.172,
+        "end": 4.762
+      },
+      {
+        "word": "A",
+        "start": 9.528,
+        "end": 9.588
+      },
+      {
+        "word": "feature",
+        "start": 9.588,
+        "end": 10.007
+      },
+      {
+        "word": "or",
+        "start": 10.007,
+        "end": 10.126
+      },
+      {
+        "word": "behaviour",
+        "start": 10.126,
+        "end": 10.665
+      },
+      {
+        "word": "that",
+        "start": 10.665,
+        "end": 10.904
+      },
+      {
+        "word": "helps",
+        "start": 10.904,
+        "end": 11.203
+      },
+      {
+        "word": "a",
+        "start": 11.203,
+        "end": 11.263
+      },
+      {
+        "word": "living",
+        "start": 11.263,
+        "end": 11.622
+      },
+      {
+        "word": "thing",
+        "start": 11.622,
+        "end": 11.921
+      },
+      {
+        "word": "survive",
+        "start": 11.921,
+        "end": 12.34
+      },
+      {
+        "word": "in",
+        "start": 12.34,
+        "end": 12.46
+      },
+      {
+        "word": "its",
+        "start": 12.46,
+        "end": 12.64
+      },
+      {
+        "word": "habitat.",
+        "start": 12.64,
+        "end": 13.118
+      },
+      {
+        "word": "The",
+        "start": 12.818,
+        "end": 13.045
+      },
+      {
+        "word": "Ship",
+        "start": 13.045,
+        "end": 13.347
+      },
+      {
+        "word": "of",
+        "start": 13.347,
+        "end": 13.498
+      },
+      {
+        "word": "the",
+        "start": 13.498,
+        "end": 13.725
+      },
+      {
+        "word": "Desert:",
+        "start": 13.725,
+        "end": 14.254
+      },
+      {
+        "word": "A",
+        "start": 14.254,
+        "end": 14.329
+      },
+      {
+        "word": "camel’s",
+        "start": 14.329,
+        "end": 14.858
+      },
+      {
+        "word": "broad,",
+        "start": 14.858,
+        "end": 15.311
+      },
+      {
+        "word": "padded",
+        "start": 15.311,
+        "end": 15.764
+      },
+      {
+        "word": "feet",
+        "start": 15.764,
+        "end": 16.067
+      },
+      {
+        "word": "help",
+        "start": 16.067,
+        "end": 16.369
+      },
+      {
+        "word": "prevent",
+        "start": 16.369,
+        "end": 16.898
+      },
+      {
+        "word": "it",
+        "start": 16.898,
+        "end": 17.049
+      },
+      {
+        "word": "from",
+        "start": 17.049,
+        "end": 17.351
+      },
+      {
+        "word": "sinking",
+        "start": 17.351,
+        "end": 17.88
+      },
+      {
+        "word": "into",
+        "start": 17.88,
+        "end": 18.182
+      },
+      {
+        "word": "sand.",
+        "start": 18.182,
+        "end": 18.56
+      },
+      {
+        "word": "Its",
+        "start": 18.7,
+        "end": 18.91
+      },
+      {
+        "word": "long",
+        "start": 18.92,
+        "end": 19.27
+      },
+      {
+        "word": "eyelashes",
+        "start": 19.28,
+        "end": 20.05
+      },
+      {
+        "word": "help",
+        "start": 20.33,
+        "end": 20.8
+      },
+      {
+        "word": "protect",
+        "start": 21.08,
+        "end": 21.54
+      },
+      {
+        "word": "its",
+        "start": 21.55,
+        "end": 21.79
+      },
+      {
+        "word": "eyes",
+        "start": 21.8,
+        "end": 22.15
+      },
+      {
+        "word": "from",
+        "start": 22.16,
+        "end": 22.38
+      },
+      {
+        "word": "blowing",
+        "start": 22.39,
+        "end": 22.8
+      },
+      {
+        "word": "dust.",
+        "start": 22.81,
+        "end": 23.3
+      },
+      {
+        "word": "Saving",
+        "start": 23.581,
+        "end": 23.855
+      },
+      {
+        "word": "Water:",
+        "start": 23.855,
+        "end": 24.129
+      },
+      {
+        "word": "Camels",
+        "start": 24.129,
+        "end": 24.402
+      },
+      {
+        "word": "conserve",
+        "start": 24.402,
+        "end": 24.767
+      },
+      {
+        "word": "water",
+        "start": 24.767,
+        "end": 24.996
+      },
+      {
+        "word": "by",
+        "start": 24.996,
+        "end": 25.087
+      },
+      {
+        "word": "reducing",
+        "start": 25.087,
+        "end": 25.452
+      },
+      {
+        "word": "water",
+        "start": 25.452,
+        "end": 25.68
+      },
+      {
+        "word": "loss",
+        "start": 25.68,
+        "end": 25.863
+      },
+      {
+        "word": "from",
+        "start": 25.863,
+        "end": 26.045
+      },
+      {
+        "word": "their",
+        "start": 26.045,
+        "end": 26.273
+      },
+      {
+        "word": "bodies.",
+        "start": 26.273,
+        "end": 26.593
+      },
+      {
+        "word": "This",
+        "start": 26.733,
+        "end": 26.943
+      },
+      {
+        "word": "helps",
+        "start": 26.953,
+        "end": 27.253
+      },
+      {
+        "word": "them",
+        "start": 27.263,
+        "end": 27.533
+      },
+      {
+        "word": "survive",
+        "start": 27.543,
+        "end": 28.003
+      },
+      {
+        "word": "for",
+        "start": 28.013,
+        "end": 28.123
+      },
+      {
+        "word": "long",
+        "start": 28.133,
+        "end": 28.383
+      },
+      {
+        "word": "periods",
+        "start": 29.183,
+        "end": 29.813
+      },
+      {
+        "word": "without",
+        "start": 30.653,
+        "end": 31.093
+      },
+      {
+        "word": "drinking.",
+        "start": 31.103,
+        "end": 31.493
+      },
+      {
+        "word": "Think:",
+        "start": 34.954,
+        "end": 35.414
+      },
+      {
+        "word": "Why",
+        "start": 35.424,
+        "end": 35.934
+      },
+      {
+        "word": "is",
+        "start": 35.944,
+        "end": 36.124
+      },
+      {
+        "word": "saving",
+        "start": 36.134,
+        "end": 36.644
+      },
+      {
+        "word": "water",
+        "start": 36.654,
+        "end": 37.124
+      },
+      {
+        "word": "important",
+        "start": 37.424,
+        "end": 38.134
+      },
+      {
+        "word": "in",
+        "start": 38.144,
+        "end": 38.294
+      },
+      {
+        "word": "a",
+        "start": 38.304,
+        "end": 38.344
+      },
+      {
+        "word": "desert?",
+        "start": 38.354,
+        "end": 38.984
+      }
+    ]
+  }
+}

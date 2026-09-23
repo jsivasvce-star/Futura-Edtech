@@ -36,7 +36,7 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
       flexDirection: 'column',
       justifyContent: 'space-between',
       background: 'rgba(15, 23, 42, 0.50)',
-      backdropFilter: 'blur(2px)',
+      backdropFilter: 'blur(4px)',
       WebkitBackdropFilter: 'blur(2px)',
       borderRadius: '20px',
       border: '2px solid #D4AF37',
@@ -562,8 +562,8 @@ export default function AdaptationsLab({ onBackToDashboard, onNextSubModule }) {
             boxShadow: '0 2px 6px rgba(0,0,0,0.04)'
           }}
         >
-          <ArrowLeft size={18} color="#14452F" />
-          <span>Back to Table 2.5 / 2.6</span>
+          <ArrowLeft size={18} color="#FBBF24" />
+          <span>Back to Activity 2.10</span>
         </button>
 
         <div style={{ fontSize: '16px', color: '#F8FAFC', fontWeight: '800' }}>

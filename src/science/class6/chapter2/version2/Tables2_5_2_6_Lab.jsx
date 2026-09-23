@@ -19,7 +19,7 @@ const TABLE_2_6_DATA = [
   { region: 'In the Forest', plants: 'Sal, Teak, Banyan, Shola Evergreen Trees', animals: 'Bengal Tiger, Spider Monkey, Hornbill, Elephant', conditions: 'Dense canopy shade, high rainfall, rich leaf litter' }
 ];
 
-export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }) {
+export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule, onOpenActivity2_10 }) {
   const [activeTable, setActiveTable] = useState('2.5'); // '2.5' | '2.6'
   const [isSpeaking, setIsSpeaking] = useState(false);
 
@@ -51,7 +51,7 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
       flexDirection: 'column',
       justifyContent: 'space-between',
       background: 'rgba(15, 23, 42, 0.50)',
-      backdropFilter: 'blur(2px)',
+      backdropFilter: 'blur(4px)',
       WebkitBackdropFilter: 'blur(2px)',
       borderRadius: '20px',
       border: '2px solid #D4AF37',
@@ -209,13 +209,36 @@ export default function Tables2_5_2_6_Lab({ onBackToDashboard, onNextSubModule }
         {/* ============================================================ */}
         {activeTable === '2.6' && (
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', overflow: 'hidden' }}>
-            <div style={{ marginBottom: '8px', flexShrink: 0 }}>
-              <div style={{ fontSize: '16px', fontWeight: '800', color: '#F8FAFC', textTransform: 'uppercase' }}>
-                Activity 2.10 · Page 24
+            <div style={{ marginBottom: '8px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div>
+                <div style={{ fontSize: '16px', fontWeight: '800', color: '#F8FAFC', textTransform: 'uppercase' }}>
+                  Activity 2.10 · Page 24
+                </div>
+                <h3 style={{ margin: 0, fontSize: '20px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
+                  Table 2.6: Animals and Plants Found in Different Surroundings
+                </h3>
               </div>
-              <h3 style={{ margin: 0, fontSize: '20px', fontWeight: '900', color: '#F8FAFC', fontFamily: '"Fraunces", Georgia, serif' }}>
-                Table 2.6: Animals and Plants Found in Different Surroundings
-              </h3>
+              <button
+                onClick={() => onOpenActivity2_10 ? onOpenActivity2_10() : onNextSubModule()}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px 18px',
+                  borderRadius: '10px',
+                  background: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
+                  color: '#ffffff',
+                  border: '1.5px solid #34D399',
+                  fontSize: '15px',
+                  fontWeight: '900',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(5, 150, 105, 0.35)',
+                  transition: 'transform 0.15s ease'
+                }}
+              >
+                <span>Launch Activity 2.10 Simulation</span>
+                <ArrowRight size={16} />
+              </button>
             </div>
 
             <div style={{

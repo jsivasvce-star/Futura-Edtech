@@ -1,0 +1,72 @@
+{
+  "audio_file": "fpage24.mp3",
+  "duration": 4.206,
+  "language": "en",
+  "words": [
+    {
+      "text": "Now,",
+      "start": 0.0,
+      "end": 0.48
+    },
+    {
+      "text": "let's",
+      "start": 0.66,
+      "end": 0.94
+    },
+    {
+      "text": "classify",
+      "start": 0.94,
+      "end": 1.42
+    },
+    {
+      "text": "the",
+      "start": 1.42,
+      "end": 1.72
+    },
+    {
+      "text": "items",
+      "start": 1.72,
+      "end": 1.96
+    },
+    {
+      "text": "based",
+      "start": 1.96,
+      "end": 2.34
+    },
+    {
+      "text": "on",
+      "start": 2.34,
+      "end": 2.56
+    },
+    {
+      "text": "the",
+      "start": 2.56,
+      "end": 2.72
+    },
+    {
+      "text": "materials",
+      "start": 2.72,
+      "end": 3.1
+    },
+    {
+      "text": "they",
+      "start": 3.1,
+      "end": 3.34
+    },
+    {
+      "text": "are",
+      "start": 3.34,
+      "end": 3.46
+    },
+    {
+      "text": "made",
+      "start": 3.46,
+      "end": 3.68
+    },
+    {
+      "text": "of.",
+      "start": 3.68,
+      "end": 3.92
+    }
+  ]
+}

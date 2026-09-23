@@ -1,0 +1,62 @@
+{
+  "audio_file": "mpage44.mp3",
+  "duration": 4.075,
+  "language": "en",
+  "words": [
+    {
+      "text": "Which",
+      "start": 0.0,
+      "end": 0.48
+    },
+    {
+      "text": "of",
+      "start": 0.48,
+      "end": 0.62
+    },
+    {
+      "text": "the",
+      "start": 0.62,
+      "end": 0.82
+    },
+    {
+      "text": "following",
+      "start": 0.82,
+      "end": 1.14
+    },
+    {
+      "text": "is",
+      "start": 1.14,
+      "end": 1.52
+    },
+    {
+      "text": "an",
+      "start": 1.52,
+      "end": 1.82
+    },
+    {
+      "text": "example",
+      "start": 1.82,
+      "end": 2.18
+    },
+    {
+      "text": "of",
+      "start": 2.18,
+      "end": 2.5
+    },
+    {
+      "text": "a",
+      "start": 2.5,
+      "end": 2.66
+    },
+    {
+      "text": "soft",
+      "start": 2.66,
+      "end": 2.94
+    },
+    {
+      "text": "material?",
+      "start": 2.94,
+      "end": 3.56
+    }
+  ]
+}

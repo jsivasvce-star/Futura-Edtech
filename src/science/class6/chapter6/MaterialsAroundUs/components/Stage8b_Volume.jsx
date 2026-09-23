@@ -6,6 +6,8 @@ import {
   RefreshCw, Hand, Info, HelpCircle, LayoutGrid, Play, Pause
 } from 'lucide-react';
 import pourActivityVideo from '../../../../../assets/pour_activity.mp4';
+import fpage67Audio from '../../audio/fpage67.mp3?url';
+import fpage67Json from '../../json/fpage67.json';
 
 /* ─────────────────────────────────────────────
    CONSTANTS
@@ -35,7 +37,7 @@ const THINK_OPTIONS = [
 ];
 const THINK_CORRECT_INDEX = 1;
 
-export default function Stage8b_Volume({ onComplete, addXp }) {
+export default function Stage8b_Volume({ onComplete, addXp, setExtraRightAction }) {
 
   /* ── Bottle position/drag ── */
   const [bottlePos,  setBottlePos]  = useState(BOTTLE_INIT);
@@ -60,6 +62,94 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
 
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const audioPageRef = useRef(null);
+  const [activeWordIndex, setActiveWordIndex] = useState(-1);
+
+  const toggleAudio = useCallback(() => {
+    if (audioPageRef.current) {
+      if (isPlayingAudio) {
+        audioPageRef.current.pause();
+      } else {
+        audioPageRef.current.play().catch(e => console.error(e));
+      }
+      setIsPlayingAudio(!isPlayingAudio);
+    }
+  }, [isPlayingAudio]);
+
+  const handleTimeUpdate = useCallback(() => {
+    if (audioPageRef.current) {
+      const time = audioPageRef.current.currentTime;
+      const activeIdx = fpage67Json.words.findIndex(w => time >= w.start && time < w.end);
+      if (activeIdx !== activeWordIndex) {
+        setActiveWordIndex(activeIdx);
+      }
+    }
+  }, [activeWordIndex]);
+  
+  const getHighlightStyle = useCallback((index) => ({
+    color: activeWordIndex === index ? '#A94727' : 'inherit',
+    background: activeWordIndex === index ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+    borderRadius: '4px',
+    padding: '0 2px',
+    transition: 'all 0.15s ease-out'
+  }), [activeWordIndex]);
+
+  const renderHighlightedText = useCallback((text, startIdx, endIdx) => {
+    const words = text.split(' ');
+    return words.map((w, i) => {
+      let isMatch = false;
+      if (activeWordIndex >= startIdx && activeWordIndex <= endIdx) {
+        const activeW = fpage67Json.words[activeWordIndex].text.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const uiW = w.toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (activeW && uiW && (uiW === activeW || uiW.includes(activeW) || activeW.includes(uiW))) {
+          isMatch = true;
+        }
+      }
+      return (
+        <span
+          key={i}
+          style={{
+            color: isMatch ? '#A94727' : 'inherit',
+            background: isMatch ? 'rgba(169, 71, 39, 0.1)' : 'transparent',
+            borderRadius: '4px',
+            transition: 'all 0.1s ease-out'
+          }}
+        >
+          {w}{' '}
+        </span>
+      );
+    });
+  }, [activeWordIndex]);
+
+  useEffect(() => {
+    if (waterLevelB >= 0.90 && typeof setExtraRightAction === 'function') {
+      setExtraRightAction(
+        <button
+          onClick={toggleAudio}
+          className="outline"
+          style={{
+            padding: '0.85rem 1.6rem',
+            fontSize: '1.6rem',
+            fontWeight: 'bold',
+            gap: '0.75rem',
+            borderRadius: '10px',
+            color: '#3E2723',
+            borderColor: '#3E2723',
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
+            background: 'white'
+          }}
+        >
+          {isPlayingAudio ? <Pause size={24} /> : <Play size={24} />}
+          {isPlayingAudio ? "Pause Audio" : "Play Audio"}
+        </button>
+      );
+    } else if (typeof setExtraRightAction === 'function') {
+      setExtraRightAction(null);
+    }
+  }, [waterLevelB, setExtraRightAction, isPlayingAudio, toggleAudio]);
 
   /* ── Refs (physics loop reads these synchronously) ── */
   const containerRef    = useRef(null);
@@ -260,6 +350,12 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
     ripplesRef.current = [];
     setThinkFeedback(null);
     setSelectedOption(null);
+    if (audioPageRef.current) {
+      audioPageRef.current.pause();
+      audioPageRef.current.currentTime = 0;
+      setIsPlayingAudio(false);
+    }
+    setActiveWordIndex(-1);
   };
 
   /* ──────────────────────────────────────
@@ -284,6 +380,12 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
         background: 'transparent'
       }}
     >
+      <audio
+        ref={audioPageRef}
+        src={fpage67Audio}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={() => setIsPlayingAudio(false)}
+      />
       <style>
         {`
           @keyframes btnPulse {
@@ -487,8 +589,12 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
                     <img src="/images/realistic_tumbler_water_half.jpg" alt="Tumbler A" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '4px' }} />
                   </div>
                   <div>
-                    <div style={{ color: colors.accent, fontWeight: '800', fontSize: '22px', fontFamily: '"Merriweather", "Georgia", serif' }}>Observation 1</div>
-                    <div style={{ fontSize: '20px', color: colors.textDark, marginTop: '4px', lineHeight: '1.3', fontWeight: '600', fontFamily: '"Merriweather", "Georgia", serif' }}>Tumbler A is half-filled with water (50% Volume).</div>
+                    <div style={{ color: colors.accent, fontWeight: '800', fontSize: '22px', fontFamily: '"Merriweather", "Georgia", serif' }}>
+                      {renderHighlightedText("Observation 1", 0, 1)}
+                    </div>
+                    <div style={{ fontSize: '20px', color: colors.textDark, marginTop: '4px', lineHeight: '1.3', fontWeight: '600', fontFamily: '"Merriweather", "Georgia", serif' }}>
+                      {renderHighlightedText("Tumbler A is half-filled with water (50% Volume).", 2, 13)}
+                    </div>
                   </div>
                 </motion.div>
               )}
@@ -498,8 +604,12 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
                     <img src="/images/realistic_tumbler_water_full.jpg" alt="Tumbler B" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '4px' }} />
                   </div>
                   <div>
-                    <div style={{ color: colors.accent, fontWeight: '800', fontSize: '22px', fontFamily: '"Merriweather", "Georgia", serif' }}>Observation 2</div>
-                    <div style={{ fontSize: '20px', color: colors.textDark, marginTop: '4px', lineHeight: '1.3', fontWeight: '600', fontFamily: '"Merriweather", "Georgia", serif' }}>Tumbler B is almost completely filled with water.</div>
+                    <div style={{ color: colors.accent, fontWeight: '800', fontSize: '22px', fontFamily: '"Merriweather", "Georgia", serif' }}>
+                      {renderHighlightedText("Observation 2", 14, 15)}
+                    </div>
+                    <div style={{ fontSize: '20px', color: colors.textDark, marginTop: '4px', lineHeight: '1.3', fontWeight: '600', fontFamily: '"Merriweather", "Georgia", serif' }}>
+                      {renderHighlightedText("Tumbler B is almost completely filled with water.", 16, 23)}
+                    </div>
                   </div>
                 </motion.div>
               )}
@@ -519,10 +629,10 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
                   🧪 Scientific Conclusion
                 </div>
                 <div style={{ fontSize: '22px', color: colors.successText, lineHeight: '1.25', fontWeight: '700', display: 'flex', flexDirection: 'column', gap: '4px', fontFamily: '"Merriweather", "Georgia", serif' }}>
-                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={24} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> The bottle has a limited amount of space.</div>
-                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={24} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> <span>The space occupied by an object or substance is called its <strong style={{ color: colors.accent, background: '#fef08a', padding: '2px 8px', fontWeight: '900', borderRadius: '4px' }}>VOLUME</strong>.</span></div>
-                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={24} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> Different containers can have different volumes.</div>
-                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={24} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> We can observe and compare volume by pouring water!</div>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={24} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> <span>{renderHighlightedText("The bottle has a limited amount of space.", 24, 31)}</span></div>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={24} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> <span><span>{renderHighlightedText("The space occupied by an object or substance is called its", 32, 42)} <strong style={{ color: colors.accent, background: '#fef08a', padding: '2px 8px', fontWeight: '900', borderRadius: '4px' }}>VOLUME.</strong></span></span></div>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={24} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> <span>{renderHighlightedText("Different containers can have different volumes.", 44, 51)}</span></div>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}><CheckCircle2 size={24} color={colors.accent} style={{ flexShrink: 0 }} strokeWidth={2.5} /> <span>{renderHighlightedText("We can observe and compare volume by pouring water!", 52, 59)}</span></div>
                 </div>
               </motion.div>
             )}
@@ -563,7 +673,8 @@ export default function Stage8b_Volume({ onComplete, addXp }) {
                   }} />
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fef08a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '10px', left: '16px', opacity: 0.9 }}><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fef08a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', bottom: '10px', right: '16px', opacity: 0.9 }}><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
-                  <HelpCircle size={32} strokeWidth={2.5} /> Answer a Bonus Question!
+                  <HelpCircle size={32} strokeWidth={2.5} /> 
+                  <span>{renderHighlightedText("Answer a Bonus Question!", 60, 67)}</span>
                 </button>
               </motion.div>
             )}
