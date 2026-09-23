@@ -283,9 +283,9 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
   return (
     <div
       style={{
-        padding: '0.5rem',
+        padding: '0.35rem 0.5rem',
         display: 'flex',
-        gap: '1.25rem',
+        gap: '0.85rem',
         height: '100%',
         minHeight: 0,
         overflow: 'hidden',
@@ -297,10 +297,11 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
       {/* Dedicated Viewer Container (3D Demonstration Video) */}
       <div
         style={{
-          flex: '1.8',
+          flex: '1.25',
           display: 'flex',
           flexDirection: 'column',
           minWidth: 0,
+          minHeight: 0,
           height: '100%',
           boxSizing: 'border-box',
         }}
@@ -311,7 +312,7 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
             position: 'relative',
             width: '100%',
             flex: 1,
-            minHeight: '380px',
+            minHeight: 0,
             overflow: 'hidden',
             borderRadius: '24px',
           }}
@@ -331,44 +332,49 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
 
       {/* Right Column: Fullscreen non-scrolling, Halfscreen scrolling */}
       <div
-        className="stage-right-column custom-scrollbar"
+        className="custom-scrollbar"
         style={{
-          flex: '1.15',
+          width: '560px',
+          maxWidth: '560px',
+          flex: '0 0 560px',
           height: '100%',
           maxHeight: '100%',
           minHeight: 0,
           boxSizing: 'border-box',
           display: 'flex',
           flexDirection: 'column',
-          gap: '1.65rem',
+          gap: '0.55rem',
           minWidth: 0,
+          overflow: 'hidden',
           fontFamily: 'system-ui, -apple-system, sans-serif'
         }}
       >
         {/* CONTAINER 1: Steps of Instructions */}
         <div
-          className="stage-container-1"
           style={{
             background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
-            padding: '1.25rem 1.45rem',
+            padding: '0.7rem 0.85rem',
             boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            boxSizing: 'border-box'
+            boxSizing: 'border-box',
+            flex: '0 0 auto',
+            minHeight: 0,
           }}
         >
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)', paddingBottom: '0.6rem', marginBottom: '0.75rem' }}>
-              <h4 style={{ margin: 0, fontSize: '19.5px', color: '#173B5F', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+          {/* Top Section: Title & Instructions */}
+          <div style={{ minHeight: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)', paddingBottom: '0.35rem', marginBottom: '0.45rem' }}>
+              <h4 style={{ margin: 0, fontSize: '32px', color: '#173B5F', fontWeight: 800, lineHeight: 1.15, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
                 <span>📋</span> Steps of Instructions
               </h4>
             </div>
 
             {/* Bullet Points - Single-line brown instructions */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
               {[
                 'Watch the 3D video demonstration of a bar magnet breaking into pieces.',
                 'Use "Pause" and "Resume" to closely observe the magnet and pole formation.',
@@ -378,9 +384,9 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
                   key={idx}
                   style={{
                     display: 'flex',
-                    alignItems: 'baseline',
-                    gap: '0.75rem',
-                    padding: '0.1rem 0'
+                    alignItems: 'flex-start',
+                    gap: '0.45rem',
+                    padding: '0.05rem 0'
                   }}
                 >
                   <span
@@ -391,10 +397,10 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
                       background: '#173B5F',
                       display: 'inline-block',
                       flexShrink: 0,
-                      transform: 'translateY(-2px)'
+                      marginTop: '8px'
                     }}
                   />
-                  <p style={{ margin: 0, fontSize: '17.5px', lineHeight: 1.5, color: '#173B5F', fontWeight: 600 }}>
+                  <p style={{ margin: 0, fontSize: '24px', lineHeight: 1.18, color: '#173B5F', fontWeight: 600 }}>
                     {instruction}
                   </p>
                 </div>
@@ -402,81 +408,92 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
             </div>
           </div>
 
-          {/* Action Controls */}
-          <div style={{ width: '100%', display: 'flex', gap: '0.65rem', marginTop: 'auto', paddingTop: '0.85rem', borderTop: '1px solid rgba(217, 119, 6, 0.2)' }}>
-            <button
-              onClick={handlePause}
-              className={isPlaying ? 'gold-glow-btn' : ''}
-              style={{
-                flex: 1,
-                padding: '0.8rem 0.5rem',
-                fontSize: '17px',
-                fontWeight: 900,
-                borderRadius: '14px',
-                border: isPlaying ? 'none' : '1.5px solid #FDE68A',
-                background: isPlaying ? undefined : '#FFFFFF',
-                color: isPlaying ? '#FFFFFF' : '#92400E',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '6px',
-                boxShadow: isPlaying ? undefined : '0 2px 6px rgba(0,0,0,0.03)',
-                transition: 'all 0.2s ease',
-              }}
-              title="Pause Demonstration"
-            >
-              <Pause size={17} /> Pause
-            </button>
+          {/* Bottom Section: Action Controls — always in dedicated area, never overlapping content */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', paddingTop: '0.4rem', borderTop: '1px solid rgba(217, 119, 6, 0.2)', flexShrink: 0 }}>
+            <div style={{ width: '100%', display: 'flex', gap: '0.45rem', flexWrap: 'nowrap' }}>
+              <button
+                onClick={handlePause}
+                className={isPlaying ? 'gold-glow-btn' : ''}
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  padding: '0.45rem 0.35rem',
+                  fontSize: '21px',
+                  fontWeight: 700,
+                  lineHeight: 1.1,
+                  borderRadius: '14px',
+                  border: isPlaying ? 'none' : '1.5px solid #CBD5E1',
+                  background: isPlaying ? undefined : '#FFFFFF',
+                  color: isPlaying ? '#FFFFFF' : '#173B5F',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '4px',
+                  boxShadow: isPlaying ? undefined : '0 2px 8px rgba(0,0,0,0.04)',
+                  transition: 'all 0.2s ease',
+                  whiteSpace: 'nowrap'
+                }}
+                title="Pause Demonstration"
+              >
+                <Pause size={16} /> Pause
+              </button>
 
-            <button
-              onClick={handleResume}
-              className={!isPlaying ? 'gold-glow-btn' : ''}
-              style={{
-                flex: 1,
-                padding: '0.8rem 0.5rem',
-                fontSize: '17px',
-                fontWeight: 900,
-                borderRadius: '14px',
-                background: '#FFFFFF',
-                color: '#173B5F',
-                border: '1.5px solid #E2E8F0',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '6px',
-                boxShadow: !isPlaying ? undefined : '0 2px 6px rgba(0,0,0,0.03)',
-                transition: 'all 0.2s ease',
-              }}
-              title="Resume Demonstration"
-            >
-              <Play size={17} fill="currentColor" /> Resume
-            </button>
+              <button
+                onClick={handleResume}
+                className={!isPlaying ? 'gold-glow-btn' : ''}
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  padding: '0.45rem 0.35rem',
+                  fontSize: '21px',
+                  fontWeight: 700,
+                  lineHeight: 1.1,
+                  borderRadius: '14px',
+                  background: '#FFFFFF',
+                  color: '#173B5F',
+                  border: '1.5px solid #CBD5E1',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '4px',
+                  boxShadow: !isPlaying ? undefined : '0 2px 8px rgba(0,0,0,0.04)',
+                  transition: 'all 0.2s ease',
+                  whiteSpace: 'nowrap'
+                }}
+                title="Resume Demonstration"
+              >
+                <Play size={16} fill="currentColor" /> Resume
+              </button>
 
-            <button
-              onClick={handleReset}
-              style={{
-                flex: 1,
-                padding: '0.8rem 0.5rem',
-                fontSize: '17px',
-                fontWeight: 800,
-                borderRadius: '14px',
-                background: '#FFFFFF',
-                color: '#173B5F',
-                border: '1.5px solid #E2E8F0',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '6px',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
-                transition: 'all 0.2s ease',
-              }}
-              title="Reset Demonstration and Replay from Start"
-            >
-              <RotateCcw size={16} /> Reset
-            </button>
+              <button
+                onClick={handleReset}
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  padding: '0.45rem 0.35rem',
+                  fontSize: '21px',
+                  fontWeight: 700,
+                  lineHeight: 1.1,
+                  borderRadius: '14px',
+                  background: '#FFFFFF',
+                  color: '#475569',
+                  border: '1.5px solid #CBD5E1',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '4px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                  transition: 'all 0.2s ease',
+                  whiteSpace: 'nowrap'
+                }}
+                title="Reset Demonstration and Replay from Start"
+              >
+                <RotateCcw size={15} /> Reset
+              </button>
+            </div>
           </div>
         </div>
 
@@ -486,37 +503,39 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
             background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
-            padding: '1.25rem 1.45rem',
+            padding: '0.75rem 0.85rem',
             boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            flex: 1.15,
+            flex: 1,
             minHeight: 0,
-            boxSizing: 'border-box'
+            boxSizing: 'border-box',
           }}
         >
-          <div>
+          {/* Top Section: Question + Quiz options + Feedback */}
+          <div style={{ minHeight: 0, display: 'flex', flexDirection: 'column' }}>
             <h4
               style={{
                 color: '#173B5F',
                 margin: 0,
-                fontSize: '19.5px',
-                fontWeight: 900,
+                fontSize: '30px',
+                fontWeight: 800,
+                lineHeight: 1.15,
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.55rem',
-                paddingBottom: '0.55rem',
+                gap: '0.5rem',
+                paddingBottom: '0.35rem',
                 borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)'
               }}
             >
-              <AlertCircle size={22} color="#173B5F" /> Observation & Conclusion
+              <AlertCircle size={23} color="#173B5F" /> Observation & Conclusion
             </h4>
-            <p style={{ margin: '0.75rem 0', color: '#173B5F', fontSize: '17.5px', lineHeight: 1.5, fontWeight: 700 }}>
+            <p style={{ margin: '0.25rem 0 0.35rem 0', color: '#173B5F', fontSize: '23px', lineHeight: 1.15, fontWeight: 700 }}>
               Based on what happens when a magnet breaks, is it possible to obtain a magnet with only a single pole?
             </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.65rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', marginTop: '0.2rem' }}>
               <button
                 type="button"
                 onClick={() => handleQuizAnswer('yes')}
@@ -528,9 +547,9 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
                 }}
                 aria-pressed={quizAnswer === 'yes'}
                 style={{
-                  padding: '0.85rem 1.15rem',
+                  padding: '0.45rem 0.85rem',
                   textAlign: 'left',
-                  fontSize: '17px',
+                  fontSize: '21px',
                   fontWeight: 700,
                   borderRadius: '14px',
                   cursor: 'pointer',
@@ -561,9 +580,9 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
                 }}
                 aria-pressed={quizAnswer === 'no'}
                 style={{
-                  padding: '0.85rem 1.15rem',
+                  padding: '0.45rem 0.85rem',
                   textAlign: 'left',
-                  fontSize: '17px',
+                  fontSize: '21px',
                   fontWeight: 700,
                   borderRadius: '14px',
                   cursor: 'pointer',
@@ -588,27 +607,28 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
             <AnimatePresence>
               {quizAnswer === 'no' && (
                 <motion.div
-                  initial={{ opacity: 0, y: -6, scale: 0.97 }}
+                  initial={{ opacity: 0, y: -4, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -6, scale: 0.97 }}
+                  exit={{ opacity: 0, y: -4, scale: 0.98 }}
                   transition={{ duration: 0.2 }}
                   style={{
-                    marginTop: '0.75rem',
-                    padding: '0.75rem 1rem',
+                    marginTop: '0.4rem',
+                    padding: '0.55rem 0.85rem',
                     borderRadius: '14px',
                     background: '#ECFDF5',
                     border: '1.5px solid #6EE7B7',
                     color: '#065F46',
                     fontSize: '15px',
                     fontWeight: 800,
+                    lineHeight: 1.35,
                     display: 'flex',
-                    alignItems: 'center',
+                    alignItems: 'flex-start',
                     gap: '0.55rem',
                     boxShadow: '0 4px 14px rgba(16, 185, 129, 0.12)',
                   }}
                 >
-                  <CheckCircle size={20} color="#10B981" style={{ flexShrink: 0 }} />
-                  <span>🎉 Correct! A single isolated magnetic pole cannot exist. Every magnet always has both North and South poles!</span>
+                  <CheckCircle size={20} color="#10B981" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <span style={{ flex: 1 }}>🎉 Correct! A single isolated magnetic pole cannot exist. Every magnet always has both North and South poles!</span>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -617,88 +637,91 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
             <AnimatePresence>
               {quizAnswer === 'yes' && (
                 <motion.div
-                  initial={{ opacity: 0, y: -6, scale: 0.97 }}
+                  initial={{ opacity: 0, y: -4, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -6, scale: 0.97 }}
+                  exit={{ opacity: 0, y: -4, scale: 0.98 }}
                   transition={{ duration: 0.2 }}
                   style={{
-                    marginTop: '0.75rem',
-                    padding: '0.75rem 1rem',
+                    marginTop: '0.4rem',
+                    padding: '0.55rem 0.85rem',
                     borderRadius: '14px',
                     background: '#FEF2F2',
                     border: '1.5px solid #F87171',
                     color: '#991B1B',
                     fontSize: '15px',
                     fontWeight: 800,
+                    lineHeight: 1.35,
                     display: 'flex',
-                    alignItems: 'center',
+                    alignItems: 'flex-start',
                     gap: '0.55rem',
                     boxShadow: '0 4px 14px rgba(239, 68, 68, 0.12)',
                   }}
                 >
-                  <XCircle size={20} color="#DC2626" style={{ flexShrink: 0 }} />
-                  <span>Incorrect. Single isolated magnetic poles cannot exist! When broken, each piece becomes a complete magnet with two poles. Try again!</span>
+                  <XCircle size={20} color="#DC2626" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <span style={{ flex: 1 }}>Incorrect. Single isolated magnetic poles cannot exist! When broken, each piece becomes a complete magnet with two poles. Try again!</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Prompt when user attempts to proceed without answering */}
+            <AnimatePresence>
+              {warningPrompt && (
+                <motion.div
+                  initial={{ opacity: 0, y: -4, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -4, scale: 0.98 }}
+                  transition={{ duration: 0.2 }}
+                  style={{
+                    marginTop: '0.4rem',
+                    padding: '0.55rem 0.85rem',
+                    borderRadius: '14px',
+                    background: '#FFFBEB',
+                    border: '1.5px solid #FCD34D',
+                    color: '#92400E',
+                    fontSize: '15px',
+                    fontWeight: 800,
+                    lineHeight: 1.35,
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '0.55rem',
+                    boxShadow: '0 4px 14px rgba(245, 158, 11, 0.12)',
+                  }}
+                >
+                  <AlertCircle size={20} color="#D97706" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <span style={{ flex: 1 }}>{warningPrompt}</span>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
-          {/* Prompt when user attempts to proceed without answering */}
-          <AnimatePresence>
-            {warningPrompt && (
-              <motion.div
-                initial={{ opacity: 0, y: -6, scale: 0.97 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -6, scale: 0.97 }}
-                transition={{ duration: 0.2 }}
-                style={{
-                  marginTop: '0.75rem',
-                  padding: '0.75rem 1rem',
-                  borderRadius: '14px',
-                  background: '#FFFBEB',
-                  border: '1.5px solid #FCD34D',
-                  color: '#92400E',
-                  fontSize: '15px',
-                  fontWeight: 800,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.55rem',
-                  boxShadow: '0 4px 14px rgba(245, 158, 11, 0.12)',
-                }}
-              >
-                <AlertCircle size={20} color="#D97706" style={{ flexShrink: 0 }} />
-                <span>{warningPrompt}</span>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Proceed Button */}
+          {/* Bottom Section: Proceed Button — always in dedicated area, never overlapping */}
           {(() => {
             const isReadyToProceed = quizAnswer === 'no';
             return (
-              <div style={{ paddingTop: '0.75rem', marginTop: 'auto' }}>
+              <div style={{ paddingTop: '0.45rem', flexShrink: 0 }}>
                 <button
                   onClick={handleProceedClick}
                   className={isReadyToProceed ? 'gold-glow-btn' : ''}
                   style={{
                     width: '100%',
-                    padding: '0.85rem 1.25rem',
-                    fontSize: '17.5px',
+                    padding: '0.55rem 1.25rem',
+                    fontSize: '21px',
                     fontWeight: 900,
                     borderRadius: '14px',
                     background: isReadyToProceed
                       ? undefined
-                      : 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
-                    color: isReadyToProceed ? '#FFFFFF' : '#92400E',
-                    border: isReadyToProceed ? 'none' : '1.5px solid #FDE68A',
+                      : '#FFFFFF',
+                    color: isReadyToProceed ? '#FFFFFF' : '#173B5F',
+                    border: isReadyToProceed ? 'none' : '1.5px solid #CBD5E1',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '0.6rem',
+                    whiteSpace: 'nowrap',
                     boxShadow: isReadyToProceed
                       ? undefined
-                      : '0 2px 8px rgba(217, 119, 6, 0.08)',
+                      : '0 2px 8px rgba(0,0,0,0.04)',
                     transition: 'all 0.25s ease',
                   }}
                 >
