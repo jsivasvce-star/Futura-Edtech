@@ -400,7 +400,7 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
               </div>
 
               <div style={{ 
-                marginTop: 'auto', 
+                marginTop: '12px', 
                 fontSize: '22px', 
                 lineHeight: '1.6', 
                 fontWeight: '600', 
