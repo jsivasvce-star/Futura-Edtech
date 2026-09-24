@@ -729,7 +729,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
               <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
                 {isPlayingTransition ? (
                   <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
-                    <video 
+                    <video disablePictureInPicture 
                       src={activity21TransitionVideo} 
                       autoPlay 
                       playsInline 
@@ -904,7 +904,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         {/* ============================================================ */}
         {isPlayingAct24Transition && (
           <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
-            <video 
+            <video disablePictureInPicture 
               src={activity24TransitionVideo} 
               autoPlay 
               playsInline 
@@ -1041,7 +1041,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         {/* ============================================================ */}
         {isPlayingAct24ObservationTransition && (
           <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
-            <video 
+            <video disablePictureInPicture 
               src={activity24ObservationTransitionVideo} 
               autoPlay 
               playsInline 
@@ -1170,7 +1170,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         {/* ============================================================ */}
         {isPlayingAct25ObservationTransition && (
           <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
-            <video 
+            <video disablePictureInPicture 
               src={activity25LeafObservationTransitionVideo} 
               autoPlay 
               playsInline 
@@ -1301,7 +1301,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         {/* ============================================================ */}
         {isPlayingAct26ObservationTransition && (
           <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
-            <video 
+            <video disablePictureInPicture 
               src={activity26RootObservationTransitionVideo} 
               autoPlay 
               playsInline 
@@ -1436,7 +1436,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         {/* ============================================================ */}
         {isPlayingAct27ObservationTransition && (
           <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
-            <video 
+            <video disablePictureInPicture 
               src={activity27PlantObservationTransitionVideo} 
               autoPlay 
               playsInline 

@@ -104,7 +104,7 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
       {/* PAGE 1 */}
       {page === 1 && (
         <>
-          <video 
+          <video disablePictureInPicture 
             src={introVideoSrc}
             autoPlay 
             controls={false}
@@ -349,7 +349,7 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
               alignItems: 'center',
               justifyContent: 'center'
             }}>
-              <video 
+              <video disablePictureInPicture 
                 key={selectedAnimal.id}
                 src={selectedAnimal.videoSrc}
                 autoPlay 
@@ -474,7 +474,7 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
       {/* PAGE 3 */}
       {page === 3 && (
         <>
-          <video 
+          <video disablePictureInPicture 
             src={animalMovementsVideoSrc}
             autoPlay 
             loop
