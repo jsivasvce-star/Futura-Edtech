@@ -1590,15 +1590,11 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
               initialPhase={step5Phase}
               initialSpecimenIndex={step5SpecimenIndex}
               onBackToDashboard={() => setCurrentStep(4)} 
-<<<<<<< HEAD
+              onGoToDetective={() => setCurrentStep(6)}
+              onBackToDetective={() => setCurrentStep(6)}
               onNextActivity={() => {
                 setIsPlayingAct24ObservationTransition(true);
               }} 
-=======
-              onGoToDetective={() => setCurrentStep(6)}
-              onBackToDetective={() => setCurrentStep(6)}
-              onNextActivity={() => setCurrentStep(6)} 
->>>>>>> aa9574ca950fbfe20c6dfc4054a4bf64c9a7429d
             />
           </div>
         )}
@@ -1609,22 +1605,12 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         {currentStep === 6 && (
           <div style={{ width: '100%', height: '100%', minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             <PlantDetectiveActivity 
-<<<<<<< HEAD
-              onBackToDashboard={() => setCurrentStep(5)} 
-              onNextActivity={() => setIsPlayingAct25ObservationTransition(true)} 
-=======
               onBackToDashboard={() => {
                 setStep5Phase('specimens');
                 setStep5SpecimenIndex(8); // Specimen 09 · Sunflower (last slide) — correct order when stepping back
                 setCurrentStep(5);
               }} 
-              onNextActivity={() => {
-                setVenationPhase('cover');
-                setVenationSpecimenIndex(0);
-                setCurrentStep(7);
-                setVenationSubTab('venation');
-              }}
->>>>>>> aa9574ca950fbfe20c6dfc4054a4bf64c9a7429d
+              onNextActivity={() => setIsPlayingAct25ObservationTransition(true)}
             />
           </div>
         )}
@@ -1640,24 +1626,16 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 initialSpecimenIndex={venationSpecimenIndex}
                 onBackToDashboard={() => setCurrentStep(6)} 
                 onPreviousPage={() => setCurrentStep(6)}
-<<<<<<< HEAD
-                onNext={() => setIsPlayingAct26ObservationTransition(true)}
-=======
                 onNext={() => {
                   setRootsSpecimenIndex(0);
-                  setVenationSubTab('roots');
+                  setIsPlayingAct26ObservationTransition(true);
                 }}
->>>>>>> aa9574ca950fbfe20c6dfc4054a4bf64c9a7429d
               />
             )}
             {venationSubTab === 'roots' && (
               <RootSystemsLab 
                 initialSpecimenIndex={rootsSpecimenIndex}
                 onBackToDashboard={() => setCurrentStep(6)} 
-<<<<<<< HEAD
-                onPreviousPage={() => setVenationSubTab('venation')}
-                onNext={() => setIsPlayingAct27ObservationTransition(true)}
-=======
                 onPreviousPage={() => {
                   setVenationPhase('specimens');
                   setVenationSpecimenIndex(6);
@@ -1665,9 +1643,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 }}
                 onNext={() => {
                   setCorrelationPhase('specimens');
-                  setVenationSubTab('correlation');
+                  setIsPlayingAct27ObservationTransition(true);
                 }}
->>>>>>> aa9574ca950fbfe20c6dfc4054a4bf64c9a7429d
               />
             )}
             {venationSubTab === 'correlation' && (
