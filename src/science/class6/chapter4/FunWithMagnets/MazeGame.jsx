@@ -126,148 +126,62 @@ export const playRealisticTrainSound = () => {};
 export const playElectricZapSound = () => {};
 
 // -------------------------------------------------------------------
-// 3. SVG High-Definition Futuristic Maglev Magnetic Train Sprite
+// 3. SVG High-Definition 3-Car Maglev Magnetic Train Sprite (Front Cab ➔ Middle Car ➔ Rear Cab)
 // -------------------------------------------------------------------
 const MagneticTrainSprite = ({ x, y, rotation, isMoving, now }) => {
   const deg = (rotation * 180 / Math.PI);
   const pulse = 1 + 0.18 * Math.sin(now * 0.015);
-  const glowPulse = 0.7 + 0.3 * Math.sin(now * 0.01);
+  const glowPulse = 0.75 + 0.25 * Math.sin(now * 0.012);
 
   return (
     <g transform={`translate(${x}, ${y})`}>
-      {/* Scaled for high-definition clarity on tracks */}
-      <g transform={`rotate(${deg}) scale(1.15)`}>
+      <g transform={`rotate(${deg})`}>
         {/* 1. Ground Ambient Levitation Shadow */}
         <ellipse
-          cx="-10"
+          cx="0"
           cy="0"
-          rx="48"
-          ry="11"
+          rx="52"
+          ry="10"
           fill="rgba(15, 23, 42, 0.6)"
           style={{ filter: 'blur(3px)' }}
         />
 
-        {/* 2. Futuristic Vivid Cyan / Electric Blue Maglev Levitation Underglow Field */}
+        {/* 2. Futuristic Vivid Electric Cyan / Blue Maglev Levitation Underglow Field */}
         <ellipse
-          cx="-10"
+          cx="0"
           cy="0"
-          rx={isMoving ? 50 : 44}
+          rx={isMoving ? 56 : 50}
           ry={isMoving ? 11 : 9}
-          fill="rgba(0, 240, 255, 0.35)"
+          fill="rgba(0, 240, 255, 0.4)"
           style={{ filter: 'blur(4px)' }}
         />
 
-        {/* 3. Intense Electric Blue Underglow Core Strips (Left & Right Skids) */}
-        <line x1="-38" y1="-7.5" x2="24" y2="-7.5" stroke="#00F0FF" strokeWidth="2.8" opacity={glowPulse} style={{ filter: 'drop-shadow(0 0 6px #00F0FF)' }} />
-        <line x1="-38" y1="7.5" x2="24" y2="7.5" stroke="#00F0FF" strokeWidth="2.8" opacity={glowPulse} style={{ filter: 'drop-shadow(0 0 6px #00F0FF)' }} />
+        {/* 3. Glowing Levitation Skid Strips (Left & Right Rails) */}
+        <line x1="-46" y1="-7.5" x2="46" y2="-7.5" stroke="#00F0FF" strokeWidth="2.6" opacity={glowPulse} style={{ filter: 'drop-shadow(0 0 5px #00F0FF)' }} />
+        <line x1="-46" y1="7.5" x2="46" y2="7.5" stroke="#00F0FF" strokeWidth="2.6" opacity={glowPulse} style={{ filter: 'drop-shadow(0 0 5px #00F0FF)' }} />
 
         {/* 4. Projected Forward Xenon / Cyan Headlight Beams */}
         <polygon
-          points="22,-5 85,-20 85,20 22,5"
+          points="46,-4 98,-18 98,18 46,4"
           fill="url(#maglevHeadlightGrad)"
-          opacity={isMoving ? 0.9 : 0.6}
+          opacity={isMoving ? 0.88 : 0.55}
           pointerEvents="none"
         />
 
-        {/* 5. TRAIN COMPARTMENT (Observation Coach - Sleek Titanium & Aerodynamic Shell) */}
-        <g transform="translate(-22, 0)">
-          {/* Undercarriage Superconducting Maglev Bogie Skids */}
-          <rect x="-18" y="-7.8" width="36" height="15.6" rx="4" fill="#0F172A" stroke="#38BDF8" strokeWidth="0.8" />
-          
-          {/* Coach Main Body (Aerodynamic Streamlined Titanium Hull) */}
-          <rect x="-17" y="-6.8" width="34" height="13.6" rx="4.5" fill="url(#maglevBodyGrad)" stroke="#334155" strokeWidth="0.9" />
+        {/* 5. High-Definition 3-Car Maglev Train Asset (Front Cab ➔ Middle Passenger Compartment ➔ Rear Cab) */}
+        <image
+          href="/FunWithMagnets/maglev_train_3car.png"
+          x="-49"
+          y="-7.4"
+          width="98"
+          height="14.8"
+          preserveAspectRatio="none"
+          style={{ filter: 'drop-shadow(0 2px 5px rgba(0,0,0,0.4))' }}
+        />
 
-          {/* Electric Blue Neon Racing Stripe */}
-          <line x1="-16" y1="-0.5" x2="16" y2="-0.5" stroke="#00F0FF" strokeWidth="2.4" style={{ filter: 'drop-shadow(0 0 3px #00F0FF)' }} />
-          <line x1="-16" y1="1.6" x2="16" y2="1.6" stroke="#2563EB" strokeWidth="1" />
-
-          {/* Roof Aero Cooling Intake Ribs */}
-          <rect x="-13" y="-5.5" width="26" height="2" rx="1" fill="#334155" />
-
-          {/* Panoramic Luminescent Passenger Windows */}
-          <rect x="-14" y="-5" width="5.5" height="3" rx="1" fill="#E0F2FE" stroke="#0284C7" strokeWidth="0.6" style={{ filter: 'drop-shadow(0 0 2px #38BDF8)' }} />
-          <rect x="-6.5" y="-5" width="5.5" height="3" rx="1" fill="#E0F2FE" stroke="#0284C7" strokeWidth="0.6" style={{ filter: 'drop-shadow(0 0 2px #38BDF8)' }} />
-          <rect x="1" y="-5" width="5.5" height="3" rx="1" fill="#E0F2FE" stroke="#0284C7" strokeWidth="0.6" style={{ filter: 'drop-shadow(0 0 2px #38BDF8)' }} />
-          <rect x="8.5" y="-5" width="5.5" height="3" rx="1" fill="#E0F2FE" stroke="#0284C7" strokeWidth="0.6" style={{ filter: 'drop-shadow(0 0 2px #38BDF8)' }} />
-
-          {/* Rear Cyan / Red Marker Tail Lights */}
-          <circle cx="-16.5" cy="-4" r="1.3" fill="#EF4444" style={{ filter: 'drop-shadow(0 0 4px #EF4444)' }} />
-          <circle cx="-16.5" cy="4" r="1.3" fill="#EF4444" style={{ filter: 'drop-shadow(0 0 4px #EF4444)' }} />
-        </g>
-
-        {/* 6. HIGH-TECH MAGNETIC INTER-CAR COUPLER */}
-        <g transform="translate(-4, 0)">
-          <rect x="-3" y="-5" width="6" height="10" rx="2" fill="#1E293B" stroke="#00F0FF" strokeWidth="0.8" />
-          <line x1="0" y1="-4" x2="0" y2="4" stroke="#00F0FF" strokeWidth="1.2" />
-        </g>
-
-        {/* 7. TRAIN ENGINE (Aerodynamic Maglev Bullet Nose Locomotive) */}
-        <g transform="translate(15, 0)">
-          {/* Undercarriage Superconducting Maglev Bogie Skids */}
-          <rect x="-15" y="-7.8" width="30" height="15.6" rx="4" fill="#0F172A" stroke="#38BDF8" strokeWidth="0.8" />
-
-          {/* Engine Bullet Body */}
-          <path
-            d="M -15 -6.8
-               L 6 -6.8
-               Q 18 -6.8 22 0
-               Q 18 6.8 6 6.8
-               L -15 6.8
-               Z"
-            fill="url(#maglevBodyGrad)"
-            stroke="#334155"
-            strokeWidth="1"
-          />
-
-          {/* Electric Blue Aero Livery Swoosh */}
-          <path
-            d="M -14 -0.5
-               L 6 -0.5
-               Q 14 -0.5 18 0
-               Q 14 0.5 6 0.5
-               L -14 0.5
-               Z"
-            fill="#00F0FF"
-            stroke="#2563EB"
-            strokeWidth="0.8"
-            style={{ filter: 'drop-shadow(0 0 3px #00F0FF)' }}
-          />
-
-          {/* Pilot Cockpit Curved Canopy (Ultra-Clear Cyan Glass) */}
-          <path
-            d="M 2 -5
-               L 9 -5
-               Q 16 -5 17 0
-               Q 16 5 9 5
-               L 2 5
-               Q 5 0 2 -5 Z"
-            fill="#0F172A"
-            stroke="#00F0FF"
-            strokeWidth="0.9"
-          />
-          <path
-            d="M 4 -3.6
-               L 9 -3.6
-               Q 14.5 -3.6 15.2 0
-               Q 14.5 3.6 9 3.6
-               L 4 3.6 Z"
-            fill="#38BDF8"
-            opacity="0.85"
-            style={{ filter: 'drop-shadow(0 0 3px #38BDF8)' }}
-          />
-
-          {/* Cabin Windows */}
-          <rect x="-11" y="-5.5" width="5" height="2.6" rx="0.8" fill="#E0F2FE" stroke="#0284C7" strokeWidth="0.5" />
-          <rect x="-4.5" y="-5.5" width="5" height="2.6" rx="0.8" fill="#E0F2FE" stroke="#0284C7" strokeWidth="0.5" />
-
-          {/* Dual High-Intensity Xenon Headlights */}
-          <circle cx="19.5" cy="-2.8" r="1.6" fill="#FFFFFF" stroke="#00F0FF" strokeWidth="0.8" style={{ filter: 'drop-shadow(0 0 5px #00F0FF)' }} />
-          <circle cx="19.5" cy="2.8" r="1.6" fill="#FFFFFF" stroke="#00F0FF" strokeWidth="0.8" style={{ filter: 'drop-shadow(0 0 5px #00F0FF)' }} />
-
-          {/* Front Superconducting Magnetic Induction Core */}
-          <circle cx="22" cy="0" r={3.2 * pulse} fill="#00F0FF" stroke="#FFFFFF" strokeWidth="1" style={{ filter: 'drop-shadow(0 0 8px #00F0FF)' }} />
-          <circle cx="22" cy="0" r="1.4" fill="#FFFFFF" />
-        </g>
+        {/* 6. Front Nose Magnetic Induction Receiver Sensor */}
+        <circle cx="48.5" cy="0" r={2.8 * pulse} fill="#00F0FF" stroke="#FFFFFF" strokeWidth="1" style={{ filter: 'drop-shadow(0 0 6px #00F0FF)' }} />
+        <circle cx="48.5" cy="0" r="1.3" fill="#FFFFFF" />
       </g>
     </g>
   );
@@ -371,9 +285,9 @@ const ElectricLightningTether = ({
   const x1 = poleX;
   const y1 = poleY;
 
-  // Train's front magnetic receiver tip (train scaled by 1.22, nose tip offset is ~40.2px)
-  const x2 = trainX + Math.cos(trainRotation) * 40.2;
-  const y2 = trainY + Math.sin(trainRotation) * 40.2;
+  // Train's front magnetic receiver tip (3-car Maglev nose tip offset is ~48.5px)
+  const x2 = trainX + Math.cos(trainRotation) * 48.5;
+  const y2 = trainY + Math.sin(trainRotation) * 48.5;
 
   const dx = x2 - x1;
   const dy = y2 - y1;

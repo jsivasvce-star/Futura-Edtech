@@ -2184,7 +2184,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
             }}>
               {/* 1. Sleek Compact Instruction Guide Card */}
               <div style={{
-                background: 'rgba(255, 255, 255, 0.95)',
+                background: 'rgba(255, 255, 255, 0.96)',
                 backdropFilter: 'blur(16px)',
                 WebkitBackdropFilter: 'blur(16px)',
                 border: '1.5px solid #FFFFFF',
@@ -2192,7 +2192,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                 padding: '0.85rem 1.15rem',
                 boxShadow: '0 8px 24px rgba(0, 0, 0, 0.06)',
                 width: '100%',
-                maxWidth: '420px',
+                maxWidth: '440px',
                 boxSizing: 'border-box',
                 flexShrink: 0
               }}>
@@ -2200,35 +2200,32 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                 <div style={{
                   background: 'linear-gradient(135deg, #ECFDF5 0%, #E0F2FE 100%)',
                   border: '1.5px solid #6EE7B7',
-                  borderRadius: '12px',
-                  padding: '0.6rem 0.8rem',
+                  borderRadius: '14px',
+                  padding: '0.65rem 0.85rem',
                   textAlign: 'center',
                   boxShadow: '0 2px 8px rgba(6, 95, 70, 0.08)'
                 }}>
                   <div style={{
-                    fontSize: '1.25rem',
+                    fontSize: '1.65rem',
                     fontWeight: 900,
                     color: '#065F46',
-                    lineHeight: '1.3',
+                    lineHeight: '1.25',
                     letterSpacing: '-0.01em'
                   }}>
-                    ✨ Magnetic train can move without touching the tracks!
+                    Magnetic train can move without touching the tracks!
                   </div>
                 </div>
 
-                {/* Concise 3-Line How-To-Play Guide */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', marginTop: '0.55rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.92rem', fontWeight: 700, color: '#1E293B', lineHeight: '1.3' }}>
-                    <span style={{ fontSize: '1.1rem' }}>🧭</span>
-                    <span>Use the <strong>D-PAD HUD</strong> or keyboard arrows/WASD to steer.</span>
+                {/* Concise 3-Line How-To-Play Guide (Much Bigger Scaled Typography) */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.65rem' }}>
+                  <div style={{ fontSize: '1.45rem', fontWeight: 800, color: '#1E293B', lineHeight: '1.3' }}>
+                    Use the D-PAD HUD or keyboard arrows to steer.
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.92rem', fontWeight: 700, color: '#1E293B', lineHeight: '1.3' }}>
-                    <span style={{ fontSize: '1.1rem' }}>⚡</span>
-                    <span>Magnetic coils pull the train smoothly from node to node.</span>
+                  <div style={{ fontSize: '1.45rem', fontWeight: 800, color: '#1E293B', lineHeight: '1.3' }}>
+                    Magnetic coils pull the train smoothly from node to node.
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.92rem', fontWeight: 700, color: '#1E293B', lineHeight: '1.3' }}>
-                    <span style={{ fontSize: '1.1rem' }}>🎯</span>
-                    <span>Reach the <strong>GOAL 🎯</strong> beacon to complete the expedition!</span>
+                  <div style={{ fontSize: '1.45rem', fontWeight: 800, color: '#1E293B', lineHeight: '1.3' }}>
+                    Reach the Destination Goal beacon to complete the expedition!
                   </div>
                 </div>
               </div>
@@ -2445,25 +2442,26 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                     <button
                       onClick={() => go(6)}
                       disabled={!ext.maze}
+                      className={ext.maze ? "gold-glow-btn" : ""}
                       style={{ 
                         width: '100%', 
-                        padding: '0.75rem 1.2rem', 
-                        fontSize: '0.98rem', 
+                        padding: '0.85rem 1.4rem', 
+                        fontSize: '1.05rem', 
                         fontWeight: 900, 
-                        borderRadius: '12px', 
-                        background: ext.maze ? 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)' : '#F1F5F9', 
+                        borderRadius: '14px', 
+                        background: ext.maze ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : '#F1F5F9', 
                         color: ext.maze ? '#FFFFFF' : '#94A3B8', 
-                        border: ext.maze ? 'none' : '1.5px solid #E2E8F0', 
+                        border: ext.maze ? '1.5px solid rgba(254, 240, 138, 0.85)' : '1.5px solid #E2E8F0', 
                         cursor: ext.maze ? 'pointer' : 'not-allowed', 
                         display: 'flex', 
                         alignItems: 'center', 
                         justifyContent: 'center', 
-                        gap: '0.5rem',
+                        gap: '0.6rem',
                         boxShadow: ext.maze ? '0 4px 16px rgba(217, 119, 6, 0.4)' : 'none',
                         transition: 'all 0.25s ease'
                       }}
                     >
-                      Proceed to Magnet Care <ArrowRight size={16} color={ext.maze ? '#FFFFFF' : '#94A3B8'} />
+                      Proceed to Magnet Care <ArrowRight size={18} color={ext.maze ? '#FFFFFF' : '#94A3B8'} />
                     </button>
                   </div>
                 );
