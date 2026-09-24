@@ -101,12 +101,12 @@ export default function SeedDissectionLab({ onBackToDashboard, onPreviousPage, o
           display: 'flex',
           flexDirection: 'column',
           gap: '6px',
-          background: 'linear-gradient(170deg, rgba(14, 62, 39, 0.42) 0%, rgba(6, 34, 21, 0.52) 100%)',
+          background: 'linear-gradient(170deg, rgba(14, 62, 39, 0.90) 0%, rgba(6, 34, 21, 0.94) 100%)',
           backdropFilter: 'blur(4px)',
           WebkitBackdropFilter: 'blur(4px)',
           border: '3px solid rgba(134, 239, 172, 0.55)',
           borderRadius: '18px',
-          padding: '8px 14px',
+          padding: '10px 16px',
           boxShadow: '0 18px 42px rgba(0, 0, 0, 0.5)',
           overflow: 'hidden'
         }}>
@@ -120,17 +120,17 @@ export default function SeedDissectionLab({ onBackToDashboard, onPreviousPage, o
             padding: '6px 14px',
             flexShrink: 0
           }}>
-            <Lightbulb size={20} color="#FCD34D" />
-            <span style={{ fontSize: '21px', fontWeight: 900, color: '#FFFFFF', fontFamily: '"Fraunces", Georgia, serif' }}>
+            <Lightbulb size={22} color="#FCD34D" />
+            <span style={{ fontSize: '24px', fontWeight: 900, color: '#FFFFFF', fontFamily: '"Fraunces", Georgia, serif' }}>
               What You&rsquo;ll Learn
             </span>
           </div>
 
           <p style={{
             margin: 0,
-            fontSize: '17px',
+            fontSize: '19px',
             fontWeight: 600,
-            lineHeight: 1.3,
+            lineHeight: 1.35,
             color: '#EAF7EE',
             flexShrink: 0
           }}>
@@ -150,24 +150,24 @@ export default function SeedDissectionLab({ onBackToDashboard, onPreviousPage, o
           }}>
             <div style={{
               display: 'flex', alignItems: 'center', gap: '8px',
-              fontSize: '18px', fontWeight: 900, color: '#14532D',
-              fontFamily: '"Fraunces", Georgia, serif', marginBottom: '4px'
+              fontSize: '20px', fontWeight: 900, color: '#14532D',
+              fontFamily: '"Fraunces", Georgia, serif', marginBottom: '6px'
             }}>
               <span>🌿</span> Key Points
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               {KEY_POINTS.map(point => (
                 <div key={point} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
                   <span style={{
-                    width: '19px', height: '19px', borderRadius: '50%',
+                    width: '21px', height: '21px', borderRadius: '50%',
                     background: '#15803D', color: '#FFFFFF',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     flexShrink: 0, marginTop: '1px'
                   }}>
-                    <Check size={12} strokeWidth={3.5} />
+                    <Check size={13} strokeWidth={3.5} />
                   </span>
-                  <span style={{ fontSize: '16px', fontWeight: 700, color: '#1F2937', lineHeight: 1.25 }}>
+                  <span style={{ fontSize: '18px', fontWeight: 700, color: '#1F2937', lineHeight: 1.3 }}>
                     {point}
                   </span>
                 </div>

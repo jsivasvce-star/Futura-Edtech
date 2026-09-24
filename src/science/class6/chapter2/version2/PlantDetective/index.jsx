@@ -324,6 +324,22 @@ const PLANT_FLEX_IMAGES = {
   plantC: neemFlexImg
 };
 
+// Each flex image is one flat cutout (canopy/stem + soil-and-roots baked together).
+// PLANT_IMAGE_ASPECT is each image's true width/height ratio, used so the specimen box
+// exactly matches the artwork (no letterboxing) and the bend rig below lines up correctly.
+// PLANT_SOIL_SPLIT is how far down that image (0-1) the ground line sits — everything
+// below it (the soil/root clump) stays fixed; only the part above it bends.
+const PLANT_IMAGE_ASPECT = {
+  plantA: 950 / 1316, // Tulsi
+  plantB: 950 / 1006, // Rose
+  plantC: 900 / 878   // Neem
+};
+const PLANT_SOIL_SPLIT = {
+  plantA: 0.93, // Tulsi
+  plantB: 0.85, // Rose
+  plantC: 0.70  // Neem
+};
+
 // Procedural audio synthesizer
 const playSound = (type = 'click') => {
   try {
@@ -1164,35 +1180,44 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
                       ];
                       return (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', padding: '2px 2px 0' }}>
-                          {rows.map((row, ri) => (
-                            <div
-                              key={row.label}
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'space-between',
-                                gap: '10px',
-                                fontSize: '20px',
-                                fontWeight: '800',
-                                paddingTop: ri === 3 ? '7px' : 0,
-                                borderTop: ri === 3 ? '1.5px solid rgba(167, 243, 208, 0.22)' : 'none'
-                              }}
-                            >
-                              <span style={{ display: 'flex', alignItems: 'center', gap: '7px', color: '#D1FAE5', whiteSpace: 'nowrap' }}>
-                                <span>{row.icon}</span> {row.label}
-                              </span>
-                              <span style={{
-                                color: row.accent,
-                                fontWeight: '900',
-                                textAlign: 'right',
-                                whiteSpace: 'nowrap',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis'
-                              }}>
-                                {row.value}
-                              </span>
-                            </div>
-                          ))}
+                          {rows.map((row, ri) => {
+                            const isTarget = ri === 3;
+                            return (
+                              <div
+                                key={row.label}
+                                style={{
+                                  display: 'flex',
+                                  flexDirection: isTarget ? 'column' : 'row',
+                                  alignItems: isTarget ? 'flex-start' : 'center',
+                                  justifyContent: isTarget ? 'flex-start' : 'space-between',
+                                  gap: isTarget ? '3px' : '8px',
+                                  fontSize: '18px',
+                                  fontWeight: '800',
+                                  fontFamily: '"JetBrains Mono", monospace',
+                                  paddingTop: isTarget ? '7px' : 0,
+                                  borderTop: isTarget ? '1.5px solid rgba(167, 243, 208, 0.22)' : 'none'
+                                }}
+                              >
+                                <span style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#D1FAE5', whiteSpace: 'nowrap', flexShrink: 0, fontFamily: '"JetBrains Mono", monospace', fontWeight: '800' }}>
+                                  <span>{row.icon}</span> {row.label}
+                                </span>
+                                <span style={{
+                                  color: row.accent,
+                                  fontWeight: '800',
+                                  fontFamily: '"JetBrains Mono", monospace',
+                                  textAlign: isTarget ? 'left' : 'right',
+                                  whiteSpace: isTarget ? 'normal' : 'nowrap',
+                                  overflowWrap: 'break-word',
+                                  overflow: isTarget ? 'visible' : 'hidden',
+                                  textOverflow: isTarget ? 'clip' : 'ellipsis',
+                                  maxWidth: isTarget ? '100%' : '58%',
+                                  paddingLeft: isTarget ? '24px' : 0
+                                }}>
+                                  {row.value}
+                                </span>
+                              </div>
+                            );
+                          })}
                         </div>
                       );
                     })()}
@@ -1271,7 +1296,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
                 }}
                 aria-label="Next Activity"
               >
-                <span>{nextLabel || "Next: Table 2.3"}</span>
+                <span>{nextLabel || "Next"}</span>
                 <ArrowRight size={18} strokeWidth={2.5} />
               </button>
             </div>
@@ -1457,7 +1482,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
                             width: 'auto',
                             objectFit: 'contain',
                             marginBottom: '6px',
-                            transform: 'translate(clamp(110px, 13vw, 260px), -3vh)',
+                            transform: 'translate(0px, -3vh)',
                             opacity: 1,
                             filter: 'drop-shadow(0 16px 32px rgba(10, 40, 24, 0.45))',
                             transition: 'opacity 0.2s ease',
@@ -1631,7 +1656,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
                             width: '100%',
                             height: '100%',
                             pointerEvents: 'none',
-                            zIndex: 1
+                            zIndex: 12
                           }}
                         >
                           <defs>
@@ -1706,17 +1731,17 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
                             <text x="392" y="84" textAnchor="middle" fill="#DC2626" fontSize="13" fontWeight="800">Trunk Rigidity</text>
 
                             {/* 35° Shrub Resistance */}
-                            <text x="482" y="110" textAnchor="middle" fill="#D97706" fontSize="17" fontWeight="900">35°</text>
-                            <text x="482" y="128" textAnchor="middle" fill="#D97706" fontSize="13" fontWeight="800">Shrub Resistance</text>
+                            <text x="482" y="86" textAnchor="middle" fill="#D97706" fontSize="17" fontWeight="900">35°</text>
+                            <text x="482" y="104" textAnchor="middle" fill="#D97706" fontSize="13" fontWeight="800">Shrub Resistance</text>
 
                             {/* 60° Max (Herb Flexibility) */}
-                            <text x="522" y="206" textAnchor="middle" fill="#059669" fontSize="17" fontWeight="900">60°</text>
-                            <text x="522" y="224" textAnchor="middle" fill="#059669" fontSize="12.5" fontWeight="800">Max (Herb Flexibility)</text>
+                            <text x="522" y="182" textAnchor="middle" fill="#059669" fontSize="17" fontWeight="900">60°</text>
+                            <text x="522" y="200" textAnchor="middle" fill="#059669" fontSize="12.5" fontWeight="800">Max (Herb Flexibility)</text>
                           </g>
 
                           <line x1="362.1" y1="113.2" x2="368.5" y2="94" stroke="#DC2626" strokeWidth="2.4" />
-                          <line x1="437.6" y1="148.4" x2="450" y2="132" stroke="#F59E0B" strokeWidth="2.4" />
-                          <line x1="507.8" y1="225" x2="524" y2="215" stroke="#10B981" strokeWidth="2.6" />
+                          <line x1="437.6" y1="148.4" x2="460" y2="108" stroke="#F59E0B" strokeWidth="2.4" />
+                          <line x1="507.8" y1="225" x2="522" y2="191" stroke="#10B981" strokeWidth="2.6" />
 
                           {/* Live Radiant Laser Pointer Line */}
                           <line
@@ -1742,7 +1767,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
                           />
 
                           {/* "N deg / Current Bend" callout — fixed in the left free space near "Upright" */}
-                          <g transform="translate(80, 150)">
+                          <g transform="translate(46, 96)">
                             <rect
                               x="0"
                               y="0"
@@ -1763,72 +1788,107 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
                         </svg>
 
                         {/* Interactive Plant Specimen Anchored in Rig */}
-                        <div
-                          onMouseDown={() => setIsDraggingStem(true)}
-                          onTouchStart={() => setIsDraggingStem(true)}
-                          style={{
-                            position: 'absolute',
-                            bottom: '20px',
-                            left: '50%',
-                            marginLeft: '-105px',
-                            width: '360px',
-                            height: '400px',
-                            display: 'flex',
-                            alignItems: 'flex-end',
-                            justifyContent: 'center',
-                            transformOrigin: '50% 92%',
-                            transform: `rotate(${currentDeflectionAngle}deg)`,
-                            transition: isDraggingStem ? 'none' : 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                            cursor: isDraggingStem ? 'grabbing' : 'grab',
-                            zIndex: 10,
-                            userSelect: 'none'
-                          }}
-                        >
-                          <img
-                            src={PLANT_FLEX_IMAGES[activePlant.id]}
-                            alt={activePlant.displayName}
-                            style={{
-                              maxHeight: '100%',
-                              maxWidth: '100%',
-                              objectFit: 'contain',
-                              filter: 'drop-shadow(0 14px 28px rgba(20, 69, 47, 0.28))',
-                              pointerEvents: 'none'
-                            }}
-                          />
+                        {(() => {
+                          const plantAspect = PLANT_IMAGE_ASPECT[activePlant.id] || 0.9;
+                          const soilPct = (PLANT_SOIL_SPLIT[activePlant.id] ?? 0.85) * 100;
+                          const plantHeight = 480; // enlarged specimen (was 400)
+                          const plantWidth = plantHeight * plantAspect;
+                          return (
+                            <div
+                              style={{
+                                position: 'absolute',
+                                bottom: '20px',
+                                left: '50%',
+                                marginLeft: `${-plantWidth / 2}px`,
+                                width: `${plantWidth}px`,
+                                height: `${plantHeight}px`,
+                                zIndex: 10,
+                                userSelect: 'none'
+                              }}
+                            >
+                              {/* Static layer: soil + root clump. Never rotates — it stays planted on the table. */}
+                              <img
+                                src={PLANT_FLEX_IMAGES[activePlant.id]}
+                                alt=""
+                                aria-hidden="true"
+                                draggable={false}
+                                style={{
+                                  position: 'absolute',
+                                  inset: 0,
+                                  width: '100%',
+                                  height: '100%',
+                                  objectFit: 'fill',
+                                  clipPath: `inset(${soilPct}% 0 0 0)`,
+                                  filter: 'drop-shadow(0 14px 28px rgba(20, 69, 47, 0.28))',
+                                  pointerEvents: 'none'
+                                }}
+                              />
 
-                          {/* Tactile Pull Handle Attached to Upper Stem */}
-                          <div
-                            style={{
-                              position: 'absolute',
-                              right: '-16px',
-                              top: '38%',
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '6px',
-                              background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                              color: '#FFFFFF',
-                              border: '2px solid #FFFBEB',
-                              borderRadius: '999px',
-                              padding: '4px 10px',
-                              fontSize: '16px',
-                              fontWeight: '900',
-                              boxShadow: '0 4px 14px rgba(217, 119, 6, 0.45)',
-                              cursor: 'grab',
-                              whiteSpace: 'nowrap',
-                              animation: !isDraggingStem && bendLevel === 0 ? 'pulseGrip 1.8s infinite ease-in-out' : 'none'
-                            }}
-                          >
-                            <span>🖐️</span>
-                            <span>{isDraggingStem ? 'Pulling...' : 'Drag to Bend'}</span>
-                          </div>
-                        </div>
+                              {/* Rotating layer: trunk + canopy only. Pivots exactly at the soil line. */}
+                              <div
+                                onMouseDown={() => setIsDraggingStem(true)}
+                                onTouchStart={() => setIsDraggingStem(true)}
+                                style={{
+                                  position: 'absolute',
+                                  inset: 0,
+                                  transformOrigin: `50% ${soilPct}%`,
+                                  transform: `rotate(${currentDeflectionAngle}deg)`,
+                                  transition: isDraggingStem ? 'none' : 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                  cursor: isDraggingStem ? 'grabbing' : 'grab'
+                                }}
+                              >
+                                <img
+                                  src={PLANT_FLEX_IMAGES[activePlant.id]}
+                                  alt={activePlant.displayName}
+                                  draggable={false}
+                                  style={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'fill',
+                                    clipPath: `inset(0 0 ${100 - soilPct}% 0)`,
+                                    filter: 'drop-shadow(0 14px 28px rgba(20, 69, 47, 0.28))',
+                                    pointerEvents: 'none'
+                                  }}
+                                />
+
+                                {/* Tactile Pull Handle Attached to Upper Stem */}
+                                <div
+                                  style={{
+                                    position: 'absolute',
+                                    right: '-16px',
+                                    top: '38%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '6px',
+                                    background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                                    color: '#FFFFFF',
+                                    border: '2px solid #FFFBEB',
+                                    borderRadius: '999px',
+                                    padding: '4px 10px',
+                                    fontSize: '16px',
+                                    fontWeight: '900',
+                                    boxShadow: '0 4px 14px rgba(217, 119, 6, 0.45)',
+                                    cursor: 'grab',
+                                    whiteSpace: 'nowrap',
+                                    animation: !isDraggingStem && bendLevel === 0 ? 'pulseGrip 1.8s infinite ease-in-out' : 'none'
+                                  }}
+                                >
+                                  <span>🖐️</span>
+                                  <span>{isDraggingStem ? 'Pulling...' : 'Drag to Bend'}</span>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })()}
 
                         {/* Plant sits directly on the table, root/soil clump resting on the surface */}
                         <div style={{
                           position: 'absolute',
                           bottom: '2px',
                           left: '50%',
-                          marginLeft: '-45px',
+                          marginLeft: '-95px',
                           display: 'flex',
                           flexDirection: 'column',
                           alignItems: 'center',
@@ -1837,7 +1897,7 @@ export default function PlantDetective({ onBackToDashboard, onNextActivity, next
                         }}>
                           {/* Soft contact shadow grounding the specimen on the table surface */}
                           <div style={{
-                            width: '170px',
+                            width: '190px',
                             height: '22px',
                             borderRadius: '50%',
                             background: 'radial-gradient(ellipse at center, rgba(20, 12, 4, 0.42) 0%, rgba(20, 12, 4, 0.18) 55%, transparent 80%)',

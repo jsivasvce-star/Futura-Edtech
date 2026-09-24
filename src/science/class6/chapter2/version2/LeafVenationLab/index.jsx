@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 import coverImg from './activity25_cover.jpg';
@@ -33,6 +33,32 @@ const VENATION_SPECIMEN_SLIDES = [
 export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onNext, initialPhase = 'cover', initialSpecimenIndex = 0 }) {
   const [phase, setPhase] = useState(initialPhase); // 'cover' | 'specimens'
   const [specimenIndex, setSpecimenIndex] = useState(initialSpecimenIndex);
+
+  // Title pill: shown for 7s on each slide, then auto-hides; moving the
+  // cursor up near the top of the screen brings it back.
+  const [showTitle, setShowTitle] = useState(true);
+  const titleHideTimerRef = useRef(null);
+
+  const scheduleTitleHide = () => {
+    if (titleHideTimerRef.current) clearTimeout(titleHideTimerRef.current);
+    titleHideTimerRef.current = setTimeout(() => setShowTitle(false), 7000);
+  };
+
+  useEffect(() => {
+    if (phase !== 'specimens') return;
+    setShowTitle(true);
+    scheduleTitleHide();
+    return () => {
+      if (titleHideTimerRef.current) clearTimeout(titleHideTimerRef.current);
+    };
+  }, [phase, specimenIndex]);
+
+  const handleSpecimenStageMouseMove = (e) => {
+    if (e.clientY < 90 && !showTitle) {
+      setShowTitle(true);
+      scheduleTitleHide();
+    }
+  };
 
   const navBtn = (tone = 'ghost') => ({
     display: 'flex',
@@ -83,18 +109,20 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
     const isLast = specimenIndex === VENATION_SPECIMEN_SLIDES.length - 1;
 
     return (
-      <div style={{
-        position: 'fixed',
-        inset: 0,
-        width: '100vw',
-        height: '100vh',
-        backgroundColor: '#07160E',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'hidden',
-        zIndex: 1000
-      }}>
+      <div
+        onMouseMove={handleSpecimenStageMouseMove}
+        style={{
+          position: 'fixed',
+          inset: 0,
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: '#07160E',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+          zIndex: 1000
+        }}>
         <style>{`
           html, body, #root {
             overflow: hidden !important;
@@ -134,7 +162,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
           return (
             <div style={{
               position: 'absolute',
-              top: '22px',
+              top: showTitle ? '10px' : '-90px',
               left: '50%',
               transform: 'translateX(-50%)',
               maxWidth: '78vw',
@@ -145,6 +173,9 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
               borderRadius: '14px',
               padding: isLong ? '8px 24px' : '8px 32px',
               boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+              opacity: showTitle ? 1 : 0,
+              pointerEvents: showTitle ? 'auto' : 'none',
+              transition: 'top 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease',
               zIndex: 1010
             }}>
               <h1 style={{
