@@ -992,6 +992,17 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
     }
   }, [subStep]);
 
+  // Cleanup audio on unmount to prevent it playing overall the chapter
+  useEffect(() => {
+    const audioEl = natureAudioRef.current;
+    return () => {
+      if (audioEl) {
+        audioEl.pause();
+        audioEl.currentTime = 0;
+      }
+    };
+  }, []);
+
   // Handle Reflection Countdown with audible ticks & nature soundscape
   useEffect(() => {
     if (timerRunning && timer > 0) {

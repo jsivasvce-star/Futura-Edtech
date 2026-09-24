@@ -10,6 +10,12 @@ import sanskritSlogan from '../../../../assets/sanskrit_slogan.png';
 import CoverPage from '../../../../components/CoverPage';
 import Chapter2SloganPage from './Chapter2SloganPage';
 import IntroStoryteller from './IntroStoryteller';
+import activity21TransitionVideo from '../../../../assets/activity21_transition.mp4';
+import activity24TransitionVideo from '../../../../assets/activity24_transition.mp4';
+import activity24ObservationTransitionVideo from '../../../../assets/activity24_observation_transition.mp4';
+import activity25LeafObservationTransitionVideo from '../../../../assets/activity25_leaf_observation_transition.mp4';
+import activity26RootObservationTransitionVideo from '../../../../assets/activity26_root_observation_transition.mp4';
+import activity27PlantObservationTransitionVideo from '../../../../assets/activity27_plant_observation_transition.mp4';
 import coverBgImage from '../../../../assets/cover_page_ch2.png';
 import coverBgVideo from '../../../../assets/in_this_video_just_add_those_b (1).mp4';
 import natureGreeneryBg from '../../../../assets/nature_greenery_bg.jpg';
@@ -172,6 +178,18 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
   const [venationSubTab, setVenationSubTab] = useState('venation'); // 'venation' | 'roots' | 'correlation'
   const [habitatSubTab, setHabitatSubTab] = useState('mission'); // 'mission' | 'tables' | 'adaptations' | 'conservation'
   const [tab10ViewMode, setTab10ViewMode] = useState('exercises'); // 'exercises' | 'summary'
+  const [isPlayingTransition, setIsPlayingTransition] = useState(false);
+  const [isTransitionVideoEnded, setIsTransitionVideoEnded] = useState(false);
+  const [isPlayingAct24Transition, setIsPlayingAct24Transition] = useState(false);
+  const [isAct24TransitionEnded, setIsAct24TransitionEnded] = useState(false);
+  const [isPlayingAct24ObservationTransition, setIsPlayingAct24ObservationTransition] = useState(false);
+  const [isAct24ObservationTransitionEnded, setIsAct24ObservationTransitionEnded] = useState(false);
+  const [isPlayingAct25ObservationTransition, setIsPlayingAct25ObservationTransition] = useState(false);
+  const [isAct25ObservationTransitionEnded, setIsAct25ObservationTransitionEnded] = useState(false);
+  const [isPlayingAct26ObservationTransition, setIsPlayingAct26ObservationTransition] = useState(false);
+  const [isAct26ObservationTransitionEnded, setIsAct26ObservationTransitionEnded] = useState(false);
+  const [isPlayingAct27ObservationTransition, setIsPlayingAct27ObservationTransition] = useState(false);
+  const [isAct27ObservationTransitionEnded, setIsAct27ObservationTransitionEnded] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   
   // Quiz state in Tab 10
@@ -668,10 +686,135 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
             )}
             {section1SubTab === 'scenes' && (
               <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
-                <IntroStoryteller
-                  onComplete={() => setCurrentStep(2)}
-                  onBack={() => setSection1SubTab('slogan')}
-                />
+                {isPlayingTransition ? (
+                  <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
+                    <video 
+                      src={activity21TransitionVideo} 
+                      autoPlay 
+                      playsInline 
+                      onEnded={() => {
+                        setIsTransitionVideoEnded(true);
+                      }}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                    
+                    {/* Navigation UI that appears when video ends */}
+                    {isTransitionVideoEnded && (
+                      <div style={{
+                        position: 'absolute',
+                        inset: 0,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        padding: '32px',
+                        background: 'rgba(0, 0, 0, 0.45)', // Subtle dark overlay
+                        zIndex: 10000
+                      }}>
+                        {/* Top empty space to push center card to center */}
+                        <div />
+                        
+                        {/* Center Card */}
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                          <div style={{
+                            background: '#F3EFE0', // cream/light yellow
+                            border: '2px solid #84A98C', // subtle green border
+                            borderRadius: '24px',
+                            padding: '48px 64px',
+                            maxWidth: '700px',
+                            textAlign: 'center',
+                            position: 'relative',
+                            boxShadow: '0 16px 40px rgba(0,0,0,0.25)',
+                            overflow: 'hidden'
+                          }}>
+                            {/* Botanical decoration top */}
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginBottom: '32px' }}>
+                              <div style={{ height: '1px', width: '40px', background: '#84A98C' }} />
+                              <Leaf color="#4B7F52" size={28} />
+                              <div style={{ height: '1px', width: '40px', background: '#84A98C' }} />
+                            </div>
+                            
+                            <h2 style={{
+                              color: '#2D4A22',
+                              fontSize: '28px',
+                              fontWeight: '800',
+                              lineHeight: '1.4',
+                              marginBottom: '24px',
+                              fontFamily: 'Outfit, sans-serif'
+                            }}>
+                              We observed many different<br />
+                              plants and animals around us.
+                            </h2>
+                            
+                            <div style={{ height: '1px', width: '40px', background: '#84A98C', margin: '0 auto 24px auto' }} />
+
+                            <p style={{
+                              color: '#4A5D23',
+                              fontSize: '20px',
+                              fontWeight: '500',
+                              lineHeight: '1.5'
+                            }}>
+                              Now, let's take a closer look at them<br />
+                              and see how they are different.
+                            </p>
+                            
+                            {/* Subtle side leaves decoration */}
+                            <div style={{ position: 'absolute', left: '-20px', top: '50%', transform: 'translateY(-50%)', opacity: 0.15 }}>
+                              <Leaf size={100} color="#4B7F52" />
+                            </div>
+                            <div style={{ position: 'absolute', right: '-20px', top: '50%', transform: 'translateY(-50%) scaleX(-1)', opacity: 0.15 }}>
+                              <Leaf size={100} color="#4B7F52" />
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* Bottom Navigation */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <button 
+                            onClick={() => {
+                              setIsPlayingTransition(false);
+                              setIsTransitionVideoEnded(false);
+                            }}
+                            style={{
+                              background: '#F3EFE0',
+                              color: '#1E293B',
+                              border: 'none',
+                              borderRadius: '12px',
+                              padding: '12px 28px',
+                              fontSize: '18px',
+                              fontWeight: '700',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              cursor: 'pointer',
+                              boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                              transition: 'transform 0.2s'
+                            }}
+                            onMouseOver={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; }}
+                            onMouseOut={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
+                          >
+                            <ArrowLeft size={20} /> Back
+                          </button>
+                          
+                          <button 
+                            className="bio-cta-btn"
+                            onClick={() => {
+                              setIsPlayingTransition(false);
+                              setIsTransitionVideoEnded(false);
+                              setCurrentStep(2);
+                            }}
+                          >
+                            Next <ArrowRight size={20} style={{ marginLeft: '6px' }} />
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <IntroStoryteller
+                    onComplete={() => setIsPlayingTransition(true)}
+                    onBack={() => setSection1SubTab('slogan')}
+                  />
+                )}
               </div>
             )}
           </div>
@@ -704,13 +847,681 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         )}
 
         {/* ============================================================ */}
+        {/* TRANSITION OVERLAY FOR ACTIVITY 2.4                          */}
+        {/* ============================================================ */}
+        {isPlayingAct24Transition && (
+          <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
+            <video 
+              src={activity24TransitionVideo} 
+              autoPlay 
+              playsInline 
+              onEnded={() => {
+                setIsAct24TransitionEnded(true);
+              }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+
+            {/* UI overlay appears after video ends */}
+            {isAct24TransitionEnded && (
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                padding: '32px',
+                background: 'rgba(0, 0, 0, 0.45)', // dim overlay
+                backdropFilter: 'blur(12px)',      // soften/blur the video
+                animation: 'fadeIn 1s ease-out forwards',
+                zIndex: 10000
+              }}>
+                {/* Top empty space to push center card to center */}
+                <div />
+                
+                {/* Center Card */}
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                  <div style={{
+                    background: '#F3EFE0',
+                    border: '2px solid #84A98C',
+                    borderRadius: '24px',
+                    padding: '48px 64px',
+                    maxWidth: '700px',
+                    textAlign: 'center',
+                    position: 'relative',
+                    boxShadow: '0 16px 40px rgba(0,0,0,0.25)',
+                    overflow: 'hidden'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginBottom: '32px' }}>
+                      <div style={{ height: '1px', width: '40px', background: '#84A98C' }} />
+                      <Leaf color="#4B7F52" size={28} />
+                      <div style={{ height: '1px', width: '40px', background: '#84A98C' }} />
+                    </div>
+                    
+                    <h2 style={{
+                      color: '#2D4A22',
+                      fontSize: '28px',
+                      fontWeight: '800',
+                      lineHeight: '1.4',
+                      marginBottom: '24px',
+                      fontFamily: 'Outfit, sans-serif'
+                    }}>
+                      Our plant collection is ready!
+                    </h2>
+                    
+                    <div style={{ height: '1px', width: '40px', background: '#84A98C', margin: '0 auto 24px auto' }} />
+
+                    <p style={{
+                      color: '#4A5D23',
+                      fontSize: '20px',
+                      fontWeight: '500',
+                      lineHeight: '1.5'
+                    }}>
+                      Let’s observe each specimen closely and<br />
+                      discover what makes them different.
+                    </p>
+                    
+                    <div style={{ position: 'absolute', left: '-20px', top: '50%', transform: 'translateY(-50%)', opacity: 0.15 }}>
+                      <Leaf size={100} color="#4B7F52" />
+                    </div>
+                    <div style={{ position: 'absolute', right: '-20px', top: '50%', transform: 'translateY(-50%) scaleX(-1)', opacity: 0.15 }}>
+                      <Leaf size={100} color="#4B7F52" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom Navigation */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <button 
+                    onClick={() => {
+                      setIsPlayingAct24Transition(false);
+                      setIsAct24TransitionEnded(false);
+                    }}
+                    style={{
+                      background: '#F3EFE0',
+                      color: '#1E293B',
+                      border: 'none',
+                      borderRadius: '12px',
+                      padding: '12px 28px',
+                      fontSize: '18px',
+                      fontWeight: '700',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                    }}
+                  >
+                    <ArrowLeft size={20} /> Back
+                  </button>
+                  
+                  <button 
+                    onClick={() => {
+                      setIsPlayingAct24Transition(false);
+                      setIsAct24TransitionEnded(false);
+                      setCurrentStep(5);
+                    }}
+                    style={{
+                      background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                      color: '#FFFFFF',
+                      border: 'none',
+                      borderRadius: '12px',
+                      padding: '12px 32px',
+                      fontSize: '18px',
+                      fontWeight: '800',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      cursor: 'pointer',
+                      boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+                    }}
+                  >
+                    Next <ArrowRight size={20} />
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ============================================================ */}
+        {/* TRANSITION OVERLAY FOR ACTIVITY 2.4 OBSERVATION              */}
+        {/* ============================================================ */}
+        {isPlayingAct24ObservationTransition && (
+          <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
+            <video 
+              src={activity24ObservationTransitionVideo} 
+              autoPlay 
+              playsInline 
+              onEnded={() => {
+                setIsAct24ObservationTransitionEnded(true);
+              }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+
+            {/* UI overlay appears after video ends */}
+            {isAct24ObservationTransitionEnded && (
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                padding: '32px',
+                background: 'rgba(0, 0, 0, 0.45)', // dim overlay
+                backdropFilter: 'blur(12px)',      // soften/blur the video
+                animation: 'fadeIn 1s ease-out forwards',
+                zIndex: 10000
+              }}>
+                {/* Top empty space to push center card to center */}
+                <div />
+                
+                {/* Center Card */}
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                  <div style={{
+                    background: '#F3EFE0',
+                    border: '2px solid #84A98C',
+                    borderRadius: '24px',
+                    padding: '48px 64px',
+                    maxWidth: '700px',
+                    textAlign: 'center',
+                    position: 'relative',
+                    boxShadow: '0 16px 40px rgba(0,0,0,0.25)',
+                    overflow: 'hidden'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginBottom: '32px' }}>
+                      <div style={{ height: '1px', width: '40px', background: '#84A98C' }} />
+                      <Leaf color="#4B7F52" size={28} />
+                      <div style={{ height: '1px', width: '40px', background: '#84A98C' }} />
+                    </div>
+                    
+                    <h2 style={{
+                      color: '#2D4A22',
+                      fontSize: '32px',
+                      fontWeight: '800',
+                      lineHeight: '1.4',
+                      marginBottom: '24px',
+                      fontFamily: 'Outfit, sans-serif'
+                    }}>
+                      Let’s investigate!
+                    </h2>
+
+                    <p style={{
+                      color: '#475569',
+                      fontSize: '22px',
+                      fontWeight: '500',
+                      lineHeight: '1.6',
+                      fontFamily: 'Inter, sans-serif'
+                    }}>
+                      Now, let’s collect evidence and discover how these plants are different.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Bottom Navigation */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%' }}>
+                  <button 
+                    onClick={() => {
+                      setIsPlayingAct24ObservationTransition(false);
+                      setIsAct24ObservationTransitionEnded(false);
+                      setCurrentStep(5);
+                    }}
+                    style={{
+                      background: '#F3EFE0',
+                      color: '#1E293B',
+                      border: 'none',
+                      borderRadius: '12px',
+                      padding: '12px 28px',
+                      fontSize: '18px',
+                      fontWeight: '700',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                    }}
+                  >
+                    <ArrowLeft size={20} /> Back
+                  </button>
+                  
+                  <button 
+                    onClick={() => {
+                      setIsPlayingAct24ObservationTransition(false);
+                      setIsAct24ObservationTransitionEnded(false);
+                      setCurrentStep(6);
+                    }}
+                    style={{
+                      background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                      color: '#FFFFFF',
+                      border: 'none',
+                      borderRadius: '12px',
+                      padding: '12px 32px',
+                      fontSize: '18px',
+                      fontWeight: '800',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      cursor: 'pointer',
+                      boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+                    }}
+                  >
+                    Begin Investigation <ArrowRight size={20} />
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ============================================================ */}
+        {/* TRANSITION OVERLAY FOR ACTIVITY 2.5 LEAF OBSERVATION         */}
+        {/* ============================================================ */}
+        {isPlayingAct25ObservationTransition && (
+          <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
+            <video 
+              src={activity25LeafObservationTransitionVideo} 
+              autoPlay 
+              playsInline 
+              muted 
+              onEnded={() => {
+                setIsAct25ObservationTransitionEnded(true);
+              }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+
+            {/* UI overlay appears after video ends */}
+            {isAct25ObservationTransitionEnded && (
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                padding: '32px',
+                background: 'rgba(0, 0, 0, 0.45)', // dim overlay
+                backdropFilter: 'blur(12px)',      // soften/blur the video
+                animation: 'fadeIn 1s ease-out forwards',
+                zIndex: 10000
+              }}>
+                {/* Top empty space to push center card to center */}
+                <div />
+                
+                {/* Center Card */}
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                  <div style={{
+                    background: '#F3EFE0',
+                    border: '2px solid #84A98C',
+                    borderRadius: '24px',
+                    padding: '48px 64px',
+                    maxWidth: '700px',
+                    textAlign: 'center',
+                    position: 'relative',
+                    boxShadow: '0 16px 40px rgba(0,0,0,0.25)',
+                    overflow: 'hidden'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginBottom: '32px' }}>
+                      <div style={{ height: '1px', width: '40px', background: '#84A98C' }} />
+                      <Leaf color="#4B7F52" size={28} />
+                      <div style={{ height: '1px', width: '40px', background: '#84A98C' }} />
+                    </div>
+                    
+                    <h2 style={{
+                      color: '#2D4A22',
+                      fontSize: '32px',
+                      fontWeight: '800',
+                      lineHeight: '1.4',
+                      marginBottom: '24px',
+                      fontFamily: 'Outfit, sans-serif'
+                    }}>
+                      Let’s compare!
+                    </h2>
+
+                    <p style={{
+                      color: '#475569',
+                      fontSize: '22px',
+                      fontWeight: '500',
+                      lineHeight: '1.6',
+                      fontFamily: 'Inter, sans-serif'
+                    }}>
+                      We observed leaves with different shapes and structures.<br/><br/>
+                      Now, let’s compare them and discover how they are different.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Bottom Navigation */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%' }}>
+                  <button 
+                    onClick={() => {
+                      setIsPlayingAct25ObservationTransition(false);
+                      setIsAct25ObservationTransitionEnded(false);
+                      setCurrentStep(6); // Go back to Plant Detective
+                    }}
+                    style={{
+                      background: '#F3EFE0',
+                      color: '#1E293B',
+                      border: 'none',
+                      borderRadius: '12px',
+                      padding: '12px 28px',
+                      fontSize: '18px',
+                      fontWeight: '700',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                    }}
+                  >
+                    <ArrowLeft size={20} /> Back
+                  </button>
+                  
+                  <button 
+                    onClick={() => {
+                      setIsPlayingAct25ObservationTransition(false);
+                      setIsAct25ObservationTransitionEnded(false);
+                      setCurrentStep(7); // Proceed to Leaf Venation Lab
+                    }}
+                    style={{
+                      background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                      color: '#FFFFFF',
+                      border: 'none',
+                      borderRadius: '12px',
+                      padding: '12px 32px',
+                      fontSize: '18px',
+                      fontWeight: '800',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      cursor: 'pointer',
+                      boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+                    }}
+                  >
+                    Continue <ArrowRight size={20} />
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ============================================================ */}
+        {/* TRANSITION OVERLAY FOR ACTIVITY 2.6 ROOT OBSERVATION         */}
+        {/* ============================================================ */}
+        {isPlayingAct26ObservationTransition && (
+          <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
+            <video 
+              src={activity26RootObservationTransitionVideo} 
+              autoPlay 
+              playsInline 
+              muted 
+              onEnded={() => {
+                setIsAct26ObservationTransitionEnded(true);
+              }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+
+            {/* UI overlay appears after video ends */}
+            {isAct26ObservationTransitionEnded && (
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                padding: '32px',
+                background: 'rgba(0, 0, 0, 0.45)', // dim overlay
+                backdropFilter: 'blur(12px)',      // soften/blur the video
+                animation: 'fadeIn 1s ease-out forwards',
+                zIndex: 10000
+              }}>
+                {/* Top empty space to push center card to center */}
+                <div />
+                
+                {/* Center Card */}
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                  <div style={{
+                    background: '#F3EFE0',
+                    border: '2px solid #84A98C',
+                    borderRadius: '24px',
+                    padding: '48px 64px',
+                    maxWidth: '700px',
+                    textAlign: 'center',
+                    position: 'relative',
+                    boxShadow: '0 16px 40px rgba(0,0,0,0.25)',
+                    overflow: 'hidden'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginBottom: '32px' }}>
+                      <div style={{ height: '1px', width: '40px', background: '#84A98C' }} />
+                      <Leaf color="#4B7F52" size={28} />
+                      <div style={{ height: '1px', width: '40px', background: '#84A98C' }} />
+                    </div>
+                    
+                    <h2 style={{
+                      color: '#2D4A22',
+                      fontSize: '32px',
+                      fontWeight: '800',
+                      lineHeight: '1.4',
+                      marginBottom: '24px',
+                      fontFamily: 'Outfit, sans-serif'
+                    }}>
+                      Let’s find out!
+                    </h2>
+
+                    <p style={{
+                      color: '#475569',
+                      fontSize: '22px',
+                      fontWeight: '500',
+                      lineHeight: '1.6',
+                      fontFamily: 'Inter, sans-serif'
+                    }}>
+                      We observed two different root systems.<br/><br/>
+                      Now, let’s compare them and discover how they are different.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Bottom Navigation */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%' }}>
+                  <button 
+                    onClick={() => {
+                      setIsPlayingAct26ObservationTransition(false);
+                      setIsAct26ObservationTransitionEnded(false);
+                      // Back goes to Leaf Venation Lab
+                      setCurrentStep(7); 
+                      setVenationSubTab('venation');
+                    }}
+                    style={{
+                      background: '#F3EFE0',
+                      color: '#1E293B',
+                      border: 'none',
+                      borderRadius: '12px',
+                      padding: '12px 28px',
+                      fontSize: '18px',
+                      fontWeight: '700',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                    }}
+                  >
+                    <ArrowLeft size={20} /> Back
+                  </button>
+                  
+                  <button 
+                    onClick={() => {
+                      setIsPlayingAct26ObservationTransition(false);
+                      setIsAct26ObservationTransitionEnded(false);
+                      // Continue goes to Root Systems Lab
+                      setCurrentStep(7); 
+                      setVenationSubTab('roots');
+                    }}
+                    style={{
+                      background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                      color: '#FFFFFF',
+                      border: 'none',
+                      borderRadius: '12px',
+                      padding: '12px 32px',
+                      fontSize: '18px',
+                      fontWeight: '800',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      cursor: 'pointer',
+                      boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+                    }}
+                  >
+                    Continue <ArrowRight size={20} />
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ============================================================ */}
+        {/* TRANSITION OVERLAY FOR ACTIVITY 2.7 VENATION & ROOT CORRELATION */}
+        {/* ============================================================ */}
+        {isPlayingAct27ObservationTransition && (
+          <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
+            <video 
+              src={activity27PlantObservationTransitionVideo} 
+              autoPlay 
+              playsInline 
+              muted 
+              onEnded={() => {
+                setIsAct27ObservationTransitionEnded(true);
+              }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+
+            {/* UI overlay appears after video ends */}
+            {isAct27ObservationTransitionEnded && (
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                padding: '32px',
+                background: 'rgba(0, 0, 0, 0.45)', // dim overlay
+                backdropFilter: 'blur(12px)',      // soften/blur the video
+                animation: 'fadeIn 1s ease-out forwards',
+                zIndex: 10000
+              }}>
+                {/* Top empty space to push center card to center */}
+                <div />
+                
+                {/* Center Card */}
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                  <div style={{
+                    background: '#F3EFE0',
+                    border: '2px solid #84A98C',
+                    borderRadius: '24px',
+                    padding: '48px 64px',
+                    maxWidth: '700px',
+                    textAlign: 'center',
+                    position: 'relative',
+                    boxShadow: '0 16px 40px rgba(0,0,0,0.25)',
+                    overflow: 'hidden'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginBottom: '32px' }}>
+                      <div style={{ height: '1px', width: '40px', background: '#84A98C' }} />
+                      <Leaf color="#4B7F52" size={28} />
+                      <div style={{ height: '1px', width: '40px', background: '#84A98C' }} />
+                    </div>
+                    
+                    <h2 style={{
+                      color: '#2D4A22',
+                      fontSize: '32px',
+                      fontWeight: '800',
+                      lineHeight: '1.4',
+                      marginBottom: '24px',
+                      fontFamily: 'Outfit, sans-serif'
+                    }}>
+                      Let’s find out!
+                    </h2>
+
+                    <p style={{
+                      color: '#475569',
+                      fontSize: '22px',
+                      fontWeight: '500',
+                      lineHeight: '1.6',
+                      fontFamily: 'Inter, sans-serif'
+                    }}>
+                      Before planting our saplings, let’s observe their roots and leaf venation and see how they differ.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Bottom Navigation */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%' }}>
+                  <button 
+                    onClick={() => {
+                      setIsPlayingAct27ObservationTransition(false);
+                      setIsAct27ObservationTransitionEnded(false);
+                      // Back goes to Root Systems Lab
+                      setCurrentStep(7); 
+                      setVenationSubTab('roots');
+                    }}
+                    style={{
+                      background: '#F3EFE0',
+                      color: '#1E293B',
+                      border: 'none',
+                      borderRadius: '12px',
+                      padding: '12px 28px',
+                      fontSize: '18px',
+                      fontWeight: '700',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                    }}
+                  >
+                    <ArrowLeft size={20} /> Back
+                  </button>
+                  
+                  <button 
+                    onClick={() => {
+                      setIsPlayingAct27ObservationTransition(false);
+                      setIsAct27ObservationTransitionEnded(false);
+                      // Continue goes to Venation Root Correlation Lab (Activity 2.7)
+                      setCurrentStep(7); 
+                      setVenationSubTab('correlation');
+                    }}
+                    style={{
+                      background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                      color: '#FFFFFF',
+                      border: 'none',
+                      borderRadius: '12px',
+                      padding: '12px 32px',
+                      fontSize: '18px',
+                      fontWeight: '800',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      cursor: 'pointer',
+                      boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+                    }}
+                  >
+                    Continue <ArrowRight size={20} />
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ============================================================ */}
         {/* TAB 4: ACTIVITY 2.2 — APPRECIATING BIODIVERSITY              */}
         {/* ============================================================ */}
         {currentStep === 4 && (
           <div style={{ width: '100%', height: '100%', minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             <AppreciatingBiodiversityActivity 
               onBackToDashboard={() => setCurrentStep(3)} 
-              onNextActivity={() => setCurrentStep(5)} 
+              onNextActivity={() => {
+                setIsPlayingAct24Transition(true);
+              }} 
             />
           </div>
         )}
@@ -722,7 +1533,9 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
           <div style={{ width: '100%', height: '100%', minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             <InlineSortingActivity 
               onBackToDashboard={() => setCurrentStep(4)} 
-              onNextActivity={() => setCurrentStep(6)} 
+              onNextActivity={() => {
+                setIsPlayingAct24ObservationTransition(true);
+              }} 
             />
           </div>
         )}
@@ -734,7 +1547,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
           <div style={{ width: '100%', height: '100%', minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             <PlantDetectiveActivity 
               onBackToDashboard={() => setCurrentStep(5)} 
-              onNextActivity={() => setCurrentStep(7)} 
+              onNextActivity={() => setIsPlayingAct25ObservationTransition(true)} 
             />
           </div>
         )}
@@ -748,14 +1561,14 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
               <LeafVenationLab 
                 onBackToDashboard={() => setCurrentStep(6)} 
                 onPreviousPage={() => setCurrentStep(6)}
-                onNext={() => setVenationSubTab('roots')}
+                onNext={() => setIsPlayingAct26ObservationTransition(true)}
               />
             )}
             {venationSubTab === 'roots' && (
               <RootSystemsLab 
                 onBackToDashboard={() => setCurrentStep(6)} 
                 onPreviousPage={() => setVenationSubTab('venation')}
-                onNext={() => setVenationSubTab('correlation')}
+                onNext={() => setIsPlayingAct27ObservationTransition(true)}
               />
             )}
             {venationSubTab === 'correlation' && (

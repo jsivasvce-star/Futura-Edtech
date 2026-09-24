@@ -1295,10 +1295,12 @@ const natureAudioRef = useRef(null);
   }, [isSoundscapePlaying, startAllSoundscape, stopAllSoundscape]);
 
   useEffect(() => {
+    const audioEl = natureAudioRef.current;
     return () => {
       try {
-        if (natureAudioRef.current) {
-          natureAudioRef.current.pause();
+        if (audioEl) {
+          audioEl.pause();
+          audioEl.currentTime = 0;
         }
       } catch (e) {}
       sounds.stopSoundscape();
