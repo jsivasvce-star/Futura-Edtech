@@ -440,7 +440,14 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
               <ArrowLeft size={22} /> Back
             </button>
             <button
-              onClick={() => setPage(3)}
+              onClick={() => {
+                const currentIdx = ANIMAL_DATA.findIndex(a => a.id === selectedAnimal.id);
+                if (currentIdx < ANIMAL_DATA.length - 1) {
+                  setSelectedAnimal(ANIMAL_DATA[currentIdx + 1]);
+                } else {
+                  setPage(3);
+                }
+              }}
               style={{
                 background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                 color: '#FFFFFF',
