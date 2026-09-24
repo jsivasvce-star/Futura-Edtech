@@ -170,7 +170,7 @@ export default function Quiz({ onComplete }) {
       flexDirection: 'column', 
       alignItems: 'center', 
       justifyContent: 'center', 
-      padding: '0.85rem 1.25rem', 
+      padding: '0.5rem 1.25rem', 
       boxSizing: 'border-box',
       overflow: 'hidden',
       borderRadius: '24px',
@@ -178,14 +178,14 @@ export default function Quiz({ onComplete }) {
       fontFamily: 'system-ui, -apple-system, sans-serif'
     }}>
       <div style={{ width: '100%', maxWidth: '1250px', display: 'flex', flexDirection: 'column' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', padding: '0 0.5rem', flexShrink: 0 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.55rem', padding: '0 0.5rem', flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <HelpCircle size={30} color="#173B5F" />
-            <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.65rem', fontWeight: 900 }}>
+            <h3 style={{ margin: 0, color: '#064E3B', fontSize: '32px', fontWeight: 900 }}>
               Stage 4: Quiz
             </h3>
           </div>
-          <div style={{ color: '#047857', fontSize: '1.18rem', fontWeight: 800 }}>
+          <div style={{ color: '#047857', fontSize: '21px', fontWeight: 800 }}>
             Question {currentQuestion + 1} of {quizData.length}
           </div>
         </div>
@@ -194,18 +194,18 @@ export default function Quiz({ onComplete }) {
           background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
           border: '1.5px solid #E2E8F0',
           borderRadius: '28px', 
-          padding: '2.4rem 3.2rem', 
+          padding: '1.1rem 1.6rem', 
           boxShadow: '0 10px 35px rgba(217, 119, 6, 0.1)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '1.4rem',
+          gap: '0.75rem',
           width: '100%',
           boxSizing: 'border-box'
         }}>
-          <h3 style={{ margin: 0, color: '#064E3B', fontSize: '1.75rem', fontWeight: 900 }}>{currentQ.title}</h3>
-          <p style={{ fontSize: '1.38rem', margin: 0, lineHeight: 1.6, fontWeight: 700, color: '#065F46' }}>{currentQ.question}</p>
+          <h3 style={{ margin: 0, color: '#064E3B', fontSize: '32px', fontWeight: 900 }}>{currentQ.title}</h3>
+          <p style={{ fontSize: '24px', margin: 0, lineHeight: 1.18, fontWeight: 700, color: '#065F46' }}>{currentQ.question}</p>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
             {currentQ.options.map((option, index) => {
               let bgColor = '#FFFFFF';
               let borderColor = '#E2E8F0';
@@ -240,14 +240,14 @@ export default function Quiz({ onComplete }) {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    padding: '1.25rem 1.85rem',
+                    padding: '0.55rem 1.25rem',
                     borderRadius: '18px',
                     background: bgColor,
                     border: `2px solid ${borderColor}`,
                     color: textColor,
                     cursor: showResult ? 'default' : 'pointer',
                     textAlign: 'left',
-                    fontSize: '1.24rem',
+                    fontSize: '21px',
                     fontWeight: 700,
                     transition: 'all 0.2s ease',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
@@ -262,20 +262,22 @@ export default function Quiz({ onComplete }) {
           </div>
 
           {showResult && (
-            <div style={{ marginTop: '0.8rem', animation: 'fadeIn 0.35s ease' }}>
-              <div style={{ padding: '1.25rem 1.75rem', background: '#F0FDF4', borderRadius: '18px', border: '1.5px solid #A7F3D0', borderLeft: '6px solid #059669' }}>
-                <h4 style={{ margin: '0 0 0.4rem 0', fontSize: '1.25rem', fontWeight: 900, color: '#064E3B' }}>Explanation</h4>
-                <p style={{ margin: 0, color: '#065F46', fontSize: '1.18rem', lineHeight: 1.6, fontWeight: 600 }}>{currentQ.explanation}</p>
+            <div style={{ marginTop: '0.3rem', animation: 'fadeIn 0.35s ease' }}>
+              <div style={{ padding: '0.55rem 1.1rem', background: '#F0FDF4', borderRadius: '18px', border: '1.5px solid #A7F3D0', borderLeft: '6px solid #059669' }}>
+                <h4 style={{ margin: '0 0 0.2rem 0', fontSize: '24px', fontWeight: 900, color: '#064E3B' }}>Explanation</h4>
+                <p style={{ margin: 0, color: '#065F46', fontSize: '21px', lineHeight: 1.18, fontWeight: 600 }}>{currentQ.explanation}</p>
               </div>
               
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1.1rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.55rem' }}>
                 <button
                   onClick={handleNext}
                   className="gold-glow-btn"
                   style={{
-                    padding: '1.05rem 2.8rem',
-                    fontSize: '1.2rem',
-                    borderRadius: '30px'
+                    padding: '0.55rem 2.8rem',
+                    fontSize: '21px',
+                    fontWeight: 700,
+                    borderRadius: '30px',
+                    lineHeight: 1.1
                   }}
                 >
                   {isFinished ? 'Finish Quiz' : 'Next Question'}

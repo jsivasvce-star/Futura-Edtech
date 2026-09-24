@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { ArrowLeft, ArrowRight, RotateCcw, Check, Lightbulb, Leaf, Trophy, GripVertical } from 'lucide-react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { RotateCcw, Check, Lightbulb, Leaf, Trophy } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 import bgImg from './activity27_bg.jpg';
@@ -245,8 +245,8 @@ const TONE = {
   }
 };
 
-export default function VenationRootCorrelationLab({ onBackToDashboard, onPreviousPage, onNext }) {
-  const [phase, setPhase] = useState('specimens'); // 'specimens' | 'lab'
+export default function VenationRootCorrelationLab({ onBackToDashboard, onPreviousPage, onNext, initialPhase = 'specimens' }) {
+  const [phase, setPhase] = useState(initialPhase); // 'specimens' | 'lab'
   const [specimenIndex, setSpecimenIndex] = useState(0);
 
   // plantId -> { venation: zoneId | null, root: zoneId | null }
@@ -255,6 +255,9 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
   const [selectedId, setSelectedId] = useState(null);
   const [dragId, setDragId] = useState(null);
   const [hoverZone, setHoverZone] = useState(null);
+  const [touchPoint, setTouchPoint] = useState(null); // { x, y } while dragging a plant card (mouse or touch)
+  const pointerDrag = useRef(null); // { pointerId, plantId, startX, startY, moved }
+  const [hoverPos, setHoverPos] = useState(null); // { x, y } cursor position while a plant is click-selected, for the follow-the-cursor preview
 
   useEffect(() => {
     if (phase !== 'specimens') return;
@@ -280,6 +283,24 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [phase, specimenIndex, onPreviousPage, onBackToDashboard]);
+
+  // Follow-the-cursor preview: once a plant is click-selected, its thumbnail
+  // tracks the mouse so the user can visually "carry" it over to a box and click to drop it.
+  useEffect(() => {
+    if (!selectedId || phase !== 'lab') {
+      setHoverPos(null);
+      return;
+    }
+    const handleMove = (e) => {
+      setHoverPos({ x: e.clientX, y: e.clientY });
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      const zoneEl = el && el.closest('[data-zone]');
+      setHoverZone(zoneEl ? zoneEl.getAttribute('data-zone') : null);
+    };
+    window.addEventListener('mousemove', handleMove);
+    return () => window.removeEventListener('mousemove', handleMove);
+  }, [selectedId, phase]);
+
   const getPlacement = (plantId) => placements[plantId] || { venation: null, root: null };
 
   const assign = (plantId, zone) => {
@@ -353,14 +374,52 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
       <button
         type="button"
         data-plant={plant.id}
-        draggable
-        onDragStart={(e) => {
-          setDragId(plant.id);
-          e.dataTransfer.effectAllowed = 'move';
-          try { e.dataTransfer.setData('text/plain', plant.id); } catch (err) {}
+        onPointerDown={(e) => {
+          if (e.pointerType === 'mouse' && e.button !== 0) return;
+          pointerDrag.current = { pointerId: e.pointerId, plantId: plant.id, startX: e.clientX, startY: e.clientY, moved: false };
+          try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
         }}
-        onDragEnd={() => setDragId(null)}
-        onClick={() => setSelectedId(isSelected ? null : plant.id)}
+        onPointerMove={(e) => {
+          const drag = pointerDrag.current;
+          if (!drag || drag.plantId !== plant.id || drag.pointerId !== e.pointerId) return;
+          const dx = e.clientX - drag.startX;
+          const dy = e.clientY - drag.startY;
+          if (!drag.moved && Math.hypot(dx, dy) > 6) {
+            drag.moved = true;
+            setDragId(plant.id);
+          }
+          if (drag.moved) {
+            setTouchPoint({ x: e.clientX, y: e.clientY });
+            const el = document.elementFromPoint(e.clientX, e.clientY);
+            const zoneEl = el && el.closest('[data-zone]');
+            setHoverZone(zoneEl ? zoneEl.getAttribute('data-zone') : null);
+          }
+        }}
+        onPointerUp={(e) => {
+          const drag = pointerDrag.current;
+          if (drag && drag.plantId === plant.id && drag.pointerId === e.pointerId) {
+            if (drag.moved) {
+              const el = document.elementFromPoint(e.clientX, e.clientY);
+              const zoneEl = el && el.closest('[data-zone]');
+              if (zoneEl) {
+                const zone = ZONES.find(z => z.id === zoneEl.getAttribute('data-zone'));
+                if (zone) assign(plant.id, zone);
+              }
+            } else {
+              setSelectedId(isSelected ? null : plant.id);
+            }
+          }
+          pointerDrag.current = null;
+          setDragId(null);
+          setHoverZone(null);
+          setTouchPoint(null);
+        }}
+        onPointerCancel={() => {
+          pointerDrag.current = null;
+          setDragId(null);
+          setHoverZone(null);
+          setTouchPoint(null);
+        }}
         title={done ? `${plant.name} - filed in both groups` : `Select ${plant.name}, then click a group`}
         style={{
           position: 'relative',
@@ -376,6 +435,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           padding: 0,
           overflow: 'hidden',
           cursor: 'grab',
+          touchAction: 'none',
           textAlign: 'left',
           boxShadow: isSelected
             ? '0 10px 24px rgba(245, 158, 11, 0.45)'
@@ -402,7 +462,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              objectPosition: 'center',
+              objectPosition: '50% 30%',
               display: 'block'
             }}
           />
@@ -412,31 +472,35 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           width: '100%',
           boxSizing: 'border-box',
           flexShrink: 0,
-          padding: '7px 10px',
+          padding: '5px 6px',
           background: '#FFFFFF',
           borderTop: '1.5px solid rgba(15, 23, 42, 0.08)',
-          fontSize: '20px',
+          fontSize: '18px',
           fontWeight: 800,
           color: '#14532D',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '6px'
+          justifyContent: 'center',
+          textAlign: 'center'
         }}>
           <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {plant.name}
           </span>
-          <span style={{ display: 'flex', gap: '4px', flexShrink: 0 }}>
-            <span style={{
-              width: '10px', height: '10px', borderRadius: '50%',
-              background: pl.venation ? '#16A34A' : 'rgba(15,23,42,0.16)'
-            }} />
-            <span style={{
-              width: '10px', height: '10px', borderRadius: '50%',
-              background: pl.root ? '#B45309' : 'rgba(15,23,42,0.16)'
-            }} />
-          </span>
         </div>
+
+        {/* Venation/root placement status dots — moved onto the image corner so the name bar can stay centered */}
+        <span style={{ position: 'absolute', top: '7px', left: '7px', display: 'flex', gap: '4px' }}>
+          <span style={{
+            width: '10px', height: '10px', borderRadius: '50%',
+            background: pl.venation ? '#16A34A' : 'rgba(255,255,255,0.55)',
+            border: '1px solid rgba(15,23,42,0.25)'
+          }} />
+          <span style={{
+            width: '10px', height: '10px', borderRadius: '50%',
+            background: pl.root ? '#B45309' : 'rgba(255,255,255,0.55)',
+            border: '1px solid rgba(15,23,42,0.25)'
+          }} />
+        </span>
 
         {done && (
           <span style={{
@@ -448,20 +512,6 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
             boxShadow: '0 2px 7px rgba(0,0,0,0.35)'
           }}>&#10003;</span>
         )}
-
-        {/* Drag handle affordance — signals the image itself can be dragged */}
-        <span style={{
-          position: 'absolute', top: '7px', left: '7px',
-          display: 'flex', alignItems: 'center', gap: '3px',
-          background: 'rgba(15, 23, 42, 0.55)', color: '#FFFFFF',
-          borderRadius: '999px', padding: '3px 8px 3px 5px',
-          fontSize: '13px', fontWeight: 800,
-          pointerEvents: 'none',
-          fontFamily: '"Outfit", sans-serif'
-        }}>
-          <GripVertical size={13} />
-          Drag
-        </span>
       </button>
     );
   };
@@ -477,18 +527,16 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
     return (
       <div
         data-zone={zone.id}
-        onDragOver={(e) => { e.preventDefault(); setHoverZone(zone.id); }}
-        onDragLeave={() => setHoverZone(null)}
-        onDrop={(e) => { e.preventDefault(); setHoverZone(null); assign(dragId, zone); setDragId(null); }}
         onClick={() => selectedId && assign(selectedId, zone)}
         style={{
           background: tone.zoneCardBg,
           border: `1px solid ${tone.zoneCardBorder}`,
           borderRadius: '14px',
-          padding: '10px 12px',
+          padding: '8px 9px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '8px',
+          gap: '6px',
+          minWidth: 0,
           cursor: selectedId ? 'copy' : 'default',
           transition: 'background 0.15s ease, border-color 0.15s ease'
         }}
@@ -496,7 +544,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px', minWidth: 0 }}>
           <span style={{
             display: 'flex', alignItems: 'center', gap: '7px',
-            fontSize: '18px', fontWeight: 900, color: tone.heading,
+            fontSize: '19px', fontWeight: 900, color: tone.heading,
             fontFamily: '"Fraunces", Georgia, serif',
             whiteSpace: 'nowrap',
             minWidth: 0,
@@ -523,11 +571,11 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
         {/* Inner dashed drop box */}
         <div style={{
           flex: 1,
-          minHeight: '98px',
+          minHeight: '52px',
           background: isHover ? 'rgba(255, 255, 255, 0.95)' : tone.zoneDropBg,
           border: `1.5px dashed ${isHover ? '#F59E0B' : checked && solved ? '#16A34A' : tone.zoneDropBorder}`,
           borderRadius: '12px',
-          padding: '8px 10px',
+          padding: '6px 8px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: members.length === 0 ? 'center' : 'flex-start',
@@ -539,7 +587,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
             <>
               {zone.drawing}
               <span style={{
-                fontSize: '15px',
+                fontSize: '17px',
                 fontStyle: 'italic',
                 fontWeight: 600,
                 color: tone.dropText,
@@ -564,7 +612,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
                       border: `1.5px solid ${checked ? (right ? '#4ADE80' : '#FCA5A5') : 'rgba(15,23,42,0.15)'}`,
                       borderRadius: '999px',
                       padding: '2px 8px 2px 3px',
-                      fontSize: '15px', fontWeight: 800, color: '#14532D',
+                      fontSize: '17px', fontWeight: 800, color: '#14532D',
                       cursor: 'pointer', fontFamily: '"Outfit", sans-serif',
                       boxShadow: '0 2px 5px rgba(15,23,42,0.08)'
                     }}
@@ -595,18 +643,20 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
         background: tone.panelBg,
         border: `1.5px solid ${tone.panelBorder}`,
         borderRadius: '18px',
-        padding: '12px 16px',
+        padding: '8px 14px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '10px',
+        gap: '6px',
         flex: 1,
         minHeight: 0,
+        overflow: 'hidden',
         boxShadow: '0 4px 16px rgba(0,0,0,0.04)'
       }}>
         <div style={{
-          display: 'flex', alignItems: 'center', gap: '10px',
-          fontSize: '25px', fontWeight: 900, color: tone.heading,
-          fontFamily: '"Fraunces", Georgia, serif'
+          display: 'flex', alignItems: 'center', gap: '8px',
+          fontSize: '19px', fontWeight: 900, color: tone.heading,
+          fontFamily: '"Fraunces", Georgia, serif',
+          flexShrink: 0
         }}>
           {group === 'venation' ? (
             icon
@@ -623,7 +673,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           {title}
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', alignItems: 'stretch', flex: 1 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '8px', alignItems: 'stretch', flex: 1, minWidth: 0 }}>
           {ZONES.filter(z => z.group === group).map(z => <DropZone key={z.id} zone={z} />)}
         </div>
       </div>
@@ -677,24 +727,41 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           />
         </div>
 
-        {/* Slide counter */}
-        <div style={{
-          position: 'absolute',
-          top: '22px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          background: 'rgba(7, 22, 14, 0.82)',
-          border: '2px solid rgba(134, 239, 172, 0.5)',
-          borderRadius: '999px',
-          padding: '7px 20px',
-          fontSize: '17px',
-          fontWeight: 900,
-          color: '#D1FAE5',
-          fontFamily: '"Outfit", sans-serif',
-          zIndex: 1010
-        }}>
-          {activeSlide.num} / 05 · {activeSlide.name}
-        </div>
+        {/* Title pill (Habitats Page style) */}
+        {(() => {
+          const displayTitle = activeSlide.name;
+          const isLong = displayTitle.length > 18;
+          return (
+            <div style={{
+              position: 'absolute',
+              top: '22px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              maxWidth: '78vw',
+              background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              border: '2px solid rgba(253, 230, 138, 0.85)',
+              borderRadius: '14px',
+              padding: isLong ? '8px 24px' : '8px 32px',
+              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+              zIndex: 1010
+            }}>
+              <h1 style={{
+                margin: 0,
+                fontSize: isLong ? '20px' : '28px',
+                fontWeight: 900,
+                fontFamily: '"Fraunces", Georgia, serif',
+                color: '#FFFBEB',
+                lineHeight: 1.15,
+                whiteSpace: 'nowrap',
+                textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)'
+              }}>
+                {displayTitle}
+              </h1>
+            </div>
+          );
+        })()}
 
         {/* Floating Bottom Left Control: Back */}
         <button
@@ -715,23 +782,25 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            background: 'rgba(255, 255, 255, 0.92)',
-            border: '2px solid #CBD5E1',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '2px solid rgba(253, 230, 138, 0.85)',
             borderRadius: '26px',
             padding: '10px 22px',
             fontSize: '18px',
-            fontWeight: 800,
-            color: '#1E293B',
+            fontWeight: 900,
+            color: '#FFFBEB',
             cursor: 'pointer',
-            boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
-            backdropFilter: 'blur(4px)',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
             zIndex: 1010,
             transition: 'all 0.18s ease'
           }}
           onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
           onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
         >
-          <ArrowLeft size={20} /> Back
+          Back
         </button>
 
         {/* Floating Bottom Center: Progress Indicators */}
@@ -793,95 +862,27 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
-            background: 'linear-gradient(135deg, #15803D 0%, #166534 100%)',
-            border: '2px solid #86EFAC',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '2px solid rgba(253, 230, 138, 0.85)',
             borderRadius: '28px',
             padding: '11px 26px',
             fontSize: '18px',
             fontWeight: 900,
-            color: '#FFFFFF',
+            color: '#FFFBEB',
             cursor: 'pointer',
-            boxShadow: '0 6px 22px rgba(22, 101, 52, 0.5)',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
             zIndex: 1010,
             transition: 'all 0.18s ease'
           }}
           onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
           onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
         >
-          {specimenIndex < CORRELATION_SPECIMEN_SLIDES.length - 1 ? (
-            <>Next <ArrowRight size={20} /></>
-          ) : (
-            <>Enter Activity 2.7 Lab <ArrowRight size={20} /></>
-          )}
+          {specimenIndex < CORRELATION_SPECIMEN_SLIDES.length - 1 ? 'Next' : 'Enter Activity 2.7 Lab'}
         </button>
 
-        {/* Floating Left Arrow */}
-        {specimenIndex > 0 && (
-          <button
-            onClick={() => {
-              correlationAudio.playSwitch();
-              setSpecimenIndex(prev => prev - 1);
-            }}
-            style={{
-              position: 'absolute',
-              left: '26px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              width: '48px',
-              height: '48px',
-              borderRadius: '50%',
-              background: 'rgba(7, 22, 14, 0.65)',
-              border: '1.5px solid rgba(134, 239, 172, 0.4)',
-              color: '#FFFFFF',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              zIndex: 1010,
-              backdropFilter: 'blur(4px)',
-              transition: 'all 0.18s ease'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(-50%) scale(1)'}
-            title="Previous Specimen"
-          >
-            <ArrowLeft size={24} />
-          </button>
-        )}
-
-        {/* Floating Right Arrow */}
-        {specimenIndex < CORRELATION_SPECIMEN_SLIDES.length - 1 && (
-          <button
-            onClick={() => {
-              correlationAudio.playSwitch();
-              setSpecimenIndex(prev => prev + 1);
-            }}
-            style={{
-              position: 'absolute',
-              right: '26px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              width: '48px',
-              height: '48px',
-              borderRadius: '50%',
-              background: 'rgba(7, 22, 14, 0.65)',
-              border: '1.5px solid rgba(134, 239, 172, 0.4)',
-              color: '#FFFFFF',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              zIndex: 1010,
-              backdropFilter: 'blur(4px)',
-              transition: 'all 0.18s ease'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(-50%) scale(1)'}
-            title="Next Specimen"
-          >
-            <ArrowRight size={24} />
-          </button>
-        )}
       </div>
     );
   }
@@ -925,36 +926,6 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
-          <button
-            type="button"
-            onClick={() => {
-              correlationAudio.playSwitch();
-              setPhase('specimens');
-              setSpecimenIndex(0);
-            }}
-            title="View Activity 2.7 Specimen Slides"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '7px',
-              background: 'rgba(255, 255, 255, 0.93)',
-              border: '2px solid rgba(22, 101, 52, 0.25)',
-              borderRadius: '999px',
-              padding: '7px 16px',
-              fontSize: '18px',
-              fontWeight: 800,
-              color: '#14532D',
-              boxShadow: '0 6px 18px rgba(15, 23, 42, 0.18)',
-              cursor: 'pointer',
-              transition: 'transform 0.15s ease, box-shadow 0.15s ease'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-          >
-            <ArrowLeft size={16} />
-            <span>Specimen Slides</span>
-          </button>
-
           <div style={{
             display: 'flex', alignItems: 'center', gap: '9px',
             background: 'rgba(255, 255, 255, 0.93)',
@@ -1015,7 +986,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
         flex: 1,
         minHeight: 0,
         display: 'grid',
-        gridTemplateColumns: 'minmax(0, 54fr) minmax(0, 46fr)',
+        gridTemplateColumns: 'minmax(0, 58fr) minmax(0, 42fr)',
         gap: '12px'
       }}>
         {/* Plants dock */}
@@ -1056,7 +1027,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
         </div>
 
         {/* Grouping panels */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', minHeight: 0 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minHeight: 0 }}>
           <GroupPanel title="Type of stem" icon={<StemHeaderIcon />} group="venation" />
           <GroupPanel title="Type of root" icon={<RootCircleIcon />} group="root" />
         </div>
@@ -1067,9 +1038,8 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
         <button
           type="button"
           onClick={onPreviousPage || onBackToDashboard}
-          style={footBtn('ghost')}
+          style={footBtn('habitat')}
         >
-          <ArrowLeft size={16} />
           <span>Previous</span>
         </button>
 
@@ -1096,20 +1066,6 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           </span>
         </div>
 
-        <button
-          type="button"
-          onClick={() => {
-            correlationAudio.playSwitch();
-            setPhase('specimens');
-            setSpecimenIndex(CORRELATION_SPECIMEN_SLIDES.length - 1);
-          }}
-          title="Review Activity 2.7 Specimen Slides"
-          style={footBtn('ghost')}
-        >
-          <ArrowLeft size={16} />
-          <span>Specimen Slides</span>
-        </button>
-
         <button type="button" onClick={handleClear} style={footBtn('ghost')}>
           <RotateCcw size={16} />
           <span>Clear</span>
@@ -1130,12 +1086,51 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           type="button"
           onClick={onNext}
           title="Next: Activity 2.8 Seed Dissection"
-          style={footBtn('primary')}
+          style={footBtn('habitat')}
         >
           <span>Next</span>
-          <ArrowRight size={18} />
         </button>
       </div>
+
+      {/* Floating preview that follows the finger while touch-dragging a plant card */}
+      {(touchPoint || hoverPos) && (dragId || selectedId) && (() => {
+        const activePos = touchPoint || hoverPos;
+        const activePlantId = dragId || selectedId;
+        const draggedPlant = PLANTS.find(p => p.id === activePlantId);
+        if (!draggedPlant) return null;
+        return (
+          <div
+            style={{
+              position: 'fixed',
+              left: activePos.x,
+              top: activePos.y,
+              transform: 'translate(-50%, -120%)',
+              width: '92px',
+              height: '110px',
+              borderRadius: '14px',
+              overflow: 'hidden',
+              background: '#FFFFFF',
+              border: '2.5px solid #F59E0B',
+              boxShadow: '0 14px 30px rgba(0, 0, 0, 0.35)',
+              pointerEvents: 'none',
+              zIndex: 2000,
+              opacity: 0.94
+            }}
+          >
+            <img
+              src={draggedPlant.img}
+              alt=""
+              style={{ width: '100%', height: '76%', objectFit: 'cover', objectPosition: '50% 30%', display: 'block' }}
+            />
+            <div style={{
+              fontSize: '13px', fontWeight: 800, color: '#14532D',
+              textAlign: 'center', padding: '2px 4px', fontFamily: '"Outfit", sans-serif'
+            }}>
+              {draggedPlant.name}
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }
@@ -1157,6 +1152,18 @@ function footBtn(kind) {
     transition: 'transform 0.15s ease, box-shadow 0.15s ease'
   };
 
+  if (kind === 'habitat') {
+    return {
+      ...base,
+      background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+      backdropFilter: 'blur(16px)',
+      WebkitBackdropFilter: 'blur(16px)',
+      border: '2px solid rgba(253, 230, 138, 0.85)',
+      color: '#FFFBEB',
+      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+      textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)'
+    };
+  }
   if (kind === 'primary') {
     return {
       ...base,

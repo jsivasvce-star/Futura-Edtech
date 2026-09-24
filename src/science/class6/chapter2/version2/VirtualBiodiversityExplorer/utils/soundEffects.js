@@ -355,9 +355,12 @@ class SoundManager {
     if (this.breezeGain && this.ctx) {
       try {
         this.breezeGain.gain.linearRampToValueAtTime(0.0001, this.ctx.currentTime + 0.8);
+        const sourceToStop = this.breezeSource;
         setTimeout(() => {
-          if (this.breezeSource) {
-            try { this.breezeSource.stop(); } catch (err) {}
+          if (sourceToStop) {
+            try { sourceToStop.stop(); } catch (err) {}
+          }
+          if (this.breezeSource === sourceToStop) {
             this.breezeSource = null;
           }
         }, 900);

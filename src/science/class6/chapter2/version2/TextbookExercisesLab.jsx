@@ -581,18 +581,8 @@ export default function TextbookExercisesLab({ onBackToDashboard }) {
           zIndex: 20
         }}
       >
-        {/* LEFT: BACK BUTTON */}
+        {/* LEFT: badge (Dashboard button removed - Back now lives only in the bottom-left corner) */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <button
-            type="button"
-            className="bio-nav-btn"
-            onClick={onBackToDashboard}
-            aria-label="Back to Previous Activity"
-          >
-            <ArrowLeft size={16} strokeWidth={2.4} />
-            <span>Dashboard</span>
-          </button>
-
           <span
             style={{
               background: '#14452F',

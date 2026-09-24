@@ -3,8 +3,9 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Text, OrbitControls, ContactShadows, Environment, useTexture } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Hand, RotateCcw, Shapes, Flag, BookOpen, CheckCircle, ArrowRight, ArrowLeft, Play, Pause } from 'lucide-react';
-import RingMagnetVideoPlayer from './RingMagnetVideoPlayer';
-import MagneticPolesVideoPlayer from './MagneticPolesVideoPlayer';
+import stage3HorseshoeImg from '../../../../../assets/stage3_horseshoe.png';
+import stage3RingImg from '../../../../../assets/stage3_ring.png';
+import stage3BarImg from '../../../../../assets/stage3_bar.png';
 import * as THREE from 'three';
 import { createCustomMagnetTextures } from './magnetTextureGenerator';
 import '../MagneticPoles.css';
@@ -528,16 +529,12 @@ const SHAPE_PAGES = {
     icon: '🧲',
     instructions: [
       'Sprinkle iron filings around the horseshoe magnet.',
-      'Gently tap/vibrate the sheet to align the filings.',
-      'Observe where the iron filings gather most strongly.',
-      'Identify the two magnetic poles at the curved ends/tips.',
-      'Explain that magnetic attraction is strongest near the poles.'
+      'Gently tap the sheet.',
+      'Observe where the filings gather most.'
     ],
-    observationQuestion: 'Where are the magnetic poles located on a horseshoe magnet?',
     observations: [
-      { label: 'Curved Ends (Tips)', text: 'Filings cluster tightly at both curved tips of the U-shape.' },
-      { label: 'Two Magnetic Poles', text: 'The North and South poles are located at these two tips, not along the curved arch.' },
-      { label: 'Magnetic Attraction', text: 'Attraction is strongest near the poles, with very few filings on the curved bend.' }
+      'Filings gather most at the two curved ends.',
+      'These ends are the North and South poles.'
     ]
   },
   ring: {
@@ -545,18 +542,13 @@ const SHAPE_PAGES = {
     title: 'Ring Magnet',
     icon: '⭕',
     instructions: [
-      'Select the ring magnet.',
-      'Sprinkle iron filings around the magnet.',
-      'Gently tap/vibrate the sheet to align the filings.',
-      'Observe how the filings arrange around the circular magnet.',
-      'Identify the opposite magnetic pole faces.',
-      'Observe that the central opening is not itself a magnetic pole.'
+      'Sprinkle iron filings around the ring magnet.',
+      'Gently tap the sheet.',
+      'Observe where the filings gather most.'
     ],
-    observationQuestion: 'Where are the magnetic poles located on a ring magnet?',
     observations: [
-      { label: 'Opposite Faces', text: 'Filings concentrate primarily on the top and bottom circular flat faces.' },
-      { label: 'Pole Distribution', text: 'One full circular face acts as the North pole and the opposite face acts as South.' },
-      { label: 'Central Opening', text: 'The central hole is open space and does not act as a magnetic pole.' }
+      'Filings gather most around the two poles.',
+      'The poles are where the magnetic pull is strongest.'
     ]
   },
   bar: {
@@ -564,18 +556,13 @@ const SHAPE_PAGES = {
     title: 'Bar Magnet',
     icon: '🔲',
     instructions: [
-      'Place/select the bar magnet.',
-      'Sprinkle iron filings around the magnet.',
-      'Gently tap/vibrate the sheet to align the filings.',
-      'Observe where the filings gather most strongly.',
-      'Identify the North and South poles at the two ends.',
-      'Observe that magnetic attraction is strongest near the poles.'
+      'Sprinkle iron filings around the bar magnet.',
+      'Gently tap the sheet.',
+      'Observe where the filings gather most.'
     ],
-    observationQuestion: 'Where are the magnetic poles located on a bar magnet?',
     observations: [
-      { label: 'Opposite Ends', text: 'Filings gather heavily near both ends of the rectangular bar magnet.' },
-      { label: 'North & South Poles', text: 'The two ends represent the distinct North (N) and South (S) magnetic poles.' },
-      { label: 'Magnetic Pull', text: 'Magnetic attraction is strongest near the poles and weakest near the center.' }
+      'Filings gather most near both ends.',
+      'The ends are the North and South poles.'
     ]
   }
 };
@@ -797,232 +784,105 @@ export default function Stage3_Sandbox({ onComplete }) {
   return (
     <div
       style={{
-        padding: '0.5rem',
+        padding: '0.35rem 0.5rem',
         display: 'flex',
-        gap: '1.25rem',
+        gap: '0.85rem',
         height: '100%',
         minHeight: 0,
         overflow: 'hidden',
         boxSizing: 'border-box',
+        position: 'relative',
+        background: 'transparent',
       }}
     >
-      {/* Left Side: 3D Scene Interactive Area / Video Area */}
+      {/* Dedicated Large Image Viewer Container (Occupies maximum available space, dominant area matching Stage 1 & Stage 2) */}
       <div
         style={{
-          flex: '1.8',
+          flex: 1,
           display: 'flex',
           flexDirection: 'column',
           minWidth: 0,
+          minHeight: 0,
           height: '100%',
           boxSizing: 'border-box',
         }}
       >
-        {shape === 'ring' ? (
-          <div
+        {/* Display Container: Image Panel matching Video Player container */}
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            height: '100%',
+            flex: 1,
+            minHeight: 0,
+            overflow: 'hidden',
+            borderRadius: '24px',
+            backgroundColor: '#070C18',
+            border: '1.5px solid #A7F3D0',
+            boxShadow: '0 12px 30px rgba(6, 78, 59, 0.16)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            userSelect: 'none',
+            boxSizing: 'border-box',
+          }}
+        >
+          <img
+            src={shape === 'ring' ? stage3RingImg : shape === 'bar' ? stage3BarImg : stage3HorseshoeImg}
+            alt={shape === 'ring' ? 'Stage 3 Ring Magnet' : shape === 'bar' ? 'Stage 3 Bar Magnet' : 'Stage 3 Horseshoe Magnet'}
             style={{
-              position: 'relative',
               width: '100%',
-              flex: 1,
-              minHeight: '380px',
-              overflow: 'hidden',
-              borderRadius: '24px',
-            }}
-          >
-            <RingMagnetVideoPlayer
-              videoSrc="/assets/stage3_ringmagnet.mp4"
-              fallbackSrc="/assets/stage3_ringmagnet.mp4"
-              externalIsPaused={isPaused}
-              onExternalTogglePause={handleTogglePause}
-              onExternalReset={handleReset}
-              onPhaseChange={handleVideoPhaseChange}
-              currentStep={step}
-              autoPlay={true}
-              loop={false}
-            />
-          </div>
-        ) : shape === 'bar' ? (
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
+              height: '100%',
               maxWidth: '100%',
               maxHeight: '100%',
-              aspectRatio: '1466 / 1073',
-              margin: 'auto',
-              overflow: 'hidden',
-              borderRadius: '24px',
-              border: '1.5px solid #A7F3D0',
-              boxShadow: '0 12px 30px rgba(6, 78, 59, 0.16)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              objectFit: 'contain',
+              display: 'block',
               userSelect: 'none',
               boxSizing: 'border-box',
             }}
-          >
-            <img
-              src="/assets/stage3_bar.png"
-              alt="Stage 3 Bar Magnet"
-              style={{
-                width: '100%',
-                height: '100%',
-                display: 'block',
-                borderRadius: '24px',
-              }}
-            />
-          </div>
-        ) : (
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              flex: 1,
-              minHeight: '380px',
-              borderRadius: '24px',
-              overflow: 'hidden',
-              border: '1.5px solid #A7F3D0',
-              boxShadow: '0 12px 30px rgba(6, 78, 59, 0.12)',
-              backgroundImage: `url('/MagneticPoles/classroom_sunset_bg.jpg')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center center',
-              cursor: isDragging ? 'grabbing' : 'grab',
-              touchAction: 'none',
-              userSelect: 'none'
-            }}
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            onPointerCancel={handlePointerUp}
-          >
-            {/* 3D Canvas Scene matching Stage 1 Camera & Lights */}
-            <Canvas
-              shadows
-              gl={{ alpha: true, antialias: true }}
-              camera={{ position: [0.1, 6.0, 22], fov: 38 }}
-              style={{ width: '100%', height: '100%' }}
-            >
-              <Suspense fallback={null}>
-                <ambientLight intensity={1.1} color="#FFF7ED" />
-                <directionalLight
-                  position={[-8, 16, 14]}
-                  intensity={2.0}
-                  color="#FED7AA"
-                  castShadow
-                  shadow-mapSize={[2048, 2048]}
-                  shadow-bias={-0.0001}
-                />
-                <directionalLight position={[10, 10, 10]} intensity={0.8} color="#E0F2FE" />
-                <Environment preset="sunset" />
-
-                <AnimatedLabGroup onArrival={handleArrival}>
-                  <RotatableMagnetGroup rotationRef={rotationRef}>
-                    <ChosenMagnet3D shape={shape} />
-                    <FilingsSystem step={step} isSprinkling={isSprinkling} isVibrating={isVibrating} shape={shape} cycleKey={cycleKey} isPaused={isPaused} />
-                  </RotatableMagnetGroup>
-                  <ContactShadows position={[0, -0.02, 0]} opacity={0.48} scale={18} blur={2.0} far={2.5} color="#251605" />
-                </AnimatedLabGroup>
-                <OrbitControls
-                  makeDefault
-                  target={[0.1, 4.4, 0]}
-                  enableZoom={false}
-                  enableRotate={false}
-                  enablePan={false}
-                />
-              </Suspense>
-            </Canvas>
-
-            {/* Interaction Controls & Hint Overlay */}
-            <div style={{
-              position: 'absolute',
-              bottom: '14px',
-              left: '16px',
-              right: '16px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              pointerEvents: 'none',
-              zIndex: 10
-            }}>
-              <div style={{
-                background: 'rgba(6, 78, 59, 0.86)',
-                backdropFilter: 'blur(8px)',
-                color: '#FFFFFF',
-                padding: '6px 14px',
-                borderRadius: '20px',
-                fontSize: '0.78rem',
-                fontWeight: 700,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                border: '1px solid rgba(167, 243, 208, 0.45)',
-                boxShadow: '0 4px 14px rgba(0,0,0,0.18)',
-              }}>
-                <Hand size={14} color="#E2E8F0" />
-                <span>Hold & drag anywhere to rotate & tilt magnet</span>
-              </div>
-
-              <button
-                onClick={handleResetRotation}
-                style={{
-                  pointerEvents: 'auto',
-                  background: 'rgba(255, 255, 255, 0.94)',
-                  border: '1.5px solid #A7F3D0',
-                  borderRadius: '16px',
-                  padding: '6px 12px',
-                  fontSize: '0.76rem',
-                  fontWeight: 800,
-                  color: '#065F46',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
-                  transition: 'all 0.2s'
-                }}
-                title="Reset view angle"
-              >
-                <RotateCcw size={13} color="#059669" />
-                <span>Reset View</span>
-              </button>
-            </div>
-          </div>
-        )}
+          />
+        </div>
       </div>
 
-      {/* Right Column: Fullscreen non-scrolling, Halfscreen scrolling */}
+      {/* Right Column: Fullscreen non-scrolling, matching Stage 1 & Stage 2 */}
       <div
-        className="stage-right-column custom-scrollbar"
+        className="custom-scrollbar"
         style={{
-          flex: '1.15',
+          width: '560px',
+          maxWidth: '560px',
+          flex: '0 0 560px',
           height: '100%',
           maxHeight: '100%',
           minHeight: 0,
           boxSizing: 'border-box',
           display: 'flex',
           flexDirection: 'column',
-          gap: '1.65rem',
+          gap: '0.55rem',
           minWidth: 0,
+          overflow: 'hidden',
           fontFamily: 'system-ui, -apple-system, sans-serif'
         }}
       >
         {/* CONTAINER 1: Steps of Instructions */}
         <div
-          className="stage-container-1"
           style={{
             background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
-            padding: '1.25rem 1.45rem',
-            boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+            padding: '0.65rem 0.85rem',
+            boxShadow: '0 4px 16px rgba(217, 119, 6, 0.08)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            boxSizing: 'border-box'
+            boxSizing: 'border-box',
+            flex: '1.15 1 auto',
+            minHeight: 0,
           }}
         >
+          {/* Top Section: Title & Instructions */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)', paddingBottom: '0.6rem', marginBottom: '0.75rem' }}>
-              <h4 style={{ margin: 0, fontSize: '19.5px', color: '#173B5F', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)', paddingBottom: '0.25rem', marginBottom: '0.35rem' }}>
+              <h4 style={{ margin: 0, fontSize: '32px', color: '#173B5F', fontWeight: 800, lineHeight: 1.15, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
                 <span>{currentShapeData.icon}</span> {currentShapeData.title}
               </h4>
               <span style={{
@@ -1030,7 +890,7 @@ export default function Stage3_Sandbox({ onComplete }) {
                 fontWeight: 800,
                 color: '#065F46',
                 background: '#DCFCE7',
-                padding: '3px 10px',
+                padding: '2px 9px',
                 borderRadius: '12px',
                 border: '1px solid #86EFAC',
                 letterSpacing: '0.02em',
@@ -1041,29 +901,29 @@ export default function Stage3_Sandbox({ onComplete }) {
             </div>
 
             {/* Bullet Points - Shape Specific Instructions */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
               {currentShapeData.instructions.map((instruction, idx) => (
                 <div
                   key={idx}
                   style={{
                     display: 'flex',
-                    alignItems: 'baseline',
-                    gap: '0.75rem',
-                    padding: '0.05rem 0'
+                    alignItems: 'flex-start',
+                    gap: '0.45rem',
+                    padding: '0'
                   }}
                 >
                   <span
                     style={{
-                      width: '9px',
-                      height: '9px',
+                      width: '8px',
+                      height: '8px',
                       borderRadius: '50%',
                       background: '#173B5F',
                       display: 'inline-block',
                       flexShrink: 0,
-                      transform: 'translateY(-2px)'
+                      marginTop: '8px'
                     }}
                   />
-                  <p style={{ margin: 0, fontSize: '17px', lineHeight: 1.45, color: '#173B5F', fontWeight: 600 }}>
+                  <p style={{ margin: 0, fontSize: '24px', lineHeight: 1.15, color: '#173B5F', fontWeight: 600 }}>
                     {instruction}
                   </p>
                 </div>
@@ -1071,146 +931,155 @@ export default function Stage3_Sandbox({ onComplete }) {
             </div>
           </div>
 
-          {/* Action Controls */}
+          {/* Bottom Section: Action Controls — always in dedicated area, never overlapping content */}
           {shape !== 'bar' ? (
-            <div style={{ width: '100%', display: 'flex', gap: '0.65rem', marginTop: 'auto', paddingTop: '0.85rem', borderTop: '1px solid rgba(217, 119, 6, 0.2)' }}>
-              <button
-                onClick={handleTogglePause}
-                className="gold-glow-btn"
-                style={{
-                  flex: 2,
-                  padding: '0.8rem 0.85rem',
-                  fontSize: '17px',
-                  fontWeight: 900,
-                  borderRadius: '14px',
-                  color: '#FFFFFF',
-                  border: 'none',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                {!isPaused ? (
-                  <>
-                    <Pause size={18} fill="#FFFFFF" color="#FFFFFF" /> Pause Investigation
-                  </>
-                ) : (
-                  <>
-                    <Play size={18} fill="#FFFFFF" color="#FFFFFF" /> Resume Investigation
-                  </>
-                )}
-              </button>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0', paddingTop: '0.35rem', borderTop: '1px solid rgba(217, 119, 6, 0.2)', flexShrink: 0 }}>
+              <div style={{ width: '100%', display: 'flex', gap: '0.45rem', flexWrap: 'nowrap' }}>
+                <button
+                  onClick={handleTogglePause}
+                  className="gold-glow-btn"
+                  style={{
+                    flex: 2,
+                    minWidth: 0,
+                    padding: '0.45rem 0.85rem',
+                    fontSize: '21px',
+                    fontWeight: 700,
+                    lineHeight: 1.1,
+                    borderRadius: '14px',
+                    color: '#FFFFFF',
+                    border: 'none',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    transition: 'all 0.2s ease',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  {!isPaused ? (
+                    <>
+                      <Pause size={18} fill="#FFFFFF" color="#FFFFFF" /> Pause Investigation
+                    </>
+                  ) : (
+                    <>
+                      <Play size={18} fill="#FFFFFF" color="#FFFFFF" /> Resume Investigation
+                    </>
+                  )}
+                </button>
 
-              <button
-                onClick={handleReset}
-                style={{
-                  flex: 1,
-                  padding: '0.8rem 0.6rem',
-                  fontSize: '17px',
-                  fontWeight: 800,
-                  borderRadius: '14px',
-                  background: '#FFFFFF',
-                  color: '#173B5F',
-                  border: '1.5px solid #E2E8F0',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '6px',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                <RotateCcw size={16} /> Reset
-              </button>
+                <button
+                  onClick={handleReset}
+                  style={{
+                    flex: 1,
+                    minWidth: 0,
+                    padding: '0.45rem 0.6rem',
+                    fontSize: '21px',
+                    fontWeight: 700,
+                    lineHeight: 1.1,
+                    borderRadius: '14px',
+                    background: '#FFFFFF',
+                    color: '#475569',
+                    border: '1.5px solid #CBD5E1',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '6px',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                    transition: 'all 0.2s ease',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  <RotateCcw size={16} /> Reset
+                </button>
+              </div>
             </div>
           ) : (
             <div style={{
               width: '100%',
-              marginTop: 'auto',
-              paddingTop: '0.85rem',
+              paddingTop: '0.35rem',
               borderTop: '1px solid rgba(217, 119, 6, 0.2)',
               display: 'flex',
               alignItems: 'center',
               gap: '0.55rem',
               color: '#065F46',
               fontSize: '16px',
-              fontWeight: 700
+              fontWeight: 700,
+              flexShrink: 0
             }}>
               <CheckCircle size={19} color="#10B981" style={{ flexShrink: 0 }} />
-              <span>Observe filings cluster at North (N) & South (S) poles.</span>
+              <span>Observe filings cluster at North (N) &amp; South (S) poles.</span>
             </div>
           )}
         </div>
 
         {/* CONTAINER 2: Observation Summary */}
         <div
-          className="stage-container-2"
           style={{
             background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
-            padding: '1.25rem 1.45rem',
+            padding: '0.65rem 0.85rem',
             boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            boxSizing: 'border-box'
+            boxSizing: 'border-box',
+            flex: '1 1 auto',
+            minHeight: 0,
           }}
         >
+          {/* Top Section: Observation content */}
           <div>
             <h4
               style={{
                 color: '#173B5F',
                 margin: 0,
-                fontSize: '19.5px',
-                fontWeight: 900,
+                fontSize: '30px',
+                fontWeight: 800,
+                lineHeight: 1.15,
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.55rem',
-                paddingBottom: '0.55rem',
+                gap: '0.5rem',
+                paddingBottom: '0.25rem',
                 borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)'
               }}
             >
-              <Shapes size={22} color="#173B5F" /> Observation Summary
+              <Shapes size={23} color="#173B5F" /> Observation Summary
             </h4>
-            <p style={{ margin: '0.75rem 0', color: '#173B5F', fontSize: '17.5px', lineHeight: 1.45, fontWeight: 700 }}>
-              {currentShapeData.observationQuestion}
-            </p>
             <ul
               style={{
-                margin: '0.55rem 0 0 0',
-                paddingLeft: '1.25rem',
+                margin: '0.35rem 0 0 0',
+                paddingLeft: '1.35rem',
                 color: '#173B5F',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '0.55rem',
-                fontSize: '17px',
-                lineHeight: '1.45',
+                gap: '0.3rem',
+                fontSize: '23px',
+                lineHeight: '1.2',
                 fontWeight: 600,
               }}
             >
               {currentShapeData.observations.map((obs, idx) => (
                 <li key={idx}>
-                  <strong style={{ color: '#173B5F' }}>{obs.label}:</strong> {obs.text}
+                  {obs}
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Navigation Controls: Previous and Next / Finish */}
-          <div style={{ paddingTop: '0.75rem', marginTop: 'auto', display: 'flex', gap: '0.65rem' }}>
+          {/* Bottom Section: Navigation Controls — always in dedicated area, never overlapping */}
+          <div style={{ paddingTop: '0.35rem', flexShrink: 0, display: 'flex', gap: '0.45rem' }}>
             {shape !== 'horseshoe' && (
               <button
                 onClick={handlePrevPage}
                 style={{
                   flex: 1,
-                  padding: '0.85rem 0.85rem',
-                  fontSize: '17px',
-                  fontWeight: 800,
+                  padding: '0.45rem 0.85rem',
+                  fontSize: '21px',
+                  fontWeight: 700,
+                  lineHeight: 1.1,
                   borderRadius: '14px',
                   background: '#FFFFFF',
                   color: '#173B5F',
@@ -1220,8 +1089,9 @@ export default function Stage3_Sandbox({ onComplete }) {
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '0.5rem',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
                   transition: 'all 0.2s ease',
+                  whiteSpace: 'nowrap'
                 }}
               >
                 <ArrowLeft size={18} /> Previous
@@ -1233,15 +1103,18 @@ export default function Stage3_Sandbox({ onComplete }) {
               className="gold-glow-btn"
               style={{
                 flex: shape === 'horseshoe' ? 1 : 1.6,
-                padding: '0.85rem 1.15rem',
-                fontSize: '17.5px',
-                fontWeight: 900,
+                padding: '0.45rem 0.85rem',
+                fontSize: '21px',
+                fontWeight: 700,
+                lineHeight: 1.1,
                 borderRadius: '14px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '0.6rem',
+                gap: '0.5rem',
                 transition: 'all 0.25s ease',
+                minWidth: 0,
+                textAlign: 'center'
               }}
             >
               {shape === 'horseshoe' ? (
@@ -1254,7 +1127,7 @@ export default function Stage3_Sandbox({ onComplete }) {
                 </>
               ) : (
                 <>
-                  <Flag size={18} color="#FFFFFF" /> Finish Activity & Proceed to Quiz
+                  <Flag size={18} color="#FFFFFF" /> Finish Activity &amp; Proceed to Quiz
                 </>
               )}
             </button>

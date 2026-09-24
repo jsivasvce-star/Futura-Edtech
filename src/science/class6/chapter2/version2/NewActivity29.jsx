@@ -20,6 +20,11 @@ import rabbitImg from '../../../../assets/activity29/rabbit_thumbnail_real.png';
 import cheetahImg from '../../../../assets/activity29/cheetah_thumbnail_real.png';
 import frogImg from '../../../../assets/activity29/frog_thumbnail_real.png';
 import page4Bg from '../../../../assets/activity29_page4_bg.jpg';
+import page2Bg from '../../../../assets/activity29_page2_bg.jpg';
+import storyImage1 from '../../../../assets/activity29_story/image1.jpg';
+import storyImage2 from '../../../../assets/activity29_story/image2.jpg';
+import storyImage3 from '../../../../assets/activity29_story/image3.jpg';
+import storyImage4 from '../../../../assets/activity29_story/image4.jpg';
 
 const ANIMAL_DATA = [
   { id: 'ant', image: antImg, name: 'Ant', moveType: 'Walks', bodyPart: 'Legs', videoSrc: antVideo, explanation: "Ants have six strong legs equipped with tiny claws, allowing them to walk smoothly even on walls and ceilings!" },
@@ -221,19 +226,33 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
 
       {/* PAGE 2 */}
       {page === 2 && (
-        <div style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          padding: 'clamp(10px, 1.5vh, 20px) clamp(14px, 1.8vw, 30px)',
-          background: 'rgba(15, 23, 42, 0.75)',
-          backdropFilter: 'blur(20px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-          boxSizing: 'border-box',
-          position: 'relative',
-          zIndex: 3
-        }}>
+        <>
+          {/* HD Background for Page 2 */}
+          <div style={{
+            position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+            backgroundImage: `url(${page2Bg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            zIndex: 1,
+            filter: 'blur(2px)'
+          }} />
+          {/* Subtle dark/green overlay for text readability */}
+          <div style={{
+            position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+            background: 'rgba(6, 78, 59, 0.4)',
+            zIndex: 2
+          }} />
+
+          <div style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            padding: 'clamp(10px, 1.5vh, 20px) clamp(14px, 1.8vw, 30px)',
+            boxSizing: 'border-box',
+            position: 'relative',
+            zIndex: 3
+          }}>
           {/* Subtle Decorative Elements */}
           <div style={{ position: 'absolute', top: '15%', left: '5%', opacity: 0.15, pointerEvents: 'none' }}>
             <Leaf size={120} color="#34d399" />
@@ -336,6 +355,19 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
                 autoPlay 
                 loop
                 controls={true}
+                muted={selectedAnimal.id === 'ant'}
+                onPlay={(e) => {
+                  if (selectedAnimal.id === 'ant') {
+                    e.target.muted = true;
+                    e.target.volume = 0;
+                  }
+                }}
+                onVolumeChange={(e) => {
+                  if (selectedAnimal.id === 'ant' && (!e.target.muted || e.target.volume > 0)) {
+                    e.target.muted = true;
+                    e.target.volume = 0;
+                  }
+                }}
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
             </div>
@@ -372,7 +404,7 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
               </div>
 
               <div style={{ 
-                marginTop: 'auto', 
+                marginTop: '12px', 
                 fontSize: '22px', 
                 lineHeight: '1.6', 
                 fontWeight: '600', 
@@ -429,6 +461,7 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
             </button>
           </div>
         </div>
+      </>
       )}
 
       {/* PAGE 3 */}
@@ -929,7 +962,7 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
                   </ul>
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <button 
-                      onClick={() => setShowInfoPopup(false)}
+                      onClick={() => { setShowInfoPopup(false); setPage(5); }}
                       style={{
                         background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
                         color: 'white', border: 'none', borderRadius: '30px',
@@ -948,6 +981,66 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
           </div>
         </>
       )}
+
+      {/* ------------------------------------------------------------- */}
+      {/* PAGES 5-8: Story Image Sequence                               */}
+      {/* ------------------------------------------------------------- */}
+      {[5, 6, 7, 8].map(pageNum => (
+        page === pageNum && (
+          <div key={`story-${pageNum}`} style={{
+            position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+            background: '#0f172a', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            zIndex: 40
+          }}>
+            <img 
+              src={pageNum === 5 ? storyImage1 : pageNum === 6 ? storyImage2 : pageNum === 7 ? storyImage3 : storyImage4} 
+              alt={`Story ${pageNum - 4}`} 
+              style={{ width: '100%', height: '100%', objectFit: 'contain' }} 
+            />
+            
+            {/* Back Button */}
+            <div style={{ position: 'absolute', bottom: '24px', left: '24px' }}>
+              <button 
+                onClick={() => setPage(pageNum === 5 ? 4 : pageNum - 1)}
+                style={{
+                  background: 'white', color: '#334155', border: '2px solid #e2e8f0', borderRadius: '30px',
+                  padding: '12px 24px', fontSize: '16px', fontWeight: '800', display: 'flex', alignItems: 'center',
+                  gap: '8px', cursor: 'pointer', boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
+                }}
+              >
+                <ArrowLeft size={18} /> Back
+              </button>
+            </div>
+            
+            {/* Next / Continue Button */}
+            <div style={{ position: 'absolute', bottom: '24px', right: '24px' }}>
+              {pageNum < 8 ? (
+                <button 
+                  onClick={() => setPage(pageNum + 1)}
+                  style={{
+                    background: '#065f46', color: '#fff', border: '2px solid #34d399', borderRadius: '30px',
+                    padding: '12px 24px', fontSize: '16px', fontWeight: '800', display: 'flex', alignItems: 'center',
+                    gap: '8px', cursor: 'pointer', boxShadow: '0 4px 10px rgba(0,0,0,0.2)'
+                  }}
+                >
+                  Next <ArrowRight size={18} />
+                </button>
+              ) : (
+                <button 
+                  onClick={onNextActivity}
+                  style={{
+                    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', color: 'white',
+                    border: 'none', borderRadius: '30px', padding: '12px 32px', fontSize: '18px', fontWeight: '800',
+                    display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', boxShadow: '0 4px 15px rgba(16,185,129,0.4)'
+                  }}
+                >
+                  Continue <ArrowRight size={20} />
+                </button>
+              )}
+            </div>
+          </div>
+        )
+      ))}
 
 
       <style>{`
