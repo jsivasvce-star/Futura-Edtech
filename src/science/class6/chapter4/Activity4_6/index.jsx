@@ -74,7 +74,7 @@ export default function Activity4_6({ onBackToDashboard, onComplete }) {
       flexDirection: 'column', 
       overflow: 'hidden',
       boxSizing: 'border-box',
-      padding: '0.6rem 1.2rem',
+      padding: '1.1rem 1.4rem',
       backgroundImage: `url('/SuspendedMagnet/science_lab_bg.jpg')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
@@ -82,85 +82,7 @@ export default function Activity4_6({ onBackToDashboard, onComplete }) {
       backgroundRepeat: 'no-repeat',
       fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif"
     }}>
-      {/* Unified Solid White Top Header Navigation Bar (Matches Finding Directions Navbar) */}
-      <header style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0.55rem 1.4rem',
-        marginBottom: '0.65rem',
-        background: '#FFFFFF',
-        border: '1.5px solid #E2E8F0',
-        borderRadius: '24px',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
-        flexShrink: 0,
-        zIndex: 100,
-        width: '100%',
-        boxSizing: 'border-box'
-      }}>
-        {/* Left: Back Button */}
-        <button
-          onClick={handleBack}
-          style={{
-            padding: '0.55rem 1.25rem',
-            fontSize: '1rem',
-            fontWeight: 900,
-            borderRadius: '16px',
-            background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
-            color: '#FFFFFF',
-            border: 'none',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            boxShadow: '0 4px 12px rgba(23, 59, 95, 0.25)',
-            transition: 'all 0.2s ease'
-          }}
-        >
-          <ArrowLeft size={18} color="#FFFFFF" /> Back
-        </button>
-
-        {/* Center: Current Stage Title */}
-        <div style={{
-          textAlign: 'center',
-          flex: 1,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}>
-          <h2 style={{
-            margin: 0,
-            fontSize: '1.85rem',
-            fontWeight: 900,
-            color: '#173B5F',
-            letterSpacing: '-0.02em',
-            background: 'transparent',
-            border: 'none',
-            padding: 0
-          }}>
-            {currentStep.name}
-          </h2>
-        </div>
-
-        {/* Right: Next Step Button */}
-        <button
-          onClick={handleNext}
-          className="gold-glow-btn"
-          style={{
-            padding: '0.55rem 1.45rem',
-            fontSize: '1rem',
-            fontWeight: 900,
-            borderRadius: '16px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            transition: 'all 0.2s ease'
-          }}
-        >
-          {stepIndex === STEPS_NAV.length - 1 ? 'Finish Activity' : 'Next'} <ArrowRight size={18} color="#FFFFFF" />
-        </button>
-      </header>
+      
 
       {/* Main Interactive Activity Stage */}
       <main style={{ 
@@ -190,6 +112,88 @@ export default function Activity4_6({ onBackToDashboard, onComplete }) {
           </motion.div>
         </AnimatePresence>
       </main>
+
+      {/* ── Bottom Footer Navigation (Matches FunWithMagnets design) ── */}
+      <footer style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '0.65rem 1.75rem',
+        marginTop: '0.75rem',
+        background: 'rgba(255, 255, 255, 0.95)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        border: '1.5px solid #FFFFFF',
+        borderRadius: '32px',
+        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)',
+        flexShrink: 0,
+        zIndex: 100,
+        maxWidth: '98%',
+        margin: '0.75rem auto 0 auto',
+        width: '100%',
+        boxSizing: 'border-box'
+      }}>
+        {/* Back Button on Left */}
+        <button
+          onClick={handleBack}
+          className="navy-btn"
+          style={{
+            padding: '0.65rem 1.8rem',
+            fontSize: '1.05rem',
+            fontWeight: 900,
+            borderRadius: '25px',
+            background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
+            color: '#FFFFFF',
+            border: '1.5px solid #2B6CB0',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.55rem',
+            boxShadow: '0 4px 14px rgba(23, 59, 95, 0.3)',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          <ArrowLeft size={20} color="#FFFFFF" /> Back
+        </button>
+
+        {/* Central Progress indicator - Step Badge only */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '1.1rem',
+          fontWeight: 900
+        }}>
+          <span style={{
+            background: '#ECFDF5',
+            padding: '0.35rem 1.25rem',
+            borderRadius: '16px',
+            border: '1.5px solid #A7F3D0',
+            color: '#065F46',
+            boxShadow: '0 2px 6px rgba(6, 95, 70, 0.08)'
+          }}>
+            Step {stepIndex + 1} of {STEPS_NAV.length}
+          </span>
+        </div>
+
+        {/* Next Button on Right */}
+        <button
+          onClick={handleNext}
+          className="gold-glow-btn"
+          style={{
+            padding: '0.65rem 2rem',
+            fontSize: '1.05rem',
+            fontWeight: 900,
+            borderRadius: '25px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.55rem'
+          }}
+        >
+          {stepIndex === STEPS_NAV.length - 1 ? 'Finish Activity' : 'Next'} <ArrowRight size={20} color="#FFFFFF" />
+        </button>
+      </footer>
     </div>
   );
 }

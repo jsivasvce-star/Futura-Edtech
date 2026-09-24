@@ -364,20 +364,9 @@ export default function Stage1_Build({ onComplete, onNext }) {
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
-                <div style={{
-                  width: '42px',
-                  height: '42px',
-                  borderRadius: '50%',
-                  background: '#D97706',
-                  color: '#FFFFFF',
-                  fontSize: '24px',
-                  fontWeight: 900,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                  marginTop: '3px'
-                }}>1</div>
+                <div className="gold-step-badge" style={{ width: '42px', height: '42px', fontSize: '24px', marginTop: '3px' }}>
+                  1
+                </div>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <span style={{ fontSize: '28px', color: '#0A2540', lineHeight: 1.3, fontWeight: 800 }}>
                     Click Airplane A in the tray below
@@ -389,20 +378,9 @@ export default function Stage1_Build({ onComplete, onNext }) {
               </div>
 
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
-                <div style={{
-                  width: '42px',
-                  height: '42px',
-                  borderRadius: '50%',
-                  background: '#D97706',
-                  color: '#FFFFFF',
-                  fontSize: '24px',
-                  fontWeight: 900,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                  marginTop: '3px'
-                }}>2</div>
+                <div className="gold-step-badge" style={{ width: '42px', height: '42px', fontSize: '24px', marginTop: '3px' }}>
+                  2
+                </div>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <span style={{ fontSize: '28px', color: '#0A2540', lineHeight: 1.3, fontWeight: 800 }}>
                     Click Airplane B in the tray below
@@ -472,6 +450,7 @@ export default function Stage1_Build({ onComplete, onNext }) {
             <button
               onClick={() => { onComplete(); onNext(); }}
               disabled={!success}
+              className={success ? 'gold-glow-btn' : ''}
               style={{
                 width: '100%',
                 padding: '0.85rem 1.4rem',
@@ -482,10 +461,9 @@ export default function Stage1_Build({ onComplete, onNext }) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '0.6rem',
-                background: success ? '#D97706' : '#F8FAFC',
+                background: success ? undefined : '#F8FAFC',
                 color: success ? '#FFFFFF' : '#CBD5E1',
-                border: success ? 'none' : '1.5px solid #E2E8F0',
-                boxShadow: success ? '0 4px 12px rgba(217, 119, 6, 0.25)' : 'none',
+                border: success ? undefined : '1.5px solid #E2E8F0',
                 cursor: success ? 'pointer' : 'not-allowed',
                 transition: 'all 0.2s ease'
               }}

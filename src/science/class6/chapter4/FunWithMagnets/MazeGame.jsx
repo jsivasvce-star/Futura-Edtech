@@ -3,43 +3,43 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Target, Move, Compass, RotateCcw, HelpCircle, ArrowLeft, ArrowRight } from 'lucide-react';
 
 // -------------------------------------------------------------------
-// 1. Exact Waypoint Node Coordinate System for 3D Railway Grid Map
+// 1. Exact Waypoint Node Coordinate System for Isometric City Grid Track Map (1024 x 682)
 // -------------------------------------------------------------------
 export const WAYPOINT_NODES = [
-  // ── ROW 0: TOP RAILWAY TRACK (Y = 31) ──
-  { id: 'node_0_0', name: 'Start: Top-Left Junction 🚉', shortName: 'Start', icon: '🚉', x: 34, y: 31, neighbors: ['node_0_1', 'node_1_0'] },
-  { id: 'node_0_1', name: 'Hospital North Track 🏥', shortName: 'Hosp N', icon: '🏥', x: 274, y: 31, neighbors: ['node_0_0', 'node_0_2', 'node_1_1'] },
-  { id: 'node_0_2', name: 'Solar Junction ☀️', shortName: 'Solar N', icon: '☀️', x: 512, y: 31, neighbors: ['node_0_1', 'node_0_3', 'node_1_2'] },
-  { id: 'node_0_3', name: 'Depot North Track 🚂', shortName: 'Depot N', icon: '🚂', x: 750, y: 31, neighbors: ['node_0_2', 'node_0_4', 'node_1_3'] },
-  { id: 'node_0_4', name: 'North-East Corner 🌐', shortName: 'NE Term', icon: '🌐', x: 990, y: 31, neighbors: ['node_0_3', 'node_1_4'] },
+  // ── ROW 0: TOP RAILWAY TRACK (Y ≈ 64 - 67) ──
+  { id: 'node_0_0', name: 'Start: City Hall Junction 🚉', shortName: 'Start', icon: '🚉', x: 73, y: 67, neighbors: ['node_0_1', 'node_1_0'] },
+  { id: 'node_0_1', name: 'Hospital North Track 🏥', shortName: 'Hospital', icon: '🏥', x: 305, y: 66, neighbors: ['node_0_0', 'node_0_2', 'node_1_1'] },
+  { id: 'node_0_2', name: 'Solar Farm Hub ☀️', shortName: 'Solar', icon: '☀️', x: 543, y: 65, neighbors: ['node_0_1', 'node_0_3', 'node_1_2'] },
+  { id: 'node_0_3', name: 'Grand Central Depot 🚂', shortName: 'Depot', icon: '🚂', x: 743, y: 64, neighbors: ['node_0_2', 'node_0_4', 'node_1_3'] },
+  { id: 'node_0_4', name: 'North-East Coastline 🌊', shortName: 'NE Coast', icon: '🌊', x: 954, y: 65, neighbors: ['node_0_3', 'node_1_4'] },
 
-  // ── ROW 1: SECOND HORIZONTAL TRACK (Y = 272) ──
-  { id: 'node_1_0', name: 'Power Plant West Track ⚡', shortName: 'Power W', icon: '⚡', x: 34, y: 272, neighbors: ['node_0_0', 'node_2_0', 'node_1_1'] },
-  { id: 'node_1_1', name: 'Stadium Junction 🏟️', shortName: 'Stadium', icon: '🏟️', x: 274, y: 272, neighbors: ['node_1_0', 'node_0_1', 'node_1_2', 'node_2_1'] },
-  { id: 'node_1_2', name: 'Financial Towers Hub 🏢', shortName: 'Towers', icon: '🏢', x: 512, y: 272, neighbors: ['node_1_1', 'node_0_2', 'node_1_3', 'node_2_2'] },
-  { id: 'node_1_3', name: 'Harbor Bay Track 🚢', shortName: 'Harbor', icon: '🚢', x: 750, y: 272, neighbors: ['node_1_2', 'node_0_3', 'node_1_4', 'node_2_3'] },
-  { id: 'node_1_4', name: 'East Coast Track 🌊', shortName: 'East Coast', icon: '🌊', x: 990, y: 272, neighbors: ['node_0_4', 'node_1_3', 'node_2_4'] },
+  // ── ROW 1: SECOND HORIZONTAL TRACK (Y ≈ 196 - 200) ──
+  { id: 'node_1_0', name: 'Power Plant West Track ⚡', shortName: 'Power Sta', icon: '⚡', x: 61, y: 200, neighbors: ['node_0_0', 'node_2_0', 'node_1_1'] },
+  { id: 'node_1_1', name: 'Arena Stadium Junction 🏟️', shortName: 'Stadium', icon: '🏟️', x: 303, y: 197, neighbors: ['node_1_0', 'node_0_1', 'node_1_2', 'node_2_1'] },
+  { id: 'node_1_2', name: 'Financial Towers Hub 🏢', shortName: 'Towers', icon: '🏢', x: 541, y: 198, neighbors: ['node_1_1', 'node_0_2', 'node_1_3', 'node_2_2'] },
+  { id: 'node_1_3', name: 'Cargo Harbor Track 🚢', shortName: 'Harbor', icon: '🚢', x: 748, y: 196, neighbors: ['node_1_2', 'node_0_3', 'node_1_4', 'node_2_3'] },
+  { id: 'node_1_4', name: 'Ocean Bay Track 🌊', shortName: 'Ocean Bay', icon: '🌊', x: 963, y: 197, neighbors: ['node_0_4', 'node_1_3', 'node_2_4'] },
 
-  // ── ROW 2: CENTRAL HORIZONTAL TRACK (Y = 512) ──
-  { id: 'node_2_0', name: 'Fire Station Track 🚒', shortName: 'Fire Sta', icon: '🚒', x: 34, y: 512, neighbors: ['node_1_0', 'node_3_0', 'node_2_1'] },
-  { id: 'node_2_1', name: 'Academy Junction 🏫', shortName: 'Academy', icon: '🏫', x: 274, y: 512, neighbors: ['node_2_0', 'node_1_1', 'node_2_2', 'node_3_1'] },
-  { id: 'node_2_2', name: 'Power Grid Central ⚡', shortName: 'Grid Core', icon: '⚡', x: 512, y: 512, neighbors: ['node_2_1', 'node_1_2', 'node_2_3', 'node_3_2'] },
-  { id: 'node_2_3', name: 'Logistics Warehouse Track 📦', shortName: 'Logistics', icon: '📦', x: 750, y: 512, neighbors: ['node_2_2', 'node_1_3', 'node_2_4', 'node_3_3'] },
-  { id: 'node_2_4', name: 'East Perimeter Track 🚧', shortName: 'East Gate', icon: '🚧', x: 990, y: 512, neighbors: ['node_1_4', 'node_2_3', 'node_3_4'] },
+  // ── ROW 2: CENTRAL HORIZONTAL TRACK (Y ≈ 349 - 350) ──
+  { id: 'node_2_0', name: 'Fire & Rescue Station 🚒', shortName: 'Fire Sta', icon: '🚒', x: 52, y: 350, neighbors: ['node_1_0', 'node_3_0', 'node_2_1'] },
+  { id: 'node_2_1', name: 'Tech Campus Junction 🏫', shortName: 'Campus', icon: '🏫', x: 298, y: 349, neighbors: ['node_2_0', 'node_1_1', 'node_2_2', 'node_3_1'] },
+  { id: 'node_2_2', name: 'Metro Construction Hub 🏗️', shortName: 'Metro Hub', icon: '🏗️', x: 545, y: 349, neighbors: ['node_2_1', 'node_1_2', 'node_2_3', 'node_3_2'] },
+  { id: 'node_2_3', name: 'Logistics Warehouse Track 📦', shortName: 'Logistics', icon: '📦', x: 754, y: 349, neighbors: ['node_2_2', 'node_1_3', 'node_2_4', 'node_3_3'] },
+  { id: 'node_2_4', name: 'East Perimeter Track 🚧', shortName: 'East Gate', icon: '🚧', x: 973, y: 349, neighbors: ['node_1_4', 'node_2_3', 'node_3_4'] },
 
-  // ── ROW 3: FOURTH HORIZONTAL TRACK (Y = 751) ──
-  { id: 'node_3_0', name: 'Suburban West Track 🏡', shortName: 'Suburban', icon: '🏡', x: 34, y: 751, neighbors: ['node_2_0', 'node_4_0', 'node_3_1'] },
-  { id: 'node_3_1', name: 'Bio-Sphere Dome Junction 🌿', shortName: 'Bio-Sphere', icon: '🌿', x: 274, y: 751, neighbors: ['node_3_0', 'node_2_1', 'node_3_2', 'node_4_1'] },
-  { id: 'node_3_2', name: 'Airport Gateway Track ✈️', shortName: 'Airport', icon: '✈️', x: 512, y: 751, neighbors: ['node_3_1', 'node_2_2', 'node_3_3', 'node_4_2'] },
-  { id: 'node_3_3', name: 'Memorial Parkside Track ⛲', shortName: 'Parkside', icon: '⛲', x: 750, y: 751, neighbors: ['node_3_2', 'node_2_3', 'node_3_4', 'node_4_3'] },
-  { id: 'node_3_4', name: 'South-East Perimeter 🌲', shortName: 'SE Perim', icon: '🌲', x: 990, y: 751, neighbors: ['node_2_4', 'node_3_3', 'node_4_4'] },
+  // ── ROW 3: FOURTH HORIZONTAL TRACK (Y ≈ 491 - 493) ──
+  { id: 'node_3_0', name: 'Suburban Residential Track 🏡', shortName: 'Suburbs', icon: '🏡', x: 40, y: 493, neighbors: ['node_2_0', 'node_4_0', 'node_3_1'] },
+  { id: 'node_3_1', name: 'Bio-Sphere Dome Gardens 🌿', shortName: 'Bio-Domes', icon: '🌿', x: 293, y: 493, neighbors: ['node_3_0', 'node_2_1', 'node_3_2', 'node_4_1'] },
+  { id: 'node_3_2', name: 'Airport Gateway Track ✈️', shortName: 'Airport', icon: '✈️', x: 542, y: 493, neighbors: ['node_3_1', 'node_2_2', 'node_3_3', 'node_4_2'] },
+  { id: 'node_3_3', name: 'Memorial Parkside Track ⛲', shortName: 'Parkside', icon: '⛲', x: 761, y: 493, neighbors: ['node_3_2', 'node_2_3', 'node_3_4', 'node_4_3'] },
+  { id: 'node_3_4', name: 'South-East Forest Track 🌲', shortName: 'SE Forest', icon: '🌲', x: 980, y: 491, neighbors: ['node_2_4', 'node_3_3', 'node_4_4'] },
 
-  // ── ROW 4: BOTTOM HORIZONTAL TRACK (Y = 990) ──
-  { id: 'node_4_0', name: 'South-West Outer Corner 🏁', shortName: 'SW Corner', icon: '🏁', x: 34, y: 990, neighbors: ['node_3_0', 'node_4_1'] },
-  { id: 'node_4_1', name: 'Garden South Track 🌷', shortName: 'Garden S', icon: '🌷', x: 274, y: 990, neighbors: ['node_4_0', 'node_3_1', 'node_4_2'] },
-  { id: 'node_4_2', name: 'Runway South Track 🛫', shortName: 'Runway S', icon: '🛫', x: 512, y: 990, neighbors: ['node_4_1', 'node_3_2', 'node_4_3'] },
-  { id: 'node_4_3', name: 'Grand Promenade Track 🏛️', shortName: 'Promenade', icon: '🏛️', x: 750, y: 990, neighbors: ['node_4_2', 'node_3_3', 'node_4_4'] },
-  { id: 'node_4_4', name: 'Target: Bottom-Right Corner 🎯', shortName: 'Goal 🎯', icon: '🎯', x: 990, y: 990, neighbors: ['node_3_4', 'node_4_3'] }
+  // ── ROW 4: BOTTOM HORIZONTAL TRACK (Y ≈ 641 - 642) ──
+  { id: 'node_4_0', name: 'South-West Metro Depot 🏁', shortName: 'SW Depot', icon: '🏁', x: 28, y: 641, neighbors: ['node_3_0', 'node_4_1'] },
+  { id: 'node_4_1', name: 'Botanical Garden South 🌷', shortName: 'Garden S', icon: '🌷', x: 288, y: 641, neighbors: ['node_4_0', 'node_3_1', 'node_4_2'] },
+  { id: 'node_4_2', name: 'Runway South Track 🛫', shortName: 'Runway S', icon: '🛫', x: 541, y: 642, neighbors: ['node_4_1', 'node_3_2', 'node_4_3'] },
+  { id: 'node_4_3', name: 'Grand Promenade Track 🏛️', shortName: 'Promenade', icon: '🏛️', x: 761, y: 642, neighbors: ['node_4_2', 'node_3_3', 'node_4_4'] },
+  { id: 'node_4_4', name: 'Target: Destination Beacon 🎯', shortName: 'Goal 🎯', icon: '🎯', x: 988, y: 642, neighbors: ['node_3_4', 'node_4_3'] }
 ];
 
 export const NODES_MAP = Object.fromEntries(WAYPOINT_NODES.map(n => [n.id, n]));
@@ -126,145 +126,147 @@ export const playRealisticTrainSound = () => {};
 export const playElectricZapSound = () => {};
 
 // -------------------------------------------------------------------
-// 3. SVG Realistic Magnetic Train Sprite (1 Engine + 1 Compartment)
+// 3. SVG High-Definition Futuristic Maglev Magnetic Train Sprite
 // -------------------------------------------------------------------
 const MagneticTrainSprite = ({ x, y, rotation, isMoving, now }) => {
   const deg = (rotation * 180 / Math.PI);
-  const pulse = 1 + 0.15 * Math.sin(now * 0.012);
+  const pulse = 1 + 0.18 * Math.sin(now * 0.015);
+  const glowPulse = 0.7 + 0.3 * Math.sin(now * 0.01);
 
   return (
     <g transform={`translate(${x}, ${y})`}>
-      {/* Scaled slightly larger (~22% increase) for enhanced visibility and detail */}
-      <g transform={`rotate(${deg}) scale(1.22)`}>
-        {/* 1. Ground Footprint Ambient Shadow */}
+      {/* Scaled for high-definition clarity on tracks */}
+      <g transform={`rotate(${deg}) scale(1.15)`}>
+        {/* 1. Ground Ambient Levitation Shadow */}
         <ellipse
           cx="-10"
           cy="0"
-          rx="46"
-          ry="10"
-          fill="rgba(28, 25, 23, 0.65)"
-          style={{ filter: 'blur(2.5px)' }}
-        />
-
-        {/* 2. Warm Amber Maglev Levitation Track Induction Field (blending with environment) */}
-        <ellipse
-          cx="-10"
-          cy="0"
-          rx={isMoving ? 44 : 40}
-          ry={isMoving ? 9 : 7.5}
-          fill="rgba(245, 158, 11, 0.32)"
+          rx="48"
+          ry="11"
+          fill="rgba(15, 23, 42, 0.6)"
           style={{ filter: 'blur(3px)' }}
         />
 
-        {/* 3. Projected Warm Golden Headlight Cones on Track Rails */}
+        {/* 2. Futuristic Vivid Cyan / Electric Blue Maglev Levitation Underglow Field */}
+        <ellipse
+          cx="-10"
+          cy="0"
+          rx={isMoving ? 50 : 44}
+          ry={isMoving ? 11 : 9}
+          fill="rgba(0, 240, 255, 0.35)"
+          style={{ filter: 'blur(4px)' }}
+        />
+
+        {/* 3. Intense Electric Blue Underglow Core Strips (Left & Right Skids) */}
+        <line x1="-38" y1="-7.5" x2="24" y2="-7.5" stroke="#00F0FF" strokeWidth="2.8" opacity={glowPulse} style={{ filter: 'drop-shadow(0 0 6px #00F0FF)' }} />
+        <line x1="-38" y1="7.5" x2="24" y2="7.5" stroke="#00F0FF" strokeWidth="2.8" opacity={glowPulse} style={{ filter: 'drop-shadow(0 0 6px #00F0FF)' }} />
+
+        {/* 4. Projected Forward Xenon / Cyan Headlight Beams */}
         <polygon
-          points="20,-4 75,-16 75,16 20,4"
-          fill="url(#headlightBeamGrad)"
-          opacity={isMoving ? 0.88 : 0.55}
+          points="22,-5 85,-20 85,20 22,5"
+          fill="url(#maglevHeadlightGrad)"
+          opacity={isMoving ? 0.9 : 0.6}
           pointerEvents="none"
         />
 
-        {/* 4. TRAIN COMPARTMENT (Observation Coach - Warm Architectural Bronze & Slate) */}
+        {/* 5. TRAIN COMPARTMENT (Observation Coach - Sleek Titanium & Aerodynamic Shell) */}
         <g transform="translate(-22, 0)">
-          {/* Undercarriage Maglev Bogie Skids */}
-          <rect x="-17" y="-7.5" width="34" height="15" rx="3.5" fill="#1C1917" stroke="#44403C" strokeWidth="0.8" />
+          {/* Undercarriage Superconducting Maglev Bogie Skids */}
+          <rect x="-18" y="-7.8" width="36" height="15.6" rx="4" fill="#0F172A" stroke="#38BDF8" strokeWidth="0.8" />
           
-          {/* Coach Main Body (Aerodynamic Streamlined Shell) */}
-          <rect x="-16" y="-6.5" width="32" height="13" rx="4" fill="url(#trainCoachGrad)" stroke="#292524" strokeWidth="0.8" />
+          {/* Coach Main Body (Aerodynamic Streamlined Titanium Hull) */}
+          <rect x="-17" y="-6.8" width="34" height="13.6" rx="4.5" fill="url(#maglevBodyGrad)" stroke="#334155" strokeWidth="0.9" />
 
-          {/* Emerald / Gold Livery Racing Stripe */}
-          <line x1="-15" y1="-0.5" x2="15" y2="-0.5" stroke="#059669" strokeWidth="2.2" />
-          <line x1="-15" y1="1.4" x2="15" y2="1.4" stroke="#214A70" strokeWidth="0.8" />
+          {/* Electric Blue Neon Racing Stripe */}
+          <line x1="-16" y1="-0.5" x2="16" y2="-0.5" stroke="#00F0FF" strokeWidth="2.4" style={{ filter: 'drop-shadow(0 0 3px #00F0FF)' }} />
+          <line x1="-16" y1="1.6" x2="16" y2="1.6" stroke="#2563EB" strokeWidth="1" />
 
-          {/* Roof Aero Air Intake / Solar Ribs */}
-          <rect x="-12" y="-5.5" width="24" height="2" rx="1" fill="#57534E" />
+          {/* Roof Aero Cooling Intake Ribs */}
+          <rect x="-13" y="-5.5" width="26" height="2" rx="1" fill="#334155" />
 
-          {/* Panoramic Passenger Windows (Champagne-Tinted Architectural Glass) */}
-          <rect x="-13" y="-5" width="5" height="3" rx="0.8" fill="#FEF3C7" stroke="#B45309" strokeWidth="0.6" />
-          <rect x="-6" y="-5" width="5" height="3" rx="0.8" fill="#FEF3C7" stroke="#B45309" strokeWidth="0.6" />
-          <rect x="1" y="-5" width="5" height="3" rx="0.8" fill="#FEF3C7" stroke="#B45309" strokeWidth="0.6" />
-          <rect x="8" y="-5" width="5" height="3" rx="0.8" fill="#FEF3C7" stroke="#B45309" strokeWidth="0.6" />
+          {/* Panoramic Luminescent Passenger Windows */}
+          <rect x="-14" y="-5" width="5.5" height="3" rx="1" fill="#E0F2FE" stroke="#0284C7" strokeWidth="0.6" style={{ filter: 'drop-shadow(0 0 2px #38BDF8)' }} />
+          <rect x="-6.5" y="-5" width="5.5" height="3" rx="1" fill="#E0F2FE" stroke="#0284C7" strokeWidth="0.6" style={{ filter: 'drop-shadow(0 0 2px #38BDF8)' }} />
+          <rect x="1" y="-5" width="5.5" height="3" rx="1" fill="#E0F2FE" stroke="#0284C7" strokeWidth="0.6" style={{ filter: 'drop-shadow(0 0 2px #38BDF8)' }} />
+          <rect x="8.5" y="-5" width="5.5" height="3" rx="1" fill="#E0F2FE" stroke="#0284C7" strokeWidth="0.6" style={{ filter: 'drop-shadow(0 0 2px #38BDF8)' }} />
 
-          {/* Rear Red Marker Tail Lights */}
-          <circle cx="-15.5" cy="-4" r="1.2" fill="#EF4444" style={{ filter: 'drop-shadow(0 0 3px #EF4444)' }} />
-          <circle cx="-15.5" cy="4" r="1.2" fill="#EF4444" style={{ filter: 'drop-shadow(0 0 3px #EF4444)' }} />
+          {/* Rear Cyan / Red Marker Tail Lights */}
+          <circle cx="-16.5" cy="-4" r="1.3" fill="#EF4444" style={{ filter: 'drop-shadow(0 0 4px #EF4444)' }} />
+          <circle cx="-16.5" cy="4" r="1.3" fill="#EF4444" style={{ filter: 'drop-shadow(0 0 4px #EF4444)' }} />
         </g>
 
-        {/* 5. INTER-CAR ACCORDION GANGWAY COUPLER (Between Compartment & Engine) */}
-        <g transform="translate(-5, 0)">
-          <rect x="-3" y="-5" width="6" height="10" rx="1.5" fill="#292524" stroke="#1C1917" strokeWidth="0.8" />
-          <line x1="-1" y1="-5" x2="-1" y2="5" stroke="#44403C" strokeWidth="0.8" />
-          <line x1="1" y1="-5" x2="1" y2="5" stroke="#44403C" strokeWidth="0.8" />
+        {/* 6. HIGH-TECH MAGNETIC INTER-CAR COUPLER */}
+        <g transform="translate(-4, 0)">
+          <rect x="-3" y="-5" width="6" height="10" rx="2" fill="#1E293B" stroke="#00F0FF" strokeWidth="0.8" />
+          <line x1="0" y1="-4" x2="0" y2="4" stroke="#00F0FF" strokeWidth="1.2" />
         </g>
 
-        {/* 6. TRAIN ENGINE (Leading Aerodynamic Locomotive - Warm Bronze & Deep Carbon) */}
-        <g transform="translate(14, 0)">
-          {/* Undercarriage Maglev Bogie Skids */}
-          <rect x="-14" y="-7.5" width="28" height="15" rx="3.5" fill="#1C1917" stroke="#44403C" strokeWidth="0.8" />
+        {/* 7. TRAIN ENGINE (Aerodynamic Maglev Bullet Nose Locomotive) */}
+        <g transform="translate(15, 0)">
+          {/* Undercarriage Superconducting Maglev Bogie Skids */}
+          <rect x="-15" y="-7.8" width="30" height="15.6" rx="4" fill="#0F172A" stroke="#38BDF8" strokeWidth="0.8" />
 
-          {/* Engine Main Body with Aerodynamic Bullet Nose */}
+          {/* Engine Bullet Body */}
           <path
-            d="M -14 -6.5
-               L 5 -6.5
-               Q 15 -6.5 18 0
-               Q 15 6.5 5 6.5
-               L -14 6.5
+            d="M -15 -6.8
+               L 6 -6.8
+               Q 18 -6.8 22 0
+               Q 18 6.8 6 6.8
+               L -15 6.8
                Z"
-            fill="url(#trainEngineGrad)"
-            stroke="#292524"
+            fill="url(#maglevBodyGrad)"
+            stroke="#334155"
+            strokeWidth="1"
+          />
+
+          {/* Electric Blue Aero Livery Swoosh */}
+          <path
+            d="M -14 -0.5
+               L 6 -0.5
+               Q 14 -0.5 18 0
+               Q 14 0.5 6 0.5
+               L -14 0.5
+               Z"
+            fill="#00F0FF"
+            stroke="#2563EB"
+            strokeWidth="0.8"
+            style={{ filter: 'drop-shadow(0 0 3px #00F0FF)' }}
+          />
+
+          {/* Pilot Cockpit Curved Canopy (Ultra-Clear Cyan Glass) */}
+          <path
+            d="M 2 -5
+               L 9 -5
+               Q 16 -5 17 0
+               Q 16 5 9 5
+               L 2 5
+               Q 5 0 2 -5 Z"
+            fill="#0F172A"
+            stroke="#00F0FF"
             strokeWidth="0.9"
           />
-
-          {/* Warm Amber Aero Livery Swoosh */}
           <path
-            d="M -13 -0.5
-               L 5 -0.5
-               Q 12 -0.5 15 0
-               Q 12 0.5 5 0.5
-               L -13 0.5
-               Z"
-            fill="#059669"
-            stroke="#214A70"
-            strokeWidth="0.6"
-          />
-
-          {/* Driver Cockpit Windshield (Curved Warm Smoked Glass) */}
-          <path
-            d="M 2 -4.8
-               L 8 -4.8
-               Q 13 -4.8 14 0
-               Q 13 4.8 8 4.8
-               L 2 4.8
-               Q 4 0 2 -4.8 Z"
-            fill="#1C1917"
-            stroke="#D97706"
-            strokeWidth="0.8"
-          />
-          <path
-            d="M 4 -3.5
-               L 8 -3.5
-               Q 11.5 -3.5 12 0
-               Q 11.5 3.5 8 3.5
-               L 4 3.5 Z"
-            fill="#FDE68A"
+            d="M 4 -3.6
+               L 9 -3.6
+               Q 14.5 -3.6 15.2 0
+               Q 14.5 3.6 9 3.6
+               L 4 3.6 Z"
+            fill="#38BDF8"
             opacity="0.85"
+            style={{ filter: 'drop-shadow(0 0 3px #38BDF8)' }}
           />
 
-          {/* Engine Side Cabin Windows */}
-          <rect x="-10" y="-5.5" width="4.5" height="2.5" rx="0.6" fill="#FEF3C7" stroke="#B45309" strokeWidth="0.5" />
-          <rect x="-4" y="-5.5" width="4.5" height="2.5" rx="0.6" fill="#FEF3C7" stroke="#B45309" strokeWidth="0.5" />
+          {/* Cabin Windows */}
+          <rect x="-11" y="-5.5" width="5" height="2.6" rx="0.8" fill="#E0F2FE" stroke="#0284C7" strokeWidth="0.5" />
+          <rect x="-4.5" y="-5.5" width="5" height="2.6" rx="0.8" fill="#E0F2FE" stroke="#0284C7" strokeWidth="0.5" />
 
-          {/* Roof Aero Air Intake / Pantograph Dome */}
-          <rect x="-10" y="-2" width="12" height="4" rx="1.5" fill="#334155" />
-          <circle cx="-4" cy="0" r="1.5" fill="#214A70" />
+          {/* Dual High-Intensity Xenon Headlights */}
+          <circle cx="19.5" cy="-2.8" r="1.6" fill="#FFFFFF" stroke="#00F0FF" strokeWidth="0.8" style={{ filter: 'drop-shadow(0 0 5px #00F0FF)' }} />
+          <circle cx="19.5" cy="2.8" r="1.6" fill="#FFFFFF" stroke="#00F0FF" strokeWidth="0.8" style={{ filter: 'drop-shadow(0 0 5px #00F0FF)' }} />
 
-          {/* Dual Xenon Headlights */}
-          <circle cx="16.5" cy="-2.5" r="1.5" fill="#FFFFFF" stroke="#EAF2F6" strokeWidth="0.8" style={{ filter: 'drop-shadow(0 0 4px #FFFFFF)' }} />
-          <circle cx="16.5" cy="2.5" r="1.5" fill="#FFFFFF" stroke="#EAF2F6" strokeWidth="0.8" style={{ filter: 'drop-shadow(0 0 4px #FFFFFF)' }} />
-
-          {/* Front Magnetic Levitation Receiver Sensor (Nose Tip) */}
-          <circle cx="19" cy="0" r={3 * pulse} fill="#F59E0B" stroke="#FFFFFF" strokeWidth="1" style={{ filter: 'drop-shadow(0 0 6px #F59E0B)' }} />
-          <circle cx="19" cy="0" r="1.3" fill="#FFFFFF" />
+          {/* Front Superconducting Magnetic Induction Core */}
+          <circle cx="22" cy="0" r={3.2 * pulse} fill="#00F0FF" stroke="#FFFFFF" strokeWidth="1" style={{ filter: 'drop-shadow(0 0 8px #00F0FF)' }} />
+          <circle cx="22" cy="0" r="1.4" fill="#FFFFFF" />
         </g>
       </g>
     </g>
@@ -272,7 +274,7 @@ const MagneticTrainSprite = ({ x, y, rotation, isMoving, now }) => {
 };
 
 // -------------------------------------------------------------------
-// 4. Interactive Waypoint Node Sprite
+// 4. Interactive Waypoint Node Sprite (Clean, Sleek, Tower-Free #3B82F6 Vivid Blue)
 // -------------------------------------------------------------------
 const WaypointNodeSprite = ({ 
   x, 
@@ -285,135 +287,65 @@ const WaypointNodeSprite = ({
   now, 
   onClick 
 }) => {
-  const isSpecial = isStart || isTarget;
+  const pulse = Math.sin(now * 0.008);
+  const ringR = 10 + pulse * 2.5;
+
   return (
     <g 
       transform={`translate(${x}, ${y})`}
       onClick={onClick}
       style={{ cursor: isConnected ? 'pointer' : 'default' }}
     >
-      {/* 1. Ground Footprint Shadow */}
-      <ellipse
-        cx="0"
-        cy="2"
-        rx={isSpecial ? 9 : 7}
-        ry={isSpecial ? 3.8 : 3}
-        fill="rgba(15, 23, 42, 0.45)"
-        style={{ filter: 'blur(0.8px)' }}
-      />
-
-      {/* 2. Metallic Base Anchor Plate */}
-      <rect
-        x={isSpecial ? "-5.5" : "-4.5"}
-        y="-1"
-        width={isSpecial ? "11" : "9"}
-        height={isSpecial ? "2.8" : "2.5"}
-        rx="1"
-        fill="#334155"
-        stroke="#1E293B"
-        strokeWidth="0.5"
-      />
-      <circle cx="-2.5" cy="0.2" r="0.5" fill="#94A3B8" />
-      <circle cx="2.5" cy="0.2" r="0.5" fill="#94A3B8" />
-
-      {/* 3. Small Isometric Steel Pole / Pylon Mast */}
-      <g>
-        {/* Tapered Mast Column */}
-        <polygon
-          points="-2,-1 2,-1 1,-19 -1,-19"
-          fill="url(#poleSteelGrad)"
-          stroke="#1E293B"
-          strokeWidth="0.5"
-        />
-
-        {/* Chiseled Center Highlight Ridge */}
-        <line x1="0" y1="-1" x2="0" y2="-19" stroke="rgba(255,255,255,0.35)" strokeWidth="0.4" />
-
-        {/* Dual Ceramic Insulator Crossarms */}
-        <line x1="-5" y1="-13" x2="5" y2="-13" stroke="#475569" strokeWidth="1.1" strokeLinecap="round" />
-        <circle cx="-4.2" cy="-13" r="1.1" fill="#173B5F" stroke="#173B5F" strokeWidth="0.3" />
-        <circle cx="4.2" cy="-13" r="1.1" fill="#173B5F" stroke="#173B5F" strokeWidth="0.3" />
-
-        {/* Tesla Induction Ring Torus */}
-        <ellipse
-          cx="0"
-          cy="0"
-          r={16 + 2.5 * Math.sin(now * 0.009)}
-          fill="rgba(56, 189, 248, 0.22)"
-          stroke="#38BDF8"
-          strokeWidth="2.2"
-          strokeDasharray="4 3"
-          style={{ filter: 'drop-shadow(0 0 6px #38BDF8)' }}
-        />
-      </g>
-
-      {/* 2. Target Pulsing Aura on Destination Junction */}
-      {isTarget && (
+      {/* 1. Subtle Radial Halo / Aura for Connected / Target / Start Nodes */}
+      {(isConnected || isTarget || isStart || isCurrent) && (
         <circle
           cx="0"
           cy="0"
-          r={20 + 3 * Math.sin(now * 0.007)}
-          fill="rgba(245, 158, 11, 0.28)"
-          stroke="#F59E0B"
-          strokeWidth="2.8"
-          style={{ filter: 'drop-shadow(0 0 10px #F59E0B)' }}
+          r={isTarget ? ringR + 3 : (isConnected ? ringR : 8.5)}
+          fill={isTarget ? "rgba(245, 158, 11, 0.22)" : "rgba(59, 130, 246, 0.25)"}
+          stroke={isTarget ? "#F59E0B" : "#3B82F6"}
+          strokeWidth="1.4"
+          strokeDasharray={isConnected ? "3 3" : "none"}
+          style={{ filter: 'drop-shadow(0 0 5px rgba(59, 130, 246, 0.6))' }}
         />
       )}
 
-      {/* 3. Center Node Core aligned exactly on the orange junction box */}
+      {/* 2. Outer Node Ring - Clean vivid blue (#3B82F6) */}
       <circle
         cx="0"
         cy="0"
-        r={isTarget ? 10 : (isStart ? 9 : (isConnected ? 8 : (isCurrent ? 7 : 5)))}
-        fill={isTarget ? "#F59E0B" : (isStart ? "#10B981" : (isConnected ? "#0284C7" : (isCurrent ? "#22C55E" : "rgba(245, 158, 11, 0.75)")))}
+        r={isTarget ? 6.5 : (isStart ? 6 : (isConnected ? 5.5 : (isCurrent ? 5 : 4)))}
+        fill={isTarget ? "#F59E0B" : (isStart ? "#10B981" : "#3B82F6")}
         stroke="#FFFFFF"
-        strokeWidth="2"
-        style={{ filter: (isConnected || isTarget || isStart) ? 'drop-shadow(0 0 5px rgba(255,255,255,0.85))' : 'none' }}
+        strokeWidth="1.5"
+        style={{ filter: 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.35))' }}
       />
 
-          {/* Luminous Yellow Light Bulb Core */}
-          <circle
-            cx="0"
-            cy="-21"
-            r={isSpecial ? 4.2 : 3.2}
-            fill="url(#yellowLightBulbGrad)"
-            stroke={isSpecial ? "#FFFFFF" : "#214A70"}
-            strokeWidth={isSpecial ? "0.9" : "0.6"}
-            style={{ filter: isSpecial ? 'drop-shadow(0 0 6px #FACC15)' : 'drop-shadow(0 0 4px #FACC15)' }}
-          />
+      {/* 3. Sleek Center Core Dot */}
+      <circle
+        cx="0"
+        cy="0"
+        r={isTarget ? 2.8 : (isStart ? 2.4 : (isConnected ? 2.2 : 1.5))}
+        fill="#FFFFFF"
+        opacity={0.95}
+      />
 
-          {/* White-Hot Filament Glint */}
-          <circle cx="0" cy="-21" r={isSpecial ? 1.8 : 1.3} fill="#FFFFFF" />
-          <circle cx="-0.8" cy="-21.8" r={isSpecial ? 0.9 : 0.6} fill="#FFFFFF" opacity="0.9" />
-
-          {/* Continuous Pulsing Wave Ring for Start / Destination */}
-          {isSpecial && (
-            <circle
-              cx="0"
-              cy="-21"
-              r={6 + ((now * 0.012) % 7)}
-              fill="none"
-              stroke="#EAF2F6"
-              strokeWidth="0.8"
-              opacity={1 - ((now * 0.012) % 7) / 7}
-            />
-          )}
-
-      {/* 5. Start Milestone Beacon */}
+      {/* 4. Sleek Start Badge */}
       {isStart && (
-        <g transform="translate(0, -28)" pointerEvents="none">
-          <rect x="-30" y="-9" width="60" height="18" rx="9" fill="#064E3B" stroke="#34D399" strokeWidth="1.6" style={{ filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.5))' }} />
-          <text x="0" y="3.5" textAnchor="middle" fill="#FFFFFF" fontSize="9" fontWeight="900" fontFamily="system-ui, sans-serif">
+        <g transform="translate(0, -15)" pointerEvents="none">
+          <rect x="-20" y="-6.5" width="40" height="13" rx="6.5" fill="#064E3B" stroke="#34D399" strokeWidth="1.2" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.4))' }} />
+          <text x="0" y="2.8" textAnchor="middle" fill="#FFFFFF" fontSize="7" fontWeight="900" fontFamily="system-ui, sans-serif">
             START 🚩
           </text>
         </g>
       )}
 
+      {/* 5. Sleek Destination Badge */}
       {isTarget && (
-        <g transform="translate(0, -32)" pointerEvents="none">
-          <rect x="-35" y="-6.5" width="70" height="13" rx="6.5" fill="#173B5F" stroke="#FACC15" strokeWidth="1.2" style={{ filter: 'drop-shadow(0 2px 5px rgba(245,158,11,0.5))' }} />
-          <text x="0" y="3" textAnchor="middle" fill="#EAF2F6" fontSize="6.8" fontWeight="900" fontFamily="system-ui, sans-serif">
-            DESTINATION 🎯
+        <g transform="translate(0, -17)" pointerEvents="none">
+          <rect x="-24" y="-6.5" width="48" height="13" rx="6.5" fill="#173B5F" stroke="#FACC15" strokeWidth="1.2" style={{ filter: 'drop-shadow(0 2px 5px rgba(245,158,11,0.45))' }} />
+          <text x="0" y="2.8" textAnchor="middle" fill="#EAF2F6" fontSize="7" fontWeight="900" fontFamily="system-ui, sans-serif">
+            GOAL 🎯
           </text>
         </g>
       )}
@@ -1129,8 +1061,8 @@ export default function MazeGame({
 
       {/* 4. Declarative SVG / DOM Layered Simulation Viewport */}
       <svg
-        viewBox="0 0 1024 1024"
-        preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 1024 682"
+        preserveAspectRatio="none"
         style={{
           width: '100%',
           height: '100%',
@@ -1164,28 +1096,21 @@ export default function MazeGame({
             <stop offset="100%" stopColor="#0EA5E9" stopOpacity="0" />
           </radialGradient>
 
-          {/* Electric Pole Gradients */}
-          <linearGradient id="poleSteelGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#475569" />
-            <stop offset="30%" stopColor="#94A3B8" />
-            <stop offset="70%" stopColor="#64748B" />
-            <stop offset="100%" stopColor="#334155" />
+          {/* Maglev Futuristic Train Hull Gradient */}
+          <linearGradient id="maglevBodyGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#0F172A" />
+            <stop offset="25%" stopColor="#1E293B" />
+            <stop offset="50%" stopColor="#F8FAFC" />
+            <stop offset="75%" stopColor="#E2E8F0" />
+            <stop offset="100%" stopColor="#0284C7" />
           </linearGradient>
 
-          <radialGradient id="poleEmitterGrad" cx="35%" cy="30%" r="70%">
-            <stop offset="0%" stopColor="#FFFFFF" />
-            <stop offset="35%" stopColor="#EAF2F6" />
-            <stop offset="70%" stopColor="#214A70" />
-            <stop offset="100%" stopColor="#173B5F" />
-          </radialGradient>
-
-          {/* Glowing Yellow Light Bulb Gradient */}
-          <radialGradient id="yellowLightBulbGrad" cx="35%" cy="30%" r="70%">
-            <stop offset="0%" stopColor="#FFFFFF" />
-            <stop offset="35%" stopColor="#EAF2F6" />
-            <stop offset="75%" stopColor="#FACC15" />
-            <stop offset="100%" stopColor="#173B5F" />
-          </radialGradient>
+          {/* Electric Cyan Xenon Headlight Beam */}
+          <linearGradient id="maglevHeadlightGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="rgba(0, 240, 255, 0.85)" />
+            <stop offset="40%" stopColor="rgba(56, 189, 248, 0.45)" />
+            <stop offset="100%" stopColor="rgba(56, 189, 248, 0)" />
+          </linearGradient>
 
           {/* Lightning Gradients */}
           <radialGradient id="yellowLightningGlow" cx="50%" cy="50%" r="50%">
@@ -1193,36 +1118,15 @@ export default function MazeGame({
             <stop offset="40%" stopColor="#FACC15" stopOpacity="0.5" />
             <stop offset="100%" stopColor="#214A70" stopOpacity="0" />
           </radialGradient>
-
-          {/* Train Gradients (Warm Architectural Bronze, Sandstone & Carbon Steel) */}
-          <linearGradient id="trainEngineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#292524" />
-            <stop offset="30%" stopColor="#44403C" />
-            <stop offset="70%" stopColor="#78350F" />
-            <stop offset="100%" stopColor="#D97706" />
-          </linearGradient>
-
-          <linearGradient id="trainCoachGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#1C1917" />
-            <stop offset="30%" stopColor="#292524" />
-            <stop offset="75%" stopColor="#57534E" />
-            <stop offset="100%" stopColor="#B45309" />
-          </linearGradient>
-
-          <linearGradient id="headlightBeamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(254, 240, 138, 0.85)" />
-            <stop offset="45%" stopColor="rgba(245, 158, 11, 0.45)" />
-            <stop offset="100%" stopColor="rgba(245, 158, 11, 0)" />
-          </linearGradient>
         </defs>
 
         {/* 1. Exact High Quality 3D Isometric Railway Transit Grid Map */}
         <image
-          href="/FunWithMagnets/image.png"
+          href="/FunWithMagnets/city_grid_track_map.jpg"
           x="0"
           y="0"
           width="1024"
-          height="1024"
+          height="682"
           preserveAspectRatio="none"
         />
 

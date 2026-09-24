@@ -158,76 +158,36 @@ export default function Stage3_Explore({ onComplete, onNext }) {
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <div style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '50%',
-                background: '#D97706',
-                color: '#FFFFFF',
-                fontSize: '22px',
-                fontWeight: 900,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0
-              }}>1</div>
+              <div className="gold-step-badge" style={{ width: '40px', height: '40px', fontSize: '22px' }}>
+                1
+              </div>
               <span style={{ fontSize: '26px', color: '#0A2540', lineHeight: 1.35, fontWeight: 800 }}>
                 Select 'Same Poles'.
               </span>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <div style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '50%',
-                background: '#D97706',
-                color: '#FFFFFF',
-                fontSize: '22px',
-                fontWeight: 900,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0
-              }}>2</div>
+              <div className="gold-step-badge" style={{ width: '40px', height: '40px', fontSize: '22px' }}>
+                2
+              </div>
               <span style={{ fontSize: '26px', color: '#0A2540', lineHeight: 1.35, fontWeight: 800 }}>
                 Observe like poles (N + N) repel.
               </span>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <div style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '50%',
-                background: '#D97706',
-                color: '#FFFFFF',
-                fontSize: '22px',
-                fontWeight: 900,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0
-              }}>3</div>
+              <div className="gold-step-badge" style={{ width: '40px', height: '40px', fontSize: '22px' }}>
+                3
+              </div>
               <span style={{ fontSize: '26px', color: '#0A2540', lineHeight: 1.35, fontWeight: 800 }}>
                 Select 'Different Poles'.
               </span>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <div style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '50%',
-                background: '#D97706',
-                color: '#FFFFFF',
-                fontSize: '22px',
-                fontWeight: 900,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0
-              }}>4</div>
+              <div className="gold-step-badge" style={{ width: '40px', height: '40px', fontSize: '22px' }}>
+                4
+              </div>
               <span style={{ fontSize: '26px', color: '#0A2540', lineHeight: 1.35, fontWeight: 800 }}>
                 Observe opposite poles (N + S) attract.
               </span>
@@ -391,9 +351,10 @@ export default function Stage3_Explore({ onComplete, onNext }) {
             </div>
           </div>
 
-          {/* Bottom Primary CTA: Proceed to Quiz Button (Dark Blue #0A1931) */}
+          {/* Bottom Primary CTA: Proceed to Quiz Button (Dark Blue #0A1931 with subtle shimmer) */}
           <button 
             onClick={handleFinish} 
+            className="navy-btn"
             style={{ 
               width: "100%", 
               padding: "0.85rem 1.4rem", 
@@ -403,13 +364,11 @@ export default function Stage3_Explore({ onComplete, onNext }) {
               display: "flex", 
               justifyContent: "space-between", 
               alignItems: "center", 
-              background: "#0A1931",
-              color: "#FFFFFF",
-              border: "1.5px solid #1E3A8A",
-              boxShadow: "0 4px 14px rgba(10, 25, 49, 0.35)",
-              cursor: "pointer",
-              transition: "all 0.2s ease"
-            }}
+              border: "1.5px solid #1E3A8A", 
+              boxShadow: "0 4px 14px rgba(10, 25, 49, 0.35)", 
+              cursor: "pointer", 
+              transition: "all 0.2s ease" 
+            }} 
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
               <CheckCircle2 size={24} color="#FFFFFF" strokeWidth={2.5} />
