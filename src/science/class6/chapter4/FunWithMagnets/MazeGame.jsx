@@ -128,6 +128,8 @@ export const playElectricZapSound = () => {};
 // -------------------------------------------------------------------
 // 3. SVG High-Definition 3-Car Maglev Magnetic Train Sprite (Front Cab ➔ Middle Car ➔ Rear Cab)
 // -------------------------------------------------------------------
+// 3. Futuristic 3-Car Maglev Train Sprite (Rendered with Top-Down Aerodynamic Streamlining)
+// -------------------------------------------------------------------
 const MagneticTrainSprite = ({ x, y, rotation, isMoving, now }) => {
   const deg = (rotation * 180 / Math.PI);
   const pulse = 1 + 0.18 * Math.sin(now * 0.015);
@@ -140,48 +142,48 @@ const MagneticTrainSprite = ({ x, y, rotation, isMoving, now }) => {
         <ellipse
           cx="0"
           cy="0"
-          rx="52"
-          ry="10"
+          rx="64"
+          ry="12"
           fill="rgba(15, 23, 42, 0.6)"
-          style={{ filter: 'blur(3px)' }}
+          style={{ filter: 'blur(3.5px)' }}
         />
 
         {/* 2. Futuristic Vivid Electric Cyan / Blue Maglev Levitation Underglow Field */}
         <ellipse
           cx="0"
           cy="0"
-          rx={isMoving ? 56 : 50}
-          ry={isMoving ? 11 : 9}
-          fill="rgba(0, 240, 255, 0.4)"
-          style={{ filter: 'blur(4px)' }}
+          rx={isMoving ? 70 : 62}
+          ry={isMoving ? 13 : 11}
+          fill="rgba(0, 240, 255, 0.45)"
+          style={{ filter: 'blur(4.5px)' }}
         />
 
         {/* 3. Glowing Levitation Skid Strips (Left & Right Rails) */}
-        <line x1="-46" y1="-7.5" x2="46" y2="-7.5" stroke="#00F0FF" strokeWidth="2.6" opacity={glowPulse} style={{ filter: 'drop-shadow(0 0 5px #00F0FF)' }} />
-        <line x1="-46" y1="7.5" x2="46" y2="7.5" stroke="#00F0FF" strokeWidth="2.6" opacity={glowPulse} style={{ filter: 'drop-shadow(0 0 5px #00F0FF)' }} />
+        <line x1="-58" y1="-9.5" x2="58" y2="-9.5" stroke="#00F0FF" strokeWidth="2.8" opacity={glowPulse} style={{ filter: 'drop-shadow(0 0 6px #00F0FF)' }} />
+        <line x1="-58" y1="9.5" x2="58" y2="9.5" stroke="#00F0FF" strokeWidth="2.8" opacity={glowPulse} style={{ filter: 'drop-shadow(0 0 6px #00F0FF)' }} />
 
         {/* 4. Projected Forward Xenon / Cyan Headlight Beams */}
         <polygon
-          points="46,-4 98,-18 98,18 46,4"
+          points="58,-5 125,-22 125,22 58,5"
           fill="url(#maglevHeadlightGrad)"
-          opacity={isMoving ? 0.88 : 0.55}
+          opacity={isMoving ? 0.92 : 0.6}
           pointerEvents="none"
         />
 
-        {/* 5. High-Definition 3-Car Maglev Train Asset (Front Cab ➔ Middle Passenger Compartment ➔ Rear Cab) */}
+        {/* 5. High-Definition 3-Car Maglev Train Asset (Bright Pure White with Enhanced Contrast & Glow) */}
         <image
           href="/FunWithMagnets/maglev_train_3car.png"
-          x="-49"
-          y="-7.4"
-          width="98"
-          height="14.8"
+          x="-61"
+          y="-9.25"
+          width="122"
+          height="18.5"
           preserveAspectRatio="none"
-          style={{ filter: 'drop-shadow(0 2px 5px rgba(0,0,0,0.4))' }}
+          style={{ filter: 'brightness(1.35) contrast(1.18) drop-shadow(0 3px 8px rgba(0,0,0,0.5))' }}
         />
 
         {/* 6. Front Nose Magnetic Induction Receiver Sensor */}
-        <circle cx="48.5" cy="0" r={2.8 * pulse} fill="#00F0FF" stroke="#FFFFFF" strokeWidth="1" style={{ filter: 'drop-shadow(0 0 6px #00F0FF)' }} />
-        <circle cx="48.5" cy="0" r="1.3" fill="#FFFFFF" />
+        <circle cx="60.5" cy="0" r={3.2 * pulse} fill="#00F0FF" stroke="#FFFFFF" strokeWidth="1.2" style={{ filter: 'drop-shadow(0 0 7px #00F0FF)' }} />
+        <circle cx="60.5" cy="0" r="1.5" fill="#FFFFFF" />
       </g>
     </g>
   );
@@ -285,9 +287,9 @@ const ElectricLightningTether = ({
   const x1 = poleX;
   const y1 = poleY;
 
-  // Train's front magnetic receiver tip (3-car Maglev nose tip offset is ~48.5px)
-  const x2 = trainX + Math.cos(trainRotation) * 48.5;
-  const y2 = trainY + Math.sin(trainRotation) * 48.5;
+  // Train's front magnetic receiver tip (3-car Maglev nose tip offset is ~60.5px)
+  const x2 = trainX + Math.cos(trainRotation) * 60.5;
+  const y2 = trainY + Math.sin(trainRotation) * 60.5;
 
   const dx = x2 - x1;
   const dy = y2 - y1;

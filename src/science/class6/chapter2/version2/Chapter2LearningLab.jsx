@@ -1593,11 +1593,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
               onGoToDetective={() => setCurrentStep(6)}
               onBackToDetective={() => setCurrentStep(6)}
               onNextActivity={() => {
-                if (typeof setIsPlayingAct24ObservationTransition === 'function') {
-                  setIsPlayingAct24ObservationTransition(true);
-                } else {
-                  setCurrentStep(6);
-                }
+                setIsPlayingAct24ObservationTransition(true);
               }} 
             />
           </div>
@@ -1614,16 +1610,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 setStep5SpecimenIndex(8); // Specimen 09 · Sunflower (last slide) — correct order when stepping back
                 setCurrentStep(5);
               }} 
-              onNextActivity={() => {
-                if (typeof setIsPlayingAct25ObservationTransition === 'function') {
-                  setIsPlayingAct25ObservationTransition(true);
-                } else {
-                  setVenationPhase('cover');
-                  setVenationSpecimenIndex(0);
-                  setCurrentStep(7);
-                  setVenationSubTab('venation');
-                }
-              }}
+              onNextActivity={() => setIsPlayingAct25ObservationTransition(true)}
             />
           </div>
         )}
@@ -1640,12 +1627,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 onBackToDashboard={() => setCurrentStep(6)} 
                 onPreviousPage={() => setCurrentStep(6)}
                 onNext={() => {
-                  if (typeof setIsPlayingAct26ObservationTransition === 'function') {
-                    setIsPlayingAct26ObservationTransition(true);
-                  } else {
-                    setRootsSpecimenIndex(0);
-                    setVenationSubTab('roots');
-                  }
+                  setRootsSpecimenIndex(0);
+                  setIsPlayingAct26ObservationTransition(true);
                 }}
               />
             )}
@@ -1659,12 +1642,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                   setVenationSubTab('venation');
                 }}
                 onNext={() => {
-                  if (typeof setIsPlayingAct27ObservationTransition === 'function') {
-                    setIsPlayingAct27ObservationTransition(true);
-                  } else {
-                    setCorrelationPhase('specimens');
-                    setVenationSubTab('correlation');
-                  }
+                  setCorrelationPhase('specimens');
+                  setIsPlayingAct27ObservationTransition(true);
                 }}
               />
             )}
