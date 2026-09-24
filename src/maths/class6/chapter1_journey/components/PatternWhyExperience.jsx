@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import SectionNextButton from './SectionNextButton';
 import sunImg from '../../../../assets/realistic_sun.jpg';
 import moonImg from '../../../../assets/moon_texture.jpg';
 
-export default function PatternWhyExperience() {
+export default function PatternWhyExperience({ onNext }) {
   const [stage, setStage] = useState(1);
   const [showDNA, setShowDNA] = useState(false);
 
@@ -17,11 +18,11 @@ export default function PatternWhyExperience() {
     return (
       <div style={{
         width: '100%', height: '100%', backgroundColor: '#020617',
-        display: 'flex', flexDirection: 'column'
+        display: 'flex', flexDirection: 'row', overflow: 'hidden'
       }}>
-        {/* UPPER ANIMATION AREA (85%) */}
+        {/* LEFT ANIMATION AREA (MAX SPACE) */}
         <div style={{
-          width: '100%', flex: '0 0 85%', position: 'relative', overflow: 'hidden',
+          flex: 1, minWidth: 0, height: '100%', position: 'relative', overflow: 'hidden',
           display: 'flex', alignItems: 'center', justifyContent: 'center'
         }}>
           {/* Simple CSS DNA Approximation */}
@@ -56,29 +57,48 @@ export default function PatternWhyExperience() {
           </div>
         </div>
 
-        {/* LOWER TEXT PANEL (15%) */}
+        {/* RIGHT CONTENT PANEL (MINIMUM REQUIRED SPACE) */}
         <div style={{
-          flex: '0 0 15%', width: '100%', backgroundColor: '#fdfcf8',
-          borderTopLeftRadius: '16px', borderTopRightRadius: '16px',
-          boxShadow: '0 -4px 15px rgba(0,0,0,0.1)', zIndex: 10, boxSizing: 'border-box',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '0 2rem', gap: '2rem', overflow: 'hidden'
+          flex: '0 0 clamp(320px, 25vw, 380px)',
+          width: 'clamp(320px, 25vw, 380px)',
+          height: '100%',
+          backgroundColor: '#fdfcf8',
+          borderLeft: '1px solid #cbd5e1',
+          boxShadow: '-4px 0 15px rgba(0,0,0,0.06)',
+          zIndex: 10,
+          boxSizing: 'border-box',
+          display: 'flex',
+          flexDirection: 'column',
+          padding: 'clamp(10px, 1.4vh, 16px) clamp(10px, 1vw, 14px)',
+          overflow: 'hidden'
         }}>
-          <div style={{ flex: '0 0 25%' }}>
-            <h2 style={{ fontSize: '1.6rem', color: '#0f172a', fontWeight: 'bold', margin: 0, fontFamily: '"Space Grotesk", sans-serif' }}>
-              Patterns in Life
-            </h2>
+          <div style={{
+            flex: 1,
+            minHeight: 0,
+            overflowY: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            gap: '1.5rem',
+            padding: '1rem 0.5rem'
+          }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <h2 style={{ fontSize: 'clamp(1.75rem, 2.05vw, 2.45rem)', color: '#0f172a', fontWeight: 900, margin: 0, fontFamily: '"Times New Roman", Times, Georgia, serif' }}>
+                Patterns in Life
+              </h2>
+              <p style={{ fontSize: 'clamp(1.18rem, 1.32vw, 1.52rem)', lineHeight: 1.4, color: '#1e293b', fontWeight: 700, margin: 0, fontFamily: '"Times New Roman", Times, Georgia, serif' }}>
+                Just like orbits in space, our DNA contains repeating mathematical patterns. Recognizing these patterns helps scientists understand genetics and create medical applications to heal and protect life.
+              </p>
+            </div>
+            <div>
+              <button onClick={() => { setShowDNA(false); setStage(1); }} style={btnStyle}>
+                Back to Space
+              </button>
+            </div>
           </div>
-          <div style={{ flex: '1' }}>
-            <p style={{ fontSize: '1.15rem', lineHeight: 1.4, color: '#1e293b', fontWeight: 'bold', margin: 0, fontFamily: '"Times New Roman", serif' }}>
-              Just like orbits in space, our DNA contains repeating mathematical patterns. Recognizing these patterns helps scientists understand genetics and create medical applications to heal and protect life.
-            </p>
-          </div>
-          <div style={{ flex: '0 0 auto' }}>
-            <button onClick={() => { setShowDNA(false); setStage(1); }} style={btnStyle}>
-              Back to Space
-            </button>
-          </div>
+
+          {/* Bottom-right pinned Next button: Section 6 -> Section 7 */}
+          <SectionNextButton onClick={onNext} />
         </div>
 
         <style>{`
@@ -94,11 +114,11 @@ export default function PatternWhyExperience() {
   return (
     <div style={{
       width: '100%', height: '100%', backgroundColor: '#000',
-      display: 'flex', flexDirection: 'column'
+      display: 'flex', flexDirection: 'row', overflow: 'hidden'
     }}>
-      {/* UPPER ANIMATION AREA (85%) */}
+      {/* LEFT ANIMATION AREA (MAX SPACE) */}
       <div style={{
-        position: 'relative', width: '100%', flex: '0 0 85%', overflow: 'hidden',
+        position: 'relative', flex: 1, minWidth: 0, height: '100%', overflow: 'hidden',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         perspective: '1200px', zIndex: 1
       }}>
@@ -204,96 +224,107 @@ export default function PatternWhyExperience() {
         </div>
       </div>
 
-      {/* LOWER TEXT PANEL (15%) */}
+      {/* RIGHT CONTENT PANEL (MINIMUM REQUIRED SPACE) */}
       <div style={{
-        flex: '0 0 15%', width: '100%', backgroundColor: '#fdfcf8',
-        borderTopLeftRadius: '16px', borderTopRightRadius: '16px',
-        boxShadow: '0 -4px 15px rgba(0,0,0,0.1)', zIndex: 10, boxSizing: 'border-box',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 2rem', gap: '2rem', overflow: 'hidden'
+        flex: '0 0 clamp(320px, 25vw, 380px)',
+        width: 'clamp(320px, 25vw, 380px)',
+        height: '100%',
+        backgroundColor: '#fdfcf8',
+        borderLeft: '1px solid #cbd5e1',
+        boxShadow: '-4px 0 15px rgba(0,0,0,0.06)',
+        zIndex: 10,
+        boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: 'clamp(10px, 1.4vh, 16px) clamp(10px, 1vw, 14px)',
+        overflow: 'hidden'
       }}>
-        {stage === 1 && (
-          <>
-            <div style={{ flex: '0 0 20%' }}>
-              <h3 style={{ fontSize: '1.6rem', color: '#0f172a', fontWeight: 'bold', margin: 0, fontFamily: '"Space Grotesk", sans-serif' }}>Step 1: Observe</h3>
-            </div>
-            <div style={{ flex: '1' }}>
-              <p style={{ fontSize: '1.15rem', lineHeight: 1.4, color: '#1e293b', fontWeight: 'bold', margin: 0, fontFamily: '"Times New Roman", serif' }}>
-                Look at the movement of the planets and moons. They move naturally in the vastness of space.
-              </p>
-            </div>
-            <div style={{ flex: '0 0 auto' }}>
-              <button onClick={() => setStage(2)} style={btnStyle}>Find Pattern</button>
-            </div>
-          </>
-        )}
+        <div style={{
+          flex: 1,
+          minHeight: 0,
+          overflowY: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          gap: '1.5rem',
+          padding: '1rem 0.5rem'
+        }}>
+          {stage === 1 && (
+            <>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <h3 style={{ fontSize: 'clamp(1.75rem, 2.05vw, 2.45rem)', color: '#0f172a', fontWeight: 900, margin: 0, fontFamily: '"Times New Roman", Times, Georgia, serif' }}>Step 1: Observe</h3>
+                <p style={{ fontSize: 'clamp(1.18rem, 1.32vw, 1.52rem)', lineHeight: 1.4, color: '#1e293b', fontWeight: 700, margin: 0, fontFamily: '"Times New Roman", Times, Georgia, serif' }}>
+                  Look at the movement of the planets and moons. They move naturally in the vastness of space.
+                </p>
+              </div>
+              <div>
+                <button onClick={() => setStage(2)} style={btnStyle}>Find Pattern</button>
+              </div>
+            </>
+          )}
 
-        {stage === 2 && (
-          <>
-            <div style={{ flex: '0 0 20%' }}>
-              <h3 style={{ fontSize: '1.6rem', color: '#0f172a', fontWeight: 'bold', margin: 0, fontFamily: '"Space Grotesk", sans-serif' }}>Step 2: Find Pattern</h3>
-            </div>
-            <div style={{ flex: '1' }}>
-              <p style={{ fontSize: '1.15rem', lineHeight: 1.4, color: '#1e293b', fontWeight: 'bold', margin: 0, fontFamily: '"Times New Roman", serif' }}>
-                Which of these statements best describes the pattern of their movement?
-              </p>
-            </div>
-            <div style={{ flex: '0 0 auto', display: 'flex', gap: '0.5rem' }}>
-              <button onClick={() => handlePatternChoice(false)} style={outlineBtnStyle}>Random zig-zag</button>
-              <button onClick={() => handlePatternChoice(true)} style={btnStyle}>Predictable circular orbits</button>
-            </div>
-          </>
-        )}
+          {stage === 2 && (
+            <>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <h3 style={{ fontSize: 'clamp(1.75rem, 2.05vw, 2.45rem)', color: '#0f172a', fontWeight: 900, margin: 0, fontFamily: '"Times New Roman", Times, Georgia, serif' }}>Step 2: Find Pattern</h3>
+                <p style={{ fontSize: 'clamp(1.18rem, 1.32vw, 1.52rem)', lineHeight: 1.4, color: '#1e293b', fontWeight: 700, margin: 0, fontFamily: '"Times New Roman", Times, Georgia, serif' }}>
+                  Which of these statements best describes the pattern of their movement?
+                </p>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <button onClick={() => handlePatternChoice(false)} style={outlineBtnStyle}>Random zig-zag</button>
+                <button onClick={() => handlePatternChoice(true)} style={btnStyle}>Predictable circular orbits</button>
+              </div>
+            </>
+          )}
 
-        {stage === 3 && (
-          <>
-            <div style={{ flex: '0 0 20%' }}>
-              <h3 style={{ fontSize: '1.6rem', color: '#0f172a', fontWeight: 'bold', margin: 0, fontFamily: '"Space Grotesk", sans-serif' }}>Step 3: Ask Why</h3>
-            </div>
-            <div style={{ flex: '1' }}>
-              <p style={{ fontSize: '1.15rem', lineHeight: 1.4, color: '#1e293b', fontWeight: 'bold', margin: 0, fontFamily: '"Times New Roman", serif' }}>
-                Excellent! They repeat the same path. But <strong>why</strong> does the Earth stay in orbit instead of flying away?
-              </p>
-            </div>
-            <div style={{ flex: '0 0 auto' }}>
-              <button onClick={() => setStage(4)} style={btnStyle}>Discover the Math</button>
-            </div>
-          </>
-        )}
+          {stage === 3 && (
+            <>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <h3 style={{ fontSize: 'clamp(1.75rem, 2.05vw, 2.45rem)', color: '#0f172a', fontWeight: 900, margin: 0, fontFamily: '"Times New Roman", Times, Georgia, serif' }}>Step 3: Ask Why</h3>
+                <p style={{ fontSize: 'clamp(1.18rem, 1.32vw, 1.52rem)', lineHeight: 1.4, color: '#1e293b', fontWeight: 700, margin: 0, fontFamily: '"Times New Roman", Times, Georgia, serif' }}>
+                  Excellent! They repeat the same path. But <strong>why</strong> does the Earth stay in orbit instead of flying away?
+                </p>
+              </div>
+              <div>
+                <button onClick={() => setStage(4)} style={btnStyle}>Discover the Math</button>
+              </div>
+            </>
+          )}
 
-        {stage === 4 && (
-          <>
-            <div style={{ flex: '0 0 20%' }}>
-              <h3 style={{ fontSize: '1.6rem', color: '#0f172a', fontWeight: 'bold', margin: 0, fontFamily: '"Space Grotesk", sans-serif' }}>Step 4: Explain</h3>
-            </div>
-            <div style={{ flex: '1' }}>
-              <p style={{ fontSize: '1.15rem', lineHeight: 1.4, color: '#1e293b', fontWeight: 'bold', margin: 0, fontFamily: '"Times New Roman", serif' }}>
-                The Sun's gravity pulls the Earth inward, while Earth's speed tries to launch it forward. This perfect mathematical balance creates a continuous curve called an <strong>orbit</strong>.
-              </p>
-            </div>
-            <div style={{ flex: '0 0 auto' }}>
-              <button onClick={() => setStage(5)} style={btnStyle}>Apply to Technology</button>
-            </div>
-          </>
-        )}
+          {stage === 4 && (
+            <>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <h3 style={{ fontSize: 'clamp(1.75rem, 2.05vw, 2.45rem)', color: '#0f172a', fontWeight: 900, margin: 0, fontFamily: '"Times New Roman", Times, Georgia, serif' }}>Step 4: Explain</h3>
+                <p style={{ fontSize: 'clamp(1.18rem, 1.32vw, 1.52rem)', lineHeight: 1.4, color: '#1e293b', fontWeight: 700, margin: 0, fontFamily: '"Times New Roman", Times, Georgia, serif' }}>
+                  The Sun's gravity pulls the Earth inward, while Earth's speed tries to launch it forward. This perfect mathematical balance creates a continuous curve called an <strong>orbit</strong>.
+                </p>
+              </div>
+              <div>
+                <button onClick={() => setStage(5)} style={btnStyle}>Apply to Technology</button>
+              </div>
+            </>
+          )}
 
-        {stage === 5 && (
-          <>
-            <div style={{ flex: '0 0 20%' }}>
-              <h3 style={{ fontSize: '1.6rem', color: '#0f172a', fontWeight: 'bold', margin: 0, fontFamily: '"Space Grotesk", sans-serif' }}>Step 5: Apply</h3>
-            </div>
-            <div style={{ flex: '1' }}>
-              <p style={{ fontSize: '1.15rem', lineHeight: 1.4, color: '#1e293b', fontWeight: 'bold', margin: 0, fontFamily: '"Times New Roman", serif' }}>
-                By understanding this exact mathematical pattern, scientists can calculate how to launch rockets, place satellites in orbit, and send missions to Mars!
-              </p>
-            </div>
-            <div style={{ flex: '0 0 auto' }}>
-              <button onClick={() => setShowDNA(true)} style={{ ...btnStyle, background: 'linear-gradient(135deg, #10b981, #059669)' }}>
-                Explore Patterns in Life →
-              </button>
-            </div>
-          </>
-        )}
+          {stage === 5 && (
+            <>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <h3 style={{ fontSize: 'clamp(1.75rem, 2.05vw, 2.45rem)', color: '#0f172a', fontWeight: 900, margin: 0, fontFamily: '"Times New Roman", Times, Georgia, serif' }}>Step 5: Apply</h3>
+                <p style={{ fontSize: 'clamp(1.18rem, 1.32vw, 1.52rem)', lineHeight: 1.4, color: '#1e293b', fontWeight: 700, margin: 0, fontFamily: '"Times New Roman", Times, Georgia, serif' }}>
+                  By understanding this exact mathematical pattern, scientists can calculate how to launch rockets, place satellites in orbit, and send missions to Mars!
+                </p>
+              </div>
+              <div>
+                <button onClick={() => setShowDNA(true)} style={{ ...btnStyle, background: 'linear-gradient(135deg, #10b981, #059669)', width: '100%' }}>
+                  Explore Patterns in Life →
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Bottom-right pinned Next button: Section 6 -> Section 7 */}
+        <SectionNextButton onClick={onNext} />
       </div>
 
       <style>{`
@@ -311,15 +342,15 @@ export default function PatternWhyExperience() {
 }
 
 const btnStyle = {
-  padding: '12px 24px', fontSize: '1.05rem', fontWeight: 'bold', color: 'white',
+  padding: '12px 24px', fontSize: 'clamp(1.25rem, 1.42vw, 1.6rem)', fontWeight: 900, color: 'white',
   background: 'linear-gradient(135deg, #3b82f6, #2563eb)', border: 'none',
   borderRadius: '8px', cursor: 'pointer', boxShadow: '0 4px 10px rgba(59, 130, 246, 0.3)',
-  transition: 'transform 0.2s', fontFamily: '"Space Grotesk", sans-serif'
+  transition: 'transform 0.2s', fontFamily: '"Times New Roman", Times, Georgia, serif'
 };
 
 const outlineBtnStyle = {
-  padding: '12px 24px', fontSize: '1.05rem', color: '#1e293b', fontWeight: 'bold',
+  padding: '12px 24px', fontSize: 'clamp(1.25rem, 1.42vw, 1.6rem)', color: '#1e293b', fontWeight: 900,
   background: 'transparent', border: '2px solid #cbd5e1',
   borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s',
-  fontFamily: '"Space Grotesk", sans-serif'
+  fontFamily: '"Times New Roman", Times, Georgia, serif'
 };

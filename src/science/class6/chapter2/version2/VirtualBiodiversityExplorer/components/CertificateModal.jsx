@@ -58,34 +58,34 @@ export default function CertificateModal({
           <Award className="w-10 h-10 text-slate-950" />
         </div>
 
-        <span className="block text-xs font-extrabold uppercase tracking-widest text-amber-300">
+        <span className="block text-lg font-extrabold uppercase tracking-widest text-amber-300">
           CBSE Grade 6 Science Certificate of Excellence
         </span>
 
-        <h1 className="text-2xl md:text-4xl font-black text-white mt-1 mb-2 tracking-tight">
+        <h1 className="text-2xl md:text-3xl font-black text-white mt-1 mb-2 tracking-tight">
           Master Nature Explorer 🌿
         </h1>
 
-        <p className="text-sm text-slate-300 max-w-md mx-auto">
+        <p className="text-lg text-slate-300 max-w-md mx-auto">
           This certificate is proudly awarded for successfully exploring plant and animal diversity in Activity 2.1!
         </p>
 
         {/* Gamification Stats Cards Grid */}
         <div className="grid grid-cols-3 gap-3 my-6 max-w-lg mx-auto">
           <div className="bg-slate-800/80 border border-amber-400/30 p-3 rounded-2xl">
-            <span className="text-xs text-slate-400 block font-medium">XP Earned</span>
+            <span className="text-base text-slate-400 block font-medium">XP Earned</span>
             <span className="text-xl md:text-2xl font-extrabold text-emerald-400">{xp} XP</span>
           </div>
 
           <div className="bg-slate-800/80 border border-amber-400/30 p-3 rounded-2xl">
-            <span className="text-xs text-slate-400 block font-medium">Stars Collected</span>
+            <span className="text-base text-slate-400 block font-medium">Stars Collected</span>
             <span className="text-xl md:text-2xl font-extrabold text-amber-400 flex items-center justify-center gap-1">
               <Star className="w-5 h-5 fill-amber-400" /> {stars}
             </span>
           </div>
 
           <div className="bg-slate-800/80 border border-amber-400/30 p-3 rounded-2xl">
-            <span className="text-xs text-slate-400 block font-medium">Species Found</span>
+            <span className="text-base text-slate-400 block font-medium">Species Found</span>
             <span className="text-xl md:text-2xl font-extrabold text-cyan-400">{discoveredCount}/8</span>
           </div>
         </div>
@@ -94,8 +94,8 @@ export default function CertificateModal({
         <div className="bg-emerald-950/60 border border-emerald-400/40 p-4 rounded-2xl max-w-md mx-auto mb-6 flex items-center justify-center gap-3">
           <ShieldCheck className="w-8 h-8 text-emerald-400 shrink-0" />
           <div className="text-left">
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-300">Badge Unlocked</span>
-            <h4 className="font-extrabold text-white text-base">Eco Detective Level 1</h4>
+            <span className="text-base font-bold uppercase tracking-wider text-emerald-300">Badge Unlocked</span>
+            <h4 className="font-extrabold text-white text-xl">Eco Detective Level 1</h4>
           </div>
         </div>
 
@@ -103,7 +103,7 @@ export default function CertificateModal({
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2 border-t border-slate-800">
           <button
             onClick={handlePrint}
-            className="w-full sm:w-auto px-5 py-3 rounded-xl font-bold text-xs md:text-sm bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 flex items-center justify-center gap-2 transition"
+            className="w-full sm:w-auto px-5 py-3 rounded-xl font-bold text-base bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 flex items-center justify-center gap-2 transition"
           >
             <Download className="w-4 h-4" />
             <span>Download Certificate</span>
@@ -111,7 +111,7 @@ export default function CertificateModal({
 
           <button
             onClick={onReplay}
-            className="w-full sm:w-auto px-5 py-3 rounded-xl font-bold text-xs md:text-sm bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 flex items-center justify-center gap-2 transition"
+            className="w-full sm:w-auto px-5 py-3 rounded-xl font-bold text-base bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 flex items-center justify-center gap-2 transition"
           >
             <RefreshCw className="w-4 h-4" />
             <span>Replay Activity</span>
@@ -119,7 +119,7 @@ export default function CertificateModal({
 
           <button
             onClick={onNextLesson}
-            className="w-full sm:w-auto px-6 py-3 rounded-xl font-extrabold text-xs md:text-sm bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 flex items-center justify-center gap-2 shadow-xl transition transform active:scale-95"
+            className="w-full sm:w-auto px-6 py-3 rounded-xl font-extrabold text-base bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 flex items-center justify-center gap-2 shadow-xl transition transform active:scale-95"
           >
             <span>Next Lesson (2.2)</span>
             <ArrowRight className="w-4 h-4" />

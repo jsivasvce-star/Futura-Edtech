@@ -18,6 +18,10 @@ import {
 } from 'lucide-react';
 import ExactCompass from '../components/ExactCompass.jsx';
 import Barrier3DCanvas from './components/Barrier3DCanvas.jsx';
+import bgWood from '../../../../assets/ch4.8_image1.png';
+import bgGlass from '../../../../assets/ch4.8_image2.png';
+import bgPlastic from '../../../../assets/ch4.8_image3.png';
+import bgCardboard from '../../../../assets/ch4.8_image4.png';
 
 // Web Audio API Sound Synthesizer for Magnetic Clicks & Whoosh
 function playMagneticSound(type = 'snap') {
@@ -228,7 +232,7 @@ const MaterialBarrierVisual = ({ type, stage = 1, thickness = 1 }) => {
 const MATERIALS = [
   {
     id: 'glass',
-    name: 'Crystal glass',
+    name: 'Glass',
     itemLabel: 'Small Glass',
     fullName: 'Small Crystal Glass Tumbler',
     type: 'glass',
@@ -239,7 +243,7 @@ const MATERIALS = [
   },
   {
     id: 'plastic',
-    name: 'Plastic container',
+    name: 'Plastic box',
     itemLabel: 'Plastic Container',
     fullName: 'Airtight Plastic Kitchen Container',
     type: 'plastic',
@@ -250,7 +254,7 @@ const MATERIALS = [
   },
   {
     id: 'cardboard',
-    name: 'Cardboard',
+    name: 'Card board',
     itemLabel: 'Shipping Box',
     fullName: 'Large Shipping Cardboard Box',
     type: 'cardboard',
@@ -261,12 +265,12 @@ const MATERIALS = [
   },
   {
     id: 'wood',
-    name: 'Tree',
-    itemLabel: 'Tree',
-    fullName: 'Living Oak Tree Trunk',
+    name: 'Wood',
+    itemLabel: 'Wood',
+    fullName: 'Wood Block',
     type: 'wood',
     stage: 4,
-    icon: '🌳',
+    icon: '🪵',
     desc: 'Living oak tree trunk',
     deflection: { angle: -18, label: 'Subtle Deflection', fieldPower: '38%' }
   }
@@ -333,15 +337,20 @@ export default function Simulation({ onComplete, onNext }) {
   const compassX = Math.max(500, workspaceSize.width - COMPASS_RADIUS - 35);
   const magnetX = 145;
 
-  const isTreeStage = activeMaterial === 'wood' && currentStage === 4;
+  const isTreeStage = false;
 
   // Safe distance calculations: guarantee the magnet NEVER touches any object
   // Cardboard has wider footprint (~95px half-width); container & glass have ~60px half-width
   const barrierClearance = activeMaterial === 'cardboard' ? 145 : 125;
   const magnetFarLeft = isTreeStage ? 15 : 25;
+  let rightOffset = -25;
+  if (activeMaterial === 'glass') rightOffset = 10;
+  else if (activeMaterial === 'wood') rightOffset = 95;
+  else if (activeMaterial === 'cardboard') rightOffset = 90;
+  
   const magnetCloseLeft = isTreeStage
     ? Math.max(25, Math.round(centerX - 270))
-    : Math.max(45, Math.round(centerX - 180 - barrierClearance));
+    : Math.max(45, Math.round(centerX - 180 - barrierClearance) + rightOffset);
 
   const magnetLeft = magnetApproached ? magnetCloseLeft : magnetFarLeft;
 
@@ -556,7 +565,7 @@ export default function Simulation({ onComplete, onNext }) {
     <div style={{
       padding: '0.65rem',
       display: 'grid',
-      gridTemplateColumns: '430px 1fr',
+      gridTemplateColumns: '1fr 430px',
       gap: '1.25rem',
       height: '100%',
       minHeight: 0,
@@ -567,6 +576,7 @@ export default function Simulation({ onComplete, onNext }) {
 
       {/* Left Column: Two Golden Containers (Instructions & Controls) */}
       <div className="stage-right-column" style={{
+        order: 2,
         display: 'flex',
         flexDirection: 'column',
         gap: '1.65rem',
@@ -574,69 +584,77 @@ export default function Simulation({ onComplete, onNext }) {
         minHeight: 0,
         boxSizing: 'border-box'
       }}>
-        {/* Container 1: Steps of Instructions */}
+        {/* Container 1: Explore the magnetic force */}
         <div className="stage-container-1" style={{
-          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+          background: 'linear-gradient(135deg, #FFFFFF 0%, #F9FAFB 100%)',
           border: '1.5px solid #E2E8F0',
           borderRadius: '24px',
-          padding: '1.4rem 1.6rem',
-          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+          padding: '1.2rem',
+          boxShadow: '0 6px 24px rgba(0, 0, 0, 0.04)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '0.85rem'
+          gap: '0.8rem',
+          flex: 6,
+          minHeight: 0
         }}>
-          <h3 style={{ margin: 0, fontSize: '19.5px', fontWeight: 900, color: '#1E1B4B' }}>
-            Steps of Instructions
+          <h3 style={{ margin: 0, fontSize: '23.6px', fontWeight: 900, color: '#1E293B' }}>
+            Explore the magnetic force
           </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
-              <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
-                Select or auto-play barrier items: Glass, Plastic, Cardboard, and Wood.
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
+              <div style={{ width: '34px', height: '34px', borderRadius: '50%', background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: '23.7px', flexShrink: 0, boxShadow: '0 4px 10px rgba(33, 74, 112, 0.3)' }}>1</div>
+              <span style={{ fontSize: '23.7px', color: '#334155', lineHeight: 1.45, fontWeight: 700, paddingTop: '2px' }}>
+                Choose a barrier: glass, plastic, cardboard or wood.
               </span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
-              <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
-                Observe the compass needle deflect through each non-magnetic barrier.
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
+              <div style={{ width: '34px', height: '34px', borderRadius: '50%', background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: '23.7px', flexShrink: 0, boxShadow: '0 4px 10px rgba(33, 74, 112, 0.3)' }}>2</div>
+              <span style={{ fontSize: '23.7px', color: '#334155', lineHeight: 1.45, fontWeight: 700, paddingTop: '2px' }}>
+                Watch the compass needle as the magnet stays nearby.
               </span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <div style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#173B5F', marginTop: '0.48rem', flexShrink: 0 }} />
-              <span style={{ fontSize: '17.5px', color: '#173B5F', lineHeight: 1.45, fontWeight: 700 }}>
-                Click 'Flip Magnet' to switch polarity and reverse needle deflection.
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
+              <div style={{ width: '34px', height: '34px', borderRadius: '50%', background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: '23.7px', flexShrink: 0, boxShadow: '0 4px 10px rgba(33, 74, 112, 0.3)' }}>3</div>
+              <span style={{ fontSize: '23.7px', color: '#334155', lineHeight: 1.45, fontWeight: 700, paddingTop: '2px' }}>
+                Flip the magnet and observe the change in direction.
               </span>
             </div>
           </div>
+          <div style={{ background: '#EAF2F6', border: '1.5px solid #214A70', borderRadius: '16px', padding: '0.8rem 1rem', display: 'flex', alignItems: 'center', gap: '0.8rem', marginTop: '0.2rem' }}>
+            <div style={{ width: '38.5px', height: '38.5px', borderRadius: '50%', background: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 2px 5px rgba(33, 74, 112, 0.15)' }}>
+              <span style={{ fontSize: '22px' }}>💡</span>
+            </div>
+            <span style={{ fontSize: '22.3px', color: '#173B5F', fontWeight: 800, lineHeight: 1.3 }}>
+              Keep the magnet and compass at the same distance.
+            </span>
+          </div>
         </div>
 
-        {/* Container 2: Barrier Items & Controls */}
         <div className="stage-container-2" style={{
-          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+          background: 'linear-gradient(135deg, #FFFFFF 0%, #F9FAFB 100%)',
           border: '1.5px solid #E2E8F0',
           borderRadius: '24px',
-          padding: '1.4rem 1.6rem',
-          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+          padding: '0.75rem 1rem',
+          boxShadow: '0 6px 24px rgba(0, 0, 0, 0.04)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '0.85rem',
-          flex: 1,
+          gap: '0.5rem',
+          flex: 4,
           minHeight: 0
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ margin: 0, fontSize: '19.5px', fontWeight: 900, color: '#1E1B4B' }}>
-              Barrier Items
+            <h3 style={{ margin: 0, fontSize: '27.1px', fontWeight: 900, color: '#1E293B' }}>
+              Choose a barrier
             </h3>
             <span style={{
               background: '#DCFCE7',
-              color: '#15803D',
+              color: '#16A34A',
               fontWeight: 900,
-              fontSize: '15px',
+              fontSize: '18.4px',
               padding: '0.35rem 0.8rem',
-              borderRadius: '12px',
-              border: '1.5px solid #86EFAC'
+              borderRadius: '20px',
             }}>
-              4 Materials
+              4 materials
             </span>
           </div>
 
@@ -644,13 +662,12 @@ export default function Simulation({ onComplete, onNext }) {
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: '0.65rem',
+            gap: '0.4rem',
             width: '100%',
             boxSizing: 'border-box'
           }}>
             {MATERIALS.map((mat, idx) => {
               const isSelected = selectedMaterialIndex === idx;
-              const isObserved = observations[mat.id] === 'deflects';
 
               return (
                 <button
@@ -659,23 +676,23 @@ export default function Simulation({ onComplete, onNext }) {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '0.75rem 0.85rem',
+                    justifyContent: 'flex-start',
+                    padding: '0.5rem 0.75rem',
                     borderRadius: '16px',
-                    border: isSelected ? '2.5px solid #214A70' : '1.5px solid #E2E8F0',
-                    background: isSelected ? 'linear-gradient(135deg, #EAF2F6 0%, #E2E8F0 100%)' : '#FFFFFF',
+                    border: isSelected ? '2.5px solid #3B82F6' : '1.5px solid #E2E8F0',
+                    background: isSelected ? '#EFF6FF' : '#FFFFFF',
                     cursor: 'pointer',
-                    boxShadow: isSelected ? '0 4px 14px rgba(245, 158, 11, 0.22)' : '0 2px 8px rgba(217, 119, 6, 0.05)',
+                    boxShadow: isSelected ? '0 4px 14px rgba(59, 130, 246, 0.15)' : '0 2px 8px rgba(0, 0, 0, 0.03)',
                     transition: 'all 0.2s ease',
                     textAlign: 'left',
-                    gap: '0.5rem',
+                    gap: '0.6rem',
                     boxSizing: 'border-box',
                     width: '100%'
                   }}
                   onMouseEnter={(e) => {
                     if (!isSelected) {
-                      e.currentTarget.style.borderColor = '#214A70';
-                      e.currentTarget.style.background = '#F3F7F9';
+                      e.currentTarget.style.borderColor = '#93C5FD';
+                      e.currentTarget.style.background = '#F8FAFC';
                     }
                   }}
                   onMouseLeave={(e) => {
@@ -685,39 +702,29 @@ export default function Simulation({ onComplete, onNext }) {
                     }
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', minWidth: 0 }}>
-                    <div style={{
-                      width: '38px',
-                      height: '38px',
-                      borderRadius: '12px',
-                      background: isSelected ? '#E2E8F0' : '#EAF2F6',
-                      border: isSelected ? '1.5px solid #214A70' : '1px solid #E2E8F0',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '1.45rem',
-                      flexShrink: 0
-                    }}>
-                      {mat.icon}
-                    </div>
-
-                    <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-                      <div style={{ fontWeight: 900, fontSize: '0.94rem', color: isSelected ? '#173B5F' : '#173B5F', lineHeight: 1.2 }}>
-                        {mat.name}
-                      </div>
-                      <div style={{ fontSize: '0.75rem', color: isSelected ? '#173B5F' : '#047857', fontWeight: 700, marginTop: '2px' }}>
-                        {mat.itemLabel}
-                      </div>
-                    </div>
+                  <div style={{
+                    width: '64px',
+                    height: '64px',
+                    borderRadius: '12px',
+                    background: '#F1F5F9',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '2.5rem',
+                    flexShrink: 0
+                  }}>
+                    {mat.icon}
                   </div>
 
-                  {isObserved ? (
-                    <span style={{ display: 'flex', alignItems: 'center', gap: '3px', fontSize: '0.72rem', fontWeight: 900, color: '#15803D', background: '#DCFCE7', padding: '3px 7px', borderRadius: '10px', border: '1px solid #86EFAC', flexShrink: 0 }}>
-                      <CheckCircle2 size={12} color="#16A34A" />
-                    </span>
-                  ) : isSelected ? (
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#214A70', flexShrink: 0, boxShadow: '0 0 6px #214A70' }} />
-                  ) : null}
+                  <div style={{ fontWeight: 800, fontSize: '20.7px', color: '#1E293B', flex: 1, wordBreak: 'break-word', lineHeight: 1.2 }}>
+                    {mat.name === 'Card board' ? <>Card<br/>board</> : mat.name === 'Plastic box' ? <>Plastic<br/>box</> : mat.name}
+                  </div>
+
+                  {isSelected && (
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '26px', height: '26px', borderRadius: '50%', background: '#22C55E', color: 'white', flexShrink: 0 }}>
+                      <CheckCircle2 size={18} color="#FFFFFF" />
+                    </div>
+                  )}
                 </button>
               );
             })}
@@ -729,26 +736,26 @@ export default function Simulation({ onComplete, onNext }) {
             className="gold-glow-btn"
             style={{
               width: '100%',
-              padding: '0.85rem 1.4rem',
-              borderRadius: '16px',
-              fontSize: '17.5px',
+              padding: '0.6rem',
+              borderRadius: '20px',
+              fontSize: '20.5px',
               fontWeight: 900,
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '0.5rem',
-              marginTop: 'auto',
-              transition: 'all 0.2s ease'
+              marginTop: '0.5rem',
+              border: 'none',
             }}
           >
-            <Sparkles size={18} /> Proceed to Concept Check <ArrowRight size={18} />
+            Proceed to Concept Check <ArrowRight size={22} />
           </button>
         </div>
       </div>
 
       {/* Right Column: Ocean Themed Interactive Stage */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.65rem', height: '100%', minHeight: 0 }}>
+      <div style={{ order: 1, flex: 1, display: 'flex', flexDirection: 'column', gap: '0.65rem', height: '100%', minHeight: 0 }}>
 
         {/* Top Header Stage Bar */}
         <div style={{
@@ -763,55 +770,20 @@ export default function Simulation({ onComplete, onNext }) {
           gap: '0.5rem',
           flexWrap: 'wrap'
         }}>
-          {/* 4 Selected Barrier Items Switcher */}
+          {/* Selected Barrier Display */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '0.35rem'
+            gap: '0.35rem',
+            padding: '5px 12px',
+            background: '#FFFFFF',
+            border: '1.5px solid #A7F3D0',
+            borderRadius: '14px',
+            boxShadow: '0 1px 4px rgba(0,0,0,0.04)'
           }}>
-            <span style={{ fontSize: '0.82rem', fontWeight: 900, color: '#065F46', marginRight: '2px' }}>
-              Barrier Items:
+            <span style={{ fontSize: '1.2rem', fontWeight: 900, color: '#065F46' }}>
+              SELECTED: <span style={{ color: '#173B5F', marginLeft: '4px' }}>{MATERIALS[selectedMaterialIndex].itemLabel}</span>
             </span>
-            {MATERIALS.map((m, idx) => {
-              const isCurrent = selectedMaterialIndex === idx;
-              return (
-                <button
-                  key={m.id}
-                  onClick={() => handleSelectObject(idx)}
-                  title={m.fullName}
-                  style={{
-                    padding: '5px 12px',
-                    fontSize: '0.82rem',
-                    fontWeight: 900,
-                    borderRadius: '14px',
-                    border: isCurrent ? '1.5px solid #173B5F' : '1.5px solid #A7F3D0',
-                    background: isCurrent ? 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)' : '#FFFFFF',
-                    color: isCurrent ? '#FFFFFF' : '#065F46',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                    boxShadow: isCurrent ? '0 3px 10px rgba(217, 119, 6, 0.35)' : '0 1px 4px rgba(0,0,0,0.04)',
-                    transition: 'all 0.2s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isCurrent) {
-                      e.currentTarget.style.borderColor = '#10B981';
-                      e.currentTarget.style.background = '#ECFDF5';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isCurrent) {
-                      e.currentTarget.style.borderColor = '#A7F3D0';
-                      e.currentTarget.style.background = '#FFFFFF';
-                    }
-                  }}
-                >
-                  <span>{m.icon}</span>
-                  <span>{`${idx + 1}. ${m.itemLabel}`}</span>
-                </button>
-              );
-            })}
           </div>
 
           {/* Auto-Demo Tour Control & Actions */}
@@ -821,7 +793,7 @@ export default function Simulation({ onComplete, onNext }) {
               title={isAutoPlaying ? "Pause Auto-Tour (1 to 4)" : "Start Auto-Tour (1 to 4)"}
               style={{
                 padding: '0.45rem 0.95rem',
-                fontSize: '0.82rem',
+                fontSize: '1.14rem',
                 fontWeight: 900,
                 borderRadius: '16px',
                 border: isAutoPlaying ? '1.5px solid #173B5F' : '1.5px solid #A7F3D0',
@@ -848,14 +820,14 @@ export default function Simulation({ onComplete, onNext }) {
               }}
             >
               {isAutoPlaying ? <Pause size={14} /> : <Play size={14} />}
-              {isAutoPlaying ? 'Pause Demo' : 'Play Auto (1➔4)'}
+              AUTO PLAY (1–4)
             </button>
 
             <button
               onClick={flipMagnet}
               style={{
                 padding: '0.45rem 0.95rem',
-                fontSize: '0.82rem',
+                fontSize: '1.14rem',
                 fontWeight: 900,
                 borderRadius: '16px',
                 border: isFlipped ? '1.5px solid #1D4ED8' : '1.5px solid #A7F3D0',
@@ -881,7 +853,7 @@ export default function Simulation({ onComplete, onNext }) {
                 }
               }}
             >
-              <RotateCcw size={14} /> {isFlipped ? 'Flip: [S][N] (NE)' : 'Flip: [N][S] (NW)'}
+              <RotateCcw size={14} /> FLIP MAGNET
             </button>
           </div>
         </div>
@@ -936,9 +908,9 @@ export default function Simulation({ onComplete, onNext }) {
             style={{
               position: 'absolute',
               inset: 0,
-              backgroundImage: 'url(/assets/study_desk_bg.jpg)',
-              backgroundPosition: 'center 62%',
-              backgroundSize: 'cover',
+              backgroundImage: `url(${bgGlass})`,
+              backgroundPosition: 'center center',
+              backgroundSize: '100% 100%',
               backgroundRepeat: 'no-repeat',
               opacity: activeMaterial === 'glass' ? 1 : 0,
               transition: 'opacity 0.45s ease-in-out',
@@ -952,9 +924,9 @@ export default function Simulation({ onComplete, onNext }) {
             style={{
               position: 'absolute',
               inset: 0,
-              backgroundImage: 'url(/assets/kitchen_counter_bg.jpg)',
-              backgroundPosition: 'center 62%',
-              backgroundSize: 'cover',
+              backgroundImage: `url(${bgPlastic})`,
+              backgroundPosition: 'center center',
+              backgroundSize: '100% 100%',
               backgroundRepeat: 'no-repeat',
               opacity: activeMaterial === 'plastic' ? 1 : 0,
               transition: 'opacity 0.45s ease-in-out',
@@ -968,9 +940,9 @@ export default function Simulation({ onComplete, onNext }) {
             style={{
               position: 'absolute',
               inset: 0,
-              backgroundImage: 'url(/assets/shipping_port_bg.jpg)',
-              backgroundPosition: 'center 60%',
-              backgroundSize: 'cover',
+              backgroundImage: `url(${bgCardboard})`,
+              backgroundPosition: 'center center',
+              backgroundSize: '100% 100%',
               backgroundRepeat: 'no-repeat',
               opacity: activeMaterial === 'cardboard' ? 1 : 0,
               transition: 'opacity 0.45s ease-in-out',
@@ -984,12 +956,10 @@ export default function Simulation({ onComplete, onNext }) {
             style={{
               position: 'absolute',
               inset: 0,
-              backgroundImage: 'url(/assets/forest_tree_bg.jpg)',
+              backgroundImage: `url(${bgWood})`,
               backgroundPosition: 'center center',
-              backgroundSize: 'cover',
+              backgroundSize: '100% 100%',
               backgroundRepeat: 'no-repeat',
-              filter: 'blur(7px)',
-              transform: 'scale(1.05)',
               opacity: activeMaterial === 'wood' ? 1 : 0,
               transition: 'opacity 0.45s ease-in-out',
               pointerEvents: 'none',
@@ -1000,27 +970,7 @@ export default function Simulation({ onComplete, onNext }) {
           {/* Draggable / Fixed Objects Stage */}
           <div style={{ position: 'absolute', inset: 0, zIndex: 10 }}>
 
-            {/* Center Material Barrier Visual - Natural Tabletop Placement Animation */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`${activeMaterial}-${currentStage}`}
-                initial={{ opacity: 0, y: -65, scale: 0.88 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -45, scale: 0.92 }}
-                transition={{ type: 'spring', damping: 24, stiffness: 280, mass: 0.8 }}
-                style={{
-                  position: 'absolute',
-                  left: isTreeStage ? 0 : centerX - (matWidth / 2),
-                  top: isTreeStage ? 0 : centerY - (matHeight / 2) + (activeMaterial === 'cardboard' ? 12 : 0),
-                  width: isTreeStage ? '100%' : undefined,
-                  height: isTreeStage ? '100%' : undefined,
-                  zIndex: 15,
-                  pointerEvents: 'none'
-                }}
-              >
-                <MaterialBarrierVisual type={activeMaterial} stage={currentStage} thickness={thickness} />
-              </motion.div>
-            </AnimatePresence>
+
 
             {/* Stationary Compass on Right Side with Smooth Red North Needle Deflection */}
             <div 
@@ -1051,7 +1001,7 @@ export default function Simulation({ onComplete, onNext }) {
               style={{ 
                 position: 'absolute', 
                 left: `${magnetLeft}px`, 
-                top: isTreeStage ? centerY + 175 - 27 : centerY - 27,
+                top: activeMaterial === 'plastic' ? centerY + 15 : (isTreeStage ? centerY + 175 - 27 : centerY - 27),
                 transform: isTreeStage ? 'scale(0.55)' : 'scale(1)',
                 transformOrigin: 'center center',
                 transition: 'left 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)',

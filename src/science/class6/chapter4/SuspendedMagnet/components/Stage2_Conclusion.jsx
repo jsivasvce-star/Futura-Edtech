@@ -28,27 +28,13 @@ export default function Stage2_Conclusion({ onComplete }) {
   };
 
   const [customTransition, setCustomTransition] = useState(null);
-  const [isPausedAtNorth, setIsPausedAtNorth] = useState(false);
 
-  // 1. Automatic continuous spin in all directions when idle (North → East → South → West)
-  // Automatically resumes after deflection and the North-South observation leave time
-  useEffect(() => {
-    if (isSpinning || isPausedAtNorth) return;
-
-    const timer = setInterval(() => {
-      setNeedleAngle((prev) => (typeof prev === 'number' ? prev + 90 : 90));
-    }, 2400);
-
-    return () => clearInterval(timer);
-  }, [isSpinning, isPausedAtNorth]);
-
-  // 2. Deflect sequence:
+  // 1. Deflect sequence (Autospin is disabled per user request):
   // - Rotate fast in clockwise direction
   // - Complete ONE FULL ROTATION in anticlockwise slowly (-360°)
-  // - Stop in the North-South direction
-  // - Leave time after setting North-South, then start autospin
+  // - Stop stably in the North-South direction (0°)
   const handleDeflect = () => {
-    if (isSpinning || isPausedAtNorth) return;
+    if (isSpinning) return;
     setIsSpinning(true);
 
     const current = typeof needleAngle === 'number' 
@@ -62,10 +48,6 @@ export default function Stage2_Conclusion({ onComplete }) {
     // Peak clockwise overshoot is exactly one full 360° turn beyond North-South
     const peakClockwise = finalNorthSouth + 360;
 
-    // Multi-phase keyframes:
-    // Phase 1: fast clockwise from current -> peakClockwise (high speed)
-    // Phase 2: slow anticlockwise from peakClockwise -> finalNorthSouth (1 full 360° rotation)
-    // Phase 3: stops stably at finalNorthSouth (North-South direction)
     const animDuration = 3.6; // seconds
     setNeedleAngle([current, peakClockwise, finalNorthSouth]);
     setCustomTransition({
@@ -74,18 +56,10 @@ export default function Stage2_Conclusion({ onComplete }) {
       ease: ["easeOut", "easeInOut"]
     });
 
-    // When rotation completes at animDuration (3.6s):
     setTimeout(() => {
-      setNeedleAngle(finalNorthSouth);
+      setNeedleAngle(0);
       setCustomTransition(null);
       setIsSpinning(false);
-      setIsPausedAtNorth(true); // Leave time at North-South
-
-      // Leave ample time (3.5 seconds) with needle resting steadily at North-South
-      // and then start the autospin
-      setTimeout(() => {
-        setIsPausedAtNorth(false); // Resumes autospin!
-      }, 3500);
     }, animDuration * 1000 + 50);
   };
 
@@ -102,9 +76,10 @@ export default function Stage2_Conclusion({ onComplete }) {
       justifyContent: 'center',
       background: 'transparent'
     }}>
-      {/* Left Side: Interactive Compass Lab Scene */}
+      {/* Left Side: Interactive Compass Lab Scene (65% width) */}
       <div style={{ 
-        flex: '1.75', 
+        flex: '0 0 65%',
+        maxWidth: '65%', 
         display: 'flex', 
         flexDirection: 'column', 
         minWidth: 0,
@@ -120,14 +95,14 @@ export default function Stage2_Conclusion({ onComplete }) {
             flex: 1, 
             minHeight: '380px', 
             borderRadius: '24px', 
-            border: '1.5px solid #A7F3D0', 
+            border: '1.5px solid rgba(255, 255, 255, 0.8)', 
             overflow: 'hidden', 
-            boxShadow: '0 12px 30px rgba(6, 78, 59, 0.12)', 
+            boxShadow: '0 12px 36px rgba(0, 0, 0, 0.12)', 
             backgroundImage: `url('/SuspendedMagnet/conclusion_bg.jpg')`, 
             backgroundSize: 'cover', 
             backgroundPosition: 'center', 
             display: 'flex', 
-            flexDirection: 'column',
+            flexDirection: 'column', 
             alignItems: 'center', 
             justifyContent: 'center' 
           }}
@@ -140,22 +115,23 @@ export default function Stage2_Conclusion({ onComplete }) {
             zIndex: 30,
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem'
+            gap: '0.5rem',
+            pointerEvents: 'none'
           }}>
             <div style={{
-              background: 'linear-gradient(135deg, #173B5F 0%, #0A1C2E 100%)',
-              border: '1.5px solid #173B5F',
+              background: '#FFFFFF',
+              border: '1.5px solid #BAE6FD',
               borderRadius: '20px',
-              padding: '0.4rem 0.9rem',
-              fontSize: '0.82rem',
+              padding: '0.45rem 1.1rem',
+              fontSize: '0.95rem',
               fontWeight: 900,
-              color: '#FFFFFF',
-              boxShadow: '0 4px 14px rgba(69, 26, 3, 0.4)',
+              color: '#0284C7',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.45rem'
+              gap: '0.5rem'
             }}>
-              <Compass size={16} color="#214A70" /> COMPASS DIAL ALIGNMENT
+              <Compass size={18} color="#0284C7" /> COMPASS DIAL ALIGNMENT
             </div>
           </div>
 
@@ -192,14 +168,14 @@ export default function Stage2_Conclusion({ onComplete }) {
           <div style={{ 
             position: 'relative', 
             display: 'flex', 
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 20,
-            marginTop: '34px'
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            zIndex: 20, 
+            marginTop: '24px' 
           }}>
             <ExactCompass 
               rotation={needleAngle} 
-              size={295} 
+              size={290} 
               showThumbLoop={true} 
               onClick={handleDeflect} 
               transition={customTransition} 
@@ -208,75 +184,63 @@ export default function Stage2_Conclusion({ onComplete }) {
         </div>
       </div>
 
-      {/* Right Side: Scientific Finding & Interactive Controls */}
-      <div className="stage-right-column">
+      {/* Right Side: Scientific Finding & Interactive Controls (35% width) */}
+      <div className="stage-right-column" style={{ flex: '0 0 35%', maxWidth: '35%' }}>
         {/* Container 1: Scientific Finding & Explanation */}
         <div 
           className="stage-container-1"
           style={{
-            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(10px)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
-            boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
-            padding: '1.25rem 1.45rem',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
+            padding: '1.25rem 1.5rem',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
+            justifyContent: 'flex-start',
             gap: '0.85rem',
             boxSizing: 'border-box'
           }}
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                <Sparkles size={24} color="#173B5F" />
-                <h3 style={{ margin: 0, fontSize: '19.5px', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.01em' }}>
-                  Stage 2: Conclusion
-                </h3>
-              </div>
-              <span style={{
-                background: 'rgba(217, 119, 6, 0.12)',
-                color: '#173B5F',
-                fontWeight: 900,
-                fontSize: '0.88rem',
-                padding: '0.3rem 0.8rem',
-                borderRadius: '12px',
-                border: '1.5px solid #E2E8F0'
-              }}>
-                Scientific Law
-              </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+              <Sparkles size={28} color="#173B5F" strokeWidth={2.5} />
+              <h3 style={{ margin: 0, fontSize: '2.15rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
+                Stage 2: Conclusion
+              </h3>
             </div>
 
-            {/* Bullet Points with Dot Bullets and Brown Text */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {/* Bullet Points with Dot Bullets & Increased Font Size */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
               <div
                 style={{
                   display: 'flex',
                   alignItems: 'flex-start',
-                  gap: '0.75rem',
+                  gap: '0.85rem',
                   background: '#FFFFFF',
-                  border: '1.5px solid #E2E8F0',
+                  border: '1.5px solid #CBD5E1',
                   borderRadius: '16px',
-                  padding: '0.85rem 1.1rem',
-                  boxShadow: '0 2px 8px rgba(217, 119, 6, 0.05)'
+                  padding: '0.95rem 1.25rem',
+                  boxShadow: '0 2px 8px rgba(23, 59, 95, 0.04)'
                 }}
               >
                 <span style={{
-                  width: '9px',
-                  height: '9px',
+                  width: '12px',
+                  height: '12px',
                   borderRadius: '50%',
                   background: '#173B5F',
-                  marginTop: '0.48rem',
+                  marginTop: '0.65rem',
                   flexShrink: 0
                 }} />
                 <p style={{
                   margin: 0,
-                  fontSize: '17.5px',
+                  fontSize: '1.45rem',
                   color: '#173B5F',
-                  fontWeight: 600,
-                  lineHeight: 1.5
+                  fontWeight: 650,
+                  lineHeight: 1.4
                 }}>
-                  A freely suspended bar magnet or compass needle always comes to rest pointing along the North-South direction.
+                  A freely suspended magnet or compass needle always aligns along the <strong style={{ color: '#0F172A', fontWeight: 900 }}>North–South direction</strong>.
                 </p>
               </div>
 
@@ -284,133 +248,124 @@ export default function Stage2_Conclusion({ onComplete }) {
                 style={{
                   display: 'flex',
                   alignItems: 'flex-start',
-                  gap: '0.75rem',
+                  gap: '0.85rem',
                   background: '#FFFFFF',
-                  border: '1.5px solid #E2E8F0',
+                  border: '1.5px solid #CBD5E1',
                   borderRadius: '16px',
-                  padding: '0.85rem 1.1rem',
-                  boxShadow: '0 2px 8px rgba(217, 119, 6, 0.05)'
+                  padding: '0.95rem 1.25rem',
+                  boxShadow: '0 2px 8px rgba(23, 59, 95, 0.04)'
                 }}
               >
                 <span style={{
-                  width: '9px',
-                  height: '9px',
+                  width: '12px',
+                  height: '12px',
                   borderRadius: '50%',
                   background: '#173B5F',
-                  marginTop: '0.48rem',
+                  marginTop: '0.65rem',
                   flexShrink: 0
                 }} />
                 <p style={{
                   margin: 0,
-                  fontSize: '17.5px',
+                  fontSize: '1.45rem',
                   color: '#173B5F',
-                  fontWeight: 600,
-                  lineHeight: 1.5
+                  fontWeight: 650,
+                  lineHeight: 1.4
                 }}>
-                  Using the Sun's position provides an approximate East-West line to accurately identify the magnet's North-South axis.
+                  The Sun's position provides an East–West reference to verify the magnet's North–South axis.
                 </p>
               </div>
             </div>
           </div>
 
           <div style={{
-            background: 'rgba(255, 255, 255, 0.85)',
-            border: '1.5px solid #E2E8F0',
+            background: 'rgba(255, 255, 255, 0.95)',
+            border: '1.5px solid #CBD5E1',
             borderRadius: '16px',
-            padding: '0.75rem 1rem',
+            padding: '0.85rem 1.25rem',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.65rem'
+            gap: '0.85rem'
           }}>
-            <span style={{ fontSize: '1.4rem' }}>🧭</span>
-            <span style={{ fontSize: '16.5px', color: '#173B5F', fontWeight: 700 }}>
+            <span style={{ fontSize: '1.65rem' }}>🧭</span>
+            <span style={{ fontSize: '1.35rem', color: '#173B5F', fontWeight: 750, lineHeight: 1.35 }}>
               This directional property has guided global navigation for centuries.
             </span>
           </div>
         </div>
 
-        {/* Container 2: Compass Controls & Action */}
+        {/* Container 2: Compass Controls & Action with Increased Typography */}
         <div 
           className="stage-container-2"
           style={{
-            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(10px)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
-            boxShadow: '0 8px 24px rgba(217, 119, 6, 0.08)',
-            padding: '1.25rem 1.45rem',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
+            padding: '1.25rem 1.5rem',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             gap: '0.85rem',
             boxSizing: 'border-box'
           }}
         >
           <div>
-            <div style={{ fontSize: '19.5px', fontWeight: 900, color: '#1E1B4B', letterSpacing: '-0.01em', marginBottom: '0.4rem', display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-              <Compass size={22} color="#173B5F" /> Compass Deflection Test
+            <div style={{ fontSize: '1.85rem', fontWeight: 900, color: '#1E1B4B', letterSpacing: '-0.015em', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+              <Compass size={28} color="#173B5F" strokeWidth={2.5} /> Compass Deflection Test
             </div>
-            <p style={{ fontSize: '17.5px', color: '#173B5F', fontWeight: 600, margin: 0, lineHeight: 1.45 }}>
+            <p style={{ fontSize: '1.4rem', color: '#173B5F', fontWeight: 650, margin: 0, lineHeight: 1.35 }}>
               Tap below to deflect the compass needle and observe it oscillate back to the North-South axis:
             </p>
           </div>
 
-          <button
-            onClick={handleDeflect}
-            disabled={isSpinning || isPausedAtNorth}
-            className={!isSpinning && !isPausedAtNorth ? 'gold-glow-btn' : ''}
-            style={{
-              width: '100%',
-              padding: '0.8rem 1rem',
-              fontSize: '17.5px',
-              fontWeight: 900,
-              borderRadius: '18px',
-              background: isSpinning || isPausedAtNorth ? '#CBD5E1' : undefined,
-              color: isSpinning || isPausedAtNorth ? '#64748B' : '#FFFFFF',
-              border: isSpinning || isPausedAtNorth ? 'none' : undefined,
-              cursor: isSpinning || isPausedAtNorth ? 'not-allowed' : 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '0.65rem',
-              transition: 'all 0.2s ease'
-            }}
-          >
-            <RotateCw size={20} className={isSpinning ? 'spin-anim' : ''} />
-            {isSpinning
-              ? 'Deflecting Needle...'
-              : isPausedAtNorth
-              ? 'Aligned to North-South (Observing...)'
-              : 'Deflect Compass Needle'}
-          </button>
-
-          {/* Bottom Navigation */}
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'space-between', 
-            alignItems: 'center',
-            paddingTop: '0.2rem'
-          }}>
-            <span style={{ fontSize: '0.95rem', color: '#173B5F', fontWeight: 800 }}>
-              Stage 2 of 2 ● ●
-            </span>
-
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             <button
-              onClick={onComplete}
-              className="gold-glow-btn"
+              onClick={handleDeflect}
+              disabled={isSpinning}
+              className={!isSpinning ? 'gold-glow-btn' : ''}
               style={{
-                padding: '0.8rem 2.2rem',
-                fontSize: '17.5px',
+                width: '100%',
+                padding: '1.05rem 1.4rem',
+                fontSize: '1.45rem',
                 fontWeight: 900,
-                borderRadius: '24px',
-                cursor: 'pointer',
+                borderRadius: '16px',
+                background: isSpinning ? '#CBD5E1' : undefined,
+                color: isSpinning ? '#64748B' : '#FFFFFF',
+                border: isSpinning ? 'none' : undefined,
+                cursor: isSpinning ? 'not-allowed' : 'pointer',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.6rem',
+                justifyContent: 'center',
+                gap: '0.65rem',
                 transition: 'all 0.2s ease'
               }}
             >
-              Proceed to Quiz <ArrowRight size={20} color="#FFFFFF" />
+              <RotateCw size={26} className={isSpinning ? 'spin-anim' : ''} />
+              {isSpinning ? 'Deflecting Needle...' : 'Deflect Compass Needle'}
             </button>
+
+            {onComplete && (
+              <button
+                onClick={onComplete}
+                className="gold-glow-btn"
+                style={{
+                  width: '100%',
+                  padding: '1.05rem 1.4rem',
+                  fontSize: '1.45rem',
+                  fontWeight: 900,
+                  borderRadius: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.65rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                Proceed to Quiz <ArrowRight size={24} color="#FFFFFF" />
+              </button>
+            )}
           </div>
         </div>
       </div>

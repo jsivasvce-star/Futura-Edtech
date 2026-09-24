@@ -1536,128 +1536,151 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             {/* LEFT PANEL: Forest Green Box Panel */}
             <div style={{
               position: 'relative',
-              background: 'linear-gradient(180deg, rgba(6, 44, 28, 0.94) 0%, rgba(3, 30, 18, 0.96) 100%)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
-              border: '1.8px solid rgba(110, 231, 183, 0.5)',
+              background: 'linear-gradient(145deg, rgba(6, 36, 24, 0.75) 0%, rgba(3, 22, 14, 0.82) 100%)',
+              backdropFilter: 'blur(4px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(2px) saturate(180%)',
+              border: '1.5px solid rgba(167, 243, 208, 0.35)',
               borderRadius: '20px',
-              padding: '12px 16px',
+              padding: 'clamp(16px, 2.2vh, 24px) clamp(18px, 2vw, 24px)',
               boxShadow: '0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(16, 185, 129, 0.2)',
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'flex-start',
-              gap: '6px',
+              gap: 'clamp(12px, 1.8vh, 18px)',
               overflow: 'hidden',
               boxSizing: 'border-box'
             }}>
-              {/* Header: Subtitle & Title */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                <div style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  color: '#6EE7B7',
-                  fontWeight: 900,
-                  fontSize: '20px',
-                  letterSpacing: '0.04em',
-                  textTransform: 'uppercase',
-                  fontFamily: '"Outfit", sans-serif'
-                }}>
-                  <span>🌿</span>
-                  <span>ACTIVITY 2.2</span>
+              {/* Header: Subtitle, Title & Intro */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <div style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    color: '#A7F3D0',
+                    fontWeight: 800,
+                    fontSize: '18px',
+                    letterSpacing: '0.05em',
+                    textTransform: 'uppercase',
+                    fontFamily: '"Outfit", sans-serif'
+                  }}>
+                    <span>🌿</span>
+                    <span>ACTIVITY 2.2</span>
+                  </div>
+
+                  <h2 style={{
+                    fontFamily: '"Outfit", sans-serif',
+                    color: '#FCD34D',
+                    fontWeight: 900,
+                    fontSize: '26px',
+                    margin: '0',
+                    lineHeight: 1.15,
+                    textShadow: '0 2px 6px rgba(0,0,0,0.95)'
+                  }}>
+                    ECOSYSTEM APPRECIATION
+                  </h2>
                 </div>
 
-                <h2 style={{
-                  fontFamily: '"Outfit", sans-serif',
-                  color: '#FCD34D',
-                  fontWeight: 900,
-                  fontSize: '24px',
-                  margin: '0',
-                  lineHeight: 1.1,
-                  textShadow: '0 2px 6px rgba(0,0,0,0.95)'
-                }}>
-                  ECOSYSTEM APPRECIATION
-                </h2>
-              </div>
-
-              {/* Intro Text */}
-              <div style={{
-                fontSize: '20px',
-                lineHeight: 1.25,
-                color: '#ECFDF5',
-                fontFamily: '"Inter", sans-serif',
-                fontWeight: 600,
-                textAlign: 'justify',
-                textJustify: 'inter-word',
-                textShadow: '0 1px 3px rgba(0,0,0,0.9)'
-              }}>
-                Appreciating and conserving biodiversity is vital for our survival.
-              </div>
-
-              {/* Divider */}
-              <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(167,243,208,0.05) 0%, rgba(167,243,208,0.4) 50%, rgba(167,243,208,0.05) 100%)', margin: '1px 0' }} />
-
-              {/* Section 1: Reflect and Remember */}
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '2px',
-                borderLeft: '4px solid #10B981',
-                paddingLeft: '10px'
-              }}>
+                {/* Intro Text */}
                 <div style={{
-                  fontSize: '22px',
-                  fontWeight: 800,
-                  color: '#6EE7B7',
-                  fontFamily: '"Outfit", sans-serif',
-                  lineHeight: 1.15,
-                  textShadow: '0 1px 4px rgba(0,0,0,0.9)'
-                }}>
-                  Reflect and Remember
-                </div>
-                <div style={{
-                  fontSize: '20px',
-                  lineHeight: 1.25,
-                  color: '#FFFFFF',
+                  fontSize: '18px',
+                  lineHeight: 1.5,
+                  color: '#ECFDF5',
                   fontFamily: '"Inter", sans-serif',
-                  fontWeight: 500,
+                  fontWeight: 600,
                   textAlign: 'justify',
                   textJustify: 'inter-word',
-                  textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                  textShadow: '0 1px 3px rgba(0,0,0,0.9)',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1.2px solid rgba(167, 243, 208, 0.22)',
+                  borderRadius: '14px',
+                  padding: '12px 16px'
                 }}>
-                  Close your eyes for 10 seconds. Remember one plant and one animal from your nature walk.
+                  Appreciating and conserving biodiversity is vital for our survival.
                 </div>
               </div>
 
-              {/* Section 2: Share Your Observations */}
+              {/* Middle Section Cards - Covering vertical space evenly with flex: 1 */}
               <div style={{
+                flex: 1,
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '2px',
-                borderLeft: '4px solid #34D399',
-                paddingLeft: '10px'
+                gap: 'clamp(10px, 1.6vh, 16px)',
+                minHeight: 0
               }}>
+                {/* Section 1: Reflect and Remember */}
                 <div style={{
-                  fontSize: '22px',
-                  fontWeight: 800,
-                  color: '#A7F3D0',
-                  fontFamily: '"Outfit", sans-serif',
-                  lineHeight: 1.15,
-                  textShadow: '0 1px 4px rgba(0,0,0,0.9)'
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 78, 59, 0.18) 100%)',
+                  border: '1.5px solid rgba(110, 231, 183, 0.3)',
+                  borderLeft: '5px solid #10B981',
+                  borderRadius: '16px',
+                  padding: 'clamp(14px, 2vh, 20px) clamp(16px, 1.6vw, 20px)',
+                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
                 }}>
-                  Share Your Observations
+                  <div style={{
+                    fontSize: '21px',
+                    fontWeight: 800,
+                    color: '#6EE7B7',
+                    fontFamily: '"Outfit", sans-serif',
+                    lineHeight: 1.2,
+                    textShadow: '0 1px 4px rgba(0,0,0,0.9)'
+                  }}>
+                    Reflect and Remember
+                  </div>
+                  <div style={{
+                    fontSize: '18px',
+                    lineHeight: 1.55,
+                    color: '#FFFFFF',
+                    fontFamily: '"Inter", sans-serif',
+                    fontWeight: 500,
+                    textAlign: 'justify',
+                    textJustify: 'inter-word',
+                    textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                  }}>
+                    Close your eyes for 10 seconds. Remember one plant and one animal from your nature walk.
+                  </div>
                 </div>
+
+                {/* Section 2: Share Your Observations */}
                 <div style={{
-                  fontSize: '20px',
-                  lineHeight: 1.25,
-                  color: '#FFFFFF',
-                  fontFamily: '"Inter", sans-serif',
-                  fontWeight: 500,
-                  textAlign: 'justify',
-                  textJustify: 'inter-word',
-                  textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  background: 'linear-gradient(135deg, rgba(52, 211, 153, 0.10) 0%, rgba(4, 120, 87, 0.16) 100%)',
+                  border: '1.5px solid rgba(110, 231, 183, 0.3)',
+                  borderLeft: '5px solid #34D399',
+                  borderRadius: '16px',
+                  padding: 'clamp(14px, 2vh, 20px) clamp(16px, 1.6vw, 20px)',
+                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
                 }}>
-                  Add them to the virtual class board. Together, our observations reveal a greater variety of life.
+                  <div style={{
+                    fontSize: '21px',
+                    fontWeight: 800,
+                    color: '#A7F3D0',
+                    fontFamily: '"Outfit", sans-serif',
+                    lineHeight: 1.2,
+                    textShadow: '0 1px 4px rgba(0,0,0,0.9)'
+                  }}>
+                    Share Your Observations
+                  </div>
+                  <div style={{
+                    fontSize: '18px',
+                    lineHeight: 1.55,
+                    color: '#FFFFFF',
+                    fontFamily: '"Inter", sans-serif',
+                    fontWeight: 500,
+                    textAlign: 'justify',
+                    textJustify: 'inter-word',
+                    textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                  }}>
+                    Add them to the virtual class board. Together, our observations reveal a greater variety of life.
+                  </div>
                 </div>
               </div>
 
@@ -1665,15 +1688,14 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
               <div style={{
                 textAlign: 'center',
                 color: '#FDE047',
-                fontSize: '20px',
+                fontSize: '18px',
                 fontWeight: 800,
                 letterSpacing: '0.04em',
                 fontFamily: '"Outfit", sans-serif',
-                padding: '5px 10px',
+                padding: '12px 18px',
                 background: 'rgba(245, 158, 11, 0.15)',
                 border: '1.2px solid rgba(245, 158, 11, 0.4)',
-                borderRadius: '10px',
-                marginTop: 'auto',
+                borderRadius: '14px',
                 textShadow: '0 1px 4px rgba(0,0,0,0.95)'
               }}>
                 ✨ Nature connects us all.
@@ -2707,34 +2729,35 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             {(phase !== 'pick' && activeTab !== 'quiz') && (
               <div style={{
                 position: 'relative',
-                background: 'linear-gradient(180deg, rgba(6, 44, 28, 0.94) 0%, rgba(3, 30, 18, 0.97) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                border: '1.8px solid rgba(110, 231, 183, 0.5)',
+                background: 'linear-gradient(145deg, rgba(6, 36, 24, 0.75) 0%, rgba(3, 22, 14, 0.82) 100%)',
+                backdropFilter: 'blur(4px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(2px) saturate(180%)',
+                border: '1.5px solid rgba(167, 243, 208, 0.35)',
                 borderRadius: '20px',
-                padding: '12px 16px',
+                padding: 'clamp(14px, 2vh, 20px) clamp(16px, 1.8vw, 20px)',
                 boxShadow: '0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(16, 185, 129, 0.2)',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-between',
-                gap: '8px',
-                overflow: 'hidden',
+                gap: 'clamp(10px, 1.4vh, 14px)',
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                scrollbarWidth: 'none',
                 boxSizing: 'border-box'
               }}>
                 {/* Header */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', flexShrink: 0 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flexShrink: 0 }}>
                   <div style={{
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '6px',
                     color: '#A7F3D0',
                     fontWeight: 800,
-                    fontSize: '20px',
-                    letterSpacing: '0.04em',
+                    fontSize: '18px',
+                    letterSpacing: '0.05em',
                     textTransform: 'uppercase',
                     fontFamily: '"Outfit", sans-serif'
                   }}>
-                    <span>🍃</span>
+                    <span style={{ fontSize: '18px' }}>🍃</span>
                     <span>ACTIVITY 2.2</span>
                   </div>
 
@@ -2743,7 +2766,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     color: '#FCD34D',
                     fontWeight: 900,
                     fontSize: '24px',
-                    margin: '1px 0 0 0',
+                    margin: '0',
                     lineHeight: 1.15,
                     textShadow: '0 2px 6px rgba(0,0,0,0.95)'
                   }}>
@@ -2751,78 +2774,169 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   </h2>
                 </div>
 
-                <div style={{ height: '1px', background: 'rgba(110, 231, 183, 0.3)', width: '100%', flexShrink: 0 }} />
-
-                {/* 4 Observation Points: Spacious, Clean Bullet Flow */}
+                {/* 4 Observation Points: Styled Cards covering the vertical space evenly without overflow */}
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '8px',
+                  gap: 'clamp(6px, 1vh, 10px)',
                   flex: 1,
-                  justifyContent: 'space-evenly'
+                  minHeight: 0,
+                  justifyContent: 'space-between'
                 }}>
                   {/* Point 1: Our Shared Observations */}
                   <div style={{
-                    fontSize: '20px',
-                    lineHeight: 1.28,
-                    color: '#FFFFFF',
-                    fontFamily: '"Inter", sans-serif',
-                    textAlign: 'justify',
-                    textJustify: 'inter-word',
-                    textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                    flex: 1,
+                    minHeight: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    gap: '2px',
+                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 78, 59, 0.16) 100%)',
+                    border: '1.2px solid rgba(110, 231, 183, 0.28)',
+                    borderLeft: '4px solid #10B981',
+                    borderRadius: '12px',
+                    padding: 'clamp(6px, 1vh, 10px) clamp(10px, 1.2vw, 14px)',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
+                    boxSizing: 'border-box'
                   }}>
-                    <span style={{ color: '#6EE7B7', fontWeight: 800, fontFamily: '"Outfit", sans-serif', fontSize: '21px' }}>
-                      • Our Shared Observations:
-                    </span>{' '}
-                    <span>Six students contributed one plant and one animal each—12 examples: 6 plants and 6 animals.</span>
+                    <div style={{
+                      color: '#6EE7B7',
+                      fontWeight: 800,
+                      fontFamily: '"Outfit", sans-serif',
+                      fontSize: '17px',
+                      lineHeight: 1.15
+                    }}>
+                      Our Shared Observations
+                    </div>
+                    <div style={{
+                      fontSize: '15px',
+                      lineHeight: 1.35,
+                      color: '#FFFFFF',
+                      fontFamily: '"Inter", sans-serif',
+                      fontWeight: 500,
+                      textAlign: 'justify',
+                      textJustify: 'inter-word',
+                      textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                    }}>
+                      Six students contributed one plant and one animal each—12 examples: 6 plants and 6 animals.
+                    </div>
                   </div>
 
                   {/* Point 2: Notice the Diversity */}
                   <div style={{
-                    fontSize: '20px',
-                    lineHeight: 1.28,
-                    color: '#FFFFFF',
-                    fontFamily: '"Inter", sans-serif',
-                    textAlign: 'justify',
-                    textJustify: 'inter-word',
-                    textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                    flex: 1,
+                    minHeight: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    gap: '2px',
+                    background: 'linear-gradient(135deg, rgba(52, 211, 153, 0.10) 0%, rgba(4, 120, 87, 0.14) 100%)',
+                    border: '1.2px solid rgba(110, 231, 183, 0.28)',
+                    borderLeft: '4px solid #34D399',
+                    borderRadius: '12px',
+                    padding: 'clamp(6px, 1vh, 10px) clamp(10px, 1.2vw, 14px)',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
+                    boxSizing: 'border-box'
                   }}>
-                    <span style={{ color: '#6EE7B7', fontWeight: 800, fontFamily: '"Outfit", sans-serif', fontSize: '21px' }}>
-                      • Notice the Diversity:
-                    </span>{' '}
-                    <span>Compare their shapes, sizes and habitats. Many more varieties exist in nature.</span>
+                    <div style={{
+                      color: '#A7F3D0',
+                      fontWeight: 800,
+                      fontFamily: '"Outfit", sans-serif',
+                      fontSize: '17px',
+                      lineHeight: 1.15
+                    }}>
+                      Notice the Diversity
+                    </div>
+                    <div style={{
+                      fontSize: '15px',
+                      lineHeight: 1.35,
+                      color: '#FFFFFF',
+                      fontFamily: '"Inter", sans-serif',
+                      fontWeight: 500,
+                      textAlign: 'justify',
+                      textJustify: 'inter-word',
+                      textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                    }}>
+                      Compare their shapes, sizes and habitats. Many more varieties exist in nature.
+                    </div>
                   </div>
 
                   {/* Point 3: What Is Biodiversity? */}
                   <div style={{
-                    fontSize: '20px',
-                    lineHeight: 1.28,
-                    color: '#FFFFFF',
-                    fontFamily: '"Inter", sans-serif',
-                    textAlign: 'justify',
-                    textJustify: 'inter-word',
-                    textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                    flex: 1,
+                    minHeight: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    gap: '2px',
+                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 78, 59, 0.16) 100%)',
+                    border: '1.2px solid rgba(110, 231, 183, 0.28)',
+                    borderLeft: '4px solid #10B981',
+                    borderRadius: '12px',
+                    padding: 'clamp(6px, 1vh, 10px) clamp(10px, 1.2vw, 14px)',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
+                    boxSizing: 'border-box'
                   }}>
-                    <span style={{ color: '#6EE7B7', fontWeight: 800, fontFamily: '"Outfit", sans-serif', fontSize: '21px' }}>
-                      • What Is Biodiversity?
-                    </span>{' '}
-                    <span>The variety of living things in a region, including its plants and animals.</span>
+                    <div style={{
+                      color: '#6EE7B7',
+                      fontWeight: 800,
+                      fontFamily: '"Outfit", sans-serif',
+                      fontSize: '17px',
+                      lineHeight: 1.15
+                    }}>
+                      What Is Biodiversity?
+                    </div>
+                    <div style={{
+                      fontSize: '15px',
+                      lineHeight: 1.35,
+                      color: '#FFFFFF',
+                      fontFamily: '"Inter", sans-serif',
+                      fontWeight: 500,
+                      textAlign: 'justify',
+                      textJustify: 'inter-word',
+                      textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                    }}>
+                      The variety of living things in a region, including its plants and animals.
+                    </div>
                   </div>
 
                   {/* Point 4: Living Things Depend on Each Other */}
                   <div style={{
-                    fontSize: '20px',
-                    lineHeight: 1.28,
-                    color: '#FFFFFF',
-                    fontFamily: '"Inter", sans-serif',
-                    textAlign: 'justify',
-                    textJustify: 'inter-word',
-                    textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                    flex: 1,
+                    minHeight: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    gap: '2px',
+                    background: 'linear-gradient(135deg, rgba(52, 211, 153, 0.10) 0%, rgba(4, 120, 87, 0.14) 100%)',
+                    border: '1.2px solid rgba(110, 231, 183, 0.28)',
+                    borderLeft: '4px solid #34D399',
+                    borderRadius: '12px',
+                    padding: 'clamp(6px, 1vh, 10px) clamp(10px, 1.2vw, 14px)',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
+                    boxSizing: 'border-box'
                   }}>
-                    <span style={{ color: '#6EE7B7', fontWeight: 800, fontFamily: '"Outfit", sans-serif', fontSize: '21px' }}>
-                      • Living Things Depend on Each Other:
-                    </span>{' '}
-                    <span>Trees provide food and shelter. Some animals help spread seeds.</span>
+                    <div style={{
+                      color: '#A7F3D0',
+                      fontWeight: 800,
+                      fontFamily: '"Outfit", sans-serif',
+                      fontSize: '17px',
+                      lineHeight: 1.15
+                    }}>
+                      Living Things Depend on Each Other
+                    </div>
+                    <div style={{
+                      fontSize: '15px',
+                      lineHeight: 1.35,
+                      color: '#FFFFFF',
+                      fontFamily: '"Inter", sans-serif',
+                      fontWeight: 500,
+                      textAlign: 'justify',
+                      textJustify: 'inter-word',
+                      textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                    }}>
+                      Trees provide food and shelter. Some animals help spread seeds.
+                    </div>
                   </div>
                 </div>
 
@@ -2831,21 +2945,21 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   background: 'rgba(245, 158, 11, 0.16)',
                   border: '1.5px solid rgba(245, 158, 11, 0.5)',
                   borderRadius: '12px',
-                  padding: '7px 12px',
+                  padding: '8px 12px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
                   boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
                   flexShrink: 0
                 }}>
-                  <span style={{ fontSize: '22px', flexShrink: 0 }}>💡</span>
+                  <span style={{ fontSize: '20px', flexShrink: 0 }}>💡</span>
                   <div style={{
-                    fontSize: '20px',
+                    fontSize: '15px',
                     color: '#FEF08A',
                     fontFamily: '"Outfit", sans-serif',
                     lineHeight: 1.25
                   }}>
-                    <strong style={{ color: '#FDE047', fontWeight: 900, fontSize: '21px' }}>Think:</strong>{' '}
+                    <strong style={{ color: '#FDE047', fontWeight: 900, fontSize: '16px' }}>Think:</strong>{' '}
                     How do plants and animals support each other?
                   </div>
                 </div>

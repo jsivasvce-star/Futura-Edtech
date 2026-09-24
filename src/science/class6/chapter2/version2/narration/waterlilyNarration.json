@@ -1,0 +1,273 @@
+{
+  "waterlily": {
+    "audioFile": "Water Lily.mp3",
+    "totalDuration": 29.989,
+    "words": [
+      {
+        "word": "Let's",
+        "start": 0.0,
+        "end": 0.379
+      },
+      {
+        "word": "observe",
+        "start": 0.379,
+        "end": 0.91
+      },
+      {
+        "word": "the",
+        "start": 0.91,
+        "end": 1.137
+      },
+      {
+        "word": "water",
+        "start": 1.137,
+        "end": 1.517
+      },
+      {
+        "word": "lily,",
+        "start": 1.517,
+        "end": 1.82
+      },
+      {
+        "word": "An",
+        "start": 1.82,
+        "end": 2.039
+      },
+      {
+        "word": "aquatic",
+        "start": 2.039,
+        "end": 2.805
+      },
+      {
+        "word": "herb",
+        "start": 2.805,
+        "end": 3.243
+      },
+      {
+        "word": "with",
+        "start": 3.243,
+        "end": 3.681
+      },
+      {
+        "word": "roots",
+        "start": 3.681,
+        "end": 4.229
+      },
+      {
+        "word": "anchored",
+        "start": 4.229,
+        "end": 5.105
+      },
+      {
+        "word": "in",
+        "start": 5.105,
+        "end": 5.324
+      },
+      {
+        "word": "pond",
+        "start": 5.324,
+        "end": 5.762
+      },
+      {
+        "word": "mud.",
+        "start": 5.762,
+        "end": 6.09
+      },
+      {
+        "word": "while",
+        "start": 6.736,
+        "end": 7.17
+      },
+      {
+        "word": "An",
+        "start": 7.17,
+        "end": 7.351
+      },
+      {
+        "word": "underwater",
+        "start": 7.351,
+        "end": 8.258
+      },
+      {
+        "word": "stem",
+        "start": 8.258,
+        "end": 8.621
+      },
+      {
+        "word": "with",
+        "start": 8.621,
+        "end": 8.983
+      },
+      {
+        "word": "long,",
+        "start": 8.983,
+        "end": 9.346
+      },
+      {
+        "word": "flexible,",
+        "start": 9.346,
+        "end": 10.071
+      },
+      {
+        "word": "spongy",
+        "start": 10.071,
+        "end": 10.615
+      },
+      {
+        "word": "stalks.",
+        "start": 10.615,
+        "end": 11.159
+      },
+      {
+        "word": "Its",
+        "start": 12.18,
+        "end": 12.44
+      },
+      {
+        "word": "Broad,",
+        "start": 12.44,
+        "end": 13.052
+      },
+      {
+        "word": "round,",
+        "start": 13.052,
+        "end": 13.665
+      },
+      {
+        "word": "flat,",
+        "start": 13.665,
+        "end": 14.154
+      },
+      {
+        "word": "waxy",
+        "start": 14.154,
+        "end": 14.644
+      },
+      {
+        "word": "leaves",
+        "start": 14.644,
+        "end": 15.379
+      },
+      {
+        "word": "floating",
+        "start": 15.379,
+        "end": 16.359
+      },
+      {
+        "word": "on",
+        "start": 16.359,
+        "end": 16.604
+      },
+      {
+        "word": "water.",
+        "start": 16.604,
+        "end": 17.216
+      },
+      {
+        "word": "Large,",
+        "start": 18.055,
+        "end": 18.541
+      },
+      {
+        "word": "fragrant",
+        "start": 18.541,
+        "end": 19.318
+      },
+      {
+        "word": "pink",
+        "start": 19.318,
+        "end": 19.706
+      },
+      {
+        "word": "flowers;",
+        "start": 19.706,
+        "end": 20.386
+      },
+      {
+        "word": "the",
+        "start": 20.386,
+        "end": 20.678
+      },
+      {
+        "word": "type",
+        "start": 20.678,
+        "end": 21.066
+      },
+      {
+        "word": "described",
+        "start": 21.066,
+        "end": 21.94
+      },
+      {
+        "word": "opens",
+        "start": 21.94,
+        "end": 22.426
+      },
+      {
+        "word": "during",
+        "start": 22.426,
+        "end": 23.009
+      },
+      {
+        "word": "daylight.",
+        "start": 23.009,
+        "end": 23.786
+      },
+      {
+        "word": "Now",
+        "start": 24.469,
+        "end": 24.97
+      },
+      {
+        "word": "think:",
+        "start": 24.97,
+        "end": 25.805
+      },
+      {
+        "word": "Which",
+        "start": 25.805,
+        "end": 26.303
+      },
+      {
+        "word": "parts",
+        "start": 26.303,
+        "end": 26.801
+      },
+      {
+        "word": "float,",
+        "start": 26.801,
+        "end": 27.299
+      },
+      {
+        "word": "and",
+        "start": 27.299,
+        "end": 27.598
+      },
+      {
+        "word": "which",
+        "start": 27.598,
+        "end": 28.096
+      },
+      {
+        "word": "parts",
+        "start": 28.096,
+        "end": 28.594
+      },
+      {
+        "word": "anchor",
+        "start": 28.594,
+        "end": 29.192
+      },
+      {
+        "word": "the",
+        "start": 29.192,
+        "end": 29.491
+      },
+      {
+        "word": "plant?",
+        "start": 29.491,
+        "end": 29.989
+      }
+    ]
+  }
+}

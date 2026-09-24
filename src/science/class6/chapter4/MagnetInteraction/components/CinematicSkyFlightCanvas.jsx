@@ -5,6 +5,7 @@ export default function CinematicSkyFlightCanvas({
   interactionMode = "same", 
   isRunning = true,
   polesMatch = true,
+  environmentMode = "day",
   onActionComplete
 }) {
   const canvasRef = useRef(null);
@@ -67,7 +68,7 @@ export default function CinematicSkyFlightCanvas({
     const shockwaveRings = [];
     const staticSparks = [];
 
-    // Atmospheric Cloud Mist Particles matching reference image
+    // Atmospheric Cloud Mist Particles
     const cloudMistParticles = [];
     for (let i = 0; i < 22; i++) {
       cloudMistParticles.push({
@@ -230,82 +231,30 @@ export default function CinematicSkyFlightCanvas({
       }
     }
 
-    // 0. Atmospheric Volumetric God Rays & Golden Sun Shimmer (matching reference image)
+    // 0. Atmospheric Ambient Horizon Mist (Clean, Non-pulsating)
     function drawVolumetricAtmosphereAndGodRays() {
       ctx.save();
       ctx.globalCompositeOperation = "screen";
 
-      const sunX = cssWidth * 0.50;
-      const sunY = cssHeight * 0.11; // Horizon sun location matching reference photo
+      const isNight = environmentMode === "night";
 
-      // 1. Radiant Horizon Solar Core & Corona
-      const sunPulse = 1 + Math.sin(time * 1.5) * 0.08;
-      const coronaGrad = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, 260 * sunPulse);
-      coronaGrad.addColorStop(0, "rgba(255, 255, 255, 0.75)");
-      coronaGrad.addColorStop(0.18, "rgba(254, 240, 138, 0.55)");
-      coronaGrad.addColorStop(0.45, "rgba(251, 146, 60, 0.25)");
-      coronaGrad.addColorStop(0.8, "rgba(244, 114, 182, 0.08)");
-      coronaGrad.addColorStop(1, "rgba(2, 6, 23, 0)");
-
-      ctx.fillStyle = coronaGrad;
-      ctx.beginPath();
-      ctx.arc(sunX, sunY, 260 * sunPulse, 0, Math.PI * 2);
-      ctx.fill();
-
-      // 2. Cascading Crepuscular God Rays (Volumetric Sun Shafts)
-      const numRays = 9;
-      for (let i = 0; i < numRays; i++) {
-        const baseAngle = Math.PI * 0.35 + (i / (numRays - 1)) * (Math.PI * 0.30); // Fan out downwards
-        const rayWobble = Math.sin(time * 0.8 + i * 1.1) * 0.04;
-        const currentAngle = baseAngle + rayWobble;
-
-        const rayLength = cssHeight * 0.95;
-        const rayWidth = 24 + Math.sin(time * 1.2 + i * 0.7) * 8 + i * 6;
-        const rayAlpha = (0.12 + Math.sin(time * 1.4 + i * 1.3) * 0.06);
-
-        ctx.save();
-        ctx.translate(sunX, sunY);
-        ctx.rotate(currentAngle - Math.PI / 2);
-
-        const rayGrad = ctx.createLinearGradient(0, 0, 0, rayLength);
-        rayGrad.addColorStop(0, `rgba(255, 255, 255, ${rayAlpha * 1.8})`);
-        rayGrad.addColorStop(0.2, `rgba(254, 240, 138, ${rayAlpha * 1.2})`);
-        rayGrad.addColorStop(0.65, `rgba(253, 186, 116, ${rayAlpha * 0.6})`);
-        rayGrad.addColorStop(1, "rgba(251, 146, 60, 0)");
-
-        ctx.fillStyle = rayGrad;
-        ctx.beginPath();
-        ctx.moveTo(-rayWidth * 0.15, 0);
-        ctx.lineTo(rayWidth * 0.15, 0);
-        ctx.lineTo(rayWidth * 1.8, rayLength);
-        ctx.lineTo(-rayWidth * 1.8, rayLength);
-        ctx.closePath();
-        ctx.fill();
-        ctx.restore();
-      }
-
-      // 3. Shimmering Water Reflection in the Center Cloud Canyon Gap
-      const glintPulse = 0.35 + Math.sin(time * 2.2) * 0.15;
-      const glintX = cssWidth * 0.50;
-      const glintY = cssHeight * 0.52;
-      const glintGrad = ctx.createRadialGradient(glintX, glintY, 0, glintX, glintY, 140);
-      glintGrad.addColorStop(0, `rgba(255, 255, 255, ${glintPulse * 0.5})`);
-      glintGrad.addColorStop(0.3, `rgba(254, 240, 138, ${glintPulse * 0.3})`);
-      glintGrad.addColorStop(1, "rgba(254, 240, 138, 0)");
-      ctx.fillStyle = glintGrad;
-      ctx.fillRect(glintX - 50, cssHeight * 0.35, 100, cssHeight * 0.4);
-
-      // 4. Soft Parallax Cloud Mist Drifting along the Horizon
+      // Soft Parallax Cloud Mist Drifting along the Horizon
       for (let m of cloudMistParticles) {
         if (isRunningRef.current) {
           m.x += m.vx;
           if (m.x > cssWidth + 150) m.x = -150;
           if (m.x < -150) m.x = cssWidth + 150;
         }
-        const mGrad = ctx.createRadialGradient(m.x, m.y + Math.sin(time + m.x * 0.01) * 6, 0, m.x, m.y, m.radius);
-        mGrad.addColorStop(0, `rgba(255, 247, 237, ${m.alpha})`);
-        mGrad.addColorStop(0.5, `rgba(254, 215, 170, ${m.alpha * 0.5})`);
-        mGrad.addColorStop(1, "rgba(251, 146, 60, 0)");
+        const mGrad = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, m.radius);
+        if (isNight) {
+          mGrad.addColorStop(0, `rgba(224, 231, 255, ${m.alpha * 0.45})`);
+          mGrad.addColorStop(0.6, `rgba(147, 197, 253, ${m.alpha * 0.2})`);
+          mGrad.addColorStop(1, "rgba(15, 23, 42, 0)");
+        } else {
+          mGrad.addColorStop(0, `rgba(255, 247, 237, ${m.alpha * 0.5})`);
+          mGrad.addColorStop(0.6, `rgba(254, 215, 170, ${m.alpha * 0.2})`);
+          mGrad.addColorStop(1, "rgba(251, 146, 60, 0)");
+        }
         ctx.fillStyle = mGrad;
         ctx.beginPath();
         ctx.arc(m.x, m.y, m.radius, 0, Math.PI * 2);
@@ -810,12 +759,12 @@ export default function CinematicSkyFlightCanvas({
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animId);
     };
-  }, [interactionMode, polesMatch]);
+  }, [interactionMode, polesMatch, environmentMode]);
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden", borderRadius: "24px" }}>
-      {/* Three.js / R3F Photorealistic Animated Cloud Sea & Volumetric God Rays */}
-      <MagnetActivityBackground />
+      {/* Three.js / Canvas Photorealistic Animated Cloud Sea & Volumetric God Rays */}
+      <MagnetActivityBackground environmentMode={environmentMode} />
 
       {/* Flight & Particle Simulation Layer */}
       <canvas

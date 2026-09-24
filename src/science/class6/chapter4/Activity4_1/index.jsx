@@ -27,11 +27,7 @@ export default function Activity4_1({ onBackToDashboard, onComplete, onNext }) {
     if (onNext) onNext();
   };
 
-  const tabs = [
-    { id: 'table', label: '1. Classification Table', icon: Table, done: isTableCompleted },
-    { id: 'quiz', label: '2. Knowledge Quiz', icon: HelpCircle, done: isQuizCompleted, disabled: !isTableCompleted },
-    { id: 'didyouknow', label: '3. Did You Know?', icon: Sparkles, done: false, disabled: !isQuizCompleted }
-  ];
+
 
   return (
     <div style={{ 
@@ -49,100 +45,6 @@ export default function Activity4_1({ onBackToDashboard, onComplete, onNext }) {
       backgroundColor: 'transparent',
       fontFamily: 'system-ui, -apple-system, sans-serif'
     }}>
-      {/* Top Header Bar (Standard Enclosing Golden Card) */}
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'auto 1fr auto', 
-        alignItems: 'center', 
-        padding: '0.65rem 1.25rem',
-        marginBottom: '0.45rem',
-        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
-        border: '1.5px solid #E2E8F0',
-        borderRadius: '24px',
-        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
-        flexShrink: 0,
-        position: 'relative',
-        zIndex: 100
-      }}>
-        {/* Left Column: Back Button */}
-        <button 
-          onClick={onBackToDashboard}
-          className="gold-glow-btn"
-          style={{ 
-            position: 'relative', zIndex: 100,
-            padding: '0.6rem 1.25rem', 
-            fontSize: '0.92rem', 
-            gap: '0.5rem',
-            borderRadius: '16px',
-            border: 'none',
-            fontWeight: 900,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            transition: 'all 0.2s ease'
-          }}
-        >
-          <ArrowLeft size={18} color="#FFFFFF" /> Back to Chapter 4
-        </button>
-
-        {/* Center Column: Title */}
-        <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <h2 style={{ margin: 0, fontSize: '1.42rem', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.65rem', color: '#064E3B', letterSpacing: '-0.02em' }}>
-            <Compass size={26} style={{ color: '#173B5F' }} />
-            Activity 4.1: Magnetic & Non-Magnetic Materials
-          </h2>
-          <span style={{ fontSize: '0.88rem', color: '#047857', fontWeight: 800 }}>Class 6 Science — Finding Magnetic Materials & Sorting Objects</span>
-        </div>
-
-        {/* Right Column: Stage Navigation Pill Tabs */}
-        <nav className="tabs-container" style={{ 
-          display: 'flex', 
-          gap: '0.5rem', 
-          margin: 0,
-          background: '#FFFFFF',
-          padding: '0.35rem 0.5rem',
-          borderRadius: '30px',
-          border: '1.5px solid #E2E8F0',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
-        }}>
-          {tabs.map(tab => {
-            const Icon = tab.icon;
-            const isActive = stage === tab.id;
-
-            return (
-              <button
-                key={tab.id}
-                onClick={() => !tab.disabled && setStage(tab.id)}
-                disabled={tab.disabled}
-                className={isActive ? 'gold-glow-btn' : ''}
-                style={{
-                  opacity: tab.disabled ? 0.45 : 1,
-                  cursor: tab.disabled ? 'not-allowed' : 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.45rem',
-                  padding: '0.55rem 1.05rem',
-                  fontSize: '0.92rem',
-                  fontWeight: 900,
-                  borderRadius: '20px',
-                  background: isActive ? undefined : 'transparent',
-                  color: isActive ? '#FFFFFF' : tab.disabled ? '#94A3B8' : '#173B5F',
-                  border: 'none',
-                  boxShadow: 'none',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                <Icon size={17} color={isActive ? '#FFFFFF' : tab.disabled ? '#94A3B8' : '#173B5F'} />
-                <span>{tab.label}</span>
-                {tab.done && (
-                  <CheckCircle size={15} style={{ color: isActive ? '#FFFFFF' : '#10B981', marginLeft: '0.2rem' }} />
-                )}
-              </button>
-            );
-          })}
-        </nav>
-      </div>
-
       {/* Main Content Area */}
       <main style={{ 
         width: '100%', 
@@ -204,6 +106,80 @@ export default function Activity4_1({ onBackToDashboard, onComplete, onNext }) {
           )}
         </AnimatePresence>
       </main>
+
+{/* Top Header Bar (Standard Enclosing Golden Card) */}
+      <div style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'auto 1fr auto', 
+        alignItems: 'center', 
+        padding: '0.65rem 1.25rem',
+        marginTop: '0.45rem',
+        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+        border: '1.5px solid #E2E8F0',
+        borderRadius: '24px',
+        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+        flexShrink: 0,
+        position: 'relative',
+        zIndex: 100
+      }}>
+        {/* Left Column: Back Button */}
+        <button 
+          onClick={() => {
+            if (stage === 'didyouknow') setStage('quiz');
+            else if (stage === 'quiz') setStage('table');
+            else onBackToDashboard();
+          }}
+          className="gold-glow-btn"
+          style={{ 
+            position: 'relative', zIndex: 100,
+            padding: '0.8rem 1.75rem', 
+            fontSize: '1.5rem', 
+            gap: '0.5rem',
+            borderRadius: '16px',
+            border: 'none',
+            fontWeight: 900,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          <ArrowLeft size={26} color="#FFFFFF" /> BACK
+        </button>
+
+        {/* Center Column: Title */}
+        <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <h2 style={{ margin: 0, fontSize: '2.1rem', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.65rem', color: '#064E3B', letterSpacing: '-0.02em' }}>
+            Activity 4.1: Magnetic & Non-Magnetic Materials
+          </h2>
+        </div>
+
+        {/* Right Column: Next Button */}
+        <button 
+          onClick={() => {
+            if (stage === 'table') setStage('quiz');
+            else if (stage === 'quiz') setStage('didyouknow');
+            else onNext();
+          }}
+          className="gold-glow-btn"
+          style={{ 
+            position: 'relative', zIndex: 100,
+            padding: '0.8rem 1.75rem', 
+            fontSize: '1.5rem', 
+            gap: '0.5rem',
+            borderRadius: '16px',
+            border: 'none',
+            fontWeight: 900,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          NEXT <ArrowRight size={26} color="#FFFFFF" />
+        </button>
+      </div>
+
     </div>
   );
 }

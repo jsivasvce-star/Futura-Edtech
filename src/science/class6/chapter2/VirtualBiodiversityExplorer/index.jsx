@@ -5149,78 +5149,104 @@ const natureAudioRef = useRef(null);
             display: 'flex',
             alignItems: 'center',
             gap: '12px',
-            background: 'rgba(3, 20, 12, 0.85)',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(0, 0, 0, 0.45) 100%), rgba(2, 20, 12, 0.88)',
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
-            border: '1.5px solid rgba(16, 185, 129, 0.45)',
+            border: '1.8px solid rgba(253, 230, 138, 0.60)',
             borderRadius: '32px',
-            padding: '6px 10px',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.75), 0 0 24px rgba(16, 185, 129, 0.3)',
+            padding: '6px 12px',
+            boxShadow: '0 12px 36px rgba(0, 0, 0, 0.75), 0 0 24px rgba(245, 158, 11, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.35)',
             boxSizing: 'border-box'
           }}>
-            {/* Back to Garden Button */}
+            {/* Back to Garden Button (Styled like Habitats Page bio-nav-btn) */}
             <button
               type="button"
               onClick={closePlantModal}
               style={{
-                background: 'rgba(250, 248, 242, 0.95)',
-                color: '#14452F',
-                border: '1.6px solid #14452F',
+                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                color: '#FFFBEB',
+                border: '2px solid rgba(253, 230, 138, 0.85)',
                 borderRadius: '24px',
-                padding: '8px 22px',
+                padding: '8px 24px',
                 fontSize: '16px',
                 fontWeight: 900,
+                fontFamily: '"Outfit", sans-serif',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
-                fontFamily: '"Outfit", sans-serif',
-                transition: 'all 0.18s ease',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)',
+                textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+                transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
                 whiteSpace: 'nowrap'
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.transform = 'scale(1.03)';
-                e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.4)';
+                e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
+                e.currentTarget.style.borderColor = '#FEF08A';
+                e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)';
+                e.currentTarget.style.background = 'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.10) 48%, rgba(0, 0, 0, 0.15) 52%, rgba(0, 0, 0, 0.45) 100%), linear-gradient(135deg, rgba(16, 185, 129, 0.88) 0%, rgba(4, 120, 87, 0.94) 100%)';
+                e.currentTarget.style.color = '#FFFFFF';
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)';
+                e.currentTarget.style.background = 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)';
+                e.currentTarget.style.color = '#FFFBEB';
               }}
               title="Return to Botanical Garden"
             >
-              <ChevronLeft size={18} strokeWidth={3} />
+              <ChevronLeft size={18} strokeWidth={2.8} />
               <span>Back to Garden</span>
             </button>
 
-            {/* Show / Hide Observations Button */}
+            {/* Show / Hide Observations Button (Styled like Habitats Page bio-cta-btn) */}
             <button
               type="button"
               onClick={() => setShowPlantDetailPopup(!showPlantDetailPopup)}
               style={{
-                background: showPlantDetailPopup ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)' : 'rgba(250, 248, 242, 0.95)',
-                color: showPlantDetailPopup ? '#FFFFFF' : '#14452F',
-                border: '1.6px solid ' + (showPlantDetailPopup ? '#34D399' : '#14452F'),
+                background: showPlantDetailPopup
+                  ? 'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.10) 48%, rgba(0, 0, 0, 0.15) 52%, rgba(0, 0, 0, 0.45) 100%), linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(4, 120, 87, 0.98) 100%)'
+                  : 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                color: showPlantDetailPopup ? '#FFFFFF' : '#FFFBEB',
+                border: showPlantDetailPopup
+                  ? '2px solid #6EE7B7'
+                  : '2px solid rgba(253, 230, 138, 0.85)',
                 borderRadius: '24px',
-                padding: '8px 22px',
+                padding: '8px 24px',
                 fontSize: '16px',
                 fontWeight: 900,
+                fontFamily: '"Outfit", sans-serif',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
-                fontFamily: '"Outfit", sans-serif',
-                transition: 'all 0.18s ease',
+                boxShadow: showPlantDetailPopup
+                  ? '0 0 24px rgba(52, 211, 153, 0.85), 0 10px 30px rgba(0, 0, 0, 0.70), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)'
+                  : '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)',
+                textShadow: showPlantDetailPopup
+                  ? '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(110, 231, 183, 0.85)'
+                  : '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+                transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
                 whiteSpace: 'nowrap'
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.transform = 'scale(1.03)';
-                e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.4)';
+                e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
+                e.currentTarget.style.borderColor = showPlantDetailPopup ? '#A7F3D0' : '#FEF08A';
+                e.currentTarget.style.boxShadow = showPlantDetailPopup
+                  ? '0 0 30px rgba(52, 211, 153, 0.95), 0 12px 34px rgba(0, 0, 0, 0.75)'
+                  : '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)';
+                e.currentTarget.style.color = '#FFFFFF';
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                e.currentTarget.style.borderColor = showPlantDetailPopup ? '#6EE7B7' : 'rgba(253, 230, 138, 0.85)';
+                e.currentTarget.style.boxShadow = showPlantDetailPopup
+                  ? '0 0 24px rgba(52, 211, 153, 0.85), 0 10px 30px rgba(0, 0, 0, 0.70), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)'
+                  : '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)';
+                e.currentTarget.style.color = showPlantDetailPopup ? '#FFFFFF' : '#FFFBEB';
               }}
               title={showPlantDetailPopup ? 'Hide observations and view full specimen image' : 'Show botanical observation details'}
             >
@@ -5523,78 +5549,104 @@ const natureAudioRef = useRef(null);
             display: 'flex',
             alignItems: 'center',
             gap: '12px',
-            background: 'rgba(3, 20, 12, 0.85)',
-            backdropFilter: 'blur(2px)',
-            WebkitBackdropFilter: 'blur(2px)',
-            border: '1.5px solid rgba(16, 185, 129, 0.45)',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(0, 0, 0, 0.45) 100%), rgba(2, 20, 12, 0.88)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '1.8px solid rgba(253, 230, 138, 0.60)',
             borderRadius: '32px',
-            padding: '6px 10px',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.75), 0 0 24px rgba(16, 185, 129, 0.3)',
+            padding: '6px 12px',
+            boxShadow: '0 12px 36px rgba(0, 0, 0, 0.75), 0 0 24px rgba(245, 158, 11, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.35)',
             boxSizing: 'border-box'
           }}>
-            {/* Back to Animals Button */}
+            {/* Back to Animals Button (Styled like Habitats Page bio-nav-btn) */}
             <button
               type="button"
               onClick={closeAnimalModal}
               style={{
-                background: 'rgba(250, 248, 242, 0.95)',
-                color: '#14452F',
-                border: '1.6px solid #14452F',
+                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                color: '#FFFBEB',
+                border: '2px solid rgba(253, 230, 138, 0.85)',
                 borderRadius: '24px',
-                padding: '8px 22px',
+                padding: '8px 24px',
                 fontSize: '16px',
                 fontWeight: 900,
+                fontFamily: '"Outfit", sans-serif',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
-                fontFamily: '"Outfit", sans-serif',
-                transition: 'all 0.18s ease',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)',
+                textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+                transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
                 whiteSpace: 'nowrap'
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.transform = 'scale(1.03)';
-                e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.4)';
+                e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
+                e.currentTarget.style.borderColor = '#FEF08A';
+                e.currentTarget.style.boxShadow = '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)';
+                e.currentTarget.style.background = 'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.10) 48%, rgba(0, 0, 0, 0.15) 52%, rgba(0, 0, 0, 0.45) 100%), linear-gradient(135deg, rgba(16, 185, 129, 0.88) 0%, rgba(4, 120, 87, 0.94) 100%)';
+                e.currentTarget.style.color = '#FFFFFF';
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                e.currentTarget.style.borderColor = 'rgba(253, 230, 138, 0.85)';
+                e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)';
+                e.currentTarget.style.background = 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)';
+                e.currentTarget.style.color = '#FFFBEB';
               }}
               title="Return to Zoological Field Scanner"
             >
-              <ChevronLeft size={18} strokeWidth={3} />
+              <ChevronLeft size={18} strokeWidth={2.8} />
               <span>Back to Animals</span>
             </button>
 
-            {/* Show / Hide Observations Button */}
+            {/* Show / Hide Observations Button (Styled like Habitats Page bio-cta-btn) */}
             <button
               type="button"
               onClick={() => setShowAnimalDetailPopup(!showAnimalDetailPopup)}
               style={{
-                background: showAnimalDetailPopup ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)' : 'rgba(250, 248, 242, 0.95)',
-                color: showAnimalDetailPopup ? '#FFFFFF' : '#14452F',
-                border: '1.6px solid ' + (showAnimalDetailPopup ? '#34D399' : '#14452F'),
+                background: showAnimalDetailPopup
+                  ? 'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.10) 48%, rgba(0, 0, 0, 0.15) 52%, rgba(0, 0, 0, 0.45) 100%), linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(4, 120, 87, 0.98) 100%)'
+                  : 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+                color: showAnimalDetailPopup ? '#FFFFFF' : '#FFFBEB',
+                border: showAnimalDetailPopup
+                  ? '2px solid #6EE7B7'
+                  : '2px solid rgba(253, 230, 138, 0.85)',
                 borderRadius: '24px',
-                padding: '8px 22px',
+                padding: '8px 24px',
                 fontSize: '16px',
                 fontWeight: 900,
+                fontFamily: '"Outfit", sans-serif',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
-                fontFamily: '"Outfit", sans-serif',
-                transition: 'all 0.18s ease',
+                boxShadow: showAnimalDetailPopup
+                  ? '0 0 24px rgba(52, 211, 153, 0.85), 0 10px 30px rgba(0, 0, 0, 0.70), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)'
+                  : '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)',
+                textShadow: showAnimalDetailPopup
+                  ? '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(110, 231, 183, 0.85)'
+                  : '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+                transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
                 whiteSpace: 'nowrap'
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.transform = 'scale(1.03)';
-                e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.4)';
+                e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
+                e.currentTarget.style.borderColor = showAnimalDetailPopup ? '#A7F3D0' : '#FEF08A';
+                e.currentTarget.style.boxShadow = showAnimalDetailPopup
+                  ? '0 0 30px rgba(52, 211, 153, 0.95), 0 12px 34px rgba(0, 0, 0, 0.75)'
+                  : '0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)';
+                e.currentTarget.style.color = '#FFFFFF';
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                e.currentTarget.style.borderColor = showAnimalDetailPopup ? '#6EE7B7' : 'rgba(253, 230, 138, 0.85)';
+                e.currentTarget.style.boxShadow = showAnimalDetailPopup
+                  ? '0 0 24px rgba(52, 211, 153, 0.85), 0 10px 30px rgba(0, 0, 0, 0.70), inset 0 1.5px 2px rgba(255, 255, 255, 0.90)'
+                  : '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55)';
+                e.currentTarget.style.color = showAnimalDetailPopup ? '#FFFFFF' : '#FFFBEB';
               }}
               title={showAnimalDetailPopup ? "Hide observations and view full specimen image" : "Show zoological observation details"}
             >

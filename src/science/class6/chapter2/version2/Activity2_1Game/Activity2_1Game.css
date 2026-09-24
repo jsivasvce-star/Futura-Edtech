@@ -1051,8 +1051,8 @@
 .a21-popup-close:hover { background: rgba(255,0,0,0.2); color: #fff; }
 
 .a21-popup-emoji { font-size: 4rem; text-align: center; display: block; margin-bottom: 0.5rem; animation: a21Float 2s ease-in-out infinite; }
-.a21-popup-title { font-family: 'Fredoka One', sans-serif; font-size: 1.6rem; color: #fff; text-align: center; margin: 0 0 0.75rem; }
-.a21-popup-desc  { color: rgba(255,255,255,0.8); font-size: 0.9rem; line-height: 1.6; text-align: center; margin-bottom: 1rem; }
+.a21-popup-title { font-family: 'Fredoka One', sans-serif; font-size: 24px; color: #fff; text-align: center; margin: 0 0 0.75rem; }
+.a21-popup-desc  { color: rgba(255,255,255,0.8); font-size: 18px; line-height: 1.5; text-align: center; margin-bottom: 1rem; }
 
 .a21-popup-tags {
   display: flex;
@@ -1065,13 +1065,13 @@
   background: rgba(255,255,255,0.1);
   border: 1px solid rgba(255,255,255,0.2);
   color: rgba(255,255,255,0.85);
-  font-size: 0.75rem;
+  font-size: 18px;
   font-weight: 700;
-  padding: 0.25rem 0.7rem;
+  padding: 0.35rem 0.9rem;
   border-radius: 2rem;
 }
 
-.a21-obs-grid h4 { color: #ffd700; font-size: 0.85rem; margin: 0 0 0.5rem; }
+.a21-obs-grid h4 { color: #ffd700; font-size: 21px; margin: 0 0 0.5rem; }
 .a21-obs-items {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1085,8 +1085,9 @@
 }
 .a21-obs-key {
   display: block;
-  color: rgba(255,255,255,0.5);
-  font-size: 0.65rem;
+  color: rgba(255,255,255,0.7);
+  font-size: 18px;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin-bottom: 0.15rem;
@@ -1094,7 +1095,7 @@
 .a21-obs-val {
   display: block;
   color: #fff;
-  font-size: 0.8rem;
+  font-size: 18px;
   font-weight: 700;
 }
 
@@ -1107,8 +1108,8 @@
   gap: 0.5rem;
   align-items: flex-start;
 }
-.a21-funfact span { font-size: 1.2rem; flex-shrink: 0; }
-.a21-funfact p { margin: 0; color: rgba(255,255,255,0.85); font-size: 0.8rem; line-height: 1.5; }
+.a21-funfact span { font-size: 1.5rem; flex-shrink: 0; }
+.a21-funfact p { margin: 0; color: rgba(255,255,255,0.95); font-size: 18px; line-height: 1.5; }
 .a21-funfact strong { color: #ffd700; }
 
 /* ── QUIZ SCREEN ─────────────────────────────────────────────────── */
@@ -1554,19 +1555,20 @@
 
 .a21-popup-right .a21-popup-title {
   color: #0f172a;
-  font-size: 1.95rem;
+  font-size: 24px;
   font-weight: 800;
 }
 
 .a21-popup-right .a21-popup-desc {
   color: #1e293b;
-  font-size: 1rem;
+  font-size: 18px;
 }
 
 .a21-popup-right .a21-popup-tag {
   background: rgba(15, 23, 42, 0.08);
   border: 1px solid rgba(15, 23, 42, 0.18);
   color: #0f172a;
+  font-size: 18px;
   font-weight: 700;
 }
 
@@ -1580,7 +1582,7 @@
 
 .a21-popup-right .a21-obs-grid h4 {
   color: #0f172a;
-  font-size: 1.15rem;
+  font-size: 21px;
   font-weight: 800;
 }
 
@@ -1594,7 +1596,7 @@
 .a21-popup-right .a21-obs-key {
   color: #15803d;
   font-weight: 800;
-  font-size: 13.5px;
+  font-size: 18px;
   letter-spacing: 0.6px;
 }
 
@@ -1613,6 +1615,8 @@
 
 .a21-popup-right .a21-funfact p {
   color: #78350f;
+  font-size: 18px;
+}
 }
 
 @media (max-width: 768px) {
