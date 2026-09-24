@@ -20,6 +20,7 @@ import rabbitImg from '../../../../assets/activity29/rabbit_thumbnail_real.png';
 import cheetahImg from '../../../../assets/activity29/cheetah_thumbnail_real.png';
 import frogImg from '../../../../assets/activity29/frog_thumbnail_real.png';
 import page4Bg from '../../../../assets/activity29_page4_bg.jpg';
+import page2Bg from '../../../../assets/activity29_page2_bg.jpg';
 
 const ANIMAL_DATA = [
   { id: 'ant', image: antImg, name: 'Ant', moveType: 'Walks', bodyPart: 'Legs', videoSrc: antVideo, explanation: "Ants have six strong legs equipped with tiny claws, allowing them to walk smoothly even on walls and ceilings!" },
@@ -221,19 +222,33 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
 
       {/* PAGE 2 */}
       {page === 2 && (
-        <div style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          padding: 'clamp(10px, 1.5vh, 20px) clamp(14px, 1.8vw, 30px)',
-          background: 'rgba(15, 23, 42, 0.75)',
-          backdropFilter: 'blur(20px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-          boxSizing: 'border-box',
-          position: 'relative',
-          zIndex: 3
-        }}>
+        <>
+          {/* HD Background for Page 2 */}
+          <div style={{
+            position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+            backgroundImage: `url(${page2Bg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            zIndex: 1,
+            filter: 'blur(2px)'
+          }} />
+          {/* Subtle dark/green overlay for text readability */}
+          <div style={{
+            position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+            background: 'rgba(6, 78, 59, 0.4)',
+            zIndex: 2
+          }} />
+
+          <div style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            padding: 'clamp(10px, 1.5vh, 20px) clamp(14px, 1.8vw, 30px)',
+            boxSizing: 'border-box',
+            position: 'relative',
+            zIndex: 3
+          }}>
           {/* Subtle Decorative Elements */}
           <div style={{ position: 'absolute', top: '15%', left: '5%', opacity: 0.15, pointerEvents: 'none' }}>
             <Leaf size={120} color="#34d399" />
@@ -336,6 +351,19 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
                 autoPlay 
                 loop
                 controls={true}
+                muted={selectedAnimal.id === 'ant'}
+                onPlay={(e) => {
+                  if (selectedAnimal.id === 'ant') {
+                    e.target.muted = true;
+                    e.target.volume = 0;
+                  }
+                }}
+                onVolumeChange={(e) => {
+                  if (selectedAnimal.id === 'ant' && (!e.target.muted || e.target.volume > 0)) {
+                    e.target.muted = true;
+                    e.target.volume = 0;
+                  }
+                }}
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
             </div>
@@ -428,7 +456,7 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
               Next <ArrowRight size={24} />
             </button>
           </div>
-        </div>
+        </>
       )}
 
       {/* PAGE 3 */}
