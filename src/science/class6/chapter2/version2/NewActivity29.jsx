@@ -456,7 +456,8 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
               Next <ArrowRight size={24} />
             </button>
           </div>
-        </>
+        </div>
+      </>
       )}
 
       {/* PAGE 3 */}
