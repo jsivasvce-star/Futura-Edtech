@@ -245,8 +245,9 @@ const TONE = {
   }
 };
 
-export default function VenationRootCorrelationLab({ onBackToDashboard, onPreviousPage, onNext, initialPhase = 'specimens' }) {
+export default function VenationRootCorrelationLab({ onBackToDashboard, onPreviousPage, onNext, initialPhase = 'specimens', onStateChange }) {
   const [phase, setPhase] = useState(initialPhase); // 'specimens' | 'lab'
+  useEffect(() => { if (onStateChange) onStateChange(phase); }, [phase, onStateChange]);
   const [specimenIndex, setSpecimenIndex] = useState(0);
 
   // Title pill: shown for 7s on each slide, then auto-hides; moving the

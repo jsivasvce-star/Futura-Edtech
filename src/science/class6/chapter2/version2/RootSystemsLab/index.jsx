@@ -545,12 +545,13 @@ const PlantRootSVG = ({ plantId, color, isWashed }) => {
   }
 };
 
-export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNext, initialSpecimenIndex = 0 }) {
+export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNext, initialSpecimenIndex = 0, onStateChange }) {
   const { theme } = useTheme();
   const isLight = theme === 'light';
 
   const [phase, setPhase] = useState('specimens'); // 'specimens' | 'lab'
   const [specimenIndex, setSpecimenIndex] = useState(initialSpecimenIndex);
+  useEffect(() => { if (onStateChange) onStateChange(specimenIndex); }, [specimenIndex, onStateChange]);
 
   // Title pill: shown for 7s on each slide, then auto-hides; moving the
   // cursor up near the top of the screen brings it back.
