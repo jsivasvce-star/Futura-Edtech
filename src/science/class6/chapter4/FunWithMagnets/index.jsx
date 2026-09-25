@@ -158,53 +158,44 @@ function Step0Intro({ onNext, onBack }) {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
-      padding: '1.25rem 2.5rem',
+      padding: '1.25rem 2.5rem 1.6rem 2.5rem',
       boxSizing: 'border-box',
       backgroundImage: "url('/FunWithMagnets/Maglevfront.png')",
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'
     }}>
-      {/* Top Header Center Plaque (Matches Reference Image 3) */}
+      {/* Top Header Center Plaque (Single continuous line with reduced font size) */}
       <div style={{
         alignSelf: 'center',
         background: 'rgba(255, 253, 245, 0.96)',
         backdropFilter: 'blur(12px)',
         border: '1.5px solid #FDE68A',
         borderRadius: '24px',
-        padding: '0.85rem 3.5rem',
+        padding: '0.65rem 2.2rem',
         boxShadow: '0 8px 24px rgba(0, 0, 0, 0.2)',
         display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: '0.35rem',
         textAlign: 'center',
-        zIndex: 20
+        zIndex: 20,
+        whiteSpace: 'nowrap',
+        maxWidth: '96%',
+        marginTop: '0.25rem'
       }}>
         <h1 style={{
           margin: 0,
-          fontSize: '3.4rem',
+          fontSize: '1.95rem',
           fontWeight: 900,
           color: '#0F172A',
-          letterSpacing: '-0.025em',
-          lineHeight: 1.15
-        }}>
-          Activity 4.9: Fun with Magnets
-        </h1>
-        <h2 style={{
-          margin: 0,
-          fontSize: '2.3rem',
-          fontWeight: 800,
-          color: '#334155',
-          letterSpacing: '-0.01em',
+          letterSpacing: '-0.02em',
           lineHeight: 1.2
         }}>
-          Maglev Train &amp; Magnetic Town Expedition
-        </h2>
+          Activity 4.9: Fun with Magnets — Maglev Train &amp; Magnetic Town Expedition
+        </h1>
       </div>
 
-      {/* Main Left-Aligned Question & Interactive 3-Option Stack */}
+      {/* Main Left-Aligned Question & Interactive 3-Option Stack - Positioned comfortably above bottom nav */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -214,11 +205,11 @@ function Step0Intro({ onNext, onBack }) {
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
-          gap: '1.15rem',
+          gap: '0.55rem',
           position: 'relative',
           zIndex: 10,
           marginTop: 'auto',
-          marginBottom: '2.5rem'
+          marginBottom: '0.75rem'
         }}
       >
         {/* Cyan Pill Tag */}
@@ -229,9 +220,9 @@ function Step0Intro({ onNext, onBack }) {
           background: 'rgba(6, 182, 212, 0.25)',
           border: '1.5px solid #38BDF8',
           color: '#E0F2FE',
-          padding: '0.45rem 1.15rem',
+          padding: '0.3rem 0.9rem',
           borderRadius: '20px',
-          fontSize: '0.88rem',
+          fontSize: '0.8rem',
           fontWeight: 900,
           letterSpacing: '0.6px',
           width: 'fit-content',
@@ -244,25 +235,25 @@ function Step0Intro({ onNext, onBack }) {
         {/* Main Heading */}
         <h1 style={{
           margin: 0,
-          fontSize: '2.85rem',
+          fontSize: '2.2rem',
           fontWeight: 900,
           color: '#FFFFFF',
           lineHeight: 1.15,
-          letterSpacing: '-0.025em',
+          letterSpacing: '-0.02em',
           textShadow: '0 4px 24px rgba(0,0,0,0.85), 0 2px 6px rgba(0,0,0,0.9)'
         }}>
           Can a train move without its wheels touching the track?
         </h1>
 
         {/* 3 Interactive Option Buttons matching Image 3 */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', marginTop: '0.25rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', marginTop: '0.1rem' }}>
           {/* Option 1: Yes */}
           <motion.button
             whileHover={{ scale: 1.02, x: 4 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => handleAnswer('yes')}
             style={{
-              padding: '0.85rem 1.25rem',
+              padding: '0.62rem 1.15rem',
               borderRadius: '16px',
               border: answer === 'yes' ? '2px solid #22C55E' : '1.5px solid rgba(56, 189, 248, 0.45)',
               background: answer === 'yes' ? 'rgba(5, 150, 105, 0.85)' : 'rgba(15, 23, 42, 0.72)',
@@ -270,7 +261,7 @@ function Step0Intro({ onNext, onBack }) {
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '1.15rem',
+              gap: '0.9rem',
               backdropFilter: 'blur(14px)',
               boxShadow: '0 4px 14px rgba(0,0,0,0.35)',
               textAlign: 'left',
@@ -278,14 +269,14 @@ function Step0Intro({ onNext, onBack }) {
             }}
           >
             <div style={{
-              width: '44px',
-              height: '44px',
+              width: '36px',
+              height: '36px',
               borderRadius: '10px',
               background: '#16A34A',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '1.5rem',
+              fontSize: '1.25rem',
               color: '#FFFFFF',
               fontWeight: 900,
               flexShrink: 0,
@@ -293,7 +284,7 @@ function Step0Intro({ onNext, onBack }) {
             }}>
               ✓
             </div>
-            <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.3 }}>
+            <span style={{ fontSize: '1.12rem', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.3 }}>
               Yes — magnetic forces make it possible!
             </span>
           </motion.button>
@@ -304,7 +295,7 @@ function Step0Intro({ onNext, onBack }) {
             whileTap={{ scale: 0.98 }}
             onClick={() => handleAnswer('no')}
             style={{
-              padding: '0.85rem 1.25rem',
+              padding: '0.62rem 1.15rem',
               borderRadius: '16px',
               border: answer === 'no' ? '2px solid #EF4444' : '1.5px solid rgba(56, 189, 248, 0.45)',
               background: answer === 'no' ? 'rgba(220, 38, 38, 0.85)' : 'rgba(15, 23, 42, 0.72)',
@@ -312,7 +303,7 @@ function Step0Intro({ onNext, onBack }) {
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '1.15rem',
+              gap: '0.9rem',
               backdropFilter: 'blur(14px)',
               boxShadow: '0 4px 14px rgba(0,0,0,0.35)',
               textAlign: 'left',
@@ -320,14 +311,14 @@ function Step0Intro({ onNext, onBack }) {
             }}
           >
             <div style={{
-              width: '44px',
-              height: '44px',
+              width: '36px',
+              height: '36px',
               borderRadius: '10px',
               background: '#DC2626',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '1.5rem',
+              fontSize: '1.25rem',
               color: '#FFFFFF',
               fontWeight: 900,
               flexShrink: 0,
@@ -335,7 +326,7 @@ function Step0Intro({ onNext, onBack }) {
             }}>
               ✕
             </div>
-            <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.3 }}>
+            <span style={{ fontSize: '1.12rem', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.3 }}>
               No — trains must have wheels touching the track
             </span>
           </motion.button>
@@ -346,7 +337,7 @@ function Step0Intro({ onNext, onBack }) {
             whileTap={{ scale: 0.98 }}
             onClick={() => handleAnswer('discover')}
             style={{
-              padding: '0.85rem 1.25rem',
+              padding: '0.62rem 1.15rem',
               borderRadius: '16px',
               border: '2px solid #FDE68A',
               background: answer === 'discover' ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'rgba(15, 23, 42, 0.72)',
@@ -354,7 +345,7 @@ function Step0Intro({ onNext, onBack }) {
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '1.15rem',
+              gap: '0.9rem',
               backdropFilter: 'blur(14px)',
               boxShadow: '0 0 20px rgba(245, 158, 11, 0.35), 0 4px 14px rgba(0,0,0,0.35)',
               textAlign: 'left',
@@ -362,20 +353,20 @@ function Step0Intro({ onNext, onBack }) {
             }}
           >
             <div style={{
-              width: '44px',
-              height: '44px',
+              width: '36px',
+              height: '36px',
               borderRadius: '10px',
               background: 'rgba(30, 41, 59, 0.9)',
               border: '1px solid rgba(255,255,255,0.2)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '1.5rem',
+              fontSize: '1.25rem',
               flexShrink: 0
             }}>
               🚀
             </div>
-            <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.3 }}>
+            <span style={{ fontSize: '1.12rem', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.3 }}>
               Let's Discover Together!
             </span>
           </motion.button>
@@ -389,7 +380,7 @@ function Step0Intro({ onNext, onBack }) {
         alignItems: 'center',
         zIndex: 50,
         width: '100%',
-        marginTop: 'auto'
+        marginTop: '0'
       }}>
         <button
           onClick={onBack}
@@ -1134,110 +1125,46 @@ function Step2Float({ onNext }) {
 // ══════════════════════════════════════════════════════════════════════════════
 // STEP 3 — How Does the Train Move? — Continuous Traveling Wave Propulsion (Image 4 Match)
 // ══════════════════════════════════════════════════════════════════════════════
-function Step3Move({ onNext }) {
-  const [propStep, setPropStep] = useState(-1);
-  const [autoPlay, setAutoPlay] = useState(false);
-  const [viewedAll, setViewedAll] = useState(false);
-  const [isTranslating, setIsTranslating] = useState(false);
-  const autoPlaySeqRef = useRef(0);
+const PROP_INFO = [
+  {
+    title: 'Step 1 — Initial Launch (Coil 2 ON)',
+    desc: 'Coil 2 energizes directly ahead of the train. Its attractive magnetic force pulls the train from Coil 1, initiating smooth, steady forward translation across the guideway without wheels.',
+    activeCoils: [false, true, false, false, false],
+    pattern: ['OFF', 'ON', 'OFF', 'OFF', 'OFF'],
+    tag: '⚡ STAGE 1: COIL 2 ENERGIZED'
+  },
+  {
+    title: 'Step 2 — Dynamic Sequential Handoff (Coil 3 ON, Coil 2 OFF)',
+    desc: 'As the train crosses past Coil 2, Coil 2 immediately switches OFF (preventing backward magnetic drag) while Coil 3 switches ON ahead, maintaining uninterrupted forward velocity.',
+    activeCoils: [false, false, true, false, false],
+    pattern: ['OFF', 'OFF', 'ON', 'OFF', 'OFF'],
+    tag: '🌊 STAGE 2: TRAVELING WAVE RELAY'
+  },
+  {
+    title: 'Step 3 — Mid-Track Traveling Wave (Coil 4 ON, Coil 3 OFF)',
+    desc: 'As the train glides past Coil 3, Coil 3 turns OFF and Coil 4 activates. The magnetic wave travels seamlessly down the line, pulling the train across mid-track in one continuous glide.',
+    activeCoils: [false, false, false, true, false],
+    pattern: ['OFF', 'OFF', 'OFF', 'ON', 'OFF'],
+    tag: '⚡ STAGE 3: MID-TRACK PROPULSION'
+  },
+  {
+    title: 'Step 4 — Terminal Approach (Coil 5 ON, Coil 4 OFF)',
+    desc: 'As the train clears Coil 4, Coil 4 deactivates and Coil 5 energizes. The final stator electromagnet pulls the train smoothly into the terminal station.',
+    activeCoils: [false, false, false, false, true],
+    pattern: ['OFF', 'OFF', 'OFF', 'OFF', 'ON'],
+    tag: '🚅 STAGE 4: TERMINAL PULL'
+  },
+  {
+    title: 'Step 5 — Arrival & Safe Shutdown (All Coils OFF)',
+    desc: 'The train arrives safely at the terminal, completing its frictionless edge-to-edge flight. All track coils safely shut OFF until the next scheduled departure wave.',
+    activeCoils: [false, false, false, false, false],
+    pattern: ['OFF', 'OFF', 'OFF', 'OFF', 'OFF'],
+    tag: '🏁 STAGE 5: RUN COMPLETED'
+  },
+];
 
-  const PROP_INFO = [
-    {
-      title: 'Step 1 — Initial Launch (Coil 2 ON)',
-      desc: 'Coil 2 energizes directly ahead of the train. Its attractive magnetic force pulls the train from Coil 1, initiating smooth, steady forward translation across the guideway without wheels.',
-      activeCoils: [false, true, false, false, false],
-      pattern: ['OFF', 'ON', 'OFF', 'OFF', 'OFF'],
-      tag: '⚡ STAGE 1: COIL 2 ENERGIZED'
-    },
-    {
-      title: 'Step 2 — Dynamic Sequential Handoff (Coil 3 ON, Coil 2 OFF)',
-      desc: 'As the train crosses past Coil 2, Coil 2 immediately switches OFF (preventing backward magnetic drag) while Coil 3 switches ON ahead, maintaining uninterrupted forward velocity.',
-      activeCoils: [false, false, true, false, false],
-      pattern: ['OFF', 'OFF', 'ON', 'OFF', 'OFF'],
-      tag: '🌊 STAGE 2: TRAVELING WAVE RELAY'
-    },
-    {
-      title: 'Step 3 — Mid-Track Traveling Wave (Coil 4 ON, Coil 3 OFF)',
-      desc: 'As the train glides past Coil 3, Coil 3 turns OFF and Coil 4 activates. The magnetic wave travels seamlessly down the line, pulling the train across mid-track in one continuous glide.',
-      activeCoils: [false, false, false, true, false],
-      pattern: ['OFF', 'OFF', 'OFF', 'ON', 'OFF'],
-      tag: '⚡ STAGE 3: MID-TRACK PROPULSION'
-    },
-    {
-      title: 'Step 4 — Terminal Approach (Coil 5 ON, Coil 4 OFF)',
-      desc: 'As the train clears Coil 4, Coil 4 deactivates and Coil 5 energizes. The final stator electromagnet pulls the train smoothly into the terminal station.',
-      activeCoils: [false, false, false, false, true],
-      pattern: ['OFF', 'OFF', 'OFF', 'OFF', 'ON'],
-      tag: '🚅 STAGE 4: TERMINAL PULL'
-    },
-    {
-      title: 'Step 5 — Arrival & Safe Shutdown (All Coils OFF)',
-      desc: 'The train arrives safely at the terminal, completing its frictionless edge-to-edge flight. All track coils safely shut OFF until the next scheduled departure wave.',
-      activeCoils: [false, false, false, false, false],
-      pattern: ['OFF', 'OFF', 'OFF', 'OFF', 'OFF'],
-      tag: '🏁 STAGE 5: RUN COMPLETED'
-    },
-  ];
-
-  useEffect(() => {
-    if (!autoPlay) {
-      setIsTranslating(false);
-      return;
-    }
-
-    let isMounted = true;
-    autoPlaySeqRef.current += 1;
-    const currentSeqId = autoPlaySeqRef.current;
-
-    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-    const executeAutoPlay = async () => {
-      while (isMounted && autoPlaySeqRef.current === currentSeqId) {
-        setPropStep(-1);
-        setIsTranslating(false);
-        await sleep(1500);
-        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
-
-        setPropStep(0);
-        setIsTranslating(true);
-        await sleep(2500);
-        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
-
-        setPropStep(1);
-        await sleep(2500);
-        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
-
-        setPropStep(2);
-        await sleep(2500);
-        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
-
-        setPropStep(3);
-        await sleep(2500);
-        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
-
-        setPropStep(4);
-        setViewedAll(true);
-        await sleep(3500);
-        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
-      }
-    };
-
-    executeAutoPlay();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [autoPlay]);
-
-  const goNext = () => {
-    setAutoPlay(false);
-    setIsTranslating(false);
-    setPropStep(prev => {
-      const next = Math.min(prev + 1, 4);
-      if (next === 4) setViewedAll(true);
-      return next;
-    });
-  };
+function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false, isTranslating = false, handleNextStep, handleToggleAutoPlay, handleReset, handlePrev }) {
+  const [isFullView, setIsFullView] = useState(false);
 
   const cur = propStep >= 0 ? PROP_INFO[propStep] : null;
   const activeCoils = cur ? cur.activeCoils : [false, false, false, false, false];
@@ -1275,6 +1202,344 @@ function Step3Move({ onNext }) {
       gap: '1rem',
       maxWidth: '100%'
     }}>
+      {/* ── DEDICATED FULL-SCREEN ACTIVITY MODAL / VIEW ── */}
+      <AnimatePresence>
+        {isFullView && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 99999,
+              background: '#070D18',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '0.75rem 1.25rem 0.85rem 1.25rem',
+              boxSizing: 'border-box',
+              overflow: 'hidden'
+            }}
+          >
+            {/* Top Bar with Sleek Exit Full View Button on Top-Right */}
+            <div style={{
+              width: '100%',
+              maxWidth: '1900px',
+              display: 'flex',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              padding: '0.2rem 0.5rem',
+              zIndex: 50,
+              flexShrink: 0
+            }}>
+              <button
+                onClick={() => setIsFullView(false)}
+                className="navy-btn"
+                style={{
+                  padding: '0.55rem 1.35rem',
+                  borderRadius: '24px',
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1.5px solid #CBD5E1',
+                  color: '#0F172A',
+                  fontSize: '1rem',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  boxShadow: '0 6px 20px rgba(0, 0, 0, 0.35)',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <Minimize2 size={18} color="#0F172A" /> Exit Full View
+              </button>
+            </div>
+
+            {/* Scaled-Up Fullscreen Simulation Activity Container: Maximum Height & Width */}
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              maxWidth: '1900px',
+              flex: 1,
+              minHeight: '480px',
+              backgroundImage: "url('/FunWithMagnets/lake_sunlight_bg.jpg')",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center 40%',
+              backgroundRepeat: 'no-repeat',
+              borderRadius: '24px',
+              border: '2px solid rgba(255, 255, 255, 0.45)',
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              padding: 0,
+              boxSizing: 'border-box',
+              boxShadow: '0 24px 60px rgba(0,0,0,0.6)'
+            }}>
+              {/* Moving Maglev Train Model in Full View */}
+              <div style={{
+                position: 'relative',
+                width: '100%',
+                height: '210px',
+                zIndex: 4,
+                display: 'flex',
+                alignItems: 'flex-end',
+                marginBottom: '4px',
+                overflow: 'visible'
+              }}>
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: autoPlay 
+                      ? (isTranslating ? 'calc(100% - 660px)' : '0px')
+                      : propStep === -1 ? '0px'
+                      : propStep === 0 ? 'calc((100% - 660px) * 0.22)'
+                      : propStep === 1 ? 'calc((100% - 660px) * 0.48)'
+                      : propStep === 2 ? 'calc((100% - 660px) * 0.72)'
+                      : propStep === 3 ? 'calc((100% - 660px) * 0.90)'
+                      : 'calc(100% - 660px)',
+                    bottom: '0px',
+                    width: '660px',
+                    transition: getTrainTransition(),
+                    willChange: 'left',
+                    display: 'block'
+                  }}
+                >
+                  <img
+                    src="/FunWithMagnets/transrapid_train_clean.png"
+                    alt="Transrapid Maglev Bullet Train"
+                    style={{
+                      width: '100%',
+                      height: 'auto',
+                      display: 'block',
+                      filter: 'drop-shadow(0 16px 28px rgba(0,0,0,0.4))'
+                    }}
+                  />
+
+                  {/* Levitation Glow Cushion */}
+                  <div style={{
+                    position: 'absolute',
+                    bottom: '-4px',
+                    left: '20px',
+                    right: '20px',
+                    height: '14px',
+                    background: 'radial-gradient(ellipse at center, rgba(56,189,248,0.9) 0%, rgba(56,189,248,0) 80%)',
+                    filter: 'blur(6px)',
+                    pointerEvents: 'none'
+                  }} />
+                </div>
+              </div>
+
+              {/* Guideway Rail Track Structure in Full View — 100% Edge-to-Edge Span */}
+              <div style={{
+                position: 'relative',
+                width: '100%',
+                height: '92px',
+                zIndex: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-end'
+              }}>
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '76px',
+                  overflow: 'hidden',
+                  borderTop: '2px solid #334155',
+                  boxShadow: '0 -4px 20px rgba(0,0,0,0.3)'
+                }}>
+                  <img
+                    src="/FunWithMagnets/transrapid_track_clean.png"
+                    alt="Transrapid Maglev Guideway Track"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block'
+                    }}
+                  />
+
+                  {/* 5 Electromagnetic Stator Coil Status Markers */}
+                  <div style={{
+                    position: 'absolute',
+                    bottom: '8px',
+                    left: 0,
+                    right: 0,
+                    display: 'flex',
+                    justifyContent: 'space-around',
+                    padding: '0 3rem',
+                    zIndex: 6,
+                    pointerEvents: 'none'
+                  }}>
+                    {[0, 1, 2, 3, 4].map(idx => {
+                      const isActive = activeCoils[idx];
+                      return (
+                        <div
+                          key={idx}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '0.35rem 1.2rem',
+                            borderRadius: '10px',
+                            background: isActive ? '#0284C7' : 'rgba(15, 23, 42, 0.92)',
+                            border: `2px solid ${isActive ? '#38BDF8' : '#475569'}`,
+                            boxShadow: isActive ? '0 0 16px rgba(56,189,248,0.95)' : '0 2px 6px rgba(0,0,0,0.3)',
+                            backdropFilter: 'blur(4px)',
+                            transition: 'all 0.25s ease'
+                          }}
+                        >
+                          <span style={{
+                            color: isActive ? '#FFFFFF' : '#CBD5E1',
+                            fontSize: '1.15rem',
+                            fontWeight: 900,
+                            letterSpacing: '0.3px'
+                          }}>
+                            Coil {idx + 1}
+                          </span>
+                          <span style={{
+                            background: isActive ? '#38BDF8' : '#334155',
+                            color: isActive ? '#0369A1' : '#94A3B8',
+                            fontSize: '0.98rem',
+                            fontWeight: 900,
+                            padding: '0.15rem 0.55rem',
+                            borderRadius: '6px'
+                          }}>
+                            {isActive ? '⚡ ON' : 'OFF'}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Navigation Bar in Full View — Controls Centered-Right */}
+            <div style={{
+              width: '100%',
+              maxWidth: '1900px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              padding: '0.65rem 1.75rem',
+              marginTop: '0.65rem',
+              background: 'rgba(15, 23, 42, 0.88)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              border: '1.5px solid rgba(56, 189, 248, 0.3)',
+              borderRadius: '32px',
+              boxShadow: '0 8px 30px rgba(0, 0, 0, 0.4)',
+              boxSizing: 'border-box',
+              gap: '0.75rem',
+              flexShrink: 0
+            }}>
+              {/* Next Step Button */}
+              <button
+                onClick={handleNextStep}
+                disabled={propStep >= 4}
+                className={propStep < 4 ? "gold-glow-btn" : ""}
+                style={{
+                  padding: '0.65rem 1.55rem',
+                  borderRadius: '20px',
+                  background: propStep < 4 ? 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)' : '#1E293B',
+                  color: propStep < 4 ? '#FFFFFF' : '#64748B',
+                  border: propStep < 4 ? '1.5px solid #38BDF8' : '1.5px solid #334155',
+                  fontWeight: 900,
+                  fontSize: '1.02rem',
+                  cursor: propStep >= 4 ? 'not-allowed' : 'pointer',
+                  boxShadow: propStep < 4 ? '0 4px 14px rgba(2,132,199,0.35)' : 'none',
+                  transition: 'all 0.2s ease',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.35rem'
+                }}
+              >
+                Next Step ▶
+              </button>
+
+              {/* Auto-play Button */}
+              <button
+                onClick={handleToggleAutoPlay}
+                className="gold-glow-btn"
+                style={{
+                  padding: '0.65rem 1.55rem',
+                  borderRadius: '20px',
+                  border: autoPlay ? '1.5px solid #F59E0B' : '1.5px solid #FDE68A',
+                  background: autoPlay ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)',
+                  color: autoPlay ? '#FFFFFF' : '#92400E',
+                  fontWeight: 900,
+                  fontSize: '1.02rem',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.45rem',
+                  boxShadow: autoPlay ? '0 0 16px rgba(245,158,11,0.5)' : '0 4px 14px rgba(245,158,11,0.25)',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                {autoPlay ? '⏸ Pause' : '▶ Auto-play'}
+              </button>
+
+              {/* Reset Button */}
+              <button
+                onClick={handleReset}
+                className="navy-btn"
+                style={{
+                  padding: '0.65rem 1.35rem',
+                  borderRadius: '20px',
+                  border: '1.5px solid #2B6CB0',
+                  background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
+                  color: '#FFFFFF',
+                  fontWeight: 900,
+                  fontSize: '1.02rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 4px 12px rgba(23, 59, 95, 0.25)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.35rem'
+                }}
+              >
+                ↺ Reset
+              </button>
+
+              {/* Exit Full View inside bottom bar */}
+              <button
+                onClick={() => setIsFullView(false)}
+                className="navy-btn"
+                style={{
+                  padding: '0.65rem 1.6rem',
+                  borderRadius: '25px',
+                  background: 'rgba(255, 255, 255, 0.96)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1.5px solid #CBD5E1',
+                  color: '#0F172A',
+                  fontSize: '1.05rem',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.55rem',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.35)',
+                  transition: 'all 0.2s ease',
+                  marginLeft: '0.4rem'
+                }}
+              >
+                <Minimize2 size={18} color="#0F172A" /> Exit Full View
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* ── 1. PRIMARY INTERACTIVE ACTIVITY AREA (TOP CARD) ── */}
       <div style={{
         width: '100%',
@@ -1315,165 +1580,59 @@ function Step3Move({ onNext }) {
           }}>
             ⚡ ELECTROMAGNETIC PROPULSION SIMULATION
           </div>
-
-          {/* Interactive Navigation Controls */}
-          <div style={{
-            display: 'flex',
-            gap: '0.75rem',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            position: 'relative',
-            zIndex: 100,
-            pointerEvents: 'auto'
-          }}>
-            <button
-              onClick={() => { setAutoPlay(false); setIsTranslating(false); setPropStep(p => Math.max(-1, p - 1)); }}
-              disabled={propStep < 0}
-              className="shimmer-btn"
-              style={{
-                padding: '0.7rem 1.45rem',
-                borderRadius: '14px',
-                border: '1.5px solid #CBD5E1',
-                background: propStep < 0 ? '#F1F5F9' : '#FFFFFF',
-                color: propStep < 0 ? '#94A3B8' : '#1E293B',
-                fontWeight: 900,
-                fontSize: '1.18rem',
-                cursor: propStep < 0 ? 'not-allowed' : 'pointer',
-                boxShadow: propStep < 0 ? 'none' : '0 3px 8px rgba(0,0,0,0.06)',
-                transition: 'all 0.2s ease',
-                pointerEvents: 'auto',
-                touchAction: 'manipulation',
-                position: 'relative',
-                zIndex: 10,
-                overflow: 'hidden'
-              }}
-            >
-              <span style={{ pointerEvents: 'none' }}>◀ Prev</span>
-            </button>
-            <button
-              onClick={goNext}
-              disabled={propStep >= 4}
-              className="gold-glow-btn"
-              style={{
-                padding: '0.7rem 1.75rem',
-                borderRadius: '14px',
-                background: propStep < 4 ? 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)' : '#F1F5F9',
-                color: propStep < 4 ? '#FFFFFF' : '#94A3B8',
-                border: propStep < 4 ? '1.5px solid #38BDF8' : '1.5px solid #CBD5E1',
-                fontWeight: 900,
-                fontSize: '1.18rem',
-                cursor: propStep >= 4 ? 'not-allowed' : 'pointer',
-                boxShadow: propStep < 4 ? '0 4px 14px rgba(2,132,199,0.35)' : 'none',
-                transition: 'all 0.2s ease',
-                pointerEvents: 'auto',
-                touchAction: 'manipulation',
-                position: 'relative',
-                zIndex: 10,
-                overflow: 'hidden'
-              }}
-            >
-              <span style={{ pointerEvents: 'none' }}>Next Step ▶</span>
-            </button>
-            <button
-              onClick={() => setAutoPlay(p => !p)}
-              className="gold-glow-btn"
-              style={{
-                padding: '0.7rem 1.75rem',
-                borderRadius: '14px',
-                border: '1.5px solid #FDE68A',
-                background: autoPlay ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)',
-                color: autoPlay ? '#FFFFFF' : '#92400E',
-                fontWeight: 900,
-                fontSize: '1.18rem',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.45rem',
-                boxShadow: '0 4px 14px rgba(245,158,11,0.3)',
-                transition: 'all 0.2s ease',
-                pointerEvents: 'auto',
-                touchAction: 'manipulation',
-                position: 'relative',
-                zIndex: 10,
-                overflow: 'hidden'
-              }}
-            >
-              <span style={{ pointerEvents: 'none', display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-                {autoPlay ? '⏸ Pause' : '▶ Auto-play'}
-              </span>
-            </button>
-            <button
-              onClick={() => { setAutoPlay(false); setIsTranslating(false); setPropStep(-1); }}
-              className="navy-btn"
-              style={{
-                padding: '0.7rem 1.5rem',
-                borderRadius: '14px',
-                border: '1.5px solid #2B6CB0',
-                background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
-                color: '#FFFFFF',
-                fontWeight: 900,
-                fontSize: '1.18rem',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                pointerEvents: 'auto',
-                touchAction: 'manipulation',
-                boxShadow: '0 4px 12px rgba(23, 59, 95, 0.25)',
-                position: 'relative',
-                zIndex: 10,
-                overflow: 'hidden'
-              }}
-            >
-              <span style={{ pointerEvents: 'none' }}>↺ Reset</span>
-            </button>
-          </div>
         </div>
 
-        {/* Realistic Interactive Simulation Canvas */}
+        {/* Realistic Interactive Simulation Canvas with Scenic Lake & Sunlight Backdrop */}
         <div style={{
           position: 'relative',
           width: '100%',
           flex: 1,
           minHeight: '170px',
           maxHeight: '240px',
-          background: 'linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 55%, #E2E8F0 100%)',
+          backgroundImage: "url('/FunWithMagnets/lake_sunlight_bg.jpg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 42%',
+          backgroundRepeat: 'no-repeat',
           borderRadius: '16px',
           border: '1.5px solid #CBD5E1',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'flex-end',
-          padding: '0.5rem 1rem',
+          padding: 0,
           boxSizing: 'border-box',
-          boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.03)'
+          boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.06)'
         }}>
-          {/* Blueprint Grid Pattern */}
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage: 'linear-gradient(rgba(14,165,233,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(14,165,233,0.06) 1px, transparent 1px)',
-            backgroundSize: '24px 24px',
-            pointerEvents: 'none'
-          }} />
-
-          {/* Direction of Travel Indicator Banner */}
-          <div style={{
-            position: 'absolute',
-            top: '10px',
-            right: '12px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.45rem',
-            background: 'rgba(255, 255, 255, 0.92)',
-            border: '1px solid #CBD5E1',
-            borderRadius: '20px',
-            padding: '0.3rem 0.95rem',
-            boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
-            zIndex: 5
-          }}>
-            <span style={{ color: '#0369A1', fontSize: '0.92rem', fontWeight: 900, letterSpacing: '0.5px' }}>
-              Direction of Travel ➔ ➔ ➔
-            </span>
-          </div>
+          {/* Sleek Full View Button with reduced width size */}
+          <button
+            onClick={() => setIsFullView(true)}
+            className="shimmer-btn"
+            style={{
+              position: 'absolute',
+              top: '10px',
+              right: '12px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+              background: 'rgba(255, 255, 255, 0.92)',
+              backdropFilter: 'blur(8px)',
+              border: '1.5px solid #0284C7',
+              borderRadius: '16px',
+              padding: '0.22rem 0.6rem',
+              boxShadow: '0 2px 8px rgba(2, 132, 199, 0.18)',
+              zIndex: 10,
+              cursor: 'pointer',
+              color: '#0284C7',
+              fontSize: '0.82rem',
+              fontWeight: 900,
+              letterSpacing: '0.2px',
+              transition: 'all 0.2s ease',
+              width: 'auto'
+            }}
+          >
+            <Maximize2 size={13} color="#0284C7" strokeWidth={2.5} />
+            <span>Full View</span>
+          </button>
 
           {/* Moving Maglev Train Model */}
           <div style={{
@@ -1522,7 +1681,7 @@ function Step3Move({ onNext }) {
             </div>
           </div>
 
-          {/* Guideway Rail Track Structure */}
+          {/* Guideway Rail Track Structure — 100% Edge-to-Edge Horizontal Span */}
           <div style={{
             position: 'relative',
             width: '100%',
@@ -1536,10 +1695,9 @@ function Step3Move({ onNext }) {
               position: 'relative',
               width: '100%',
               height: '44px',
-              borderRadius: '8px',
               overflow: 'hidden',
-              border: '1.5px solid #334155',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.18)'
+              borderTop: '1.5px solid #334155',
+              boxShadow: '0 -2px 10px rgba(0,0,0,0.18)'
             }}>
               <img
                 src="/FunWithMagnets/transrapid_track_clean.png"
@@ -1560,7 +1718,7 @@ function Step3Move({ onNext }) {
                 right: 0,
                 display: 'flex',
                 justifyContent: 'space-around',
-                padding: '0 2rem',
+                padding: '0 1.5rem',
                 zIndex: 6,
                 pointerEvents: 'none'
               }}>
@@ -1969,6 +2127,93 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
   const [showFinalCompletionModal, setShowFinalCompletionModal] = useState(false);
   const [predictAns, setPredictAns] = useState(null);
 
+  // Step 3 Propulsion Simulation State & Auto-play Engine
+  const [propStep, setPropStep] = useState(-1);
+  const [autoPlay, setAutoPlay] = useState(false);
+  const [viewedAll, setViewedAll] = useState(false);
+  const [isTranslating, setIsTranslating] = useState(false);
+  const autoPlaySeqRef = useRef(0);
+
+  useEffect(() => {
+    if (!autoPlay) {
+      setIsTranslating(false);
+      return;
+    }
+
+    let isMounted = true;
+    autoPlaySeqRef.current += 1;
+    const currentSeqId = autoPlaySeqRef.current;
+
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    const executeAutoPlay = async () => {
+      while (isMounted && autoPlaySeqRef.current === currentSeqId) {
+        setPropStep(-1);
+        setIsTranslating(false);
+        await sleep(1500);
+        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
+
+        setPropStep(0);
+        setIsTranslating(true);
+        await sleep(2500);
+        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
+
+        setPropStep(1);
+        await sleep(2500);
+        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
+
+        setPropStep(2);
+        await sleep(2500);
+        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
+
+        setPropStep(3);
+        await sleep(2500);
+        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
+
+        setPropStep(4);
+        setViewedAll(true);
+        await sleep(3500);
+        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
+      }
+    };
+
+    executeAutoPlay();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [autoPlay]);
+
+  const handleStep3Prev = (e) => {
+    e?.stopPropagation();
+    setAutoPlay(false);
+    setIsTranslating(false);
+    setPropStep(p => Math.max(-1, p - 1));
+  };
+
+  const handleStep3NextStep = (e) => {
+    e?.stopPropagation();
+    setAutoPlay(false);
+    setIsTranslating(false);
+    setPropStep(prev => {
+      const next = Math.min(prev + 1, 4);
+      if (next === 4) setViewedAll(true);
+      return next;
+    });
+  };
+
+  const handleStep3ToggleAutoPlay = (e) => {
+    e?.stopPropagation();
+    setAutoPlay(prev => !prev);
+  };
+
+  const handleStep3Reset = (e) => {
+    e?.stopPropagation();
+    setAutoPlay(false);
+    setIsTranslating(false);
+    setPropStep(-1);
+  };
+
   const [mazeVisitedCount, setMazeVisitedCount] = useState({ count: 1, total: 14 });
   const [currentNodeId, setCurrentNodeId] = useState('node_0_0');
   const [isMoving, setIsMoving] = useState(false);
@@ -2052,7 +2297,19 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
         {step === 2 && <Step2Float onNext={() => go(3)} />}
 
         {/* STEP 3 — How Does It Move: Propulsion Sequence */}
-        {step === 3 && <Step3Move onNext={() => go(4)} />}
+        {step === 3 && (
+          <Step3Move
+            onNext={() => go(4)}
+            propStep={propStep}
+            autoPlay={autoPlay}
+            viewedAll={viewedAll}
+            isTranslating={isTranslating}
+            handleNextStep={handleStep3NextStep}
+            handleToggleAutoPlay={handleStep3ToggleAutoPlay}
+            handleReset={handleStep3Reset}
+            handlePrev={handleStep3Prev}
+          />
+        )}
 
         {/* STEP 4 — Electromagnetic Control: ON/OFF Video Demo (Routes to Expedition) */}
         {step === 4 && <Step4Control />}
@@ -2064,18 +2321,17 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
             height: '100%',
             display: 'flex',
             flexDirection: 'row',
-            gap: '1.25rem',
+            gap: '1rem',
             boxSizing: 'border-box',
             overflow: 'hidden'
           }}>
-            {/* Left Activity Area: 70% Width */}
+            {/* Left Activity Area: Flexible Width */}
             <div style={{
-              flex: '0 0 70%',
-              width: '70%',
+              flex: '1 1 0%',
+              minWidth: 0,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              minWidth: 0,
               height: '100%',
               boxSizing: 'border-box',
               padding: '0'
@@ -2163,10 +2419,11 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
               </div>
             </div>
 
-            {/* Right Control Area: 30% Width, Transparent Background, Instruction Card & D-PAD HUD */}
+            {/* Right Control Area: Clean 350px Width, Fully Contained without Clipping */}
             <div style={{ 
-              flex: '0 0 30%', 
-              width: '30%',
+              flex: '0 0 350px', 
+              width: '350px',
+              maxWidth: '350px',
               background: 'transparent', 
               border: 'none', 
               borderRadius: '24px', 
@@ -2175,7 +2432,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
               display: 'flex', 
               flexDirection: 'column', 
               justifyContent: 'space-between', 
-              alignItems: 'center',
+              alignItems: 'stretch',
               minWidth: 0,
               height: '100%',
               boxSizing: 'border-box',
@@ -2711,7 +2968,8 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
           maxWidth: '98%',
           margin: '0.75rem auto 0 auto',
           width: '100%',
-          boxSizing: 'border-box'
+          boxSizing: 'border-box',
+          gap: '1rem'
         }}>
           {/* Back Button on Left */}
           <button
@@ -2730,7 +2988,8 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
               alignItems: 'center',
               gap: '0.55rem',
               boxShadow: '0 4px 14px rgba(23, 59, 95, 0.3)',
-              transition: 'all 0.2s ease'
+              transition: 'all 0.2s ease',
+              flexShrink: 0
             }}
           >
             <ArrowLeft size={20} color="#FFFFFF" /> Back
@@ -2742,7 +3001,8 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: '1.1rem',
-            fontWeight: 900
+            fontWeight: 900,
+            flexShrink: 0
           }}>
             <span style={{
               background: '#ECFDF5',
@@ -2756,31 +3016,141 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
             </span>
           </div>
 
-          {/* Next Button on Right */}
-          <button
-            onClick={() => {
-              if (step < STEPS_NAV.length - 1) {
-                go(step + 1);
-              } else if (onComplete) {
-                onComplete();
-              } else if (onBackToDashboard) {
-                onBackToDashboard();
-              }
-            }}
-            className="gold-glow-btn"
-            style={{
-              padding: '0.65rem 2rem',
-              fontSize: '1.05rem',
-              fontWeight: 900,
-              borderRadius: '25px',
-              cursor: 'pointer',
+          {/* Centered-Right Simulation Control Buttons for Step 3 */}
+          {step === 3 ? (
+            <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.55rem'
-            }}
-          >
-            {step === STEPS_NAV.length - 1 ? 'Finish Activity' : 'Next'} <ArrowRight size={20} color="#FFFFFF" />
-          </button>
+              gap: '0.75rem',
+              marginLeft: 'auto',
+              flexShrink: 0
+            }}>
+              {/* Next Step Button */}
+              <button
+                onClick={handleStep3NextStep}
+                disabled={propStep >= 4}
+                className={propStep < 4 ? "gold-glow-btn" : ""}
+                style={{
+                  padding: '0.65rem 1.55rem',
+                  borderRadius: '20px',
+                  background: propStep < 4 ? 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)' : '#F1F5F9',
+                  color: propStep < 4 ? '#FFFFFF' : '#94A3B8',
+                  border: propStep < 4 ? '1.5px solid #38BDF8' : '1.5px solid #CBD5E1',
+                  fontWeight: 900,
+                  fontSize: '1.02rem',
+                  cursor: propStep >= 4 ? 'not-allowed' : 'pointer',
+                  boxShadow: propStep < 4 ? '0 4px 14px rgba(2,132,199,0.35)' : 'none',
+                  transition: 'all 0.2s ease',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.35rem'
+                }}
+              >
+                Next Step ▶
+              </button>
+
+              {/* Auto-play Button */}
+              <button
+                onClick={handleStep3ToggleAutoPlay}
+                className="gold-glow-btn"
+                style={{
+                  padding: '0.65rem 1.55rem',
+                  borderRadius: '20px',
+                  border: autoPlay ? '1.5px solid #F59E0B' : '1.5px solid #FDE68A',
+                  background: autoPlay ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)',
+                  color: autoPlay ? '#FFFFFF' : '#92400E',
+                  fontWeight: 900,
+                  fontSize: '1.02rem',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.45rem',
+                  boxShadow: autoPlay ? '0 0 16px rgba(245,158,11,0.5)' : '0 4px 14px rgba(245,158,11,0.25)',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                {autoPlay ? '⏸ Pause' : '▶ Auto-play'}
+              </button>
+
+              {/* Reset Button */}
+              <button
+                onClick={handleStep3Reset}
+                className="navy-btn"
+                style={{
+                  padding: '0.65rem 1.35rem',
+                  borderRadius: '20px',
+                  border: '1.5px solid #2B6CB0',
+                  background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
+                  color: '#FFFFFF',
+                  fontWeight: 900,
+                  fontSize: '1.02rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 4px 12px rgba(23, 59, 95, 0.25)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.35rem'
+                }}
+              >
+                ↺ Reset
+              </button>
+
+              {/* Next Button to Step 4 */}
+              <button
+                onClick={() => go(4)}
+                disabled={!viewedAll}
+                className={viewedAll ? "gold-glow-btn" : ""}
+                style={{
+                  padding: '0.65rem 2rem',
+                  fontSize: '1.05rem',
+                  fontWeight: 900,
+                  borderRadius: '25px',
+                  background: viewedAll ? undefined : '#E2E8F0',
+                  color: viewedAll ? '#FFFFFF' : '#94A3B8',
+                  border: 'none',
+                  cursor: viewedAll ? 'pointer' : 'not-allowed',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.55rem',
+                  boxShadow: viewedAll ? undefined : 'none',
+                  transition: 'all 0.2s ease',
+                  marginLeft: '0.4rem'
+                }}
+              >
+                Next <ArrowRight size={20} color={viewedAll ? "#FFFFFF" : "#94A3B8"} />
+              </button>
+            </div>
+          ) : (
+            /* Next Button on Right for other steps */
+            <button
+              onClick={() => {
+                if (step < STEPS_NAV.length - 1) {
+                  go(step + 1);
+                } else if (onComplete) {
+                  onComplete();
+                } else if (onBackToDashboard) {
+                  onBackToDashboard();
+                }
+              }}
+              className="gold-glow-btn"
+              style={{
+                padding: '0.65rem 2rem',
+                fontSize: '1.05rem',
+                fontWeight: 900,
+                borderRadius: '25px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.55rem',
+                flexShrink: 0
+              }}
+            >
+              {step === STEPS_NAV.length - 1 ? 'Finish Activity' : 'Next'} <ArrowRight size={20} color="#FFFFFF" />
+            </button>
+          )}
         </footer>
       )}
     </div>

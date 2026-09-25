@@ -3,43 +3,32 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Target, Move, Compass, RotateCcw, HelpCircle, ArrowLeft, ArrowRight } from 'lucide-react';
 
 // -------------------------------------------------------------------
-// 1. Exact Waypoint Node Coordinate System for Isometric City Grid Track Map (1024 x 682)
+// 1. Exact Waypoint Node Coordinate System for Isometric City Grid Track Map (1024 x 666)
 // -------------------------------------------------------------------
 export const WAYPOINT_NODES = [
-  // ── ROW 0: TOP RAILWAY TRACK (Y ≈ 64 - 67) ──
-  { id: 'node_0_0', name: 'Start: City Hall Junction 🚉', shortName: 'Start', icon: '🚉', x: 73, y: 67, neighbors: ['node_0_1', 'node_1_0'] },
-  { id: 'node_0_1', name: 'Hospital North Track 🏥', shortName: 'Hospital', icon: '🏥', x: 305, y: 66, neighbors: ['node_0_0', 'node_0_2', 'node_1_1'] },
-  { id: 'node_0_2', name: 'Solar Farm Hub ☀️', shortName: 'Solar', icon: '☀️', x: 543, y: 65, neighbors: ['node_0_1', 'node_0_3', 'node_1_2'] },
-  { id: 'node_0_3', name: 'Grand Central Depot 🚂', shortName: 'Depot', icon: '🚂', x: 743, y: 64, neighbors: ['node_0_2', 'node_0_4', 'node_1_3'] },
-  { id: 'node_0_4', name: 'North-East Coastline 🌊', shortName: 'NE Coast', icon: '🌊', x: 954, y: 65, neighbors: ['node_0_3', 'node_1_4'] },
+  // ── ROW 0: TOP RAILWAY TRACK (Y ≈ 65 - 75) ──
+  { id: 'node_0_0', name: 'Start: City Hall Junction 🚉', shortName: 'Start', icon: '🚉', x: 79, y: 75, neighbors: ['node_0_1', 'node_1_0'] },
+  { id: 'node_0_1', name: 'Hospital North Station 🏥', shortName: 'Hospital', icon: '🏥', x: 386, y: 68, neighbors: ['node_0_0', 'node_0_2', 'node_1_1'] },
+  { id: 'node_0_2', name: 'Solar Farm Energy Hub ☀️', shortName: 'Solar', icon: '☀️', x: 690, y: 65, neighbors: ['node_0_1', 'node_0_3', 'node_1_2'] },
+  { id: 'node_0_3', name: 'East Grand Depot 🚂', shortName: 'Depot', icon: '🚂', x: 945, y: 66, neighbors: ['node_0_2', 'node_1_3'] },
 
-  // ── ROW 1: SECOND HORIZONTAL TRACK (Y ≈ 196 - 200) ──
-  { id: 'node_1_0', name: 'Power Plant West Track ⚡', shortName: 'Power Sta', icon: '⚡', x: 61, y: 200, neighbors: ['node_0_0', 'node_2_0', 'node_1_1'] },
-  { id: 'node_1_1', name: 'Arena Stadium Junction 🏟️', shortName: 'Stadium', icon: '🏟️', x: 303, y: 197, neighbors: ['node_1_0', 'node_0_1', 'node_1_2', 'node_2_1'] },
-  { id: 'node_1_2', name: 'Financial Towers Hub 🏢', shortName: 'Towers', icon: '🏢', x: 541, y: 198, neighbors: ['node_1_1', 'node_0_2', 'node_1_3', 'node_2_2'] },
-  { id: 'node_1_3', name: 'Cargo Harbor Track 🚢', shortName: 'Harbor', icon: '🚢', x: 748, y: 196, neighbors: ['node_1_2', 'node_0_3', 'node_1_4', 'node_2_3'] },
-  { id: 'node_1_4', name: 'Ocean Bay Track 🌊', shortName: 'Ocean Bay', icon: '🌊', x: 963, y: 197, neighbors: ['node_0_4', 'node_1_3', 'node_2_4'] },
+  // ── ROW 1: SECOND HORIZONTAL TRACK (Y ≈ 232 - 235) ──
+  { id: 'node_1_0', name: 'Power Plant West Junction ⚡', shortName: 'Power Sta', icon: '⚡', x: 78, y: 235, neighbors: ['node_0_0', 'node_2_0', 'node_1_1'] },
+  { id: 'node_1_1', name: 'Arena Stadium Station 🏟️', shortName: 'Stadium', icon: '🏟️', x: 386, y: 235, neighbors: ['node_1_0', 'node_0_1', 'node_1_2', 'node_2_1'] },
+  { id: 'node_1_2', name: 'Financial Towers Hub 🏢', shortName: 'Towers', icon: '🏢', x: 686, y: 232, neighbors: ['node_1_1', 'node_0_2', 'node_1_3', 'node_2_2'] },
+  { id: 'node_1_3', name: 'Ocean Harbor Depot 🚢', shortName: 'Harbor', icon: '🚢', x: 950, y: 235, neighbors: ['node_1_2', 'node_0_3', 'node_2_3'] },
 
-  // ── ROW 2: CENTRAL HORIZONTAL TRACK (Y ≈ 349 - 350) ──
-  { id: 'node_2_0', name: 'Fire & Rescue Station 🚒', shortName: 'Fire Sta', icon: '🚒', x: 52, y: 350, neighbors: ['node_1_0', 'node_3_0', 'node_2_1'] },
-  { id: 'node_2_1', name: 'Tech Campus Junction 🏫', shortName: 'Campus', icon: '🏫', x: 298, y: 349, neighbors: ['node_2_0', 'node_1_1', 'node_2_2', 'node_3_1'] },
-  { id: 'node_2_2', name: 'Metro Construction Hub 🏗️', shortName: 'Metro Hub', icon: '🏗️', x: 545, y: 349, neighbors: ['node_2_1', 'node_1_2', 'node_2_3', 'node_3_2'] },
-  { id: 'node_2_3', name: 'Logistics Warehouse Track 📦', shortName: 'Logistics', icon: '📦', x: 754, y: 349, neighbors: ['node_2_2', 'node_1_3', 'node_2_4', 'node_3_3'] },
-  { id: 'node_2_4', name: 'East Perimeter Track 🚧', shortName: 'East Gate', icon: '🚧', x: 973, y: 349, neighbors: ['node_1_4', 'node_2_3', 'node_3_4'] },
+  // ── ROW 2: THIRD HORIZONTAL TRACK (Y ≈ 425 - 429) ──
+  { id: 'node_2_0', name: 'Fire & Rescue Station 🚒', shortName: 'Fire Sta', icon: '🚒', x: 64, y: 425, neighbors: ['node_1_0', 'node_3_0', 'node_2_1'] },
+  { id: 'node_2_1', name: 'Tech Campus & Sports Court 🏫', shortName: 'Campus', icon: '🏫', x: 378, y: 426, neighbors: ['node_2_0', 'node_1_1', 'node_2_2', 'node_3_1'] },
+  { id: 'node_2_2', name: 'Metro Construction Hub 🏗️', shortName: 'Metro Hub', icon: '🏗️', x: 687, y: 425, neighbors: ['node_2_1', 'node_1_2', 'node_2_3', 'node_3_2'] },
+  { id: 'node_2_3', name: 'East Industrial Depot 📦', shortName: 'Logistics', icon: '📦', x: 958, y: 429, neighbors: ['node_2_2', 'node_1_3', 'node_3_3'] },
 
-  // ── ROW 3: FOURTH HORIZONTAL TRACK (Y ≈ 491 - 493) ──
-  { id: 'node_3_0', name: 'Suburban Residential Track 🏡', shortName: 'Suburbs', icon: '🏡', x: 40, y: 493, neighbors: ['node_2_0', 'node_4_0', 'node_3_1'] },
-  { id: 'node_3_1', name: 'Bio-Sphere Dome Gardens 🌿', shortName: 'Bio-Domes', icon: '🌿', x: 293, y: 493, neighbors: ['node_3_0', 'node_2_1', 'node_3_2', 'node_4_1'] },
-  { id: 'node_3_2', name: 'Airport Gateway Track ✈️', shortName: 'Airport', icon: '✈️', x: 542, y: 493, neighbors: ['node_3_1', 'node_2_2', 'node_3_3', 'node_4_2'] },
-  { id: 'node_3_3', name: 'Memorial Parkside Track ⛲', shortName: 'Parkside', icon: '⛲', x: 761, y: 493, neighbors: ['node_3_2', 'node_2_3', 'node_3_4', 'node_4_3'] },
-  { id: 'node_3_4', name: 'South-East Forest Track 🌲', shortName: 'SE Forest', icon: '🌲', x: 980, y: 491, neighbors: ['node_2_4', 'node_3_3', 'node_4_4'] },
-
-  // ── ROW 4: BOTTOM HORIZONTAL TRACK (Y ≈ 641 - 642) ──
-  { id: 'node_4_0', name: 'South-West Metro Depot 🏁', shortName: 'SW Depot', icon: '🏁', x: 28, y: 641, neighbors: ['node_3_0', 'node_4_1'] },
-  { id: 'node_4_1', name: 'Botanical Garden South 🌷', shortName: 'Garden S', icon: '🌷', x: 288, y: 641, neighbors: ['node_4_0', 'node_3_1', 'node_4_2'] },
-  { id: 'node_4_2', name: 'Runway South Track 🛫', shortName: 'Runway S', icon: '🛫', x: 541, y: 642, neighbors: ['node_4_1', 'node_3_2', 'node_4_3'] },
-  { id: 'node_4_3', name: 'Grand Promenade Track 🏛️', shortName: 'Promenade', icon: '🏛️', x: 761, y: 642, neighbors: ['node_4_2', 'node_3_3', 'node_4_4'] },
-  { id: 'node_4_4', name: 'Target: Destination Beacon 🎯', shortName: 'Goal 🎯', icon: '🎯', x: 988, y: 642, neighbors: ['node_3_4', 'node_4_3'] }
+  // ── ROW 3: BOTTOM HORIZONTAL TRACK (Y ≈ 603 - 610) ──
+  { id: 'node_3_0', name: 'Suburban Residential Terminal 🏡', shortName: 'Suburbs', icon: '🏡', x: 64, y: 603, neighbors: ['node_2_0', 'node_3_1'] },
+  { id: 'node_3_1', name: 'Bio-Sphere Dome Gardens 🌿', shortName: 'Bio-Domes', icon: '🌿', x: 373, y: 609, neighbors: ['node_3_0', 'node_2_1', 'node_3_2'] },
+  { id: 'node_3_2', name: 'Grand Promenade Station 🏛️', shortName: 'Promenade', icon: '🏛️', x: 689, y: 610, neighbors: ['node_3_1', 'node_2_2', 'node_3_3'] },
+  { id: 'node_3_3', name: 'Target: Destination Beacon 🎯', shortName: 'Goal 🎯', icon: '🎯', x: 962, y: 610, neighbors: ['node_3_2', 'node_2_3'] }
 ];
 
 export const NODES_MAP = Object.fromEntries(WAYPOINT_NODES.map(n => [n.id, n]));
@@ -71,14 +60,14 @@ function findShortestPath(startId, targetId) {
   return null;
 }
 
-// Single Mission from Top-Left Corner (node_0_0) to Bottom-Right Corner (node_4_4)
+// Single Mission from Top-Left Corner (node_0_0) to Bottom-Right Corner (node_3_3)
 export const MISSIONS = [
   {
     id: 1,
-    title: "Magnetic Train Expedition: Top-Left to Bottom-Right",
-    desc: "Guide the magnetic transit train along the 3D railway tracks using the handheld guiding magnet to reach the destination beacon at Bottom-Right Corner 🎯!",
+    title: "Magnetic Train Expedition: City Hall to Destination Beacon",
+    desc: "Guide the magnetic transit train along the 3D railway tracks using magnetic coils to reach the destination beacon at the bottom-right corner 🎯!",
     start: 'node_0_0',
-    target: 'node_4_4'
+    target: 'node_3_3'
   }
 ];
 
@@ -126,14 +115,10 @@ export const playRealisticTrainSound = () => {};
 export const playElectricZapSound = () => {};
 
 // -------------------------------------------------------------------
-// 3. SVG High-Definition 3-Car Maglev Magnetic Train Sprite (Front Cab ➔ Middle Car ➔ Rear Cab)
-// -------------------------------------------------------------------
-// 3. Futuristic 3-Car Maglev Train Sprite (Rendered with Top-Down Aerodynamic Streamlining)
+// 3. SVG High-Definition 3-Car Maglev Magnetic Train Sprite (Clean & Scaled)
 // -------------------------------------------------------------------
 const MagneticTrainSprite = ({ x, y, rotation, isMoving, now }) => {
   const deg = (rotation * 180 / Math.PI);
-  const pulse = 1 + 0.18 * Math.sin(now * 0.015);
-  const glowPulse = 0.75 + 0.25 * Math.sin(now * 0.012);
 
   return (
     <g transform={`translate(${x}, ${y})`}>
@@ -142,48 +127,22 @@ const MagneticTrainSprite = ({ x, y, rotation, isMoving, now }) => {
         <ellipse
           cx="0"
           cy="0"
-          rx="64"
-          ry="12"
+          rx="76"
+          ry="14"
           fill="rgba(15, 23, 42, 0.6)"
-          style={{ filter: 'blur(3.5px)' }}
+          style={{ filter: 'blur(4px)' }}
         />
 
-        {/* 2. Futuristic Vivid Electric Cyan / Blue Maglev Levitation Underglow Field */}
-        <ellipse
-          cx="0"
-          cy="0"
-          rx={isMoving ? 70 : 62}
-          ry={isMoving ? 13 : 11}
-          fill="rgba(0, 240, 255, 0.45)"
-          style={{ filter: 'blur(4.5px)' }}
-        />
-
-        {/* 3. Glowing Levitation Skid Strips (Left & Right Rails) */}
-        <line x1="-58" y1="-9.5" x2="58" y2="-9.5" stroke="#00F0FF" strokeWidth="2.8" opacity={glowPulse} style={{ filter: 'drop-shadow(0 0 6px #00F0FF)' }} />
-        <line x1="-58" y1="9.5" x2="58" y2="9.5" stroke="#00F0FF" strokeWidth="2.8" opacity={glowPulse} style={{ filter: 'drop-shadow(0 0 6px #00F0FF)' }} />
-
-        {/* 4. Projected Forward Xenon / Cyan Headlight Beams */}
-        <polygon
-          points="58,-5 125,-22 125,22 58,5"
-          fill="url(#maglevHeadlightGrad)"
-          opacity={isMoving ? 0.92 : 0.6}
-          pointerEvents="none"
-        />
-
-        {/* 5. High-Definition 3-Car Maglev Train Asset (Bright Pure White with Enhanced Contrast & Glow) */}
+        {/* 2. High-Definition 3-Car Maglev Train Asset (Clean, Increased size, No blue lines or front blur light) */}
         <image
           href="/FunWithMagnets/maglev_train_3car.png"
-          x="-61"
-          y="-9.25"
-          width="122"
-          height="18.5"
+          x="-72"
+          y="-11"
+          width="144"
+          height="22"
           preserveAspectRatio="none"
-          style={{ filter: 'brightness(1.35) contrast(1.18) drop-shadow(0 3px 8px rgba(0,0,0,0.5))' }}
+          style={{ filter: 'brightness(1.25) contrast(1.15) drop-shadow(0 4px 10px rgba(0,0,0,0.55))' }}
         />
-
-        {/* 6. Front Nose Magnetic Induction Receiver Sensor */}
-        <circle cx="60.5" cy="0" r={3.2 * pulse} fill="#00F0FF" stroke="#FFFFFF" strokeWidth="1.2" style={{ filter: 'drop-shadow(0 0 7px #00F0FF)' }} />
-        <circle cx="60.5" cy="0" r="1.5" fill="#FFFFFF" />
       </g>
     </g>
   );
@@ -287,9 +246,9 @@ const ElectricLightningTether = ({
   const x1 = poleX;
   const y1 = poleY;
 
-  // Train's front magnetic receiver tip (3-car Maglev nose tip offset is ~60.5px)
-  const x2 = trainX + Math.cos(trainRotation) * 60.5;
-  const y2 = trainY + Math.sin(trainRotation) * 60.5;
+  // Train's front magnetic receiver tip (3-car Maglev nose tip offset is ~72px)
+  const x2 = trainX + Math.cos(trainRotation) * 72.0;
+  const y2 = trainY + Math.sin(trainRotation) * 72.0;
 
   const dx = x2 - x1;
   const dy = y2 - y1;
@@ -977,7 +936,7 @@ export default function MazeGame({
 
       {/* 4. Declarative SVG / DOM Layered Simulation Viewport */}
       <svg
-        viewBox="0 0 1024 682"
+        viewBox="0 0 1024 666"
         preserveAspectRatio="none"
         style={{
           width: '100%',
@@ -1042,7 +1001,7 @@ export default function MazeGame({
           x="0"
           y="0"
           width="1024"
-          height="682"
+          height="666"
           preserveAspectRatio="none"
         />
 

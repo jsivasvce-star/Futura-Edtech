@@ -170,28 +170,33 @@ export default function Quiz({ onComplete }) {
               let bgColor = '#0A1931';
               let borderColor = '#1e293b';
               let textColor = '#FFFFFF';
+              let boxShadow = '0 4px 14px rgba(10, 25, 49, 0.25)';
               let icon = null;
 
               if (showResult) {
                 if (isCorrect) {
-                  bgColor = '#064e3b';
-                  borderColor = '#34d399';
+                  bgColor = 'linear-gradient(135deg, #064E3B 0%, #047857 100%)';
+                  borderColor = '#34D399';
                   textColor = '#FFFFFF';
-                  icon = <CheckCircle size={28} color="#34d399" />;
+                  boxShadow = '0 0 25px rgba(52, 211, 153, 0.55), 0 4px 14px rgba(6, 78, 59, 0.35)';
+                  icon = <CheckCircle size={30} color="#34D399" />;
                 } else if (isSelected) {
-                  bgColor = '#7f1d1d';
-                  borderColor = '#f87171';
+                  bgColor = 'linear-gradient(135deg, #7F1D1D 0%, #991B1B 100%)';
+                  borderColor = '#F87171';
                   textColor = '#FFFFFF';
-                  icon = <XCircle size={28} color="#f87171" />;
+                  boxShadow = '0 0 25px rgba(248, 113, 113, 0.55), 0 4px 14px rgba(127, 29, 29, 0.35)';
+                  icon = <XCircle size={30} color="#F87171" />;
                 } else {
                   bgColor = '#0A1931';
                   borderColor = '#1e293b';
                   textColor = '#cbd5e1';
+                  boxShadow = 'none';
                 }
               } else if (isSelected) {
                 borderColor = '#38bdf8';
                 bgColor = '#173b5f';
                 textColor = '#FFFFFF';
+                boxShadow = '0 0 16px rgba(56, 189, 248, 0.35)';
               }
 
               return (
@@ -207,14 +212,14 @@ export default function Quiz({ onComplete }) {
                     padding: '1.25rem 2rem',
                     borderRadius: '20px',
                     background: bgColor,
-                    border: `2px solid ${borderColor}`,
+                    border: `2.5px solid ${borderColor}`,
                     color: textColor,
                     cursor: showResult ? 'default' : 'pointer',
                     textAlign: 'left',
                     fontSize: '1.35rem',
                     fontWeight: 800,
-                    transition: 'all 0.2s ease',
-                    boxShadow: '0 4px 14px rgba(10, 25, 49, 0.25)',
+                    transition: 'all 0.25s ease',
+                    boxShadow: boxShadow,
                     opacity: showResult && !isCorrect && !isSelected ? 0.55 : 1
                   }}
                 >

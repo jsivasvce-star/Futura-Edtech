@@ -1,234 +1,95 @@
-import React, { useState } from 'react';
-import { Sparkles } from 'lucide-react';
-import { useHybridVoice } from '../../../../hooks/useHybridVoice';
-import { ELEVENLABS_VOICES } from '../../../../services/elevenLabsService';
+import React from 'react';
+import './MagneticPoles.css';
 
-const facts = [
-  {
-    id: 'earth_giant_magnet',
-    title: "Earth is a Giant Magnet",
-    shortTitle: "Earth is a Giant Magnet",
-    content: "Earth acts like a giant magnet! It has its own magnetic field, which helps a compass point north. This invisible magnetic shield protects our planet from solar particles.",
-    audioUrl: '/audio/earth_giant_magnet.mp3'
-  },
-  {
-    id: 'gilbert_discovery',
-    title: "William Gilbert's Discovery",
-    shortTitle: "Gilbert's Discovery",
-    content: "In 1600, English scientist William Gilbert studied magnets carefully and discovered that Earth behaves like a giant magnet. His work explained why compass needles point north.",
-    audioUrl: '/audio/gilbert_discovery.mp3'
-  },
-  {
-    id: 'poles_pairs',
-    title: "Magnetic Poles Exist in Pairs",
-    shortTitle: "Poles Exist in Pairs",
-    content: "Even if you break a bar magnet into smaller pieces, every piece will still have its own North and South pole! A single isolated magnetic pole cannot exist by itself.",
-    audioUrl: '/audio/poles_pairs.mp3'
-  },
-  {
-    id: 'max_strength',
-    title: "Poles Hold Maximum Strength",
-    shortTitle: "Maximum Pole Strength",
-    content: "When you sprinkle iron filings over a magnet, most filings cluster heavily at the two ends. This shows that a magnet's attraction strength is strongest at its poles!",
-    audioUrl: '/audio/max_strength.mp3'
-  }
-];
-
-export default function DidYouKnow({ activeTab = 'investigate' }) {
-  const [hoveredFact, setHoveredFact] = useState(null);
-  const { speak, stop, spokenCharIndex } = useHybridVoice();
-
-  // On the first page only ('investigate'), stream with ElevenLabs free-tier compatible authoritative male voice
-  const isFirstPage = activeTab === 'investigate';
-  const ELEVENLABS_DID_YOU_KNOW_VOICE_ID = ELEVENLABS_VOICES?.did_you_know || 'nPczCjzI2devNBz1zQrb';
-
-  const handleTrigger = (fact) => {
-    setHoveredFact(fact);
-    const fullText = `${fact.title}. ${fact.content}`;
-
-    speak({
-      text: fullText,
-      // On the first page only, remove existing audio clip and stream/synthesize with ElevenLabs voiceover
-      audioUrl: isFirstPage ? null : fact.audioUrl,
-      voiceId: isFirstPage ? ELEVENLABS_DID_YOU_KNOW_VOICE_ID : (ELEVENLABS_VOICES?.teacher || undefined),
-      role: 'did_you_know'
-    });
-  };
-
-  const handleLeave = () => {
-    setHoveredFact(null);
-    stop();
-  };
-
-  // Synchronized subtitle highlighting for Title
-  const renderHighlightedTitle = (title, charIndex) => {
-    if (!title) return null;
-    if (charIndex === undefined || charIndex === null || charIndex < 0) {
-      return title;
-    }
-
-    const words = title.split(' ');
-    let currentPos = 0;
-
-    return words.map((word, i) => {
-      const startPos = currentPos;
-      const endPos = currentPos + word.length;
-      currentPos = endPos + 1;
-
-      const isCurrentWord = charIndex >= startPos && charIndex <= endPos + 2;
-
-      return (
-        <span
-          key={i}
-          style={{
-            color: isCurrentWord ? '#173B5F' : '#064E3B',
-            transition: 'color 0.12s ease',
-            display: 'inline-block',
-            marginRight: '0.28rem'
-          }}
-        >
-          {word}
-        </span>
-      );
-    });
-  };
-
-  // Synchronized subtitle highlighting for Content
-  const renderHighlightedContent = (content, title, charIndex) => {
-    if (!content) return null;
-    if (charIndex === undefined || charIndex === null || charIndex < 0) {
-      return <span style={{ color: '#1E293B' }}>{content}</span>;
-    }
-
-    const titleOffset = title ? title.length + 2 : 0;
-    const adjustedIndex = charIndex - titleOffset;
-
-    const words = content.split(' ');
-    let currentPos = 0;
-
-    return words.map((word, i) => {
-      const startPos = currentPos;
-      const endPos = currentPos + word.length;
-      currentPos = endPos + 1;
-
-      const isCurrentWord = adjustedIndex >= startPos && adjustedIndex <= endPos + 2;
-
-      let color = isCurrentWord ? '#173B5F' : '#1E293B';
-      let fontWeight = isCurrentWord ? 800 : 600;
-
-      return (
-        <span
-          key={i}
-          style={{
-            color,
-            fontWeight,
-            transition: 'color 0.12s ease',
-            display: 'inline-block',
-            marginRight: '0.28rem'
-          }}
-        >
-          {word}
-        </span>
-      );
-    });
-  };
-
+export default function DidYouKnow() {
   return (
-    <div style={{ position: 'relative', width: '100%', fontFamily: "system-ui, -apple-system, sans-serif" }}>
-      {/* Floating Hover Tooltip Card with Subtitle Highlighting */}
-      {hoveredFact && (
-        <div style={{
-          position: 'absolute',
-          bottom: 'calc(100% + 14px)',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '95%',
-          maxWidth: '750px',
-          background: '#FFFFFF',
-          border: '1.5px solid #E2E8F0',
-          borderRadius: '24px',
-          padding: '1.45rem 2rem',
-          color: '#064E3B',
-          boxShadow: '0 20px 45px rgba(69, 26, 3, 0.18), 0 4px 12px rgba(0, 0, 0, 0.08)',
-          zIndex: 100000,
-          pointerEvents: 'none',
-          backdropFilter: 'blur(16px)',
-          transition: 'all 0.25s ease'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.6rem' }}>
-            <span style={{ fontSize: '1.75rem' }}>🧠</span>
-            <h4 style={{ margin: 0, fontSize: '1.55rem', fontWeight: 900, color: '#064E3B', letterSpacing: '-0.01em', lineHeight: 1.25 }}>
-              {renderHighlightedTitle(hoveredFact.title, spokenCharIndex)}
-            </h4>
-          </div>
-          <p style={{ margin: 0, fontSize: '1.18rem', lineHeight: '1.7', color: '#065F46', fontWeight: 600 }}>
-            {renderHighlightedContent(hoveredFact.content, hoveredFact.title, spokenCharIndex)}
-          </p>
-        </div>
-      )}
-
-      {/* Main Bottom Bar */}
+    <div style={{
+      width: '100%',
+      height: '100%',
+      minHeight: 0,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '0.4rem 0.6rem',
+      boxSizing: 'border-box',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      {/* Full-width Centered Image Container */}
       <div style={{
-        background: 'linear-gradient(135deg, #173B5F 0%, #0A1C2E 100%)',
-        border: '1.5px solid #173B5F',
-        boxShadow: '0 4px 18px rgba(69, 26, 3, 0.35)',
-        borderRadius: '20px',
-        padding: '0.45rem 1.35rem',
+        width: '100%',
+        height: '100%',
+        borderRadius: '24px',
+        border: '1.5px solid #E2E8F0',
+        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)',
+        overflow: 'hidden',
+        position: 'relative',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '100%',
-        boxSizing: 'border-box',
-        height: '56px',
-        minHeight: '56px'
+        justifyContent: 'center',
+        background: '#0F172A'
       }}>
-        {/* Brain Icon */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0, paddingRight: '0.75rem' }}>
-          <span style={{ fontSize: '1.6rem' }}>🧠</span>
-        </div>
+        {/* Full-span Centered Earth Magnetism & Poles Artwork */}
+        <img
+          src="/MagneticPoles/did_you_know_earth_magnetism.jpg"
+          alt="Earth Magnetic Field and Magnetic Poles"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center',
+            display: 'block'
+          }}
+        />
 
-        {/* Fact items horizontally with both hover & click triggers */}
-        <div style={{ display: 'flex', alignItems: 'center', flex: 1, justifyContent: 'space-around', height: '100%' }}>
-          {facts.map((fact, idx) => (
-            <React.Fragment key={idx}>
-              {idx > 0 && (
-                <div style={{ width: '1.5px', height: '55%', backgroundColor: '#173B5F' }} />
-              )}
-              <div
-                onMouseEnter={() => handleTrigger(fact)}
-                onMouseLeave={handleLeave}
-                onClick={() => {
-                  if (hoveredFact?.id === fact.id) {
-                    handleLeave();
-                  } else {
-                    handleTrigger(fact);
-                  }
-                }}
-                style={{
-                  color: hoveredFact === fact ? '#EAF2F6' : '#FFFFFF',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  cursor: 'pointer',
-                  fontSize: '1.12rem',
-                  fontWeight: 900,
-                  padding: '0.35rem 0.75rem',
-                  borderRadius: '12px',
-                  backgroundColor: hoveredFact === fact ? 'rgba(254, 243, 199, 0.2)' : 'transparent',
-                  transition: 'all 0.2s ease',
-                  whiteSpace: 'nowrap'
-                }}
-              >
-                <span style={{ fontSize: '1.18rem', color: hoveredFact === fact ? '#214A70' : '#FAFAFA' }}>👉</span>
-                <span>{fact.shortTitle}</span>
-              </div>
-            </React.Fragment>
-          ))}
-        </div>
+        {/* Ambient Dark Gradient on Bottom for Rich Visual Contrast */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to top, rgba(15, 23, 42, 0.75) 0%, rgba(15, 23, 42, 0.1) 45%, transparent 100%)',
+          pointerEvents: 'none'
+        }} />
 
-        {/* Sparkle Icon */}
-        <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0, paddingLeft: '0.5rem', color: '#214A70' }}>
-          <Sparkles size={20} color="#214A70" />
+        {/* Bottom Overlay Container - Single Page Overlaid Card */}
+        <div style={{
+          position: 'absolute',
+          bottom: '1.1rem',
+          left: '1.2rem',
+          right: '1.2rem',
+          background: '#FFFFFF',
+          border: '2px solid #000000',
+          borderRadius: '18px',
+          padding: '1.1rem 1.6rem',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.35)',
+          zIndex: 10,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          gap: '0.35rem',
+          boxSizing: 'border-box'
+        }}>
+          <p style={{
+            margin: 0,
+            fontSize: '1.75rem',
+            lineHeight: '1.38',
+            color: '#173B5F',
+            fontWeight: 900,
+            letterSpacing: '-0.015em',
+            textAlign: 'left'
+          }}>
+            Earth is a Giant Magnet: Earth itself acts like a gigantic magnet with its own magnetic field. This invisible shield protects our planet from cosmic particles and directs magnetic compass needles.
+          </p>
+          <p style={{
+            margin: 0,
+            fontSize: '1.75rem',
+            lineHeight: '1.38',
+            color: '#173B5F',
+            fontWeight: 900,
+            letterSpacing: '-0.015em',
+            textAlign: 'left'
+          }}>
+            Poles Always Exist in Pairs: Magnetic poles cannot exist in isolation. When a magnet is broken into pieces, each piece instantly develops its own North and South pole, with attraction always concentrated at the ends.
+          </p>
         </div>
       </div>
     </div>
