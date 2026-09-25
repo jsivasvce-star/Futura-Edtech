@@ -1018,11 +1018,11 @@ export default function PatternsInNumbersExplore({ onClose, onCompleteNode }) {
 
   return (
     <div style={{
-      position: 'fixed',
-      inset: 0,
-      width: '100vw',
-      height: '100vh',
-      zIndex: 999999,
+      position: 'relative',
+      width: '100%',
+      height: '100%',
+      flex: 1,
+      minHeight: 0,
       margin: 0,
       padding: 0,
       overflow: 'hidden',
