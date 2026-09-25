@@ -6,6 +6,8 @@ import FigureItOutExperience from './FigureItOutExperience';
 import PatternLabVideoExperience from './PatternLabVideoExperience';
 import ShapePatternsExperience from './ShapePatternsExperience';
 import SectionNextButton from './SectionNextButton';
+import VisualisingSequences from '../../chapter1/VisualisingSequences';
+import RelationsAmongSequences from '../../chapter1/RelationsAmongSequences';
 
 import traffic1 from '../../../../assets/traffic_1.jpeg';
 import traffic2 from '../../../../assets/traffic_2.jpeg';
@@ -2275,6 +2277,76 @@ export default function InteractiveModal({
       <ErrorBoundary>
         <Suspense fallback={null}>
           <ShapePatternsExperience onClose={onClose} onCompleteNode={onCompleteNode} />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+
+  if (node.id === '1.3') {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={null}>
+          <div style={{ position: 'fixed', inset: 0, zIndex: 999999, backgroundColor: '#0a0f1d' }}>
+            <button
+              onClick={onClose}
+              style={{
+                position: 'absolute',
+                top: '16px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 1000000,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'rgba(15, 23, 42, 0.8)',
+                color: '#f8fafc',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                padding: '10px 20px',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                fontFamily: 'system-ui, -apple-system, sans-serif'
+              }}
+            >
+              <ArrowLeft size={18} /> Back to Map
+            </button>
+            <VisualisingSequences onNext={() => { onCompleteNode('1.3'); onClose(); }} />
+          </div>
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+
+  if (node.id === '1.4') {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={null}>
+          <div style={{ position: 'fixed', inset: 0, zIndex: 999999, backgroundColor: '#0a0f1d' }}>
+            <button
+              onClick={onClose}
+              style={{
+                position: 'absolute',
+                top: '16px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 1000000,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'rgba(15, 23, 42, 0.8)',
+                color: '#f8fafc',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                padding: '10px 20px',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                fontFamily: 'system-ui, -apple-system, sans-serif'
+              }}
+            >
+              <ArrowLeft size={18} /> Back to Map
+            </button>
+            <RelationsAmongSequences onNext={() => { onCompleteNode('1.4'); onClose(); }} />
+          </div>
         </Suspense>
       </ErrorBoundary>
     );

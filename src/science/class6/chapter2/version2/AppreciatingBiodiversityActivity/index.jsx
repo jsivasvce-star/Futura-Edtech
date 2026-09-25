@@ -13,6 +13,7 @@ import {
   Star,
   Lock,
   Play,
+  Pause,
   ArrowRight,
   Maximize2,
   Minimize2,
@@ -34,6 +35,13 @@ import natureRiverBg from '../../../../../assets/nature_reflection_river_8k.jpg'
 import ecosystemCampsiteBg from '../../../../../assets/ecosystem_campsite_bg.jpg';
 import ecosystemTableBg from '../../../../../assets/ecosystem_table_bg_8k.jpg';
 import mountainDesignImg from './mountain_badge_clean.png';
+
+import useWordSyncAudio from '../narration/useWordSyncAudio';
+import NarratedWords from '../narration/NarratedWords';
+import ecosystemNarrationData from '../narration/ecosystemAppreciationNarration.json';
+import ecosystemPart1Audio from '../narration/audio/ecosystem_appreciation_part1.mp3';
+import ecosystemPart2Audio from '../narration/audio/ecosystem_appreciation_part2.mp3';
+import ecosystemPart3Audio from '../narration/audio/ecosystem_appreciation_part3.mp3';
 
 import tulsiImg from '../../../../../assets/specimens/tulsi.png';
 import roseImg from '../../../../../assets/specimens/rose.png';
@@ -977,6 +985,128 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
   const natureAudioRef = useRef(null);
   const ecosystemFxRef = useRef(null);
 
+  // Ecosystem Narration sequence states: 'idle' | 'part1' | 'timer' | 'part2' | 'completed'
+  const [narrationStep, setNarrationStep] = useState('idle');
+
+  // Hook for Part 1 Audio (Intro statement, Appreciating biodiversity, and Reflect & Remember)
+  const {
+    isPlaying: isPlayingPart1,
+    activeWordIndex: part1ActiveWordIndex,
+    currentTime: part1CurrentTime,
+    play: playPart1,
+    pause: pausePart1,
+    audioRef: audioRefPart1
+  } = useWordSyncAudio(ecosystemPart1Audio, ecosystemNarrationData.part1.words, {
+    autoPlay: false,
+    onEnd: () => {
+      // Audio 1 finished! Transition to 10-second reflection pause
+      setNarrationStep('timer');
+      setTimer(10);
+      setTimerRunning(true);
+      if (natureAudioRef.current && !isMuted) {
+        natureAudioRef.current.currentTime = 0;
+        natureAudioRef.current.volume = 0.5;
+        natureAudioRef.current.play().catch(() => { });
+      }
+    }
+  });
+
+  // Hook for Part 2 Audio (Post-pause: "Now open your eyes and add them to our virtual class board...")
+  const {
+    isPlaying: isPlayingPart2,
+    activeWordIndex: part2ActiveWordIndex,
+    currentTime: part2CurrentTime,
+    play: playPart2,
+    pause: pausePart2,
+    audioRef: audioRefPart2
+  } = useWordSyncAudio(ecosystemPart2Audio, ecosystemNarrationData.part2.words, {
+    autoPlay: false,
+    onEnd: () => {
+      setNarrationStep('completed');
+    }
+  });
+
+  // Hook for Part 3 Audio (Class Memory Wall: "Look at our class memory wall. Six students have each shared...")
+  const [boardNarrationCompleted, setBoardNarrationCompleted] = useState(false);
+  const {
+    isPlaying: isPlayingBoardNarration,
+    activeWordIndex: boardActiveWordIndex,
+    currentTime: boardCurrentTime,
+    play: playBoardNarration,
+    pause: pauseBoardNarration,
+    audioRef: audioRefBoard
+  } = useWordSyncAudio(ecosystemPart3Audio, ecosystemNarrationData.board.words, {
+    autoPlay: false,
+    onEnd: () => {
+      setBoardNarrationCompleted(true);
+    }
+  });
+
+  // Sync mute state with narration audio elements
+  useEffect(() => {
+    if (audioRefPart1.current) audioRefPart1.current.muted = isMuted;
+    if (audioRefPart2.current) audioRefPart2.current.muted = isMuted;
+    if (audioRefBoard.current) audioRefBoard.current.muted = isMuted;
+  }, [isMuted]);
+
+  // Autoplay Part 1 on entering timer phase; Autoplay Part 3 on entering board phase
+  useEffect(() => {
+    if (phase === 'timer') {
+      pauseBoardNarration();
+      const startId = setTimeout(() => {
+        setNarrationStep('part1');
+        playPart1();
+      }, 500);
+      return () => clearTimeout(startId);
+    } else if (phase === 'board') {
+      pausePart1();
+      pausePart2();
+      const startId = setTimeout(() => {
+        playBoardNarration();
+      }, 500);
+      return () => clearTimeout(startId);
+    } else {
+      pausePart1();
+      pausePart2();
+      pauseBoardNarration();
+    }
+  }, [phase]);
+
+  const handleToggleNarration = () => {
+    if (!isMuted) sounds.playClick();
+    if (isPlayingPart1) {
+      pausePart1();
+    } else if (isPlayingPart2) {
+      pausePart2();
+    } else if (narrationStep === 'part1' || narrationStep === 'idle') {
+      setNarrationStep('part1');
+      playPart1();
+    } else if (narrationStep === 'part2') {
+      playPart2();
+    } else {
+      // Replay from beginning
+      if (audioRefPart1.current) audioRefPart1.current.currentTime = 0;
+      if (audioRefPart2.current) audioRefPart2.current.currentTime = 0;
+      setTimer(10);
+      setTimerRunning(false);
+      setNarrationStep('part1');
+      playPart1();
+    }
+  };
+
+  const handleToggleBoardNarration = () => {
+    if (!isMuted) sounds.playClick();
+    if (isPlayingBoardNarration) {
+      pauseBoardNarration();
+    } else {
+      if (boardNarrationCompleted) {
+        if (audioRefBoard.current) audioRefBoard.current.currentTime = 0;
+        setBoardNarrationCompleted(false);
+      }
+      playBoardNarration();
+    }
+  };
+
   useEffect(() => {
     if (subStep === 'board') {
       setActiveTab('board');
@@ -991,6 +1121,17 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
       if (phase === 'board') setPhase('timer');
     }
   }, [subStep]);
+
+  // Cleanup audio on unmount to prevent it playing overall the chapter
+  useEffect(() => {
+    const audioEl = natureAudioRef.current;
+    return () => {
+      if (audioEl) {
+        audioEl.pause();
+        audioEl.currentTime = 0;
+      }
+    };
+  }, []);
 
   // Handle Reflection Countdown with audible ticks & nature soundscape
   useEffect(() => {
@@ -1011,7 +1152,11 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
         sounds.playStar();
       }
       confetti({ particleCount: 70, spread: 60, origin: { y: 0.55 } });
-      setPhase('pick');
+      // Play Part 2 narration after 10-second reflection pause!
+      setNarrationStep('part2');
+      setTimeout(() => {
+        playPart2();
+      }, 400);
     }
     return () => clearTimeout(timerRef.current);
   }, [timerRunning, timer, isMuted]);
@@ -1041,6 +1186,9 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
   const handleStartTimer = () => {
     if (!isMuted) sounds.playClick();
+    pausePart1();
+    pausePart2();
+    setNarrationStep('timer');
     setTimer(10);
     setTimerRunning(true);
     if (natureAudioRef.current && !isMuted) {
@@ -1052,6 +1200,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
   const handleSkipTimer = () => {
     if (!isMuted) sounds.playClick();
+    pausePart1();
+    pausePart2();
     setTimerRunning(false);
     clearTimeout(timerRef.current);
     if (natureAudioRef.current) natureAudioRef.current.pause();
@@ -1149,6 +1299,14 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
   const handleReset = () => {
     if (!isMuted) sounds.playClick();
+    pausePart1();
+    pausePart2();
+    pauseBoardNarration();
+    if (audioRefPart1.current) audioRefPart1.current.currentTime = 0;
+    if (audioRefPart2.current) audioRefPart2.current.currentTime = 0;
+    if (audioRefBoard.current) audioRefBoard.current.currentTime = 0;
+    setBoardNarrationCompleted(false);
+    setNarrationStep('part1');
     setTimer(10);
     setTimerRunning(false);
     clearTimeout(timerRef.current);
@@ -1165,6 +1323,9 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
     setSimToggled(false);
     setPhase('timer');
     setActiveTab('board');
+    setTimeout(() => {
+      playPart1();
+    }, 400);
   };
 
   const handleCheckAnswer = () => {
@@ -1313,6 +1474,9 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
   const handleGlobalBack = () => {
     if (!isMuted) sounds.playClick();
+    pausePart1();
+    pausePart2();
+    pauseBoardNarration();
     if (onBackToDashboard) {
       onBackToDashboard(false);
     }
@@ -1321,6 +1485,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
   const handleGlobalNext = () => {
     if (!isMuted) sounds.playClick();
     if (phase === 'timer') {
+      pausePart1();
+      pausePart2();
       setTimerRunning(false);
       clearTimeout(timerRef.current);
       if (natureAudioRef.current) natureAudioRef.current.pause();
@@ -1341,6 +1507,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
       return;
     }
     if (phase === 'board') {
+      pauseBoardNarration();
       if (onNextActivity) onNextActivity();
       else if (onBackToDashboard) onBackToDashboard('next_activity');
       return;
@@ -1634,28 +1801,64 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                   <div style={{
-                    display: 'inline-flex',
+                    display: 'flex',
                     alignItems: 'center',
-                    gap: '6px',
-                    color: '#A7F3D0',
-                    fontWeight: 800,
-                    fontSize: '18px',
-                    letterSpacing: '0.05em',
-                    textTransform: 'uppercase',
-                    fontFamily: '"Outfit", sans-serif'
+                    justifyContent: 'space-between',
+                    width: '100%'
                   }}>
-                    <span>🌿</span>
-                    <span>ACTIVITY 2.2</span>
+                    <div style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      color: '#A7F3D0',
+                      fontWeight: 800,
+                      fontSize: '18px',
+                      letterSpacing: '0.05em',
+                      textTransform: 'uppercase',
+                      fontFamily: '"Outfit", sans-serif'
+                    }}>
+                      <span>🌿</span>
+                      <span>ACTIVITY 2.2</span>
+                    </div>
+
+                    {/* Narration Audio Control Button */}
+                    <button
+                      type="button"
+                      onClick={handleToggleNarration}
+                      title="Play / Pause Audio Narration"
+                      style={{
+                        background: (isPlayingPart1 || isPlayingPart2) ? 'rgba(245, 158, 11, 0.35)' : 'rgba(255, 255, 255, 0.12)',
+                        border: (isPlayingPart1 || isPlayingPart2) ? '1.5px solid #F59E0B' : '1px solid rgba(167, 243, 208, 0.4)',
+                        borderRadius: '16px',
+                        padding: '4px 12px',
+                        color: (isPlayingPart1 || isPlayingPart2) ? '#FEF3C7' : '#ECFDF5',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        fontSize: '13px',
+                        fontWeight: 800,
+                        fontFamily: '"Outfit", sans-serif',
+                        cursor: 'pointer',
+                        boxShadow: (isPlayingPart1 || isPlayingPart2) ? '0 0 14px rgba(245, 158, 11, 0.5)' : 'none',
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      {(isPlayingPart1 || isPlayingPart2) ? <Pause size={13} fill="#FEF3C7" /> : <Volume2 size={13} />}
+                      <span>{(isPlayingPart1 || isPlayingPart2) ? 'Pause' : (narrationStep === 'completed' ? 'Replay' : 'Narration')}</span>
+                    </button>
                   </div>
 
                   <h2 style={{
                     fontFamily: '"Outfit", sans-serif',
-                    color: '#FCD34D',
+                    color: (isPlayingPart1 && part1ActiveWordIndex >= 0 && part1ActiveWordIndex <= 7) ? '#FEF08A' : '#FCD34D',
                     fontWeight: 900,
                     fontSize: '26px',
                     margin: '0',
                     lineHeight: 1.15,
-                    textShadow: '0 2px 6px rgba(0,0,0,0.95)'
+                    textShadow: (isPlayingPart1 && part1ActiveWordIndex >= 0 && part1ActiveWordIndex <= 7)
+                      ? '0 0 18px rgba(253, 224, 71, 0.95), 0 2px 6px rgba(0,0,0,0.95)'
+                      : '0 2px 6px rgba(0,0,0,0.95)',
+                    transition: 'all 0.2s ease'
                   }}>
                     ECOSYSTEM APPRECIATION
                   </h2>
@@ -1676,7 +1879,25 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   borderRadius: '14px',
                   padding: '12px 16px'
                 }}>
-                  Appreciating and conserving biodiversity is vital for our survival.
+                  <NarratedWords
+                    words={ecosystemNarrationData.part1.introBoxWords}
+                    activeIndex={isPlayingPart1 ? part1ActiveWordIndex : -1}
+                    baseIndex={8}
+                    activeStyle={{
+                      color: '#FDE047',
+                      textShadow: '0 0 12px rgba(253, 224, 71, 0.95), 0 1px 3px #000000',
+                      fontWeight: 800,
+                      transform: 'scale(1.06)',
+                      display: 'inline-block'
+                    }}
+                    spokenStyle={{
+                      color: '#A7F3D0'
+                    }}
+                    wordStyle={{
+                      color: '#ECFDF5',
+                      transition: 'all 0.15s ease'
+                    }}
+                  />
                 </div>
               </div>
 
@@ -1695,12 +1916,15 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   flexDirection: 'column',
                   justifyContent: 'center',
                   gap: '8px',
-                  background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 78, 59, 0.18) 100%)',
-                  border: '1.5px solid rgba(110, 231, 183, 0.3)',
+                  background: (isPlayingPart1 && part1ActiveWordIndex >= 17)
+                    ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.22) 0%, rgba(6, 78, 59, 0.30) 100%)'
+                    : 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 78, 59, 0.18) 100%)',
+                  border: (isPlayingPart1 && part1ActiveWordIndex >= 17) ? '1.5px solid rgba(110, 231, 183, 0.65)' : '1.5px solid rgba(110, 231, 183, 0.3)',
                   borderLeft: '5px solid #10B981',
                   borderRadius: '16px',
                   padding: 'clamp(14px, 2vh, 20px) clamp(16px, 1.6vw, 20px)',
-                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
+                  boxShadow: (isPlayingPart1 && part1ActiveWordIndex >= 17) ? '0 6px 20px rgba(16, 185, 129, 0.25)' : '0 4px 16px rgba(0, 0, 0, 0.25)',
+                  transition: 'all 0.25s ease'
                 }}>
                   <div style={{
                     fontSize: '21px',
@@ -1722,7 +1946,25 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     textJustify: 'inter-word',
                     textShadow: '0 1px 3px rgba(0,0,0,0.9)'
                   }}>
-                    Close your eyes for 10 seconds. Remember one plant and one animal from your nature walk.
+                    <NarratedWords
+                      words={ecosystemNarrationData.part1.section1Words}
+                      activeIndex={isPlayingPart1 ? part1ActiveWordIndex : -1}
+                      baseIndex={17}
+                      activeStyle={{
+                        color: '#FDE047',
+                        textShadow: '0 0 12px rgba(253, 224, 71, 0.95), 0 1px 3px #000000',
+                        fontWeight: 800,
+                        transform: 'scale(1.06)',
+                        display: 'inline-block'
+                      }}
+                      spokenStyle={{
+                        color: '#6EE7B7'
+                      }}
+                      wordStyle={{
+                        color: '#FFFFFF',
+                        transition: 'all 0.15s ease'
+                      }}
+                    />
                   </div>
                 </div>
 
@@ -1733,12 +1975,15 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   flexDirection: 'column',
                   justifyContent: 'center',
                   gap: '8px',
-                  background: 'linear-gradient(135deg, rgba(52, 211, 153, 0.10) 0%, rgba(4, 120, 87, 0.16) 100%)',
-                  border: '1.5px solid rgba(110, 231, 183, 0.3)',
+                  background: (isPlayingPart2 && part2ActiveWordIndex >= 4 && part2ActiveWordIndex <= 19)
+                    ? 'linear-gradient(135deg, rgba(52, 211, 153, 0.22) 0%, rgba(4, 120, 87, 0.28) 100%)'
+                    : 'linear-gradient(135deg, rgba(52, 211, 153, 0.10) 0%, rgba(4, 120, 87, 0.16) 100%)',
+                  border: (isPlayingPart2 && part2ActiveWordIndex >= 4 && part2ActiveWordIndex <= 19) ? '1.5px solid rgba(110, 231, 183, 0.65)' : '1.5px solid rgba(110, 231, 183, 0.3)',
                   borderLeft: '5px solid #34D399',
                   borderRadius: '16px',
                   padding: 'clamp(14px, 2vh, 20px) clamp(16px, 1.6vw, 20px)',
-                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)'
+                  boxShadow: (isPlayingPart2 && part2ActiveWordIndex >= 4 && part2ActiveWordIndex <= 19) ? '0 6px 20px rgba(52, 211, 153, 0.25)' : '0 4px 16px rgba(0, 0, 0, 0.25)',
+                  transition: 'all 0.25s ease'
                 }}>
                   <div style={{
                     fontSize: '21px',
@@ -1760,7 +2005,25 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     textJustify: 'inter-word',
                     textShadow: '0 1px 3px rgba(0,0,0,0.9)'
                   }}>
-                    Add them to the virtual class board. Together, our observations reveal a greater variety of life.
+                    <NarratedWords
+                      words={ecosystemNarrationData.part2.section2Words}
+                      activeIndex={isPlayingPart2 ? part2ActiveWordIndex : -1}
+                      baseIndex={4}
+                      activeStyle={{
+                        color: '#FDE047',
+                        textShadow: '0 0 12px rgba(253, 224, 71, 0.95), 0 1px 3px #000000',
+                        fontWeight: 800,
+                        transform: 'scale(1.06)',
+                        display: 'inline-block'
+                      }}
+                      spokenStyle={{
+                        color: '#A7F3D0'
+                      }}
+                      wordStyle={{
+                        color: '#FFFFFF',
+                        transition: 'all 0.15s ease'
+                      }}
+                    />
                   </div>
                 </div>
               </div>
@@ -1774,12 +2037,36 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 letterSpacing: '0.04em',
                 fontFamily: '"Outfit", sans-serif',
                 padding: '12px 18px',
-                background: 'rgba(245, 158, 11, 0.15)',
-                border: '1.2px solid rgba(245, 158, 11, 0.4)',
+                background: (isPlayingPart2 && part2ActiveWordIndex >= 20)
+                  ? 'rgba(245, 158, 11, 0.35)'
+                  : 'rgba(245, 158, 11, 0.15)',
+                border: (isPlayingPart2 && part2ActiveWordIndex >= 20)
+                  ? '1.5px solid rgba(245, 158, 11, 0.8)'
+                  : '1.2px solid rgba(245, 158, 11, 0.4)',
                 borderRadius: '14px',
-                textShadow: '0 1px 4px rgba(0,0,0,0.95)'
+                textShadow: '0 1px 4px rgba(0,0,0,0.95)',
+                transition: 'all 0.25s ease'
               }}>
-                ✨ Nature connects us all.
+                <span>✨ </span>
+                <NarratedWords
+                  words={ecosystemNarrationData.part2.tagWords}
+                  activeIndex={isPlayingPart2 ? part2ActiveWordIndex : -1}
+                  baseIndex={20}
+                  activeStyle={{
+                    color: '#FFFFFF',
+                    textShadow: '0 0 16px rgba(255, 255, 255, 1), 0 0 24px rgba(253, 224, 71, 0.95)',
+                    fontWeight: 900,
+                    transform: 'scale(1.08)',
+                    display: 'inline-block'
+                  }}
+                  spokenStyle={{
+                    color: '#FEF08A'
+                  }}
+                  wordStyle={{
+                    color: '#FDE047',
+                    transition: 'all 0.15s ease'
+                  }}
+                />
               </div>
             </div>
 
@@ -1982,7 +2269,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     lineHeight: 1.2,
                     textAlign: 'center'
                   }}>
-                    10-Second Reflection
+                    {isPlayingPart2 ? '👀 Open Your Eyes!' : (timerRunning ? '10-Second Reflection' : (narrationStep === 'completed' ? 'Reflection Complete ✓' : '10-Second Reflection'))}
                   </h3>
                   <p style={{
                     margin: 0,
@@ -1995,36 +2282,92 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     fontWeight: 500,
                     textAlign: 'center'
                   }}>
-                    Close your eyes for 10 seconds. Remember one plant and one animal from your nature walk.
+                    {isPlayingPart2
+                      ? 'Add your observations to the virtual class board.'
+                      : (timerRunning
+                          ? 'Close your eyes. Remember one plant and one animal from your nature walk.'
+                          : (narrationStep === 'completed'
+                              ? 'Great job reflecting on nature! Proceed to the Specimen Picker.'
+                              : 'Close your eyes for 10 seconds. Remember one plant and one animal from your nature walk.'))}
                   </p>
                 </div>
 
                 {/* Primary Action Button: Start Reflection */}
                 <div>
                   {!timerRunning ? (
-                    <button
-                      type="button"
-                      onClick={handleStartTimer}
-                      style={{
-                        background: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)',
-                        color: '#FFFFFF',
-                        border: '1.8px solid #BFDBFE',
-                        borderRadius: '18px',
-                        padding: '14px 42px',
-                        fontSize: '24px',
-                        fontWeight: 900,
-                        fontFamily: '"Outfit", sans-serif',
-                        cursor: 'pointer',
-                        boxShadow: '0 6px 18px rgba(29, 78, 216, 0.45)',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '12px',
-                        transition: 'all 0.18s ease'
-                      }}
-                    >
-                      <Play size={26} fill="#FFFFFF" />
-                      <span>Start Reflection</span>
-                    </button>
+                    (isPlayingPart2 || narrationStep === 'completed') ? (
+                      <button
+                        type="button"
+                        onClick={handleGlobalNext}
+                        style={{
+                          background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                          color: '#FFFFFF',
+                          border: '1.8px solid #A7F3D0',
+                          borderRadius: '18px',
+                          padding: '14px 42px',
+                          fontSize: '24px',
+                          fontWeight: 900,
+                          fontFamily: '"Outfit", sans-serif',
+                          cursor: 'pointer',
+                          boxShadow: '0 6px 18px rgba(5, 150, 105, 0.45)',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '12px',
+                          transition: 'all 0.18s ease'
+                        }}
+                      >
+                        <span>Next: Specimen Picker</span>
+                        <ArrowRight size={24} strokeWidth={2.5} />
+                      </button>
+                    ) : isPlayingPart1 ? (
+                      <button
+                        type="button"
+                        onClick={handleStartTimer}
+                        style={{
+                          background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                          color: '#FFFFFF',
+                          border: '1.8px solid #FDE68A',
+                          borderRadius: '18px',
+                          padding: '14px 38px',
+                          fontSize: '22px',
+                          fontWeight: 900,
+                          fontFamily: '"Outfit", sans-serif',
+                          cursor: 'pointer',
+                          boxShadow: '0 6px 18px rgba(217, 119, 6, 0.45)',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '12px',
+                          transition: 'all 0.18s ease'
+                        }}
+                      >
+                        <Play size={24} fill="#FFFFFF" />
+                        <span>Start 10s Reflection</span>
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={handleStartTimer}
+                        style={{
+                          background: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)',
+                          color: '#FFFFFF',
+                          border: '1.8px solid #BFDBFE',
+                          borderRadius: '18px',
+                          padding: '14px 42px',
+                          fontSize: '24px',
+                          fontWeight: 900,
+                          fontFamily: '"Outfit", sans-serif',
+                          cursor: 'pointer',
+                          boxShadow: '0 6px 18px rgba(29, 78, 216, 0.45)',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '12px',
+                          transition: 'all 0.18s ease'
+                        }}
+                      >
+                        <Play size={26} fill="#FFFFFF" />
+                        <span>Start Reflection</span>
+                      </button>
+                    )
                   ) : (
                     <div style={{
                       background: 'rgba(6, 40, 25, 0.9)',
@@ -2797,28 +3140,64 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 {/* Header */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flexShrink: 0 }}>
                   <div style={{
-                    display: 'inline-flex',
+                    display: 'flex',
                     alignItems: 'center',
-                    gap: '6px',
-                    color: '#A7F3D0',
-                    fontWeight: 800,
-                    fontSize: '18px',
-                    letterSpacing: '0.05em',
-                    textTransform: 'uppercase',
-                    fontFamily: '"Outfit", sans-serif'
+                    justifyContent: 'space-between',
+                    width: '100%'
                   }}>
-                    <span style={{ fontSize: '18px' }}>🍃</span>
-                    <span>ACTIVITY 2.2</span>
+                    <div style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      color: '#A7F3D0',
+                      fontWeight: 800,
+                      fontSize: '18px',
+                      letterSpacing: '0.05em',
+                      textTransform: 'uppercase',
+                      fontFamily: '"Outfit", sans-serif'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>🍃</span>
+                      <span>ACTIVITY 2.2</span>
+                    </div>
+
+                    {/* Narration Audio Control Button */}
+                    <button
+                      type="button"
+                      onClick={handleToggleBoardNarration}
+                      title="Play / Pause Audio Narration"
+                      style={{
+                        background: isPlayingBoardNarration ? 'rgba(245, 158, 11, 0.35)' : 'rgba(255, 255, 255, 0.12)',
+                        border: isPlayingBoardNarration ? '1.5px solid #F59E0B' : '1px solid rgba(167, 243, 208, 0.4)',
+                        borderRadius: '16px',
+                        padding: '4px 12px',
+                        color: isPlayingBoardNarration ? '#FEF3C7' : '#ECFDF5',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        fontSize: '13px',
+                        fontWeight: 800,
+                        fontFamily: '"Outfit", sans-serif',
+                        cursor: 'pointer',
+                        boxShadow: isPlayingBoardNarration ? '0 0 14px rgba(245, 158, 11, 0.5)' : 'none',
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      {isPlayingBoardNarration ? <Pause size={13} fill="#FEF3C7" /> : <Volume2 size={13} />}
+                      <span>{isPlayingBoardNarration ? 'Pause' : (boardNarrationCompleted ? 'Replay' : 'Narration')}</span>
+                    </button>
                   </div>
 
                   <h2 style={{
                     fontFamily: '"Outfit", sans-serif',
-                    color: '#FCD34D',
+                    color: (isPlayingBoardNarration && boardActiveWordIndex >= 0 && boardActiveWordIndex <= 5) ? '#FEF08A' : '#FCD34D',
                     fontWeight: 900,
                     fontSize: '24px',
                     margin: '0',
                     lineHeight: 1.15,
-                    textShadow: '0 2px 6px rgba(0,0,0,0.95)'
+                    textShadow: (isPlayingBoardNarration && boardActiveWordIndex >= 0 && boardActiveWordIndex <= 5)
+                      ? '0 0 18px rgba(253, 224, 71, 0.95), 0 2px 6px rgba(0,0,0,0.95)'
+                      : '0 2px 6px rgba(0,0,0,0.95)',
+                    transition: 'all 0.2s ease'
                   }}>
                     CLASS MEMORY WALL
                   </h2>
@@ -2841,13 +3220,22 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     flexDirection: 'column',
                     justifyContent: 'center',
                     gap: '2px',
-                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 78, 59, 0.16) 100%)',
-                    border: '1.2px solid rgba(110, 231, 183, 0.28)',
-                    borderLeft: '4px solid #10B981',
+                    background: (isPlayingBoardNarration && boardActiveWordIndex >= 6 && boardActiveWordIndex <= 20)
+                      ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(6, 78, 59, 0.36) 100%)'
+                      : 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 78, 59, 0.16) 100%)',
+                    border: (isPlayingBoardNarration && boardActiveWordIndex >= 6 && boardActiveWordIndex <= 20)
+                      ? '1.5px solid rgba(110, 231, 183, 0.8)'
+                      : '1.2px solid rgba(110, 231, 183, 0.28)',
+                    borderLeft: (isPlayingBoardNarration && boardActiveWordIndex >= 6 && boardActiveWordIndex <= 20)
+                      ? '5px solid #34D399'
+                      : '4px solid #10B981',
                     borderRadius: '12px',
                     padding: 'clamp(6px, 1vh, 10px) clamp(10px, 1.2vw, 14px)',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
-                    boxSizing: 'border-box'
+                    boxShadow: (isPlayingBoardNarration && boardActiveWordIndex >= 6 && boardActiveWordIndex <= 20)
+                      ? '0 0 16px rgba(16, 185, 129, 0.35), 0 2px 8px rgba(0, 0, 0, 0.2)'
+                      : '0 2px 8px rgba(0, 0, 0, 0.2)',
+                    boxSizing: 'border-box',
+                    transition: 'all 0.3s ease'
                   }}>
                     <div style={{
                       color: '#6EE7B7',
@@ -2868,7 +3256,22 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                       textJustify: 'inter-word',
                       textShadow: '0 1px 3px rgba(0,0,0,0.9)'
                     }}>
-                      Six students contributed one plant and one animal each—12 examples: 6 plants and 6 animals.
+                      <NarratedWords
+                        words={ecosystemNarrationData.board.point1Words}
+                        activeIndex={isPlayingBoardNarration ? boardActiveWordIndex : -1}
+                        baseIndex={6}
+                        activeStyle={{
+                          color: '#FDE047',
+                          textShadow: '0 0 12px rgba(253, 224, 71, 0.95), 0 1px 3px #000000',
+                          fontWeight: 800,
+                          transform: 'scale(1.05)',
+                          display: 'inline-block',
+                          margin: '0 1.5px'
+                        }}
+                        spokenStyle={{
+                          color: '#A7F3D0'
+                        }}
+                      />
                     </div>
                   </div>
 
@@ -2880,13 +3283,22 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     flexDirection: 'column',
                     justifyContent: 'center',
                     gap: '2px',
-                    background: 'linear-gradient(135deg, rgba(52, 211, 153, 0.10) 0%, rgba(4, 120, 87, 0.14) 100%)',
-                    border: '1.2px solid rgba(110, 231, 183, 0.28)',
-                    borderLeft: '4px solid #34D399',
+                    background: (isPlayingBoardNarration && boardActiveWordIndex >= 21 && boardActiveWordIndex <= 32)
+                      ? 'linear-gradient(135deg, rgba(52, 211, 153, 0.24) 0%, rgba(4, 120, 87, 0.32) 100%)'
+                      : 'linear-gradient(135deg, rgba(52, 211, 153, 0.10) 0%, rgba(4, 120, 87, 0.14) 100%)',
+                    border: (isPlayingBoardNarration && boardActiveWordIndex >= 21 && boardActiveWordIndex <= 32)
+                      ? '1.5px solid rgba(110, 231, 183, 0.8)'
+                      : '1.2px solid rgba(110, 231, 183, 0.28)',
+                    borderLeft: (isPlayingBoardNarration && boardActiveWordIndex >= 21 && boardActiveWordIndex <= 32)
+                      ? '5px solid #6EE7B7'
+                      : '4px solid #34D399',
                     borderRadius: '12px',
                     padding: 'clamp(6px, 1vh, 10px) clamp(10px, 1.2vw, 14px)',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
-                    boxSizing: 'border-box'
+                    boxShadow: (isPlayingBoardNarration && boardActiveWordIndex >= 21 && boardActiveWordIndex <= 32)
+                      ? '0 0 16px rgba(52, 211, 153, 0.35), 0 2px 8px rgba(0, 0, 0, 0.2)'
+                      : '0 2px 8px rgba(0, 0, 0, 0.2)',
+                    boxSizing: 'border-box',
+                    transition: 'all 0.3s ease'
                   }}>
                     <div style={{
                       color: '#A7F3D0',
@@ -2907,7 +3319,22 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                       textJustify: 'inter-word',
                       textShadow: '0 1px 3px rgba(0,0,0,0.9)'
                     }}>
-                      Compare their shapes, sizes and habitats. Many more varieties exist in nature.
+                      <NarratedWords
+                        words={ecosystemNarrationData.board.point2Words}
+                        activeIndex={isPlayingBoardNarration ? boardActiveWordIndex : -1}
+                        baseIndex={21}
+                        activeStyle={{
+                          color: '#FDE047',
+                          textShadow: '0 0 12px rgba(253, 224, 71, 0.95), 0 1px 3px #000000',
+                          fontWeight: 800,
+                          transform: 'scale(1.05)',
+                          display: 'inline-block',
+                          margin: '0 1.5px'
+                        }}
+                        spokenStyle={{
+                          color: '#A7F3D0'
+                        }}
+                      />
                     </div>
                   </div>
 
@@ -2919,13 +3346,22 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     flexDirection: 'column',
                     justifyContent: 'center',
                     gap: '2px',
-                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 78, 59, 0.16) 100%)',
-                    border: '1.2px solid rgba(110, 231, 183, 0.28)',
-                    borderLeft: '4px solid #10B981',
+                    background: (isPlayingBoardNarration && boardActiveWordIndex >= 33 && boardActiveWordIndex <= 45)
+                      ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(6, 78, 59, 0.36) 100%)'
+                      : 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 78, 59, 0.16) 100%)',
+                    border: (isPlayingBoardNarration && boardActiveWordIndex >= 33 && boardActiveWordIndex <= 45)
+                      ? '1.5px solid rgba(110, 231, 183, 0.8)'
+                      : '1.2px solid rgba(110, 231, 183, 0.28)',
+                    borderLeft: (isPlayingBoardNarration && boardActiveWordIndex >= 33 && boardActiveWordIndex <= 45)
+                      ? '5px solid #34D399'
+                      : '4px solid #10B981',
                     borderRadius: '12px',
                     padding: 'clamp(6px, 1vh, 10px) clamp(10px, 1.2vw, 14px)',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
-                    boxSizing: 'border-box'
+                    boxShadow: (isPlayingBoardNarration && boardActiveWordIndex >= 33 && boardActiveWordIndex <= 45)
+                      ? '0 0 16px rgba(16, 185, 129, 0.35), 0 2px 8px rgba(0, 0, 0, 0.2)'
+                      : '0 2px 8px rgba(0, 0, 0, 0.2)',
+                    boxSizing: 'border-box',
+                    transition: 'all 0.3s ease'
                   }}>
                     <div style={{
                       color: '#6EE7B7',
@@ -2946,7 +3382,22 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                       textJustify: 'inter-word',
                       textShadow: '0 1px 3px rgba(0,0,0,0.9)'
                     }}>
-                      The variety of living things in a region, including its plants and animals.
+                      <NarratedWords
+                        words={ecosystemNarrationData.board.point3Words}
+                        activeIndex={isPlayingBoardNarration ? boardActiveWordIndex : -1}
+                        baseIndex={33}
+                        activeStyle={{
+                          color: '#FDE047',
+                          textShadow: '0 0 12px rgba(253, 224, 71, 0.95), 0 1px 3px #000000',
+                          fontWeight: 800,
+                          transform: 'scale(1.05)',
+                          display: 'inline-block',
+                          margin: '0 1.5px'
+                        }}
+                        spokenStyle={{
+                          color: '#A7F3D0'
+                        }}
+                      />
                     </div>
                   </div>
 
@@ -2958,20 +3409,33 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     flexDirection: 'column',
                     justifyContent: 'center',
                     gap: '2px',
-                    background: 'linear-gradient(135deg, rgba(52, 211, 153, 0.10) 0%, rgba(4, 120, 87, 0.14) 100%)',
-                    border: '1.2px solid rgba(110, 231, 183, 0.28)',
-                    borderLeft: '4px solid #34D399',
+                    background: (isPlayingBoardNarration && boardActiveWordIndex >= 46 && boardActiveWordIndex <= 62)
+                      ? 'linear-gradient(135deg, rgba(52, 211, 153, 0.24) 0%, rgba(4, 120, 87, 0.32) 100%)'
+                      : 'linear-gradient(135deg, rgba(52, 211, 153, 0.10) 0%, rgba(4, 120, 87, 0.14) 100%)',
+                    border: (isPlayingBoardNarration && boardActiveWordIndex >= 46 && boardActiveWordIndex <= 62)
+                      ? '1.5px solid rgba(110, 231, 183, 0.8)'
+                      : '1.2px solid rgba(110, 231, 183, 0.28)',
+                    borderLeft: (isPlayingBoardNarration && boardActiveWordIndex >= 46 && boardActiveWordIndex <= 62)
+                      ? '5px solid #6EE7B7'
+                      : '4px solid #34D399',
                     borderRadius: '12px',
                     padding: 'clamp(6px, 1vh, 10px) clamp(10px, 1.2vw, 14px)',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
-                    boxSizing: 'border-box'
+                    boxShadow: (isPlayingBoardNarration && boardActiveWordIndex >= 46 && boardActiveWordIndex <= 62)
+                      ? '0 0 16px rgba(52, 211, 153, 0.35), 0 2px 8px rgba(0, 0, 0, 0.2)'
+                      : '0 2px 8px rgba(0, 0, 0, 0.2)',
+                    boxSizing: 'border-box',
+                    transition: 'all 0.3s ease'
                   }}>
                     <div style={{
-                      color: '#A7F3D0',
+                      color: (isPlayingBoardNarration && boardActiveWordIndex >= 46 && boardActiveWordIndex <= 52) ? '#FDE047' : '#A7F3D0',
                       fontWeight: 800,
                       fontFamily: '"Outfit", sans-serif',
                       fontSize: '17px',
-                      lineHeight: 1.15
+                      lineHeight: 1.15,
+                      textShadow: (isPlayingBoardNarration && boardActiveWordIndex >= 46 && boardActiveWordIndex <= 52)
+                        ? '0 0 14px rgba(253, 224, 71, 0.95), 0 1px 3px rgba(0,0,0,0.9)'
+                        : 'none',
+                      transition: 'all 0.2s ease'
                     }}>
                       Living Things Depend on Each Other
                     </div>
@@ -2985,22 +3449,44 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                       textJustify: 'inter-word',
                       textShadow: '0 1px 3px rgba(0,0,0,0.9)'
                     }}>
-                      Trees provide food and shelter. Some animals help spread seeds.
+                      <NarratedWords
+                        words={ecosystemNarrationData.board.point4Words}
+                        activeIndex={isPlayingBoardNarration ? boardActiveWordIndex : -1}
+                        baseIndex={53}
+                        activeStyle={{
+                          color: '#FDE047',
+                          textShadow: '0 0 12px rgba(253, 224, 71, 0.95), 0 1px 3px #000000',
+                          fontWeight: 800,
+                          transform: 'scale(1.05)',
+                          display: 'inline-block',
+                          margin: '0 1.5px'
+                        }}
+                        spokenStyle={{
+                          color: '#A7F3D0'
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
 
                 {/* Think Prompt: Horizontal Sleek Amber Banner */}
                 <div style={{
-                  background: 'rgba(245, 158, 11, 0.16)',
-                  border: '1.5px solid rgba(245, 158, 11, 0.5)',
+                  background: (isPlayingBoardNarration && boardActiveWordIndex >= 63 && boardActiveWordIndex <= 70)
+                    ? 'rgba(245, 158, 11, 0.28)'
+                    : 'rgba(245, 158, 11, 0.16)',
+                  border: (isPlayingBoardNarration && boardActiveWordIndex >= 63 && boardActiveWordIndex <= 70)
+                    ? '1.5px solid rgba(245, 158, 11, 0.95)'
+                    : '1.5px solid rgba(245, 158, 11, 0.5)',
                   borderRadius: '12px',
                   padding: '8px 12px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
-                  boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
-                  flexShrink: 0
+                  boxShadow: (isPlayingBoardNarration && boardActiveWordIndex >= 63 && boardActiveWordIndex <= 70)
+                    ? '0 0 20px rgba(245, 158, 11, 0.55), 0 4px 14px rgba(0, 0, 0, 0.25)'
+                    : '0 4px 14px rgba(0, 0, 0, 0.25)',
+                  flexShrink: 0,
+                  transition: 'all 0.3s ease'
                 }}>
                   <span style={{ fontSize: '20px', flexShrink: 0 }}>💡</span>
                   <div style={{
@@ -3010,7 +3496,22 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     lineHeight: 1.25
                   }}>
                     <strong style={{ color: '#FDE047', fontWeight: 900, fontSize: '16px' }}>Think:</strong>{' '}
-                    How do plants and animals support each other?
+                    <NarratedWords
+                      words={ecosystemNarrationData.board.thinkWords}
+                      activeIndex={isPlayingBoardNarration ? boardActiveWordIndex : -1}
+                      baseIndex={63}
+                      activeStyle={{
+                        color: '#FFFFFF',
+                        textShadow: '0 0 14px rgba(255, 255, 255, 1), 0 0 8px rgba(253, 224, 71, 0.9)',
+                        fontWeight: 800,
+                        transform: 'scale(1.05)',
+                        display: 'inline-block',
+                        margin: '0 1.5px'
+                      }}
+                      spokenStyle={{
+                        color: '#FEF08A'
+                      }}
+                    />
                   </div>
                 </div>
               </div>
