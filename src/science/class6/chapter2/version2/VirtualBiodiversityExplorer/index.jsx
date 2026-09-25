@@ -9,20 +9,6 @@ import shrubsNarrationAudio from '../narration/audio/15_BushyWoodyShrubs.mp3';
 import shrubsNarrationData from '../narration/shrubsNarration.json';
 import treesNarrationAudio from '../narration/audio/16_ToweringWoodyTrees.mp3';
 import treesNarrationData from '../narration/treesNarration.json';
-import hibiscusNarrationAudio from '../narration/audio/Hibiscus.mp3';
-import hibiscusNarrationData from '../narration/hibiscusNarration.json';
-import roseNarrationAudio from '../narration/audio/Rose.mp3';
-import roseNarrationData from '../narration/roseNarration.json';
-import sunflowerNarrationAudio from '../narration/audio/Sunflower.mp3';
-import sunflowerNarrationData from '../narration/sunflowerNarration.json';
-import neemNarrationAudio from '../narration/audio/Neem.mp3';
-import neemNarrationData from '../narration/neemNarration.json';
-import grassNarrationAudio from '../narration/audio/Grass.mp3';
-import grassNarrationData from '../narration/grassNarration.json';
-import waterlilyNarrationAudio from '../narration/audio/WaterLily.mp3';
-import waterlilyNarrationData from '../narration/waterlilyNarration.json';
-import tulsiNarrationAudio from '../narration/audio/Tulsi.mp3';
-import tulsiNarrationData from '../narration/tulsiNarration.json';
 import { Play, Pause } from 'lucide-react';
 import activityPlantsImage from '../../../../../assets/2.1_plant.png';
 import activityAnimalsImage from '../DiversityInTheLivingWorldNew/images/ch2_activity_2.1_animals_8k.jpg';
@@ -1337,7 +1323,7 @@ const RealisticRoleMedallion = ({ categoryId, size = 30 }) => {
   );
 };
 
-export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFilter = 'plant', onNextSection, onNextActivity, isFullscreen = false, initialSubPage }) {
+export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFilter = 'plant', onNextSection, onNextActivity, isFullscreen = false }) {
   const { theme } = useTheme();
   const [notebook, setNotebook] = useState([]);
   const [bonusLog, setBonusLog] = useState([]);
@@ -1560,76 +1546,6 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
 
   const [showPlantDetailPopup, setShowPlantDetailPopup] = useState(false);
   const [isPlantSpeaking, setIsPlantSpeaking] = useState(false);
-  // Real narration audio + word-level highlight sync for the Hibiscus Table 2.1 popup
-  const {
-    isPlaying: isHibiscusSpeaking,
-    activeWordIndex: hibiscusActiveWordIndex,
-    pause: pauseHibiscusNarration,
-    toggle: toggleHibiscusSpeech,
-  } = useWordSyncAudio(hibiscusNarrationAudio, hibiscusNarrationData.hibiscus.words, {
-    autoPlay: false,
-    onEnd: () => {},
-  });
-  // Real narration audio + word-level highlight sync for the Rose Table 2.1 popup
-  const {
-    isPlaying: isRoseSpeaking,
-    activeWordIndex: roseActiveWordIndex,
-    pause: pauseRoseNarration,
-    toggle: toggleRoseSpeech,
-  } = useWordSyncAudio(roseNarrationAudio, roseNarrationData.rose.words, {
-    autoPlay: false,
-    onEnd: () => {},
-  });
-  // Real narration audio + word-level highlight sync for the Sunflower Table 2.1 popup
-  const {
-    isPlaying: isSunflowerSpeaking,
-    activeWordIndex: sunflowerActiveWordIndex,
-    pause: pauseSunflowerNarration,
-    toggle: toggleSunflowerSpeech,
-  } = useWordSyncAudio(sunflowerNarrationAudio, sunflowerNarrationData.sunflower.words, {
-    autoPlay: false,
-    onEnd: () => {},
-  });
-  // Real narration audio + word-level highlight sync for the Neem Table 2.1 popup
-  const {
-    isPlaying: isNeemSpeaking,
-    activeWordIndex: neemActiveWordIndex,
-    pause: pauseNeemNarration,
-    toggle: toggleNeemSpeech,
-  } = useWordSyncAudio(neemNarrationAudio, neemNarrationData.neem.words, {
-    autoPlay: false,
-    onEnd: () => {},
-  });
-  // Real narration audio + word-level highlight sync for the Grass Table 2.1 popup
-  const {
-    isPlaying: isGrassSpeaking,
-    activeWordIndex: grassActiveWordIndex,
-    pause: pauseGrassNarration,
-    toggle: toggleGrassSpeech,
-  } = useWordSyncAudio(grassNarrationAudio, grassNarrationData.grass.words, {
-    autoPlay: false,
-    onEnd: () => {},
-  });
-  // Real narration audio + word-level highlight sync for the Water Lily Table 2.1 popup
-  const {
-    isPlaying: isWaterlilySpeaking,
-    activeWordIndex: waterlilyActiveWordIndex,
-    pause: pauseWaterlilyNarration,
-    toggle: toggleWaterlilySpeech,
-  } = useWordSyncAudio(waterlilyNarrationAudio, waterlilyNarrationData.waterlily.words, {
-    autoPlay: false,
-    onEnd: () => {},
-  });
-  // Real narration audio + word-level highlight sync for the Tulsi Table 2.1 popup
-  const {
-    isPlaying: isTulsiSpeaking,
-    activeWordIndex: tulsiActiveWordIndex,
-    pause: pauseTulsiNarration,
-    toggle: toggleTulsiSpeech,
-  } = useWordSyncAudio(tulsiNarrationAudio, tulsiNarrationData.tulsi.words, {
-    autoPlay: false,
-    onEnd: () => {},
-  });
 
   // Auto-display NCERT Observation Popup after 5 seconds of viewing the full-screen specimen
   useEffect(() => {
@@ -1674,13 +1590,6 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
       window.speechSynthesis.cancel();
     }
     setIsPlantSpeaking(false);
-    pauseHibiscusNarration();
-    pauseRoseNarration();
-    pauseSunflowerNarration();
-    pauseNeemNarration();
-    pauseGrassNarration();
-    pauseWaterlilyNarration();
-    pauseTulsiNarration();
     setInfoCardPlant(null);
   };
 
@@ -2114,7 +2023,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
   const [verifyAnswer, setVerifyAnswer] = useState(null);
   const [verifyChecked, setVerifyChecked] = useState(false);
   const [verifyCorrect, setVerifyCorrect] = useState(false);
-  const [subPage, setSubPage] = useState(initialSubPage !== undefined ? initialSubPage : (typeFilter === 'animal' ? 2 : 1));
+  const [subPage, setSubPage] = useState(typeFilter === 'animal' ? 2 : 1);
   useEffect(() => {
     if (typeFilter === 'animal') {
       setSubPage(2);
@@ -6072,395 +5981,36 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                     <span>TABLE 2.1</span>
                   </span>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    {/* Play / Pause Narration Button (Hibiscus only — real recorded audio available) */}
-                    {infoCardPlant.id === 'hibiscus' && (
-                      <button
-                        type="button"
-                        onClick={toggleHibiscusSpeech}
-                        aria-label={isHibiscusSpeaking ? 'Pause Narration' : 'Play Narration'}
-                        title={isHibiscusSpeaking ? 'Pause Narration' : 'Play Narration'}
-                        style={{
-                          background: isHibiscusSpeaking
-                            ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
-                            : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
-                          border: '1.5px solid #34D399',
-                          boxShadow: isHibiscusSpeaking
-                            ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
-                            : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
-                          borderRadius: '14px',
-                          padding: '5px 12px',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '5px',
-                          color: '#FFFFFF',
-                          fontWeight: 800,
-                          fontSize: '14px',
-                          fontFamily: '"Outfit", sans-serif',
-                          cursor: 'pointer',
-                          flexShrink: 0,
-                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'scale(1.05)';
-                          e.currentTarget.style.borderColor = '#6EE7B7';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'scale(1)';
-                          e.currentTarget.style.borderColor = '#34D399';
-                        }}
-                      >
-                        {isHibiscusSpeaking ? (
-                          <>
-                            <Pause size={13} fill="#FFFFFF" />
-                            <span>Pause</span>
-                          </>
-                        ) : (
-                          <>
-                            <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
-                            <span>Play</span>
-                          </>
-                        )}
-                      </button>
-                    )}
-
-                    {/* Play / Pause Narration Button (Rose only — real recorded audio available) */}
-                    {infoCardPlant.id === 'rose' && (
-                      <button
-                        type="button"
-                        onClick={toggleRoseSpeech}
-                        aria-label={isRoseSpeaking ? 'Pause Narration' : 'Play Narration'}
-                        title={isRoseSpeaking ? 'Pause Narration' : 'Play Narration'}
-                        style={{
-                          background: isRoseSpeaking
-                            ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
-                            : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
-                          border: '1.5px solid #34D399',
-                          boxShadow: isRoseSpeaking
-                            ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
-                            : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
-                          borderRadius: '14px',
-                          padding: '5px 12px',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '5px',
-                          color: '#FFFFFF',
-                          fontWeight: 800,
-                          fontSize: '14px',
-                          fontFamily: '"Outfit", sans-serif',
-                          cursor: 'pointer',
-                          flexShrink: 0,
-                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'scale(1.05)';
-                          e.currentTarget.style.borderColor = '#6EE7B7';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'scale(1)';
-                          e.currentTarget.style.borderColor = '#34D399';
-                        }}
-                      >
-                        {isRoseSpeaking ? (
-                          <>
-                            <Pause size={13} fill="#FFFFFF" />
-                            <span>Pause</span>
-                          </>
-                        ) : (
-                          <>
-                            <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
-                            <span>Play</span>
-                          </>
-                        )}
-                      </button>
-                    )}
-
-                    {/* Play / Pause Narration Button (Sunflower only — real recorded audio available) */}
-                    {infoCardPlant.id === 'sunflower' && (
-                      <button
-                        type="button"
-                        onClick={toggleSunflowerSpeech}
-                        aria-label={isSunflowerSpeaking ? 'Pause Narration' : 'Play Narration'}
-                        title={isSunflowerSpeaking ? 'Pause Narration' : 'Play Narration'}
-                        style={{
-                          background: isSunflowerSpeaking
-                            ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
-                            : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
-                          border: '1.5px solid #34D399',
-                          boxShadow: isSunflowerSpeaking
-                            ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
-                            : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
-                          borderRadius: '14px',
-                          padding: '5px 12px',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '5px',
-                          color: '#FFFFFF',
-                          fontWeight: 800,
-                          fontSize: '14px',
-                          fontFamily: '"Outfit", sans-serif',
-                          cursor: 'pointer',
-                          flexShrink: 0,
-                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'scale(1.05)';
-                          e.currentTarget.style.borderColor = '#6EE7B7';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'scale(1)';
-                          e.currentTarget.style.borderColor = '#34D399';
-                        }}
-                      >
-                        {isSunflowerSpeaking ? (
-                          <>
-                            <Pause size={13} fill="#FFFFFF" />
-                            <span>Pause</span>
-                          </>
-                        ) : (
-                          <>
-                            <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
-                            <span>Play</span>
-                          </>
-                        )}
-                      </button>
-                    )}
-
-                    {/* Play / Pause Narration Button (Neem only — real recorded audio available) */}
-                    {infoCardPlant.id === 'neem' && (
-                      <button
-                        type="button"
-                        onClick={toggleNeemSpeech}
-                        aria-label={isNeemSpeaking ? 'Pause Narration' : 'Play Narration'}
-                        title={isNeemSpeaking ? 'Pause Narration' : 'Play Narration'}
-                        style={{
-                          background: isNeemSpeaking
-                            ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
-                            : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
-                          border: '1.5px solid #34D399',
-                          boxShadow: isNeemSpeaking
-                            ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
-                            : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
-                          borderRadius: '14px',
-                          padding: '5px 12px',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '5px',
-                          color: '#FFFFFF',
-                          fontWeight: 800,
-                          fontSize: '14px',
-                          fontFamily: '"Outfit", sans-serif',
-                          cursor: 'pointer',
-                          flexShrink: 0,
-                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'scale(1.05)';
-                          e.currentTarget.style.borderColor = '#6EE7B7';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'scale(1)';
-                          e.currentTarget.style.borderColor = '#34D399';
-                        }}
-                      >
-                        {isNeemSpeaking ? (
-                          <>
-                            <Pause size={13} fill="#FFFFFF" />
-                            <span>Pause</span>
-                          </>
-                        ) : (
-                          <>
-                            <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
-                            <span>Play</span>
-                          </>
-                        )}
-                      </button>
-                    )}
-
-                    {/* Play / Pause Narration Button (Grass only — real recorded audio available) */}
-                    {infoCardPlant.id === 'grass' && (
-                      <button
-                        type="button"
-                        onClick={toggleGrassSpeech}
-                        aria-label={isGrassSpeaking ? 'Pause Narration' : 'Play Narration'}
-                        title={isGrassSpeaking ? 'Pause Narration' : 'Play Narration'}
-                        style={{
-                          background: isGrassSpeaking
-                            ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
-                            : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
-                          border: '1.5px solid #34D399',
-                          boxShadow: isGrassSpeaking
-                            ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
-                            : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
-                          borderRadius: '14px',
-                          padding: '5px 12px',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '5px',
-                          color: '#FFFFFF',
-                          fontWeight: 800,
-                          fontSize: '14px',
-                          fontFamily: '"Outfit", sans-serif',
-                          cursor: 'pointer',
-                          flexShrink: 0,
-                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'scale(1.05)';
-                          e.currentTarget.style.borderColor = '#6EE7B7';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'scale(1)';
-                          e.currentTarget.style.borderColor = '#34D399';
-                        }}
-                      >
-                        {isGrassSpeaking ? (
-                          <>
-                            <Pause size={13} fill="#FFFFFF" />
-                            <span>Pause</span>
-                          </>
-                        ) : (
-                          <>
-                            <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
-                            <span>Play</span>
-                          </>
-                        )}
-                      </button>
-                    )}
-
-                    {/* Play / Pause Narration Button (Water Lily only — real recorded audio available) */}
-                    {infoCardPlant.id === 'waterlily' && (
-                      <button
-                        type="button"
-                        onClick={toggleWaterlilySpeech}
-                        aria-label={isWaterlilySpeaking ? 'Pause Narration' : 'Play Narration'}
-                        title={isWaterlilySpeaking ? 'Pause Narration' : 'Play Narration'}
-                        style={{
-                          background: isWaterlilySpeaking
-                            ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
-                            : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
-                          border: '1.5px solid #34D399',
-                          boxShadow: isWaterlilySpeaking
-                            ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
-                            : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
-                          borderRadius: '14px',
-                          padding: '5px 12px',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '5px',
-                          color: '#FFFFFF',
-                          fontWeight: 800,
-                          fontSize: '14px',
-                          fontFamily: '"Outfit", sans-serif',
-                          cursor: 'pointer',
-                          flexShrink: 0,
-                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'scale(1.05)';
-                          e.currentTarget.style.borderColor = '#6EE7B7';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'scale(1)';
-                          e.currentTarget.style.borderColor = '#34D399';
-                        }}
-                      >
-                        {isWaterlilySpeaking ? (
-                          <>
-                            <Pause size={13} fill="#FFFFFF" />
-                            <span>Pause</span>
-                          </>
-                        ) : (
-                          <>
-                            <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
-                            <span>Play</span>
-                          </>
-                        )}
-                      </button>
-                    )}
-
-                    {/* Play / Pause Narration Button (Tulsi only — real recorded audio available) */}
-                    {infoCardPlant.id === 'tulsi' && (
-                      <button
-                        type="button"
-                        onClick={toggleTulsiSpeech}
-                        aria-label={isTulsiSpeaking ? 'Pause Narration' : 'Play Narration'}
-                        title={isTulsiSpeaking ? 'Pause Narration' : 'Play Narration'}
-                        style={{
-                          background: isTulsiSpeaking
-                            ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
-                            : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
-                          border: '1.5px solid #34D399',
-                          boxShadow: isTulsiSpeaking
-                            ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
-                            : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
-                          borderRadius: '14px',
-                          padding: '5px 12px',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '5px',
-                          color: '#FFFFFF',
-                          fontWeight: 800,
-                          fontSize: '14px',
-                          fontFamily: '"Outfit", sans-serif',
-                          cursor: 'pointer',
-                          flexShrink: 0,
-                          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'scale(1.05)';
-                          e.currentTarget.style.borderColor = '#6EE7B7';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'scale(1)';
-                          e.currentTarget.style.borderColor = '#34D399';
-                        }}
-                      >
-                        {isTulsiSpeaking ? (
-                          <>
-                            <Pause size={13} fill="#FFFFFF" />
-                            <span>Pause</span>
-                          </>
-                        ) : (
-                          <>
-                            <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
-                            <span>Play</span>
-                          </>
-                        )}
-                      </button>
-                    )}
-
-                    {/* Minimize Button */}
-                    <button
-                      type="button"
-                      onClick={() => { pauseHibiscusNarration(); pauseRoseNarration(); pauseSunflowerNarration(); pauseNeemNarration(); pauseGrassNarration(); pauseWaterlilyNarration(); pauseTulsiNarration(); setShowPlantDetailPopup(false); }}
-                      title="Hide observations and view full specimen image"
-                      style={{
-                        background: 'rgba(255, 255, 255, 0.12)',
-                        border: '1.2px solid rgba(255, 255, 255, 0.25)',
-                        borderRadius: '12px',
-                        padding: '4px 12px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        color: '#FEF3C7',
-                        fontSize: '20px',
-                        fontWeight: 800,
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'rgba(239, 68, 68, 0.4)';
-                        e.currentTarget.style.color = '#FFFFFF';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)';
-                        e.currentTarget.style.color = '#FEF3C7';
-                      }}
-                    >
-                      <span>✕ Close</span>
-                    </button>
-                  </div>
+                  {/* Minimize Button */}
+                  <button
+                    type="button"
+                    onClick={() => setShowPlantDetailPopup(false)}
+                    title="Hide observations and view full specimen image"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.12)',
+                      border: '1.2px solid rgba(255, 255, 255, 0.25)',
+                      borderRadius: '12px',
+                      padding: '4px 12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      color: '#FEF3C7',
+                      fontSize: '20px',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.4)';
+                      e.currentTarget.style.color = '#FFFFFF';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)';
+                      e.currentTarget.style.color = '#FEF3C7';
+                    }}
+                  >
+                    <span>✕ Close</span>
+                  </button>
                 </div>
 
                 {/* Title */}
@@ -6516,56 +6066,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <span>🌱 STEM</span>
                     </div>
                     <div style={{ fontSize: '20px', color: '#FFFFFF', fontWeight: 500, lineHeight: 1.35, fontFamily: '"Inter", sans-serif', textAlign: 'justify', textJustify: 'inter-word', textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)' }}>
-                      {infoCardPlant.id === 'hibiscus' ? (
-                        <NarratedWords
-                          words={hibiscusNarrationData.hibiscus.words.slice(4, 12)}
-                          activeIndex={hibiscusActiveWordIndex}
-                          baseIndex={4}
-                          activeStyle={{ color: '#34D399', textShadow: '0 0 10px rgba(52, 211, 153, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'rose' ? (
-                        <NarratedWords
-                          words={roseNarrationData.rose.words.slice(5, 14)}
-                          activeIndex={roseActiveWordIndex}
-                          baseIndex={5}
-                          activeStyle={{ color: '#34D399', textShadow: '0 0 10px rgba(52, 211, 153, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'sunflower' ? (
-                        <NarratedWords
-                          words={sunflowerNarrationData.sunflower.words.slice(4, 11)}
-                          activeIndex={sunflowerActiveWordIndex}
-                          baseIndex={4}
-                          activeStyle={{ color: '#34D399', textShadow: '0 0 10px rgba(52, 211, 153, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'neem' ? (
-                        <NarratedWords
-                          words={neemNarrationData.neem.words.slice(6, 16)}
-                          activeIndex={neemActiveWordIndex}
-                          baseIndex={6}
-                          activeStyle={{ color: '#34D399', textShadow: '0 0 10px rgba(52, 211, 153, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'grass' ? (
-                        <NarratedWords
-                          words={grassNarrationData.grass.words.slice(6, 14)}
-                          activeIndex={grassActiveWordIndex}
-                          baseIndex={6}
-                          activeStyle={{ color: '#34D399', textShadow: '0 0 10px rgba(52, 211, 153, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'waterlily' ? (
-                        <NarratedWords
-                          words={waterlilyNarrationData.waterlily.words.slice(15, 23)}
-                          activeIndex={waterlilyActiveWordIndex}
-                          baseIndex={15}
-                          activeStyle={{ color: '#34D399', textShadow: '0 0 10px rgba(52, 211, 153, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'tulsi' ? (
-                        <NarratedWords
-                          words={tulsiNarrationData.tulsi.words.slice(6, 17)}
-                          activeIndex={tulsiActiveWordIndex}
-                          baseIndex={6}
-                          activeStyle={{ color: '#34D399', textShadow: '0 0 10px rgba(52, 211, 153, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : (infoCardPlant.tableInfo?.stem || '—')}
+                      {infoCardPlant.tableInfo?.stem || '—'}
                     </div>
                   </div>
                   <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
@@ -6576,56 +6077,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <span>🍃 LEAVES</span>
                     </div>
                     <div style={{ fontSize: '20px', color: '#FFFFFF', fontWeight: 500, lineHeight: 1.35, fontFamily: '"Inter", sans-serif', textAlign: 'justify', textJustify: 'inter-word', textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)' }}>
-                      {infoCardPlant.id === 'hibiscus' ? (
-                        <NarratedWords
-                          words={hibiscusNarrationData.hibiscus.words.slice(12, 17)}
-                          activeIndex={hibiscusActiveWordIndex}
-                          baseIndex={12}
-                          activeStyle={{ color: '#6EE7B7', textShadow: '0 0 10px rgba(110, 231, 183, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'rose' ? (
-                        <NarratedWords
-                          words={roseNarrationData.rose.words.slice(14, 22)}
-                          activeIndex={roseActiveWordIndex}
-                          baseIndex={14}
-                          activeStyle={{ color: '#6EE7B7', textShadow: '0 0 10px rgba(110, 231, 183, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'sunflower' ? (
-                        <NarratedWords
-                          words={sunflowerNarrationData.sunflower.words.slice(11, 18)}
-                          activeIndex={sunflowerActiveWordIndex}
-                          baseIndex={11}
-                          activeStyle={{ color: '#6EE7B7', textShadow: '0 0 10px rgba(110, 231, 183, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'neem' ? (
-                        <NarratedWords
-                          words={neemNarrationData.neem.words.slice(17, 27)}
-                          activeIndex={neemActiveWordIndex}
-                          baseIndex={17}
-                          activeStyle={{ color: '#6EE7B7', textShadow: '0 0 10px rgba(110, 231, 183, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'grass' ? (
-                        <NarratedWords
-                          words={grassNarrationData.grass.words.slice(14, 20)}
-                          activeIndex={grassActiveWordIndex}
-                          baseIndex={14}
-                          activeStyle={{ color: '#6EE7B7', textShadow: '0 0 10px rgba(110, 231, 183, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'waterlily' ? (
-                        <NarratedWords
-                          words={waterlilyNarrationData.waterlily.words.slice(24, 32)}
-                          activeIndex={waterlilyActiveWordIndex}
-                          baseIndex={24}
-                          activeStyle={{ color: '#6EE7B7', textShadow: '0 0 10px rgba(110, 231, 183, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'tulsi' ? (
-                        <NarratedWords
-                          words={tulsiNarrationData.tulsi.words.slice(18, 26)}
-                          activeIndex={tulsiActiveWordIndex}
-                          baseIndex={18}
-                          activeStyle={{ color: '#6EE7B7', textShadow: '0 0 10px rgba(110, 231, 183, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : (infoCardPlant.tableInfo?.leaves || '—')}
+                      {infoCardPlant.tableInfo?.leaves || '—'}
                     </div>
                   </div>
                   <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
@@ -6636,56 +6088,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <span>🌸 FLOWERS</span>
                     </div>
                     <div style={{ fontSize: '20px', color: '#FFFFFF', fontWeight: 500, lineHeight: 1.35, fontFamily: '"Inter", sans-serif', textAlign: 'justify', textJustify: 'inter-word', textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)' }}>
-                      {infoCardPlant.id === 'hibiscus' ? (
-                        <NarratedWords
-                          words={hibiscusNarrationData.hibiscus.words.slice(17, 21)}
-                          activeIndex={hibiscusActiveWordIndex}
-                          baseIndex={17}
-                          activeStyle={{ color: '#F9A8D4', textShadow: '0 0 10px rgba(249, 168, 212, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'rose' ? (
-                        <NarratedWords
-                          words={roseNarrationData.rose.words.slice(22, 27)}
-                          activeIndex={roseActiveWordIndex}
-                          baseIndex={22}
-                          activeStyle={{ color: '#F9A8D4', textShadow: '0 0 10px rgba(249, 168, 212, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'sunflower' ? (
-                        <NarratedWords
-                          words={sunflowerNarrationData.sunflower.words.slice(18, 28)}
-                          activeIndex={sunflowerActiveWordIndex}
-                          baseIndex={18}
-                          activeStyle={{ color: '#F9A8D4', textShadow: '0 0 10px rgba(249, 168, 212, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'neem' ? (
-                        <NarratedWords
-                          words={neemNarrationData.neem.words.slice(30, 34)}
-                          activeIndex={neemActiveWordIndex}
-                          baseIndex={30}
-                          activeStyle={{ color: '#F9A8D4', textShadow: '0 0 10px rgba(249, 168, 212, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'grass' ? (
-                        <NarratedWords
-                          words={grassNarrationData.grass.words.slice(23, 30)}
-                          activeIndex={grassActiveWordIndex}
-                          baseIndex={23}
-                          activeStyle={{ color: '#F9A8D4', textShadow: '0 0 10px rgba(249, 168, 212, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'waterlily' ? (
-                        <NarratedWords
-                          words={waterlilyNarrationData.waterlily.words.slice(32, 42)}
-                          activeIndex={waterlilyActiveWordIndex}
-                          baseIndex={32}
-                          activeStyle={{ color: '#F9A8D4', textShadow: '0 0 10px rgba(249, 168, 212, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'tulsi' ? (
-                        <NarratedWords
-                          words={tulsiNarrationData.tulsi.words.slice(27, 35)}
-                          activeIndex={tulsiActiveWordIndex}
-                          baseIndex={27}
-                          activeStyle={{ color: '#F9A8D4', textShadow: '0 0 10px rgba(249, 168, 212, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : (infoCardPlant.tableInfo?.flowers || '—')}
+                      {infoCardPlant.tableInfo?.flowers || '—'}
                     </div>
                   </div>
                   <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.20) 50%, rgba(255,255,255,0.02) 100%)' }} />
@@ -6696,56 +6099,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       <span>📖 OTHER OBSERVATIONS</span>
                     </div>
                     <div style={{ fontSize: '20px', color: '#FFFFFF', fontWeight: 500, lineHeight: 1.35, fontFamily: '"Inter", sans-serif', textAlign: 'justify', textJustify: 'inter-word', textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)' }}>
-                      {infoCardPlant.id === 'hibiscus' ? (
-                        <NarratedWords
-                          words={hibiscusNarrationData.hibiscus.words.slice(21, 30)}
-                          activeIndex={hibiscusActiveWordIndex}
-                          baseIndex={21}
-                          activeStyle={{ color: '#93C5FD', textShadow: '0 0 10px rgba(147, 197, 253, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'rose' ? (
-                        <NarratedWords
-                          words={roseNarrationData.rose.words.slice(27, 33)}
-                          activeIndex={roseActiveWordIndex}
-                          baseIndex={27}
-                          activeStyle={{ color: '#93C5FD', textShadow: '0 0 10px rgba(147, 197, 253, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'sunflower' ? (
-                        <NarratedWords
-                          words={sunflowerNarrationData.sunflower.words.slice(28, 42)}
-                          activeIndex={sunflowerActiveWordIndex}
-                          baseIndex={28}
-                          activeStyle={{ color: '#93C5FD', textShadow: '0 0 10px rgba(147, 197, 253, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'neem' ? (
-                        <NarratedWords
-                          words={neemNarrationData.neem.words.slice(34, 43)}
-                          activeIndex={neemActiveWordIndex}
-                          baseIndex={34}
-                          activeStyle={{ color: '#93C5FD', textShadow: '0 0 10px rgba(147, 197, 253, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'grass' ? (
-                        <NarratedWords
-                          words={grassNarrationData.grass.words.slice(30, 43)}
-                          activeIndex={grassActiveWordIndex}
-                          baseIndex={30}
-                          activeStyle={{ color: '#93C5FD', textShadow: '0 0 10px rgba(147, 197, 253, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'waterlily' ? (
-                        <NarratedWords
-                          words={waterlilyNarrationData.waterlily.words.slice(5, 14)}
-                          activeIndex={waterlilyActiveWordIndex}
-                          baseIndex={5}
-                          activeStyle={{ color: '#93C5FD', textShadow: '0 0 10px rgba(147, 197, 253, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : infoCardPlant.id === 'tulsi' ? (
-                        <NarratedWords
-                          words={tulsiNarrationData.tulsi.words.slice(37, 47)}
-                          activeIndex={tulsiActiveWordIndex}
-                          baseIndex={37}
-                          activeStyle={{ color: '#93C5FD', textShadow: '0 0 10px rgba(147, 197, 253, 0.9), 0 1px 3px #000000' }}
-                        />
-                      ) : (infoCardPlant.tableInfo?.notes || '—')}
+                      {infoCardPlant.tableInfo?.notes || '—'}
                     </div>
                   </div>
 
@@ -6786,56 +6140,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           textJustify: 'inter-word',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)'
                         }}>
-                          {infoCardPlant.id === 'hibiscus' ? (
-                            <NarratedWords
-                              words={hibiscusNarrationData.hibiscus.words.slice(30, 35)}
-                              activeIndex={hibiscusActiveWordIndex}
-                              baseIndex={30}
-                              activeStyle={{ color: '#FDE047', textShadow: '0 0 10px rgba(253, 224, 71, 0.9), 0 1px 3px #000000' }}
-                            />
-                          ) : infoCardPlant.id === 'rose' ? (
-                            <NarratedWords
-                              words={roseNarrationData.rose.words.slice(33, 43)}
-                              activeIndex={roseActiveWordIndex}
-                              baseIndex={33}
-                              activeStyle={{ color: '#FDE047', textShadow: '0 0 10px rgba(253, 224, 71, 0.9), 0 1px 3px #000000' }}
-                            />
-                          ) : infoCardPlant.id === 'sunflower' ? (
-                            <NarratedWords
-                              words={sunflowerNarrationData.sunflower.words.slice(42, 50)}
-                              activeIndex={sunflowerActiveWordIndex}
-                              baseIndex={42}
-                              activeStyle={{ color: '#FDE047', textShadow: '0 0 10px rgba(253, 224, 71, 0.9), 0 1px 3px #000000' }}
-                            />
-                          ) : infoCardPlant.id === 'neem' ? (
-                            <NarratedWords
-                              words={neemNarrationData.neem.words.slice(43, 52)}
-                              activeIndex={neemActiveWordIndex}
-                              baseIndex={43}
-                              activeStyle={{ color: '#FDE047', textShadow: '0 0 10px rgba(253, 224, 71, 0.9), 0 1px 3px #000000' }}
-                            />
-                          ) : infoCardPlant.id === 'grass' ? (
-                            <NarratedWords
-                              words={grassNarrationData.grass.words.slice(43, 52)}
-                              activeIndex={grassActiveWordIndex}
-                              baseIndex={43}
-                              activeStyle={{ color: '#FDE047', textShadow: '0 0 10px rgba(253, 224, 71, 0.9), 0 1px 3px #000000' }}
-                            />
-                          ) : infoCardPlant.id === 'waterlily' ? (
-                            <NarratedWords
-                              words={waterlilyNarrationData.waterlily.words.slice(44, 53)}
-                              activeIndex={waterlilyActiveWordIndex}
-                              baseIndex={44}
-                              activeStyle={{ color: '#FDE047', textShadow: '0 0 10px rgba(253, 224, 71, 0.9), 0 1px 3px #000000' }}
-                            />
-                          ) : infoCardPlant.id === 'tulsi' ? (
-                            <NarratedWords
-                              words={tulsiNarrationData.tulsi.words.slice(49, 57)}
-                              activeIndex={tulsiActiveWordIndex}
-                              baseIndex={49}
-                              activeStyle={{ color: '#FDE047', textShadow: '0 0 10px rgba(253, 224, 71, 0.9), 0 1px 3px #000000' }}
-                            />
-                          ) : (infoCardPlant.tableInfo?.think || (infoCardPlant.id === 'sunflower' ? 'Do mature sunflower heads keep following the sun?' : (infoCardPlant.id === 'rose' ? 'How is a compound leaf different from a simple leaf?' : 'What makes hibiscus a shrub?')))}
+                          {infoCardPlant.tableInfo?.think || (infoCardPlant.id === 'sunflower' ? 'Do mature sunflower heads keep following the sun?' : (infoCardPlant.id === 'rose' ? 'How is a compound leaf different from a simple leaf?' : 'What makes hibiscus a shrub?'))}
                         </div>
                       </div>
                     </>

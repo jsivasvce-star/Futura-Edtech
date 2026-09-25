@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { 
   ArrowLeft, RefreshCw, CheckCircle, ChevronRight, ChevronLeft, 
   Award, Sparkles, ZoomIn, X, Maximize2, Volume2, VolumeX, 
-  Lightbulb, Eye, HelpCircle, Check, ArrowRight, BookOpen, Layers
+  Lightbulb, Eye, HelpCircle, Check, ArrowRight, BookOpen, Layers,
+  Play, Pause
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useTheme } from '../../../../../ThemeContext.jsx';
@@ -26,6 +27,12 @@ import specimen07BanyanBlended from './specimen_07_banyan_blended.png';
 import specimen08CottonBlended from './specimen_08_cotton_blended.png';
 import specimen09SunflowerBlended from './specimen_09_sunflower_blended.png';
 import natureGreeneryBg from '../../../../../assets/nature_greenery_bg.jpg';
+import specimenMangoAudio from '../narration/audio/specimen_mango.mp3';
+import specimenMangoAfterPauseAudio from '../narration/audio/specimen_mango_after_pause.mp3';
+import specimenMangoNarrationData from '../narration/specimenMangoNarration.json';
+import specimenRoseAudio from '../narration/audio/RoseSpecimen.mp3';
+import specimenRoseAfterPauseAudio from '../narration/audio/RoseSpecimenAfterPause.mp3';
+import specimenRoseNarrationData from '../narration/roseSpecimenHighlights.json';
 
 // =========================================================================
 // ASSET PATH CONSTANTS
@@ -580,9 +587,446 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
 
   const activeSpecimen = SPECIMEN_SLIDES[currentSpecimenIndex];
 
+  // Narration state for Specimen 01: Mango
+  const [isPlayingMangoNarration, setIsPlayingMangoNarration] = useState(false);
+  const [mangoNarrationStep, setMangoNarrationStep] = useState('idle'); // 'idle' | 'part1' | 'pause' | 'part2' | 'completed'
+  const [activeHighlightTargets, setActiveHighlightTargets] = useState([]);
+  const [spokenHighlightTargets, setSpokenHighlightTargets] = useState(() => new Set());
+
+  const mangoAudioRef1 = useRef(null);
+  const mangoAudioRef2 = useRef(null);
+  const mangoRafRef = useRef(null);
+  const mangoPauseTimeoutRef = useRef(null);
+
+  const updateHighlights = useCallback(() => {
+    if (mangoAudioRef1.current && !mangoAudioRef1.current.paused) {
+      const t = mangoAudioRef1.current.currentTime;
+      const segments = specimenMangoNarrationData.part1.segments;
+      let currentTargets = [];
+      const spoken = new Set();
+      for (const seg of segments) {
+        if (t >= seg.start && t < seg.end) {
+          currentTargets = seg.targets;
+        } else if (t >= seg.end) {
+          seg.targets.forEach(tgt => spoken.add(tgt));
+        }
+      }
+      setActiveHighlightTargets(currentTargets);
+      setSpokenHighlightTargets(spoken);
+    } else if (mangoAudioRef2.current && !mangoAudioRef2.current.paused) {
+      const t = mangoAudioRef2.current.currentTime;
+      const segments = specimenMangoNarrationData.part2.segments;
+      let currentTargets = [];
+      const spoken = new Set([
+        'mango_title', 'collect_evidence_title', 'badge_1', 'card1_title', 'card1_line1', 'card1_line2',
+        'badge_2', 'card2_title', 'card2_line1', 'card2_line2', 'badge_3', 'card3_title', 'card3_line1',
+        'card3_line2', 'question', 'group_herb', 'group_shrub'
+      ]);
+      for (const seg of segments) {
+        if (t >= seg.start && t < seg.end) {
+          currentTargets = seg.targets;
+        } else if (t >= seg.end) {
+          seg.targets.forEach(tgt => spoken.add(tgt));
+        }
+      }
+      setActiveHighlightTargets(currentTargets);
+      setSpokenHighlightTargets(spoken);
+    }
+  }, []);
+
+  const startSyncLoop = useCallback(() => {
+    if (mangoRafRef.current) cancelAnimationFrame(mangoRafRef.current);
+    const tick = () => {
+      updateHighlights();
+      if ((mangoAudioRef1.current && !mangoAudioRef1.current.paused) ||
+          (mangoAudioRef2.current && !mangoAudioRef2.current.paused)) {
+        mangoRafRef.current = requestAnimationFrame(tick);
+      }
+    };
+    mangoRafRef.current = requestAnimationFrame(tick);
+  }, [updateHighlights]);
+
+  const stopAllMangoAudio = () => {
+    if (mangoAudioRef1.current) {
+      mangoAudioRef1.current.pause();
+    }
+    if (mangoAudioRef2.current) {
+      mangoAudioRef2.current.pause();
+    }
+    if (mangoRafRef.current) {
+      cancelAnimationFrame(mangoRafRef.current);
+      mangoRafRef.current = null;
+    }
+    if (mangoPauseTimeoutRef.current) {
+      clearTimeout(mangoPauseTimeoutRef.current);
+      mangoPauseTimeoutRef.current = null;
+    }
+    setIsPlayingMangoNarration(false);
+  };
+
+  const startPart1 = (resetTime = true) => {
+    if (mangoAudioRef2.current) {
+      mangoAudioRef2.current.pause();
+    }
+    if (mangoPauseTimeoutRef.current) {
+      clearTimeout(mangoPauseTimeoutRef.current);
+      mangoPauseTimeoutRef.current = null;
+    }
+    if (!mangoAudioRef1.current) return;
+    if (resetTime) {
+      mangoAudioRef1.current.currentTime = 0;
+      setSpokenHighlightTargets(new Set());
+    }
+    setMangoNarrationStep('part1');
+    setIsPlayingMangoNarration(true);
+    const p = mangoAudioRef1.current.play();
+    if (p !== undefined) {
+      p.then(() => {
+        startSyncLoop();
+      }).catch((err) => {
+        if (err.name !== 'AbortError') {
+          console.warn('Audio play caught in part1:', err);
+        }
+        setIsPlayingMangoNarration(false);
+      });
+    }
+  };
+
+  const startPart2 = (resetTime = true) => {
+    if (mangoAudioRef1.current) {
+      mangoAudioRef1.current.pause();
+    }
+    if (mangoPauseTimeoutRef.current) {
+      clearTimeout(mangoPauseTimeoutRef.current);
+      mangoPauseTimeoutRef.current = null;
+    }
+    if (!mangoAudioRef2.current) return;
+    if (resetTime) {
+      mangoAudioRef2.current.currentTime = 0;
+    }
+    setMangoNarrationStep('part2');
+    setIsPlayingMangoNarration(true);
+    const p = mangoAudioRef2.current.play();
+    if (p !== undefined) {
+      p.then(() => {
+        startSyncLoop();
+      }).catch((err) => {
+        if (err.name !== 'AbortError') {
+          console.warn('Audio play caught in part2:', err);
+        }
+        setIsPlayingMangoNarration(false);
+      });
+    }
+  };
+
+  const handleToggleMangoNarration = () => {
+    playTone('click');
+    if (isPlayingMangoNarration) {
+      stopAllMangoAudio();
+    } else {
+      if (mangoNarrationStep === 'part2') {
+        startPart2(false);
+      } else if (mangoNarrationStep === 'completed') {
+        startPart1(true);
+      } else {
+        const shouldReset = !mangoAudioRef1.current || mangoAudioRef1.current.currentTime === 0;
+        startPart1(shouldReset);
+      }
+    }
+  };
+
+  const updateHighlightsRef = useRef(updateHighlights);
+  updateHighlightsRef.current = updateHighlights;
+
+  const startPart2Ref = useRef(startPart2);
+  startPart2Ref.current = startPart2;
+
+  // Audio setup and tick listener - MOUNT ONCE
+  useEffect(() => {
+    const audio1 = new Audio(specimenMangoAudio);
+    const audio2 = new Audio(specimenMangoAfterPauseAudio);
+    mangoAudioRef1.current = audio1;
+    mangoAudioRef2.current = audio2;
+    if (typeof window !== 'undefined') {
+      window._testAudio1 = audio1;
+      window._testAudio2 = audio2;
+    }
+
+    const handleTimeUpdate = () => {
+      if (updateHighlightsRef.current) {
+        updateHighlightsRef.current();
+      }
+    };
+
+    const handleEnded1 = () => {
+      setActiveHighlightTargets([]);
+      setMangoNarrationStep('pause');
+      // 2.2 second natural pause, then play Part 2 (answer conclusion)
+      mangoPauseTimeoutRef.current = setTimeout(() => {
+        if (startPart2Ref.current) {
+          startPart2Ref.current(true);
+        }
+      }, 2200);
+    };
+
+    const handleEnded2 = () => {
+      setActiveHighlightTargets([]);
+      setMangoNarrationStep('completed');
+      setIsPlayingMangoNarration(false);
+    };
+
+    audio1.addEventListener('timeupdate', handleTimeUpdate);
+    audio2.addEventListener('timeupdate', handleTimeUpdate);
+    audio1.addEventListener('ended', handleEnded1);
+    audio2.addEventListener('ended', handleEnded2);
+
+    return () => {
+      audio1.pause();
+      audio2.pause();
+      audio1.removeEventListener('timeupdate', handleTimeUpdate);
+      audio2.removeEventListener('timeupdate', handleTimeUpdate);
+      audio1.removeEventListener('ended', handleEnded1);
+      audio2.removeEventListener('ended', handleEnded2);
+      if (mangoRafRef.current) cancelAnimationFrame(mangoRafRef.current);
+      if (mangoPauseTimeoutRef.current) clearTimeout(mangoPauseTimeoutRef.current);
+    };
+  }, []);
+
+  // Manage autoplay and specimen change
+  useEffect(() => {
+    if (phase === 'specimens' && currentSpecimenIndex === 0) {
+      const tid = setTimeout(() => {
+        if (mangoAudioRef1.current && mangoAudioRef1.current.paused) {
+          startPart1(true);
+        }
+      }, 300);
+      return () => {
+        clearTimeout(tid);
+        stopAllMangoAudio();
+      };
+    } else {
+      stopAllMangoAudio();
+      setActiveHighlightTargets([]);
+      setSpokenHighlightTargets(new Set());
+      setMangoNarrationStep('idle');
+    }
+  }, [phase, currentSpecimenIndex]);
+
+  // Narration state for Specimen 02: Rose
+  const [isPlayingRoseNarration, setIsPlayingRoseNarration] = useState(false);
+  const [roseNarrationStep, setRoseNarrationStep] = useState('idle'); // 'idle' | 'part1' | 'pause' | 'part2' | 'completed'
+  const [activeRoseHighlightTargets, setActiveRoseHighlightTargets] = useState([]);
+  const [spokenRoseHighlightTargets, setSpokenRoseHighlightTargets] = useState(() => new Set());
+
+  const roseAudioRef1 = useRef(null);
+  const roseAudioRef2 = useRef(null);
+  const roseRafRef = useRef(null);
+  const rosePauseTimeoutRef = useRef(null);
+
+  const updateRoseHighlights = useCallback(() => {
+    if (roseAudioRef1.current && !roseAudioRef1.current.paused) {
+      const t = roseAudioRef1.current.currentTime;
+      const segments = specimenRoseNarrationData.part1.segments;
+      let currentTargets = [];
+      const spoken = new Set();
+      for (const seg of segments) {
+        if (t >= seg.start && t < seg.end) {
+          currentTargets = seg.targets;
+        } else if (t >= seg.end) {
+          seg.targets.forEach(tgt => spoken.add(tgt));
+        }
+      }
+      setActiveRoseHighlightTargets(currentTargets);
+      setSpokenRoseHighlightTargets(spoken);
+    } else if (roseAudioRef2.current && !roseAudioRef2.current.paused) {
+      const t = roseAudioRef2.current.currentTime;
+      const segments = specimenRoseNarrationData.part2.segments;
+      let currentTargets = [];
+      const spoken = new Set([
+        'rose_title', 'rose_description', 'flower_pin', 'card1_title', 'card1_desc', 'card1_check',
+        'stem_pin', 'card2_title', 'card2_desc', 'card2_check', 'leaves_pin', 'card3_title',
+        'card3_desc', 'card3_check', 'question'
+      ]);
+      for (const seg of segments) {
+        if (t >= seg.start && t < seg.end) {
+          currentTargets = seg.targets;
+        } else if (t >= seg.end) {
+          seg.targets.forEach(tgt => spoken.add(tgt));
+        }
+      }
+      setActiveRoseHighlightTargets(currentTargets);
+      setSpokenRoseHighlightTargets(spoken);
+    }
+  }, []);
+
+  const startRoseSyncLoop = useCallback(() => {
+    if (roseRafRef.current) cancelAnimationFrame(roseRafRef.current);
+    const tick = () => {
+      updateRoseHighlights();
+      if ((roseAudioRef1.current && !roseAudioRef1.current.paused) ||
+          (roseAudioRef2.current && !roseAudioRef2.current.paused)) {
+        roseRafRef.current = requestAnimationFrame(tick);
+      }
+    };
+    roseRafRef.current = requestAnimationFrame(tick);
+  }, [updateRoseHighlights]);
+
+  const stopAllRoseAudio = () => {
+    if (roseAudioRef1.current) {
+      roseAudioRef1.current.pause();
+    }
+    if (roseAudioRef2.current) {
+      roseAudioRef2.current.pause();
+    }
+    if (roseRafRef.current) {
+      cancelAnimationFrame(roseRafRef.current);
+      roseRafRef.current = null;
+    }
+    if (rosePauseTimeoutRef.current) {
+      clearTimeout(rosePauseTimeoutRef.current);
+      rosePauseTimeoutRef.current = null;
+    }
+    setIsPlayingRoseNarration(false);
+  };
+
+  const startRosePart1 = (resetTime = true) => {
+    if (roseAudioRef2.current) {
+      roseAudioRef2.current.pause();
+    }
+    if (rosePauseTimeoutRef.current) {
+      clearTimeout(rosePauseTimeoutRef.current);
+      rosePauseTimeoutRef.current = null;
+    }
+    if (!roseAudioRef1.current) return;
+    if (resetTime) {
+      roseAudioRef1.current.currentTime = 0;
+      setSpokenRoseHighlightTargets(new Set());
+    }
+    setRoseNarrationStep('part1');
+    setIsPlayingRoseNarration(true);
+    const p = roseAudioRef1.current.play();
+    if (p !== undefined) {
+      p.then(() => {
+        startRoseSyncLoop();
+      }).catch((err) => {
+        if (err.name !== 'AbortError') {
+          console.warn('Audio play caught in rose part1:', err);
+        }
+        setIsPlayingRoseNarration(false);
+      });
+    }
+  };
+
+  const startRosePart2 = (resetTime = true) => {
+    if (roseAudioRef1.current) {
+      roseAudioRef1.current.pause();
+    }
+    if (rosePauseTimeoutRef.current) {
+      clearTimeout(rosePauseTimeoutRef.current);
+      rosePauseTimeoutRef.current = null;
+    }
+    if (!roseAudioRef2.current) return;
+    if (resetTime) {
+      roseAudioRef2.current.currentTime = 0;
+    }
+    setRoseNarrationStep('part2');
+    setIsPlayingRoseNarration(true);
+    const p = roseAudioRef2.current.play();
+    if (p !== undefined) {
+      p.then(() => {
+        startRoseSyncLoop();
+      }).catch((err) => {
+        if (err.name !== 'AbortError') {
+          console.warn('Audio play caught in rose part2:', err);
+        }
+        setIsPlayingRoseNarration(false);
+      });
+    }
+  };
+
+  const handleToggleRoseNarration = () => {
+    playTone('click');
+    if (isPlayingRoseNarration) {
+      stopAllRoseAudio();
+    } else {
+      if (roseNarrationStep === 'part2') {
+        startRosePart2(false);
+      } else if (roseNarrationStep === 'completed') {
+        startRosePart1(true);
+      } else {
+        const shouldReset = !roseAudioRef1.current || roseAudioRef1.current.currentTime === 0;
+        startRosePart1(shouldReset);
+      }
+    }
+  };
+
+  // Rose audio setup and tick listener
+  useEffect(() => {
+    const audio1 = new Audio(specimenRoseAudio);
+    const audio2 = new Audio(specimenRoseAfterPauseAudio);
+    roseAudioRef1.current = audio1;
+    roseAudioRef2.current = audio2;
+
+    const handleTimeUpdate = () => {
+      updateRoseHighlights();
+    };
+
+    const handleEnded1 = () => {
+      setActiveRoseHighlightTargets([]);
+      setRoseNarrationStep('pause');
+      rosePauseTimeoutRef.current = setTimeout(() => {
+        startRosePart2(true);
+      }, 2200);
+    };
+
+    const handleEnded2 = () => {
+      setActiveRoseHighlightTargets([]);
+      setRoseNarrationStep('completed');
+      setIsPlayingRoseNarration(false);
+    };
+
+    audio1.addEventListener('timeupdate', handleTimeUpdate);
+    audio2.addEventListener('timeupdate', handleTimeUpdate);
+    audio1.addEventListener('ended', handleEnded1);
+    audio2.addEventListener('ended', handleEnded2);
+
+    return () => {
+      audio1.pause();
+      audio2.pause();
+      audio1.removeEventListener('timeupdate', handleTimeUpdate);
+      audio2.removeEventListener('timeupdate', handleTimeUpdate);
+      audio1.removeEventListener('ended', handleEnded1);
+      audio2.removeEventListener('ended', handleEnded2);
+      if (roseRafRef.current) cancelAnimationFrame(roseRafRef.current);
+      if (rosePauseTimeoutRef.current) clearTimeout(rosePauseTimeoutRef.current);
+    };
+  }, [updateRoseHighlights]);
+
+  // Manage autoplay and specimen change for Rose
+  useEffect(() => {
+    if (phase === 'specimens' && currentSpecimenIndex === 1) {
+      const tid = setTimeout(() => {
+        if (roseAudioRef1.current && roseAudioRef1.current.paused) {
+          startRosePart1(true);
+        }
+      }, 300);
+      return () => {
+        clearTimeout(tid);
+        stopAllRoseAudio();
+      };
+    } else {
+      stopAllRoseAudio();
+      setActiveRoseHighlightTargets([]);
+      setSpokenRoseHighlightTargets(new Set());
+      setRoseNarrationStep('idle');
+    }
+  }, [phase, currentSpecimenIndex]);
+
   // Carousel navigation
   const handleSpecimenNav = (dir) => {
     playTone('click');
+    stopAllMangoAudio();
+    stopAllRoseAudio();
     let nextIdx = currentSpecimenIndex + dir;
     if (nextIdx < 0) nextIdx = SPECIMEN_SLIDES.length - 1;
     if (nextIdx >= SPECIMEN_SLIDES.length) nextIdx = 0;
@@ -591,6 +1035,8 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
 
   const selectSpecimen = (idx) => {
     playTone('click');
+    stopAllMangoAudio();
+    stopAllRoseAudio();
     setCurrentSpecimenIndex(idx);
   };
 
@@ -787,6 +1233,158 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
                 />
               );
             })}
+
+            {/* Clickable Hotspot for Tree Group on Mango Slide to trigger Part 2 or instant feedback */}
+            {currentSpecimenIndex === 0 && (
+              <div
+                onClick={() => {
+                  playTone('success');
+                  confetti({ particleCount: 50, spread: 60, origin: { x: 0.86, y: 0.68 } });
+                  startPart2(true);
+                }}
+                style={{
+                  position: 'absolute',
+                  left: '85.1%',
+                  top: '58.7%',
+                  width: '11.7%',
+                  height: '21.1%',
+                  cursor: 'pointer',
+                  borderRadius: '16px',
+                  zIndex: 46
+                }}
+                title="Select Tree (Correct group!)"
+              />
+            )}
+
+            {/* Mango Specimen Word & Evidence Highlighting Overlay */}
+            {currentSpecimenIndex === 0 && (
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                pointerEvents: 'none',
+                zIndex: 42
+              }}>
+                {Object.entries(specimenMangoNarrationData.targets).map(([key, box]) => {
+                  const isActive = activeHighlightTargets.includes(key);
+                  const isSpoken = spokenHighlightTargets.has(key);
+                  const isCard = key.startsWith('group_') || key.startsWith('badge_');
+                  const isTree = key === 'group_tree' || key === 'tree_correct';
+
+                  return (
+                    <div
+                      key={key}
+                      style={{
+                        position: 'absolute',
+                        left: `${box.left}%`,
+                        top: `${box.top}%`,
+                        width: `${box.width}%`,
+                        height: `${box.height}%`,
+                        borderRadius: `${box.radius || 6}px`,
+                        opacity: isActive ? 1 : (isSpoken ? (isCard ? 0.25 : 0.35) : 0),
+                        background: isActive
+                          ? (isTree && mangoNarrationStep === 'part2'
+                              ? 'rgba(52, 211, 153, 0.38)'
+                              : (isCard ? 'rgba(251, 191, 36, 0.28)' : 'rgba(253, 224, 71, 0.42)'))
+                          : (isSpoken ? (isTree ? 'rgba(167, 243, 208, 0.22)' : 'rgba(254, 240, 138, 0.22)') : 'transparent'),
+                        border: isActive
+                          ? (isTree && mangoNarrationStep === 'part2'
+                              ? '3px solid #10B981'
+                              : (isCard ? '3px solid #F59E0B' : '2px solid #F59E0B'))
+                          : (isSpoken ? '1.5px solid rgba(245, 158, 11, 0.4)' : 'none'),
+                        boxShadow: isActive
+                          ? (isTree && mangoNarrationStep === 'part2'
+                              ? '0 0 25px rgba(16, 185, 129, 0.85), inset 0 0 12px rgba(167, 243, 208, 0.5)'
+                              : (isCard
+                                  ? '0 0 25px rgba(245, 158, 11, 0.8), inset 0 0 14px rgba(254, 240, 138, 0.45)'
+                                  : '0 0 18px rgba(245, 158, 11, 0.75), inset 0 0 8px rgba(254, 240, 138, 0.45)'))
+                          : 'none',
+                        transform: isActive ? (isCard ? 'scale(1.025)' : 'scale(1.02)') : 'scale(1)',
+                        transition: 'all 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
+                        pointerEvents: 'none'
+                      }}
+                    />
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Clickable Hotspot for Shrub Group on Rose Slide to trigger Part 2 or instant feedback */}
+            {currentSpecimenIndex === 1 && (
+              <div
+                onClick={() => {
+                  playTone('success');
+                  confetti({ particleCount: 50, spread: 60, origin: { x: 0.78, y: 0.68 } });
+                  startRosePart2(true);
+                }}
+                style={{
+                  position: 'absolute',
+                  left: '72.7%',
+                  top: '53.0%',
+                  width: '11.5%',
+                  height: '22.5%',
+                  cursor: 'pointer',
+                  borderRadius: '14px',
+                  zIndex: 46
+                }}
+                title="Select Shrub (Correct group!)"
+              />
+            )}
+
+            {/* Rose Specimen Region Highlighting Overlay (image is a flat baked graphic, so highlighting is done via region boxes rather than word-level DOM text) */}
+            {currentSpecimenIndex === 1 && (
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                pointerEvents: 'none',
+                zIndex: 42
+              }}>
+                {Object.entries(specimenRoseNarrationData.targets).map(([key, box]) => {
+                  const isActive = activeRoseHighlightTargets.includes(key);
+                  const isSpoken = spokenRoseHighlightTargets.has(key);
+                  const isCard = key.startsWith('group_') || key === 'shrub_correct';
+                  const isShrub = key === 'group_shrub' || key === 'shrub_correct';
+
+                  return (
+                    <div
+                      key={key}
+                      style={{
+                        position: 'absolute',
+                        left: `${box.left}%`,
+                        top: `${box.top}%`,
+                        width: `${box.width}%`,
+                        height: `${box.height}%`,
+                        borderRadius: `${box.radius || 6}px`,
+                        opacity: isActive ? 1 : (isSpoken ? (isCard ? 0.25 : 0.35) : 0),
+                        background: isActive
+                          ? (isShrub && roseNarrationStep === 'part2'
+                              ? 'rgba(52, 211, 153, 0.38)'
+                              : (isCard ? 'rgba(251, 191, 36, 0.28)' : 'rgba(253, 224, 71, 0.42)'))
+                          : (isSpoken ? (isShrub ? 'rgba(167, 243, 208, 0.22)' : 'rgba(254, 240, 138, 0.22)') : 'transparent'),
+                        border: isActive
+                          ? (isShrub && roseNarrationStep === 'part2'
+                              ? '3px solid #10B981'
+                              : (isCard ? '3px solid #F59E0B' : '2px solid #F59E0B'))
+                          : (isSpoken ? '1.5px solid rgba(245, 158, 11, 0.4)' : 'none'),
+                        boxShadow: isActive
+                          ? (isShrub && roseNarrationStep === 'part2'
+                              ? '0 0 25px rgba(16, 185, 129, 0.85), inset 0 0 12px rgba(167, 243, 208, 0.5)'
+                              : (isCard
+                                  ? '0 0 25px rgba(245, 158, 11, 0.8), inset 0 0 14px rgba(254, 240, 138, 0.45)'
+                                  : '0 0 18px rgba(245, 158, 11, 0.75), inset 0 0 8px rgba(254, 240, 138, 0.45)'))
+                          : 'none',
+                        transform: isActive ? (isCard ? 'scale(1.025)' : 'scale(1.02)') : 'scale(1)',
+                        transition: 'all 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
+                        pointerEvents: 'none'
+                      }}
+                    />
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {/* Floating Bottom Left Control: Back */}
@@ -865,6 +1463,84 @@ export default function InlineSortingActivity({ onBackToDashboard, onNextActivit
               <>Continue to Act 2.4 Detective <ArrowRight size={20} /></>
             )}
           </button>
+
+          {/* Floating Top Right Control: Mango Narration */}
+          {currentSpecimenIndex === 0 && (
+            <button
+              type="button"
+              onClick={handleToggleMangoNarration}
+              title="Play / Pause Mango Specimen Narration"
+              style={{
+                position: 'absolute',
+                top: '20px',
+                right: '24px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: isPlayingMangoNarration
+                  ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.95) 0%, rgba(217, 119, 6, 0.95) 100%)'
+                  : 'rgba(255, 255, 255, 0.92)',
+                border: isPlayingMangoNarration ? '2px solid #FDE047' : '2px solid #CBD5E1',
+                borderRadius: '26px',
+                padding: '10px 22px',
+                fontSize: '17px',
+                fontWeight: 800,
+                fontFamily: '"Outfit", sans-serif',
+                color: isPlayingMangoNarration ? '#FFFFFF' : '#1E293B',
+                cursor: 'pointer',
+                boxShadow: isPlayingMangoNarration
+                  ? '0 0 22px rgba(245, 158, 11, 0.65), 0 4px 14px rgba(0,0,0,0.3)'
+                  : '0 6px 20px rgba(0,0,0,0.25)',
+                backdropFilter: 'blur(4px)',
+                zIndex: 50,
+                transition: 'all 0.18s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            >
+              {isPlayingMangoNarration ? <Pause size={18} fill="#FFFFFF" /> : <Volume2 size={18} />}
+              <span>{isPlayingMangoNarration ? 'Pause' : (mangoNarrationStep === 'completed' ? 'Replay' : 'Narration')}</span>
+            </button>
+          )}
+
+          {/* Floating Top Right Control: Rose Narration */}
+          {currentSpecimenIndex === 1 && (
+            <button
+              type="button"
+              onClick={handleToggleRoseNarration}
+              title="Play / Pause Rose Specimen Narration"
+              style={{
+                position: 'absolute',
+                top: '20px',
+                right: '24px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: isPlayingRoseNarration
+                  ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.95) 0%, rgba(217, 119, 6, 0.95) 100%)'
+                  : 'rgba(255, 255, 255, 0.92)',
+                border: isPlayingRoseNarration ? '2px solid #FDE047' : '2px solid #CBD5E1',
+                borderRadius: '26px',
+                padding: '10px 22px',
+                fontSize: '17px',
+                fontWeight: 800,
+                fontFamily: '"Outfit", sans-serif',
+                color: isPlayingRoseNarration ? '#FFFFFF' : '#1E293B',
+                cursor: 'pointer',
+                boxShadow: isPlayingRoseNarration
+                  ? '0 0 22px rgba(245, 158, 11, 0.65), 0 4px 14px rgba(0,0,0,0.3)'
+                  : '0 6px 20px rgba(0,0,0,0.25)',
+                backdropFilter: 'blur(4px)',
+                zIndex: 50,
+                transition: 'all 0.18s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            >
+              {isPlayingRoseNarration ? <Pause size={18} fill="#FFFFFF" /> : <Volume2 size={18} />}
+              <span>{isPlayingRoseNarration ? 'Pause' : (roseNarrationStep === 'completed' ? 'Replay' : 'Narration')}</span>
+            </button>
+          )}
         </div>
       )}
 

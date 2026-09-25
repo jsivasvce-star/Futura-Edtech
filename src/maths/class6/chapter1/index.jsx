@@ -4,8 +4,7 @@ import WhatMaths from './WhatMaths';
 import PatternsEverywhere from './PatternsEverywhere';
 import ManActivity from './ManActivity';
 import PatternMachines from './PatternMachines';
-import PatternsInNumbers from './PatternsInNumbers';
-import NumberSequencesTable from './NumberSequencesTable';
+import PatternsInNumbersExplore from '../chapter1_journey/components/PatternsInNumbersExplore';
 import VisualisingSequences from './VisualisingSequences';
 import RelationsAmongSequences from './RelationsAmongSequences';
 import { Canvas } from '@react-three/fiber';
@@ -423,10 +422,14 @@ export default function Class6MathsChapter1({ onBackToDashboard }) {
             {subStep === 4 && <PatternMachines onNext={handleSubNext} onPrev={handleSubPrev} />}
           </>
         ) : currentStep === 2 ? (
-          <>
-            {subStep === 1 && <PatternsInNumbers onNext={() => setSubStep(2)} />}
-            {subStep === 2 && <NumberSequencesTable onNext={() => { setCurrentStep(3); setSubStep(1); }} />}
-          </>
+          <ErrorBoundary>
+            <Suspense fallback={null}>
+              <PatternsInNumbersExplore
+                onClose={() => setCurrentStep(1)}
+                onCompleteNode={() => { setCurrentStep(3); setSubStep(1); }}
+              />
+            </Suspense>
+          </ErrorBoundary>
         ) : currentStep === 3 ? (
           <VisualisingSequences onNext={() => { setCurrentStep(4); setSubStep(1); }} />
         ) : currentStep === 4 ? (
