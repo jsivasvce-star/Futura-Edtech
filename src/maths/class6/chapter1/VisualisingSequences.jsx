@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ChevronRight, ChevronLeft, Play, RotateCcw, Check, ArrowRight, Maximize } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RealisticCube3D from './RealisticCube3D';
+import video36dots from '../36dots.mp4';
 
 // ==========================================
 // CONFETTI BURST
@@ -76,12 +77,12 @@ const SVGDefs = () => (
 const BoxVisualizer = ({ step, playStep, numPictures, questionPic, renderShapes, bottomValues, connectorLabel, connectorColor, showHint, extraControls, hideArrows }) => {
   return (
     <div style={{position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-      {extraControls && <div style={{position: 'absolute', top: -30, zIndex: 10}}>{extraControls}</div>}
-      <svg viewBox="0 0 1100 300" className="seq-svg">
+      {extraControls && <div style={{position: 'absolute', top: -10, zIndex: 10}}>{extraControls}</div>}
+      <svg viewBox="0 0 1350 350" className="seq-svg">
       <SVGDefs />
       {[1, 2, 3, 4, 5, 6].map((pic, i) => {
         if (pic > numPictures) return null;
-        const x = i * 170 + 120;
+        const x = i * 220 + 130;
         const isFocus = playStep >= i;
         const targetPic = questionPic || numPictures;
         const isUnknown = pic === targetPic && step !== 3;
@@ -107,24 +108,24 @@ const BoxVisualizer = ({ step, playStep, numPictures, questionPic, renderShapes,
         else if(connectorColor==="#fb7185") arrowhead = "arrowhead-red";
 
         return (
-          <g key={pic} transform={`translate(${x}, 140)`}>
-            <text x="0" y="-100" fill={titleColor} fontSize="16" textAnchor="middle" fontWeight="bold" letterSpacing="1" style={{transition: 'fill 0.4s ease'}}>PICTURE {pic}</text>
-            <rect x="-70" y="-70" width="140" height="140" rx="16" fill={boxFill} stroke={boxStroke} strokeWidth="2" strokeDasharray={boxDash} style={{transition: 'all 0.4s ease'}} />
+          <g key={pic} transform={`translate(${x}, 170)`}>
+            <text x="0" y="-120" fill={titleColor} fontSize="16" textAnchor="middle" fontWeight="bold" letterSpacing="1" style={{transition: 'fill 0.4s ease'}}>PICTURE {pic}</text>
+            <rect x="-90" y="-90" width="180" height="180" rx="20" fill={boxFill} stroke={boxStroke} strokeWidth="2" strokeDasharray={boxDash} style={{transition: 'all 0.4s ease'}} />
             
             <g style={{opacity: (isFocus || isUnknown) ? 1 : 0, transition: 'opacity 0.4s ease-in-out'}}>
               {isUnknown ? (
-                <text x="0" y="15" fill="#334155" fontSize="64" textAnchor="middle" fontWeight="800">?</text>
+                <text x="0" y="15" fill="#334155" fontSize="80" textAnchor="middle" fontWeight="800">?</text>
               ) : (
                 renderShapes(pic, i, isFocus)
               )}
 
-              <text x="0" y="110" fill={isUnknown ? "#334155" : "#4ade80"} fontSize="40" textAnchor="middle" fontWeight="800">{isUnknown ? "?" : bottomValues[i]}</text>
+              <text x="0" y="140" fill={isUnknown ? "#334155" : "#4ade80"} fontSize="50" textAnchor="middle" fontWeight="800">{isUnknown ? "?" : bottomValues[i]}</text>
             </g>
             
             {i > 0 && isFocus && !hideArrows && (
               <motion.g initial={{opacity:0, x:-20}} animate={{opacity:1, x:0}} transition={{delay:0.3}}>
-                <path d="M -100 -20 Q -85 -40 -70 -20" fill="none" stroke={connectorColor} strokeWidth="2" />
-                <text x="-85" y="-35" fill={connectorColor} fontSize="18" textAnchor="middle" fontWeight="bold" style={{opacity: showHint || step === 3 ? 1 : 0, transition: "opacity 0.4s ease"}}>{connectorLabel(i, pic)}</text>
+                <path d="M -130 -20 Q -110 -45 -90 -20" fill="none" stroke={connectorColor} strokeWidth="2" />
+                <text x="-110" y="-45" fill={connectorColor} fontSize="22" textAnchor="middle" fontWeight="bold" style={{opacity: showHint || step === 3 ? 1 : 0, transition: "opacity 0.4s ease"}}>{connectorLabel(i, pic)}</text>
               </motion.g>
             )}
           </g>
@@ -138,39 +139,46 @@ const BoxVisualizer = ({ step, playStep, numPictures, questionPic, renderShapes,
 // --- Custom Visualizers ---
 const VisualizerAll1s = ({ step, playStep, showHint }) => (
   <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={6} connectorLabel={()=>"same"} connectorColor="#3b82f6" bottomValues={['1','1','1','1','1','1']}
-    renderShapes={(pic) => <motion.rect initial={{scale:0}} animate={{scale:1}} x="-17" y="-17" width="34" height="34" rx="8" fill="#3b82f6" />} />
+    renderShapes={(pic) => <motion.rect initial={{scale:0}} animate={{scale:1}} x="-24" y="-24" width="48" height="48" rx="12" fill="#3b82f6" />} />
 );
 const VisualizerCounting = ({ step, playStep, showHint }) => (
   <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={6} connectorLabel={()=>"+1"} connectorColor="#fbbf24" bottomValues={['1','2','3','4','5','6']}
     renderShapes={(pic) => {
-      const bs = 18, g = 6, w = pic*bs + (pic-1)*g;
+      const bs = 24, g = 8, w = pic*bs + (pic-1)*g;
       let sx = -w/2 + bs/2;
       return <g>{Array.from({length:pic}).map((_, j) => (
-        <motion.rect key={j} initial={{scale:0}} animate={{scale:1}} transition={{delay: j*0.05}} x={sx + j*(bs+g) - bs/2} y="-6" width={bs} height={bs} rx="2" fill={(j===pic-1 && pic>1) ? "#fbbf24" : "#4ade80"} />
+        <motion.rect key={j} initial={{scale:0}} animate={{scale:1}} transition={{delay: j*0.05}} x={sx + j*(bs+g) - bs/2} y="-12" width={bs} height={bs} rx="2" fill={(j===pic-1 && pic>1) ? "#fbbf24" : "#4ade80"} />
       ))}</g>;
     }} />
 );
 const VisualizerOdd = ({ step, playStep, showHint }) => (
   <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={6} connectorLabel={()=>"+2"} connectorColor="#fbbf24" bottomValues={['1','3','5','7','9','11']}
     renderShapes={(pic) => {
-      const bs = 16, g = 5;
+      const bs = 22, g = 7;
       const bRow = pic, tRow = pic-1;
       const bw = bRow*bs + (bRow-1)*g;
       const tw = tRow*bs + (tRow-1)*g;
+      const totalH = tRow > 0 ? (bs * 2 + g) : bs;
+      const startY = -totalH / 2;
+      const botY = tRow > 0 ? startY + bs + g : startY;
+      const topY = startY;
       return <g>
-        {Array.from({length:bRow}).map((_, j) => <motion.rect key={`b${j}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: j*0.05}} x={-bw/2 + bs/2 + j*(bs+g) - bs/2} y="3" width={bs} height={bs} rx="4" fill={(j===bRow-1 && pic>1) ? "#fbbf24" : "#f59e0b"} />)}
-        {Array.from({length:tRow}).map((_, j) => <motion.rect key={`t${j}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: j*0.05+0.1}} x={-tw/2 + bs/2 + j*(bs+g) - bs/2} y="-18" width={bs} height={bs} rx="4" fill={(j===tRow-1 && pic>1) ? "#fbbf24" : "#f59e0b"} />)}
+        {Array.from({length:bRow}).map((_, j) => <motion.rect key={`b${j}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: j*0.05}} x={-bw/2 + bs/2 + j*(bs+g) - bs/2} y={botY} width={bs} height={bs} rx="4" fill={(j===bRow-1 && pic>1) ? "#fbbf24" : "#f59e0b"} />)}
+        {Array.from({length:tRow}).map((_, j) => <motion.rect key={`t${j}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: j*0.05+0.1}} x={-tw/2 + bs/2 + j*(bs+g) - bs/2} y={topY} width={bs} height={bs} rx="4" fill={(j===tRow-1 && pic>1) ? "#fbbf24" : "#f59e0b"} />)}
       </g>;
     }} />
 );
 const VisualizerEven = ({ step, playStep, showHint }) => (
   <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={6} connectorLabel={()=>"+2"} connectorColor="#a78bfa" bottomValues={['2','4','6','8','10','12']}
     renderShapes={(pic) => {
-      const bs = 16, g = 5;
+      const bs = 22, g = 7;
       const w = pic*bs + (pic-1)*g;
+      const totalH = bs * 2 + g;
+      const topY = -totalH / 2;
+      const botY = topY + bs + g;
       return <g>
-        {Array.from({length:pic}).map((_, j) => <motion.rect key={`b${j}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: j*0.05}} x={-w/2 + bs/2 + j*(bs+g) - bs/2} y="3" width={bs} height={bs} rx="4" fill={(j===pic-1 && pic>1) ? "#c084fc" : "#9333ea"} />)}
-        {Array.from({length:pic}).map((_, j) => <motion.rect key={`t${j}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: j*0.05+0.1}} x={-w/2 + bs/2 + j*(bs+g) - bs/2} y="-18" width={bs} height={bs} rx="4" fill={(j===pic-1 && pic>1) ? "#c084fc" : "#9333ea"} />)}
+        {Array.from({length:pic}).map((_, j) => <motion.rect key={`b${j}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: j*0.05}} x={-w/2 + bs/2 + j*(bs+g) - bs/2} y={botY} width={bs} height={bs} rx="4" fill={(j===pic-1 && pic>1) ? "#c084fc" : "#9333ea"} />)}
+        {Array.from({length:pic}).map((_, j) => <motion.rect key={`t${j}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: j*0.05+0.1}} x={-w/2 + bs/2 + j*(bs+g) - bs/2} y={topY} width={bs} height={bs} rx="4" fill={(j===pic-1 && pic>1) ? "#c084fc" : "#9333ea"} />)}
       </g>;
     }} />
 );
@@ -181,7 +189,7 @@ const VisualizerTriangular = ({ step, playStep, showHint }) => (
       for (let r=0; r<pic; r++) {
         for (let c=0; c<=r; c++) {
           const isNew = r === pic-1 && pic>1;
-          dots.push(<motion.circle key={`${r}-${c}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: r*0.05}} cx={(c - r/2)*18} cy={(r - pic/2)*18 + 8} r="6.5" fill={isNew ? "#fbcfe8" : "#db2777"} />);
+          dots.push(<motion.circle key={`${r}-${c}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: r*0.05}} cx={(c - r/2)*24} cy={(r - pic/2)*24 + 10} r="9" fill={isNew ? "#fbcfe8" : "#db2777"} />);
         }
       }
       return <g>{dots}</g>;
@@ -194,7 +202,7 @@ const VisualizerSquare = ({ step, playStep, showHint }) => (
       for (let r=0; r<pic; r++) {
         for (let c=0; c<pic; c++) {
           const isNew = (r===pic-1 || c===pic-1) && pic>1;
-          dots.push(<motion.rect key={`${r}-${c}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: (r+c)*0.03}} x={(c - pic/2)*16} y={(r - pic/2)*16} width="13" height="13" rx="4" fill={isNew ? "#bae6fd" : "#0284c7"} />);
+          dots.push(<motion.rect key={`${r}-${c}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: (r+c)*0.03}} x={(c - pic/2)*22} y={(r - pic/2)*22} width="18" height="18" rx="6" fill={isNew ? "#bae6fd" : "#0284c7"} />);
         }
       }
       return <g>{dots}</g>;
@@ -214,7 +222,7 @@ const VisualizerCube = ({ step, playStep, showHint }) => {
     <BoxVisualizer step={step} playStep={playStep} showHint={showHint} hideArrows={true} extraControls={toggleControls} numPictures={6} questionPic={4} connectorLabel={(i,pic)=>`+${pic*pic*pic - (pic-1)*(pic-1)*(pic-1)}`} connectorColor="#fb7185" bottomValues={['1','8','27','64','125','216']}
       renderShapes={(pic, i, isFocus) => {
         const layers = [];
-        const sizes = [0, 26, 18, 14, 11.5, 10, 8.5];
+        const sizes = [0, 36, 25, 20, 16, 14, 12];
         const S = sizes[pic];
         const dx = S * Math.sqrt(3) / 2;
         const dy = S / 2;
@@ -268,7 +276,7 @@ const VisualizerHexagonal = ({ step, playStep, showHint }) => (
   <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={5} connectorLabel={(i,pic)=>`+${(pic-1)*6}`} connectorColor="#fbbf24" bottomValues={['1','7','19','37','61']}
     renderShapes={(pic) => {
       const dots = [];
-      const S = 14.5; // Spacing factor
+      const S = 20; // Spacing factor
       const v = [
         {x: 1, y: 0},
         {x: 0.5, y: Math.sqrt(3)/2},
@@ -277,14 +285,14 @@ const VisualizerHexagonal = ({ step, playStep, showHint }) => (
         {x: -0.5, y: -Math.sqrt(3)/2},
         {x: 0.5, y: -Math.sqrt(3)/2}
       ];
-      dots.push(<motion.circle key="c" initial={{scale:0}} animate={{scale:1}} cx="0" cy="0" r="5" fill="#eab308" />);
+      dots.push(<motion.circle key="c" initial={{scale:0}} animate={{scale:1}} cx="0" cy="0" r="7" fill="#eab308" />);
       for (let r=1; r<pic; r++) {
         for (let k=0; k<6; k++) {
           for (let j=0; j<r; j++) {
             const px = r * v[k].x + j * (v[(k+1)%6].x - v[k].x);
             const py = r * v[k].y + j * (v[(k+1)%6].y - v[k].y);
             const isNew = r === pic-1 && pic>1;
-            dots.push(<motion.circle key={`r${r}-k${k}-j${j}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: r*0.1}} cx={px*S} cy={py*S} r="4" fill={isNew ? "#fef08a" : "#ca8a04"} />);
+            dots.push(<motion.circle key={`r${r}-k${k}-j${j}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: r*0.1}} cx={px*S} cy={py*S} r="5.5" fill={isNew ? "#fef08a" : "#ca8a04"} />);
           }
         }
       }
@@ -296,7 +304,7 @@ const VisualizerPow2 = ({ step, playStep, showHint }) => (
     renderShapes={(pic, i, isFocus) => {
       if (pic === 1) {
         const animState = isFocus ? {opacity:1, scale:1} : {opacity:0, scale:0.5};
-        return <motion.circle initial={false} animate={animState} transition={{type: 'spring'}} cx="0" cy="0" r="8.5" fill="#1d4ed8" />;
+        return <motion.circle initial={false} animate={animState} transition={{type: 'spring'}} cx="0" cy="0" r="12" fill="#1d4ed8" />;
       }
       
       const n = Math.pow(2, pic - 2);
@@ -309,8 +317,8 @@ const VisualizerPow2 = ({ step, playStep, showHint }) => (
         rows = cols * 2;
       }
       
-      const S = 17;
-      const gap = 22;
+      const S = 24;
+      const gap = 30;
       const offset = ((cols - 1) * S) / 2 + gap / 2;
       
       const leftDots = [];
@@ -321,8 +329,8 @@ const VisualizerPow2 = ({ step, playStep, showHint }) => (
           const y = (r - rows / 2 + 0.5) * S;
           const lx = -offset + (c - cols / 2 + 0.5) * S;
           const rx = offset + (c - cols / 2 + 0.5) * S;
-          leftDots.push(<circle key={`l-${r}-${c}`} cx={lx} cy={y} r="7" fill="#1d4ed8" />);
-          rightDots.push(<circle key={`r-${r}-${c}`} cx={rx} cy={y} r="7" fill="#60a5fa" />);
+          leftDots.push(<circle key={`l-${r}-${c}`} cx={lx} cy={y} r="9.5" fill="#1d4ed8" />);
+          rightDots.push(<circle key={`r-${r}-${c}`} cx={rx} cy={y} r="9.5" fill="#60a5fa" />);
         }
       }
       
@@ -342,11 +350,11 @@ const VisualizerPow2 = ({ step, playStep, showHint }) => (
     }} />
 );
 const VisualizerPow3 = ({ step, playStep, showHint }) => (
-  <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={5} connectorLabel={()=>`x3`} connectorColor="#4ade80" bottomValues={['1','3','9','27','81']}
+  <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={5} questionPic={4} connectorLabel={()=>`x3`} connectorColor="#4ade80" bottomValues={['1','3','9','27','81']}
     renderShapes={(pic, i, isFocus) => {
       if (pic === 1) {
         const animState = isFocus ? {opacity:1, scale:1} : {opacity:0, scale:0.5};
-        return <motion.circle initial={false} animate={animState} transition={{type: 'spring'}} cx="0" cy="0" r="8" fill="#15803d" />;
+        return <motion.circle initial={false} animate={animState} transition={{type: 'spring'}} cx="0" cy="0" r="9.5" fill="#15803d" />;
       }
       
       const n = Math.pow(3, pic - 2);
@@ -359,8 +367,8 @@ const VisualizerPow3 = ({ step, playStep, showHint }) => (
         rows = cols * 3;
       }
       
-      const S = 14;
-      const gap = 20;
+      const S = 16;
+      const gap = 24;
       const groupWidth = (cols - 1) * S;
       const offset = groupWidth + gap;
       
@@ -372,9 +380,9 @@ const VisualizerPow3 = ({ step, playStep, showHint }) => (
         for (let c = 0; c < cols; c++) {
           const y = (r - rows / 2 + 0.5) * S;
           const xBase = (c - cols / 2 + 0.5) * S;
-          leftDots.push(<circle key={`l-${r}-${c}`} cx={xBase - offset} cy={y} r="6" fill="#15803d" />);
-          midDots.push(<circle key={`m-${r}-${c}`} cx={xBase} cy={y} r="6" fill="#4ade80" />);
-          rightDots.push(<circle key={`r-${r}-${c}`} cx={xBase + offset} cy={y} r="6" fill="#4ade80" />);
+          leftDots.push(<circle key={`l-${r}-${c}`} cx={xBase - offset} cy={y} r="7" fill="#15803d" />);
+          midDots.push(<circle key={`m-${r}-${c}`} cx={xBase} cy={y} r="7" fill="#4ade80" />);
+          rightDots.push(<circle key={`r-${r}-${c}`} cx={xBase + offset} cy={y} r="7" fill="#4ade80" />);
         }
       }
       
@@ -395,6 +403,90 @@ const VisualizerPow3 = ({ step, playStep, showHint }) => (
     }} />
 );
 
+const Visualizer36Dots = ({ step, playStep, showHint }) => {
+  const [shape, setShape] = useState('triangle');
+
+  const getMorphPositions = (sh) => {
+    let raw = [];
+    if (sh === 'triangle') {
+      for (let r = 1; r <= 8; r++) {
+        for (let j = 0; j < r; j++) {
+          raw.push({ x: j - (r - 1) / 2, y: (r - 1) * 0.86 });
+        }
+      }
+    } else {
+      const rows = sh === 'square' ? 6 : 4;
+      const cols = sh === 'square' ? 6 : 9;
+      for (let r = 0; r < rows; r++) {
+        for (let j = 0; j < cols; j++) {
+          raw.push({ x: j, y: r });
+        }
+      }
+    }
+    const xs = raw.map(p => p.x), ys = raw.map(p => p.y);
+    const xmin = Math.min(...xs), xmax = Math.max(...xs);
+    const ymin = Math.min(...ys), ymax = Math.max(...ys);
+    const unit = Math.min(35, 310 / (xmax - xmin || 1), 205 / (ymax - ymin || 1));
+    return raw.map(p => ({
+      x: 500 + (p.x - (xmin + xmax) / 2) * unit,
+      y: 190 + (p.y - (ymin + ymax) / 2) * unit
+    }));
+  };
+
+  const dest = getMorphPositions(shape);
+  const palette = ['#a855f7', '#2dd4bf', '#f472b6', '#facc15', '#60a5fa', '#a3e635', '#d946ef', '#5eead4'];
+  const source = [];
+  let idx = 0;
+  for (let r = 0; r < 8; r++) {
+    for (let j = 0; j <= r; j++) {
+      source.push({ id: idx, color: palette[r] });
+      idx++;
+    }
+  }
+
+  return (
+    <div style={{position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <div style={{position: 'absolute', top: 10, zIndex: 10, display: 'flex', gap: '16px'}}>
+        <button onClick={() => setShape('triangle')} style={{ padding: '8px 24px', background: shape === 'triangle' ? 'rgba(244,114,182,0.15)' : 'transparent', border: shape === 'triangle' ? '1px solid #f472b6' : '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: shape === 'triangle' ? '#f472b6' : '#94a3b8', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '700', fontSize: '16px', transition: '0.2s' }}>
+          <span>△</span> Triangle
+        </button>
+        <button onClick={() => setShape('square')} style={{ padding: '8px 24px', background: shape === 'square' ? 'rgba(56,189,248,0.15)' : 'transparent', border: shape === 'square' ? '1px solid #38bdf8' : '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: shape === 'square' ? '#38bdf8' : '#94a3b8', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '700', fontSize: '16px', transition: '0.2s' }}>
+          <span>□</span> Square
+        </button>
+        <button onClick={() => setShape('rectangle')} style={{ padding: '8px 24px', background: shape === 'rectangle' ? 'rgba(74,222,128,0.15)' : 'transparent', border: shape === 'rectangle' ? '1px solid #4ade80' : '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: shape === 'rectangle' ? '#4ade80' : '#94a3b8', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '700', fontSize: '16px', transition: '0.2s' }}>
+          <span>▭</span> Rectangle
+        </button>
+      </div>
+
+      <svg viewBox="0 0 1350 350" className="seq-svg">
+        <g>
+          {source.map((dot, i) => (
+            <motion.g
+              key={dot.id}
+              initial={false}
+              animate={{ x: dest[i].x, y: dest[i].y }}
+              transition={{ type: 'spring', stiffness: 90, damping: 14, delay: i * 0.015 }}
+            >
+              <circle r="9.5" fill={dot.color} />
+              <circle cx="-2.8" cy="-2.8" r="2" fill="#fff" opacity="0.5" />
+            </motion.g>
+          ))}
+        </g>
+        
+        <g transform="translate(850, 190)">
+          <text x="0" y="-80" fill="#94a3b8" fontSize="16" fontWeight="800" letterSpacing="2">SAME DOTS</text>
+          <text x="0" y="10" fill="#f472b6" fontSize="100" fontWeight="800">{36}</text>
+          <text x="0" y="60" fill="#e2e8f0" fontSize="24" fontWeight="600">
+            {shape === 'triangle' ? '1 + 2 + ... + 8' : (shape === 'square' ? '6 x 6 = 36' : '4 x 9 = 36')}
+          </text>
+          <text x="0" y="100" fill="#64748b" fontSize="16">No dots added.</text>
+          <text x="0" y="125" fill="#64748b" fontSize="16">None removed.</text>
+        </g>
+      </svg>
+    </div>
+  );
+};
+
 // ==========================================
 // DATA
 // ==========================================
@@ -408,11 +500,12 @@ const CONCEPTS = [
   { id: 7, title: 'Cube numbers', subtitle: 'Rows, columns... and one more dimension.', watchDesc: 'Each colour is a layer. Separate the layers to look inside.', watchAnswer: 'A cube of side n contains n layers, each with n x n unit cubes.', question: 'How many unit cubes belong in picture 4?', seqList: '1, 8, 27, ?, 125, 216', options: [36, 64, 125], correctOption: 64, discoveredTitle: 'Four square layers stack into a cube of 64 unit cubes.', discoveredDesc: '4 x 4 x 4 = 64.', nextTitle: 'Hexagonal numbers', Visualizer: VisualizerCube },
   { id: 8, title: 'Hexagonal numbers', subtitle: 'A centre dot. Rings with six sides.', watchDesc: 'Follow each new ring around the centre dot.', watchAnswer: 'The rings add 6, 12, 18, then 24 dots.', question: 'How many dots belong in picture 5?', seqList: '1, 7, 19, 37, ?', options: [55, 60, 61], correctOption: 61, discoveredTitle: 'Six more dots in every new ring. The next total is 61.', discoveredDesc: 'Start with one centre dot. Successive rings contain 6, 12, 18, and 24 dots.', nextTitle: 'Powers of 2', Visualizer: VisualizerHexagonal },
   { id: 9, title: 'Powers of 2', subtitle: 'Make two copies of the whole picture.', watchDesc: 'Each new picture contains two equal copies of the previous picture.', watchAnswer: 'Double the whole amount.', question: 'How many dots belong in picture 5?', seqList: '1, 2, 4, 8, ?', options: [16, 10, 12], correctOption: 16, discoveredTitle: 'Eight dots in each copy. Sixteen in both copies.', discoveredDesc: 'The number of dots doubles: 1, 2, 4, 8, 16... Two equal groups of 8 contain 16 dots.', nextTitle: 'Powers of 3', Visualizer: VisualizerPow2 },
-  { id: 10, title: 'Powers of 3', subtitle: 'Make three copies. Watch it multiply.', watchDesc: 'Each new picture contains three equal copies of the previous picture.', watchAnswer: 'Triple the whole amount.', question: 'How many dots belong in picture 5?', seqList: '1, 3, 9, 27, ?', options: [54, 81, 30], correctOption: 81, discoveredTitle: 'Three groups of 27 make 81 dots.', discoveredDesc: 'The total triples each time: 1, 3, 9, 27, 81... Three equal groups of 27 contain 81 dots.', nextTitle: 'Finish', Visualizer: VisualizerPow3 }
+  { id: 10, title: 'Powers of 3', subtitle: 'Make three copies. Watch it multiply.', watchDesc: 'Each new picture contains three equal copies of the previous picture.', watchAnswer: 'Triple the whole amount.', question: 'How many dots belong in picture 5?', seqList: '1, 3, 9, 27, ?', options: [54, 81, 30], correctOption: 81, discoveredTitle: 'Three groups of 27 make 81 dots.', discoveredDesc: 'The total triples each time: 1, 3, 9, 27, 81... Three equal groups of 27 contain 81 dots.', nextTitle: 'The same 36 dots', Visualizer: VisualizerPow3 },
+  { id: 11, title: 'The same 36 dots', subtitle: 'Change the shape. Keep every dot.', watchDesc: 'The colours travel with the dots. The total stays the same.', watchAnswer: 'No dots are added or removed during the move.', question: 'What stays the same when the triangle becomes a square?', seqList: 'Count the dots in either shape.', options: [30, 36, 42], correctOption: 36, discoveredTitle: 'The same 36 dots fit into a triangle and a square.', discoveredDesc: 'The triangle has 8 growing rows: 1 + 2 + ... + 8 = 36. The square has 6 equal rows: 6 x 6 = 36.', nextTitle: 'Finish', Visualizer: Visualizer36Dots }
 ];
 
 export default function VisualisingSequences({ onNext }) {
-  const [conceptIdx, setConceptIdx] = useState(1); 
+  const [conceptIdx, setConceptIdx] = useState(0); 
   const [tab, setTab] = useState('watch');
   const [step, setStep] = useState(1); 
   const [playStep, setPlayStep] = useState(0); 
@@ -510,8 +603,6 @@ export default function VisualisingSequences({ onNext }) {
               <h1 className="concept-title">{concept.title}</h1>
               <h2 className="concept-subtitle">{concept.subtitle}</h2>
             </div>
-            
-            <div className="badge-plus-one">+1</div>
           </div>
 
           {/* Glass Card Body */}
@@ -634,12 +725,6 @@ export default function VisualisingSequences({ onNext }) {
         .concept-meta { font-size: 18px; color: #cbd5e1; letter-spacing: 1px; font-weight: 800; margin-bottom: 8px; }
         .concept-title { font-size: 48px; font-weight: 800; margin: 0 0 4px 0; color: #ffffff; letter-spacing: -0.5px; text-shadow: 0 2px 12px rgba(0,0,0,0.5); }
         .concept-subtitle { font-size: 22px; font-weight: 500; margin: 0; color: #cbd5e1; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
-        
-        .badge-plus-one {
-          background: rgba(16, 35, 30, 0.6); backdrop-filter: blur(10px);
-          border: 1px solid rgba(74, 222, 128, 0.3); color: #4ade80;
-          font-size: 40px; font-weight: 800; padding: 12px 24px; border-radius: 20px;
-        }
 
         .glass-card-body {
           background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(24px);

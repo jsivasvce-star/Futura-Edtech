@@ -1,1010 +1,631 @@
-import React, { useState } from 'react';
-import { ChevronRight, ChevronLeft } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ChevronRight, ChevronLeft, Play, RotateCcw, Check, ArrowRight, Maximize } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import RealisticCube3D from './RealisticCube3D';
+import video36dots from '../36dots.mp4';
 
-// --- Step 1: Adding Odd Numbers ---
-const AddingOddNumbers = () => {
-  const [currentLevel, setCurrentLevel] = useState(0); // 0 to 5
-  const maxLevels = 5;
-
-  const equations = [
-    { text: "1", result: "1", color: "#ef4444" },
-    { text: "1 + 3", result: "4", color: "#f97316" },
-    { text: "1 + 3 + 5", result: "9", color: "#f59e0b" },
-    { text: "1 + 3 + 5 + 7", result: "16", color: "#84cc16" },
-    { text: "1 + 3 + 5 + 7 + 9", result: "25", color: "#06b6d4" },
-    { text: "1 + 3 + 5 + 7 + 9 + 11", result: "36", color: "#3b82f6" }
-  ];
-
-  const handleNext = () => {
-    if (currentLevel < maxLevels) setCurrentLevel(prev => prev + 1);
-  };
-
-  const handleReset = () => {
-    setCurrentLevel(0);
-  };
-
-  return (
-    <div style={{ display: 'flex', gap: '40px', height: '100%' }}>
-      {/* Left Panel: Math */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <h3 style={{ fontSize: '24px', color: '#f8fafc', marginBottom: '16px' }}>Adding up Odd Numbers</h3>
-        <p style={{ color: '#94a3b8', fontSize: '16px', lineHeight: 1.6, marginBottom: '32px' }}>
-          What happens when we start adding up consecutive odd numbers? Let&apos;s build the sequence step-by-step.
-        </p>
-
-        <table style={{ borderCollapse: 'collapse', borderSpacing: 0, minHeight: '300px', width: '100%' }}>
-          <tbody>
-            {equations.map((eq, i) => (
-              <tr key={i} style={{
-                opacity: i <= currentLevel ? 1 : 0.2,
-                transform: i <= currentLevel ? 'translateX(0)' : 'translateX(-20px)',
-                transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                fontSize: '20px',
-                fontFamily: 'monospace',
-                fontWeight: 'bold',
-              }}>
-                <td style={{ color: '#cbd5e1', textAlign: 'left', whiteSpace: 'nowrap', width: '250px', padding: '8px 0' }}>{eq.text}</td>
-                <td style={{ color: '#94a3b8', textAlign: 'center', width: '30px', padding: '8px 0' }}>=</td>
-                <td style={{ color: eq.color, fontSize: '28px', textAlign: 'left', width: '50px', padding: '8px 0' }}>{eq.result}</td>
-                <td style={{ color: '#64748b', fontSize: '16px', textAlign: 'left', width: '60px', padding: '8px 0' }}>
-                  {i <= currentLevel && <span className="anim-fade">({i + 1}²)</span>}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <div style={{ display: 'flex', gap: '16px', marginTop: 'auto' }}>
-          <button
-            onClick={handleReset}
-            disabled={currentLevel === 0}
-            style={{
-              padding: '12px 24px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)',
-              background: 'transparent', color: '#f8fafc', cursor: currentLevel === 0 ? 'not-allowed' : 'pointer',
-              fontWeight: 'bold', opacity: currentLevel === 0 ? 0.5 : 1
-            }}
-          >
-            Reset
-          </button>
-          <button
-            onClick={handleNext}
-            disabled={currentLevel === maxLevels}
-            style={{
-              padding: '12px 24px', borderRadius: '12px', border: 'none',
-              background: currentLevel === maxLevels ? 'rgba(34, 197, 94, 0.5)' : '#3b82f6', 
-              color: '#fff', cursor: currentLevel === maxLevels ? 'default' : 'pointer',
-              fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px',
-              transition: 'all 0.3s'
-            }}
-          >
-            {currentLevel === maxLevels ? 'Sequence Complete' : 'Add Next Odd Number'}
-          </button>
-        </div>
-      </div>
-
-      {/* Right Panel: Visualization */}
-      <div style={{ flex: 1, background: '#111827', borderRadius: '24px', border: '1px solid rgba(255, 255, 255, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
-        <svg viewBox="0 0 400 400" style={{ width: '100%', height: '100%', maxHeight: '400px' }}>
-          <g transform="translate(82, 82)">
-            {[0, 1, 2, 3, 4, 5].map((layer) => (
-              <g key={layer} style={{ opacity: layer <= currentLevel ? 1 : 0, transition: 'opacity 0.3s' }}>
-                {[...Array(layer * 2 + 1)].map((_, j) => {
-                  const isTop = j <= layer;
-                  const x = isTop ? j : layer;
-                  const y = isTop ? layer : layer - (j - layer);
-                  return (
-                    <rect 
-                      key={j} 
-                      x={x * 40} 
-                      y={y * 40} 
-                      width="36" 
-                      height="36" 
-                      rx="8" 
-                      fill={equations[layer].color} 
-                      style={{ 
-                        transform: layer <= currentLevel ? 'scale(1)' : 'scale(0)',
-                        transformOrigin: `${x * 40 + 18}px ${y * 40 + 18}px`,
-                        transition: `transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) ${j * 0.05}s`
-                      }} 
-                    />
-                  );
-                })}
-              </g>
-            ))}
-          </g>
-        </svg>
-
-        {currentLevel === maxLevels && (
-          <div className="anim-fade" style={{ position: 'absolute', bottom: '30px', background: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.3)', padding: '12px 24px', borderRadius: '12px', color: '#4ade80', fontWeight: 'bold' }}>
-            Adding odd numbers forms perfect squares!
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-// --- Step 2: Adding Up and Down ---
-const AddingUpAndDown = () => {
-  const [currentLevel, setCurrentLevel] = useState(0); // 0 to 5
-  const maxLevels = 5;
-
-  const equations = [
-    { text: "1", result: "1", activeDots: [0] },
-    { text: "1 + 2 + 1", result: "4", activeDots: [0, 1, 2, 3] },
-    { text: "1 + 2 + 3 + 2 + 1", result: "9", activeDots: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
-    { text: "1 + 2 + 3 + 4 + 3 + 2 + 1", result: "16", activeDots: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] },
-    { text: "1 + 2 + 3 + 4 + 5 + 4 + 3 + 2 + 1", result: "25", activeDots: [...Array(25).keys()] },
-    { text: "1 + 2 + 3 + 4 + 5 + 6 + 5 + 4 + 3 + 2 + 1", result: "36", activeDots: [...Array(36).keys()] }
-  ];
-
-  const handleNext = () => { if (currentLevel < maxLevels) setCurrentLevel(prev => prev + 1); };
-  const handleReset = () => { setCurrentLevel(0); };
-
-  return (
-    <div style={{ display: 'flex', gap: '40px', height: '100%' }}>
-      {/* Left Panel */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <h3 style={{ fontSize: '24px', color: '#f8fafc', marginBottom: '16px' }}>Adding Up and Down</h3>
-        <p style={{ color: '#94a3b8', fontSize: '16px', lineHeight: 1.6, marginBottom: '32px' }}>
-          What if we add counting numbers up, and then down? Notice how they magically form square numbers too!
-        </p>
-
-        <table style={{ borderCollapse: 'collapse', borderSpacing: 0, minHeight: '300px', width: '100%' }}>
-          <tbody>
-            {equations.map((eq, i) => (
-              <tr key={i} style={{
-                opacity: i <= currentLevel ? 1 : 0.2,
-                transform: i <= currentLevel ? 'translateX(0)' : 'translateX(-20px)',
-                transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                fontSize: '18px',
-                fontFamily: 'monospace',
-                fontWeight: 'bold',
-              }}>
-                <td style={{ color: '#cbd5e1', textAlign: 'center', whiteSpace: 'nowrap', width: '400px', padding: '8px 0' }}>{eq.text}</td>
-                <td style={{ color: '#94a3b8', textAlign: 'center', width: '30px', padding: '8px 0' }}>=</td>
-                <td style={{ color: '#a855f7', fontSize: '24px', textAlign: 'left', padding: '8px 0' }}>{eq.result}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <div style={{ display: 'flex', gap: '16px', marginTop: 'auto' }}>
-          <button
-            onClick={handleReset}
-            disabled={currentLevel === 0}
-            style={{
-              padding: '12px 24px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)',
-              background: 'transparent', color: '#f8fafc', cursor: currentLevel === 0 ? 'not-allowed' : 'pointer',
-              fontWeight: 'bold', opacity: currentLevel === 0 ? 0.5 : 1
-            }}
-          >
-            Reset
-          </button>
-          <button
-            onClick={handleNext}
-            disabled={currentLevel === maxLevels}
-            style={{
-              padding: '12px 24px', borderRadius: '12px', border: 'none',
-              background: currentLevel === maxLevels ? 'rgba(168, 85, 247, 0.5)' : '#a855f7', 
-              color: '#fff', cursor: currentLevel === maxLevels ? 'default' : 'pointer',
-              fontWeight: 'bold', transition: 'all 0.3s'
-            }}
-          >
-            {currentLevel === maxLevels ? 'Sequence Complete' : 'Next Step'}
-          </button>
-        </div>
-      </div>
-
-      {/* Right Panel */}
-      <div style={{ flex: 1, background: '#111827', borderRadius: '24px', border: '1px solid rgba(255, 255, 255, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
-        <svg viewBox="0 0 400 400" style={{ width: '100%', height: '100%', maxHeight: '400px' }}>
-          <g transform="translate(60, 60)">
-            {/* Draw a 6x6 grid of dots, slice diagonally */}
-            {[...Array(6)].map((_, row) => (
-              <g key={row}>
-                {[...Array(6)].map((_, col) => {
-                  // Diagonals group dots where row+col = constant
-                  const diagIndex = row + col; 
-                  // For a grid up to currentLevel, max row/col is currentLevel
-                  const isActive = row <= currentLevel && col <= currentLevel;
-                  
-                  // Color gradient across diagonals
-                  const colors = ['#f87171', '#fb923c', '#fbbf24', '#a3e635', '#2dd4bf', '#38bdf8', '#818cf8', '#c084fc', '#f472b6', '#e11d48', '#be123c'];
-                  const color = colors[diagIndex % colors.length];
-
-                  return (
-                    <circle 
-                      key={`${row}-${col}`} 
-                      cx={col * 45} 
-                      cy={row * 45} 
-                      r={isActive ? "16" : "6"} 
-                      fill={isActive ? color : "rgba(255,255,255,0.05)"} 
-                      style={{ 
-                        transition: 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
-                      }} 
-                    />
-                  );
-                })}
-              </g>
-            ))}
-          </g>
-        </svg>
-
-        {currentLevel === maxLevels && (
-          <div className="anim-fade" style={{ position: 'absolute', bottom: '30px', background: 'rgba(168, 85, 247, 0.1)', border: '1px solid rgba(168, 85, 247, 0.3)', padding: '12px 24px', borderRadius: '12px', color: '#c084fc', fontWeight: 'bold' }}>
-            Slicing a square diagonally counts 1, 2, 3... and back down!
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-// --- Step 3: Figure It Out ---
-const FigureItOut = () => {
-  const [activeTab, setActiveTab] = useState(0);
-
-  const tabs = [
-    { title: "1. Triangular to Square", color: "#ec4899" },
-    { title: "2. Powers of 2", color: "#10b981" },
-    { title: "3. Hexagonal to Cube", color: "#fbbf24" }
-  ];
-
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '20px' }}>
-      <h3 style={{ fontSize: '24px', color: '#f8fafc', margin: 0 }}>Figure it Out: Interactive Labs</h3>
+// ==========================================
+// CONFETTI BURST
+// ==========================================
+const Confetti = ({ trigger }) => {
+  const [particles, setParticles] = useState([]);
+  
+  useEffect(() => {
+    if (trigger) {
+      const colors = ['#fde047', '#4ade80', '#60a5fa', '#f472b6', '#a78bfa'];
+      const newParticles = Array.from({ length: 60 }).map((_, i) => ({
+        id: i,
+        x: 0,
+        y: 0,
+        angle: Math.random() * Math.PI * 2,
+        velocity: 50 + Math.random() * 150,
+        rotation: Math.random() * 360,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        size: 4 + Math.random() * 6,
+        shape: Math.random() > 0.5 ? 'circle' : 'square'
+      }));
+      setParticles(newParticles);
       
-      <div style={{ display: 'flex', gap: '12px' }}>
-        {tabs.map((t, i) => (
-          <button
-            key={i}
-            onClick={() => setActiveTab(i)}
-            style={{
-              padding: '12px 24px', borderRadius: '12px', border: `1px solid ${activeTab === i ? t.color : 'rgba(255,255,255,0.1)'}`,
-              background: activeTab === i ? `${t.color}20` : 'rgba(255,255,255,0.02)', 
-              color: activeTab === i ? t.color : '#94a3b8',
-              fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.2s'
-            }}
-          >
-            {t.title}
-          </button>
-        ))}
-      </div>
-
-      <div style={{ flex: 1, background: '#111827', borderRadius: '24px', border: '1px solid rgba(255, 255, 255, 0.05)', position: 'relative', overflow: 'hidden' }}>
-        {activeTab === 0 && <LabTriangular />}
-        {activeTab === 1 && <LabPowers />}
-        {activeTab === 2 && <LabHexagonal />}
-      </div>
-    </div>
-  );
-};
-
-// --- Mini Labs ---
-
-const LabTriangular = () => {
-  const [merged, setMerged] = useState(false);
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '20px', boxSizing: 'border-box' }}>
-      <p style={{ color: '#f8fafc', fontSize: '18px' }}>What happens when you add two consecutive triangular numbers? (e.g. 6 + 10)</p>
-      
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 0 }}>
-        <svg viewBox="0 0 400 200" style={{ width: '100%', maxHeight: '300px' }}>
-          <g transform="translate(100, 150)">
-            {/* Triangle 1 (size 4, 10 dots) */}
-            <g style={{ transform: merged ? 'translate(45px, -30px)' : 'translate(0, 0)', transition: 'transform 1s cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
-              {[0, 1, 2, 3].map(row => (
-                <g key={`t1-${row}`}>
-                  {[...Array(row + 1)].map((_, col) => (
-                    <circle key={col} cx={col * 30 - (row * 15)} cy={-row * 30} r="10" fill="#3b82f6" />
-                  ))}
-                </g>
-              ))}
-            </g>
-
-            {/* Triangle 2 (size 3, 6 dots, inverted) */}
-            <g style={{ transform: merged ? 'translate(45px, -30px)' : 'translate(120px, 0)', transition: 'transform 1s cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
-              {[0, 1, 2].map(row => (
-                <g key={`t2-${row}`}>
-                  {[...Array(3 - row)].map((_, col) => (
-                    <circle key={col} cx={col * 30 - ((2 - row) * 15) + 15} cy={-row * 30 - 30} r="10" fill="#ec4899" />
-                  ))}
-                </g>
-              ))}
-            </g>
-          </g>
-        </svg>
-      </div>
-
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
-        <button onClick={() => setMerged(!merged)} style={{ padding: '12px 32px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '12px', fontWeight: 'bold', cursor: 'pointer', fontSize: '16px' }}>
-          {merged ? 'Separate' : 'Combine Triangles'}
-        </button>
-      </div>
-    </div>
-  );
-};
-
-const LabPowers = () => {
-  const [level, setLevel] = useState(0);
-  const powers = [1, 2, 4, 8, 16];
-  const currentSum = powers.slice(0, level + 1).reduce((a, b) => a + b, 0);
-
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '20px', boxSizing: 'border-box' }}>
-      <p style={{ color: '#f8fafc', fontSize: '18px' }}>What happens when you add up powers of 2? (1 + 2 + 4 + ...)</p>
-      
-      <div style={{ flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: '20px', minHeight: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'flex-end', gap: '4px' }}>
-          {powers.map((p, i) => (
-            <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', justifyContent: 'flex-end' }}>
-              <div style={{ 
-                width: '40px', 
-                height: `${p * 15}px`, 
-                background: i <= level ? '#10b981' : 'rgba(255,255,255,0.05)',
-                borderRadius: '4px 4px 0 0',
-                transition: 'all 0.5s'
-              }} />
-              <div style={{ color: i <= level ? '#10b981' : '#64748b', fontWeight: 'bold' }}>{p}</div>
-            </div>
-          ))}
-          
-          <div style={{ width: '40px', display: 'flex', justifyContent: 'center', fontSize: '24px', color: '#64748b', margin: '0 20px', paddingBottom: '26px' }}>=</div>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', justifyContent: 'flex-end' }}>
-            <div style={{ 
-              width: '40px', 
-              height: `${currentSum * 15}px`, 
-              background: '#f59e0b',
-              borderRadius: '4px 4px 0 0',
-              transition: 'all 0.5s',
-              position: 'relative'
-            }}>
-              {level < 4 && (
-                <div style={{ position: 'absolute', top: '-25px', left: '50%', transform: 'translateX(-50%)', whiteSpace: 'nowrap', textAlign: 'center', color: '#f87171', fontSize: '12px', fontWeight: 'bold' }}>
-                  (-1) from next
-                </div>
-              )}
-            </div>
-            <div style={{ color: '#f59e0b', fontWeight: 'bold' }}>{currentSum}</div>
-          </div>
-        </div>
-      </div>
-
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <button onClick={() => setLevel(prev => (prev + 1) % 5)} style={{ padding: '12px 32px', background: '#10b981', color: 'white', border: 'none', borderRadius: '12px', fontWeight: 'bold', cursor: 'pointer', fontSize: '16px' }}>
-          Add Next Power
-        </button>
-      </div>
-    </div>
-  );
-};
-
-
-const LabHexagonal = () => {
-  const [stage, setStage] = useState('BUILD');
-  const [substep, setSubstep] = useState(0); 
-  const [buildSize, setBuildSize] = useState(1);
-
-  const handleAction = (action) => {
-    if (action === 'BUILD') {
-      if (stage !== 'BUILD') { setStage('BUILD'); setBuildSize(1); setSubstep(0); }
-      else { setBuildSize(sz => Math.min(3, sz + 1)); setSubstep(0); }
-    } else {
-      setStage(action); setBuildSize(3); setSubstep(0);
+      const timer = setTimeout(() => setParticles([]), 2000);
+      return () => clearTimeout(timer);
     }
+  }, [trigger]);
+
+  if (!trigger || particles.length === 0) return null;
+
+  return (
+    <div style={{ position: 'absolute', top: '50%', left: '50%', width: 0, height: 0, zIndex: 100, pointerEvents: 'none' }}>
+      {particles.map(p => (
+        <motion.div
+          key={p.id}
+          initial={{ x: 0, y: 0, scale: 1, rotate: 0, opacity: 1 }}
+          animate={{
+            x: Math.cos(p.angle) * p.velocity * 2,
+            y: Math.sin(p.angle) * p.velocity * 2 + 100,
+            scale: 0,
+            rotate: p.rotation + 360,
+            opacity: 0
+          }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          style={{
+            position: 'absolute',
+            width: p.size,
+            height: p.size,
+            backgroundColor: p.color,
+            borderRadius: p.shape === 'circle' ? '50%' : '2px',
+            boxShadow: `0 0 8px ${p.color}`
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
+
+const SVGDefs = () => (
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#3b82f6" /></marker>
+    <marker id="arrowhead-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4ade80" /></marker>
+    <marker id="arrowhead-yellow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#fbbf24" /></marker>
+    <marker id="arrowhead-purple" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#a78bfa" /></marker>
+    <marker id="arrowhead-pink" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#f472b6" /></marker>
+    <marker id="arrowhead-cyan" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#38bdf8" /></marker>
+    <marker id="arrowhead-red" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#fb7185" /></marker>
+  </defs>
+);
+
+const BoxVisualizer = ({ step, playStep, numPictures, questionPic, renderShapes, bottomValues, connectorLabel, connectorColor, showHint, extraControls, hideArrows, hidePictureText, topLabel }) => {
+  return (
+    <div style={{position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      {extraControls && <div style={{position: 'absolute', top: -10, zIndex: 10}}>{extraControls}</div>}
+      <svg viewBox="0 0 1350 350" className="seq-svg">
+      <SVGDefs />
+      {[1, 2, 3, 4, 5, 6].map((pic, i) => {
+        if (pic > numPictures) return null;
+        const x = i * 220 + 130;
+        const isFocus = playStep >= i;
+        const targetPic = questionPic || numPictures;
+        const isUnknown = pic === targetPic && step !== 3;
+
+        let boxStroke = isFocus ? "#1a362f" : "rgba(255,255,255,0.05)";
+        let boxFill = isFocus ? "rgba(16, 35, 30, 0.4)" : "transparent";
+        let boxDash = "none";
+        let titleColor = isFocus ? "#64748b" : "#334155";
+        
+        if (isUnknown) {
+          boxStroke = "#334155";
+          boxFill = "transparent";
+          boxDash = "8,8";
+          titleColor = "#334155";
+        }
+
+        let arrowhead = "arrowhead";
+        if(connectorColor==="#fbbf24") arrowhead = "arrowhead-yellow";
+        else if(connectorColor==="#4ade80") arrowhead = "arrowhead-green";
+        else if(connectorColor==="#a78bfa") arrowhead = "arrowhead-purple";
+        else if(connectorColor==="#f472b6") arrowhead = "arrowhead-pink";
+        else if(connectorColor==="#38bdf8") arrowhead = "arrowhead-cyan";
+        else if(connectorColor==="#fb7185") arrowhead = "arrowhead-red";
+
+        return (
+          <g key={pic} transform={`translate(${x}, 170)`}>
+            {!hidePictureText && (
+              <text x="0" y="-120" fill={topLabel ? "#e2e8f0" : titleColor} fontSize={topLabel ? "14" : "16"} textAnchor="middle" fontWeight={topLabel ? "600" : "bold"} letterSpacing={topLabel ? "0" : "1"} style={{transition: 'fill 0.4s ease'}}>
+                {topLabel ? topLabel(pic) : `PICTURE ${pic}`}
+              </text>
+            )}
+            <rect x="-90" y="-90" width="180" height="180" rx="20" fill={boxFill} stroke={boxStroke} strokeWidth="2" strokeDasharray={boxDash} style={{transition: 'all 0.4s ease'}} />
+            
+            <g style={{opacity: (isFocus || isUnknown) ? 1 : 0, transition: 'opacity 0.4s ease-in-out'}}>
+              {isUnknown ? (
+                <text x="0" y="15" fill="#334155" fontSize="80" textAnchor="middle" fontWeight="800">?</text>
+              ) : (
+                renderShapes(pic, i, isFocus)
+              )}
+
+              <text x="0" y="140" fill={isUnknown ? "#334155" : "#4ade80"} fontSize="50" textAnchor="middle" fontWeight="800">{isUnknown ? "?" : bottomValues[i]}</text>
+            </g>
+            
+            {i > 0 && isFocus && !hideArrows && (
+              <motion.g initial={{opacity:0, x:-20}} animate={{opacity:1, x:0}} transition={{delay:0.3}}>
+                <path d="M -130 -20 Q -110 -45 -90 -20" fill="none" stroke={connectorColor} strokeWidth="2" />
+                <text x="-110" y="-45" fill={connectorColor} fontSize="22" textAnchor="middle" fontWeight="bold" style={{opacity: showHint || step === 3 ? 1 : 0, transition: "opacity 0.4s ease"}}>{connectorLabel(i, pic)}</text>
+              </motion.g>
+            )}
+          </g>
+        );
+      })}
+    </svg>
+    </div>
+  );
+};
+
+// --- Custom Visualizers for 1.4 ---
+const VisualizerOddSums = ({ step, playStep, showHint }) => (
+  <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={6} connectorLabel={(i,pic)=>`+${2*pic-1}`} connectorColor="#fbbf24" bottomValues={['1','4','9','16','25','36']}
+    renderShapes={(pic) => {
+      const bs = 22;
+      const dots = [];
+      const palette = ['#a855f7', '#2dd4bf', '#f472b6', '#facc15', '#60a5fa', '#a3e635'];
+      for(let r=0; r<pic; r++){
+        for(let c=0; c<pic; c++){
+          const layer = Math.max(r, c);
+          const isNew = layer === pic-1 && pic>1;
+          dots.push(<motion.rect key={`${r}-${c}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: layer*0.1 + (r+c)*0.02}} x={(c - pic/2)*bs} y={(r - pic/2)*bs} width={18} height={18} rx="4" fill={isNew ? "#fde047" : palette[layer]} opacity={isNew ? 1 : 0.8} />);
+        }
+      }
+      return <g>{dots}</g>;
+    }} />
+);
+
+const VisualizerTenOdds = ({ step, playStep, showHint }) => (
+  <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={3} hideArrows={true} hidePictureText={true} connectorLabel={()=>``} connectorColor="#38bdf8" bottomValues={['4','16','100']}
+    renderShapes={(pic) => {
+      const size = pic === 1 ? 2 : pic === 2 ? 4 : 10;
+      const gridSize = 130;
+      const stepSize = gridSize / size;
+      const lines = [];
+      const ox = -50; 
+      const oy = -70;
+      for(let j=1; j<size; j++) {
+        lines.push(<line key={`h${j}`} x1={ox} y1={oy + j*stepSize} x2={ox + gridSize} y2={oy + j*stepSize} stroke="rgba(56,189,248,0.3)" strokeWidth="1" />);
+        lines.push(<line key={`v${j}`} x1={ox + j*stepSize} y1={oy} x2={ox + j*stepSize} y2={oy + gridSize} stroke="rgba(56,189,248,0.3)" strokeWidth="1" />);
+      }
+      return <g>
+        <rect x={ox} y={oy} width={gridSize} height={gridSize} rx="4" fill="transparent" stroke="#38bdf8" strokeWidth="2" />
+        {lines}
+        <text x="0" y="-115" fill="#bae6fd" fontSize="13" fontWeight="700" textAnchor="middle">{size} rows × {size} columns</text>
+        <text x="-75" y="-5" fill="#bae6fd" fontSize="12" fontWeight="700" textAnchor="middle" transform="rotate(-90, -75, -5)">{size} rows</text>
+        <text x="15" y="78" fill="#bae6fd" fontSize="12" fontWeight="700" textAnchor="middle">{size} columns</text>
+      </g>;
+    }} />
+);
+
+const VisualizerHundredOdds = ({ step, playStep, showHint }) => (
+  <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={5} questionPic={5} hideArrows={true} hidePictureText={true} connectorLabel={()=>``} connectorColor="#f472b6" bottomValues={['4','16','25','100','10000']}
+    renderShapes={(pic) => {
+      const size = pic === 1 ? 2 : pic === 2 ? 4 : pic === 3 ? 5 : pic === 4 ? 10 : 100;
+      const gridSize = 130;
+      const stepSize = size <= 10 ? gridSize / size : 0;
+      const lines = [];
+      const ox = -50;
+      const oy = -70;
+      if (size <= 10) {
+        for(let j=1; j<size; j++) {
+          lines.push(<line key={`h${j}`} x1={ox} y1={oy + j*stepSize} x2={ox + gridSize} y2={oy + j*stepSize} stroke="rgba(244,114,182,0.3)" strokeWidth="1" />);
+          lines.push(<line key={`v${j}`} x1={ox + j*stepSize} y1={oy} x2={ox + j*stepSize} y2={oy + gridSize} stroke="rgba(244,114,182,0.3)" strokeWidth="1" />);
+        }
+      } else {
+        for(let j=1; j<10; j++) {
+          lines.push(<line key={`h${j}`} x1={ox} y1={oy + j*(gridSize/10)} x2={ox + gridSize} y2={oy + j*(gridSize/10)} stroke="rgba(244,114,182,0.15)" strokeWidth="1" />);
+          lines.push(<line key={`v${j}`} x1={ox + j*(gridSize/10)} y1={oy} x2={ox + j*(gridSize/10)} y2={oy + gridSize} stroke="rgba(244,114,182,0.15)" strokeWidth="1" />);
+        }
+      }
+      return <g>
+        <rect x={ox} y={oy} width={gridSize} height={gridSize} rx="4" fill="transparent" stroke="#f472b6" strokeWidth="2" strokeDasharray={size === 100 ? "4 4" : "none"} />
+        {lines}
+        <text x="0" y="-115" fill="#fbcfe8" fontSize="13" fontWeight="700" textAnchor="middle">{size} rows × {size} columns</text>
+        <text x="-75" y="-5" fill="#fbcfe8" fontSize="12" fontWeight="700" textAnchor="middle" transform="rotate(-90, -75, -5)">{size} rows</text>
+        <text x="15" y="78" fill="#fbcfe8" fontSize="12" fontWeight="700" textAnchor="middle">{size} columns</text>
+      </g>;
+    }} />
+);
+
+const VisualizerUpAndDown = ({ step, playStep, showHint }) => {
+  const [mode, setMode] = useState('diagonal');
+  
+  const getTopLabel = (pic) => {
+    if (pic === 1) return "1";
+    if (pic === 2) return "1 + 2 + 1";
+    if (pic === 3) return "1 + 2 + 3 + 2 + 1";
+    return `1 + 2 + ... + ${pic} + ... + 1`;
   };
+
+  const controls = (
+    <div style={{display: 'flex', gap: '4px', background: 'rgba(15,23,42,0.6)', padding: '4px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)'}}>
+      <button onClick={() => setMode('square')} style={{padding: '6px 16px', borderRadius: '6px', background: mode === 'square' ? 'rgba(255,255,255,0.15)' : 'transparent', color: mode === 'square' ? '#fff' : '#94a3b8', border: '1px solid rgba(255,255,255,0.1)', cursor: 'pointer', fontSize: '13px', fontWeight: '500'}}>Square grid</button>
+      <button onClick={() => setMode('diagonal')} style={{padding: '6px 16px', borderRadius: '6px', background: mode === 'diagonal' ? 'rgba(255,255,255,0.15)' : 'transparent', color: mode === 'diagonal' ? '#fff' : '#94a3b8', border: '1px solid rgba(255,255,255,0.1)', cursor: 'pointer', fontSize: '13px', fontWeight: '500'}}>Diagonal rows</button>
+    </div>
+  );
+
+  return (
+    <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={6} questionPic={6} hideArrows={true} topLabel={getTopLabel} extraControls={controls} connectorLabel={()=>``} connectorColor="#4ade80" bottomValues={['1','4','9','16','25','36']}
+      renderShapes={(pic) => {
+        const bs = 16;
+        const ds = 12; // diagonal spacing
+        const dots = [];
+        const palette = ['#a855f7', '#2dd4bf', '#f472b6', '#facc15', '#60a5fa', '#a3e635'];
+        for(let r=0; r<pic; r++){
+          for(let c=0; c<pic; c++){
+            const diag = r + c;
+            const layer = Math.max(r, c);
+            
+            let color, xPos, yPos;
+            if (mode === 'diagonal') {
+              color = palette[diag % palette.length];
+              xPos = (c - r) * ds;
+              yPos = (diag - (pic-1)) * ds;
+            } else {
+              color = palette[layer % palette.length];
+              xPos = (c - (pic-1)/2) * bs;
+              yPos = (r - (pic-1)/2) * bs;
+            }
+            
+            dots.push(<motion.rect key={`${r}-${c}`} 
+              initial={{ scale: 0, x: xPos - 6, y: yPos - 6 }}
+              animate={{ scale: 1, x: xPos - 6, y: yPos - 6, fill: color }} 
+              transition={{ 
+                scale: { delay: mode==='diagonal' ? diag*0.05 : layer*0.1, duration: 0.4 },
+                x: { type: "tween", ease: [0.34, 1.56, 0.64, 1], duration: 0.8 },
+                y: { type: "tween", ease: [0.34, 1.56, 0.64, 1], duration: 0.8 },
+                fill: { duration: 0.8 }
+              }}
+              width={12} height={12} rx="6" 
+              opacity={1}
+            />);
+          }
+        }
+        return <g>{dots}</g>;
+      }} />
+  );
+};
+
+const VisualizerUpAndDown100 = ({ step, playStep, showHint }) => (
+  <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={5} questionPic={5} hideArrows={true} hidePictureText={true} connectorLabel={()=>``} connectorColor="#a78bfa" bottomValues={['4','16','25','100','10000']}
+    renderShapes={(pic) => {
+      const size = pic === 1 ? 2 : pic === 2 ? 4 : pic === 3 ? 5 : pic === 4 ? 10 : 100;
+      const gridSize = 130;
+      const stepSize = size <= 10 ? gridSize / size : 0;
+      const lines = [];
+      const ox = -50;
+      const oy = -70;
+      if (size <= 10) {
+        for(let j=1; j<size; j++) {
+          lines.push(<line key={`h${j}`} x1={ox} y1={oy + j*stepSize} x2={ox + gridSize} y2={oy + j*stepSize} stroke="rgba(74,222,128,0.3)" strokeWidth="1" />);
+          lines.push(<line key={`v${j}`} x1={ox + j*stepSize} y1={oy} x2={ox + j*stepSize} y2={oy + gridSize} stroke="rgba(74,222,128,0.3)" strokeWidth="1" />);
+        }
+      } else {
+        for(let j=1; j<10; j++) {
+          lines.push(<line key={`h${j}`} x1={ox} y1={oy + j*(gridSize/10)} x2={ox + gridSize} y2={oy + j*(gridSize/10)} stroke="rgba(74,222,128,0.15)" strokeWidth="1" />);
+          lines.push(<line key={`v${j}`} x1={ox + j*(gridSize/10)} y1={oy} x2={ox + j*(gridSize/10)} y2={oy + gridSize} stroke="rgba(74,222,128,0.15)" strokeWidth="1" />);
+        }
+      }
+      return <g>
+        <rect x={ox} y={oy} width={gridSize} height={gridSize} rx="4" fill="transparent" stroke="#4ade80" strokeWidth="2" strokeDasharray={size === 100 ? "4 4" : "none"} />
+        {lines}
+        <text x="0" y="-115" fill="#e2e8f0" fontSize="13" fontWeight="700" textAnchor="middle">{size} rows × {size} columns</text>
+        <text x="-75" y="-5" fill="#e2e8f0" fontSize="12" fontWeight="700" textAnchor="middle" transform="rotate(-90, -75, -5)">{size} rows</text>
+        <text x="15" y="78" fill="#e2e8f0" fontSize="12" fontWeight="700" textAnchor="middle">{size} columns</text>
+      </g>;
+    }} />
+);
+
+const VisualizerGeneric = ({ step, playStep, showHint }) => (
+  <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={3} connectorLabel={()=>``} connectorColor="#64748b" bottomValues={['?','?','?']}
+    renderShapes={(pic) => (
+      <g>
+        <text x="0" y="10" fill="#94a3b8" fontSize="24" textAnchor="middle">Pattern {pic}</text>
+      </g>
+    )} />
+);
+
+// ==========================================
+// DATA
+// ==========================================
+const CONCEPTS = [
+  { id: 1, title: 'Odd sums make squares', subtitle: 'Each odd number adds an L-shaped border.', watchDesc: 'Watch borders of 1, 3, 5 and 7 dots build larger squares.', watchAnswer: 'Each colour is one odd-number group. Separate the borders to inspect them.', question: 'What is 1 + 3 + 5 + 7 + 9 + 11?', seqList: '1, 4, 9, 16, 25, ?', options: [30, 35, 36], correctOption: 36, discoveredTitle: 'The six odd-number groups fill all 36 places.', discoveredDesc: 'The groups contain 1, 3, 5, 7, 9 and 11 dots. Together they fill a 6 x 6 square.', nextTitle: 'The first 10 odd numbers', Visualizer: VisualizerOddSums },
+  { id: 2, title: 'The first 10 odd numbers', subtitle: 'Imagine a larger version of the square.', watchDesc: 'Squares of side 2, 4 and 10 use the same odd-border rule.', watchAnswer: 'The first 10 odd numbers end at 19. Their 10 borders fill a 10 x 10 square.', question: 'What is 1 + 3 + 5 + ... + 19?', seqList: '4, 16, ?', options: [90, 100, 110], correctOption: 100, discoveredTitle: 'Ten odd-number borders. A hundred dots.', discoveredDesc: 'The first 10 odd numbers make 10 L-shaped borders. They fill a square of side 10, so the sum is 10 x 10 = 100.', nextTitle: 'The first 100 odd numbers', Visualizer: VisualizerTenOdds },
+  { id: 3, title: 'The first 100 odd numbers', subtitle: 'Think of the square without drawing every dot.', watchDesc: 'The first 100 odd numbers end at 199. The 100 x 100 grid is shown schematically.', watchAnswer: '100 rows of 100 columns.', question: 'Why does the same rule work for 100 odd numbers?', seqList: '100, ?', options: [1000, 10000, 20000], correctOption: 10000, discoveredTitle: '100 x 100 = 10,000, without adding a hundred terms one by one.', discoveredDesc: 'The first 100 odd numbers are 1, 3, 5, ..., 199. Their 100 L-shaped borders fill a 100 x 100 square: 10,000 dots.', nextTitle: 'Adding up and down', Visualizer: VisualizerHundredOdds },
+  { id: 4, title: 'Adding up and down', subtitle: 'The same square, counted along its diagonals.', watchDesc: 'Follow diagonals of lengths 1, 2, 3, ..., n, ..., 3, 2, 1.', watchAnswer: 'Switch to Diagonal rows: 1+2+3+4+5+4+3+2+1 = 25.', question: 'What is 1 + 2 + 3 + 4 + 5 + 6 + 5 + 4 + 3 + 2 + 1?', seqList: '1, 4, 9, 16, ?', options: [30, 36, 42], correctOption: 36, discoveredTitle: 'Up to 6 and down to 1 makes 36.', discoveredDesc: 'The diagonal groups fill a 6 x 6 square. Count the peak 6 once.', nextTitle: 'Up to 100 and back', Visualizer: VisualizerUpAndDown },
+  { id: 5, title: 'Up to 100 and back', subtitle: 'The peak is counted once.', watchDesc: 'A peak of 2, 5 or 10 produces the square of that number.', watchAnswer: 'The peak 100 occurs once.', question: 'What is 1 + 2 + ... + 100 + 99 + ... + 2 + 1?', seqList: '4, 25, 100, ?', options: [1000, 10000, 20000], correctOption: 10000, discoveredTitle: 'The total is 10,000. The peak is included only once.', discoveredDesc: 'The diagonals of a 100 x 100 square have lengths 1, 2, ..., 100, ..., 2, 1. They fill 10,000 places. Counting 100 twice would give the wrong sum.', nextTitle: 'Adding 1s to counting', Visualizer: VisualizerUpAndDown100 },
+  { id: 6, title: 'Adding 1s → counting', subtitle: 'One more 1. One more in the total.', watchDesc: 'Add one unit at a time and read the running totals.', watchAnswer: '1; 1+1; 1+1+1... give 1, 2, 3...', question: 'What is the sum of five 1s?', seqList: '1, 2, 3, 4, ?', options: [4, 5, 6], correctOption: 5, discoveredTitle: 'Five 1s give 5. The totals are counting numbers.', discoveredDesc: 'Adding n copies of 1 gives n.', nextTitle: '1s up and down', Visualizer: VisualizerGeneric },
+  { id: 7, title: '1s up and down → odds', subtitle: 'One central 1, with equal wings.', watchDesc: 'At step n, use n ones going up and n - 1 coming down.', watchAnswer: 'Count the peak once: n + (n - 1) = 2n - 1.', question: 'Use five 1s on the way up and four on the way down. Total?', seqList: '1, 3, 5, 7, ?', options: [9, 10, 11], correctOption: 9, discoveredTitle: '5 + 4 = 9. Four pairs and one central unit.', discoveredDesc: 'The peak is included only once. So the totals are 1, 3, 5, 7, 9... each equal to 2n - 1.', nextTitle: 'Counting sums', Visualizer: VisualizerGeneric },
+  { id: 8, title: 'Counting sums → triangles', subtitle: 'Stack the next counting number as a row.', watchDesc: 'A row of 1, then 2, then 3: watch the triangle grow.', watchAnswer: 'The totals 1, 3, 6, 10, 15... are triangular numbers.', question: 'What is 1 + 2 + 3 + 4 + 5 + 6?', seqList: '1, 3, 6, 10, 15, ?', options: [20, 21, 25], correctOption: 21, discoveredTitle: 'The six rows contain 21 dots altogether.', discoveredDesc: 'Rows of 1, 2, 3... n dots form a filled triangle.', nextTitle: 'Two triangles', Visualizer: VisualizerGeneric },
+  { id: 9, title: 'Two triangles → a square', subtitle: 'Fit consecutive triangles together.', watchDesc: 'Separate the two colours. One triangle has one more row.', watchAnswer: '1+3=4; 3+6=9; 6+10=16...', question: 'What is 15 + 21, the next pair of triangular numbers?', seqList: '4, 9, 16, 25, ?', options: [30, 35, 36], correctOption: 36, discoveredTitle: '15 + 21 = 36. The two triangles fill one square.', discoveredDesc: 'Tn + Tn-1 = n^2. One triangle includes the diagonal of the square; the other fills the remaining spaces.', nextTitle: 'Adding powers of 2', Visualizer: VisualizerGeneric },
+  { id: 10, title: 'One short of doubling', subtitle: 'Add powers of 2, then fill the missing place.', watchDesc: 'Coloured groups grow 1, 2, 4, 8... One empty place completes the next power of 2.', watchAnswer: 'The sums are 1, 3, 7, 15, 31... Add 1 to get 2, 4, 8, 16, 32...', question: 'What is 1 + 2 + 4 + 8 + 16, before adding the extra 1?', seqList: '1, 3, 7, 15, ?', options: [31, 32, 30], correctOption: 31, discoveredTitle: 'The sum is 31. One extra unit completes 32.', discoveredDesc: '1+2+...+2^(n-1) = 2^n - 1.', nextTitle: 'Six triangles', Visualizer: VisualizerGeneric },
+  { id: 11, title: 'Six triangles + a centre', subtitle: 'Arrange six triangular groups around one dot.', watchDesc: 'The six colours are equal triangular groups. Keep the centre separate.', watchAnswer: '6x1+1=7; 6x3+1=19; 6x6+1=37...', question: 'If each triangle has 15 dots, what is 6 x 15 + 1?', seqList: '7, 19, 37, 61, ?', options: [90, 91, 96], correctOption: 91, discoveredTitle: 'Six triangles of 15, plus the centre, make 91.', discoveredDesc: 'Six copies of a triangular number plus a centre dot make hexagonal numbers.', nextTitle: 'Hexagonal sums', Visualizer: VisualizerGeneric },
+  { id: 12, title: 'Hexagonal sums → cubes', subtitle: 'A new shell grows the cube by one.', watchDesc: 'Each golden shell joins the smaller blue cube.', watchAnswer: 'The added shells contain 1, 7, 19, 37, 61... unit cubes.', question: 'What is 1 + 7 + 19 + 37 + 61?', seqList: '1, 8, 27, 64, ?', options: [100, 121, 125], correctOption: 125, discoveredTitle: 'Five shells build 5 x 5 x 5 = 125 unit cubes.', discoveredDesc: 'The difference between consecutive cubes is 1, 7, 19, 37, 61...', nextTitle: 'Discover a new relation', Visualizer: VisualizerGeneric },
+  { id: 13, title: 'Discover a new relation', subtitle: 'What hides between two neighbouring squares?', watchDesc: 'Count only the golden border. The blue square is already there.', watchAnswer: '4-1=3; 9-4=5; 16-9=7; 25-16=9...', question: 'How many new dots grow the square from 25 to 36?', seqList: '3, 5, 7, 9, ?', options: [10, 11, 12], correctOption: 11, discoveredTitle: '36 - 25 = 11. The next odd border completes the square.', discoveredDesc: 'n^2 - (n-1)^2 = 2n - 1. The border has n dots on one side and n-1 on the other.', nextTitle: 'Finish', Visualizer: VisualizerGeneric },
+  { id: 14, title: 'Finish', subtitle: 'You have mastered pattern connections!', watchDesc: 'Review all the connections you discovered.', watchAnswer: 'Mathematics is full of surprising links.', question: 'Are you ready to continue your journey?', seqList: 'Done', options: ['Yes', 'No', 'Maybe'], correctOption: 'Yes', discoveredTitle: 'Great job!', discoveredDesc: 'You have completed the relations module.', nextTitle: 'Finish', Visualizer: VisualizerGeneric }
+];
+export default function RelationsAmongSequences({ onNext }) {
+  const [conceptIdx, setConceptIdx] = useState(0); 
+  const [tab, setTab] = useState('watch');
+  const [step, setStep] = useState(1); 
+  const [playStep, setPlayStep] = useState(0); 
+  const [playing, setPlaying] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [showHint, setShowHint] = useState(false);
+
+  const concept = CONCEPTS[conceptIdx];
+  const Visualizer = concept?.Visualizer || VisualizerCounting;
 
   useEffect(() => {
-    let timer;
-    if (stage === 'BUILD') {
-      if (substep === 0 && buildSize > 1) timer = setTimeout(() => setSubstep(1), 1000); 
-    } else if (stage === 'PEEL') {
-      if (substep === 0) timer = setTimeout(() => setSubstep(1), 1200); 
-      if (substep === 1) timer = setTimeout(() => setSubstep(2), 1500); 
-      if (substep === 2) timer = setTimeout(() => setSubstep(3), 1500); 
-    } else if (stage === 'SQUASH') {
-      // Step-by-step choreography
-      if (substep === 0) timer = setTimeout(() => setSubstep(1), 1200); // Isolate shell
-      if (substep === 1) timer = setTimeout(() => setSubstep(2), 1500); // Flatten to plane
-      if (substep === 2) timer = setTimeout(() => setSubstep(3), 1500); // Morph to dots
-      if (substep === 3) timer = setTimeout(() => setSubstep(4), 1800); // Rearrange to hex on right
-      if (substep === 4) timer = setTimeout(() => setSubstep(5), 1000); // Center ring
-      if (substep === 5) timer = setTimeout(() => setSubstep(6), 1000); // Ring 1
-      if (substep === 6) timer = setTimeout(() => setSubstep(7), 1000); // Ring 2 + Total
-    } else if (stage === 'REVEAL') {
-      if (substep === 0) timer = setTimeout(() => setSubstep(1), 1500); 
-      if (substep === 1) timer = setTimeout(() => setSubstep(2), 1500); 
-      if (substep === 2) timer = setTimeout(() => setSubstep(3), 1500); 
+    if (tab === 'watch') {
+      setPlayStep(0);
+      setPlaying(true);
     }
-    return () => clearTimeout(timer);
-  }, [stage, substep, buildSize]);
+  }, [conceptIdx, tab]);
 
-  // INCREASED SCALE MASSIVELY
-  const s = 110; 
-  const gap = 12; // Gap for visible seams
-  const effS = s + gap;
-  
-  const blocks = [];
-  for (let z = 0; z < 3; z++) {
-    for (let y = 0; y < 3; y++) {
-      for (let x = 0; x < 3; x++) {
-        const shell = Math.max(x, y, z) + 1;
-        blocks.push({x, y, z, shell});
-      }
+  useEffect(() => {
+    let int;
+    if (playing) {
+      int = setInterval(() => {
+        setPlayStep(p => {
+          if (p >= 5) { setPlaying(false); return 5; }
+          return p + 1;
+        });
+      }, 1200);
     }
-  }
-  blocks.sort((a, b) => (a.x + a.y + a.z) - (b.x + b.y + b.z));
+    return () => clearInterval(int);
+  }, [playing]);
 
-  const hexCoords = [
-    {q:0,r:0, ring: 0},
-    {q:1,r:0, ring: 1}, {q:1,r:-1, ring: 1}, {q:0,r:-1, ring: 1}, {q:-1,r:0, ring: 1}, {q:-1,r:1, ring: 1}, {q:0,r:1, ring: 1},
-    {q:2,r:0, ring: 2}, {q:2,r:-1, ring: 2}, {q:2,r:-2, ring: 2}, {q:1,r:-2, ring: 2}, {q:0,r:-2, ring: 2}, {q:-1,r:-1, ring: 2}, {q:-2,r:0, ring: 2}, {q:-2,r:1, ring: 2}, {q:-2,r:2, ring: 2}, {q:-1,r:2, ring: 2}, {q:0,r:2, ring: 2}, {q:1,r:1, ring: 2}
-  ];
-  const shell3Blocks = blocks.filter(b => b.shell === 3);
-  const hexMap = new Map();
-  shell3Blocks.forEach((b, i) => hexMap.set(`${b.x}-${b.y}-${b.z}`, hexCoords[i]));
+  const handlePlay = () => { setTab('watch'); setPlayStep(0); setPlaying(true); };
+  const handleReplay = () => { setTab('watch'); setPlayStep(0); setTimeout(() => setPlaying(true), 100); };
+  const handleStep = () => { setPlaying(false); setPlayStep(p => Math.min(p + 1, 5)); };
 
-  const isSquashed = stage === 'SQUASH' || stage === 'REVEAL';
-  const cameraTransform = isSquashed ? 'rotateX(0deg) rotateZ(0deg)' : 'rotateX(12deg) rotateZ(-6deg)';
-
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '24px 32px', boxSizing: 'border-box' }}>
-      
-      {/* Visual Canvas containing 3 Zones */}
-      <div style={{ flex: 1, minHeight: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-        <svg viewBox="0 0 2000 1000" style={{ width: '100%', height: '100%', overflow: 'visible', fontFamily: 'system-ui, sans-serif' }}>
-          
-          <defs>
-            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="16" result="blur" />
-              <feComposite in="SourceGraphic" in2="blur" operator="over" />
-            </filter>
-            <filter id="drop-shadow" x="-30%" y="-30%" width="160%" height="160%">
-              <feDropShadow dx="0" dy="16" stdDeviation="12" floodColor="#000" floodOpacity="0.5" />
-            </filter>
-            <filter id="ao-shadow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="30" result="blur" />
-              <feColorMatrix type="matrix" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.6 0"/>
-            </filter>
-
-            {/* PREMIUM 3D MATERIALS */}
-            {/* CORE BLOCKS (Blue) */}
-            <linearGradient id="core-top" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#3b82f6" />
-              <stop offset="100%" stopColor="#2563eb" />
-            </linearGradient>
-            <linearGradient id="core-left" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#2563eb" />
-              <stop offset="100%" stopColor="#1d4ed8" />
-            </linearGradient>
-            <linearGradient id="core-right" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#1e40af" />
-              <stop offset="100%" stopColor="#1e3a8a" />
-            </linearGradient>
-
-            {/* SHELL BLOCKS (Magenta) */}
-            <linearGradient id="shell-top" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#f472b6" />
-              <stop offset="100%" stopColor="#ec4899" />
-            </linearGradient>
-            <linearGradient id="shell-left" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#ec4899" />
-              <stop offset="100%" stopColor="#db2777" />
-            </linearGradient>
-            <linearGradient id="shell-right" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#be185d" />
-              <stop offset="100%" stopColor="#9f1239" />
-            </linearGradient>
-
-            {/* VOLUMETRIC DOTS */}
-            <radialGradient id="dot-core" cx="30%" cy="30%" r="70%">
-              <stop offset="0%" stopColor="#60a5fa" />
-              <stop offset="100%" stopColor="#2563eb" />
-            </radialGradient>
-            <radialGradient id="dot-shell" cx="30%" cy="30%" r="70%">
-              <stop offset="0%" stopColor="#fbcfe8" />
-              <stop offset="50%" stopColor="#f472b6" />
-              <stop offset="100%" stopColor="#be185d" />
-            </radialGradient>
-            <radialGradient id="dot-off" cx="30%" cy="30%" r="70%">
-              <stop offset="0%" stopColor="#475569" />
-              <stop offset="100%" stopColor="#1e293b" />
-            </radialGradient>
-          </defs>
-
-          {/* ZONE 1: LEFT TEXT */}
-          <g style={{ opacity: stage !== 'REVEAL' ? 1 : 0, transition: 'opacity 0.8s' }}>
-            <text x="400" y="150" fill="#fff" fontSize="48" fontWeight="bold" textAnchor="middle">
-              {stage === 'BUILD' ? 'BUILDING THE CUBE' : (stage === 'PEEL' ? 'EXPLODED VIEW' : '19 SHELL BLOCKS')}
-            </text>
-            
-            {stage === 'BUILD' && (
-              <g style={{ opacity: 1, transition: 'opacity 0.5s' }}>
-                <text x="400" y="850" fill="#94a3b8" fontSize="40" fontWeight="bold" textAnchor="middle">
-                  {buildSize} × {buildSize} × {buildSize}
-                </text>
-                <text x="400" y="910" fill="#fff" fontSize="48" fontWeight="bold" textAnchor="middle">
-                  {buildSize === 1 ? '1³ = 1 BLOCK' : `${buildSize}³ = ${buildSize*buildSize*buildSize} BLOCKS`}
-                </text>
-                <g style={{ opacity: substep >= 1 ? 1 : 0, transition: 'opacity 0.8s' }}>
-                  <text x="400" y="980" fill="#f472b6" fontSize="40" fontWeight="bold" textAnchor="middle">
-                    +{buildSize === 2 ? 7 : (buildSize === 3 ? 19 : 0)} NEW SHELL BLOCKS
-                  </text>
-                </g>
-              </g>
-            )}
-
-            {stage === 'PEEL' && (
-              <g style={{ opacity: 1, transition: 'opacity 0.5s' }}>
-                <text x="400" y="800" fill="#94a3b8" fontSize="40" fontWeight="bold" textAnchor="middle" opacity={substep >= 0 ? 1 : 0.3} style={{transition: 'opacity 0.5s'}}>27 TOTAL BLOCKS</text>
-                <text x="400" y="860" fill="#60a5fa" fontSize="40" fontWeight="bold" textAnchor="middle" opacity={substep >= 1 ? 1 : 0.3} style={{transition: 'opacity 0.5s'}}>− 8 CORE BLOCKS</text>
-                <path d="M 200 900 L 600 900" stroke="rgba(255,255,255,0.2)" strokeWidth="4" />
-                <text x="400" y="960" fill="#f472b6" fontSize="48" fontWeight="bold" textAnchor="middle" opacity={substep >= 2 ? 1 : 0.3} style={{transition: 'opacity 0.5s'}}>19 SHELL BLOCKS</text>
-              </g>
-            )}
-
-            {stage === 'SQUASH' && (
-              <g style={{ opacity: 1, transition: 'opacity 0.5s' }}>
-                <text x="400" y="850" fill="#94a3b8" fontSize="40" fontWeight="bold" textAnchor="middle">Rearrange the shell's blocks</text>
-                <text x="400" y="910" fill="#94a3b8" fontSize="40" fontWeight="bold" textAnchor="middle">into a centered hexagonal pattern.</text>
-              </g>
-            )}
-          </g>
-
-          {/* ZONE 2: CENTER TEXT (TRANSFORMATION) */}
-          <g style={{ opacity: stage === 'SQUASH' ? 1 : 0, transition: 'opacity 0.8s' }}>
-            <text x="1000" y="150" fill="#fff" fontSize="48" fontWeight="bold" textAnchor="middle">TRANSFORMATION</text>
-            <path d="M 600 450 L 1300 450" stroke="#f472b6" strokeWidth="4" strokeDasharray="16 16" opacity="0.4" style={{pointerEvents: 'none'}} />
-            <polygon points="1280,430 1320,450 1280,470" fill="#f472b6" opacity="0.4" />
-          </g>
-
-          {/* ZONE 3: RIGHT TEXT (Hexagon Lattice details) */}
-          <g style={{ opacity: stage === 'SQUASH' ? 1 : 0, transition: 'opacity 0.8s' }}>
-            <text x="1600" y="150" fill="#fff" fontSize="48" fontWeight="bold" textAnchor="middle">MATHEMATICAL LATTICE</text>
-            <g style={{ opacity: substep >= 4 ? 1 : 0, transition: 'opacity 0.8s' }}>
-              <text x="1600" y="780" fill="#60a5fa" fontSize="40" fontWeight="bold" textAnchor="middle">CENTER = 1</text>
-            </g>
-            <g style={{ opacity: substep >= 5 ? 1 : 0, transition: 'opacity 0.8s' }}>
-              <text x="1600" y="840" fill="#c084fc" fontSize="40" fontWeight="bold" textAnchor="middle">+ FIRST RING = 6</text>
-            </g>
-            <g style={{ opacity: substep >= 6 ? 1 : 0, transition: 'opacity 0.8s' }}>
-              <text x="1600" y="900" fill="#f472b6" fontSize="40" fontWeight="bold" textAnchor="middle">+ SECOND RING = 12</text>
-            </g>
-            <g style={{ opacity: substep >= 7 ? 1 : 0, transition: 'opacity 0.8s' }}>
-              <path d="M 1400 930 L 1800 930" stroke="rgba(255,255,255,0.2)" strokeWidth="4" />
-              <text x="1600" y="990" fill="#10b981" fontSize="48" fontWeight="bold" textAnchor="middle">TOTAL = 19 POINTS</text>
-            </g>
-          </g>
-
-          {/* MAIN 3D / 2D GEOMETRY CANVAS */}
-          <g style={{ transformStyle: 'preserve-3d', transform: cameraTransform, transition: 'transform 1.8s cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
-            
-            {/* Soft Ambient Occlusion Ground Shadow */}
-            <g style={{ opacity: stage === 'SQUASH' && substep >= 2 ? 0 : 0.8, transition: 'opacity 1s', transform: 'translate(400px, 680px)' }}>
-               <ellipse cx="0" cy="0" rx="300" ry="120" fill="rgba(0,0,0,0.4)" filter="url(#ao-shadow)" />
-            </g>
-
-            {blocks.map((b) => {
-              let isVisible = true;
-              let is2D = false;
-              let hide3D = false;
-              
-              // Isometric 3D Base (With Gaps)
-              let isoX = (b.x - b.y) * effS;
-              let isoY = ((b.x + b.y) * effS / 2) - (b.z * effS);
-              
-              let cx = 400; 
-              let cy = 500;
-
-              let blockOpacity = 1;
-              let dotOpacity = 0;
-              let dotColor = 'url(#dot-shell)';
-              let materialPrefix = b.shell < 3 ? 'core' : 'shell';
-              
-              // Easing function adjustments for choreography
-              let customTransition = 'all 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
-
-              if (stage === 'BUILD') {
-                if (b.shell > buildSize) {
-                  isVisible = false;
-                  isoX += isoX * 0.5;
-                  isoY -= 600;
-                }
-              }
-              else if (stage === 'PEEL') {
-                if (b.shell === 3 && substep >= 1) {
-                  // Radially explode the shell outward physically further
-                  isoX += isoX * 1.6;
-                  isoY += isoY * 1.6;
-                }
-                if (substep >= 2 && b.shell < 3) blockOpacity = 0.1; // Core is removed/dimmed highly
-              }
-              else if (stage === 'SQUASH') {
-                is2D = true;
-                if (b.shell < 3) {
-                  isVisible = false; // Core vanishes completely
-                } else {
-                  // SQUASH CHOREOGRAPHY
-                  // substep 0: 19 blocks in 3D (exploded)
-                  isoX += isoX * 1.6;
-                  isoY += isoY * 1.6;
-
-                  if (substep >= 1) {
-                    // Flatten to plane (move to center zone, remove vertical depth)
-                    cx = 1000;
-                    cy = 450;
-                    // Reset isoY to remove 3D height, making them flat on the floor
-                    isoY = ((b.x + b.y) * effS / 2);
-                  }
-                  
-                  if (substep >= 2) {
-                    // Morph 3D block to 2D dot
-                    hide3D = true;
-                    dotOpacity = 1;
-                    // Hex coordinate mapping calculates perfect positions
-                    const hc = hexMap.get(`${b.x}-${b.y}-${b.z}`);
-                    const D = 75; // Even larger dots (300px dia)
-                    // Axial to pixel for accurate hexagon
-                    isoX = D * Math.sqrt(3) * (hc.q + hc.r/2);
-                    isoY = D * 3/2 * hc.r;
-                    
-                    // Keep them unlit
-                    dotOpacity = 0.3;
-                    dotColor = 'url(#dot-off)';
-                  }
-                  
-                  if (substep >= 3) {
-                    // Move to Right Zone perfectly rearranged
-                    cx = 1600;
-                  }
-
-                  // Sequence Illuminations
-                  if (substep >= 4) {
-                    const hc = hexMap.get(`${b.x}-${b.y}-${b.z}`);
-                    if (hc.ring <= substep - 4) {
-                      dotOpacity = 1;
-                      dotColor = 'url(#dot-shell)';
-                    }
-                  }
-                }
-              }
-              else if (stage === 'REVEAL') {
-                if (b.shell === 3) isVisible = false; // We draw dedicated 2D shells for REVEAL instead of reusing blocks for clarity
-                else {
-                  cx = 400; 
-                  cy = 400; // Cube sits exactly on the left
-                }
-              }
-
-              if (!isVisible) blockOpacity = 0;
-
-              return (
-                <g key={`${b.x}-${b.y}-${b.z}`} style={{ 
-                  opacity: blockOpacity,
-                  transform: `translate(${cx + isoX}px, ${cy + isoY}px)`, 
-                  transition: `all 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) ${isVisible ? b.shell * 0.05 : 0}s`,
-                  filter: (!is2D && isVisible) ? 'url(#drop-shadow)' : 'none'
-                }}>
-                  {/* PREMIUM 3D BLOCK RENDERING */}
-                  <g style={{ 
-                    transformOrigin: `0px ${s}px`, 
-                    transform: hide3D ? 'scale(0)' : 'scale(1)', 
-                    opacity: hide3D ? 0 : 1, 
-                    transition: customTransition 
-                  }}>
-                    {/* Top Face with White Bevel Highlight */}
-                    <polygon points={`0,0 ${s},${s/2} 0,${s} -${s},${s/2}`} fill={`url(#${materialPrefix}-top)`} stroke="rgba(255,255,255,0.4)" strokeWidth="3" strokeLinejoin="round" />
-                    {/* Right Face (Shadow Side) */}
-                    <polygon points={`0,${s} ${s},${s/2} ${s},${s*1.5} 0,${s*2}`} fill={`url(#${materialPrefix}-right)`} stroke="rgba(0,0,0,0.5)" strokeWidth="2" strokeLinejoin="round" />
-                    {/* Left Face */}
-                    <polygon points={`0,${s} -${s},${s/2} -${s},${s*1.5} 0,${s*2}`} fill={`url(#${materialPrefix}-left)`} stroke="rgba(255,255,255,0.15)" strokeWidth="2" strokeLinejoin="round" />
-                  </g>
-                  
-                  {/* PREMIUM VOLUMETRIC DOT RENDERING */}
-                  <circle 
-                    cx="0" cy={s} r="32" 
-                    fill={dotColor} 
-                    filter={dotOpacity > 0.5 ? "url(#glow)" : "none"}
-                    stroke={dotOpacity > 0.5 ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.2)"}
-                    strokeWidth="3"
-                    style={{ 
-                      transformOrigin: `0px ${s}px`,
-                      transform: hide3D ? 'scale(1)' : 'scale(0)',
-                      opacity: hide3D ? dotOpacity : 0, 
-                      transition: customTransition 
-                    }} 
-                  />
-                </g>
-              );
-            })}
-            
-            {/* Hexagon Outline */}
-            <g transform={`translate(1600, 560)`} style={{ opacity: (stage === 'SQUASH' && substep >= 7) ? 1 : 0, transition: 'opacity 1.2s ease', pointerEvents: 'none' }}>
-              <path d="M 0 -225 L 195 -112 L 195 112 L 0 225 L -195 112 L -195 -112 Z" fill="none" stroke="#f472b6" strokeWidth="6" strokeDasharray="16 16" opacity="0.6" />
-            </g>
-          </g>
-
-          {/* STAGE 4: REVEAL FINAL AHA LAYOUT */}
-          {stage === 'REVEAL' && (
-            <g style={{ opacity: 1, animation: 'fadeIn 1s ease forwards' }}>
-              <text x="400" y="750" fill="#fff" fontSize="48" fontWeight="bold" textAnchor="middle">3 × 3 × 3 CUBE</text>
-              <text x="400" y="820" fill="#38bdf8" fontSize="48" fontWeight="bold" textAnchor="middle">27 BLOCKS = 3³</text>
-              
-              <text x="1350" y="150" fill="#fff" fontSize="48" fontWeight="bold" textAnchor="middle">CENTERED HEXAGONAL SHELLS</text>
-              
-              {/* Shell 1 */}
-              <g transform="translate(1000, 450)">
-                <circle cx="0" cy="0" r="28" fill="url(#dot-core)" filter="url(#glow)" stroke="rgba(255,255,255,0.8)" strokeWidth="3" />
-                <text x="0" y="240" fill="#60a5fa" fontSize="40" fontWeight="bold" textAnchor="middle">1 POINT</text>
-                <g style={{opacity: substep >= 1 ? 1 : 0, transition: 'opacity 0.8s'}}>
-                  <text x="0" y="300" fill="#94a3b8" fontSize="40" textAnchor="middle">↓</text>
-                  <text x="0" y="360" fill="#fff" fontSize="48" fontWeight="bold" textAnchor="middle">1³</text>
-                </g>
-              </g>
-
-              {/* + Signs */}
-              <g style={{opacity: substep >= 2 ? 1 : 0, transition: 'opacity 0.8s'}}>
-                <text x="1175" y="450" fill="#94a3b8" fontSize="80" fontWeight="bold" textAnchor="middle">+</text>
-                <text x="1525" y="450" fill="#94a3b8" fontSize="80" fontWeight="bold" textAnchor="middle">+</text>
-              </g>
-
-              {/* Shell 2 */}
-              <g transform="translate(1350, 450)">
-                <circle cx="0" cy="0" r="28" fill="url(#dot-shell)" filter="url(#glow)" stroke="rgba(255,255,255,0.8)" strokeWidth="3" />
-                {[...Array(6)].map((_, i) => {
-                   const a = i * Math.PI / 3;
-                   return <circle key={i} cx={Math.cos(a)*70} cy={Math.sin(a)*70} r="28" fill="url(#dot-shell)" filter="url(#glow)" stroke="rgba(255,255,255,0.8)" strokeWidth="3" />
-                })}
-                <text x="0" y="240" fill="#f472b6" fontSize="40" fontWeight="bold" textAnchor="middle">7 POINTS</text>
-                <g style={{opacity: substep >= 1 ? 1 : 0, transition: 'opacity 0.8s'}}>
-                  <text x="0" y="300" fill="#94a3b8" fontSize="40" textAnchor="middle">↓</text>
-                  <text x="0" y="360" fill="#fff" fontSize="48" fontWeight="bold" textAnchor="middle">2³</text>
-                </g>
-              </g>
-
-              {/* Shell 3 */}
-              <g transform="translate(1700, 450)">
-                <circle cx="0" cy="0" r="28" fill="url(#dot-shell)" filter="url(#glow)" stroke="rgba(255,255,255,0.8)" strokeWidth="3" />
-                {[...Array(6)].map((_, i) => {
-                   const a = i * Math.PI / 3;
-                   return <circle key={i} cx={Math.cos(a)*70} cy={Math.sin(a)*70} r="28" fill="url(#dot-shell)" filter="url(#glow)" stroke="rgba(255,255,255,0.8)" strokeWidth="3" />
-                })}
-                {[...Array(12)].map((_, i) => {
-                   const a1 = i * Math.PI / 6;
-                   const r = i % 2 === 0 ? 140 : 140 * Math.sqrt(3)/2; 
-                   return <circle key={i} cx={Math.cos(a1)*r} cy={Math.sin(a1)*r} r="28" fill="url(#dot-shell)" filter="url(#glow)" stroke="rgba(255,255,255,0.8)" strokeWidth="3" />
-                })}
-                <text x="0" y="240" fill="#f472b6" fontSize="40" fontWeight="bold" textAnchor="middle">19 POINTS</text>
-                <g style={{opacity: substep >= 1 ? 1 : 0, transition: 'opacity 0.8s'}}>
-                  <text x="0" y="300" fill="#94a3b8" fontSize="40" textAnchor="middle">↓</text>
-                  <text x="0" y="360" fill="#fff" fontSize="48" fontWeight="bold" textAnchor="middle">3³</text>
-                </g>
-              </g>
-              
-              {/* FINAL EQUATION */}
-              <g style={{opacity: substep >= 2 ? 1 : 0, transition: 'opacity 1s'}}>
-                <rect x="850" y="800" width="1000" height="150" rx="30" fill="rgba(16, 185, 129, 0.1)" stroke="rgba(16, 185, 129, 0.4)" strokeWidth="4" />
-                <text x="1350" y="900" fill="#10b981" fontSize="80" fontWeight="bold" textAnchor="middle">1 + 7 + 19 = 27 = 3³</text>
-              </g>
-            </g>
-          )}
-        </svg>
-
-        {/* REVEAL FORMULA PANEL */}
-        {stage === 'REVEAL' && (
-          <div style={{ position: 'absolute', bottom: '40px', left: 0, width: '100%', display: 'flex', justifyContent: 'center', pointerEvents: 'none', zIndex: 20 }}>
-            <div style={{ padding: '24px 48px', background: 'rgba(16, 185, 129, 0.15)', border: '2px solid rgba(16, 185, 129, 0.4)', borderRadius: '24px', backdropFilter: 'blur(12px)', opacity: substep >= 3 ? 1 : 0, transition: 'all 1.5s ease', transform: substep >= 3 ? 'translateY(0)' : 'translateY(30px)' }}>
-              <div style={{ color: '#10b981', fontSize: '24px', marginBottom: '8px', fontWeight: 'bold', letterSpacing: '2px', textAlign: 'center' }}>CENTERED HEXAGONAL NUMBERS</div>
-              <div style={{ color: '#fff', fontSize: '42px', fontFamily: 'monospace', fontWeight: 'bold', textAlign: 'center' }}>
-                n³ − (n−1)³ = <span style={{ color: '#10b981' }}>3n² − 3n + 1</span>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div style={{ flexShrink: 0, display: 'flex', justifyContent: 'center', gap: '24px', flexWrap: 'wrap', marginTop: '32px', paddingTop: '32px', borderTop: '1px solid rgba(255,255,255,0.05)', position: 'relative', zIndex: 100 }}>
-        <button onClick={() => handleAction('BUILD')} style={{ padding: '20px 40px', background: stage === 'BUILD' ? '#3b82f6' : 'rgba(255,255,255,0.05)', color: stage === 'BUILD' ? '#fff' : '#94a3b8', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s', fontSize: '20px' }}>
-          ① BUILD CUBE
-        </button>
-        <button onClick={() => handleAction('PEEL')} style={{ padding: '20px 40px', background: stage === 'PEEL' ? '#ec4899' : 'rgba(255,255,255,0.05)', color: stage === 'PEEL' ? '#fff' : '#94a3b8', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s', fontSize: '20px' }}>
-          ② EXPLODE SHELL
-        </button>
-        <button onClick={() => handleAction('SQUASH')} style={{ padding: '20px 40px', background: stage === 'SQUASH' ? '#a855f7' : 'rgba(255,255,255,0.05)', color: stage === 'SQUASH' ? '#fff' : '#94a3b8', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s', fontSize: '20px' }}>
-          ③ SHELL → HEXAGON
-        </button>
-        <button onClick={() => handleAction('REVEAL')} style={{ padding: '20px 40px', background: stage === 'REVEAL' ? '#10b981' : 'rgba(255,255,255,0.05)', color: stage === 'REVEAL' ? '#fff' : '#94a3b8', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s', fontSize: '20px' }}>
-          ④ REVEAL PATTERN
-        </button>
-      </div>
-    </div>
-  );
-};
-
-const LabBasicSequences = () => {
-  const [level, setLevel] = useState(0);
-  void level; void setLevel;
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '20px', boxSizing: 'border-box' }}>
-      <p style={{ color: '#f8fafc', fontSize: '18px', textAlign: 'center', margin: '0 0 16px 0' }}>
-        Explore how sequences relate to each other through patterns and formulas.
-      </p>
-    </div>
-  );
-};
-
-
-const LabTriangularToHexagonal = () => {
-  const [step, setStep] = useState(0); // 0: 1 Triangle, 1: 6 Triangles, 2: Add Center
-  const n = 3; // T_3 = 6
-  
-  // Base triangle dots in axial hex coordinates (q, r)
-  const baseDots = [];
-  for (let q = 1; q <= n; q++) {
-    for (let r = -(q - 1); r <= 0; r++) {
-      baseDots.push({q, r});
+  const handleOptionClick = (opt) => {
+    setSelectedOption(opt);
+    if (opt === concept.correctOption) {
+      setStep(3);
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 2000);
+    } else {
+      setStep(2);
+      setShowHint(true);
+      setTimeout(() => setStep(1), 500);
     }
-  }
-
-  // Rotate a hex point (q, r) by 60 degrees k times
-  const rot = (q, r, k) => {
-    let cq = q, cr = r;
-    for (let i = 0; i < k; i++) {
-      const nq = -cr;
-      const nr = cq + cr;
-      cq = nq; cr = nr;
-    }
-    return {q: cq, r: cr};
   };
 
-  const D = 28;
-  const toXY = (q, r) => ({
-    x: D * (q + r / 2),
-    y: D * Math.sqrt(3) / 2 * r
-  });
+  const goToNext = () => {
+    if (conceptIdx < CONCEPTS.length - 1) {
+      setConceptIdx(c => c + 1);
+      setTab('watch');
+      setStep(1);
+      setSelectedOption(null);
+      setPlayStep(0);
+      setShowConfetti(false);
+      setShowHint(false);
+    } else {
+      if (onNext) onNext();
+    }
+  };
+  
+  const goToPrev = () => {
+    if (conceptIdx > 0) {
+      setConceptIdx(c => c - 1);
+      setTab('watch');
+      setStep(1);
+      setSelectedOption(null);
+      setPlayStep(0);
+      setShowConfetti(false);
+      setShowHint(false);
+    }
+  };
+
+  if (!concept) return null;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '20px', boxSizing: 'border-box' }}>
-      <p style={{ color: '#f8fafc', fontSize: '18px', textAlign: 'center', margin: '0 0 16px 0' }}>
-        Multiply a <strong>Triangular Number</strong> by 6, then add 1. What shape do you get?
-      </p>
-      
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 0 }}>
-        <svg viewBox="0 0 400 400" style={{ width: '100%', height: '100%', maxHeight: '350px' }}>
-          <g transform="translate(200, 200)">
-            {/* Center dot (added in step 2) */}
-            <circle 
-              cx="0" cy="0" r="10" 
-              fill="#fbbf24" 
-              style={{ transform: step >= 2 ? 'scale(1)' : 'scale(0)', transition: 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)', opacity: step >= 2 ? 1 : 0 }} 
-            />
-            {step >= 2 && <circle cx="0" cy="0" r="16" fill="none" stroke="#fbbf24" strokeWidth="2" className="anim-ping" />}
+    <div className="brilliant-layout">
+      {/* Dynamic Aurora/Space Background */}
+      <div className="bg-image" />
+      <div className="bg-overlay" />
 
-            {/* 6 Triangles */}
-            {[0, 1, 2, 3, 4, 5].map(k => (
-              <g key={`tri-${k}`} style={{ 
-                opacity: (k === 0 || step >= 1) ? 1 : 0, 
-                transform: (k === 0 || step >= 1) ? 'scale(1) rotate(0deg)' : `scale(0.5) rotate(${-k*60}deg)`,
-                transition: `all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) ${k * 0.1}s` 
-              }}>
-                {baseDots.map((dot, i) => {
-                  const rotated = rot(dot.q, dot.r, k);
-                  const {x, y} = toXY(rotated.q, rotated.r);
-                  const colors = ['#c084fc', '#a855f7', '#9333ea', '#7e22ce', '#6b21a8', '#581c87'];
-                  return (
-                    <circle key={i} cx={x} cy={y} r="10" fill={colors[k]} />
-                  );
-                })}
-              </g>
-            ))}
-          </g>
-        </svg>
+
+      {/* Main Content Area (Glass Card) */}
+      <div className="main-wrapper">
+        <Confetti trigger={showConfetti} />
+        
+        <div className="glass-container">
+          {/* Header Area */}
+          <div className="content-header">
+            <div>
+              <div className="concept-meta">
+                VISUAL PATTERNS &nbsp;•&nbsp; <span style={{color: '#4ade80'}}>1.3 &nbsp;•&nbsp; CONCEPT {String(conceptIdx+1).padStart(2, '0')} / 11</span>
+              </div>
+              <h1 className="concept-title">{concept.title}</h1>
+              <h2 className="concept-subtitle">{concept.subtitle}</h2>
+            </div>
+          </div>
+
+          {/* Glass Card Body */}
+          <div className="glass-card-body">
+
+            {/* Visualization Area */}
+            <div className="visualization-area">
+              <Visualizer step={step} playStep={playStep} showHint={showHint} />
+            </div>
+
+            {/* Content Below Visualizer */}
+            <div className="below-visualizer">
+              
+              {tab === 'watch' ? (
+                <div className="find-card-inline">
+                  <motion.div initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} className="checkpoint-container" style={{flexDirection: 'column', textAlign: 'center'}}>
+                    <div className="find-title">WATCH THE PATTERN</div>
+                    <div className="find-question" style={{fontSize: '32px', marginBottom: '8px'}}>What changes from picture to picture?</div>
+                    <div className="watch-desc-inline" style={{marginBottom: '12px', fontSize: '22px'}}>{concept.watchDesc}</div>
+                    <button className="ready-btn" onClick={() => { setTab('find'); setPlayStep(5); }}>I'm ready. Let me try &rarr;</button>
+                  </motion.div>
+                </div>
+              ) : (
+                <>
+                  <div className="watch-desc-inline" style={{textAlign: 'left'}}>
+                    {concept.watchDesc}
+                    <div style={{float: 'right', fontSize: '14px', color: '#64748b'}}>Picture {conceptIdx===7 || conceptIdx===8 || conceptIdx===9 ? '4 of 5' : '5 of 6'}</div>
+                  </div>
+                  
+                  <div className="find-card-inline">
+                    {step === 3 ? (
+                      <motion.div initial={{scale:0.95, opacity:0}} animate={{scale:1, opacity:1}} className="success-inline">
+                         <div className="success-header"><Check size={20} color="#4ade80"/> CONCEPT DISCOVERED</div>
+                         <div className="success-title">{concept.discoveredTitle}</div>
+                         <div className="success-desc">{concept.discoveredDesc}</div>
+                      </motion.div>
+                    ) : (
+                      <motion.div initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} className="checkpoint-container">
+                        <div className="checkpoint-left">
+                          <div className="find-title">LEARNING CHECKPOINT</div>
+                          <div className="find-question">{concept.question}</div>
+                          <div className="find-seq">{concept.seqList}</div>
+                        </div>
+                        <div className="options-row">
+                          {concept.options.map(opt => (
+                            <button 
+                              key={opt} 
+                              className={`option-btn ${selectedOption === opt ? (opt === concept.correctOption ? 'correct' : 'wrong') : ''}`}
+                              onClick={() => handleOptionClick(opt)}
+                            >
+                              {opt}
+                            </button>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </div>
+                </>
+              )}
+              
+
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '16px' }}>
-        <button onClick={() => setStep(0)} style={{ padding: '12px 24px', background: 'transparent', color: '#f8fafc', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '12px', fontWeight: 'bold', cursor: 'pointer' }}>Reset</button>
-        <button onClick={() => setStep(1)} style={{ padding: '12px 24px', background: step >= 1 ? 'rgba(192, 132, 252, 0.5)' : '#c084fc', color: '#fff', border: 'none', borderRadius: '12px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s' }}>Multiply by 6</button>
-        <button onClick={() => setStep(2)} disabled={step < 1} style={{ padding: '12px 24px', background: step >= 2 ? 'rgba(251, 191, 36, 0.5)' : (step < 1 ? 'rgba(255,255,255,0.1)' : '#fbbf24'), color: step < 1 ? 'rgba(255,255,255,0.3)' : '#fff', border: 'none', borderRadius: '12px', fontWeight: 'bold', cursor: step < 1 ? 'not-allowed' : 'pointer', transition: 'all 0.3s' }}>Add 1</button>
+      {/* Bottom Floating Footer */}
+      <div className="bottom-floating-footer">
+        <button className="footer-nav-btn" onClick={goToPrev} style={{visibility: conceptIdx > 0 ? 'visible' : 'hidden'}}>
+          &larr; Previous concept
+        </button>
+        
+        <button className="footer-nav-btn primary" onClick={goToNext}>
+          Next: {concept.nextTitle} &rarr;
+        </button>
       </div>
-    </div>
-  );
-};
 
-export default function RelationsAmongSequences({ onNext }) {
-  const [step, setStep] = useState(1); // 1: Odd, 2: Up/Down, 3-7: Interactive Labs
-  const maxSteps = 7;
-
-  return (
-    <div style={{
-      width: '100%',
-      height: '100%',
-      background: '#0a0f1d',
-      padding: 'clamp(20px, 4vh, 40px)',
-      boxSizing: 'border-box',
-      display: 'flex',
-      flexDirection: 'column',
-      fontFamily: 'system-ui, -apple-system, sans-serif'
-    }}>
       <style>{`
-        .anim-fade {
-          animation: fadeIn 0.5s ease forwards;
+        .brilliant-layout {
+          width: 100%; height: 100vh; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+          display: flex; flex-direction: column; overflow: hidden; position: absolute; inset: 0; z-index: 9999;
+          color: #f8fafc;
         }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
+
+        .bg-image {
+          position: absolute; inset: 0; z-index: -2;
+          background-image: url('https://images.unsplash.com/photo-1532782356570-5b581b0a5196?q=80&w=2560&auto=format&fit=crop'); 
+          background-size: cover; background-position: center;
+        }
+        
+        .bg-overlay {
+          position: absolute; inset: 0; z-index: -1;
+          background: linear-gradient(180deg, rgba(15,23,42,0.4) 0%, rgba(15,23,42,0.8) 100%);
+        }
+
+        .top-nav {
+          display: flex; justify-content: space-between; align-items: center; padding: 0 24px; height: 56px; 
+          background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.05);
+          font-size: 15px; font-weight: 600; color: #94a3b8; flex-shrink: 0; z-index: 10;
+        }
+        .nav-left, .nav-center, .nav-right { display: flex; align-items: center; gap: 16px; }
+        .nav-tab { padding: 6px 12px; border-radius: 6px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; }
+        .nav-tab:hover { background: rgba(255,255,255,0.1); color: #f8fafc; }
+        .nav-tab.active { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+        .progress-badge { background: rgba(255,255,255,0.1); color: #fff; padding: 2px 8px; border-radius: 12px; margin-left: 8px; font-size: 18px; font-weight: 700; }
+        .icon-box { color: #fbbf24; margin-right: 6px; font-size: 16px; }
+        .icon-text { font-family: serif; font-weight: bold; margin-right: 6px; font-size: 18px; }
+        .nav-icon { background: rgba(255,255,255,0.1); padding: 6px; border-radius: 6px; display: flex; cursor: pointer; }
+
+        .main-wrapper {
+          flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative;
+          padding: 16px 40px; padding-bottom: 50px;
+        }
+
+        .glass-container {
+          width: 100%; margin: 0 auto;
+        }
+
+        .content-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; padding: 0 12px; }
+        .concept-meta { font-size: 18px; color: #cbd5e1; letter-spacing: 1px; font-weight: 800; margin-bottom: 8px; }
+        .concept-title { font-size: 48px; font-weight: 800; margin: 0 0 4px 0; color: #ffffff; letter-spacing: -0.5px; text-shadow: 0 2px 12px rgba(0,0,0,0.5); }
+        .concept-subtitle { font-size: 22px; font-weight: 500; margin: 0; color: #cbd5e1; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+
+        .glass-card-body {
+          background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(24px);
+          border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px;
+          box-shadow: 0 24px 48px rgba(0,0,0,0.5);
+          overflow: hidden; display: flex; flex-direction: column;
+        }
+
+        .content-tabs-bar { 
+          display: flex; justify-content: space-between; align-items: center; 
+          border-bottom: 1px solid rgba(255,255,255,0.05); padding: 12px 24px; 
+          background: rgba(0,0,0,0.2);
+        }
+        .tabs-left { display: flex; align-items: center; gap: 16px; }
+        .main-tab { background: none; border: none; color: #94a3b8; font-size: 18px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; padding: 6px 12px; border-radius: 8px; }
+        .main-tab:hover { color: #f8fafc; background: rgba(255,255,255,0.05); }
+        .main-tab.active { color: #4ade80; }
+        .tab-num { background: rgba(255,255,255,0.1); color: #cbd5e1; padding: 2px 6px; border-radius: 4px; font-size: 18px; font-weight: 800; }
+        .main-tab.active .tab-num { background: #166534; color: #4ade80; }
+
+        .play-controls { display: flex; gap: 6px; align-items: center; }
+        .play-controls button { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; border-radius: 6px; padding: 6px 12px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: 0.2s; }
+        .play-controls button:hover { background: rgba(255,255,255,0.1); }
+        .play-controls button.active { background: rgba(255,255,255,0.15); color: #fff; }
+        .divider { width: 1px; height: 16px; background: rgba(255,255,255,0.1); margin: 0 4px; }
+
+        .visualization-area { width: 100%; display: flex; justify-content: center; padding: 12px 0; }
+        .seq-svg { width: 100%; max-height: 380px; overflow: visible; }
+
+        .below-visualizer { padding: 0 40px 0px 40px; }
+        .watch-desc-inline { font-size: 18px; color: #cbd5e1; font-weight: 500; margin-bottom: 12px; text-align: center; }
+        
+        .ready-btn { background: #4ade80; color: #022c22; border: none; border-radius: 8px; padding: 14px 28px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 20px rgba(74,222,128,0.3); }
+        .ready-btn:hover { background: #22c55e; transform: translateY(-2px); box-shadow: 0 6px 24px rgba(74,222,128,0.4); }
+
+        .find-card-inline { margin-bottom: 12px; }
+        .checkpoint-container { 
+          background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255,255,255,0.1); 
+          border-radius: 12px; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .find-title { font-size: 14px; color: #94a3b8; letter-spacing: 1.5px; font-weight: 800; margin-bottom: 8px; text-transform: uppercase; }
+        .find-question { font-size: 26px; font-weight: 700; color: #f8fafc; margin-bottom: 4px; }
+        .find-seq { font-size: 18px; color: #94a3b8; font-weight: 500; }
+
+        .options-row { display: flex; gap: 12px; justify-content: center; }
+        .option-btn { background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.05); color: #cbd5e1; border-radius: 8px; width: 70px; height: 70px; font-size: 26px; font-weight: 800; cursor: pointer; transition: 0.2s; box-shadow: inset 0 1px 0 rgba(255,255,255,0.1); }
+        .option-btn:hover { background: rgba(30,41,59,1); color: #fff; }
+        .option-btn.correct { background: #22c55e; border-color: #4ade80; color: #fff; box-shadow: 0 0 20px rgba(34,197,94,0.4); transform: scale(1.05); }
+        .option-btn.wrong { animation: shake 0.4s; background: #ef4444; border-color: #f87171; color: #fff; }
+
+        .success-inline { background: rgba(16, 35, 30, 0.8); border: 1px solid rgba(74, 222, 128, 0.3); border-radius: 12px; padding: 20px 32px; }
+        .success-header { display: flex; align-items: center; gap: 8px; color: #4ade80; font-size: 15px; font-weight: 800; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
+        .success-title { font-size: 26px; font-weight: 700; color: #f8fafc; margin-bottom: 4px; }
+        .success-desc { font-size: 18px; color: #cbd5e1; line-height: 1.5; font-weight: 500; }
+
+        .legend-row { display: flex; justify-content: center; gap: 24px; font-size: 18px; color: #64748b; font-weight: 600; }
+        .legend-item { display: flex; align-items: center; gap: 8px; }
+        .legend-box { width: 12px; height: 12px; border-radius: 2px; }
+        .legend-box.green { background: #4ade80; }
+        .legend-box.yellow { background: #fbbf24; }
+
+        .bottom-floating-footer {
+          position: absolute; bottom: 20px; left: 24px; right: 24px;
+          display: flex; justify-content: space-between; align-items: center; z-index: 50;
+        }
+        .footer-nav-btn { background: rgba(15,23,42,0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; font-size: 18px; font-weight: 700; cursor: pointer; padding: 10px 20px; border-radius: 8px; transition: 0.2s; }
+        .footer-nav-btn:hover { background: rgba(30,41,59,0.9); color: #fff; }
+        .footer-nav-btn.primary { background: #3b82f6; border-color: #60a5fa; color: #fff; }
+        .footer-nav-btn.primary:hover { background: #2563eb; }
+        
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-5px); }
+          50% { transform: translateX(5px); }
+          75% { transform: translateX(-5px); }
         }
       `}</style>
-
-      {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-        <div>
-          <h2 style={{ fontSize: '32px', fontWeight: '800', color: '#f8fafc', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '12px' }}>
-            1.4 Relations among Number Sequences
-          </h2>
-          <p style={{ color: '#94a3b8', fontSize: '16px', margin: 0 }}>
-            Sometimes, number sequences can be related to each other in surprising ways.
-          </p>
-        </div>
-        
-        {/* Step Indicators */}
-        <div style={{ display: 'flex', gap: '8px' }}>
-          {[1, 2, 3, 4, 5, 6, 7].map(s => (
-            <div 
-              key={s} 
-              style={{
-                width: '40px', height: '6px', borderRadius: '3px',
-                background: s === step ? '#3b82f6' : (s < step ? '#10b981' : 'rgba(255,255,255,0.1)'),
-                transition: 'background 0.3s'
-              }}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Main Content Area */}
-      <div style={{ flex: 1, minHeight: 0, position: 'relative' }}>
-        {step === 1 && <AddingOddNumbers />}
-        {step === 2 && <AddingUpAndDown />}
-        {step === 3 && <div style={{height: '100%'}}><LabBasicSequences /></div>}
-        {step === 4 && <div style={{height: '100%'}}><LabTriangularToHexagonal /></div>}
-        {step === 5 && <div style={{height: '100%'}}><LabTriangular /></div>}
-        {step === 6 && <div style={{height: '100%'}}><LabPowers /></div>}
-        {step === 7 && <div style={{height: '100%'}}><LabHexagonal /></div>}
-      </div>
-
-      {/* Footer Navigation */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '30px' }}>
-        <button
-          onClick={() => setStep(prev => prev - 1)}
-          disabled={step === 1}
-          style={{
-            padding: '16px 32px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)',
-            background: 'transparent', color: '#f8fafc', cursor: step === 1 ? 'not-allowed' : 'pointer',
-            fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', opacity: step === 1 ? 0 : 1,
-            pointerEvents: step === 1 ? 'none' : 'auto'
-          }}
-        >
-          <ChevronLeft size={20} /> Previous
-        </button>
-
-        <button
-          onClick={() => {
-            if (step < maxSteps) setStep(prev => prev + 1);
-            else if (onNext) onNext();
-          }}
-          style={{
-            padding: '16px 32px', borderRadius: '12px', border: 'none',
-            background: step === maxSteps ? '#22c55e' : '#3b82f6', 
-            color: '#fff', cursor: 'pointer',
-            fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px',
-            transition: 'all 0.3s'
-          }}
-        >
-          {step === maxSteps ? 'Next Section' : 'Next Topic'} <ChevronRight size={20} />
-        </button>
-      </div>
     </div>
   );
 }
