@@ -3,7 +3,8 @@ import { ArrowLeft } from 'lucide-react';
 import ErrorBoundary from '../../../../components/ErrorBoundary';
 import PatternWhyExperience from './PatternWhyExperience';
 import FigureItOutExperience from './FigureItOutExperience';
-import PatternsInNumbersExplore from './PatternsInNumbersExplore';
+import PatternLabVideoExperience from './PatternLabVideoExperience';
+import ShapePatternsExperience from './ShapePatternsExperience';
 import SectionNextButton from './SectionNextButton';
 import VisualisingSequences from '../../chapter1/VisualisingSequences';
 import RelationsAmongSequences from '../../chapter1/RelationsAmongSequences';
@@ -2265,7 +2266,17 @@ export default function InteractiveModal({
     return (
       <ErrorBoundary>
         <Suspense fallback={null}>
-          <PatternsInNumbersExplore onClose={onClose} onCompleteNode={onCompleteNode} />
+          <PatternLabVideoExperience onClose={onClose} onCompleteNode={onCompleteNode} />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+
+  if (node.id === '1.5') {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={null}>
+          <ShapePatternsExperience onClose={onClose} onCompleteNode={onCompleteNode} />
         </Suspense>
       </ErrorBoundary>
     );

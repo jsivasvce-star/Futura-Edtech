@@ -1323,7 +1323,7 @@ const RealisticRoleMedallion = ({ categoryId, size = 30 }) => {
   );
 };
 
-export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFilter = 'plant', onNextSection, onNextActivity, isFullscreen = false }) {
+export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFilter = 'plant', onNextSection, onNextActivity, isFullscreen = false, startAtLastPage = false }) {
   const { theme } = useTheme();
   const [notebook, setNotebook] = useState([]);
   const [bonusLog, setBonusLog] = useState([]);
@@ -2023,7 +2023,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
   const [verifyAnswer, setVerifyAnswer] = useState(null);
   const [verifyChecked, setVerifyChecked] = useState(false);
   const [verifyCorrect, setVerifyCorrect] = useState(false);
-  const [subPage, setSubPage] = useState(typeFilter === 'animal' ? 2 : 1);
+  const [subPage, setSubPage] = useState(startAtLastPage ? (typeFilter === 'animal' ? 2 : 3) : (typeFilter === 'animal' ? 2 : 1));
   useEffect(() => {
     if (typeFilter === 'animal') {
       setSubPage(2);
