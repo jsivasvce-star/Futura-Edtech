@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ChevronRight, ChevronLeft, Play, RotateCcw, Check, ArrowRight, Maximize } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RealisticCube3D from './RealisticCube3D';
-import video36dots from '../36dots.mp4';
+
 
 // ==========================================
 // CONFETTI BURST
