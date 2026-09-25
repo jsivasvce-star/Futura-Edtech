@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Volume2, VolumeX, ArrowRight, Compass, Award, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Sparkles, Volume2, VolumeX, Award, ChevronLeft, ChevronRight, Compass } from 'lucide-react';
 import { useHybridVoice } from '../../../../hooks/useHybridVoice';
 import { ELEVENLABS_VOICES } from '../../../../services/elevenLabsService';
 import './Activity4_1.css';
@@ -99,7 +99,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
   const renderHighlightedContent = (content, title, charIndex, isCurrentFact) => {
     if (!content) return null;
     if (!isCurrentFact || charIndex === undefined || charIndex === null || charIndex < 0) {
-      return <span style={{ color: '#064E3B' }}>{content}</span>;
+      return <span style={{ color: '#1E293B' }}>{content}</span>;
     }
 
     const titleOffset = title ? title.length + 2 : 0;
@@ -115,7 +115,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
 
       const isCurrentWord = adjustedIndex >= startPos && adjustedIndex <= endPos + 2;
 
-      let color = '#064E3B';
+      let color = '#1E293B';
       let fontWeight = 700;
 
       if (isCurrentWord) {
@@ -160,20 +160,21 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
       width: '100%',
       height: '100%',
       display: 'grid',
-      gridTemplateColumns: 'minmax(420px, 1.15fr) minmax(520px, 1.45fr)',
-      gap: '1.65rem',
-      padding: '0.5rem 1rem',
+      gridTemplateColumns: 'minmax(400px, 1.1fr) minmax(500px, 1.4fr)',
+      gap: '1.4rem',
+      padding: '0.4rem 0.6rem',
       boxSizing: 'border-box',
       background: 'transparent',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif"
     }}>
       {/* Left Column: Visual Card */}
       <div style={{
         background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
         border: '1.5px solid #E2E8F0',
-        borderRadius: '24px',
-        padding: '1.6rem',
-        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+        borderRadius: '28px',
+        padding: '1.6rem 1.8rem',
+        boxShadow: '0 8px 30px rgba(23, 59, 95, 0.08)',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -181,24 +182,24 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
         boxSizing: 'border-box'
       }}>
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.8rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.9rem' }}>
             <div style={{
-              width: '42px',
-              height: '42px',
+              width: '44px',
+              height: '44px',
               borderRadius: '14px',
               background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 4px 12px rgba(217, 119, 6, 0.3)'
+              boxShadow: '0 4px 12px rgba(23, 59, 95, 0.25)'
             }}>
               <Sparkles size={22} color="#FFFFFF" />
             </div>
             <div>
-              <h2 style={{ margin: 0, fontSize: '1.45rem', fontWeight: 900, color: '#1E1B4B' }}>
+              <h2 style={{ margin: 0, fontSize: '1.55rem', fontWeight: 900, color: '#173B5F', letterSpacing: '-0.01em' }}>
                 Fascinating Facts
               </h2>
-              <span style={{ fontSize: '0.92rem', color: '#047857', fontWeight: 800 }}>
+              <span style={{ fontSize: '0.95rem', color: '#065F46', fontWeight: 800 }}>
                 Magnetic vs Non-Magnetic Materials
               </span>
             </div>
@@ -208,7 +209,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
           <div style={{
             width: '100%',
             height: '240px',
-            borderRadius: '18px',
+            borderRadius: '20px',
             overflow: 'hidden',
             border: '1.5px solid #E2E8F0',
             boxShadow: '0 8px 24px rgba(0,0,0,0.06)',
@@ -233,7 +234,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
             color: '#173B5F',
             fontWeight: 700
           }}>
-            Explore curious facts about why only certain metals attract, how magnets sort city waste, and how ancient shepherds found the first magnets.
+            Explore curious facts about why only certain metals attract, how magnets sort city waste, and how ancient shepherds discovered the first natural magnets.
           </p>
         </div>
 
@@ -242,25 +243,21 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
           {onBackToQuiz && (
             <button
               onClick={onBackToQuiz}
+              className="navy-btn"
               style={{
                 flex: 1,
                 padding: '0.85rem 1rem',
                 borderRadius: '16px',
-                background: '#FFFFFF',
-                color: '#173B5F',
-                border: '1.5px solid #E2E8F0',
                 fontWeight: 900,
                 fontSize: '1rem',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '0.5rem',
-                transition: 'all 0.2s ease',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                gap: '0.5rem'
               }}
             >
-              <Compass size={18} color="#173B5F" /> Review Quiz
+              <Compass size={18} color="#FFFFFF" /> Review Quiz
             </button>
           )}
 
@@ -291,9 +288,9 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
       <div style={{
         background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
         border: '1.5px solid #E2E8F0',
-        borderRadius: '24px',
-        padding: '1.5rem 1.65rem',
-        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+        borderRadius: '28px',
+        padding: '1.5rem 1.75rem',
+        boxShadow: '0 8px 30px rgba(23, 59, 95, 0.08)',
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
@@ -310,10 +307,10 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
           flexShrink: 0
         }}>
           <div>
-            <h3 style={{ margin: 0, fontSize: '19.5px', fontWeight: 900, color: '#1E1B4B' }}>
+            <h3 style={{ margin: 0, fontSize: '1.35rem', fontWeight: 900, color: '#173B5F', letterSpacing: '-0.01em' }}>
               Curated Discovery Facts
             </h3>
-            <span style={{ fontSize: '14.5px', color: '#173B5F', fontWeight: 700 }}>
+            <span style={{ fontSize: '0.92rem', color: '#065F46', fontWeight: 700 }}>
               Page {pageIndex + 1} of 2 ({pageIndex === 0 ? 'Facts 1 - 3' : 'Facts 4 - 5'})
             </span>
           </div>
@@ -392,7 +389,7 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
             >
               {currentFacts.map((fact) => {
                 const isCurrentActive = isPlaying && activeFactId === fact.id;
-                const factFontSize = pageIndex === 0 ? '17.5px' : '18.5px';
+                const factFontSize = pageIndex === 0 ? '1.05rem' : '1.15rem';
 
                 return (
                   <div
@@ -401,9 +398,9 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                       background: '#FFFFFF',
                       border: isCurrentActive ? '2px solid #173B5F' : '1.5px solid #E2E8F0',
                       borderRadius: '18px',
-                      padding: pageIndex === 0 ? '1rem 1.25rem' : '1.4rem 1.6rem',
+                      padding: pageIndex === 0 ? '1rem 1.25rem' : '1.35rem 1.55rem',
                       boxShadow: isCurrentActive 
-                        ? '0 6px 20px rgba(217, 119, 6, 0.18)' 
+                        ? '0 6px 20px rgba(23, 59, 95, 0.15)' 
                         : '0 3px 12px rgba(0, 0, 0, 0.04)',
                       display: 'flex',
                       flexDirection: 'column',
@@ -415,19 +412,19 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                        <span style={{ fontSize: '1.4rem' }}>{fact.icon}</span>
+                        <span style={{ fontSize: '1.35rem' }}>{fact.icon}</span>
                         <span style={{
-                          fontSize: '13px',
+                          fontSize: '0.82rem',
                           fontWeight: 900,
-                          background: '#EAF2F6',
-                          color: '#173B5F',
+                          background: '#ECFDF5',
+                          color: '#065F46',
                           padding: '2px 8px',
                           borderRadius: '8px',
-                          border: '1px solid #E2E8F0'
+                          border: '1px solid #A7F3D0'
                         }}>
                           FACT {fact.number}
                         </span>
-                        <h4 style={{ margin: 0, fontSize: '18px', fontWeight: 900, color: '#1E1B4B' }}>
+                        <h4 style={{ margin: 0, fontSize: '1.15rem', fontWeight: 900, color: '#173B5F' }}>
                           {fact.title}
                         </h4>
                       </div>
@@ -439,12 +436,12 @@ export default function DidYouKnow({ onComplete, onBackToQuiz }) {
                           color: isCurrentActive ? '#FFFFFF' : '#173B5F',
                           border: '1.5px solid #E2E8F0',
                           borderRadius: '12px',
-                          padding: '0.4rem 0.65rem',
+                          padding: '0.35rem 0.65rem',
                           cursor: 'pointer',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '0.35rem',
-                          fontSize: '13.5px',
+                          fontSize: '0.85rem',
                           fontWeight: 800,
                           transition: 'all 0.2s ease',
                           boxShadow: '0 2px 6px rgba(0,0,0,0.03)'

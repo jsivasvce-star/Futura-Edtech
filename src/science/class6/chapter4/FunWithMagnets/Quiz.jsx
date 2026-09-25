@@ -1,77 +1,78 @@
 import React, { useState } from 'react';
 import { CheckCircle, XCircle, ArrowRight } from 'lucide-react';
+import './FunWithMagnets.css';
 
 const OPTION_PREFIXES = ['A', 'B', 'C', 'D'];
 
 const quizData = [
   {
     id: 1,
-    question: "Two magnetic airplane models can move freely along a level track. Their north poles face each other. What do you predict when they are brought close?",
+    question: "In a guided model that uses magnetic repulsion to lift a train, the lower face of the train’s magnet is N. Which pole should face it from below?",
     options: [
-      "They tend to move apart because like poles repel.",
-      "They lose their magnetism because both poles are north.",
-      "They interact only after the two north poles touch.",
-      "They tend to move together because like poles attract."
+      "S, because opposite poles always push apart.",
+      "Either N or S, because the pole arrangement does not matter.",
+      "An unmagnetised iron block, because attraction pushes the train upward.",
+      "N, so the facing like poles repel."
     ],
-    correctIndex: 0, // A
-    explanation: "Like poles repel, so each model experiences a force away from the other. The track guides the models; this demonstration does not explain how real airplanes fly.",
-    tryAgain: "Identify the two facing poles first. N facing N is a like-pole pair."
+    correctIndex: 3, // D
+    explanation: "N facing N produces repulsion and can supply an upward force in this guided model. Real maglev systems use engineered arrangements; some use attraction and others use combinations of magnetic forces.",
+    tryAgain: "This model specifies repulsion. Choose like facing poles and remember that guidance is also needed."
   },
   {
     id: 2,
-    question: "Two model magnets attract with N facing S. Only one magnet is turned end for end, while the gap stays the same. What should happen?",
+    question: "A maglev model is held above its track but does not move forward. Which explanation is best?",
     options: [
-      "They stop interacting because one magnet was turned.",
-      "They still attract because the distance has not changed.",
-      "They repel because the facing poles are now alike.",
-      "They attract more strongly because only one magnet was turned."
+      "A magnetic force can act vertically but never horizontally.",
+      "A floating object has no weight and therefore cannot move.",
+      "An upward supporting force does not automatically provide a forward driving force.",
+      "If levitation works, the model must move forward without another cause."
     ],
     correctIndex: 2, // C
-    explanation: "Turning one magnet exchanges the pole that faces the other. N–S becomes either N–N or S–S, so attraction changes to repulsion even though the gap is unchanged.",
-    tryAgain: "Distance matters, but polarity matters too. Work out the new pair of facing poles."
+    explanation: "Levitation supports the train against its weight. Propulsion provides force along the track. Maglev trains use controlled magnetic interactions for forward motion as well as systems for support and guidance.",
+    tryAgain: "Compare the direction of the force needed to lift the train with the direction needed to drive it."
   },
   {
     id: 3,
-    question: "Two model magnets repel with N facing N. Both magnets are turned end for end without changing their positions. What is the interaction now?",
+    question: "Why are electromagnets useful for controlling a train’s magnetic propulsion?",
     options: [
-      "Attraction, because a south pole attracts every other pole.",
-      "No force, because turning both magnets cancels their magnetism.",
-      "Attraction, because turning any magnet always causes attraction.",
-      "Repulsion, because S now faces S."
+      "They produce a magnetic effect without any electric current or stored magnetism.",
+      "Their magnetic effect can be controlled by changing the electric current.",
+      "They can attract other magnets but can never repel them.",
+      "Their poles cannot be changed once the coil is built."
     ],
-    correctIndex: 3, // D
-    explanation: "Both north-facing ends become south-facing ends. S–S is still a like-pole pair, so the interaction remains repulsive. Turning both magnets differs from turning just one.",
-    tryAgain: "Track both changes, not just the first one. The new facing poles are still the same as each other."
+    correctIndex: 1, // B
+    explanation: "Current through a coil creates a magnetic field. Controlling the current allows the magnetic effect to be varied, and changing its direction reverses the poles. This makes timed magnetic interactions possible.",
+    tryAgain: "Connect the electromagnet’s behaviour to its electric current and the poles that current creates."
   },
   {
     id: 4,
-    question: "On a still, level track, one magnetic model begins moving as another magnet approaches, before they touch. What does this observation support?",
+    question: "A coil’s left end acts as N and its right end as S. The current direction is reversed without turning the coil. What happens?",
     options: [
-      "Magnetic force begins only after direct contact.",
-      "A magnetic force can act across a gap.",
-      "The moving model is no longer affected by gravity.",
-      "All objects on the track must be permanent magnets."
+      "The left end becomes S and the right end becomes N.",
+      "The left end remains N and the right end remains S.",
+      "Both ends become N because the current is reversed.",
+      "Both ends become S because the current is reversed."
     ],
-    correctIndex: 1, // B
-    explanation: "The model responds before contact, showing that magnetic force can act at a distance. This does not mean gravity has disappeared or that every object nearby is a magnet.",
-    tryAgain: "Focus on what the timing shows: the movement began while a gap was still present."
+    correctIndex: 0, // A
+    explanation: "Reversing current reverses the magnetic field of the coil, so its north and south ends exchange roles. Physically rotating the coil is not necessary to change its polarity.",
+    tryAgain: "A current reversal changes the direction of the field; it does not create two north poles."
   },
   {
     id: 5,
-    question: "A hidden object inside a model attracts the north pole of a known magnet. Which further result would show that the hidden object is itself a magnet, rather than just unmagnetised iron?",
+    question: "A learner says, “A levitating train never needs energy to keep moving because its wheels do not touch the track.” Which response is best?",
     options: [
-      "One end of the hidden object repels one pole of the known magnet.",
-      "The hidden object is heavier than the known magnet.",
-      "The hidden object is attracted when the magnet comes closer.",
-      "The hidden object has a shiny metallic surface."
+      "The claim is correct because air cannot exert a force on a floating train.",
+      "The claim is correct because levitation removes both weight and resistance.",
+      "The claim is wrong only because every maglev train must always roll on wheels.",
+      "Wheel–track contact is avoided while levitating, but air resistance and other energy losses remain."
     ],
-    correctIndex: 0, // A
-    explanation: "Unmagnetised iron can be attracted by either pole through induced magnetism. Repulsion with a known magnet is stronger evidence of an existing magnetic pole on the hidden object.",
-    tryAgain: "Attraction alone is not enough: ordinary iron can be attracted too. Look for repulsion."
+    correctIndex: 3, // D
+    explanation: "Levitation avoids wheel–rail contact during that part of operation, but a moving train still pushes through air. Energy is also needed by its systems. Avoiding one source of resistance does not remove all losses.",
+    tryAgain: "Ask whether removing wheel contact also removes the air around the moving train."
   }
 ];
 
-export default function Stage4_Quiz({ onComplete }) {
+export default function Quiz({ onComplete }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedIndices, setSelectedIndices] = useState([]);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -172,31 +173,31 @@ export default function Stage4_Quiz({ onComplete }) {
   return (
     <div style={{ 
       width: '100%', 
-      height: '100%',
+      height: '100%', 
       display: 'flex', 
       flexDirection: 'column', 
       alignItems: 'center', 
       justifyContent: 'center', 
       padding: '0.5rem 1rem', 
-      boxSizing: 'border-box',
-      overflow: 'hidden',
-      backgroundColor: 'transparent',
-      fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif"
+      boxSizing: 'border-box', 
+      overflow: 'hidden', 
+      backgroundColor: 'transparent', 
+      fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif" 
     }}>
       <div style={{ width: '100%', maxWidth: '1180px', display: 'flex', flexDirection: 'column' }}>
         
         {/* Main Quiz Card */}
         <div className="glass-panel" style={{ 
           background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
-          border: '1.5px solid #E2E8F0',
+          border: '1.5px solid #E2E8F0', 
           borderRadius: '28px', 
           padding: '2.2rem 3rem', 
-          boxShadow: '0 8px 30px rgba(23, 59, 95, 0.08)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1.25rem',
-          width: '100%',
-          boxSizing: 'border-box'
+          boxShadow: '0 8px 30px rgba(23, 59, 95, 0.08)', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: '1.25rem', 
+          width: '100%', 
+          boxSizing: 'border-box' 
         }}>
           {/* Question Badge inside the quiz container */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
