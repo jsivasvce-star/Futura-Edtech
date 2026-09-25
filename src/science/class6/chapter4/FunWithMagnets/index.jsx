@@ -1173,22 +1173,35 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
 
   const getTrainLeft = () => {
     if (autoPlay) {
-      return isTranslating ? 'calc(100% - 430px)' : '0px';
+      return isTranslating ? 'calc(100% + 100px)' : 'calc(15% - 380px)';
     }
-    if (propStep === -1) return '0px';
-    if (propStep === 0) return 'calc((100% - 430px) * 0.22)';
-    if (propStep === 1) return 'calc((100% - 430px) * 0.48)';
-    if (propStep === 2) return 'calc((100% - 430px) * 0.72)';
-    if (propStep === 3) return 'calc((100% - 430px) * 0.90)';
-    if (propStep === 4) return 'calc(100% - 430px)';
-    return '0px';
+    if (propStep === -1) return 'calc(15% - 380px)';
+    if (propStep === 0) return 'calc(35% - 380px)';
+    if (propStep === 1) return 'calc(53% - 380px)';
+    if (propStep === 2) return 'calc(72% - 380px)';
+    if (propStep === 3) return 'calc(90% - 380px)';
+    if (propStep === 4) return 'calc(100% + 100px)';
+    return 'calc(15% - 380px)';
+  };
+
+  const getFullViewTrainLeft = () => {
+    if (autoPlay) {
+      return isTranslating ? 'calc(100% + 150px)' : 'calc(15% - 560px)';
+    }
+    if (propStep === -1) return 'calc(15% - 560px)';
+    if (propStep === 0) return 'calc(35% - 560px)';
+    if (propStep === 1) return 'calc(53% - 560px)';
+    if (propStep === 2) return 'calc(72% - 560px)';
+    if (propStep === 3) return 'calc(90% - 560px)';
+    if (propStep === 4) return 'calc(100% + 150px)';
+    return 'calc(15% - 560px)';
   };
 
   const getTrainTransition = () => {
     if (autoPlay && isTranslating) {
       return 'left 10s linear';
     }
-    return 'left 0.8s ease-out';
+    return 'left 0.85s cubic-bezier(0.25, 1, 0.5, 1)';
   };
 
   return (
@@ -1207,237 +1220,206 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
       <AnimatePresence>
         {isFullView && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
+            initial={{ opacity: 0, scale: 0.99 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.98 }}
+            exit={{ opacity: 0, scale: 0.99 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
             style={{
               position: 'fixed',
               inset: 0,
               zIndex: 99999,
-              background: '#070D18',
+              background: '#0F172A',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: '0.75rem 1.25rem 0.85rem 1.25rem',
+              alignItems: 'stretch',
+              padding: 0,
               boxSizing: 'border-box',
               overflow: 'hidden'
             }}
           >
-            {/* Top Bar with Sleek Exit Full View Button on Top-Right */}
-            <div style={{
-              width: '100%',
-              maxWidth: '1900px',
-              display: 'flex',
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-              padding: '0.2rem 0.5rem',
-              zIndex: 50,
-              flexShrink: 0
-            }}>
-              <button
-                onClick={() => setIsFullView(false)}
-                className="navy-btn"
-                style={{
-                  padding: '0.55rem 1.35rem',
-                  borderRadius: '24px',
-                  background: 'rgba(255, 255, 255, 0.95)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1.5px solid #CBD5E1',
-                  color: '#0F172A',
-                  fontSize: '1rem',
-                  fontWeight: 800,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  boxShadow: '0 6px 20px rgba(0, 0, 0, 0.35)',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                <Minimize2 size={18} color="#0F172A" /> Exit Full View
-              </button>
-            </div>
-
-            {/* Scaled-Up Fullscreen Simulation Activity Container: Maximum Height & Width */}
+            {/* Scaled-Up Fullscreen Simulation Activity Canvas — Scenic Stone Bridge & Lake Background */}
             <div style={{
               position: 'relative',
               width: '100%',
-              maxWidth: '1900px',
               flex: 1,
-              minHeight: '480px',
-              backgroundImage: "url('/FunWithMagnets/lake_sunlight_bg.jpg')",
+              minHeight: 0,
+              backgroundImage: "url('/FunWithMagnets/stone_bridge_lake_bg.jpg')",
               backgroundSize: 'cover',
-              backgroundPosition: 'center 40%',
+              backgroundPosition: 'center 48%',
               backgroundRepeat: 'no-repeat',
-              borderRadius: '24px',
-              border: '2px solid rgba(255, 255, 255, 0.45)',
               overflow: 'hidden',
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'flex-end',
-              padding: 0,
-              boxSizing: 'border-box',
-              boxShadow: '0 24px 60px rgba(0,0,0,0.6)'
+              boxSizing: 'border-box'
             }}>
-              {/* Moving Maglev Train Model in Full View */}
+              {/* Track & Train assembly positioned precisely on the stone viaduct bridge */}
               <div style={{
-                position: 'relative',
+                position: 'absolute',
+                bottom: '40%',
+                left: 0,
+                right: 0,
                 width: '100%',
-                height: '210px',
-                zIndex: 4,
-                display: 'flex',
-                alignItems: 'flex-end',
-                marginBottom: '4px',
-                overflow: 'visible'
-              }}>
-                <div
-                  style={{
-                    position: 'absolute',
-                    left: autoPlay 
-                      ? (isTranslating ? 'calc(100% - 660px)' : '0px')
-                      : propStep === -1 ? '0px'
-                      : propStep === 0 ? 'calc((100% - 660px) * 0.22)'
-                      : propStep === 1 ? 'calc((100% - 660px) * 0.48)'
-                      : propStep === 2 ? 'calc((100% - 660px) * 0.72)'
-                      : propStep === 3 ? 'calc((100% - 660px) * 0.90)'
-                      : 'calc(100% - 660px)',
-                    bottom: '0px',
-                    width: '660px',
-                    transition: getTrainTransition(),
-                    willChange: 'left',
-                    display: 'block'
-                  }}
-                >
-                  <img
-                    src="/FunWithMagnets/transrapid_train_clean.png"
-                    alt="Transrapid Maglev Bullet Train"
-                    style={{
-                      width: '100%',
-                      height: 'auto',
-                      display: 'block',
-                      filter: 'drop-shadow(0 16px 28px rgba(0,0,0,0.4))'
-                    }}
-                  />
-
-                  {/* Levitation Glow Cushion */}
-                  <div style={{
-                    position: 'absolute',
-                    bottom: '-4px',
-                    left: '20px',
-                    right: '20px',
-                    height: '14px',
-                    background: 'radial-gradient(ellipse at center, rgba(56,189,248,0.9) 0%, rgba(56,189,248,0) 80%)',
-                    filter: 'blur(6px)',
-                    pointerEvents: 'none'
-                  }} />
-                </div>
-              </div>
-
-              {/* Guideway Rail Track Structure in Full View — 100% Edge-to-Edge Span */}
-              <div style={{
-                position: 'relative',
-                width: '100%',
-                height: '92px',
-                zIndex: 2,
+                zIndex: 10,
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'flex-end'
+                justifyContent: 'flex-end',
+                overflow: 'visible'
               }}>
+                {/* Moving Maglev Train Model in Full View */}
                 <div style={{
                   position: 'relative',
                   width: '100%',
-                  height: '76px',
-                  overflow: 'hidden',
-                  borderTop: '2px solid #334155',
-                  boxShadow: '0 -4px 20px rgba(0,0,0,0.3)'
+                  height: '145px',
+                  zIndex: 4,
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  marginBottom: '2px',
+                  overflow: 'visible'
                 }}>
-                  <img
-                    src="/FunWithMagnets/transrapid_track_clean.png"
-                    alt="Transrapid Maglev Guideway Track"
+                  <div
                     style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
+                      position: 'absolute',
+                      left: getFullViewTrainLeft(),
+                      bottom: '0px',
+                      width: '560px',
+                      transition: getTrainTransition(),
+                      willChange: 'left',
                       display: 'block'
                     }}
-                  />
+                  >
+                    <img
+                      src="/FunWithMagnets/transrapid_train_clean.png"
+                      alt="Transrapid Maglev Bullet Train"
+                      style={{
+                        width: '100%',
+                        height: 'auto',
+                        display: 'block',
+                        filter: 'drop-shadow(0 14px 24px rgba(0,0,0,0.45))'
+                      }}
+                    />
 
-                  {/* 5 Electromagnetic Stator Coil Status Markers */}
+                    {/* Levitation Glow Cushion */}
+                    <div style={{
+                      position: 'absolute',
+                      bottom: '-4px',
+                      left: '20px',
+                      right: '20px',
+                      height: '12px',
+                      background: 'radial-gradient(ellipse at center, rgba(56,189,248,0.9) 0%, rgba(56,189,248,0) 80%)',
+                      filter: 'blur(5px)',
+                      pointerEvents: 'none'
+                    }} />
+                  </div>
+                </div>
+
+                {/* Guideway Rail Track Structure in Full View — Precise Bridge-Top Deck Alignment */}
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '52px',
+                  zIndex: 2,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'flex-end'
+                }}>
                   <div style={{
-                    position: 'absolute',
-                    bottom: '8px',
-                    left: 0,
-                    right: 0,
-                    display: 'flex',
-                    justifyContent: 'space-around',
-                    padding: '0 3rem',
-                    zIndex: 6,
-                    pointerEvents: 'none'
+                    position: 'relative',
+                    width: '100%',
+                    height: '42px',
+                    overflow: 'hidden',
+                    borderTop: '2px solid rgba(56, 189, 248, 0.7)',
+                    borderBottom: '2px solid rgba(15, 23, 42, 0.9)',
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.4)',
+                    background: 'linear-gradient(180deg, rgba(30, 41, 59, 0.92) 0%, rgba(15, 23, 42, 0.98) 100%)'
                   }}>
-                    {[0, 1, 2, 3, 4].map(idx => {
-                      const isActive = activeCoils[idx];
-                      return (
-                        <div
-                          key={idx}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            padding: '0.35rem 1.2rem',
-                            borderRadius: '10px',
-                            background: isActive ? '#0284C7' : 'rgba(15, 23, 42, 0.92)',
-                            border: `2px solid ${isActive ? '#38BDF8' : '#475569'}`,
-                            boxShadow: isActive ? '0 0 16px rgba(56,189,248,0.95)' : '0 2px 6px rgba(0,0,0,0.3)',
-                            backdropFilter: 'blur(4px)',
-                            transition: 'all 0.25s ease'
-                          }}
-                        >
-                          <span style={{
-                            color: isActive ? '#FFFFFF' : '#CBD5E1',
-                            fontSize: '1.15rem',
-                            fontWeight: 900,
-                            letterSpacing: '0.3px'
-                          }}>
-                            Coil {idx + 1}
-                          </span>
-                          <span style={{
-                            background: isActive ? '#38BDF8' : '#334155',
-                            color: isActive ? '#0369A1' : '#94A3B8',
-                            fontSize: '0.98rem',
-                            fontWeight: 900,
-                            padding: '0.15rem 0.55rem',
-                            borderRadius: '6px'
-                          }}>
-                            {isActive ? '⚡ ON' : 'OFF'}
-                          </span>
-                        </div>
-                      );
-                    })}
+                    <img
+                      src="/FunWithMagnets/transrapid_track_clean.png"
+                      alt="Transrapid Maglev Guideway Track"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                        opacity: 0.92
+                      }}
+                    />
+
+                    {/* 5 Electromagnetic Stator Coil Status Markers */}
+                    <div style={{
+                      position: 'absolute',
+                      bottom: '5px',
+                      left: 0,
+                      right: 0,
+                      display: 'flex',
+                      justifyContent: 'space-around',
+                      padding: '0 3rem',
+                      zIndex: 6,
+                      pointerEvents: 'none'
+                    }}>
+                      {[0, 1, 2, 3, 4].map(idx => {
+                        const isActive = activeCoils[idx];
+                        return (
+                          <div
+                            key={idx}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              padding: '0.22rem 0.95rem',
+                              borderRadius: '8px',
+                              background: isActive ? '#0284C7' : 'rgba(15, 23, 42, 0.88)',
+                              border: `1.5px solid ${isActive ? '#38BDF8' : '#475569'}`,
+                              boxShadow: isActive ? '0 0 14px rgba(56,189,248,0.95)' : '0 2px 6px rgba(0,0,0,0.3)',
+                              backdropFilter: 'blur(4px)',
+                              transition: 'all 0.25s ease'
+                            }}
+                          >
+                            <span style={{
+                              color: isActive ? '#FFFFFF' : '#CBD5E1',
+                              fontSize: '0.98rem',
+                              fontWeight: 900,
+                              letterSpacing: '0.3px'
+                            }}>
+                              Coil {idx + 1}
+                            </span>
+                            <span style={{
+                              background: isActive ? '#38BDF8' : '#334155',
+                              color: isActive ? '#0369A1' : '#94A3B8',
+                              fontSize: '0.84rem',
+                              fontWeight: 900,
+                              padding: '0.1rem 0.45rem',
+                              borderRadius: '4px'
+                            }}>
+                              {isActive ? '⚡ ON' : 'OFF'}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Bottom Navigation Bar in Full View — Controls Centered-Right */}
+            {/* Fixed Non-Moving Sleek Dark Blue Bottom Navbar Pinned Securely to Viewport */}
             <div style={{
+              position: 'fixed',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '76px',
               width: '100%',
-              maxWidth: '1900px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-end',
-              padding: '0.65rem 1.75rem',
-              marginTop: '0.65rem',
-              background: 'rgba(15, 23, 42, 0.88)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
-              border: '1.5px solid rgba(56, 189, 248, 0.3)',
-              borderRadius: '32px',
-              boxShadow: '0 8px 30px rgba(0, 0, 0, 0.4)',
+              padding: '0 2.5rem',
+              background: '#1E293B',
+              borderTop: '1.5px solid #334155',
+              boxShadow: '0 -8px 30px rgba(0, 0, 0, 0.5)',
               boxSizing: 'border-box',
-              gap: '0.75rem',
-              flexShrink: 0
+              gap: '0.85rem',
+              zIndex: 1000
             }}>
               {/* Next Step Button */}
               <button
@@ -1445,11 +1427,11 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
                 disabled={propStep >= 4}
                 className={propStep < 4 ? "gold-glow-btn" : ""}
                 style={{
-                  padding: '0.65rem 1.55rem',
-                  borderRadius: '20px',
-                  background: propStep < 4 ? 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)' : '#1E293B',
+                  padding: '0.65rem 1.6rem',
+                  borderRadius: '24px',
+                  background: propStep < 4 ? 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)' : '#334155',
                   color: propStep < 4 ? '#FFFFFF' : '#64748B',
-                  border: propStep < 4 ? '1.5px solid #38BDF8' : '1.5px solid #334155',
+                  border: propStep < 4 ? '1.5px solid #38BDF8' : '1.5px solid #475569',
                   fontWeight: 900,
                   fontSize: '1.02rem',
                   cursor: propStep >= 4 ? 'not-allowed' : 'pointer',
@@ -1458,7 +1440,7 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '0.35rem'
+                  gap: '0.4rem'
                 }}
               >
                 Next Step ▶
@@ -1469,9 +1451,9 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
                 onClick={handleToggleAutoPlay}
                 className="gold-glow-btn"
                 style={{
-                  padding: '0.65rem 1.55rem',
-                  borderRadius: '20px',
-                  border: autoPlay ? '1.5px solid #F59E0B' : '1.5px solid #FDE68A',
+                  padding: '0.65rem 1.6rem',
+                  borderRadius: '24px',
+                  border: autoPlay ? '1.5px solid #F59E0B' : '1.5px solid #F59E0B',
                   background: autoPlay ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' : 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)',
                   color: autoPlay ? '#FFFFFF' : '#92400E',
                   fontWeight: 900,
@@ -1493,48 +1475,23 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
                 onClick={handleReset}
                 className="navy-btn"
                 style={{
-                  padding: '0.65rem 1.35rem',
-                  borderRadius: '20px',
-                  border: '1.5px solid #2B6CB0',
-                  background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
-                  color: '#FFFFFF',
+                  padding: '0.65rem 1.5rem',
+                  borderRadius: '24px',
+                  border: '1.5px solid #475569',
+                  background: 'linear-gradient(135deg, #334155 0%, #1E293B 100%)',
+                  color: '#F8FAFC',
                   fontWeight: 900,
                   fontSize: '1.02rem',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
-                  boxShadow: '0 4px 12px rgba(23, 59, 95, 0.25)',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '0.35rem'
+                  gap: '0.4rem'
                 }}
               >
                 ↺ Reset
-              </button>
-
-              {/* Exit Full View inside bottom bar */}
-              <button
-                onClick={() => setIsFullView(false)}
-                className="navy-btn"
-                style={{
-                  padding: '0.65rem 1.6rem',
-                  borderRadius: '25px',
-                  background: 'rgba(255, 255, 255, 0.96)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1.5px solid #CBD5E1',
-                  color: '#0F172A',
-                  fontSize: '1.05rem',
-                  fontWeight: 800,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.55rem',
-                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.35)',
-                  transition: 'all 0.2s ease',
-                  marginLeft: '0.4rem'
-                }}
-              >
-                <Minimize2 size={18} color="#0F172A" /> Exit Full View
               </button>
             </div>
           </motion.div>
@@ -1590,17 +1547,15 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
           flex: 1,
           minHeight: '170px',
           maxHeight: '240px',
-          backgroundImage: "url('/FunWithMagnets/lake_sunlight_bg.jpg')",
+          backgroundImage: "url('/FunWithMagnets/stone_bridge_lake_bg.jpg')",
           backgroundSize: 'cover',
-          backgroundPosition: 'center 42%',
+          backgroundPosition: 'center 48%',
           backgroundRepeat: 'no-repeat',
           borderRadius: '16px',
           border: '1.5px solid #CBD5E1',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'flex-end',
-          padding: 0,
           boxSizing: 'border-box',
           boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.06)'
         }}>
@@ -1621,7 +1576,7 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
               borderRadius: '16px',
               padding: '0.22rem 0.6rem',
               boxShadow: '0 2px 8px rgba(2, 132, 199, 0.18)',
-              zIndex: 10,
+              zIndex: 20,
               cursor: 'pointer',
               color: '#0284C7',
               fontSize: '0.82rem',
@@ -1635,133 +1590,150 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
             <span>Full View</span>
           </button>
 
-          {/* Moving Maglev Train Model */}
+          {/* Track & Train assembly positioned precisely on the stone viaduct bridge */}
           <div style={{
-            position: 'relative',
+            position: 'absolute',
+            bottom: '38%',
+            left: 0,
+            right: 0,
             width: '100%',
-            height: '105px',
-            zIndex: 4,
-            display: 'flex',
-            alignItems: 'flex-end',
-            marginBottom: '4px',
-            overflow: 'visible'
-          }}>
-            <div
-              style={{
-                position: 'absolute',
-                left: getTrainLeft(),
-                bottom: '0px',
-                width: '420px',
-                transition: getTrainTransition(),
-                willChange: 'left',
-                display: 'block'
-              }}
-            >
-              <img
-                src="/FunWithMagnets/transrapid_train_clean.png"
-                alt="Transrapid Maglev Bullet Train"
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  display: 'block',
-                  filter: 'drop-shadow(0 10px 16px rgba(0,0,0,0.3))'
-                }}
-              />
-
-              {/* Levitation Glow Cushion */}
-              <div style={{
-                position: 'absolute',
-                bottom: '-2px',
-                left: '15px',
-                right: '15px',
-                height: '8px',
-                background: 'radial-gradient(ellipse at center, rgba(56,189,248,0.75) 0%, rgba(56,189,248,0) 80%)',
-                filter: 'blur(3px)',
-                pointerEvents: 'none'
-              }} />
-            </div>
-          </div>
-
-          {/* Guideway Rail Track Structure — 100% Edge-to-Edge Horizontal Span */}
-          <div style={{
-            position: 'relative',
-            width: '100%',
-            height: '56px',
-            zIndex: 2,
+            zIndex: 10,
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'flex-end'
+            justifyContent: 'flex-end',
+            overflow: 'visible'
           }}>
+            {/* Moving Maglev Train Model */}
             <div style={{
               position: 'relative',
               width: '100%',
-              height: '44px',
-              overflow: 'hidden',
-              borderTop: '1.5px solid #334155',
-              boxShadow: '0 -2px 10px rgba(0,0,0,0.18)'
+              height: '80px',
+              zIndex: 4,
+              display: 'flex',
+              alignItems: 'flex-end',
+              marginBottom: '1px',
+              overflow: 'visible'
             }}>
-              <img
-                src="/FunWithMagnets/transrapid_track_clean.png"
-                alt="Transrapid Maglev Guideway Track"
+              <div
                 style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
+                  position: 'absolute',
+                  left: getTrainLeft(),
+                  bottom: '0px',
+                  width: '380px',
+                  transition: getTrainTransition(),
+                  willChange: 'left',
                   display: 'block'
                 }}
-              />
+              >
+                <img
+                  src="/FunWithMagnets/transrapid_train_clean.png"
+                  alt="Transrapid Maglev Bullet Train"
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    display: 'block',
+                    filter: 'drop-shadow(0 8px 14px rgba(0,0,0,0.35))'
+                  }}
+                />
 
-              {/* 5 Electromagnetic Stator Coil Status Markers */}
+                {/* Levitation Glow Cushion */}
+                <div style={{
+                  position: 'absolute',
+                  bottom: '-2px',
+                  left: '15px',
+                  right: '15px',
+                  height: '6px',
+                  background: 'radial-gradient(ellipse at center, rgba(56,189,248,0.8) 0%, rgba(56,189,248,0) 80%)',
+                  filter: 'blur(3px)',
+                  pointerEvents: 'none'
+                }} />
+              </div>
+            </div>
+
+            {/* Guideway Rail Track Structure — 100% Edge-to-Edge Horizontal Span */}
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              height: '34px',
+              zIndex: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-end'
+            }}>
               <div style={{
-                position: 'absolute',
-                bottom: '3px',
-                left: 0,
-                right: 0,
-                display: 'flex',
-                justifyContent: 'space-around',
-                padding: '0 1.5rem',
-                zIndex: 6,
-                pointerEvents: 'none'
+                position: 'relative',
+                width: '100%',
+                height: '28px',
+                overflow: 'hidden',
+                borderTop: '1.5px solid rgba(56, 189, 248, 0.7)',
+                borderBottom: '1.5px solid rgba(15, 23, 42, 0.9)',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                background: 'linear-gradient(180deg, rgba(30, 41, 59, 0.92) 0%, rgba(15, 23, 42, 0.98) 100%)'
               }}>
-                {[0, 1, 2, 3, 4].map(idx => {
-                  const isActive = activeCoils[idx];
-                  return (
-                    <div
-                      key={idx}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        padding: '0.2rem 0.75rem',
-                        borderRadius: '6px',
-                        background: isActive ? '#0284C7' : 'rgba(15, 23, 42, 0.88)',
-                        border: `1.5px solid ${isActive ? '#38BDF8' : '#475569'}`,
-                        boxShadow: isActive ? '0 0 12px rgba(56,189,248,0.95)' : '0 2px 4px rgba(0,0,0,0.3)',
-                        backdropFilter: 'blur(4px)',
-                        transition: 'all 0.25s ease'
-                      }}
-                    >
-                      <span style={{
-                        color: isActive ? '#FFFFFF' : '#CBD5E1',
-                        fontSize: '0.92rem',
-                        fontWeight: 900,
-                        letterSpacing: '0.3px'
-                      }}>
-                        Coil {idx + 1}
-                      </span>
-                      <span style={{
-                        background: isActive ? '#38BDF8' : '#334155',
-                        color: isActive ? '#0369A1' : '#94A3B8',
-                        fontSize: '0.82rem',
-                        fontWeight: 900,
-                        padding: '0.1rem 0.4rem',
-                        borderRadius: '4px'
-                      }}>
-                        {isActive ? '⚡ ON' : 'OFF'}
-                      </span>
-                    </div>
-                  );
-                })}
+                <img
+                  src="/FunWithMagnets/transrapid_track_clean.png"
+                  alt="Transrapid Maglev Guideway Track"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                    opacity: 0.92
+                  }}
+                />
+
+                {/* 5 Electromagnetic Stator Coil Status Markers */}
+                <div style={{
+                  position: 'absolute',
+                  bottom: '2px',
+                  left: 0,
+                  right: 0,
+                  display: 'flex',
+                  justifyContent: 'space-around',
+                  padding: '0 1.5rem',
+                  zIndex: 6,
+                  pointerEvents: 'none'
+                }}>
+                  {[0, 1, 2, 3, 4].map(idx => {
+                    const isActive = activeCoils[idx];
+                    return (
+                      <div
+                        key={idx}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          padding: '0.15rem 0.65rem',
+                          borderRadius: '5px',
+                          background: isActive ? '#0284C7' : 'rgba(15, 23, 42, 0.88)',
+                          border: `1.5px solid ${isActive ? '#38BDF8' : '#475569'}`,
+                          boxShadow: isActive ? '0 0 10px rgba(56,189,248,0.95)' : '0 2px 4px rgba(0,0,0,0.3)',
+                          backdropFilter: 'blur(4px)',
+                          transition: 'all 0.25s ease'
+                        }}
+                      >
+                        <span style={{
+                          color: isActive ? '#FFFFFF' : '#CBD5E1',
+                          fontSize: '0.86rem',
+                          fontWeight: 900,
+                          letterSpacing: '0.3px'
+                        }}>
+                          Coil {idx + 1}
+                        </span>
+                        <span style={{
+                          background: isActive ? '#38BDF8' : '#334155',
+                          color: isActive ? '#0369A1' : '#94A3B8',
+                          fontSize: '0.76rem',
+                          fontWeight: 900,
+                          padding: '0.08rem 0.35rem',
+                          borderRadius: '3px'
+                        }}>
+                          {isActive ? '⚡ ON' : 'OFF'}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
