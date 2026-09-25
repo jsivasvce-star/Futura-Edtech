@@ -84,39 +84,83 @@
   transform: translateY(0) scale(0.98) !important;
 }
 
+.magnet-interaction-root .navy-btn,
+.navy-btn {
+  position: relative !important;
+  overflow: hidden !important;
+  background: linear-gradient(135deg, #214A70 0%, #173B5F 100%) !important;
+  border: 1.5px solid #2B6CB0 !important;
+  color: #FFFFFF !important;
+  font-weight: 900 !important;
+  border-radius: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  box-shadow: 0 4px 14px rgba(23, 59, 95, 0.3);
+  transition: all 0.2s ease;
+}
+
+.magnet-interaction-root .navy-btn::after,
+.navy-btn::after {
+  content: '' !important;
+  position: absolute !important;
+  top: -70% !important;
+  left: 0 !important;
+  width: 50% !important;
+  height: 240% !important;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0) 100%
+  ) !important;
+  animation: gentle-shimmer 4.2s infinite ease-in-out !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+}
+
+.magnet-interaction-root .navy-btn:hover,
+.navy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(23, 59, 95, 0.45);
+}
+
 /* Gold Step Number Badge */
 .gold-step-badge {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-  color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
-  font-size: 1.35rem;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.35);
-  position: relative;
-  overflow: hidden;
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
+  color: #FFFFFF !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 900 !important;
+  font-size: 1.35rem !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.35) !important;
+  position: relative !important;
+  overflow: hidden !important;
 }
 
 .gold-step-badge::after {
-  content: '';
-  position: absolute;
-  top: -70%;
-  left: 0;
-  width: 50%;
-  height: 240%;
+  content: '' !important;
+  position: absolute !important;
+  top: -70% !important;
+  left: 0 !important;
+  width: 50% !important;
+  height: 240% !important;
   background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.65) 50%,
+    rgba(255, 255, 255, 0.75) 50%,
     rgba(255, 255, 255, 0) 100%
-  );
-  animation: gentle-shimmer 3.8s infinite ease-in-out;
-  pointer-events: none;
+  ) !important;
+  animation: gentle-shimmer 3.8s infinite ease-in-out !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
 }
 
 /* Custom Navy Scrollbar */
@@ -145,16 +189,14 @@
   background: #0A1931 !important;
 }
 
-/* Right Column Layout: Deterministic container sizing without unpredictable media-query squishing */
+/* Right Column Layout: Clean fit-content card sizing matching design reference */
 .magnet-interaction-root .stage-right-column {
-  flex: 1.15;
-  height: 100%;
-  max-height: 100%;
-  min-height: 0;
+  width: 500px;
+  max-width: 500px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1rem;
   min-width: 0;
   overflow-y: auto;
   overflow-x: hidden;
@@ -163,14 +205,15 @@
 
 .magnet-interaction-root .stage-right-column .stage-container-1 {
   flex-shrink: 0 !important;
-  height: auto !important;
+  height: fit-content !important;
   min-height: fit-content !important;
   box-sizing: border-box !important;
 }
 
 .magnet-interaction-root .stage-right-column .stage-container-2 {
-  flex: 1 !important;
-  min-height: 0 !important;
+  flex-shrink: 0 !important;
+  height: fit-content !important;
+  min-height: fit-content !important;
   box-sizing: border-box !important;
 }
 

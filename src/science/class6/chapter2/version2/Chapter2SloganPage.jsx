@@ -673,8 +673,8 @@ export default function Chapter2SloganPage({
   const [isPlayingWhyStudyAudio, setIsPlayingWhyStudyAudio] = useState(false);
   const [isPlayingAdaptationAudio, setIsPlayingAdaptationAudio] = useState(false);
   const [isSloganPopOpen, setIsSloganPopOpen] = useState(true);
-  const [showPage2Popup, setShowPage2Popup] = useState(true);
-  const [showPage3Popup, setShowPage3Popup] = useState(true);
+  const [showPage2Popup, setShowPage2Popup] = useState(false);
+  const [showPage3Popup, setShowPage3Popup] = useState(false);
   const [showPage4Popup, setShowPage4Popup] = useState(false);
   const [showPage5Popup, setShowPage5Popup] = useState(false);
   const [page3ActiveTab, setPage3ActiveTab] = useState(0);
@@ -776,10 +776,14 @@ export default function Chapter2SloganPage({
     };
   }, [currentPage, pauseShlokaAudio, pauseBioNarration, pauseDesertNarration, pauseBotanyNarration, pauseConservationNarration]);
 
-  // Page 2: Open attractive popup message with play narration controls
+  // Page 2: Trigger popup message after 3 seconds
   useEffect(() => {
     if (currentPage === 2) {
-      setShowPage2Popup(true);
+      setShowPage2Popup(false);
+      const timer = setTimeout(() => {
+        setShowPage2Popup(true);
+      }, 3000);
+      return () => clearTimeout(timer);
     } else {
       setShowPage2Popup(false);
       if (isPlayingBioAudio) {
@@ -789,10 +793,14 @@ export default function Chapter2SloganPage({
     }
   }, [currentPage]);
 
-  // Page 3: Open attractive popup message with play narration controls
+  // Page 3: Trigger popup message after 3 seconds
   useEffect(() => {
     if (currentPage === 3) {
-      setShowPage3Popup(true);
+      setShowPage3Popup(false);
+      const timer = setTimeout(() => {
+        setShowPage3Popup(true);
+      }, 3000);
+      return () => clearTimeout(timer);
     } else {
       setShowPage3Popup(false);
       pauseDesertNarration();
@@ -803,13 +811,13 @@ export default function Chapter2SloganPage({
     }
   }, [currentPage, pauseDesertNarration]);
 
-  // Page 4: Trigger attractive popup message after 4 seconds of full-image viewing
+  // Page 4: Trigger popup message after 3 seconds
   useEffect(() => {
     if (currentPage === 4) {
       setShowPage4Popup(false);
       const timer = setTimeout(() => {
         setShowPage4Popup(true);
-      }, 4000);
+      }, 3000);
       return () => clearTimeout(timer);
     } else {
       setShowPage4Popup(false);
@@ -819,13 +827,13 @@ export default function Chapter2SloganPage({
     }
   }, [currentPage]);
 
-  // Page 5: Trigger attractive popup message after 4 seconds of full-image viewing
+  // Page 5: Trigger popup message after 3 seconds
   useEffect(() => {
     if (currentPage === 5) {
       setShowPage5Popup(false);
       const timer = setTimeout(() => {
         setShowPage5Popup(true);
-      }, 4000);
+      }, 3000);
       return () => clearTimeout(timer);
     } else {
       setShowPage5Popup(false);
@@ -2476,8 +2484,8 @@ export default function Chapter2SloganPage({
                 }}>
                   <span style={{
                     background: 'linear-gradient(135deg, rgba(40, 24, 6, 0.70) 0%, rgba(20, 12, 3, 0.60) 100%)',
-                    color: '#FDE68A',
-                    border: '1.5px solid rgba(251, 191, 36, 0.55)',
+                    color: '#34D399',
+                    border: '1.5px solid rgba(52, 211, 153, 0.55)',
                     boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
                     padding: '5px 16px',
                     borderRadius: '22px',
@@ -2492,7 +2500,7 @@ export default function Chapter2SloganPage({
                     textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                   }}>
                     <span style={{ fontSize: '18px' }}>🌵</span>
-                    <span style={{ color: '#F59E0B' }}>ADAPTATION</span>
+                    <span style={{ color: '#34D399' }}>ADAPTATION</span>
                   </span>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -2504,12 +2512,12 @@ export default function Chapter2SloganPage({
                       title={isPlayingDesertAudio ? 'Pause Narration' : 'Play Narration'}
                       style={{
                         background: isPlayingDesertAudio
-                          ? 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)'
-                          : 'linear-gradient(135deg, rgba(245, 158, 11, 0.45) 0%, rgba(217, 119, 6, 0.35) 100%)',
-                        border: '1.8px solid #FBBF24',
+                          ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                          : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
+                        border: '1.8px solid #34D399',
                         boxShadow: isPlayingDesertAudio
-                          ? '0 0 16px rgba(245, 158, 11, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
-                          : '0 4px 12px rgba(0, 0, 0, 0.35), 0 0 10px rgba(245, 158, 11, 0.25)',
+                          ? '0 0 16px rgba(52, 211, 153, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
+                          : '0 4px 12px rgba(0, 0, 0, 0.35), 0 0 10px rgba(52, 211, 153, 0.25)',
                         borderRadius: '20px',
                         padding: '6px 14px',
                         display: 'inline-flex',
@@ -2525,11 +2533,11 @@ export default function Chapter2SloganPage({
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.transform = 'scale(1.05)';
-                        e.currentTarget.style.borderColor = '#FDE68A';
+                        e.currentTarget.style.borderColor = '#6EE7B7';
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.transform = 'scale(1)';
-                        e.currentTarget.style.borderColor = '#FBBF24';
+                        e.currentTarget.style.borderColor = '#34D399';
                       }}
                     >
                       {isPlayingDesertAudio ? (
@@ -2593,14 +2601,14 @@ export default function Chapter2SloganPage({
                     fontWeight: 900,
                     fontSize: '20px',
                     margin: 0,
-                    color: '#F59E0B',
+                    color: '#34D399',
                     lineHeight: 1.25,
                     letterSpacing: '0.02em',
                     textTransform: 'uppercase',
-                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 24px rgba(245, 158, 11, 0.65), 0 0 40px rgba(217, 119, 6, 0.25)'
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 24px rgba(52, 211, 153, 0.65), 0 0 40px rgba(16, 185, 129, 0.25)'
                   }}>
-                    <BioWord index={0} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">DESERT</BioWord>{' '}
-                    <BioWord index={1} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">ADAPTATIONS</BioWord>
+                    <BioWord index={0} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>DESERT</BioWord>{' '}
+                    <BioWord index={1} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>ADAPTATIONS</BioWord>
                   </h2>
                 </div>
 
@@ -2615,23 +2623,23 @@ export default function Chapter2SloganPage({
                     <div style={{
                       fontSize: '18px',
                       fontWeight: 800,
-                      color: '#FBBF24',
+                      color: '#6EE7B7',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
                       fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(251, 191, 36, 0.45)'
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(110, 231, 183, 0.4)'
                     }}>
                       <span style={{ fontSize: '18px' }}>🦎</span>
                       <span>
-                        <BioWord index={2} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">What</BioWord>{' '}
-                        <BioWord index={3} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Is</BioWord>{' '}
-                        <BioWord index={4} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Adaptation?</BioWord>
+                        <BioWord index={2} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>What</BioWord>{' '}
+                        <BioWord index={3} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>Is</BioWord>{' '}
+                        <BioWord index={4} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>Adaptation?</BioWord>
                       </span>
                     </div>
                     <div style={{
                       fontSize: '18px',
-                      color: '#FEF3C7',
+                      color: '#E2E8F0',
                       textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
                       fontWeight: 500,
                       lineHeight: 1.6,
@@ -2639,19 +2647,19 @@ export default function Chapter2SloganPage({
                       textAlign: 'justify',
                       textJustify: 'inter-word'
                     }}>
-                      <BioWord index={5} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">A</BioWord>{' '}
-                      <BioWord index={6} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">feature</BioWord>{' '}
-                      <BioWord index={7} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">or</BioWord>{' '}
-                      <BioWord index={8} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">behaviour</BioWord>{' '}
-                      <BioWord index={9} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">that</BioWord>{' '}
-                      <BioWord index={10} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">helps</BioWord>{' '}
-                      <BioWord index={11} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">a</BioWord>{' '}
-                      <BioWord index={12} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">living</BioWord>{' '}
-                      <BioWord index={13} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">thing</BioWord>{' '}
-                      <BioWord index={14} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">survive</BioWord>{' '}
-                      <BioWord index={15} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">in</BioWord>{' '}
-                      <BioWord index={16} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">its</BioWord>{' '}
-                      <BioWord index={17} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">habitat.</BioWord>
+                      <BioWord index={5} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>A</BioWord>{' '}
+                      <BioWord index={6} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>feature</BioWord>{' '}
+                      <BioWord index={7} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>or</BioWord>{' '}
+                      <BioWord index={8} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>behaviour</BioWord>{' '}
+                      <BioWord index={9} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>that</BioWord>{' '}
+                      <BioWord index={10} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>helps</BioWord>{' '}
+                      <BioWord index={11} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>a</BioWord>{' '}
+                      <BioWord index={12} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>living</BioWord>{' '}
+                      <BioWord index={13} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>thing</BioWord>{' '}
+                      <BioWord index={14} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>survive</BioWord>{' '}
+                      <BioWord index={15} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>in</BioWord>{' '}
+                      <BioWord index={16} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>its</BioWord>{' '}
+                      <BioWord index={17} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>habitat.</BioWord>
                     </div>
                   </div>
 
@@ -2662,75 +2670,20 @@ export default function Chapter2SloganPage({
                     <div style={{
                       fontSize: '18px',
                       fontWeight: 800,
-                      color: '#FBBF24',
+                      color: '#7DD3FC',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
                       fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(251, 191, 36, 0.45)'
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(125, 211, 252, 0.4)'
                     }}>
                       <span style={{ fontSize: '18px' }}>🐪</span>
                       <span>
-                        <BioWord index={18} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">The</BioWord>{' '}
-                        <BioWord index={19} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Ship</BioWord>{' '}
-                        <BioWord index={20} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">of</BioWord>{' '}
-                        <BioWord index={21} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">the</BioWord>{' '}
-                        <BioWord index={22} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Desert</BioWord>
-                      </span>
-                    </div>
-                    <div style={{
-                      fontSize: '18px',
-                      color: '#FEF3C7',
-                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
-                      fontWeight: 500,
-                      lineHeight: 1.6,
-                      fontFamily: '"Inter", sans-serif',
-                      textAlign: 'justify',
-                      textJustify: 'inter-word'
-                    }}>
-                      <BioWord index={23} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">A</BioWord>{' '}
-                      <BioWord index={24} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">camel’s</BioWord>{' '}
-                      <BioWord index={25} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">broad,</BioWord>{' '}
-                      <BioWord index={26} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">padded</BioWord>{' '}
-                      <BioWord index={27} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">feet</BioWord>{' '}
-                      <BioWord index={28} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">help</BioWord>{' '}
-                      <BioWord index={29} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">prevent</BioWord>{' '}
-                      <BioWord index={30} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">it</BioWord>{' '}
-                      <BioWord index={31} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">from</BioWord>{' '}
-                      <BioWord index={32} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">sinking</BioWord>{' '}
-                      <BioWord index={33} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">into</BioWord>{' '}
-                      <BioWord index={34} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">sand.</BioWord>{' '}
-                      <BioWord index={35} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Its</BioWord>{' '}
-                      <BioWord index={36} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">long</BioWord>{' '}
-                      <BioWord index={37} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">eyelashes</BioWord>{' '}
-                      <BioWord index={38} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">help</BioWord>{' '}
-                      <BioWord index={39} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">protect</BioWord>{' '}
-                      <BioWord index={40} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">its</BioWord>{' '}
-                      <BioWord index={41} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">eyes</BioWord>{' '}
-                      <BioWord index={42} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">from</BioWord>{' '}
-                      <BioWord index={43} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">blowing</BioWord>{' '}
-                      <BioWord index={44} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">dust.</BioWord>
-                    </div>
-                  </div>
-
-                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
-
-                  {/* Section 3: Saving Water */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <div style={{
-                      fontSize: '18px',
-                      fontWeight: 800,
-                      color: '#22D3EE',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(34, 211, 238, 0.4)'
-                    }}>
-                      <span style={{ fontSize: '18px' }}>💧</span>
-                      <span>
-                        <BioWord index={45} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">Saving</BioWord>{' '}
-                        <BioWord index={46} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">Water</BioWord>
+                        <BioWord index={18} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>The</BioWord>{' '}
+                        <BioWord index={19} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>Ship</BioWord>{' '}
+                        <BioWord index={20} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>of</BioWord>{' '}
+                        <BioWord index={21} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>the</BioWord>{' '}
+                        <BioWord index={22} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>Desert</BioWord>
                       </span>
                     </div>
                     <div style={{
@@ -2743,25 +2696,80 @@ export default function Chapter2SloganPage({
                       textAlign: 'justify',
                       textJustify: 'inter-word'
                     }}>
-                      <BioWord index={47} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">Camels</BioWord>{' '}
-                      <BioWord index={48} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">conserve</BioWord>{' '}
-                      <BioWord index={49} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">water</BioWord>{' '}
-                      <BioWord index={50} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">by</BioWord>{' '}
-                      <BioWord index={51} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">reducing</BioWord>{' '}
-                      <BioWord index={52} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">water</BioWord>{' '}
-                      <BioWord index={53} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">loss</BioWord>{' '}
-                      <BioWord index={54} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">from</BioWord>{' '}
-                      <BioWord index={55} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">their</BioWord>{' '}
-                      <BioWord index={56} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">bodies.</BioWord>{' '}
-                      <BioWord index={57} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">This</BioWord>{' '}
-                      <BioWord index={58} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">helps</BioWord>{' '}
-                      <BioWord index={59} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">them</BioWord>{' '}
-                      <BioWord index={60} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">survive</BioWord>{' '}
-                      <BioWord index={61} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">for</BioWord>{' '}
-                      <BioWord index={62} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">long</BioWord>{' '}
-                      <BioWord index={63} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">periods</BioWord>{' '}
-                      <BioWord index={64} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">without</BioWord>{' '}
-                      <BioWord index={65} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="cyan">drinking.</BioWord>
+                      <BioWord index={23} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>A</BioWord>{' '}
+                      <BioWord index={24} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>camel’s</BioWord>{' '}
+                      <BioWord index={25} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>broad,</BioWord>{' '}
+                      <BioWord index={26} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>padded</BioWord>{' '}
+                      <BioWord index={27} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>feet</BioWord>{' '}
+                      <BioWord index={28} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>help</BioWord>{' '}
+                      <BioWord index={29} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>prevent</BioWord>{' '}
+                      <BioWord index={30} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>it</BioWord>{' '}
+                      <BioWord index={31} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>from</BioWord>{' '}
+                      <BioWord index={32} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>sinking</BioWord>{' '}
+                      <BioWord index={33} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>into</BioWord>{' '}
+                      <BioWord index={34} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>sand.</BioWord>{' '}
+                      <BioWord index={35} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>Its</BioWord>{' '}
+                      <BioWord index={36} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>long</BioWord>{' '}
+                      <BioWord index={37} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>eyelashes</BioWord>{' '}
+                      <BioWord index={38} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>help</BioWord>{' '}
+                      <BioWord index={39} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>protect</BioWord>{' '}
+                      <BioWord index={40} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>its</BioWord>{' '}
+                      <BioWord index={41} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>eyes</BioWord>{' '}
+                      <BioWord index={42} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>from</BioWord>{' '}
+                      <BioWord index={43} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>blowing</BioWord>{' '}
+                      <BioWord index={44} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio}>dust.</BioWord>
+                    </div>
+                  </div>
+
+                  <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+                  {/* Section 3: Saving Water */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      color: '#FBBF24',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontFamily: '"Outfit", sans-serif',
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(251, 191, 36, 0.45)'
+                    }}>
+                      <span style={{ fontSize: '18px' }}>💧</span>
+                      <span>
+                        <BioWord index={45} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Saving</BioWord>{' '}
+                        <BioWord index={46} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Water</BioWord>
+                      </span>
+                    </div>
+                    <div style={{
+                      fontSize: '18px',
+                      color: '#FEF3C7',
+                      textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
+                      fontWeight: 500,
+                      lineHeight: 1.6,
+                      fontFamily: '"Inter", sans-serif',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word'
+                    }}>
+                      <BioWord index={47} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">Camels</BioWord>{' '}
+                      <BioWord index={48} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">conserve</BioWord>{' '}
+                      <BioWord index={49} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">water</BioWord>{' '}
+                      <BioWord index={50} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">by</BioWord>{' '}
+                      <BioWord index={51} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">reducing</BioWord>{' '}
+                      <BioWord index={52} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">water</BioWord>{' '}
+                      <BioWord index={53} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">loss</BioWord>{' '}
+                      <BioWord index={54} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">from</BioWord>{' '}
+                      <BioWord index={55} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">their</BioWord>{' '}
+                      <BioWord index={56} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">bodies.</BioWord>{' '}
+                      <BioWord index={57} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">This</BioWord>{' '}
+                      <BioWord index={58} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">helps</BioWord>{' '}
+                      <BioWord index={59} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">them</BioWord>{' '}
+                      <BioWord index={60} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">survive</BioWord>{' '}
+                      <BioWord index={61} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">for</BioWord>{' '}
+                      <BioWord index={62} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">long</BioWord>{' '}
+                      <BioWord index={63} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">periods</BioWord>{' '}
+                      <BioWord index={64} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">without</BioWord>{' '}
+                      <BioWord index={65} activeIndex={desertActiveWordIndex} isPlaying={isPlayingDesertAudio} color="amber">drinking.</BioWord>
                     </div>
                   </div>
 
@@ -3170,19 +3178,19 @@ export default function Chapter2SloganPage({
                     <div style={{
                       fontSize: '18px',
                       fontWeight: 800,
-                      color: '#FDA4AF',
+                      color: '#7DD3FC',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
                       fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(253, 164, 175, 0.4)'
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(125, 211, 252, 0.4)'
                     }}>
                       <span style={{ fontSize: '18px' }}>🌹</span>
                       <span>Shrubs — Rose</span>
                     </div>
                     <div style={{
                       fontSize: '18px',
-                      color: '#FFE4E6',
+                      color: '#E0F2FE',
                       textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
                       fontWeight: 500,
                       lineHeight: 1.6,
@@ -3252,19 +3260,19 @@ export default function Chapter2SloganPage({
                     <div style={{
                       fontSize: '18px',
                       fontWeight: 800,
-                      color: '#A78BFA',
+                      color: '#6EE7B7',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
                       fontFamily: '"Outfit", sans-serif',
-                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(167, 139, 250, 0.4)'
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(110, 231, 183, 0.4)'
                     }}>
                       <span style={{ fontSize: '18px' }}>🪴</span>
                       <span>Climbers — Money Plant</span>
                     </div>
                     <div style={{
                       fontSize: '18px',
-                      color: '#EDE9FE',
+                      color: '#E2E8F0',
                       textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
                       fontWeight: 500,
                       lineHeight: 1.6,
@@ -3286,8 +3294,8 @@ export default function Chapter2SloganPage({
 
                   {/* Callout box: Think */}
                   <div style={{
-                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.22) 0%, rgba(5, 150, 105, 0.16) 100%)',
-                    border: '1.5px solid rgba(167, 243, 208, 0.45)',
+                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.16) 100%)',
+                    border: '1.5px solid rgba(253, 230, 138, 0.45)',
                     borderRadius: '14px',
                     padding: '10px 14px',
                     boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
@@ -3776,8 +3784,8 @@ export default function Chapter2SloganPage({
 
                   {/* Callout box: Think */}
                   <div style={{
-                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.22) 0%, rgba(5, 150, 105, 0.16) 100%)',
-                    border: '1.5px solid rgba(167, 243, 208, 0.45)',
+                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.16) 100%)',
+                    border: '1.5px solid rgba(253, 230, 138, 0.45)',
                     borderRadius: '14px',
                     padding: '10px 14px',
                     boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',

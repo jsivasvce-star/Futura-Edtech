@@ -7,7 +7,7 @@ import {
 import confetti from 'canvas-confetti';
 
 import sanskritSlogan from '../../../../assets/sanskrit_slogan.png';
-import CoverPage from '../../../../components/CoverPage';
+import Chapter2CoverPage from './Chapter2CoverPage';
 import Chapter2SloganPage from './Chapter2SloganPage';
 import IntroStoryteller from './IntroStoryteller';
 import activity21TransitionVideo from '../../../../assets/activity21_transition.mp4';
@@ -196,8 +196,14 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
   }); // 'venation' | 'correlation'
   const [step5Phase, setStep5Phase] = useState('specimens'); // controls which phase InlineSortingActivity (re)mounts into: 'specimens' | 'table23'
   const [step5SpecimenIndex, setStep5SpecimenIndex] = useState(0); // which specimen slide InlineSortingActivity (re)mounts into when returning to the specimens phase
-  const [correlationPhase, setCorrelationPhase] = useState('specimens'); // controls which phase VenationRootCorrelationLab (re)mounts into: 'specimens' | 'lab'
-  const [biodiversityPhase, setBiodiversityPhase] = useState('timer'); // controls which phase AppreciatingBiodiversityActivity (re)mounts into: 'timer' | 'pick' | 'board'
+  const [correlationPhase, setCorrelationPhase] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    return params.get('phase') || 'specimens';
+  }); // controls which phase VenationRootCorrelationLab (re)mounts into: 'specimens' | 'lab'
+  const [biodiversityPhase, setBiodiversityPhase] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+    return params.get('subStep') || 'timer';
+  }); // controls which phase AppreciatingBiodiversityActivity (re)mounts into: 'timer' | 'pick' | 'board'
   const [rootsSpecimenIndex, setRootsSpecimenIndex] = useState(0); // controls which specimen slide RootSystemsLab (re)mounts into (0-6)
   const [venationPhase, setVenationPhase] = useState('cover'); // controls which phase LeafVenationLab (re)mounts into: 'cover' | 'specimens'
   const [venationSpecimenIndex, setVenationSpecimenIndex] = useState(0); // controls which specimen slide LeafVenationLab (re)mounts into (0-6)
@@ -490,13 +496,12 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
 
   if (viewMode === 'cover') {
     return (
-      <CoverPage
+      <Chapter2CoverPage
         classNum={6}
         subjectName="CHAPTER 2 · BIOLOGY"
         chapterNum={2}
         title="Diversity in the Living World"
         topics="Plants · Animals · Habitats · Adaptation · Classification"
-        coverGraphic="diversity"
         onBack={onBack}
         onNext={() => {
           setViewMode('activity');

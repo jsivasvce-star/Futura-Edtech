@@ -1,0 +1,78 @@
+{
+  "specimen": "rose",
+  "part1": {
+    "audioFile": "RoseSpecimen.mp3",
+    "totalDuration": 26.984,
+    "segments": [
+      {
+        "id": "intro_title",
+        "start": 0.0,
+        "end": 2.361,
+        "targets": ["rose_title"]
+      },
+      {
+        "id": "intro_description",
+        "start": 2.361,
+        "end": 8.457,
+        "targets": ["rose_description"]
+      },
+      {
+        "id": "clue1_flower",
+        "start": 8.457,
+        "end": 14.474,
+        "targets": ["flower_pin", "card1_title", "card1_desc", "card1_check"]
+      },
+      {
+        "id": "clue2_stem",
+        "start": 14.474,
+        "end": 21.136,
+        "targets": ["stem_pin", "card2_title", "card2_desc", "card2_check"]
+      },
+      {
+        "id": "clue3_leaves",
+        "start": 21.136,
+        "end": 26.984,
+        "targets": ["leaves_pin", "card3_title", "card3_desc", "card3_check"]
+      }
+    ]
+  },
+  "part2": {
+    "audioFile": "RoseSpecimenAfterPause.mp3",
+    "totalDuration": 7.837,
+    "segments": [
+      {
+        "id": "question_evidence",
+        "start": 0.0,
+        "end": 3.924,
+        "targets": ["question"]
+      },
+      {
+        "id": "answer_shrub",
+        "start": 3.924,
+        "end": 7.837,
+        "targets": ["group_shrub", "shrub_correct"]
+      }
+    ]
+  },
+  "targets": {
+    "rose_title": { "left": 1.8, "top": 1.5, "width": 16.5, "height": 20.5, "radius": 10 },
+    "rose_description": { "left": 1.8, "top": 17.5, "width": 24.0, "height": 13.0, "radius": 8 },
+    "flower_pin": { "left": 42.0, "top": 11.5, "width": 13.0, "height": 7.0, "radius": 20 },
+    "stem_pin": { "left": 11.0, "top": 50.0, "width": 12.0, "height": 7.0, "radius": 20 },
+    "leaves_pin": { "left": 41.5, "top": 58.0, "width": 13.0, "height": 7.0, "radius": 20 },
+    "card1_title": { "left": 66.8, "top": 12.5, "width": 10.0, "height": 3.5, "radius": 6 },
+    "card1_desc": { "left": 66.8, "top": 16.2, "width": 24.5, "height": 5.5, "radius": 6 },
+    "card1_check": { "left": 91.8, "top": 13.5, "width": 4.2, "height": 5.5, "radius": 12 },
+    "card2_title": { "left": 66.8, "top": 24.0, "width": 17.0, "height": 3.5, "radius": 6 },
+    "card2_desc": { "left": 66.8, "top": 27.8, "width": 24.5, "height": 5.5, "radius": 6 },
+    "card2_check": { "left": 91.8, "top": 25.0, "width": 4.2, "height": 5.5, "radius": 12 },
+    "card3_title": { "left": 66.8, "top": 35.5, "width": 10.0, "height": 3.5, "radius": 6 },
+    "card3_desc": { "left": 66.8, "top": 39.2, "width": 24.5, "height": 5.5, "radius": 6 },
+    "card3_check": { "left": 91.8, "top": 36.5, "width": 4.2, "height": 5.5, "radius": 12 },
+    "question": { "left": 60.0, "top": 48.5, "width": 38.0, "height": 4.0, "radius": 6 },
+    "group_herb": { "left": 60.0, "top": 53.0, "width": 11.5, "height": 22.5, "radius": 14 },
+    "group_shrub": { "left": 72.7, "top": 53.0, "width": 11.5, "height": 22.5, "radius": 14 },
+    "group_tree": { "left": 85.4, "top": 53.0, "width": 11.5, "height": 22.5, "radius": 14 },
+    "shrub_correct": { "left": 78.5, "top": 54.5, "width": 5.5, "height": 3.2, "radius": 10 }
+  }
+}

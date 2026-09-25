@@ -285,12 +285,12 @@ export default function Stage2_Floating({ onComplete }) {
           </button>
 
           {/* 4 Cardinal Direction Markers Touching the Outer Bowl Rim (North, East, South, West) */}
-          {/* North Badge (Touching top bowl rim) */}
+          {/* North Badge (Touching top bowl rim - nudged downward) */}
           <div 
             className="cardinal-direction-badge"
             style={{
               position: 'absolute',
-              top: '44px',
+              top: '96px',
               left: '50%',
               transform: 'translateX(-50%)',
               zIndex: 25,
@@ -312,12 +312,12 @@ export default function Stage2_Floating({ onComplete }) {
             North
           </div>
 
-          {/* South Badge (Touching bottom bowl rim) */}
+          {/* South Badge (Touching bottom bowl rim - nudged upward) */}
           <div 
             className="cardinal-direction-badge"
             style={{
               position: 'absolute',
-              bottom: '104px',
+              bottom: '124px',
               left: '50%',
               transform: 'translateX(-50%)',
               zIndex: 25,

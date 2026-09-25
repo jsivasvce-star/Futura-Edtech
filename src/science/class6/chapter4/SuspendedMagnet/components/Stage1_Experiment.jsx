@@ -630,20 +630,7 @@ export default function Stage1_Experiment({ onComplete }) {
               { num: '3', text: 'Repeat. Compare the final direction.' }
             ].map((step) => (
               <div key={step.num} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <div style={{
-                  width: '38px',
-                  height: '38px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                  color: '#FFFFFF',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: 900,
-                  fontSize: '1.35rem',
-                  flexShrink: 0,
-                  boxShadow: '0 2px 8px rgba(217, 119, 6, 0.35)'
-                }}>
+                <div className="gold-step-badge">
                   {step.num}
                 </div>
                 <span style={{
