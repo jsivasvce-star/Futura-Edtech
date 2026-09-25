@@ -1,0 +1,1234 @@
+/* ==========================================================================
+   PATTERN LAB - CHAPTER 1.2 "NUMBER PATTERNS"
+   TARGET SCREEN: 1920 × 1080 VIEWPORT (ZERO SCROLLING)
+   - Exact dimensional specifications for 1920x1080 desktop/laptop
+   - Large, prominent 128px × 180px term cards with 54px bold numbers
+   - Positioned in central upper-middle area (150-180px below top)
+   - 1100-1250px wide Learning Checkpoint card with 26px question & 80-100x58-68px answer buttons
+   - Zero vertical or horizontal scrolling (overflow: hidden, 100vh)
+   - Creamy-white educational aesthetic preserved
+   ========================================================================== */
+
+/* ─────────────────────────────────────────────────────────────
+   ROOT VIEWPORT CONTAINER (Strict 100vh, Zero Scrolling)
+   ───────────────────────────────────────────────────────────── */
+.pattern-lab-root {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999999;
+  margin: 0;
+  padding: 0;
+  overflow: hidden !important; /* Strictly NO page-level scrolling */
+  display: flex;
+  flex-direction: column;
+  color: #0f172a;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-sizing: border-box;
+  background-color: #f8f7f4;
+  user-select: none;
+}
+
+/* Creamy-White Ambient Background Layer */
+.pattern-lab-bg-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 15%, rgba(224, 242, 254, 0.45) 0%, rgba(248, 247, 244, 0) 65%), #f8f7f4;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.pattern-lab-bg-overlay {
+  display: none;
+}
+
+/* Main UI Frame */
+.pattern-lab-frame {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+  overflow: hidden !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   1. TOP NAVIGATION HEADER (58–64 px height, 14–16 px typography)
+   ───────────────────────────────────────────────────────────── */
+.pl-header {
+  position: relative;
+  height: 60px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid #e2e8f0;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+  flex-shrink: 0;
+}
+
+.pl-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pl-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  color: #334155;
+  padding: 7px 16px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.pl-back-btn:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+  border-color: #94a3b8;
+}
+
+/* Center Section Tab: Clean Focused 1.2 Badge */
+.pl-header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pl-section-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 18px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: default;
+  transition: all 0.2s ease;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  color: #64748b;
+}
+
+.pl-section-tab.active {
+  background: #e0f2fe;
+  border-color: #7dd3fc;
+  color: #0284c7;
+  box-shadow: 0 1px 4px rgba(2, 132, 199, 0.12);
+  cursor: default;
+}
+
+.pl-section-badge {
+  background: #0284c7;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+
+.pl-section-tab:hover:not(.active) {
+  background: #f8fafc;
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+/* Header Right Utilities */
+.pl-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pl-util-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  color: #334155;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.pl-util-btn:hover {
+  background: #f8fafc;
+  color: #0f172a;
+  border-color: #94a3b8;
+}
+
+.pl-score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #ecfdf5;
+  border: 1.5px solid #a7f3d0;
+  color: #059669;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 800;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(16, 185, 129, 0.08);
+}
+
+.pl-score-increment {
+  position: absolute;
+  top: -10px;
+  right: -6px;
+  background: #10b981;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 1px 6px;
+  border-radius: 10px;
+  animation: floatFadeUp 1.2s ease forwards;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   2. MAIN CONTENT BODY (Zero Scrolling, Intelligent Space Distribution)
+   ───────────────────────────────────────────────────────────── */
+.pl-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 24px 8px 24px;
+  box-sizing: border-box;
+  overflow: hidden !important; /* Zero internal scroll container */
+  position: relative;
+}
+
+/* Top Area Container */
+.pl-top-area {
+  width: 100%;
+  max-width: 1682px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+/* Concept Eyebrow & Title Banner */
+.pl-concept-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+.pl-concept-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pl-concept-tag {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #0284c7;
+  text-transform: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.2;
+}
+
+.pl-tag-divider {
+  color: #94a3b8;
+  font-weight: 700;
+}
+
+.pl-concept-title {
+  margin: 0;
+  font-size: 48px;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  color: #0f172a;
+  line-height: 1.1;
+}
+
+.pl-concept-subtitle {
+  margin: 2px 0 0 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #475569;
+  line-height: 1.25;
+}
+
+.pl-concept-side-badge {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  padding: 4px 16px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 900;
+  font-family: 'Times New Roman', serif;
+  color: #0f172a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Hint Toast */
+.pl-hint-toast {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;
+  border: 2px solid #0284c7;
+  box-shadow: 0 8px 24px rgba(2, 132, 199, 0.18), 0 2px 6px rgba(0, 0, 0, 0.04);
+  color: #0f172a;
+  padding: 8px 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  z-index: 100;
+  animation: fadeIn 0.2s ease;
+}
+
+.pl-hint-toast button {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.pl-hint-toast button:hover {
+  color: #0f172a;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   3. SUB-TOOLBAR (Controls & Tabs: 14–16 px)
+   ───────────────────────────────────────────────────────────── */
+.pl-subtoolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.pl-mode-tabs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pl-mode-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 15px; /* Target: 14–16 px */
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 8px;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.pl-mode-tab.active {
+  color: #0f172a;
+}
+
+.pl-mode-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -7px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #0284c7;
+  box-shadow: 0 0 6px rgba(2, 132, 199, 0.4);
+  border-radius: 2px;
+}
+
+.pl-mode-badge {
+  background: #e2e8f0;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.pl-mode-tab.active .pl-mode-badge {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+/* Playback Control Buttons (14–16 px font) */
+.pl-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pl-ctrl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  color: #334155;
+  padding: 6px 14px;
+  border-radius: 7px;
+  font-size: 14px; /* Target: 14–16 px */
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.pl-ctrl-btn:hover {
+  background: #f8fafc;
+  color: #0f172a;
+  border-color: #94a3b8;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   4. NUMBER PATTERN CARDS ROW — MAIN FOCUS
+   Positioned ~150–180 px below top, occupying central area
+   Term box: 128 px × 180 px
+   Main number: 54 px, bold (700-800)
+   Labels: 14–16 px, bold
+   Connectors: 12–14 px, 24 px height
+   Row gap: 20–28 px
+   ───────────────────────────────────────────────────────────── */
+.pl-cards-row-container {
+  flex-shrink: 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1720px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.pl-cards-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+  gap: 12px;
+}
+
+/* Individual Term Card - Significantly Enlarged Hero Sequence Box */
+.pl-term-card-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.pl-term-card {
+  width: 204px;
+  height: 290px;
+  background: #ffffff;
+  border: 3px solid #cbd5e1;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-sizing: border-box;
+  box-shadow: 0 8px 26px rgba(15, 23, 42, 0.07), 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.pl-term-card.revealed {
+  border-color: #0284c7;
+  border-width: 3.5px;
+  box-shadow: 0 12px 36px rgba(2, 132, 199, 0.26), 0 3px 10px rgba(0, 0, 0, 0.06);
+  transform: translateY(-4px);
+}
+
+.pl-term-card.locked-target {
+  border: 3px dashed #cbd5e1;
+  background: #fafaf8;
+  box-shadow: none;
+}
+
+/* Main Sequence Number - Prominently Displayed & Centered Both Vertically & Horizontally */
+.pl-card-number-val {
+  font-size: 78px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.pl-card-number-val.long-term {
+  font-size: 62px;
+}
+
+.pl-card-number-val.question-mark {
+  color: #94a3b8;
+  font-size: 78px;
+}
+
+/* Connecting Arcs & Badges (12–14 px, 22–26 px height) */
+.pl-card-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 26px;
+  height: 24px; /* Target: 22–26 px */
+  flex-shrink: 0;
+}
+
+.pl-arc-bridge {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2.5px;
+  background: linear-gradient(90deg, rgba(2, 132, 199, 0.3) 0%, rgba(2, 132, 199, 0.9) 50%, rgba(2, 132, 199, 0.3) 100%);
+}
+
+.pl-arc-badge {
+  position: relative;
+  z-index: 2;
+  background: #e0f2fe;
+  color: #0369a1;
+  font-size: 13px; /* Target: 12–14 px */
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 5px;
+  border: 1.5px solid #7dd3fc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  white-space: nowrap;
+}
+
+/* Term Counter Position Indicator */
+.pl-term-counter-pill {
+  position: absolute;
+  right: 12px;
+  bottom: -10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #64748b;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   5. COMMON ACTIVITY BOX (Compact: 1420 px × 248 px)
+   Remains smaller in height and overall size than the sequence box area above.
+   ───────────────────────────────────────────────────────────── */
+.pl-common-activity-box {
+  width: 1420px;
+  max-width: 90%;
+  height: 248px;
+  min-height: 248px;
+  max-height: 248px;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 20px;
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03);
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 10px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* Base Stage Content Wrapper: Always fills the inside and centers vertically */
+.pl-stage-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  animation: fadeIn 0.25s ease forwards;
+}
+
+/* STAGE 1: WATCH THE PATTERN (Centered inside common box) */
+.pl-stage-watch {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.pl-stage-eyebrow {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #0284c7;
+  text-transform: uppercase;
+  margin: 0 0 6px 0;
+}
+
+.pl-stage-title {
+  margin: 0 0 8px 0;
+  font-size: 34px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.15;
+}
+
+.pl-stage-instruction {
+  margin: 0 0 16px 0;
+  font-size: 20px;
+  color: #334155;
+  font-weight: 600;
+  line-height: 1.4;
+  max-width: 980px;
+  text-align: center;
+}
+
+.pl-watch-try-btn {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  border: 1.5px solid rgba(2, 132, 199, 0.6);
+  border-radius: 12px;
+  padding: 11px 38px;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(2, 132, 199, 0.25);
+}
+
+.pl-watch-try-btn:hover {
+  background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.35);
+}
+
+/* STAGE 2 & 3: TWO-COLUMN HORIZONTAL LAYOUT */
+.pl-stage-checkpoint-layout {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 8px;
+}
+
+.pl-stage-left {
+  flex: 0 0 62%;
+  max-width: 65%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+
+.pl-checkpoint-question {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.pl-checkpoint-seq-clue {
+  font-size: 32px;
+  color: #0284c7;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.pl-checkpoint-feedback-note {
+  font-size: 19px;
+  font-weight: 700;
+  color: #059669;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: fadeIn 0.3s ease;
+}
+
+.pl-stage-right {
+  flex: 0 0 35%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.pl-stage-right-actions {
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.pl-checkpoint-options {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 22px;
+}
+
+.pl-option-btn {
+  width: 108px;
+  min-width: 108px;
+  height: 66px;
+  padding: 0;
+  background: #ffffff;
+  border: 2px solid #cbd5e1;
+  border-radius: 16px;
+  color: #0f172a;
+  font-size: 32px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 3px 8px rgba(15, 23, 42, 0.06);
+}
+
+.pl-option-btn:hover:not(:disabled) {
+  border-color: #0284c7;
+  background: #f0f9ff;
+  color: #0284c7;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.16);
+}
+
+.pl-option-btn.correct {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  border-color: #059669 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 18px rgba(16, 185, 129, 0.4) !important;
+  transform: scale(1.06);
+}
+
+.pl-option-btn.wrong {
+  background: #fef2f2 !important;
+  border-color: #ef4444 !important;
+  color: #dc2626 !important;
+  animation: shake 0.4s ease;
+}
+
+.pl-see-why-btn {
+  height: 48px;
+  padding: 0 28px;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  border: 1.5px solid rgba(2, 132, 199, 0.6);
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);
+  white-space: nowrap;
+}
+
+.pl-see-why-btn:hover {
+  background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.35);
+}
+
+/* STAGE 4: CONCEPT DISCOVERED (Centered inside common box) */
+.pl-stage-discovered {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.pl-discovered-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #059669;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+/* 1st Line: Concept Name - UNCHANGED */
+.pl-discovered-heading {
+  margin: 0 0 4px 0;
+  font-size: 36px;
+  font-weight: 900;
+  color: #064e3b;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+/* 2nd Line: Complete Number Sequence - UNCHANGED */
+.pl-discovered-sequence-pill {
+  display: inline-block;
+  background: #dcfce7;
+  border: 1.5px solid #86efac;
+  padding: 5px 28px;
+  border-radius: 24px;
+  color: #166534;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+
+/* 3rd Line: Discovered Rule/Explanation - Noticeably LARGER & BOLD */
+.pl-discovered-explanation {
+  margin: 0 0 8px 0;
+  font-size: 27px;
+  color: #0f172a;
+  line-height: 1.35;
+  font-weight: 800;
+  max-width: 1340px;
+  width: 100%;
+  text-align: center;
+}
+
+.pl-replay-concept-btn {
+  background: #ffffff;
+  border: 1.5px solid #86efac;
+  color: #059669;
+  font-size: 15px;
+  font-weight: 800;
+  height: 38px;
+  padding: 0 22px;
+  border-radius: 11px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.08);
+}
+
+.pl-replay-concept-btn:hover {
+  background: #dcfce7;
+  color: #064e3b;
+  border-color: #059669;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   6. FOOTER BAR (54–64 px height, 14–16 px text, 180-210 x 44-50 px button)
+   ───────────────────────────────────────────────────────────── */
+.pl-footer {
+  position: relative;
+  height: 58px; /* Target: 54–64 px */
+  min-height: 58px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.pl-footer-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pl-prev-btn {
+  width: 195px;
+  height: 46px;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  border: 1.5px solid rgba(2, 132, 199, 0.5);
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 14px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 10px rgba(2, 132, 199, 0.22);
+}
+
+.pl-prev-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(2, 132, 199, 0.32);
+}
+
+.pl-prev-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Center Pagination Dots: Geometrically centered in footer */
+.pl-footer-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.pl-pagination-dots {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.pl-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.pl-dot.active {
+  background: #0284c7;
+  box-shadow: 0 0 6px rgba(2, 132, 199, 0.4);
+  transform: scale(1.3);
+}
+
+.pl-dot.completed {
+  background: #10b981;
+}
+
+.pl-discoveries-counter {
+  font-size: 13px;
+  font-weight: 800;
+  color: #64748b;
+  letter-spacing: 0.05em;
+}
+
+/* Right Navigation (Next button: expanded width to prevent cropping, 44–50 px high, 16 px font) */
+.pl-footer-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pl-activity-step-tag {
+  font-size: 14px;
+  font-weight: 800;
+  color: #64748b;
+  letter-spacing: 0.05em;
+}
+
+.pl-chapter-flow-btn {
+  width: 195px;
+  height: 46px;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  border: 1.5px solid rgba(2, 132, 199, 0.5);
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 10px rgba(2, 132, 199, 0.22);
+}
+
+.pl-next-btn {
+  min-width: 200px;
+  width: max-content;
+  max-width: 320px;
+  height: 46px;
+  padding: 0 22px;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  border: 1.5px solid rgba(2, 132, 199, 0.5);
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 10px rgba(2, 132, 199, 0.22);
+}
+
+.pl-next-btn:hover,
+.pl-chapter-flow-btn:hover {
+  background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(2, 132, 199, 0.32);
+}
+
+.pl-next-btn svg {
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   7. MODAL OVERLAYS (CONCEPT MAP & CLASSROOM)
+   ───────────────────────────────────────────────────────────── */
+.pl-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.pl-modal-card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 800px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: zoomIn 0.2s ease-out;
+}
+
+.pl-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.pl-modal-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0;
+}
+
+.pl-modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.pl-modal-close-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.pl-modal-content {
+  padding: 24px;
+  overflow-y: auto;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes floatFadeUp {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   8. RESPONSIVE SAFETY (Proportionally trim gaps/margins on smaller viewports)
+   Priority: CONTENT → FONT READABILITY → CARD SIZE → SPACING
+   Always ensures number sequence row length > activity box below
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 1720px) {
+  .pl-cards-row {
+    gap: 10px;
+  }
+  .pl-term-card {
+    width: 182px;
+    height: 260px;
+  }
+  .pl-card-number-val {
+    font-size: 70px;
+  }
+  .pl-card-number-val.long-term {
+    font-size: 56px;
+  }
+  .pl-card-number-val.question-mark {
+    font-size: 70px;
+  }
+  .pl-common-activity-box {
+    width: 1300px;
+    height: 235px;
+    min-height: 235px;
+    max-height: 235px;
+  }
+  .pl-discovered-explanation {
+    font-size: 25px;
+  }
+}
+
+@media (max-width: 1520px) {
+  .pl-cards-row {
+    gap: 8px;
+  }
+  .pl-term-card {
+    width: 160px;
+    height: 235px;
+  }
+  .pl-card-number-val {
+    font-size: 62px;
+  }
+  .pl-card-number-val.long-term {
+    font-size: 50px;
+  }
+  .pl-card-number-val.question-mark {
+    font-size: 62px;
+  }
+  .pl-common-activity-box {
+    width: 1160px;
+    height: 220px;
+    min-height: 220px;
+    max-height: 220px;
+    padding: 10px 24px;
+  }
+  .pl-concept-title {
+    font-size: 38px;
+  }
+  .pl-discovered-explanation {
+    font-size: 23px;
+  }
+}
+
+@media (max-height: 850px) {
+  .pl-header {
+    height: 50px;
+    min-height: 50px;
+  }
+  .pl-footer {
+    height: 46px;
+    min-height: 46px;
+  }
+  .pl-next-btn,
+  .pl-chapter-flow-btn,
+  .pl-prev-btn {
+    height: 40px;
+  }
+  .pl-body {
+    padding: 4px 20px 4px 20px;
+  }
+  .pl-term-card {
+    height: 230px;
+  }
+  .pl-card-number-val {
+    font-size: 62px;
+  }
+  .pl-card-number-val.long-term {
+    font-size: 50px;
+  }
+  .pl-card-number-val.question-mark {
+    font-size: 62px;
+  }
+  .pl-common-activity-box {
+    height: 215px;
+    min-height: 215px;
+    max-height: 215px;
+    padding: 8px 24px;
+  }
+  .pl-discovered-explanation {
+    font-size: 23px;
+    margin: 0 0 6px 0;
+  }
+}

@@ -755,29 +755,13 @@ export default function App() {
                     Introduce maps by experiencing what it's like to navigate without one. Learn how maps help locate places.
                   </p>
 
-                  <div style={{ display: 'flex', gap: '0.5rem', width: '100%' }}>
-                    <button 
-                      onClick={() => navigateTo('class6_social', 'locating_places')}
-                      className="primary" 
-                      style={{ flex: 1, gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
-                    >
-                      V1 <ArrowRight size={14} />
-                    </button>
-                    <button 
-                      onClick={() => navigateTo('class6_social', 'locating_places_v2')}
-                      className="primary" 
-                      style={{ flex: 1, gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
-                    >
-                      V2 <ArrowRight size={14} />
-                    </button>
-                    <button 
-                      onClick={() => navigateTo('class6_social', 'locating_places_v3')}
-                      className="primary" 
-                      style={{ flex: 1, gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
-                    >
-                      V3 <ArrowRight size={14} />
-                    </button>
-                  </div>
+                  <button 
+                    onClick={() => navigateTo('class6_social', 'locating_places_v3')}
+                    className="primary" 
+                    style={{ width: '100%', gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
+                  >
+                    Open Chapter <ArrowRight size={14} />
+                  </button>
                 </div>
               );
             }

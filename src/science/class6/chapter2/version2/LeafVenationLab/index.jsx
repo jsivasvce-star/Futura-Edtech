@@ -30,9 +30,10 @@ const VENATION_SPECIMEN_SLIDES = [
 // The interactive venation lab was retired; navigation still flows
 // Activity 2.4 <- here -> Activity 2.6 Root Systems.
 // =========================================================================
-export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onNext, initialPhase = 'cover', initialSpecimenIndex = 0 }) {
+export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onNext, initialPhase = 'cover', initialSpecimenIndex = 0, onStateChange }) {
   const [phase, setPhase] = useState(initialPhase); // 'cover' | 'specimens'
   const [specimenIndex, setSpecimenIndex] = useState(initialSpecimenIndex);
+  useEffect(() => { if (onStateChange) onStateChange(phase, specimenIndex); }, [phase, specimenIndex, onStateChange]);
 
   // Title pill: shown for 7s on each slide, then auto-hides; moving the
   // cursor up near the top of the screen brings it back.

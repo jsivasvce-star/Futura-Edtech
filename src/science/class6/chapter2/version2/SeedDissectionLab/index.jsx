@@ -84,7 +84,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onPreviousPage, o
             boxShadow: '0 18px 42px rgba(0, 0, 0, 0.5)',
             lineHeight: 0
           }}>
-            <video
+            <video disablePictureInPicture
               ref={videoRef}
               src={introVideo}
               controls

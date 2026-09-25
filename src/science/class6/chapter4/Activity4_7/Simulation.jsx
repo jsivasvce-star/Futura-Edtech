@@ -582,7 +582,9 @@ export default function Simulation({ onComplete, onNext }) {
         gap: '1.65rem',
         height: '100%',
         minHeight: 0,
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        overflowY: 'auto',
+        paddingRight: '0.4rem'
       }}>
         {/* Container 1: Explore the magnetic force */}
         <div className="stage-container-1" style={{
@@ -594,8 +596,7 @@ export default function Simulation({ onComplete, onNext }) {
           display: 'flex',
           flexDirection: 'column',
           gap: '0.8rem',
-          flex: 6,
-          minHeight: 0
+          flexShrink: 0
         }}>
           <h3 style={{ margin: 0, fontSize: '23.6px', fontWeight: 900, color: '#1E293B' }}>
             Explore the magnetic force
@@ -639,8 +640,7 @@ export default function Simulation({ onComplete, onNext }) {
           display: 'flex',
           flexDirection: 'column',
           gap: '0.5rem',
-          flex: 4,
-          minHeight: 0
+          flexShrink: 0
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h3 style={{ margin: 0, fontSize: '27.1px', fontWeight: 900, color: '#1E293B' }}>

@@ -160,7 +160,7 @@ export default function Chapter2CoverPage({
     >
       {/* Background Video */}
       {bgVideo && (
-        <video
+        <video disablePictureInPicture
           autoPlay
           loop
           muted

@@ -1,0 +1,338 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SHAPE PATTERNS EXTENSION STYLES (1.5 PATTERNS IN SHAPES)
+   Uses the EXACT SAME UI / visual system as 1.2 Patterns in Numbers:
+   - Same creamy-white background (#f8f7f4, radial gradient)
+   - Same typography (Inter, font sizes, weights, hierarchy)
+   - Same card dimensions (204px × 290px), borders, and shadows
+   - Same lower activity box (1420px wide), padding, and button styles
+   - Same footer layout, blue navigation buttons, and centered dots
+   - Strict 100vh zero-scroll layout
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   1.5 PATTERNS IN SHAPES: EXCLUSIVE NEW BACKGROUND THEME
+   - Soft warm-white / ivory base background (#fbfaf7)
+   - Subtle pastel ambient mesh (muted blue, soft teal, gentle orange, lavender, pale yellow)
+   - Geometric repeating arrangement (Square → Triangle → Circle)
+   - Pristine, light center area ensuring zero competition with foreground content
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+#shape-patterns-experience-root {
+  background-color: #fbfaf7 !important;
+}
+
+.shapes-bg-theme-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+}
+
+/* Warm ivory canvas base layer */
+.shapes-bg-base-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fbfaf7;
+  z-index: 0;
+}
+
+/* Soft pastel ambient mesh gradients */
+.shapes-bg-pastel-ambient-mesh {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse 50% 45% at 8% 12%, rgba(56, 189, 248, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 45% at 92% 12%, rgba(167, 139, 250, 0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 48% 44% at 10% 88%, rgba(251, 146, 60, 0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 48% 44% at 90% 88%, rgba(45, 212, 191, 0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 64% 58% at 50% 50%, rgba(251, 250, 247, 0.98) 0%, rgba(251, 250, 247, 0.6) 65%, transparent 100%);
+  z-index: 1;
+}
+
+/* Vector geometric SVG layer */
+.shapes-bg-svg-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Activity box dimension tuning for spacious vertical learning checkpoint */
+.pl-common-activity-box {
+  width: 1420px;
+  max-width: 90%;
+  height: 256px;
+  min-height: 256px;
+  max-height: 256px;
+  padding: 10px 36px;
+}
+
+/* Shape card content layout inside .pl-term-card */
+.pl-shape-card-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.pl-shape-step-label {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.pl-shape-visual-box {
+  width: 148px;
+  height: 148px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ENLARGED SHAPE PATTERN CARDS (SECTION 1.5 EXCLUSIVE)
+   Approximately 17–18% larger in both width and height:
+   - Width: 204px → 240px (+17.65%)
+   - Height: 290px → 340px (+17.24%)
+   - Centered shapes, clean consistent gaps, zero scroll
+   ───────────────────────────────────────────────────────────── */
+#shape-patterns-experience-root .pl-cards-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: auto;
+  max-width: 100%;
+}
+
+#shape-patterns-experience-root .pl-term-card {
+  width: 240px;
+  height: 340px;
+  flex-shrink: 0;
+}
+
+#shape-patterns-experience-root .pl-shape-card-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+
+
+/* ─────────────────────────────────────────────────────────────
+   VERTICAL LEARNING CHECKPOINT LAYOUT
+   Solves question/button overlap:
+   [ LEARNING CHECKPOINT ]
+   Question text (full width, 100% visible, no overlap)
+   [ 5 ]  [ 6 ]  [ 7 ] (answer buttons in dedicated row below)
+   [ Existing explanation/feedback text ]
+   ───────────────────────────────────────────────────────────── */
+.pl-checkpoint-vertical-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  animation: fadeIn 0.25s ease forwards;
+}
+
+.pl-checkpoint-header-row {
+  margin-bottom: 4px;
+}
+
+.pl-checkpoint-vertical-layout .pl-checkpoint-question {
+  margin: 0 0 6px 0;
+  font-size: 26px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.25;
+  max-width: 1340px;
+  width: 100%;
+  text-align: center;
+}
+
+.pl-checkpoint-vertical-layout .pl-checkpoint-seq-clue {
+  font-size: 16px;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0 0 8px 0;
+  text-align: center;
+}
+
+.pl-checkpoint-options-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 4px 0;
+}
+
+/* Option Buttons — exact 1.2 style, size, border, font size */
+.pl-checkpoint-options-row .pl-option-btn {
+  width: 108px;
+  min-width: 108px;
+  height: 64px;
+  padding: 0;
+  background: #ffffff;
+  border: 2px solid #cbd5e1;
+  border-radius: 14px;
+  font-size: 38px;
+  font-weight: 900;
+  color: #0f172a;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pl-checkpoint-options-row .pl-option-btn:hover:not(:disabled) {
+  border-color: #0284c7;
+  color: #0284c7;
+  background: #f0f9ff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.18);
+}
+
+.pl-checkpoint-options-row .pl-option-btn.correct {
+  background: #ecfdf5;
+  border-color: #10b981;
+  color: #059669;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2), 0 4px 14px rgba(16, 185, 129, 0.25);
+  transform: scale(1.04);
+}
+
+.pl-checkpoint-options-row .pl-option-btn.wrong {
+  background: #fef2f2;
+  border-color: #ef4444;
+  color: #dc2626;
+  animation: shake 0.4s ease;
+}
+
+/* Bottom feedback & action row in Stage 3 */
+.pl-checkpoint-bottom-feedback-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.pl-checkpoint-bottom-feedback-row .pl-checkpoint-feedback-note {
+  font-size: 18px;
+  font-weight: 700;
+  color: #059669;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pl-checkpoint-bottom-feedback-row .pl-see-why-btn {
+  height: 44px;
+  padding: 0 28px;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  border: 1.5px solid rgba(2, 132, 199, 0.6);
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);
+  transition: all 0.2s ease;
+}
+
+.pl-checkpoint-bottom-feedback-row .pl-see-why-btn:hover {
+  background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(2, 132, 199, 0.35);
+}
+
+/* Responsive safety adjustments for screen widths and heights */
+@media (max-width: 1620px) {
+  #shape-patterns-experience-root .pl-term-card {
+    width: 215px;
+    height: 310px;
+  }
+  #shape-patterns-experience-root .pl-cards-row {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 1400px) {
+  #shape-patterns-experience-root .pl-term-card {
+    width: 190px;
+    height: 280px;
+  }
+  #shape-patterns-experience-root .pl-cards-row {
+    gap: 8px;
+  }
+}
+
+@media (max-height: 850px) {
+  #shape-patterns-experience-root .pl-term-card {
+    height: 280px;
+  }
+  .pl-common-activity-box {
+    height: 228px;
+    min-height: 228px;
+    max-height: 228px;
+    padding: 8px 24px;
+  }
+  .pl-checkpoint-vertical-layout .pl-checkpoint-question {
+    font-size: 23px;
+    margin-bottom: 4px;
+  }
+  .pl-checkpoint-vertical-layout .pl-checkpoint-seq-clue {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .pl-checkpoint-options-row .pl-option-btn {
+    height: 56px;
+    font-size: 32px;
+  }
+  .pl-checkpoint-bottom-feedback-row {
+    margin-top: 4px;
+    gap: 16px;
+  }
+  .pl-checkpoint-bottom-feedback-row .pl-see-why-btn {
+    height: 38px;
+    padding: 0 20px;
+    font-size: 14px;
+  }
+}
