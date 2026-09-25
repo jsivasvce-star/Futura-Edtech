@@ -318,25 +318,31 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
       setCurrentStep(4);
       return;
     }
+    // Step 4: Act 2.2 Appreciating -> Step 5: Act 2.3 Grouping
+    if (currentStep === 4) {
+      setIsPlayingAct24Transition(true);
+      return;
+    }
     // Step 5: Act 2.3 Grouping -> Step 6: Act 2.4 Detective
     if (currentStep === 5) {
-      setCurrentStep(6);
+      setIsPlayingAct24ObservationTransition(true);
       return;
     }
     // Step 6: Act 2.4 Detective -> Step 7: Venation & Roots (sub-tab: venation)
     if (currentStep === 6) {
-      setVenationSubTab('venation');
-      setCurrentStep(7);
+      setIsPlayingAct25ObservationTransition(true);
       return;
     }
     // Step 7: Venation & Roots sub-tabs
     if (currentStep === 7) {
       if (venationSubTab === 'venation') {
-        setVenationSubTab('roots');
+        setRootsSpecimenIndex(0);
+        setIsPlayingAct26ObservationTransition(true);
         return;
       }
       if (venationSubTab === 'roots') {
-        setVenationSubTab('correlation');
+        setCorrelationPhase('specimens');
+        setIsPlayingAct27ObservationTransition(true);
         return;
       }
       // Finished correlation -> Step 8 Seeds
@@ -379,6 +385,20 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
   };
 
   const handleLabPrev = () => {
+    // Reset all transition states when navigating backward
+    setIsPlayingTransition(false);
+    setIsTransitionVideoEnded(false);
+    setIsPlayingAct24Transition(false);
+    setIsAct24TransitionEnded(false);
+    setIsPlayingAct24ObservationTransition(false);
+    setIsAct24ObservationTransitionEnded(false);
+    setIsPlayingAct25ObservationTransition(false);
+    setIsAct25ObservationTransitionEnded(false);
+    setIsPlayingAct26ObservationTransition(false);
+    setIsAct26ObservationTransitionEnded(false);
+    setIsPlayingAct27ObservationTransition(false);
+    setIsAct27ObservationTransitionEnded(false);
+
     // Step 2 -> Step 1 Scenes
     if (currentStep === 2) {
       setCurrentStep(1);
