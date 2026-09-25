@@ -197,14 +197,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
 
         {/* Bottom left: previous slide, or back to the cover */}
         <button
-          onClick={() => {
-            if (specimenIndex > 0) {
-              setSpecimenIndex(prev => prev - 1);
-              venationAudio.playSwitch();
-            } else {
-              setPhase('cover');
-            }
-          }}
+          onClick={() => { if (specimenIndex > 0) { setSpecimenIndex(prev => prev - 1); venationAudio.playSwitch(); } else if (onPreviousPage) { onPreviousPage(); } else { setPhase('cover'); } }}
           style={{
             position: 'absolute',
             bottom: '22px',
