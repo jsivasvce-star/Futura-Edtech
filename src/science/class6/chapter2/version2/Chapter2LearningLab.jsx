@@ -240,8 +240,6 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
   // Quiz state in Tab 10
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [showProgressBar, setShowProgressBar] = useState(false);
-  const [quizSubmitted, setQuizSubmitted] = useState(false);
-  const [correlationSpecimenIndex, setCorrelationSpecimenIndex] = useState(0);
   const navRef = useRef(null);
 
   // Stop speech synthesis when navigating away or changing sub-tabs
@@ -831,7 +829,16 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                       autoPlay 
                       playsInline 
                       onEnded={() => {
-                        setIsTransitionVideoEnded(true);
+                        if (transitionDirection === 'backward') {
+                          setIsPlayingTransition(false);
+                          setCurrentStep(transitionTargetStep);
+                          if (transitionTargetStep === 1) {
+                            setSection1SubTab('scenes');
+                            setIntroInitialScene(6);
+                          }
+                        } else {
+                          setIsTransitionVideoEnded(true);
+                        }
                       }}
                       style={{ 
                         width: '100%', 
@@ -917,10 +924,10 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                             onClick={() => {
                               setIsPlayingTransition(false);
                               setIsTransitionVideoEnded(false);
-                              setCurrentStep(transitionSourceStep || (transitionDirection === 'backward' ? 2 : 1));
-                              if ((transitionSourceStep || (transitionDirection === 'backward' ? 2 : 1)) === 1) {
-                                setSection1SubTab('scenes');
-                                setIntroInitialScene(6);
+                              if (transitionDirection === 'backward') {
+                                setCurrentStep(2);
+                              } else {
+                                setCurrentStep(1);
                               }
                             }}
                             style={{
@@ -949,8 +956,10 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                             onClick={() => {
                               setIsPlayingTransition(false);
                               setIsTransitionVideoEnded(false);
-                              setCurrentStep(transitionTargetStep || (transitionDirection === 'forward' ? 2 : 1));
-                              if ((transitionTargetStep || (transitionDirection === 'forward' ? 2 : 1)) === 1) {
+                              if (transitionDirection === 'forward') {
+                                setCurrentStep(2);
+                              } else {
+                                setCurrentStep(1);
                                 setSection1SubTab('scenes');
                                 setIntroInitialScene(6);
                               }
@@ -1031,7 +1040,15 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
               src={activity24TransitionVideo} 
               autoPlay 
               playsInline 
-              onEnded={() => setIsAct24TransitionEnded(true)}
+              onEnded={() => {
+                if (transitionDirection === 'backward') {
+                  setIsPlayingAct24Transition(false);
+                  setCurrentStep(transitionTargetStep);
+                  if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
+                } else {
+                  setIsAct24TransitionEnded(true);
+                }
+              }}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
 
@@ -1173,7 +1190,13 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
               autoPlay 
               playsInline 
               onEnded={() => {
-                setIsAct24ObservationTransitionEnded(true);
+                if (transitionDirection === 'backward') {
+                  setIsPlayingAct24ObservationTransition(false);
+                  setCurrentStep(transitionTargetStep);
+                  if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
+                } else {
+                  setIsAct24ObservationTransitionEnded(true);
+                }
               }}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
@@ -1243,8 +1266,11 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
                     onClick={() => {
                       setIsPlayingAct24ObservationTransition(false);
                       setIsAct24ObservationTransitionEnded(false);
-                      setCurrentStep(transitionSourceStep);
-                      if (transitionSourceSubTab) setVenationSubTab(transitionSourceSubTab);
+                      if (transitionDirection === 'backward') {
+                        setCurrentStep(6);
+                      } else {
+                        setCurrentStep(5);
+                      }
                     }}
                     style={{
                       background: '#F3EFE0',
@@ -1305,7 +1331,13 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
               playsInline 
               muted 
               onEnded={() => {
-                setIsAct25ObservationTransitionEnded(true);
+                if (transitionDirection === 'backward') {
+                  setIsPlayingAct25ObservationTransition(false);
+                  setCurrentStep(transitionTargetStep);
+                  if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
+                } else {
+                  setIsAct25ObservationTransitionEnded(true);
+                }
               }}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
@@ -1438,7 +1470,13 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
               playsInline 
               muted 
               onEnded={() => {
-                setIsAct26ObservationTransitionEnded(true);
+                if (transitionDirection === 'backward') {
+                  setIsPlayingAct26ObservationTransition(false);
+                  setCurrentStep(transitionTargetStep);
+                  if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
+                } else {
+                  setIsAct26ObservationTransitionEnded(true);
+                }
               }}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
@@ -1509,8 +1547,13 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
                     onClick={() => {
                       setIsPlayingAct26ObservationTransition(false);
                       setIsAct26ObservationTransitionEnded(false);
-                      setCurrentStep(transitionSourceStep);
-                      if (transitionSourceSubTab) setVenationSubTab(transitionSourceSubTab);
+                      if (transitionDirection === 'backward') {
+                        setCurrentStep(7);
+                        setVenationSubTab('roots');
+                      } else {
+                        setCurrentStep(7);
+                        setVenationSubTab('venation');
+                      }
                     }}
                     style={{
                       background: '#F3EFE0',
@@ -1571,7 +1614,13 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
               playsInline 
               muted 
               onEnded={() => {
-                setIsAct27ObservationTransitionEnded(true);
+                if (transitionDirection === 'backward') {
+                  setIsPlayingAct27ObservationTransition(false);
+                  setCurrentStep(transitionTargetStep);
+                  if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
+                } else {
+                  setIsAct27ObservationTransitionEnded(true);
+                }
               }}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
@@ -1641,8 +1690,13 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
                     onClick={() => {
                       setIsPlayingAct27ObservationTransition(false);
                       setIsAct27ObservationTransitionEnded(false);
-                      setCurrentStep(transitionSourceStep);
-                      if (transitionSourceSubTab) setVenationSubTab(transitionSourceSubTab);
+                      if (transitionDirection === 'backward') {
+                        setCurrentStep(7);
+                        setVenationSubTab('correlation');
+                      } else {
+                        setCurrentStep(7);
+                        setVenationSubTab('roots');
+                      }
                     }}
                     style={{
                       background: '#F3EFE0',
