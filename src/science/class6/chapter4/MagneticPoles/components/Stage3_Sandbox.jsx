@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo, useCallback, Suspense } fr
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Text, OrbitControls, ContactShadows, Environment, useTexture } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Hand, RotateCcw, Shapes, Flag, BookOpen, CheckCircle, ArrowRight, ArrowLeft, Play, Pause } from 'lucide-react';
+import { Hand, RotateCcw, Shapes, Flag, BookOpen, CheckCircle, ArrowRight, ArrowLeft, Play, Pause, HelpCircle, Sparkles } from 'lucide-react';
 import stage3HorseshoeImg from '../../../../../assets/stage3_horseshoe.png';
 import stage3RingImg from '../../../../../assets/stage3_ring.png';
 import stage3BarImg from '../../../../../assets/stage3_bar.png';
@@ -784,42 +784,43 @@ export default function Stage3_Sandbox({ onComplete }) {
   return (
     <div
       style={{
-        padding: '0.35rem 0.5rem',
+        padding: '0.5rem 1rem',
         display: 'flex',
-        gap: '0.85rem',
+        gap: '1.25rem',
         height: '100%',
         minHeight: 0,
         overflow: 'hidden',
         boxSizing: 'border-box',
-        position: 'relative',
+        alignItems: 'center',
+        justifyContent: 'center',
         background: 'transparent',
+        fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif"
       }}
     >
-      {/* Dedicated Large Image Viewer Container (Occupies maximum available space, dominant area matching Stage 1 & Stage 2) */}
+      {/* Left Side: 65% Grid Proportion */}
       <div
         style={{
-          flex: 1,
+          flex: '0 0 65%',
+          maxWidth: '65%',
           display: 'flex',
           flexDirection: 'column',
           minWidth: 0,
-          minHeight: 0,
           height: '100%',
           boxSizing: 'border-box',
         }}
       >
-        {/* Display Container: Image Panel matching Video Player container */}
         <div
           style={{
             position: 'relative',
             width: '100%',
-            height: '100%',
+            maxWidth: '100%',
             flex: 1,
-            minHeight: 0,
-            overflow: 'hidden',
+            minHeight: '380px',
             borderRadius: '24px',
+            border: '1.5px solid rgba(255, 255, 255, 0.8)',
+            overflow: 'hidden',
+            boxShadow: '0 12px 36px rgba(0, 0, 0, 0.12)',
             backgroundColor: '#070C18',
-            border: '1.5px solid #A7F3D0',
-            boxShadow: '0 12px 30px rgba(6, 78, 59, 0.16)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -844,244 +845,159 @@ export default function Stage3_Sandbox({ onComplete }) {
         </div>
       </div>
 
-      {/* Right Column: Fullscreen non-scrolling, matching Stage 1 & Stage 2 */}
+      {/* Right Column: 35% Grid Proportion */}
       <div
-        className="custom-scrollbar"
+        className="stage-right-column"
         style={{
-          width: '560px',
-          maxWidth: '560px',
-          flex: '0 0 560px',
-          height: '100%',
-          maxHeight: '100%',
-          minHeight: 0,
-          boxSizing: 'border-box',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '0.55rem',
-          minWidth: 0,
-          overflow: 'hidden',
-          fontFamily: 'system-ui, -apple-system, sans-serif'
+          flex: '0 0 calc(36% - 0.65rem)',
+          maxWidth: 'calc(36% - 0.65rem)'
         }}
       >
-        {/* CONTAINER 1: Steps of Instructions */}
+        {/* CONTAINER 1: Try the experiment */}
         <div
+          className="stage-container-1"
           style={{
-            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(10px)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
-            padding: '0.65rem 0.85rem',
-            boxShadow: '0 4px 16px rgba(217, 119, 6, 0.08)',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
+            padding: '1.25rem 1.55rem',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
-            boxSizing: 'border-box',
-            flex: '1.15 1 auto',
-            minHeight: 0,
+            justifyContent: 'flex-start',
+            gap: '0.85rem',
+            boxSizing: 'border-box'
           }}
         >
-          {/* Top Section: Title & Instructions */}
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)', paddingBottom: '0.25rem', marginBottom: '0.35rem' }}>
-              <h4 style={{ margin: 0, fontSize: '32px', color: '#173B5F', fontWeight: 800, lineHeight: 1.15, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-                <span>{currentShapeData.icon}</span> {currentShapeData.title}
-              </h4>
-              <span style={{
-                fontSize: '13.5px',
-                fontWeight: 800,
-                color: '#065F46',
-                background: '#DCFCE7',
-                padding: '2px 9px',
-                borderRadius: '12px',
-                border: '1px solid #86EFAC',
-                letterSpacing: '0.02em',
-                flexShrink: 0
-              }}>
-                Page {currentShapeData.pageNumber} of 3
-              </span>
+          {/* Header Row */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <BookOpen size={32} color="#173B5F" strokeWidth={2.5} />
+              <h3 style={{ margin: 0, fontSize: '2.15rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
+                {currentShapeData.title}
+              </h3>
             </div>
-
-            {/* Bullet Points - Shape Specific Instructions */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-              {currentShapeData.instructions.map((instruction, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: '0.45rem',
-                    padding: '0'
-                  }}
-                >
-                  <span
-                    style={{
-                      width: '8px',
-                      height: '8px',
-                      borderRadius: '50%',
-                      background: '#173B5F',
-                      display: 'inline-block',
-                      flexShrink: 0,
-                      marginTop: '8px'
-                    }}
-                  />
-                  <p style={{ margin: 0, fontSize: '24px', lineHeight: 1.15, color: '#173B5F', fontWeight: 600 }}>
-                    {instruction}
-                  </p>
-                </div>
-              ))}
-            </div>
+            <span style={{
+              fontSize: '1rem',
+              fontWeight: 800,
+              color: '#065F46',
+              background: '#DCFCE7',
+              padding: '0.35rem 0.95rem',
+              borderRadius: '16px',
+              border: '1.5px solid #86EFAC',
+              boxShadow: '0 2px 6px rgba(6, 95, 70, 0.08)'
+            }}>
+              Shape {currentShapeData.pageNumber} of 3
+            </span>
           </div>
 
-          {/* Bottom Section: Action Controls — always in dedicated area, never overlapping content */}
-          {shape !== 'bar' ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0', paddingTop: '0.35rem', borderTop: '1px solid rgba(217, 119, 6, 0.2)', flexShrink: 0 }}>
-              <div style={{ width: '100%', display: 'flex', gap: '0.45rem', flexWrap: 'nowrap' }}>
-                <button
-                  onClick={handleTogglePause}
-                  className="gold-glow-btn"
-                  style={{
-                    flex: 2,
-                    minWidth: 0,
-                    padding: '0.45rem 0.85rem',
-                    fontSize: '21px',
-                    fontWeight: 700,
-                    lineHeight: 1.1,
-                    borderRadius: '14px',
-                    color: '#FFFFFF',
-                    border: 'none',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    transition: 'all 0.2s ease',
-                    whiteSpace: 'nowrap'
-                  }}
-                >
-                  {!isPaused ? (
-                    <>
-                      <Pause size={18} fill="#FFFFFF" color="#FFFFFF" /> Pause Investigation
-                    </>
-                  ) : (
-                    <>
-                      <Play size={18} fill="#FFFFFF" color="#FFFFFF" /> Resume Investigation
-                    </>
-                  )}
-                </button>
-
-                <button
-                  onClick={handleReset}
-                  style={{
-                    flex: 1,
-                    minWidth: 0,
-                    padding: '0.45rem 0.6rem',
-                    fontSize: '21px',
-                    fontWeight: 700,
-                    lineHeight: 1.1,
-                    borderRadius: '14px',
-                    background: '#FFFFFF',
-                    color: '#475569',
-                    border: '1.5px solid #CBD5E1',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '6px',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-                    transition: 'all 0.2s ease',
-                    whiteSpace: 'nowrap'
-                  }}
-                >
-                  <RotateCcw size={16} /> Reset
-                </button>
+          {/* Numbered Steps with 2x Scaled Text and Warm Gold Step Badges */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {currentShapeData.instructions.map((instruction, idx) => (
+              <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div className="gold-step-badge">{idx + 1}</div>
+                <span style={{ fontSize: '1.55rem', color: '#173B5F', fontWeight: 700, lineHeight: 1.35 }}>
+                  {instruction}
+                </span>
               </div>
-            </div>
-          ) : (
+            ))}
+          </div>
+
+          {/* Tip / Observation Green Box */}
+          <div style={{
+            background: '#F0FDF4',
+            border: '1.5px solid #BBF7D0',
+            borderRadius: '18px',
+            padding: '1rem 1.35rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem',
+            marginTop: '0.25rem'
+          }}>
             <div style={{
-              width: '100%',
-              paddingTop: '0.35rem',
-              borderTop: '1px solid rgba(217, 119, 6, 0.2)',
+              background: '#DCFCE7',
+              padding: '0.55rem',
+              borderRadius: '14px',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.55rem',
-              color: '#065F46',
-              fontSize: '16px',
-              fontWeight: 700,
+              justifyContent: 'center',
+              color: '#16A34A',
               flexShrink: 0
             }}>
-              <CheckCircle size={19} color="#10B981" style={{ flexShrink: 0 }} />
-              <span>Observe filings cluster at North (N) &amp; South (S) poles.</span>
+              <Sparkles size={30} color="#16A34A" />
             </div>
-          )}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+              <span style={{ fontSize: '1.65rem', fontWeight: 900, color: '#14532D', lineHeight: 1.25 }}>
+                Different shapes, same law.
+              </span>
+              <span style={{ fontSize: '1.45rem', fontWeight: 700, color: '#15803D', lineHeight: 1.25 }}>
+                Every magnet has two magnetic poles.
+              </span>
+            </div>
+          </div>
         </div>
 
         {/* CONTAINER 2: Observation Summary */}
         <div
+          className="stage-container-2"
           style={{
-            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(10px)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
-            padding: '0.65rem 0.85rem',
-            boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
+            padding: '1.25rem 1.55rem',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
-            boxSizing: 'border-box',
-            flex: '1 1 auto',
-            minHeight: 0,
+            justifyContent: 'flex-start',
+            gap: '0.85rem',
+            boxSizing: 'border-box'
           }}
         >
-          {/* Top Section: Observation content */}
-          <div>
-            <h4
-              style={{
-                color: '#173B5F',
-                margin: 0,
-                fontSize: '30px',
-                fontWeight: 800,
-                lineHeight: 1.15,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                paddingBottom: '0.25rem',
-                borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)'
-              }}
-            >
-              <Shapes size={23} color="#173B5F" /> Observation Summary
-            </h4>
-            <ul
-              style={{
-                margin: '0.35rem 0 0 0',
-                paddingLeft: '1.35rem',
-                color: '#173B5F',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.3rem',
-                fontSize: '23px',
-                lineHeight: '1.2',
-                fontWeight: 600,
-              }}
-            >
-              {currentShapeData.observations.map((obs, idx) => (
-                <li key={idx}>
-                  {obs}
-                </li>
-              ))}
-            </ul>
+          {/* Header Row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <HelpCircle size={32} color="#173B5F" strokeWidth={2.5} />
+            <h3 style={{ margin: 0, fontSize: '2.15rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
+              Observation Summary
+            </h3>
           </div>
 
-          {/* Bottom Section: Navigation Controls — always in dedicated area, never overlapping */}
-          <div style={{ paddingTop: '0.35rem', flexShrink: 0, display: 'flex', gap: '0.45rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+            {currentShapeData.observations.map((obs, idx) => (
+              <div
+                key={idx}
+                style={{
+                  padding: '0.85rem 1.15rem',
+                  borderRadius: '16px',
+                  background: '#F8FAFC',
+                  border: '1.5px solid #E2E8F0',
+                  color: '#173B5F',
+                  fontSize: '1.35rem',
+                  fontWeight: 700,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem'
+                }}
+              >
+                <CheckCircle size={24} color="#10B981" style={{ flexShrink: 0 }} />
+                <span>{obs}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Sub-Navigation between Magnet Shapes */}
+          <div style={{ display: 'flex', gap: '0.85rem', marginTop: '0.2rem' }}>
             {shape !== 'horseshoe' && (
               <button
                 onClick={handlePrevPage}
                 style={{
                   flex: 1,
-                  padding: '0.45rem 0.85rem',
-                  fontSize: '21px',
-                  fontWeight: 700,
-                  lineHeight: 1.1,
-                  borderRadius: '14px',
-                  background: '#FFFFFF',
+                  padding: '0.75rem 1.25rem',
+                  fontSize: '1.2rem',
+                  fontWeight: 900,
+                  borderRadius: '16px',
+                  background: '#F3F7F9',
                   color: '#173B5F',
                   border: '1.5px solid #CBD5E1',
                   cursor: 'pointer',
@@ -1090,11 +1006,10 @@ export default function Stage3_Sandbox({ onComplete }) {
                   justifyContent: 'center',
                   gap: '0.5rem',
                   boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-                  transition: 'all 0.2s ease',
-                  whiteSpace: 'nowrap'
+                  transition: 'all 0.2s ease'
                 }}
               >
-                <ArrowLeft size={18} /> Previous
+                <ArrowLeft size={18} /> Prev Shape
               </button>
             )}
 
@@ -1103,32 +1018,23 @@ export default function Stage3_Sandbox({ onComplete }) {
               className="gold-glow-btn"
               style={{
                 flex: shape === 'horseshoe' ? 1 : 1.6,
-                padding: '0.45rem 0.85rem',
-                fontSize: '21px',
-                fontWeight: 700,
-                lineHeight: 1.1,
-                borderRadius: '14px',
+                padding: '0.75rem 1.25rem',
+                fontSize: '1.2rem',
+                fontWeight: 900,
+                borderRadius: '16px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '0.5rem',
-                transition: 'all 0.25s ease',
-                minWidth: 0,
-                textAlign: 'center'
+                cursor: 'pointer'
               }}
             >
               {shape === 'horseshoe' ? (
-                <>
-                  Next: Ring Magnet <ArrowRight size={18} color="#FFFFFF" />
-                </>
+                <>Next: Ring Magnet <ArrowRight size={18} color="#FFFFFF" /></>
               ) : shape === 'ring' ? (
-                <>
-                  Next: Bar Magnet <ArrowRight size={18} color="#FFFFFF" />
-                </>
+                <>Next: Bar Magnet <ArrowRight size={18} color="#FFFFFF" /></>
               ) : (
-                <>
-                  <Flag size={18} color="#FFFFFF" /> Finish Activity &amp; Proceed to Quiz
-                </>
+                <>Finish Shapes <ArrowRight size={18} color="#FFFFFF" /></>
               )}
             </button>
           </div>

@@ -266,27 +266,41 @@ const quizData = [
 
 export default function Chapter4Quiz({ onComplete }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedIndices, setSelectedIndices] = useState([]);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [isExhausted, setIsExhausted] = useState(false);
   const [score, setScore] = useState(0);
-  const [showResult, setShowResult] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
 
   const currentQ = quizData[currentQuestion];
+  const isQuestionResolved = isCorrect || isExhausted;
 
   const handleOptionSelect = (index) => {
-    if (showResult) return;
-    setSelectedOption(index);
-    setShowResult(true);
+    if (isQuestionResolved || selectedIndices.includes(index)) return;
+
+    const newSelected = [...selectedIndices, index];
+    setSelectedIndices(newSelected);
+
     if (index === currentQ.correctIndex) {
-      setScore(prev => prev + 1);
+      setIsCorrect(true);
+      if (newSelected.length === 1) {
+        setScore(prev => prev + 1);
+      }
+    } else {
+      const wrongCount = currentQ.options.length - 1;
+      const wrongSelected = newSelected.filter(i => i !== currentQ.correctIndex).length;
+      if (wrongSelected >= wrongCount) {
+        setIsExhausted(true);
+      }
     }
   };
 
   const handleNext = () => {
     if (currentQuestion < quizData.length - 1) {
       setCurrentQuestion(prev => prev + 1);
-      setSelectedOption(null);
-      setShowResult(false);
+      setSelectedIndices([]);
+      setIsCorrect(false);
+      setIsExhausted(false);
     } else {
       setIsFinished(true);
     }

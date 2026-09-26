@@ -18,8 +18,8 @@ const STEPS = [
   }
 ];
 
-// ─── Airplane thumbnail card (one-click direct placement) ───
-function TrayItemCard({ step, isPlaced, isUnlocked, onClick, renderThumbnail }) {
+// ─── Airplane card (one-click direct placement) ───
+function TrayItemCard({ step, isPlaced, isUnlocked, onClick }) {
   const isDisabled = isPlaced || !isUnlocked;
 
   return (
@@ -30,9 +30,9 @@ function TrayItemCard({ step, isPlaced, isUnlocked, onClick, renderThumbnail }) 
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
-        gap: '0.65rem',
-        padding: '0.85rem 1rem',
+        alignItems: 'flex-start',
+        gap: '0.45rem',
+        padding: '1.05rem 1.25rem',
         borderRadius: '16px',
         background: '#FFFFFF',
         border: isUnlocked ? '1.5px solid #0A2540' : '1.5px solid #E2E8F0',
@@ -42,40 +42,24 @@ function TrayItemCard({ step, isPlaced, isUnlocked, onClick, renderThumbnail }) 
         boxShadow: isUnlocked ? '0 2px 8px rgba(10, 37, 64, 0.06)' : 'none'
       }}
     >
-      {/* Centered top display of the magnetic airplane asset in soft grey/off-white box */}
-      <div style={{
-        width: '100%',
-        height: '95px',
-        background: '#F8FAFC',
-        border: '1px solid #E2E8F0',
-        borderRadius: '12px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '0.5rem',
-        boxSizing: 'border-box'
-      }}>
-        {renderThumbnail(step.id)}
-      </div>
-
-      <div style={{ textAlign: 'center', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
-        <div style={{ fontSize: '16.5px', fontWeight: 800, color: isUnlocked ? '#0A2540' : '#94A3B8' }}>
+      <div style={{ textAlign: 'left', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.35rem' }}>
+        <div style={{ fontSize: '18px', fontWeight: 800, color: isUnlocked ? '#0A2540' : '#94A3B8' }}>
           {step.name}
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', justifyContent: 'flex-start' }}>
           {isPlaced ? (
             <>
               <CheckCircle2 size={16} color="#16A34A" />
-              <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#15803D' }}>Placed in Corridor</span>
+              <span style={{ fontSize: '14px', fontWeight: 700, color: '#15803D' }}>Placed in Corridor</span>
             </>
           ) : !isUnlocked ? (
             <>
               <Lock size={15} color="#94A3B8" />
-              <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#94A3B8' }}>Locked</span>
+              <span style={{ fontSize: '14px', fontWeight: 700, color: '#94A3B8' }}>Locked</span>
             </>
           ) : (
-            <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#0A2540' }}>👆 Click to Place in Corridor</span>
+            <span style={{ fontSize: '14px', fontWeight: 700, color: '#0A2540' }}>👆 Click to Place in Corridor</span>
           )}
         </div>
       </div>
@@ -441,7 +425,6 @@ export default function Stage1_Build({ onComplete, onNext }) {
                   isPlaced={placed[step.id]}
                   isUnlocked={isStepUnlocked(step.id)}
                   onClick={handleTrayClick}
-                  renderThumbnail={renderThumbnail}
                 />
               ))}
             </div>

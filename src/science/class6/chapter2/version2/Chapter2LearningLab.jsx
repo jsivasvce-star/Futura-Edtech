@@ -826,7 +826,16 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                       autoPlay 
                       playsInline 
                       onEnded={() => {
-                        setIsTransitionVideoEnded(true);
+                        if (transitionDirection === 'backward') {
+                          setIsPlayingTransition(false);
+                          setCurrentStep(transitionTargetStep);
+                          if (transitionTargetStep === 1) {
+                            setSection1SubTab('scenes');
+                            setIntroInitialScene(6);
+                          }
+                        } else {
+                          setIsTransitionVideoEnded(true);
+                        }
                       }}
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
@@ -975,6 +984,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
           <div style={{ width: '100%', height: '100%', minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             <VirtualBiodiversityExplorer
               typeFilter="plant"
+              startAtLastPage={transitionDirection === 'backward'}
               initialSubPage={plantExplorerSubPage}
               onBackToDashboard={() => {
                 setTransitionTargetStep(1);
@@ -999,6 +1009,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
           <div style={{ width: '100%', height: '100%', minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             <VirtualBiodiversityExplorer 
               typeFilter="animal" 
+              startAtLastPage={transitionDirection === 'backward'} 
               onBackToDashboard={() => setCurrentStep(2)} 
               onNextActivity={() => setCurrentStep(4)} 
             />
@@ -1015,7 +1026,13 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
               autoPlay 
               playsInline 
               onEnded={() => {
-                setIsAct24TransitionEnded(true);
+                if (transitionDirection === 'backward') {
+                  setIsPlayingAct24Transition(false);
+                  setCurrentStep(transitionTargetStep);
+                  if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
+                } else {
+                  setIsAct24TransitionEnded(true);
+                }
               }}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
@@ -1158,7 +1175,13 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
               autoPlay 
               playsInline 
               onEnded={() => {
-                setIsAct24ObservationTransitionEnded(true);
+                if (transitionDirection === 'backward') {
+                  setIsPlayingAct24ObservationTransition(false);
+                  setCurrentStep(transitionTargetStep);
+                  if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
+                } else {
+                  setIsAct24ObservationTransitionEnded(true);
+                }
               }}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
@@ -1293,7 +1316,13 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
               playsInline 
               muted 
               onEnded={() => {
-                setIsAct25ObservationTransitionEnded(true);
+                if (transitionDirection === 'backward') {
+                  setIsPlayingAct25ObservationTransition(false);
+                  setCurrentStep(transitionTargetStep);
+                  if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
+                } else {
+                  setIsAct25ObservationTransitionEnded(true);
+                }
               }}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
@@ -1426,7 +1455,13 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
               playsInline 
               muted 
               onEnded={() => {
-                setIsAct26ObservationTransitionEnded(true);
+                if (transitionDirection === 'backward') {
+                  setIsPlayingAct26ObservationTransition(false);
+                  setCurrentStep(transitionTargetStep);
+                  if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
+                } else {
+                  setIsAct26ObservationTransitionEnded(true);
+                }
               }}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
@@ -1564,7 +1599,13 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
               playsInline 
               muted 
               onEnded={() => {
-                setIsAct27ObservationTransitionEnded(true);
+                if (transitionDirection === 'backward') {
+                  setIsPlayingAct27ObservationTransition(false);
+                  setCurrentStep(transitionTargetStep);
+                  if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
+                } else {
+                  setIsAct27ObservationTransitionEnded(true);
+                }
               }}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
@@ -1789,6 +1830,10 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
               <LeafVenationLab 
                 initialPhase={venationPhase}
                 initialSpecimenIndex={venationSpecimenIndex}
+                onStateChange={(phase, index) => {
+                  setVenationPhase(phase);
+                  setVenationSpecimenIndex(index);
+                }}
                 onBackToDashboard={() => {
                   setTransitionTargetStep(6);
                 setTransitionTargetSubTab(null);
@@ -1819,6 +1864,7 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
             {venationSubTab === 'roots' && (
               <RootSystemsLab 
                 initialSpecimenIndex={rootsSpecimenIndex}
+                onStateChange={(idx) => setRootsSpecimenIndex(idx)}
                 onBackToDashboard={() => {
                   setTransitionTargetStep(6);
                 setTransitionTargetSubTab(null);
@@ -1850,6 +1896,11 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
             {venationSubTab === 'correlation' && (
               <VenationRootCorrelationLab 
                 initialPhase={correlationPhase}
+                initialSpecimenIndex={correlationSpecimenIndex}
+                onStateChange={(phase, idx) => {
+                  setCorrelationPhase(phase);
+                  setCorrelationSpecimenIndex(idx);
+                }}
                 onBackToDashboard={() => {
                   setTransitionTargetStep(6);
                 setTransitionTargetSubTab(null);
