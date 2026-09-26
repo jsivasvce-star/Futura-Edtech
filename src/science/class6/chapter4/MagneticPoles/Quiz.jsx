@@ -1,98 +1,114 @@
 import React, { useState } from 'react';
-import { CheckCircle, XCircle, HelpCircle } from 'lucide-react';
+import { CheckCircle, XCircle, ArrowRight } from 'lucide-react';
 import './MagneticPoles.css';
+
+const OPTION_PREFIXES = ['A', 'B', 'C', 'D'];
 
 const quizData = [
   {
     id: 1,
-    title: "Question 1",
-    question: "Where do most iron filings stick on a bar magnet?",
+    question: "Iron filings are spread evenly around a bar magnet and the paper is gently tapped. Most filings gather near the two ends. What does this show?",
     options: [
-      "At the centre",
-      "At the poles (ends)",
-      "Only on one side",
-      "Nowhere"
+      "The magnetic effect is strongest near the two poles.",
+      "The filings create two new poles outside the magnet.",
+      "The middle has no magnetic effect of any kind.",
+      "Only the red end can attract iron filings."
     ],
-    correctIndex: 1,
-    explanation: "Most iron filings collect at the two ends of a bar magnet, called the poles."
+    correctIndex: 0, // A
+    explanation: "The two ends of a bar magnet are its poles, where the magnetic effect is strongest. Fewer filings near the middle do not prove that the magnetic field there is zero.",
+    tryAgain: "Compare “strongest near the ends” with the much stronger claim “no effect anywhere else.”"
   },
   {
     id: 2,
-    title: "Question 2",
-    question: "What do iron filings help us observe?",
+    question: "Why do we tap the paper gently after sprinkling iron filings over a magnet placed beneath it?",
     options: [
-      "The colour of the magnet",
-      "The magnetic effect around the magnet",
-      "The weight of the magnet",
-      "The temperature of the magnet"
+      "To make both ends of the bar magnet become north poles.",
+      "To change all the filings from iron into permanent magnets.",
+      "To create a magnetic field that was absent before tapping.",
+      "To help the filings move and line up with the magnetic field."
     ],
-    correctIndex: 1,
-    explanation: "Iron filings show where the magnetic effect is strongest around a magnet."
+    correctIndex: 3, // D
+    explanation: "The magnet already has a magnetic field. A gentle tap helps filings overcome friction with the paper, so they can turn and arrange themselves along the field.",
+    tryAgain: "Tapping helps the filings move; it does not create the magnet’s field or change its poles."
   },
   {
     id: 3,
-    title: "Question 3",
-    question: "Which part of a bar magnet attracts the maximum number of iron filings?",
+    question: "A bar magnet has N at its left end and S at its right end. It is broken across the middle. Neither piece is turned around. What poles do the two pieces have?",
     options: [
-      "Middle",
-      "Poles",
-      "Flat surface only",
-      "Entire magnet equally"
+      "Left piece: N then N. Right piece: S then S.",
+      "Left piece: N then S. Right piece: N then S.",
+      "Left piece: N only. Right piece: S only.",
+      "Left piece: S then N. Right piece: N then S."
     ],
-    correctIndex: 1,
-    explanation: "The magnetic force is strongest at the poles, so more iron filings stick there."
+    correctIndex: 1, // B
+    explanation: "Each piece is a smaller magnet with both poles. A south pole forms at the new right end of the left piece, and a north pole forms at the new left end of the right piece.",
+    tryAgain: "Breaking a magnet does not separate north from south. Check the two newly exposed ends."
   },
   {
     id: 4,
-    title: "Question 4",
-    question: "Can a magnet have only one pole?",
+    question: "A ring magnet has no N or S labels. A student says its hole means it has no poles. Which response is best?",
     options: [
-      "Yes, only North Pole",
-      "Yes, only South Pole",
-      "No, every magnet has both North and South poles.",
-      "Only broken magnets have one pole."
+      "A ring magnet has no poles because it has no straight ends.",
+      "A ring magnet has only a north pole around its hole.",
+      "A ring magnet has poles; testing is needed to locate them.",
+      "A ring magnet must have four poles because it is curved."
     ],
-    correctIndex: 2,
-    explanation: "A magnet always has both a North Pole and a South Pole, even if it is broken."
+    correctIndex: 2, // C
+    explanation: "Magnetic poles are not limited to the ends of straight bars. A ring magnet has poles, but their positions depend on how it was magnetised. Shape alone does not identify their locations.",
+    tryAgain: "A hole changes the shape of the magnet, not the need for north and south poles."
   },
   {
     id: 5,
-    title: "Question 5",
-    question: "If a bar magnet is broken into two pieces, what will each piece become?",
+    question: "Two bar magnets are tested on identical paper. A student puts twice as many filings around magnet A, then says A is stronger because its pattern looks darker. What is the problem?",
     options: [
-      "One piece with N pole, one with S pole",
-      "Two complete magnets, each with N and S poles",
-      "Pieces with no poles",
-      "Pieces with only North poles"
+      "The magnets must have matching paint colours before testing.",
+      "Different amounts of filings make the darkness comparison unfair.",
+      "The paper must itself be magnetic for the comparison to work.",
+      "Using identical paper prevents a strength comparison."
     ],
-    correctIndex: 1,
-    explanation: "When a magnet is broken in half, each piece automatically forms its own pair of North and South poles."
+    correctIndex: 1, // B
+    explanation: "More filings can make a pattern look darker even without a stronger magnet. Use equal amounts, the same paper thickness and the same procedure before comparing the patterns.",
+    tryAgain: "Ask whether the darker pattern could be caused by something other than magnetic strength."
   }
 ];
 
 export default function Quiz({ onComplete }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedIndices, setSelectedIndices] = useState([]);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [isExhausted, setIsExhausted] = useState(false);
   const [score, setScore] = useState(0);
-  const [showResult, setShowResult] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
 
   const currentQ = quizData[currentQuestion];
+  const isQuestionResolved = isCorrect || isExhausted;
 
   const handleOptionSelect = (index) => {
-    if (showResult) return;
-    setSelectedOption(index);
-    setShowResult(true);
+    if (isQuestionResolved || selectedIndices.includes(index)) return;
+
+    const newSelected = [...selectedIndices, index];
+    setSelectedIndices(newSelected);
+
     if (index === currentQ.correctIndex) {
-      setScore(prev => prev + 1);
+      setIsCorrect(true);
+      if (newSelected.length === 1) {
+        setScore(prev => prev + 1);
+      }
+    } else {
+      const wrongCount = currentQ.options.length - 1;
+      const wrongSelected = newSelected.filter(i => i !== currentQ.correctIndex).length;
+      if (wrongSelected >= wrongCount) {
+        setIsExhausted(true);
+      }
     }
   };
 
   const handleNext = () => {
     if (currentQuestion < quizData.length - 1) {
       setCurrentQuestion(prev => prev + 1);
-      setSelectedOption(null);
-      setShowResult(false);
+      setSelectedIndices([]);
+      setIsCorrect(false);
+      setIsExhausted(false);
     } else {
       setIsFinished(true);
     }
@@ -100,62 +116,54 @@ export default function Quiz({ onComplete }) {
 
   if (isFinished) {
     return (
-      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: 'transparent', fontFamily: "'Inter', sans-serif" }}>
+      <div style={{ 
+        width: '100%', 
+        height: '100%', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        overflowY: 'auto', 
+        padding: '1rem', 
+        boxSizing: 'border-box', 
+        backgroundColor: 'transparent',
+        fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif"
+      }}>
         <div style={{ 
-          width: 'min(90vw, 76vh, 670px)', 
-          height: 'min(90vw, 76vh, 670px)', 
-          padding: 'clamp(2rem, 4vh, 3.5rem) clamp(1.75rem, 3vw, 3rem)', 
+          maxWidth: '560px', 
+          width: '90%', 
+          padding: '2.8rem 3.2rem', 
           textAlign: 'center', 
           background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
-          borderRadius: '36px', 
+          borderRadius: '28px', 
           border: '1.5px solid #E2E8F0',
-          boxShadow: '0 25px 65px -12px rgba(15, 23, 42, 0.35)',
+          boxShadow: '0 12px 40px rgba(23, 59, 95, 0.12)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
-          gap: 'clamp(1.5rem, 3.5vh, 2.5rem)',
-          overflow: 'hidden',
-          boxSizing: 'border-box'
+          gap: '1.45rem'
         }}>
-          <h2 style={{ 
-            fontSize: 'clamp(2.6rem, 3.8vw, 2.95rem)', 
-            margin: 0, 
-            color: '#064E3B', 
-            fontFamily: 'system-ui, -apple-system, sans-serif', 
-            fontWeight: 900, 
-            textAlign: 'center', 
-            lineHeight: 1.15 
-          }}>
+          <h2 style={{ fontSize: '2.2rem', margin: 0, color: '#173B5F', fontWeight: 900 }}>
             Quiz Completed! 🎉
           </h2>
           
-          <p style={{ 
-            color: '#065F46', 
-            margin: 0, 
-            fontSize: 'clamp(1.65rem, 2.3vw, 1.85rem)', 
-            fontWeight: 600, 
-            fontFamily: 'system-ui, -apple-system, sans-serif', 
-            textAlign: 'center' 
-          }}>
-            You scored <strong style={{ color: '#047857' }}>{score}</strong> out of {quizData.length}
+          <p style={{ color: '#1E293B', margin: 0, fontSize: '1.45rem', fontWeight: 700 }}>
+            You scored <strong style={{ color: '#173B5F', fontSize: '1.6rem' }}>{score}</strong> out of {quizData.length}
           </p>
 
           <button
             onClick={() => { if (onComplete) onComplete(score); }}
             className="gold-glow-btn"
             style={{
-              width: '84%',
-              maxWidth: '480px',
-              minWidth: '260px',
-              padding: '1.2rem 2.4rem',
-              fontSize: '21px',
-              fontWeight: 800,
-              borderRadius: '45px',
-              marginTop: '0.4rem'
+              padding: '1rem 3.2rem',
+              borderRadius: '32px',
+              fontSize: '1.25rem',
+              fontWeight: 900,
+              cursor: 'pointer',
+              marginTop: '0.6rem'
             }}
           >
-            Finish Activity
+            Finish Activity <ArrowRight size={22} color="#FFFFFF" />
           </button>
         </div>
       </div>
@@ -170,121 +178,190 @@ export default function Quiz({ onComplete }) {
       flexDirection: 'column', 
       alignItems: 'center', 
       justifyContent: 'center', 
-      padding: '0.5rem 1.25rem', 
+      padding: '0.5rem 1rem', 
       boxSizing: 'border-box',
       overflow: 'hidden',
-      borderRadius: '24px',
       backgroundColor: 'transparent',
-      fontFamily: 'system-ui, -apple-system, sans-serif'
+      fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif"
     }}>
-      <div style={{ width: '100%', maxWidth: '1250px', display: 'flex', flexDirection: 'column' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.55rem', padding: '0 0.5rem', flexShrink: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <HelpCircle size={30} color="#173B5F" />
-            <h3 style={{ margin: 0, color: '#064E3B', fontSize: '32px', fontWeight: 900 }}>
-              Stage 4: Quiz
-            </h3>
-          </div>
-          <div style={{ color: '#047857', fontSize: '21px', fontWeight: 800 }}>
-            Question {currentQuestion + 1} of {quizData.length}
-          </div>
-        </div>
-
+      <div style={{ width: '100%', maxWidth: '1180px', display: 'flex', flexDirection: 'column' }}>
+        
+        {/* Main Quiz Card */}
         <div className="glass-panel" style={{ 
           background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
           border: '1.5px solid #E2E8F0',
           borderRadius: '28px', 
-          padding: '1.1rem 1.6rem', 
-          boxShadow: '0 10px 35px rgba(217, 119, 6, 0.1)',
+          padding: '2.2rem 3rem', 
+          boxShadow: '0 8px 30px rgba(23, 59, 95, 0.08)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '0.75rem',
+          gap: '1.25rem',
           width: '100%',
           boxSizing: 'border-box'
         }}>
-          <h3 style={{ margin: 0, color: '#064E3B', fontSize: '32px', fontWeight: 900 }}>{currentQ.title}</h3>
-          <p style={{ fontSize: '24px', margin: 0, lineHeight: 1.18, fontWeight: 700, color: '#065F46' }}>{currentQ.question}</p>
+          {/* Question Badge inside the quiz container */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+            <span style={{
+              background: '#ECFDF5',
+              padding: '0.4rem 1.2rem',
+              borderRadius: '16px',
+              border: '1.5px solid #A7F3D0',
+              color: '#065F46',
+              fontWeight: 900,
+              fontSize: '1.15rem',
+              boxShadow: '0 2px 6px rgba(6, 95, 70, 0.08)'
+            }}>
+              Question {currentQuestion + 1} of {quizData.length}
+            </span>
+          </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
-            {currentQ.options.map((option, index) => {
-              let bgColor = '#FFFFFF';
-              let borderColor = '#E2E8F0';
-              let textColor = '#065F46';
+          {/* Question Text */}
+          <p style={{ margin: 0, fontSize: '1.45rem', lineHeight: '1.5', fontWeight: 800, color: '#173B5F' }}>
+            {currentQ.question}
+          </p>
+
+          {/* Option Buttons */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {currentQ.options.map((opt, index) => {
+              const isSelected = selectedIndices.includes(index);
+              const isOptionCorrect = index === currentQ.correctIndex;
+
+              let bgColor = '#0A1931';
+              let borderColor = '#1e293b';
+              let textColor = '#FFFFFF';
+              let boxShadow = '0 4px 14px rgba(10, 25, 49, 0.25)';
               let icon = null;
+              let isDisabled = false;
 
-              if (showResult) {
-                if (index === currentQ.correctIndex) {
-                  bgColor = '#DCFCE7';
-                  borderColor = '#10B981';
-                  textColor = '#064E3B';
-                  icon = <CheckCircle size={26} color="#10B981" />;
-                } else if (index === selectedOption) {
-                  bgColor = '#FEE2E2';
-                  borderColor = '#EF4444';
-                  textColor = '#991B1B';
-                  icon = <XCircle size={26} color="#EF4444" />;
+              if (isQuestionResolved) {
+                if (isOptionCorrect) {
+                  bgColor = 'linear-gradient(135deg, #064E3B 0%, #047857 100%)';
+                  borderColor = '#34D399';
+                  textColor = '#FFFFFF';
+                  boxShadow = '0 0 25px rgba(52, 211, 153, 0.55), 0 4px 14px rgba(6, 78, 59, 0.35)';
+                  icon = <CheckCircle size={28} color="#34D399" />;
+                } else if (isSelected) {
+                  bgColor = 'linear-gradient(135deg, #7F1D1D 0%, #991B1B 100%)';
+                  borderColor = '#F87171';
+                  textColor = '#FFFFFF';
+                  boxShadow = '0 0 25px rgba(248, 113, 113, 0.55), 0 4px 14px rgba(127, 29, 29, 0.35)';
+                  icon = <XCircle size={28} color="#F87171" />;
+                } else {
+                  bgColor = '#0A1931';
+                  borderColor = '#1e293b';
+                  textColor = '#cbd5e1';
+                  boxShadow = 'none';
                 }
-              } else if (index === selectedOption) {
-                borderColor = '#10B981';
-                bgColor = '#DCFCE7';
-                textColor = '#064E3B';
+                isDisabled = true;
+              } else {
+                if (isSelected) {
+                  bgColor = 'linear-gradient(135deg, #7F1D1D 0%, #991B1B 100%)';
+                  borderColor = '#F87171';
+                  textColor = '#FFFFFF';
+                  boxShadow = '0 0 20px rgba(248, 113, 113, 0.45)';
+                  icon = <XCircle size={28} color="#F87171" />;
+                  isDisabled = true;
+                } else {
+                  bgColor = '#0A1931';
+                  borderColor = '#1e293b';
+                  textColor = '#FFFFFF';
+                  boxShadow = '0 4px 14px rgba(10, 25, 49, 0.25)';
+                  isDisabled = false;
+                }
               }
 
               return (
                 <button
                   key={index}
                   onClick={() => handleOptionSelect(index)}
-                  disabled={showResult}
+                  disabled={isDisabled}
                   style={{
                     width: '100%',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    padding: '0.55rem 1.25rem',
-                    borderRadius: '18px',
+                    padding: '1.15rem 1.8rem',
+                    borderRadius: '20px',
                     background: bgColor,
-                    border: `2px solid ${borderColor}`,
+                    border: `2.5px solid ${borderColor}`,
                     color: textColor,
-                    cursor: showResult ? 'default' : 'pointer',
+                    cursor: isDisabled ? 'default' : 'pointer',
                     textAlign: 'left',
-                    fontSize: '21px',
+                    fontSize: '1.25rem',
                     fontWeight: 700,
-                    transition: 'all 0.2s ease',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
-                    opacity: showResult && index !== currentQ.correctIndex && index !== selectedOption ? 0.6 : 1
+                    transition: 'all 0.25s ease',
+                    boxShadow: boxShadow,
+                    opacity: isQuestionResolved && !isOptionCorrect && !isSelected ? 0.55 : 1
                   }}
                 >
-                  <span>{option}</span>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                    <span style={{ 
+                      fontWeight: 900, 
+                      color: isOptionCorrect && isQuestionResolved ? '#6EE7B7' : isSelected ? '#FCA5A5' : '#93C5FD' 
+                    }}>
+                      {OPTION_PREFIXES[index]}.
+                    </span>
+                    <span>{opt}</span>
+                  </span>
                   {icon}
                 </button>
               );
             })}
           </div>
 
-          {showResult && (
-            <div style={{ marginTop: '0.3rem', animation: 'fadeIn 0.35s ease' }}>
-              <div style={{ padding: '0.55rem 1.1rem', background: '#F0FDF4', borderRadius: '18px', border: '1.5px solid #A7F3D0', borderLeft: '6px solid #059669' }}>
-                <h4 style={{ margin: '0 0 0.2rem 0', fontSize: '24px', fontWeight: 900, color: '#064E3B' }}>Explanation</h4>
-                <p style={{ margin: 0, color: '#065F46', fontSize: '21px', lineHeight: 1.18, fontWeight: 600 }}>{currentQ.explanation}</p>
+          {/* Feedback & Action Banners */}
+          {isQuestionResolved ? (
+            <div style={{ marginTop: '0.4rem', display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
+              <div style={{ 
+                padding: '1.15rem 1.65rem', 
+                background: '#F0FDF4', 
+                borderRadius: '18px', 
+                border: '1.5px solid #A7F3D0', 
+                borderLeft: '6px solid #059669',
+                boxShadow: '0 4px 14px rgba(5, 150, 105, 0.08)'
+              }}>
+                <h4 style={{ margin: '0 0 0.3rem 0', fontSize: '1.25rem', fontWeight: 900, color: '#064E3B' }}>
+                  {isCorrect ? "Explanation (Correct)" : "Explanation"}
+                </h4>
+                <p style={{ margin: 0, color: '#065F46', fontSize: '1.18rem', lineHeight: '1.5', fontWeight: 600 }}>
+                  {currentQ.explanation}
+                </p>
               </div>
               
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.55rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.25rem' }}>
                 <button
                   onClick={handleNext}
                   className="gold-glow-btn"
                   style={{
-                    padding: '0.55rem 2.8rem',
-                    fontSize: '21px',
-                    fontWeight: 700,
+                    padding: '0.95rem 2.8rem',
                     borderRadius: '30px',
-                    lineHeight: 1.1
+                    fontSize: '1.2rem',
+                    fontWeight: 900,
+                    cursor: 'pointer'
                   }}
                 >
-                  {isFinished ? 'Finish Quiz' : 'Next Question'}
+                  {currentQuestion === quizData.length - 1 ? 'Finish Quiz' : 'Next Question'} <ArrowRight size={22} color="#FFFFFF" />
                 </button>
               </div>
             </div>
-          )}
+          ) : selectedIndices.length > 0 ? (
+            <div style={{ 
+              marginTop: '0.4rem', 
+              padding: '1.15rem 1.65rem', 
+              background: '#FEF2F2', 
+              borderRadius: '18px', 
+              border: '1.5px solid #FECACA', 
+              borderLeft: '6px solid #DC2626',
+              boxShadow: '0 4px 14px rgba(220, 38, 38, 0.08)'
+            }}>
+              <h4 style={{ margin: '0 0 0.3rem 0', fontSize: '1.25rem', fontWeight: 900, color: '#991B1B' }}>
+                Try Again
+              </h4>
+              <p style={{ margin: 0, color: '#B91C1C', fontSize: '1.18rem', lineHeight: '1.5', fontWeight: 600 }}>
+                {currentQ.tryAgain}
+              </p>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

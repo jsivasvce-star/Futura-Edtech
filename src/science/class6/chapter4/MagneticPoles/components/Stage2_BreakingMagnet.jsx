@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, Suspense } from 'react
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Text, OrbitControls, ContactShadows, Environment, useTexture } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, Scissors, AlertCircle, CheckCircle, XCircle, ArrowRight, BookOpen, RotateCcw, Hand } from 'lucide-react';
+import { Play, Pause, Scissors, AlertCircle, CheckCircle, XCircle, ArrowRight, BookOpen, RotateCcw, Hand, HelpCircle, Sparkles } from 'lucide-react';
 import BreakingMagnetVideoPlayer from './BreakingMagnetVideoPlayer';
 import * as THREE from 'three';
 import '../MagneticPoles.css';
@@ -283,38 +283,42 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
   return (
     <div
       style={{
-        padding: '0.35rem 0.5rem',
+        padding: '0.5rem 1rem',
         display: 'flex',
-        gap: '0.85rem',
+        gap: '1.25rem',
         height: '100%',
         minHeight: 0,
         overflow: 'hidden',
         boxSizing: 'border-box',
-        position: 'relative',
+        alignItems: 'center',
+        justifyContent: 'center',
         background: 'transparent',
+        fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif"
       }}
     >
-      {/* Dedicated Viewer Container (3D Demonstration Video) */}
+      {/* Left Side: 3D Video Player Scene (65% width) */}
       <div
         style={{
-          flex: '1.25',
+          flex: '0 0 65%',
+          maxWidth: '65%',
           display: 'flex',
           flexDirection: 'column',
           minWidth: 0,
-          minHeight: 0,
           height: '100%',
           boxSizing: 'border-box',
         }}
       >
-        {/* Display Container: Video Player */}
         <div
           style={{
             position: 'relative',
             width: '100%',
+            maxWidth: '100%',
             flex: 1,
-            minHeight: 0,
-            overflow: 'hidden',
+            minHeight: '380px',
             borderRadius: '24px',
+            border: '1.5px solid rgba(255, 255, 255, 0.8)',
+            overflow: 'hidden',
+            boxShadow: '0 12px 36px rgba(0, 0, 0, 0.12)',
           }}
         >
           <BreakingMagnetVideoPlayer
@@ -330,407 +334,268 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
         </div>
       </div>
 
-      {/* Right Column: Fullscreen non-scrolling, Halfscreen scrolling */}
+      {/* Right Side: 35% Grid Proportion */}
       <div
-        className="custom-scrollbar"
+        className="stage-right-column"
         style={{
-          width: '560px',
-          maxWidth: '560px',
-          flex: '0 0 560px',
-          height: '100%',
-          maxHeight: '100%',
-          minHeight: 0,
-          boxSizing: 'border-box',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '0.55rem',
-          minWidth: 0,
-          overflow: 'hidden',
-          fontFamily: 'system-ui, -apple-system, sans-serif'
+          flex: '0 0 calc(36% - 0.65rem)',
+          maxWidth: 'calc(36% - 0.65rem)'
         }}
       >
-        {/* CONTAINER 1: Steps of Instructions */}
+        {/* CONTAINER 1: Try the experiment */}
         <div
+          className="stage-container-1"
           style={{
-            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(10px)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
-            padding: '0.7rem 0.85rem',
-            boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
+            padding: '1.25rem 1.55rem',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
-            boxSizing: 'border-box',
-            flex: '0 0 auto',
-            minHeight: 0,
+            justifyContent: 'flex-start',
+            gap: '0.85rem',
+            boxSizing: 'border-box'
           }}
         >
-          {/* Top Section: Title & Instructions */}
-          <div style={{ minHeight: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)', paddingBottom: '0.35rem', marginBottom: '0.45rem' }}>
-              <h4 style={{ margin: 0, fontSize: '32px', color: '#173B5F', fontWeight: 800, lineHeight: 1.15, display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-                <span>📋</span> Steps of Instructions
-              </h4>
-            </div>
-
-            {/* Bullet Points - Single-line brown instructions */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
-              {[
-                'Watch the 3D video demonstration of a bar magnet breaking into pieces.',
-                'Use "Pause" and "Resume" to closely observe the magnet and pole formation.',
-                'Notice each broken half forms a complete magnet with North and South poles.'
-              ].map((instruction, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: '0.45rem',
-                    padding: '0.05rem 0'
-                  }}
-                >
-                  <span
-                    style={{
-                      width: '9px',
-                      height: '9px',
-                      borderRadius: '50%',
-                      background: '#173B5F',
-                      display: 'inline-block',
-                      flexShrink: 0,
-                      marginTop: '8px'
-                    }}
-                  />
-                  <p style={{ margin: 0, fontSize: '24px', lineHeight: 1.18, color: '#173B5F', fontWeight: 600 }}>
-                    {instruction}
-                  </p>
-                </div>
-              ))}
+          {/* Header Row */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <BookOpen size={32} color="#173B5F" strokeWidth={2.5} />
+              <h3 style={{ margin: 0, fontSize: '2.15rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
+                Try the experiment
+              </h3>
             </div>
           </div>
 
-          {/* Bottom Section: Action Controls — always in dedicated area, never overlapping content */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', paddingTop: '0.4rem', borderTop: '1px solid rgba(217, 119, 6, 0.2)', flexShrink: 0 }}>
-            <div style={{ width: '100%', display: 'flex', gap: '0.45rem', flexWrap: 'nowrap' }}>
-              <button
-                onClick={handlePause}
-                className={isPlaying ? 'gold-glow-btn' : ''}
-                style={{
-                  flex: 1,
-                  minWidth: 0,
-                  padding: '0.45rem 0.35rem',
-                  fontSize: '21px',
-                  fontWeight: 700,
-                  lineHeight: 1.1,
-                  borderRadius: '14px',
-                  border: isPlaying ? 'none' : '1.5px solid #CBD5E1',
-                  background: isPlaying ? undefined : '#FFFFFF',
-                  color: isPlaying ? '#FFFFFF' : '#173B5F',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '4px',
-                  boxShadow: isPlaying ? undefined : '0 2px 8px rgba(0,0,0,0.04)',
-                  transition: 'all 0.2s ease',
-                  whiteSpace: 'nowrap'
-                }}
-                title="Pause Demonstration"
-              >
-                <Pause size={16} /> Pause
-              </button>
+          {/* Numbered Steps with 2x Scaled Text and Warm Gold Step Badges */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {[
+              { num: '1', text: 'Watch the magnet break into two smaller pieces.' },
+              { num: '2', text: 'Observe what happens at the broken ends.' },
+              { num: '3', text: 'Notice each broken piece becomes a complete magnet.' }
+            ].map((s) => (
+              <div key={s.num} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div className="gold-step-badge">{s.num}</div>
+                <span style={{ fontSize: '1.55rem', color: '#173B5F', fontWeight: 700, lineHeight: 1.35 }}>
+                  {s.text}
+                </span>
+              </div>
+            ))}
+          </div>
 
-              <button
-                onClick={handleResume}
-                className={!isPlaying ? 'gold-glow-btn' : ''}
-                style={{
-                  flex: 1,
-                  minWidth: 0,
-                  padding: '0.45rem 0.35rem',
-                  fontSize: '21px',
-                  fontWeight: 700,
-                  lineHeight: 1.1,
-                  borderRadius: '14px',
-                  background: '#FFFFFF',
-                  color: '#173B5F',
-                  border: '1.5px solid #CBD5E1',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '4px',
-                  boxShadow: !isPlaying ? undefined : '0 2px 8px rgba(0,0,0,0.04)',
-                  transition: 'all 0.2s ease',
-                  whiteSpace: 'nowrap'
-                }}
-                title="Resume Demonstration"
-              >
-                <Play size={16} fill="currentColor" /> Resume
-              </button>
-
-              <button
-                onClick={handleReset}
-                style={{
-                  flex: 1,
-                  minWidth: 0,
-                  padding: '0.45rem 0.35rem',
-                  fontSize: '21px',
-                  fontWeight: 700,
-                  lineHeight: 1.1,
-                  borderRadius: '14px',
-                  background: '#FFFFFF',
-                  color: '#475569',
-                  border: '1.5px solid #CBD5E1',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '4px',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-                  transition: 'all 0.2s ease',
-                  whiteSpace: 'nowrap'
-                }}
-                title="Reset Demonstration and Replay from Start"
-              >
-                <RotateCcw size={15} /> Reset
-              </button>
+          {/* Tip / Observation Green Box */}
+          <div style={{
+            background: '#F0FDF4',
+            border: '1.5px solid #BBF7D0',
+            borderRadius: '16px',
+            padding: '0.75rem 1.15rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.85rem'
+          }}>
+            <div style={{
+              background: '#DCFCE7',
+              padding: '0.45rem',
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#16A34A',
+              flexShrink: 0
+            }}>
+              <Sparkles size={26} color="#16A34A" />
             </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
+              <span style={{ fontSize: '1.35rem', fontWeight: 900, color: '#14532D', lineHeight: 1.25 }}>
+                Poles always exist in pairs.
+              </span>
+              <span style={{ fontSize: '1.18rem', fontWeight: 600, color: '#15803D', lineHeight: 1.25 }}>
+                A broken magnet always forms North and South.
+              </span>
+            </div>
+          </div>
+
+          {/* Action Controls Row */}
+          <div style={{ width: '100%', display: 'flex', gap: '0.85rem', marginTop: '0.1rem' }}>
+            <button
+              onClick={isPlaying ? handlePause : handleResume}
+              className={isPlaying ? 'gold-glow-btn' : ''}
+              style={{
+                flex: 1.2,
+                padding: '0.95rem 1.3rem',
+                fontSize: '1.45rem',
+                fontWeight: 900,
+                borderRadius: '18px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.65rem',
+                cursor: 'pointer',
+                background: !isPlaying ? '#F3F7F9' : undefined,
+                color: !isPlaying ? '#173B5F' : '#FFFFFF',
+                border: !isPlaying ? '1.5px solid #E2E8F0' : undefined
+              }}
+            >
+              {isPlaying ? <Pause size={24} /> : <Play size={24} fill="currentColor" />}
+              {isPlaying ? 'Pause' : 'Resume'}
+            </button>
+
+            <button
+              onClick={handleReset}
+              style={{
+                flex: 0.8,
+                padding: '0.95rem 1.1rem',
+                fontSize: '1.35rem',
+                fontWeight: 900,
+                borderRadius: '18px',
+                background: '#FFFBEB',
+                color: '#92400E',
+                border: '1.5px solid #FDE68A',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.55rem',
+                boxShadow: '0 2px 8px rgba(217, 119, 6, 0.12)',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <RotateCcw size={22} color="#92400E" /> Reset
+            </button>
           </div>
         </div>
 
-        {/* CONTAINER 2: Observation & Conclusion Quiz */}
+        {/* CONTAINER 2: Observation & Conclusion */}
         <div
+          className="stage-container-2"
           style={{
-            background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
-            border: '1.5px solid #E2E8F0',
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(10px)',
+            border: quizAnswer === 'no' ? '2px solid #86EFAC' : quizAnswer === 'yes' ? '2px solid #FECACA' : '1.5px solid #E2E8F0',
             borderRadius: '24px',
-            padding: '0.75rem 0.85rem',
-            boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
+            padding: '1.25rem 1.55rem',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
-            flex: 1,
-            minHeight: 0,
+            justifyContent: 'flex-start',
+            gap: '0.85rem',
             boxSizing: 'border-box',
           }}
         >
-          {/* Top Section: Question + Quiz options + Feedback */}
-          <div style={{ minHeight: 0, display: 'flex', flexDirection: 'column' }}>
-            <h4
+          {/* Header Row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <HelpCircle size={32} color="#173B5F" strokeWidth={2.5} />
+            <h3 style={{ margin: 0, fontSize: '2.15rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
+              Observation & Conclusion
+            </h3>
+          </div>
+          
+          <p style={{ margin: 0, color: '#173B5F', fontSize: '1.45rem', lineHeight: 1.35, fontWeight: 700 }}>
+            Based on what happens when a magnet breaks, is it possible to obtain a magnet with only a single pole?
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+            <button
+              type="button"
+              onClick={() => handleQuizAnswer('yes')}
+              aria-pressed={quizAnswer === 'yes'}
               style={{
-                color: '#173B5F',
-                margin: 0,
-                fontSize: '30px',
+                padding: '0.95rem 1.35rem',
+                textAlign: 'left',
+                fontSize: '1.35rem',
                 fontWeight: 800,
-                lineHeight: 1.15,
+                lineHeight: 1.25,
+                borderRadius: '16px',
+                cursor: 'pointer',
+                background: quizAnswer === 'yes' ? '#FEE2E2' : '#FFFFFF',
+                borderColor: quizAnswer === 'yes' ? '#EF4444' : '#E2E8F0',
+                borderWidth: '1.5px',
+                borderStyle: 'solid',
+                color: quizAnswer === 'yes' ? '#991B1B' : '#173B5F',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.5rem',
-                paddingBottom: '0.35rem',
-                borderBottom: '1.5px solid rgba(217, 119, 6, 0.25)'
+                justifyContent: 'space-between',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                transition: 'all 0.2s ease',
               }}
             >
-              <AlertCircle size={23} color="#173B5F" /> Observation & Conclusion
-            </h4>
-            <p style={{ margin: '0.25rem 0 0.35rem 0', color: '#173B5F', fontSize: '23px', lineHeight: 1.15, fontWeight: 700 }}>
-              Based on what happens when a magnet breaks, is it possible to obtain a magnet with only a single pole?
-            </p>
+              <span>A) Yes, we can isolate a single North or South pole</span>
+              {quizAnswer === 'yes' && <XCircle size={24} color="#EF4444" />}
+            </button>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', marginTop: '0.2rem' }}>
-              <button
-                type="button"
-                onClick={() => handleQuizAnswer('yes')}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleQuizAnswer('yes');
-                  }
-                }}
-                aria-pressed={quizAnswer === 'yes'}
-                style={{
-                  padding: '0.45rem 0.85rem',
-                  textAlign: 'left',
-                  fontSize: '21px',
-                  fontWeight: 700,
-                  borderRadius: '14px',
-                  cursor: 'pointer',
-                  background: quizAnswer === 'yes' ? '#FEE2E2' : '#FFFFFF',
-                  borderColor: quizAnswer === 'yes' ? '#EF4444' : '#E2E8F0',
-                  borderWidth: '1.5px',
-                  borderStyle: 'solid',
-                  color: quizAnswer === 'yes' ? '#991B1B' : '#173B5F',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                <span>A) Yes, we can isolate a single North or South pole</span>
-                {quizAnswer === 'yes' && <XCircle size={20} color="#EF4444" />}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleQuizAnswer('no')}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleQuizAnswer('no');
-                  }
-                }}
-                aria-pressed={quizAnswer === 'no'}
-                style={{
-                  padding: '0.45rem 0.85rem',
-                  textAlign: 'left',
-                  fontSize: '21px',
-                  fontWeight: 700,
-                  borderRadius: '14px',
-                  cursor: 'pointer',
-                  background: quizAnswer === 'no' ? '#DCFCE7' : '#FFFFFF',
-                  borderColor: quizAnswer === 'no' ? '#10B981' : '#E2E8F0',
-                  borderWidth: '1.5px',
-                  borderStyle: 'solid',
-                  color: quizAnswer === 'no' ? '#064E3B' : '#173B5F',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                <span>B) No, a single isolated pole cannot exist</span>
-                {quizAnswer === 'no' && <CheckCircle size={20} color="#10B981" />}
-              </button>
-            </div>
-
-            {/* In-container positive feedback when 'no' is selected */}
-            <AnimatePresence>
-              {quizAnswer === 'no' && (
-                <motion.div
-                  initial={{ opacity: 0, y: -4, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -4, scale: 0.98 }}
-                  transition={{ duration: 0.2 }}
-                  style={{
-                    marginTop: '0.4rem',
-                    padding: '0.55rem 0.85rem',
-                    borderRadius: '14px',
-                    background: '#ECFDF5',
-                    border: '1.5px solid #6EE7B7',
-                    color: '#065F46',
-                    fontSize: '15px',
-                    fontWeight: 800,
-                    lineHeight: 1.35,
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: '0.55rem',
-                    boxShadow: '0 4px 14px rgba(16, 185, 129, 0.12)',
-                  }}
-                >
-                  <CheckCircle size={20} color="#10B981" style={{ flexShrink: 0, marginTop: '2px' }} />
-                  <span style={{ flex: 1 }}>🎉 Correct! A single isolated magnetic pole cannot exist. Every magnet always has both North and South poles!</span>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* In-container corrective feedback when 'yes' is selected */}
-            <AnimatePresence>
-              {quizAnswer === 'yes' && (
-                <motion.div
-                  initial={{ opacity: 0, y: -4, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -4, scale: 0.98 }}
-                  transition={{ duration: 0.2 }}
-                  style={{
-                    marginTop: '0.4rem',
-                    padding: '0.55rem 0.85rem',
-                    borderRadius: '14px',
-                    background: '#FEF2F2',
-                    border: '1.5px solid #F87171',
-                    color: '#991B1B',
-                    fontSize: '15px',
-                    fontWeight: 800,
-                    lineHeight: 1.35,
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: '0.55rem',
-                    boxShadow: '0 4px 14px rgba(239, 68, 68, 0.12)',
-                  }}
-                >
-                  <XCircle size={20} color="#DC2626" style={{ flexShrink: 0, marginTop: '2px' }} />
-                  <span style={{ flex: 1 }}>Incorrect. Single isolated magnetic poles cannot exist! When broken, each piece becomes a complete magnet with two poles. Try again!</span>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Prompt when user attempts to proceed without answering */}
-            <AnimatePresence>
-              {warningPrompt && (
-                <motion.div
-                  initial={{ opacity: 0, y: -4, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -4, scale: 0.98 }}
-                  transition={{ duration: 0.2 }}
-                  style={{
-                    marginTop: '0.4rem',
-                    padding: '0.55rem 0.85rem',
-                    borderRadius: '14px',
-                    background: '#FFFBEB',
-                    border: '1.5px solid #FCD34D',
-                    color: '#92400E',
-                    fontSize: '15px',
-                    fontWeight: 800,
-                    lineHeight: 1.35,
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: '0.55rem',
-                    boxShadow: '0 4px 14px rgba(245, 158, 11, 0.12)',
-                  }}
-                >
-                  <AlertCircle size={20} color="#D97706" style={{ flexShrink: 0, marginTop: '2px' }} />
-                  <span style={{ flex: 1 }}>{warningPrompt}</span>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <button
+              type="button"
+              onClick={() => handleQuizAnswer('no')}
+              aria-pressed={quizAnswer === 'no'}
+              style={{
+                padding: '0.95rem 1.35rem',
+                textAlign: 'left',
+                fontSize: '1.35rem',
+                fontWeight: 800,
+                lineHeight: 1.25,
+                borderRadius: '16px',
+                cursor: 'pointer',
+                background: quizAnswer === 'no' ? '#DCFCE7' : '#FFFFFF',
+                borderColor: quizAnswer === 'no' ? '#10B981' : '#E2E8F0',
+                borderWidth: '1.5px',
+                borderStyle: 'solid',
+                color: quizAnswer === 'no' ? '#064E3B' : '#173B5F',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              <span>B) No, a single isolated pole cannot exist</span>
+              {quizAnswer === 'no' && <CheckCircle size={24} color="#10B981" />}
+            </button>
           </div>
 
-          {/* Bottom Section: Proceed Button — always in dedicated area, never overlapping */}
-          {(() => {
-            const isReadyToProceed = quizAnswer === 'no';
-            return (
-              <div style={{ paddingTop: '0.45rem', flexShrink: 0 }}>
-                <button
-                  onClick={handleProceedClick}
-                  className={isReadyToProceed ? 'gold-glow-btn' : ''}
-                  style={{
-                    width: '100%',
-                    padding: '0.55rem 1.25rem',
-                    fontSize: '21px',
-                    fontWeight: 900,
-                    borderRadius: '14px',
-                    background: isReadyToProceed
-                      ? undefined
-                      : '#FFFFFF',
-                    color: isReadyToProceed ? '#FFFFFF' : '#173B5F',
-                    border: isReadyToProceed ? 'none' : '1.5px solid #CBD5E1',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.6rem',
-                    whiteSpace: 'nowrap',
-                    boxShadow: isReadyToProceed
-                      ? undefined
-                      : '0 2px 8px rgba(0,0,0,0.04)',
-                    transition: 'all 0.25s ease',
-                  }}
-                >
-                  Proceed to Stage 3{' '}
-                  <ArrowRight size={18} color={isReadyToProceed ? '#FFFFFF' : '#92400E'} />
-                </button>
-              </div>
-            );
-          })()}
+          {/* Positive Feedback when 'no' is selected */}
+          {quizAnswer === 'no' && (
+            <div
+              style={{
+                padding: '0.75rem 1.15rem',
+                borderRadius: '14px',
+                background: '#ECFDF5',
+                border: '1.5px solid #6EE7B7',
+                borderLeft: '5px solid #10B981',
+                color: '#065F46',
+                fontSize: '1.2rem',
+                fontWeight: 700,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.65rem',
+              }}
+            >
+              <CheckCircle size={22} color="#10B981" style={{ flexShrink: 0 }} />
+              <span>🎉 Correct! A single isolated pole cannot exist. Every broken piece forms both North and South poles.</span>
+            </div>
+          )}
+
+          {/* Corrective Feedback when 'yes' is selected */}
+          {quizAnswer === 'yes' && (
+            <div
+              style={{
+                padding: '0.75rem 1.15rem',
+                borderRadius: '14px',
+                background: '#FEF2F2',
+                border: '1.5px solid #F87171',
+                color: '#991B1B',
+                fontSize: '1.15rem',
+                fontWeight: 700,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.65rem',
+              }}
+            >
+              <XCircle size={20} color="#DC2626" style={{ flexShrink: 0 }} />
+              <span>Incorrect. Single isolated magnetic poles cannot exist! When broken, each piece becomes a complete magnet.</span>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-/* Activity 4.1 & 4.2 Luminous Gold Gradients & Accents Theme */
+/* Activity 4.1 Magnetic Items Styles - Aligned with Finding Directions Theme */
 
 @keyframes gentle-gold-glow {
   0%, 100% {
@@ -31,19 +31,20 @@
 .gold-glow-btn {
   position: relative !important;
   overflow: hidden !important;
-  background: linear-gradient(135deg, #214A70 0%, #173B5F 50%, #173B5F 100%) !important;
-  border: 1.5px solid rgba(254, 240, 138, 0.6) !important;
-  border-radius: 16px;
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
+  border: 1.5px solid rgba(254, 240, 138, 0.85) !important;
+  border-radius: 18px;
   color: #FFFFFF !important;
   font-weight: 900 !important;
   cursor: pointer !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 0.55rem !important;
+  gap: 0.65rem !important;
   animation: gentle-gold-glow 3s infinite ease-in-out !important;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35) !important;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
 }
 
 .gold-glow-btn * {
@@ -69,13 +70,61 @@
 }
 
 .gold-glow-btn:hover {
-  transform: translateY(-2px) scale(1.03) !important;
-  background: linear-gradient(135deg, #214A70 0%, #214A70 50%, #173B5F 100%) !important;
-  box-shadow: 0 10px 34px rgba(245, 158, 11, 0.9), 0 0 30px rgba(251, 191, 36, 0.75) !important;
+  transform: translateY(-2px) scale(1.02) !important;
+  background: linear-gradient(135deg, #FBBF24 0%, #D97706 100%) !important;
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.5), 0 0 20px rgba(251, 191, 36, 0.5) !important;
 }
 
 .gold-glow-btn:active {
   transform: translateY(0) scale(0.98) !important;
+}
+
+.navy-btn {
+  position: relative !important;
+  overflow: hidden !important;
+  background: linear-gradient(135deg, #214A70 0%, #173B5F 100%) !important;
+  border: 1.5px solid #2B6CB0 !important;
+  color: #FFFFFF !important;
+  font-weight: 900 !important;
+  border-radius: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  box-shadow: 0 4px 14px rgba(23, 59, 95, 0.3);
+  transition: all 0.2s ease;
+}
+
+.navy-btn::after {
+  content: '' !important;
+  position: absolute !important;
+  top: -70% !important;
+  left: 0 !important;
+  width: 50% !important;
+  height: 240% !important;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0) 100%
+  ) !important;
+  animation: gentle-shimmer 4.2s infinite ease-in-out !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+}
+
+.navy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(23, 59, 95, 0.45);
+}
+
+/* Glass Panel Standard */
+.glass-panel {
+  background: linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%);
+  border: 1.5px solid #E2E8F0;
+  border-radius: 28px;
+  box-shadow: 0 8px 30px rgba(23, 59, 95, 0.08);
 }
 
 /* Radar Sweep Animation */
@@ -104,18 +153,6 @@
   }
 }
 
-/* Holographic Float & Aura Pulse */
-@keyframes holographic-pulse {
-  0%, 100% {
-    filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.45));
-    transform: scale(1);
-  }
-  50% {
-    filter: drop-shadow(0 0 28px rgba(56, 189, 248, 0.85));
-    transform: scale(1.02);
-  }
-}
-
 /* Evidence Card Hover & Active Interaction */
 .evidence-card {
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
@@ -133,23 +170,7 @@
   transform: translateY(-2px);
 }
 
-/* Custom Scrollbar for Evidence Board */
-.evidence-board-scroll::-webkit-scrollbar {
-  width: 6px;
-}
-.evidence-board-scroll::-webkit-scrollbar-track {
-  background: rgba(217, 201, 163, 0.2);
-  border-radius: 4px;
-}
-.evidence-board-scroll::-webkit-scrollbar-thumb {
-  background: rgba(169, 71, 39, 0.35);
-  border-radius: 4px;
-}
-.evidence-board-scroll::-webkit-scrollbar-thumb:hover {
-  background: rgba(169, 71, 39, 0.65);
-}
-
-/* Custom Amber Scrollbar */
+/* Custom Scrollbar */
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: #214A70 rgba(254, 243, 199, 0.7);
@@ -170,7 +191,7 @@
   background: #173B5F !important;
 }
 
-/* Right Column Layout: Fullscreen non-scrolling, Halfscreen scrolling */
+/* Right Column Layout */
 .stage-right-column {
   flex: 1.15;
   height: 100%;
@@ -182,7 +203,7 @@
   gap: 1.65rem;
   min-width: 0;
   overflow-x: hidden;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
   scrollbar-width: thin;
   scrollbar-color: #214A70 rgba(254, 243, 199, 0.7);
 }
@@ -202,7 +223,6 @@
   background: #173B5F;
 }
 
-/* Fullscreen: non-scrolling, containers expand gracefully to fill height */
 @media (min-width: 1367px) and (min-height: 821px) {
   .stage-right-column {
     overflow-y: hidden !important;
@@ -217,7 +237,6 @@
   }
 }
 
-/* Halfscreen or smaller viewports: Enable smooth scrolling and prevent container squishing */
 @media (max-width: 1366px), (max-height: 820px) {
   .stage-right-column {
     overflow-y: auto !important;

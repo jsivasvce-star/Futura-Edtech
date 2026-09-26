@@ -1,342 +1,342 @@
 {
   "trees": {
     "audioFile": "16_ToweringWoodyTrees.mp3",
-    "totalDuration": 42.43,
+    "totalDuration": 41.04,
     "words": [
       {
         "word": "Towering",
-        "start": 0.91,
-        "end": 1.4
+        "start": 0.85,
+        "end": 1.45
       },
       {
         "word": "Woody",
-        "start": 1.41,
-        "end": 1.73
+        "start": 1.45,
+        "end": 1.7
       },
       {
         "word": "Trees.",
-        "start": 1.74,
-        "end": 2.24
+        "start": 1.7,
+        "end": 2.25
       },
       {
         "word": "Thick,",
-        "start": 2.73,
-        "end": 2.83
+        "start": 2.25,
+        "end": 2.5
       },
       {
         "word": "Woody",
-        "start": 2.84,
-        "end": 3.12
+        "start": 2.5,
+        "end": 2.7
       },
       {
         "word": "Trunk:",
-        "start": 3.13,
-        "end": 3.37
+        "start": 2.7,
+        "end": 2.9
       },
       {
         "word": "Trees",
-        "start": 3.38,
-        "end": 3.5
+        "start": 2.9,
+        "end": 3.16
       },
       {
         "word": "usually",
-        "start": 3.51,
-        "end": 3.68
+        "start": 3.16,
+        "end": 3.45
       },
       {
         "word": "have",
-        "start": 3.69,
-        "end": 4.16
+        "start": 3.45,
+        "end": 4.25
       },
       {
         "word": "one",
-        "start": 4.17,
-        "end": 4.53
+        "start": 4.25,
+        "end": 4.65
       },
       {
         "word": "thick,",
-        "start": 4.54,
-        "end": 5.2
+        "start": 4.65,
+        "end": 5.15
       },
       {
         "word": "hard,",
-        "start": 5.21,
-        "end": 5.64
+        "start": 5.15,
+        "end": 5.85
       },
       {
         "word": "woody",
-        "start": 5.9,
-        "end": 6.12
+        "start": 5.85,
+        "end": 6.2
       },
       {
         "word": "trunk",
-        "start": 6.13,
-        "end": 6.84
+        "start": 6.2,
+        "end": 6.8
       },
       {
         "word": "that",
-        "start": 6.85,
-        "end": 7.03
+        "start": 6.8,
+        "end": 7.15
       },
       {
         "word": "supports",
-        "start": 7.04,
-        "end": 7.51
+        "start": 7.15,
+        "end": 7.65
       },
       {
         "word": "the",
-        "start": 7.52,
-        "end": 7.63
+        "start": 7.65,
+        "end": 7.8
       },
       {
         "word": "plant.",
-        "start": 7.64,
-        "end": 8.14
+        "start": 7.8,
+        "end": 8.6
       },
       {
         "word": "Bark",
-        "start": 9.45,
-        "end": 9.63
+        "start": 8.6,
+        "end": 9.5
       },
       {
         "word": "protects",
-        "start": 9.64,
-        "end": 10.08
+        "start": 9.5,
+        "end": 10.15
       },
       {
         "word": "the",
-        "start": 10.09,
-        "end": 10.39
+        "start": 10.15,
+        "end": 10.35
       },
       {
         "word": "trunk.",
-        "start": 10.4,
-        "end": 10.9
+        "start": 10.35,
+        "end": 10.85
       },
       {
         "word": "Branches",
-        "start": 12.88,
-        "end": 13.36
+        "start": 11.2,
+        "end": 11.7
       },
       {
         "word": "and",
-        "start": 14.07,
-        "end": 14.4
+        "start": 11.7,
+        "end": 12.1
       },
       {
         "word": "Canopy:",
-        "start": 16.23,
-        "end": 16.71
+        "start": 12.1,
+        "end": 12.8
       },
       {
         "word": "Branches",
-        "start": 17.06,
-        "end": 17.58
+        "start": 12.8,
+        "end": 13.35
       },
       {
         "word": "usually",
-        "start": 18.59,
-        "end": 19.38
+        "start": 13.35,
+        "end": 13.75
       },
       {
         "word": "grow",
-        "start": 19.39,
-        "end": 19.56
+        "start": 13.75,
+        "end": 14.4
       },
       {
         "word": "higher",
-        "start": 19.57,
-        "end": 19.74
+        "start": 14.4,
+        "end": 15.0
       },
       {
         "word": "up",
-        "start": 19.75,
-        "end": 20.09
+        "start": 15.0,
+        "end": 15.6
       },
       {
         "word": "the",
-        "start": 20.49,
-        "end": 20.61
+        "start": 15.6,
+        "end": 16.2
       },
       {
         "word": "trunk.",
-        "start": 20.62,
-        "end": 21.0
+        "start": 16.2,
+        "end": 16.8
       },
       {
         "word": "The",
-        "start": 21.01,
-        "end": 21.3
+        "start": 16.8,
+        "end": 17.3
       },
       {
         "word": "branches",
-        "start": 22.46,
-        "end": 23.06
+        "start": 17.3,
+        "end": 18.2
       },
       {
         "word": "and",
-        "start": 23.67,
-        "end": 23.83
+        "start": 18.2,
+        "end": 18.6
       },
       {
         "word": "leaves",
-        "start": 23.84,
-        "end": 24.44
+        "start": 18.6,
+        "end": 19.3
       },
       {
         "word": "form",
-        "start": 24.45,
-        "end": 24.69
+        "start": 19.3,
+        "end": 19.55
       },
       {
         "word": "a",
-        "start": 24.98,
-        "end": 25.13
+        "start": 19.55,
+        "end": 19.75
       },
       {
         "word": "leafy",
-        "start": 25.76,
-        "end": 26.46
+        "start": 19.75,
+        "end": 20.45
       },
       {
         "word": "cover",
-        "start": 26.47,
-        "end": 26.59
+        "start": 20.45,
+        "end": 20.8
       },
       {
         "word": "called",
-        "start": 26.6,
-        "end": 26.83
+        "start": 20.8,
+        "end": 21.15
       },
       {
         "word": "the",
-        "start": 26.84,
-        "end": 27.36
+        "start": 21.15,
+        "end": 21.4
       },
       {
         "word": "canopy.",
-        "start": 28.04,
-        "end": 28.46
+        "start": 21.4,
+        "end": 22.0
       },
       {
         "word": "Height",
-        "start": 28.56,
-        "end": 28.99
+        "start": 22.0,
+        "end": 22.04
       },
       {
         "word": "and",
-        "start": 29.0,
-        "end": 29.22
+        "start": 22.04,
+        "end": 22.07
       },
       {
         "word": "Lifespan:",
-        "start": 29.23,
-        "end": 29.72
+        "start": 22.07,
+        "end": 22.1
       },
       {
         "word": "Trees",
-        "start": 30.05,
-        "end": 30.16
+        "start": 22.1,
+        "end": 22.45
       },
       {
         "word": "grow",
-        "start": 30.17,
-        "end": 30.41
+        "start": 22.45,
+        "end": 22.7
       },
       {
         "word": "tall,",
-        "start": 30.42,
-        "end": 30.65
+        "start": 22.7,
+        "end": 23.4
       },
       {
         "word": "and",
-        "start": 30.96,
-        "end": 31.25
+        "start": 23.4,
+        "end": 24.5
       },
       {
         "word": "many",
-        "start": 31.26,
-        "end": 31.46
+        "start": 24.5,
+        "end": 24.9
       },
       {
         "word": "live",
-        "start": 32.15,
-        "end": 32.37
+        "start": 24.9,
+        "end": 25.4
       },
       {
         "word": "for",
-        "start": 32.38,
-        "end": 32.47
+        "start": 25.4,
+        "end": 25.75
       },
       {
         "word": "decades.",
-        "start": 32.52,
-        "end": 32.96
+        "start": 25.75,
+        "end": 27.8
       },
       {
         "word": "Examples:",
-        "start": 33.06,
-        "end": 33.53
+        "start": 28.0,
+        "end": 30.5
       },
       {
         "word": "Banyan,",
-        "start": 34.01,
-        "end": 34.65
+        "start": 30.5,
+        "end": 31.5
       },
       {
         "word": "peepal,",
-        "start": 34.98,
-        "end": 35.55
+        "start": 31.5,
+        "end": 32.5
       },
       {
         "word": "neem,",
-        "start": 36.04,
-        "end": 36.42
+        "start": 32.5,
+        "end": 33.4
       },
       {
         "word": "mango.",
-        "start": 36.91,
-        "end": 37.59
+        "start": 33.4,
+        "end": 35.5
       },
       {
         "word": "Think:",
-        "start": 37.79,
-        "end": 38.19
+        "start": 35.5,
+        "end": 37.0
       },
       {
         "word": "Which",
-        "start": 38.83,
-        "end": 39.08
+        "start": 37.0,
+        "end": 37.8
       },
       {
         "word": "features",
-        "start": 39.09,
-        "end": 39.73
+        "start": 37.8,
+        "end": 38.6
       },
       {
         "word": "help",
-        "start": 40.05,
-        "end": 40.37
+        "start": 38.6,
+        "end": 39.1
       },
       {
         "word": "you",
-        "start": 40.38,
-        "end": 40.5
+        "start": 39.1,
+        "end": 39.35
       },
       {
         "word": "recognise",
-        "start": 40.51,
-        "end": 41.42
+        "start": 39.35,
+        "end": 40.05
       },
       {
         "word": "a",
-        "start": 41.43,
-        "end": 41.52
+        "start": 40.05,
+        "end": 40.35
       },
       {
         "word": "tree?",
-        "start": 41.53,
-        "end": 41.93
+        "start": 40.35,
+        "end": 41.04
       }
     ]
   }

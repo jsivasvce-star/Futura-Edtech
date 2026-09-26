@@ -1,0 +1,308 @@
+{
+  "sparrow": {
+    "audioFile": "Sparrow.mp3",
+    "totalDuration": 28.918,
+    "words": [
+      {
+        "word": "Look",
+        "start": 0.0,
+        "end": 0.282
+      },
+      {
+        "word": "at",
+        "start": 0.282,
+        "end": 0.424
+      },
+      {
+        "word": "the",
+        "start": 0.424,
+        "end": 0.635
+      },
+      {
+        "word": "sparrow.",
+        "start": 0.635,
+        "end": 1.2
+      },
+      {
+        "word": "We",
+        "start": 1.3,
+        "end": 1.46
+      },
+      {
+        "word": "often",
+        "start": 1.46,
+        "end": 1.86
+      },
+      {
+        "word": "find",
+        "start": 1.86,
+        "end": 2.18
+      },
+      {
+        "word": "it",
+        "start": 2.18,
+        "end": 2.34
+      },
+      {
+        "word": "in",
+        "start": 2.34,
+        "end": 2.5
+      },
+      {
+        "word": "Garden",
+        "start": 2.5,
+        "end": 3.077
+      },
+      {
+        "word": "hedges,",
+        "start": 3.077,
+        "end": 3.75
+      },
+      {
+        "word": "bushes,",
+        "start": 3.75,
+        "end": 4.423
+      },
+      {
+        "word": "tree",
+        "start": 4.423,
+        "end": 4.808
+      },
+      {
+        "word": "branches",
+        "start": 4.808,
+        "end": 5.577
+      },
+      {
+        "word": "and",
+        "start": 5.577,
+        "end": 5.865
+      },
+      {
+        "word": "beneath",
+        "start": 5.865,
+        "end": 6.538
+      },
+      {
+        "word": "roof",
+        "start": 6.538,
+        "end": 6.923
+      },
+      {
+        "word": "edges.",
+        "start": 6.923,
+        "end": 7.5
+      },
+      {
+        "word": "It",
+        "start": 7.5,
+        "end": 7.8
+      },
+      {
+        "word": "Flies",
+        "start": 7.8,
+        "end": 8.479
+      },
+      {
+        "word": "by",
+        "start": 8.479,
+        "end": 8.75
+      },
+      {
+        "word": "flapping",
+        "start": 8.75,
+        "end": 9.836
+      },
+      {
+        "word": "its",
+        "start": 9.836,
+        "end": 10.243
+      },
+      {
+        "word": "wings",
+        "start": 10.243,
+        "end": 10.921
+      },
+      {
+        "word": "and",
+        "start": 10.921,
+        "end": 11.329
+      },
+      {
+        "word": "hops",
+        "start": 11.329,
+        "end": 11.871
+      },
+      {
+        "word": "on",
+        "start": 11.871,
+        "end": 12.143
+      },
+      {
+        "word": "the",
+        "start": 12.143,
+        "end": 12.55
+      },
+      {
+        "word": "ground.",
+        "start": 12.55,
+        "end": 13.5
+      },
+      {
+        "word": "Its",
+        "start": 13.5,
+        "end": 14.1
+      },
+      {
+        "word": "A",
+        "start": 14.1,
+        "end": 14.296
+      },
+      {
+        "word": "short,",
+        "start": 14.296,
+        "end": 14.885
+      },
+      {
+        "word": "strong,",
+        "start": 14.885,
+        "end": 15.572
+      },
+      {
+        "word": "cone-shaped",
+        "start": 15.572,
+        "end": 16.651
+      },
+      {
+        "word": "beak",
+        "start": 16.651,
+        "end": 17.043
+      },
+      {
+        "word": "helps",
+        "start": 17.043,
+        "end": 17.534
+      },
+      {
+        "word": "crack",
+        "start": 17.534,
+        "end": 18.025
+      },
+      {
+        "word": "seeds.",
+        "start": 18.025,
+        "end": 18.613
+      },
+      {
+        "word": "Flight",
+        "start": 18.613,
+        "end": 19.202
+      },
+      {
+        "word": "feathers",
+        "start": 19.202,
+        "end": 19.987
+      },
+      {
+        "word": "and",
+        "start": 19.987,
+        "end": 20.281
+      },
+      {
+        "word": "a",
+        "start": 20.281,
+        "end": 20.477
+      },
+      {
+        "word": "skeleton",
+        "start": 20.477,
+        "end": 21.262
+      },
+      {
+        "word": "with",
+        "start": 21.262,
+        "end": 21.655
+      },
+      {
+        "word": "some",
+        "start": 21.655,
+        "end": 22.047
+      },
+      {
+        "word": "hollow",
+        "start": 22.047,
+        "end": 22.636
+      },
+      {
+        "word": "bones",
+        "start": 22.636,
+        "end": 23.126
+      },
+      {
+        "word": "support",
+        "start": 23.126,
+        "end": 23.813
+      },
+      {
+        "word": "flight.",
+        "start": 23.813,
+        "end": 24.5
+      },
+      {
+        "word": "Now",
+        "start": 24.5,
+        "end": 24.9
+      },
+      {
+        "word": "think:",
+        "start": 24.9,
+        "end": 25.7
+      },
+      {
+        "word": "How",
+        "start": 25.7,
+        "end": 25.953
+      },
+      {
+        "word": "does",
+        "start": 25.953,
+        "end": 26.289
+      },
+      {
+        "word": "the",
+        "start": 26.289,
+        "end": 26.542
+      },
+      {
+        "word": "sparrow\u2019s",
+        "start": 26.542,
+        "end": 27.3
+      },
+      {
+        "word": "beak",
+        "start": 27.3,
+        "end": 27.637
+      },
+      {
+        "word": "help",
+        "start": 27.637,
+        "end": 27.974
+      },
+      {
+        "word": "it",
+        "start": 27.974,
+        "end": 28.142
+      },
+      {
+        "word": "eat",
+        "start": 28.142,
+        "end": 28.395
+      },
+      {
+        "word": "seeds?",
+        "start": 28.395,
+        "end": 28.9
+      }
+    ]
+  }
+}

@@ -918,41 +918,66 @@ export default function Stage1_Magnetize({ onComplete }) {
             After stroking, will the needle attract iron filings?
           </div>
 
-          {/* Radio Options: Yes / No */}
+          {/* Radio Options: Yes (Correct - Green Glow) / No (Incorrect - Red Glow) */}
           <div style={{ display: 'flex', gap: '0.75rem' }}>
             {[
-              { id: 'yes', label: 'Yes' },
-              { id: 'no', label: 'No' }
+              { id: 'yes', label: 'Yes', isCorrect: true },
+              { id: 'no', label: 'No', isCorrect: false }
             ].map((option) => {
               const isSelected = prediction === option.id;
+              const isGreen = isSelected && option.isCorrect;
+              const isRed = isSelected && !option.isCorrect;
+
+              let bg = '#FFFFFF';
+              let border = '1.5px solid #CBD5E1';
+              let textColor = '#1E1B4B';
+              let dotBorder = '2px solid #94A3B8';
+              let dotBg = '#FFFFFF';
+
+              if (isGreen) {
+                bg = 'linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%)';
+                border = '2.5px solid #16A34A';
+                textColor = '#15803D';
+                dotBorder = '8px solid #16A34A';
+              } else if (isRed) {
+                bg = 'linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%)';
+                border = '2.5px solid #DC2626';
+                textColor = '#DC2626';
+                dotBorder = '8px solid #DC2626';
+              }
+
               return (
                 <button
                   key={option.id}
                   onClick={() => setPrediction(option.id)}
                   style={{
                     flex: 1,
-                    padding: '0.85rem 1.25rem',
+                    padding: '0.9rem 1.25rem',
                     borderRadius: '16px',
                     fontSize: '1.5rem',
                     fontWeight: 900,
                     cursor: 'pointer',
-                    background: isSelected ? '#F0FDF4' : '#FFFFFF',
-                    color: isSelected ? '#15803D' : '#1E1B4B',
-                    border: isSelected ? '2px solid #16A34A' : '1.5px solid #CBD5E1',
-                    boxShadow: isSelected ? '0 4px 12px rgba(22, 163, 74, 0.15)' : '0 2px 6px rgba(0, 0, 0, 0.03)',
+                    background: bg,
+                    color: textColor,
+                    border: border,
+                    boxShadow: isGreen
+                      ? '0 0 22px rgba(22, 163, 74, 0.4), 0 4px 12px rgba(22, 163, 74, 0.15)'
+                      : isRed
+                      ? '0 0 22px rgba(220, 38, 38, 0.4), 0 4px 12px rgba(220, 38, 38, 0.15)'
+                      : '0 2px 6px rgba(0, 0, 0, 0.03)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '0.75rem',
-                    transition: 'all 0.2s ease'
+                    transition: 'all 0.25s ease'
                   }}
                 >
                   <div style={{
                     width: '24px',
                     height: '24px',
                     borderRadius: '50%',
-                    border: isSelected ? '7px solid #16A34A' : '2px solid #94A3B8',
-                    background: '#FFFFFF',
+                    border: dotBorder,
+                    background: dotBg,
                     boxSizing: 'border-box',
                     flexShrink: 0,
                     transition: 'all 0.2s ease'

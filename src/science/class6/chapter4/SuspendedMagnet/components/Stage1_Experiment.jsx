@@ -764,7 +764,7 @@ export default function Stage1_Experiment({ onComplete }) {
             After settling, which direction does the magnet point?
           </div>
 
-          {/* Radio Options: Correct turns green, incorrect turns red */}
+          {/* Radio Options: Correct turns green glow, incorrect turns red glow */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
             {[
               { id: 'north_south', label: 'North–South', isCorrect: true },
@@ -781,13 +781,13 @@ export default function Stage1_Experiment({ onComplete }) {
               let dotBg = '#FFFFFF';
 
               if (isGreen) {
-                bg = '#F0FDF4';
-                border = '2px solid #16A34A';
+                bg = 'linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%)';
+                border = '2.5px solid #16A34A';
                 textColor = '#15803D';
                 dotBorder = '8px solid #16A34A';
               } else if (isRed) {
-                bg = '#FEF2F2';
-                border = '2px solid #DC2626';
+                bg = 'linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%)';
+                border = '2.5px solid #DC2626';
                 textColor = '#DC2626';
                 dotBorder = '8px solid #DC2626';
               }
@@ -798,8 +798,8 @@ export default function Stage1_Experiment({ onComplete }) {
                   onClick={() => setSelectedOption(option.id)}
                   style={{
                     width: '100%',
-                    padding: '0.95rem 1.5rem',
-                    borderRadius: '16px',
+                    padding: '1rem 1.5rem',
+                    borderRadius: '18px',
                     fontSize: '1.65rem',
                     fontWeight: 900,
                     cursor: 'pointer',
@@ -807,15 +807,15 @@ export default function Stage1_Experiment({ onComplete }) {
                     color: textColor,
                     border: border,
                     boxShadow: isGreen
-                      ? '0 4px 14px rgba(22, 163, 74, 0.18)'
+                      ? '0 0 24px rgba(22, 163, 74, 0.4), 0 4px 14px rgba(22, 163, 74, 0.2)'
                       : isRed
-                      ? '0 4px 14px rgba(220, 38, 38, 0.18)'
+                      ? '0 0 24px rgba(220, 38, 38, 0.4), 0 4px 14px rgba(220, 38, 38, 0.2)'
                       : '0 2px 6px rgba(0, 0, 0, 0.03)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '1rem',
                     textAlign: 'left',
-                    transition: 'all 0.2s ease'
+                    transition: 'all 0.25s ease'
                   }}
                 >
                   <div style={{

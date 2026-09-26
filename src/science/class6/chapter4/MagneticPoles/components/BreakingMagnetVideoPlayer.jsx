@@ -1,14 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback, useImperativeHandle, forwardRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Play, 
-  Pause, 
-  RotateCcw, 
-  Volume2, 
-  VolumeX, 
-  Maximize2, 
-  Minimize2 
-} from 'lucide-react';
+import { Play } from 'lucide-react';
+import StandardVideoControlBar from './StandardVideoControlBar';
 
 const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer({
   videoSrc = '/assets/stage 2.mp4',
@@ -23,12 +16,13 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
 }, ref) {
   const videoRef = useRef(null);
   const containerRef = useRef(null);
-  const progressScrubberRef = useRef(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
+  const [isLooping, setIsLooping] = useState(loop);
+  const [playbackRate, setPlaybackRate] = useState(1);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const [isEnded, setIsEnded] = useState(false);
@@ -48,7 +42,7 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
     }
   }, [onPlaybackStateChange]);
 
-  // Imperative handle for parent component control (Pause, Resume, Reset)
+  // Imperative handle for parent component control (Pause, Resume, Reset, Seek)
   useImperativeHandle(ref, () => ({
     pause: () => {
       if (videoRef.current) {
@@ -81,6 +75,26 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
         if (onPlaybackStateChange) onPlaybackStateChange(true);
       }).catch(() => {});
     },
+    playFromTime: (timeSec = 0) => {
+      const video = videoRef.current;
+      if (!video) return;
+      video.currentTime = timeSec;
+      setIsEnded(false);
+      video.play().then(() => {
+        setIsPlaying(true);
+        if (onPlaybackStateChange) onPlaybackStateChange(true);
+      }).catch(() => {});
+    },
+    seekAndPlay: (timeSec = 0) => {
+      const video = videoRef.current;
+      if (!video) return;
+      video.currentTime = timeSec;
+      setIsEnded(false);
+      video.play().then(() => {
+        setIsPlaying(true);
+        if (onPlaybackStateChange) onPlaybackStateChange(true);
+      }).catch(() => {});
+    },
     reset: () => {
       const video = videoRef.current;
       if (!video) return;
@@ -90,7 +104,6 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
         setIsPlaying(true);
         if (onPlaybackStateChange) onPlaybackStateChange(true);
       }).catch(() => {
-        // In case audio autoplay restriction triggers, play muted
         video.muted = true;
         setIsMuted(true);
         video.play().then(() => {
@@ -113,7 +126,6 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
         video.play().then(() => {
           setIsPlaying(true);
         }).catch(() => {
-          // Autoplay with audio was blocked; retry muted
           video.muted = true;
           setIsMuted(true);
           video.play().then(() => {
@@ -136,7 +148,16 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
     };
   }, [autoPlay]);
 
-  // Sync external step buttons (e.g. learner clicked "1. Break" or "2. Show Poles")
+  // Fullscreen change listener
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
+  // Sync external step buttons
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -148,21 +169,24 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
     if (broken && !prevBrokenRef.current) {
       if (video.currentTime < breakTime) {
         video.currentTime = breakTime;
-        video.play().catch(() => {});
-        setIsPlaying(true);
+      }
+      if (video.paused && !isEnded) {
+        video.play().then(() => setIsPlaying(true)).catch(() => {});
       }
     }
-    prevBrokenRef.current = broken;
 
     if (showPoles && !prevShowPolesRef.current) {
       if (video.currentTime < polesTime) {
         video.currentTime = polesTime;
-        video.play().catch(() => {});
-        setIsPlaying(true);
+      }
+      if (video.paused && !isEnded) {
+        video.play().then(() => setIsPlaying(true)).catch(() => {});
       }
     }
+
+    prevBrokenRef.current = broken;
     prevShowPolesRef.current = showPoles;
-  }, [broken, showPoles, duration]);
+  }, [broken, showPoles, duration, isEnded]);
 
   // Auto-hide controls timer
   const handleMouseMove = useCallback(() => {
@@ -174,7 +198,7 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
       if (videoRef.current && !videoRef.current.paused) {
         setShowControls(false);
       }
-    }, 2800);
+    }, 3000);
   }, []);
 
   const togglePlay = () => {
@@ -188,10 +212,12 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
       }
       video.play().then(() => {
         setIsPlaying(true);
+        if (onPlaybackStateChange) onPlaybackStateChange(true);
       }).catch(() => {});
     } else {
       video.pause();
       setIsPlaying(false);
+      if (onPlaybackStateChange) onPlaybackStateChange(false);
     }
   };
 
@@ -202,6 +228,7 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
     setIsEnded(false);
     video.play().then(() => {
       setIsPlaying(true);
+      if (onPlaybackStateChange) onPlaybackStateChange(true);
     }).catch(() => {});
     if (onExternalReset) {
       onExternalReset();
@@ -231,46 +258,51 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
   const handleTimeUpdate = () => {
     const video = videoRef.current;
     if (!video) return;
-
     const curr = video.currentTime;
-    const total = video.duration || duration || 22;
-
     setCurrentTime(curr);
-  };
 
-  const handleSeek = (e) => {
-    const video = videoRef.current;
-    const bar = progressScrubberRef.current;
-    if (!video || !bar) return;
-
-    const rect = bar.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const percentage = Math.max(0, Math.min(1, clickX / rect.width));
     const total = video.duration || duration || 22;
-    video.currentTime = percentage * total;
-    setCurrentTime(video.currentTime);
+    const progress = total > 0 ? curr / total : 0;
+
+    let phaseName = 'intact';
+    if (progress >= 0.66) {
+      phaseName = 'poles';
+    } else if (progress >= 0.33) {
+      phaseName = 'breaking';
+    }
+
+    if (onPhaseChange) {
+      onPhaseChange(phaseName, progress);
+    }
   };
 
-  const formatTime = (secs) => {
-    const validSecs = isNaN(secs) || secs < 0 ? 0 : Math.floor(secs);
-    const m = Math.floor(validSecs / 60);
-    const s = validSecs % 60;
-    return `${m}:${s < 10 ? '0' : ''}${s}`;
+  const handleSeek = (targetTime) => {
+    if (!videoRef.current) return;
+    videoRef.current.currentTime = targetTime;
+    setCurrentTime(targetTime);
   };
 
-  const totalDuration = duration || 22;
-  const progressPercent = totalDuration > 0 ? (currentTime / totalDuration) * 100 : 0;
+  const handleChangePlaybackRate = (rate) => {
+    if (!videoRef.current) return;
+    videoRef.current.playbackRate = rate;
+    setPlaybackRate(rate);
+  };
 
-  // Determine active phase index: 1 = Whole Magnet, 2 = Break & Split, 3 = Dipoles Form
+  const toggleLoop = () => {
+    if (!videoRef.current) return;
+    const nextLoop = !isLooping;
+    videoRef.current.loop = nextLoop;
+    setIsLooping(nextLoop);
+  };
+
+  const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
   const currentPhaseIndex = progressPercent < 33 ? 1 : progressPercent < 66 ? 2 : 3;
 
   return (
     <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      onMouseLeave={() => {
-        if (isPlaying) setShowControls(false);
-      }}
+      onMouseLeave={() => setShowControls(false)}
       style={{
         position: 'relative',
         width: '100%',
@@ -278,7 +310,7 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
         minHeight: '380px',
         borderRadius: isFullscreen ? '0' : '24px',
         overflow: 'hidden',
-        backgroundColor: '#070C18',
+        background: '#0B1120',
         border: isFullscreen ? 'none' : '1.5px solid #A7F3D0',
         boxShadow: isFullscreen ? 'none' : '0 12px 30px rgba(6, 78, 59, 0.16)',
         display: 'flex',
@@ -292,7 +324,8 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
       <video
         ref={videoRef}
         src={videoSrc}
-        loop={false}
+        loop={isLooping}
+        muted={isMuted}
         playsInline
         onTimeUpdate={handleTimeUpdate}
         onPlay={() => {
@@ -320,7 +353,7 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
         Your browser does not support HTML5 video playback.
       </video>
 
-      {/* Top HUD: Phase Badges (Pinned at top right) */}
+      {/* Top HUD: Step Indicators */}
       <div style={{
         position: 'absolute',
         top: '12px',
@@ -340,21 +373,20 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
           border: '1px solid rgba(245, 158, 11, 0.35)',
           borderRadius: '14px',
           padding: '4px 10px',
-          boxShadow: '0 4px 14px rgba(0,0,0,0.3)',
         }}>
           {[
-            { num: 1, label: 'Whole Magnet' },
-            { num: 2, label: 'Break & Split' },
-            { num: 3, label: 'Dipoles Form' }
+            { num: 1, label: 'Single Bar' },
+            { num: 2, label: 'Breaking' },
+            { num: 3, label: 'Two Magnets' }
           ].map((p) => {
             const isStepActive = currentPhaseIndex === p.num;
             return (
               <span
                 key={p.num}
                 style={{
-                  fontSize: '0.72rem',
-                  fontWeight: 900,
-                  padding: '2px 8px',
+                  fontSize: '14.5px',
+                  fontWeight: 800,
+                  padding: '3px 9px',
                   borderRadius: '10px',
                   background: isStepActive ? 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)' : 'transparent',
                   color: isStepActive ? '#FFFFFF' : '#94A3B8',
@@ -369,9 +401,9 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
         </div>
       </div>
 
-      {/* Educational Field Callouts: Visible in Phase 3 (Dipole Formation) */}
+      {/* Scientific Overlay HUD during Phase 3 */}
       <AnimatePresence>
-        {progressPercent >= 60 && (
+        {progressPercent >= 66 && (
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -379,7 +411,7 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
             transition={{ duration: 0.3 }}
             style={{
               position: 'absolute',
-              bottom: '76px',
+              bottom: '75px',
               left: '16px',
               right: '16px',
               display: 'flex',
@@ -456,8 +488,6 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
         )}
       </AnimatePresence>
 
-
-
       {/* Center Play Button Overlay (when paused mid-video) */}
       <AnimatePresence>
         {!isPlaying && !isEnded && (
@@ -506,158 +536,24 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
         )}
       </AnimatePresence>
 
-      {/* Bottom Streamlined Controls Bar */}
-      <motion.div
-        initial={false}
-        animate={{
-          opacity: showControls || !isPlaying ? 1 : 0,
-          y: showControls || !isPlaying ? 0 : 15,
-        }}
-        transition={{ duration: 0.25 }}
-        style={{
-          position: 'absolute',
-          bottom: '12px',
-          left: '14px',
-          right: '14px',
-          background: 'rgba(15, 23, 42, 0.92)',
-          backdropFilter: 'blur(12px)',
-          border: '1px solid rgba(255, 255, 255, 0.15)',
-          borderRadius: '16px',
-          padding: '8px 14px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '6px',
-          zIndex: 30,
-          boxShadow: '0 8px 25px rgba(0, 0, 0, 0.5)',
-          pointerEvents: showControls || !isPlaying ? 'auto' : 'none',
-        }}
-      >
-        {/* Progress Scrubber Bar */}
-        <div
-          ref={progressScrubberRef}
-          onClick={handleSeek}
-          style={{
-            position: 'relative',
-            width: '100%',
-            height: '8px',
-            background: 'rgba(255, 255, 255, 0.18)',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            overflow: 'hidden',
-          }}
-        >
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              height: '100%',
-              width: `${progressPercent}%`,
-              background: 'linear-gradient(90deg, #38BDF8 0%, #22C55E 50%, #214A70 100%)',
-              borderRadius: '4px',
-              transition: 'width 0.1s linear',
-            }}
-          />
-        </div>
-
-        {/* Buttons Row */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          {/* Left: Play/Pause, Replay, Time */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <button
-              onClick={togglePlay}
-              style={{
-                background: 'rgba(255, 255, 255, 0.22)',
-                border: '1.5px solid rgba(255, 255, 255, 0.45)',
-                borderRadius: '8px',
-                width: '34px',
-                height: '34px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#FFFFFF',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
-              }}
-              title={isPlaying ? 'Pause (⏸)' : 'Play / Start (▶)'}
-              aria-label={isPlaying ? 'Pause video' : 'Play / Start video'}
-            >
-              {isPlaying ? (
-                <Pause size={17} fill="#FFFFFF" color="#FFFFFF" strokeWidth={0} />
-              ) : (
-                <Play size={17} fill="#FFFFFF" color="#FFFFFF" strokeWidth={0} style={{ marginLeft: '2px' }} />
-              )}
-            </button>
-
-            <button
-              onClick={handleReplay}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                borderRadius: '8px',
-                width: '32px',
-                height: '32px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#CBD5E1',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-              }}
-              title="Restart Demonstration (↺)"
-              aria-label="Restart demonstration"
-            >
-              <RotateCcw size={16} />
-            </button>
-
-            <span style={{ fontSize: '0.82rem', fontWeight: 800, color: '#E2E8F0', letterSpacing: '0.3px', userSelect: 'none', marginLeft: '2px' }}>
-              {formatTime(currentTime)} / {formatTime(duration)}
-            </span>
-          </div>
-
-          {/* Right: Audio, Fullscreen */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            {/* Audio Toggle */}
-            <button
-              onClick={toggleMute}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                width: '30px',
-                height: '30px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: isMuted ? '#EF4444' : '#E2E8F0',
-                cursor: 'pointer',
-              }}
-              title={isMuted ? 'Unmute Audio' : 'Mute Audio'}
-            >
-              {isMuted ? <VolumeX size={17} /> : <Volume2 size={17} />}
-            </button>
-
-            {/* Fullscreen Toggle */}
-            <button
-              onClick={toggleFullscreen}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                width: '30px',
-                height: '30px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#E2E8F0',
-                cursor: 'pointer',
-              }}
-              title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
-            >
-              {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
-            </button>
-          </div>
-        </div>
-      </motion.div>
+      {/* Standard Control Bar matching reference image */}
+      <StandardVideoControlBar
+        isPlaying={isPlaying}
+        onTogglePlay={togglePlay}
+        currentTime={currentTime}
+        duration={duration}
+        onSeek={handleSeek}
+        isMuted={isMuted}
+        onToggleMute={toggleMute}
+        isFullscreen={isFullscreen}
+        onToggleFullscreen={toggleFullscreen}
+        playbackRate={playbackRate}
+        onChangePlaybackRate={handleChangePlaybackRate}
+        isLooping={isLooping}
+        onToggleLoop={toggleLoop}
+        showControls={showControls}
+        onUserInteraction={handleMouseMove}
+      />
     </div>
   );
 });

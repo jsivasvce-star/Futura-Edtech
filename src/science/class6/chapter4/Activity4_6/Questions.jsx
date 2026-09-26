@@ -1,98 +1,114 @@
 import React, { useState } from 'react';
-import { CheckCircle, XCircle } from 'lucide-react';
+import { CheckCircle, XCircle, ArrowRight } from 'lucide-react';
+import './Activity4_6.css';
 
-const questions = [
+const OPTION_PREFIXES = ['A', 'B', 'C', 'D'];
+
+const quizData = [
   {
     id: 1,
-    title: "Quiz 1",
-    question: "What happens when the North pole of a bar magnet is brought close to the North pole of a magnetic compass?",
+    question: "Why can the needle inside a compass turn when a bar magnet is brought nearby?",
     options: [
-      "The compass needle does not move.",
-      "The compass needle moves away from the magnet.",
-      "The compass needle points upward.",
-      "The compass needle starts spinning continuously."
+      "The needle reacts only to Earth, so a nearby magnet cannot turn it.",
+      "The needle is a small magnet that responds to a magnetic field.",
+      "Any thin metal needle turns in the same way, even if it is not magnetised.",
+      "The compass case becomes an electromagnet without any electric current."
     ],
-    correctAnswer: "The compass needle moves away from the magnet.",
-    explanation: "The North pole of the magnet repels the North-seeking end of the compass needle, causing it to move away."
+    correctIndex: 1, // B
+    explanation: "The compass needle is magnetised and can rotate. It responds to the combined magnetic influence of Earth and nearby magnets; the printed letters simply help us read directions.",
+    tryAgain: "The needle must be magnetised and free to rotate; being thin or metallic is not enough."
   },
   {
     id: 2,
-    title: "Quiz 2",
-    question: "What happens when the South pole of a bar magnet is brought close to the North pole of a magnetic compass?",
+    question: "A strong magnet’s south pole is held close to the east side of a freely turning compass. Which way does the compass needle’s north-seeking tip tend to turn?",
     options: [
-      "The compass needle moves away.",
-      "The compass needle is attracted towards the magnet.",
-      "The compass needle stops moving permanently.",
-      "The compass needle points downward."
+      "It points vertically down into the table.",
+      "It must remain exactly north regardless of the magnet.",
+      "Towards the magnet on the east side.",
+      "Away from the magnet towards the west side."
     ],
-    correctAnswer: "The compass needle is attracted towards the magnet.",
-    explanation: "Unlike poles attract each other, so the North-seeking end of the compass needle moves towards the South pole of the magnet."
+    correctIndex: 2, // C
+    explanation: "Opposite poles attract, so the north-seeking tip tends to turn towards the nearby south pole. Earth still contributes, so the exact final angle depends on the relative strengths of the fields.",
+    tryAgain: "Follow the north-seeking tip and ask whether it is attracted to or repelled by a south pole."
   },
   {
     id: 3,
-    title: "Quiz 3",
-    question: "Why does the compass needle deflect when a bar magnet is brought near it?",
+    question: "A compass needle turns towards a nearby bar magnet. The bar magnet is then moved far away. With no other disturbance, what should the needle do?",
     options: [
-      "The magnet changes the colour of the needle.",
-      "The magnetic force of the bar magnet acts on the compass needle.",
-      "The compass becomes heavier.",
-      "Air pushes the compass needle."
+      "Point east–west because it was previously turned.",
+      "Settle back near its original magnetic north–south direction.",
+      "Keep pointing towards the bar magnet wherever it is taken.",
+      "Lose its north and south poles after the magnet is removed."
     ],
-    correctAnswer: "The magnetic force of the bar magnet acts on the compass needle.",
-    explanation: "The magnetic field of the bar magnet exerts a force on the magnetic compass needle, causing it to deflect."
+    correctIndex: 1, // B
+    explanation: "As the bar magnet moves away, its influence becomes weaker. Earth’s field then becomes the main influence again, so a free needle returns towards its earlier alignment.",
+    tryAgain: "Consider which magnetic influence remains after the nearby bar magnet is taken away."
   },
   {
     id: 4,
-    title: "Quiz 4",
-    question: "Which instrument is used in this activity to observe the effect of a nearby magnet?",
+    question: "A bar magnet is held east of a compass with the same pole facing it each time. The needle turns 8° at 20 cm and 30° at 10 cm. What do these results suggest?",
     options: [
-      "Thermometer",
-      "Compass",
-      "Spring balance",
-      "Measuring cylinder"
+      "The strength of the magnet’s material doubled permanently.",
+      "The magnet’s magnetic effect disappears at every gap above 10 cm.",
+      "The compass creates a new north pole when the gap is reduced.",
+      "The magnet influences this compass more strongly at the smaller gap."
     ],
-    correctAnswer: "Compass",
-    explanation: "A magnetic compass is used to observe how its needle responds when a bar magnet is brought close."
+    correctIndex: 3, // D
+    explanation: "With orientation and other conditions unchanged, the larger deflection at the smaller gap indicates a stronger local influence from the bar magnet. Two measurements do not establish an exact distance law.",
+    tryAgain: "Describe the observed trend without inventing a cutoff distance or a permanent change in the magnet."
   },
   {
     id: 5,
-    title: "Quiz 5",
-    question: "What can be concluded from this activity?",
+    question: "The compass needle touches its cover and does not turn near a magnet. A student concludes that the magnet is weak. Which check is most useful first?",
     options: [
-      "A nearby magnet can change the direction of a compass needle.",
-      "A compass needle is not magnetic.",
-      "A magnet attracts every object placed near it.",
-      "A compass always points towards a nearby magnet."
+      "Use a level compass whose needle is free to rotate.",
+      "Repeat the test with the same trapped needle at the same position.",
+      "Assume a fixed needle proves that the field is absent.",
+      "Turn the printed compass dial until N points towards the magnet."
     ],
-    correctAnswer: "A nearby magnet can change the direction of a compass needle.",
-    explanation: "A bar magnet exerts a magnetic force on the compass needle, causing it to deflect from its usual North–South direction."
+    correctIndex: 0, // A
+    explanation: "A trapped needle cannot show a turning response even if a magnetic force is present. Checking the detector’s freedom to move separates a mechanical problem from a weak magnetic effect.",
+    tryAgain: "No visible movement can mean the needle is blocked. Check the measuring device before judging the magnet."
   }
 ];
 
-export default function Questions({ onComplete, onNext }) {
+export default function Questions({ onComplete }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [showFeedback, setShowFeedback] = useState(false);
+  const [selectedIndices, setSelectedIndices] = useState([]);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [isExhausted, setIsExhausted] = useState(false);
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
 
-  const q = questions[currentQuestion];
+  const currentQ = quizData[currentQuestion];
+  const isQuestionResolved = isCorrect || isExhausted;
 
-  const handleOptionSelect = (option) => {
-    if (showFeedback) return;
-    setSelectedOption(option);
-    setShowFeedback(true);
-    
-    if (option === q.correctAnswer) {
-      setScore(prev => prev + 1);
+  const handleOptionSelect = (index) => {
+    if (isQuestionResolved || selectedIndices.includes(index)) return;
+
+    const newSelected = [...selectedIndices, index];
+    setSelectedIndices(newSelected);
+
+    if (index === currentQ.correctIndex) {
+      setIsCorrect(true);
+      if (newSelected.length === 1) {
+        setScore(prev => prev + 1);
+      }
+    } else {
+      const wrongCount = currentQ.options.length - 1;
+      const wrongSelected = newSelected.filter(i => i !== currentQ.correctIndex).length;
+      if (wrongSelected >= wrongCount) {
+        setIsExhausted(true);
+      }
     }
   };
 
   const handleNext = () => {
-    if (currentQuestion < questions.length - 1) {
+    if (currentQuestion < quizData.length - 1) {
       setCurrentQuestion(prev => prev + 1);
-      setSelectedOption(null);
-      setShowFeedback(false);
+      setSelectedIndices([]);
+      setIsCorrect(false);
+      setIsExhausted(false);
     } else {
       setIsFinished(true);
     }
@@ -100,7 +116,19 @@ export default function Questions({ onComplete, onNext }) {
 
   if (isFinished) {
     return (
-      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: 'transparent', fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif" }}>
+      <div style={{ 
+        width: '100%', 
+        height: '100%', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        overflowY: 'auto', 
+        padding: '1rem', 
+        boxSizing: 'border-box', 
+        backgroundColor: 'transparent',
+        fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif"
+      }}>
         <div style={{ 
           maxWidth: '560px', 
           width: '90%', 
@@ -108,24 +136,23 @@ export default function Questions({ onComplete, onNext }) {
           textAlign: 'center', 
           background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
           borderRadius: '28px', 
-          border: '1.5px solid #E2E8F0', 
+          border: '1.5px solid #E2E8F0',
           boxShadow: '0 12px 40px rgba(23, 59, 95, 0.12)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: '1.45rem'
         }}>
-          <h2 style={{ fontSize: '2.2rem', margin: 0, color: '#173B5F', fontWeight: 900 }}>Quiz Completed! 🎉</h2>
+          <h2 style={{ fontSize: '2.2rem', margin: 0, color: '#173B5F', fontWeight: 900 }}>
+            Quiz Completed! 🎉
+          </h2>
           
           <p style={{ color: '#1E293B', margin: 0, fontSize: '1.45rem', fontWeight: 700 }}>
-            You scored <strong style={{ color: '#173B5F', fontSize: '1.6rem' }}>{score}</strong> out of {questions.length}
+            You scored <strong style={{ color: '#173B5F', fontSize: '1.6rem' }}>{score}</strong> out of {quizData.length}
           </p>
 
           <button
-            onClick={() => {
-              if (onComplete) onComplete(score);
-              if (onNext) onNext();
-            }}
+            onClick={() => { if (onComplete) onComplete(score); }}
             className="gold-glow-btn"
             style={{
               padding: '1rem 3.2rem',
@@ -136,7 +163,7 @@ export default function Questions({ onComplete, onNext }) {
               marginTop: '0.6rem'
             }}
           >
-            Proceed to Did You Know?
+            Continue to Did You Know <ArrowRight size={22} color="#FFFFFF" />
           </button>
         </div>
       </div>
@@ -152,134 +179,189 @@ export default function Questions({ onComplete, onNext }) {
       alignItems: 'center', 
       justifyContent: 'center', 
       padding: '0.5rem 1rem', 
-      overflow: 'hidden',
       boxSizing: 'border-box',
+      overflow: 'hidden',
       backgroundColor: 'transparent',
       fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif"
     }}>
-      <div style={{ width: '100%', maxWidth: '1250px', display: 'flex', flexDirection: 'column' }}>
-        {/* Top Bar (Dark Blue Headers) */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', padding: '0 0.5rem', flexShrink: 0 }}>
-          <h3 style={{ margin: 0, color: '#173B5F', fontSize: '1.85rem', fontWeight: 900, letterSpacing: '-0.01em' }}>
-            Test Your Knowledge
-          </h3>
-          <div style={{ color: '#173B5F', fontSize: '1.45rem', fontWeight: 800 }}>
-            Question {currentQuestion + 1} of {questions.length}
-          </div>
-        </div>
-
+      <div style={{ width: '100%', maxWidth: '1180px', display: 'flex', flexDirection: 'column' }}>
+        
         {/* Main Quiz Card */}
         <div className="glass-panel" style={{ 
           background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
           border: '1.5px solid #E2E8F0',
           borderRadius: '28px', 
-          padding: '2.4rem 3.2rem', 
+          padding: '2.2rem 3rem', 
           boxShadow: '0 8px 30px rgba(23, 59, 95, 0.08)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '1.35rem',
+          gap: '1.25rem',
           width: '100%',
           boxSizing: 'border-box'
         }}>
-          {/* Title in Dark Blue */}
-          <h3 style={{ margin: 0, color: '#173B5F', fontSize: '1.9rem', fontWeight: 900 }}>
-            {q.title}
-          </h3>
+          {/* Question Badge inside the quiz container */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+            <span style={{
+              background: '#ECFDF5',
+              padding: '0.4rem 1.2rem',
+              borderRadius: '16px',
+              border: '1.5px solid #A7F3D0',
+              color: '#065F46',
+              fontWeight: 900,
+              fontSize: '1.15rem',
+              boxShadow: '0 2px 6px rgba(6, 95, 70, 0.08)'
+            }}>
+              Question {currentQuestion + 1} of {quizData.length}
+            </span>
+          </div>
 
-          {/* Question Text in Dark Blue */}
-          <p style={{ margin: 0, fontSize: '1.55rem', lineHeight: '1.55', fontWeight: 700, color: '#173B5F' }}>
-            {q.question}
+          {/* Question Text */}
+          <p style={{ margin: 0, fontSize: '1.45rem', lineHeight: '1.5', fontWeight: 800, color: '#173B5F' }}>
+            {currentQ.question}
           </p>
 
-          {/* Option Buttons (Dark Blue #0A1931 Background with Crisp White Text) */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-            {q.options.map((option, index) => {
-              const isSelected = selectedOption === option;
-              const isCorrect = option === q.correctAnswer;
+          {/* Option Buttons */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {currentQ.options.map((opt, index) => {
+              const isSelected = selectedIndices.includes(index);
+              const isOptionCorrect = index === currentQ.correctIndex;
 
               let bgColor = '#0A1931';
               let borderColor = '#1e293b';
               let textColor = '#FFFFFF';
+              let boxShadow = '0 4px 14px rgba(10, 25, 49, 0.25)';
               let icon = null;
+              let isDisabled = false;
 
-              if (showFeedback) {
-                if (isCorrect) {
-                  bgColor = '#064e3b';
-                  borderColor = '#34d399';
+              if (isQuestionResolved) {
+                if (isOptionCorrect) {
+                  bgColor = 'linear-gradient(135deg, #064E3B 0%, #047857 100%)';
+                  borderColor = '#34D399';
                   textColor = '#FFFFFF';
-                  icon = <CheckCircle size={28} color="#34d399" />;
+                  boxShadow = '0 0 25px rgba(52, 211, 153, 0.55), 0 4px 14px rgba(6, 78, 59, 0.35)';
+                  icon = <CheckCircle size={28} color="#34D399" />;
                 } else if (isSelected) {
-                  bgColor = '#7f1d1d';
-                  borderColor = '#f87171';
+                  bgColor = 'linear-gradient(135deg, #7F1D1D 0%, #991B1B 100%)';
+                  borderColor = '#F87171';
                   textColor = '#FFFFFF';
-                  icon = <XCircle size={28} color="#f87171" />;
+                  boxShadow = '0 0 25px rgba(248, 113, 113, 0.55), 0 4px 14px rgba(127, 29, 29, 0.35)';
+                  icon = <XCircle size={28} color="#F87171" />;
                 } else {
                   bgColor = '#0A1931';
                   borderColor = '#1e293b';
                   textColor = '#cbd5e1';
+                  boxShadow = 'none';
                 }
-              } else if (isSelected) {
-                borderColor = '#38bdf8';
-                bgColor = '#173b5f';
-                textColor = '#FFFFFF';
+                isDisabled = true;
+              } else {
+                if (isSelected) {
+                  bgColor = 'linear-gradient(135deg, #7F1D1D 0%, #991B1B 100%)';
+                  borderColor = '#F87171';
+                  textColor = '#FFFFFF';
+                  boxShadow = '0 0 20px rgba(248, 113, 113, 0.45)';
+                  icon = <XCircle size={28} color="#F87171" />;
+                  isDisabled = true;
+                } else {
+                  bgColor = '#0A1931';
+                  borderColor = '#1e293b';
+                  textColor = '#FFFFFF';
+                  boxShadow = '0 4px 14px rgba(10, 25, 49, 0.25)';
+                  isDisabled = false;
+                }
               }
 
               return (
                 <button
                   key={index}
-                  onClick={() => handleOptionSelect(option)}
-                  disabled={showFeedback}
+                  onClick={() => handleOptionSelect(index)}
+                  disabled={isDisabled}
                   style={{
                     width: '100%',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    padding: '1.25rem 2rem',
+                    padding: '1.15rem 1.8rem',
                     borderRadius: '20px',
                     background: bgColor,
-                    border: `2px solid ${borderColor}`,
+                    border: `2.5px solid ${borderColor}`,
                     color: textColor,
-                    cursor: showFeedback ? 'default' : 'pointer',
+                    cursor: isDisabled ? 'default' : 'pointer',
                     textAlign: 'left',
-                    fontSize: '1.35rem',
-                    fontWeight: 800,
-                    transition: 'all 0.2s ease',
-                    boxShadow: '0 4px 14px rgba(10, 25, 49, 0.25)',
-                    opacity: showFeedback && !isCorrect && !isSelected ? 0.55 : 1
+                    fontSize: '1.25rem',
+                    fontWeight: 700,
+                    transition: 'all 0.25s ease',
+                    boxShadow: boxShadow,
+                    opacity: isQuestionResolved && !isOptionCorrect && !isSelected ? 0.55 : 1
                   }}
                 >
-                  <span>{option}</span>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                    <span style={{ 
+                      fontWeight: 900, 
+                      color: isOptionCorrect && isQuestionResolved ? '#6EE7B7' : isSelected ? '#FCA5A5' : '#93C5FD' 
+                    }}>
+                      {OPTION_PREFIXES[index]}.
+                    </span>
+                    <span>{opt}</span>
+                  </span>
                   {icon}
                 </button>
               );
             })}
           </div>
 
-          {/* Explanation & Next Question Button */}
-          {showFeedback && (
-            <div style={{ marginTop: '0.6rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <div style={{ padding: '1.2rem 1.8rem', background: '#F0FDF4', borderRadius: '18px', border: '1.5px solid #A7F3D0', borderLeft: '6px solid #059669' }}>
-                <h4 style={{ margin: '0 0 0.35rem 0', fontSize: '1.35rem', fontWeight: 900, color: '#064E3B' }}>Explanation</h4>
-                <p style={{ margin: 0, color: '#065F46', fontSize: '1.3rem', lineHeight: '1.55', fontWeight: 600 }}>{q.explanation}</p>
+          {/* Feedback & Action Banners */}
+          {isQuestionResolved ? (
+            <div style={{ marginTop: '0.4rem', display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
+              <div style={{ 
+                padding: '1.15rem 1.65rem', 
+                background: '#F0FDF4', 
+                borderRadius: '18px', 
+                border: '1.5px solid #A7F3D0', 
+                borderLeft: '6px solid #059669',
+                boxShadow: '0 4px 14px rgba(5, 150, 105, 0.08)'
+              }}>
+                <h4 style={{ margin: '0 0 0.3rem 0', fontSize: '1.25rem', fontWeight: 900, color: '#064E3B' }}>
+                  {isCorrect ? "Explanation (Correct)" : "Explanation"}
+                </h4>
+                <p style={{ margin: 0, color: '#065F46', fontSize: '1.18rem', lineHeight: '1.5', fontWeight: 600 }}>
+                  {currentQ.explanation}
+                </p>
               </div>
               
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.25rem' }}>
                 <button
                   onClick={handleNext}
                   className="gold-glow-btn"
                   style={{
-                    padding: '1.15rem 3.2rem',
-                    borderRadius: '32px',
-                    fontSize: '1.3rem',
+                    padding: '0.95rem 2.8rem',
+                    borderRadius: '30px',
+                    fontSize: '1.2rem',
                     fontWeight: 900,
                     cursor: 'pointer'
                   }}
                 >
-                  {currentQuestion === questions.length - 1 ? 'Proceed to Did You Know?' : 'Next Question'}
+                  {currentQuestion === quizData.length - 1 ? 'Finish Quiz' : 'Next Question'} <ArrowRight size={22} color="#FFFFFF" />
                 </button>
               </div>
             </div>
-          )}
+          ) : selectedIndices.length > 0 ? (
+            <div style={{ 
+              marginTop: '0.4rem', 
+              padding: '1.15rem 1.65rem', 
+              background: '#FEF2F2', 
+              borderRadius: '18px', 
+              border: '1.5px solid #FECACA', 
+              borderLeft: '6px solid #DC2626',
+              boxShadow: '0 4px 14px rgba(220, 38, 38, 0.08)'
+            }}>
+              <h4 style={{ margin: '0 0 0.3rem 0', fontSize: '1.25rem', fontWeight: 900, color: '#991B1B' }}>
+                Try Again
+              </h4>
+              <p style={{ margin: 0, color: '#B91C1C', fontSize: '1.18rem', lineHeight: '1.5', fontWeight: 600 }}>
+                {currentQ.tryAgain}
+              </p>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
