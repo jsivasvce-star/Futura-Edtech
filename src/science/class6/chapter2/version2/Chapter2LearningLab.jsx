@@ -992,6 +992,9 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 setTransitionSourceStep(2);
                 setTransitionSourceSubTab(null);
                 setTransitionDirection('backward');
+                // IMPORTANT: since the transition video is inside step 1, we must switch to step 1 right away
+                setCurrentStep(1);
+                setSection1SubTab('scenes');
                 setIsPlayingTransition(true);
               }}
               onNextActivity={() => {
