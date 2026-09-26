@@ -57,6 +57,7 @@ const PolygonsLabActivity = lazy(() => import('./maths/class6/chapter4/PolygonsL
 const CirclesLabActivity = lazy(() => import('./maths/class6/chapter4/CirclesLab'));
 const Class6MathsChapter1 = lazy(() => import('./maths/class6/chapter1'));
 const Class6MathsChapter1Cover = lazy(() => import('./maths/class6/chapter1_cover'));
+const Class6MathsChapter1Journey = lazy(() => import('./maths/class6/chapter1_journey'));
 const VirtualBiodiversityExplorerActivity = lazy(() => import('./science/class6/chapter2/VirtualBiodiversityExplorer'));
 const PlantDetectiveActivity = lazy(() => import('./science/class6/chapter2/PlantDetective'));
 const AnimalHabitatExplorerActivity = lazy(() => import('./science/class6/chapter2/AnimalHabitatExplorer'));
@@ -3288,7 +3289,14 @@ export default function App() {
           activeActivity === 'chapter1' ? (
             <Class6MathsChapter1 onBackToDashboard={() => navigateTo('class6_maths', null)} />
           ) : activeActivity === 'chapter1_new' ? (
-            <Class6MathsChapter1Cover onBackToDashboard={() => navigateTo('class6_maths', null)} />
+            <Class6MathsChapter1Cover 
+              onBackToDashboard={() => navigateTo('class6_maths', null)} 
+              onStartJourney={() => navigateTo('class6_maths', 'chapter1_flow')}
+            />
+          ) : activeActivity === 'chapter1_flow' || activeActivity === 'chapter1_journey' ? (
+            <Class6MathsChapter1Journey 
+              onBackToDashboard={() => navigateTo('class6_maths', 'chapter1_new')} 
+            />
           ) : activeActivity === 'line_segment_lab' ? (
             <LineSegmentLabActivity onBackToDashboard={() => navigateTo('class6_maths', 'chapter4')} />
           ) : activeActivity === 'parallel_intersecting_lab' ? (

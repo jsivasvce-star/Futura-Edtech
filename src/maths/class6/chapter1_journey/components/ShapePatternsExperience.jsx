@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronRight, CheckCircle, RotateCcw } from 'lucide-react';
+import { ChevronRight, CheckCircle, RotateCcw, ArrowLeft } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import './pattern-lab.css';
 import './shape-patterns.css';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // HIGH-CONTRAST VECTOR GEOMETRIC SHAPES FOR CREAMY-WHITE EDUCATIONAL THEME
+// CONCEPT-SPECIFIC VISUAL HINTS: Visually emphasize the newly added element/layer
 // ═══════════════════════════════════════════════════════════════════════════
 
-// 1. Regular Polygon Generator
-function PolygonSVG({ sides, accentColor = '#0284c7' }) {
+// 1. Regular Polygon Generator (Concept 1: Highlight newly added side & corner on hint)
+function PolygonSVG({ sides, accentColor = '#0284c7', showHint = false }) {
   const cx = 52;
   const cy = 52;
   const r = 38;
@@ -24,9 +25,13 @@ function PolygonSVG({ sides, accentColor = '#0284c7' }) {
   }
 
   const pointsStr = points.map(p => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ');
+  const hasAddedCorner = showHint && sides > 3;
+  const lastIdx = sides - 1;
+  const prevIdx = sides - 2;
 
   return (
     <svg viewBox="0 0 104 104" width="100%" height="100%" style={{ overflow: 'visible' }}>
+      {/* Base polygon fill and perimeter */}
       <polygon
         points={pointsStr}
         fill={accentColor}
@@ -35,23 +40,88 @@ function PolygonSVG({ sides, accentColor = '#0284c7' }) {
         strokeWidth="2.8"
         strokeLinejoin="round"
       />
-      {points.map((p, idx) => (
-        <circle
-          key={idx}
-          cx={p[0]}
-          cy={p[1]}
-          r="4"
-          fill="#ffffff"
-          stroke={accentColor}
-          strokeWidth="2"
-        />
-      ))}
+      {/* Side-count number and 'sides' label centered inside polygon */}
+      <text
+        x={cx}
+        y={sides === 3 ? 52.5 : 50.5}
+        textAnchor="middle"
+        fill="#0369a1"
+        fontSize="21"
+        fontWeight="800"
+        fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        style={{ pointerEvents: 'none', userSelect: 'none' }}
+      >
+        {sides}
+      </text>
+      <text
+        x={cx}
+        y={sides === 3 ? 64 : 62}
+        textAnchor="middle"
+        fill="#0284c7"
+        fontSize="9.5"
+        fontWeight="700"
+        letterSpacing="0.04em"
+        fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        style={{ pointerEvents: 'none', userSelect: 'none' }}
+      >
+        sides
+      </text>
+      {/* Visually emphasize the newly added corner's connecting sides (HINT ONLY) */}
+      {hasAddedCorner && (
+        <>
+          <line
+            x1={points[prevIdx][0]}
+            y1={points[prevIdx][1]}
+            x2={points[lastIdx][0]}
+            y2={points[lastIdx][1]}
+            stroke="#0ea5e9"
+            strokeWidth="3.8"
+            strokeLinecap="round"
+          />
+          <line
+            x1={points[lastIdx][0]}
+            y1={points[lastIdx][1]}
+            x2={points[0][0]}
+            y2={points[0][1]}
+            stroke="#0ea5e9"
+            strokeWidth="3.8"
+            strokeLinecap="round"
+          />
+        </>
+      )}
+      {/* Vertices with newly added corner indicator (HINT ONLY) */}
+      {points.map((p, idx) => {
+        const isNew = hasAddedCorner && idx === lastIdx;
+        return (
+          <g key={idx}>
+            {isNew && (
+              <circle
+                cx={p[0]}
+                cy={p[1]}
+                r="7.5"
+                fill="none"
+                stroke="#0ea5e9"
+                strokeWidth="1.8"
+                strokeDasharray="2 2"
+              />
+            )}
+            <circle
+              cx={p[0]}
+              cy={p[1]}
+              r={isNew ? '4.8' : '3.8'}
+              fill={isNew ? '#0284c7' : '#ffffff'}
+              stroke={isNew ? '#ffffff' : accentColor}
+              strokeWidth={isNew ? '1.8' : '2'}
+            />
+          </g>
+        );
+      })}
     </svg>
   );
 }
 
-// 2. Complete Graph Kn Generator
-function CompleteGraphSVG({ points: numPoints, accentColor = '#db2777' }) {
+// 2. Complete Graph Kn Generator (Concept 2: Highlight newly added vertex & its connecting lines on hint)
+function CompleteGraphSVG({ points: numPoints, accentColor = '#db2777', showHint = false }) {
   const cx = 52;
   const cy = 52;
   const r = 36;
@@ -65,41 +135,78 @@ function CompleteGraphSVG({ points: numPoints, accentColor = '#db2777' }) {
   const edges = [];
   for (let i = 0; i < numPoints; i++) {
     for (let j = i + 1; j < numPoints; j++) {
-      edges.push([vertices[i], vertices[j]]);
+      edges.push({
+        from: vertices[i],
+        to: vertices[j],
+        isNew: i === numPoints - 1 || j === numPoints - 1
+      });
     }
   }
 
+  const hasNewPoint = showHint && numPoints > 2;
+  const newPointIdx = numPoints - 1;
+
   return (
     <svg viewBox="0 0 104 104" width="100%" height="100%" style={{ overflow: 'visible' }}>
-      {edges.map((e, idx) => (
+      {/* Prior existing edges */}
+      {edges.filter(e => !hasNewPoint || !e.isNew).map((e, idx) => (
         <line
-          key={`edge-${idx}`}
-          x1={e[0][0]}
-          y1={e[0][1]}
-          x2={e[1][0]}
-          y2={e[1][1]}
+          key={`edge-base-${idx}`}
+          x1={e.from[0]}
+          y1={e.from[1]}
+          x2={e.to[0]}
+          y2={e.to[1]}
           stroke={accentColor}
-          strokeWidth="2"
-          strokeOpacity="0.8"
+          strokeWidth="1.8"
+          strokeOpacity={hasNewPoint ? '0.65' : '0.8'}
         />
       ))}
-      {vertices.map((v, idx) => (
-        <circle
-          key={`vert-${idx}`}
-          cx={v[0]}
-          cy={v[1]}
-          r="4.5"
-          fill="#e11d48"
-          stroke="#ffffff"
-          strokeWidth="2"
+      {/* Newly connected edges joining the new point (HINT ONLY) */}
+      {hasNewPoint && edges.filter(e => e.isNew).map((e, idx) => (
+        <line
+          key={`edge-new-${idx}`}
+          x1={e.from[0]}
+          y1={e.from[1]}
+          x2={e.to[0]}
+          y2={e.to[1]}
+          stroke="#f43f5e"
+          strokeWidth="2.3"
+          strokeOpacity="0.95"
         />
       ))}
+      {/* Vertices with newly added point indicator (HINT ONLY) */}
+      {vertices.map((v, idx) => {
+        const isNew = hasNewPoint && idx === newPointIdx;
+        return (
+          <g key={`vert-${idx}`}>
+            {isNew && (
+              <circle
+                cx={v[0]}
+                cy={v[1]}
+                r="8"
+                fill="none"
+                stroke="#f43f5e"
+                strokeWidth="1.8"
+                strokeDasharray="2.5 2"
+              />
+            )}
+            <circle
+              cx={v[0]}
+              cy={v[1]}
+              r={isNew ? '5.2' : '4.5'}
+              fill={isNew ? '#f43f5e' : '#e11d48'}
+              stroke="#ffffff"
+              strokeWidth="2"
+            />
+          </g>
+        );
+      })}
     </svg>
   );
 }
 
-// 3. Stacked Squares Generator
-function StackedSquaresSVG({ n }) {
+// 3. Stacked Squares Generator (Concept 3: Highlight newly added outer row & column layer on hint)
+function StackedSquaresSVG({ n, showHint = false }) {
   const totalSize = 74;
   const cx = 52;
   const cy = 52;
@@ -111,10 +218,12 @@ function StackedSquaresSVG({ n }) {
   const rects = [];
   for (let r = 0; r < n; r++) {
     for (let c = 0; c < n; c++) {
+      const isNewLayer = showHint && n > 1 && (r === n - 1 || c === n - 1);
       rects.push({
         x: startX + c * (tileSize + gap),
         y: startY + r * (tileSize + gap),
-        size: tileSize
+        size: tileSize,
+        isNewLayer
       });
     }
   }
@@ -129,18 +238,18 @@ function StackedSquaresSVG({ n }) {
           width={rc.size}
           height={rc.size}
           rx={Math.min(3, rc.size * 0.22)}
-          fill="#f59e0b"
-          fillOpacity="0.9"
-          stroke="#d97706"
-          strokeWidth="1.2"
+          fill={rc.isNewLayer ? '#fde047' : '#f59e0b'}
+          fillOpacity={rc.isNewLayer ? 0.98 : 0.9}
+          stroke={rc.isNewLayer ? '#b45309' : '#d97706'}
+          strokeWidth={rc.isNewLayer ? '1.6' : '1.2'}
         />
       ))}
     </svg>
   );
 }
 
-// 4. Stacked Triangles Generator
-function StackedTrianglesSVG({ rows }) {
+// 4. Stacked Triangles Generator (Concept 4: Highlight newly added bottom row on hint)
+function StackedTrianglesSVG({ rows, showHint = false }) {
   const totalWidth = 76;
   const totalHeight = 66;
   const cx = 52;
@@ -156,6 +265,7 @@ function StackedTrianglesSVG({ rows }) {
     const countUp = r + 1;
     const countDown = r;
     const rowStartX = cx - (countUp * baseWidth) / 2;
+    const isNewRow = showHint && rows > 1 && r === rows - 1;
 
     for (let i = 0; i < countUp; i++) {
       const x0 = rowStartX + i * baseWidth;
@@ -165,7 +275,8 @@ function StackedTrianglesSVG({ rows }) {
       const yTop = rowY;
       triangles.push({
         points: `${x0},${yBottom} ${x1},${yBottom} ${xMid},${yTop}`,
-        isUp: true
+        isUp: true,
+        isNewRow
       });
     }
 
@@ -178,7 +289,8 @@ function StackedTrianglesSVG({ rows }) {
       const yBottom = rowY + rowHeight;
       triangles.push({
         points: `${x0},${yTop} ${x1},${yTop} ${xApex},${yBottom}`,
-        isUp: false
+        isUp: false,
+        isNewRow
       });
     }
   }
@@ -189,17 +301,30 @@ function StackedTrianglesSVG({ rows }) {
         <polygon
           key={idx}
           points={t.points}
-          fill={t.isUp ? '#10b981' : '#047857'}
-          stroke="#059669"
-          strokeWidth="1.2"
-          fillOpacity={t.isUp ? 0.95 : 0.85}
+          fill={t.isNewRow ? (t.isUp ? '#34d399' : '#10b981') : (t.isUp ? '#10b981' : '#047857')}
+          stroke={t.isNewRow ? '#047857' : '#059669'}
+          strokeWidth={t.isNewRow ? '1.4' : '1.2'}
+          fillOpacity={t.isNewRow ? 0.98 : (t.isUp ? 0.95 : 0.85)}
         />
       ))}
+      {/* Subtle division line above the newly added bottom row (HINT ONLY) */}
+      {showHint && rows > 1 && (
+        <line
+          x1={cx - (rows * baseWidth) / 2}
+          y1={topY + (rows - 1) * rowHeight}
+          x2={cx + (rows * baseWidth) / 2}
+          y2={topY + (rows - 1) * rowHeight}
+          stroke="#047857"
+          strokeWidth="1.2"
+          strokeDasharray="2 2"
+          strokeOpacity="0.6"
+        />
+      )}
     </svg>
   );
 }
 
-// 5. Koch Snowflake Generator
+// 5. Koch Snowflake Generator (Concept 5: Visual speed bumps on hint)
 function generateKochPoints(p1, p2, depth) {
   if (depth === 0) return [p1, p2];
   const dx = p2[0] - p1[0];
@@ -219,7 +344,7 @@ function generateKochPoints(p1, p2, depth) {
   ];
 }
 
-function KochSnowflakeSVG({ depth, count }) {
+function KochSnowflakeSVG({ depth, count, showHint = false }) {
   const cx = 52;
   const cy = 52;
   const r = 38;
@@ -239,9 +364,9 @@ function KochSnowflakeSVG({ depth, count }) {
     <svg viewBox="0 0 104 104" width="100%" height="100%">
       <polygon
         points={pointsStr}
-        fill="rgba(99, 102, 241, 0.1)"
+        fill={showHint ? "rgba(99, 102, 241, 0.16)" : "rgba(99, 102, 241, 0.1)"}
         stroke="#4f46e5"
-        strokeWidth="2"
+        strokeWidth={showHint ? "2.4" : "2"}
         strokeLinejoin="round"
       />
       <g transform="translate(52, 52)">
@@ -263,6 +388,7 @@ function KochSnowflakeSVG({ depth, count }) {
 
 // ═══════════════════════════════════════════════════════════════════════════
 // 1.5 CONCEPTS DATASET (AUTHENTIC TABLE 3 SHAPE SEQUENCES)
+// With concept-specific visual hint cues & progression metadata
 // ═══════════════════════════════════════════════════════════════════════════
 const CONCEPTS = [
   {
@@ -270,17 +396,21 @@ const CONCEPTS = [
     title: 'Regular polygons',
     subtitle: 'One more side. One more corner.',
     accentColor: '#0284c7',
+    missingIndex: 2,
     watchSubtext: 'Triangle, square, pentagon, hexagon, heptagon... Every side is the same length.',
     watchInstruction: 'Count the sides of each shape. What changes from one shape to the next?',
-    question: 'How many sides will the next shape have?',
-    sequenceClue: '3, 4, 5, 6, 7 sides so far.',
-    options: [7, 8, 9],
-    correctOption: 8,
-    explanation: 'An octagon: 8 equal sides, 8 corners.',
+    question: 'How many sides does the missing shape have?',
+    sequenceClue: '3 sides, 4 sides, ?, 6 sides, 7 sides, 8 sides',
+    options: [4, 5, 6],
+    correctOption: 5,
+    explanation: 'Correct! Each shape has one more side than the previous shape, so the missing shape has 5 sides.',
     discoveredConcept: 'An octagon: 8 equal sides, 8 corners.',
     completeSequence: '3, 4, 5, 6, 7, 8 sides',
     discoveredRule: 'The rule: add one side (and one corner) each time. The sequence of sides is 3, 4, 5, 6, 7, 8... — the counting numbers, starting at 3.',
     nextLabel: 'Complete graphs',
+    progressionText: '+1 side',
+    progressionIcon: '▲',
+    progressionHintTitle: 'Each shape adds one side and one corner',
     terms: [
       { stepLabel: 'PICTURE 1', label: '3 sides', type: 'polygon', sides: 3 },
       { stepLabel: 'PICTURE 2', label: '4 sides', type: 'polygon', sides: 4 },
@@ -296,17 +426,21 @@ const CONCEPTS = [
     title: 'Complete graphs',
     subtitle: 'Every point joined to every other point.',
     accentColor: '#db2777',
+    missingIndex: 3,
     watchSubtext: 'Every pair of points is connected by a straight line.',
     watchInstruction: 'Each shape adds one point, then joins it to all the other points.',
-    question: 'How many points will the next shape have?',
-    sequenceClue: '2, 3, 4, 5, 6 points so far.',
-    options: [6, 7, 8],
-    correctOption: 7,
-    explanation: 'Seven points, each joined to the other six.',
+    question: 'How many points does the missing graph have?',
+    sequenceClue: '2 points, 3 points, 4 points, ?, 6 points, 7 points',
+    options: [4, 5, 6],
+    correctOption: 5,
+    explanation: 'Correct! Each shape adds one more point, so the missing graph has 5 points.',
     discoveredConcept: 'Seven points, each joined to the other six.',
     completeSequence: '2, 3, 4, 5, 6, 7 points',
     discoveredRule: 'The rule: add one point and join it to every point already there. The points go 2, 3, 4, 5, 6, 7... while the lines go 1, 3, 6, 10, 15, 21... — triangular numbers!',
     nextLabel: 'Stacked squares',
+    progressionText: '+1 point',
+    progressionIcon: '●',
+    progressionHintTitle: 'Each picture adds one point joined to all other points',
     terms: [
       { stepLabel: 'PICTURE 1', label: '2 points', type: 'graph', points: 2 },
       { stepLabel: 'PICTURE 2', label: '3 points', type: 'graph', points: 3 },
@@ -322,17 +456,21 @@ const CONCEPTS = [
     title: 'Stacked squares',
     subtitle: 'A bigger square, built from little squares.',
     accentColor: '#d97706',
+    missingIndex: 2,
     watchSubtext: '1 = 1, 2 × 2 = 4, 3 × 3 = 9, 4 × 4 = 16, 5 × 5 = 25 little squares.',
     watchInstruction: 'Each shape is a square grid of little squares. Watch a new row and column arrive.',
-    question: 'How many little squares are in the bottom row of the next shape?',
-    sequenceClue: 'The bottom rows have 1, 2, 3, 4, 5 little squares so far.',
-    options: [5, 6, 7],
-    correctOption: 6,
-    explanation: 'Six little squares along each side.',
+    question: 'How many small squares are along each side of the missing square?',
+    sequenceClue: '1, 2, ?, 4, 5, 6 small squares along each side',
+    options: [2, 3, 4],
+    correctOption: 3,
+    explanation: 'Correct! Each step adds one more small square along each side, so the missing shape has 3 small squares per side.',
     discoveredConcept: 'Six little squares along each side.',
     completeSequence: '1 × 1, 2 × 2, 3 × 3, 4 × 4, 5 × 5, 6 × 6',
     discoveredRule: 'The rule: each shape is a square with one more little square along each side. The side lengths are 1, 2, 3, 4, 5, 6... counting numbers.',
     nextLabel: 'Stacked triangles',
+    progressionText: '+1 layer',
+    progressionIcon: '▦',
+    progressionHintTitle: 'Each square adds one small square along each side',
     terms: [
       { stepLabel: 'PICTURE 1', label: '1 × 1', type: 'squares', n: 1 },
       { stepLabel: 'PICTURE 2', label: '2 × 2', type: 'squares', n: 2 },
@@ -348,17 +486,21 @@ const CONCEPTS = [
     title: 'Stacked triangles',
     subtitle: 'Rows of little triangles make a big triangle.',
     accentColor: '#059669',
+    missingIndex: 3,
     watchSubtext: 'Each row has 2 more little triangles than the row above it.',
     watchInstruction: 'Each shape adds one more row of little triangles at the bottom.',
-    question: 'How many little triangles are in the bottom row of the next shape?',
-    sequenceClue: 'The bottom rows have 1, 3, 5, 7, 9 little triangles so far.',
-    options: [9, 10, 11],
-    correctOption: 11,
-    explanation: 'A sixth row with 11 little triangles: 6 up, 5 down.',
+    question: 'How many little triangles are in the bottom row of the missing shape?',
+    sequenceClue: 'The bottom rows have 1, 3, 5, ?, 9, 11 little triangles.',
+    options: [6, 7, 8],
+    correctOption: 7,
+    explanation: 'Correct! The number of triangles in the bottom row increases by 2 each time (odd numbers), so the missing shape has 7.',
     discoveredConcept: 'A sixth row with 11 little triangles: 6 up, 5 down.',
     completeSequence: '1 row, 2 rows, 3 rows, 4 rows, 5 rows, 6 rows',
     discoveredRule: 'The rule: add a new bottom row with two more little triangles (one more pointing up, one more pointing down). The rows go 1, 3, 5, 7, 9, 11... — the odd numbers.',
     nextLabel: 'Koch snowflake',
+    progressionText: '+1 row',
+    progressionIcon: '▲',
+    progressionHintTitle: 'Each shape adds one row of little triangles at the bottom',
     terms: [
       { stepLabel: 'PICTURE 1', label: '1 row', type: 'triangles', rows: 1 },
       { stepLabel: 'PICTURE 2', label: '2 rows', type: 'triangles', rows: 2 },
@@ -374,17 +516,21 @@ const CONCEPTS = [
     title: 'Koch snowflake',
     subtitle: 'Every straight line grows a bump.',
     accentColor: '#4f46e5',
+    missingIndex: 2,
     watchSubtext: 'Start with a triangle. Then put a bump on every straight line.',
     watchInstruction: 'Each straight segment is replaced by a "speed bump": 4 shorter segments.',
-    question: 'Each straight segment is replaced by how many smaller segments?',
-    sequenceClue: 'Look closely at one side of the triangle after the first step.',
-    options: [2, 3, 4],
-    correctOption: 4,
-    explanation: 'Four pieces per segment. The snowflake keeps growing finer.',
+    question: 'How many bumps are on each edge in the missing step?',
+    sequenceClue: 'Triangle (0 bumps), 1 bump, ?, 3 bumps, 4 bumps',
+    options: [1, 2, 3],
+    correctOption: 2,
+    explanation: 'Correct! Each step adds one more bump to every straight edge, so the missing step has 2 bumps.',
     discoveredConcept: 'Four pieces per segment. The snowflake keeps growing finer.',
     completeSequence: '3, 12, 48, 192, 768 segments',
     discoveredRule: 'The rule: every segment becomes 4 segments (two flat pieces and two sloping pieces of the bump). So the number of segments multiplies by 4 at every step: 3, 12, 48, 192, 768...',
     nextLabel: 'Activity 1.6',
+    progressionText: '+1 bump',
+    progressionIcon: '❄',
+    progressionHintTitle: 'Each straight edge grows one bump',
     terms: [
       { stepLabel: 'STEP 0', label: 'triangle', type: 'koch', depth: 0, count: 3 },
       { stepLabel: 'STEP 1', label: '1 bump', type: 'koch', depth: 1, count: 12 },
@@ -731,6 +877,7 @@ export default function ShapePatternsExperience({ onClose, onCompleteNode }) {
   const [isPlaying, setIsPlaying] = useState(true);
   const [selectedOption, setSelectedOption] = useState(null);
   const [wrongOption, setWrongOption] = useState(null);
+  const [showHint, setShowHint] = useState(false);
   const [completedConceptIds, setCompletedConceptIds] = useState([]);
 
   const concept = CONCEPTS[currentConceptIdx];
@@ -740,7 +887,7 @@ export default function ShapePatternsExperience({ onClose, onCompleteNode }) {
   // Auto-progression in Step 1 (Watch mode)
   useEffect(() => {
     if (learningStep === 1 && isPlaying) {
-      if (revealedCount < totalTerms - 1) {
+      if (revealedCount < totalTerms) {
         timerRef.current = setTimeout(() => {
           setRevealedCount(prev => prev + 1);
         }, 1250);
@@ -751,7 +898,7 @@ export default function ShapePatternsExperience({ onClose, onCompleteNode }) {
     return () => clearTimeout(timerRef.current);
   }, [learningStep, isPlaying, revealedCount, totalTerms]);
 
-  // Load a new sequence
+  // Load a new sequence (Resets hints back to completely plain default state)
   const loadConcept = (idx) => {
     setCurrentConceptIdx(idx);
     setLearningStep(1);
@@ -759,24 +906,27 @@ export default function ShapePatternsExperience({ onClose, onCompleteNode }) {
     setIsPlaying(true);
     setSelectedOption(null);
     setWrongOption(null);
+    setShowHint(false);
   };
 
-  // Replay current concept from Step 1
+  // Replay current concept from Step 1 (Resets hints back to plain state)
   const handleReplay = () => {
     setLearningStep(1);
     setRevealedCount(1);
     setIsPlaying(true);
     setSelectedOption(null);
     setWrongOption(null);
+    setShowHint(false);
   };
 
   // Transition from Step 1 -> Step 2
   const handleStartCheckpoint = () => {
     setIsPlaying(false);
-    setRevealedCount(totalTerms - 1);
+    setRevealedCount(totalTerms);
     setLearningStep(2);
     setSelectedOption(null);
     setWrongOption(null);
+    setShowHint(false);
   };
 
   // Step 2: Answer option click
@@ -788,6 +938,7 @@ export default function ShapePatternsExperience({ onClose, onCompleteNode }) {
       setWrongOption(null);
       setRevealedCount(totalTerms);
       setLearningStep(3);
+      setShowHint(false);
 
       confetti({
         particleCount: 85,
@@ -795,8 +946,11 @@ export default function ShapePatternsExperience({ onClose, onCompleteNode }) {
         origin: { y: 0.65 }
       });
     } else {
+      // Wrong answer attempt:
+      // Keep student on the same concept, allow them to try again,
+      // and reveal the concept-specific visual hint inside/around the pattern sequence!
       setWrongOption(opt);
-      setTimeout(() => setWrongOption(null), 750);
+      setShowHint(true);
     }
   };
 
@@ -824,18 +978,18 @@ export default function ShapePatternsExperience({ onClose, onCompleteNode }) {
     }
   };
 
-  const renderShapeVisual = (term, color) => {
+  const renderShapeVisual = (term, color, hintActive) => {
     switch (term.type) {
       case 'polygon':
-        return <PolygonSVG sides={term.sides} accentColor={color} />;
+        return <PolygonSVG sides={term.sides} accentColor={color} showHint={hintActive} />;
       case 'graph':
-        return <CompleteGraphSVG points={term.points} accentColor={color} />;
+        return <CompleteGraphSVG points={term.points} accentColor={color} showHint={hintActive} />;
       case 'squares':
-        return <StackedSquaresSVG n={term.n} />;
+        return <StackedSquaresSVG n={term.n} showHint={hintActive} />;
       case 'triangles':
-        return <StackedTrianglesSVG rows={term.rows} />;
+        return <StackedTrianglesSVG rows={term.rows} showHint={hintActive} />;
       case 'koch':
-        return <KochSnowflakeSVG depth={term.depth} count={term.count} />;
+        return <KochSnowflakeSVG depth={term.depth} count={term.count} showHint={hintActive} />;
       default:
         return null;
     }
@@ -848,6 +1002,17 @@ export default function ShapePatternsExperience({ onClose, onCompleteNode }) {
 
       {/* ── MAIN INTERFACE FRAME (EXACT SAME AS 1.2) ── */}
       <div className="pattern-lab-frame">
+        {/* Top-Center "Back to Map" Navigation Button */}
+        <button
+          type="button"
+          className="pl-top-back-btn"
+          onClick={onClose}
+          aria-label="Back to Map"
+        >
+          <ArrowLeft size={16} />
+          <span>Back to Map</span>
+        </button>
+
         {/* ── BODY WORKSPACE ── */}
         <main className="pl-body">
           {/* Top Info Container */}
@@ -870,30 +1035,53 @@ export default function ShapePatternsExperience({ onClose, onCompleteNode }) {
           <div className="pl-cards-row-container">
             <div className="pl-cards-row">
               {concept.terms.map((term, i) => {
-                const isRevealed = i < revealedCount;
+                const isTarget = i === concept.missingIndex;
+                const isRevealed = isTarget ? (learningStep >= 3) : (learningStep >= 2 || i < revealedCount);
 
                 return (
-                  <div
-                    key={i}
-                    className={`pl-term-card ${isRevealed ? 'revealed' : 'locked-target'}`}
-                    style={{
-                      borderColor: isRevealed ? concept.accentColor : '#cbd5e1',
-                      boxShadow: isRevealed
-                        ? `0 12px 32px ${concept.accentColor}30, 0 3px 8px rgba(0,0,0,0.05)`
-                        : 'none'
-                    }}
-                  >
-                    {isRevealed ? (
-                      <div className="pl-shape-card-inner">
-                        <span className="pl-shape-step-label">{term.stepLabel}</span>
-                        <div className="pl-shape-visual-box">
-                          {renderShapeVisual(term, concept.accentColor)}
+                  <React.Fragment key={i}>
+                    {/* Visual Progression Marker between consecutive cards: REVEALED ONLY ON WRONG ANSWER (HINT ONLY) */}
+                    {showHint && i > 0 && (
+                      <div
+                        className="pl-progression-connector revealed"
+                        title={concept.progressionHintTitle}
+                      >
+                        <div className="pl-progression-arrow-line" />
+                        <div
+                          className="pl-progression-badge"
+                          style={{
+                            borderColor: `${concept.accentColor}55`,
+                            color: concept.accentColor,
+                            boxShadow: `0 2px 6px ${concept.accentColor}18`
+                          }}
+                        >
+                          <span className="pl-progression-badge-icon">{concept.progressionIcon}</span>
+                          <span className="pl-progression-badge-text">{concept.progressionText}</span>
                         </div>
                       </div>
-                    ) : (
-                      <div className="pl-card-number-val question-mark">?</div>
                     )}
-                  </div>
+
+                    <div
+                      className={`pl-term-card ${isRevealed ? 'revealed' : 'locked-target'}`}
+                      style={{
+                        borderColor: isRevealed ? concept.accentColor : '#cbd5e1',
+                        boxShadow: isRevealed
+                          ? `0 12px 32px ${concept.accentColor}30, 0 3px 8px rgba(0,0,0,0.05)`
+                          : 'none'
+                      }}
+                    >
+                      {isRevealed ? (
+                        <div className="pl-shape-card-inner">
+                          <span className="pl-shape-step-label">{term.stepLabel}</span>
+                          <div className="pl-shape-visual-box">
+                            {renderShapeVisual(term, concept.accentColor, showHint)}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="pl-card-number-val question-mark">?</div>
+                      )}
+                    </div>
+                  </React.Fragment>
                 );
               })}
             </div>
