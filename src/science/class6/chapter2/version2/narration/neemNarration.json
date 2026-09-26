@@ -1,267 +1,277 @@
 {
   "neem": {
     "audioFile": "Neem.mp3",
-    "totalDuration": 31.791,
+    "totalDuration": 33.332,
     "words": [
       {
         "word": "Observe",
         "start": 0.0,
-        "end": 0.436
+        "end": 0.461
       },
       {
         "word": "the",
-        "start": 0.436,
-        "end": 0.623
+        "start": 0.461,
+        "end": 0.658
       },
       {
         "word": "neem",
-        "start": 0.623,
-        "end": 0.873
+        "start": 0.658,
+        "end": 0.921
       },
       {
         "word": "tree.",
-        "start": 0.873,
-        "end": 1.122
+        "start": 0.921,
+        "end": 1.25
       },
       {
         "word": "It",
-        "start": 1.899,
-        "end": 2.093
+        "start": 1.94,
+        "end": 2.164
       },
       {
         "word": "has",
-        "start": 2.093,
-        "end": 2.383
+        "start": 2.164,
+        "end": 2.5
       },
       {
         "word": "A",
-        "start": 2.383,
-        "end": 2.607
+        "start": 2.5,
+        "end": 2.679
       },
       {
         "word": "thick,",
-        "start": 2.607,
-        "end": 3.168
+        "start": 2.679,
+        "end": 3.217
       },
       {
         "word": "hard,",
-        "start": 3.168,
-        "end": 3.617
+        "start": 3.217,
+        "end": 3.665
       },
       {
         "word": "woody",
-        "start": 3.617,
-        "end": 4.177
+        "start": 3.665,
+        "end": 4.112
       },
       {
         "word": "trunk",
-        "start": 4.177,
-        "end": 4.738
+        "start": 4.112,
+        "end": 4.56
       },
       {
         "word": "with",
-        "start": 4.738,
-        "end": 5.186
+        "start": 4.56,
+        "end": 4.919
       },
       {
         "word": "rough,",
-        "start": 5.186,
-        "end": 5.747
+        "start": 4.919,
+        "end": 5.456
       },
       {
         "word": "scaly",
-        "start": 5.747,
-        "end": 6.308
+        "start": 5.456,
+        "end": 5.904
       },
       {
         "word": "brown",
-        "start": 6.308,
-        "end": 6.868
+        "start": 5.904,
+        "end": 6.352
       },
       {
         "word": "bark.",
-        "start": 6.868,
-        "end": 7.317
+        "start": 6.352,
+        "end": 6.8
       },
       {
         "word": "Its",
-        "start": 8.001,
-        "end": 8.232
+        "start": 7.64,
+        "end": 8.1
       },
       {
         "word": "Compound",
-        "start": 8.232,
-        "end": 8.934
+        "start": 8.1,
+        "end": 8.714
       },
       {
         "word": "leaves",
-        "start": 8.934,
-        "end": 9.461
+        "start": 8.714,
+        "end": 9.174
       },
       {
         "word": "with",
-        "start": 9.461,
-        "end": 9.812
+        "start": 9.174,
+        "end": 9.481
       },
       {
         "word": "toothed",
-        "start": 9.812,
-        "end": 10.427
+        "start": 9.481,
+        "end": 10.018
       },
       {
         "word": "green",
-        "start": 10.427,
-        "end": 10.866
+        "start": 10.018,
+        "end": 10.402
       },
       {
         "word": "leaflets",
-        "start": 10.866,
-        "end": 11.568
+        "start": 10.402,
+        "end": 11.016
       },
       {
         "word": "along",
-        "start": 11.568,
-        "end": 12.007
+        "start": 11.016,
+        "end": 11.399
       },
       {
         "word": "a",
-        "start": 12.007,
-        "end": 12.183
+        "start": 11.399,
+        "end": 11.553
       },
       {
         "word": "central",
-        "start": 12.183,
-        "end": 12.797
+        "start": 11.553,
+        "end": 12.09
       },
       {
         "word": "stalk.",
-        "start": 12.797,
-        "end": 13.236
+        "start": 12.09,
+        "end": 12.55
       },
       {
         "word": "Its",
-        "start": 13.943,
-        "end": 14.26
+        "start": 13.66,
+        "end": 13.935
       },
       {
         "word": "flowers",
-        "start": 14.26,
-        "end": 15.001
+        "start": 13.935,
+        "end": 14.575
       },
       {
         "word": "are",
-        "start": 15.001,
-        "end": 15.318
+        "start": 14.575,
+        "end": 14.85
       },
       {
         "word": "Small,",
-        "start": 15.318,
-        "end": 15.847
+        "start": 14.85,
+        "end": 15.45
       },
       {
         "word": "white",
-        "start": 15.847,
-        "end": 16.376
+        "start": 15.45,
+        "end": 15.95
       },
       {
         "word": "and",
-        "start": 16.376,
-        "end": 16.694
+        "start": 15.95,
+        "end": 16.25
       },
       {
         "word": "fragrant.",
-        "start": 16.694,
-        "end": 17.54
+        "start": 16.25,
+        "end": 17.15
       },
       {
         "word": "A",
-        "start": 18.308,
-        "end": 18.731
+        "start": 18.0,
+        "end": 18.394
       },
       {
         "word": "tall,",
-        "start": 18.731,
-        "end": 19.578
+        "start": 18.394,
+        "end": 19.378
       },
       {
         "word": "usually",
-        "start": 19.578,
-        "end": 21.059
+        "start": 19.378,
+        "end": 20.756
       },
       {
         "word": "evergreen",
-        "start": 21.059,
-        "end": 22.964
+        "start": 20.756,
+        "end": 22.528
       },
       {
         "word": "tree",
-        "start": 22.964,
-        "end": 23.811
+        "start": 22.528,
+        "end": 23.316
       },
       {
         "word": "with",
-        "start": 23.811,
-        "end": 24.658
+        "start": 23.316,
+        "end": 24.104
       },
       {
         "word": "a",
-        "start": 24.658,
-        "end": 25.081
+        "start": 24.104,
+        "end": 24.497
       },
       {
         "word": "broad",
-        "start": 25.081,
-        "end": 26.139
+        "start": 24.497,
+        "end": 25.482
       },
       {
         "word": "canopy.",
-        "start": 26.139,
-        "end": 27.409
+        "start": 25.482,
+        "end": 26.86
+      },
+      {
+        "word": "Now",
+        "start": 27.72,
+        "end": 28.013
+      },
+      {
+        "word": "think:",
+        "start": 28.013,
+        "end": 28.6
       },
       {
         "word": "Which",
-        "start": 28.077,
-        "end": 28.541
+        "start": 28.9,
+        "end": 29.376
       },
       {
         "word": "features",
-        "start": 28.541,
-        "end": 29.284
+        "start": 29.376,
+        "end": 30.137
       },
       {
         "word": "help",
-        "start": 29.284,
-        "end": 29.655
+        "start": 30.137,
+        "end": 30.517
       },
       {
         "word": "you",
-        "start": 29.655,
-        "end": 29.934
+        "start": 30.517,
+        "end": 30.802
       },
       {
         "word": "identify",
-        "start": 29.934,
-        "end": 30.677
+        "start": 30.802,
+        "end": 31.563
       },
       {
         "word": "neem",
-        "start": 30.677,
-        "end": 31.048
+        "start": 31.563,
+        "end": 31.944
       },
       {
         "word": "as",
-        "start": 31.048,
-        "end": 31.234
+        "start": 31.944,
+        "end": 32.134
       },
       {
         "word": "a",
-        "start": 31.234,
-        "end": 31.42
+        "start": 32.134,
+        "end": 32.324
       },
       {
         "word": "tree?",
-        "start": 31.42,
-        "end": 31.791
+        "start": 32.324,
+        "end": 32.8
       }
     ]
   }

@@ -1,0 +1,283 @@
+{
+  "frog": {
+    "audioFile": "Frog.mp3",
+    "totalDuration": 28.134,
+    "words": [
+      {
+        "word": "Observe",
+        "start": 0.0,
+        "end": 0.442
+      },
+      {
+        "word": "the",
+        "start": 0.442,
+        "end": 0.632
+      },
+      {
+        "word": "pond",
+        "start": 0.632,
+        "end": 0.884
+      },
+      {
+        "word": "frog.",
+        "start": 0.884,
+        "end": 1.2
+      },
+      {
+        "word": "It",
+        "start": 2.0,
+        "end": 2.123
+      },
+      {
+        "word": "lives",
+        "start": 2.123,
+        "end": 2.431
+      },
+      {
+        "word": "around",
+        "start": 2.431,
+        "end": 2.8
+      },
+      {
+        "word": "Freshwater",
+        "start": 2.8,
+        "end": 3.55
+      },
+      {
+        "word": "ponds,",
+        "start": 3.55,
+        "end": 4.0
+      },
+      {
+        "word": "lily",
+        "start": 4.25,
+        "end": 4.758
+      },
+      {
+        "word": "pads",
+        "start": 4.758,
+        "end": 5.265
+      },
+      {
+        "word": "and",
+        "start": 5.265,
+        "end": 5.646
+      },
+      {
+        "word": "moist",
+        "start": 5.646,
+        "end": 6.281
+      },
+      {
+        "word": "pond",
+        "start": 6.281,
+        "end": 6.788
+      },
+      {
+        "word": "edges.",
+        "start": 6.788,
+        "end": 7.55
+      },
+      {
+        "word": "Leaps",
+        "start": 8.55,
+        "end": 9.959
+      },
+      {
+        "word": "on",
+        "start": 9.959,
+        "end": 10.523
+      },
+      {
+        "word": "land",
+        "start": 10.523,
+        "end": 11.65
+      },
+      {
+        "word": "and",
+        "start": 12.45,
+        "end": 12.746
+      },
+      {
+        "word": "swims",
+        "start": 12.746,
+        "end": 13.239
+      },
+      {
+        "word": "using",
+        "start": 13.239,
+        "end": 13.733
+      },
+      {
+        "word": "its",
+        "start": 13.733,
+        "end": 14.029
+      },
+      {
+        "word": "hind",
+        "start": 14.029,
+        "end": 14.424
+      },
+      {
+        "word": "legs",
+        "start": 14.424,
+        "end": 14.818
+      },
+      {
+        "word": "and",
+        "start": 14.818,
+        "end": 15.114
+      },
+      {
+        "word": "webbed",
+        "start": 15.114,
+        "end": 15.707
+      },
+      {
+        "word": "feet.",
+        "start": 15.707,
+        "end": 16.2
+      },
+      {
+        "word": "Muscular",
+        "start": 17.05,
+        "end": 17.517
+      },
+      {
+        "word": "hind",
+        "start": 17.517,
+        "end": 17.75
+      },
+      {
+        "word": "legs",
+        "start": 17.75,
+        "end": 17.983
+      },
+      {
+        "word": "power",
+        "start": 17.983,
+        "end": 18.275
+      },
+      {
+        "word": "movement.",
+        "start": 18.275,
+        "end": 18.8
+      },
+      {
+        "word": "Moist",
+        "start": 18.8,
+        "end": 19.114
+      },
+      {
+        "word": "skin",
+        "start": 19.114,
+        "end": 19.366
+      },
+      {
+        "word": "allows",
+        "start": 19.366,
+        "end": 19.743
+      },
+      {
+        "word": "oxygen",
+        "start": 19.743,
+        "end": 20.12
+      },
+      {
+        "word": "to",
+        "start": 20.12,
+        "end": 20.246
+      },
+      {
+        "word": "pass",
+        "start": 20.246,
+        "end": 20.497
+      },
+      {
+        "word": "through.",
+        "start": 20.497,
+        "end": 21.0
+      },
+      {
+        "word": "Bulging",
+        "start": 21.0,
+        "end": 21.64
+      },
+      {
+        "word": "eyes",
+        "start": 21.64,
+        "end": 22.005
+      },
+      {
+        "word": "provide",
+        "start": 22.005,
+        "end": 22.645
+      },
+      {
+        "word": "a",
+        "start": 22.645,
+        "end": 22.828
+      },
+      {
+        "word": "wide",
+        "start": 22.828,
+        "end": 23.193
+      },
+      {
+        "word": "view.",
+        "start": 23.193,
+        "end": 23.65
+      },
+      {
+        "word": "Now",
+        "start": 24.4,
+        "end": 24.6
+      },
+      {
+        "word": "think:",
+        "start": 24.6,
+        "end": 25.0
+      },
+      {
+        "word": "How",
+        "start": 25.55,
+        "end": 25.795
+      },
+      {
+        "word": "do",
+        "start": 25.795,
+        "end": 25.958
+      },
+      {
+        "word": "webbed",
+        "start": 25.958,
+        "end": 26.448
+      },
+      {
+        "word": "feet",
+        "start": 26.448,
+        "end": 26.775
+      },
+      {
+        "word": "help",
+        "start": 26.775,
+        "end": 27.102
+      },
+      {
+        "word": "a",
+        "start": 27.102,
+        "end": 27.265
+      },
+      {
+        "word": "frog",
+        "start": 27.265,
+        "end": 27.592
+      },
+      {
+        "word": "swim?",
+        "start": 27.592,
+        "end": 28.0
+      }
+    ]
+  }
+}
