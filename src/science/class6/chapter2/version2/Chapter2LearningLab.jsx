@@ -435,10 +435,13 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
     // Step 2 -> Step 1 Scenes
     if (currentStep === 2) {
       setTransitionTargetStep(1);
-                setTransitionTargetSubTab(null);
+                setTransitionTargetSubTab('scenes');
                 setTransitionSourceStep(2);
                 setTransitionSourceSubTab(null);
                 setTransitionDirection('backward');
+                // IMPORTANT: since the transition video is inside step 1, we must switch to step 1 right away
+                setCurrentStep(1);
+                setSection1SubTab('scenes');
                 setIsPlayingTransition(true);
       return;
     }
@@ -837,7 +840,13 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                           setIsTransitionVideoEnded(true);
                         }
                       }}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      style={{ 
+                        width: '100%', 
+                        height: '100%', 
+                        objectFit: 'cover',
+                        filter: isTransitionVideoEnded ? 'blur(8px)' : 'none',
+                        transition: 'filter 0.5s ease'
+                      }}
                     />
                     
                     {/* Navigation UI that appears when video ends */}
@@ -965,7 +974,10 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 ) : (
                   <IntroStoryteller
                     initialScene={introInitialScene}
-                    onComplete={() => setIsPlayingTransition(true)}
+                    onComplete={() => {
+                      setTransitionDirection('forward');
+                      setIsPlayingTransition(true);
+                    }}
                     onBack={() => {
                       setSection1SubTab('slogan');
                       setSloganInitialPage(5);
