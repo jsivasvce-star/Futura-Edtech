@@ -741,6 +741,7 @@ export default function Chapter2SloganPage({
   const {
     isPlaying: isPlayingConservationAudio,
     activeWordIndex: conservationActiveWordIndex,
+    play: playConservationNarration,
     pause: pauseConservationNarration,
     toggle: toggleConservationAudio,
   } = useWordSyncAudio(conservationNarrationAudio, conservationNarrationData.conservation.words, {
@@ -776,31 +777,38 @@ export default function Chapter2SloganPage({
     };
   }, [currentPage, pauseShlokaAudio, pauseBioNarration, pauseDesertNarration, pauseBotanyNarration, pauseConservationNarration]);
 
-  // Page 2: Trigger popup message after 3 seconds
+  // Page 2: Trigger popup message after 3 seconds and auto-play narration
   useEffect(() => {
     if (currentPage === 2) {
       setShowPage2Popup(false);
       const timer = setTimeout(() => {
         setShowPage2Popup(true);
+        toggleBioAudio(true);
       }, 3000);
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(timer);
+        pauseBioNarration();
+      };
     } else {
       setShowPage2Popup(false);
-      if (isPlayingBioAudio) {
-        stopNarration();
-        setIsPlayingBioAudio(false);
-      }
+      pauseBioNarration();
     }
-  }, [currentPage]);
+  }, [currentPage, pauseBioNarration]);
 
-  // Page 3: Trigger popup message after 3 seconds
+  // Page 3: Trigger popup message after 3 seconds and auto-play narration
   useEffect(() => {
     if (currentPage === 3) {
       setShowPage3Popup(false);
       const timer = setTimeout(() => {
         setShowPage3Popup(true);
+        toggleDesertNarration(true);
       }, 3000);
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(timer);
+        pauseDesertNarration();
+        stopNarration();
+        setIsPlayingAdaptationAudio(false);
+      };
     } else {
       setShowPage3Popup(false);
       pauseDesertNarration();
@@ -809,7 +817,7 @@ export default function Chapter2SloganPage({
         setIsPlayingAdaptationAudio(false);
       }
     }
-  }, [currentPage, pauseDesertNarration]);
+  }, [currentPage, pauseDesertNarration, isPlayingAdaptationAudio]);
 
   // Page 4: Trigger popup message after 3 seconds
   useEffect(() => {
@@ -827,21 +835,23 @@ export default function Chapter2SloganPage({
     }
   }, [currentPage]);
 
-  // Page 5: Trigger popup message after 3 seconds
+  // Page 5: Trigger popup message after 3 seconds and auto-play narration
   useEffect(() => {
     if (currentPage === 5) {
       setShowPage5Popup(false);
       const timer = setTimeout(() => {
         setShowPage5Popup(true);
+        toggleConservationNarration(true);
       }, 3000);
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(timer);
+        pauseConservationNarration();
+      };
     } else {
       setShowPage5Popup(false);
-      if (isPlayingConservationAudio) {
-        pauseConservationNarration();
-      }
+      pauseConservationNarration();
     }
-  }, [currentPage]);
+  }, [currentPage, pauseConservationNarration]);
 
 
   // Keyboard navigation
@@ -987,11 +997,12 @@ export default function Chapter2SloganPage({
   };
 
   // Toggle Page 2 Biosphere & Habitats lesson narration
-  const toggleBioAudio = () => {
-    if (isPlayingBioAudio) {
+  const toggleBioAudio = (forcePlay = false) => {
+    if (isPlayingBioAudio && !forcePlay) {
       pauseBioNarration();
     } else {
       pauseShlokaAudio();
+      pauseDesertNarration();
       if (sloganAudioRef.current) sloganAudioRef.current.pause();
       if (meaningAudioRef.current) meaningAudioRef.current.pause();
       if (whyStudyAudioRef.current) whyStudyAudioRef.current.pause();
@@ -1003,38 +1014,75 @@ export default function Chapter2SloganPage({
       pauseBotanyNarration();
       pauseConservationNarration();
 
-      playBioNarration();
-    }
-  };
-
-  // Toggle Page 3 Adaptation & Survival lesson narration
-  const toggleAdaptationAudio = () => {
-    if (isPlayingAdaptationAudio) {
-      stopNarration();
-      setIsPlayingAdaptationAudio(false);
-    } else {
-      pauseShlokaAudio();
-      pauseBioNarration();
-      if (sloganAudioRef.current) sloganAudioRef.current.pause();
-      if (meaningAudioRef.current) meaningAudioRef.current.pause();
-      if (whyStudyAudioRef.current) whyStudyAudioRef.current.pause();
-      stopNarration();
-      setIsPlayingSloganAudio(false);
-      setIsPlayingMeaningAudio(false);
-      setIsPlayingWhyStudyAudio(false);
-      pauseBotanyNarration();
-      pauseConservationNarration();
-
-      speakNaturalIndianMale({
-        text: "Desert Adaptations. What Is Adaptation? A feature or behaviour that helps a living thing survive in its habitat. The Ship of the Desert: A camel’s broad, padded feet help prevent it from sinking into sand. Its long eyelashes help protect its eyes from blowing dust. Saving Water: Camels conserve water by reducing water loss from their bodies. This helps them survive for long periods without drinking. Think: Why is saving water important in a desert?",
-        onEnd: () => setIsPlayingAdaptationAudio(false),
-        onError: () => setIsPlayingAdaptationAudio(false)
+      playBioNarration().catch((err) => {
+        console.warn('Bio narration audio error:', err);
       });
-      setIsPlayingAdaptationAudio(true);
     }
   };
+
+  // Toggle Page 3 Adaptation & Survival lesson narration (with word-sync MP3 & TTS fallback)
+  const toggleDesertNarration = (forcePlay = false) => {
+    if (isPlayingDesertAudio && !forcePlay) {
+      pauseDesertNarration();
+    } else if (isPlayingAdaptationAudio && !forcePlay) {
+      stopNarration();
+      setIsPlayingAdaptationAudio(false);
+    } else {
+      pauseShlokaAudio();
+      pauseBioNarration();
+      if (sloganAudioRef.current) sloganAudioRef.current.pause();
+      if (meaningAudioRef.current) meaningAudioRef.current.pause();
+      if (whyStudyAudioRef.current) whyStudyAudioRef.current.pause();
+      stopNarration();
+      setIsPlayingSloganAudio(false);
+      setIsPlayingMeaningAudio(false);
+      setIsPlayingWhyStudyAudio(false);
+      setIsPlayingAdaptationAudio(false);
+      pauseBotanyNarration();
+      pauseConservationNarration();
+
+      playDesertNarration().catch((err) => {
+        console.warn('Desert narration audio playback error, falling back to TTS:', err);
+        speakNaturalIndianMale({
+          text: "Desert Adaptations. What Is Adaptation? A feature or behaviour that helps a living thing survive in its habitat. The Ship of the Desert: A camel’s broad, padded feet help prevent it from sinking into sand. Its long eyelashes help protect its eyes from blowing dust. Saving Water: Camels conserve water by reducing water loss from their bodies. This helps them survive for long periods without drinking. Think: Why is saving water important in a desert?",
+          onEnd: () => setIsPlayingAdaptationAudio(false),
+          onError: () => setIsPlayingAdaptationAudio(false)
+        });
+        setIsPlayingAdaptationAudio(true);
+      });
+    }
+  };
+
+  const toggleAdaptationAudio = toggleDesertNarration;
 
   // Toggle Page 5 Sacred Groves & Conservation lesson narration
+  const toggleConservationNarration = (forcePlay = false) => {
+    if (isPlayingConservationAudio && !forcePlay) {
+      pauseConservationNarration();
+    } else {
+      pauseShlokaAudio();
+      pauseBioNarration();
+      pauseDesertNarration();
+      pauseBotanyNarration();
+      if (sloganAudioRef.current) sloganAudioRef.current.pause();
+      if (meaningAudioRef.current) meaningAudioRef.current.pause();
+      if (whyStudyAudioRef.current) whyStudyAudioRef.current.pause();
+      stopNarration();
+      setIsPlayingSloganAudio(false);
+      setIsPlayingMeaningAudio(false);
+      setIsPlayingWhyStudyAudio(false);
+      setIsPlayingAdaptationAudio(false);
+
+      if (playConservationNarration) {
+        playConservationNarration().catch((err) => {
+          console.warn('Conservation narration playback error:', err);
+        });
+      } else {
+        toggleConservationAudio();
+      }
+    }
+  };
+
   // Force-hide global floating music / volume button while slogan page is mounted
   useEffect(() => {
     const musicControls = document.getElementById('global-theme-music-controls');
@@ -1560,6 +1608,106 @@ export default function Chapter2SloganPage({
             {isPlayingShlokaAudio ? <Pause size={18} fill="#34d399" /> : <Play size={18} fill="currentColor" style={{ marginLeft: '2px' }} />}
           </button>
 
+        </div>
+      )}
+
+      {/* Floating Controls for Page 2 (Top-Right): Circular Narration Button */}
+      {currentPage === 2 && (
+        <div style={{
+          position: 'absolute',
+          top: '16px',
+          right: '20px',
+          zIndex: 45,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px'
+        }}>
+          <button
+            type="button"
+            className="ch2-circle-btn"
+            onClick={() => toggleBioAudio(false)}
+            onMouseEnter={() => setIsBioCircleHovered(true)}
+            onMouseLeave={() => setIsBioCircleHovered(false)}
+            title={isPlayingBioAudio ? 'Pause Habitats Narration' : 'Start Habitats Narration (Voice Over)'}
+            aria-label={isPlayingBioAudio ? 'Pause Habitats Narration' : 'Start Habitats Narration'}
+            style={{
+              width: '42px',
+              height: '42px',
+              borderRadius: '50%',
+              background: isPlayingBioAudio
+                ? 'rgba(16, 185, 129, 0.45)'
+                : isBioCircleHovered
+                ? 'rgba(255, 255, 255, 0.25)'
+                : 'rgba(2, 24, 14, 0.65)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              border: isPlayingBioAudio
+                ? '2px solid #34d399'
+                : '1.5px solid rgba(253, 230, 138, 0.75)',
+              boxShadow: isPlayingBioAudio
+                ? '0 0 20px rgba(52, 211, 153, 0.8), inset 0 0 10px rgba(52, 211, 153, 0.35)'
+                : '0 4px 14px rgba(0, 0, 0, 0.55)',
+              color: isPlayingBioAudio ? '#34d399' : '#FFFBEB',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+              animation: isPlayingBioAudio ? 'subtlePulseGlow 2.5s infinite ease-in-out' : 'none',
+            }}
+          >
+            {isPlayingBioAudio ? <Pause size={18} fill="#34d399" /> : <Play size={18} fill="currentColor" style={{ marginLeft: '2px' }} />}
+          </button>
+        </div>
+      )}
+
+      {/* Floating Controls for Page 3 (Top-Right): Circular Narration Button */}
+      {currentPage === 3 && (
+        <div style={{
+          position: 'absolute',
+          top: '16px',
+          right: '20px',
+          zIndex: 45,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px'
+        }}>
+          <button
+            type="button"
+            className="ch2-circle-btn"
+            onClick={() => toggleDesertNarration(false)}
+            onMouseEnter={() => setIsDesertCircleHovered(true)}
+            onMouseLeave={() => setIsDesertCircleHovered(false)}
+            title={(isPlayingDesertAudio || isPlayingAdaptationAudio) ? 'Pause Desert Adaptations Narration' : 'Start Desert Adaptations Narration (Voice Over)'}
+            aria-label={(isPlayingDesertAudio || isPlayingAdaptationAudio) ? 'Pause Desert Adaptations Narration' : 'Start Desert Adaptations Narration'}
+            style={{
+              width: '42px',
+              height: '42px',
+              borderRadius: '50%',
+              background: (isPlayingDesertAudio || isPlayingAdaptationAudio)
+                ? 'rgba(16, 185, 129, 0.45)'
+                : isDesertCircleHovered
+                ? 'rgba(255, 255, 255, 0.25)'
+                : 'rgba(28, 16, 4, 0.65)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              border: (isPlayingDesertAudio || isPlayingAdaptationAudio)
+                ? '2px solid #34d399'
+                : '1.5px solid rgba(253, 230, 138, 0.75)',
+              boxShadow: (isPlayingDesertAudio || isPlayingAdaptationAudio)
+                ? '0 0 20px rgba(52, 211, 153, 0.8), inset 0 0 10px rgba(52, 211, 153, 0.35)'
+                : '0 4px 14px rgba(0, 0, 0, 0.55)',
+              color: (isPlayingDesertAudio || isPlayingAdaptationAudio) ? '#34d399' : '#FFFBEB',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+              animation: (isPlayingDesertAudio || isPlayingAdaptationAudio) ? 'subtlePulseGlow 2.5s infinite ease-in-out' : 'none',
+            }}
+          >
+            {(isPlayingDesertAudio || isPlayingAdaptationAudio) ? <Pause size={18} fill="#34d399" /> : <Play size={18} fill="currentColor" style={{ marginLeft: '2px' }} />}
+          </button>
         </div>
       )}
 
@@ -2507,15 +2655,15 @@ export default function Chapter2SloganPage({
                     {/* Play / Pause Narration Button inside popup */}
                     <button
                       type="button"
-                      onClick={toggleDesertAudio}
-                      aria-label={isPlayingDesertAudio ? 'Pause Narration' : 'Play Narration'}
-                      title={isPlayingDesertAudio ? 'Pause Narration' : 'Play Narration'}
+                      onClick={() => toggleDesertNarration(false)}
+                      aria-label={(isPlayingDesertAudio || isPlayingAdaptationAudio) ? 'Pause Narration' : 'Play Narration'}
+                      title={(isPlayingDesertAudio || isPlayingAdaptationAudio) ? 'Pause Narration' : 'Play Narration'}
                       style={{
-                        background: isPlayingDesertAudio
+                        background: (isPlayingDesertAudio || isPlayingAdaptationAudio)
                           ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
                           : 'linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0.35) 100%)',
                         border: '1.8px solid #34D399',
-                        boxShadow: isPlayingDesertAudio
+                        boxShadow: (isPlayingDesertAudio || isPlayingAdaptationAudio)
                           ? '0 0 16px rgba(52, 211, 153, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
                           : '0 4px 12px rgba(0, 0, 0, 0.35), 0 0 10px rgba(52, 211, 153, 0.25)',
                         borderRadius: '20px',
@@ -2540,7 +2688,7 @@ export default function Chapter2SloganPage({
                         e.currentTarget.style.borderColor = '#34D399';
                       }}
                     >
-                      {isPlayingDesertAudio ? (
+                      {(isPlayingDesertAudio || isPlayingAdaptationAudio) ? (
                         <>
                           <Pause size={15} fill="#FFFFFF" />
                           <span>Pause</span>
@@ -2818,7 +2966,10 @@ export default function Chapter2SloganPage({
           {!showPage3Popup && (
             <button
               type="button"
-              onClick={() => setShowPage3Popup(true)}
+              onClick={() => {
+                setShowPage3Popup(true);
+                toggleDesertNarration(true);
+              }}
               title="Open Desert Habitats Notes"
               aria-label="Open Desert Habitats Notes"
               style={{
@@ -3421,6 +3572,41 @@ export default function Chapter2SloganPage({
             </h1>
           </div>
 
+          {/* Page 5 Top-Right: Circular Narration / Voice Control Button */}
+          <button
+            type="button"
+            className="ch2-circle-btn"
+            onClick={() => toggleConservationNarration(false)}
+            aria-label={isPlayingConservationAudio ? 'Pause Voiceover' : 'Play Voiceover'}
+            title={isPlayingConservationAudio ? 'Pause Voiceover' : 'Play Voiceover'}
+            style={{
+              position: 'absolute',
+              top: '20px',
+              right: '24px',
+              zIndex: 35,
+              width: '46px',
+              height: '46px',
+              borderRadius: '50%',
+              background: isPlayingConservationAudio
+                ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+                : 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+              border: isPlayingConservationAudio
+                ? '2px solid #6EE7B7'
+                : '2px solid rgba(253, 230, 138, 0.85)',
+              boxShadow: isPlayingConservationAudio
+                ? '0 0 20px rgba(16, 185, 129, 0.85), 0 4px 14px rgba(0, 0, 0, 0.5)'
+                : '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              color: '#FFFBEB',
+              transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+            }}
+          >
+            {isPlayingConservationAudio ? <VolumeX size={20} /> : <Volume2 size={20} />}
+          </button>
+
 
 
 
@@ -3543,7 +3729,7 @@ export default function Chapter2SloganPage({
                     {/* Play / Pause Narration Button inside popup */}
                     <button
                       type="button"
-                      onClick={toggleConservationAudio}
+                      onClick={() => toggleConservationNarration(false)}
                       aria-label={isPlayingConservationAudio ? 'Pause Narration' : 'Play Narration'}
                       title={isPlayingConservationAudio ? 'Pause Narration' : 'Play Narration'}
                       style={{
@@ -3666,7 +3852,11 @@ export default function Chapter2SloganPage({
                       textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(110, 231, 183, 0.4)'
                     }}>
                       <span style={{ fontSize: '18px' }}>🌳</span>
-                      <span>Protected by Tradition</span>
+                      <span>
+                        <BioWord index={2} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>Protected</BioWord>{' '}
+                        <BioWord index={3} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>by</BioWord>{' '}
+                        <BioWord index={4} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>Tradition</BioWord>
+                      </span>
                     </div>
                     <div style={{
                       fontSize: '18px',
@@ -3713,7 +3903,12 @@ export default function Chapter2SloganPage({
                       textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(125, 211, 252, 0.4)'
                     }}>
                       <span style={{ fontSize: '18px' }}>🌿</span>
-                      <span>A Home for Wildlife</span>
+                      <span>
+                        <BioWord index={22} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">A</BioWord>{' '}
+                        <BioWord index={23} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">Home</BioWord>{' '}
+                        <BioWord index={24} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">for</BioWord>{' '}
+                        <BioWord index={25} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">Wildlife</BioWord>
+                      </span>
                     </div>
                     <div style={{
                       fontSize: '18px',
@@ -3753,7 +3948,10 @@ export default function Chapter2SloganPage({
                       textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(251, 191, 36, 0.45)'
                     }}>
                       <span style={{ fontSize: '18px' }}>🤝</span>
-                      <span>Community Conservation</span>
+                      <span>
+                        <BioWord index={46} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">Community</BioWord>{' '}
+                        <BioWord index={47} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">Conservation</BioWord>
+                      </span>
                     </div>
                     <div style={{
                       fontSize: '18px',
@@ -3765,16 +3963,16 @@ export default function Chapter2SloganPage({
                       textAlign: 'justify',
                       textJustify: 'inter-word'
                     }}>
-                      <BioWord index={38} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">Local</BioWord>{' '}
-                      <BioWord index={39} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">rules</BioWord>{' '}
-                      <BioWord index={40} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">help</BioWord>{' '}
-                      <BioWord index={41} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">prevent</BioWord>{' '}
-                      <BioWord index={42} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">tree</BioWord>{' '}
-                      <BioWord index={43} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">cutting</BioWord>{' '}
-                      <BioWord index={44} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">and</BioWord>{' '}
-                      <BioWord index={45} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">harm</BioWord>{' '}
-                      <BioWord index={46} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">to</BioWord>{' '}
-                      <BioWord index={47} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">animals,</BioWord>{' '}
+                      <BioWord index={36} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">Local</BioWord>{' '}
+                      <BioWord index={37} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">rules</BioWord>{' '}
+                      <BioWord index={38} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">help</BioWord>{' '}
+                      <BioWord index={39} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">prevent</BioWord>{' '}
+                      <BioWord index={40} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">tree</BioWord>{' '}
+                      <BioWord index={41} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">cutting</BioWord>{' '}
+                      <BioWord index={42} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">and</BioWord>{' '}
+                      <BioWord index={43} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">harm</BioWord>{' '}
+                      <BioWord index={44} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">to</BioWord>{' '}
+                      <BioWord index={45} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">animals,</BioWord>{' '}
                       <BioWord index={48} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">keeping</BioWord>{' '}
                       <BioWord index={49} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">these</BioWord>{' '}
                       <BioWord index={50} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">forests</BioWord>{' '}
@@ -3831,7 +4029,10 @@ export default function Chapter2SloganPage({
           {!showPage5Popup && (
             <button
               type="button"
-              onClick={() => setShowPage5Popup(true)}
+              onClick={() => {
+                setShowPage5Popup(true);
+                toggleConservationNarration(true);
+              }}
               title="Open Sacred Groves Notes"
               aria-label="Open Sacred Groves Notes"
               style={{

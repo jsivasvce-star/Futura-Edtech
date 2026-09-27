@@ -144,7 +144,12 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
       <div style={{ display: showCover ? 'block' : 'none', width: '100%', height: '100%' }}>
         <ChapterCover onOpenBook={() => { setShowCover(false); setShowIntroSpread(true); }} onBack={onBackToDashboard} />
       </div>
-      <div style={{ display: showIntroSpread ? 'block' : 'none', width: '100%', height: '100%' }}>
+      <div style={{ 
+        visibility: showIntroSpread ? 'visible' : 'hidden', 
+        opacity: showIntroSpread ? 1 : 0,
+        pointerEvents: showIntroSpread ? 'auto' : 'none',
+        position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10000 
+      }}>
         <ChapterIntroSpread onContinue={() => setShowIntroSpread(false)} onBack={() => { setShowIntroSpread(false); setShowCover(true); }} />
       </div>
       <div style={{ display: (!showCover && !showIntroSpread) ? 'block' : 'none', width: '100%', height: '100%' }}>
