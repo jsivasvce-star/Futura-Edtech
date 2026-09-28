@@ -18,6 +18,8 @@ import activity26RootObservationTransitionVideo from '../../../../assets/activit
 import activity27PlantObservationTransitionVideo from '../../../../assets/activity27_plant_observation_transition.mp4';
 import heightSpecimensVideo from '../../../../assets/Height.mp4';
 import stemSpecimensVideo from '../../../../assets/nature-of-stem-specimens.mp4';
+import branchesSpecimensVideo from '../../../../assets/appearance-of-branches-specimens.mp4';
+import plantGroupSpecimensVideo from '../../../../assets/name-of-plant-group-specimens.mp4';
 import coverBgImage from '../../../../assets/cover_page_ch2.png';
 import coverBgVideo from '../../../../assets/in_this_video_just_add_those_b (1).mp4';
 import natureGreeneryBg from '../../../../assets/nature_greenery_bg.jpg';
@@ -241,6 +243,10 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
   const heightVideoRef = useRef(null);
   const [isPlayingStemVideo, setIsPlayingStemVideo] = useState(false);
   const stemVideoRef = useRef(null);
+  const [isPlayingBranchesVideo, setIsPlayingBranchesVideo] = useState(false);
+  const branchesVideoRef = useRef(null);
+  const [isPlayingPlantGroupVideo, setIsPlayingPlantGroupVideo] = useState(false);
+  const plantGroupVideoRef = useRef(null);
   const [isSpeaking, setIsSpeaking] = useState(false);
   
   // Quiz state in Tab 10
@@ -1139,13 +1145,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
               playsInline 
               onEnded={() => {
                 setIsPlayingStemVideo(false);
-                if (transitionDirection === 'backward') {
-                  setCurrentStep(transitionSourceStep);
-                  if (transitionSourceSubTab) setVenationSubTab(transitionSourceSubTab);
-                } else {
-                  setCurrentStep(transitionTargetStep);
-                  if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
-                }
+                setIsPlayingBranchesVideo(true);
               }}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
@@ -1187,6 +1187,160 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
               <button 
                 onClick={() => {
                   setIsPlayingStemVideo(false);
+                  setIsPlayingBranchesVideo(true);
+                }}
+                style={{
+                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: '12px',
+                  padding: '12px 32px',
+                  fontSize: '18px',
+                  fontWeight: '800',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                  boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+                }}
+              >
+                Next <ArrowRight size={20} />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {isPlayingBranchesVideo && (
+          <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
+            <video disablePictureInPicture 
+              ref={branchesVideoRef}
+              src={branchesSpecimensVideo} 
+              autoPlay 
+              playsInline 
+              onEnded={() => {
+                setIsPlayingBranchesVideo(false);
+                setIsPlayingPlantGroupVideo(true);
+              }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+            
+            {/* Back / Next buttons */}
+            <div style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '32px'
+            }}>
+              <button 
+                onClick={() => {
+                  setIsPlayingBranchesVideo(false);
+                  setIsPlayingStemVideo(true);
+                }}
+                style={{
+                  background: 'rgba(243, 239, 224, 0.9)',
+                  color: '#1E293B',
+                  border: 'none',
+                  borderRadius: '12px',
+                  padding: '12px 28px',
+                  fontSize: '18px',
+                  fontWeight: '700',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                }}
+              >
+                <ArrowLeft size={20} /> Back
+              </button>
+              
+              <button 
+                onClick={() => {
+                  setIsPlayingBranchesVideo(false);
+                  setIsPlayingPlantGroupVideo(true);
+                }}
+                style={{
+                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: '12px',
+                  padding: '12px 32px',
+                  fontSize: '18px',
+                  fontWeight: '800',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                  boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+                }}
+              >
+                Next <ArrowRight size={20} />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {isPlayingPlantGroupVideo && (
+          <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
+            <video disablePictureInPicture 
+              ref={plantGroupVideoRef}
+              src={plantGroupSpecimensVideo} 
+              autoPlay 
+              playsInline 
+              onEnded={() => {
+                setIsPlayingPlantGroupVideo(false);
+                if (transitionDirection === 'backward') {
+                  setCurrentStep(transitionSourceStep);
+                  if (transitionSourceSubTab) setVenationSubTab(transitionSourceSubTab);
+                } else {
+                  setCurrentStep(transitionTargetStep);
+                  if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
+                }
+              }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+            
+            {/* Back / Next buttons */}
+            <div style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '32px'
+            }}>
+              <button 
+                onClick={() => {
+                  setIsPlayingPlantGroupVideo(false);
+                  setIsPlayingBranchesVideo(true);
+                }}
+                style={{
+                  background: 'rgba(243, 239, 224, 0.9)',
+                  color: '#1E293B',
+                  border: 'none',
+                  borderRadius: '12px',
+                  padding: '12px 28px',
+                  fontSize: '18px',
+                  fontWeight: '700',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                }}
+              >
+                <ArrowLeft size={20} /> Back
+              </button>
+              
+              <button 
+                onClick={() => {
+                  setIsPlayingPlantGroupVideo(false);
                   if (transitionDirection === 'backward') {
                     setCurrentStep(transitionSourceStep);
                     if (transitionSourceSubTab) setVenationSubTab(transitionSourceSubTab);
@@ -1823,7 +1977,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 setTransitionSourceStep(5);
                 setTransitionSourceSubTab(null);
                 setTransitionDirection('backward');
-                setIsPlayingStemVideo(true);
+                setIsPlayingPlantGroupVideo(true);
               }} 
               onGoToDetective={() => {
                 setTransitionTargetStep(6);
