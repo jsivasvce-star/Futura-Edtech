@@ -199,37 +199,6 @@ export default function StandardVideoControlBar({
             )}
           </button>
 
-          {/* Fullscreen Button */}
-          <button
-            onClick={() => {
-              if (onToggleFullscreen) onToggleFullscreen();
-              if (onUserInteraction) onUserInteraction();
-            }}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: '#FFFFFF',
-              cursor: 'pointer',
-              padding: '4px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              outline: 'none',
-              opacity: 0.95,
-              transition: 'opacity 0.15s ease'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
-            onMouseLeave={(e) => e.currentTarget.style.opacity = '0.95'}
-            title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
-            aria-label={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
-          >
-            {isFullscreen ? (
-              <Minimize2 size={19} color="#FFFFFF" />
-            ) : (
-              <Maximize2 size={19} color="#FFFFFF" />
-            )}
-          </button>
-
           {/* Overflow Menu Button */}
           <div style={{ position: 'relative' }} ref={menuRef}>
             <button

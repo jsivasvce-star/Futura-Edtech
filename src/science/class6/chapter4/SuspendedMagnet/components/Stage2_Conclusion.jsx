@@ -29,10 +29,7 @@ export default function Stage2_Conclusion({ onComplete }) {
 
   const [customTransition, setCustomTransition] = useState(null);
 
-  // 1. Deflect sequence (Autospin is disabled per user request):
-  // - Rotate fast in clockwise direction
-  // - Complete ONE FULL ROTATION in anticlockwise slowly (-360°)
-  // - Stop stably in the North-South direction (0°)
+  // Deflect sequence: Natural minor left and right harmonic oscillation settling along North-South axis (0°)
   const handleDeflect = () => {
     if (isSpinning) return;
     setIsSpinning(true);
@@ -41,19 +38,19 @@ export default function Stage2_Conclusion({ onComplete }) {
       ? needleAngle 
       : (Array.isArray(needleAngle) ? needleAngle[needleAngle.length - 1] : 0);
 
-    // Calculate next North-South target angle (exact multiple of 360°)
-    const baseTarget = Math.ceil(current / 360) * 360;
-    const finalNorthSouth = (baseTarget <= current) ? baseTarget + 720 : baseTarget + 360;
-    
-    // Peak clockwise overshoot is exactly one full 360° turn beyond North-South
-    const peakClockwise = finalNorthSouth + 360;
+    // Minor left and right deflections (oscillating within +/- 45 degrees)
+    const deflect1 = 44;   // +44° clockwise swing
+    const deflect2 = -28;  // -28° counter-clockwise swing
+    const deflect3 = 14;   // +14° rebound
+    const deflect4 = -5;   // -5° minor settle
+    const finalNorthSouth = 0; // 0° alignment
 
-    const animDuration = 3.6; // seconds
-    setNeedleAngle([current, peakClockwise, finalNorthSouth]);
+    const animDuration = 2.6; // seconds
+    setNeedleAngle([current, deflect1, deflect2, deflect3, deflect4, finalNorthSouth]);
     setCustomTransition({
       duration: animDuration,
-      times: [0, 0.35, 1],
-      ease: ["easeOut", "easeInOut"]
+      times: [0, 0.28, 0.54, 0.74, 0.88, 1],
+      ease: ["easeOut", "easeInOut", "easeInOut", "easeInOut", "easeOut"]
     });
 
     setTimeout(() => {
@@ -135,35 +132,6 @@ export default function Stage2_Conclusion({ onComplete }) {
             </div>
           </div>
 
-          {/* Fullscreen Button */}
-          <button
-            onClick={toggleFullscreen}
-            title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
-            style={{
-              position: 'absolute',
-              top: '16px',
-              right: '20px',
-              zIndex: 30,
-              background: 'rgba(255, 255, 255, 0.92)',
-              backdropFilter: 'blur(8px)',
-              border: '1px solid rgba(255, 255, 255, 0.8)',
-              borderRadius: '20px',
-              padding: '6px 14px',
-              fontSize: '0.75rem',
-              fontWeight: 800,
-              color: '#0F172A',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              transition: 'all 0.2s ease',
-            }}
-          >
-            {isFullscreen ? <Minimize2 size={15} color="#0F172A" /> : <Maximize2 size={15} color="#0F172A" />}
-            <span>{isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}</span>
-          </button>
-
           {/* Activity 4.7 Exact Compass Assembly with Matching Top Brass Thumb Loop */}
           <div style={{ 
             position: 'relative', 
@@ -211,18 +179,13 @@ export default function Stage2_Conclusion({ onComplete }) {
               </h3>
             </div>
 
-            {/* Bullet Points with Dot Bullets & Increased Font Size */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
+            {/* Bullet Points with Dot Bullets & Formatting */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', marginTop: '0.35rem' }}>
               <div
                 style={{
                   display: 'flex',
                   alignItems: 'flex-start',
-                  gap: '0.85rem',
-                  background: '#FFFFFF',
-                  border: '1.5px solid #CBD5E1',
-                  borderRadius: '16px',
-                  padding: '0.95rem 1.25rem',
-                  boxShadow: '0 2px 8px rgba(23, 59, 95, 0.04)'
+                  gap: '0.85rem'
                 }}
               >
                 <span style={{
@@ -248,12 +211,7 @@ export default function Stage2_Conclusion({ onComplete }) {
                 style={{
                   display: 'flex',
                   alignItems: 'flex-start',
-                  gap: '0.85rem',
-                  background: '#FFFFFF',
-                  border: '1.5px solid #CBD5E1',
-                  borderRadius: '16px',
-                  padding: '0.95rem 1.25rem',
-                  boxShadow: '0 2px 8px rgba(23, 59, 95, 0.04)'
+                  gap: '0.85rem'
                 }}
               >
                 <span style={{
@@ -274,22 +232,25 @@ export default function Stage2_Conclusion({ onComplete }) {
                   The Sun's position provides an East–West reference to verify the magnet's North–South axis.
                 </p>
               </div>
-            </div>
-          </div>
 
-          <div style={{
-            background: 'rgba(255, 255, 255, 0.95)',
-            border: '1.5px solid #CBD5E1',
-            borderRadius: '16px',
-            padding: '0.85rem 1.25rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.85rem'
-          }}>
-            <span style={{ fontSize: '1.65rem' }}>🧭</span>
-            <span style={{ fontSize: '1.35rem', color: '#173B5F', fontWeight: 750, lineHeight: 1.35 }}>
-              This directional property has guided global navigation for centuries.
-            </span>
+              {/* Dedicated Restored Concluding Statement Container Wrapper */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.85rem',
+                marginTop: '0.65rem',
+                background: 'linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%)',
+                border: '1.5px solid #93C5FD',
+                borderRadius: '16px',
+                padding: '0.85rem 1.15rem',
+                boxShadow: '0 4px 12px rgba(37, 99, 235, 0.08)'
+              }}>
+                <span style={{ fontSize: '1.75rem', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.12))' }}>🧭</span>
+                <span style={{ fontSize: '1.35rem', color: '#1E3A8A', fontWeight: 800, lineHeight: 1.38, letterSpacing: '-0.01em' }}>
+                  This directional property has guided global navigation for centuries.
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 

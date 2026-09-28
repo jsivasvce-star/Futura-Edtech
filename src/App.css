@@ -4,3 +4,459 @@
   padding: 0;
   display: block;
 }
+
+/* ═════════════════════════════════════════════════════════════
+   FUTURAX THEME — Matching dashtheme2.png exactly
+   Deep teal lab atmosphere with microscope/beaker background,
+   white cards with colored buttons, premium EdTech feel
+   ═════════════════════════════════════════════════════════════ */
+
+/* ── Global background: science lab atmosphere ── */
+body {
+  background: url('/src/assets/science_lab_bg.jpg') no-repeat center center fixed !important;
+  background-size: cover !important;
+  background-color: #104460 !important; /* fallback */
+  color: #EEFAF0 !important;
+  min-height: 100vh;
+}
+
+/* Override specifically for the Science Lab page to use BG2.png exactly as provided */
+body.science-lab-active {
+  background: url('/src/assets/BG2.png') no-repeat center center fixed !important;
+  background-size: cover !important;
+}
+
+/* Overlay gradient for depth + fog effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(16, 68, 96, 0.2) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Do not apply the overlay gradient on the Science Lab page per user request */
+body.science-lab-active::before {
+  display: none !important;
+}
+
+/* Ensure content stacks above overlay */
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Header — dark teal bar ── */
+.header {
+  background: rgba(16, 48, 72, 0.92) !important;
+  border-bottom: 1px solid rgba(109, 185, 170, 0.25) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25) !important;
+}
+
+.header-title h1 {
+  color: #EEFAF0 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.header-title svg {
+  color: #7534F7 !important;
+}
+
+.header-subtitle {
+  color: rgba(238, 250, 240, 0.65) !important;
+}
+
+/* Breadcrumb text */
+.header span,
+.header div[style*="cursor"] {
+  color: rgba(238, 250, 240, 0.55) !important;
+}
+
+.header div[style*="cursor"] svg {
+  color: rgba(238, 250, 240, 0.5) !important;
+}
+
+.header div[style*="cursor"] span[style*="accent"] {
+  color: #84C5AB !important;
+}
+
+/* ── Typography on dark background ── */
+h2 {
+  color: #EEFAF0 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* ── "Back to Dashboard" pill button ── */
+.back-to-dashboard-btn {
+  background: rgba(16, 48, 72, 0.85) !important;
+  border: 1px solid rgba(109, 185, 170, 0.3) !important;
+  color: #EEFAF0 !important;
+  border-radius: 20px !important;
+  font-weight: 600 !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  transition: all 0.25s ease !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+}
+
+.back-to-dashboard-btn:hover {
+  background: rgba(32, 96, 115, 0.9) !important;
+  border-color: rgba(109, 185, 170, 0.5) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* ── Science Wing Cards — White/cream cards matching dashtheme2 ── */
+.science-wing-card {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  border: 1.5px solid rgba(122, 178, 148, 0.35) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  position: relative !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.science-wing-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18), 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  border-color: rgba(81, 168, 156, 0.5) !important;
+}
+
+/* Card top illustration area */
+.wing-card-illustration {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.wing-card-illust-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wing-card-illustration-green {
+  background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 50%, #A5D6A7 100%);
+}
+
+.wing-card-illustration-blue {
+  background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 50%, #90CAF9 100%);
+}
+
+.wing-card-illustration-purple {
+  background: linear-gradient(135deg, #F3E5F5 0%, #E1BEE7 50%, #CE93D8 100%);
+}
+
+.wing-card-illustration-orange {
+  background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 50%, #FFCC80 100%);
+}
+
+/* Badge label (e.g. "2 CHAPTERS ACTIVE") */
+.wing-card-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 0.3rem 0.85rem;
+  border-bottom-left-radius: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.wing-card-badge-green {
+  background: rgba(41, 127, 79, 0.12);
+  color: #297F4F;
+}
+
+.wing-card-badge-blue {
+  background: rgba(44, 100, 250, 0.1);
+  color: #2C64FA;
+}
+
+.wing-card-badge-orange {
+  background: rgba(236, 127, 22, 0.12);
+  color: #EC7F16;
+}
+
+.wing-card-badge-red {
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+}
+
+/* Card body (text + button area) */
+.wing-card-body {
+  padding: 1.25rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.wing-card-title {
+  margin: 0 !important;
+  font-size: 1.2rem;
+  font-weight: 700 !important;
+  color: #142F5C !important;
+}
+
+.wing-card-desc {
+  font-size: 0.85rem;
+  color: rgba(16, 42, 86, 0.65);
+  margin: 0 !important;
+  line-height: 1.55;
+  flex: 1 !important;
+}
+
+/* Solid filled buttons with unique color per class */
+.wing-card-btn {
+  width: 100% !important;
+  padding: 0.7rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 700 !important;
+  border: none !important;
+  border-radius: 10px !important;
+  color: #fff !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.4rem !important;
+  transition: all 0.25s ease !important;
+  letter-spacing: 0.01em;
+}
+
+.wing-card-btn-green {
+  background: linear-gradient(135deg, #297F4F 0%, #34A853 100%) !important;
+  box-shadow: 0 4px 14px rgba(41, 127, 79, 0.3) !important;
+}
+
+.wing-card-btn-green:hover {
+  background: linear-gradient(135deg, #1E5C34 0%, #297F4F 100%) !important;
+  box-shadow: 0 6px 20px rgba(41, 127, 79, 0.4) !important;
+  transform: translateY(-1px) !important;
+}
+
+.wing-card-btn-dark-green {
+  background: linear-gradient(135deg, #1C5A38 0%, #247A4A 100%) !important;
+  box-shadow: 0 4px 14px rgba(28, 90, 56, 0.35) !important;
+}
+
+.wing-card-btn-dark-green:hover {
+  background: linear-gradient(135deg, #124026 0%, #1C5A38 100%) !important;
+  box-shadow: 0 6px 20px rgba(28, 90, 56, 0.45) !important;
+  transform: translateY(-1px) !important;
+}
+
+.wing-card-btn-blue {
+  background: linear-gradient(135deg, #2C64FA 0%, #4A80FF 100%) !important;
+  box-shadow: 0 4px 14px rgba(44, 100, 250, 0.3) !important;
+}
+
+.wing-card-btn-blue:hover {
+  background: linear-gradient(135deg, #1E4BD4 0%, #2C64FA 100%) !important;
+  box-shadow: 0 6px 20px rgba(44, 100, 250, 0.4) !important;
+  transform: translateY(-1px) !important;
+}
+
+.wing-card-btn-purple {
+  background: linear-gradient(135deg, #7534F7 0%, #9B59FF 100%) !important;
+  box-shadow: 0 4px 14px rgba(117, 52, 247, 0.3) !important;
+}
+
+.wing-card-btn-purple:hover {
+  background: linear-gradient(135deg, #5A1FD4 0%, #7534F7 100%) !important;
+  box-shadow: 0 6px 20px rgba(117, 52, 247, 0.4) !important;
+  transform: translateY(-1px) !important;
+}
+
+.wing-card-btn-orange {
+  background: linear-gradient(135deg, #EC7F16 0%, #F59E42 100%) !important;
+  box-shadow: 0 4px 14px rgba(236, 127, 22, 0.3) !important;
+}
+
+.wing-card-btn-orange:hover {
+  background: linear-gradient(135deg, #CC6B0E 0%, #EC7F16 100%) !important;
+  box-shadow: 0 6px 20px rgba(236, 127, 22, 0.4) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* ── Welcome panel (used on root dashboard) ── */
+.welcome-panel {
+  background: rgba(16, 48, 72, 0.65) !important;
+  border: 1.5px solid rgba(109, 185, 170, 0.35) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.15) !important;
+}
+
+.welcome-panel h3 {
+  color: #EEFAF0 !important;
+}
+
+.welcome-panel p {
+  color: rgba(238, 250, 240, 0.75) !important;
+}
+
+.welcome-panel svg {
+  color: #6DB9AA !important;
+}
+
+/* ── Dashboard cards (root subject selector) ── */
+.dashboard-card {
+  border: none !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18) !important;
+}
+
+.dashboard-card-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 2px solid rgba(122, 178, 148, 0.2);
+}
+
+.dashboard-card-content {
+  padding: 1.5rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1rem !important;
+  flex: 1 !important;
+}
+
+.dashboard-card h3 {
+  margin: 0 !important;
+  font-size: 1.5rem !important;
+  color: #102A56 !important;
+}
+
+.dashboard-card p {
+  color: rgba(16, 42, 86, 0.7) !important;
+  margin: 0 !important;
+  flex: 1 !important;
+}
+
+.dashboard-card-science {
+  border: 1.5px solid rgba(41, 127, 79, 0.3) !important;
+}
+
+.dashboard-card-science button {
+  background: linear-gradient(135deg, #297F4F 0%, #34A853 100%) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 14px rgba(41, 127, 79, 0.25) !important;
+}
+
+.dashboard-card-science button:hover {
+  background: linear-gradient(135deg, #1E5C34 0%, #297F4F 100%) !important;
+}
+
+.dashboard-card-math {
+  border: 1.5px solid rgba(44, 100, 250, 0.3) !important;
+}
+
+.dashboard-card-math button {
+  background: linear-gradient(135deg, #2C64FA 0%, #4A80FF 100%) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 14px rgba(44, 100, 250, 0.25) !important;
+}
+
+.dashboard-card-math button:hover {
+  background: linear-gradient(135deg, #1E4BD4 0%, #2C64FA 100%) !important;
+}
+
+.dashboard-card-social {
+  border: 1.5px solid rgba(117, 52, 247, 0.3) !important;
+}
+
+.dashboard-card-social button {
+  background: linear-gradient(135deg, #7534F7 0%, #9B59FF 100%) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 14px rgba(117, 52, 247, 0.25) !important;
+}
+
+.dashboard-card-social button:hover {
+  background: linear-gradient(135deg, #5A1FD4 0%, #7534F7 100%) !important;
+}
+
+/* ── Glass panel override for cards used on non-themed pages ── */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: 1.5px solid rgba(122, 178, 148, 0.35) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+}
+
+.glass-panel:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.14) !important;
+  border-color: rgba(81, 168, 156, 0.5) !important;
+}
+
+.glass-panel h2,
+.glass-panel h3,
+.glass-panel h4 {
+  color: #102A56 !important;
+}
+
+.glass-panel p,
+.glass-panel span:not([style]) {
+  color: rgba(16, 42, 86, 0.65) !important;
+}
+
+/* Outline buttons on dark bg */
+button.outline {
+  background: transparent !important;
+  border: 1.5px solid rgba(122, 178, 148, 0.6) !important;
+  color: #EEFAF0 !important;
+  border-radius: 10px !important;
+}
+
+button.outline:hover {
+  background: rgba(122, 178, 148, 0.15) !important;
+  border-color: #84C5AB !important;
+}
+
+/* ── Content wrapper ── */
+.content-wrapper {
+  background: transparent !important;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar-track {
+  background: #104460 !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3D917C !important;
+  border-radius: 4px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #51A89C !important;
+}

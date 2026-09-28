@@ -297,6 +297,42 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
+/* Top-Center "Back to Map" Navigation Button */
+.pl-top-back-btn {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: #ffffff;
+  color: #0284c7;
+  border: 1.5px solid #bae6fd;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.12), 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.pl-top-back-btn:hover {
+  background: #f0f9ff;
+  border-color: #0284c7;
+  color: #0369a1;
+  transform: translateX(-50%) translateY(-1px);
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.22);
+}
+
+.pl-top-back-btn:active {
+  transform: translateX(-50%) translateY(0);
+}
+
 /* Hint Toast */
 .pl-hint-toast {
   position: absolute;
@@ -454,6 +490,15 @@
   max-width: 100%;
   margin: 0 auto;
   gap: 12px;
+  transition: gap 0.25s ease;
+}
+
+.pl-cards-row.has-hints {
+  gap: 6px;
+}
+
+.pl-cards-row.has-hints .pl-term-card {
+  width: 180px;
 }
 
 /* Individual Term Card - Significantly Enlarged Hero Sequence Box */
@@ -493,6 +538,31 @@
   box-shadow: none;
 }
 
+/* ─────────────────────────────────────────────────────────────
+   CHAPTER 1.2: REMOVE SQUARE/RECTANGULAR CARD CONTAINERS
+   Remove borders, backgrounds, outlines, and shadows around numbers
+   across all number sequences while preserving exact positions and layout.
+   ───────────────────────────────────────────────────────────── */
+#pattern-lab-experience-root .pl-term-card {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+#pattern-lab-experience-root .pl-term-card.revealed {
+  border: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+#pattern-lab-experience-root .pl-term-card.locked-target {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
 /* Main Sequence Number - Prominently Displayed & Centered Both Vertically & Horizontally */
 .pl-card-number-val {
   font-size: 78px;
@@ -525,9 +595,21 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  width: 26px;
-  height: 24px; /* Target: 22–26 px */
+  width: 28px;
+  height: 26px; /* Target: 22–26 px */
   flex-shrink: 0;
+  animation: plHintPop 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes plHintPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .pl-arc-bridge {
@@ -547,7 +629,7 @@
   font-size: 13px; /* Target: 12–14 px */
   font-weight: 800;
   padding: 2px 7px;
-  border-radius: 5px;
+  border-radius: 6px;
   border: 1.5px solid #7dd3fc;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   white-space: nowrap;
@@ -701,6 +783,23 @@
   align-items: center;
   gap: 10px;
   animation: fadeIn 0.3s ease;
+}
+
+.pl-checkpoint-wrong-feedback-note {
+  font-size: 19px;
+  font-weight: 700;
+  color: #dc2626;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: fadeIn 0.3s ease;
+  line-height: 1.35;
+}
+
+.pl-checkpoint-wrong-feedback-note svg {
+  flex-shrink: 0;
+  color: #ef4444;
 }
 
 .pl-stage-right {
@@ -1136,6 +1235,12 @@
   .pl-cards-row {
     gap: 10px;
   }
+  .pl-cards-row.has-hints {
+    gap: 5px;
+  }
+  .pl-cards-row.has-hints .pl-term-card {
+    width: 160px;
+  }
   .pl-term-card {
     width: 182px;
     height: 260px;
@@ -1163,6 +1268,12 @@
 @media (max-width: 1520px) {
   .pl-cards-row {
     gap: 8px;
+  }
+  .pl-cards-row.has-hints {
+    gap: 4px;
+  }
+  .pl-cards-row.has-hints .pl-term-card {
+    width: 140px;
   }
   .pl-term-card {
     width: 160px;

@@ -1,12 +1,40 @@
-import React, { useState } from 'react';
-import { ArrowLeft, ArrowRight, Compass } from 'lucide-react';
-import PatternLab3D from './PatternLab3D';
+import React, { useState, useRef } from 'react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Class6MathsChapter1Journey from '../chapter1_journey';
 import './cover.css';
 
-export default function Class6MathsChapter1Cover({ onBackToDashboard }) {
+export default function Class6MathsChapter1Cover({ onBackToDashboard, onStartJourney }) {
   const [viewState, setViewState] = useState('cover'); // 'cover' | 'journey'
+  const [isBtnClicked, setIsBtnClicked] = useState(false);
 
+  const videoRef = useRef(null);
+
+  // Seamless video loop ensuring no watermark or static outro is displayed
+  const handleTimeUpdate = () => {
+    if (videoRef.current && videoRef.current.currentTime >= 7.2) {
+      videoRef.current.currentTime = 0;
+    }
+  };
+
+  // START THE JOURNEY Click Interaction -> Navigates ONLY to the existing Chapter Flow page
+  const handleStartJourney = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (isBtnClicked) return;
+    setIsBtnClicked(true);
+
+    setTimeout(() => {
+      if (typeof onStartJourney === 'function') {
+        onStartJourney();
+      } else {
+        setViewState('journey');
+      }
+    }, 180);
+  };
+
+  // ── ROUTE: EXISTING CHAPTER 1 FLOW PAGE (CHAPTER JOURNEY MAP) ──
   if (viewState === 'journey') {
     return (
       <Class6MathsChapter1Journey
@@ -15,100 +43,66 @@ export default function Class6MathsChapter1Cover({ onBackToDashboard }) {
     );
   }
 
+  // ── ROUTE 0: CHAPTER 1 COVER PAGE MATCHING chapter1_new ASSET ──
   return (
-    <div className="chapter1-cover-container">
-      {/* Ambient background glows */}
-      <div className="cover-ambient-bg" />
-      <div className="cover-ambient-glow cover-glow-1" />
-      <div className="cover-ambient-glow cover-glow-2" />
+    <div className="chapter1-video-cover-root" id="chapter1-new-cover-page">
+      {/* ── BACKGROUND VIDEO LAYER (Using chapter1_new_coverpage.mp4) ── */}
+      <div className="cover-video-wrapper">
+        <video
+          ref={videoRef}
+          className="cover-video-media"
+          src="/assets/chapter1_new_coverpage.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          disablePictureInPicture
+          controls={false}
+          controlsList="nodownload noplaybackrate nopictureinpicture"
+          tabIndex={-1}
+          aria-hidden="true"
+          onTimeUpdate={handleTimeUpdate}
+        />
+        {/* Subtle ambient lighting vignette */}
+        <div className="cover-video-vignette" />
+      </div>
 
-      {/* ── LEFT 60%: IMMERSIVE 3D MATHEMATICAL ANIMATION ── */}
-      <section className="cover-left-section">
-        <div className="cover-3d-wrapper">
-          <div className="cover-3d-badge">
-            <Compass size={14} style={{ display: 'inline', marginRight: '6px' }} />
-            Interactive Pattern Studio
-          </div>
-          <PatternLab3D />
-        </div>
-      </section>
-
-      {/* ── RIGHT 40%: CHAPTER IDENTITY & PRIMARY ACTION ── */}
-      <section className="cover-right-section">
-        {/* Subtle Mathematical Board Background Diagrams */}
-        <div className="cover-board-graphics" aria-hidden="true">
-          <svg className="cover-board-svg" viewBox="0 0 600 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* Coordinate Grid & Origin */}
-            <path d="M40 700 L560 700 M500 100 L500 750" stroke="#d97706" strokeWidth="1" strokeOpacity="0.18" />
-            <path d="M100 150 L500 150 M100 300 L500 300 M100 450 L500 450 M100 600 L500 600" stroke="#b45309" strokeWidth="0.8" strokeDasharray="4 6" strokeOpacity="0.12" />
-            
-            {/* Geometric Triangle Construction & Compass Arc */}
-            <polygon points="380,180 520,380 240,380" stroke="#d97706" strokeWidth="1.5" strokeOpacity="0.22" fill="rgba(245, 158, 11, 0.03)" />
-            <circle cx="380" cy="280" r="110" stroke="#b45309" strokeWidth="1" strokeDasharray="3 4" strokeOpacity="0.15" />
-            <path d="M 270,280 A 110,110 0 0,1 490,280" stroke="#ea580c" strokeWidth="1.2" strokeOpacity="0.2" />
-            
-            {/* Inscribed Polygon (Hexagon & Tessellation Lines) */}
-            <polygon points="460,520 520,485 520,415 460,380 400,415 400,485" stroke="#d97706" strokeWidth="1.2" strokeOpacity="0.2" fill="none" />
-            
-            {/* Mathematical Notation & Sequence Formulae */}
-            <text x="440" y="140" fill="#9a3412" fillOpacity="0.25" fontSize="16" fontFamily="monospace" fontWeight="bold">aₙ = a₁ + (n-1)d</text>
-            <text x="420" y="340" fill="#b45309" fillOpacity="0.22" fontSize="20" fontFamily="serif" fontStyle="italic">Σ, π, Δ, θ</text>
-            <text x="120" y="680" fill="#9a3412" fillOpacity="0.2" fontSize="14" fontFamily="monospace">f(n) = f(n-1) + f(n-2)</text>
-            <text x="350" y="640" fill="#d97706" fillOpacity="0.2" fontSize="24" fontFamily="serif">∞</text>
-          </svg>
-        </div>
-
-        {/* Class Badge */}
-        <div className="cover-class-badge">
-          CLASS 6 · MATHEMATICS
-        </div>
-
-        {/* Main Title */}
-        <div className="cover-title-group">
-          <span className="cover-title-patterns">PATTERNS</span>
-          <span className="cover-title-in-maths">IN MATHEMATICS</span>
-        </div>
-
-        {/* Chapter Number */}
-        <div className="cover-ch-badge">
-          CHAPTER 1
-        </div>
-
-        {/* Concise Textbook Keywords */}
-        <div className="cover-keywords">
-          NUMBERS · SEQUENCES · SHAPES · PATTERNS
-        </div>
-
-        {/* Primary Action Button */}
-        <button
-          className="cover-begin-btn"
-          onClick={() => setViewState('journey')}
-        >
-          BEGIN CHAPTER <ArrowRight size={22} className="cover-btn-arrow" />
-        </button>
-
-        {/* Realistic Mathematics Books & Stationery Decorative Accent */}
-        <div className="cover-books-stationery-accent" aria-hidden="true">
-          <div className="accent-book-stack">
-            <div className="accent-book accent-book-1">
-              <span className="accent-book-title">MATH · VI</span>
-            </div>
-            <div className="accent-book accent-book-2">
-              <span className="accent-book-title">GEOMETRY</span>
-            </div>
-          </div>
-          <div className="accent-geometry-tool" />
-        </div>
-      </section>
-
-      {/* ── BOTTOM LEFT BACK BUTTON ── */}
+      {/* ── MINIMAL TOP-LEFT BACK BUTTON ── */}
       <button
-        className="cover-back-btn"
+        type="button"
+        className="cover-top-back-btn"
         onClick={onBackToDashboard}
-        title="Return to Class 6th Mathematics"
+        aria-label="Back to Mathematics Department"
       >
-        <ArrowLeft size={16} /> BACK
+        <ArrowLeft size={16} />
+        <span>Back</span>
       </button>
+
+      {/* ── CENTRE CONTENT CARD (HD Crisp Typography: Large, Bold, Black) ── */}
+      <div className="cover-center-content-card">
+        {/* Main Title: Very Large, Bold, Black */}
+        <h1 className="cover-main-heading">
+          PATTERNS IN MATHEMATICS
+        </h1>
+
+        {/* Subtitle: Large, Bold, Clearly Readable */}
+        <p className="cover-sub-keywords">
+          Number · Pattern · Shapes · Sequences
+        </p>
+
+        {/* Prominent START THE JOURNEY Button */}
+        <button
+          type="button"
+          className={`cover-start-journey-btn ${isBtnClicked ? 'clicked' : ''}`}
+          onClick={handleStartJourney}
+          id="cover-start-the-journey-button"
+          aria-label="Start the Journey into Chapter 1"
+        >
+          <span>START THE JOURNEY</span>
+          <ArrowRight size={20} className="cover-btn-arrow-icon" />
+        </button>
+      </div>
     </div>
   );
 }

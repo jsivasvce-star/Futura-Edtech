@@ -114,24 +114,46 @@
 
 /* ─────────────────────────────────────────────────────────────
    ENLARGED SHAPE PATTERN CARDS (SECTION 1.5 EXCLUSIVE)
-   Approximately 17–18% larger in both width and height:
-   - Width: 204px → 240px (+17.65%)
-   - Height: 290px → 340px (+17.24%)
+   Accommodates visual progression hint connectors between cards:
+   - Width: 218px (clean fit for 6 cards + 5 connectors)
+   - Height: 330px
    - Centered shapes, clean consistent gaps, zero scroll
    ───────────────────────────────────────────────────────────── */
 #shape-patterns-experience-root .pl-cards-row {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 8px;
   width: auto;
   max-width: 100%;
 }
 
+/* ─────────────────────────────────────────────────────────────
+   CHAPTER 1.5: REMOVE SQUARE/RECTANGULAR CARD CONTAINERS
+   Remove borders, backgrounds, outlines, and shadows around shapes
+   across all concepts while preserving exact positions and layout.
+   ───────────────────────────────────────────────────────────── */
 #shape-patterns-experience-root .pl-term-card {
-  width: 240px;
-  height: 340px;
+  width: 218px;
+  height: 330px;
   flex-shrink: 0;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+#shape-patterns-experience-root .pl-term-card.revealed {
+  border: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+#shape-patterns-experience-root .pl-term-card.locked-target {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 #shape-patterns-experience-root .pl-shape-card-inner {
@@ -143,6 +165,91 @@
   width: 100%;
   height: 100%;
   padding: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   CONCEPT-SPECIFIC VISUAL PROGRESSION MARKERS (1.5 SECTION)
+   Subtle +1 progression indicators placed between consecutive shape cards.
+   Visually guides observation of the transformation rule without revealing answers.
+   ───────────────────────────────────────────────────────────── */
+.pl-progression-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 32px;
+  height: 52px;
+  flex-shrink: 0;
+  z-index: 5;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.pl-progression-connector.pending {
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+.pl-progression-connector.revealed {
+  opacity: 1;
+  animation: hintPopIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes hintPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.pl-progression-arrow-line {
+  position: absolute;
+  top: 50%;
+  left: -4px;
+  right: -4px;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(203, 213, 225, 0.4) 0%, rgba(148, 163, 184, 0.8) 50%, rgba(203, 213, 225, 0.4) 100%);
+  z-index: 1;
+}
+
+.pl-progression-badge {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 6px;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  white-space: nowrap;
+  gap: 1px;
+  user-select: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pl-progression-badge:hover {
+  transform: scale(1.08);
+}
+
+.pl-progression-badge-icon {
+  font-size: 9px;
+  line-height: 1;
+  opacity: 0.85;
+}
+
+.pl-progression-badge-text {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1;
 }
 
 
@@ -241,6 +348,38 @@
   animation: shake 0.4s ease;
 }
 
+/* Wrong answer explanation banner in Stage 2 Checkpoint */
+.pl-checkpoint-wrong-feedback-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+  width: 100%;
+  animation: fadeIn 0.2s ease forwards;
+}
+
+.pl-checkpoint-wrong-note {
+  font-size: 15px;
+  font-weight: 700;
+  color: #b91c1c;
+  background: #fef2f2;
+  border: 1.5px solid #fca5a5;
+  padding: 6px 18px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.06);
+  max-width: 960px;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.pl-checkpoint-wrong-note svg {
+  flex-shrink: 0;
+  color: #dc2626;
+}
+
 /* Bottom feedback & action row in Stage 3 */
 .pl-checkpoint-bottom-feedback-row {
   display: flex;
@@ -286,21 +425,39 @@
 /* Responsive safety adjustments for screen widths and heights */
 @media (max-width: 1620px) {
   #shape-patterns-experience-root .pl-term-card {
-    width: 215px;
-    height: 310px;
+    width: 196px;
+    height: 300px;
   }
   #shape-patterns-experience-root .pl-cards-row {
-    gap: 10px;
+    gap: 6px;
+  }
+  .pl-progression-connector {
+    width: 26px;
+  }
+  .pl-progression-badge {
+    padding: 2px 5px;
+  }
+  .pl-progression-badge-text {
+    font-size: 10px;
   }
 }
 
 @media (max-width: 1400px) {
   #shape-patterns-experience-root .pl-term-card {
-    width: 190px;
-    height: 280px;
+    width: 170px;
+    height: 265px;
   }
   #shape-patterns-experience-root .pl-cards-row {
-    gap: 8px;
+    gap: 4px;
+  }
+  .pl-progression-connector {
+    width: 22px;
+  }
+  .pl-progression-badge {
+    padding: 2px 4px;
+  }
+  .pl-progression-badge-text {
+    font-size: 9px;
   }
 }
 

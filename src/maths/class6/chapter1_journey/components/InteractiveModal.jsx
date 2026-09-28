@@ -440,7 +440,7 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
           <button
             type="button"
             onClick={onClose}
-            title="Back to Main Page"
+            title="Back to Map"
             style={{
               flexShrink: 0,
               display: 'inline-flex',
@@ -450,30 +450,28 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
               minHeight: '52px',
               fontSize: '1.05rem',
               fontWeight: 900,
-              color: '#050b14',
-              border: '2px solid #94a3b8',
+              color: '#ffffff',
+              border: '1.5px solid rgba(254, 243, 199, 0.5)',
               borderRadius: '12px',
-              background: '#ffffff',
+              background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
               cursor: 'pointer',
               boxSizing: 'border-box',
               transition: 'all 0.2s ease',
-              boxShadow: '0 2px 6px rgba(0, 0, 0, 0.05)',
+              boxShadow: '0 4px 14px rgba(217, 119, 6, 0.4)',
               fontFamily: '"Times New Roman", Times, Georgia, serif',
               whiteSpace: 'nowrap'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = '#f59e0b';
-              e.currentTarget.style.color = '#d97706';
+              e.currentTarget.style.boxShadow = '0 6px 20px rgba(217, 119, 6, 0.6)';
               e.currentTarget.style.transform = 'translateX(-2px)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = '#94a3b8';
-              e.currentTarget.style.color = '#050b14';
+              e.currentTarget.style.boxShadow = '0 4px 14px rgba(217, 119, 6, 0.4)';
               e.currentTarget.style.transform = 'translateX(0)';
             }}
           >
             <ArrowLeft size={18} />
-            <span>Back to Main Page</span>
+            <span>Back to Map</span>
           </button>
 
           <nav
@@ -2205,6 +2203,50 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
             );
           })}
         </p>
+
+        <button
+          type="button"
+          onClick={() => {
+            if (currentSlide === 0) {
+              if (onClose) onClose();
+            } else {
+              setCurrentSlide((prev) => prev - 1);
+            }
+          }}
+          style={{
+            position: 'absolute',
+            left: '24px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            zIndex: 10,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            padding: '10px 22px',
+            background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+            color: '#ffffff',
+            fontSize: '0.95rem',
+            fontWeight: '800',
+            fontFamily: '"Space Grotesk", sans-serif',
+            border: '1.5px solid rgba(254, 243, 199, 0.4)',
+            borderRadius: '12px',
+            cursor: 'pointer',
+            boxShadow: '0 8px 24px rgba(217, 119, 6, 0.45), 0 2px 6px rgba(0,0,0,0.3)',
+            transition: 'all 0.2s ease',
+            whiteSpace: 'nowrap',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(calc(-50% - 2px)) scale(1.02)';
+            e.currentTarget.style.boxShadow = '0 12px 28px rgba(217, 119, 6, 0.6), 0 4px 10px rgba(0,0,0,0.4)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+            e.currentTarget.style.boxShadow = '0 8px 24px rgba(217, 119, 6, 0.45), 0 2px 6px rgba(0,0,0,0.3)';
+          }}
+        >
+          <ArrowLeft size={16} />
+          <span>{currentSlide === 0 ? 'Back to Map' : 'Back'}</span>
+        </button>
 
         <button
           type="button"

@@ -97,36 +97,6 @@ export default function Stage3_Explore({ onComplete, onNext }) {
             polesMatch={polesMatch}
             environmentMode={environmentMode}
           />
-
-          {/* Fullscreen Button */}
-          <button
-            onClick={toggleFullscreen}
-            title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
-            style={{
-              position: 'absolute',
-              top: 14,
-              right: 14,
-              zIndex: 40,
-              background: 'rgba(255, 255, 255, 0.92)',
-              border: '1.5px solid rgba(255, 255, 255, 0.85)',
-              borderRadius: '12px',
-              padding: '6px 12px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '5px',
-              color: '#0F172A',
-              fontSize: '0.85rem',
-              fontWeight: 800,
-              backdropFilter: 'blur(8px)',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)',
-              transition: 'all 0.2s ease',
-            }}
-          >
-            {isFullscreen ? <Minimize2 size={15} color="#0F172A" /> : <Maximize2 size={15} color="#0F172A" />}
-            <span>{isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}</span>
-          </button>
         </div>
       </div>
 
@@ -351,7 +321,7 @@ export default function Stage3_Explore({ onComplete, onNext }) {
             </div>
           </div>
 
-          {/* Bottom Primary CTA: Proceed to Quiz Button (Dark Blue #0A1931 with subtle shimmer) */}
+          {/* Bottom Primary CTA: Proceed to Quiz Button (Consistent Dark Blue) */}
           <button 
             onClick={handleFinish} 
             className="navy-btn"
@@ -360,12 +330,14 @@ export default function Stage3_Explore({ onComplete, onNext }) {
               padding: "0.85rem 1.4rem", 
               fontSize: "22px", 
               fontWeight: 900, 
-              borderRadius: "14px", 
+              borderRadius: "16px", 
               display: "flex", 
               justifyContent: "space-between", 
               alignItems: "center", 
-              border: "1.5px solid #1E3A8A", 
-              boxShadow: "0 4px 14px rgba(10, 25, 49, 0.35)", 
+              background: "linear-gradient(135deg, #214A70 0%, #173B5F 100%)",
+              border: "1.5px solid #2B6CB0", 
+              color: "#FFFFFF",
+              boxShadow: "0 4px 14px rgba(23, 59, 95, 0.35)", 
               cursor: "pointer", 
               transition: "all 0.2s ease" 
             }} 
@@ -402,30 +374,30 @@ export default function Stage3_Explore({ onComplete, onNext }) {
               transition={{ type: 'spring', bounce: 0.45, duration: 0.55 }}
               style={{
                 background: '#FFFFFF',
-                border: '1.5px solid #E2E8F0',
-                borderRadius: '28px',
-                padding: '3rem 3.2rem',
-                maxWidth: '620px',
+                border: '2px solid #E2E8F0',
+                borderRadius: '32px',
+                padding: '3.2rem 3.5rem',
+                maxWidth: '680px',
                 width: '92%',
-                boxShadow: '0 20px 50px rgba(15, 23, 42, 0.25)',
+                boxShadow: '0 24px 60px rgba(15, 23, 42, 0.25)',
                 textAlign: 'center',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                gap: '1.45rem',
+                gap: '1.6rem',
                 fontFamily: 'system-ui, -apple-system, sans-serif'
               }}
             >
               <div style={{ 
-                width: '84px', 
-                height: '84px', 
+                width: '92px', 
+                height: '92px', 
                 background: actionPopup === 'same' ? '#DCFCE7' : '#FEE2E2', 
                 borderRadius: '50%', 
                 display: 'flex', 
                 alignItems: 'center', 
                 justifyContent: 'center', 
-                border: `2.5px solid ${actionPopup === 'same' ? '#86EFAC' : '#FECACA'}`,
-                fontSize: '2.6rem'
+                border: `3px solid ${actionPopup === 'same' ? '#86EFAC' : '#FECACA'}`,
+                fontSize: '3rem'
               }}>
                 {actionPopup === 'same' ? '🟢' : '💥'}
               </div>
@@ -433,7 +405,7 @@ export default function Stage3_Explore({ onComplete, onNext }) {
               <h3 style={{ 
                 margin: 0, 
                 color: actionPopup === 'same' ? '#064E3B' : '#991B1B', 
-                fontSize: '2rem', 
+                fontSize: '2.4rem', 
                 fontWeight: 900 
               }}>
                 {actionPopup === 'same' ? 'Same Poles (Repulsion)' : 'Different Poles (Attraction)'}
@@ -442,9 +414,9 @@ export default function Stage3_Explore({ onComplete, onNext }) {
               <p style={{ 
                 margin: 0, 
                 color: '#334155', 
-                fontSize: '1.4rem', 
-                fontWeight: 700, 
-                lineHeight: 1.65 
+                fontSize: '1.65rem', 
+                fontWeight: 750, 
+                lineHeight: 1.55 
               }}>
                 {actionPopup === 'same' 
                   ? '🟢 SAME POLES: Flights approach from left & right — Like poles (N + N) repel, executing left & right cross-turns!' 
@@ -456,17 +428,17 @@ export default function Stage3_Explore({ onComplete, onNext }) {
                 className="gold-glow-btn"
                 style={{
                   marginTop: '0.6rem',
-                  padding: '1rem 3.8rem',
+                  padding: '1.15rem 4rem',
                   borderRadius: '25px',
-                  fontSize: '1.3rem',
+                  fontSize: '1.5rem',
                   fontWeight: 900,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.6rem'
+                  gap: '0.65rem'
                 }}
               >
-                OK <CheckCircle2 size={22} color="#FFFFFF" />
+                OK <CheckCircle2 size={24} color="#FFFFFF" />
               </button>
             </motion.div>
           </motion.div>

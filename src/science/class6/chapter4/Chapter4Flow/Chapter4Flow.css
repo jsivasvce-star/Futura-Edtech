@@ -1044,8 +1044,49 @@ body:has(.nautical-map-viewport) .header {
 }
 
 /* =========================================================================
-   BOTTOM NAVIGATION BAR: <- BACK and NEXT -> (Polished Leather & Deep Amber Enamel)
+   BOTTOM NAVIGATION BAR: <- BACK and NEXT ->
+   - Next Button: Golden-orange with continuous luminous shimmer effect
+   - Back Button: Dark-blue with continuous luminous shimmer effect
    ========================================================================= */
+
+@keyframes flow-gentle-shimmer {
+  0% {
+    transform: translateX(-150%) skewX(-25deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  45% {
+    opacity: 0.85;
+  }
+  60%, 100% {
+    transform: translateX(250%) skewX(-25deg);
+    opacity: 0;
+  }
+}
+
+@keyframes flow-gold-glow {
+  0%, 100% {
+    box-shadow: 0 4px 16px rgba(245, 158, 11, 0.35), 0 0 12px rgba(251, 191, 36, 0.25);
+    border-color: rgba(254, 240, 138, 0.85);
+  }
+  50% {
+    box-shadow: 0 6px 22px rgba(245, 158, 11, 0.55), 0 0 20px rgba(251, 191, 36, 0.45);
+    border-color: rgba(255, 255, 255, 0.95);
+  }
+}
+
+@keyframes flow-navy-glow {
+  0%, 100% {
+    box-shadow: 0 4px 16px rgba(23, 59, 95, 0.45), 0 0 12px rgba(56, 189, 248, 0.25);
+    border-color: rgba(147, 197, 253, 0.75);
+  }
+  50% {
+    box-shadow: 0 6px 22px rgba(23, 59, 95, 0.65), 0 0 20px rgba(56, 189, 248, 0.45);
+    border-color: rgba(191, 219, 254, 0.95);
+  }
+}
 
 .flow-bottom-nav {
   position: absolute;
@@ -1060,59 +1101,88 @@ body:has(.nautical-map-viewport) .header {
 }
 
 .flow-nav-btn {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
   padding: clamp(0.44rem, 0.85vh, 0.62rem) clamp(1.4rem, 1.8vw, 2.2rem);
   border-radius: 999px;
-  border: 1.5px solid #173B5F;
-  background: linear-gradient(
-    140deg, 
-    #173B5F 0%, 
-    #5A2408 35%, 
-    #3D1704 70%, 
-    #2A0E02 100%
-  );
-  color: #EAF2F6;
+  color: #FFFFFF;
   font-family: var(--font-sans);
   font-weight: 900;
   font-size: clamp(0.82rem, 0.92vw, 1.05rem);
   letter-spacing: 0.09em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 
-    0 6px 18px rgba(25, 10, 3, 0.65),
-    0 2px 4px rgba(0, 0, 0, 0.4),
-    inset 0 1px 1px rgba(255, 230, 160, 0.45),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.5);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s ease, background 0.22s ease, border-color 0.22s ease;
 }
 
-.flow-nav-btn:hover {
-  transform: translateY(-2px) scale(1.03);
-  border-color: #214A70;
+.flow-nav-btn::after {
+  content: '';
+  position: absolute;
+  top: -70%;
+  left: 0;
+  width: 50%;
+  height: 240%;
   background: linear-gradient(
-    140deg, 
-    #173B5F 0%, 
-    #173B5F 35%, 
-    #4A1A05 70%, 
-    #331202 100%
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.65) 50%,
+    rgba(255, 255, 255, 0) 100%
   );
-  color: #F3F7F9;
-  box-shadow: 
-    0 8px 24px rgba(35, 15, 5, 0.75),
-    0 0 18px rgba(217, 119, 6, 0.45),
-    inset 0 1px 2px rgba(255, 240, 190, 0.6);
+  animation: flow-gentle-shimmer 3.8s infinite ease-in-out;
+  pointer-events: none;
+  z-index: 2;
 }
 
-.flow-nav-btn:active {
+/* Dark-Blue Shimmer Button (BACK) */
+.flow-nav-btn.back-btn {
+  border: 1.6px solid rgba(147, 197, 253, 0.75);
+  background: linear-gradient(135deg, #214A70 0%, #173B5F 50%, #0F2A4A 100%);
+  animation: flow-navy-glow 3.5s infinite ease-in-out;
+}
+
+.flow-nav-btn.back-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  border-color: #93C5FD;
+  background: linear-gradient(135deg, #2B5D8C 0%, #1E466F 50%, #133355 100%);
+  box-shadow: 0 8px 24px rgba(23, 59, 95, 0.7), 0 0 20px rgba(56, 189, 248, 0.45);
+}
+
+.flow-nav-btn.back-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Golden-Orange Shimmer Button (NEXT) */
+.flow-nav-btn.next-btn {
+  border: 1.6px solid rgba(254, 240, 138, 0.85);
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #B45309 100%);
+  animation: flow-gold-glow 3.2s infinite ease-in-out;
+}
+
+.flow-nav-btn.next-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  border-color: #FEF08A;
+  background: linear-gradient(135deg, #FBBF24 0%, #EA580C 50%, #C2410C 100%);
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.65), 0 0 22px rgba(251, 191, 36, 0.55);
+}
+
+.flow-nav-btn.next-btn:active {
   transform: translateY(0) scale(0.98);
 }
 
 .flow-nav-icon {
   stroke-width: 2.8px;
-  color: #214A70;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+  color: #FFFFFF;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+  position: relative;
+  z-index: 1;
+}
+
+.flow-nav-btn span {
+  position: relative;
+  z-index: 1;
 }
 
