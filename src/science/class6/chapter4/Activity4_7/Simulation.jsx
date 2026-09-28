@@ -873,36 +873,6 @@ export default function Simulation({ onComplete, onNext }) {
             boxShadow: 'inset 0 0 70px rgba(0,0,0,0.5)'
           }}
         >
-          {/* Fullscreen Button */}
-          <button
-            onClick={toggleFullscreen}
-            title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
-            style={{
-              position: 'absolute',
-              top: '1rem',
-              right: '1rem',
-              zIndex: 30,
-              background: 'rgba(255, 255, 255, 0.92)',
-              border: '1.5px solid rgba(255, 255, 255, 0.85)',
-              borderRadius: '14px',
-              padding: '0.4rem 0.85rem',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '6px',
-              color: '#0F172A',
-              fontSize: '0.78rem',
-              fontWeight: 800,
-              backdropFilter: 'blur(8px)',
-              boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
-              transition: 'all 0.2s ease',
-            }}
-          >
-            {isFullscreen ? <Minimize2 size={15} color="#0F172A" /> : <Maximize2 size={15} color="#0F172A" />}
-            <span>{isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}</span>
-          </button>
-
           {/* 1. Vintage Wooden Study Desk Background for Crystal Glass */}
           <div
             style={{

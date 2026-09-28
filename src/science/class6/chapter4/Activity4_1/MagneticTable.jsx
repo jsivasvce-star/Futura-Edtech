@@ -18,7 +18,7 @@ import {
   Zap 
 } from 'lucide-react';
 import './Activity4_1.css';
-import ch4scannerBg from '../../../../assets/ch4scanner.png';
+import ch4scannerBg from '../../../../assets/CH4scanner copy.png';
 import ch4clips from '../../../../assets/ch4clips.png';
 import ch4pens from '../../../../assets/ch4pens.png';
 import ch4ruler from '../../../../assets/ch4ruler.png';

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Hammer, HelpCircle, Compass, ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
+import { Hammer, HelpCircle, Compass, ArrowLeft, ArrowRight, Sparkles, Magnet } from 'lucide-react';
+import Stage1_MagneticCars from './components/Stage1_MagneticCars';
 import Stage1_Build from './components/Stage1_Build';
 import Stage3_Explore from './components/Stage3_Explore';
 import Stage4_Quiz from './components/Stage4_Quiz';
@@ -8,34 +9,43 @@ import DidYouKnow from './DidYouKnow';
 import './MagnetInteraction.css';
 
 const STEPS_NAV = [
-  { id: 'build', name: '1. Build', icon: Hammer },
-  { id: 'explore', name: '2. Explore', icon: Compass },
-  { id: 'quiz', name: '3. Quiz', icon: HelpCircle },
-  { id: 'didyouknow', name: '4. Did You Know?', icon: Sparkles }
+  { id: 'cars', name: '1. Magnetic Cars', icon: Magnet },
+  { id: 'build', name: '2. Build', icon: Hammer },
+  { id: 'explore', name: '3. Explore', icon: Compass },
+  { id: 'quiz', name: '4. Quiz', icon: HelpCircle },
+  { id: 'didyouknow', name: '5. Did You Know?', icon: Sparkles }
 ];
 
 export default function MagnetInteractionActivity({ onBackToDashboard, onComplete }) {
   const [stepIndex, setStepIndex] = useState(0);
+  const [carsMode, setCarsMode] = useState('same'); // 'same' | 'different'
+  const [animTrigger, setAnimTrigger] = useState(0);
   const [progress, setProgress] = useState({
+    cars: false,
     build: false,
     explore: false,
     quiz: false,
     didyouknow: false
   });
 
+  const handleStageCarsComplete = () => {
+    setProgress(prev => ({ ...prev, cars: true }));
+    setStepIndex(1);
+  };
+
   const handleStage1Complete = () => {
     setProgress(prev => ({ ...prev, build: true }));
-    setStepIndex(1);
+    setStepIndex(2);
   };
 
   const handleStage3Complete = () => {
     setProgress(prev => ({ ...prev, explore: true }));
-    setStepIndex(2);
+    setStepIndex(3);
   };
 
   const handleStage4Complete = () => {
     setProgress(prev => ({ ...prev, quiz: true }));
-    setStepIndex(3);
+    setStepIndex(4);
   };
 
   const handleDidYouKnowComplete = () => {
@@ -107,16 +117,25 @@ export default function MagnetInteractionActivity({ onBackToDashboard, onComplet
             style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
           >
             {stepIndex === 0 && (
-              <Stage1_Build onComplete={handleStage1Complete} onNext={() => setStepIndex(1)} />
+              <Stage1_MagneticCars 
+                carsMode={carsMode} 
+                animTrigger={animTrigger}
+                onModeChange={setCarsMode}
+                onComplete={handleStageCarsComplete} 
+                onNext={() => setStepIndex(1)} 
+              />
             )}
             {stepIndex === 1 && (
-              <Stage3_Explore onComplete={handleStage3Complete} onNext={() => setStepIndex(2)} />
+              <Stage1_Build onComplete={handleStage1Complete} onNext={() => setStepIndex(2)} />
             )}
             {stepIndex === 2 && (
-              <Stage4_Quiz onComplete={handleStage4Complete} />
+              <Stage3_Explore onComplete={handleStage3Complete} onNext={() => setStepIndex(3)} />
             )}
             {stepIndex === 3 && (
-              <DidYouKnow onComplete={handleDidYouKnowComplete} onBackToQuiz={() => setStepIndex(2)} />
+              <Stage4_Quiz onComplete={handleStage4Complete} />
+            )}
+            {stepIndex === 4 && (
+              <DidYouKnow onComplete={handleDidYouKnowComplete} onBackToQuiz={() => setStepIndex(3)} />
             )}
           </motion.div>
         </AnimatePresence>
@@ -165,20 +184,67 @@ export default function MagnetInteractionActivity({ onBackToDashboard, onComplet
           <ArrowLeft size={20} color="#FFFFFF" /> Back
         </button>
 
-        {/* Central Progress indicator - Step Badge only */}
+        {/* Central Controls: Mode Buttons (Same Pole / Different on Step 1) + Step Badge */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: '1.1rem',
-          fontWeight: 900
+          gap: '1rem'
         }}>
+          {stepIndex === 0 && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              {/* Same Pole Button */}
+              <button
+                onClick={() => {
+                  setCarsMode('same');
+                  setAnimTrigger(prev => prev + 1);
+                }}
+                className={carsMode === 'same' ? 'gold-glow-btn' : 'navy-btn'}
+                style={{
+                  padding: '0.55rem 1.5rem',
+                  fontSize: '1rem',
+                  fontWeight: 900,
+                  borderRadius: '20px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  border: carsMode === 'same' ? '1.5px solid #FCD34D' : '1.5px solid #2B6CB0',
+                  boxShadow: carsMode === 'same' ? '0 4px 14px rgba(217, 119, 6, 0.45)' : 'none'
+                }}
+              >
+                Same Pole
+              </button>
+
+              {/* Different Pole Button */}
+              <button
+                onClick={() => {
+                  setCarsMode('different');
+                  setAnimTrigger(prev => prev + 1);
+                }}
+                className={carsMode === 'different' ? 'gold-glow-btn' : 'navy-btn'}
+                style={{
+                  padding: '0.55rem 1.5rem',
+                  fontSize: '1rem',
+                  fontWeight: 900,
+                  borderRadius: '20px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  border: carsMode === 'different' ? '1.5px solid #FCD34D' : '1.5px solid #2B6CB0',
+                  boxShadow: carsMode === 'different' ? '0 4px 14px rgba(217, 119, 6, 0.45)' : 'none'
+                }}
+              >
+                Different
+              </button>
+            </div>
+          )}
+
           <span style={{
             background: '#ECFDF5',
             padding: '0.35rem 1.25rem',
             borderRadius: '16px',
             border: '1.5px solid #A7F3D0',
             color: '#065F46',
+            fontWeight: 900,
+            fontSize: '1.1rem',
             boxShadow: '0 2px 6px rgba(6, 95, 70, 0.08)'
           }}>
             Step {stepIndex + 1} of {STEPS_NAV.length}

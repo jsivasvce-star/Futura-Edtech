@@ -12,8 +12,8 @@ function SteelSewingNeedle3D() {
   return (
     <group position={[0, 0.24, 0]} scale={[0.88, 0.88, 0.88]}>
       {/* 1. Main Stainless Steel Silver Needle Shaft */}
-      <mesh position={[0, 0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow receiveShadow>
-        <cylinderGeometry args={[0.13, 0.13, 9.4, 32]} />
+      <mesh position={[-0.2, 0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow receiveShadow>
+        <cylinderGeometry args={[0.13, 0.13, 9.8, 32]} />
         <meshStandardMaterial
           color="#E2E8F0"
           metalness={0.98}
@@ -23,12 +23,12 @@ function SteelSewingNeedle3D() {
       </mesh>
 
       {/* Top Specular Sheen Strip along needle length */}
-      <mesh position={[0, 0.125, 0.04]} rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.015, 0.015, 9.2, 16]} />
+      <mesh position={[-0.2, 0.125, 0.04]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.015, 0.015, 9.6, 16]} />
         <meshBasicMaterial color="#FFFFFF" opacity={0.85} transparent />
       </mesh>
 
-      {/* 2. Sharp Tapered Needle Point (Right End / Finish) */}
+      {/* 2. Sharp Tapered Needle Point (Right End / Finish / Nib) */}
       <mesh position={[5.2, 0, 0]} rotation={[0, 0, -Math.PI / 2]} castShadow>
         <coneGeometry args={[0.13, 1.05, 32]} />
         <meshStandardMaterial
@@ -39,33 +39,15 @@ function SteelSewingNeedle3D() {
         />
       </mesh>
 
-      {/* 3. Needle Eyelet Collar / Transition Neck (Left End / Start) */}
-      <mesh position={[-4.7, 0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
-        <cylinderGeometry args={[0.16, 0.13, 0.45, 32]} />
+      {/* 3. Smooth Rounded Back End (Left End / Straight Sleek End - No Ring/Eyelet) */}
+      <mesh position={[-5.1, 0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
+        <sphereGeometry args={[0.13, 16, 16]} />
         <meshStandardMaterial
           color="#D4D4D8"
           metalness={0.98}
           roughness={0.14}
         />
       </mesh>
-
-      {/* 4. Elongated Hollow Loop Eyelet with Inner Slot */}
-      <group position={[-5.32, 0, 0]} scale={[1.55, 1.0, 1.0]}>
-        {/* Outer Loop Torus Ring */}
-        <mesh rotation={[Math.PI / 2, 0, 0]} castShadow>
-          <torusGeometry args={[0.26, 0.058, 20, 36]} />
-          <meshStandardMaterial
-            color="#E2E8F0"
-            metalness={0.98}
-            roughness={0.12}
-          />
-        </mesh>
-        {/* Inner Through-Hole Depth */}
-        <mesh rotation={[Math.PI / 2, 0, 0]}>
-          <cylinderGeometry args={[0.20, 0.20, 0.08, 24]} />
-          <meshBasicMaterial color="#FFFFFF" opacity={0.15} transparent />
-        </mesh>
-      </group>
     </group>
   );
 }
@@ -81,7 +63,7 @@ function BarMagnet3D({ strokeProgress, isAutoStroking }) {
     if (isAutoStroking) {
       const t = strokeProgress % 1;
       if (t < 0.72) {
-        // Smooth linear stroke along the needle: Start (Eye, Left, -4.8) -> Finish (Point, Right, +4.8)
+        // Smooth linear stroke along the needle: Start (Left, -4.8) -> Finish (Point, Right, +4.8)
         const p = t / 0.72;
         magnetRef.current.position.x = -4.8 + p * 9.6;
         magnetRef.current.position.y = 1.25;
@@ -141,7 +123,7 @@ function BarMagnet3D({ strokeProgress, isAutoStroking }) {
 }
 
 // ---------------------------------------------------------
-// 3. Realistic Inward-Shifted Iron Filings Accumulation (Image Reference Style)
+// 3. Realistic Inward-Shifted Iron Filings Accumulation (Left Intact, Right at Nib)
 // ---------------------------------------------------------
 function NeedleFilings3D({ isTesting, isAttracted }) {
   const count = 1800;
@@ -161,7 +143,7 @@ function NeedleFilings3D({ isTesting, isAttracted }) {
       const randRestZ = (Math.random() - 0.5) * 5.0;
 
       if (clusterRoll < 0.46) {
-        // 1. Shifted Inward along shaft from Eyelet loop (around x = -3.5 to -4.2, matching image)
+        // 1. Left Side Cluster (Intact as requested)
         const u = Math.random();
         const baseAngle = Math.random() * Math.PI * 2;
         const spreadX = -3.85 + (Math.random() - 0.5) * 0.75;
@@ -176,18 +158,22 @@ function NeedleFilings3D({ isTesting, isAttracted }) {
         targetRotX = baseAngle + (Math.random() - 0.5) * 0.4;
         targetRotY = (Math.random() - 0.5) * 0.5;
       } else if (clusterRoll < 0.92) {
-        // 2. Shifted Inward along shaft before the sharp tip taper (around x = 3.6 to 4.3, matching image)
+        // 2. Right Side: Densely concentrated and clustered around the sharp needle nib / point
         const u = Math.random();
         const baseAngle = Math.random() * Math.PI * 2;
-        const spreadX = 3.95 + (Math.random() - 0.5) * 0.75;
-        const radialDist = 0.13 + Math.pow(u, 1.6) * 0.52;
+        // Point nib in world space is centered around x = 4.4 to 5.1
+        const nibProgress = Math.pow(Math.random(), 0.7); // bias toward the sharp point
+        const spreadX = 4.35 + nibProgress * 0.75; // from 4.35 to 5.10
+        // Radial distribution narrows toward the sharp apex
+        const taperFactor = 1.0 - (spreadX - 4.35) / 0.85 * 0.5;
+        const radialDist = (0.08 + Math.pow(u, 1.4) * 0.42) * taperFactor;
 
         targetX = spreadX;
         targetY = 0.24 + Math.sin(baseAngle) * radialDist;
         targetZ = Math.cos(baseAngle) * radialDist * 0.95;
 
-        // Bristling spike orientation outwards from needle surface
-        targetRotZ = (Math.random() - 0.5) * 0.9;
+        // Bristling spike magnetic tuft fanning outward from the sharp tip
+        targetRotZ = -0.4 + (Math.random() - 0.5) * 0.8;
         targetRotX = baseAngle + (Math.random() - 0.5) * 0.4;
         targetRotY = (Math.random() - 0.5) * 0.5;
       } else {
@@ -449,35 +435,6 @@ export default function Stage1_Magnetize({ onComplete }) {
               Magnetize the needle
             </span>
           </div>
-
-          {/* Top Right Fullscreen Button mirroring Image 1 */}
-          <button
-            onClick={toggleFullscreen}
-            title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
-            style={{
-              position: 'absolute',
-              top: '18px',
-              right: '20px',
-              zIndex: 30,
-              background: 'rgba(255, 255, 255, 0.92)',
-              backdropFilter: 'blur(8px)',
-              border: '1px solid rgba(255, 255, 255, 0.8)',
-              borderRadius: '20px',
-              padding: '6px 14px',
-              fontSize: '0.85rem',
-              fontWeight: 800,
-              color: '#0F172A',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              transition: 'all 0.2s ease',
-            }}
-          >
-            {isFullscreen ? <Minimize2 size={16} color="#0F172A" /> : <Maximize2 size={16} color="#0F172A" />}
-            <span>{isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}</span>
-          </button>
 
           {/* Bottom Floating Banner Card mirroring Image 1: "Stroke -> Lift -> Return | Lift the magnet away before going back" */}
           <div style={{

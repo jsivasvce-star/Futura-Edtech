@@ -310,47 +310,35 @@ export default function Chapter4Quiz({ onComplete }) {
     return (
       <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: 'transparent' }}>
         <div style={{ 
-          maxWidth: '520px', 
-          width: '90%', 
-          padding: '2.5rem 3rem', 
+          maxWidth: '620px', 
+          width: '92%', 
+          padding: '3rem 3.5rem', 
           textAlign: 'center', 
           background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
-          borderRadius: '30px', 
-          border: '1.5px solid #E2E8F0',
-          boxShadow: '0 12px 40px rgba(217, 119, 6, 0.12)',
+          borderRadius: '32px', 
+          border: '2px solid #E2E8F0',
+          boxShadow: '0 16px 48px rgba(23, 59, 95, 0.16)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '1.25rem'
+          gap: '1.6rem'
         }}>
-          <h2 style={{ fontSize: '1.8rem', margin: 0, color: '#1e293b', fontWeight: 800 }}>Quiz Completed!</h2>
+          <h2 style={{ fontSize: '2.5rem', margin: 0, color: '#173B5F', fontWeight: 900, letterSpacing: '-0.01em' }}>🎉 Quiz Completed!</h2>
           
-          <p style={{ color: '#475569', margin: 0, fontSize: '1.2rem', fontWeight: 600 }}>
-            You scored {score} out of {quizData.length}
+          <p style={{ color: '#214A70', margin: 0, fontSize: '1.65rem', fontWeight: 750, lineHeight: 1.4 }}>
+            You scored <strong style={{ color: '#0284C7', fontWeight: 900 }}>{score}</strong> out of <strong style={{ color: '#173B5F', fontWeight: 900 }}>{quizData.length}</strong>
           </p>
 
           <button
             onClick={() => { if (onComplete) onComplete(score); }}
+            className="gold-glow-btn"
             style={{
-              padding: '1.1rem 3rem',
-              background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
-              color: '#ffffff',
-              border: 'none',
+              padding: '1.2rem 3.5rem',
               borderRadius: '40px',
-              fontSize: '1.15rem',
-              fontWeight: 800,
+              fontSize: '1.45rem',
+              fontWeight: 900,
               cursor: 'pointer',
-              boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)',
-              transition: 'all 0.25s ease',
-              marginTop: '0.5rem'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.03)';
-              e.currentTarget.style.boxShadow = '0 8px 25px rgba(217, 119, 6, 0.6)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
-              e.currentTarget.style.boxShadow = '0 6px 20px rgba(217, 119, 6, 0.4)';
+              marginTop: '0.6rem'
             }}
           >
             Finish Activity
@@ -468,31 +456,21 @@ export default function Chapter4Quiz({ onComplete }) {
           {/* Explanation & Next Question Button */}
           {showResult && (
             <div style={{ marginTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-              <div style={{ padding: '1rem 1.35rem', background: '#F0FDF4', borderRadius: '14px', border: '1.5px solid #A7F3D0', borderLeft: '5px solid #173B5F' }}>
-                <h4 style={{ margin: '0 0 0.35rem 0', fontSize: '1.1rem', fontWeight: 900, color: '#064E3B' }}>Explanation</h4>
-                <p style={{ margin: 0, color: '#334155', fontSize: '1.05rem', lineHeight: '1.5', fontWeight: 600 }}>{currentQ.explanation}</p>
+              <div style={{ padding: '1.15rem 1.65rem', background: '#F0FDF4', borderRadius: '18px', border: '1.5px solid #A7F3D0', borderLeft: '6px solid #059669' }}>
+                <h4 style={{ margin: '0 0 0.4rem 0', fontSize: '1.45rem', fontWeight: 900, color: '#064E3B' }}>Explanation</h4>
+                <p style={{ margin: 0, color: '#065F46', fontSize: '1.35rem', lineHeight: '1.55', fontWeight: 750 }}>{currentQ.explanation}</p>
               </div>
               
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <button
                   onClick={handleNext}
+                  className="gold-glow-btn"
                   style={{
-                    padding: '0.75rem 2.25rem',
-                    background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
-                    color: '#ffffff',
-                    border: 'none',
+                    padding: '0.85rem 2.5rem',
                     borderRadius: '30px',
-                    fontSize: '1.15rem',
+                    fontSize: '1.25rem',
                     fontWeight: 900,
-                    cursor: 'pointer',
-                    boxShadow: '0 6px 20px rgba(217, 119, 6, 0.45)',
-                    transition: 'all 0.25s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'scale(1.03)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'scale(1)';
+                    cursor: 'pointer'
                   }}
                 >
                   {currentQuestion === quizData.length - 1 ? 'Finish Quiz' : 'Next Question'}

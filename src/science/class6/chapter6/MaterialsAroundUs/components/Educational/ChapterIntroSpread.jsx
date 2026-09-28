@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import htmlUrl from '../../../../../../assets/final_sloganforCH6.html?url';
+import htmlUrl from '../../../../../../assets/final_sloganforCH6new.html?url';
 
 export default function ChapterIntroSpread({ onContinue, onBack }) {
   useEffect(() => {

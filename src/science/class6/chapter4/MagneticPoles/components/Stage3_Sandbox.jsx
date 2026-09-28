@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Hand, RotateCcw, Shapes, Flag, BookOpen, CheckCircle, ArrowRight, ArrowLeft, Play, Pause, HelpCircle, Sparkles } from 'lucide-react';
 import stage3HorseshoeImg from '../../../../../assets/stage3_horseshoe.png';
 import stage3RingImg from '../../../../../assets/stage3_ring.png';
-import stage3BarImg from '../../../../../assets/stage3_bar.png';
 import * as THREE from 'three';
 import { createCustomMagnetTextures } from './magnetTextureGenerator';
 import '../MagneticPoles.css';
@@ -520,7 +519,7 @@ function FilingsSystem({ step, isSprinkling, isVibrating, shape, cycleKey, isPau
 }
 
 // ----------------------------------------------------
-// 3. PAGE CONFIGURATIONS FOR THREE SEQUENTIAL SCREENS
+// 3. PAGE CONFIGURATIONS FOR SEQUENTIAL SCREENS (HORSESHOE & RING)
 // ----------------------------------------------------
 const SHAPE_PAGES = {
   horseshoe: {
@@ -550,20 +549,6 @@ const SHAPE_PAGES = {
       'Filings gather most around the two poles.',
       'The poles are where the magnetic pull is strongest.'
     ]
-  },
-  bar: {
-    pageNumber: 3,
-    title: 'Bar Magnet',
-    icon: '🔲',
-    instructions: [
-      'Sprinkle iron filings around the bar magnet.',
-      'Gently tap the sheet.',
-      'Observe where the filings gather most.'
-    ],
-    observations: [
-      'Filings gather most near both ends.',
-      'The ends are the North and South poles.'
-    ]
   }
 };
 
@@ -574,7 +559,7 @@ export default function Stage3_Sandbox({ onComplete }) {
   const [step, setStep] = useState('waiting');
   const [cycleKey, setCycleKey] = useState(0);
   const [tapCount, setTapCount] = useState(0);
-  const [shape, setShape] = useState('horseshoe'); // 'horseshoe' (Page 1), 'ring' (Page 2), 'bar' (Page 3)
+  const [shape, setShape] = useState('horseshoe'); // 'horseshoe' (Page 1), 'ring' (Page 2)
   const [isSprinkling, setIsSprinkling] = useState(false);
   const [isVibrating, setIsVibrating] = useState(false);
   const hasArrivedRef = useRef(false);
@@ -693,7 +678,7 @@ export default function Stage3_Sandbox({ onComplete }) {
 
   // Only start pouring iron filings once the tray and magnet arrive at the center (3D Canvas only)
   const handleArrival = useCallback(() => {
-    if (shape === 'ring' || shape === 'bar') return;
+    if (shape === 'ring') return;
     if (hasArrivedRef.current) return;
     hasArrivedRef.current = true;
     executePhase('sprinkle', 1800);
@@ -701,7 +686,7 @@ export default function Stage3_Sandbox({ onComplete }) {
 
   // Safety fallback in case of background tab throttling
   useEffect(() => {
-    if (shape === 'ring' || shape === 'bar') return;
+    if (shape === 'ring') return;
     const fallbackTimer = setTimeout(() => {
       if (!hasArrivedRef.current) {
         handleArrival();
@@ -731,16 +716,12 @@ export default function Stage3_Sandbox({ onComplete }) {
     if (shape === 'horseshoe') {
       handlePageChange('ring');
     } else if (shape === 'ring') {
-      handlePageChange('bar');
-    } else if (shape === 'bar') {
       if (onComplete) onComplete();
     }
   };
 
   const handlePrevPage = () => {
-    if (shape === 'bar') {
-      handlePageChange('ring');
-    } else if (shape === 'ring') {
+    if (shape === 'ring') {
       handlePageChange('horseshoe');
     }
   };
@@ -829,8 +810,8 @@ export default function Stage3_Sandbox({ onComplete }) {
           }}
         >
           <img
-            src={shape === 'ring' ? stage3RingImg : shape === 'bar' ? stage3BarImg : stage3HorseshoeImg}
-            alt={shape === 'ring' ? 'Stage 3 Ring Magnet' : shape === 'bar' ? 'Stage 3 Bar Magnet' : 'Stage 3 Horseshoe Magnet'}
+            src={shape === 'ring' ? stage3RingImg : stage3HorseshoeImg}
+            alt={shape === 'ring' ? 'Stage 3 Ring Magnet' : 'Stage 3 Horseshoe Magnet'}
             style={{
               width: '100%',
               height: '100%',
@@ -888,7 +869,7 @@ export default function Stage3_Sandbox({ onComplete }) {
               border: '1.5px solid #86EFAC',
               boxShadow: '0 2px 6px rgba(6, 95, 70, 0.08)'
             }}>
-              Shape {currentShapeData.pageNumber} of 3
+              Shape {currentShapeData.pageNumber} of 2
             </span>
           </div>
 
@@ -1031,10 +1012,8 @@ export default function Stage3_Sandbox({ onComplete }) {
             >
               {shape === 'horseshoe' ? (
                 <>Next: Ring Magnet <ArrowRight size={18} color="#FFFFFF" /></>
-              ) : shape === 'ring' ? (
-                <>Next: Bar Magnet <ArrowRight size={18} color="#FFFFFF" /></>
               ) : (
-                <>Finish Shapes <ArrowRight size={18} color="#FFFFFF" /></>
+                <>Proceed to Quiz <ArrowRight size={18} color="#FFFFFF" /></>
               )}
             </button>
           </div>

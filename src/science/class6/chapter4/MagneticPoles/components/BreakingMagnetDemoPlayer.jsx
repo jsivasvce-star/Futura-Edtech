@@ -1,4 +1,4 @@
-﻿import React, { useRef, useEffect, useState, useCallback } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Play, Pause, RotateCcw, Volume2, VolumeX,
@@ -435,10 +435,6 @@ export default function BreakingMagnetDemoPlayer({
             <button onClick={() => setIsMuted(v => !v)} title={isMuted?"Unmute":"Mute"}
               style={{ background:"transparent", border:"none", width:"30px", height:"30px", display:"flex", alignItems:"center", justifyContent:"center", color:isMuted?"#EF4444":"#E2E8F0", cursor:"pointer" }}>
               {isMuted ? <VolumeX size={17} /> : <Volume2 size={17} />}
-            </button>
-            <button onClick={toggleFullscreen} title={isFullscreen?"Exit Fullscreen":"Fullscreen"}
-              style={{ background:"transparent", border:"none", width:"30px", height:"30px", display:"flex", alignItems:"center", justifyContent:"center", color:"#E2E8F0", cursor:"pointer" }}>
-              {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
             </button>
           </div>
         </div>
