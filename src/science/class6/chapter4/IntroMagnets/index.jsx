@@ -984,14 +984,14 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
             <div style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.45rem',
-              padding: '0.35rem 1.15rem',
+              gap: '0.55rem',
+              padding: '0.45rem 1.45rem',
               borderRadius: '9999px',
-              border: '1.5px solid #10B981',
+              border: '1.8px solid #10B981',
               backgroundColor: 'rgba(16, 185, 129, 0.08)',
               color: '#047857',
-              fontSize: '0.85rem',
-              fontWeight: 800,
+              fontSize: '1.15rem',
+              fontWeight: 900,
               letterSpacing: '0.04em',
               textTransform: 'uppercase',
               flexShrink: 0
@@ -1001,7 +1001,7 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
 
             {/* Main Heading - Significantly Larger & Prominent */}
             <h2 style={{
-              fontSize: 'clamp(2.3rem, 3.6vw, 3.1rem)',
+              fontSize: 'clamp(2.5rem, 3.8vw, 3.4rem)',
               fontWeight: 900,
               margin: 0,
               color: '#1E293B',
@@ -1014,12 +1014,12 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
 
             {/* Description Text - Large, Bold & Highly Readable */}
             <p style={{
-              fontSize: 'clamp(1.35rem, 2.1vw, 1.65rem)',
+              fontSize: 'clamp(1.5rem, 2.3vw, 1.85rem)',
               color: '#334155',
-              lineHeight: 1.48,
+              lineHeight: 1.5,
               margin: 0,
-              fontWeight: 700,
-              maxWidth: '560px',
+              fontWeight: 750,
+              maxWidth: '580px',
               textAlign: 'center'
             }}>
               Reshma learned that magnets were essential for navigation. Are you ready to explore magnets yourself?
@@ -1028,37 +1028,25 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
             {/* Action Button: fits naturally inside the square modal */}
             <button
               onClick={onComplete}
+              className="gold-glow-btn"
               style={{
                 width: '84%',
                 maxWidth: '480px',
                 minWidth: '260px',
-                padding: '1.2rem 2.4rem',
-                fontSize: '1.22rem',
-                fontWeight: 800,
+                padding: '1.25rem 2.5rem',
+                fontSize: '1.45rem',
+                fontWeight: 900,
                 borderRadius: '45px',
-                background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
-                color: '#ffffff',
-                border: 'none',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '0.85rem',
-                boxShadow: '0 8px 25px rgba(217, 119, 6, 0.45)',
-                transition: 'all 0.25s ease',
                 marginTop: '0.35rem',
                 flexShrink: 0
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.015)';
-                e.currentTarget.style.boxShadow = '0 10px 30px rgba(217, 119, 6, 0.55)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = '0 8px 25px rgba(217, 119, 6, 0.45)';
-              }}
             >
-              Continue to Activity 4.1 <ArrowRight size={22} color="#ffffff" />
+              Continue to Activity 4.1 <ArrowRight size={24} color="#ffffff" />
             </button>
           </div>
         </div>

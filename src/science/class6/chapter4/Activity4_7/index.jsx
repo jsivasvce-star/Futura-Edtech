@@ -23,6 +23,20 @@ export default function Activity4_7({ onBackToDashboard, onComplete }) {
     if (onComplete) onComplete();
   };
 
+  const handleBack = () => {
+    if (activeTab === 'didyouknow') setActiveTab('questions');
+    else if (activeTab === 'questions') setActiveTab('simulation');
+    else if (onBackToDashboard) onBackToDashboard();
+  };
+
+  const handleNext = () => {
+    if (activeTab === 'simulation') setActiveTab('questions');
+    else if (activeTab === 'questions') setActiveTab('didyouknow');
+    else if (onComplete) onComplete();
+  };
+
+  const currentStepIndex = activeTab === 'simulation' ? 0 : activeTab === 'questions' ? 1 : 2;
+
   return (
     <div style={{ 
       position: 'fixed',
@@ -91,75 +105,88 @@ export default function Activity4_7({ onBackToDashboard, onComplete }) {
           )}
         </AnimatePresence>
       </main>
-      {/* Top Header Bar Container (Standard Enclosing Golden Card) */}
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'auto 1fr auto', 
-        alignItems: 'center', 
-        padding: '0.65rem 1.25rem',
-        marginTop: '0.45rem',
-        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
-        border: '1.5px solid #E2E8F0',
-        borderRadius: '24px',
-        boxShadow: '0 6px 24px rgba(217, 119, 6, 0.08)',
+
+      {/* ── Bottom Footer Navigation (Standard Step Indicator) ── */}
+      <footer style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '0.65rem 1.75rem',
+        marginTop: '0.75rem',
+        background: 'rgba(255, 255, 255, 0.95)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        border: '1.5px solid #FFFFFF',
+        borderRadius: '32px',
+        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)',
         flexShrink: 0,
-        position: 'relative',
-        zIndex: 100
+        zIndex: 100,
+        maxWidth: '98%',
+        margin: '0.75rem auto 0 auto',
+        width: '100%',
+        boxSizing: 'border-box'
       }}>
-        {/* Left Column: Back Button */}
-        <button 
-          onClick={onBackToDashboard} 
-          className="gold-glow-btn"
-          style={{ 
-            position: 'relative', zIndex: 100,
-            padding: '0.8rem 1.75rem', 
-            fontSize: '1.5rem', 
-            gap: '0.5rem',
-            borderRadius: '16px',
-            border: 'none',
+        {/* Back Button on Left */}
+        <button
+          onClick={handleBack}
+          className="navy-btn"
+          style={{
+            padding: '0.65rem 1.8rem',
+            fontSize: '1.05rem',
             fontWeight: 900,
+            borderRadius: '25px',
+            background: 'linear-gradient(135deg, #214A70 0%, #173B5F 100%)',
+            color: '#FFFFFF',
+            border: '1.5px solid #2B6CB0',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
+            gap: '0.55rem',
+            boxShadow: '0 4px 14px rgba(23, 59, 95, 0.3)',
             transition: 'all 0.2s ease'
           }}
         >
-          <ArrowLeft size={26} color="#FFFFFF" /> BACK
+          <ArrowLeft size={20} color="#FFFFFF" /> Back
         </button>
 
-        {/* Center Column: Title */}
-        <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <h2 style={{ margin: 0, fontSize: '2.1rem', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.65rem', color: '#064E3B', letterSpacing: '-0.02em' }}>
-            Activity 4.8: Attraction & Repulsion Between Magnets
-          </h2>
+        {/* Central Progress indicator - Step Badge only */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '1.1rem',
+          fontWeight: 900
+        }}>
+          <span style={{
+            background: '#ECFDF5',
+            padding: '0.35rem 1.25rem',
+            borderRadius: '16px',
+            border: '1.5px solid #A7F3D0',
+            color: '#065F46',
+            boxShadow: '0 2px 6px rgba(6, 95, 70, 0.08)'
+          }}>
+            Step {currentStepIndex + 1} of 3
+          </span>
         </div>
 
-        {/* Right Column: Next Button */}
-        <button 
-          onClick={() => {
-            if (activeTab === 'simulation') setActiveTab('questions');
-            else if (activeTab === 'questions') setActiveTab('didyouknow');
-            else if (onComplete) onComplete();
-          }}
+        {/* Next Button on Right */}
+        <button
+          onClick={handleNext}
           className="gold-glow-btn"
-          style={{ 
-            position: 'relative', zIndex: 100,
-            padding: '0.8rem 1.75rem', 
-            fontSize: '1.5rem', 
-            gap: '0.5rem',
-            borderRadius: '16px',
-            border: 'none',
+          style={{
+            padding: '0.65rem 2rem',
+            fontSize: '1.05rem',
             fontWeight: 900,
+            borderRadius: '25px',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
-            transition: 'all 0.2s ease'
+            gap: '0.55rem'
           }}
         >
-          NEXT <ArrowRight size={26} color="#FFFFFF" />
+          {activeTab === 'didyouknow' ? 'Finish Activity' : 'Next'} <ArrowRight size={20} color="#FFFFFF" />
         </button>
-      </div>
-
+      </footer>
     </div>
   );
 }

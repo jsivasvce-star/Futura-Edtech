@@ -73,18 +73,29 @@ function SuspendedMagnet3D({ targetRotation, isSpinning }) {
   useFrame((state, delta) => {
     if (!magnetGroupRef.current) return;
     const dt = Math.min(delta, 0.1);
+    const time = state.clock.getElapsedTime();
+
+    // Natural Air Currents: subtle ambient swaying / jitter restricted strictly to minor left and right deflections
+    const airSway = Math.sin(time * 1.5) * 0.038 + Math.sin(time * 3.2 + 0.5) * 0.015 + Math.cos(time * 6.8) * 0.006;
 
     if (isSpinning) {
-      currentAngle.current = THREE.MathUtils.lerp(currentAngle.current, targetRotation, dt * 2.8);
-      magnetGroupRef.current.rotation.y = currentAngle.current;
+      // Natural harmonic damped left-right deflection swing
+      const springK = 5.8;
+      const damping = 0.90;
+      const force = -springK * currentAngle.current;
+      velocity.current = (velocity.current + force * dt) * Math.pow(damping, dt * 60);
+      currentAngle.current += velocity.current * dt;
     } else {
       const springK = 7.0;
       const damping = 0.86;
       const force = -springK * currentAngle.current;
       velocity.current = (velocity.current + force * dt) * Math.pow(damping, dt * 60);
       currentAngle.current += velocity.current * dt;
-      magnetGroupRef.current.rotation.y = currentAngle.current;
     }
+
+    // Apply combined deflection angle with natural air suspended sway
+    magnetGroupRef.current.rotation.y = currentAngle.current + airSway;
+    magnetGroupRef.current.rotation.z = Math.sin(time * 1.5) * 0.008;
   });
 
   return (
@@ -257,12 +268,14 @@ export default function Stage1_Experiment({ onComplete }) {
   const handleSpin = () => {
     if (isSpinning) return;
     setIsSpinning(true);
-    const extraSpins = (Math.floor(Math.random() * 2) + 3) * Math.PI * 2;
-    setTargetRotation(targetRotation + extraSpins);
+    // Alternate minor left and right deflections (~35° to 45°, approx 0.65 to 0.8 rad)
+    const deflectSign = spinCount % 2 === 0 ? 1 : -1;
+    const initialDeflection = deflectSign * (0.65 + Math.random() * 0.15);
+    setTargetRotation(initialDeflection);
 
     setTimeout(() => {
-      setIsSpinning(false);
       setTargetRotation(0);
+      setIsSpinning(false);
       setSpinCount(prev => prev + 1);
     }, 2800);
   };
@@ -312,23 +325,23 @@ export default function Stage1_Experiment({ onComplete }) {
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               style={{
                 background: '#FFFFFF',
-                border: selectedOption === 'north_south' ? '2px solid #6EE7B7' : '2px solid #FCA5A5',
-                borderRadius: '28px',
-                padding: '2.5rem 2.8rem',
-                maxWidth: '560px',
+                border: selectedOption === 'north_south' ? '2.5px solid #6EE7B7' : '2.5px solid #FCA5A5',
+                borderRadius: '32px',
+                padding: '2.8rem 3.2rem',
+                maxWidth: '640px',
                 width: '100%',
                 boxShadow: selectedOption === 'north_south' ? '0 24px 60px rgba(6, 78, 59, 0.35)' : '0 24px 60px rgba(153, 27, 27, 0.25)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 textAlign: 'center',
-                gap: '1.4rem',
+                gap: '1.6rem',
                 position: 'relative'
               }}
             >
               <div style={{
-                width: '76px',
-                height: '76px',
+                width: '84px',
+                height: '84px',
                 borderRadius: '50%',
                 background: selectedOption === 'north_south' 
                   ? 'linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%)'
@@ -339,22 +352,22 @@ export default function Stage1_Experiment({ onComplete }) {
                 boxShadow: selectedOption === 'north_south' ? '0 8px 24px rgba(16, 185, 129, 0.25)' : '0 8px 24px rgba(239, 68, 68, 0.25)'
               }}>
                 {selectedOption === 'north_south' ? (
-                  <CheckCircle size={44} color="#059669" />
+                  <CheckCircle size={48} color="#059669" />
                 ) : (
-                  <XCircle size={44} color="#DC2626" />
+                  <XCircle size={48} color="#DC2626" />
                 )}
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
                 <h3 style={{ 
                   margin: 0, 
-                  fontSize: '2.1rem', 
+                  fontSize: '2.4rem', 
                   fontWeight: 900, 
                   color: selectedOption === 'north_south' ? '#064E3B' : '#991B1B' 
                 }}>
                   {selectedOption === 'north_south' ? 'Observation Verified!' : "Let's Check Again!"}
                 </h3>
-                <p style={{ margin: 0, color: '#334155', fontSize: '1.45rem', lineHeight: 1.6, fontWeight: 700 }}>
+                <p style={{ margin: 0, color: '#334155', fontSize: '1.65rem', lineHeight: 1.55, fontWeight: 750 }}>
                   {selectedOption === 'north_south' ? (
                     '🎉 Correct! A freely suspended magnet always comes to rest pointing in the North-South direction.'
                   ) : (
@@ -373,11 +386,11 @@ export default function Stage1_Experiment({ onComplete }) {
                 className={selectedOption === 'north_south' ? 'gold-glow-btn' : ''}
                 style={{
                   width: '100%',
-                  marginTop: '0.5rem',
-                  padding: '1.1rem 2rem',
-                  fontSize: '1.45rem',
+                  marginTop: '0.6rem',
+                  padding: '1.2rem 2.2rem',
+                  fontSize: '1.55rem',
                   fontWeight: 900,
-                  borderRadius: '18px',
+                  borderRadius: '20px',
                   background: selectedOption === 'north_south' ? undefined : '#CBD5E1',
                   color: '#FFFFFF',
                   border: 'none',
@@ -441,35 +454,6 @@ export default function Stage1_Experiment({ onComplete }) {
               Observation: <span style={{ fontWeight: 700, color: '#334155' }}>Magnet has settled</span>
             </span>
           </div>
-
-          {/* Fullscreen Button */}
-          <button
-            onClick={toggleFullscreen}
-            title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
-            style={{
-              position: 'absolute',
-              top: '18px',
-              right: '20px',
-              zIndex: 30,
-              background: 'rgba(255, 255, 255, 0.92)',
-              backdropFilter: 'blur(8px)',
-              border: '1px solid rgba(255, 255, 255, 0.8)',
-              borderRadius: '20px',
-              padding: '6px 14px',
-              fontSize: '0.85rem',
-              fontWeight: 800,
-              color: '#0F172A',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              transition: 'all 0.2s ease',
-            }}
-          >
-            {isFullscreen ? <Minimize2 size={16} color="#0F172A" /> : <Maximize2 size={16} color="#0F172A" />}
-            <span>{isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}</span>
-          </button>
 
           {/* Callout Badge 1: Thin thread (pointing to vertical thread) */}
           <div style={{
@@ -700,7 +684,7 @@ export default function Stage1_Experiment({ onComplete }) {
                 transition: 'all 0.2s ease'
               }}
             >
-              <RotateCw size={26} className={isSpinning ? 'spin-anim' : ''} /> {isSpinning ? 'Spinning...' : 'Rotate Magnet'}
+              <RotateCw size={26} className={isSpinning ? 'spin-anim' : ''} /> {isSpinning ? 'Deflecting Magnet...' : 'Deflect Magnet'}
             </button>
 
             <button

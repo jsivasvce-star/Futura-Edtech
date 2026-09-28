@@ -239,37 +239,6 @@ export default function Stage1_Build({ onComplete, onNext }) {
           borderRadius: '24px'
         }}>
           <CanvasArea onZoneClick={handleZoneClick}>
-            {/* Fullscreen Button */}
-            <button
-              onClick={toggleFullscreen}
-              title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
-              style={{
-                position: 'absolute',
-                top: 14,
-                right: 14,
-                zIndex: 40,
-                background: 'rgba(255, 255, 255, 0.92)',
-                border: '1.5px solid rgba(255, 255, 255, 0.85)',
-                borderRadius: '12px',
-                padding: '6px 12px',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '5px',
-                color: '#0F172A',
-                fontSize: '0.78rem',
-                fontWeight: 800,
-                backdropFilter: 'blur(8px)',
-                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)',
-                transition: 'all 0.2s ease',
-                pointerEvents: 'auto'
-              }}
-            >
-              {isFullscreen ? <Minimize2 size={14} color="#0F172A" /> : <Maximize2 size={14} color="#0F172A" />}
-              <span>{isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}</span>
-            </button>
-
             {/* Placed Airplane A */}
             {placed.carA && (
               <div style={{
@@ -480,31 +449,31 @@ export default function Stage1_Build({ onComplete, onNext }) {
               transition={{ type: 'spring', bounce: 0.45, duration: 0.55 }}
               style={{
                 background: '#FFFFFF',
-                border: '1.5px solid #E2E8F0',
+                border: '2px solid #E2E8F0',
                 borderRadius: '28px',
-                padding: '2.8rem 3rem',
-                maxWidth: '580px',
+                padding: '2.8rem 3.5rem',
+                maxWidth: '640px',
                 width: '92%',
                 boxShadow: '0 20px 50px rgba(15, 23, 42, 0.25)',
                 textAlign: 'center',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                gap: '1.45rem',
+                gap: '1.5rem',
                 fontFamily: 'system-ui, -apple-system, sans-serif'
               }}
             >
-              <div style={{ width: '76px', height: '76px', background: '#EAF2F6', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2.5px solid #CBD5E1' }}>
-                <Info size={38} color="#173B5F" />
+              <div style={{ width: '84px', height: '84px', background: '#EAF2F6', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2.5px solid #CBD5E1' }}>
+                <Info size={44} color="#173B5F" />
               </div>
 
-              <h3 style={{ margin: 0, color: '#173B5F', fontSize: '1.95rem', fontWeight: 900 }}>
+              <h3 style={{ margin: 0, color: '#173B5F', fontSize: '2.4rem', fontWeight: 900 }}>
                 {activePopup === 0 && 'Step 1: Left Airspace'}
                 {activePopup === 1 && 'Step 2: Right Airspace'}
                 {activePopup === 2 && 'Observation'}
               </h3>
 
-              <p style={{ margin: 0, color: '#334155', fontSize: '1.35rem', fontWeight: 600, lineHeight: 1.65 }}>
+              <p style={{ margin: 0, color: '#334155', fontSize: '1.65rem', fontWeight: 700, lineHeight: 1.55 }}>
                 {activePopup === 0 && (
                   <>Click <strong>Airplane A</strong> in the tray below to place it into the <strong>Left flight corridor</strong>.</>
                 )}
@@ -521,17 +490,17 @@ export default function Stage1_Build({ onComplete, onNext }) {
                 className="gold-glow-btn"
                 style={{
                   marginTop: '0.6rem',
-                  padding: '0.95rem 3.5rem',
-                  borderRadius: '25px',
-                  fontSize: '1.25rem',
+                  padding: '1.1rem 3.5rem',
+                  borderRadius: '30px',
+                  fontSize: '1.45rem',
                   fontWeight: 900,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.6rem'
+                  gap: '0.75rem'
                 }}
               >
-                Got it! <CheckCircle2 size={22} color="#FFFFFF" />
+                Got it! <CheckCircle2 size={24} color="#FFFFFF" />
               </button>
             </motion.div>
           </motion.div>

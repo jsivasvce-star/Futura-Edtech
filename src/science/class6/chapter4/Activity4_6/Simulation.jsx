@@ -8,6 +8,7 @@ import {
   Minimize2, 
   RefreshCw, 
   Play, 
+  Pause,
   BookOpen
 } from 'lucide-react';
 import ExactCompass from '../components/ExactCompass.jsx';
@@ -121,11 +122,11 @@ export default function Simulation({ onComplete, onNext }) {
   const isFlippedRef = useRef(false);
   isFlippedRef.current = isFlipped;
 
-  const [pos, setPos] = useState({ x: -260, y: 230 });
-  const posRef = useRef({ x: -260, y: 230 });
+  const START_POS = { x: -210, y: 155 };
+  const [pos, setPos] = useState(START_POS);
+  const posRef = useRef(START_POS);
   posRef.current = pos;
 
-  const [isAnimating, setIsAnimating] = useState(false);
   const [currentStation, setCurrentStation] = useState('corner');
   const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -164,13 +165,6 @@ export default function Simulation({ onComplete, onNext }) {
   };
 
   const updateCompassPhysics = useCallback((x, y, flipped) => {
-    const distCenter = Math.hypot(x, y);
-
-    if (distCenter >= 330) {
-      setContinuousCompassAngle(0);
-      return;
-    }
-
     const distTopLeft = Math.hypot(x - (-215), y - (-210));
     const distBottomRight = Math.hypot(x - 215, y - 205);
 
@@ -238,42 +232,52 @@ export default function Simulation({ onComplete, onNext }) {
     updateCompassPhysics(pos.x, pos.y, isFlipped);
   }, [pos, isFlipped, updateCompassPhysics]);
 
+  const [demoState, setDemoState] = useState('idle'); // 'idle' | 'playing' | 'paused'
+  const isAnimating = demoState !== 'idle';
+  const isPlaying = demoState === 'playing';
+  const demoStateRef = useRef('idle');
+  demoStateRef.current = demoState;
+
+  const seqStageRef = useRef(0); // 0: travel 1, 1: dwell 1, 2: travel 2, 3: dwell 2, 4: travel 3
+  const seqProgressRef = useRef(0);
+  const activeSplineRef = useRef(null);
+  const activeDurationRef = useRef(1400);
+  const dwellTimeoutRef = useRef(null);
+  const dwellStartRef = useRef(0);
+  const dwellDurationRef = useRef(0);
+  const dwellRemainingRef = useRef(0);
+
   useEffect(() => {
     return () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-      timeoutsRef.current.forEach(t => clearTimeout(t));
+      if (dwellTimeoutRef.current) clearTimeout(dwellTimeoutRef.current);
     };
   }, []);
 
-  const addTimeout = (fn, delay) => {
-    const id = setTimeout(() => {
-      if (!cancelSequenceRef.current) fn();
-    }, delay);
-    timeoutsRef.current.push(id);
-    return id;
+  const handleFlipMagnet = () => {
+    if (isPlaying) return;
+    playMagneticSound('snap');
+    const nextFlipped = !isFlipped;
+    setIsFlipped(nextFlipped);
+    isFlippedRef.current = nextFlipped;
+    updateCompassPhysics(pos.x, pos.y, nextFlipped);
   };
 
-  const clearAllTimeouts = () => {
-    timeoutsRef.current.forEach(t => clearTimeout(t));
-    timeoutsRef.current = [];
-  };
-
-  const animateAlongSpline = useCallback((points, duration = 1400, onCompleteCallback) => {
+  const runSplineLoop = useCallback((points, duration, initialProgress = 0) => {
     if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-    setIsAnimating(true);
-    playMagneticSound('whoosh');
+    activeSplineRef.current = points;
+    activeDurationRef.current = duration;
 
-    const startTime = performance.now();
+    if (initialProgress === 0) playMagneticSound('whoosh');
+    const startTime = performance.now() - initialProgress * duration;
 
     const frame = (currentTime) => {
-      if (cancelSequenceRef.current) {
-        setIsAnimating(false);
-        return;
-      }
+      if (demoStateRef.current !== 'playing') return;
 
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      
+      seqProgressRef.current = progress;
+
       const ease = progress < 0.5 
         ? 4 * progress * progress * progress 
         : 1 - Math.pow(-2 * progress + 2, 3) / 2;
@@ -288,90 +292,130 @@ export default function Simulation({ onComplete, onNext }) {
         const lastPoint = points[points.length - 2];
         setPos({ x: lastPoint[0], y: lastPoint[1] });
         updateCompassPhysics(lastPoint[0], lastPoint[1], isFlippedRef.current);
-        setIsAnimating(false);
         playMagneticSound('snap');
-        if (onCompleteCallback && !cancelSequenceRef.current) onCompleteCallback();
+        handleStageCompletion(seqStageRef.current);
       }
     };
 
     animFrameRef.current = requestAnimationFrame(frame);
   }, [updateCompassPhysics]);
 
-  const handleFlipMagnet = () => {
-    if (isAnimating) return;
-    playMagneticSound('snap');
-    const nextFlipped = !isFlipped;
-    setIsFlipped(nextFlipped);
-    isFlippedRef.current = nextFlipped;
-    updateCompassPhysics(pos.x, pos.y, nextFlipped);
+  const startDwell = (durationMs, onDone) => {
+    dwellDurationRef.current = durationMs;
+    dwellRemainingRef.current = durationMs;
+    dwellStartRef.current = performance.now();
+    if (dwellTimeoutRef.current) clearTimeout(dwellTimeoutRef.current);
+
+    dwellTimeoutRef.current = setTimeout(() => {
+      if (demoStateRef.current === 'playing') onDone();
+    }, durationMs);
   };
 
-  const runFullSequence = () => {
-    if (isAnimating) return;
+  const startTravelStage = (stage, initialProgress = 0) => {
+    seqStageRef.current = stage;
+    seqProgressRef.current = initialProgress;
 
-    clearAllTimeouts();
-    cancelSequenceRef.current = false;
+    if (stage === 0) {
+      setCurrentStation('top-left');
+      setCurrentStep(2);
+      const points = [
+        [posRef.current.x, posRef.current.y],
+        [posRef.current.x, posRef.current.y],
+        [-260, 60],
+        [-245, -80],
+        [-215, -210],
+        [-215, -210]
+      ];
+      runSplineLoop(points, 1400, initialProgress);
+    } else if (stage === 2) {
+      setCurrentStation('bottom-right');
+      setCurrentStep(3);
+      const points = [
+        [posRef.current.x, posRef.current.y],
+        [posRef.current.x, posRef.current.y],
+        [-80, -250],
+        [80, -250],
+        [240, -100],
+        [250, 60],
+        [215, 205],
+        [215, 205]
+      ];
+      runSplineLoop(points, 1800, initialProgress);
+    } else if (stage === 4) {
+      setCurrentStation('corner');
+      setCurrentStep(4);
+      const points = [
+        [posRef.current.x, posRef.current.y],
+        [posRef.current.x, posRef.current.y],
+        [80, 260],
+        [-80, 240],
+        [-210, 155],
+        [-210, 155]
+      ];
+      runSplineLoop(points, 1400, initialProgress);
+    }
+  };
 
-    const currentFlipped = isFlippedRef.current;
-    setCurrentStation('top-left');
-    setCurrentStep(2);
+  const handleStageCompletion = (completedStage) => {
+    if (completedStage === 0) {
+      seqStageRef.current = 1;
+      startDwell(2800, () => {
+        startTravelStage(2, 0);
+      });
+    } else if (completedStage === 2) {
+      seqStageRef.current = 3;
+      startDwell(3000, () => {
+        startTravelStage(4, 0);
+      });
+    } else if (completedStage === 4) {
+      setPos(START_POS);
+      updateCompassPhysics(START_POS.x, START_POS.y, isFlippedRef.current);
+      setDemoState('idle');
+      setCurrentStep(1);
+      setCurrentStation('corner');
+      if (onComplete) onComplete();
+    }
+  };
 
-    const startX = posRef.current.x;
-    const startY = posRef.current.y;
+  const pauseDemo = () => {
+    setDemoState('paused');
+    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    if (dwellTimeoutRef.current) {
+      clearTimeout(dwellTimeoutRef.current);
+      const spent = performance.now() - dwellStartRef.current;
+      dwellRemainingRef.current = Math.max(0, dwellDurationRef.current - spent);
+    }
+  };
 
-    const splinePoints1 = [
-      [startX, startY],
-      [startX, startY],
-      [-260, 60],
-      [-245, -80],
-      [-215, -210],
-      [-215, -210]
-    ];
+  const resumeDemo = () => {
+    setDemoState('playing');
+    const currentStage = seqStageRef.current;
+    if (currentStage === 0 || currentStage === 2 || currentStage === 4) {
+      if (activeSplineRef.current) {
+        runSplineLoop(activeSplineRef.current, activeDurationRef.current, seqProgressRef.current);
+      } else {
+        startTravelStage(currentStage, seqProgressRef.current);
+      }
+    } else if (currentStage === 1) {
+      startDwell(dwellRemainingRef.current, () => {
+        startTravelStage(2, 0);
+      });
+    } else if (currentStage === 3) {
+      startDwell(dwellRemainingRef.current, () => {
+        startTravelStage(4, 0);
+      });
+    }
+  };
 
-    animateAlongSpline(splinePoints1, 1400, () => {
-      updateCompassPhysics(-215, -210, currentFlipped);
-
-      addTimeout(() => {
-        setCurrentStation('bottom-right');
-        setCurrentStep(3);
-
-        const splinePoints2 = [
-          [-215, -210],
-          [-215, -210],
-          [-80, -250],
-          [80, -250],
-          [240, -100],
-          [250, 60],
-          [215, 205],
-          [215, 205]
-        ];
-
-        animateAlongSpline(splinePoints2, 1800, () => {
-          updateCompassPhysics(215, 205, currentFlipped);
-
-          addTimeout(() => {
-            setCurrentStation('corner');
-            setCurrentStep(4);
-
-            const splinePoints3 = [
-              [215, 205],
-              [215, 205],
-              [80, 260],
-              [-80, 265],
-              [-260, 230],
-              [-260, 230]
-            ];
-
-            animateAlongSpline(splinePoints3, 1400, () => {
-              compassAngleRef.current = 0;
-              setCompassAngle(0);
-              updateCompassPhysics(-260, 230, currentFlipped);
-              if (onComplete) onComplete();
-            });
-          }, 3000);
-        });
-      }, 2800);
-    });
+  const handleDemoButtonClick = () => {
+    if (demoState === 'idle') {
+      setDemoState('playing');
+      startTravelStage(0, 0);
+    } else if (demoState === 'playing') {
+      pauseDemo();
+    } else if (demoState === 'paused') {
+      resumeDemo();
+    }
   };
 
   const handlePointerDown = (e) => {
@@ -675,34 +719,6 @@ export default function Simulation({ onComplete, onNext }) {
               <span>BEARING: <strong style={{ color: '#0369A1' }}>{Math.round((compassAngle % 360 + 360) % 360)}°</strong> {getBearingName(compassAngle)}</span>
             </div>
           </div>
-
-          {/* Right: Fullscreen Button */}
-          <div style={{ pointerEvents: 'auto', flexShrink: 0 }}>
-            <button
-              onClick={toggleFullscreen}
-              title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
-              style={{
-                background: 'rgba(255, 255, 255, 0.92)',
-                border: '1.5px solid rgba(255, 255, 255, 0.85)',
-                borderRadius: '14px',
-                padding: '0.45rem 0.85rem',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '6px',
-                color: '#0F172A',
-                fontSize: '0.85rem',
-                fontWeight: 800,
-                backdropFilter: 'blur(8px)',
-                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              {isFullscreen ? <Minimize2 size={16} color="#0F172A" /> : <Maximize2 size={16} color="#0F172A" />}
-              <span>{isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}</span>
-            </button>
-          </div>
         </div>
 
         {/* Central Arena: Compass + Flat Horizontal Dual-Pole Bar Magnet */}
@@ -836,8 +852,7 @@ export default function Simulation({ onComplete, onNext }) {
 
           <button
             type="button"
-            onClick={runFullSequence}
-            disabled={isAnimating}
+            onClick={handleDemoButtonClick}
             className="gold-glow-btn"
             style={{
               padding: '0.65rem 1.65rem',
@@ -845,18 +860,31 @@ export default function Simulation({ onComplete, onNext }) {
               color: '#FFFFFF',
               fontWeight: 900,
               fontSize: '1.15rem',
-              cursor: isAnimating ? 'not-allowed' : 'pointer',
+              cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '0.55rem',
               transition: 'all 0.25s ease',
-              opacity: isAnimating ? 0.85 : 1,
               boxShadow: '0 4px 18px rgba(217, 119, 6, 0.45)'
             }}
           >
-            <Play size={20} fill="#FFFFFF" color="#FFFFFF" className={isAnimating ? 'animate-pulse' : ''} />
-            <span>{isAnimating ? 'Running...' : 'Start Demo'}</span>
+            {demoState === 'playing' ? (
+              <>
+                <Pause size={20} fill="#FFFFFF" color="#FFFFFF" />
+                <span>Pause</span>
+              </>
+            ) : demoState === 'paused' ? (
+              <>
+                <Play size={20} fill="#FFFFFF" color="#FFFFFF" />
+                <span>Resume</span>
+              </>
+            ) : (
+              <>
+                <Play size={20} fill="#FFFFFF" color="#FFFFFF" />
+                <span>Start Demo</span>
+              </>
+            )}
           </button>
         </div>
       </div>
