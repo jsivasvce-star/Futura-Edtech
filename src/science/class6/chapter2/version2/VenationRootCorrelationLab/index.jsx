@@ -24,7 +24,7 @@ import specimen02MarigoldBlended from './specimen_02_marigold_blended.png';
 import specimen03SadabaharBlended from './specimen_03_sadabahar_blended.png';
 import specimen04ChickpeaBlended from './specimen_04_chickpea_blended.png';
 import specimen05WheatBlended from './specimen_05_wheat_blended.png';
-import activity27LemongrassVideoMp4 from "../../../../../assets/activity27/activity27-lemongrass.mp4";
+import activity27LemongrassVideoMp4 from "../../../../../assets/activity27-lemongrass.mp4";
 
 // =========================================================================
 // FULLSCREEN SPECIMEN SLIDES (ACTIVITY 2.7) — EXACT 16:9 HD SPECIMENS
