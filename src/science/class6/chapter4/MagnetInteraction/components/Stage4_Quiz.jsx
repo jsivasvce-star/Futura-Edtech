@@ -319,10 +319,10 @@ export default function Stage4_Quiz({ onComplete }) {
                 borderLeft: '6px solid #059669',
                 boxShadow: '0 4px 14px rgba(5, 150, 105, 0.08)'
               }}>
-                <h4 style={{ margin: '0 0 0.3rem 0', fontSize: '1.25rem', fontWeight: 900, color: '#064E3B' }}>
+                <h4 style={{ margin: '0 0 0.4rem 0', fontSize: '1.45rem', fontWeight: 900, color: '#064E3B' }}>
                   {isCorrect ? "Explanation (Correct)" : "Explanation"}
                 </h4>
-                <p style={{ margin: 0, color: '#065F46', fontSize: '1.18rem', lineHeight: '1.5', fontWeight: 600 }}>
+                <p style={{ margin: 0, color: '#065F46', fontSize: '1.35rem', lineHeight: '1.55', fontWeight: 750 }}>
                   {currentQ.explanation}
                 </p>
               </div>
@@ -334,7 +334,7 @@ export default function Stage4_Quiz({ onComplete }) {
                   style={{
                     padding: '0.95rem 2.8rem',
                     borderRadius: '30px',
-                    fontSize: '1.2rem',
+                    fontSize: '1.25rem',
                     fontWeight: 900,
                     cursor: 'pointer'
                   }}
@@ -353,10 +353,10 @@ export default function Stage4_Quiz({ onComplete }) {
               borderLeft: '6px solid #DC2626',
               boxShadow: '0 4px 14px rgba(220, 38, 38, 0.08)'
             }}>
-              <h4 style={{ margin: '0 0 0.3rem 0', fontSize: '1.25rem', fontWeight: 900, color: '#991B1B' }}>
+              <h4 style={{ margin: '0 0 0.4rem 0', fontSize: '1.45rem', fontWeight: 900, color: '#991B1B' }}>
                 Try Again
               </h4>
-              <p style={{ margin: 0, color: '#B91C1C', fontSize: '1.18rem', lineHeight: '1.5', fontWeight: 600 }}>
+              <p style={{ margin: 0, color: '#B91C1C', fontSize: '1.35rem', lineHeight: '1.55', fontWeight: 750 }}>
                 {currentQ.tryAgain}
               </p>
             </div>

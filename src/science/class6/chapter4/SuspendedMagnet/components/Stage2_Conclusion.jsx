@@ -135,35 +135,6 @@ export default function Stage2_Conclusion({ onComplete }) {
             </div>
           </div>
 
-          {/* Fullscreen Button */}
-          <button
-            onClick={toggleFullscreen}
-            title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
-            style={{
-              position: 'absolute',
-              top: '16px',
-              right: '20px',
-              zIndex: 30,
-              background: 'rgba(255, 255, 255, 0.92)',
-              backdropFilter: 'blur(8px)',
-              border: '1px solid rgba(255, 255, 255, 0.8)',
-              borderRadius: '20px',
-              padding: '6px 14px',
-              fontSize: '0.75rem',
-              fontWeight: 800,
-              color: '#0F172A',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              transition: 'all 0.2s ease',
-            }}
-          >
-            {isFullscreen ? <Minimize2 size={15} color="#0F172A" /> : <Maximize2 size={15} color="#0F172A" />}
-            <span>{isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}</span>
-          </button>
-
           {/* Activity 4.7 Exact Compass Assembly with Matching Top Brass Thumb Loop */}
           <div style={{ 
             position: 'relative', 
@@ -211,18 +182,13 @@ export default function Stage2_Conclusion({ onComplete }) {
               </h3>
             </div>
 
-            {/* Bullet Points with Dot Bullets & Increased Font Size */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
+            {/* Bullet Points with Dot Bullets & Formatting */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', marginTop: '0.35rem' }}>
               <div
                 style={{
                   display: 'flex',
                   alignItems: 'flex-start',
-                  gap: '0.85rem',
-                  background: '#FFFFFF',
-                  border: '1.5px solid #CBD5E1',
-                  borderRadius: '16px',
-                  padding: '0.95rem 1.25rem',
-                  boxShadow: '0 2px 8px rgba(23, 59, 95, 0.04)'
+                  gap: '0.85rem'
                 }}
               >
                 <span style={{
@@ -248,12 +214,7 @@ export default function Stage2_Conclusion({ onComplete }) {
                 style={{
                   display: 'flex',
                   alignItems: 'flex-start',
-                  gap: '0.85rem',
-                  background: '#FFFFFF',
-                  border: '1.5px solid #CBD5E1',
-                  borderRadius: '16px',
-                  padding: '0.95rem 1.25rem',
-                  boxShadow: '0 2px 8px rgba(23, 59, 95, 0.04)'
+                  gap: '0.85rem'
                 }}
               >
                 <span style={{
@@ -274,22 +235,19 @@ export default function Stage2_Conclusion({ onComplete }) {
                   The Sun's position provides an East–West reference to verify the magnet's North–South axis.
                 </p>
               </div>
-            </div>
-          </div>
 
-          <div style={{
-            background: 'rgba(255, 255, 255, 0.95)',
-            border: '1.5px solid #CBD5E1',
-            borderRadius: '16px',
-            padding: '0.85rem 1.25rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.85rem'
-          }}>
-            <span style={{ fontSize: '1.65rem' }}>🧭</span>
-            <span style={{ fontSize: '1.35rem', color: '#173B5F', fontWeight: 750, lineHeight: 1.35 }}>
-              This directional property has guided global navigation for centuries.
-            </span>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.85rem',
+                marginTop: '0.45rem'
+              }}>
+                <span style={{ fontSize: '1.65rem' }}>🧭</span>
+                <span style={{ fontSize: '1.35rem', color: '#173B5F', fontWeight: 750, lineHeight: 1.35 }}>
+                  This directional property has guided global navigation for centuries.
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 

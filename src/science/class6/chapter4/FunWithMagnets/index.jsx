@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   ArrowLeft, Compass, CheckCircle2, XCircle, ArrowRight,
-  Sparkles, Maximize2, Minimize2, RotateCcw, Zap, ZapOff
+  Sparkles, RotateCcw, Zap, ZapOff
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './FunWithMagnets.css';
@@ -444,13 +444,13 @@ function Step1Maglev() {
       maxWidth: '100%',
       alignItems: 'stretch'
     }}>
-      {/* ── LEFT CONTAINER: CLEAN WHITE CARD & EMBEDDED MAGLEV VIDEO ── */}
+      {/* ── LEFT CONTAINER: CLEAN CARD & EMBEDDED MAGLEV VIDEO ── */}
       <div style={{
         height: '100%',
-        background: '#FFFFFF',
-        border: '1.5px solid #E2E8F0',
+        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+        border: '1.5px solid #CBD5E1',
         borderRadius: '24px',
-        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
+        boxShadow: '0 8px 30px rgba(23, 59, 95, 0.08)',
         padding: '1.4rem',
         boxSizing: 'border-box',
         display: 'flex',
@@ -517,10 +517,10 @@ function Step1Maglev() {
       {/* ── RIGHT CONTAINER: SCALED TYPOGRAPHY & SCIENCE PRINCIPLES ── */}
       <div style={{
         height: '100%',
-        background: '#FFFFFF',
-        border: '1.5px solid #E2E8F0',
+        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+        border: '1.5px solid #CBD5E1',
         borderRadius: '24px',
-        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
+        boxShadow: '0 8px 30px rgba(23, 59, 95, 0.08)',
         padding: '1.4rem 1.6rem',
         boxSizing: 'border-box',
         display: 'flex',
@@ -532,7 +532,7 @@ function Step1Maglev() {
         {/* Main Title */}
         <h2 style={{
           margin: 0,
-          color: '#0F172A',
+          color: '#173B5F',
           fontSize: '3.1rem',
           fontWeight: 900,
           lineHeight: 1.12,
@@ -545,10 +545,10 @@ function Step1Maglev() {
         {/* Lead Paragraph */}
         <p style={{
           margin: 0,
-          color: '#334155',
+          color: '#214A70',
           fontSize: '1.62rem',
           lineHeight: 1.42,
-          fontWeight: 600,
+          fontWeight: 650,
           flexShrink: 0
         }}>
           A <strong style={{ color: '#0284C7', fontWeight: 900 }}>Maglev train</strong> (Magnetic Levitation) uses synchronized electromagnetic forces rather than mechanical wheels. It lifts off the track and glides through the air frictionless!
@@ -584,8 +584,8 @@ function Step1Maglev() {
               N ↔ S
             </span>
           </div>
-          <p style={{ margin: 0, color: '#334155', fontSize: '1.45rem', lineHeight: 1.42, fontWeight: 600 }}>
-            When <strong style={{ color: '#0F172A', fontWeight: 900 }}>opposite magnetic poles</strong> face each other, they attract with powerful pulling force. This force pulls the Maglev train forward down the line.
+          <p style={{ margin: 0, color: '#214A70', fontSize: '1.45rem', lineHeight: 1.42, fontWeight: 600 }}>
+            When <strong style={{ color: '#173B5F', fontWeight: 900 }}>opposite magnetic poles</strong> face each other, they attract with powerful pulling force. This force pulls the Maglev train forward down the line.
           </p>
         </div>
 
@@ -619,8 +619,8 @@ function Step1Maglev() {
               N ↔ N / S ↔ S
             </span>
           </div>
-          <p style={{ margin: 0, color: '#334155', fontSize: '1.45rem', lineHeight: 1.42, fontWeight: 600 }}>
-            When <strong style={{ color: '#0F172A', fontWeight: 900 }}>like magnetic poles</strong> face each other, they push forcefully apart. This upward repulsion force lifts the heavy train completely off the track!
+          <p style={{ margin: 0, color: '#214A70', fontSize: '1.45rem', lineHeight: 1.42, fontWeight: 600 }}>
+            When <strong style={{ color: '#173B5F', fontWeight: 900 }}>like magnetic poles</strong> face each other, they push forcefully apart. This upward repulsion force lifts the heavy train completely off the track!
           </p>
         </div>
 
@@ -667,10 +667,10 @@ function Step2Float({ onNext }) {
       <div style={{
         height: '100%',
         minHeight: 0,
-        background: '#FFFFFF',
-        border: '1.5px solid #E2E8F0',
+        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+        border: '1.5px solid #CBD5E1',
         borderRadius: '24px',
-        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
+        boxShadow: '0 8px 30px rgba(23, 59, 95, 0.08)',
         padding: '1.35rem 1.6rem',
         boxSizing: 'border-box',
         display: 'flex',
@@ -743,7 +743,7 @@ function Step2Float({ onNext }) {
         }}>
           {/* Card 1: Electric Current Flows */}
           <div style={{
-            background: '#FFFFFF',
+            background: 'linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '18px',
             padding: '1.05rem 1.3rem',
@@ -761,18 +761,18 @@ function Step2Float({ onNext }) {
                 borderRadius: '10px',
                 border: '1px solid #BAE6FD'
               }}>⚡</span>
-              <span style={{ color: '#0F172A', fontWeight: 900, fontSize: '1.7rem', letterSpacing: '-0.01em' }}>
+              <span style={{ color: '#173B5F', fontWeight: 900, fontSize: '1.7rem', letterSpacing: '-0.01em' }}>
                 Electric Current Flows
               </span>
             </div>
-            <p style={{ margin: 0, color: '#334155', fontSize: '1.42rem', lineHeight: 1.4, fontWeight: 600 }}>
+            <p style={{ margin: 0, color: '#214A70', fontSize: '1.42rem', lineHeight: 1.4, fontWeight: 600 }}>
               Electricity runs through copper coils embedded in the track guideway.
             </p>
           </div>
 
           {/* Card 2: Magnetic Field Appears */}
           <div style={{
-            background: '#FFFFFF',
+            background: 'linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '18px',
             padding: '1.05rem 1.3rem',
@@ -790,18 +790,18 @@ function Step2Float({ onNext }) {
                 borderRadius: '10px',
                 border: '1px solid #A5F3FC'
               }}>🔵</span>
-              <span style={{ color: '#0F172A', fontWeight: 900, fontSize: '1.7rem', letterSpacing: '-0.01em' }}>
+              <span style={{ color: '#173B5F', fontWeight: 900, fontSize: '1.7rem', letterSpacing: '-0.01em' }}>
                 Magnetic Field Appears
               </span>
             </div>
-            <p style={{ margin: 0, color: '#334155', fontSize: '1.42rem', lineHeight: 1.4, fontWeight: 600 }}>
+            <p style={{ margin: 0, color: '#214A70', fontSize: '1.42rem', lineHeight: 1.4, fontWeight: 600 }}>
               The electric coils generate a powerful upward-pointing magnetic field.
             </p>
           </div>
 
           {/* Card 3: Train Lifts Off */}
           <div style={{
-            background: '#FFFFFF',
+            background: 'linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '18px',
             padding: '1.05rem 1.3rem',
@@ -819,18 +819,18 @@ function Step2Float({ onNext }) {
                 borderRadius: '10px',
                 border: '1px solid #BBF7D0'
               }}>🚅</span>
-              <span style={{ color: '#0F172A', fontWeight: 900, fontSize: '1.7rem', letterSpacing: '-0.01em' }}>
+              <span style={{ color: '#173B5F', fontWeight: 900, fontSize: '1.7rem', letterSpacing: '-0.01em' }}>
                 Train Lifts Off
               </span>
             </div>
-            <p style={{ margin: 0, color: '#334155', fontSize: '1.42rem', lineHeight: 1.4, fontWeight: 600 }}>
+            <p style={{ margin: 0, color: '#214A70', fontSize: '1.42rem', lineHeight: 1.4, fontWeight: 600 }}>
               The magnetic field repels the train's superconducting magnets, lifting it up.
             </p>
           </div>
 
           {/* Card 4: Gap is Precisely Controlled */}
           <div style={{
-            background: '#FFFFFF',
+            background: 'linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%)',
             border: '1.5px solid #E2E8F0',
             borderRadius: '18px',
             padding: '1.05rem 1.3rem',
@@ -848,11 +848,11 @@ function Step2Float({ onNext }) {
                 borderRadius: '10px',
                 border: '1px solid #FDE68A'
               }}>📐</span>
-              <span style={{ color: '#0F172A', fontWeight: 900, fontSize: '1.7rem', letterSpacing: '-0.01em' }}>
+              <span style={{ color: '#173B5F', fontWeight: 900, fontSize: '1.7rem', letterSpacing: '-0.01em' }}>
                 Gap is Precisely Controlled
               </span>
             </div>
-            <p style={{ margin: 0, color: '#334155', fontSize: '1.42rem', lineHeight: 1.4, fontWeight: 600 }}>
+            <p style={{ margin: 0, color: '#214A70', fontSize: '1.42rem', lineHeight: 1.4, fontWeight: 600 }}>
               Sensors adjust current continuously to maintain a stable 10mm levitation gap.
             </p>
           </div>
@@ -863,10 +863,10 @@ function Step2Float({ onNext }) {
       <div style={{
         height: '100%',
         minHeight: 0,
-        background: '#FFFFFF',
-        border: '1.5px solid #E2E8F0',
+        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+        border: '1.5px solid #CBD5E1',
         borderRadius: '24px',
-        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
+        boxShadow: '0 8px 30px rgba(23, 59, 95, 0.08)',
         padding: '1.35rem 1.6rem',
         boxSizing: 'border-box',
         display: 'flex',
@@ -879,7 +879,7 @@ function Step2Float({ onNext }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem', flexShrink: 0 }}>
           <h2 style={{
             margin: 0,
-            color: '#0F172A',
+            color: '#173B5F',
             fontSize: '3.1rem',
             fontWeight: 900,
             lineHeight: 1.12,
@@ -889,7 +889,7 @@ function Step2Float({ onNext }) {
           </h2>
           <p style={{
             margin: 0,
-            color: '#1E293B',
+            color: '#214A70',
             fontSize: '2.15rem',
             lineHeight: 1.42,
             fontWeight: 650
@@ -1143,7 +1143,7 @@ function Step2Float({ onNext }) {
 const PROP_INFO = [
   {
     title: 'Stage 1: Launch Propulsion (Coil 1 Active • Pull Forward)',
-    desc: 'Stator Coil 1 energizes directly ahead of the train. Its intense magnetic attraction pulls the 3-car Maglev train into the track with zero wheel friction.',
+    desc: 'Coil 1 turns ON, pulling the train into motion from rest towards and across Coil 1.',
     activeCoils: [true, false, false, false, false],
     pattern: ['ON', 'OFF', 'OFF', 'OFF', 'OFF'],
     tag: '⚡ STAGE 1: COIL 1 ACTIVE',
@@ -1152,8 +1152,8 @@ const PROP_INFO = [
     frequency: '90 Hz'
   },
   {
-    title: 'Stage 2: Traveling Wave Relay (Coil 2 ON • Coil 1 OFF)',
-    desc: 'As the train nose crosses Coil 1, Coil 1 immediately shuts OFF to prevent backward magnetic drag, while Coil 2 energizes ahead to keep accelerating the train forward.',
+    title: 'Stage 2: Sequential Relay (Coil 2 ON • Coil 1 OFF)',
+    desc: 'As the train crosses Coil 1, Coil 1 turns OFF and Coil 2 turns ON to continue accelerating the train forward.',
     activeCoils: [false, true, false, false, false],
     pattern: ['OFF', 'ON', 'OFF', 'OFF', 'OFF'],
     tag: '🌊 STAGE 2: COIL 2 ACTIVE',
@@ -1162,8 +1162,8 @@ const PROP_INFO = [
     frequency: '150 Hz'
   },
   {
-    title: 'Stage 3: High-Speed Viaduct Cruise (Coil 3 ON • Coil 2 OFF)',
-    desc: 'As the train glides past Coil 2, Coil 2 turns OFF and Coil 3 activates. The magnetic traveling wave pulls the train continuously across mid-track.',
+    title: 'Stage 3: Traveling Wave Relay (Coil 3 ON • Coil 2 OFF)',
+    desc: 'At the midpoint between Coil 2 and Coil 3, Coil 2 turns OFF and Coil 3 turns ON.',
     activeCoils: [false, false, true, false, false],
     pattern: ['OFF', 'OFF', 'ON', 'OFF', 'OFF'],
     tag: '⚡ STAGE 3: COIL 3 ACTIVE',
@@ -1172,8 +1172,8 @@ const PROP_INFO = [
     frequency: '220 Hz'
   },
   {
-    title: 'Stage 4: Forward Acceleration (Coil 4 ON • Coil 3 OFF)',
-    desc: 'Coil 3 shuts OFF and Coil 4 energizes. Superconducting magnetic guidance keeps the train centered in steady, frictionless levitation.',
+    title: 'Stage 4: Advance Activation (Coil 4 ON • Coil 3 OFF)',
+    desc: 'Coil 4 activates before the train physically reaches or touches it, ensuring smooth and uninterrupted magnetic pull.',
     activeCoils: [false, false, false, true, false],
     pattern: ['OFF', 'OFF', 'OFF', 'ON', 'OFF'],
     tag: '⚡ STAGE 4: COIL 4 ACTIVE',
@@ -1182,8 +1182,8 @@ const PROP_INFO = [
     frequency: '240 Hz'
   },
   {
-    title: 'Stage 5: Terminal Approach (Coil 5 ON • Coil 4 OFF)',
-    desc: 'Coil 4 deactivates and Coil 5 energizes ahead. The magnetic wave pulls the train smoothly toward the station exit.',
+    title: 'Stage 5: Advance Activation (Coil 5 ON • Coil 4 OFF)',
+    desc: 'Coil 5 activates before the train reaches and crosses it, guiding the train smoothly into the final viaduct sector.',
     activeCoils: [false, false, false, false, true],
     pattern: ['OFF', 'OFF', 'OFF', 'OFF', 'ON'],
     tag: '🚅 STAGE 5: COIL 5 ACTIVE',
@@ -1192,8 +1192,8 @@ const PROP_INFO = [
     frequency: '260 Hz'
   },
   {
-    title: 'Stage 6: Smooth Exit & Completion (All Coils Standby)',
-    desc: 'The Maglev train exits smoothly off the right side of the screen. All track stator electromagnets power down safely into standby.',
+    title: 'Stage 6: Smooth Track Exit (All Coils Standby)',
+    desc: 'The train smoothly passes Coil 5 and continues across the viaduct, completing the sequence without ever stopping.',
     activeCoils: [false, false, false, false, false],
     pattern: ['OFF', 'OFF', 'OFF', 'OFF', 'OFF'],
     tag: '🏁 STAGE 6: RUN COMPLETED',
@@ -1212,21 +1212,21 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
   // Realistic horizontal positions aligned with the 5 Stator Coils
   const getTrainLeft = () => {
     if (autoPlay) {
-      return isTranslating ? '115%' : '-120%';
+      return isTranslating ? '115%' : '-90%';
     }
-    if (propStep === -1) return '-120%';
-    if (propStep === 0) return '-28%';
-    if (propStep === 1) return '-4%';
-    if (propStep === 2) return '20%';
-    if (propStep === 3) return '44%';
-    if (propStep === 4) return '68%';
+    if (propStep === -1) return '-90%';
+    if (propStep === 0) return '-48%';
+    if (propStep === 1) return '-18%';
+    if (propStep === 2) return '4%';
+    if (propStep === 3) return '20%';
+    if (propStep === 4) return '44%';
     if (propStep === 5) return '115%';
-    return '-120%';
+    return '-90%';
   };
 
   const getTrainTransition = () => {
     if (autoPlay) {
-      return isTranslating ? 'left 9.7s linear' : 'none';
+      return isTranslating ? 'left 9.8s linear' : 'none';
     }
     return 'left 1.2s cubic-bezier(0.25, 1, 0.5, 1)';
   };
@@ -1246,10 +1246,10 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
       {/* ── 1. PRIMARY INTERACTIVE ACTIVITY AREA (TOP CARD) — EXPANDED TALLER (FLEX 1.9) ── */}
       <div style={{
         width: '100%',
-        background: '#FFFFFF',
-        border: '1.5px solid #E2E8F0',
+        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+        border: '1.5px solid #CBD5E1',
         borderRadius: '24px',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.06)',
+        boxShadow: '0 8px 32px rgba(23, 59, 95, 0.08)',
         padding: '0.95rem 1.45rem',
         boxSizing: 'border-box',
         display: 'flex',
@@ -1452,12 +1452,12 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
       }}>
         {/* LEFT BOX: Interactive Phase Guidance */}
         <div style={{
-          background: '#FFFFFF',
-          border: '1.5px solid #E2E8F0',
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+          border: '1.5px solid #CBD5E1',
           borderRadius: '22px',
           padding: '1.15rem 1.55rem',
           boxSizing: 'border-box',
-          boxShadow: '0 6px 26px rgba(0, 0, 0, 0.04)',
+          boxShadow: '0 6px 26px rgba(23, 59, 95, 0.06)',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -1484,10 +1484,10 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
                 }}>
                   <span>🔬</span> How Does the Maglev Train Move Forward?
                 </div>
-                <p style={{ margin: 0, color: '#334155', fontSize: 'clamp(1.3rem, 1.5vw, 1.65rem)', lineHeight: 1.45, fontWeight: 600 }}>
-                  Unlike conventional trains that rely on an engine turning wheels against metal rails, a Maglev train is propelled entirely by <strong style={{ color: '#0F172A', fontWeight: 900 }}>synchronized traveling electromagnetic waves</strong> embedded along the track guideway.
+                <p style={{ margin: 0, color: '#214A70', fontSize: 'clamp(1.3rem, 1.5vw, 1.65rem)', lineHeight: 1.45, fontWeight: 600 }}>
+                  Unlike conventional trains that rely on an engine turning wheels against metal rails, a Maglev train is propelled entirely by <strong style={{ color: '#173B5F', fontWeight: 900 }}>synchronized traveling electromagnetic waves</strong> embedded along the track guideway.
                 </p>
-                <p style={{ margin: 0, color: '#1E293B', fontSize: 'clamp(1.2rem, 1.4vw, 1.52rem)', lineHeight: 1.4, fontWeight: 700 }}>
+                <p style={{ margin: 0, color: '#173B5F', fontSize: 'clamp(1.2rem, 1.4vw, 1.52rem)', lineHeight: 1.4, fontWeight: 700 }}>
                   Click <strong style={{ color: '#0284C7', fontWeight: 900 }}>"Next Step ▶"</strong> or <strong style={{ color: '#D97706', fontWeight: 900 }}>"▶ Auto-play"</strong> to witness each phase of the continuous propulsion cycle!
                 </p>
               </motion.div>
@@ -1512,9 +1512,9 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
                     {propStep === 5 ? 'COMPLETED' : `STEP ${propStep + 1} OF 5`}
                   </span>
                   <span style={{
-                    background: '#F1F5F9',
+                    background: '#E2E8F0',
                     border: '1.5px solid #CBD5E1',
-                    color: '#334155',
+                    color: '#173B5F',
                     borderRadius: '12px',
                     padding: '0.42rem 1.15rem',
                     fontWeight: 900,
@@ -1523,10 +1523,10 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
                     {PROP_INFO[propStep]?.tag}
                   </span>
                 </div>
-                <h3 style={{ margin: 0, color: '#0F172A', fontWeight: 900, fontSize: 'clamp(1.75rem, 2.1vw, 2.35rem)', lineHeight: 1.2 }}>
+                <h3 style={{ margin: 0, color: '#173B5F', fontWeight: 900, fontSize: 'clamp(1.75rem, 2.1vw, 2.35rem)', lineHeight: 1.2 }}>
                   {PROP_INFO[propStep]?.title}
                 </h3>
-                <p style={{ margin: 0, color: '#334155', fontSize: 'clamp(1.35rem, 1.55vw, 1.68rem)', lineHeight: 1.45, fontWeight: 600 }}>
+                <p style={{ margin: 0, color: '#214A70', fontSize: 'clamp(1.35rem, 1.55vw, 1.68rem)', lineHeight: 1.45, fontWeight: 600 }}>
                   {PROP_INFO[propStep]?.desc}
                 </p>
               </motion.div>
@@ -1560,28 +1560,6 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
               "Instead of an engine pushing against track friction, computer-synchronized electromagnets pull from ahead and push from behind in an ultra-fast traveling magnetic wave."
             </p>
           </div>
-
-          <button
-            onClick={onNext}
-            disabled={!viewedAll}
-            className={viewedAll ? 'gold-glow-btn' : ''}
-            style={{
-              background: viewedAll ? undefined : '#E2E8F0',
-              color: viewedAll ? '#FFFFFF' : '#94A3B8',
-              border: 'none',
-              borderRadius: '18px',
-              padding: '0.95rem 1.8rem',
-              fontSize: 'clamp(1.18rem, 1.3vw, 1.35rem)',
-              fontWeight: 900,
-              cursor: viewedAll ? 'pointer' : 'not-allowed',
-              boxShadow: viewedAll ? undefined : 'none',
-              transition: 'all 0.2s ease',
-              width: '100%',
-              textAlign: 'center'
-            }}
-          >
-            {viewedAll ? 'Next: Electromagnet Control ▶' : 'Watch all steps to proceed'}
-          </button>
         </div>
       </div>
     </div>
@@ -1607,10 +1585,10 @@ function Step4Control() {
       {/* ── LEFT CONTAINER: HERO MEDIA CARD & ELECTROMAGNET COIL TRACK ── */}
       <div style={{
         height: '100%',
-        background: '#FFFFFF',
-        border: '1.5px solid #E2E8F0',
+        background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+        border: '1.5px solid #CBD5E1',
         borderRadius: '24px',
-        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
+        boxShadow: '0 8px 30px rgba(23, 59, 95, 0.08)',
         padding: '1.4rem',
         boxSizing: 'border-box',
         display: 'flex',
@@ -1672,24 +1650,28 @@ function Step4Control() {
       </div>
 
       {/* ── RIGHT CONTAINER: SCALED TYPOGRAPHY & SCIENCE PRINCIPLES ── */}
-      <div style={{
-        height: '100%',
-        background: '#FFFFFF',
-        border: '1.5px solid #E2E8F0',
-        borderRadius: '24px',
-        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
-        padding: '1.4rem 1.6rem',
-        boxSizing: 'border-box',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        gap: '0.75rem',
-        overflow: 'hidden'
-      }}>
+      <div 
+        className="custom-scrollbar"
+        style={{
+          height: '100%',
+          background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)',
+          border: '1.5px solid #CBD5E1',
+          borderRadius: '24px',
+          boxShadow: '0 8px 30px rgba(23, 59, 95, 0.08)',
+          padding: '1.4rem 1.6rem',
+          boxSizing: 'border-box',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          gap: '0.75rem',
+          overflowY: 'auto',
+          overflowX: 'hidden'
+        }}
+      >
         {/* Title (Single Line) */}
         <h2 style={{
           margin: 0,
-          color: '#0F172A',
+          color: '#173B5F',
           fontSize: '2.75rem',
           fontWeight: 900,
           lineHeight: 1.15,
@@ -1703,10 +1685,10 @@ function Step4Control() {
         {/* Lead description */}
         <p style={{
           margin: 0,
-          color: '#334155',
+          color: '#214A70',
           fontSize: '1.6rem',
           lineHeight: 1.42,
-          fontWeight: 600,
+          fontWeight: 650,
           flexShrink: 0
         }}>
           Unlike permanent magnets, an <strong style={{ color: '#0284C7', fontWeight: 900 }}>electromagnet's magnetic force can be switched ON and OFF instantly</strong> — and even reversed in milliseconds — simply by regulating the electric current flowing through its coils.
@@ -1714,7 +1696,7 @@ function Step4Control() {
 
         {/* 4 Key Advantages List Cards */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', flexShrink: 0 }}>
-          <div style={{ color: '#0F172A', fontWeight: 900, fontSize: '1.65rem', letterSpacing: '-0.01em' }}>
+          <div style={{ color: '#173B5F', fontWeight: 900, fontSize: '1.65rem', letterSpacing: '-0.01em' }}>
             ✨ Key Advantages of Electromagnets:
           </div>
           {[
@@ -1727,7 +1709,7 @@ function Step4Control() {
               display: 'flex',
               alignItems: 'center',
               gap: '1.1rem',
-              background: '#F8FAFC',
+              background: 'linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%)',
               border: '1.5px solid #E2E8F0',
               borderRadius: '16px',
               padding: '0.95rem 1.35rem',
@@ -1742,8 +1724,8 @@ function Step4Control() {
                 flexShrink: 0
               }}>{item.icon}</span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                <span style={{ color: '#0F172A', fontWeight: 900, fontSize: '1.55rem', letterSpacing: '-0.01em' }}>{item.title}</span>
-                <span style={{ color: '#475569', fontWeight: 600, fontSize: '1.36rem', lineHeight: 1.38 }}>{item.desc}</span>
+                <span style={{ color: '#173B5F', fontWeight: 900, fontSize: '1.55rem', letterSpacing: '-0.01em' }}>{item.title}</span>
+                <span style={{ color: '#214A70', fontWeight: 600, fontSize: '1.36rem', lineHeight: 1.38 }}>{item.desc}</span>
               </div>
             </div>
           ))}
@@ -1789,36 +1771,36 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
       while (isMounted && autoPlaySeqRef.current === currentSeqId) {
         setPropStep(-1);
         setIsTranslating(false);
-        await sleep(400);
+        await sleep(350);
         if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
 
-        // Coil 1 turns ON, train starts moving smoothly & continuously from extreme left
+        // Coil 1 turns ON, causing the train to start moving toward and across Coil 1
         setPropStep(0);
         setIsTranslating(true);
-        await sleep(1500);
+        await sleep(1800);
         if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
 
-        // Front crosses Coil 1 -> Coil 1 turns OFF, Coil 2 turns ON
+        // Once the train has crossed Coil 1, Coil 1 turns OFF and Coil 2 turns ON
         setPropStep(1);
-        await sleep(1500);
+        await sleep(1400);
         if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
 
-        // Front crosses Coil 2 -> Coil 2 turns OFF, Coil 3 turns ON
+        // As the train reaches the center point between Coil 2 and Coil 3, Coil 2 turns OFF and Coil 3 turns ON
         setPropStep(2);
-        await sleep(1500);
+        await sleep(1300);
         if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
 
-        // Front crosses Coil 3 -> Coil 3 turns OFF, Coil 4 turns ON
+        // Coil 4 activates in advance BEFORE train physically touches or crosses Coil 4
         setPropStep(3);
-        await sleep(1500);
+        await sleep(1400);
         if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
 
-        // Front crosses Coil 4 -> Coil 4 turns OFF, Coil 5 turns ON
+        // Coil 5 activates in advance BEFORE train reaches and crosses Coil 5
         setPropStep(4);
-        await sleep(1500);
+        await sleep(1700);
         if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
 
-        // Front passes Coil 5, exits completely off right -> All coils standby
+        // Continuous smooth pass across Coil 5 without stopping -> Coil 5 turns OFF (Standby)
         setPropStep(5);
         setViewedAll(true);
         await sleep(2200);
@@ -2008,12 +1990,6 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                   registerDirectionMove={handleRegisterDirectionMove}
                   registerHint={handleRegisterHint}
                 />
-                {/* Fullscreen button */}
-                <button onClick={toggleFullscreen} title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
-                  style={{ position: 'absolute', top: 14, right: 14, zIndex: 40, background: 'rgba(255,255,255,0.92)', border: '1.5px solid rgba(255,255,255,0.85)', borderRadius: '12px', padding: '6px 12px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px', color: '#0F172A', fontSize: '0.78rem', fontWeight: 800, backdropFilter: 'blur(8px)', boxShadow: '0 4px 12px rgba(0,0,0,0.25)', transition: 'all 0.2s ease' }}>
-                  {isFullscreen ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
-                  <span>{isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}</span>
-                </button>
 
                 {/* Maze Solved Modal */}
                 <AnimatePresence>
@@ -2025,21 +2001,21 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                         exit={{ scale: 0.9, opacity: 0 }}
                         style={{ 
                           background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
-                          borderRadius: '24px', 
-                          padding: '2.5rem 3rem', 
-                          maxWidth: '520px', 
+                          borderRadius: '28px', 
+                          padding: '2.8rem 3.5rem', 
+                          maxWidth: '640px', 
                           width: '90%',
                           textAlign: 'center', 
-                          border: '1.5px solid #E2E8F0', 
-                          boxShadow: '0 20px 50px rgba(217, 119, 6, 0.2)',
+                          border: '2px solid #E2E8F0', 
+                          boxShadow: '0 20px 50px rgba(217, 119, 6, 0.25)',
                           display: 'flex',
                           flexDirection: 'column',
                           alignItems: 'center',
-                          gap: '1.25rem'
+                          gap: '1.5rem'
                         }}
                       >
-                        <h2 style={{ margin: 0, color: '#064E3B', fontSize: '1.8rem', fontWeight: 900 }}>Destination Reached! 🎯🎉</h2>
-                        <p style={{ margin: 0, color: '#334155', fontSize: '1.1rem', lineHeight: '1.5', fontWeight: 600 }}>
+                        <h2 style={{ margin: 0, color: '#064E3B', fontSize: '2.5rem', fontWeight: 900 }}>Destination Reached! 🎯🎉</h2>
+                        <p style={{ margin: 0, color: '#334155', fontSize: '1.65rem', lineHeight: '1.55', fontWeight: 700 }}>
                           Outstanding navigation! The magnet smoothly guided the train across the 3D railway grid to the destination beacon!
                         </p>
                         <button 
@@ -2049,8 +2025,8 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                           }}
                           className="gold-glow-btn"
                           style={{
-                            padding: '1.1rem 3rem',
-                            fontSize: '1.15rem',
+                            padding: '1.15rem 3.2rem',
+                            fontSize: '1.45rem',
                             fontWeight: 900,
                             borderRadius: '40px',
                             cursor: 'pointer',
@@ -2059,7 +2035,7 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
                             gap: '0.75rem'
                           }}
                         >
-                          Next: Magnet Care <ArrowRight size={22} color="#FFFFFF" />
+                          Next: Magnet Care <ArrowRight size={24} color="#FFFFFF" />
                         </button>
                       </motion.div>
                     </div>

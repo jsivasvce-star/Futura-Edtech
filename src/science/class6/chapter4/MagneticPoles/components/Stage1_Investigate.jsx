@@ -496,38 +496,38 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               style={{
                 background: '#FFFFFF',
-                border: '2px solid #6EE7B7',
-                borderRadius: '24px',
-                padding: '2rem 2.2rem',
-                maxWidth: '480px',
+                border: '2.5px solid #6EE7B7',
+                borderRadius: '32px',
+                padding: '2.8rem 3.2rem',
+                maxWidth: '620px',
                 width: '100%',
-                boxShadow: '0 20px 50px rgba(6, 78, 59, 0.35)',
+                boxShadow: '0 24px 60px rgba(6, 78, 59, 0.35)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 textAlign: 'center',
-                gap: '1.25rem',
+                gap: '1.6rem',
                 position: 'relative'
               }}
             >
               <div style={{
-                width: '64px',
-                height: '64px',
+                width: '84px',
+                height: '84px',
                 borderRadius: '50%',
                 background: 'linear-gradient(135deg, #EAF2F6 0%, #E2E8F0 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 8px 20px rgba(217, 119, 6, 0.25)'
+                boxShadow: '0 8px 24px rgba(217, 119, 6, 0.25)'
               }}>
-                <CheckCircle size={36} color="#173B5F" />
+                <CheckCircle size={48} color="#173B5F" />
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <h3 style={{ margin: 0, fontSize: '1.65rem', fontWeight: 900, color: '#064E3B' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                <h3 style={{ margin: 0, fontSize: '2.4rem', fontWeight: 900, color: '#064E3B' }}>
                   Observation Verified!
                 </h3>
-                <p style={{ margin: 0, color: '#065F46', fontSize: '1.25rem', lineHeight: 1.5, fontWeight: 700 }}>
+                <p style={{ margin: 0, color: '#065F46', fontSize: '1.65rem', lineHeight: 1.55, fontWeight: 750 }}>
                   🎉 Correct! Magnetic attraction is strongest at the ends, known as the Magnetic Poles.
                 </p>
               </div>
@@ -540,11 +540,11 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
                 className="gold-glow-btn"
                 style={{
                   width: '100%',
-                  marginTop: '0.5rem',
-                  padding: '0.85rem 1.5rem',
-                  fontSize: '1.25rem',
+                  marginTop: '0.6rem',
+                  padding: '1.2rem 2.2rem',
+                  fontSize: '1.55rem',
                   fontWeight: 900,
-                  borderRadius: '16px',
+                  borderRadius: '20px',
                   cursor: 'pointer'
                 }}
               >
