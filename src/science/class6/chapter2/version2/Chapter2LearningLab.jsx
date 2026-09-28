@@ -16,6 +16,7 @@ import activity24ObservationTransitionVideo from '../../../../assets/activity24_
 import activity25LeafObservationTransitionVideo from '../../../../assets/activity25_leaf_observation_transition.mp4';
 import activity26RootObservationTransitionVideo from '../../../../assets/activity26_root_observation_transition.mp4';
 import activity27PlantObservationTransitionVideo from '../../../../assets/activity27_plant_observation_transition.mp4';
+import heightSpecimensVideo from '../../../../assets/Height.mp4';
 import coverBgImage from '../../../../assets/cover_page_ch2.png';
 import coverBgVideo from '../../../../assets/in_this_video_just_add_those_b (1).mp4';
 import natureGreeneryBg from '../../../../assets/nature_greenery_bg.jpg';
@@ -235,7 +236,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
   const [transitionTargetSubTab, setTransitionTargetSubTab] = useState(null);
   const [transitionSourceStep, setTransitionSourceStep] = useState(null);
   const [transitionSourceSubTab, setTransitionSourceSubTab] = useState(null);
-
+  const [isPlayingHeightVideo, setIsPlayingHeightVideo] = useState(false);
+  const heightVideoRef = useRef(null);
   const [isSpeaking, setIsSpeaking] = useState(false);
   
   // Quiz state in Tab 10
@@ -1042,145 +1044,101 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
               autoPlay 
               playsInline 
               onEnded={() => {
-                setIsAct24TransitionEnded(true);
+                setIsPlayingAct24Transition(false);
+                setIsPlayingHeightVideo(true);
               }}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
-
-            {/* UI overlay appears after video ends */}
-            {isAct24TransitionEnded && (
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                padding: '32px',
-                background: 'rgba(0, 0, 0, 0.45)', // dim overlay
-                backdropFilter: 'blur(12px)',      // soften/blur the video
-                animation: 'fadeIn 1s ease-out forwards',
-                zIndex: 10000
-              }}>
-                {/* Top empty space to push center card to center */}
-                <div />
-                
-                {/* Center Card */}
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-                  <div style={{
-                    background: '#F3EFE0',
-                    border: '2px solid #84A98C',
-                    borderRadius: '24px',
-                    padding: '48px 64px',
-                    maxWidth: '700px',
-                    textAlign: 'center',
-                    position: 'relative',
-                    boxShadow: '0 16px 40px rgba(0,0,0,0.25)',
-                    overflow: 'hidden'
-                  }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginBottom: '32px' }}>
-                      <div style={{ height: '1px', width: '40px', background: '#84A98C' }} />
-                      <Leaf color="#4B7F52" size={28} />
-                      <div style={{ height: '1px', width: '40px', background: '#84A98C' }} />
-                    </div>
-                    
-                    <h2 style={{
-                      color: '#2D4A22',
-                      fontSize: '28px',
-                      fontWeight: '800',
-                      lineHeight: '1.4',
-                      marginBottom: '24px',
-                      fontFamily: 'Outfit, sans-serif'
-                    }}>
-                      Our plant collection is ready!
-                    </h2>
-                    
-                    <div style={{ height: '1px', width: '40px', background: '#84A98C', margin: '0 auto 24px auto' }} />
-
-                    <p style={{
-                      color: '#4A5D23',
-                      fontSize: '20px',
-                      fontWeight: '500',
-                      lineHeight: '1.5'
-                    }}>
-                      Let’s observe each specimen closely and<br />
-                      discover what makes them different.
-                    </p>
-                    
-                    <div style={{ position: 'absolute', left: '-20px', top: '50%', transform: 'translateY(-50%)', opacity: 0.15 }}>
-                      <Leaf size={100} color="#4B7F52" />
-                    </div>
-                    <div style={{ position: 'absolute', right: '-20px', top: '50%', transform: 'translateY(-50%) scaleX(-1)', opacity: 0.15 }}>
-                      <Leaf size={100} color="#4B7F52" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Bottom Navigation */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <button 
-                    onClick={() => {
-                      setIsPlayingAct24Transition(false);
-                      setIsAct24TransitionEnded(false);
-                      if (transitionDirection === 'backward') {
-                        setCurrentStep(transitionTargetStep);
-                        if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
-                      } else {
-                        setCurrentStep(transitionSourceStep);
-                        if (transitionSourceSubTab) setVenationSubTab(transitionSourceSubTab);
-                      }
-                    }}
-                    style={{
-                      background: '#F3EFE0',
-                      color: '#1E293B',
-                      border: 'none',
-                      borderRadius: '12px',
-                      padding: '12px 28px',
-                      fontSize: '18px',
-                      fontWeight: '700',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      cursor: 'pointer',
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-                    }}
-                  >
-                    <ArrowLeft size={20} /> Back
-                  </button>
-                  
-                  <button 
-                    onClick={() => {
-                      setIsPlayingAct24Transition(false);
-                      setIsAct24TransitionEnded(false);
-                      if (transitionDirection === 'backward') {
-                        setCurrentStep(transitionSourceStep);
-                        if (transitionSourceSubTab) setVenationSubTab(transitionSourceSubTab);
-                      } else {
-                        setCurrentStep(transitionTargetStep);
-                        if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
-                      }
-                    }}
-                    style={{
-                      background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                      color: '#FFFFFF',
-                      border: 'none',
-                      borderRadius: '12px',
-                      padding: '12px 32px',
-                      fontSize: '18px',
-                      fontWeight: '800',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      cursor: 'pointer',
-                      boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
-                    }}
-                  >
-                    Next <ArrowRight size={20} />
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
         )}
+
+        {isPlayingHeightVideo && (
+          <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
+            <video disablePictureInPicture 
+              ref={heightVideoRef}
+              src={heightSpecimensVideo} 
+              autoPlay 
+              playsInline 
+              onEnded={() => {
+                setIsPlayingHeightVideo(false);
+                if (transitionDirection === 'backward') {
+                  setCurrentStep(transitionSourceStep);
+                  if (transitionSourceSubTab) setVenationSubTab(transitionSourceSubTab);
+                } else {
+                  setCurrentStep(transitionTargetStep);
+                  if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
+                }
+              }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+            
+            {/* Back / Next buttons */}
+            <div style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '32px'
+            }}>
+              <button 
+                onClick={() => {
+                  setIsPlayingHeightVideo(false);
+                  setIsPlayingAct24Transition(true);
+                  setIsAct24TransitionEnded(false);
+                }}
+                style={{
+                  background: 'rgba(243, 239, 224, 0.9)',
+                  color: '#1E293B',
+                  border: 'none',
+                  borderRadius: '12px',
+                  padding: '12px 28px',
+                  fontSize: '18px',
+                  fontWeight: '700',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                }}
+              >
+                <ArrowLeft size={20} /> Back
+              </button>
+              
+              <button 
+                onClick={() => {
+                  setIsPlayingHeightVideo(false);
+                  if (transitionDirection === 'backward') {
+                    setCurrentStep(transitionSourceStep);
+                    if (transitionSourceSubTab) setVenationSubTab(transitionSourceSubTab);
+                  } else {
+                    setCurrentStep(transitionTargetStep);
+                    if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
+                  }
+                }}
+                style={{
+                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: '12px',
+                  padding: '12px 32px',
+                  fontSize: '18px',
+                  fontWeight: '800',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                  boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+                }}
+              >
+                Next <ArrowRight size={20} />
+              </button>
+            </div>
+          </div>
+        )}
+
 
         {/* ============================================================ */}
         {/* TRANSITION OVERLAY FOR ACTIVITY 2.4 OBSERVATION              */}
@@ -1788,7 +1746,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 setTransitionSourceStep(5);
                 setTransitionSourceSubTab(null);
                 setTransitionDirection('backward');
-                setIsPlayingAct24Transition(true);
+                setIsPlayingHeightVideo(true);
               }} 
               onGoToDetective={() => {
                 setTransitionTargetStep(6);
