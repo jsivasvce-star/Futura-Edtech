@@ -1063,12 +1063,6 @@ export default function ShapePatternsExperience({ onClose, onCompleteNode }) {
 
                     <div
                       className={`pl-term-card ${isRevealed ? 'revealed' : 'locked-target'}`}
-                      style={{
-                        borderColor: isRevealed ? concept.accentColor : '#cbd5e1',
-                        boxShadow: isRevealed
-                          ? `0 12px 32px ${concept.accentColor}30, 0 3px 8px rgba(0,0,0,0.05)`
-                          : 'none'
-                      }}
                     >
                       {isRevealed ? (
                         <div className="pl-shape-card-inner">

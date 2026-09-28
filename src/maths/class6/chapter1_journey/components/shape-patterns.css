@@ -128,10 +128,32 @@
   max-width: 100%;
 }
 
+/* ─────────────────────────────────────────────────────────────
+   CHAPTER 1.5: REMOVE SQUARE/RECTANGULAR CARD CONTAINERS
+   Remove borders, backgrounds, outlines, and shadows around shapes
+   across all concepts while preserving exact positions and layout.
+   ───────────────────────────────────────────────────────────── */
 #shape-patterns-experience-root .pl-term-card {
   width: 218px;
   height: 330px;
   flex-shrink: 0;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+#shape-patterns-experience-root .pl-term-card.revealed {
+  border: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+#shape-patterns-experience-root .pl-term-card.locked-target {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 #shape-patterns-experience-root .pl-shape-card-inner {

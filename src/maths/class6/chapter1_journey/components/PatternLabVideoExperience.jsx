@@ -472,10 +472,6 @@ export default function PatternLabVideoExperience({ onClose, onCompleteNode }) {
                     )}
                     <div
                       className={`pl-term-card ${isRevealed ? 'revealed' : 'locked-target'}`}
-                      style={{
-                        borderColor: isRevealed ? concept.accentColor : '#cbd5e1',
-                        boxShadow: isRevealed ? `0 12px 32px ${concept.accentColor}35, 0 3px 8px rgba(0,0,0,0.05)` : 'none'
-                      }}
                     >
                       <div className={`pl-card-number-val ${!isRevealed ? 'question-mark' : ''} ${isLongVal ? 'long-term' : ''}`}>
                         {termVal}

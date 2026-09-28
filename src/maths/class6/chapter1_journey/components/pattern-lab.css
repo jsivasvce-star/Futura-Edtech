@@ -538,6 +538,31 @@
   box-shadow: none;
 }
 
+/* ─────────────────────────────────────────────────────────────
+   CHAPTER 1.2: REMOVE SQUARE/RECTANGULAR CARD CONTAINERS
+   Remove borders, backgrounds, outlines, and shadows around numbers
+   across all number sequences while preserving exact positions and layout.
+   ───────────────────────────────────────────────────────────── */
+#pattern-lab-experience-root .pl-term-card {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+#pattern-lab-experience-root .pl-term-card.revealed {
+  border: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+#pattern-lab-experience-root .pl-term-card.locked-target {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
 /* Main Sequence Number - Prominently Displayed & Centered Both Vertically & Horizontally */
 .pl-card-number-val {
   font-size: 78px;
