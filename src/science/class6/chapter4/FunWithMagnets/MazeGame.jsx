@@ -3,32 +3,32 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Target, Move, Compass, RotateCcw, HelpCircle, ArrowLeft, ArrowRight } from 'lucide-react';
 
 // -------------------------------------------------------------------
-// 1. Exact Waypoint Node Coordinate System for Isometric City Grid Track Map (1024 x 666)
+// 1. Exact Waypoint Node Coordinate System for Isometric City Grid Track Map (1024 x 682)
 // -------------------------------------------------------------------
 export const WAYPOINT_NODES = [
-  // ── ROW 0: TOP RAILWAY TRACK (Y ≈ 65 - 75) ──
-  { id: 'node_0_0', name: 'Start: City Hall Junction 🚉', shortName: 'Start', icon: '🚉', x: 79, y: 75, neighbors: ['node_0_1', 'node_1_0'] },
-  { id: 'node_0_1', name: 'Hospital North Station 🏥', shortName: 'Hospital', icon: '🏥', x: 386, y: 68, neighbors: ['node_0_0', 'node_0_2', 'node_1_1'] },
-  { id: 'node_0_2', name: 'Solar Farm Energy Hub ☀️', shortName: 'Solar', icon: '☀️', x: 690, y: 65, neighbors: ['node_0_1', 'node_0_3', 'node_1_2'] },
-  { id: 'node_0_3', name: 'East Grand Depot 🚂', shortName: 'Depot', icon: '🚂', x: 945, y: 66, neighbors: ['node_0_2', 'node_1_3'] },
+  // ── ROW 0: TOP RAILWAY TRACK (Y ≈ 18 - 19) ──
+  { id: 'node_0_0', name: 'Start: City Hall Junction 🚉', shortName: 'Start', icon: '🚉', x: 29, y: 18, neighbors: ['node_0_1', 'node_1_0'] },
+  { id: 'node_0_1', name: 'Hospital North Station 🏥', shortName: 'Hospital', icon: '🏥', x: 347, y: 19, neighbors: ['node_0_0', 'node_0_2', 'node_1_1'] },
+  { id: 'node_0_2', name: 'Solar Farm Energy Hub ☀️', shortName: 'Solar', icon: '☀️', x: 672, y: 19, neighbors: ['node_0_1', 'node_0_3', 'node_1_2'] },
+  { id: 'node_0_3', name: 'East Grand Depot 🚂', shortName: 'Depot', icon: '🚂', x: 995, y: 19, neighbors: ['node_0_2', 'node_1_3'] },
 
-  // ── ROW 1: SECOND HORIZONTAL TRACK (Y ≈ 232 - 235) ──
-  { id: 'node_1_0', name: 'Power Plant West Junction ⚡', shortName: 'Power Sta', icon: '⚡', x: 78, y: 235, neighbors: ['node_0_0', 'node_2_0', 'node_1_1'] },
-  { id: 'node_1_1', name: 'Arena Stadium Station 🏟️', shortName: 'Stadium', icon: '🏟️', x: 386, y: 235, neighbors: ['node_1_0', 'node_0_1', 'node_1_2', 'node_2_1'] },
-  { id: 'node_1_2', name: 'Financial Towers Hub 🏢', shortName: 'Towers', icon: '🏢', x: 686, y: 232, neighbors: ['node_1_1', 'node_0_2', 'node_1_3', 'node_2_2'] },
-  { id: 'node_1_3', name: 'Ocean Harbor Depot 🚢', shortName: 'Harbor', icon: '🚢', x: 950, y: 235, neighbors: ['node_1_2', 'node_0_3', 'node_2_3'] },
+  // ── ROW 1: SECOND HORIZONTAL TRACK (Y ≈ 233 - 234) ──
+  { id: 'node_1_0', name: 'Power Plant West Junction ⚡', shortName: 'Power Sta', icon: '⚡', x: 25, y: 234, neighbors: ['node_0_0', 'node_2_0', 'node_1_1'] },
+  { id: 'node_1_1', name: 'Arena Stadium Station 🏟️', shortName: 'Stadium', icon: '🏟️', x: 349, y: 234, neighbors: ['node_1_0', 'node_0_1', 'node_1_2', 'node_2_1'] },
+  { id: 'node_1_2', name: 'Financial Towers Hub 🏢', shortName: 'Towers', icon: '🏢', x: 675, y: 233, neighbors: ['node_1_1', 'node_0_2', 'node_1_3', 'node_2_2'] },
+  { id: 'node_1_3', name: 'Ocean Harbor Depot 🚢', shortName: 'Harbor', icon: '🚢', x: 1000, y: 234, neighbors: ['node_1_2', 'node_0_3', 'node_2_3'] },
 
-  // ── ROW 2: THIRD HORIZONTAL TRACK (Y ≈ 425 - 429) ──
-  { id: 'node_2_0', name: 'Fire & Rescue Station 🚒', shortName: 'Fire Sta', icon: '🚒', x: 64, y: 425, neighbors: ['node_1_0', 'node_3_0', 'node_2_1'] },
-  { id: 'node_2_1', name: 'Tech Campus & Sports Court 🏫', shortName: 'Campus', icon: '🏫', x: 378, y: 426, neighbors: ['node_2_0', 'node_1_1', 'node_2_2', 'node_3_1'] },
-  { id: 'node_2_2', name: 'Metro Construction Hub 🏗️', shortName: 'Metro Hub', icon: '🏗️', x: 687, y: 425, neighbors: ['node_2_1', 'node_1_2', 'node_2_3', 'node_3_2'] },
-  { id: 'node_2_3', name: 'East Industrial Depot 📦', shortName: 'Logistics', icon: '📦', x: 958, y: 429, neighbors: ['node_2_2', 'node_1_3', 'node_3_3'] },
+  // ── ROW 2: THIRD HORIZONTAL TRACK (Y ≈ 462 - 463) ──
+  { id: 'node_2_0', name: 'Fire & Rescue Station 🚒', shortName: 'Fire Sta', icon: '🚒', x: 20, y: 462, neighbors: ['node_1_0', 'node_3_0', 'node_2_1'] },
+  { id: 'node_2_1', name: 'Tech Campus & Sports Court 🏫', shortName: 'Campus', icon: '🏫', x: 346, y: 462, neighbors: ['node_2_0', 'node_1_1', 'node_2_2', 'node_3_1'] },
+  { id: 'node_2_2', name: 'Metro Construction Hub 🏗️', shortName: 'Metro Hub', icon: '🏗️', x: 681, y: 462, neighbors: ['node_2_1', 'node_1_2', 'node_2_3', 'node_3_2'] },
+  { id: 'node_2_3', name: 'East Industrial Depot 📦', shortName: 'Logistics', icon: '📦', x: 1002, y: 462, neighbors: ['node_2_2', 'node_1_3', 'node_3_3'] },
 
-  // ── ROW 3: BOTTOM HORIZONTAL TRACK (Y ≈ 603 - 610) ──
-  { id: 'node_3_0', name: 'Suburban Residential Terminal 🏡', shortName: 'Suburbs', icon: '🏡', x: 64, y: 603, neighbors: ['node_2_0', 'node_3_1'] },
-  { id: 'node_3_1', name: 'Bio-Sphere Dome Gardens 🌿', shortName: 'Bio-Domes', icon: '🌿', x: 373, y: 609, neighbors: ['node_3_0', 'node_2_1', 'node_3_2'] },
-  { id: 'node_3_2', name: 'Grand Promenade Station 🏛️', shortName: 'Promenade', icon: '🏛️', x: 689, y: 610, neighbors: ['node_3_1', 'node_2_2', 'node_3_3'] },
-  { id: 'node_3_3', name: 'Target: Destination Beacon 🎯', shortName: 'Goal 🎯', icon: '🎯', x: 962, y: 610, neighbors: ['node_3_2', 'node_2_3'] }
+  // ── ROW 3: BOTTOM HORIZONTAL TRACK (Y ≈ 659 - 660) ──
+  { id: 'node_3_0', name: 'Suburban Residential Terminal 🏡', shortName: 'Suburbs', icon: '🏡', x: 18, y: 659, neighbors: ['node_2_0', 'node_3_1'] },
+  { id: 'node_3_1', name: 'Bio-Sphere Dome Gardens 🌿', shortName: 'Bio-Domes', icon: '🌿', x: 343, y: 659, neighbors: ['node_3_0', 'node_2_1', 'node_3_2'] },
+  { id: 'node_3_2', name: 'Grand Promenade Station 🏛️', shortName: 'Promenade', icon: '🏛️', x: 680, y: 659, neighbors: ['node_3_1', 'node_2_2', 'node_3_3'] },
+  { id: 'node_3_3', name: 'Target: Destination Beacon 🎯', shortName: 'Goal 🎯', icon: '🎯', x: 1008, y: 660, neighbors: ['node_3_2', 'node_2_3'] }
 ];
 
 export const NODES_MAP = Object.fromEntries(WAYPOINT_NODES.map(n => [n.id, n]));
@@ -163,7 +163,7 @@ const WaypointNodeSprite = ({
   onClick 
 }) => {
   const pulse = Math.sin(now * 0.008);
-  const ringR = 10 + pulse * 2.5;
+  const ringR = 12 + pulse * 3.5;
 
   return (
     <g 
@@ -176,50 +176,92 @@ const WaypointNodeSprite = ({
         <circle
           cx="0"
           cy="0"
-          r={isTarget ? ringR + 3 : (isConnected ? ringR : 8.5)}
-          fill={isTarget ? "rgba(245, 158, 11, 0.22)" : "rgba(59, 130, 246, 0.25)"}
-          stroke={isTarget ? "#F59E0B" : "#3B82F6"}
-          strokeWidth="1.4"
-          strokeDasharray={isConnected ? "3 3" : "none"}
-          style={{ filter: 'drop-shadow(0 0 5px rgba(59, 130, 246, 0.6))' }}
+          r={isTarget ? ringR + 8 : (isStart ? ringR + 6 : (isConnected ? ringR + 4 : 12))}
+          fill={isTarget ? "rgba(245, 158, 11, 0.28)" : (isStart ? "rgba(16, 185, 129, 0.28)" : "rgba(59, 130, 246, 0.28)")}
+          stroke={isTarget ? "#F59E0B" : (isStart ? "#10B981" : "#3B82F6")}
+          strokeWidth="1.8"
+          strokeDasharray={isConnected ? "4 4" : "none"}
+          style={{ filter: isTarget ? 'drop-shadow(0 0 8px rgba(245, 158, 11, 0.8))' : 'drop-shadow(0 0 6px rgba(59, 130, 246, 0.7))' }}
         />
       )}
 
-      {/* 2. Outer Node Ring - Clean vivid blue (#3B82F6) */}
+      {/* 2. Outer Node Ring */}
       <circle
         cx="0"
         cy="0"
-        r={isTarget ? 6.5 : (isStart ? 6 : (isConnected ? 5.5 : (isCurrent ? 5 : 4)))}
-        fill={isTarget ? "#F59E0B" : (isStart ? "#10B981" : "#3B82F6")}
+        r={isTarget ? 10 : (isStart ? 9.5 : (isConnected ? 8.5 : (isCurrent ? 8 : 7)))}
+        fill={isTarget ? "#F59E0B" : (isStart ? "#10B981" : (isConnected ? "#2563EB" : "#3B82F6"))}
         stroke="#FFFFFF"
-        strokeWidth="1.5"
-        style={{ filter: 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.35))' }}
+        strokeWidth="2"
+        style={{ filter: 'drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45))' }}
       />
 
       {/* 3. Sleek Center Core Dot */}
       <circle
         cx="0"
         cy="0"
-        r={isTarget ? 2.8 : (isStart ? 2.4 : (isConnected ? 2.2 : 1.5))}
+        r={isTarget ? 4.2 : (isStart ? 3.8 : (isConnected ? 3.2 : 2.5))}
         fill="#FFFFFF"
         opacity={0.95}
       />
 
-      {/* 4. Sleek Start Badge */}
+      {/* 4. Enlarged Prominent Start Beacon & Badge */}
       {isStart && (
-        <g transform="translate(0, -15)" pointerEvents="none">
-          <rect x="-20" y="-6.5" width="40" height="13" rx="6.5" fill="#064E3B" stroke="#34D399" strokeWidth="1.2" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.4))' }} />
-          <text x="0" y="2.8" textAnchor="middle" fill="#FFFFFF" fontSize="7" fontWeight="900" fontFamily="system-ui, sans-serif">
+        <g transform="translate(32, 22)" pointerEvents="none">
+          {/* Connector pointer line back to node center */}
+          <line x1="-32" y1="-22" x2="-20" y2="-10" stroke="#34D399" strokeWidth="2" strokeLinecap="round" strokeDasharray="2 2" />
+          <rect 
+            x="-36" 
+            y="-13" 
+            width="72" 
+            height="26" 
+            rx="13" 
+            fill="#064E3B" 
+            stroke="#34D399" 
+            strokeWidth="2" 
+            style={{ filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.5))' }} 
+          />
+          <text 
+            x="0" 
+            y="4.5" 
+            textAnchor="middle" 
+            fill="#FFFFFF" 
+            fontSize="11.5" 
+            fontWeight="900" 
+            fontFamily="system-ui, -apple-system, sans-serif"
+            letterSpacing="0.5px"
+          >
             START 🚩
           </text>
         </g>
       )}
 
-      {/* 5. Sleek Destination Badge */}
+      {/* 5. Enlarged Prominent Goal Beacon & Badge */}
       {isTarget && (
-        <g transform="translate(0, -17)" pointerEvents="none">
-          <rect x="-24" y="-6.5" width="48" height="13" rx="6.5" fill="#173B5F" stroke="#FACC15" strokeWidth="1.2" style={{ filter: 'drop-shadow(0 2px 5px rgba(245,158,11,0.45))' }} />
-          <text x="0" y="2.8" textAnchor="middle" fill="#EAF2F6" fontSize="7" fontWeight="900" fontFamily="system-ui, sans-serif">
+        <g transform="translate(-34, -22)" pointerEvents="none">
+          {/* Connector pointer line back to node center */}
+          <line x1="34" y1="22" x2="22" y2="10" stroke="#FACC15" strokeWidth="2" strokeLinecap="round" strokeDasharray="2 2" />
+          <rect 
+            x="-38" 
+            y="-13" 
+            width="76" 
+            height="26" 
+            rx="13" 
+            fill="#1E293B" 
+            stroke="#FACC15" 
+            strokeWidth="2" 
+            style={{ filter: 'drop-shadow(0 4px 12px rgba(245,158,11,0.55))' }} 
+          />
+          <text 
+            x="0" 
+            y="4.5" 
+            textAnchor="middle" 
+            fill="#FEF08A" 
+            fontSize="11.5" 
+            fontWeight="900" 
+            fontFamily="system-ui, -apple-system, sans-serif"
+            letterSpacing="0.5px"
+          >
             GOAL 🎯
           </text>
         </g>
@@ -936,7 +978,7 @@ export default function MazeGame({
 
       {/* 4. Declarative SVG / DOM Layered Simulation Viewport */}
       <svg
-        viewBox="0 0 1024 666"
+        viewBox="0 0 1024 682"
         preserveAspectRatio="none"
         style={{
           width: '100%',
@@ -1001,7 +1043,7 @@ export default function MazeGame({
           x="0"
           y="0"
           width="1024"
-          height="666"
+          height="682"
           preserveAspectRatio="none"
         />
 

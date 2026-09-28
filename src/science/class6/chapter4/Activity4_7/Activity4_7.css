@@ -31,7 +31,7 @@
 .gold-glow-btn {
   position: relative !important;
   overflow: hidden !important;
-  background: linear-gradient(135deg, #214A70 0%, #173B5F 50%, #173B5F 100%) !important;
+  background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 50%, #D97706 100%) !important;
   border: 1.5px solid rgba(254, 240, 138, 0.6) !important;
   border-radius: 16px;
   color: #FFFFFF !important;
@@ -70,12 +70,34 @@
 
 .gold-glow-btn:hover {
   transform: translateY(-2px) scale(1.03) !important;
-  background: linear-gradient(135deg, #214A70 0%, #214A70 50%, #173B5F 100%) !important;
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #B45309 100%) !important;
   box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5), 0 0 20px rgba(251, 191, 36, 0.4) !important;
 }
 
 .gold-glow-btn:active {
   transform: translateY(0) scale(0.98) !important;
+}
+
+.navy-btn {
+  position: relative !important;
+  overflow: hidden !important;
+  background: linear-gradient(135deg, #214A70 0%, #173B5F 100%) !important;
+  border: 1.5px solid #2B6CB0 !important;
+  color: #FFFFFF !important;
+  font-weight: 900 !important;
+  border-radius: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  box-shadow: 0 4px 14px rgba(23, 59, 95, 0.3);
+  transition: all 0.2s ease;
+}
+
+.navy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(23, 59, 95, 0.45);
 }
 
 .gold-accent-btn {
@@ -149,17 +171,7 @@
   background: #173B5F;
 }
 
-/* Fullscreen: non-scrolling, containers expand gracefully to fill height */
-@media (min-width: 1367px) and (min-height: 821px) {
-  .stage-right-column {
-    overflow-y: hidden !important;
-  }
-}
-
-/* Halfscreen or smaller viewports: Enable smooth scrolling and prevent container squishing */
-@media (max-width: 1366px), (max-height: 820px) {
-  .stage-right-column {
-    overflow-y: auto !important;
-    padding-right: 0.45rem !important;
-  }
+.stage-right-column {
+  overflow-y: auto !important;
+  padding-right: 0.45rem;
 }

@@ -81,20 +81,20 @@ export default function ChallengeMode({ onComplete }) {
     return (
       <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box' }}>
         <div style={{ 
-          maxWidth: '520px', 
+          maxWidth: '640px', 
           width: '90%', 
-          padding: '2.5rem 3rem', 
+          padding: '2.8rem 3.5rem', 
           textAlign: 'center', 
           background: 'linear-gradient(145deg, #FFFFFF 0%, #F3F7F9 50%, #EAF2F6 100%)', 
           borderRadius: '30px', 
-          border: '1.5px solid #E2E8F0',
-          boxShadow: '0 15px 40px rgba(217, 119, 6, 0.12)',
+          border: '2px solid #E2E8F0',
+          boxShadow: '0 18px 45px rgba(217, 119, 6, 0.16)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '1.25rem'
+          gap: '1.5rem'
         }}>
-          <h2 style={{ fontSize: '2rem', margin: 0, color: '#064E3B', fontWeight: 900 }}>Challenge Complete!</h2>
+          <h2 style={{ fontSize: '2.5rem', margin: 0, color: '#064E3B', fontWeight: 900 }}>Challenge Complete!</h2>
           
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
             {[...Array(3)].map((_, i) => (
@@ -105,7 +105,7 @@ export default function ChallengeMode({ onComplete }) {
                 transition={{ delay: i * 0.2, type: 'spring', stiffness: 200, damping: 15 }}
               >
                 <Star 
-                  size={54} 
+                  size={60} 
                   fill={i < stars ? "#214A70" : "transparent"} 
                   color={i < stars ? "#214A70" : "#E2E8F0"} 
                   strokeWidth={i < stars ? 1 : 2}
@@ -114,23 +114,23 @@ export default function ChallengeMode({ onComplete }) {
             ))}
           </div>
           
-          <p style={{ fontSize: '1.25rem', color: '#065F46', margin: '0.5rem 0', fontWeight: 700 }}>
+          <p style={{ fontSize: '1.65rem', color: '#065F46', margin: '0.5rem 0', fontWeight: 750 }}>
             You earned {stars} out of 3 stars!
           </p>
 
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', width: '100%' }}>
+          <div style={{ display: 'flex', gap: '1.2rem', justifyContent: 'center', width: '100%' }}>
             <button 
               onClick={resetChallenge} 
               style={{ 
                 flex: 1,
-                padding: '0.95rem 1.5rem', 
-                fontSize: '1.05rem', 
+                padding: '1.1rem 2rem', 
+                fontSize: '1.45rem', 
                 display: 'flex', 
                 alignItems: 'center', 
                 justifyContent: 'center', 
-                gap: '0.5rem',
+                gap: '0.65rem',
                 background: '#FFFFFF',
-                border: '1.5px solid #E2E8F0',
+                border: '2px solid #E2E8F0',
                 color: '#173B5F',
                 borderRadius: '30px',
                 fontWeight: 900,
@@ -138,7 +138,7 @@ export default function ChallengeMode({ onComplete }) {
                 boxShadow: '0 2px 8px rgba(0,0,0,0.03)'
               }}
             >
-              <RotateCcw size={18} /> Try Again
+              <RotateCcw size={22} /> Try Again
             </button>
             {onComplete && (
               <button 
@@ -146,18 +146,18 @@ export default function ChallengeMode({ onComplete }) {
                 className="gold-glow-btn"
                 style={{ 
                   flex: 1,
-                  padding: '0.95rem 1.5rem', 
-                  fontSize: '1.05rem', 
+                  padding: '1.1rem 2rem', 
+                  fontSize: '1.45rem', 
                   display: 'flex', 
                   alignItems: 'center', 
                   justifyContent: 'center', 
-                  gap: '0.5rem',
+                  gap: '0.65rem',
                   borderRadius: '30px',
                   fontWeight: 900,
                   cursor: 'pointer'
                 }}
               >
-                Finish Activity <ArrowRight size={18} color="#FFFFFF" />
+                Finish Activity <ArrowRight size={22} color="#FFFFFF" />
               </button>
             )}
           </div>
@@ -270,16 +270,16 @@ export default function ChallengeMode({ onComplete }) {
           {showResult && (
             <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
               <div style={{ 
-                padding: '1rem 1.35rem', 
+                padding: '1.25rem 1.6rem', 
                 background: '#FFFFFF', 
-                borderRadius: '16px',
+                borderRadius: '18px',
                 border: '1.5px solid #E2E8F0',
-                borderLeft: `5px solid ${selectedOption === c.correctAnswer ? '#10B981' : '#EF4444'}`
+                borderLeft: `6px solid ${selectedOption === c.correctAnswer ? '#10B981' : '#EF4444'}`
               }}>
-                <h4 style={{ margin: '0 0 0.35rem 0', fontSize: '1.1rem', fontWeight: 900, color: selectedOption === c.correctAnswer ? '#059669' : '#DC2626' }}>
-                  {selectedOption === c.correctAnswer ? 'Brilliant!' : 'Not quite.'}
+                <h4 style={{ margin: '0 0 0.4rem 0', fontSize: '1.45rem', fontWeight: 900, color: selectedOption === c.correctAnswer ? '#059669' : '#DC2626' }}>
+                  {selectedOption === c.correctAnswer ? '🎉 Brilliant Prediction!' : '❌ Not quite.'}
                 </h4>
-                <p style={{ margin: 0, color: '#065F46', fontSize: '1.02rem', lineHeight: '1.55', fontWeight: 600 }}>
+                <p style={{ margin: 0, color: '#065F46', fontSize: '1.35rem', lineHeight: '1.55', fontWeight: 750 }}>
                   {c.explanation}
                 </p>
               </div>
@@ -289,9 +289,9 @@ export default function ChallengeMode({ onComplete }) {
                   onClick={handleNext}
                   className="gold-glow-btn"
                   style={{
-                    padding: '0.85rem 2.25rem',
+                    padding: '0.95rem 2.5rem',
                     borderRadius: '30px',
-                    fontSize: '1.1rem',
+                    fontSize: '1.25rem',
                     fontWeight: 900,
                     cursor: 'pointer',
                     transition: 'all 0.25s ease',
@@ -300,7 +300,7 @@ export default function ChallengeMode({ onComplete }) {
                     gap: '0.5rem'
                   }}
                 >
-                  {currentChallenge < challenges.length - 1 ? 'Next Challenge' : 'See Final Score'} <ArrowRight size={18} color="#FFFFFF" />
+                  {currentChallenge < challenges.length - 1 ? 'Next Challenge' : 'See Final Score'} <ArrowRight size={22} color="#FFFFFF" />
                 </button>
               </div>
             </div>

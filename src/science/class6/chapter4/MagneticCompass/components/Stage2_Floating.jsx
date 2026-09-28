@@ -135,16 +135,17 @@ export default function Stage2_Floating({ onComplete }) {
           </>
         )}
         
-        {/* Gentle bobbing floating physics */}
+        {/* Gentle bobbing floating physics & subtle natural water movement */}
         <motion.div
           animate={{ 
-            z: [0, 4, 0],
-            rotateX: [0, 1.2, 0] 
+            z: [0, 5, 0],
+            rotateX: [0, 1.4, -0.8, 0],
+            rotateY: [0, -0.9, 0.9, 0]
           }}
-          transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+          transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut' }}
           style={{ position: 'absolute', top: 0, left: 0, width: 0, height: 0, transformStyle: 'preserve-3d' }}
         >
-          {/* Rotatable Needle driven by continuous oscillation spring physics */}
+          {/* Rotatable Wooden Cork with Needle driven by continuous physics oscillation */}
           <div
             style={{
               position: 'absolute',
@@ -158,26 +159,36 @@ export default function Stage2_Floating({ onComplete }) {
               transform: `rotateZ(${displayAngle}deg)`
             }}
             onClick={handleTurnCork}
-            title="Click to gently turn the floating compass needle"
+            title="Click to gently turn the floating compass"
           >
-            {/* Click Hitbox & Needle Mount */}
-            <div style={{ position: 'absolute', width: 140, height: 140, left: -70, top: -70, transformStyle: 'preserve-3d' }}>
-              {/* Crisp Metallic Needle Floating Dead-Center on Cork Piece - North (Tip) pointing straight Up, South (Eye) straight Down */}
+            {/* Click Hitbox & Floating Wooden Cork with Needle */}
+            <div style={{ 
+              position: 'absolute', 
+              width: 180, 
+              height: 180, 
+              left: -90, 
+              top: -90, 
+              transformStyle: 'preserve-3d',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              {/* Wooden cork disk with vertical magnetized needle */}
               <div style={{
                 position: 'absolute',
-                left: '47.5%',
-                top: '52.5%',
-                transform: 'translateZ(18px) translate(-50%, -50%) rotate(-90deg)',
-                filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.55)) brightness(1.25) contrast(1.25)',
+                left: '50%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
+                filter: 'drop-shadow(0 14px 24px rgba(0, 0, 0, 0.62)) drop-shadow(0 0 16px rgba(255, 255, 255, 0.45)) brightness(1.22) contrast(1.12)',
                 pointerEvents: 'none',
-                width: '330px',
+                width: '185px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
                 <img
-                  src="/MagneticCompass/needle_magnetized.png"
-                  alt="Magnetized needle"
+                  src="/MagneticCompass/cork_with_needle.png"
+                  alt="Floating cork with magnetized needle"
                   style={{
                     width: '100%',
                     height: 'auto',
@@ -254,35 +265,6 @@ export default function Stage2_Floating({ onComplete }) {
               Observation: <span style={{ fontWeight: 700, color: '#334155' }}>{step === 'floating' ? 'Oscillating in water...' : 'Needle has settled'}</span>
             </span>
           </div>
-
-          {/* Fullscreen Button */}
-          <button
-            onClick={toggleFullscreen}
-            title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
-            style={{
-              position: 'absolute',
-              top: '18px',
-              right: '20px',
-              zIndex: 30,
-              background: 'rgba(255, 255, 255, 0.92)',
-              backdropFilter: 'blur(8px)',
-              border: '1px solid rgba(255, 255, 255, 0.8)',
-              borderRadius: '20px',
-              padding: '6px 14px',
-              fontSize: '0.85rem',
-              fontWeight: 800,
-              color: '#0F172A',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              transition: 'all 0.2s ease',
-            }}
-          >
-            {isFullscreen ? <Minimize2 size={16} color="#0F172A" /> : <Maximize2 size={16} color="#0F172A" />}
-            <span>{isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}</span>
-          </button>
 
           {/* 4 Cardinal Direction Markers Touching the Outer Bowl Rim (North, East, South, West) */}
           {/* North Badge (Touching top bowl rim - nudged downward) */}

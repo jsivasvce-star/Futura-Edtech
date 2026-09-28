@@ -187,16 +187,18 @@ export default function Quiz({ onComplete }) {
       <div style={{ width: '100%', maxWidth: '1180px', display: 'flex', flexDirection: 'column' }}>
         
         {/* Main Quiz Card */}
-        <div className="glass-panel" style={{ 
+        <div className="glass-panel custom-scrollbar" style={{ 
           background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
           border: '1.5px solid #E2E8F0', 
           borderRadius: '28px', 
-          padding: '2.2rem 3rem', 
+          padding: '1.8rem 2.5rem', 
           boxShadow: '0 8px 30px rgba(23, 59, 95, 0.08)', 
           display: 'flex', 
           flexDirection: 'column', 
           gap: '1.25rem', 
           width: '100%', 
+          maxHeight: '100%',
+          overflowY: 'auto',
           boxSizing: 'border-box' 
         }}>
           {/* Question Badge inside the quiz container */}
@@ -320,10 +322,10 @@ export default function Quiz({ onComplete }) {
                 borderLeft: '6px solid #059669',
                 boxShadow: '0 4px 14px rgba(5, 150, 105, 0.08)'
               }}>
-                <h4 style={{ margin: '0 0 0.3rem 0', fontSize: '1.25rem', fontWeight: 900, color: '#064E3B' }}>
+                <h4 style={{ margin: '0 0 0.4rem 0', fontSize: '1.45rem', fontWeight: 900, color: '#064E3B' }}>
                   {isCorrect ? "Explanation (Correct)" : "Explanation"}
                 </h4>
-                <p style={{ margin: 0, color: '#065F46', fontSize: '1.18rem', lineHeight: '1.5', fontWeight: 600 }}>
+                <p style={{ margin: 0, color: '#065F46', fontSize: '1.35rem', lineHeight: '1.55', fontWeight: 750 }}>
                   {currentQ.explanation}
                 </p>
               </div>
@@ -335,7 +337,7 @@ export default function Quiz({ onComplete }) {
                   style={{
                     padding: '0.95rem 2.8rem',
                     borderRadius: '30px',
-                    fontSize: '1.2rem',
+                    fontSize: '1.25rem',
                     fontWeight: 900,
                     cursor: 'pointer'
                   }}
@@ -354,10 +356,10 @@ export default function Quiz({ onComplete }) {
               borderLeft: '6px solid #DC2626',
               boxShadow: '0 4px 14px rgba(220, 38, 38, 0.08)'
             }}>
-              <h4 style={{ margin: '0 0 0.3rem 0', fontSize: '1.25rem', fontWeight: 900, color: '#991B1B' }}>
+              <h4 style={{ margin: '0 0 0.4rem 0', fontSize: '1.45rem', fontWeight: 900, color: '#991B1B' }}>
                 Try Again
               </h4>
-              <p style={{ margin: 0, color: '#B91C1C', fontSize: '1.18rem', lineHeight: '1.5', fontWeight: 600 }}>
+              <p style={{ margin: 0, color: '#B91C1C', fontSize: '1.35rem', lineHeight: '1.55', fontWeight: 750 }}>
                 {currentQ.tryAgain}
               </p>
             </div>
