@@ -706,10 +706,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
     if (phase !== 'specimens') return;
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowLeft') {
-        if (specimenIndex === 1) {
-          if (activity26VideoRef.current) activity26VideoRef.current.currentTime = 0;
-          setShowActivity26Video(true);
-        } else if (specimenIndex > 0) {
+        if (specimenIndex > 1) {
           setSpecimenIndex(prev => prev - 1);
         } else if (onPreviousPage) {
           onPreviousPage();
@@ -747,6 +744,43 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           onEnded={() => setShowActivity26Video(false)}
         />
+        <button
+          onClick={() => { if (onPreviousPage) onPreviousPage(); else if (onBackToDashboard) onBackToDashboard(); }}
+          style={{
+            position: 'absolute', bottom: '22px', left: '26px', display: 'flex', alignItems: 'center', gap: '8px',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+            backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+            border: '2px solid rgba(253, 230, 138, 0.85)', borderRadius: '26px', padding: '10px 22px',
+            fontSize: '18px', fontWeight: 900, color: '#FFFBEB', cursor: 'pointer',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+            zIndex: 1010, transition: 'all 0.18s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          <ArrowLeft size={20} /> Back
+        </button>
+        <button
+          onClick={() => { 
+            if (activity26VideoRef.current) activity26VideoRef.current.pause(); 
+            setShowActivity26Video(false); 
+          }}
+          style={{
+            position: 'absolute', bottom: '22px', right: '26px', display: 'flex', alignItems: 'center', gap: '10px',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+            backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+            border: '2px solid rgba(253, 230, 138, 0.85)', borderRadius: '28px', padding: '11px 26px',
+            fontSize: '18px', fontWeight: 900, color: '#FFFBEB', cursor: 'pointer',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+            zIndex: 1010, transition: 'all 0.18s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          Next <ArrowRight size={20} />
+        </button>
       </div>
     );
   }
@@ -842,10 +876,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
         {/* Floating Bottom Left Control: Back */}
         <button
           onClick={() => {
-            if (specimenIndex === 1) {
-              if (activity26VideoRef.current) activity26VideoRef.current.currentTime = 0;
-              setShowActivity26Video(true);
-            } else if (specimenIndex > 0) {
+            if (specimenIndex > 1) {
               setSpecimenIndex(prev => prev - 1);
             } else if (onPreviousPage) {
               onPreviousPage();
