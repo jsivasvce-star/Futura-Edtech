@@ -553,6 +553,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
   const [phase, setPhase] = useState('specimens'); // 'specimens' | 'lab'
   const [specimenIndex, setSpecimenIndex] = useState(initialSpecimenIndex);
   const [showActivity26Video, setShowActivity26Video] = useState(false);
+  const [videoDirection, setVideoDirection] = useState('forward');
   const activity26VideoRef = useRef(null);
   useEffect(() => { if (onStateChange) onStateChange(specimenIndex); }, [specimenIndex, onStateChange]);
 
@@ -708,12 +709,16 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
       if (e.key === 'ArrowLeft') {
         if (specimenIndex > 1) {
           setSpecimenIndex(prev => prev - 1);
-        } else if (onPreviousPage) {
-          onPreviousPage();
+        } else if (specimenIndex === 1) {
+          setVideoDirection('backward');
+          setShowActivity26Video(true);
+        } else if (specimenIndex === 0) {
+          const handler = onPreviousPage || onBackToDashboard;
+          if (handler) handler();
         }
       } else if (e.key === 'ArrowRight' || e.key === ' ') {
         if (specimenIndex === 0) {
-          setSpecimenIndex(1);
+          setVideoDirection('forward');
           setShowActivity26Video(true);
         } else if (specimenIndex < ROOT_SPECIMEN_SLIDES.length - 1) {
           setSpecimenIndex(prev => prev + 1);
@@ -742,10 +747,21 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           autoPlay
           playsInline
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          onEnded={() => setShowActivity26Video(false)}
+          onEnded={() => {
+            setShowActivity26Video(false);
+            if (videoDirection === 'backward') {
+              setSpecimenIndex(0);
+            } else {
+              setSpecimenIndex(1);
+            }
+          }}
         />
         <button
-          onClick={() => { if (onPreviousPage) onPreviousPage(); else if (onBackToDashboard) onBackToDashboard(); }}
+          onClick={() => { 
+            if (activity26VideoRef.current) activity26VideoRef.current.pause();
+            setShowActivity26Video(false); 
+            setSpecimenIndex(0); 
+          }}
           style={{
             position: 'absolute', bottom: '22px', left: '26px', display: 'flex', alignItems: 'center', gap: '8px',
             background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
@@ -764,7 +780,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
         <button
           onClick={() => { 
             if (activity26VideoRef.current) activity26VideoRef.current.pause(); 
-            setShowActivity26Video(false); 
+            setShowActivity26Video(false);
+            setSpecimenIndex(1);
           }}
           style={{
             position: 'absolute', bottom: '22px', right: '26px', display: 'flex', alignItems: 'center', gap: '10px',
@@ -878,10 +895,12 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
           onClick={() => {
             if (specimenIndex > 1) {
               setSpecimenIndex(prev => prev - 1);
-            } else if (onPreviousPage) {
-              onPreviousPage();
-            } else if (onBackToDashboard) {
-              onBackToDashboard();
+            } else if (specimenIndex === 1) {
+              setVideoDirection('backward');
+              setShowActivity26Video(true);
+            } else if (specimenIndex === 0) {
+              const handler = onPreviousPage || onBackToDashboard;
+              if (handler) handler();
             }
           }}
           style={{
@@ -955,7 +974,7 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
         <button
           onClick={() => {
             if (specimenIndex === 0) {
-              setSpecimenIndex(1);
+              setVideoDirection('forward');
               setShowActivity26Video(true);
             } else if (specimenIndex < ROOT_SPECIMEN_SLIDES.length - 1) {
               setSpecimenIndex(prev => prev + 1);

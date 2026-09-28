@@ -35,6 +35,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
   const [phase, setPhase] = useState(initialPhase); // 'cover' | 'specimens'
   const [specimenIndex, setSpecimenIndex] = useState(initialSpecimenIndex);
   const [showLeafVenationVideo, setShowLeafVenationVideo] = useState(false);
+  const [videoDirection, setVideoDirection] = useState('forward');
   const leafVideoRef = useRef(null);
   useEffect(() => { if (onStateChange) onStateChange(phase, specimenIndex); }, [phase, specimenIndex, onStateChange]);
 
@@ -136,10 +137,20 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           onEnded={() => {
             setShowLeafVenationVideo(false);
+            if (videoDirection === 'backward') {
+              setPhase('cover');
+            } else {
+              setPhase('specimens');
+              setSpecimenIndex(0);
+            }
           }}
         />
         <button
-          onClick={() => { if (onPreviousPage) onPreviousPage(); }}
+          onClick={() => { 
+            if (leafVideoRef.current) leafVideoRef.current.pause();
+            setShowLeafVenationVideo(false);
+            setPhase('cover');
+          }}
           style={{
             position: 'absolute', bottom: '22px', left: '26px', display: 'flex', alignItems: 'center', gap: '8px',
             background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
@@ -157,8 +168,10 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
         </button>
         <button
           onClick={() => { 
-            if (leafVideoRef.current) leafVideoRef.current.pause(); 
-            setShowLeafVenationVideo(false); 
+            if (leafVideoRef.current) leafVideoRef.current.pause();
+            setShowLeafVenationVideo(false);
+            setPhase('specimens');
+            setSpecimenIndex(0);
           }}
           style={{
             position: 'absolute', bottom: '22px', right: '26px', display: 'flex', alignItems: 'center', gap: '10px',
@@ -276,7 +289,8 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
               setSpecimenIndex(prev => prev - 1); 
               venationAudio.playSwitch(); 
             } else { 
-              setPhase('cover'); 
+              setVideoDirection('backward');
+              setShowLeafVenationVideo(true);
             } 
           }}
           style={{
@@ -391,7 +405,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
 
         <button
           type="button"
-          onClick={() => { setSpecimenIndex(0); setPhase('specimens'); setShowLeafVenationVideo(true); }}
+          onClick={() => { setVideoDirection('forward'); setShowLeafVenationVideo(true); }}
           style={navBtn('primary')}
           aria-label="View the leaf specimens, then continue"
         >
