@@ -36,6 +36,7 @@ import specimen03OnionBlended from './specimen_03_onion_blended.png';
 import specimen04GrassBlended from './specimen_04_grass_blended.png';
 import specimen05MaizeBlended from './specimen_05_maize_blended.png';
 import specimen06OverviewBlended from './specimen_06_overview_blended.png';
+import activity26VideoMp4 from '../../../../../assets/activity26-specimens.mp4';
 
 // =========================================================================
 // FULLSCREEN SPECIMEN SLIDES (ACTIVITY 2.6) — EXACT 16:9 HD SPECIMENS
@@ -551,6 +552,8 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
 
   const [phase, setPhase] = useState('specimens'); // 'specimens' | 'lab'
   const [specimenIndex, setSpecimenIndex] = useState(initialSpecimenIndex);
+  const [showActivity26Video, setShowActivity26Video] = useState(false);
+  const activity26VideoRef = useRef(null);
   useEffect(() => { if (onStateChange) onStateChange(specimenIndex); }, [specimenIndex, onStateChange]);
 
   // Title pill: shown for 7s on each slide, then auto-hides; moving the
@@ -703,13 +706,19 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
     if (phase !== 'specimens') return;
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowLeft') {
-        if (specimenIndex > 0) {
+        if (specimenIndex === 1) {
+          if (activity26VideoRef.current) activity26VideoRef.current.currentTime = 0;
+          setShowActivity26Video(true);
+        } else if (specimenIndex > 0) {
           setSpecimenIndex(prev => prev - 1);
         } else if (onPreviousPage) {
           onPreviousPage();
         }
       } else if (e.key === 'ArrowRight' || e.key === ' ') {
-        if (specimenIndex < ROOT_SPECIMEN_SLIDES.length - 1) {
+        if (specimenIndex === 0) {
+          setSpecimenIndex(1);
+          setShowActivity26Video(true);
+        } else if (specimenIndex < ROOT_SPECIMEN_SLIDES.length - 1) {
           setSpecimenIndex(prev => prev + 1);
         } else if (onNext) {
           onNext();
@@ -721,6 +730,26 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [phase, specimenIndex, onPreviousPage, onNext]);
+
+  if (showActivity26Video) {
+    return (
+      <div style={{
+        position: 'fixed', inset: 0, width: '100vw', height: '100vh',
+        backgroundColor: '#000', zIndex: 1000, display: 'flex',
+        alignItems: 'center', justifyContent: 'center', overflow: 'hidden'
+      }}>
+        <style>{`html, body, #root { overflow: hidden !important; height: 100vh !important; }`}</style>
+        <video
+          ref={activity26VideoRef}
+          src={activity26VideoMp4}
+          autoPlay
+          playsInline
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          onEnded={() => setShowActivity26Video(false)}
+        />
+      </div>
+    );
+  }
 
   if (phase === 'specimens') {
     const activeSlide = ROOT_SPECIMEN_SLIDES[specimenIndex];
@@ -813,7 +842,10 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
         {/* Floating Bottom Left Control: Back */}
         <button
           onClick={() => {
-            if (specimenIndex > 0) {
+            if (specimenIndex === 1) {
+              if (activity26VideoRef.current) activity26VideoRef.current.currentTime = 0;
+              setShowActivity26Video(true);
+            } else if (specimenIndex > 0) {
               setSpecimenIndex(prev => prev - 1);
             } else if (onPreviousPage) {
               onPreviousPage();
@@ -891,7 +923,10 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
         {/* Floating Bottom Right: Next Slide or Next Activity */}
         <button
           onClick={() => {
-            if (specimenIndex < ROOT_SPECIMEN_SLIDES.length - 1) {
+            if (specimenIndex === 0) {
+              setSpecimenIndex(1);
+              setShowActivity26Video(true);
+            } else if (specimenIndex < ROOT_SPECIMEN_SLIDES.length - 1) {
               setSpecimenIndex(prev => prev + 1);
             } else if (onNext) {
               onNext();
