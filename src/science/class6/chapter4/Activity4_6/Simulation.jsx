@@ -122,8 +122,9 @@ export default function Simulation({ onComplete, onNext }) {
   const isFlippedRef = useRef(false);
   isFlippedRef.current = isFlipped;
 
-  const [pos, setPos] = useState({ x: -260, y: 230 });
-  const posRef = useRef({ x: -260, y: 230 });
+  const START_POS = { x: -210, y: 155 };
+  const [pos, setPos] = useState(START_POS);
+  const posRef = useRef(START_POS);
   posRef.current = pos;
 
   const [currentStation, setCurrentStation] = useState('corner');
@@ -164,13 +165,6 @@ export default function Simulation({ onComplete, onNext }) {
   };
 
   const updateCompassPhysics = useCallback((x, y, flipped) => {
-    const distCenter = Math.hypot(x, y);
-
-    if (distCenter >= 330) {
-      setContinuousCompassAngle(0);
-      return;
-    }
-
     const distTopLeft = Math.hypot(x - (-215), y - (-210));
     const distBottomRight = Math.hypot(x - 215, y - 205);
 
@@ -354,9 +348,9 @@ export default function Simulation({ onComplete, onNext }) {
         [posRef.current.x, posRef.current.y],
         [posRef.current.x, posRef.current.y],
         [80, 260],
-        [-80, 265],
-        [-260, 230],
-        [-260, 230]
+        [-80, 240],
+        [-210, 155],
+        [-210, 155]
       ];
       runSplineLoop(points, 1400, initialProgress);
     }
@@ -374,9 +368,8 @@ export default function Simulation({ onComplete, onNext }) {
         startTravelStage(4, 0);
       });
     } else if (completedStage === 4) {
-      compassAngleRef.current = 0;
-      setCompassAngle(0);
-      updateCompassPhysics(-260, 230, isFlippedRef.current);
+      setPos(START_POS);
+      updateCompassPhysics(START_POS.x, START_POS.y, isFlippedRef.current);
       setDemoState('idle');
       setCurrentStep(1);
       setCurrentStation('corner');

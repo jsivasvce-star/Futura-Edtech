@@ -94,23 +94,12 @@ export default function MagneticNeedleShape({
           fill="#f87171"
         />
 
-        {/* South Pole Cap (Blue Tail on Right with Eye Hole) */}
+        {/* South Pole Cap (Blue Tail on Right) */}
         <path
           d="M 320 14 C 345 15 372 18 384 22 C 372 26 345 29 320 30 Z"
           fill="url(#southBlue)"
           stroke="#1e3a8a"
           strokeWidth="1"
-        />
-
-        {/* Sewing Needle Eye Slot */}
-        <ellipse 
-          cx="355" 
-          cy="22" 
-          rx="12" 
-          ry="3.5" 
-          fill="#0f172a" 
-          stroke="#94a3b8" 
-          strokeWidth="1" 
         />
 
         {/* Longitudinal Shine / Highlight Line */}
