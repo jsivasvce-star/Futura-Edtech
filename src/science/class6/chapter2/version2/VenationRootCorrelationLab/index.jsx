@@ -5,6 +5,20 @@ import confetti from 'canvas-confetti';
 import bgImg from './activity27_bg.jpg';
 import { correlationAudio } from './correlationAudio';
 
+// Specimen photographs — 12 realistic 4K botanical images (16:9 full-screen)
+import lemongrassImg from './plants/lemongrass.jpg';
+import marigoldImg from './plants/marigold.jpg';
+import sadabaharImg from './plants/sadabahar.jpg';
+import chickpeaImg from './plants/chickpea.jpg';
+import wheatImg from './plants/wheat.jpg';
+import maizeImg from './plants/maize.jpg';
+import onionImg from './plants/onion.jpg';
+import grassImg from './plants/grass.jpg';
+import hibiscusImg from './plants/hibiscus.jpg';
+import roseImg from './plants/rose.jpg';
+import neemImg from './plants/neem.jpg';
+import mangoImg from './plants/mango.jpg';
+
 import specimen01LemongrassBlended from './specimen_01_lemongrass_blended.png';
 import specimen02MarigoldBlended from './specimen_02_marigold_blended.png';
 import specimen03SadabaharBlended from './specimen_03_sadabahar_blended.png';
@@ -56,20 +70,6 @@ const CORRELATION_SPECIMEN_SLIDES = [
     image: specimen05WheatBlended
   }
 ];
-
-// Specimen photographs — 12 realistic botanical images
-import lemongrassImg from './plants/lemongrass.jpg';
-import marigoldImg from './plants/marigold.jpg';
-import sadabaharImg from './plants/sadabahar.jpg';
-import chickpeaImg from './plants/chickpea.jpg';
-import wheatImg from './plants/wheat.jpg';
-import maizeImg from './plants/maize.jpg';
-import onionImg from './plants/onion.jpg';
-import grassImg from './plants/grass.jpg';
-import hibiscusImg from './plants/hibiscus.jpg';
-import roseImg from './plants/rose.jpg';
-import neemImg from './plants/neem.jpg';
-import mangoImg from './plants/mango.jpg';
 
 // =========================================================================
 // NCERT CLASS 6 · TABLE 2.4 — leaf venation always tracks the root system:
@@ -285,6 +285,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
   const [touchPoint, setTouchPoint] = useState(null); // { x, y } while dragging a plant card (mouse or touch)
   const pointerDrag = useRef(null); // { pointerId, plantId, startX, startY, moved }
   const [hoverPos, setHoverPos] = useState(null); // { x, y } cursor position while a plant is click-selected, for the follow-the-cursor preview
+  const [inspectPlant, setInspectPlant] = useState(null); // currently viewed 16:9 plant specimen modal
 
   useEffect(() => {
     if (phase !== 'specimens') return;
@@ -504,13 +505,17 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           fontFamily: '"Outfit", sans-serif'
         }}
       >
-        {/* Portrait specimen photo fills the card */}
+        {/* Specimen photo displaying whole plant with root and leaves */}
         <div style={{
           flex: 1,
           minHeight: 0,
           width: '100%',
           overflow: 'hidden',
-          background: '#FFFFFF'
+          background: 'radial-gradient(circle at center, #FFFFFF 60%, #F4F8F5 100%)',
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}>
           <img
             src={plant.img}
@@ -519,12 +524,45 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover',
-              objectPosition: '50% 30%',
+              objectFit: 'contain',
+              objectPosition: 'center',
               display: 'block',
-              pointerEvents: 'none'
+              pointerEvents: 'none',
+              padding: '2px 4px'
             }}
           />
+          {/* Quick 16:9 full screen inspect button */}
+          <button
+            type="button"
+            title={`View 16:9 full-screen specimen of ${plant.name}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              setInspectPlant(plant);
+              correlationAudio.playSwitch();
+            }}
+            style={{
+              position: 'absolute',
+              bottom: '4px',
+              right: '4px',
+              width: '24px',
+              height: '24px',
+              borderRadius: '6px',
+              background: 'rgba(255, 255, 255, 0.92)',
+              border: '1.5px solid rgba(22, 101, 52, 0.3)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '12px',
+              cursor: 'pointer',
+              boxShadow: '0 2px 6px rgba(0, 0, 0, 0.15)',
+              zIndex: 5,
+              transition: 'transform 0.15s ease, background 0.15s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.15)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            🔍
+          </button>
         </div>
 
         <div style={{
@@ -970,42 +1008,75 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
         </div>
 
         {/* Floating Bottom Right: Next Slide or Enter Lab */}
-        <button
-          onClick={() => {
-            correlationAudio.playSwitch();
-            if (specimenIndex < CORRELATION_SPECIMEN_SLIDES.length - 1) {
-              setSpecimenIndex(prev => prev + 1);
-            } else {
-              setPhase('lab');
-            }
-          }}
-          style={{
-            position: 'absolute',
-            bottom: '22px',
-            right: '26px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-            border: '2px solid rgba(253, 230, 138, 0.85)',
-            borderRadius: '28px',
-            padding: '11px 26px',
-            fontSize: '18px',
-            fontWeight: 900,
-            color: '#FFFBEB',
-            cursor: 'pointer',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
-            textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
-            zIndex: 1010,
-            transition: 'all 0.18s ease'
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-        >
-          {specimenIndex < CORRELATION_SPECIMEN_SLIDES.length - 1 ? 'Next' : 'Enter Activity 2.7 Lab'}
-        </button>
+        <div style={{
+          position: 'absolute',
+          bottom: '22px',
+          right: '26px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          zIndex: 1010
+        }}>
+          {specimenIndex < CORRELATION_SPECIMEN_SLIDES.length - 1 && (
+            <button
+              onClick={() => {
+                correlationAudio.playSwitch();
+                setPhase('lab');
+              }}
+              style={{
+                background: 'rgba(6, 44, 28, 0.88)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: '1.5px solid rgba(134, 239, 172, 0.65)',
+                borderRadius: '26px',
+                padding: '10px 18px',
+                fontSize: '16px',
+                fontWeight: 800,
+                color: '#D1FAE5',
+                cursor: 'pointer',
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.5)',
+                transition: 'all 0.18s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            >
+              Skip to Lab ➔
+            </button>
+          )}
+
+          <button
+            onClick={() => {
+              correlationAudio.playSwitch();
+              if (specimenIndex < CORRELATION_SPECIMEN_SLIDES.length - 1) {
+                setSpecimenIndex(prev => prev + 1);
+              } else {
+                setPhase('lab');
+              }
+            }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              border: '2px solid rgba(253, 230, 138, 0.85)',
+              borderRadius: '28px',
+              padding: '11px 26px',
+              fontSize: '18px',
+              fontWeight: 900,
+              color: '#FFFBEB',
+              cursor: 'pointer',
+              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+              textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+              transition: 'all 0.18s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            {specimenIndex < CORRELATION_SPECIMEN_SLIDES.length - 1 ? 'Next' : 'Enter Activity 2.7 Lab'}
+          </button>
+        </div>
 
       </div>
     );
@@ -1050,6 +1121,32 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+          <button
+            type="button"
+            onClick={() => {
+              correlationAudio.playSwitch();
+              setPhase('specimens');
+            }}
+            title="Review Activity 2.7 Specimen Slides"
+            style={{
+              display: 'flex', alignItems: 'center', gap: '8px',
+              background: 'linear-gradient(135deg, #15803D 0%, #166534 100%)',
+              border: '2px solid #86EFAC',
+              borderRadius: '999px',
+              padding: '7px 16px',
+              fontSize: '18px', fontWeight: 900, color: '#FFFFFF',
+              boxShadow: '0 6px 18px rgba(22, 101, 52, 0.28)',
+              cursor: 'pointer',
+              fontFamily: '"Outfit", sans-serif',
+              transition: 'transform 0.15s ease, box-shadow 0.15s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            <Leaf size={18} color="#86EFAC" />
+            <span>Specimen Slides (5)</span>
+          </button>
+
           <div style={{
             display: 'flex', alignItems: 'center', gap: '9px',
             background: 'rgba(255, 255, 255, 0.93)',
@@ -1161,7 +1258,10 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
         <button
           type="button"
-          onClick={onPreviousPage || onBackToDashboard}
+          onClick={() => {
+            correlationAudio.playSwitch();
+            setPhase('specimens');
+          }}
           style={footBtn('habitat')}
         >
           <span>Previous</span>
@@ -1243,7 +1343,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
             <img
               src={draggedPlant.img}
               alt=""
-              style={{ width: '100%', height: '76%', objectFit: 'cover', objectPosition: '50% 30%', display: 'block' }}
+              style={{ width: '100%', height: '76%', objectFit: 'contain', objectPosition: 'center', display: 'block', padding: '2px' }}
             />
             <div style={{
               fontSize: '13px', fontWeight: 800, color: '#14532D',
@@ -1254,6 +1354,136 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           </div>
         );
       })()}
+
+      {/* 16:9 Full-Screen Specimen Inspection Lightbox for any of the 12 Plants */}
+      {inspectPlant && (
+        <div
+          onClick={() => setInspectPlant(null)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: 'rgba(7, 22, 14, 0.90)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 3000,
+            padding: '24px',
+            boxSizing: 'border-box'
+          }}
+        >
+          {/* Exact 16:9 Aspect-Ratio Container without pixel break */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              position: 'relative',
+              width: '100%',
+              height: '100%',
+              maxWidth: 'calc(100vh * (16 / 9))',
+              maxHeight: 'calc(100vw * (9 / 16))',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#04160D',
+              borderRadius: '20px',
+              overflow: 'hidden',
+              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(22, 101, 52, 0.35)',
+              border: '2.5px solid rgba(253, 230, 138, 0.85)'
+            }}
+          >
+            <img
+              src={inspectPlant.img}
+              alt={inspectPlant.name}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                display: 'block',
+                userSelect: 'none'
+              }}
+            />
+
+            {/* Floating Top Pill with plant details */}
+            <div style={{
+              position: 'absolute',
+              top: '16px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              background: 'linear-gradient(135deg, rgba(6, 44, 28, 0.94) 0%, rgba(2, 24, 14, 0.96) 100%)',
+              border: '2px solid rgba(253, 230, 138, 0.85)',
+              borderRadius: '16px',
+              padding: '8px 24px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.6)'
+            }}>
+              <span style={{
+                fontSize: '22px',
+                fontWeight: 900,
+                color: '#FFFBEB',
+                fontFamily: '"Fraunces", Georgia, serif'
+              }}>
+                {inspectPlant.name}
+              </span>
+              <span style={{
+                fontSize: '14px',
+                fontWeight: 800,
+                color: '#86EFAC',
+                background: 'rgba(22, 101, 52, 0.5)',
+                border: '1px solid #86EFAC',
+                borderRadius: '999px',
+                padding: '2px 10px'
+              }}>
+                🍃 {inspectPlant.venation === 'parallel' ? 'Parallel venation' : 'Reticulate venation'}
+              </span>
+              <span style={{
+                fontSize: '14px',
+                fontWeight: 800,
+                color: '#FDE68A',
+                background: 'rgba(180, 83, 9, 0.5)',
+                border: '1px solid #FDE68A',
+                borderRadius: '999px',
+                padding: '2px 10px'
+              }}>
+                🌱 {inspectPlant.root === 'fibrous' ? 'Fibrous root' : 'Tap root'}
+              </span>
+            </div>
+
+            {/* Close Button */}
+            <button
+              onClick={() => setInspectPlant(null)}
+              title="Close inspection"
+              style={{
+                position: 'absolute',
+                top: '16px',
+                right: '16px',
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                background: 'rgba(255, 255, 255, 0.22)',
+                border: '1.5px solid rgba(255, 255, 255, 0.45)',
+                color: '#FFFFFF',
+                fontSize: '20px',
+                fontWeight: 900,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backdropFilter: 'blur(8px)',
+                transition: 'transform 0.15s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

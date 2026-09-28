@@ -64,12 +64,21 @@ export default function useWordSyncAudio(src, words, opts = {}) {
       handlePauseOrEnd();
       setActiveWordIndex(-1);
       setCurrentTime(0);
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+      }
       if (onEnd) onEnd();
+    };
+
+    const handleError = (e) => {
+      handlePauseOrEnd();
+      if (opts.onError) opts.onError(e);
     };
 
     audio.addEventListener('play', handlePlay);
     audio.addEventListener('pause', handlePauseOrEnd);
     audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('error', handleError);
 
     if (autoPlay) {
       audio.play().catch(() => {
@@ -83,6 +92,7 @@ export default function useWordSyncAudio(src, words, opts = {}) {
       audio.removeEventListener('play', handlePlay);
       audio.removeEventListener('pause', handlePauseOrEnd);
       audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('error', handleError);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       audioRef.current = null;
     };
@@ -90,16 +100,33 @@ export default function useWordSyncAudio(src, words, opts = {}) {
   }, [src]);
 
   const play = useCallback(() => {
-    audioRef.current?.play().catch(() => {});
-  }, []);
+    if (!audioRef.current) return Promise.reject(new Error("No audio element"));
+    if (audioRef.current.ended) {
+      audioRef.current.currentTime = 0;
+    }
+    return audioRef.current.play().catch((err) => {
+      if (opts.onError) opts.onError(err);
+      throw err;
+    });
+  }, [opts]);
+
   const pause = useCallback(() => {
     audioRef.current?.pause();
   }, []);
+
   const toggle = useCallback(() => {
     if (!audioRef.current) return;
-    if (audioRef.current.paused) audioRef.current.play().catch(() => {});
-    else audioRef.current.pause();
-  }, []);
+    if (audioRef.current.paused || audioRef.current.ended) {
+      if (audioRef.current.ended) {
+        audioRef.current.currentTime = 0;
+      }
+      audioRef.current.play().catch((err) => {
+        if (opts.onError) opts.onError(err);
+      });
+    } else {
+      audioRef.current.pause();
+    }
+  }, [opts]);
 
   return { audioRef, isPlaying, activeWordIndex, currentTime, play, pause, toggle };
 }
