@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import EducationalVideoPlayer from '../../../../../components/EducationalVideoPlayer';
 
 import coverImg from './activity25_cover.jpg';
 import { venationAudio } from './venationAudio';
@@ -111,40 +112,19 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
   // ---------------------------------------------------------------------
   if (showLeafVenationVideo) {
     return (
-      <div style={{
-        position: 'fixed',
-        inset: 0,
-        width: '100vw',
-        height: '100vh',
-        backgroundColor: '#000',
-        zIndex: 1000,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'hidden'
-      }}>
-        <style>{`
-          html, body, #root {
-            overflow: hidden !important;
-            height: 100vh !important;
+      <EducationalVideoPlayer
+        videoRef={leafVideoRef}
+        src={leafVenationVideoMp4}
+        onEnded={() => {
+          setShowLeafVenationVideo(false);
+          if (videoDirection === 'backward') {
+            setPhase('cover');
+          } else {
+            setPhase('specimens');
+            setSpecimenIndex(0);
           }
-        `}</style>
-        <video
-          ref={leafVideoRef}
-          src={leafVenationVideoMp4}
-          autoPlay
-          playsInline
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          onEnded={() => {
-            setShowLeafVenationVideo(false);
-            if (videoDirection === 'backward') {
-              setPhase('cover');
-            } else {
-              setPhase('specimens');
-              setSpecimenIndex(0);
-            }
-          }}
-        />
+        }}
+      >
         <button
           onClick={() => { 
             if (leafVideoRef.current) leafVideoRef.current.pause();
@@ -152,14 +132,14 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
             setPhase('cover');
           }}
           style={{
-            position: 'absolute', bottom: '22px', left: '26px', display: 'flex', alignItems: 'center', gap: '8px',
+            position: 'absolute', bottom: '80px', left: '26px', display: 'flex', alignItems: 'center', gap: '8px',
             background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
             backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
             border: '2px solid rgba(253, 230, 138, 0.85)', borderRadius: '26px', padding: '10px 22px',
             fontSize: '18px', fontWeight: 900, color: '#FFFBEB', cursor: 'pointer',
             boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
             textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
-            zIndex: 1010, transition: 'all 0.18s ease'
+            zIndex: 10001, transition: 'all 0.18s ease'
           }}
           onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
           onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
@@ -174,21 +154,21 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
             setSpecimenIndex(0);
           }}
           style={{
-            position: 'absolute', bottom: '22px', right: '26px', display: 'flex', alignItems: 'center', gap: '10px',
+            position: 'absolute', bottom: '80px', right: '26px', display: 'flex', alignItems: 'center', gap: '10px',
             background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
             backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
             border: '2px solid rgba(253, 230, 138, 0.85)', borderRadius: '28px', padding: '11px 26px',
             fontSize: '18px', fontWeight: 900, color: '#FFFBEB', cursor: 'pointer',
             boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
             textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
-            zIndex: 1010, transition: 'all 0.18s ease'
+            zIndex: 10001, transition: 'all 0.18s ease'
           }}
           onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
           onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
         >
           Next <ArrowRight size={20} />
         </button>
-      </div>
+      </EducationalVideoPlayer>
     );
   }
 
