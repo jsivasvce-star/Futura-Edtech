@@ -2588,13 +2588,13 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                               ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
                               : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
                             borderRadius: '16px',
-                            padding: '5px 12px',
+                            padding: '4px 12px',
                             display: 'inline-flex',
                             alignItems: 'center',
                             gap: '5px',
                             color: '#FFFFFF',
                             fontWeight: 800,
-                            fontSize: '14px',
+                            fontSize: '18px',
                             fontFamily: '"Outfit", sans-serif',
                             cursor: 'pointer',
                             flexShrink: 0,
@@ -2611,12 +2611,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         >
                           {isHerbsSpeaking ? (
                             <>
-                              <Pause size={13} fill="#FFFFFF" />
+                              <Pause size={15} fill="#FFFFFF" />
                               <span>Pause</span>
                             </>
                           ) : (
                             <>
-                              <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                              <Play size={15} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
                               <span>Play</span>
                             </>
                           )}
@@ -2674,7 +2674,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         TENDER GREEN HERBS
                       </h3>
                       <div style={{
-                        fontSize: '18px',
+                        fontSize: '20px',
                         color: '#6EE7B7',
                         fontWeight: 600,
                         fontStyle: 'italic',
@@ -2838,7 +2838,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         gap: '10px',
                         boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
                       }}>
-                        <span style={{ fontSize: '20px', lineHeight: 1.2 }}>💡</span>
+                        <span style={{ fontSize: '21px', lineHeight: 1.2 }}>💡</span>
                         <div style={{
                           fontSize: '18px',
                           fontWeight: 800,
@@ -3148,13 +3148,13 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                               ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
                               : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
                             borderRadius: '16px',
-                            padding: '5px 12px',
+                            padding: '4px 12px',
                             display: 'inline-flex',
                             alignItems: 'center',
                             gap: '5px',
                             color: '#FFFFFF',
                             fontWeight: 800,
-                            fontSize: '14px',
+                            fontSize: '18px',
                             fontFamily: '"Outfit", sans-serif',
                             cursor: 'pointer',
                             flexShrink: 0,
@@ -3171,12 +3171,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         >
                           {isShrubsSpeaking ? (
                             <>
-                              <Pause size={13} fill="#FFFFFF" />
+                              <Pause size={15} fill="#FFFFFF" />
                               <span>Pause</span>
                             </>
                           ) : (
                             <>
-                              <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                              <Play size={15} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
                               <span>Play</span>
                             </>
                           )}
@@ -3388,7 +3388,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         gap: '10px',
                         boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
                       }}>
-                        <span style={{ fontSize: '20px', lineHeight: 1.2 }}>💡</span>
+                        <span style={{ fontSize: '21px', lineHeight: 1.2 }}>💡</span>
                         <div style={{
                           fontSize: '18px',
                           fontWeight: 800,
@@ -3696,13 +3696,13 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                               ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
                               : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
                             borderRadius: '16px',
-                            padding: '5px 12px',
+                            padding: '4px 12px',
                             display: 'inline-flex',
                             alignItems: 'center',
                             gap: '5px',
                             color: '#FFFFFF',
                             fontWeight: 800,
-                            fontSize: '14px',
+                            fontSize: '18px',
                             fontFamily: '"Outfit", sans-serif',
                             cursor: 'pointer',
                             flexShrink: 0,
@@ -3719,12 +3719,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         >
                           {isTreesSpeaking ? (
                             <>
-                              <Pause size={13} fill="#FFFFFF" />
+                              <Pause size={15} fill="#FFFFFF" />
                               <span>Pause</span>
                             </>
                           ) : (
                             <>
-                              <Play size={13} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                              <Play size={15} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
                               <span>Play</span>
                             </>
                           )}
@@ -3936,7 +3936,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         gap: '10px',
                         boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
                       }}>
-                        <span style={{ fontSize: '20px', lineHeight: 1.2 }}>💡</span>
+                        <span style={{ fontSize: '21px', lineHeight: 1.2 }}>💡</span>
                         <div style={{
                           fontSize: '18px',
                           fontWeight: 800,

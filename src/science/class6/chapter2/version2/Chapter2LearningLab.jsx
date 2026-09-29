@@ -67,6 +67,7 @@ import VirtualBiodiversityExplorer from './VirtualBiodiversityExplorer';
 import AppreciatingBiodiversityActivity from './AppreciatingBiodiversityActivity';
 import InlineSortingActivity from './InlineSortingActivity';
 import PlantDetectiveActivity from './PlantDetective';
+import Table23Activity from './Table23Activity';
 import LeafVenationLab from './LeafVenationLab';
 import RootSystemsLab from './RootSystemsLab';
 import VenationRootCorrelationLab from './VenationRootCorrelationLab';
@@ -83,7 +84,7 @@ const CHAPTER_TAB_NARRATIONS = {
   2: "Activity 2.1, Botanical Lab. Here we investigate plants growing all around us. We observe whether each plant has flowers, inspect their leaves, check their height, and record our observations into Table 2.1.",
   3: "Activity 2.1, Zoological Field Observation. Animals live all around us in diverse habitats. In Table 2.2, we record where each creature is found, whether on trees, ground, flying in the sky, or swimming in water.",
   4: "Activity 2.2, Appreciating School Biodiversity. Observe nature with mindful awareness. Notice how every organism, from an ant and singing bulbul to a caterpillar, plays an essential part in the ecosystem.",
-  5: "Activity 2.3, How to Group Living Organisms. Grouping, or scientific classification, is the method of sorting living beings based on shared similarities and differences, making the study of nature orderly.",
+  5: "Activity 2.3, Let us group, and Table 2.3, Grouping of plants based on height and nature of stem. Grouping, or scientific classification, is the method of sorting living beings based on shared similarities and differences, making the study of nature orderly. Fill Table 2.3 to classify plants based on height and nature of stem, and group diverse living things by their physical features.",
   6: "Activity 2.4, The Plant Detective. Plants come in diverse forms. Herbs have soft, green tender stems. Shrubs have thin woody stems branching close to the ground. Trees grow tall with a thick hard trunk and high canopy.",
   7: "Activities 2.5 through 2.7, Leaf Venation and Root Systems. Observe the grand scientific correlation: leaves with net-like reticulate venation possess a taproot, while leaves with parallel venation have fibrous roots.",
   8: "Activity 2.8, Seed Dissection and Cotyledons. When soaked seeds divide into two distinct cotyledons, they are dicotyledons, with reticulate leaves and taproots. Seeds with only one cotyledon are monocotyledons, with parallel venation and fibrous roots.",
@@ -134,8 +135,8 @@ const CHAPTER_TABS = [
   { id: 2, title: 'Act 2.1 Plants', subtitle: 'Table 2.1' },
   { id: 3, title: 'Act 2.1 Animals', subtitle: 'Table 2.2' },
   { id: 4, title: 'Act 2.2 Care', subtitle: 'Biodiversity' },
-  { id: 5, title: 'Act 2.3 Grouping', subtitle: 'Classification' },
-  { id: 6, title: 'Act 2.4 Detective', subtitle: 'Herbs & Trees' },
+  { id: 5, title: 'Act 2.3 Grouping', subtitle: 'Let Us Group' },
+  { id: 6, title: 'Act 2.4 & Tab 2.3', subtitle: 'Detective & Table' },
   { id: 7, title: 'Act 2.5–2.7', subtitle: 'Leaf & Roots' },
   { id: 8, title: 'Act 2.8 Seeds', subtitle: 'Cotyledons' },
   { id: 9, title: 'Act 2.9–2.10', subtitle: 'Adaptations' },
@@ -205,6 +206,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
   const [step5SpecimenIndex, setStep5SpecimenIndex] = useState(0); // which specimen slide InlineSortingActivity (re)mounts into when returning to the specimens phase
   const [step6Phase, setStep6Phase] = useState('intro');
   const [step6SpecimenIndex, setStep6SpecimenIndex] = useState(0);
+  const [step6SubTab, setStep6SubTab] = useState('detective'); // 'detective' | 'table23'
   const [correlationPhase, setCorrelationPhase] = useState(() => {
     const params = new URLSearchParams(window.location.hash.replace('#', '?'));
     return params.get('phase') || 'specimens';
@@ -361,8 +363,12 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 setIsPlayingAct24ObservationTransition(true);
       return;
     }
-    // Step 6: Act 2.4 Detective -> Step 7: Venation & Roots (sub-tab: venation)
+    // Step 6: Act 2.4 Detective -> Table 2.3 -> Step 7: Venation & Roots (sub-tab: venation)
     if (currentStep === 6) {
+      if (step6SubTab === 'detective') {
+        setStep6SubTab('table23');
+        return;
+      }
       setTransitionTargetStep(7);
                 setTransitionTargetSubTab('venation');
                 setTransitionSourceStep(6);
@@ -482,6 +488,11 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
     }
     // Step 6 -> Step 5
     if (currentStep === 6) {
+      if (step6SubTab === 'table23') {
+        setStep6SubTab('detective');
+        return;
+      }
+      setStep5Phase('grouping');
       setTransitionTargetStep(5);
                 setTransitionTargetSubTab(null);
                 setTransitionSourceStep(6);
@@ -510,7 +521,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 setIsPlayingAct26ObservationTransition(true);
         return;
       }
-      // Back to Step 6
+      // Back to Step 6 (Table 2.3)
+      setStep6SubTab('table23');
       setTransitionTargetStep(6);
                 setTransitionTargetSubTab(null);
                 setTransitionSourceStep(7);
@@ -556,6 +568,14 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
   };
 
   const getLabCenterLabel = () => {
+    if (currentStep === 5) {
+      if (step5Phase === 'specimens') return 'Activity 2.3 · Specimen Observation';
+      return 'Activity 2.3 · Let Us Group';
+    }
+    if (currentStep === 6) {
+      if (step6SubTab === 'table23') return 'Table 2.3 · Stem & Height Grouping';
+      return 'Activity 2.4 · Plant Detective';
+    }
     if (currentStep === 7) {
       if (venationSubTab === 'venation') return 'Activity 2.5 · Leaf Venation';
       if (venationSubTab === 'roots') return 'Activity 2.6 · Root Systems';
@@ -578,8 +598,12 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
   const getLabNextLabel = () => {
     if (currentStep === 2) return 'Next: Act 2.1 Animals';
     if (currentStep === 3) return 'Next: Act 2.2 Care';
+    if (currentStep === 4) return 'Next: Act 2.3 Let Us Group';
     if (currentStep === 5) return 'Next: Act 2.4 Detective';
-    if (currentStep === 6) return 'Next: Act 2.5 Venation';
+    if (currentStep === 6) {
+      if (step6SubTab === 'detective') return 'Next: Table 2.3 Grouping';
+      return 'Next: Act 2.5 Venation';
+    }
     if (currentStep === 7) {
       if (venationSubTab === 'venation') return 'Next: Act 2.6 Roots';
       if (venationSubTab === 'roots') return 'Next: Act 2.7 Correlation';
@@ -1929,6 +1953,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 setIsPlayingPlantGroupVideo(true);
               }} 
               onGoToDetective={() => {
+                setStep6SubTab('detective');
                 setTransitionTargetStep(6);
                 setTransitionTargetSubTab(null);
                 setTransitionSourceStep(5);
@@ -1950,32 +1975,42 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         )}
 
         {/* ============================================================ */}
-        {/* TAB 6: ACTIVITY 2.4 — PLANT DETECTIVE (HERBS/SHRUBS/TREES)   */}
+        {/* TAB 6: ACTIVITY 2.4 — PLANT DETECTIVE & TABLE 2.3            */}
         {/* ============================================================ */}
         {currentStep === 6 && (
           <div style={{ width: '100%', height: '100%', minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-            <PlantDetectiveActivity 
-              initialPhase={step6Phase}
-              initialSpecimenIndex={step6SpecimenIndex}
-              onStateChange={(p, idx) => { setStep6Phase(p); setStep6SpecimenIndex(idx); }}
-              onBackToDashboard={() => {
-                 // Specimen 09 · Sunflower (last slide)
-                setTransitionTargetStep(5);
-                setTransitionTargetSubTab(null);
-                setTransitionSourceStep(6);
-                setTransitionSourceSubTab(null);
-                setTransitionDirection('backward');
-                setIsPlayingAct24ObservationTransition(true);
-              }} 
-              onNextActivity={() => {
-                setTransitionTargetStep(7);
-                setTransitionTargetSubTab('venation');
-                setTransitionSourceStep(6);
-                setTransitionSourceSubTab(null);
-                setTransitionDirection('forward');
-                setIsPlayingAct25ObservationTransition(true);
-              }}
-            />
+            {step6SubTab === 'table23' ? (
+              <Table23Activity 
+                onBack={() => setStep6SubTab('detective')}
+                onNext={() => {
+                  setTransitionTargetStep(7);
+                  setTransitionTargetSubTab('venation');
+                  setTransitionSourceStep(6);
+                  setTransitionSourceSubTab(null);
+                  setTransitionDirection('forward');
+                  setIsPlayingAct25ObservationTransition(true);
+                }}
+              />
+            ) : (
+              <PlantDetectiveActivity 
+                initialPhase={step6Phase}
+                initialSpecimenIndex={step6SpecimenIndex}
+                onStateChange={(p, idx) => { setStep6Phase(p); setStep6SpecimenIndex(idx); }}
+                onBackToDashboard={() => {
+                  setStep5Phase('grouping');
+                  setTransitionTargetStep(5);
+                  setTransitionTargetSubTab(null);
+                  setTransitionSourceStep(6);
+                  setTransitionSourceSubTab(null);
+                  setTransitionDirection('backward');
+                  setIsPlayingAct24ObservationTransition(true);
+                }} 
+                nextLabel="Proceed to Table 2.3"
+                onNextActivity={() => {
+                  setStep6SubTab('table23');
+                }}
+              />
+            )}
           </div>
         )}
 

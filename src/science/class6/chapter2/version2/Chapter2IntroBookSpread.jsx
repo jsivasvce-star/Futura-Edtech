@@ -869,8 +869,8 @@ export default function Chapter2IntroBookSpread({ onNextActivity, onReadAloud, i
               }}>
                 {[
                   { step: 'Act 2.1', title: 'Botanical & Zoological Labs', desc: 'Log real plants (Table 2.1) and animal habitats (Table 2.2).' },
-                  { step: 'Act 2.2–2.3', title: 'Appreciation & Grouping', desc: 'Collaborative blackboard sketch & sorting by scientific criteria.' },
-                  { step: 'Act 2.4', title: 'Plant Detective', desc: 'Classify herbs, shrubs, trees, climbers & creepers (Table 2.3).' },
+                  { step: 'Act 2.2–2.3', title: 'Appreciation & Grouping', desc: 'Collaborative biodiversity sketch, Table 2.3 & scientific criteria grouping.' },
+                  { step: 'Act 2.4', title: 'Plant Detective', desc: 'Classify herbs, shrubs, trees, climbers & creepers.' },
                   { step: 'Act 2.5–2.8', title: 'Venation, Roots & Seeds', desc: 'Discover how leaf veins, taproots & cotyledons interlock.' },
                   { step: 'Act 2.9–2.10', title: 'Adaptations & Biomes', desc: 'Camels, deodars, and Indian conservation champions.' },
                   { step: 'Summary', title: 'Exercises & Sacred Groves', desc: 'Solve all 10 textbook questions with instant feedback.' }

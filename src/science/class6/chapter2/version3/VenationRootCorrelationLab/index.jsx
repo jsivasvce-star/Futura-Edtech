@@ -287,12 +287,8 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
   // plantId -> { venation: zoneId | null, root: zoneId | null }
   const [placements, setPlacements] = useState({});
   const [checked, setChecked] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
-  const [dragId, setDragId] = useState(null);
-  const [hoverZone, setHoverZone] = useState(null);
-  const [touchPoint, setTouchPoint] = useState(null); // { x, y } while dragging a plant card (mouse or touch)
-  const pointerDrag = useRef(null); // { pointerId, plantId, startX, startY, moved }
-  const [hoverPos, setHoverPos] = useState(null); // { x, y } cursor position while a plant is click-selected, for the follow-the-cursor preview
+  const [draggedCardId, setDraggedCardId] = useState(null);
+  const [dragOverZoneId, setDragOverZoneId] = useState(null);
   const [inspectPlant, setInspectPlant] = useState(null); // currently viewed 16:9 plant specimen modal
 
   useEffect(() => {
@@ -324,42 +320,17 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [phase, specimenIndex, onPreviousPage, onBackToDashboard]);
 
-  // Follow-the-cursor preview: once a plant is click-selected, its thumbnail
-  // tracks the mouse so the user can visually "carry" it over to a box and click to drop it.
-  useEffect(() => {
-    if (!selectedId || phase !== 'lab') {
-      setHoverPos(null);
-      return;
-    }
-    const handleMove = (e) => {
-      setHoverPos({ x: e.clientX, y: e.clientY });
-      const el = document.elementFromPoint(e.clientX, e.clientY);
-      const zoneEl = el && el.closest('[data-zone]');
-      setHoverZone(zoneEl ? zoneEl.getAttribute('data-zone') : null);
-    };
-    window.addEventListener('mousemove', handleMove);
-    return () => window.removeEventListener('mousemove', handleMove);
-  }, [selectedId, phase]);
+
 
   const getPlacement = (plantId) => placements[plantId] || { venation: null, root: null };
 
   const assign = (plantId, zone) => {
     if (!plantId) return;
-    const current = placements[plantId] || { venation: null, root: null };
-    const otherGroup = zone.group === 'venation' ? 'root' : 'venation';
-
     setPlacements(prev => ({
       ...prev,
       [plantId]: { ...(prev[plantId] || { venation: null, root: null }), [zone.group]: zone.id }
     }));
     setChecked(false);
-
-    // If the other group hasn't been assigned yet, keep the plant selected for easy 1-2 tapping!
-    if (!current[otherGroup]) {
-      setSelectedId(plantId);
-    } else {
-      setSelectedId(null);
-    }
   };
 
   const unassign = (plantId, group) => {
@@ -401,93 +372,31 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
   const handleClear = () => {
     setPlacements({});
     setChecked(false);
-    setSelectedId(null);
   };
 
   // ---------------------------------------------------------------------
   const PlantCard = ({ plant }) => {
     const pl = getPlacement(plant.id);
     const done = pl.venation && pl.root;
-    const isSelected = selectedId === plant.id;
-    const isBeingDragged = dragId === plant.id;
+    const isDragging = draggedCardId === plant.id;
 
     return (
       <div
-        role="button"
-        tabIndex={0}
         data-plant={plant.id}
-        draggable={true}
+        draggable
         onDragStart={(e) => {
-          e.dataTransfer.setData('text/plain', plant.id);
-          e.dataTransfer.effectAllowed = 'copyMove';
-          setDragId(plant.id);
+          setDraggedCardId(plant.id);
+          e.dataTransfer.effectAllowed = 'move';
+          try {
+            e.dataTransfer.setData('text/plain', String(plant.id));
+          } catch (err) {}
           correlationAudio.playSwitch();
         }}
         onDragEnd={() => {
-          setDragId(null);
-          setHoverZone(null);
+          setDraggedCardId(null);
+          setDragOverZoneId(null);
         }}
-        onPointerDown={(e) => {
-          if (e.pointerType === 'mouse') return; // HTML5 drag handles mouse
-          pointerDrag.current = { pointerId: e.pointerId, plantId: plant.id, startX: e.clientX, startY: e.clientY, moved: false };
-        }}
-        onPointerMove={(e) => {
-          if (e.pointerType === 'mouse') return;
-          const drag = pointerDrag.current;
-          if (!drag || drag.plantId !== plant.id || drag.pointerId !== e.pointerId) return;
-          const dx = e.clientX - drag.startX;
-          const dy = e.clientY - drag.startY;
-          if (!drag.moved && Math.hypot(dx, dy) > 8) {
-            drag.moved = true;
-            setDragId(plant.id);
-            try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
-          }
-          if (drag.moved) {
-            setTouchPoint({ x: e.clientX, y: e.clientY });
-            const el = document.elementFromPoint(e.clientX, e.clientY);
-            const zoneEl = el && el.closest('[data-zone]');
-            setHoverZone(zoneEl ? zoneEl.getAttribute('data-zone') : null);
-          }
-        }}
-        onPointerUp={(e) => {
-          if (e.pointerType === 'mouse') return;
-          const drag = pointerDrag.current;
-          if (drag && drag.plantId === plant.id && drag.pointerId === e.pointerId) {
-            if (drag.moved) {
-              const el = document.elementFromPoint(e.clientX, e.clientY);
-              const zoneEl = el && el.closest('[data-zone]');
-              if (zoneEl) {
-                const zone = ZONES.find(z => z.id === zoneEl.getAttribute('data-zone'));
-                if (zone) {
-                  assign(plant.id, zone);
-                  correlationAudio.playOptionSelect();
-                }
-              }
-            } else {
-              setSelectedId(isSelected ? null : plant.id);
-            }
-          }
-          pointerDrag.current = null;
-          setDragId(null);
-          setHoverZone(null);
-          setTouchPoint(null);
-        }}
-        onPointerCancel={() => {
-          pointerDrag.current = null;
-          setDragId(null);
-          setHoverZone(null);
-          setTouchPoint(null);
-        }}
-        onClick={() => {
-          setSelectedId(isSelected ? null : plant.id);
-        }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            setSelectedId(isSelected ? null : plant.id);
-          }
-        }}
-        title={done ? `${plant.name} - grouped in both venation and root` : `Drag to a group, or click to select`}
+        title={`Drag ${plant.name} into a group`}
         style={{
           position: 'relative',
           display: 'flex',
@@ -497,37 +406,39 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           height: '100%',
           minHeight: 0,
           background: '#FFFFFF',
-          border: `2.5px solid ${isBeingDragged ? '#F59E0B' : isSelected ? '#F59E0B' : done ? '#16A34A' : 'rgba(15, 23, 42, 0.12)'}`,
+          border: done
+            ? '2.5px solid #22C55E'
+            : '1.5px solid #CBD5E1',
           borderRadius: '14px',
           padding: 0,
           overflow: 'hidden',
-          cursor: isBeingDragged ? 'grabbing' : 'grab',
+          cursor: isDragging ? 'grabbing' : 'grab',
           userSelect: 'none',
           WebkitUserSelect: 'none',
-          touchAction: 'none',
           textAlign: 'left',
-          boxShadow: isBeingDragged
-            ? '0 12px 28px rgba(245, 158, 11, 0.5)'
-            : isSelected
-            ? '0 10px 24px rgba(245, 158, 11, 0.45)'
-            : '0 4px 12px rgba(15, 23, 42, 0.14)',
-          opacity: isBeingDragged ? 0.45 : 1,
-          transform: isSelected ? 'translateY(-3px)' : 'none',
+          boxShadow: isDragging
+            ? '0 12px 28px rgba(245, 158, 11, 0.45)'
+            : done
+            ? '0 4px 10px rgba(22, 163, 74, 0.12)'
+            : '0 2px 6px rgba(15, 23, 42, 0.08)',
+          opacity: isDragging ? 0.45 : 1,
+          transform: isDragging ? 'scale(1.02)' : 'none',
           transition: 'transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, opacity 0.15s ease',
           fontFamily: '"Outfit", sans-serif'
         }}
       >
-        {/* Specimen photo displaying whole plant with root and leaves */}
+        {/* Specimen photo displaying whole plant with root and leaves - aligned without blank space */}
         <div style={{
           flex: 1,
           minHeight: 0,
           width: '100%',
           overflow: 'hidden',
-          background: 'radial-gradient(circle at center, #FFFFFF 60%, #F4F8F5 100%)',
+          background: '#FFFFFF',
           position: 'relative',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          padding: 0
         }}>
           <img
             src={plant.img}
@@ -536,13 +447,78 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'contain',
+              objectFit: 'cover',
               objectPosition: 'center',
               display: 'block',
-              pointerEvents: 'none',
-              padding: '2px 4px'
+              pointerEvents: 'none'
             }}
           />
+
+          {/* Top-Left Category Status Badges (Replacing confusing gray dots) */}
+          <div style={{
+            position: 'absolute',
+            top: '6px',
+            left: '6px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '3px',
+            pointerEvents: 'none',
+            zIndex: 4
+          }}>
+            {pl.venation && (
+              <span style={{
+                background: 'rgba(22, 101, 52, 0.92)',
+                color: '#FFFFFF',
+                borderRadius: '8px',
+                padding: '1px 6px',
+                fontSize: '11px',
+                fontWeight: 900,
+                backdropFilter: 'blur(4px)',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+              }}>
+                🌿 Venation
+              </span>
+            )}
+            {pl.root && (
+              <span style={{
+                background: 'rgba(180, 83, 9, 0.92)',
+                color: '#FFFFFF',
+                borderRadius: '8px',
+                padding: '1px 6px',
+                fontSize: '11px',
+                fontWeight: 900,
+                backdropFilter: 'blur(4px)',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+              }}>
+                🪵 Root
+              </span>
+            )}
+          </div>
+
+          {/* Top-Right Complete Checkmark */}
+          {done && (
+            <span style={{
+              position: 'absolute',
+              top: '6px',
+              right: '6px',
+              width: '24px',
+              height: '24px',
+              borderRadius: '50%',
+              background: '#16A34A',
+              color: '#FFFFFF',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '14px',
+              fontWeight: 900,
+              boxShadow: '0 2px 7px rgba(0,0,0,0.3)',
+              pointerEvents: 'none',
+              zIndex: 4
+            }}>
+              ✓
+            </span>
+          )}
+
           {/* Quick 16:9 full screen inspect button */}
           <button
             type="button"
@@ -577,16 +553,17 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           </button>
         </div>
 
+        {/* Card Name Bar */}
         <div style={{
           width: '100%',
           boxSizing: 'border-box',
           flexShrink: 0,
           padding: '5px 6px',
-          background: '#FFFFFF',
+          background: done ? '#F0FDF4' : '#FFFFFF',
           borderTop: '1.5px solid rgba(15, 23, 42, 0.08)',
           fontSize: '18px',
-          fontWeight: 800,
-          color: '#14532D',
+          fontWeight: 900,
+          color: done ? '#15803D' : '#0F172A',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -597,99 +574,67 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
             {plant.name}
           </span>
         </div>
-
-        {/* Venation/root placement status dots — moved onto the image corner so the name bar can stay centered */}
-        <span style={{ position: 'absolute', top: '7px', left: '7px', display: 'flex', gap: '4px', pointerEvents: 'none' }}>
-          <span style={{
-            width: '10px', height: '10px', borderRadius: '50%',
-            background: pl.venation ? '#16A34A' : 'rgba(255,255,255,0.55)',
-            border: '1px solid rgba(15,23,42,0.25)'
-          }} />
-          <span style={{
-            width: '10px', height: '10px', borderRadius: '50%',
-            background: pl.root ? '#B45309' : 'rgba(255,255,255,0.55)',
-            border: '1px solid rgba(15,23,42,0.25)'
-          }} />
-        </span>
-
-        {done && (
-          <span style={{
-            position: 'absolute', top: '7px', right: '7px',
-            width: '26px', height: '26px', borderRadius: '50%',
-            background: '#16A34A', color: '#FFFFFF',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '15px', fontWeight: 900,
-            boxShadow: '0 2px 7px rgba(0,0,0,0.35)',
-            pointerEvents: 'none'
-          }}>&#10003;</span>
-        )}
       </div>
     );
   };
 
   // ---------------------------------------------------------------------
-  // Drop Zone exactly matching Image 2
+  // Drop Zone  // Drop Zone exactly matching Image 2
   const DropZone = ({ zone }) => {
     const tone = TONE[zone.group];
     const members = plantsInZone(zone);
     const solved = isZoneSolved(zone);
-    const isHover = hoverZone === zone.id;
-    const isDraggingAny = Boolean(dragId || touchPoint || selectedId);
+    const isHover = dragOverZoneId === zone.id;
 
     return (
       <div
         data-zone={zone.id}
-        onClick={() => selectedId && assign(selectedId, zone)}
         onDragOver={(e) => {
           e.preventDefault();
-          e.dataTransfer.dropEffect = 'copy';
-          if (hoverZone !== zone.id) setHoverZone(zone.id);
-        }}
-        onDragEnter={(e) => {
-          e.preventDefault();
-          setHoverZone(zone.id);
+          e.dataTransfer.dropEffect = 'move';
+          if (dragOverZoneId !== zone.id) setDragOverZoneId(zone.id);
         }}
         onDragLeave={(e) => {
-          e.preventDefault();
           if (e.currentTarget.contains(e.relatedTarget)) return;
-          if (hoverZone === zone.id) setHoverZone(null);
+          setDragOverZoneId(prev => (prev === zone.id ? null : prev));
         }}
         onDrop={(e) => {
           e.preventDefault();
-          const plantId = e.dataTransfer.getData('text/plain') || dragId;
+          const plantId = draggedCardId || e.dataTransfer.getData('text/plain');
           if (plantId) {
             assign(plantId, zone);
             correlationAudio.playOptionSelect();
           }
-          setHoverZone(null);
-          setDragId(null);
+          setDragOverZoneId(null);
+          setDraggedCardId(null);
         }}
         style={{
           background: isHover
-            ? (zone.group === 'venation' ? '#E8F5E9' : '#FFF3E0')
+            ? (zone.group === 'venation' ? '#DCFCE7' : '#FEF3C7')
             : tone.zoneCardBg,
-          border: `1.5px solid ${isHover ? '#F59E0B' : isDraggingAny ? '#34D399' : tone.zoneCardBorder}`,
-          borderRadius: '14px',
-          padding: '8px 9px',
+          border: `2px ${isHover ? 'dashed #16A34A' : 'solid ' + tone.zoneCardBorder}`,
+          borderRadius: '16px',
+          padding: '8px 10px',
           display: 'flex',
           flexDirection: 'column',
           gap: '6px',
           minWidth: 0,
-          cursor: selectedId ? 'copy' : 'default',
-          transform: isHover ? 'scale(1.015)' : 'none',
+          cursor: 'default',
+          transform: isHover ? 'scale(1.02)' : 'none',
           boxShadow: isHover
-            ? '0 8px 24px rgba(245, 158, 11, 0.35)'
-            : isDraggingAny
-            ? '0 4px 14px rgba(52, 211, 153, 0.2)'
-            : 'none',
-          transition: 'all 0.15s ease'
+            ? '0 8px 24px rgba(22, 163, 74, 0.25)'
+            : '0 2px 8px rgba(0,0,0,0.03)',
+          transition: 'all 0.15s ease',
+          position: 'relative',
+          overflow: 'hidden'
         }}
       >
+        {/* Header: Icon, Label, and Count Badge (matches Activity 2.3) */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px', minWidth: 0 }}>
           <span style={{
             display: 'flex', alignItems: 'center', gap: '7px',
-            fontSize: '19px', fontWeight: 900, color: tone.heading,
-            fontFamily: '"Fraunces", Georgia, serif',
+            fontSize: '18px', fontWeight: 900, color: tone.heading,
+            fontFamily: '"Outfit", sans-serif',
             whiteSpace: 'nowrap',
             minWidth: 0,
             overflow: 'hidden',
@@ -698,157 +643,225 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
             {zone.icon}
             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{zone.label}</span>
           </span>
-          {checked && (
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
+            {checked && (
+              <span style={{
+                fontSize: '13px', fontWeight: 900,
+                color: solved ? '#166534' : '#B91C1C',
+                background: solved ? '#DCFCE7' : '#FEE2E2',
+                border: `1.5px solid ${solved ? '#86EFAC' : '#FCA5A5'}`,
+                padding: '1px 7px', borderRadius: '999px', whiteSpace: 'nowrap'
+              }}>
+                {solved ? 'Correct' : 'Not yet'}
+              </span>
+            )}
             <span style={{
-              fontSize: '13px', fontWeight: 900,
-              color: solved ? '#166534' : '#B91C1C',
-              background: solved ? '#DCFCE7' : '#FEE2E2',
-              border: `1.5px solid ${solved ? '#86EFAC' : '#FCA5A5'}`,
-              padding: '1px 7px', borderRadius: '999px', whiteSpace: 'nowrap',
-              flexShrink: 0
+              fontSize: '16px', fontWeight: 800,
+              fontFamily: '"Inter", sans-serif',
+              color: '#334155',
+              background: 'rgba(255, 255, 255, 0.9)',
+              border: '1px solid rgba(0,0,0,0.1)',
+              padding: '2px 8px', borderRadius: '8px',
+              whiteSpace: 'nowrap'
             }}>
-              {solved ? 'Correct' : 'Not yet'}
+              {members.length} plants
             </span>
-          )}
+          </div>
         </div>
 
-        {/* Inner dashed drop box */}
+        {/* Inner Content & Drop Target Area */}
         <div style={{
           flex: 1,
-          minHeight: '52px',
-          background: isHover ? 'rgba(255, 255, 255, 0.95)' : tone.zoneDropBg,
-          border: `2px dashed ${isHover ? '#F59E0B' : isDraggingAny ? '#16A34A' : checked && solved ? '#16A34A' : tone.zoneDropBorder}`,
-          borderRadius: '12px',
-          padding: '6px 8px',
+          minHeight: 0,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: members.length === 0 ? 'center' : 'flex-start',
           justifyContent: members.length === 0 ? 'center' : 'flex-start',
-          gap: '6px',
-          boxShadow: isHover ? 'inset 0 0 14px rgba(245, 158, 11, 0.25)' : 'none',
-          transition: 'border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease'
+          gap: '4px',
+          overflow: 'hidden'
         }}>
-          {members.length === 0 ? (
-            <>
-              {zone.drawing}
-              <span style={{
-                fontSize: '17px',
-                fontStyle: 'italic',
-                fontWeight: isHover ? 800 : 600,
-                color: isHover ? '#D97706' : tone.dropText,
-                fontFamily: '"Outfit", sans-serif'
-              }}>
-                {isHover ? 'Release to drop plant here' : 'Drop plants here'}
-              </span>
-            </>
-          ) : (
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', width: '100%' }}>
+          {/* Placed Plant Pills (when members exist) - all plants fully visible */}
+          {members.length > 0 && (
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignContent: 'flex-start',
+              gap: '4px',
+              width: '100%',
+              flex: 1,
+              minHeight: 0,
+              overflowY: 'auto',
+              scrollbarWidth: 'thin',
+              padding: '1px 0'
+            }}>
               {members.map(p => {
                 const right = p[zone.group] === zone.id;
                 return (
                   <div
                     key={p.id}
-                    role="button"
-                    tabIndex={0}
-                    draggable={true}
-                    onDragStart={(e) => {
-                      e.dataTransfer.setData('text/plain', p.id);
-                      e.dataTransfer.effectAllowed = 'copyMove';
-                      setDragId(p.id);
-                      correlationAudio.playSwitch();
-                    }}
-                    onDragEnd={() => {
-                      setDragId(null);
-                      setHoverZone(null);
-                    }}
-                    onClick={(e) => { e.stopPropagation(); unassign(p.id, zone.group); }}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.stopPropagation();
-                        unassign(p.id, zone.group);
-                      }
-                    }}
-                    title={`Drag to another box, or click to remove ${p.name}`}
                     style={{
-                      display: 'flex', alignItems: 'center', gap: '5px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
                       background: checked ? (right ? '#DCFCE7' : '#FEE2E2') : '#FFFFFF',
-                      border: `1.5px solid ${checked ? (right ? '#4ADE80' : '#FCA5A5') : 'rgba(15,23,42,0.15)'}`,
-                      borderRadius: '999px',
-                      padding: '2px 8px 2px 3px',
-                      fontSize: '17px', fontWeight: 800, color: '#14532D',
-                      cursor: 'grab', fontFamily: '"Outfit", sans-serif',
-                      boxShadow: '0 2px 5px rgba(15,23,42,0.08)',
-                      userSelect: 'none'
+                      border: `1.5px solid ${checked ? (right ? '#4ADE80' : '#FCA5A5') : '#CBD5E1'}`,
+                      borderRadius: '14px',
+                      padding: '2px 6px 2px 3px',
+                      fontSize: '15px',
+                      fontWeight: 800,
+                      color: '#0F172A',
+                      fontFamily: '"Outfit", sans-serif',
+                      boxShadow: '0 1px 3px rgba(15,23,42,0.06)',
+                      userSelect: 'none',
+                      flexShrink: 0
                     }}
                   >
                     <img
                       src={p.img}
-                      alt=""
+                      alt={p.name}
                       draggable={false}
-                      style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover', pointerEvents: 'none' }}
+                      style={{ width: '20px', height: '20px', borderRadius: '50%', objectFit: 'cover', pointerEvents: 'none' }}
                     />
-                    <span>{p.name}</span>
-                    {checked ? (
-                      <span>{right ? '✓' : '✕'}</span>
-                    ) : (
-                      <span style={{ fontSize: '13px', opacity: 0.6, marginLeft: '2px' }}>×</span>
+                    <span style={{ whiteSpace: 'nowrap' }}>{p.name}</span>
+                    {checked && (
+                      <span style={{ color: right ? '#16A34A' : '#DC2626', fontWeight: 900, fontSize: '13px' }}>
+                        {right ? '✓' : '✕'}
+                      </span>
                     )}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        unassign(p.id, zone.group);
+                        correlationAudio.playSwitch();
+                      }}
+                      title={`Remove ${p.name} from ${zone.label}`}
+                      style={{
+                        background: '#F1F5F9',
+                        border: 'none',
+                        borderRadius: '50%',
+                        width: '16px',
+                        height: '16px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        color: '#64748B',
+                        fontSize: '11px',
+                        marginLeft: '2px',
+                        padding: 0
+                      }}
+                    >
+                      ✕
+                    </button>
                   </div>
                 );
               })}
             </div>
           )}
+
+          {/* Dashed Drop Target Box */}
+          <div style={{
+            flex: members.length === 0 ? 1 : '0 0 auto',
+            minHeight: members.length === 0 ? '48px' : (isHover ? '26px' : '20px'),
+            background: isHover
+              ? 'rgba(255, 255, 255, 0.95)'
+              : tone.zoneDropBg,
+            border: `1.5px dashed ${isHover ? '#16A34A' : tone.zoneDropBorder}`,
+            borderRadius: '10px',
+            padding: members.length === 0 ? '4px 8px' : '2px 6px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '6px',
+            textAlign: 'center',
+            boxShadow: isHover ? 'inset 0 0 10px rgba(22, 163, 74, 0.2)' : 'none',
+            transition: 'all 0.18s ease',
+            pointerEvents: 'none'
+          }}>
+            {members.length === 0 && zone.drawing}
+            <span style={{
+              fontSize: members.length === 0 ? '17px' : '13px',
+              fontWeight: isHover ? 800 : 700,
+              color: isHover ? '#15803D' : tone.dropText,
+              fontFamily: '"Outfit", sans-serif'
+            }}>
+              {isHover
+                ? 'Release to drop plant here'
+                : (members.length === 0 ? 'Drag & drop plants here' : '+ Drop to add more')}
+            </span>
+          </div>
         </div>
       </div>
     );
   };
 
   // ---------------------------------------------------------------------
-  // Group Panel exactly matching Image 2
+  // Group Panel  // Group Panel exactly matching Image 2
   const GroupPanel = ({ title, icon, group }) => {
     const tone = TONE[group];
+    const placedInGroup = PLANTS.filter(p => getPlacement(p.id)[group] !== null).length;
+
     return (
       <div style={{
         background: tone.panelBg,
         border: `1.5px solid ${tone.panelBorder}`,
         borderRadius: '18px',
-        padding: '8px 14px',
+        padding: '10px 14px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '6px',
+        gap: '8px',
         flex: 1,
         minHeight: 0,
         overflow: 'hidden',
         boxShadow: '0 4px 16px rgba(0,0,0,0.04)'
       }}>
         <div style={{
-          display: 'flex', alignItems: 'center', gap: '8px',
-          fontSize: '19px', fontWeight: 900, color: tone.heading,
-          fontFamily: '"Fraunces", Georgia, serif',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           flexShrink: 0
         }}>
-          {group === 'venation' ? (
-            icon
-          ) : (
-            <div style={{
-              width: '36px', height: '36px', borderRadius: '50%',
-              background: tone.badge,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              flexShrink: 0
-            }}>
-              {icon}
-            </div>
-          )}
-          {title}
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '8px',
+            fontSize: '20px', fontWeight: 900, color: tone.heading,
+            fontFamily: '"Outfit", sans-serif'
+          }}>
+            {group === 'venation' ? (
+              icon
+            ) : (
+              <div style={{
+                width: '32px', height: '32px', borderRadius: '50%',
+                background: tone.badge,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                flexShrink: 0
+              }}>
+                {icon}
+              </div>
+            )}
+            <span>{title}</span>
+          </div>
+
+          <span style={{
+            fontSize: '16px',
+            fontWeight: 800,
+            fontFamily: '"Inter", sans-serif',
+            color: tone.heading,
+            background: 'rgba(255, 255, 255, 0.85)',
+            border: `1.5px solid ${tone.panelBorder}`,
+            padding: '2px 10px',
+            borderRadius: '12px'
+          }}>
+            {placedInGroup} / 12 placed
+          </span>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '8px', alignItems: 'stretch', flex: 1, minWidth: 0 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '10px', alignItems: 'stretch', flex: 1, minWidth: 0 }}>
           {ZONES.filter(z => z.group === group).map(z => <DropZone key={z.id} zone={z} />)}
         </div>
       </div>
     );
   };
 
+<<<<<<< Updated upstream
   if (showLemongrassVideo) {
     return (
       <EducationalVideoPlayer
@@ -1281,9 +1294,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
         <Lightbulb size={18} color="#D97706" />
         <span style={{ fontSize: '20px', fontWeight: 900, color: '#14532D' }}>Grouping rule:</span>
         <span style={{ fontSize: '20px', fontWeight: 600, color: '#334155' }}>
-          {selectedId
-            ? `${PLANTS.find(p => p.id === selectedId)?.name} selected — now click the group it belongs to.`
-            : 'Drag a plant from the left into the correct venation group and the correct root group. (You can also tap a plant, then tap a group.)'}
+          Drag each plant from the left dock and drop it into its leaf venation group and root group.
         </span>
       </div>
 
@@ -1292,7 +1303,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
         flex: 1,
         minHeight: 0,
         display: 'grid',
-        gridTemplateColumns: 'minmax(0, 58fr) minmax(0, 42fr)',
+        gridTemplateColumns: 'minmax(0, 52fr) minmax(0, 48fr)',
         gap: '12px'
       }}>
         {/* Plants dock */}
@@ -1334,7 +1345,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
 
         {/* Grouping panels */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minHeight: 0 }}>
-          <GroupPanel title="Type of stem" icon={<StemHeaderIcon />} group="venation" />
+          <GroupPanel title="Type of leaf venation" icon={<StemHeaderIcon />} group="venation" />
           <GroupPanel title="Type of root" icon={<RootCircleIcon />} group="root" />
         </div>
       </div>
@@ -1400,45 +1411,6 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           <span>Next</span>
         </button>
       </div>
-
-      {/* Floating preview that follows the finger while touch-dragging a plant card */}
-      {Boolean(touchPoint && dragId) && (() => {
-        const activePos = touchPoint;
-        const draggedPlant = PLANTS.find(p => p.id === dragId);
-        if (!draggedPlant) return null;
-        return (
-          <div
-            style={{
-              position: 'fixed',
-              left: activePos.x,
-              top: activePos.y,
-              transform: 'translate(-50%, -120%)',
-              width: '92px',
-              height: '110px',
-              borderRadius: '14px',
-              overflow: 'hidden',
-              background: '#FFFFFF',
-              border: '2.5px solid #F59E0B',
-              boxShadow: '0 14px 30px rgba(0, 0, 0, 0.35)',
-              pointerEvents: 'none',
-              zIndex: 2000,
-              opacity: 0.94
-            }}
-          >
-            <img
-              src={draggedPlant.img}
-              alt=""
-              style={{ width: '100%', height: '76%', objectFit: 'contain', objectPosition: 'center', display: 'block', padding: '2px' }}
-            />
-            <div style={{
-              fontSize: '13px', fontWeight: 800, color: '#14532D',
-              textAlign: 'center', padding: '2px 4px', fontFamily: '"Outfit", sans-serif'
-            }}>
-              {draggedPlant.name}
-            </div>
-          </div>
-        );
-      })()}
 
       {/* 16:9 Full-Screen Specimen Inspection Lightbox for any of the 12 Plants */}
       {inspectPlant && (
