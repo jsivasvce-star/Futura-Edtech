@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Fragment } from 'react';
 import {
-  RotateCcw,
-  CheckCircle,
   ChevronRight,
   X,
   ArrowLeft
@@ -10,35 +8,295 @@ import {
 import confetti from 'canvas-confetti';
 import './pattern-lab.css';
 
-// ── CONCEPT-SPECIFIC PROGRESSION HINT RESOLVER ──
-function getConceptConnector(concept, i) {
+// ── VISUAL PATTERN RULE OVERLAY (ARROWS & LABELS DIRECTLY ON SEQUENCE) ──
+function PatternRuleOverlay({ concept, isSolved, cardPositions }) {
+  const badgeBg = '#fef9c3'; // soft/light yellow
+  const badgeBorder = '#f59e0b'; // golden yellow
+  const badgeText = '#854d0e'; // dark golden/brown text for clear contrast
+  const arrowColor = '#ec4899'; // pink/magenta curved arrows & arrowheads
+
+  // Fallback if cards have not yet been measured
+  const getPos = (i) => {
+    if (cardPositions && cardPositions[i] && cardPositions[i].width > 0) {
+      return cardPositions[i];
+    }
+    return {
+      x: 102 + i * 216,
+      y: 145,
+      width: 204,
+      height: 290
+    };
+  };
+
+  const isVirahanka = concept.key === 'virahanka';
+
+  if (isVirahanka) {
+    // Virahanka: each number is formed by adding the previous two numbers
+    // 1 + 2 -> 3, 2 + 3 -> 5, 3 + 5 -> 8, 5 + 8 -> 13, 8 + 13 -> 21
+    // Final step into target (index 7): dual connecting arrows from 13 (index 5) and 21 (index 6) into ? (or 34)
+    const prevSteps = [
+      { from: 1, to: 2, label: '1 + 2 → 3' },
+      { from: 2, to: 3, label: '2 + 3 → 5' },
+      { from: 3, to: 4, label: '3 + 5 → 8' },
+      { from: 4, to: 5, label: '5 + 8 → 13' },
+      { from: 5, to: 6, label: '8 + 13 → 21' }
+    ];
+
+    const c5 = getPos(5);
+    const c6 = getPos(6);
+    const c7 = getPos(7);
+    const cardH = c7.height || 260;
+    const yCenter = c7.y || (cardH / 2);
+    const yBase = yCenter - Math.min(52, cardH * 0.22);
+
+    // Arrow 1 from 13 (index 5) to target (index 7)
+    const startX_13 = c5.x + 28;
+    const endX_7_a = c7.x - 28;
+    const midX_13_7 = (startX_13 + endX_7_a) / 2;
+    const peakY_13 = yCenter - Math.min(94, cardH * 0.38);
+    const pathD_13 = `M ${startX_13} ${yBase} Q ${midX_13_7} ${peakY_13} ${endX_7_a} ${yBase - 6}`;
+
+    // Arrow 2 from 21 (index 6) to target (index 7)
+    const startX_21 = c6.x + 28;
+    const endX_7_b = c7.x - 18;
+    const midX_21_7 = (startX_21 + endX_7_b) / 2;
+    const peakY_21 = yCenter - Math.min(72, cardH * 0.29);
+    const pathD_21 = `M ${startX_21} ${yBase} Q ${midX_21_7} ${peakY_21} ${endX_7_b} ${yBase}`;
+
+    const targetLabel = isSolved ? '13 + 21 = 34' : '13 + 21 → ?';
+
+    return (
+      <div className="pl-rule-overlay-layer" aria-hidden="true">
+        <svg className="pl-rule-arrows-svg">
+          <defs>
+            <marker
+              id={`ruleArrowhead-${concept.id}`}
+              viewBox="0 0 10 10"
+              refX="7"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill={arrowColor} />
+            </marker>
+          </defs>
+
+          {/* Previous progression arrows */}
+          {prevSteps.map((step, idx) => {
+            const pFrom = getPos(step.from);
+            const pTo = getPos(step.to);
+            const cardH = pTo.height || 260;
+            const span = pTo.x - pFrom.x;
+            const midX = (pFrom.x + pTo.x) / 2;
+            const yMid = pTo.y || (cardH / 2);
+            const yB = yMid - Math.min(52, cardH * 0.22);
+            const yP = yMid - Math.min(76, cardH * 0.32);
+            const sX = pFrom.x + Math.min(28, span * 0.16);
+            const eX = pTo.x - Math.min(28, span * 0.16);
+            const d = `M ${sX} ${yB} Q ${midX} ${yP} ${eX} ${yB}`;
+
+            return (
+              <path
+                key={idx}
+                d={d}
+                fill="none"
+                stroke={arrowColor}
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                markerEnd={`url(#ruleArrowhead-${concept.id})`}
+                className="pl-rule-arrow-path"
+              />
+            );
+          })}
+
+          {/* Dual connecting arrows into target index 7 */}
+          <path
+            d={pathD_13}
+            fill="none"
+            stroke={arrowColor}
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            markerEnd={`url(#ruleArrowhead-${concept.id})`}
+            className="pl-rule-arrow-path"
+          />
+          <path
+            d={pathD_21}
+            fill="none"
+            stroke={arrowColor}
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            markerEnd={`url(#ruleArrowhead-${concept.id})`}
+            className="pl-rule-arrow-path"
+          />
+        </svg>
+
+        {/* Labels for previous steps */}
+        {prevSteps.map((step, idx) => {
+          const pFrom = getPos(step.from);
+          const pTo = getPos(step.to);
+          const cardH = pTo.height || 260;
+          const midX = (pFrom.x + pTo.x) / 2;
+          const yMid = pTo.y || (cardH / 2);
+          const labelY = yMid - Math.min(88, cardH * 0.37);
+
+          return (
+            <div
+              key={idx}
+              className="pl-rule-indicator-label"
+              style={{
+                left: `${midX}px`,
+                top: `${labelY}px`,
+                borderColor: badgeBorder,
+                color: badgeText,
+                background: badgeBg
+              }}
+            >
+              {step.label}
+            </div>
+          );
+        })}
+
+        {/* Target rule label directly above target number */}
+        <div
+          className={`pl-rule-indicator-label pl-rule-target-label ${isSolved ? 'is-solved' : ''}`}
+          style={{
+            left: `${c7.x}px`,
+            top: `${yCenter - Math.min(108, cardH * 0.44)}px`,
+            borderColor: badgeBorder,
+            color: badgeText,
+            background: badgeBg
+          }}
+        >
+          {targetLabel}
+        </div>
+      </div>
+    );
+  }
+
+  // Standard pairwise concepts (all 9 other concepts)
+  let labels = [];
   switch (concept.key) {
     case 'all_ones':
-      return { text: 'same' };
+      labels = ['same', 'same', 'same', 'same', 'same', 'same', 'same'];
+      break;
     case 'counting':
-      return { text: '+1' };
+      labels = ['+1', '+1', '+1', '+1', '+1', '+1', '+1'];
+      break;
     case 'odd':
-      return { text: '+2' };
+      labels = ['+2', '+2', '+2', '+2', '+2', '+2', '+2'];
+      break;
     case 'even':
-      return { text: '+2' };
+      labels = ['+2', '+2', '+2', '+2', '+2', '+2', '+2'];
+      break;
     case 'triangular':
-      return { text: `+${i + 1}` };
+      labels = ['+2', '+3', '+4', '+5', '+6', '+7', '+8'];
+      break;
     case 'square':
-      return { text: `+${2 * i + 1}` };
+      labels = ['2²', '3²', '4²', '5²', '6²', '7²', '8²'];
+      break;
     case 'cube':
-      return { text: 'n³' };
-    case 'virahanka':
-      return { text: 'a + b' };
+      labels = ['2³', '3³', '4³', '5³', '6³', '7³', '8³'];
+      break;
     case 'powers_of_2':
-      return { text: '×2' };
+      labels = ['×2', '×2', '×2', '×2', '×2', '×2', '×2'];
+      break;
     case 'powers_of_3':
-      return { text: '×3' };
+      labels = ['×3', '×3', '×3', '×3', '×3', '×3', '×3'];
+      break;
     default:
-      return { text: '+1' };
+      labels = ['+1', '+1', '+1', '+1', '+1', '+1', '+1'];
   }
+
+  return (
+    <div className="pl-rule-overlay-layer" aria-hidden="true">
+      <svg className="pl-rule-arrows-svg">
+        <defs>
+          <marker
+            id={`ruleArrowhead-${concept.id}`}
+            viewBox="0 0 10 10"
+            refX="7"
+            refY="5"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto-start-reverse"
+          >
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill={arrowColor} />
+          </marker>
+        </defs>
+
+        {labels.map((_, i) => {
+          const c1 = getPos(i);
+          const c2 = getPos(i + 1);
+          const cardH = c1.height || 260;
+          const span = c2.x - c1.x;
+          const midX = (c1.x + c2.x) / 2;
+          const yCenter = c1.y || (cardH / 2);
+          const yBase = yCenter - Math.min(52, cardH * 0.22);
+          const yPeak = yCenter - Math.min(76, cardH * 0.32);
+          const startX = c1.x + Math.min(28, span * 0.16);
+          const endX = c2.x - Math.min(28, span * 0.16);
+          const d = `M ${startX} ${yBase} Q ${midX} ${yPeak} ${endX} ${yBase}`;
+
+          return (
+            <path
+              key={i}
+              d={d}
+              fill="none"
+              stroke={arrowColor}
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              markerEnd={`url(#ruleArrowhead-${concept.id})`}
+              className="pl-rule-arrow-path"
+            />
+          );
+        })}
+      </svg>
+
+      {labels.map((label, i) => {
+        const c1 = getPos(i);
+        const c2 = getPos(i + 1);
+        const cardH = c1.height || 260;
+        const midX = (c1.x + c2.x) / 2;
+        const yCenter = c1.y || (cardH / 2);
+        const labelY = yCenter - Math.min(88, cardH * 0.37);
+        const isLast = i === labels.length - 1;
+
+        return (
+          <div
+            key={i}
+            className={`pl-rule-indicator-label ${isLast && isSolved ? 'is-solved' : ''}`}
+            style={{
+              left: `${midX}px`,
+              top: `${labelY}px`,
+              borderColor: badgeBorder,
+              color: badgeText,
+              background: badgeBg
+            }}
+          >
+            {label}
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
-// ── 10 MASTER PATTERN SEQUENCES & 4-STEP LEARNING CONTENT ──
+// ── THINKING CHILD ILLUSTRATION COMPONENT ──
+function ThinkingChild() {
+  return (
+    <div className="pl-thinking-character-wrapper" aria-hidden="true">
+      <img
+        src="/assets/thinking_child.png"
+        alt="Thinking student"
+        className="pl-thinking-character-img"
+        draggable={false}
+      />
+    </div>
+  );
+}
+
+// ── 10 MASTER PATTERN SEQUENCES & INTERACTIVE QUESTION CONTENT ──
 const CONCEPTS = [
   {
     id: 1,
@@ -46,20 +304,11 @@ const CONCEPTS = [
     title: 'All 1s',
     subtitle: 'A new position, same number',
     totalTerms: 8,
-    missingIndex: 4,
+    missingIndex: 7,
     terms: [1, 1, 1, 1, 1, 1, 1, 1],
-    sublabels: ['', '', '', '', '', '', '', ''],
-    connectors: [],
-    watchInstruction: 'Watch how the numbers change from term to term. Follow the positions — does the value ever change?',
-    question: 'What number is missing?',
-    sequenceClue: '1, 1, 1, 1, ?, 1, 1, 1',
-    options: [1, 2, 5],
+    options: [1, 2, 0, 10],
     correctOption: 1,
-    explanation: 'Correct! Every term in this sequence stays 1, so the missing number is 1.',
-    wrongExplanation: 'Look at the numbers before and after the missing box. Every term is 1, so the value never changes.',
-    discoveredConcept: 'All 1s',
-    completeSequence: '1, 1, 1, 1, 1, 1, 1, 1',
-    discoveredRule: 'Every term is 1. Moving to a new position does not change the value.',
+    hint: 'Look carefully at the numbers. Does the value change from one position to the next?',
     nextLabel: 'Counting numbers',
     accentColor: '#38bdf8'
   },
@@ -69,20 +318,11 @@ const CONCEPTS = [
     title: 'Counting numbers',
     subtitle: 'Move forward, one number at a time.',
     totalTerms: 8,
-    missingIndex: 5,
+    missingIndex: 7,
     terms: [1, 2, 3, 4, 5, 6, 7, 8],
-    sublabels: ['Position 1', 'Position 2', 'Position 3', 'Position 4', 'Position 5', 'Position 6', 'Position 7', 'Position 8'],
-    connectors: [],
-    watchInstruction: 'Watch how each number grows. Observe the gap between each pair of neighbours.',
-    question: 'What number is missing?',
-    sequenceClue: '1, 2, 3, 4, 5, ?, 7, 8',
-    options: [4, 6, 7],
-    correctOption: 6,
-    explanation: 'Correct! The counting sequence increases by 1 each time. 5 + 1 = 6, which comes right before 7.',
-    wrongExplanation: 'Check the pattern: each number increases by 1 (+1). Find the number that comes between 5 and 7.',
-    discoveredConcept: 'Counting numbers',
-    completeSequence: '1, 2, 3, 4, 5, 6, 7, 8',
-    discoveredRule: 'The counting sequence starts 1, 2, 3... Each term increases by 1 at every step.',
+    options: [8, 9, 6, 10],
+    correctOption: 8,
+    hint: 'Look at how the numbers increase. Each number is one more than the number before it.',
     nextLabel: 'Odd numbers',
     accentColor: '#10b981'
   },
@@ -92,20 +332,11 @@ const CONCEPTS = [
     title: 'Odd numbers',
     subtitle: 'Start with 1. Jump over every other number.',
     totalTerms: 8,
-    missingIndex: 3,
+    missingIndex: 7,
     terms: [1, 3, 5, 7, 9, 11, 13, 15],
-    sublabels: ['2 × 1 - 1', '2 × 2 - 1', '2 × 3 - 1', '2 × 4 - 1', '2 × 5 - 1', '2 × 6 - 1', '2 × 7 - 1', '2 × 8 - 1'],
-    connectors: [],
-    watchInstruction: 'Watch how the numbers change from term to term. The jumps stay the same even as the numbers get larger.',
-    question: 'What number is missing?',
-    sequenceClue: '1, 3, 5, ?, 9, 11, 13, 15',
-    options: [6, 7, 8],
-    correctOption: 7,
-    explanation: 'Correct! Odd numbers increase by adding 2 each time. 5 + 2 = 7, and 7 + 2 = 9.',
-    wrongExplanation: 'Notice the gap of +2 between consecutive odd numbers. Add 2 to 5 to find the missing odd number.',
-    discoveredConcept: 'Odd numbers',
-    completeSequence: '1, 3, 5, 7, 9, 11, 13, 15',
-    discoveredRule: 'Each term increases by 2. These are consecutive odd numbers.',
+    options: [14, 15, 16, 17],
+    correctOption: 15,
+    hint: 'Look at the difference between consecutive numbers. The sequence increases by the same amount each time.',
     nextLabel: 'Even numbers',
     accentColor: '#f59e0b'
   },
@@ -115,20 +346,11 @@ const CONCEPTS = [
     title: 'Even numbers',
     subtitle: 'Start with a pair. Add another pair.',
     totalTerms: 8,
-    missingIndex: 4,
+    missingIndex: 7,
     terms: [2, 4, 6, 8, 10, 12, 14, 16],
-    sublabels: ['2 × 1', '2 × 2', '2 × 3', '2 × 4', '2 × 5', '2 × 6', '2 × 7', '2 × 8'],
-    connectors: [],
-    watchInstruction: 'Watch how each pair appears. Compare this sequence with the odd numbers.',
-    question: 'What number is missing?',
-    sequenceClue: '2, 4, 6, 8, ?, 12, 14, 16',
-    options: [9, 10, 11],
-    correctOption: 10,
-    explanation: 'Correct! Even numbers increase by 2 at each step. 8 + 2 = 10, which fits right before 12.',
-    wrongExplanation: 'Even numbers increase by 2 each time (+2). Add 2 to 8 to find the missing even number.',
-    discoveredConcept: 'Even numbers',
-    completeSequence: '2, 4, 6, 8, 10, 12, 14, 16',
-    discoveredRule: 'Each term is a whole number of pairs: 2, 4, 6, 8... The gap between neighbours is always 2.',
+    options: [15, 16, 17, 18],
+    correctOption: 16,
+    hint: 'Look at how much is added each time. The numbers increase by 2.',
     nextLabel: 'Triangular numbers',
     accentColor: '#a855f7'
   },
@@ -138,20 +360,11 @@ const CONCEPTS = [
     title: 'Triangular numbers',
     subtitle: 'The amount we add grows by one.',
     totalTerms: 8,
-    missingIndex: 5,
+    missingIndex: 7,
     terms: [1, 3, 6, 10, 15, 21, 28, 36],
-    sublabels: ['1', '1 + 2', '1 + ... + 3', '1 + ... + 4', '1 + ... + 5', '1 + ... + 6', '1 + ... + 7', '1 + ... + 8'],
-    connectors: [],
-    watchInstruction: 'Look at the jumps: +2, +3, +4, +5, +6, +7. Notice how the added step increases by 1 each time.',
-    question: 'What number is missing?',
-    sequenceClue: '1, 3, 6, 10, 15, ?, 28, 36',
-    options: [19, 21, 24],
-    correctOption: 21,
-    explanation: 'Correct! The jumps increase by 1 (+2, +3, +4, +5, +6). So 15 + 6 = 21, and 21 + 7 = 28.',
-    wrongExplanation: 'Look at the pattern of jumps between numbers: +2, +3, +4, +5. The next jump must be +6. Add 6 to 15.',
-    discoveredConcept: 'Triangular numbers',
-    completeSequence: '1, 3, 6, 10, 15, 21, 28, 36',
-    discoveredRule: 'Each new triangle gains a row with one more dot: +2, +3, +4, +5, +6, +7, +8...',
+    options: [34, 35, 36, 38],
+    correctOption: 36,
+    hint: 'Look at the differences: 2, 3, 4, 5, 6, 7... What comes after adding 7?',
     nextLabel: 'Square numbers',
     accentColor: '#f43f5e'
   },
@@ -161,20 +374,11 @@ const CONCEPTS = [
     title: 'Square numbers',
     subtitle: 'Multiply a counting number by itself.',
     totalTerms: 8,
-    missingIndex: 3,
+    missingIndex: 7,
     terms: [1, 4, 9, 16, 25, 36, 49, 64],
-    sublabels: ['1 × 1', '2 × 2', '3 × 3', '4 × 4', '5 × 5', '6 × 6', '7 × 7', '8 × 8'],
-    connectors: [],
-    watchInstruction: 'Read the multiplication beneath each number. Equal factors make squares.',
-    question: 'What number is missing?',
-    sequenceClue: '1, 4, 9, ?, 25, 36, 49, 64',
-    options: [14, 16, 18],
-    correctOption: 16,
-    explanation: 'Correct! The sequence is square numbers: 1², 2², 3², 4²... So the 4th term is 4 × 4 = 16.',
-    wrongExplanation: 'These are square numbers (1×1, 2×2, 3×3...). For the 4th position, multiply 4 by itself (4 × 4).',
-    discoveredConcept: 'Square numbers',
-    completeSequence: '1, 4, 9, 16, 25, 36, 49, 64',
-    discoveredRule: 'The nth square number is n × n. Adding consecutive odd numbers (+3, +5, +7, +9...) produces the squares.',
+    options: [56, 60, 64, 72],
+    correctOption: 64,
+    hint: 'Think of 1 × 1, 2 × 2, 3 × 3... What number comes from 8 × 8?',
     nextLabel: 'Cube numbers',
     accentColor: '#06b6d4'
   },
@@ -183,21 +387,12 @@ const CONCEPTS = [
     key: 'cube',
     title: 'Cube numbers',
     subtitle: 'Use the same factor three times.',
-    totalTerms: 7,
-    missingIndex: 3,
-    terms: [1, 8, 27, 64, 125, 216, 343],
-    sublabels: ['1 × 1 × 1', '2 × 2 × 2', '3 × 3 × 3', '4 × 4 × 4', '5 × 5 × 5', '6 × 6 × 6', '7 × 7 × 7'],
-    connectors: [],
-    watchInstruction: 'Length, width, and height all grow together using the same factor three times (n³).',
-    question: 'What number is missing?',
-    sequenceClue: '1, 8, 27, ?, 125, 216, 343',
-    options: [48, 64, 81],
-    correctOption: 64,
-    explanation: 'Correct! The sequence follows 1³, 2³, 3³, 4³… So the missing number is 4 × 4 × 4 = 64.',
-    wrongExplanation: 'The numbers are cube numbers: 1³, 2³, 3³, 4³… Multiply 4 by itself three times (4 × 4 × 4) to find the missing number.',
-    discoveredConcept: 'Cube numbers',
-    completeSequence: '1, 8, 27, 64, 125, 216, 343',
-    discoveredRule: 'A cube of side n has n × n × n unit cubes (n³). 1³=1, 2³=8, 3³=27, 4³=64, 5³=125, 6³=216, 7³=343.',
+    totalTerms: 8,
+    missingIndex: 7,
+    terms: [1, 8, 27, 64, 125, 216, 343, 512],
+    options: [343, 421, 512, 625],
+    correctOption: 512,
+    hint: 'Think of 1³, 2³, 3³, 4³... What is 8 × 8 × 8?',
     nextLabel: 'Virahānka numbers',
     accentColor: '#6366f1'
   },
@@ -208,20 +403,11 @@ const CONCEPTS = [
     subtitle: 'Two neighbours make the next number.',
     sideBadge: 'a + b',
     totalTerms: 8,
-    missingIndex: 5,
+    missingIndex: 7,
     terms: [1, 2, 3, 5, 8, 13, 21, 34],
-    sublabels: ['Starting term', 'Starting term', '1 + 2', '2 + 3', '3 + 5', '5 + 8', '8 + 13', '13 + 21'],
-    connectors: [],
-    watchInstruction: 'After 1 and 2, add the previous two terms to make the next: 1+2=3, 2+3=5, 3+5=8...',
-    question: 'What number is missing?',
-    sequenceClue: '1, 2, 3, 5, 8, ?, 21, 34',
-    options: [11, 13, 16],
-    correctOption: 13,
-    explanation: 'Correct! Each term is the sum of the previous two numbers. 5 + 8 = 13, and 8 + 13 = 21.',
-    wrongExplanation: 'In this sequence, each number is the sum of its two preceding neighbours. Add 5 + 8 to find the missing term.',
-    discoveredConcept: 'Virahānka (Fibonacci) numbers',
-    completeSequence: '1, 2, 3, 5, 8, 13, 21, 34',
-    discoveredRule: 'Start with 1 and 2. Every subsequent term is the sum of its two preceding neighbours.',
+    options: [31, 32, 34, 35],
+    correctOption: 34,
+    hint: 'Look at how each number is made. Add the two numbers immediately before it.',
     nextLabel: 'Powers of 2',
     accentColor: '#eab308'
   },
@@ -232,20 +418,11 @@ const CONCEPTS = [
     subtitle: 'Double the whole amount.',
     sideBadge: '× 2',
     totalTerms: 8,
-    missingIndex: 4,
+    missingIndex: 7,
     terms: [1, 2, 4, 8, 16, 32, 64, 128],
-    sublabels: ['2⁰', '2¹', '2²', '2³', '2⁴', '2⁵', '2⁶', '2⁷'],
-    connectors: [],
-    watchInstruction: 'A constant multiplier causes rapid doubling. Two copies make the next term.',
-    question: 'What number is missing?',
-    sequenceClue: '1, 2, 4, 8, ?, 32, 64, 128',
-    options: [12, 16, 24],
-    correctOption: 16,
-    explanation: 'Correct! Each number doubles (multiplies by 2) at every step. 8 × 2 = 16, and 16 × 2 = 32.',
-    wrongExplanation: 'Notice how each number doubles from the previous term (×2). Multiply 8 by 2 to find the missing number.',
-    discoveredConcept: 'Powers of 2',
-    completeSequence: '1, 2, 4, 8, 16, 32, 64, 128',
-    discoveredRule: 'The rule is repeated multiplication by 2 (2ⁿ). Each step doubles the previous amount.',
+    options: [96, 112, 128, 132],
+    correctOption: 128,
+    hint: 'Each number is multiplied by 2 to get the next number.',
     nextLabel: 'Powers of 3',
     accentColor: '#0ea5e9'
   },
@@ -256,20 +433,11 @@ const CONCEPTS = [
     subtitle: 'Three copies make the next term.',
     sideBadge: '× 3',
     totalTerms: 8,
-    missingIndex: 3,
+    missingIndex: 7,
     terms: [1, 3, 9, 27, 81, 243, 729, 2187],
-    sublabels: ['3⁰', '3¹', '3²', '3³', '3⁴', '3⁵', '3⁶', '3⁷'],
-    connectors: [],
-    watchInstruction: 'Follow the repeated ×3 link between neighbours. Three copies triple the amount each step.',
-    question: 'What number is missing?',
-    sequenceClue: '1, 3, 9, ?, 81, 243, 729, 2187',
-    options: [18, 27, 36],
-    correctOption: 27,
-    explanation: 'Correct! Each number triples (multiplies by 3) at each step. 9 × 3 = 27, and 27 × 3 = 81.',
-    wrongExplanation: 'Notice the pattern of multiplying by 3 at each step (×3). Multiply 9 by 3 to find the missing number.',
-    discoveredConcept: 'Powers of 3',
-    completeSequence: '1, 3, 9, 27, 81, 243, 729, 2187',
-    discoveredRule: 'Repeated multiplication by 3 (3ⁿ). Consecutive terms grow by a factor of 3.',
+    options: [1458, 1620, 2187, 2430],
+    correctOption: 2187,
+    hint: 'Each number is multiplied by 3 to get the next number.',
     nextLabel: 'Activity Complete',
     accentColor: '#10b981'
   }
@@ -278,113 +446,220 @@ const CONCEPTS = [
 export default function PatternLabVideoExperience({ onClose, onCompleteNode }) {
   const [currentConceptIdx, setCurrentConceptIdx] = useState(0);
   
-  // ── 4-STEP LEARNING FLOW STATE ──
-  // 1: WATCH THE PATTERN
-  // 2: LEARNING CHECKPOINT (QUESTION)
-  // 3: CORRECT ANSWER + EXPLANATION
-  // 4: CONCEPT DISCOVERED
-  const [learningStep, setLearningStep] = useState(1);
+  // Concept attempts and answers state map: { [conceptId]: { isSolved, wrongAttempts, selectedOption, feedback } }
+  const [conceptStateMap, setConceptStateMap] = useState({});
 
-  const [revealedCount, setRevealedCount] = useState(1);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [wrongOption, setWrongOption] = useState(null);
-  const [showHint, setShowHint] = useState(false);
   const [completedConceptIds, setCompletedConceptIds] = useState([]);
-  const [scoreAnimation, setScoreAnimation] = useState(false);
   const [showClassroomModal, setShowClassroomModal] = useState(false);
   const [showConceptMapModal, setShowConceptMapModal] = useState(false);
   const [showHelpModal, setShowHelpModal] = useState(false);
 
   const concept = CONCEPTS[currentConceptIdx];
-  const maxQuestionIndex = concept.totalTerms; // 8 or 7
-  const timerRef = useRef(null);
+  const audioRef = useRef(null);
+  const audioTimerRef = useRef(null);
+  const explanationAudioRef = useRef(null);
 
-  // Auto-progression in Step 1 (Watch mode)
-  useEffect(() => {
-    if (learningStep === 1 && isPlaying) {
-      if (revealedCount < maxQuestionIndex) {
-        timerRef.current = setTimeout(() => {
-          setRevealedCount(prev => prev + 1);
-        }, 1200);
-      } else {
-        // Reached end of watchable terms before checkpoint
-        setIsPlaying(false);
+  const [cardPositions, setCardPositions] = useState([]);
+  const cardsRowRef = useRef(null);
+  const cardRefs = useRef([]);
+
+  const currentConceptState = conceptStateMap[concept.id] || {
+    isSolved: false,
+    wrongAttempts: 0,
+    selectedOption: null,
+    feedback: null
+  };
+  const isConceptSolved = currentConceptState.isSolved;
+  const showVisualRule = isConceptSolved || (currentConceptState.wrongAttempts >= 2);
+
+  // Measure card coordinates for overlay placement
+  const updateCardPositions = () => {
+    if (!cardsRowRef.current) return;
+    const rowEl = cardsRowRef.current;
+    const rowRect = rowEl.getBoundingClientRect();
+    const positions = cardRefs.current.map((cardEl, i) => {
+      if (!cardEl) {
+        return { x: 102 + i * 216, y: 145, width: 204, height: 290 };
       }
+      const rect = cardEl.getBoundingClientRect();
+      return {
+        x: rect.left - rowRect.left + rect.width / 2,
+        y: rect.top - rowRect.top + rect.height / 2,
+        top: rect.top - rowRect.top,
+        left: rect.left - rowRect.left,
+        width: rect.width,
+        height: rect.height
+      };
+    });
+    setCardPositions(positions);
+  };
+
+  useEffect(() => {
+    updateCardPositions();
+    const timer = setTimeout(updateCardPositions, 60);
+
+    const handleResize = () => updateCardPositions();
+    window.addEventListener('resize', handleResize);
+
+    let observer;
+    if (cardsRowRef.current && typeof ResizeObserver !== 'undefined') {
+      observer = new ResizeObserver(() => {
+        updateCardPositions();
+      });
+      observer.observe(cardsRowRef.current);
     }
-    return () => clearTimeout(timerRef.current);
-  }, [learningStep, isPlaying, revealedCount, maxQuestionIndex]);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', handleResize);
+      if (observer) observer.disconnect();
+    };
+  }, [currentConceptIdx, isConceptSolved]);
+
+  // ── VOICE NARRATION PLAYBACK ──
+  // Plays naturally once after the complete number sequence appears
+  useEffect(() => {
+    // Stop any previously playing narration
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current = null;
+    }
+    if (audioTimerRef.current) {
+      clearTimeout(audioTimerRef.current);
+      audioTimerRef.current = null;
+    }
+
+    let isCancelled = false;
+
+    const playAudio = () => {
+      if (isCancelled) return;
+      const audioUrl = `/audio/patterns/concept${concept.id}.mp3`;
+      const audio = new Audio(audioUrl);
+      audioRef.current = audio;
+
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          const handleFirstInteraction = () => {
+            if (!isCancelled && audioRef.current === audio) {
+              audio.play().catch(() => {});
+            }
+            window.removeEventListener('pointerdown', handleFirstInteraction);
+            window.removeEventListener('keydown', handleFirstInteraction);
+          };
+          window.addEventListener('pointerdown', handleFirstInteraction, { once: true });
+          window.addEventListener('keydown', handleFirstInteraction, { once: true });
+        });
+      }
+    };
+
+    // Play naturally after the sequence appears on screen
+    audioTimerRef.current = setTimeout(playAudio, 600);
+
+    return () => {
+      isCancelled = true;
+      if (audioTimerRef.current) {
+        clearTimeout(audioTimerRef.current);
+        audioTimerRef.current = null;
+      }
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        audioRef.current = null;
+      }
+    };
+  }, [concept.id]);
 
   // Load a new sequence
   const loadConcept = (idx) => {
+    if (explanationAudioRef.current) {
+      explanationAudioRef.current.pause();
+      explanationAudioRef.current.currentTime = 0;
+      explanationAudioRef.current = null;
+    }
     setCurrentConceptIdx(idx);
-    setLearningStep(1);
-    setRevealedCount(1);
-    setIsPlaying(true);
-    setSelectedOption(null);
-    setWrongOption(null);
-    setShowHint(false);
   };
 
-  // Replay current concept from Step 1
-  const handleReplay = () => {
-    setLearningStep(1);
-    setRevealedCount(1);
-    setIsPlaying(true);
-    setSelectedOption(null);
-    setWrongOption(null);
-    setShowHint(false);
-  };
+  // Cleanup explanation audio on unmount
+  useEffect(() => {
+    return () => {
+      if (explanationAudioRef.current) {
+        explanationAudioRef.current.pause();
+        explanationAudioRef.current.currentTime = 0;
+        explanationAudioRef.current = null;
+      }
+    };
+  }, []);
 
-  // Transition from Step 1 -> Step 2
-  const handleStartCheckpoint = () => {
-    setIsPlaying(false);
-    setRevealedCount(maxQuestionIndex);
-    setLearningStep(2);
-    setSelectedOption(null);
-    setWrongOption(null);
-    setShowHint(false);
-  };
+  // Answer option selection logic
+  const handleSelectAnswer = (opt) => {
+    if (isConceptSolved) return; // Sequence already completed
 
-  // Step 2: Answer option click
-  const handleOptionClick = (opt) => {
-    if (learningStep >= 3) return;
+    // Immediately stop the currently playing page-opening voice on any answer click
+    if (audioTimerRef.current) {
+      clearTimeout(audioTimerRef.current);
+      audioTimerRef.current = null;
+    }
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current = null;
+    }
 
     if (opt === concept.correctOption) {
-      setSelectedOption(opt);
-      setWrongOption(null);
-      setShowHint(false);
-      // Reveal the target card (e.g. 8th term)
-      setRevealedCount(maxQuestionIndex);
-      // Advance to Step 3: Correct Answer / Explanation
-      setLearningStep(3);
+      setConceptStateMap(prev => ({
+        ...prev,
+        [concept.id]: {
+          ...prev[concept.id],
+          isSolved: true,
+          selectedOption: opt,
+          feedback: 'correct'
+        }
+      }));
 
-      // Trigger Celebration Confetti
+      // Add to completed concepts
+      if (!completedConceptIds.includes(concept.id)) {
+        setCompletedConceptIds(prev => [...prev, concept.id]);
+      }
+
+      // Confetti celebration
       confetti({
-        particleCount: 85,
-        spread: 70,
-        origin: { y: 0.65 }
+        particleCount: 80,
+        spread: 65,
+        origin: { y: 0.6 }
       });
+
+      // ── AUDIO SYSTEM 2: Play NEW explanatory voice ONLY on correct answer ──
+      // (Completely separate from existing page-opening voice in audioRef; leaves audioRef undisturbed)
+      try {
+        if (explanationAudioRef.current) {
+          explanationAudioRef.current.pause();
+          explanationAudioRef.current.currentTime = 0;
+          explanationAudioRef.current = null;
+        }
+        const expAudio = new Audio(`/audio/patterns/explanation_concept${concept.id}.mp3`);
+        explanationAudioRef.current = expAudio;
+        expAudio.play().catch(() => {});
+      } catch (err) {
+        console.warn('Explanatory audio play error:', err);
+      }
     } else {
-      setWrongOption(opt);
-      setShowHint(true);
+      const currentWrong = currentConceptState.wrongAttempts || 0;
+      const newWrongCount = currentWrong + 1;
+      setConceptStateMap(prev => ({
+        ...prev,
+        [concept.id]: {
+          ...prev[concept.id],
+          wrongAttempts: newWrongCount,
+          selectedOption: opt,
+          feedback: 'wrong'
+        }
+      }));
     }
   };
 
-  // Step 3 -> Step 4 Transition
-  // CRITICAL: Absolutely NO alert(), NO new window, strictly in-page transition!
-  const handleSeeWhy = () => {
-    setLearningStep(4);
-    
-    // Register concept completion & animate score
-    if (!completedConceptIds.includes(concept.id)) {
-      setCompletedConceptIds(prev => [...prev, concept.id]);
-      setScoreAnimation(true);
-      setTimeout(() => setScoreAnimation(false), 1400);
-    }
-  };
-
-  // Step 4: Advance to next sequence
+  // Advance to next sequence
   const handleNextConcept = () => {
     if (currentConceptIdx < CONCEPTS.length - 1) {
       loadConcept(currentConceptIdx + 1);
@@ -451,151 +726,102 @@ export default function PatternLabVideoExperience({ onClose, onCompleteNode }) {
 
           {/* 3. NUMBER PATTERN CARDS ROW (PROMINENT CENTERED HERO SEQUENCE) */}
           <div className="pl-cards-row-container">
-            <div className={`pl-cards-row ${showHint ? 'has-hints' : ''}`}>
-              {Array.from({ length: maxQuestionIndex }).map((_, i) => {
+            <div className="pl-cards-row" ref={cardsRowRef} style={{ position: 'relative' }}>
+              {showVisualRule && (
+                <PatternRuleOverlay
+                  concept={concept}
+                  isSolved={isConceptSolved}
+                  cardPositions={cardPositions}
+                />
+              )}
+              {Array.from({ length: 8 }).map((_, i) => {
                 const isTarget = i === concept.missingIndex;
-                const isRevealed = isTarget ? (learningStep >= 3) : (learningStep >= 2 || i < revealedCount);
-                const isReached = learningStep >= 2 || i < revealedCount;
+                const isRevealed = isTarget ? isConceptSolved : true;
                 const termVal = isTarget
-                  ? (learningStep >= 3 ? concept.terms[i] : (isReached ? '?' : ''))
-                  : (isReached ? concept.terms[i] : '');
+                  ? (isConceptSolved ? concept.terms[i] : '?')
+                  : concept.terms[i];
                 const isLongVal = String(termVal).length >= 4;
-                const connector = getConceptConnector(concept, i);
 
                 return (
-                  <React.Fragment key={i}>
-                    {showHint && i > 0 && connector && (
-                      <div className="pl-card-connector" aria-hidden="true">
-                        <div className="pl-arc-bridge" />
-                        <span className="pl-arc-badge">{connector.text}</span>
-                      </div>
-                    )}
+                  <div
+                    key={i}
+                    ref={el => (cardRefs.current[i] = el)}
+                    className={`pl-term-card ${isRevealed ? 'revealed' : 'locked-target'}`}
+                  >
                     <div
-                      className={`pl-term-card ${isRevealed ? 'revealed' : 'locked-target'}`}
+                      className={`pl-card-number-val ${!isRevealed ? 'question-mark' : ''} ${isLongVal ? 'long-term' : ''} ${isTarget && isConceptSolved ? 'just-revealed' : ''}`}
                     >
-                      <div className={`pl-card-number-val ${!isRevealed ? 'question-mark' : ''} ${isLongVal ? 'long-term' : ''}`}>
-                        {termVal}
-                      </div>
+                      {termVal}
                     </div>
-                  </React.Fragment>
+                  </div>
                 );
               })}
             </div>
           </div>
 
-          {/* 4. ONE LARGE COMMON ACTIVITY BOX (FIXED 1600 × 430 PX ACROSS ALL 4 STAGES) */}
-          <div className="pl-common-activity-box">
-            
-            {/* ── STAGE 1: WATCH THE PATTERN ── */}
-            {learningStep === 1 && (
-              <div className="pl-stage-content pl-stage-watch">
-                <div className="pl-stage-eyebrow">WATCH THE PATTERN</div>
-                <h3 className="pl-stage-title">What changes from picture to picture?</h3>
-                <p className="pl-stage-instruction">{concept.watchInstruction}</p>
-                <button
-                  type="button"
-                  className="pl-watch-try-btn"
-                  onClick={handleStartCheckpoint}
-                >
-                  <span>I'm ready. Let me try →</span>
-                </button>
-              </div>
-            )}
-
-            {/* ── STAGE 2: LEARNING CHECKPOINT ── */}
-            {learningStep === 2 && (
-              <div className="pl-stage-content pl-stage-checkpoint-layout">
-                <div className="pl-stage-left">
-                  <span className="pl-stage-eyebrow">LEARNING CHECKPOINT</span>
-                  <h3 className="pl-checkpoint-question">{concept.question}</h3>
-                  <div className="pl-checkpoint-seq-clue">{concept.sequenceClue}</div>
+          {/* 4. INTERACTIVE QUESTION AREA (FITS EXACT 248 PX EMPTY SPACE) */}
+          <div className="pl-common-activity-box pl-interactive-question-box">
+            {/* Thinking child + thought bubble ("What number should come next?") */}
+            <div className="pl-question-hero">
+              <ThinkingChild />
+              <div className="pl-thought-bubble-container">
+                <div className="pl-thought-bubble">
+                  <span className="pl-thought-text">
+                    What number should<br />come next?
+                  </span>
                 </div>
-
-                <div className="pl-stage-right">
-                  <div className="pl-checkpoint-options">
-                    {concept.options.map((opt) => {
-                      const isWrong = wrongOption === opt;
-                      return (
-                        <button
-                          key={opt}
-                          type="button"
-                          className={`pl-option-btn ${isWrong ? 'wrong' : ''}`}
-                          onClick={() => handleOptionClick(opt)}
-                        >
-                          {opt}
-                        </button>
-                      );
-                    })}
-                  </div>
+                <div className="pl-thought-trail" aria-hidden="true">
+                  <div className="pl-trail-dot-1" />
+                  <div className="pl-trail-dot-2" />
                 </div>
               </div>
-            )}
+            </div>
 
-            {/* ── STAGE 3: CORRECT ANSWER / EXPLANATION ── */}
-            {learningStep === 3 && (
-              <div className="pl-stage-content pl-stage-checkpoint-layout stage-3-answered">
-                <div className="pl-stage-left">
-                  <span className="pl-stage-eyebrow">LEARNING CHECKPOINT</span>
-                  <h3 className="pl-checkpoint-question">{concept.question}</h3>
-                  <div className="pl-checkpoint-seq-clue">{concept.sequenceClue}</div>
-                  <div className="pl-checkpoint-feedback-note">
-                    <CheckCircle size={18} color="#10b981" />
-                    <span>{concept.explanation}</span>
-                  </div>
-                </div>
+            {/* Multiple Choice Options */}
+            <div className="pl-options-row">
+              {concept.options.map((opt) => {
+                const isSelected = currentConceptState.selectedOption === opt;
+                const isCorrect = isConceptSolved && isSelected;
+                const isWrong = isSelected && !isConceptSolved;
 
-                <div className="pl-stage-right pl-stage-right-actions">
-                  <div className="pl-checkpoint-options">
-                    {concept.options.map((opt) => {
-                      const isCorrect = opt === concept.correctOption;
-                      return (
-                        <button
-                          key={opt}
-                          type="button"
-                          className={`pl-option-btn ${isCorrect ? 'correct' : ''}`}
-                          disabled
-                        >
-                          {opt}
-                        </button>
-                      );
-                    })}
-                  </div>
-                  
+                return (
                   <button
+                    key={opt}
                     type="button"
-                    className="pl-see-why-btn"
-                    onClick={handleSeeWhy}
+                    className={`pl-next-option-btn ${isCorrect ? 'is-correct' : ''} ${isWrong ? 'is-wrong' : ''}`}
+                    onClick={() => handleSelectAnswer(opt)}
                   >
-                    <span>See why it works →</span>
+                    {opt}
                   </button>
-                </div>
-              </div>
-            )}
+                );
+              })}
+            </div>
 
-            {/* ── STAGE 4: CONCEPT DISCOVERED ── */}
-            {learningStep === 4 && (
-              <div className="pl-stage-content pl-stage-discovered">
-                <div className="pl-discovered-tag">
-                  <CheckCircle size={18} />
-                  <span>CONCEPT DISCOVERED</span>
+            {/* Interactive Feedback / Revealed Complete Sequence Below Options */}
+            <div className="pl-feedback-area">
+              {!isConceptSolved && currentConceptState.wrongAttempts > 0 && (
+                <div className="pl-feedback-wrong">
+                  <span>Try again!</span>
                 </div>
-                <h3 className="pl-discovered-heading">{concept.discoveredConcept}</h3>
-                <div className="pl-discovered-sequence-pill">
-                  {concept.completeSequence}
+              )}
+              {isConceptSolved && (
+                <div className="pl-revealed-sequence-strip" role="status" aria-label="Completed number sequence">
+                  {concept.terms.map((term, idx) => {
+                    const isNewlyRevealed = idx === concept.missingIndex;
+                    return (
+                      <Fragment key={idx}>
+                        <span className={`pl-seq-strip-num ${isNewlyRevealed ? 'is-emphasized' : ''}`}>
+                          {term}
+                        </span>
+                        {idx < concept.terms.length - 1 && (
+                          <span className="pl-seq-strip-arrow" aria-hidden="true">→</span>
+                        )}
+                      </Fragment>
+                    );
+                  })}
                 </div>
-                <p className="pl-discovered-explanation">{concept.discoveredRule}</p>
-                
-                <button
-                  type="button"
-                  className="pl-replay-concept-btn"
-                  onClick={handleReplay}
-                >
-                  <RotateCcw size={15} />
-                  <span>↻ Replay this concept</span>
-                </button>
-              </div>
-            )}
-
+              )}
+            </div>
           </div>
 
         </main>
@@ -738,7 +964,7 @@ export default function PatternLabVideoExperience({ onClose, onCompleteNode }) {
             <div className="pl-modal-content" style={{ color: '#334155', lineHeight: 1.6, fontSize: '0.9rem' }}>
               <p>• <strong>Step 1: Watch the Pattern</strong>: Observe how each term changes across positions.</p>
               <p>• <strong>Step 2: Learning Checkpoint</strong>: Find the missing number by selecting the correct option.</p>
-              <p>• <strong>Step 3: Correct Answer & Explanation</strong>: See the rule and proceed with "See why it works →".</p>
+              <p>• <strong>Step 3: Correct Answer & Explanation</strong>: See the rule and proceed with &ldquo;See why it works &rarr;&rdquo;.</p>
               <p>• <strong>Step 4: Concept Discovered</strong>: Learn the discovered concept and replay or advance to the next pattern.</p>
             </div>
           </div>

@@ -1,17 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import SectionNextButton from './SectionNextButton';
-import patternVideo from '../../../../assets/1.1_6vid.mp4';
+import SolarSystemSimulation from './SolarSystemSimulation';
 
 export default function PatternWhyExperience({ onNext }) {
   const [stage, setStage] = useState(1);
   const [showDNA, setShowDNA] = useState(false);
-  const videoRef = useRef(null);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {});
-    }
-  }, [stage]);
 
   // Auto-advance some stages or handle interactions
   const handlePatternChoice = (isCorrect) => {
@@ -122,7 +115,7 @@ export default function PatternWhyExperience({ onNext }) {
       width: '100%', height: '100%', backgroundColor: '#000',
       display: 'flex', flexDirection: 'row', overflow: 'hidden'
     }}>
-      {/* LEFT VISUAL AREA: 1.1_6vid HD VIDEO */}
+      {/* LEFT VISUAL AREA: HD SOLAR SYSTEM SIMULATION REPLICATING REFERENCE */}
       <div style={{
         position: 'relative',
         flex: 1,
@@ -135,26 +128,7 @@ export default function PatternWhyExperience({ onNext }) {
         backgroundColor: '#000000',
         zIndex: 1
       }}>
-        <video
-          ref={videoRef}
-          src={patternVideo || '/assets/1.1_6vid.mp4'}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          disablePictureInPicture
-          controlsList="nodownload nofullscreen noremoteplayback"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center',
-            display: 'block',
-            border: 'none',
-            outline: 'none'
-          }}
-        />
+        <SolarSystemSimulation stage={stage} />
       </div>
 
       {/* RIGHT CONTENT PANEL (MINIMUM REQUIRED SPACE) */}
