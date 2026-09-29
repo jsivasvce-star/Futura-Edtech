@@ -861,7 +861,6 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
     );
   };
 
-<<<<<<< Updated upstream
   if (showLemongrassVideo) {
     return (
       <EducationalVideoPlayer
