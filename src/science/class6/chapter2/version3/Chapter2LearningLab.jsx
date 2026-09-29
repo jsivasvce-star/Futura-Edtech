@@ -72,7 +72,6 @@ import LeafVenationLab from './LeafVenationLab';
 import RootSystemsLab from './RootSystemsLab';
 import VenationRootCorrelationLab from './VenationRootCorrelationLab';
 import SeedDissectionLab from './SeedDissectionLab';
-import AnimalHabitatExplorerActivity from './AnimalHabitatExplorer';
 import NewActivity29 from './NewActivity29';
 import Activity2_10Lab from './Activity2_10Lab';
 import HabitatsPage from './HabitatsPage';
@@ -115,9 +114,7 @@ function getActiveTabNarration(step, section1SubTab, venationSubTab, habitatSubT
     }
   }
   if (step === 9) {
-    if (habitatSubTab === 'mission') {
-      return "Activity 2.9, Animal Habitat Explorer. Explore terrestrial, aquatic, desert, and mountain habitats to see how organisms move and survive.";
-    } else if (habitatSubTab === 'new_activity_29') {
+    if (habitatSubTab === 'new_activity_29') {
       return "Activity 2.9, Animal Locomotion and Movement. Observe how diverse animals move in different environments.";
     } else if (habitatSubTab === 'activity2_10') {
       return "Activity 2.10, Organisms in Different Surroundings. Match diverse plants and animals into desert, mountain, ocean, forest, and other regions.";
@@ -235,8 +232,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
     const params = new URLSearchParams(window.location.hash.replace('#', '?'));
     const tab = params.get('habitatTab');
     if (tab === 'tables') return 'activity2_10';
-    return tab || 'mission';
-  }); // 'mission' | 'activity2_10' | 'adaptations' | 'conservation'
+    return tab || 'new_activity_29';
+  }); // 'new_activity_29' | 'activity2_10' | 'adaptations' | 'conservation'
   const [tab10ViewMode, setTab10ViewMode] = useState('exercises'); // 'exercises' | 'summary'
   const [isPlayingTransition, setIsPlayingTransition] = useState(false);
   const [isTransitionVideoEnded, setIsTransitionVideoEnded] = useState(false);
@@ -412,18 +409,15 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
       setCurrentStep(8);
       return;
     }
-    // Step 8: Seeds -> Step 9 Habitats (sub-tab: mission)
+    // Step 8: Seeds -> Step 9 Habitats (sub-tab: new_activity_29)
     if (currentStep === 8) {
-      setHabitatSubTab('mission');
+      setHabitatSubTab('new_activity_29');
       setCurrentStep(9);
       return;
     }
     // Step 9: Habitats sub-tabs
     if (currentStep === 9) {
-      if (habitatSubTab === 'mission') {
-        setHabitatSubTab('new_activity_29');
-        return;
-      }
+
       if (habitatSubTab === 'new_activity_29') {
         setHabitatSubTab('activity2_10');
         return;
@@ -587,10 +581,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         setHabitatSubTab('new_activity_29');
         return;
       }
-      if (habitatSubTab === 'new_activity_29') {
-        setHabitatSubTab('mission');
-        return;
-      }
+
       // Back to Step 8
       setCurrentStep(8);
       return;
@@ -614,7 +605,6 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
       return 'Activity 2.7 · Correlation Lab';
     }
     if (currentStep === 9) {
-      if (habitatSubTab === 'mission') return 'Activity 2.9 · Habitats Explorer';
       if (habitatSubTab === 'new_activity_29') return 'Activity 2.9 · Locomotion';
       if (habitatSubTab === 'activity2_10') return 'Activity 2.10 · Regional Diversity';
       if (habitatSubTab === 'habitats_page') return 'Curriculum Lesson · Habitats';
@@ -644,7 +634,6 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
     }
     if (currentStep === 8) return 'Next: Act 2.9 Habitats';
     if (currentStep === 9) {
-      if (habitatSubTab === 'mission') return 'Next: Act 2.9 Locomotion';
       if (habitatSubTab === 'new_activity_29') return 'Next: Act 2.10 Regions';
       if (habitatSubTab === 'activity2_10') return 'Next: Habitats Lesson';
       if (habitatSubTab === 'habitats_page') return 'Next: Adaptations Lesson';
@@ -2161,15 +2150,9 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
         {/* ============================================================ */}
         {currentStep === 9 && (
           <div style={{ width: '100%', height: '100%', minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-            {habitatSubTab === 'mission' && (
-              <AnimalHabitatExplorerActivity 
-                onBackToDashboard={() => setCurrentStep(8)} 
-                onNextActivity={() => setHabitatSubTab('new_activity_29')} 
-              />
-            )}
             {habitatSubTab === 'new_activity_29' && (
               <NewActivity29 
-                onBackToDashboard={() => setHabitatSubTab('mission')} 
+                onBackToDashboard={() => setCurrentStep(8)} 
                 onNextActivity={() => setHabitatSubTab('activity2_10')} 
               />
             )}
