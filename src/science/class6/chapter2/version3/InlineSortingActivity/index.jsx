@@ -1830,30 +1830,21 @@ export default function InlineSortingActivity({
                       draggable
                       onDragStart={(e) => {
                         setDraggedCardId(card.id);
-                        setSelectedCardId(card.id);
                         e.dataTransfer.effectAllowed = 'move';
                         try { e.dataTransfer.setData('text/plain', String(card.id)); } catch (err) {}
                       }}
                       onDragEnd={() => setDraggedCardId(null)}
-                      onClick={() => {
-                        playTone('click');
-                        setSelectedCardId(isSelected ? null : card.id);
-                      }}
+                      title={`Drag ${card.name} into a group`}
                       style={{
                         background: '#FFFFFF',
-                        border: isSelected 
-                          ? '2.5px solid #F59E0B' 
-                          : isPlaced 
-                            ? '2px solid #86EFAC' 
-                            : '1.5px solid #E2E8F0',
+                        border: isPlaced 
+                          ? '2px solid #86EFAC' 
+                          : '1.5px solid #E2E8F0',
                         borderRadius: '12px',
                         overflow: 'hidden',
                         cursor: draggedCardId === card.id ? 'grabbing' : 'grab',
                         transition: 'all 0.15s ease',
-                        boxShadow: isSelected 
-                          ? '0 6px 18px rgba(245, 158, 11, 0.35)' 
-                          : '0 2px 6px rgba(0,0,0,0.05)',
-                        transform: isSelected ? 'scale(1.02)' : 'scale(1)',
+                        boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
                         opacity: draggedCardId === card.id ? 0.5 : 1,
                         position: 'relative',
                         display: 'flex',
@@ -1908,8 +1899,8 @@ export default function InlineSortingActivity({
                         padding: '3px 6px',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'space-between',
-                        background: isSelected ? '#FEF3C7' : '#FFFFFF',
+                        justifyContent: 'center',
+                        background: '#FFFFFF',
                         flexShrink: 0
                       }}>
                         <span style={{
@@ -1921,11 +1912,6 @@ export default function InlineSortingActivity({
                         }}>
                           {card.name}
                         </span>
-                        {isSelected && (
-                          <span style={{ fontSize: '16px', fontWeight: 800, color: '#D97706' }}>
-                            Selected
-                          </span>
-                        )}
                       </div>
                     </div>
                   );
@@ -1951,9 +1937,7 @@ export default function InlineSortingActivity({
                   color: '#166534',
                   lineHeight: 1.2
                 }}>
-                  {selectedCardId 
-                    ? `Selected "${ALL_ORGANISMS[selectedCardId]?.name}". Click a group on the right!` 
-                    : "Click any card to inspect features and assign to a group."}
+                  Drag each card from the left dock and drop it into the correct group on the right.
                 </span>
               </div>
             </div>
@@ -2014,11 +1998,6 @@ export default function InlineSortingActivity({
                   return (
                     <div
                       key={group.id}
-                      onClick={() => {
-                        if (selectedCardId) {
-                          handlePlaceCard(selectedCardId, group.id);
-                        }
-                      }}
                       onDragOver={(e) => {
                         e.preventDefault();
                         e.dataTransfer.dropEffect = 'move';
@@ -2040,8 +2019,8 @@ export default function InlineSortingActivity({
                         borderRadius: '16px',
                         padding: isCompact ? '8px 12px' : '10px 14px',
                         transition: 'all 0.15s ease',
-                        cursor: selectedCardId ? 'pointer' : 'default',
-                        boxShadow: (selectedCardId || dragOverGroupId === group.id) ? '0 4px 14px rgba(0,0,0,0.08)' : '0 2px 6px rgba(0,0,0,0.03)',
+                        cursor: 'default',
+                        boxShadow: dragOverGroupId === group.id ? '0 4px 14px rgba(0,0,0,0.08)' : '0 2px 6px rgba(0,0,0,0.03)',
                         transform: dragOverGroupId === group.id ? 'scale(1.01)' : 'scale(1)',
                         flex: '1 1 0',
                         display: 'flex',
