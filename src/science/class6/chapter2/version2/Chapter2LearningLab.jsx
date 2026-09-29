@@ -70,7 +70,6 @@ import LeafVenationLab from './LeafVenationLab';
 import RootSystemsLab from './RootSystemsLab';
 import VenationRootCorrelationLab from './VenationRootCorrelationLab';
 import SeedDissectionLab from './SeedDissectionLab';
-import AnimalHabitatExplorerActivity from './AnimalHabitatExplorer';
 import NewActivity29 from './NewActivity29';
 import Activity2_10Lab from './Activity2_10Lab';
 import AdaptationsLab from './AdaptationsLab';
@@ -219,8 +218,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
     const params = new URLSearchParams(window.location.hash.replace('#', '?'));
     const tab = params.get('habitatTab');
     if (tab === 'tables') return 'activity2_10';
-    return tab || 'mission';
-  }); // 'mission' | 'activity2_10' | 'adaptations' | 'conservation'
+    return tab || 'new_activity_29';
+  }); // 'new_activity_29' | 'activity2_10' | 'adaptations' | 'conservation'
   const [tab10ViewMode, setTab10ViewMode] = useState('exercises'); // 'exercises' | 'summary'
   const [isPlayingTransition, setIsPlayingTransition] = useState(false);
   const [isTransitionVideoEnded, setIsTransitionVideoEnded] = useState(false);
@@ -2162,15 +2161,9 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         {/* ============================================================ */}
         {currentStep === 9 && (
           <div style={{ width: '100%', height: '100%', minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-            {habitatSubTab === 'mission' && (
-              <AnimalHabitatExplorerActivity 
-                onBackToDashboard={() => setCurrentStep(8)} 
-                onNextActivity={() => setHabitatSubTab('new_activity_29')} 
-              />
-            )}
             {habitatSubTab === 'new_activity_29' && (
               <NewActivity29 
-                onBackToDashboard={() => setHabitatSubTab('mission')} 
+                onBackToDashboard={() => setCurrentStep(8)} 
                 onNextActivity={() => setHabitatSubTab('activity2_10')} 
               />
             )}
