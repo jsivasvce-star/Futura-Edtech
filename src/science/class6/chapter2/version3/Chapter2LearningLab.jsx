@@ -75,6 +75,7 @@ import VenationRootCorrelationLab from './VenationRootCorrelationLab';
 import SeedDissectionLab from './SeedDissectionLab';
 import NewActivity29 from './NewActivity29';
 import Activity2_10Lab from './Activity2_10Lab';
+import RhododendronsPage from './RhododendronsPage';
 import HabitatsPage from './HabitatsPage';
 import AdaptationsPage from './AdaptationsPage';
 import PlantGroupsPage from './PlantGroupsPage';
@@ -119,6 +120,8 @@ function getActiveTabNarration(step, section1SubTab, venationSubTab, habitatSubT
       return "Activity 2.9, Animal Locomotion and Movement. Observe how diverse animals move in different environments.";
     } else if (habitatSubTab === 'activity2_10') {
       return "Activity 2.10, Organisms in Different Surroundings. Match diverse plants and animals into desert, mountain, ocean, forest, and other regions.";
+    } else if (habitatSubTab === 'rhododendrons_page') {
+      return "Rhododendrons across Mountain Regions. Maya observed shorter rhododendrons with small leaves in windy Nilgiri Sholas, while Pema observed taller varieties in Sikkim. Living organisms develop unique features to survive specific regional climates.";
     } else if (habitatSubTab === 'adaptations_page') {
       return "Desert Adaptations and The Ship of the Desert. Learn how camels and desert plants have specialized features like wide padded feet, humps for storing fat, and reduced leaves to survive extreme desert conditions.";
     } else if (habitatSubTab === 'habitats_page') {
@@ -429,6 +432,10 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         return;
       }
       if (habitatSubTab === 'activity2_10') {
+        setHabitatSubTab('rhododendrons_page');
+        return;
+      }
+      if (habitatSubTab === 'rhododendrons_page') {
         setHabitatSubTab('adaptations_page');
         return;
       }
@@ -586,6 +593,10 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         return;
       }
       if (habitatSubTab === 'adaptations_page') {
+        setHabitatSubTab('rhododendrons_page');
+        return;
+      }
+      if (habitatSubTab === 'rhododendrons_page') {
         setHabitatSubTab('activity2_10');
         return;
       }
@@ -627,6 +638,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
     if (currentStep === 9) {
       if (habitatSubTab === 'new_activity_29') return 'Activity 2.9 · Locomotion';
       if (habitatSubTab === 'activity2_10') return 'Activity 2.10 · Regional Diversity';
+      if (habitatSubTab === 'rhododendrons_page') return 'Curriculum Lesson · Rhododendrons';
       if (habitatSubTab === 'adaptations_page') return 'Curriculum Lesson · Adaptations';
       if (habitatSubTab === 'habitats_page') return 'Curriculum Lesson · Habitats';
       if (habitatSubTab === 'plant_groups_page') return 'Curriculum Lesson · Plant Groups';
@@ -659,7 +671,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
     if (currentStep === 8) return 'Next: Act 2.9 Habitats';
     if (currentStep === 9) {
       if (habitatSubTab === 'new_activity_29') return 'Next: Act 2.10 Regions';
-      if (habitatSubTab === 'activity2_10') return 'Next: Adaptations Lesson';
+      if (habitatSubTab === 'activity2_10') return 'Next: Rhododendrons Lesson';
+      if (habitatSubTab === 'rhododendrons_page') return 'Next: Adaptations Lesson';
       if (habitatSubTab === 'adaptations_page') return 'Next: Habitats Lesson';
       if (habitatSubTab === 'habitats_page') return 'Next: Plant Groups Lesson';
       if (habitatSubTab === 'plant_groups_page') return 'Next: Sacred Groves Lesson';
@@ -2194,12 +2207,18 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
             {habitatSubTab === 'activity2_10' && (
               <Activity2_10Lab 
                 onBack={() => setHabitatSubTab('new_activity_29')} 
-                onComplete={() => setHabitatSubTab('adaptations_page')} 
+                onComplete={() => setHabitatSubTab('rhododendrons_page')} 
+              />
+            )}
+            {habitatSubTab === 'rhododendrons_page' && (
+              <RhododendronsPage 
+                onPreviousPage={() => setHabitatSubTab('activity2_10')} 
+                onNext={() => setHabitatSubTab('adaptations_page')} 
               />
             )}
             {habitatSubTab === 'adaptations_page' && (
               <AdaptationsPage 
-                onPreviousPage={() => setHabitatSubTab('activity2_10')} 
+                onPreviousPage={() => setHabitatSubTab('rhododendrons_page')} 
                 onNext={() => setHabitatSubTab('habitats_page')} 
               />
             )}
