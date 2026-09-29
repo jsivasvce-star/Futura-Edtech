@@ -3,39 +3,9 @@ import { ArrowLeft, ArrowRight, ShieldCheck, Heart, Volume2, VolumeX, Sparkles, 
 import { speakNaturalIndianMale, stopNarration } from '../../../services/elevenLabsService';
 
 import scientist1Img from '../../../assets/Scientist1.jpeg';
-import scientist2Img from '../../../assets/Scientist2.jpeg';
-import silentValleyImg from '../../../assets/silent_valley.jpeg';
 import protectWildlifeImg from '../../../assets/protect_wildlife.jpeg';
 
 const CONSERVATION_TOPICS = [
-  {
-    id: 'janaki',
-    tag: 'Know a Scientist · Page 22',
-    title: 'Dr. E.K. Janaki Ammal (1897–1984)',
-    subtitle: 'Botanist & Guardian of Silent Valley',
-    image: scientist2Img,
-    narration: "Dr. Janaki Ammal was an eminent Indian botanist who documented India's rich plant biodiversity. She led the Botanical Survey of India and played a key role in the historic Save Silent Valley movement to protect Kerala's moist evergreen rainforest.",
-    highlights: [
-      'Pioneering Botanist: First Indian woman to obtain a doctorate in botany, documenting thousands of native and medicinal plant varieties.',
-      'Head of BSI: Reorganized the Botanical Survey of India to systematically map indigenous flora.',
-      'Save Silent Valley: Mobilized national scientific advocacy to prevent the destruction of untouched evergreen forests in Palakkad, Kerala.'
-    ],
-    badge: '🌿 Plant Biodiversity Icon'
-  },
-  {
-    id: 'silent_valley',
-    tag: 'Success Story · Page 23',
-    title: 'Save Silent Valley Movement',
-    subtitle: 'Citizen Triumph in Palakkad, Kerala',
-    image: silentValleyImg,
-    narration: "The Save Silent Valley movement was a remarkable 10-year public campaign. Citizens, poets, and scientists successfully stopped a hydroelectric dam across the Kunthipuzha river, permanently preserving pristine rainforest and the endangered Lion-tailed Macaque.",
-    highlights: [
-      'The Threat (1973): A hydroelectric dam project proposed across the Kunthipuzha river threatened to submerge 8.3 square km of ancient rainforest.',
-      'Citizen Mobilization: Common people, students, teachers, and environmentalists held rallies, published petitions, and took legal action without violence.',
-      'Historic Victory (1984): The dam was cancelled and Silent Valley was permanently protected as an untouched National Park.'
-    ],
-    badge: '✊ People\'s Movement'
-  },
   {
     id: 'salim_ali',
     tag: 'Know a Scientist · Page 27',
@@ -147,10 +117,10 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
         </button>
       </div>
 
-      {/* 4-Segment Selection Ribbon */}
+      {/* Topic Selection Ribbon */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
+        gridTemplateColumns: 'repeat(2, 1fr)',
         gap: '8px',
         padding: '10px 0',
         flexShrink: 0
