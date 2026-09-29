@@ -3148,14 +3148,47 @@ export default function App() {
           ) : activeActivity === 'sci6-ch4-sec45-fun-with-magnets' ? (
             <FunWithMagnets onBackToDashboard={() => navigateTo('class6', 'chapter4_flow')} onComplete={() => navigateTo('class6', 'chapter4_flow')} />
           ) : activeActivity === 'chapter_4_quiz' ? (
-            <div style={{ height: '100vh', width: '100vw', overflowY: 'auto', background: 'transparent' }}>
+            <div style={{ height: '100vh', width: '100vw', overflowY: 'auto', background: 'transparent', position: 'relative' }}>
               <button 
                 onClick={() => navigateTo('class6', 'chapter4_flow')} 
-                style={{ position: 'absolute', top: '1.5rem', left: '1.5rem', zIndex: 10, background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text)', padding: '0.5rem 1rem', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}
+                style={{
+                  position: 'fixed',
+                  bottom: '1.5rem',
+                  left: '1.5rem',
+                  zIndex: 50,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.55rem',
+                  padding: '0.55rem 1.8rem',
+                  borderRadius: '999px',
+                  color: '#FFFFFF',
+                  fontFamily: "'Outfit', 'Inter', sans-serif",
+                  fontWeight: 900,
+                  fontSize: '1rem',
+                  letterSpacing: '0.09em',
+                  textTransform: 'uppercase',
+                  border: '1.6px solid rgba(147, 197, 253, 0.75)',
+                  background: 'linear-gradient(135deg, #214A70 0%, #173B5F 50%, #0F2A4A 100%)',
+                  boxShadow: '0 4px 16px rgba(23, 59, 95, 0.55)',
+                  cursor: 'pointer',
+                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)',
+                  transition: 'all 0.22s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
+                  e.currentTarget.style.borderColor = '#93C5FD';
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(23, 59, 95, 0.7), 0 0 20px rgba(56, 189, 248, 0.45)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'none';
+                  e.currentTarget.style.borderColor = 'rgba(147, 197, 253, 0.75)';
+                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(23, 59, 95, 0.55)';
+                }}
               >
-                Back to Flow
+                <ArrowLeft size={18} strokeWidth={2.8} />
+                <span>BACK</span>
               </button>
-              <div style={{ paddingTop: '5rem' }}>
+              <div style={{ paddingTop: '1.5rem', paddingBottom: '5rem', minHeight: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Chapter4Quiz onComplete={() => navigateTo('class6', 'chapter4_flow')} />
               </div>
             </div>

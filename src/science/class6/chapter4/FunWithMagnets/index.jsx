@@ -1138,12 +1138,13 @@ function Step2Float({ onNext }) {
 // ══════════════════════════════════════════════════════════════════════════════
 // STEP 3 — How Does the Train Move? — Continuous Traveling Wave Propulsion (Image 4 Match)
 // ══════════════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════════════════
 // STEP 3 — How Does the Train Move? — Continuous Traveling Wave Propulsion
 // ══════════════════════════════════════════════════════════════════════════════
 const PROP_INFO = [
   {
-    title: 'Stage 1: Launch Propulsion (Coil 1 Active • Pull Forward)',
-    desc: 'Coil 1 turns ON, pulling the train into motion from rest towards and across Coil 1.',
+    title: 'Stage 1: Coil 1 ON (Initial Pull Forward)',
+    desc: 'Coil 1 turns ON, generating magnetic attraction that pulls the front of the train into forward motion towards Coil 1.',
     activeCoils: [true, false, false, false, false],
     pattern: ['ON', 'OFF', 'OFF', 'OFF', 'OFF'],
     tag: '⚡ STAGE 1: COIL 1 ACTIVE',
@@ -1152,48 +1153,48 @@ const PROP_INFO = [
     frequency: '90 Hz'
   },
   {
-    title: 'Stage 2: Sequential Relay (Coil 2 ON • Coil 1 OFF)',
-    desc: 'As the train crosses Coil 1, Coil 1 turns OFF and Coil 2 turns ON to continue accelerating the train forward.',
-    activeCoils: [false, true, false, false, false],
-    pattern: ['OFF', 'ON', 'OFF', 'OFF', 'OFF'],
-    tag: '🌊 STAGE 2: COIL 2 ACTIVE',
+    title: 'Stage 2: Overlapping Relay (Coil 2 ON • Coil 1 Hand-Off)',
+    desc: 'When the train touches Coil 2, Coil 2 turns ON while Coil 1 remains active to maintain momentum. Only after the hand-off does Coil 1 disengage.',
+    activeCoils: [true, true, false, false, false],
+    pattern: ['ON', 'ON', 'OFF', 'OFF', 'OFF'],
+    tag: '🌊 STAGE 2: OVERLAPPING RELAY',
     speed: 280,
     flux: '1.75 T',
     frequency: '150 Hz'
   },
   {
-    title: 'Stage 3: Traveling Wave Relay (Coil 3 ON • Coil 2 OFF)',
-    desc: 'At the midpoint between Coil 2 and Coil 3, Coil 2 turns OFF and Coil 3 turns ON.',
-    activeCoils: [false, false, true, false, false],
-    pattern: ['OFF', 'OFF', 'ON', 'OFF', 'OFF'],
-    tag: '⚡ STAGE 3: COIL 3 ACTIVE',
+    title: 'Stage 3: Overlapping Relay (Coil 3 ON • Coil 2 Hand-Off)',
+    desc: 'When the train touches Coil 3, Coil 3 turns ON while Coil 2 remains active, sustaining continuous magnetic pull without dead zones.',
+    activeCoils: [false, true, true, false, false],
+    pattern: ['OFF', 'ON', 'ON', 'OFF', 'OFF'],
+    tag: '⚡ STAGE 3: OVERLAPPING RELAY',
     speed: 420,
     flux: '2.10 T',
     frequency: '220 Hz'
   },
   {
-    title: 'Stage 4: Advance Activation (Coil 4 ON • Coil 3 OFF)',
-    desc: 'Coil 4 activates before the train physically reaches or touches it, ensuring smooth and uninterrupted magnetic pull.',
-    activeCoils: [false, false, false, true, false],
-    pattern: ['OFF', 'OFF', 'OFF', 'ON', 'OFF'],
-    tag: '⚡ STAGE 4: COIL 4 ACTIVE',
+    title: 'Stage 4: Overlapping Relay (Coil 4 ON • Coil 3 Hand-Off)',
+    desc: 'When the train touches Coil 4, Coil 4 turns ON while Coil 3 remains active, smoothly accelerating the train forward.',
+    activeCoils: [false, false, true, true, false],
+    pattern: ['OFF', 'OFF', 'ON', 'ON', 'OFF'],
+    tag: '⚡ STAGE 4: OVERLAPPING RELAY',
     speed: 480,
     flux: '2.05 T',
     frequency: '240 Hz'
   },
   {
-    title: 'Stage 5: Advance Activation (Coil 5 ON • Coil 4 OFF)',
-    desc: 'Coil 5 activates before the train reaches and crosses it, guiding the train smoothly into the final viaduct sector.',
-    activeCoils: [false, false, false, false, true],
-    pattern: ['OFF', 'OFF', 'OFF', 'OFF', 'ON'],
-    tag: '🚅 STAGE 5: COIL 5 ACTIVE',
+    title: 'Stage 5: Overlapping Relay (Coil 5 ON • Coil 4 Hand-Off)',
+    desc: 'When the train touches Coil 5, Coil 5 turns ON while Coil 4 remains active, seamlessly guiding the train across the sector.',
+    activeCoils: [false, false, false, true, true],
+    pattern: ['OFF', 'OFF', 'OFF', 'ON', 'ON'],
+    tag: '🚅 STAGE 5: OVERLAPPING RELAY',
     speed: 510,
     flux: '1.95 T',
     frequency: '260 Hz'
   },
   {
     title: 'Stage 6: Smooth Track Exit (All Coils Standby)',
-    desc: 'The train smoothly passes Coil 5 and continues across the viaduct, completing the sequence without ever stopping.',
+    desc: 'When the train completely clears Coil 5, Coil 5 turns OFF. The train keeps gliding smoothly across the viaduct.',
     activeCoils: [false, false, false, false, false],
     pattern: ['OFF', 'OFF', 'OFF', 'OFF', 'OFF'],
     tag: '🏁 STAGE 6: RUN COMPLETED',
@@ -1203,32 +1204,126 @@ const PROP_INFO = [
   }
 ];
 
-function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false, isTranslating = false, handleNextStep, handleToggleAutoPlay, handleReset, handlePrev }) {
+function Step3Move({
+  onNext,
+  propStep = -1,
+  autoPlay = false,
+  viewedAll = false,
+  isTranslating = false,
+  handleNextStep,
+  handleToggleAutoPlay,
+  handleReset,
+  handlePrev,
+  onSetPropStep,
+  onSetViewedAll
+}) {
   const cur = propStep >= 0 ? PROP_INFO[propStep] : null;
   const activeCoils = cur ? cur.activeCoils : [false, false, false, false, false];
   const currentSpeed = cur ? cur.speed : 0;
   const currentFlux = cur ? cur.flux : '0.00 T';
 
+  const trainRef = useRef(null);
+  const coilRef0 = useRef(null);
+  const coilRef1 = useRef(null);
+  const coilRef2 = useRef(null);
+  const coilRef3 = useRef(null);
+  const coilRef4 = useRef(null);
+
+  const coilRefs = [coilRef0, coilRef1, coilRef2, coilRef3, coilRef4];
+  const [liveCoils, setLiveCoils] = useState([false, false, false, false, false]);
+
+  // Overlapping touch-triggered sequential hand-off:
+  // When train touches the next coil, next coil turns ON while current coil stays active.
+  // After passing the hand-off window, the previous coil turns off.
+  useEffect(() => {
+    if (!autoPlay || !isTranslating) return;
+
+    let animId;
+    const checkCollisions = () => {
+      if (trainRef.current && onSetPropStep) {
+        const trainRect = trainRef.current.getBoundingClientRect();
+        const trainFront = trainRect.right; // Front nose of the forward-moving train
+
+        const r0 = coilRef0.current ? coilRef0.current.getBoundingClientRect() : null;
+        const r1 = coilRef1.current ? coilRef1.current.getBoundingClientRect() : null;
+        const r2 = coilRef2.current ? coilRef2.current.getBoundingClientRect() : null;
+        const r3 = coilRef3.current ? coilRef3.current.getBoundingClientRect() : null;
+        const r4 = coilRef4.current ? coilRef4.current.getBoundingClientRect() : null;
+
+        if (r0 && r1 && r2 && r3 && r4) {
+          const overlapMargin = 30; // px past entrance where both coils remain active
+
+          if (trainFront < r1.left) {
+            // Approaching Coil 1 -> Coil 1 active
+            setLiveCoils([true, false, false, false, false]);
+            onSetPropStep(0);
+          } else if (trainFront >= r1.left && trainFront < r1.right + overlapMargin) {
+            // Train touches Coil 2 -> Coil 2 turns ON, Coil 1 REMAINS ON (Overlap!)
+            setLiveCoils([true, true, false, false, false]);
+            onSetPropStep(1);
+          } else if (trainFront >= r1.right + overlapMargin && trainFront < r2.left) {
+            // Past Coil 2 hand-off -> Coil 1 OFF, Coil 2 stays ON
+            setLiveCoils([false, true, false, false, false]);
+            onSetPropStep(1);
+          } else if (trainFront >= r2.left && trainFront < r2.right + overlapMargin) {
+            // Train touches Coil 3 -> Coil 3 turns ON, Coil 2 REMAINS ON (Overlap!)
+            setLiveCoils([false, true, true, false, false]);
+            onSetPropStep(2);
+          } else if (trainFront >= r2.right + overlapMargin && trainFront < r3.left) {
+            // Past Coil 3 hand-off -> Coil 2 OFF, Coil 3 stays ON
+            setLiveCoils([false, false, true, false, false]);
+            onSetPropStep(2);
+          } else if (trainFront >= r3.left && trainFront < r3.right + overlapMargin) {
+            // Train touches Coil 4 -> Coil 4 turns ON, Coil 3 REMAINS ON (Overlap!)
+            setLiveCoils([false, false, true, true, false]);
+            onSetPropStep(3);
+          } else if (trainFront >= r3.right + overlapMargin && trainFront < r4.left) {
+            // Past Coil 4 hand-off -> Coil 3 OFF, Coil 4 stays ON
+            setLiveCoils([false, false, false, true, false]);
+            onSetPropStep(3);
+          } else if (trainFront >= r4.left && trainFront < r4.right + overlapMargin) {
+            // Train touches Coil 5 -> Coil 5 turns ON, Coil 4 REMAINS ON (Overlap!)
+            setLiveCoils([false, false, false, true, true]);
+            onSetPropStep(4);
+          } else if (trainFront >= r4.right + overlapMargin && trainFront < r4.right + 220) {
+            // Past Coil 5 hand-off -> Coil 4 OFF, Coil 5 stays ON
+            setLiveCoils([false, false, false, false, true]);
+            onSetPropStep(4);
+          } else if (trainFront >= r4.right + 220) {
+            // Train cleared all coils -> All standby
+            setLiveCoils([false, false, false, false, false]);
+            onSetPropStep(5);
+            if (onSetViewedAll) onSetViewedAll(true);
+          }
+        }
+      }
+      animId = requestAnimationFrame(checkCollisions);
+    };
+
+    animId = requestAnimationFrame(checkCollisions);
+    return () => cancelAnimationFrame(animId);
+  }, [autoPlay, isTranslating, onSetPropStep, onSetViewedAll]);
+
   // Realistic horizontal positions aligned with the 5 Stator Coils
   const getTrainLeft = () => {
     if (autoPlay) {
-      return isTranslating ? '115%' : '-90%';
+      return isTranslating ? '120%' : '-54%';
     }
-    if (propStep === -1) return '-90%';
-    if (propStep === 0) return '-48%';
-    if (propStep === 1) return '-18%';
-    if (propStep === 2) return '4%';
-    if (propStep === 3) return '20%';
-    if (propStep === 4) return '44%';
-    if (propStep === 5) return '115%';
-    return '-90%';
+    if (propStep === -1) return '-54%';
+    if (propStep === 0) return '-45%'; // Front nose approaching Coil 1
+    if (propStep === 1) return '-26%'; // Front nose crossing Coil 1, approaching Coil 2
+    if (propStep === 2) return '-7%';  // Front nose crossing Coil 2, approaching Coil 3
+    if (propStep === 3) return '12%';  // Front nose crossing Coil 3, approaching Coil 4
+    if (propStep === 4) return '31%';  // Front nose crossing Coil 4, approaching Coil 5
+    if (propStep === 5) return '120%'; // Front nose crossing Coil 5, gliding across viaduct
+    return '-54%';
   };
 
   const getTrainTransition = () => {
     if (autoPlay) {
-      return isTranslating ? 'left 9.8s linear' : 'none';
+      return isTranslating ? 'left 10s linear' : 'none';
     }
-    return 'left 1.2s cubic-bezier(0.25, 1, 0.5, 1)';
+    return 'left 1.4s cubic-bezier(0.25, 1, 0.5, 1)';
   };
 
   return (
@@ -1300,16 +1395,16 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
           </div>
         </div>
 
-        {/* Pristine 8K Ultra-HD Alpine Viaduct Canvas with Embedded Linear Stator Coils */}
+        {/* Pristine Clean Alpine Viaduct Canvas with Embedded Linear Stator Coils */}
         <div style={{
           position: 'relative',
           width: '100%',
           flex: 1,
           minHeight: '310px',
           maxHeight: '440px',
-          backgroundImage: "url('/FunWithMagnets/alpine_lake_viaduct_bg_pristine_hd.jpg')",
+          backgroundImage: "url('/FunWithMagnets/maglev_viaduct_clean_bg.jpg')",
           backgroundSize: 'cover',
-          backgroundPosition: 'center 52%',
+          backgroundPosition: 'center bottom',
           backgroundRepeat: 'no-repeat',
           imageRendering: '-webkit-optimize-contrast',
           transform: 'translateZ(0)',
@@ -1322,10 +1417,10 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
           boxSizing: 'border-box',
           boxShadow: 'inset 0 2px 14px rgba(0,0,0,0.18), 0 6px 24px rgba(0,0,0,0.08)'
         }}>
-          {/* 3-Car Floating Maglev Train Model smoothly gliding across the bridge */}
+          {/* 3-Car Floating Maglev Train Model smoothly gliding across the magnetic track */}
           <div style={{
             position: 'absolute',
-            bottom: '45%',
+            bottom: '22%',
             left: 0,
             right: 0,
             width: '100%',
@@ -1334,6 +1429,7 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
             pointerEvents: 'none'
           }}>
             <div
+              ref={trainRef}
               className="maglev-float-animation"
               style={{
                 position: 'absolute',
@@ -1370,10 +1466,10 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
             </div>
           </div>
 
-          {/* Exact 5 Interactive Electromagnetic Stator Coils EMBEDDED INSIDE the Bridge Masonry Structure */}
+          {/* Exact 5 Interactive Electromagnetic Stator Coils Positioned Visibly Set Over the Track as a Bridge Structure */}
           <div style={{
             position: 'absolute',
-            bottom: '33.5%',
+            bottom: '10%',
             left: '3%',
             right: '3%',
             display: 'flex',
@@ -1383,55 +1479,100 @@ function Step3Move({ onNext, propStep = -1, autoPlay = false, viewedAll = false,
             pointerEvents: 'none'
           }}>
             {[0, 1, 2, 3, 4].map(idx => {
-              const isActive = activeCoils[idx];
+              const isActive = (autoPlay && isTranslating ? liveCoils : activeCoils)[idx];
               return (
                 <div
                   key={idx}
+                  ref={coilRefs[idx]}
                   style={{
-                    display: 'inline-flex',
+                    display: 'flex',
+                    flexDirection: 'column',
                     alignItems: 'center',
-                    gap: '7px',
-                    padding: '0.3rem 1rem',
-                    borderRadius: '10px',
-                    background: isActive 
-                      ? 'linear-gradient(135deg, rgba(2, 132, 199, 0.98) 0%, rgba(3, 105, 161, 0.98) 100%)' 
-                      : 'rgba(15, 23, 42, 0.92)',
-                    border: isActive ? '1.5px solid #38BDF8' : '1.5px solid rgba(148, 163, 184, 0.45)',
-                    boxShadow: isActive 
-                      ? 'inset 0 1px 3px rgba(255,255,255,0.4), 0 0 16px rgba(56,189,248,0.95), 0 4px 10px rgba(0,0,0,0.5)' 
-                      : 'inset 0 2px 6px rgba(0,0,0,0.65), 0 2px 6px rgba(0,0,0,0.4)',
-                    backdropFilter: 'blur(8px)',
-                    WebkitBackdropFilter: 'blur(8px)',
-                    transition: 'all 0.25s ease'
+                    position: 'relative'
                   }}
                 >
-                  {/* Embedded Stator Linear Notch */}
-                  <span style={{
-                    width: '6px',
-                    height: '14px',
+                  {/* Upper Bridge Structure Gantry Top Rail */}
+                  <div style={{
+                    width: '100%',
+                    height: '3px',
                     borderRadius: '2px',
-                    background: isActive ? '#FDE047' : '#64748B',
-                    boxShadow: isActive ? '0 0 8px #FDE047' : 'none',
-                    display: 'inline-block'
+                    background: isActive 
+                      ? 'linear-gradient(90deg, #38BDF8 0%, #FDE047 50%, #38BDF8 100%)' 
+                      : 'linear-gradient(90deg, #64748B 0%, #94A3B8 50%, #64748B 100%)',
+                    boxShadow: isActive ? '0 0 10px #38BDF8' : 'none',
+                    marginBottom: '3px',
+                    transition: 'all 0.25s ease'
                   }} />
-                  <span style={{
-                    color: isActive ? '#FFFFFF' : '#E2E8F0',
-                    fontSize: '0.96rem',
-                    fontWeight: 900,
-                    letterSpacing: '0.4px'
+
+                  {/* Main Coil Module */}
+                  <div
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '7px',
+                      padding: '0.35rem 1.05rem',
+                      borderRadius: '10px',
+                      background: isActive 
+                        ? 'linear-gradient(135deg, rgba(2, 132, 199, 0.98) 0%, rgba(3, 105, 161, 0.98) 100%)' 
+                        : 'rgba(15, 23, 42, 0.92)',
+                      border: isActive ? '1.5px solid #38BDF8' : '1.5px solid rgba(148, 163, 184, 0.45)',
+                      boxShadow: isActive 
+                        ? 'inset 0 1px 3px rgba(255,255,255,0.4), 0 0 20px rgba(56,189,248,0.95), 0 4px 12px rgba(0,0,0,0.5)' 
+                        : 'inset 0 2px 6px rgba(0,0,0,0.65), 0 2px 6px rgba(0,0,0,0.4)',
+                      backdropFilter: 'blur(8px)',
+                      WebkitBackdropFilter: 'blur(8px)',
+                      transition: 'all 0.25s ease'
+                    }}
+                  >
+                    {/* Embedded Stator Linear Notch */}
+                    <span style={{
+                      width: '6px',
+                      height: '14px',
+                      borderRadius: '2px',
+                      background: isActive ? '#FDE047' : '#64748B',
+                      boxShadow: isActive ? '0 0 8px #FDE047' : 'none',
+                      display: 'inline-block'
+                    }} />
+                    <span style={{
+                      color: isActive ? '#FFFFFF' : '#E2E8F0',
+                      fontSize: '0.96rem',
+                      fontWeight: 900,
+                      letterSpacing: '0.4px'
+                    }}>
+                      Coil {idx + 1}
+                    </span>
+                    <span style={{
+                      background: isActive ? '#38BDF8' : '#334155',
+                      color: isActive ? '#0369A1' : '#94A3B8',
+                      fontSize: '0.82rem',
+                      fontWeight: 900,
+                      padding: '0.12rem 0.52rem',
+                      borderRadius: '4px'
+                    }}>
+                      {isActive ? '⚡ ON' : 'OFF'}
+                    </span>
+                  </div>
+
+                  {/* Structural Vertical Support Legs Anchored Over the Track */}
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    width: '85%',
+                    marginTop: '2px'
                   }}>
-                    Coil {idx + 1}
-                  </span>
-                  <span style={{
-                    background: isActive ? '#38BDF8' : '#334155',
-                    color: isActive ? '#0369A1' : '#94A3B8',
-                    fontSize: '0.82rem',
-                    fontWeight: 900,
-                    padding: '0.12rem 0.52rem',
-                    borderRadius: '4px'
-                  }}>
-                    {isActive ? '⚡ ON' : 'OFF'}
-                  </span>
+                    <div style={{
+                      width: '4px',
+                      height: '10px',
+                      background: isActive ? 'linear-gradient(to bottom, #38BDF8, #475569)' : '#475569',
+                      borderRadius: '1px'
+                    }} />
+                    <div style={{
+                      width: '4px',
+                      height: '10px',
+                      background: isActive ? 'linear-gradient(to bottom, #38BDF8, #475569)' : '#475569',
+                      borderRadius: '1px'
+                    }} />
+                  </div>
                 </div>
               );
             })}
@@ -1628,8 +1769,8 @@ function Step4Control() {
           minHeight: 0,
           borderRadius: '20px',
           overflow: 'hidden',
-          background: '#0F172A',
-          boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
+          background: '#000000',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -1641,9 +1782,10 @@ function Step4Control() {
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover',
+              objectFit: 'contain',
               objectPosition: 'center',
-              display: 'block'
+              display: 'block',
+              imageRendering: '-webkit-optimize-contrast'
             }}
           />
         </div>
@@ -1769,41 +1911,18 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
 
     const executeAutoPlay = async () => {
       while (isMounted && autoPlaySeqRef.current === currentSeqId) {
-        setPropStep(-1);
-        setIsTranslating(false);
-        await sleep(350);
-        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
-
-        // Coil 1 turns ON, causing the train to start moving toward and across Coil 1
+        // Step 0: Immediately activate Coil 1 and initiate smooth train movement
         setPropStep(0);
         setIsTranslating(true);
-        await sleep(1800);
+
+        // Train glides smoothly across the 5 coils for 10s (exact touch-triggered sequential hand-offs occur in real-time as the front crosses each coil box)
+        await sleep(10000);
         if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
 
-        // Once the train has crossed Coil 1, Coil 1 turns OFF and Coil 2 turns ON
-        setPropStep(1);
-        await sleep(1400);
-        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
-
-        // As the train reaches the center point between Coil 2 and Coil 3, Coil 2 turns OFF and Coil 3 turns ON
-        setPropStep(2);
-        await sleep(1300);
-        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
-
-        // Coil 4 activates in advance BEFORE train physically touches or crosses Coil 4
-        setPropStep(3);
-        await sleep(1400);
-        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
-
-        // Coil 5 activates in advance BEFORE train reaches and crosses Coil 5
-        setPropStep(4);
-        await sleep(1700);
-        if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
-
-        // Continuous smooth pass across Coil 5 without stopping -> Coil 5 turns OFF (Standby)
-        setPropStep(5);
-        setViewedAll(true);
-        await sleep(2200);
+        // Reset train back to start seamlessly for next loop iteration
+        setIsTranslating(false);
+        setPropStep(0);
+        await sleep(150);
         if (!isMounted || autoPlaySeqRef.current !== currentSeqId) break;
       }
     };
@@ -1835,7 +1954,16 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
 
   const handleStep3ToggleAutoPlay = (e) => {
     e?.stopPropagation();
-    setAutoPlay(prev => !prev);
+    setAutoPlay(prev => {
+      const next = !prev;
+      if (next) {
+        setPropStep(0);
+        setIsTranslating(true);
+      } else {
+        setIsTranslating(false);
+      }
+      return next;
+    });
   };
 
   const handleStep3Reset = (e) => {
@@ -1939,6 +2067,8 @@ export default function FunWithMagnets({ onBackToDashboard, onComplete }) {
             handleToggleAutoPlay={handleStep3ToggleAutoPlay}
             handleReset={handleStep3Reset}
             handlePrev={handleStep3Prev}
+            onSetPropStep={setPropStep}
+            onSetViewedAll={setViewedAll}
           />
         )}
 

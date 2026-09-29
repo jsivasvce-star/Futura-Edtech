@@ -75,26 +75,23 @@ function SuspendedMagnet3D({ targetRotation, isSpinning }) {
     const dt = Math.min(delta, 0.1);
     const time = state.clock.getElapsedTime();
 
-    // Natural Air Currents: subtle ambient swaying / jitter restricted strictly to minor left and right deflections
-    const airSway = Math.sin(time * 1.5) * 0.038 + Math.sin(time * 3.2 + 0.5) * 0.015 + Math.cos(time * 6.8) * 0.006;
+    // Natural Air Currents: subtle ambient swaying
+    const airSway = Math.sin(time * 1.5) * 0.025 + Math.sin(time * 3.2 + 0.5) * 0.012;
 
     if (isSpinning) {
-      // Natural harmonic damped left-right deflection swing
-      const springK = 5.8;
-      const damping = 0.90;
-      const force = -springK * currentAngle.current;
-      velocity.current = (velocity.current + force * dt) * Math.pow(damping, dt * 60);
-      currentAngle.current += velocity.current * dt;
+      // Dynamic rotational spin towards target deflection
+      currentAngle.current = THREE.MathUtils.lerp(currentAngle.current, targetRotation, dt * 2.8);
+      magnetGroupRef.current.rotation.y = currentAngle.current;
     } else {
-      const springK = 7.0;
-      const damping = 0.86;
+      // Natural harmonic settling oscillation towards North-South (0 rad)
+      const springK = 6.5;
+      const damping = 0.88;
       const force = -springK * currentAngle.current;
       velocity.current = (velocity.current + force * dt) * Math.pow(damping, dt * 60);
       currentAngle.current += velocity.current * dt;
+      magnetGroupRef.current.rotation.y = currentAngle.current + airSway;
     }
 
-    // Apply combined deflection angle with natural air suspended sway
-    magnetGroupRef.current.rotation.y = currentAngle.current + airSway;
     magnetGroupRef.current.rotation.z = Math.sin(time * 1.5) * 0.008;
   });
 
@@ -268,16 +265,16 @@ export default function Stage1_Experiment({ onComplete }) {
   const handleSpin = () => {
     if (isSpinning) return;
     setIsSpinning(true);
-    // Alternate minor left and right deflections (~35° to 45°, approx 0.65 to 0.8 rad)
+    // Dynamic full-circle rotation (alternating CW/CCW 2 full rotations + random deflection)
     const deflectSign = spinCount % 2 === 0 ? 1 : -1;
-    const initialDeflection = deflectSign * (0.65 + Math.random() * 0.15);
+    const initialDeflection = deflectSign * (Math.PI * 2 * 2 + 0.65 + Math.random() * 0.4);
     setTargetRotation(initialDeflection);
 
     setTimeout(() => {
       setTargetRotation(0);
       setIsSpinning(false);
       setSpinCount(prev => prev + 1);
-    }, 2800);
+    }, 1900);
   };
 
   const handleReset = () => {

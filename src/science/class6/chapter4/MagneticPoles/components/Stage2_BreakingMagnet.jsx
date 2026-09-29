@@ -323,8 +323,8 @@ export default function Stage2_BreakingMagnet({ onComplete }) {
         >
           <BreakingMagnetVideoPlayer
             ref={videoPlayerRef}
-            videoSrc="/assets/stage 2.mp4"
-            fallbackSrc="/assets/stage 2.mp4"
+            videoSrc="/MagneticPoles/break3.mp4"
+            fallbackSrc="/MagneticPoles/break3.mp4"
             onPlaybackStateChange={setIsPlaying}
             onPhaseChange={handleVideoPhaseChange}
             onExternalReset={handleReset}

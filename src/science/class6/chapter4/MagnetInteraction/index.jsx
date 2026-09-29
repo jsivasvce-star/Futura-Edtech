@@ -192,7 +192,7 @@ export default function MagnetInteractionActivity({ onBackToDashboard, onComplet
           gap: '1rem'
         }}>
           {stepIndex === 0 && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
               {/* Same Pole Button */}
               <button
                 onClick={() => {
@@ -201,14 +201,14 @@ export default function MagnetInteractionActivity({ onBackToDashboard, onComplet
                 }}
                 className={carsMode === 'same' ? 'gold-glow-btn' : 'navy-btn'}
                 style={{
-                  padding: '0.55rem 1.5rem',
-                  fontSize: '1rem',
+                  padding: '0.72rem 2.05rem',
+                  fontSize: '1.14rem',
                   fontWeight: 900,
-                  borderRadius: '20px',
+                  borderRadius: '24px',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                   border: carsMode === 'same' ? '1.5px solid #FCD34D' : '1.5px solid #2B6CB0',
-                  boxShadow: carsMode === 'same' ? '0 4px 14px rgba(217, 119, 6, 0.45)' : 'none'
+                  boxShadow: carsMode === 'same' ? '0 4px 16px rgba(217, 119, 6, 0.45)' : 'none'
                 }}
               >
                 Same Pole
@@ -222,14 +222,14 @@ export default function MagnetInteractionActivity({ onBackToDashboard, onComplet
                 }}
                 className={carsMode === 'different' ? 'gold-glow-btn' : 'navy-btn'}
                 style={{
-                  padding: '0.55rem 1.5rem',
-                  fontSize: '1rem',
+                  padding: '0.72rem 2.05rem',
+                  fontSize: '1.14rem',
                   fontWeight: 900,
-                  borderRadius: '20px',
+                  borderRadius: '24px',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                   border: carsMode === 'different' ? '1.5px solid #FCD34D' : '1.5px solid #2B6CB0',
-                  boxShadow: carsMode === 'different' ? '0 4px 14px rgba(217, 119, 6, 0.45)' : 'none'
+                  boxShadow: carsMode === 'different' ? '0 4px 16px rgba(217, 119, 6, 0.45)' : 'none'
                 }}
               >
                 Different
