@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import EducationalVideoPlayer from '../../../../../components/EducationalVideoPlayer';
 import { ArrowLeft, ArrowRight, RefreshCw, Award, Volume2, VolumeX } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useTheme } from '../../../../../ThemeContext';

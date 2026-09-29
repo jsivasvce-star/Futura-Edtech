@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import EducationalVideoPlayer from '../../../../../components/EducationalVideoPlayer';
 import { RotateCcw, Check, Lightbulb, Leaf, Trophy } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
