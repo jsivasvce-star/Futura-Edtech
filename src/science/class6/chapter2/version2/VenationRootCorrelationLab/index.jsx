@@ -25,6 +25,7 @@ import specimen02MarigoldBlended from './specimen_02_marigold_blended.png';
 import specimen03SadabaharBlended from './specimen_03_sadabahar_blended.png';
 import specimen04ChickpeaBlended from './specimen_04_chickpea_blended.png';
 import specimen05WheatBlended from './specimen_05_wheat_blended.png';
+import activity27LemongrassVideoMp4 from "../../../../../assets/activity27-lemongrass.mp4";
 
 // =========================================================================
 // FULLSCREEN SPECIMEN SLIDES (ACTIVITY 2.7) — EXACT 16:9 HD SPECIMENS
@@ -246,10 +247,16 @@ const TONE = {
   }
 };
 
-export default function VenationRootCorrelationLab({ onBackToDashboard, onPreviousPage, onNext, initialPhase = 'specimens', onStateChange }) {
+export default function VenationRootCorrelationLab({ onBackToDashboard, onPreviousPage, onNext, initialPhase = 'specimens', initialSpecimenIndex = 0, onStateChange }) {
   const [phase, setPhase] = useState(initialPhase); // 'specimens' | 'lab'
-  useEffect(() => { if (onStateChange) onStateChange(phase); }, [phase, onStateChange]);
-  const [specimenIndex, setSpecimenIndex] = useState(0);
+  const [specimenIndex, setSpecimenIndex] = useState(initialSpecimenIndex);
+  useEffect(() => { if (onStateChange) onStateChange(phase, specimenIndex); }, [phase, specimenIndex, onStateChange]);
+
+  const [showLemongrassVideo, setShowLemongrassVideo] = useState(
+    initialPhase === 'specimens' && initialSpecimenIndex === 0
+  );
+  const [videoDirection, setVideoDirection] = useState('forward');
+  const lemongrassVideoRef = useRef(null);
 
   // Title pill: shown for 7s on each slide, then auto-hides; moving the
   // cursor up near the top of the screen brings it back.
@@ -290,6 +297,10 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
       if (e.key === 'ArrowLeft') {
         if (specimenIndex > 0) {
           setSpecimenIndex(prev => prev - 1);
+          correlationAudio.playSwitch();
+        } else if (specimenIndex === 0 && !showLemongrassVideo) {
+          setVideoDirection('backward');
+          setShowLemongrassVideo(true);
           correlationAudio.playSwitch();
         } else if (onPreviousPage) {
           onPreviousPage();
@@ -1014,6 +1025,9 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
             correlationAudio.playSwitch();
             if (specimenIndex > 0) {
               setSpecimenIndex(prev => prev - 1);
+            } else if (specimenIndex === 0 && !showLemongrassVideo) {
+              setVideoDirection('backward');
+              setShowLemongrassVideo(true);
             } else if (onPreviousPage) {
               onPreviousPage();
             } else if (onBackToDashboard) {
