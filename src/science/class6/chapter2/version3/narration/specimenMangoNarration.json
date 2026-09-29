@@ -1,0 +1,137 @@
+{
+  "specimen": "mango",
+  "part1": {
+    "audioFile": "specimen_mango.mp3",
+    "totalDuration": 30.04,
+    "segments": [
+      {
+        "id": "intro_mango",
+        "start": 0.0,
+        "end": 2.0,
+        "targets": ["mango_title"]
+      },
+      {
+        "id": "intro_clues",
+        "start": 2.0,
+        "end": 4.6,
+        "targets": ["collect_evidence_title", "badge_1", "badge_2", "badge_3"]
+      },
+      {
+        "id": "clue1_badge_title",
+        "start": 4.6,
+        "end": 6.9,
+        "targets": ["badge_1", "card1_title"]
+      },
+      {
+        "id": "clue1_mature_mango",
+        "start": 6.9,
+        "end": 8.0,
+        "targets": ["card1_line1"]
+      },
+      {
+        "id": "clue1_above_person",
+        "start": 8.0,
+        "end": 9.2,
+        "targets": ["card1_line2"]
+      },
+      {
+        "id": "clue2_badge_title",
+        "start": 9.2,
+        "end": 10.9,
+        "targets": ["badge_2", "card2_title"]
+      },
+      {
+        "id": "clue2_thick_trunk",
+        "start": 10.9,
+        "end": 13.6,
+        "targets": ["card2_line1"]
+      },
+      {
+        "id": "clue2_supports_canopy",
+        "start": 13.6,
+        "end": 15.9,
+        "targets": ["card2_line2"]
+      },
+      {
+        "id": "clue3_badge_title",
+        "start": 15.9,
+        "end": 18.0,
+        "targets": ["badge_3", "card3_title"]
+      },
+      {
+        "id": "clue3_branches_arise",
+        "start": 18.0,
+        "end": 19.3,
+        "targets": ["card3_line1"]
+      },
+      {
+        "id": "clue3_away_from_ground",
+        "start": 19.3,
+        "end": 21.0,
+        "targets": ["card3_line2"]
+      },
+      {
+        "id": "question_evidence",
+        "start": 21.0,
+        "end": 26.9,
+        "targets": ["question"]
+      },
+      {
+        "id": "question_herb",
+        "start": 26.9,
+        "end": 27.9,
+        "targets": ["group_herb"]
+      },
+      {
+        "id": "question_shrub",
+        "start": 27.9,
+        "end": 28.8,
+        "targets": ["group_shrub"]
+      },
+      {
+        "id": "question_tree",
+        "start": 28.8,
+        "end": 30.04,
+        "targets": ["group_tree"]
+      }
+    ]
+  },
+  "part2": {
+    "audioFile": "specimen_mango_after_pause.mp3",
+    "totalDuration": 5.75,
+    "segments": [
+      {
+        "id": "answer_yes_tree",
+        "start": 0.0,
+        "end": 1.9,
+        "targets": ["group_tree"]
+      },
+      {
+        "id": "answer_tree_desc",
+        "start": 1.9,
+        "end": 5.75,
+        "targets": ["group_tree"]
+      }
+    ]
+  },
+  "targets": {
+    "mango_title": { "left": 4.8, "top": 6.8, "width": 25.2, "height": 13.5, "radius": 12 },
+    "collect_evidence_title": { "left": 60.4, "top": 6.0, "width": 35.0, "height": 5.8, "radius": 8 },
+    "badge_1": { "left": 33.5, "top": 10.0, "width": 13.8, "height": 7.1, "radius": 24 },
+    "card1_title": { "left": 67.4, "top": 15.0, "width": 6.8, "height": 3.0, "radius": 6 },
+    "card1_line1": { "left": 67.4, "top": 18.0, "width": 18.8, "height": 3.2, "radius": 6 },
+    "card1_line2": { "left": 67.4, "top": 21.8, "width": 10.4, "height": 3.0, "radius": 6 },
+    "badge_2": { "left": 15.4, "top": 59.8, "width": 12.3, "height": 7.6, "radius": 24 },
+    "card2_title": { "left": 67.4, "top": 28.0, "width": 17.2, "height": 3.2, "radius": 6 },
+    "card2_line1": { "left": 67.4, "top": 31.2, "width": 23.0, "height": 3.2, "radius": 6 },
+    "card2_line2": { "left": 67.4, "top": 35.0, "width": 14.0, "height": 3.0, "radius": 6 },
+    "badge_3": { "left": 14.5, "top": 41.0, "width": 14.4, "height": 7.0, "radius": 24 },
+    "card3_title": { "left": 67.4, "top": 41.5, "width": 20.0, "height": 3.2, "radius": 6 },
+    "card3_line1": { "left": 67.4, "top": 44.8, "width": 21.0, "height": 3.2, "radius": 6 },
+    "card3_line2": { "left": 67.4, "top": 48.0, "width": 23.8, "height": 3.2, "radius": 6 },
+    "question": { "left": 60.4, "top": 53.8, "width": 34.2, "height": 3.0, "radius": 6 },
+    "group_herb": { "left": 60.5, "top": 58.7, "width": 11.6, "height": 21.1, "radius": 16 },
+    "group_shrub": { "left": 72.8, "top": 58.7, "width": 11.6, "height": 21.1, "radius": 16 },
+    "group_tree": { "left": 85.1, "top": 58.7, "width": 11.7, "height": 21.1, "radius": 16 }
+  }
+}

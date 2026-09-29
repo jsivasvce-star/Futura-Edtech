@@ -990,6 +990,41 @@ export default function App() {
                       >
                         <span>Version 2</span> <ArrowRight size={13} />
                       </button>
+
+                      <button
+                        id="btn-open-chapter2-v3"
+                        onClick={() => navigateTo('class6', 'chapter2', null, 'v3')}
+                        style={{
+                          flex: 1,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.35rem',
+                          fontSize: '0.84rem',
+                          fontWeight: 800,
+                          padding: '0.65rem 0.4rem',
+                          borderRadius: '8px',
+                          border: 'none',
+                          background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
+                          color: '#FFFFFF',
+                          cursor: 'pointer',
+                          boxShadow: '0 3px 12px rgba(37, 99, 235, 0.35)',
+                          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                          letterSpacing: '0.02em',
+                          whiteSpace: 'nowrap'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-2px)';
+                          e.currentTarget.style.boxShadow = '0 6px 16px rgba(37, 99, 235, 0.45)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'translateY(0)';
+                          e.currentTarget.style.boxShadow = '0 3px 12px rgba(37, 99, 235, 0.35)';
+                        }}
+                        title="Open Chapter 2 (Version 3)"
+                      >
+                        <span>Version 3</span> <ArrowRight size={13} />
+                      </button>
                     </div>
                   ) : (
                     <button 
