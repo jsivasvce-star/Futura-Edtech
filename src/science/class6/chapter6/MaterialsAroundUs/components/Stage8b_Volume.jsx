@@ -134,16 +134,19 @@ export default function Stage8b_Volume({ onComplete, addXp, setExtraRightAction 
             fontWeight: 'bold',
             gap: '0.75rem',
             borderRadius: '10px',
-            color: '#3E2723',
-            borderColor: '#3E2723',
+            color: 'var(--text-primary)',
             display: 'flex',
             alignItems: 'center',
+            justifyContent: 'center',
             cursor: 'pointer',
-            background: 'white'
+            transition: 'all 0.2s',
           }}
         >
-          {isPlayingAudio ? <Pause size={24} /> : <Play size={24} />}
-          {isPlayingAudio ? "Pause Audio" : "Play Audio"}
+          {isPlayingAudio ? (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+          ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          )} {isPlayingAudio ? "Pause" : "Play"}
         </button>
       );
     } else if (typeof setExtraRightAction === 'function') {
@@ -407,7 +410,7 @@ export default function Stage8b_Volume({ onComplete, addXp, setExtraRightAction 
         display: 'flex', flexDirection: 'column', gap: '0.2rem',
         flexShrink: 0, boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
       }}>
-        <h2 style={{ margin: 0, fontSize: '42px', fontFamily: '"Merriweather", "Georgia", serif', color: colors.textDark, display: 'flex', alignItems: 'center', gap: '10px', fontWeight: '900' }}>
+        <h2 className="investigation-heading" style={{ margin: 0, fontSize: '42px', fontFamily: '"Merriweather", "Georgia", serif', color: colors.textDark, display: 'flex', alignItems: 'center', gap: '10px', fontWeight: '900' }}>
           <Box size={42} color={colors.textDark} strokeWidth={2.5} /> Phase 2: Space and Volume
         </h2>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: colors.textMedium, fontSize: '22px', fontFamily: '"Merriweather", "Georgia", serif' }}>
@@ -449,7 +452,9 @@ export default function Stage8b_Volume({ onComplete, addXp, setExtraRightAction 
                 ref={videoRef}
                 src={`${pourActivityVideo}#t=0.001`}
                 preload="metadata"
-                style={{ display: 'block', width: '100%', height: 'auto' }}
+                disablePictureInPicture
+                disableRemotePlayback
+                style={{ display: 'block', width: '100%', height: 'auto', pointerEvents: 'none' }}
                 onTimeUpdate={(e) => {
                   const time = e.target.currentTime;
                   const duration = e.target.duration;
@@ -569,7 +574,47 @@ export default function Stage8b_Volume({ onComplete, addXp, setExtraRightAction 
               </div>
             </div>
 
-
+          {/* Think More Button */}
+          <AnimatePresence>
+            {waterLevelB >= 0.90 && (
+              <motion.div key="think-btn" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} style={{ flexShrink: 0, marginTop: 'auto' }}>
+                <button 
+                  onClick={() => setIsThinkModalOpen(true)}
+                  style={{
+                    position: 'relative',
+                    overflow: 'hidden',
+                    background: colors.accent,
+                    border: 'none',
+                    color: 'white',
+                    padding: '12px 24px',
+                    borderRadius: '16px',
+                    width: '100%',
+                    fontSize: '28px',
+                    fontFamily: '"Merriweather", "Georgia", serif',
+                    fontWeight: '900',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: '12px',
+                    animation: 'btnPulse 2s infinite',
+                    boxShadow: '0 4px 12px rgba(166, 75, 39, 0.3)'
+                  }}
+                >
+                  <div style={{
+                     position: 'absolute', top: 0, bottom: 0, width: '40px',
+                     background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                     transform: 'skewX(-20deg)',
+                     animation: 'shineSweep 3s infinite'
+                  }} />
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fef08a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '10px', left: '16px', opacity: 0.9 }}><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fef08a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', bottom: '10px', right: '16px', opacity: 0.9 }}><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
+                  <HelpCircle size={32} strokeWidth={2.5} /> 
+                  <span>{renderHighlightedText("Answer a Bonus Question!", 60, 67)}</span>
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           </div>
         </div>
@@ -638,47 +683,7 @@ export default function Stage8b_Volume({ onComplete, addXp, setExtraRightAction 
             )}
           </AnimatePresence>
 
-          {/* Think More Button */}
-          <AnimatePresence>
-            {waterLevelB >= 0.90 && (
-              <motion.div key="think-btn" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} style={{ flexShrink: 0 }}>
-                <button 
-                  onClick={() => setIsThinkModalOpen(true)}
-                  style={{
-                    position: 'relative',
-                    overflow: 'hidden',
-                    background: colors.accent,
-                    border: 'none',
-                    color: 'white',
-                    padding: '12px 24px',
-                    borderRadius: '16px',
-                    width: '100%',
-                    fontSize: '28px',
-                    fontFamily: '"Merriweather", "Georgia", serif',
-                    fontWeight: '900',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    gap: '12px',
-                    animation: 'btnPulse 2s infinite',
-                    boxShadow: '0 4px 12px rgba(166, 75, 39, 0.3)'
-                  }}
-                >
-                  <div style={{
-                     position: 'absolute', top: 0, bottom: 0, width: '40px',
-                     background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
-                     transform: 'skewX(-20deg)',
-                     animation: 'shineSweep 3s infinite'
-                  }} />
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fef08a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', top: '10px', left: '16px', opacity: 0.9 }}><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fef08a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', bottom: '10px', right: '16px', opacity: 0.9 }}><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
-                  <HelpCircle size={32} strokeWidth={2.5} /> 
-                  <span>{renderHighlightedText("Answer a Bonus Question!", 60, 67)}</span>
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
+
         </div>
       </div>
 

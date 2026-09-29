@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Info, HelpCircle, Check, Award } from 'lucide-react';
+import scannerIdleBg from '../images/scanner_pad_bg.png';
+import scannerActiveBg from '../images/scanner_active_bg.png';
 import scannerResultNotebook from '../images/scanner_result_notebook.png';
 import scannerResultRuler from '../images/scanner_result_ruler.png';
 import scannerResultGeometry from '../images/scanner_result_geometry.png';
@@ -426,7 +428,6 @@ export default function Stage2_Identify({ onComplete, addXp }) {
           </div>
         </div>\n        {/* Middle: Holographic Scanner */}
         <div 
-          className="glass-panel" 
           onDragOver={(e) => e.preventDefault()}
           onDragEnter={() => setIsDraggingOver(true)}
           onDragLeave={() => setIsDraggingOver(false)}
@@ -446,12 +447,15 @@ export default function Stage2_Identify({ onComplete, addXp }) {
             justifyContent: 'center', 
             height: '100%', minHeight: 0, 
             position: 'relative', 
-            background: isDraggingOver ? 'var(--accent-bg)' : 'var(--scanner-bg)', 
+            backgroundImage: scanState === 'scanning' || isDraggingOver || selectedObj ? `url('${scannerActiveBg}')` : `url('${scannerIdleBg}')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
             border: isDraggingOver ? '3px dashed var(--accent)' : 'var(--scanner-border)',
             transition: 'all 0.25s ease-in-out',
             overflow: 'hidden'
           }}
         >
+          <div style={{ position: 'absolute', inset: 0, background: 'rgba(15, 23, 42, 0.2)', zIndex: 1 }} />
           {/* Scanning lines */}
           {scanState === 'scanning' && (
             <motion.div 
@@ -646,10 +650,10 @@ export default function Stage2_Identify({ onComplete, addXp }) {
               )}
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', color: 'var(--scanner-subtext)', textAlign: 'center', padding: '1.5rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', color: '#FFFFFF', textShadow: '0 2px 4px rgba(0,0,0,0.5)', textAlign: 'center', padding: '1.5rem', zIndex: 2 }}>
               <Search size={48} />
               <span style={{ fontWeight: 'bold', fontSize: '1.3rem' }}>Scanner Active</span>
-              <span style={{ fontSize: '1rem', opacity: 0.8, maxWidth: '280px', lineHeight: '1.5' }}>
+              <span style={{ fontSize: '1rem', opacity: 0.9, maxWidth: '280px', lineHeight: '1.5' }}>
                 Drag an object from the Evidence Tray and drop it here to scan it!
               </span>
             </div>

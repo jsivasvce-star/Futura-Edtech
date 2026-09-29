@@ -9,13 +9,20 @@ import fpage14popupJson from '../../json/fpage14popup.json';
 // Placeholders ready for the exact purpose-made thumbnail assets once generated.
 const placeholderImg = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
 
+import imgBag from '../../../../../assets/ch6_baag.png';
+import imgBoard from '../../../../../assets/ch6_board.png';
+import imgBottle from '../../../../../assets/ch6_bottle.png';
+import imgDuster from '../../../../../assets/ch6_duster.png';
+import imgNote from '../../../../../assets/ch6_note.png';
+import imgWindow from '../../../../../assets/ch6_window.png';
+
 const CLASSROOM_OBJECTS = [
-  { id: 'duster', image: placeholderImg, name: 'Duster', material: 'Wood', desc: 'A hard wooden back provides a strong grip for the soft felt underneath.', xPos: 58.5, yPos: 37.5, hitbox: 'rect', w: 5, h: 3 },
-  { id: 'bottle', image: placeholderImg, name: 'Metal water bottle', material: 'Metal', desc: 'A strong and durable material that keeps water cold.', xPos: 36, yPos: 46, hitbox: 'rect', w: 5, h: 14 },
-  { id: 'window', image: placeholderImg, name: 'Window pane', material: 'Glass', desc: 'Transparent material that allows light to pass through while keeping weather out.', xPos: 4, yPos: 30, hitbox: 'rect', w: 8, h: 30 },
-  { id: 'backpack', image: placeholderImg, name: 'Bag', material: 'Fabric', desc: 'Soft, flexible, and strong material that can hold heavy books without tearing.', xPos: 88, yPos: 63, hitbox: 'rect', w: 14, h: 18 },
-  { id: 'notebook', image: placeholderImg, name: 'Notebook', material: 'Paper', desc: 'Light and easy to carry. Smooth to write on. Can be folded. Made from plant-based material.', xPos: 42.5, yPos: 65, hitbox: 'rect', w: 14, h: 8 },
-  { id: 'blackboard', image: placeholderImg, name: 'Blackboard', material: 'Slate', desc: 'A hard, dark rock material that is flat and holds chalk marks easily.', xPos: 50, yPos: 25 }
+  { id: 'duster', image: imgDuster, name: 'Duster', material: 'Wood', desc: 'A hard wooden back provides a strong grip for the soft felt underneath.', xPos: 58.5, yPos: 37.5, hitbox: 'rect', w: 5, h: 3 },
+  { id: 'bottle', image: imgBottle, name: 'Metal water bottle', material: 'Metal', desc: 'A strong and durable material that keeps water cold.', xPos: 36, yPos: 46, hitbox: 'rect', w: 5, h: 14 },
+  { id: 'window', image: imgWindow, name: 'Window pane', material: 'Glass', desc: 'Transparent material that allows light to pass through while keeping weather out.', xPos: 4, yPos: 30, hitbox: 'rect', w: 8, h: 30 },
+  { id: 'backpack', image: imgBag, name: 'Bag', material: 'Fabric', desc: 'Soft, flexible, and strong material that can hold heavy books without tearing.', xPos: 88, yPos: 63, hitbox: 'rect', w: 14, h: 18 },
+  { id: 'notebook', image: imgNote, name: 'Notebook', material: 'Paper', desc: 'Light and easy to carry. Smooth to write on. Can be folded. Made from plant-based material.', xPos: 42.5, yPos: 65, hitbox: 'rect', w: 14, h: 8 },
+  { id: 'blackboard', image: imgBoard, name: 'Blackboard', material: 'Slate', desc: 'A hard, dark rock material that is flat and holds chalk marks easily.', xPos: 50, yPos: 25 }
 ];
 
 const MAGNIFIER_RADIUS = 140;
@@ -759,7 +766,7 @@ export default function Stage1_Intro({ onComplete, addXp, setExtraRightAction })
                    <div style={{ width: '80px', height: '80px', background: 'var(--lesson-success)', color: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem auto' }}>
                      <CheckCircle2 size={56} strokeWidth={2.5} />
                    </div>
-                   <h2 style={{ fontSize: '3rem', fontWeight: '900', color: 'var(--lesson-primary)', margin: '0 0 1rem 0' }}>CASE SOLVED!</h2>
+                   <h2 className="lesson-primary-heading" style={{ fontSize: '3rem', fontWeight: '900', color: 'var(--lesson-primary)', margin: '0 0 1rem 0' }}>CASE SOLVED!</h2>
                    <p style={{ fontSize: '1.25rem', color: 'var(--lesson-secondary)', margin: '0 0 2rem 0', lineHeight: '1.5', fontWeight: '700' }}>
                     <W i={0}>Excellent</W> <W i={1}>work!</W> <W i={2}>You</W> <W i={3}>discovered</W> <W i={4}>what</W> <W i={5}>all</W> <W i={6}>the</W> <W i={7}>everyday</W> <W i={8}>objects</W> <W i={9}>are</W> <W i={10}>made</W> <W i={11}>of.</W> <W i={12}>Objects</W> <W i={13}>are</W> <W i={14}>made</W> <W i={15}>from</W> <W i={16}>materials!</W>
                    </p>

@@ -618,7 +618,7 @@ export default function PlantDetective({ onBackToDashboard }) {
               <Award size={48} />
             </div>
 
-            <h2 style={{ color: '#fbbf24', fontSize: '1.75rem', margin: '0 0 0.5rem 0' }}>Case Solved!</h2>
+            <h2 className="amber-heading" style={{ color: '#fbbf24', fontSize: '1.75rem', margin: '0 0 0.5rem 0' }}>Case Solved!</h2>
             <h3 style={{ fontSize: '1.2rem', color: '#ecfdf5', margin: '0 0 1rem 0' }}>Master Plant Detective Badge</h3>
 
             <p style={{ fontSize: '0.85rem', color: '#a7f3d0', maxWidth: '420px', lineHeight: '1.5', margin: '0 0 2rem 0' }}>

@@ -221,15 +221,26 @@ export default function Stage6b_Classify({ onComplete, addXp, setExtraRightActio
       setExtraRightAction(
         <button
           onClick={toggleAudio}
+          className="outline"
           style={{
-            display: 'flex', alignItems: 'center', gap: '6px',
-            padding: '8px 16px', borderRadius: '8px',
-            background: 'var(--accent)', color: 'white', border: 'none',
-            cursor: 'pointer', fontSize: '1.2rem', fontWeight: 'bold'
+            padding: '0.85rem 1.6rem',
+            fontSize: '1.6rem',
+            fontWeight: 'bold',
+            gap: '0.75rem',
+            borderRadius: '10px',
+            color: 'var(--text-primary)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
           }}
         >
-          {isPlaying ? <Pause size={18} /> : <Play size={18} />}
-          {isPlaying ? 'Pause' : 'Play'}
+          {isPlaying ? (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+          ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          )} {isPlaying ? "Pause" : "Play"}
         </button>
       );
     }
@@ -242,7 +253,7 @@ export default function Stage6b_Classify({ onComplete, addXp, setExtraRightActio
     const words = text.split(' ');
     return words.map((word, i) => {
       const audioIdx = indexMap[i];
-      const isActive = activeIndex === audioIdx;
+      const isActive = activeIndex !== null && activeIndex === audioIdx;
       return (
         <React.Fragment key={i}>
           <span style={{ 
@@ -261,11 +272,15 @@ export default function Stage6b_Classify({ onComplete, addXp, setExtraRightActio
   };
 
   const handleDragStart = (e, id) => { 
+    e.stopPropagation();
     e.dataTransfer.setData('text/plain', id); 
     setDraggingId(id); 
   };
   
-  const handleDragEnd = () => setDraggingId(null);
+  const handleDragEnd = (e) => {
+    e.stopPropagation();
+    setDraggingId(null);
+  };
 
   const handleDrop = (e, category) => {
     e.preventDefault();
@@ -366,6 +381,7 @@ export default function Stage6b_Classify({ onComplete, addXp, setExtraRightActio
                     boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
                     transition: 'box-shadow 0.2s',
                     userSelect: 'none',
+                    position: 'relative'
                   }}
                 >
                   <div style={{ position: 'absolute', top: '4px', left: '4px' }}><GripVertical size={14} color="#94a3b8" /></div>

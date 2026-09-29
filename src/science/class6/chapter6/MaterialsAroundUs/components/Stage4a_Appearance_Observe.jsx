@@ -701,26 +701,26 @@ export default function Stage4a_Appearance_Observe({ onComplete, addXp, setExtra
       setExtraRightAction(
         <button
           onClick={toggleAudio}
+          className="outline"
           style={{
+            padding: '0.85rem 1.6rem',
+            fontSize: '1.6rem',
+            fontWeight: 'bold',
+            gap: '0.75rem',
+            borderRadius: '10px',
+            color: 'var(--text-primary)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '8px',
-            background: 'var(--lesson-surface)',
-            color: 'var(--lesson-text)',
-            border: '1px solid var(--lesson-border)',
-            padding: '12px 24px',
-            borderRadius: '8px',
-            fontSize: '18px',
-            fontWeight: 'bold',
             cursor: 'pointer',
             transition: 'all 0.2s',
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'var(--lesson-surface-hover)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'var(--lesson-surface)'; }}
         >
-          {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-          {isPlaying ? "Pause" : "Play"}
+          {isPlaying ? (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+          ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          )} {isPlaying ? "Pause" : "Play"}
         </button>
       );
     }
@@ -932,12 +932,12 @@ export default function Stage4a_Appearance_Observe({ onComplete, addXp, setExtra
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: "1.378rem", color: "#d1a25a", fontWeight: 800 }}>
-                <span>✨ Shiny Objects</span>
-                <span>{Object.values(observations).filter(o => o.result === "shiny").length} / 6</span>
+                <span style={{ color: 'inherit' }}>✨ Shiny Objects</span>
+                <span style={{ color: 'inherit' }}>{Object.values(observations).filter(o => o.result === "shiny").length} / 6</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: "1.378rem", color: "#e2d9c8", fontWeight: 800 }}>
-                <span>◇ Dull Objects</span>
-                <span>{Object.values(observations).filter(o => o.result === "dull").length} / 6</span>
+                <span style={{ color: 'inherit' }}>◇ Dull Objects</span>
+                <span style={{ color: 'inherit' }}>{Object.values(observations).filter(o => o.result === "dull").length} / 6</span>
               </div>
             </div>
           </div>

@@ -316,10 +316,10 @@ export default function App() {
   const renderSubjectSelector = () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
       <div className="glass-panel welcome-panel" style={{ padding: '1.5rem', borderRadius: '16px' }}>
-        <h3 style={{ margin: 0, fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <h3 style={{ margin: 0, fontSize: '1.82rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Compass size={20} style={{ color: '#60a5fa' }} /> Welcome to FuturaX Interactive Learning Labs
         </h3>
-        <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem', lineHeight: '1.6' }}>
+        <p style={{ margin: '0.5rem 0 0 0', fontSize: '1.14rem', lineHeight: '1.6' }}>
           Explore curriculum-aligned active-learning simulations, virtual experiments, and conceptual checkouts across different departments.
         </p>
       </div>
@@ -339,8 +339,8 @@ export default function App() {
             <p>
               Physics, Chemistry, and Biology virtual labs spanning from basic concepts to advanced high school experiments.
             </p>
-            <button onClick={() => navigateTo('science_lab', null)} style={{ width: '100%', padding: '0.85rem', fontSize: '1rem', fontWeight: 600, display: 'flex', justifyContent: 'center', gap: '0.5rem', borderRadius: '8px' }}>
-              Enter Science Wing <ArrowRight size={18} />
+            <button onClick={() => navigateTo('science_lab', null)} style={{ width: '100%', padding: '0.85rem', fontSize: '1.3rem', fontWeight: 600, display: 'flex', justifyContent: 'center', gap: '0.5rem', borderRadius: '8px' }}>
+              Enter Science Wing <ArrowRight size={20} />
             </button>
           </div>
         </div>
@@ -355,8 +355,8 @@ export default function App() {
             <p>
               Interactive geometry, coordinate mapping, algebraic visualizers, and mathematical problem-solving labs.
             </p>
-            <button onClick={() => navigateTo('math_lab', null)} style={{ width: '100%', padding: '0.85rem', fontSize: '1rem', fontWeight: 600, display: 'flex', justifyContent: 'center', gap: '0.5rem', borderRadius: '8px' }}>
-              Enter Mathematics Wing <ArrowRight size={18} />
+            <button onClick={() => navigateTo('math_lab', null)} style={{ width: '100%', padding: '0.85rem', fontSize: '1.3rem', fontWeight: 600, display: 'flex', justifyContent: 'center', gap: '0.5rem', borderRadius: '8px' }}>
+              Enter Mathematics Wing <ArrowRight size={20} />
             </button>
           </div>
         </div>
@@ -371,8 +371,8 @@ export default function App() {
             <p>
               Explore history, civics, and geography through interactive terrains, governance simulations, and more.
             </p>
-            <button onClick={() => navigateTo('social_lab', null)} style={{ width: '100%', padding: '0.85rem', fontSize: '1rem', fontWeight: 600, display: 'flex', justifyContent: 'center', gap: '0.5rem', borderRadius: '8px' }}>
-              Enter Social Sciences Wing <ArrowRight size={18} />
+            <button onClick={() => navigateTo('social_lab', null)} style={{ width: '100%', padding: '0.85rem', fontSize: '1.3rem', fontWeight: 600, display: 'flex', justifyContent: 'center', gap: '0.5rem', borderRadius: '8px' }}>
+              Enter Social Sciences Wing <ArrowRight size={20} />
             </button>
           </div>
         </div>
@@ -394,7 +394,7 @@ export default function App() {
         </button>
         <div>
           <h2 style={{ margin: 0, fontSize: '1.82rem' }}>Interactive Science Lab</h2>
-          <span style={{ fontSize: '1.09rem', color: 'rgba(238,250,240,0.7)' }}>Explore Science Subjects Interactively</span>
+          <span style={{ fontSize: '1.14rem', color: 'rgba(238,250,240,0.7)' }}>Explore Science Subjects Interactively</span>
         </div>
       </div>
 
@@ -2844,9 +2844,9 @@ export default function App() {
             <div>
               <div className="header-title">
                 <BookOpen style={{ color: 'var(--accent)' }} size={32} />
-                <h1 style={{ fontSize: '2.44rem', fontWeight: 800 }}>FuturaX Interactive Labs</h1>
+                <h1 style={{ fontSize: '1.82rem', fontWeight: 800 }}>FuturaX Interactive Labs</h1>
               </div>
-              <p className="header-subtitle" style={{ fontSize: '1.19rem', marginTop: '0.35rem' }}>
+              <p className="header-subtitle" style={{ fontSize: '1.14rem', marginTop: '0.35rem' }}>
                 Active-learning simulations and concept reviews for science and social science
               </p>
             </div>

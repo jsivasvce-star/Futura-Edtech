@@ -66,6 +66,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
   const [showIntroSpread, setShowIntroSpread] = useState(false);
   const [showHandbook, setShowHandbook] = useState(false);
   const [handbookInitialPage, setHandbookInitialPage] = useState(1);
+  const [missionInitialPage, setMissionInitialPage] = useState(1);
   const [expandedNodes, setExpandedNodes] = useState({ 
     'Barrier 6.1': true, 'Barrier 6.2': true, 'Barrier 6.3': true, 'Barrier 6.4': true, 'Final Wrap-up': true,
     'Stage 6.3.1': true, 'Stage 6.3.2': true, 'Stage 6.3.3': true, 'Stage 6.3.4': true, 'Stage 6.3.5': true, 'Stage 6.3.6': true
@@ -85,6 +86,7 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
   const handleNext = () => {
     setStageCompleted(false);
     setShowHandbook(false);
+    setMissionInitialPage(1);
     if (currentFlowIndex < chapterFlow.length - 1) {
       const nextIndex = currentFlowIndex + 1;
       setCurrentFlowIndex(nextIndex);
@@ -103,13 +105,9 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
     setStageCompleted(false);
     if (currentFlowIndex < chapterFlow.length - 1) {
       const nextIndex = currentFlowIndex + 1;
-      const nextNode = chapterFlow[nextIndex];
       
-      if (nextNode && nextNode.id === 'stage1') {
-        setShowHandbook(true);
-      } else {
-        setShowHandbook(false);
-      }
+      setShowHandbook(false);
+      setMissionInitialPage(1);
       
       setCurrentFlowIndex(nextIndex);
       if (nextIndex > highestUnlockedIndex) {
@@ -150,7 +148,13 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
         pointerEvents: showIntroSpread ? 'auto' : 'none',
         position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10000 
       }}>
-        <ChapterIntroSpread onContinue={() => setShowIntroSpread(false)} onBack={() => { setShowIntroSpread(false); setShowCover(true); }} />
+        <ChapterIntroSpread onContinue={() => {
+          setShowIntroSpread(false);
+          if (currentFlowIndex === 0) {
+            setHandbookInitialPage(1);
+            setShowHandbook(true);
+          }
+        }} onBack={() => { setShowIntroSpread(false); setShowCover(true); }} />
       </div>
       <div style={{ display: (!showCover && !showIntroSpread) ? 'block' : 'none', width: '100%', height: '100%' }}>
         <div className="activity-workspace materials-around-us-theme" style={{ 
@@ -327,17 +331,33 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
         {/* Main Content Area - Full Width */}
         <div className="activity-content" style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', position: 'relative', overflowY: currentNode.type === 'activity' ? 'hidden' : 'auto' }}>
           {currentNode.type === 'mission' && (
-            <MissionBriefingSpread 
-              data={currentNode} 
-              onContinue={handleMissionAccept} 
-              onBack={() => {
-                if (currentFlowIndex > 0) {
-                  setCurrentFlowIndex(prev => prev - 1);
-                } else {
-                  setShowIntroSpread(true);
-                }
-              }} 
-            />
+            showHandbook && currentFlowIndex === 0 ? (
+              <div style={{ flex: 1, minHeight: 0, padding: 0, display: 'flex', flexDirection: 'column', width: '100%', height: '100%', boxSizing: 'border-box' }}>
+                <InvestigationHandbook 
+                  ref={stageRef}
+                  highestUnlockedIndex={highestUnlockedIndex} 
+                  currentFlowIndex={currentFlowIndex} 
+                  stageCompleted={stageCompleted} 
+                  initialPage={handbookInitialPage}
+                  onNext={() => setShowHandbook(false)}
+                  setExtraRightAction={setExtraRightAction}
+                />
+              </div>
+            ) : (
+              <MissionBriefingSpread 
+                data={currentNode} 
+                initialPage={missionInitialPage}
+                onContinue={handleMissionAccept} 
+                onBack={() => {
+                  if (currentFlowIndex > 0) {
+                    setCurrentFlowIndex(prev => prev - 1);
+                  } else {
+                    setHandbookInitialPage(2);
+                    setShowHandbook(true);
+                  }
+                }} 
+              />
+            )
           )}
           
           {currentNode.type === 'debrief' && (
@@ -479,10 +499,8 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
               if (stageRef.current && stageRef.current.handleGlobalBack && stageRef.current.handleGlobalBack()) {
                 return;
               }
-              if (currentFlowIndex === 1 && !showHandbook) {
-                setHandbookInitialPage(2);
-                setShowHandbook(true);
-                return;
+              if (currentFlowIndex > 0 && chapterFlow[currentFlowIndex - 1].type === 'mission' && !showHandbook) {
+                setMissionInitialPage(2);
               }
               setShowHandbook(false);
               if (currentFlowIndex > 0) {
@@ -516,10 +534,14 @@ export default function MaterialsAroundUsActivity({ onBackToDashboard }) {
             <RefreshCw size={22} /> Reset Activity
           </button>
 
-          {(currentNode.type === 'activity' || currentNode.type === 'checkpoint') && (
+          {(currentNode.type === 'activity' || currentNode.type === 'checkpoint' || (currentNode.type === 'mission' && showHandbook)) && (
             <button 
               onClick={() => {
                 if (stageRef.current && stageRef.current.handleGlobalNext && stageRef.current.handleGlobalNext()) {
+                  return;
+                }
+                if (currentFlowIndex === 0 && showHandbook) {
+                  setShowHandbook(false);
                   return;
                 }
                 if (currentFlowIndex === 1 && showHandbook) {

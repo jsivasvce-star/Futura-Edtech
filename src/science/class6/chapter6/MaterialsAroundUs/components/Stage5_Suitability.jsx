@@ -57,24 +57,26 @@ export default function Stage5_Suitability({ onComplete, addXp, setExtraRightAct
               setIsPlaying(!isPlaying);
             }
           }}
+          className="outline"
           style={{
+            padding: '0.85rem 1.6rem',
+            fontSize: '1.6rem',
+            fontWeight: 'bold',
+            gap: '0.75rem',
+            borderRadius: '10px',
+            color: 'var(--text-primary)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '8px',
-            background: 'var(--lesson-surface)',
-            color: 'var(--lesson-text)',
-            border: '1px solid var(--lesson-border)',
-            padding: '12px 24px',
-            borderRadius: '8px',
-            fontSize: '18px',
-            fontWeight: 'bold',
             cursor: 'pointer',
             transition: 'all 0.2s',
           }}
         >
-          {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-          {isPlaying ? "Pause" : "Play"}
+          {isPlaying ? (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+          ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          )} {isPlaying ? "Pause" : "Play"}
         </button>
       );
     }

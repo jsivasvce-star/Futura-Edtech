@@ -7,6 +7,11 @@ import mb2 from '../../../../../../assets/MB2.png';
 import mb3 from '../../../../../../assets/MB3.png';
 import mb4 from '../../../../../../assets/MB4.png';
 import mb5 from '../../../../../../assets/MB5.png';
+import ch6img1 from '../../../../../../assets/CH6IMG1.png';
+import ch6img21 from '../../../../../../assets/CH6IMG21.png';
+import ch6img3 from '../../../../../../assets/CH6IMG3.png';
+import ch6img4 from '../../../../../../assets/CH6IMG4.png';
+import ch6img5 from '../../../../../../assets/CH6IMG5.png';
 import mpage6Audio from '../../../audio/mpage6.mp3?url';
 import mpage6Json from '../../../json/mpage6.json';
 import mpage7Audio from '../../../audio/mpage7.mp3?url';
@@ -44,13 +49,17 @@ import mpage65Json from '../../../json/mpage65.json';
 import mpage66Audio from '../../../audio/mpage66.mp3?url';
 import mpage66Json from '../../../json/mpage66.json';
 
-export default function MissionBriefingSpread({ data, onContinue, onBack }) {
-  const [currentPage, setCurrentPage] = useState(1);
+export default function MissionBriefingSpread({ data, onContinue, onBack, initialPage = 1 }) {
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const BLAKE_IMG_URL = '/images/chief_detective_blake.png';
   const isBarrier2 = data?.title?.includes('Barrier 2') || data?.title?.includes('Grouping Materials') || data?.id === 'barrier_2';
   
   // ALWAYS use the new wide asset as requested, preventing fallback to narrow portraits
   const detectiveImg = newChiefDetectiveImage;
+  
+  useEffect(() => {
+    setCurrentPage(initialPage);
+  }, [initialPage, data.id]);
   
   const handleStart = () => {
     onContinue();
@@ -58,9 +67,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
 
   // The user explicitly requested this exact string mapping for the title
   let displayTitle = data?.title || 'The Classroom Mystery';
-  if (displayTitle === 'The Classroom Mystery (Barrier 1)') {
-    displayTitle = 'The Classroom Mystery (Barrier 2)';
-  } else if (typeof displayTitle === 'string') {
+  if (typeof displayTitle === 'string') {
     displayTitle = displayTitle.replace('Barrier 2', 'Barrier\u00A02');
   }
 
@@ -73,6 +80,7 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
   const isSolubilityStage = displayTitle.includes('Solubility (Stage 6.3.4)');
   const isMassStage = displayTitle.includes('Mass (Stage 6.3.5)');
   const isVolumeStage = displayTitle.includes('Volume (Stage 6.3.6)') || displayTitle.includes('Barrier 3');
+  const isFinalQuiz = displayTitle.includes('Final Quiz');
   const hasAudio = isBarrier2Mystery || isPhase2Identification || isBarrier2GroupingMaterials || isAppearanceStage || isHardnessStage || isTransparencyStage || isSolubilityStage || isMassStage || isVolumeStage;
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -160,6 +168,22 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
   };
   
   const mbDecorativeImage = getDecorativeImage(displayTitle);
+
+  const useCh6Img1 = isPhase2Identification || isSolubilityStage || isBarrier2Mystery;
+  const useCh6Img2Mass = isMassStage;
+  const useCh6Img2Grouping = isBarrier2GroupingMaterials;
+  const useCh6Img3 = isVolumeStage || isAppearanceStage;
+  const useCh6Img4 = isHardnessStage || isFinalQuiz;
+  const useCh6Img5 = isTransparencyStage;
+  const hideDecorativeBg = useCh6Img1 || useCh6Img2Mass || useCh6Img2Grouping || useCh6Img3 || useCh6Img4 || useCh6Img5;
+  
+  let specialBgClass = '';
+  if (useCh6Img1) specialBgClass = 'phase2-special-bg';
+  else if (useCh6Img2Grouping) specialBgClass = 'ch6img2-grouping-bg';
+  else if (useCh6Img2Mass) specialBgClass = 'ch6img2-special-bg';
+  else if (useCh6Img3) specialBgClass = 'ch6img3-special-bg';
+  else if (useCh6Img4) specialBgClass = 'ch6img4-special-bg';
+  else if (useCh6Img5) specialBgClass = 'ch6img5-special-bg';
 
   return (
     <div style={{
@@ -258,6 +282,54 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
               linear-gradient(to right, #f6f1e4 0%, #f6f1e4 25%, transparent 60%),
               linear-gradient(to bottom, #f6f1e4 0%, transparent 12%),
               linear-gradient(to top, #f6f1e4 0%, transparent 12%);
+          }
+
+          .right-page.phase2-special-bg {
+            background: #f6f1e4 url(${ch6img1}) right center / auto 100% no-repeat;
+          }
+          
+          .right-page.phase2-special-bg::after {
+            display: none;
+          }
+
+          .right-page.ch6img2-special-bg {
+            background: #f6f1e4 url(${ch6img21}) right center / auto 115% no-repeat;
+          }
+          
+          .right-page.ch6img2-special-bg::after {
+            display: none;
+          }
+
+          .right-page.ch6img2-grouping-bg {
+            background: #f6f1e4 url(${ch6img21}) right bottom / auto 85% no-repeat;
+          }
+          
+          .right-page.ch6img2-grouping-bg::after {
+            display: none;
+          }
+
+          .right-page.ch6img3-special-bg {
+            background: #f6f1e4 url(${ch6img3}) right bottom / auto 96% no-repeat;
+          }
+          
+          .right-page.ch6img3-special-bg::after {
+            display: none;
+          }
+
+          .right-page.ch6img4-special-bg {
+            background: #f6f1e4 url(${ch6img4}) right center / auto 100% no-repeat;
+          }
+          
+          .right-page.ch6img4-special-bg::after {
+            display: none;
+          }
+
+          .right-page.ch6img5-special-bg {
+            background: #f6f1e4 url(${ch6img5}) right center / auto 100% no-repeat;
+          }
+          
+          .right-page.ch6img5-special-bg::after {
+            display: none;
           }
           .right-page-content {
             width: 100%;
@@ -746,8 +818,8 @@ export default function MissionBriefingSpread({ data, onContinue, onBack }) {
           )}
 
           {currentPage === 2 && (
-            <div className="page-spread right-page">
-              <img src={mbDecorativeImage} alt="" className="mb-decorative-bg" aria-hidden="true" />
+            <div className={`page-spread right-page ${specialBgClass}`}>
+              {!hideDecorativeBg && <img src={mbDecorativeImage} alt="" className="mb-decorative-bg" aria-hidden="true" />}
               <div className="right-page-content">
                 <div className="mission-header" style={{ fontSize: '34px' }}>
                   <ShieldAlert size={20} />

@@ -387,12 +387,13 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
     handleGlobalNext: () => {
       if (currentFlowIndex < 5) {
         if (b1Page === 1) {
+          if (currentClue < 5) {
+            setCurrentClue(prev => prev + 1);
+            return true; // Event handled (user must click clue button), don't propagate
+          }
           setB1Page(2);
           return true; // Event handled internally, don't propagate
         } else if (b1Page === 2) {
-          if (currentClue < 5) {
-            return true; // Event handled (user must click clue button), don't propagate
-          }
           return false; // Done with page 2, allow index.jsx to proceed
         }
       }
@@ -460,17 +461,17 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
             {isPlaying ? <SvgIcons.Pause /> : <SvgIcons.Play />} {isPlaying ? "Pause" : "Play"}
           </button>
         );
-      } else if (b1Page !== 2) {
+      } else if (b1Page !== 1) {
         setExtraRightAction(null);
       }
     }
     return () => {
-      if (setExtraRightAction && b1Page === 1) setExtraRightAction(null);
+      if (setExtraRightAction && b1Page === 2) setExtraRightAction(null);
     };
   }, [b1Page, isBarrier2, isBarrier3, setExtraRightAction, isPlaying]);
 
   useEffect(() => {
-    if (b1Page !== 1 || isBarrier2 || isBarrier3) {
+    if (b1Page !== 2 || isBarrier2 || isBarrier3) {
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
@@ -531,7 +532,7 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
       border: (!isBarrier2 && !isBarrier3) ? 'none' : '6px solid #3E2723',
       overflow: 'hidden'
     }}>
-      {(!isBarrier2 && !isBarrier3 && b1Page === 1) && (
+      {(!isBarrier2 && !isBarrier3 && b1Page === 2) && (
         <audio
           ref={audioRef}
           src={fpage8Audio}
@@ -539,7 +540,7 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
           onEnded={handleAudioEnded}
         />
       )}
-      {(!isBarrier2 && !isBarrier3 && b1Page === 1) && (
+      {(!isBarrier2 && !isBarrier3 && b1Page === 2) && (
         <style>{`
           .global-action-bar {
             border: none !important;
@@ -564,7 +565,7 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
         {!isBarrier2 && !isBarrier3 ? (
           // ================= BARRIER 1 PAGES =================
           <>
-            {b1Page === 1 && (
+            {b1Page === 2 && (
               <div style={{ flex: 1, minHeight: 0, padding: 0, position: 'relative', display: 'flex', flexDirection: 'row', overflow: 'hidden', background: '#FFFCF8' }}>
                 {/* ================= PAGE 1 ================= */}
                 
@@ -631,7 +632,7 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
                   background: 'transparent'
                 }}>
                   <div>
-                    <h2 style={{ margin: 0, fontFamily: "'Merriweather', Georgia, serif", fontSize: '50px', color: '#2C4E3D', fontWeight: '900', lineHeight: 1.15 }}>
+                    <h2 className="investigation-heading" style={{ margin: 0, fontFamily: "'Merriweather', Georgia, serif", fontSize: '50px', color: '#2C4E3D', fontWeight: '900', lineHeight: 1.15 }}>
                       What are Objects Made Of?
                     </h2>
                     <div style={{ width: '420px', height: '4px', background: '#2C4E3D', opacity: 0.9, borderRadius: '2px', marginTop: '4px' }} />
@@ -690,11 +691,11 @@ const InvestigationHandbookRender = ({ highestUnlockedIndex = 0, currentFlowInde
               </div>
             )}
 
-            {b1Page === 2 && (
+            {b1Page === 1 && (
               <div style={{ flex: 1, minHeight: 0, padding: '20px 48px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
                 {/* ================= PAGE 2 ================= */}
                 <div>
-                  <h2 style={{ margin: 0, fontFamily: "'Merriweather', Georgia, serif", fontSize: '50px', color: '#2C4E3D', fontWeight: '900', lineHeight: 1.15 }}>
+                  <h2 className="investigation-heading" style={{ margin: 0, fontFamily: "'Merriweather', Georgia, serif", fontSize: '50px', color: '#2C4E3D', fontWeight: '900', lineHeight: 1.15 }}>
                     Historical Spotlight: Pottery
                   </h2>
                   <div style={{ width: '100%', height: '4px', background: '#2C4E3D', opacity: 0.9, borderRadius: '2px', marginTop: '12px', marginBottom: '16px' }} />
