@@ -244,7 +244,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
           lineHeight: 1.15,
           textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)'
         }}>
-          Conservation
+          Sacred Groves
         </h1>
       </div>
 
@@ -283,14 +283,14 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
           type="button"
           className="bio-cta-btn"
           onClick={handleNextClick}
-          aria-label="Explore the Living World"
+          aria-label="Next"
           style={{
             padding: '8px 24px',
             fontSize: '16px',
             borderRadius: '10px'
           }}
         >
-          <span>🌿 Explore the Living World!</span>
+          <span>Next</span>
           <ArrowRight size={17} strokeWidth={2.5} />
         </button>
       </div>
@@ -359,7 +359,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
                 textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
               }}>
                 <span style={{ fontSize: '18px' }}>🦚</span>
-                <span style={{ color: '#34D399' }}>CONSERVATION</span>
+                <span style={{ color: '#34D399' }}>SACRED GROVES</span>
               </span>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -378,13 +378,13 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
                       ? '0 0 16px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
                       : '0 4px 12px rgba(0, 0, 0, 0.35), 0 0 10px rgba(16, 185, 129, 0.25)',
                     borderRadius: '20px',
-                    padding: '6px 14px',
+                    padding: '4px 14px',
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '6px',
                     color: '#FFFFFF',
                     fontWeight: 800,
-                    fontSize: '13px',
+                    fontSize: '18px',
                     fontFamily: '"Outfit", sans-serif',
                     cursor: 'pointer',
                     flexShrink: 0,
@@ -457,7 +457,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
               <h2 style={{
                 fontFamily: '"Outfit", sans-serif',
                 fontWeight: 900,
-                fontSize: '20px',
+                fontSize: '24px',
                 margin: 0,
                 color: '#34D399',
                 lineHeight: 1.25,
@@ -479,7 +479,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
               {/* Section 1: Protected by Tradition */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <div style={{
-                  fontSize: '18px',
+                  fontSize: '21px',
                   fontWeight: 800,
                   color: '#6EE7B7',
                   display: 'flex',
@@ -488,7 +488,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
                   fontFamily: '"Outfit", sans-serif',
                   textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(110, 231, 183, 0.4)'
                 }}>
-                  <span style={{ fontSize: '18px' }}>🌳</span>
+                  <span style={{ fontSize: '21px' }}>🌳</span>
                   <span>
                     <BioWord index={2} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>Protected</BioWord>{' '}
                     <BioWord index={3} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>by</BioWord>{' '}
@@ -530,7 +530,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
               {/* Section 2: A Home for Wildlife */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <div style={{
-                  fontSize: '18px',
+                  fontSize: '21px',
                   fontWeight: 800,
                   color: '#7DD3FC',
                   display: 'flex',
@@ -539,7 +539,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
                   fontFamily: '"Outfit", sans-serif',
                   textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(125, 211, 252, 0.4)'
                 }}>
-                  <span style={{ fontSize: '18px' }}>🌿</span>
+                  <span style={{ fontSize: '21px' }}>🌿</span>
                   <span>
                     <BioWord index={22} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">A</BioWord>{' '}
                     <BioWord index={23} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">Home</BioWord>{' '}
@@ -575,7 +575,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
               {/* Section 3: Community Conservation */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <div style={{
-                  fontSize: '18px',
+                  fontSize: '21px',
                   fontWeight: 800,
                   color: '#FBBF24',
                   display: 'flex',
@@ -584,7 +584,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
                   fontFamily: '"Outfit", sans-serif',
                   textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(251, 191, 36, 0.45)'
                 }}>
-                  <span style={{ fontSize: '18px' }}>🤝</span>
+                  <span style={{ fontSize: '21px' }}>🤝</span>
                   <span>
                     <BioWord index={46} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">Community</BioWord>{' '}
                     <BioWord index={47} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">Conservation</BioWord>

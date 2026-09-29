@@ -3,40 +3,9 @@ import { ArrowLeft, ArrowRight, ShieldCheck, Heart, Volume2, VolumeX, Sparkles, 
 import { speakNaturalIndianMale, stopNarration } from '../../../../services/elevenLabsService';
 
 import scientist1Img from '../../../../assets/Scientist1.jpeg';
-import scientist2Img from '../../../../assets/Scientist2.jpeg';
-import silentValleyImg from '../../../../assets/silent_valley.jpeg';
 import protectWildlifeImg from '../../../../assets/protect_wildlife.jpeg';
-import sacredGrovesImg from '../../../../assets/sacred_grove.png';
 
 const CONSERVATION_TOPICS = [
-  {
-    id: 'janaki',
-    tag: 'Know a Scientist · Page 22',
-    title: 'Dr. E.K. Janaki Ammal (1897–1984)',
-    subtitle: 'Botanist & Guardian of Silent Valley',
-    image: scientist2Img,
-    narration: "Dr. Janaki Ammal was an eminent Indian botanist who documented India's rich plant biodiversity. She led the Botanical Survey of India and played a key role in the historic Save Silent Valley movement to protect Kerala's moist evergreen rainforest.",
-    highlights: [
-      'Pioneering Botanist: First Indian woman to obtain a doctorate in botany, documenting thousands of native and medicinal plant varieties.',
-      'Head of BSI: Reorganized the Botanical Survey of India to systematically map indigenous flora.',
-      'Save Silent Valley: Mobilized national scientific advocacy to prevent the destruction of untouched evergreen forests in Palakkad, Kerala.'
-    ],
-    badge: '🌿 Plant Biodiversity Icon'
-  },
-  {
-    id: 'silent_valley',
-    tag: 'Success Story · Page 23',
-    title: 'Save Silent Valley Movement',
-    subtitle: 'Citizen Triumph in Palakkad, Kerala',
-    image: silentValleyImg,
-    narration: "The Save Silent Valley movement was a remarkable 10-year public campaign. Citizens, poets, and scientists successfully stopped a hydroelectric dam across the Kunthipuzha river, permanently preserving pristine rainforest and the endangered Lion-tailed Macaque.",
-    highlights: [
-      'The Threat (1973): A hydroelectric dam project proposed across the Kunthipuzha river threatened to submerge 8.3 square km of ancient rainforest.',
-      'Citizen Mobilization: Common people, students, teachers, and environmentalists held rallies, published petitions, and took legal action without violence.',
-      'Historic Victory (1984): The dam was cancelled and Silent Valley was permanently protected as an untouched National Park.'
-    ],
-    badge: '✊ People\'s Movement'
-  },
   {
     id: 'salim_ali',
     tag: 'Know a Scientist · Page 27',
@@ -64,20 +33,6 @@ const CONSERVATION_TOPICS = [
       'Great Indian Bustard: Special breeding and protected grassland enclaves established across Rajasthan, Gujarat, and Maharashtra.'
     ],
     badge: '🐅 Apex Predators'
-  },
-  {
-    id: 'sacred_groves',
-    tag: 'Traditional Wisdom · Page 29',
-    title: 'Sacred Groves of India',
-    subtitle: 'Community-Protected Living Sanctuaries',
-    image: sacredGrovesImg,
-    narration: "Sacred groves are undisturbed forest patches protected by local village communities through sacred tradition. Found in the Western Ghats and Meghalaya, no trees may be cut and no animals harmed, preserving rare medicinal herbs for centuries.",
-    highlights: [
-      'Traditional Taboos: Strict cultural conventions forbid felling trees, grazing livestock, or harming any living creature within the grove boundary.',
-      'Medicinal Plant Refuges: Act as botanical gene banks preserving wild ancestors of crops and valuable healing plants unavailable elsewhere.',
-      'Living Treasure: Demonstrates that indigenous Indian communities have practiced decentralized environmental conservation for generations.'
-    ],
-    badge: '🌳 Sacred Heritage'
   }
 ];
 
@@ -135,7 +90,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
       }}>
         <div>
           <div style={{ fontSize: '16px', fontWeight: '900', letterSpacing: '0.06em', color: '#FDE68A', textTransform: 'uppercase', marginBottom: '3px' }}>
-            Pages 22–29 · Biodiversity Conservation, Scientists &amp; Sacred Groves
+            Pages 22–28 · Biodiversity Conservation &amp; Scientists
           </div>
           <h2 style={{ margin: 0, fontSize: '24px', fontWeight: '900', color: '#FBBF24', lineHeight: 1.2, fontFamily: '"Fraunces", Georgia, serif' }}>
             🛡️ Guardians of Nature: Science, Movements &amp; Tradition
@@ -164,10 +119,10 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
         </button>
       </div>
 
-      {/* 5-Segment Selection Ribbon */}
+      {/* Topic Selection Ribbon */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(5, 1fr)',
+        gridTemplateColumns: 'repeat(2, 1fr)',
         gap: '8px',
         padding: '10px 0',
         flexShrink: 0
@@ -290,7 +245,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
                 {currentTopic.tag}
               </span>
               <span style={{ fontSize: '16px', fontWeight: '800', color: '#F8FAFC', background: '#EDE7D8', padding: '2px 8px', borderRadius: '6px', border: '1px solid #14452F' }}>
-                Topic {activeTopicIndex + 1} of 5
+                Topic {activeTopicIndex + 1} of {CONSERVATION_TOPICS.length}
               </span>
             </div>
 

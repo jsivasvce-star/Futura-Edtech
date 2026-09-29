@@ -361,13 +361,13 @@ export default function HabitatsPage({ onPreviousPage, onNext, onBack }) {
                       ? '0 0 16px rgba(52, 211, 153, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
                       : '0 4px 12px rgba(0, 0, 0, 0.35), 0 0 10px rgba(52, 211, 153, 0.25)',
                     borderRadius: '20px',
-                    padding: '6px 14px',
+                    padding: '4px 14px',
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '6px',
                     color: '#FFFFFF',
                     fontWeight: 800,
-                    fontSize: '13px',
+                    fontSize: '18px',
                     fontFamily: '"Outfit", sans-serif',
                     cursor: 'pointer',
                     flexShrink: 0,
@@ -437,7 +437,7 @@ export default function HabitatsPage({ onPreviousPage, onNext, onBack }) {
               <h2 style={{
                 fontFamily: '"Outfit", sans-serif',
                 fontWeight: 900,
-                fontSize: '20px',
+                fontSize: '24px',
                 margin: 0,
                 color: '#34D399',
                 lineHeight: 1.25,
@@ -457,7 +457,7 @@ export default function HabitatsPage({ onPreviousPage, onNext, onBack }) {
               {/* Section 1: A Shared Home */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <div style={{
-                  fontSize: '18px',
+                  fontSize: '21px',
                   fontWeight: 800,
                   color: '#6EE7B7',
                   display: 'flex',
@@ -466,7 +466,7 @@ export default function HabitatsPage({ onPreviousPage, onNext, onBack }) {
                   fontFamily: '"Outfit", sans-serif',
                   textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(110, 231, 183, 0.4)'
                 }}>
-                  <span style={{ fontSize: '18px' }}>🏡</span>
+                  <span style={{ fontSize: '21px' }}>🏡</span>
                   <span>A Shared Home</span>
                 </div>
                 <div style={{
@@ -502,7 +502,7 @@ export default function HabitatsPage({ onPreviousPage, onNext, onBack }) {
               {/* Section 2: Look Around */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <div style={{
-                  fontSize: '18px',
+                  fontSize: '21px',
                   fontWeight: 800,
                   color: '#7DD3FC',
                   display: 'flex',
@@ -511,7 +511,7 @@ export default function HabitatsPage({ onPreviousPage, onNext, onBack }) {
                   fontFamily: '"Outfit", sans-serif',
                   textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(125, 211, 252, 0.4)'
                 }}>
-                  <span style={{ fontSize: '18px' }}>🦌</span>
+                  <span style={{ fontSize: '21px' }}>🦌</span>
                   <span>
                     <BioWord index={21} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>Look</BioWord>{' '}
                     <BioWord index={22} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio}>Around</BioWord>
@@ -553,7 +553,7 @@ export default function HabitatsPage({ onPreviousPage, onNext, onBack }) {
               {/* Section 3: The Biosphere */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <div style={{
-                  fontSize: '18px',
+                  fontSize: '21px',
                   fontWeight: 800,
                   color: '#FBBF24',
                   display: 'flex',
@@ -562,7 +562,7 @@ export default function HabitatsPage({ onPreviousPage, onNext, onBack }) {
                   fontFamily: '"Outfit", sans-serif',
                   textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(251, 191, 36, 0.45)'
                 }}>
-                  <span style={{ fontSize: '18px' }}>🌍</span>
+                  <span style={{ fontSize: '21px' }}>🌍</span>
                   <span>
                     <BioWord index={41} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">The</BioWord>{' '}
                     <BioWord index={[42, 43]} activeIndex={bioActiveWordIndex} isPlaying={isPlayingBioAudio} color="amber">Biosphere</BioWord>
