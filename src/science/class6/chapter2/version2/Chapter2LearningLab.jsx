@@ -179,8 +179,7 @@ const EducationalVideoPlayer = ({ videoRef, src, onEnded, onBack, onNext }) => {
   return (
     <div style={{
       position: 'absolute', inset: 0, zIndex: 9999,
-      display: 'flex', justifyContent: 'center', alignItems: 'center',
-      background: 'none'
+      background: '#000' // full screen video often looks better with black background if cover doesn't perfectly match
     }}>
       <video disablePictureInPicture
         ref={videoRef}
@@ -189,7 +188,7 @@ const EducationalVideoPlayer = ({ videoRef, src, onEnded, onBack, onNext }) => {
         controls
         playsInline
         onEnded={onEnded}
-        style={{ width: '100vw', height: '100vh', objectFit: 'contain', display: 'block', pointerEvents: 'auto' }}
+        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', pointerEvents: 'auto' }}
       />
 
       <div style={{
