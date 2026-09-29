@@ -31,39 +31,21 @@ function PatternRuleOverlay({ concept, isSolved, cardPositions }) {
   const isVirahanka = concept.key === 'virahanka';
 
   if (isVirahanka) {
-    // Virahanka: each number is formed by adding the previous two numbers
-    // 1 + 2 -> 3, 2 + 3 -> 5, 3 + 5 -> 8, 5 + 8 -> 13, 8 + 13 -> 21
-    // Final step into target (index 7): dual connecting arrows from 13 (index 5) and 21 (index 6) into ? (or 34)
-    const prevSteps = [
+    // Virahanka: each operation connects the second addend to the newly generated number
+    // 1 + 2 → 3: arrow from 2 toward 3
+    // 2 + 3 → 5: arrow from 3 toward 5
+    // 3 + 5 → 8: arrow from 5 toward 8
+    // 5 + 8 → 13: arrow from 8 toward 13
+    // 8 + 13 → 21: arrow from 13 toward 21
+    // 13 + 21 → 34: arrow from 21 toward 34 (same style & curvature as previous arrows, no overlap)
+    const steps = [
       { from: 1, to: 2, label: '1 + 2 → 3' },
       { from: 2, to: 3, label: '2 + 3 → 5' },
       { from: 3, to: 4, label: '3 + 5 → 8' },
       { from: 4, to: 5, label: '5 + 8 → 13' },
-      { from: 5, to: 6, label: '8 + 13 → 21' }
+      { from: 5, to: 6, label: '8 + 13 → 21' },
+      { from: 6, to: 7, label: isSolved ? '13 + 21 → 34' : '13 + 21 → ?' }
     ];
-
-    const c5 = getPos(5);
-    const c6 = getPos(6);
-    const c7 = getPos(7);
-    const cardH = c7.height || 260;
-    const yCenter = c7.y || (cardH / 2);
-    const yBase = yCenter - Math.min(52, cardH * 0.22);
-
-    // Arrow 1 from 13 (index 5) to target (index 7)
-    const startX_13 = c5.x + 28;
-    const endX_7_a = c7.x - 28;
-    const midX_13_7 = (startX_13 + endX_7_a) / 2;
-    const peakY_13 = yCenter - Math.min(94, cardH * 0.38);
-    const pathD_13 = `M ${startX_13} ${yBase} Q ${midX_13_7} ${peakY_13} ${endX_7_a} ${yBase - 6}`;
-
-    // Arrow 2 from 21 (index 6) to target (index 7)
-    const startX_21 = c6.x + 28;
-    const endX_7_b = c7.x - 18;
-    const midX_21_7 = (startX_21 + endX_7_b) / 2;
-    const peakY_21 = yCenter - Math.min(72, cardH * 0.29);
-    const pathD_21 = `M ${startX_21} ${yBase} Q ${midX_21_7} ${peakY_21} ${endX_7_b} ${yBase}`;
-
-    const targetLabel = isSolved ? '13 + 21 = 34' : '13 + 21 → ?';
 
     return (
       <div className="pl-rule-overlay-layer" aria-hidden="true">
@@ -82,8 +64,8 @@ function PatternRuleOverlay({ concept, isSolved, cardPositions }) {
             </marker>
           </defs>
 
-          {/* Previous progression arrows */}
-          {prevSteps.map((step, idx) => {
+          {/* Sequential operation arrows (one arrow per operation, no overlap) */}
+          {steps.map((step, idx) => {
             const pFrom = getPos(step.from);
             const pTo = getPos(step.to);
             const cardH = pTo.height || 260;
@@ -109,41 +91,22 @@ function PatternRuleOverlay({ concept, isSolved, cardPositions }) {
               />
             );
           })}
-
-          {/* Dual connecting arrows into target index 7 */}
-          <path
-            d={pathD_13}
-            fill="none"
-            stroke={arrowColor}
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            markerEnd={`url(#ruleArrowhead-${concept.id})`}
-            className="pl-rule-arrow-path"
-          />
-          <path
-            d={pathD_21}
-            fill="none"
-            stroke={arrowColor}
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            markerEnd={`url(#ruleArrowhead-${concept.id})`}
-            className="pl-rule-arrow-path"
-          />
         </svg>
 
-        {/* Labels for previous steps */}
-        {prevSteps.map((step, idx) => {
+        {/* Labels for each operation positioned directly above each arrow */}
+        {steps.map((step, idx) => {
           const pFrom = getPos(step.from);
           const pTo = getPos(step.to);
           const cardH = pTo.height || 260;
           const midX = (pFrom.x + pTo.x) / 2;
           const yMid = pTo.y || (cardH / 2);
           const labelY = yMid - Math.min(88, cardH * 0.37);
+          const isLast = idx === steps.length - 1;
 
           return (
             <div
               key={idx}
-              className="pl-rule-indicator-label"
+              className={`pl-rule-indicator-label ${isLast && isSolved ? 'is-solved' : ''}`}
               style={{
                 left: `${midX}px`,
                 top: `${labelY}px`,
@@ -156,20 +119,6 @@ function PatternRuleOverlay({ concept, isSolved, cardPositions }) {
             </div>
           );
         })}
-
-        {/* Target rule label directly above target number */}
-        <div
-          className={`pl-rule-indicator-label pl-rule-target-label ${isSolved ? 'is-solved' : ''}`}
-          style={{
-            left: `${c7.x}px`,
-            top: `${yCenter - Math.min(108, cardH * 0.44)}px`,
-            borderColor: badgeBorder,
-            color: badgeText,
-            background: badgeBg
-          }}
-        >
-          {targetLabel}
-        </div>
       </div>
     );
   }
@@ -193,16 +142,16 @@ function PatternRuleOverlay({ concept, isSolved, cardPositions }) {
       labels = ['+2', '+3', '+4', '+5', '+6', '+7', '+8'];
       break;
     case 'square':
-      labels = ['2²', '3²', '4²', '5²', '6²', '7²', '8²'];
+      labels = ['2²', '3²', '4²', '5²', '6²', '7²'];
       break;
     case 'cube':
-      labels = ['2³', '3³', '4³', '5³', '6³', '7³', '8³'];
+      labels = ['2³', '3³', '4³', '5³', '6³', '7³'];
       break;
     case 'powers_of_2':
-      labels = ['×2', '×2', '×2', '×2', '×2', '×2', '×2'];
+      labels = ['×2', '×2', '×2', '×2', '×2', '×2'];
       break;
     case 'powers_of_3':
-      labels = ['×3', '×3', '×3', '×3', '×3', '×3', '×3'];
+      labels = ['×3', '×3', '×3', '×3', '×3', '×3'];
       break;
     default:
       labels = ['+1', '+1', '+1', '+1', '+1', '+1', '+1'];
@@ -373,12 +322,12 @@ const CONCEPTS = [
     key: 'square',
     title: 'Square numbers',
     subtitle: 'Multiply a counting number by itself.',
-    totalTerms: 8,
-    missingIndex: 7,
-    terms: [1, 4, 9, 16, 25, 36, 49, 64],
-    options: [56, 60, 64, 72],
-    correctOption: 64,
-    hint: 'Think of 1 × 1, 2 × 2, 3 × 3... What number comes from 8 × 8?',
+    totalTerms: 7,
+    missingIndex: 3,
+    terms: [1, 4, 9, 16, 25, 36, 49],
+    options: [12, 15, 16, 18],
+    correctOption: 16,
+    hint: 'Think of 1 × 1, 2 × 2, 3 × 3... What number comes from 4 × 4?',
     nextLabel: 'Cube numbers',
     accentColor: '#06b6d4'
   },
@@ -387,12 +336,12 @@ const CONCEPTS = [
     key: 'cube',
     title: 'Cube numbers',
     subtitle: 'Use the same factor three times.',
-    totalTerms: 8,
-    missingIndex: 7,
-    terms: [1, 8, 27, 64, 125, 216, 343, 512],
-    options: [343, 421, 512, 625],
-    correctOption: 512,
-    hint: 'Think of 1³, 2³, 3³, 4³... What is 8 × 8 × 8?',
+    totalTerms: 7,
+    missingIndex: 3,
+    terms: [1, 8, 27, 64, 125, 216, 343],
+    options: [36, 54, 64, 81],
+    correctOption: 64,
+    hint: 'Think of 1³, 2³, 3³... What is 4 × 4 × 4?',
     nextLabel: 'Virahānka numbers',
     accentColor: '#6366f1'
   },
@@ -417,12 +366,12 @@ const CONCEPTS = [
     title: 'Powers of 2',
     subtitle: 'Double the whole amount.',
     sideBadge: '× 2',
-    totalTerms: 8,
-    missingIndex: 7,
-    terms: [1, 2, 4, 8, 16, 32, 64, 128],
-    options: [96, 112, 128, 132],
-    correctOption: 128,
-    hint: 'Each number is multiplied by 2 to get the next number.',
+    totalTerms: 7,
+    missingIndex: 3,
+    terms: [1, 2, 4, 8, 16, 32, 64],
+    options: [6, 8, 10, 12],
+    correctOption: 8,
+    hint: 'Each number is multiplied by 2 to get the next number. What is 4 × 2?',
     nextLabel: 'Powers of 3',
     accentColor: '#0ea5e9'
   },
@@ -432,12 +381,12 @@ const CONCEPTS = [
     title: 'Powers of 3',
     subtitle: 'Three copies make the next term.',
     sideBadge: '× 3',
-    totalTerms: 8,
-    missingIndex: 7,
-    terms: [1, 3, 9, 27, 81, 243, 729, 2187],
-    options: [1458, 1620, 2187, 2430],
-    correctOption: 2187,
-    hint: 'Each number is multiplied by 3 to get the next number.',
+    totalTerms: 7,
+    missingIndex: 4,
+    terms: [1, 3, 9, 27, 81, 243, 729],
+    options: [54, 72, 81, 90],
+    correctOption: 81,
+    hint: 'Each number is multiplied by 3 to get the next number. What is 27 × 3?',
     nextLabel: 'Activity Complete',
     accentColor: '#10b981'
   }
@@ -477,7 +426,7 @@ export default function PatternLabVideoExperience({ onClose, onCompleteNode }) {
     if (!cardsRowRef.current) return;
     const rowEl = cardsRowRef.current;
     const rowRect = rowEl.getBoundingClientRect();
-    const positions = cardRefs.current.map((cardEl, i) => {
+    const positions = cardRefs.current.slice(0, concept.terms.length).map((cardEl, i) => {
       if (!cardEl) {
         return { x: 102 + i * 216, y: 145, width: 204, height: 290 };
       }
@@ -734,7 +683,7 @@ export default function PatternLabVideoExperience({ onClose, onCompleteNode }) {
                   cardPositions={cardPositions}
                 />
               )}
-              {Array.from({ length: 8 }).map((_, i) => {
+              {concept.terms.map((_, i) => {
                 const isTarget = i === concept.missingIndex;
                 const isRevealed = isTarget ? isConceptSolved : true;
                 const termVal = isTarget
