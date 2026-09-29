@@ -6,7 +6,6 @@ import scientist1Img from '../../../assets/Scientist1.jpeg';
 import scientist2Img from '../../../assets/Scientist2.jpeg';
 import silentValleyImg from '../../../assets/silent_valley.jpeg';
 import protectWildlifeImg from '../../../assets/protect_wildlife.jpeg';
-import sacredGrovesImg from '../../../assets/sacred_grove.png';
 
 const CONSERVATION_TOPICS = [
   {
@@ -64,20 +63,6 @@ const CONSERVATION_TOPICS = [
       'Great Indian Bustard: Special breeding and protected grassland enclaves established across Rajasthan, Gujarat, and Maharashtra.'
     ],
     badge: '🐅 Apex Predators'
-  },
-  {
-    id: 'sacred_groves',
-    tag: 'Traditional Wisdom · Page 29',
-    title: 'Sacred Groves of India',
-    subtitle: 'Community-Protected Living Sanctuaries',
-    image: sacredGrovesImg,
-    narration: "Sacred groves are undisturbed forest patches protected by local village communities through sacred tradition. Found in the Western Ghats and Meghalaya, no trees may be cut and no animals harmed, preserving rare medicinal herbs for centuries.",
-    highlights: [
-      'Traditional Taboos: Strict cultural conventions forbid felling trees, grazing livestock, or harming any living creature within the grove boundary.',
-      'Medicinal Plant Refuges: Act as botanical gene banks preserving wild ancestors of crops and valuable healing plants unavailable elsewhere.',
-      'Living Treasure: Demonstrates that indigenous Indian communities have practiced decentralized environmental conservation for generations.'
-    ],
-    badge: '🌳 Sacred Heritage'
   }
 ];
 
@@ -133,7 +118,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
       }}>
         <div>
           <div style={{ fontSize: '16px', fontWeight: '900', letterSpacing: '0.06em', color: '#14452F', textTransform: 'uppercase', marginBottom: '3px' }}>
-            Pages 22–29 · Biodiversity Conservation, Scientists &amp; Sacred Groves
+            Pages 22–28 · Biodiversity Conservation &amp; Scientists
           </div>
           <h2 style={{ margin: 0, fontSize: '24px', fontWeight: '900', color: '#14452F', lineHeight: 1.2, fontFamily: '"Fraunces", Georgia, serif' }}>
             🛡️ Guardians of Nature: Science, Movements &amp; Tradition
@@ -162,10 +147,10 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
         </button>
       </div>
 
-      {/* 5-Segment Selection Ribbon */}
+      {/* 4-Segment Selection Ribbon */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(5, 1fr)',
+        gridTemplateColumns: 'repeat(4, 1fr)',
         gap: '8px',
         padding: '10px 0',
         flexShrink: 0
@@ -288,7 +273,7 @@ export default function ConservationLab({ onBackToDashboard, onNextSubModule }) 
                 {currentTopic.tag}
               </span>
               <span style={{ fontSize: '16px', fontWeight: '800', color: '#14452F', background: '#EDE7D8', padding: '2px 8px', borderRadius: '6px', border: '1px solid #14452F' }}>
-                Topic {activeTopicIndex + 1} of 5
+                Topic {activeTopicIndex + 1} of {CONSERVATION_TOPICS.length}
               </span>
             </div>
 
