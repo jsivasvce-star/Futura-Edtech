@@ -119,10 +119,10 @@ function getActiveTabNarration(step, section1SubTab, venationSubTab, habitatSubT
       return "Activity 2.9, Animal Locomotion and Movement. Observe how diverse animals move in different environments.";
     } else if (habitatSubTab === 'activity2_10') {
       return "Activity 2.10, Organisms in Different Surroundings. Match diverse plants and animals into desert, mountain, ocean, forest, and other regions.";
-    } else if (habitatSubTab === 'habitats_page') {
-      return "Habitats and the Biosphere. A habitat is the natural home providing food, water, air, and shelter for living organisms. All living regions on Earth form the biosphere.";
     } else if (habitatSubTab === 'adaptations_page') {
       return "Desert Adaptations and The Ship of the Desert. Learn how camels and desert plants have specialized features like wide padded feet, humps for storing fat, and reduced leaves to survive extreme desert conditions.";
+    } else if (habitatSubTab === 'habitats_page') {
+      return "Habitats and the Biosphere. A habitat is the natural home providing food, water, air, and shelter for living organisms. All living regions on Earth form the biosphere.";
     } else if (habitatSubTab === 'plant_groups_page') {
       return "Botanical Classification and Plant Groups. Plants are categorized into tender green herbs, woody branching shrubs, and tall canopy trees, with distinct root and leaf venation architectures.";
     } else if (habitatSubTab === 'conservation_page') {
@@ -429,14 +429,14 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         return;
       }
       if (habitatSubTab === 'activity2_10') {
-        setHabitatSubTab('habitats_page');
-        return;
-      }
-      if (habitatSubTab === 'habitats_page') {
         setHabitatSubTab('adaptations_page');
         return;
       }
       if (habitatSubTab === 'adaptations_page') {
+        setHabitatSubTab('habitats_page');
+        return;
+      }
+      if (habitatSubTab === 'habitats_page') {
         setHabitatSubTab('plant_groups_page');
         return;
       }
@@ -578,14 +578,14 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         return;
       }
       if (habitatSubTab === 'plant_groups_page') {
-        setHabitatSubTab('adaptations_page');
-        return;
-      }
-      if (habitatSubTab === 'adaptations_page') {
         setHabitatSubTab('habitats_page');
         return;
       }
       if (habitatSubTab === 'habitats_page') {
+        setHabitatSubTab('adaptations_page');
+        return;
+      }
+      if (habitatSubTab === 'adaptations_page') {
         setHabitatSubTab('activity2_10');
         return;
       }
@@ -627,8 +627,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
     if (currentStep === 9) {
       if (habitatSubTab === 'new_activity_29') return 'Activity 2.9 · Locomotion';
       if (habitatSubTab === 'activity2_10') return 'Activity 2.10 · Regional Diversity';
-      if (habitatSubTab === 'habitats_page') return 'Curriculum Lesson · Habitats';
       if (habitatSubTab === 'adaptations_page') return 'Curriculum Lesson · Adaptations';
+      if (habitatSubTab === 'habitats_page') return 'Curriculum Lesson · Habitats';
       if (habitatSubTab === 'plant_groups_page') return 'Curriculum Lesson · Plant Groups';
       if (habitatSubTab === 'conservation_page') return 'Curriculum Lesson · Sacred Groves';
       if (habitatSubTab === 'adaptations') return 'Activity 2.10 · Adaptations';
@@ -659,9 +659,9 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
     if (currentStep === 8) return 'Next: Act 2.9 Habitats';
     if (currentStep === 9) {
       if (habitatSubTab === 'new_activity_29') return 'Next: Act 2.10 Regions';
-      if (habitatSubTab === 'activity2_10') return 'Next: Habitats Lesson';
-      if (habitatSubTab === 'habitats_page') return 'Next: Adaptations Lesson';
-      if (habitatSubTab === 'adaptations_page') return 'Next: Plant Groups Lesson';
+      if (habitatSubTab === 'activity2_10') return 'Next: Adaptations Lesson';
+      if (habitatSubTab === 'adaptations_page') return 'Next: Habitats Lesson';
+      if (habitatSubTab === 'habitats_page') return 'Next: Plant Groups Lesson';
       if (habitatSubTab === 'plant_groups_page') return 'Next: Sacred Groves Lesson';
       if (habitatSubTab === 'conservation_page') return 'Next: Adaptations Lab';
       if (habitatSubTab === 'adaptations') return 'Next: Conservation Lab';
@@ -2194,24 +2194,24 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
             {habitatSubTab === 'activity2_10' && (
               <Activity2_10Lab 
                 onBack={() => setHabitatSubTab('new_activity_29')} 
-                onComplete={() => setHabitatSubTab('habitats_page')} 
-              />
-            )}
-            {habitatSubTab === 'habitats_page' && (
-              <HabitatsPage 
-                onPreviousPage={() => setHabitatSubTab('activity2_10')} 
-                onNext={() => setHabitatSubTab('adaptations_page')} 
+                onComplete={() => setHabitatSubTab('adaptations_page')} 
               />
             )}
             {habitatSubTab === 'adaptations_page' && (
               <AdaptationsPage 
-                onPreviousPage={() => setHabitatSubTab('habitats_page')} 
+                onPreviousPage={() => setHabitatSubTab('activity2_10')} 
+                onNext={() => setHabitatSubTab('habitats_page')} 
+              />
+            )}
+            {habitatSubTab === 'habitats_page' && (
+              <HabitatsPage 
+                onPreviousPage={() => setHabitatSubTab('adaptations_page')} 
                 onNext={() => setHabitatSubTab('plant_groups_page')} 
               />
             )}
             {habitatSubTab === 'plant_groups_page' && (
               <PlantGroupsPage 
-                onPreviousPage={() => setHabitatSubTab('adaptations_page')} 
+                onPreviousPage={() => setHabitatSubTab('habitats_page')} 
                 onNext={() => setHabitatSubTab('conservation_page')} 
               />
             )}
