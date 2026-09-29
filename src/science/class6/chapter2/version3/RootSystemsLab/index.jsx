@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import EducationalVideoPlayer from '../../../../../components/EducationalVideoPlayer';
 import { ArrowLeft, ArrowRight, RefreshCw, Award, Volume2, VolumeX } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useTheme } from '../../../../../ThemeContext';
@@ -36,6 +37,7 @@ import specimen03OnionBlended from './specimen_03_onion_blended.png';
 import specimen04GrassBlended from './specimen_04_grass_blended.png';
 import specimen05MaizeBlended from './specimen_05_maize_blended.png';
 import specimen06OverviewBlended from './specimen_06_overview_blended.png';
+import activity26VideoMp4 from '../../../../../assets/activity26-specimens.mp4';
 
 // =========================================================================
 // FULLSCREEN SPECIMEN SLIDES (ACTIVITY 2.6) — EXACT 16:9 HD SPECIMENS
@@ -551,6 +553,9 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
 
   const [phase, setPhase] = useState('specimens'); // 'specimens' | 'lab'
   const [specimenIndex, setSpecimenIndex] = useState(initialSpecimenIndex);
+  const [showActivity26Video, setShowActivity26Video] = useState(false);
+  const [videoDirection, setVideoDirection] = useState('forward');
+  const activity26VideoRef = useRef(null);
   useEffect(() => { if (onStateChange) onStateChange(specimenIndex); }, [specimenIndex, onStateChange]);
 
   // Title pill: shown for 7s on each slide, then auto-hides; moving the
@@ -703,13 +708,20 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
     if (phase !== 'specimens') return;
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowLeft') {
-        if (specimenIndex > 0) {
+        if (specimenIndex > 1) {
           setSpecimenIndex(prev => prev - 1);
-        } else if (onPreviousPage) {
-          onPreviousPage();
+        } else if (specimenIndex === 1) {
+          setVideoDirection('backward');
+          setShowActivity26Video(true);
+        } else if (specimenIndex === 0) {
+          const handler = onPreviousPage || onBackToDashboard;
+          if (handler) handler();
         }
       } else if (e.key === 'ArrowRight' || e.key === ' ') {
-        if (specimenIndex < ROOT_SPECIMEN_SLIDES.length - 1) {
+        if (specimenIndex === 0) {
+          setVideoDirection('forward');
+          setShowActivity26Video(true);
+        } else if (specimenIndex < ROOT_SPECIMEN_SLIDES.length - 1) {
           setSpecimenIndex(prev => prev + 1);
         } else if (onNext) {
           onNext();
@@ -721,6 +733,66 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [phase, specimenIndex, onPreviousPage, onNext]);
+
+  if (showActivity26Video) {
+    return (
+      <EducationalVideoPlayer
+        videoRef={activity26VideoRef}
+        src={activity26VideoMp4}
+        onEnded={() => {
+          setShowActivity26Video(false);
+          if (videoDirection === 'backward') {
+            setSpecimenIndex(0);
+          } else {
+            setSpecimenIndex(1);
+          }
+        }}
+      >
+        <button
+          onClick={() => { 
+            if (activity26VideoRef.current) activity26VideoRef.current.pause();
+            setShowActivity26Video(false); 
+            setSpecimenIndex(0); 
+          }}
+          style={{
+            position: 'absolute', bottom: '80px', left: '26px', display: 'flex', alignItems: 'center', gap: '8px',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+            backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+            border: '2px solid rgba(253, 230, 138, 0.85)', borderRadius: '26px', padding: '10px 22px',
+            fontSize: '18px', fontWeight: 900, color: '#FFFBEB', cursor: 'pointer',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+            zIndex: 10001, transition: 'all 0.18s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          <ArrowLeft size={20} /> Back
+        </button>
+        <button
+          onClick={() => { 
+            if (activity26VideoRef.current) activity26VideoRef.current.pause();
+            setShowActivity26Video(false); 
+            setSpecimenIndex(1); 
+          }}
+          style={{
+            position: 'absolute', bottom: '80px', right: '26px', display: 'flex', alignItems: 'center', gap: '10px',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+            backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+            border: '2px solid rgba(253, 230, 138, 0.85)', borderRadius: '28px', padding: '11px 26px',
+            fontSize: '18px', fontWeight: 900, color: '#FFFBEB', cursor: 'pointer',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+            zIndex: 10001, transition: 'all 0.18s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          Next <ArrowRight size={20} />
+        </button>
+      </EducationalVideoPlayer>
+    );
+  }
 
   if (phase === 'specimens') {
     const activeSlide = ROOT_SPECIMEN_SLIDES[specimenIndex];
@@ -813,12 +885,14 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
         {/* Floating Bottom Left Control: Back */}
         <button
           onClick={() => {
-            if (specimenIndex > 0) {
+            if (specimenIndex > 1) {
               setSpecimenIndex(prev => prev - 1);
-            } else if (onPreviousPage) {
-              onPreviousPage();
-            } else if (onBackToDashboard) {
-              onBackToDashboard();
+            } else if (specimenIndex === 1) {
+              setVideoDirection('backward');
+              setShowActivity26Video(true);
+            } else if (specimenIndex === 0) {
+              const handler = onPreviousPage || onBackToDashboard;
+              if (handler) handler();
             }
           }}
           style={{
@@ -891,7 +965,10 @@ export default function RootSystemsLab({ onBackToDashboard, onPreviousPage, onNe
         {/* Floating Bottom Right: Next Slide or Next Activity */}
         <button
           onClick={() => {
-            if (specimenIndex < ROOT_SPECIMEN_SLIDES.length - 1) {
+            if (specimenIndex === 0) {
+              setVideoDirection('forward');
+              setShowActivity26Video(true);
+            } else if (specimenIndex < ROOT_SPECIMEN_SLIDES.length - 1) {
               setSpecimenIndex(prev => prev + 1);
             } else if (onNext) {
               onNext();

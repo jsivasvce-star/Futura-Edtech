@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { RotateCcw, Check, Lightbulb, Leaf, Trophy } from 'lucide-react';
+import EducationalVideoPlayer from '../../../../../components/EducationalVideoPlayer';
+import { RotateCcw, Check, Lightbulb, Leaf, Trophy, ArrowLeft, ArrowRight } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 import bgImg from './activity27_bg.jpg';
@@ -24,6 +25,7 @@ import specimen02MarigoldBlended from './specimen_02_marigold_blended.png';
 import specimen03SadabaharBlended from './specimen_03_sadabahar_blended.png';
 import specimen04ChickpeaBlended from './specimen_04_chickpea_blended.png';
 import specimen05WheatBlended from './specimen_05_wheat_blended.png';
+import activity27LemongrassVideoMp4 from "../../../../../assets/activity27-lemongrass.mp4";
 
 // =========================================================================
 // FULLSCREEN SPECIMEN SLIDES (ACTIVITY 2.7) — EXACT 16:9 HD SPECIMENS
@@ -245,10 +247,16 @@ const TONE = {
   }
 };
 
-export default function VenationRootCorrelationLab({ onBackToDashboard, onPreviousPage, onNext, initialPhase = 'specimens', onStateChange }) {
+export default function VenationRootCorrelationLab({ onBackToDashboard, onPreviousPage, onNext, initialPhase = 'specimens', initialSpecimenIndex = 0, onStateChange }) {
   const [phase, setPhase] = useState(initialPhase); // 'specimens' | 'lab'
-  useEffect(() => { if (onStateChange) onStateChange(phase); }, [phase, onStateChange]);
-  const [specimenIndex, setSpecimenIndex] = useState(0);
+  const [specimenIndex, setSpecimenIndex] = useState(initialSpecimenIndex);
+  useEffect(() => { if (onStateChange) onStateChange(phase, specimenIndex); }, [phase, specimenIndex, onStateChange]);
+
+  const [showLemongrassVideo, setShowLemongrassVideo] = useState(
+    initialPhase === 'specimens' && initialSpecimenIndex === 0
+  );
+  const [videoDirection, setVideoDirection] = useState('forward');
+  const lemongrassVideoRef = useRef(null);
 
   // Title pill: shown for 7s on each slide, then auto-hides; moving the
   // cursor up near the top of the screen brings it back.
@@ -293,6 +301,10 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
       if (e.key === 'ArrowLeft') {
         if (specimenIndex > 0) {
           setSpecimenIndex(prev => prev - 1);
+          correlationAudio.playSwitch();
+        } else if (specimenIndex === 0 && !showLemongrassVideo) {
+          setVideoDirection('backward');
+          setShowLemongrassVideo(true);
           correlationAudio.playSwitch();
         } else if (onPreviousPage) {
           onPreviousPage();
@@ -837,6 +849,76 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
     );
   };
 
+  if (showLemongrassVideo) {
+    return (
+      <EducationalVideoPlayer
+        videoRef={lemongrassVideoRef}
+        src={activity27LemongrassVideoMp4}
+        onEnded={() => {
+          setShowLemongrassVideo(false);
+          if (videoDirection === 'backward') {
+            if (onPreviousPage) {
+              onPreviousPage();
+            } else if (onBackToDashboard) {
+              onBackToDashboard();
+            }
+          } else {
+            setPhase('specimens');
+            setSpecimenIndex(0);
+          }
+        }}
+      >
+        <button
+          onClick={() => { 
+            if (lemongrassVideoRef.current) lemongrassVideoRef.current.pause();
+            setShowLemongrassVideo(false); 
+            if (onPreviousPage) {
+              onPreviousPage();
+            } else if (onBackToDashboard) {
+              onBackToDashboard();
+            }
+          }}
+          style={{
+            position: 'absolute', bottom: '80px', left: '26px', display: 'flex', alignItems: 'center', gap: '8px',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+            backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+            border: '2px solid rgba(253, 230, 138, 0.85)', borderRadius: '26px', padding: '10px 22px',
+            fontSize: '18px', fontWeight: 900, color: '#FFFBEB', cursor: 'pointer',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+            zIndex: 10001, transition: 'all 0.18s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          <ArrowLeft size={20} /> Back
+        </button>
+        <button
+          onClick={() => { 
+            if (lemongrassVideoRef.current) lemongrassVideoRef.current.pause();
+            setShowLemongrassVideo(false); 
+            setPhase('specimens');
+            setSpecimenIndex(0);
+          }}
+          style={{
+            position: 'absolute', bottom: '80px', right: '26px', display: 'flex', alignItems: 'center', gap: '10px',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+            backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+            border: '2px solid rgba(253, 230, 138, 0.85)', borderRadius: '28px', padding: '11px 26px',
+            fontSize: '18px', fontWeight: 900, color: '#FFFBEB', cursor: 'pointer',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+            zIndex: 10001, transition: 'all 0.18s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          Next <ArrowRight size={20} />
+        </button>
+      </EducationalVideoPlayer>
+    );
+  }
+
   if (phase === 'specimens') {
     const activeSlide = CORRELATION_SPECIMEN_SLIDES[specimenIndex];
     return (
@@ -931,6 +1013,9 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
             correlationAudio.playSwitch();
             if (specimenIndex > 0) {
               setSpecimenIndex(prev => prev - 1);
+            } else if (specimenIndex === 0 && !showLemongrassVideo) {
+              setVideoDirection('backward');
+              setShowLemongrassVideo(true);
             } else if (onPreviousPage) {
               onPreviousPage();
             } else if (onBackToDashboard) {

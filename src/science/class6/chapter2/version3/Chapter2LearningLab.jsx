@@ -8,6 +8,12 @@ import confetti from 'canvas-confetti';
 
 import sanskritSlogan from '../../../../assets/sanskrit_slogan.png';
 import Chapter2CoverPage from './Chapter2CoverPage';
+import heightSpecimensVideo from '../../../../assets/Height.mp4';
+import stemSpecimensVideo from '../../../../assets/nature-of-stem-specimens.mp4';
+import branchesSpecimensVideo from '../../../../assets/appearance-of-branches-specimens.mp4';
+import plantGroupSpecimensVideo from '../../../../assets/name-of-plant-group-specimens.mp4';
+import EducationalVideoPlayer from '../../../../components/EducationalVideoPlayer';
+
 import Chapter2SloganPage from './Chapter2SloganPage';
 import IntroStoryteller from './IntroStoryteller';
 import activity21TransitionVideo from '../../../../assets/activity21_transition.mp4';
@@ -249,6 +255,15 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
   const [transitionTargetSubTab, setTransitionTargetSubTab] = useState(null);
   const [transitionSourceStep, setTransitionSourceStep] = useState(null);
   const [transitionSourceSubTab, setTransitionSourceSubTab] = useState(null);
+  const [isPlayingHeightVideo, setIsPlayingHeightVideo] = useState(false);
+  const heightVideoRef = useRef(null);
+  const [isPlayingStemVideo, setIsPlayingStemVideo] = useState(false);
+  const stemVideoRef = useRef(null);
+  const [isPlayingBranchesVideo, setIsPlayingBranchesVideo] = useState(false);
+  const branchesVideoRef = useRef(null);
+  const [isPlayingPlantGroupVideo, setIsPlayingPlantGroupVideo] = useState(false);
+  const plantGroupVideoRef = useRef(null);
+
 
   const [isSpeaking, setIsSpeaking] = useState(false);
   
@@ -1094,144 +1109,269 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
               autoPlay 
               playsInline 
               onEnded={() => {
-                if (transitionDirection === 'backward') {
-                  setIsPlayingAct24Transition(false);
-                  setCurrentStep(transitionTargetStep);
-                  if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
-                } else {
-                  setIsAct24TransitionEnded(true);
-                }
+                setIsPlayingAct24Transition(false);
+                setIsPlayingHeightVideo(true);
               }}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
-
-            {/* UI overlay appears after video ends */}
-            {isAct24TransitionEnded && (
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                padding: '32px',
-                background: 'rgba(0, 0, 0, 0.45)', // dim overlay
-                backdropFilter: 'blur(12px)',      // soften/blur the video
-                animation: 'fadeIn 1s ease-out forwards',
-                zIndex: 10000
-              }}>
-                {/* Top empty space to push center card to center */}
-                <div />
-                
-                {/* Center Card */}
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-                  <div style={{
-                    background: '#F3EFE0',
-                    border: '2px solid #84A98C',
-                    borderRadius: '24px',
-                    padding: '48px 64px',
-                    maxWidth: '700px',
-                    textAlign: 'center',
-                    position: 'relative',
-                    boxShadow: '0 16px 40px rgba(0,0,0,0.25)',
-                    overflow: 'hidden'
-                  }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginBottom: '32px' }}>
-                      <div style={{ height: '1px', width: '40px', background: '#84A98C' }} />
-                      <Leaf color="#4B7F52" size={28} />
-                      <div style={{ height: '1px', width: '40px', background: '#84A98C' }} />
-                    </div>
-                    
-                    <h2 style={{
-                      color: '#2D4A22',
-                      fontSize: '28px',
-                      fontWeight: '800',
-                      lineHeight: '1.4',
-                      marginBottom: '24px',
-                      fontFamily: 'Outfit, sans-serif'
-                    }}>
-                      Our plant collection is ready!
-                    </h2>
-                    
-                    <div style={{ height: '1px', width: '40px', background: '#84A98C', margin: '0 auto 24px auto' }} />
-
-                    <p style={{
-                      color: '#4A5D23',
-                      fontSize: '20px',
-                      fontWeight: '500',
-                      lineHeight: '1.5'
-                    }}>
-                      Let’s observe each specimen closely and<br />
-                      discover what makes them different.
-                    </p>
-                    
-                    <div style={{ position: 'absolute', left: '-20px', top: '50%', transform: 'translateY(-50%)', opacity: 0.15 }}>
-                      <Leaf size={100} color="#4B7F52" />
-                    </div>
-                    <div style={{ position: 'absolute', right: '-20px', top: '50%', transform: 'translateY(-50%) scaleX(-1)', opacity: 0.15 }}>
-                      <Leaf size={100} color="#4B7F52" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Bottom Navigation */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <button 
-                    onClick={() => {
-                      setIsPlayingAct24Transition(false);
-                      setIsAct24TransitionEnded(false);
-                      if (transitionDirection === 'backward') {
-                        setCurrentStep(5);
-                      } else {
-                        setCurrentStep(4);
-                      }
-                    }}
-                    style={{
-                      background: '#F3EFE0',
-                      color: '#1E293B',
-                      border: 'none',
-                      borderRadius: '12px',
-                      padding: '12px 28px',
-                      fontSize: '18px',
-                      fontWeight: '700',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      cursor: 'pointer',
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-                    }}
-                  >
-                    <ArrowLeft size={20} /> Back
-                  </button>
-                  
-                  <button 
-                    onClick={() => {
-                      setIsPlayingAct24Transition(false);
-                      setIsAct24TransitionEnded(false);
-                      setCurrentStep(transitionTargetStep);
-if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
-                    }}
-                    style={{
-                      background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                      color: '#FFFFFF',
-                      border: 'none',
-                      borderRadius: '12px',
-                      padding: '12px 32px',
-                      fontSize: '18px',
-                      fontWeight: '800',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      cursor: 'pointer',
-                      boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
-                    }}
-                  >
-                    Next <ArrowRight size={20} />
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
         )}
+
+        {isPlayingHeightVideo && (
+          <EducationalVideoPlayer
+            videoRef={heightVideoRef}
+            src={heightSpecimensVideo}
+            onEnded={() => {
+              setIsPlayingHeightVideo(false);
+              setIsPlayingStemVideo(true);
+            }}
+          >
+            <button
+              onClick={() => {
+                if (heightVideoRef.current) heightVideoRef.current.pause();
+                setIsPlayingHeightVideo(false);
+                setIsPlayingAct24Transition(true);
+                setIsAct24TransitionEnded(false);
+              }}
+              style={{
+                position: 'absolute',
+                left: '32px',
+                bottom: '80px',
+                zIndex: 10001,
+                background: 'rgba(243, 239, 224, 0.9)',
+                color: '#1E293B',
+                border: 'none',
+                borderRadius: '12px',
+                padding: '12px 28px',
+                fontSize: '18px',
+                fontWeight: '700',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+              }}
+            >
+              <ArrowLeft size={20} /> Back
+            </button>
+            <button
+              onClick={() => {
+                if (heightVideoRef.current) heightVideoRef.current.pause();
+                setIsPlayingHeightVideo(false);
+                setIsPlayingStemVideo(true);
+              }}
+              style={{
+                position: 'absolute',
+                right: '32px',
+                bottom: '80px',
+                zIndex: 10001,
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: '12px',
+                padding: '12px 32px',
+                fontSize: '18px',
+                fontWeight: '800',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                cursor: 'pointer',
+                boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+              }}
+            >
+              Next <ArrowRight size={20} />
+            </button>
+          </EducationalVideoPlayer>
+        )}
+
+        {isPlayingStemVideo && (
+          <EducationalVideoPlayer
+            videoRef={stemVideoRef}
+            src={stemSpecimensVideo}
+            onEnded={() => {
+              setIsPlayingStemVideo(false);
+              setIsPlayingBranchesVideo(true);
+            }}
+          >
+            <button
+              onClick={() => {
+                if (stemVideoRef.current) stemVideoRef.current.pause();
+                setIsPlayingStemVideo(false);
+                setIsPlayingHeightVideo(true);
+              }}
+              style={{
+                position: 'absolute',
+                left: '32px',
+                bottom: '80px',
+                zIndex: 10001,
+                background: 'rgba(243, 239, 224, 0.9)',
+                color: '#1E293B',
+                border: 'none',
+                borderRadius: '12px',
+                padding: '12px 28px',
+                fontSize: '18px',
+                fontWeight: '700',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+              }}
+            >
+              <ArrowLeft size={20} /> Back
+            </button>
+            <button
+              onClick={() => {
+                if (stemVideoRef.current) stemVideoRef.current.pause();
+                setIsPlayingStemVideo(false);
+                setIsPlayingBranchesVideo(true);
+              }}
+              style={{
+                position: 'absolute',
+                right: '32px',
+                bottom: '80px',
+                zIndex: 10001,
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: '12px',
+                padding: '12px 32px',
+                fontSize: '18px',
+                fontWeight: '800',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                cursor: 'pointer',
+                boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+              }}
+            >
+              Next <ArrowRight size={20} />
+            </button>
+          </EducationalVideoPlayer>
+        )}
+
+        {isPlayingBranchesVideo && (
+          <EducationalVideoPlayer
+            videoRef={branchesVideoRef}
+            src={branchesSpecimensVideo}
+            onEnded={() => {
+              setIsPlayingBranchesVideo(false);
+              setIsPlayingPlantGroupVideo(true);
+            }}
+          >
+            <button
+              onClick={() => {
+                if (branchesVideoRef.current) branchesVideoRef.current.pause();
+                setIsPlayingBranchesVideo(false);
+                setIsPlayingStemVideo(true);
+              }}
+              style={{
+                position: 'absolute',
+                left: '32px',
+                bottom: '80px',
+                zIndex: 10001,
+                background: 'rgba(243, 239, 224, 0.9)',
+                color: '#1E293B',
+                border: 'none',
+                borderRadius: '12px',
+                padding: '12px 28px',
+                fontSize: '18px',
+                fontWeight: '700',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+              }}
+            >
+              <ArrowLeft size={20} /> Back
+            </button>
+            <button
+              onClick={() => {
+                if (branchesVideoRef.current) branchesVideoRef.current.pause();
+                setIsPlayingBranchesVideo(false);
+                setIsPlayingPlantGroupVideo(true);
+              }}
+              style={{
+                position: 'absolute',
+                right: '32px',
+                bottom: '80px',
+                zIndex: 10001,
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: '12px',
+                padding: '12px 32px',
+                fontSize: '18px',
+                fontWeight: '800',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                cursor: 'pointer',
+                boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+              }}
+            >
+              Next <ArrowRight size={20} />
+            </button>
+          </EducationalVideoPlayer>
+        )}
+
+        {isPlayingPlantGroupVideo && (
+          <EducationalVideoPlayer
+            videoRef={plantGroupVideoRef}
+            src={plantGroupSpecimensVideo}
+            onEnded={() => {
+              setIsPlayingPlantGroupVideo(false);
+              if (transitionDirection === 'backward') {
+                setCurrentStep(transitionSourceStep);
+                if (transitionSourceSubTab) setVenationSubTab(transitionSourceSubTab);
+              } else {
+                setCurrentStep(transitionTargetStep);
+                if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
+              }
+            }}
+          >
+            <button 
+              onClick={() => {
+                if (plantGroupVideoRef.current) plantGroupVideoRef.current.pause();
+                setIsPlayingPlantGroupVideo(false);
+                setIsPlayingBranchesVideo(true);
+              }}
+              style={{
+                position: 'absolute', left: '32px', bottom: '80px', zIndex: 10001,
+                background: 'rgba(243, 239, 224, 0.9)', color: '#1E293B',
+                border: 'none', borderRadius: '12px', padding: '12px 28px',
+                fontSize: '18px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '8px',
+                cursor: 'pointer', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+              }}
+            >
+              <ArrowLeft size={20} /> Back
+            </button>
+            <button 
+              onClick={() => {
+                if (plantGroupVideoRef.current) plantGroupVideoRef.current.pause();
+                setIsPlayingPlantGroupVideo(false);
+                if (transitionDirection === 'backward') {
+                  setCurrentStep(transitionSourceStep);
+                  if (transitionSourceSubTab) setVenationSubTab(transitionSourceSubTab);
+                } else {
+                  setCurrentStep(transitionTargetStep);
+                  if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
+                }
+              }}
+              style={{
+                position: 'absolute', right: '32px', bottom: '80px', zIndex: 10001,
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)', color: '#FFFFFF',
+                border: 'none', borderRadius: '12px', padding: '12px 32px',
+                fontSize: '18px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px',
+                cursor: 'pointer', boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+              }}
+            >
+              Next <ArrowRight size={20} />
+            </button>
+          </EducationalVideoPlayer>
+        )}
+
 
         {/* ============================================================ */}
         {/* TRANSITION OVERLAY FOR ACTIVITY 2.4 OBSERVATION              */}

@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import EducationalVideoPlayer from '../../../../../components/EducationalVideoPlayer';
 
 import coverImg from './activity25_cover.jpg';
 import { venationAudio } from './venationAudio';
+import leafVenationVideoMp4 from '../../../../../assets/leaf-venation-specimens.mp4';
 
 import specimen01HibiscusBlended from './specimen_01_hibiscus_blended.png';
 import specimen02BananaBlended from './specimen_02_banana_blended.png';
@@ -33,6 +35,9 @@ const VENATION_SPECIMEN_SLIDES = [
 export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onNext, initialPhase = 'cover', initialSpecimenIndex = 0, onStateChange }) {
   const [phase, setPhase] = useState(initialPhase); // 'cover' | 'specimens'
   const [specimenIndex, setSpecimenIndex] = useState(initialSpecimenIndex);
+  const [showLeafVenationVideo, setShowLeafVenationVideo] = useState(false);
+  const [videoDirection, setVideoDirection] = useState('forward');
+  const leafVideoRef = useRef(null);
   useEffect(() => { if (onStateChange) onStateChange(phase, specimenIndex); }, [phase, specimenIndex, onStateChange]);
 
   // Title pill: shown for 7s on each slide, then auto-hides; moving the
@@ -103,8 +108,70 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
   });
 
   // ---------------------------------------------------------------------
-  // FULLSCREEN SPECIMEN SLIDES
+  // FULLSCREEN SPECIMEN SLIDES & VIDEO
   // ---------------------------------------------------------------------
+  if (showLeafVenationVideo) {
+    return (
+      <EducationalVideoPlayer
+        videoRef={leafVideoRef}
+        src={leafVenationVideoMp4}
+        onEnded={() => {
+          setShowLeafVenationVideo(false);
+          if (videoDirection === 'backward') {
+            setPhase('cover');
+          } else {
+            setPhase('specimens');
+            setSpecimenIndex(0);
+          }
+        }}
+      >
+        <button
+          onClick={() => { 
+            if (leafVideoRef.current) leafVideoRef.current.pause();
+            setShowLeafVenationVideo(false);
+            setPhase('cover');
+          }}
+          style={{
+            position: 'absolute', bottom: '80px', left: '26px', display: 'flex', alignItems: 'center', gap: '8px',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+            backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+            border: '2px solid rgba(253, 230, 138, 0.85)', borderRadius: '26px', padding: '10px 22px',
+            fontSize: '18px', fontWeight: 900, color: '#FFFBEB', cursor: 'pointer',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+            zIndex: 10001, transition: 'all 0.18s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          <ArrowLeft size={20} /> Back
+        </button>
+        <button
+          onClick={() => { 
+            if (leafVideoRef.current) leafVideoRef.current.pause();
+            setShowLeafVenationVideo(false);
+            setPhase('specimens');
+            setSpecimenIndex(0);
+          }}
+          style={{
+            position: 'absolute', bottom: '80px', right: '26px', display: 'flex', alignItems: 'center', gap: '10px',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
+            backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+            border: '2px solid rgba(253, 230, 138, 0.85)', borderRadius: '28px', padding: '11px 26px',
+            fontSize: '18px', fontWeight: 900, color: '#FFFBEB', cursor: 'pointer',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
+            zIndex: 10001, transition: 'all 0.18s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          Next <ArrowRight size={20} />
+        </button>
+      </EducationalVideoPlayer>
+    );
+  }
+
   if (phase === 'specimens') {
     const activeSlide = VENATION_SPECIMEN_SLIDES[specimenIndex];
     const isLast = specimenIndex === VENATION_SPECIMEN_SLIDES.length - 1;
@@ -197,7 +264,15 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
 
         {/* Bottom left: previous slide, or back to the cover */}
         <button
-          onClick={() => { if (specimenIndex > 0) { setSpecimenIndex(prev => prev - 1); venationAudio.playSwitch(); } else if (onPreviousPage) { onPreviousPage(); } else { setPhase('cover'); } }}
+          onClick={() => { 
+            if (specimenIndex > 0) { 
+              setSpecimenIndex(prev => prev - 1); 
+              venationAudio.playSwitch(); 
+            } else { 
+              setVideoDirection('backward');
+              setShowLeafVenationVideo(true);
+            } 
+          }}
           style={{
             position: 'absolute',
             bottom: '22px',
@@ -310,7 +385,7 @@ export default function LeafVenationLab({ onBackToDashboard, onPreviousPage, onN
 
         <button
           type="button"
-          onClick={() => { setSpecimenIndex(0); setPhase('specimens'); }}
+          onClick={() => { setVideoDirection('forward'); setShowLeafVenationVideo(true); }}
           style={navBtn('primary')}
           aria-label="View the leaf specimens, then continue"
         >
