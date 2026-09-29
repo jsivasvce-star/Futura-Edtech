@@ -183,8 +183,9 @@ const EducationalVideoPlayer = ({ videoRef, src, onEnded, onBack, onNext }) => {
       background: 'rgba(0, 0, 0, 0.4)', backdropFilter: 'blur(8px)'
     }}>
       <div style={{
-        width: '85%',
-        maxWidth: '1200px',
+        width: '100%',
+        maxWidth: 'calc(100vw - 48px)',
+        maxHeight: 'calc(100vh - 140px)',
         aspectRatio: '16/9',
         border: '2px solid #34d399',
         borderRadius: '16px',
