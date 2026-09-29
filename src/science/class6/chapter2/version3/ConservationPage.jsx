@@ -244,7 +244,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
           lineHeight: 1.15,
           textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)'
         }}>
-          Conservation
+          Sacred Groves
         </h1>
       </div>
 
@@ -283,14 +283,14 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
           type="button"
           className="bio-cta-btn"
           onClick={handleNextClick}
-          aria-label="Explore the Living World"
+          aria-label="Next"
           style={{
             padding: '8px 24px',
             fontSize: '16px',
             borderRadius: '10px'
           }}
         >
-          <span>🌿 Explore the Living World!</span>
+          <span>Next</span>
           <ArrowRight size={17} strokeWidth={2.5} />
         </button>
       </div>
@@ -359,7 +359,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
                 textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
               }}>
                 <span style={{ fontSize: '18px' }}>🦚</span>
-                <span style={{ color: '#34D399' }}>CONSERVATION</span>
+                <span style={{ color: '#34D399' }}>SACRED GROVES</span>
               </span>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
