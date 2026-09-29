@@ -181,6 +181,7 @@
   --outline-hover-bg: rgba(99, 102, 241, 0.1);
   --outline-hover-border: #6366f1;
 }
+
 /* Opt back into the light palette for a subtree, e.g. a printed-page
    style chapter that always sits on paper regardless of app theme. */
 [data-theme="light"] {
