@@ -1,45 +1,81 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, ArrowLeft, BookOpen, ChevronRight, Play, Pause } from 'lucide-react';
-import { speakNaturalIndianMale, stopNarration } from '../../../../services/elevenLabsService';
+import useWordSyncAudio from './narration/useWordSyncAudio';
+import rhododendronsNarrationAudio from './narration/audio/rhododendrons.mp3';
+import rhododendronsNarrationData from './narration/rhododendronsNarration.json';
 import rhododendronsFullscreenImage from './DiversityInTheLivingWorldNew/images/ch2_rhododendrons_fullscreen.jpg';
-import fig213Image from './DiversityInTheLivingWorldNew/images/ch2_rhododendrons_fig213.png';
+
+// Real-time word highlight wrapper for popup text
+const BioWord = ({ children, index, activeIndex, isPlaying, color = 'emerald' }) => {
+  const isActive = isPlaying && (Array.isArray(index) ? index.includes(activeIndex) : activeIndex === index);
+  const isAmber = color === 'amber';
+  const isCyan = color === 'cyan';
+  const highlightBg = isAmber
+    ? 'rgba(245, 158, 11, 0.50)'
+    : isCyan
+    ? 'rgba(6, 182, 212, 0.50)'
+    : 'rgba(16, 185, 129, 0.50)';
+  const highlightShadow = isAmber
+    ? '0 0 16px rgba(245, 158, 11, 0.95), inset 0 0 8px rgba(255, 255, 255, 0.6)'
+    : isCyan
+    ? '0 0 16px rgba(34, 211, 238, 0.95), inset 0 0 8px rgba(255, 255, 255, 0.6)'
+    : '0 0 16px rgba(52, 211, 153, 0.95), inset 0 0 8px rgba(255, 255, 255, 0.6)';
+  const highlightTextShadow = isAmber
+    ? '0 0 12px rgba(245, 158, 11, 0.95), 0 2px 4px rgba(0, 0, 0, 0.9)'
+    : isCyan
+    ? '0 0 12px rgba(34, 211, 238, 0.95), 0 2px 4px rgba(0, 0, 0, 0.9)'
+    : '0 0 12px rgba(52, 211, 153, 0.95), 0 2px 4px rgba(0, 0, 0, 0.9)';
+
+  return (
+    <span
+      style={{
+        display: 'inline-block',
+        color: isActive ? '#FFFFFF' : 'inherit',
+        background: isActive ? highlightBg : 'transparent',
+        borderRadius: isActive ? '6px' : '0px',
+        padding: isActive ? '0 5px' : '0px',
+        margin: isActive ? '0 1px' : '0px',
+        boxShadow: isActive ? highlightShadow : 'none',
+        transform: isActive ? 'scale(1.05)' : 'scale(1)',
+        transition: 'all 0.12s cubic-bezier(0.16, 1, 0.3, 1)',
+        textShadow: isActive ? highlightTextShadow : 'inherit',
+      }}
+    >
+      {children}
+    </span>
+  );
+};
 
 export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
   const [showPopup, setShowPopup] = useState(true);
-  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
-  const narrationText = "Rhododendrons across mountain regions. Maya talks about seeing plants with beautiful bright flowers, rhododendrons, in the Shola forests of Nilgiris. Here, rhododendrons are of shorter height and have smaller leaves to survive through the heavy winds on mountain tops. However, Pema, who is from Sikkim, mentions that she has observed rhododendrons in the nearby mountains to be taller. So, even plants such as rhododendrons may exhibit different features in different regions to survive the conditions of those regions. Think: Why do rhododendrons grow shorter with smaller leaves on windy mountain tops in the Nilgiris, while growing taller in Sikkim?";
-
-  useEffect(() => {
-    return () => {
-      stopNarration();
-    };
-  }, []);
+  // Synchronized audio narration with real-time word highlight
+  const {
+    isPlaying: isPlayingAudio,
+    activeWordIndex,
+    play: playAudio,
+    pause: pauseAudio,
+  } = useWordSyncAudio(rhododendronsNarrationAudio, rhododendronsNarrationData.rhododendrons.words, {
+    autoPlay: false,
+    onEnd: () => {},
+  });
 
   const toggleAudio = () => {
     if (isPlayingAudio) {
-      stopNarration();
-      setIsPlayingAudio(false);
+      pauseAudio();
     } else {
-      setIsPlayingAudio(true);
-      speakNaturalIndianMale({
-        text: narrationText,
-        onEnd: () => setIsPlayingAudio(false),
-        onError: () => setIsPlayingAudio(false)
-      });
+      playAudio();
     }
   };
 
   const handlePrevClick = () => {
-    stopNarration();
-    setIsPlayingAudio(false);
+    pauseAudio();
     if (onPreviousPage) onPreviousPage();
     else if (onBack) onBack();
   };
 
   const handleNextClick = () => {
-    stopNarration();
-    setIsPlayingAudio(false);
+    pauseAudio();
     if (onNext) onNext();
   };
 
@@ -241,15 +277,15 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
             position: 'absolute',
             top: '16px',
             left: '18px',
-            width: 'min(490px, 44vw)',
+            width: 'min(480px, 42vw)',
             maxHeight: 'calc(100vh - 76px)',
             zIndex: 40,
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-            background: 'linear-gradient(145deg, rgba(8, 20, 14, 0.88) 0%, rgba(12, 34, 24, 0.92) 100%)',
-            border: '1.8px solid rgba(251, 191, 36, 0.65)',
+            backdropFilter: 'blur(4px)',
+            WebkitBackdropFilter: 'blur(2px)',
+            background: 'transparent',
+            border: '1.8px solid rgba(251, 191, 36, 0.55)',
             borderRadius: '24px',
-            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.65), inset 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 24px rgba(245, 158, 11, 0.25)',
+            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 24px rgba(245, 158, 11, 0.20)',
             boxSizing: 'border-box',
             display: 'flex',
             flexDirection: 'column',
@@ -258,19 +294,20 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
             transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
           }}
         >
-          {/* Inner content wrapper with scrollbar */}
+          {/* Inner content wrapper with padding */}
           <div style={{
             display: 'flex',
             flexDirection: 'column',
+            justifyContent: 'space-between',
             flex: 1,
-            padding: 'clamp(14px, 2vh, 18px) clamp(16px, 2vw, 22px)',
-            gap: 'clamp(8px, 1.2vh, 12px)',
+            padding: 'clamp(14px, 2vh, 20px) clamp(16px, 2vw, 22px)',
+            gap: 'clamp(8px, 1.2vh, 14px)',
             position: 'relative',
             zIndex: 5,
             overflowY: 'auto',
             scrollbarWidth: 'thin'
           }}>
-            {/* Top bar: Pill Badge + Play Narration Button + Close Button */}
+            {/* Top bar: Pill Badge + Circle Narration Button + Close Button */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
@@ -278,15 +315,15 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
               gap: '12px'
             }}>
               <span style={{
-                background: 'linear-gradient(135deg, rgba(40, 24, 6, 0.75) 0%, rgba(20, 12, 3, 0.70) 100%)',
-                color: '#F472B6',
-                border: '1.5px solid rgba(244, 114, 182, 0.65)',
+                background: 'linear-gradient(135deg, rgba(40, 24, 6, 0.70) 0%, rgba(20, 12, 3, 0.60) 100%)',
+                color: '#34D399',
+                border: '1.5px solid rgba(52, 211, 153, 0.55)',
                 boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
                 padding: '5px 16px',
                 borderRadius: '22px',
                 fontFamily: '"Outfit", sans-serif',
                 fontWeight: 800,
-                fontSize: '17px',
+                fontSize: '18px',
                 letterSpacing: '0.04em',
                 textTransform: 'uppercase',
                 display: 'inline-flex',
@@ -295,11 +332,11 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
                 textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
               }}>
                 <span style={{ fontSize: '18px' }}>🌺</span>
-                <span>RHODODENDRONS</span>
+                <span style={{ color: '#34D399' }}>RHODODENDRONS</span>
               </span>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                {/* Play / Pause Audio Narration */}
+                {/* Play / Pause Narration Button inside popup */}
                 <button
                   type="button"
                   onClick={toggleAudio}
@@ -320,7 +357,7 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
                     gap: '6px',
                     color: '#FFFFFF',
                     fontWeight: 800,
-                    fontSize: '16px',
+                    fontSize: '18px',
                     fontFamily: '"Outfit", sans-serif',
                     cursor: 'pointer',
                     flexShrink: 0,
@@ -351,7 +388,10 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
                 {/* Close Button */}
                 <button
                   type="button"
-                  onClick={() => setShowPopup(false)}
+                  onClick={() => {
+                    pauseAudio();
+                    setShowPopup(false);
+                  }}
                   aria-label="Close message and view full scenery"
                   title="View full scenery photo"
                   style={{
@@ -386,155 +426,185 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
             </div>
 
             {/* Title Section */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
-              <div style={{ fontSize: '15px', fontWeight: 800, color: '#A7F3D0', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                NCERT Science · Grade 6 · Page 26
-              </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <h2 style={{
                 fontFamily: '"Outfit", sans-serif',
                 fontWeight: 900,
-                fontSize: '22px',
-                color: '#FEF08A',
-                lineHeight: 1.25,
+                fontSize: '24px',
                 margin: 0,
-                textShadow: '0 2px 10px rgba(0, 0, 0, 0.95), 0 0 16px rgba(251, 191, 36, 0.35)'
+                color: '#34D399',
+                lineHeight: 1.25,
+                letterSpacing: '0.02em',
+                textTransform: 'uppercase',
+                textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 24px rgba(52, 211, 153, 0.65), 0 0 40px rgba(16, 185, 129, 0.25)'
               }}>
-                Rhododendrons in Different Mountain Regions
+                <BioWord index={0} activeIndex={activeWordIndex} isPlaying={isPlayingAudio}>MOUNTAIN</BioWord>{' '}
+                <BioWord index={1} activeIndex={activeWordIndex} isPlaying={isPlayingAudio}>RHODODENDRONS</BioWord>
               </h2>
             </div>
 
-            {/* Section 1: Nilgiri Shola Forests */}
-            <div style={{
-              background: 'rgba(15, 30, 22, 0.60)',
-              border: '1.5px solid rgba(52, 211, 153, 0.40)',
-              borderRadius: '14px',
-              padding: '10px 14px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '4px'
-            }}>
+            {/* Info Panel: Content Sections */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {/* Section 1: Nilgiri Shola Forests */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <div style={{
+                  fontSize: '21px',
+                  fontWeight: 800,
+                  color: '#6EE7B7',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontFamily: '"Outfit", sans-serif',
+                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(110, 231, 183, 0.4)'
+                }}>
+                  <span style={{ fontSize: '21px' }}>🍃</span>
+                  <span>
+                    <BioWord index={2} activeIndex={activeWordIndex} isPlaying={isPlayingAudio}>Nilgiri</BioWord>{' '}
+                    <BioWord index={3} activeIndex={activeWordIndex} isPlaying={isPlayingAudio}>Shola</BioWord>{' '}
+                    <BioWord index={4} activeIndex={activeWordIndex} isPlaying={isPlayingAudio}>Forests</BioWord>
+                  </span>
+                </div>
+                <div style={{
+                  fontSize: '18px',
+                  color: '#E2E8F0',
+                  textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
+                  fontWeight: 500,
+                  lineHeight: 1.5,
+                  fontFamily: '"Inter", sans-serif',
+                  textAlign: 'left'
+                }}>
+                  <BioWord index={5} activeIndex={activeWordIndex} isPlaying={isPlayingAudio}>Short</BioWord>{' '}
+                  <BioWord index={6} activeIndex={activeWordIndex} isPlaying={isPlayingAudio}>height</BioWord>{' '}
+                  <BioWord index={7} activeIndex={activeWordIndex} isPlaying={isPlayingAudio}>and</BioWord>{' '}
+                  <BioWord index={8} activeIndex={activeWordIndex} isPlaying={isPlayingAudio}>smaller</BioWord>{' '}
+                  <BioWord index={9} activeIndex={activeWordIndex} isPlaying={isPlayingAudio}>leaves</BioWord>{' '}
+                  <BioWord index={10} activeIndex={activeWordIndex} isPlaying={isPlayingAudio}>withstand</BioWord>{' '}
+                  <BioWord index={11} activeIndex={activeWordIndex} isPlaying={isPlayingAudio}>violent</BioWord>{' '}
+                  <BioWord index={12} activeIndex={activeWordIndex} isPlaying={isPlayingAudio}>mountain</BioWord>{' '}
+                  <BioWord index={13} activeIndex={activeWordIndex} isPlaying={isPlayingAudio}>winds.</BioWord>
+                </div>
+              </div>
+
+              <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+              {/* Section 2: Sikkim Mountains */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <div style={{
+                  fontSize: '21px',
+                  fontWeight: 800,
+                  color: '#7DD3FC',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontFamily: '"Outfit", sans-serif',
+                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(125, 211, 252, 0.4)'
+                }}>
+                  <span style={{ fontSize: '21px' }}>🌲</span>
+                  <span>
+                    <BioWord index={14} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="cyan">Sikkim</BioWord>{' '}
+                    <BioWord index={15} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="cyan">Mountains</BioWord>
+                  </span>
+                </div>
+                <div style={{
+                  fontSize: '18px',
+                  color: '#E0F2FE',
+                  textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
+                  fontWeight: 500,
+                  lineHeight: 1.5,
+                  fontFamily: '"Inter", sans-serif',
+                  textAlign: 'left'
+                }}>
+                  <BioWord index={16} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="cyan">Sheltered,</BioWord>{' '}
+                  <BioWord index={17} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="cyan">moist</BioWord>{' '}
+                  <BioWord index={18} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="cyan">mountain</BioWord>{' '}
+                  <BioWord index={19} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="cyan">valleys</BioWord>{' '}
+                  <BioWord index={20} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="cyan">support</BioWord>{' '}
+                  <BioWord index={21} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="cyan">tall</BioWord>{' '}
+                  <BioWord index={22} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="cyan">tree</BioWord>{' '}
+                  <BioWord index={23} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="cyan">growth.</BioWord>
+                </div>
+              </div>
+
+              <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
+
+              {/* Section 3: Regional Adaptation */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <div style={{
+                  fontSize: '21px',
+                  fontWeight: 800,
+                  color: '#FDE68A',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontFamily: '"Outfit", sans-serif',
+                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(253, 230, 138, 0.4)'
+                }}>
+                  <span style={{ fontSize: '21px' }}>🏔️</span>
+                  <span>
+                    <BioWord index={24} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">Regional</BioWord>{' '}
+                    <BioWord index={25} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">Adaptation</BioWord>
+                  </span>
+                </div>
+                <div style={{
+                  fontSize: '18px',
+                  color: '#FEF3C7',
+                  textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
+                  fontWeight: 500,
+                  lineHeight: 1.5,
+                  fontFamily: '"Inter", sans-serif',
+                  textAlign: 'left'
+                }}>
+                  <BioWord index={26} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">Same</BioWord>{' '}
+                  <BioWord index={27} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">plant</BioWord>{' '}
+                  <BioWord index={28} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">species</BioWord>{' '}
+                  <BioWord index={29} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">develop</BioWord>{' '}
+                  <BioWord index={30} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">distinct</BioWord>{' '}
+                  <BioWord index={31} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">features</BioWord>{' '}
+                  <BioWord index={32} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">to</BioWord>{' '}
+                  <BioWord index={33} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">survive</BioWord>{' '}
+                  <BioWord index={34} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">local</BioWord>{' '}
+                  <BioWord index={35} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">climates.</BioWord>
+                </div>
+              </div>
+
+              {/* Callout box: Think */}
               <div style={{
-                fontSize: '18px',
-                fontWeight: 800,
-                color: '#34D399',
+                background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.16) 100%)',
+                border: '1.5px solid rgba(253, 230, 138, 0.45)',
+                borderRadius: '14px',
+                padding: '10px 14px',
+                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
                 display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                fontFamily: '"Outfit", sans-serif'
+                alignItems: 'flex-start',
+                gap: '10px'
               }}>
-                <span>🍃</span>
-                <span>Nilgiri Shola Forests (South India)</span>
-              </div>
-              <div style={{
-                fontSize: '16px',
-                color: '#ECFDF5',
-                lineHeight: 1.5,
-                fontWeight: 500,
-                fontFamily: '"Inter", sans-serif',
-                textAlign: 'justify'
-              }}>
-                Maya talks about seeing plants with beautiful bright flowers, <b>rhododendrons</b>, in the Shola forests of Nilgiris. Here, rhododendrons are of <b>shorter height</b> and have <b>smaller leaves</b> to survive through the heavy winds on mountain tops.
-              </div>
-            </div>
-
-            {/* Section 2: Sikkim Mountains */}
-            <div style={{
-              background: 'rgba(15, 30, 22, 0.60)',
-              border: '1.5px solid rgba(56, 189, 248, 0.40)',
-              borderRadius: '14px',
-              padding: '10px 14px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '4px'
-            }}>
-              <div style={{
-                fontSize: '18px',
-                fontWeight: 800,
-                color: '#38BDF8',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                fontFamily: '"Outfit", sans-serif'
-              }}>
-                <span>🌲</span>
-                <span>Sikkim Mountains (Eastern Himalayas)</span>
-              </div>
-              <div style={{
-                fontSize: '16px',
-                color: '#E0F2FE',
-                lineHeight: 1.5,
-                fontWeight: 500,
-                fontFamily: '"Inter", sans-serif',
-                textAlign: 'justify'
-              }}>
-                However, Pema, who is from Sikkim, mentions that she has observed rhododendrons in the nearby mountains to be <b>taller</b> (Fig. 2.13). In protected valleys with deep moisture, they flourish into magnificent tall trees.
-              </div>
-            </div>
-
-            {/* Textbook Fig. 2.13 Preview */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              background: 'rgba(245, 241, 229, 0.15)',
-              border: '1.5px solid rgba(253, 230, 138, 0.45)',
-              borderRadius: '12px',
-              padding: '8px 12px'
-            }}>
-              <div style={{
-                width: '90px',
-                height: '65px',
-                borderRadius: '8px',
-                overflow: 'hidden',
-                border: '1.5px solid #FDE68A',
-                flexShrink: 0,
-                background: '#ffffff'
-              }}>
-                <img
-                  src={fig213Image}
-                  alt="Fig. 2.13: Different features of rhododendrons"
-                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                />
-              </div>
-              <div style={{ fontSize: '15px', color: '#FFFBEB', lineHeight: 1.45 }}>
-                <b style={{ color: '#FDE68A' }}>Fig. 2.13:</b> Different features of rhododendrons. Even plants of the same genus exhibit distinct heights and leaf sizes tailored to local weather.
-              </div>
-            </div>
-
-            {/* Core Principle */}
-            <div style={{
-              fontSize: '16px',
-              color: '#FEF3C7',
-              lineHeight: 1.5,
-              fontWeight: 600,
-              fontFamily: '"Inter", sans-serif',
-              borderLeft: '3px solid #F59E0B',
-              paddingLeft: '10px'
-            }}>
-              So, even plants such as rhododendrons may exhibit different features in different regions to survive the conditions of those regions.
-            </div>
-
-            {/* Callout box: Think */}
-            <div style={{
-              background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.18) 100%)',
-              border: '1.8px solid rgba(253, 230, 138, 0.65)',
-              borderRadius: '14px',
-              padding: '10px 14px',
-              boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
-              display: 'flex',
-              alignItems: 'flex-start',
-              gap: '10px'
-            }}>
-              <span style={{ fontSize: '20px', lineHeight: 1 }}>💡</span>
-              <div style={{
-                fontSize: '17px',
-                color: '#FCD34D',
-                fontWeight: 800,
-                fontFamily: '"Outfit", sans-serif',
-                lineHeight: 1.45,
-                textAlign: 'justify'
-              }}>
-                <span style={{ color: '#FFFFFF', textDecoration: 'underline' }}>Think:</span> Why do rhododendrons grow shorter with smaller leaves on windy mountain tops in the Nilgiris, while growing taller in Sikkim? How do physical features help plants survive specific regional climates?
+                <span style={{ fontSize: '18px', lineHeight: 1 }}>💡</span>
+                <div style={{
+                  fontSize: '18px',
+                  color: '#FCD34D',
+                  fontWeight: 700,
+                  fontStyle: 'italic',
+                  fontFamily: '"Outfit", sans-serif',
+                  lineHeight: 1.5,
+                  textAlign: 'left',
+                  textShadow: '0 1px 6px rgba(0, 0, 0, 0.95), 0 0 12px rgba(252, 211, 77, 0.3)'
+                }}>
+                  <BioWord index={36} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">Think:</BioWord>{' '}
+                  <BioWord index={37} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">Why</BioWord>{' '}
+                  <BioWord index={38} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">do</BioWord>{' '}
+                  <BioWord index={39} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">rhododendrons</BioWord>{' '}
+                  <BioWord index={40} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">stay</BioWord>{' '}
+                  <BioWord index={41} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">short</BioWord>{' '}
+                  <BioWord index={42} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">on</BioWord>{' '}
+                  <BioWord index={43} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">windy</BioWord>{' '}
+                  <BioWord index={44} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">peaks,</BioWord>{' '}
+                  <BioWord index={45} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">but</BioWord>{' '}
+                  <BioWord index={46} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">grow</BioWord>{' '}
+                  <BioWord index={47} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">tall</BioWord>{' '}
+                  <BioWord index={48} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">across</BioWord>{' '}
+                  <BioWord index={49} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">sheltered</BioWord>{' '}
+                  <BioWord index={50} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">valleys?</BioWord>
+                </div>
               </div>
             </div>
           </div>
