@@ -180,30 +180,17 @@ const EducationalVideoPlayer = ({ videoRef, src, onEnded, onBack, onNext }) => {
     <div style={{
       position: 'absolute', inset: 0, zIndex: 9999,
       display: 'flex', justifyContent: 'center', alignItems: 'center',
-      background: 'rgba(0, 0, 0, 0.4)', backdropFilter: 'blur(8px)'
+      background: 'none'
     }}>
-      <div style={{
-        width: '100%',
-        maxWidth: 'calc(100vw - 48px)',
-        maxHeight: 'calc(100vh - 140px)',
-        aspectRatio: '16/9',
-        border: '2px solid #34d399',
-        borderRadius: '16px',
-        overflow: 'hidden',
-        boxShadow: '0 16px 50px rgba(0,0,0,0.5)',
-        pointerEvents: 'auto',
-        background: '#000'
-      }}>
-        <video disablePictureInPicture
-          ref={videoRef}
-          src={src}
-          autoPlay
-          controls
-          playsInline
-          onEnded={onEnded}
-          style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
-        />
-      </div>
+      <video disablePictureInPicture
+        ref={videoRef}
+        src={src}
+        autoPlay
+        controls
+        playsInline
+        onEnded={onEnded}
+        style={{ width: '100vw', height: '100vh', objectFit: 'contain', display: 'block', pointerEvents: 'auto' }}
+      />
 
       <div style={{
         position: 'absolute', bottom: 0, left: 0, right: 0,
