@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, Lightbulb, Check } from 'lucide-react';
 
 import bgImg from './media/activity28_bg.jpg';
-import introVideo from './media/seed_intro.mp4';
+import introVideo from '../../../../../assets/activity28-new.mp4';
 
 const KEY_POINTS = [
   'Seeds absorb water (imbibition).',
@@ -18,6 +18,13 @@ const KEY_POINTS = [
 // =========================================================================
 export default function SeedDissectionLab({ onBackToDashboard, onPreviousPage, onNextActivity, onNext }) {
   const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch((err) => console.log('Autoplay prevented:', err));
+    }
+  }, []);
 
   const handleNext = onNextActivity || onNext;
 
@@ -89,6 +96,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onPreviousPage, o
               src={introVideo}
               controls
               playsInline
+              autoPlay
               preload="metadata"
               style={{ width: '100%', height: 'auto', maxHeight: '100%', objectFit: 'contain', display: 'block', background: '#07160E' }}
             />
