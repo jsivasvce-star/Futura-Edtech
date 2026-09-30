@@ -79,7 +79,7 @@ export const WeighingScale = ({ currentCupOnScale, mass, isHovered }) => {
       }} />
 
       {/* Scale Assembly */}
-      <div style={{ position: 'relative', width: '380px', height: '260px', marginTop: '20px', transform: 'scale(1.25)' }}>
+      <div style={{ position: 'relative', width: '380px', height: '260px', marginTop: '20px', transform: 'scale(1)' }}>
 
         {/* Invisible expanded drop target for extremely forgiving dropping */}
         <div

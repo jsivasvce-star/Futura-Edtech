@@ -250,7 +250,7 @@ export default function ChapterCover({ onOpenBook, onBack }) {
             backgroundColor: 'rgba(255,255,255,0.25)',
             marginTop: '4vh'
           }}>
-            <h2 style={{ 
+            <h2 className="materials-heading" style={{ 
               margin: 0, 
               color: '#051240', 
               fontSize: 'min(3.9vw, 5.9vh)', 

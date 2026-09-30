@@ -1,0 +1,278 @@
+{
+  "cow": {
+    "audioFile": "Cow.mp3",
+    "totalDuration": 30.694,
+    "words": [
+      {
+        "word": "Let's",
+        "start": 0.0,
+        "end": 0.303
+      },
+      {
+        "word": "observe",
+        "start": 0.303,
+        "end": 0.726
+      },
+      {
+        "word": "the",
+        "start": 0.726,
+        "end": 0.908
+      },
+      {
+        "word": "cow.",
+        "start": 0.908,
+        "end": 1.15
+      },
+      {
+        "word": "It",
+        "start": 2.05,
+        "end": 2.176
+      },
+      {
+        "word": "is",
+        "start": 2.176,
+        "end": 2.303
+      },
+      {
+        "word": "commonly",
+        "start": 2.303,
+        "end": 2.808
+      },
+      {
+        "word": "found",
+        "start": 2.808,
+        "end": 3.124
+      },
+      {
+        "word": "in",
+        "start": 3.124,
+        "end": 3.25
+      },
+      {
+        "word": "Open",
+        "start": 3.25,
+        "end": 3.576
+      },
+      {
+        "word": "meadows,",
+        "start": 3.576,
+        "end": 4.229
+      },
+      {
+        "word": "grassy",
+        "start": 4.229,
+        "end": 4.718
+      },
+      {
+        "word": "pastures",
+        "start": 4.718,
+        "end": 5.371
+      },
+      {
+        "word": "and",
+        "start": 5.371,
+        "end": 5.616
+      },
+      {
+        "word": "farmland.",
+        "start": 5.616,
+        "end": 6.35
+      },
+      {
+        "word": "It",
+        "start": 7.1,
+        "end": 7.4
+      },
+      {
+        "word": "Walks",
+        "start": 7.4,
+        "end": 8.097
+      },
+      {
+        "word": "on",
+        "start": 8.097,
+        "end": 8.376
+      },
+      {
+        "word": "four",
+        "start": 8.376,
+        "end": 8.933
+      },
+      {
+        "word": "strong",
+        "start": 8.933,
+        "end": 9.769
+      },
+      {
+        "word": "legs",
+        "start": 9.769,
+        "end": 10.327
+      },
+      {
+        "word": "with",
+        "start": 10.327,
+        "end": 10.884
+      },
+      {
+        "word": "split,",
+        "start": 10.884,
+        "end": 11.72
+      },
+      {
+        "word": "or",
+        "start": 11.72,
+        "end": 11.999
+      },
+      {
+        "word": "cloven,",
+        "start": 11.999,
+        "end": 12.974
+      },
+      {
+        "word": "hooves.",
+        "start": 12.974,
+        "end": 13.95
+      },
+      {
+        "word": "Broad",
+        "start": 14.8,
+        "end": 15.633
+      },
+      {
+        "word": "molars",
+        "start": 15.633,
+        "end": 16.633
+      },
+      {
+        "word": "grind",
+        "start": 16.633,
+        "end": 17.467
+      },
+      {
+        "word": "food.",
+        "start": 17.467,
+        "end": 18.3
+      },
+      {
+        "word": "Eyes",
+        "start": 19.1,
+        "end": 19.436
+      },
+      {
+        "word": "provide",
+        "start": 19.436,
+        "end": 20.025
+      },
+      {
+        "word": "a",
+        "start": 20.025,
+        "end": 20.193
+      },
+      {
+        "word": "wide",
+        "start": 20.193,
+        "end": 20.53
+      },
+      {
+        "word": "view.",
+        "start": 20.53,
+        "end": 20.95
+      },
+      {
+        "word": "A",
+        "start": 21.6,
+        "end": 21.784
+      },
+      {
+        "word": "stomach",
+        "start": 21.784,
+        "end": 22.428
+      },
+      {
+        "word": "with",
+        "start": 22.428,
+        "end": 22.796
+      },
+      {
+        "word": "four",
+        "start": 22.796,
+        "end": 23.164
+      },
+      {
+        "word": "compartments",
+        "start": 23.164,
+        "end": 24.268
+      },
+      {
+        "word": "helps",
+        "start": 24.268,
+        "end": 24.728
+      },
+      {
+        "word": "digest",
+        "start": 24.728,
+        "end": 25.28
+      },
+      {
+        "word": "plant",
+        "start": 25.28,
+        "end": 25.74
+      },
+      {
+        "word": "food.",
+        "start": 25.74,
+        "end": 26.2
+      },
+      {
+        "word": "Now",
+        "start": 27.1,
+        "end": 27.25
+      },
+      {
+        "word": "think:",
+        "start": 27.25,
+        "end": 27.55
+      },
+      {
+        "word": "Why",
+        "start": 28.15,
+        "end": 28.368
+      },
+      {
+        "word": "does",
+        "start": 28.368,
+        "end": 28.658
+      },
+      {
+        "word": "a",
+        "start": 28.658,
+        "end": 28.803
+      },
+      {
+        "word": "cow",
+        "start": 28.803,
+        "end": 29.021
+      },
+      {
+        "word": "need",
+        "start": 29.021,
+        "end": 29.311
+      },
+      {
+        "word": "broad",
+        "start": 29.311,
+        "end": 29.674
+      },
+      {
+        "word": "grinding",
+        "start": 29.674,
+        "end": 30.255
+      },
+      {
+        "word": "teeth?",
+        "start": 30.255,
+        "end": 30.69
+      }
+    ]
+  }
+}

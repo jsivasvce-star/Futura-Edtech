@@ -581,8 +581,8 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
         >
           <MagneticPolesVideoPlayer
             ref={videoPlayerRef}
-            videoSrc="/assets/stage1_barmagnet.mp4"
-            fallbackSrc="/assets/stage1_barmagnet.mp4"
+            videoSrc="/MagneticPoles/Barmagnet3.mp4"
+            fallbackSrc="/MagneticPoles/Barmagnet3.mp4"
             externalIsPaused={isPaused}
             onExternalTogglePause={handleTogglePause}
             onExternalReset={handleReset}

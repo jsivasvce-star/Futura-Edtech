@@ -18,6 +18,23 @@ export default function LocatingPlacesActivity({ onBackToDashboard }) {
   const [coverKey, setCoverKey] = useState(0);
   const navRef = useRef(null);
 
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // 1366x768 is a standard laptop resolution and a great baseline for fixed scaling.
+      const DESIGN_WIDTH = 1366;
+      const DESIGN_HEIGHT = 768;
+      const scaleX = window.innerWidth / DESIGN_WIDTH;
+      const scaleY = window.innerHeight / DESIGN_HEIGHT;
+      setScale(Math.min(scaleX, scaleY));
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const handleBackToMainPage = () => {
     setViewMode('cover');
     setCurrentStep(1);
@@ -62,12 +79,11 @@ export default function LocatingPlacesActivity({ onBackToDashboard }) {
       height: '100vh',
       zIndex: 101,
       boxSizing: 'border-box',
-      ...(viewMode === 'activity' ? {
-        padding: 'clamp(16px, 2.5vh, 24px) clamp(16px, 2.5vw, 24px)',
-        display: 'flex',
-        flexDirection: 'column',
-        background: 'var(--background, #f8fafc)'
-      } : {})
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      overflow: 'hidden',
+      background: viewMode === 'activity' ? 'var(--background, #f8fafc)' : 'transparent'
     }}>
       {viewMode === 'cover' && (
         <BlueprintIntro
@@ -77,7 +93,17 @@ export default function LocatingPlacesActivity({ onBackToDashboard }) {
       )}
 
       {viewMode === 'activity' && (
-        <>
+        <div style={{
+          width: '1366px',
+          height: '768px',
+          transform: `scale(${scale})`,
+          transformOrigin: 'center center',
+          display: 'flex',
+          flexDirection: 'column',
+          boxSizing: 'border-box',
+          padding: '24px',
+          background: 'var(--background, #f8fafc)'
+        }}>
           {/* Workflow Header / Tabs */}
           <div style={{ flexShrink: 0, width: '100%', minWidth: 0, marginBottom: '0.5rem' }}>
             <div style={{ display: 'flex', alignItems: 'stretch', gap: '0.5rem', width: '100%', minWidth: 0 }}>
@@ -208,7 +234,7 @@ export default function LocatingPlacesActivity({ onBackToDashboard }) {
               <MiscellaneousPage onBackToDashboard={handleBackToMainPage} onBack={() => setCurrentStep(8)} />
             )}
           </div>
-        </>
+        </div>
       )}
     </div>
   );

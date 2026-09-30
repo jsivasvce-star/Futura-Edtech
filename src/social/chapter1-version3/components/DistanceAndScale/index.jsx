@@ -955,9 +955,9 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                       style={{
                         marginLeft: '16px',
                         display: 'inline-flex', alignItems: 'center', gap: '6px',
-                        padding: '8px 16px', background: '#d97706',
+                        padding: '8px 16px', background: '#fbbf24',
                         border: 'none', borderRadius: '999px',
-                        fontSize: '14px', fontWeight: 800, color: '#fff',
+                        fontSize: '15px', fontWeight: 900, color: '#0f172a',
                         cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                         verticalAlign: 'middle',
                         transform: 'translateY(-4px)'
@@ -1074,9 +1074,9 @@ export default function DistanceAndScale({ onComplete, onBack }) {
                     style={{
                       position: 'absolute', top: 0, right: 0,
                       display: 'inline-flex', alignItems: 'center', gap: '6px',
-                      padding: '8px 16px', background: '#d97706',
+                      padding: '8px 16px', background: '#fbbf24',
                       border: 'none', borderRadius: '999px',
-                      fontSize: '14px', fontWeight: 800, color: '#fff',
+                      fontSize: '15px', fontWeight: 900, color: '#0f172a',
                       cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                     }}
                   >

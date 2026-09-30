@@ -317,10 +317,10 @@ export default function App() {
   const renderSubjectSelector = () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
       <div className="glass-panel welcome-panel" style={{ padding: '1.5rem', borderRadius: '16px' }}>
-        <h3 style={{ margin: 0, fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <h3 style={{ margin: 0, fontSize: '1.82rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Compass size={20} style={{ color: '#60a5fa' }} /> Welcome to FuturaX Interactive Learning Labs
         </h3>
-        <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem', lineHeight: '1.6' }}>
+        <p style={{ margin: '0.5rem 0 0 0', fontSize: '1.14rem', lineHeight: '1.6' }}>
           Explore curriculum-aligned active-learning simulations, virtual experiments, and conceptual checkouts across different departments.
         </p>
       </div>
@@ -340,8 +340,8 @@ export default function App() {
             <p>
               Physics, Chemistry, and Biology virtual labs spanning from basic concepts to advanced high school experiments.
             </p>
-            <button onClick={() => navigateTo('science_lab', null)} style={{ width: '100%', padding: '0.85rem', fontSize: '1rem', fontWeight: 600, display: 'flex', justifyContent: 'center', gap: '0.5rem', borderRadius: '8px' }}>
-              Enter Science Wing <ArrowRight size={18} />
+            <button onClick={() => navigateTo('science_lab', null)} style={{ width: '100%', padding: '0.85rem', fontSize: '1.3rem', fontWeight: 600, display: 'flex', justifyContent: 'center', gap: '0.5rem', borderRadius: '8px' }}>
+              Enter Science Wing <ArrowRight size={20} />
             </button>
           </div>
         </div>
@@ -356,8 +356,8 @@ export default function App() {
             <p>
               Interactive geometry, coordinate mapping, algebraic visualizers, and mathematical problem-solving labs.
             </p>
-            <button onClick={() => navigateTo('math_lab', null)} style={{ width: '100%', padding: '0.85rem', fontSize: '1rem', fontWeight: 600, display: 'flex', justifyContent: 'center', gap: '0.5rem', borderRadius: '8px' }}>
-              Enter Mathematics Wing <ArrowRight size={18} />
+            <button onClick={() => navigateTo('math_lab', null)} style={{ width: '100%', padding: '0.85rem', fontSize: '1.3rem', fontWeight: 600, display: 'flex', justifyContent: 'center', gap: '0.5rem', borderRadius: '8px' }}>
+              Enter Mathematics Wing <ArrowRight size={20} />
             </button>
           </div>
         </div>
@@ -372,8 +372,8 @@ export default function App() {
             <p>
               Explore history, civics, and geography through interactive terrains, governance simulations, and more.
             </p>
-            <button onClick={() => navigateTo('social_lab', null)} style={{ width: '100%', padding: '0.85rem', fontSize: '1rem', fontWeight: 600, display: 'flex', justifyContent: 'center', gap: '0.5rem', borderRadius: '8px' }}>
-              Enter Social Sciences Wing <ArrowRight size={18} />
+            <button onClick={() => navigateTo('social_lab', null)} style={{ width: '100%', padding: '0.85rem', fontSize: '1.3rem', fontWeight: 600, display: 'flex', justifyContent: 'center', gap: '0.5rem', borderRadius: '8px' }}>
+              Enter Social Sciences Wing <ArrowRight size={20} />
             </button>
           </div>
         </div>
@@ -395,7 +395,7 @@ export default function App() {
         </button>
         <div>
           <h2 style={{ margin: 0, fontSize: '1.82rem' }}>Interactive Science Lab</h2>
-          <span style={{ fontSize: '1.09rem', color: 'rgba(238,250,240,0.7)' }}>Explore Science Subjects Interactively</span>
+          <span style={{ fontSize: '1.14rem', color: 'rgba(238,250,240,0.7)' }}>Explore Science Subjects Interactively</span>
         </div>
       </div>
 
@@ -989,6 +989,41 @@ export default function App() {
                         title="Open Chapter 2 (Version 2)"
                       >
                         <span>Version 2</span> <ArrowRight size={13} />
+                      </button>
+
+                      <button
+                        id="btn-open-chapter2-v3"
+                        onClick={() => navigateTo('class6', 'chapter2', null, 'v3')}
+                        style={{
+                          flex: 1,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.35rem',
+                          fontSize: '0.84rem',
+                          fontWeight: 800,
+                          padding: '0.65rem 0.4rem',
+                          borderRadius: '8px',
+                          border: 'none',
+                          background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
+                          color: '#FFFFFF',
+                          cursor: 'pointer',
+                          boxShadow: '0 3px 12px rgba(37, 99, 235, 0.35)',
+                          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                          letterSpacing: '0.02em',
+                          whiteSpace: 'nowrap'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-2px)';
+                          e.currentTarget.style.boxShadow = '0 6px 16px rgba(37, 99, 235, 0.45)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'translateY(0)';
+                          e.currentTarget.style.boxShadow = '0 3px 12px rgba(37, 99, 235, 0.35)';
+                        }}
+                        title="Open Chapter 2 (Version 3)"
+                      >
+                        <span>Version 3</span> <ArrowRight size={13} />
                       </button>
                     </div>
                   ) : (
@@ -2845,9 +2880,9 @@ export default function App() {
             <div>
               <div className="header-title">
                 <BookOpen style={{ color: 'var(--accent)' }} size={32} />
-                <h1 style={{ fontSize: '2.44rem', fontWeight: 800 }}>FuturaX Interactive Labs</h1>
+                <h1 style={{ fontSize: '1.82rem', fontWeight: 800 }}>FuturaX Interactive Labs</h1>
               </div>
-              <p className="header-subtitle" style={{ fontSize: '1.19rem', marginTop: '0.35rem' }}>
+              <p className="header-subtitle" style={{ fontSize: '1.14rem', marginTop: '0.35rem' }}>
                 Active-learning simulations and concept reviews for science and social science
               </p>
             </div>
@@ -2989,14 +3024,47 @@ export default function App() {
           ) : activeActivity === 'sci6-ch4-sec45-fun-with-magnets' ? (
             <FunWithMagnets onBackToDashboard={() => navigateTo('class6', 'chapter4_flow')} onComplete={() => navigateTo('class6', 'chapter4_flow')} />
           ) : activeActivity === 'chapter_4_quiz' ? (
-            <div style={{ height: '100vh', width: '100vw', overflowY: 'auto', background: 'transparent' }}>
+            <div style={{ height: '100vh', width: '100vw', overflowY: 'auto', background: 'transparent', position: 'relative' }}>
               <button 
                 onClick={() => navigateTo('class6', 'chapter4_flow')} 
-                style={{ position: 'absolute', top: '1.5rem', left: '1.5rem', zIndex: 10, background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text)', padding: '0.5rem 1rem', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}
+                style={{
+                  position: 'fixed',
+                  bottom: '1.5rem',
+                  left: '1.5rem',
+                  zIndex: 50,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.55rem',
+                  padding: '0.55rem 1.8rem',
+                  borderRadius: '999px',
+                  color: '#FFFFFF',
+                  fontFamily: "'Outfit', 'Inter', sans-serif",
+                  fontWeight: 900,
+                  fontSize: '1rem',
+                  letterSpacing: '0.09em',
+                  textTransform: 'uppercase',
+                  border: '1.6px solid rgba(147, 197, 253, 0.75)',
+                  background: 'linear-gradient(135deg, #214A70 0%, #173B5F 50%, #0F2A4A 100%)',
+                  boxShadow: '0 4px 16px rgba(23, 59, 95, 0.55)',
+                  cursor: 'pointer',
+                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)',
+                  transition: 'all 0.22s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
+                  e.currentTarget.style.borderColor = '#93C5FD';
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(23, 59, 95, 0.7), 0 0 20px rgba(56, 189, 248, 0.45)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'none';
+                  e.currentTarget.style.borderColor = 'rgba(147, 197, 253, 0.75)';
+                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(23, 59, 95, 0.55)';
+                }}
               >
-                Back to Flow
+                <ArrowLeft size={18} strokeWidth={2.8} />
+                <span>BACK</span>
               </button>
-              <div style={{ paddingTop: '5rem' }}>
+              <div style={{ paddingTop: '1.5rem', paddingBottom: '5rem', minHeight: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Chapter4Quiz onComplete={() => navigateTo('class6', 'chapter4_flow')} />
               </div>
             </div>

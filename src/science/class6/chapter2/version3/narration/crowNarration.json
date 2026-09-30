@@ -1,0 +1,303 @@
+{
+  "crow": {
+    "audioFile": "Crow.mp3",
+    "totalDuration": 24.242,
+    "words": [
+      {
+        "word": "Look",
+        "start": 0.0,
+        "end": 0.2
+      },
+      {
+        "word": "at",
+        "start": 0.2,
+        "end": 0.3
+      },
+      {
+        "word": "the",
+        "start": 0.3,
+        "end": 0.45
+      },
+      {
+        "word": "crow.",
+        "start": 0.45,
+        "end": 0.7
+      },
+      {
+        "word": "We",
+        "start": 1.4,
+        "end": 1.5
+      },
+      {
+        "word": "often",
+        "start": 1.5,
+        "end": 1.75
+      },
+      {
+        "word": "see",
+        "start": 1.75,
+        "end": 1.9
+      },
+      {
+        "word": "it",
+        "start": 1.9,
+        "end": 2.0
+      },
+      {
+        "word": "on",
+        "start": 2.0,
+        "end": 2.1
+      },
+      {
+        "word": "Treetops,",
+        "start": 2.1,
+        "end": 2.458
+      },
+      {
+        "word": "rooftops",
+        "start": 2.458,
+        "end": 2.776
+      },
+      {
+        "word": "and",
+        "start": 2.776,
+        "end": 2.895
+      },
+      {
+        "word": "flying",
+        "start": 2.895,
+        "end": 3.133
+      },
+      {
+        "word": "in",
+        "start": 3.133,
+        "end": 3.213
+      },
+      {
+        "word": "the",
+        "start": 3.213,
+        "end": 3.332
+      },
+      {
+        "word": "open",
+        "start": 3.332,
+        "end": 3.491
+      },
+      {
+        "word": "sky.",
+        "start": 3.491,
+        "end": 3.65
+      },
+      {
+        "word": "It",
+        "start": 4.55,
+        "end": 4.8
+      },
+      {
+        "word": "Flaps",
+        "start": 4.8,
+        "end": 5.219
+      },
+      {
+        "word": "its",
+        "start": 5.219,
+        "end": 5.47
+      },
+      {
+        "word": "wings",
+        "start": 5.47,
+        "end": 5.889
+      },
+      {
+        "word": "to",
+        "start": 5.889,
+        "end": 6.057
+      },
+      {
+        "word": "fly",
+        "start": 6.057,
+        "end": 6.308
+      },
+      {
+        "word": "and",
+        "start": 6.308,
+        "end": 6.559
+      },
+      {
+        "word": "hops",
+        "start": 6.559,
+        "end": 6.895
+      },
+      {
+        "word": "on",
+        "start": 6.895,
+        "end": 7.062
+      },
+      {
+        "word": "the",
+        "start": 7.062,
+        "end": 7.314
+      },
+      {
+        "word": "ground.",
+        "start": 7.314,
+        "end": 7.9
+      },
+      {
+        "word": "Notice",
+        "start": 8.9,
+        "end": 9.167
+      },
+      {
+        "word": "its",
+        "start": 9.167,
+        "end": 9.3
+      },
+      {
+        "word": "A",
+        "start": 9.3,
+        "end": 9.532
+      },
+      {
+        "word": "strong,",
+        "start": 9.532,
+        "end": 10.342
+      },
+      {
+        "word": "sharp",
+        "start": 10.342,
+        "end": 10.921
+      },
+      {
+        "word": "beak,",
+        "start": 10.921,
+        "end": 11.5
+      },
+      {
+        "word": "keen",
+        "start": 11.5,
+        "end": 11.98
+      },
+      {
+        "word": "eyesight",
+        "start": 11.98,
+        "end": 12.94
+      },
+      {
+        "word": "and",
+        "start": 12.94,
+        "end": 13.3
+      },
+      {
+        "word": "glossy,",
+        "start": 13.3,
+        "end": 13.93
+      },
+      {
+        "word": "dark",
+        "start": 13.93,
+        "end": 14.29
+      },
+      {
+        "word": "feathers.",
+        "start": 14.29,
+        "end": 15.1
+      },
+      {
+        "word": "A",
+        "start": 15.95,
+        "end": 16.087
+      },
+      {
+        "word": "crow",
+        "start": 16.087,
+        "end": 16.362
+      },
+      {
+        "word": "is",
+        "start": 16.362,
+        "end": 16.5
+      },
+      {
+        "word": "Omnivorous\u2014eats",
+        "start": 16.5,
+        "end": 18.099
+      },
+      {
+        "word": "both",
+        "start": 18.099,
+        "end": 18.525
+      },
+      {
+        "word": "plant",
+        "start": 18.525,
+        "end": 19.058
+      },
+      {
+        "word": "and",
+        "start": 19.058,
+        "end": 19.378
+      },
+      {
+        "word": "animal",
+        "start": 19.378,
+        "end": 20.017
+      },
+      {
+        "word": "food.",
+        "start": 20.017,
+        "end": 20.55
+      },
+      {
+        "word": "Now",
+        "start": 21.05,
+        "end": 21.233
+      },
+      {
+        "word": "think:",
+        "start": 21.233,
+        "end": 21.6
+      },
+      {
+        "word": "How",
+        "start": 22.05,
+        "end": 22.258
+      },
+      {
+        "word": "does",
+        "start": 22.258,
+        "end": 22.535
+      },
+      {
+        "word": "the",
+        "start": 22.535,
+        "end": 22.744
+      },
+      {
+        "word": "crow\u2019s",
+        "start": 22.744,
+        "end": 23.16
+      },
+      {
+        "word": "beak",
+        "start": 23.16,
+        "end": 23.437
+      },
+      {
+        "word": "help",
+        "start": 23.437,
+        "end": 23.715
+      },
+      {
+        "word": "it",
+        "start": 23.715,
+        "end": 23.853
+      },
+      {
+        "word": "feed?",
+        "start": 23.853,
+        "end": 24.2
+      }
+    ]
+  }
+}

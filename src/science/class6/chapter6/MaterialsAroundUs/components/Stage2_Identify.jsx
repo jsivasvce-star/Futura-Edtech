@@ -511,7 +511,6 @@ export default function Stage2_Identify({ onComplete, addXp, setExtraRightAction
           
           {/* TOP: SCAN VIEWPORT */}
           <div
-            className="glass-panel"
             onDragOver={(e) => e.preventDefault()}
             onDragEnter={() => setIsDraggingOver(true)}
             onDragLeave={() => setIsDraggingOver(false)}

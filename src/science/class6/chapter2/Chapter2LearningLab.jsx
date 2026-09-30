@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Chapter2LearningLabV1 from './version1/Chapter2LearningLab';
 import Chapter2LearningLabV2 from './version2/Chapter2LearningLab';
+import Chapter2LearningLabV3 from './version3/Chapter2LearningLab';
 
 export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, onSoundButtonVisibilityChange, initialVersion = 'v1' }) {
   const [activeVersion] = useState(() => {
@@ -10,7 +11,13 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
 
   return (
     <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
-      {activeVersion === 'v2' ? (
+      {activeVersion === 'v3' ? (
+        <Chapter2LearningLabV3
+          onBack={onBack}
+          onHeaderVisibilityChange={onHeaderVisibilityChange}
+          onSoundButtonVisibilityChange={onSoundButtonVisibilityChange}
+        />
+      ) : activeVersion === 'v2' ? (
         <Chapter2LearningLabV2
           onBack={onBack}
           onHeaderVisibilityChange={onHeaderVisibilityChange}

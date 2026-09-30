@@ -101,16 +101,19 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler, setExtra
             fontWeight: 'bold',
             gap: '0.75rem',
             borderRadius: '10px',
-            color: '#3E2723',
-            borderColor: '#3E2723',
+            color: 'var(--text-primary)',
             display: 'flex',
             alignItems: 'center',
+            justifyContent: 'center',
             cursor: 'pointer',
-            background: 'white'
+            transition: 'all 0.2s',
           }}
         >
-          {isPlayingAudio ? <Pause size={24} /> : <Play size={24} />}
-          {isPlayingAudio ? "Pause Audio" : "Play Audio"}
+          {isPlayingAudio ? (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+          ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          )} {isPlayingAudio ? "Pause" : "Play"}
         </button>
       );
     } else {
@@ -401,7 +404,7 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler, setExtra
         }
         
         .clue1-left {
-          flex: 1;
+          flex: 1.5;
           display: flex;
           flex-direction: column;
           padding-top: 0;
@@ -587,7 +590,8 @@ const Stage9a_WhatIsMatter = ({ onComplete, addXp, registerBackHandler, setExtra
         .c-panel.active { display: flex; animation: panelIn 0.3s ease forwards; }
         @keyframes panelIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .c-panel h2.gen { font-family: 'Playfair Display', serif; font-size: 34px; color: var(--title-dark); margin: 0 0 8px 0; border-bottom: 2px solid var(--border-color); padding-bottom: 12px; flex: none; }
+        .c-panel h2 { color: var(--title-dark) !important; text-shadow: none !important; }
+        .c-panel h2.gen { font-family: 'Playfair Display', serif; font-size: 34px; color: var(--title-dark) !important; text-shadow: none !important; margin: 0 0 8px 0; border-bottom: 2px solid var(--border-color); padding-bottom: 12px; flex: none; }
         .c-panel .sub { font-size: 22px; color: var(--ink-light); margin: 0 0 20px 0; font-weight: 500; flex: none; }
 
         .c-sort-tray { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; background: var(--white); padding: 24px; border-radius: 16px; margin-bottom: 24px; border: 2px solid var(--border-color); flex: none; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }

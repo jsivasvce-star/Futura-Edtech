@@ -74,15 +74,19 @@ const SVGDefs = () => (
   </defs>
 );
 
-const BoxVisualizer = ({ step, playStep, numPictures, questionPic, renderShapes, bottomValues, connectorLabel, connectorColor, showHint, extraControls, hideArrows, hidePictureText, topLabel }) => {
+const BoxVisualizer = ({ step, playStep, numPictures, questionPic, renderShapes, bottomValues, connectorLabel, connectorColor, showHint, extraControls, hideArrows, hidePictureText, topLabel, spacing = 220 }) => {
+  const totalWidth = (numPictures - 1) * spacing;
+  const svgWidth = Math.max(1350, totalWidth + 250);
+  const startX = (svgWidth - totalWidth) / 2;
+
   return (
     <div style={{position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
       {extraControls && <div style={{position: 'absolute', top: -10, zIndex: 10}}>{extraControls}</div>}
-      <svg viewBox="0 0 1350 350" className="seq-svg">
+      <svg viewBox={`0 0 ${svgWidth} 350`} className="seq-svg">
       <SVGDefs />
       {[1, 2, 3, 4, 5, 6].map((pic, i) => {
         if (pic > numPictures) return null;
-        const x = i * 220 + 130;
+        const x = startX + i * spacing;
         const isFocus = playStep >= i;
         const targetPic = questionPic || numPictures;
         const isUnknown = pic === targetPic && step !== 3;
@@ -107,6 +111,10 @@ const BoxVisualizer = ({ step, playStep, numPictures, questionPic, renderShapes,
         else if(connectorColor==="#38bdf8") arrowhead = "arrowhead-cyan";
         else if(connectorColor==="#fb7185") arrowhead = "arrowhead-red";
 
+        const arrowStart = -(spacing - 90);
+        const arrowEnd = -90;
+        const arrowMid = -spacing / 2;
+
         return (
           <g key={pic} transform={`translate(${x}, 170)`}>
             {!hidePictureText && (
@@ -128,8 +136,8 @@ const BoxVisualizer = ({ step, playStep, numPictures, questionPic, renderShapes,
             
             {i > 0 && isFocus && !hideArrows && (
               <motion.g initial={{opacity:0, x:-20}} animate={{opacity:1, x:0}} transition={{delay:0.3}}>
-                <path d="M -130 -20 Q -110 -45 -90 -20" fill="none" stroke={connectorColor} strokeWidth="2" />
-                <text x="-110" y="-45" fill={connectorColor} fontSize="22" textAnchor="middle" fontWeight="bold" style={{opacity: showHint || step === 3 ? 1 : 0, transition: "opacity 0.4s ease"}}>{connectorLabel(i, pic)}</text>
+                <path d={`M ${arrowStart} -20 Q ${arrowMid} -45 ${arrowEnd} -20`} fill="none" stroke={connectorColor} strokeWidth="2" />
+                <text x={arrowMid} y="-45" fill={connectorColor} fontSize="22" textAnchor="middle" fontWeight="bold" style={{opacity: showHint || step === 3 ? 1 : 0, transition: "opacity 0.4s ease"}}>{connectorLabel(i, pic)}</text>
               </motion.g>
             )}
           </g>
@@ -140,43 +148,225 @@ const BoxVisualizer = ({ step, playStep, numPictures, questionPic, renderShapes,
   );
 };
 
-// --- Custom Visualizers for 1.4 ---
-const VisualizerOddSums = ({ step, playStep, showHint }) => (
-  <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={6} connectorLabel={(i,pic)=>`+${2*pic-1}`} connectorColor="#fbbf24" bottomValues={['1','4','9','16','25','36']}
-    renderShapes={(pic) => {
-      const bs = 22;
-      const dots = [];
-      const palette = ['#a855f7', '#2dd4bf', '#f472b6', '#facc15', '#60a5fa', '#a3e635'];
-      for(let r=0; r<pic; r++){
-        for(let c=0; c<pic; c++){
-          const layer = Math.max(r, c);
-          const isNew = layer === pic-1 && pic>1;
-          dots.push(<motion.rect key={`${r}-${c}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: layer*0.1 + (r+c)*0.02}} x={(c - pic/2)*bs} y={(r - pic/2)*bs} width={18} height={18} rx="4" fill={isNew ? "#fde047" : palette[layer]} opacity={isNew ? 1 : 0.8} />);
-        }
-      }
-      return <g>{dots}</g>;
-    }} />
-);
+const AnimatedDiamondSequence = ({ pic, index, playStep, step, palette }) => {
+  const [isSquare, setIsSquare] = React.useState(false);
+  const isRevealed = index <= playStep || (index === 4 && step >= 3);
+
+  React.useEffect(() => {
+    let int, timeout;
+    if (isRevealed) {
+      timeout = setTimeout(() => {
+        setIsSquare(true);
+        int = setInterval(() => {
+          setIsSquare(prev => !prev);
+        }, 4000);
+      }, 2500);
+    } else {
+      setIsSquare(false);
+    }
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(int);
+    };
+  }, [isRevealed]);
+
+  const bs = 16;
+  const dots = [];
+  
+  for(let r=0; r<pic; r++){
+    for(let c=0; c<pic; c++){
+      const i = r + c;
+      const numDots = pic - Math.abs(pic - 1 - i);
+      const j = r - Math.max(0, i - (pic - 1));
+      
+      const xDiamond = (j - (numDots - 1)/2) * bs;
+      const yDiamond = (i - (pic - 1)) * bs;
+      
+      const xSquare = (c - (pic-1)/2) * bs;
+      const ySquare = (r - (pic-1)/2) * bs;
+      
+      const xPos = isSquare ? xSquare : xDiamond;
+      const yPos = isSquare ? ySquare : yDiamond;
+      
+      const color = palette[i % palette.length];
+      const currentScale = isRevealed ? 1 : 0;
+
+      dots.push(<motion.rect key={`${r}-${c}`} 
+        initial={false}
+        animate={{ scale: currentScale, x: xPos - 6, y: yPos - 6, fill: color }} 
+        transition={{ 
+          scale: { type: "spring", stiffness: 300, damping: 20, delay: isRevealed ? i * 0.15 : 0 },
+          x: { type: "tween", ease: [0.34, 1.56, 0.64, 1], duration: 0.8 },
+          y: { type: "tween", ease: [0.34, 1.56, 0.64, 1], duration: 0.8 },
+          fill: { duration: 0.8 }
+        }}
+        width={12} height={12} rx="6" 
+      />);
+    }
+  }
+
+  let expr = "";
+  if (pic === 1) expr = "1";
+  else {
+     let arr = [];
+     for(let i=1; i<=pic; i++) arr.push(i);
+     for(let i=pic-1; i>=1; i--) arr.push(i);
+     expr = arr.join(' + ');
+  }
+
+  return (
+    <g>
+      {!isSquare ? (
+         <text x="0" y="-120" fill="#94a3b8" fontSize="13" textAnchor="middle" fontWeight="bold">
+           {expr}
+         </text>
+      ) : (
+         pic === 1 ? (
+           <text x="0" y="-120" fill="#e2e8f0" fontSize="14" textAnchor="middle" fontWeight="bold">
+             1 = 1 × 1
+           </text>
+         ) : (
+           <text x="0" y="-128" fill="#e2e8f0" fontSize="12" textAnchor="middle" fontWeight="bold">
+             <tspan x="0" dy="0">{expr} = {pic*pic}</tspan>
+             <tspan x="0" dy="1.4em">{pic} × {pic} = {pic*pic}</tspan>
+           </text>
+         )
+      )}
+      <g>{dots}</g>
+    </g>
+  );
+};
+
+const AnimatedLargeDiamond = ({ index, playStep, step, palette }) => {
+  const [isSquare, setIsSquare] = React.useState(false);
+  const isRevealed = index <= playStep || (index === 4 && step >= 3);
+
+  React.useEffect(() => {
+    let int, timeout;
+    if (isRevealed) {
+      timeout = setTimeout(() => {
+        setIsSquare(true);
+        int = setInterval(() => {
+          setIsSquare(prev => !prev);
+        }, 4000);
+      }, 3500); // 3.5 seconds to build and look at the large diamond
+    } else {
+      setIsSquare(false);
+    }
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(int);
+    };
+  }, [isRevealed]);
+
+  const bs = 16;
+  const topRows = [];
+  for(let r=1; r<=3; r++) {
+    for(let c=0; c<r; c++) {
+      const x = (c - (r-1)/2) * bs;
+      const y = (r - 1) * bs - 70;
+      topRows.push(<motion.rect key={`t${r}${c}`} initial={{scale:0}} animate={{scale:isRevealed?1:0}} transition={{type: "spring", stiffness: 300, damping: 20, delay: isRevealed ? r*0.15 : 0}} x={x-6} y={y-6} width={12} height={12} rx={6} fill={palette[r%palette.length]} />);
+    }
+  }
+  
+  const bottomRows = [];
+  for(let r=1; r<=3; r++) {
+    for(let c=0; c<r; c++) {
+      const x = (c - (r-1)/2) * bs;
+      const y = 70 - (r - 1) * bs;
+      bottomRows.push(<motion.rect key={`b${r}${c}`} initial={{scale:0}} animate={{scale:isRevealed?1:0}} transition={{type: "spring", stiffness: 300, damping: 20, delay: isRevealed ? r*0.15 + 1.5 : 0}} x={x-6} y={y-6} width={12} height={12} rx={6} fill={palette[r%palette.length]} />);
+    }
+  }
+
+  return (
+    <g>
+      {!isSquare ? (
+         <g>
+           <text x="0" y="-135" fill="#94a3b8" fontSize="13" textAnchor="middle" fontWeight="bold">
+             <tspan x="0" dy="0">1 + 2 + 3 + ... + 99 + 100</tspan>
+             <tspan x="0" dy="1.4em">+ 99 + ... + 3 + 2 + 1</tspan>
+           </text>
+           
+           <motion.g initial={{opacity:0}} animate={{opacity: isRevealed ? 1 : 0}} transition={{duration: 0.5}}>
+             {topRows}
+             <text x="0" y="-10" fill="#94a3b8" fontSize="16" textAnchor="middle" fontWeight="bold">⋮</text>
+             
+             <g transform="translate(0, 5)">
+               <motion.rect initial={{scale:0}} animate={{scale:isRevealed?1:0}} transition={{type: "spring", stiffness: 300, damping: 20, delay: isRevealed ? 1.0 : 0}} x={-4*bs-6} y={-6} width={12} height={12} rx={6} fill={palette[4%palette.length]} />
+               <motion.rect initial={{scale:0}} animate={{scale:isRevealed?1:0}} transition={{type: "spring", stiffness: 300, damping: 20, delay: isRevealed ? 1.0 : 0}} x={-3*bs-6} y={-6} width={12} height={12} rx={6} fill={palette[4%palette.length]} />
+               <motion.rect initial={{scale:0}} animate={{scale:isRevealed?1:0}} transition={{type: "spring", stiffness: 300, damping: 20, delay: isRevealed ? 1.0 : 0}} x={-2*bs-6} y={-6} width={12} height={12} rx={6} fill={palette[4%palette.length]} />
+               <motion.text initial={{opacity:0}} animate={{opacity:isRevealed?1:0}} transition={{delay: isRevealed ? 1.0 : 0}} x="0" y="4" fill="#94a3b8" fontSize="14" textAnchor="middle" fontWeight="bold">...</motion.text>
+               <motion.rect initial={{scale:0}} animate={{scale:isRevealed?1:0}} transition={{type: "spring", stiffness: 300, damping: 20, delay: isRevealed ? 1.0 : 0}} x={2*bs-6} y={-6} width={12} height={12} rx={6} fill={palette[4%palette.length]} />
+               <motion.rect initial={{scale:0}} animate={{scale:isRevealed?1:0}} transition={{type: "spring", stiffness: 300, damping: 20, delay: isRevealed ? 1.0 : 0}} x={3*bs-6} y={-6} width={12} height={12} rx={6} fill={palette[4%palette.length]} />
+               <motion.rect initial={{scale:0}} animate={{scale:isRevealed?1:0}} transition={{type: "spring", stiffness: 300, damping: 20, delay: isRevealed ? 1.0 : 0}} x={4*bs-6} y={-6} width={12} height={12} rx={6} fill={palette[4%palette.length]} />
+               <motion.text initial={{opacity:0}} animate={{opacity:isRevealed?1:0}} transition={{delay: isRevealed ? 1.2 : 0}} x={5*bs + 10} y="4" fill="#4ade80" fontSize="13" textAnchor="start" fontWeight="bold">← 100</motion.text>
+             </g>
+
+             <text x="0" y="40" fill="#94a3b8" fontSize="16" textAnchor="middle" fontWeight="bold">⋮</text>
+             {bottomRows}
+           </motion.g>
+         </g>
+      ) : (
+         <g>
+           <text x="0" y="-135" fill="#e2e8f0" fontSize="13" textAnchor="middle" fontWeight="bold">
+             <tspan x="0" dy="0">1 + 2 + 3 + ... + 99 + 100</tspan>
+             <tspan x="0" dy="1.4em">+ 99 + ... + 3 + 2 + 1</tspan>
+             <tspan x="0" dy="1.8em">100 × 100 = 10,000</tspan>
+           </text>
+           <motion.g initial={{opacity:0, scale:0.8}} animate={{opacity:1, scale:1}}>
+             <rect x="-65" y="-60" width="130" height="130" fill="rgba(168, 85, 247, 0.1)" stroke="#a855f7" strokeWidth="2" strokeDasharray="6,6" rx="8" />
+             <text x="0" y="-70" fill="#a855f7" fontSize="13" textAnchor="middle" fontWeight="bold">100 columns</text>
+             <text x="-75" y="5" fill="#a855f7" fontSize="13" textAnchor="middle" fontWeight="bold" transform="rotate(-90, -75, 5)">100 rows</text>
+             <text x="0" y="10" fill="#e2e8f0" fontSize="22" textAnchor="middle" fontWeight="bold">10,000</text>
+           </motion.g>
+         </g>
+      )}
+    </g>
+  );
+};
+
+const VisualizerOddSums = ({ step, playStep, showHint }) => {
+  const palette = ['#a855f7', '#2dd4bf', '#f472b6', '#facc15', '#60a5fa', '#a3e635'];
+  
+  return (
+    <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={5} questionPic={5} hideArrows={false} hidePictureText={true} connectorLabel={(i,pic)=>``} connectorColor="#fbbf24" bottomValues={['1','4','9','16','25']} spacing={265}
+      renderShapes={(pic, index) => {
+        return <AnimatedDiamondSequence key={pic} pic={pic} index={index} playStep={playStep} step={step} palette={palette} />;
+      }} />
+  );
+};
+
+const VisualizerHundredAndBack = ({ step, playStep, showHint }) => {
+  const palette = ['#a855f7', '#2dd4bf', '#f472b6', '#facc15', '#60a5fa', '#a3e635'];
+  
+  return (
+    <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={5} questionPic={5} hideArrows={false} hidePictureText={true} connectorLabel={(i,pic)=>``} connectorColor="#fbbf24" bottomValues={['1','4','9','16', '10,000']} spacing={265}
+      renderShapes={(pic, index) => {
+        if (index === 4) return <AnimatedLargeDiamond key={pic} index={index} playStep={playStep} step={step} palette={palette} />;
+        return <AnimatedDiamondSequence key={pic} pic={pic} index={index} playStep={playStep} step={step} palette={palette} />;
+      }} />
+  );
+};
 
 const VisualizerTenOdds = ({ step, playStep, showHint }) => (
-  <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={3} hideArrows={true} hidePictureText={true} connectorLabel={()=>``} connectorColor="#38bdf8" bottomValues={['4','16','100']}
+  <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={4} questionPic={4} hideArrows={true} hidePictureText={true} connectorLabel={()=>``} connectorColor="#2dd4bf" bottomValues={['4','16','36','100']}
     renderShapes={(pic) => {
-      const size = pic === 1 ? 2 : pic === 2 ? 4 : 10;
+      const size = pic === 1 ? 2 : pic === 2 ? 4 : pic === 3 ? 6 : 10;
       const gridSize = 130;
       const stepSize = gridSize / size;
       const lines = [];
       const ox = -50; 
       const oy = -70;
       for(let j=1; j<size; j++) {
-        lines.push(<line key={`h${j}`} x1={ox} y1={oy + j*stepSize} x2={ox + gridSize} y2={oy + j*stepSize} stroke="rgba(56,189,248,0.3)" strokeWidth="1" />);
-        lines.push(<line key={`v${j}`} x1={ox + j*stepSize} y1={oy} x2={ox + j*stepSize} y2={oy + gridSize} stroke="rgba(56,189,248,0.3)" strokeWidth="1" />);
+        lines.push(<line key={`h${j}`} x1={ox} y1={oy + j*stepSize} x2={ox + gridSize} y2={oy + j*stepSize} stroke="rgba(45,212,191,0.3)" strokeWidth="1" />);
+        lines.push(<line key={`v${j}`} x1={ox + j*stepSize} y1={oy} x2={ox + j*stepSize} y2={oy + gridSize} stroke="rgba(45,212,191,0.3)" strokeWidth="1" />);
       }
       return <g>
-        <rect x={ox} y={oy} width={gridSize} height={gridSize} rx="4" fill="transparent" stroke="#38bdf8" strokeWidth="2" />
+        <rect x={ox} y={oy} width={gridSize} height={gridSize} rx="4" fill="transparent" stroke="#2dd4bf" strokeWidth="2" />
         {lines}
-        <text x="0" y="-115" fill="#bae6fd" fontSize="13" fontWeight="700" textAnchor="middle">{size} rows × {size} columns</text>
-        <text x="-75" y="-5" fill="#bae6fd" fontSize="12" fontWeight="700" textAnchor="middle" transform="rotate(-90, -75, -5)">{size} rows</text>
-        <text x="15" y="78" fill="#bae6fd" fontSize="12" fontWeight="700" textAnchor="middle">{size} columns</text>
+        <text x="0" y="-115" fill="#ccfbf1" fontSize="13" fontWeight="700" textAnchor="middle">{size} rows × {size} columns</text>
+        <text x="-75" y="-5" fill="#ccfbf1" fontSize="12" fontWeight="700" textAnchor="middle" transform="rotate(-90, -75, -5)">{size} rows</text>
+        <text x="15" y="78" fill="#ccfbf1" fontSize="12" fontWeight="700" textAnchor="middle">{size} columns</text>
       </g>;
     }} />
 );
@@ -300,33 +490,219 @@ const VisualizerUpAndDown100 = ({ step, playStep, showHint }) => (
     }} />
 );
 
-const VisualizerGeneric = ({ step, playStep, showHint }) => (
-  <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={3} connectorLabel={()=>``} connectorColor="#64748b" bottomValues={['?','?','?']}
-    renderShapes={(pic) => (
-      <g>
-        <text x="0" y="10" fill="#94a3b8" fontSize="24" textAnchor="middle">Pattern {pic}</text>
-      </g>
-    )} />
+
+const VisualizerAddingOnes = ({ step, playStep, showHint }) => (
+  <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={5} connectorLabel={()=>`+1`} connectorColor="#3b82f6" bottomValues={['1','2','3','4','5']} spacing={220}
+    renderShapes={(pic) => {
+      const dots = [];
+      const bs = 20;
+      const startX = -((pic - 1) * bs) / 2;
+      for (let j = 0; j < pic; j++) {
+        const isNew = j === pic - 1 && pic > 1;
+        dots.push(<motion.circle key={j} initial={{scale:0}} animate={{scale:1}} transition={{delay: j*0.05}} cx={startX + j * bs} cy={0} r="7" fill={isNew ? "#93c5fd" : "#3b82f6"} />);
+      }
+      return <g>{dots}</g>;
+    }} />
 );
+
+const VisualizerOnesUpAndDown = ({ step, playStep, showHint }) => (
+  <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={5} connectorLabel={()=>`+2`} connectorColor="#f472b6" bottomValues={['1','3','5','7','9']} spacing={220}
+    renderShapes={(pic) => {
+      const dots = [];
+      const bs = 16;
+      // n ones going up, n-1 coming down
+      const totalWidth = (pic * 2 - 2) * bs;
+      const startX = -totalWidth / 2;
+      for (let j = 0; j < pic; j++) {
+        dots.push(<motion.rect key={`u${j}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: j*0.05}} x={startX + j * bs - 6} y={-j * bs - 6} width={12} height={12} rx={6} fill="#ec4899" />);
+      }
+      for (let j = 1; j < pic; j++) {
+        dots.push(<motion.rect key={`d${j}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: (pic+j)*0.05}} x={startX + (pic - 1 + j) * bs - 6} y={-(pic - 1 - j) * bs - 6} width={12} height={12} rx={6} fill="#fbcfe8" />);
+      }
+      return <g>{dots}</g>;
+    }} />
+);
+
+const VisualizerCountingSums = ({ step, playStep, showHint }) => (
+  <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={5} connectorLabel={(i,pic)=>`+${pic}`} connectorColor="#f59e0b" bottomValues={['1','3','6','10','15']} spacing={220}
+    renderShapes={(pic) => {
+      const dots = [];
+      for (let r=0; r<pic; r++) {
+        for (let c=0; c<=r; c++) {
+          const isNew = r === pic-1 && pic>1;
+          dots.push(<motion.circle key={`${r}-${c}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: r*0.05}} cx={(c - r/2)*20} cy={(r - pic/2)*20 + 10} r="7" fill={isNew ? "#fde047" : "#eab308"} />);
+        }
+      }
+      return <g>{dots}</g>;
+    }} />
+);
+
+const VisualizerTwoTriangles = ({ step, playStep, showHint }) => (
+  <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={4} connectorLabel={(i,pic)=>`+${pic*2-1}`} connectorColor="#10b981" bottomValues={['4','9','16','25']} spacing={260} topLabel={(pic) => `${pic}+${pic+1} = ${pic+1}^2`}
+    renderShapes={(pic) => {
+      const dots = [];
+      const s = pic + 1; // picture 1 => side 2 (1+3=4)
+      const bs = 16;
+      for (let r=0; r<s; r++) {
+        for (let c=0; c<s; c++) {
+          const isTopTriangle = c >= r; // one triangle
+          const isBottomTriangle = c < r;
+          dots.push(<motion.rect key={`${r}-${c}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: (r+c)*0.03}} x={(c - s/2)*bs} y={(r - s/2)*bs} width={12} height={12} rx={4} fill={isTopTriangle ? "#34d399" : "#059669"} />);
+        }
+      }
+      return <g>{dots}</g>;
+    }} />
+);
+
+const VisualizerPowersOfTwo = ({ step, playStep, showHint }) => (
+  <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={5} questionPic={5} hideArrows={true} connectorLabel={()=>``} connectorColor="#8b5cf6" bottomValues={['1','3','7','15','31']} spacing={240}
+    renderShapes={(pic, i, isFocus) => {
+      const n = Math.pow(2, pic - 1);
+      let cols, rows;
+      if ((pic-1) % 2 === 0) {
+        cols = Math.sqrt(n);
+        rows = cols;
+      } else {
+        cols = Math.sqrt(n / 2);
+        rows = cols * 2;
+      }
+      const S = 18;
+      const dots = [];
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          if (r === rows - 1 && c === cols - 1) {
+            // The missing piece
+            if (isFocus) {
+              dots.push(<motion.rect key="missing" initial={{opacity:0}} animate={{opacity:0.3}} transition={{delay: 1}} x={(c - cols/2)*S + 2} y={(r - rows/2)*S + 2} width={14} height={14} rx={4} fill="#e2e8f0" stroke="#94a3b8" strokeDasharray="2,2" />);
+            }
+          } else {
+            const isNew = pic > 1 && (r >= rows/2 || c >= cols/2); // approximate new half
+            dots.push(<motion.rect key={`${r}-${c}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: (r+c)*0.02}} x={(c - cols/2)*S + 2} y={(r - rows/2)*S + 2} width={14} height={14} rx={4} fill={isNew ? "#a78bfa" : "#7c3aed"} />);
+          }
+        }
+      }
+      return <g>{dots}</g>;
+    }} />
+);
+
+const VisualizerSixTriangles = ({ step, playStep, showHint }) => (
+  <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={4} connectorLabel={(i,pic)=>`+${pic*6}`} connectorColor="#f43f5e" bottomValues={['7','19','37','61']} spacing={260}
+    renderShapes={(pic) => {
+      const s = pic; // triangle side
+      const dots = [];
+      const bs = 12;
+      dots.push(<motion.circle key="center" initial={{scale:0}} animate={{scale:1}} cx={0} cy={0} r={5} fill="#f43f5e" />);
+      
+      const ux = 0;
+      const uy = -bs;
+      const vx = bs * Math.sqrt(3)/2;
+      const vy = -bs * 0.5;
+
+      for (let k=0; k<6; k++) {
+        for (let r=1; r<=s; r++) {
+          for (let c=0; c<r; c++) {
+            // position in sector 0
+            const bx = r * ux + c * (vx - ux);
+            const by = r * uy + c * (vy - uy);
+            
+            // rotate by k * 60 deg
+            const angle = k * Math.PI / 3;
+            const px = bx * Math.cos(angle) - by * Math.sin(angle);
+            const py = bx * Math.sin(angle) + by * Math.cos(angle);
+            
+            const isNew = r === s;
+            dots.push(<motion.circle key={`${k}-${r}-${c}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: r*0.05}} cx={px} cy={py} r={4.5} fill={isNew ? "#fda4af" : "#e11d48"} />);
+          }
+        }
+      }
+      return <g>{dots}</g>;
+    }} />
+);
+
+const VisualizerHexagonalToCubes = ({ step, playStep, showHint }) => {
+  const [separate, setSeparate] = useState(false);
+  return (
+    <BoxVisualizer step={step} playStep={playStep} showHint={showHint} hideArrows={true} numPictures={4} connectorLabel={()=>``} connectorColor="#f59e0b" bottomValues={['1','8','27','64']} spacing={260}
+      extraControls={<div style={{display: 'flex', gap: '8px', background: 'rgba(15,23,42,0.8)', padding: '4px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)'}}><button onClick={() => setSeparate(false)} style={{padding: '6px 16px', borderRadius: '6px', border: 'none', cursor: 'pointer', background: !separate ? 'rgba(255,255,255,0.15)' : 'transparent', color: !separate ? '#fff' : '#94a3b8', fontWeight: '600'}}>Solid cubes</button><button onClick={() => setSeparate(true)} style={{padding: '6px 16px', borderRadius: '6px', border: 'none', cursor: 'pointer', background: separate ? 'rgba(255,255,255,0.15)' : 'transparent', color: separate ? '#fff' : '#94a3b8', fontWeight: '600'}}>Separate layers</button></div>}
+      renderShapes={(pic, i, isFocus) => {
+        const layers = [];
+        const S = 16;
+        const dx = S * Math.sqrt(3) / 2;
+        const dy = S / 2;
+        const gap = separate ? S * 0.8 : 0;
+        
+        const layerColors = [
+          { top: '#fde047', left: '#facc15', right: '#eab308' },
+          { top: '#bfdbfe', left: '#60a5fa', right: '#3b82f6' },
+          { top: '#fbcfe8', left: '#f472b6', right: '#db2777' },
+          { top: '#c084fc', left: '#a855f7', right: '#9333ea' }
+        ];
+        
+        for (let z=0; z<pic; z++) {
+          const cubesInLayer = [];
+          for (let x=0; x<pic; x++) {
+            for (let y=0; y<pic; y++) {
+              const cx = (y - x) * dx;
+              const cy = (x + y) * dy - z * S - z * gap + (pic * gap) / 2;
+              
+              const pTop = `0,${-S} ${dx},${-dy} 0,0 ${-dx},${-dy}`;
+              const pRight = `${dx},${-dy} ${dx},${dy} 0,${S} 0,0`;
+              const pLeft = `0,0 0,${S} ${-dx},${dy} ${-dx},${-dy}`;
+              
+              const isOuter = (x === pic-1 || y === pic-1 || z === pic-1) && pic > 1;
+              const cols = isOuter ? layerColors[pic-1] : layerColors[Math.max(x,y,z)];
+              
+              cubesInLayer.push(
+                <g key={`${x}-${y}`} transform={`translate(${cx}, ${cy})`}>
+                  <polygon points={pTop} fill={cols.top} stroke="rgba(0,0,0,0.3)" strokeWidth="0.8" />
+                  <polygon points={pLeft} fill={cols.left} stroke="rgba(0,0,0,0.3)" strokeWidth="0.8" />
+                  <polygon points={pRight} fill={cols.right} stroke="rgba(0,0,0,0.3)" strokeWidth="0.8" />
+                </g>
+              );
+            }
+          }
+          layers.push(
+            <motion.g key={`layer-${z}`} initial={false} animate={isFocus ? {opacity:1, y: 0, scale: 1} : {opacity:0, y: -40, scale: 0.95}} transition={{delay: z * 0.07, type: 'spring'}}>
+              {cubesInLayer}
+            </motion.g>
+          );
+        }
+        return <g>{layers}</g>;
+      }} />
+  );
+};
+
+const VisualizerDiscoverRelation = ({ step, playStep, showHint }) => (
+  <BoxVisualizer step={step} playStep={playStep} showHint={showHint} numPictures={4} connectorLabel={(i,pic)=>`+${(pic+1)*2-1}`} connectorColor="#14b8a6" bottomValues={['4','9','16','25']} spacing={260} topLabel={(pic) => `${pic+1}^2`}
+    renderShapes={(pic) => {
+      const s = pic + 1; // start at 2x2
+      const bs = 16;
+      const dots = [];
+      for (let r=0; r<s; r++) {
+        for (let c=0; c<s; c++) {
+          const isBorder = (r === s-1 || c === s-1);
+          dots.push(<motion.rect key={`${r}-${c}`} initial={{scale:0}} animate={{scale:1}} transition={{delay: (r+c)*0.03}} x={(c - s/2)*bs} y={(r - s/2)*bs} width={12} height={12} rx={4} fill={isBorder ? "#5eead4" : "#0f766e"} />);
+        }
+      }
+      return <g>{dots}</g>;
+    }} />
+);
+
 
 // ==========================================
 // DATA
 // ==========================================
 const CONCEPTS = [
-  { id: 1, title: 'Odd sums make squares', subtitle: 'Each odd number adds an L-shaped border.', watchDesc: 'Watch borders of 1, 3, 5 and 7 dots build larger squares.', watchAnswer: 'Each colour is one odd-number group. Separate the borders to inspect them.', question: 'What is 1 + 3 + 5 + 7 + 9 + 11?', seqList: '1, 4, 9, 16, 25, ?', options: [30, 35, 36], correctOption: 36, discoveredTitle: 'The six odd-number groups fill all 36 places.', discoveredDesc: 'The groups contain 1, 3, 5, 7, 9 and 11 dots. Together they fill a 6 x 6 square.', nextTitle: 'The first 10 odd numbers', Visualizer: VisualizerOddSums },
-  { id: 2, title: 'The first 10 odd numbers', subtitle: 'Imagine a larger version of the square.', watchDesc: 'Squares of side 2, 4 and 10 use the same odd-border rule.', watchAnswer: 'The first 10 odd numbers end at 19. Their 10 borders fill a 10 x 10 square.', question: 'What is 1 + 3 + 5 + ... + 19?', seqList: '4, 16, ?', options: [90, 100, 110], correctOption: 100, discoveredTitle: 'Ten odd-number borders. A hundred dots.', discoveredDesc: 'The first 10 odd numbers make 10 L-shaped borders. They fill a square of side 10, so the sum is 10 x 10 = 100.', nextTitle: 'The first 100 odd numbers', Visualizer: VisualizerTenOdds },
-  { id: 3, title: 'The first 100 odd numbers', subtitle: 'Think of the square without drawing every dot.', watchDesc: 'The first 100 odd numbers end at 199. The 100 x 100 grid is shown schematically.', watchAnswer: '100 rows of 100 columns.', question: 'Why does the same rule work for 100 odd numbers?', seqList: '100, ?', options: [1000, 10000, 20000], correctOption: 10000, discoveredTitle: '100 x 100 = 10,000, without adding a hundred terms one by one.', discoveredDesc: 'The first 100 odd numbers are 1, 3, 5, ..., 199. Their 100 L-shaped borders fill a 100 x 100 square: 10,000 dots.', nextTitle: 'Adding up and down', Visualizer: VisualizerHundredOdds },
-  { id: 4, title: 'Adding up and down', subtitle: 'The same square, counted along its diagonals.', watchDesc: 'Follow diagonals of lengths 1, 2, 3, ..., n, ..., 3, 2, 1.', watchAnswer: 'Switch to Diagonal rows: 1+2+3+4+5+4+3+2+1 = 25.', question: 'What is 1 + 2 + 3 + 4 + 5 + 6 + 5 + 4 + 3 + 2 + 1?', seqList: '1, 4, 9, 16, ?', options: [30, 36, 42], correctOption: 36, discoveredTitle: 'Up to 6 and down to 1 makes 36.', discoveredDesc: 'The diagonal groups fill a 6 x 6 square. Count the peak 6 once.', nextTitle: 'Up to 100 and back', Visualizer: VisualizerUpAndDown },
-  { id: 5, title: 'Up to 100 and back', subtitle: 'The peak is counted once.', watchDesc: 'A peak of 2, 5 or 10 produces the square of that number.', watchAnswer: 'The peak 100 occurs once.', question: 'What is 1 + 2 + ... + 100 + 99 + ... + 2 + 1?', seqList: '4, 25, 100, ?', options: [1000, 10000, 20000], correctOption: 10000, discoveredTitle: 'The total is 10,000. The peak is included only once.', discoveredDesc: 'The diagonals of a 100 x 100 square have lengths 1, 2, ..., 100, ..., 2, 1. They fill 10,000 places. Counting 100 twice would give the wrong sum.', nextTitle: 'Adding 1s to counting', Visualizer: VisualizerUpAndDown100 },
-  { id: 6, title: 'Adding 1s → counting', subtitle: 'One more 1. One more in the total.', watchDesc: 'Add one unit at a time and read the running totals.', watchAnswer: '1; 1+1; 1+1+1... give 1, 2, 3...', question: 'What is the sum of five 1s?', seqList: '1, 2, 3, 4, ?', options: [4, 5, 6], correctOption: 5, discoveredTitle: 'Five 1s give 5. The totals are counting numbers.', discoveredDesc: 'Adding n copies of 1 gives n.', nextTitle: '1s up and down', Visualizer: VisualizerGeneric },
-  { id: 7, title: '1s up and down → odds', subtitle: 'One central 1, with equal wings.', watchDesc: 'At step n, use n ones going up and n - 1 coming down.', watchAnswer: 'Count the peak once: n + (n - 1) = 2n - 1.', question: 'Use five 1s on the way up and four on the way down. Total?', seqList: '1, 3, 5, 7, ?', options: [9, 10, 11], correctOption: 9, discoveredTitle: '5 + 4 = 9. Four pairs and one central unit.', discoveredDesc: 'The peak is included only once. So the totals are 1, 3, 5, 7, 9... each equal to 2n - 1.', nextTitle: 'Counting sums', Visualizer: VisualizerGeneric },
-  { id: 8, title: 'Counting sums → triangles', subtitle: 'Stack the next counting number as a row.', watchDesc: 'A row of 1, then 2, then 3: watch the triangle grow.', watchAnswer: 'The totals 1, 3, 6, 10, 15... are triangular numbers.', question: 'What is 1 + 2 + 3 + 4 + 5 + 6?', seqList: '1, 3, 6, 10, 15, ?', options: [20, 21, 25], correctOption: 21, discoveredTitle: 'The six rows contain 21 dots altogether.', discoveredDesc: 'Rows of 1, 2, 3... n dots form a filled triangle.', nextTitle: 'Two triangles', Visualizer: VisualizerGeneric },
-  { id: 9, title: 'Two triangles → a square', subtitle: 'Fit consecutive triangles together.', watchDesc: 'Separate the two colours. One triangle has one more row.', watchAnswer: '1+3=4; 3+6=9; 6+10=16...', question: 'What is 15 + 21, the next pair of triangular numbers?', seqList: '4, 9, 16, 25, ?', options: [30, 35, 36], correctOption: 36, discoveredTitle: '15 + 21 = 36. The two triangles fill one square.', discoveredDesc: 'Tn + Tn-1 = n^2. One triangle includes the diagonal of the square; the other fills the remaining spaces.', nextTitle: 'Adding powers of 2', Visualizer: VisualizerGeneric },
-  { id: 10, title: 'One short of doubling', subtitle: 'Add powers of 2, then fill the missing place.', watchDesc: 'Coloured groups grow 1, 2, 4, 8... One empty place completes the next power of 2.', watchAnswer: 'The sums are 1, 3, 7, 15, 31... Add 1 to get 2, 4, 8, 16, 32...', question: 'What is 1 + 2 + 4 + 8 + 16, before adding the extra 1?', seqList: '1, 3, 7, 15, ?', options: [31, 32, 30], correctOption: 31, discoveredTitle: 'The sum is 31. One extra unit completes 32.', discoveredDesc: '1+2+...+2^(n-1) = 2^n - 1.', nextTitle: 'Six triangles', Visualizer: VisualizerGeneric },
-  { id: 11, title: 'Six triangles + a centre', subtitle: 'Arrange six triangular groups around one dot.', watchDesc: 'The six colours are equal triangular groups. Keep the centre separate.', watchAnswer: '6x1+1=7; 6x3+1=19; 6x6+1=37...', question: 'If each triangle has 15 dots, what is 6 x 15 + 1?', seqList: '7, 19, 37, 61, ?', options: [90, 91, 96], correctOption: 91, discoveredTitle: 'Six triangles of 15, plus the centre, make 91.', discoveredDesc: 'Six copies of a triangular number plus a centre dot make hexagonal numbers.', nextTitle: 'Hexagonal sums', Visualizer: VisualizerGeneric },
-  { id: 12, title: 'Hexagonal sums → cubes', subtitle: 'A new shell grows the cube by one.', watchDesc: 'Each golden shell joins the smaller blue cube.', watchAnswer: 'The added shells contain 1, 7, 19, 37, 61... unit cubes.', question: 'What is 1 + 7 + 19 + 37 + 61?', seqList: '1, 8, 27, 64, ?', options: [100, 121, 125], correctOption: 125, discoveredTitle: 'Five shells build 5 x 5 x 5 = 125 unit cubes.', discoveredDesc: 'The difference between consecutive cubes is 1, 7, 19, 37, 61...', nextTitle: 'Discover a new relation', Visualizer: VisualizerGeneric },
-  { id: 13, title: 'Discover a new relation', subtitle: 'What hides between two neighbouring squares?', watchDesc: 'Count only the golden border. The blue square is already there.', watchAnswer: '4-1=3; 9-4=5; 16-9=7; 25-16=9...', question: 'How many new dots grow the square from 25 to 36?', seqList: '3, 5, 7, 9, ?', options: [10, 11, 12], correctOption: 11, discoveredTitle: '36 - 25 = 11. The next odd border completes the square.', discoveredDesc: 'n^2 - (n-1)^2 = 2n - 1. The border has n dots on one side and n-1 on the other.', nextTitle: 'Finish', Visualizer: VisualizerGeneric },
-  { id: 14, title: 'Finish', subtitle: 'You have mastered pattern connections!', watchDesc: 'Review all the connections you discovered.', watchAnswer: 'Mathematics is full of surprising links.', question: 'Are you ready to continue your journey?', seqList: 'Done', options: ['Yes', 'No', 'Maybe'], correctOption: 'Yes', discoveredTitle: 'Great job!', discoveredDesc: 'You have completed the relations module.', nextTitle: 'Finish', Visualizer: VisualizerGeneric }
+  { id: 1, title: 'Counting up and down makes squares', subtitle: 'The numbers grow to the middle, then shrink again.', watchDesc: 'Count up to the middle, then count back down.', watchAnswer: 'Watch the same blocks rearrange into a perfect square.', question: 'What is 1 + 2 + 3 + 4 + 5 + 4 + 3 + 2 + 1?', seqList: '1, 4, 9, 16, ?', options: ['20', '24', '25'], correctOption: '25', discoveredTitle: 'Up to 5 and down to 1 makes 25.', discoveredDesc: 'Count up to 5 and then back down to 1. The same 25 blocks can be arranged as a 5 × 5 square.', nextTitle: 'Up to 100 and back', Visualizer: VisualizerOddSums },
+  { id: 2, title: 'Up to 100 and back', subtitle: 'The peak is counted once.', watchDesc: 'A peak of 2, 5 or 100 produces the square of that number.', watchAnswer: 'The peak 100 occurs once.', question: 'Can you see the value?\n1 + 2 + 3 + ... + 99 + 100\n+ 99 + ... + 3 + 2 + 1', seqList: '1, 4, 9, 16, ... ?', options: ['9,900', '10,000', '10,100'], correctOption: '10,000', discoveredTitle: 'The pattern makes a 100 × 100 square.', discoveredDesc: '100 × 100 = 10,000', nextTitle: 'All 1s sequence', Visualizer: VisualizerHundredAndBack },
+  { id: 3, title: 'All 1s sequence', subtitle: 'One more 1. One more in the total.', watchDesc: 'Add one unit at a time and read the running totals.', watchAnswer: '1; 1+1; 1+1+1... give 1, 2, 3...', question: 'What is the sum of five 1s?', seqList: '1, 2, 3, 4, ?', options: [4, 5, 6], correctOption: 5, discoveredTitle: 'Five 1s give 5. The totals are counting numbers.', discoveredDesc: 'Adding n copies of 1 gives n.', nextTitle: '1s up and down', Visualizer: VisualizerAddingOnes },
+  { id: 4, title: '1s up and down', subtitle: 'One central 1, with equal wings.', watchDesc: 'At step n, use n ones going up and n - 1 coming down.', watchAnswer: 'Count the peak once: n + (n - 1) = 2n - 1.', question: 'Use five 1s on the way up and four on the way down. Total?', seqList: '1, 3, 5, 7, ?', options: [9, 10, 11], correctOption: 9, discoveredTitle: '5 + 4 = 9. Four pairs and one central unit.', discoveredDesc: 'The peak is included only once. So the totals are 1, 3, 5, 7, 9... each equal to 2n - 1.', nextTitle: 'Triangular numbers', Visualizer: VisualizerOnesUpAndDown },
+  { id: 5, title: 'Counting numbers to triangles', subtitle: 'Stack the next counting number as a row.', watchDesc: 'A row of 1, then 2, then 3: watch the triangle grow.', watchAnswer: 'The totals 1, 3, 6, 10, 15... are triangular numbers.', question: 'What is 1 + 2 + 3 + 4 + 5?', seqList: '1, 3, 6, 10, ?', options: [14, 15, 16], correctOption: 15, discoveredTitle: 'The five rows contain 15 dots altogether.', discoveredDesc: 'Rows of 1, 2, 3... n dots form a filled triangle.', nextTitle: 'Two triangles', Visualizer: VisualizerCountingSums },
+  { id: 6, title: 'Two triangles make a square', subtitle: 'Fit consecutive triangles together.', watchDesc: 'Separate the two colours. One triangle has one more row.', watchAnswer: '1+3=4; 3+6=9; 6+10=16...', question: 'How many dots belong in picture 4?', seqList: '4, 9, 16, ?', options: [20, 24, 25], correctOption: 25, discoveredTitle: '10 + 15 = 25. The two triangles fill one square.', discoveredDesc: 'Tn + Tn-1 = n^2. One triangle includes the diagonal of the square; the other fills the remaining spaces.', nextTitle: 'Powers of 2', Visualizer: VisualizerTwoTriangles },
+  { id: 7, title: 'Powers of 2', subtitle: 'Add powers of 2, then fill the missing place.', watchDesc: 'Coloured groups grow 1, 2, 4, 8... One empty place completes the next power of 2.', watchAnswer: 'The sums are 1, 3, 7, 15, 31... Add 1 to get 2, 4, 8, 16, 32...', question: 'What is 1 + 2 + 4 + 8 + 16, before adding the extra 1?', seqList: '1, 3, 7, 15, ?', options: [31, 32, 30], correctOption: 31, discoveredTitle: 'The sum is 31. One extra unit completes 32.', discoveredDesc: '1+2+...+2^(n-1) = 2^n - 1.', nextTitle: 'Six triangles', Visualizer: VisualizerPowersOfTwo },
+  { id: 8, title: 'Six triangles + a centre', subtitle: 'Arrange six triangular groups around one dot.', watchDesc: 'The six colours are equal triangular groups. Keep the centre separate.', watchAnswer: '6x1+1=7; 6x3+1=19; 6x6+1=37...', question: 'If each triangle has 10 dots, what is 6 x 10 + 1?', seqList: '7, 19, 37, ?', options: [60, 61, 63], correctOption: 61, discoveredTitle: 'Six triangles of 10, plus the centre, make 61.', discoveredDesc: 'Six copies of a triangular number plus a centre dot make hexagonal numbers.', nextTitle: 'Hexagonal to cubes', Visualizer: VisualizerSixTriangles },
+  { id: 9, title: 'Hexagonal numbers to cubes', subtitle: 'A new shell grows the cube by one.', watchDesc: 'Each golden shell joins the smaller blue cube.', watchAnswer: 'The added shells contain 1, 7, 19, 37, 61... unit cubes.', question: 'What is 1 + 7 + 19 + 37?', seqList: '1, 8, 27, ?', options: [64, 81, 100], correctOption: 64, discoveredTitle: 'Four shells build 4 x 4 x 4 = 64 unit cubes.', discoveredDesc: 'The difference between consecutive cubes is 1, 7, 19, 37, 61...', nextTitle: 'Find your own patterns', Visualizer: VisualizerHexagonalToCubes },
+  { id: 10, title: 'Find your own patterns!', subtitle: 'What hides between two neighbouring squares?', watchDesc: 'Count only the golden border. The blue square is already there.', watchAnswer: '4-1=3; 9-4=5; 16-9=7; 25-16=9...', question: 'What is 16 + 9, the total of the next square?', seqList: '4, 9, 16, ?', options: [20, 25, 36], correctOption: 25, discoveredTitle: '16 + 9 = 25. The 9 new dots complete the 5 × 5 square.', discoveredDesc: 'n^2 - (n-1)^2 = 2n - 1. The border has n dots on one side and n-1 on the other.', nextTitle: 'Finish', Visualizer: VisualizerDiscoverRelation }
 ];
 export default function RelationsAmongSequences({ onNext }) {
   const [conceptIdx, setConceptIdx] = useState(0); 
@@ -422,7 +798,7 @@ export default function RelationsAmongSequences({ onNext }) {
           <div className="content-header">
             <div>
               <div className="concept-meta">
-                VISUAL PATTERNS &nbsp;•&nbsp; <span style={{color: '#4ade80'}}>1.3 &nbsp;•&nbsp; CONCEPT {String(conceptIdx+1).padStart(2, '0')} / 11</span>
+                VISUAL PATTERNS &nbsp;•&nbsp; <span style={{color: '#4ade80'}}>1.4 &nbsp;•&nbsp; CONCEPT {String(conceptIdx+1).padStart(2, '0')} / {CONCEPTS.length}</span>
               </div>
               <h1 className="concept-title">{concept.title}</h1>
               <h2 className="concept-subtitle">{concept.subtitle}</h2>
@@ -467,7 +843,7 @@ export default function RelationsAmongSequences({ onNext }) {
                       <motion.div initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} className="checkpoint-container">
                         <div className="checkpoint-left">
                           <div className="find-title">LEARNING CHECKPOINT</div>
-                          <div className="find-question">{concept.question}</div>
+                          <div className="find-question" style={{whiteSpace: 'pre-wrap'}}>{concept.question}</div>
                           <div className="find-seq">{concept.seqList}</div>
                         </div>
                         <div className="options-row">

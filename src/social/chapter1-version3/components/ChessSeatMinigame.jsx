@@ -382,7 +382,7 @@ export default function ChessSeatMinigame({ onComplete, onBack }) {
               border: '2px solid #F59E0B',
               borderRadius: '999px',
               fontSize: '15px',
-              fontWeight: 800,
+              fontWeight: 900,
               color: '#92400E',
               cursor: 'pointer'
             }}

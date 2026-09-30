@@ -447,9 +447,9 @@ export default function TimeZonesPage({ onNextActivity, onBack }) {
                         onClick={toggleAudio}
                         style={{
                           display: 'flex', alignItems: 'center', gap: '6px',
-                          padding: '6px 14px', background: 'transparent',
+                          padding: '6px 14px', background: '#fbbf24',
                           border: '1.5px solid #d97706', borderRadius: '999px',
-                          fontSize: '13px', fontWeight: 800, color: '#d97706',
+                          fontSize: '15px', fontWeight: 900, color: '#0f172a',
                           cursor: 'pointer'
                         }}
                       >
@@ -542,9 +542,9 @@ export default function TimeZonesPage({ onNextActivity, onBack }) {
                 onClick={toggleAudio}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '6px',
-                  padding: '4px 12px', background: 'transparent',
+                  padding: '4px 12px', background: '#fbbf24',
                   border: '1.5px solid #fbbf24', borderRadius: '999px',
-                  fontSize: '13px', fontWeight: 800, color: '#fbbf24',
+                  fontSize: '15px', fontWeight: 900, color: '#0f172a',
                   cursor: 'pointer'
                 }}
               >

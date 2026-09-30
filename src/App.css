@@ -89,8 +89,28 @@ body.science-lab-active::before {
 
 /* ── Typography on dark background ── */
 h2 {
-  color: #EEFAF0 !important;
+  color: #EEFAF0;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.materials-heading {
+  color: #051240 !important;
+  text-shadow: none !important;
+}
+
+.investigation-heading {
+  color: #2C4E3D !important;
+  text-shadow: none !important;
+}
+
+.lesson-primary-heading {
+  color: var(--lesson-primary) !important;
+  text-shadow: none !important;
+}
+
+.amber-heading {
+  color: #fbbf24 !important;
+  text-shadow: none !important;
 }
 
 /* ── "Back to Dashboard" pill button ── */
@@ -207,8 +227,8 @@ h2 {
 .wing-card-title {
   margin: 0 !important;
   font-size: 1.2rem;
-  font-weight: 700 !important;
-  color: #142F5C !important;
+  font-weight: 900 !important;
+  color: #38A169 !important;
 }
 
 .wing-card-desc {
@@ -348,12 +368,16 @@ h2 {
 
 .dashboard-card h3 {
   margin: 0 !important;
-  font-size: 1.5rem !important;
-  color: #102A56 !important;
+  font-size: 1.65rem !important;
+  font-weight: 900 !important;
+  color: #164E8C !important;
 }
 
 .dashboard-card p {
-  color: rgba(16, 42, 86, 0.7) !important;
+  color: black !important;
+  font-size: 1.44rem !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
   margin: 0 !important;
   flex: 1 !important;
 }
@@ -378,6 +402,10 @@ h2 {
   border: 1.5px solid rgba(44, 100, 250, 0.3) !important;
 }
 
+.dashboard-card-math h3 {
+  color: #5A1FD4 !important;
+}
+
 .dashboard-card-math button {
   background: linear-gradient(135deg, #2C64FA 0%, #4A80FF 100%) !important;
   color: #fff !important;
@@ -392,6 +420,10 @@ h2 {
 
 .dashboard-card-social {
   border: 1.5px solid rgba(117, 52, 247, 0.3) !important;
+}
+
+.dashboard-card-social h3 {
+  color: #A16207 !important;
 }
 
 .dashboard-card-social button {
@@ -421,23 +453,25 @@ h2 {
 .glass-panel h2,
 .glass-panel h3,
 .glass-panel h4 {
-  color: #102A56 !important;
+  color: #102A56;
 }
 
 .glass-panel p,
 .glass-panel span:not([style]) {
-  color: rgba(16, 42, 86, 0.65) !important;
+  color: rgba(16, 42, 86, 0.65);
 }
 
 /* Outline buttons on dark bg */
-button.outline {
+body.dashboard-active button.outline,
+body.science-lab-active button.outline {
   background: transparent !important;
   border: 1.5px solid rgba(122, 178, 148, 0.6) !important;
   color: #EEFAF0 !important;
   border-radius: 10px !important;
 }
 
-button.outline:hover {
+body.dashboard-active button.outline:hover,
+body.science-lab-active button.outline:hover {
   background: rgba(122, 178, 148, 0.15) !important;
   border-color: #84C5AB !important;
 }

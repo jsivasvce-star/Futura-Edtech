@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { CheckCircle, XCircle } from 'lucide-react';
+import { CheckCircle, XCircle, ArrowRight } from 'lucide-react';
+
+const OPTION_PREFIXES = ['A', 'B', 'C', 'D'];
 
 const quizData = [
   {
@@ -13,7 +15,8 @@ const quizData = [
       "Copper, aluminium, brass"
     ],
     correctIndex: 1,
-    explanation: "Magnetic materials are those that get attracted towards a magnet. Iron, nickel, and cobalt are metals that show this property strongly, so they are called magnetic materials. Wood, rubber, glass, plastic, paper, and cloth are non-magnetic and are never attracted to a magnet. Copper, aluminium, and brass are metals but they are not attracted to ordinary magnets, so they are non-magnetic too. This is why option B is the only group made entirely of magnetic materials."
+    explanation: "Magnetic materials are those that get attracted towards a magnet. Iron, nickel, and cobalt are metals that show this property strongly, so they are called magnetic materials. Wood, rubber, glass, plastic, paper, and cloth are non-magnetic and are never attracted to a magnet. Copper, aluminium, and brass are metals but they are not attracted to ordinary magnets, so they are non-magnetic too. This is why option B is the only group made entirely of magnetic materials.",
+    tryAgain: "Remember: only certain metals like iron, nickel, and cobalt are attracted to magnets."
   },
   {
     id: 2,
@@ -26,7 +29,8 @@ const quizData = [
       "Lodestone"
     ],
     correctIndex: 3,
-    explanation: "A lodestone is a naturally occurring magnet that was discovered in ancient times and used by early travellers and sailors. It has the natural property of attracting iron objects and aligning in the north-south direction when suspended freely. Iron ore is a general term for rock containing iron, but it is not automatically magnetic like a lodestone. Quartz and granite are ordinary rocks with no magnetic property at all, so they could never help sailors find directions."
+    explanation: "A lodestone is a naturally occurring magnet that was discovered in ancient times and used by early travellers and sailors. It has the natural property of attracting iron objects and aligning in the north-south direction when suspended freely. Iron ore is a general term for rock containing iron, but it is not automatically magnetic like a lodestone. Quartz and granite are ordinary rocks with no magnetic property at all, so they could never help sailors find directions.",
+    tryAgain: "Think of the naturally magnetized rock containing magnetite used by early navigators."
   },
   {
     id: 3,
@@ -39,7 +43,8 @@ const quizData = [
       "Because gravity pulls the magnet's north pole down"
     ],
     correctIndex: 0,
-    explanation: "The Earth behaves like a huge magnet with its own north and south magnetic poles. When a bar magnet is suspended freely, its own poles interact with the Earth's magnetic field and align with it, so the magnet always comes to rest along the north-south direction. This has nothing to do with air currents, thread twisting, or gravity, since gravity affects weight and not magnetic alignment. This natural behaviour is the basic principle behind how a magnetic compass works."
+    explanation: "The Earth behaves like a huge magnet with its own north and south magnetic poles. When a bar magnet is suspended freely, its own poles interact with the Earth's magnetic field and align with it, so the magnet always comes to rest along the north-south direction. This has nothing to do with air currents, thread twisting, or gravity, since gravity affects weight and not magnetic alignment. This natural behaviour is the basic principle behind how a magnetic compass works.",
+    tryAgain: "Consider Earth's own massive magnetic field acting on the suspended magnet."
   },
   {
     id: 4,
@@ -52,7 +57,8 @@ const quizData = [
       "They stick randomly, showing magnetism has no fixed pattern"
     ],
     correctIndex: 2,
-    explanation: "When iron filings are sprinkled around a bar magnet, most of them cling near the two ends of the magnet, with very few sticking to the middle portion. This shows that the magnetic force is strongest at the two ends, which are called the poles of the magnet. The middle region has very weak magnetic attraction compared to the ends. This simple activity helps us understand that every magnet, no matter its shape, has two regions of strongest attraction called its poles."
+    explanation: "When iron filings are sprinkled around a bar magnet, most of them cling near the two ends of the magnet, with very few sticking to the middle portion. This shows that the magnetic force is strongest at the two ends, which are called the poles of the magnet. The middle region has very weak magnetic attraction compared to the ends. This simple activity helps us understand that every magnet, no matter its shape, has two regions of strongest attraction called its poles.",
+    tryAgain: "Think about where the magnetic force is concentrated on a bar magnet."
   },
   {
     id: 5,
@@ -65,7 +71,8 @@ const quizData = [
       "It is purely decorative and has no role in direction finding"
     ],
     correctIndex: 1,
-    explanation: "The red end of a compass needle is usually its North pole, also called the north-seeking pole, because it always points towards the Earth's north direction. To use the compass, it is placed on a flat surface and the needle is allowed to settle, then the box is gently rotated until the north and south marks on the dial line up with the needle. Once aligned, all the other directions on the dial become correct too. This system lets travellers, sailors, and hikers find their way even without seeing the sun or stars."
+    explanation: "The red end of a compass needle is usually its North pole, also called the north-seeking pole, because it always points towards the Earth's north direction. To use the compass, it is placed on a flat surface and the needle is allowed to settle, then the box is gently rotated until the north and south marks on the dial line up with the needle. Once aligned, all the other directions on the dial become correct too. This system lets travellers, sailors, and hikers find their way even without seeing the sun or stars.",
+    tryAgain: "The highlighted end points toward the Earth's geographic north."
   },
   {
     id: 6,
@@ -78,7 +85,8 @@ const quizData = [
       "Use a longer screwdriver so screws do not slip as easily"
     ],
     correctIndex: 0,
-    explanation: "Steel screws contain iron, which is a magnetic material and gets attracted to a magnet. If the mechanic strokes a magnet along the screwdriver tip, the tip itself becomes slightly magnetized and can hold the steel screws firmly while working. Wrapping the tip with cloth or using a longer screwdriver would not solve the actual problem of screws falling. Heating the tip is actually harmful because heat can reduce or destroy the magnetic property of a magnet, so it would never help in this situation."
+    explanation: "Steel screws contain iron, which is a magnetic material and gets attracted to a magnet. If the mechanic strokes a magnet along the screwdriver tip, the tip itself becomes slightly magnetized and can hold the steel screws firmly while working. Wrapping the tip with cloth or using a longer screwdriver would not solve the actual problem of screws falling. Heating the tip is actually harmful because heat can reduce or destroy the magnetic property of a magnet, so it would never help in this situation.",
+    tryAgain: "Think of how a tool can be magnetized by stroking it with a magnet."
   },
   {
     id: 7,
@@ -91,7 +99,8 @@ const quizData = [
       "Hold a magnet against the outside wall of the glass and move it to draw the clip up"
     ],
     correctIndex: 3,
-    explanation: "A magnetic effect can pass through non-magnetic materials like glass without losing much strength, so a magnet held against the outside of the glass can still attract the steel clip inside. By slowly moving the magnet along the outer wall of the glass, the clip can be guided upward and out of the water without ever touching the water. Pouring out the water or stirring it would be messy and unreliable, and heating the glass would not help since heat does not lift a metal object out of liquid. This trick works because the magnetic force does not need direct contact to act on magnetic materials."
+    explanation: "A magnetic effect can pass through non-magnetic materials like glass without losing much strength, so a magnet held against the outside of the glass can still attract the steel clip inside. By slowly moving the magnet along the outer wall of the glass, the clip can be guided upward and out of the water without ever touching the water. Pouring out the water or stirring it would be messy and unreliable, and heating the glass would not help since heat does not lift a metal object out of liquid. This trick works because the magnetic force does not need direct contact to act on magnetic materials.",
+    tryAgain: "Recall whether magnetic forces can act through non-magnetic materials like glass."
   },
   {
     id: 8,
@@ -104,7 +113,8 @@ const quizData = [
       "Drop each bar and see which one bounces higher"
     ],
     correctIndex: 2,
-    explanation: "A plain iron bar will always be attracted to a magnet, no matter which end is brought close, but two real magnets will repel each other when their like poles face one another. This means repulsion is proof that both bars are magnets, since an iron bar can never repel a magnet. Attraction alone is not proof because a magnet attracting an iron bar looks the same as two magnets attracting through unlike poles. Weighing, checking colour, or dropping the bars will not reveal which ones are truly magnetic, since these features do not depend on magnetism at all."
+    explanation: "A plain iron bar will always be attracted to a magnet, no matter which end is brought close, but two real magnets will repel each other when their like poles face one another. This means repulsion is proof that both bars are magnets, since an iron bar can never repel a magnet. Attraction alone is not proof because a magnet attracting an iron bar looks the same as two magnets attracting through unlike poles. Weighing, checking colour, or dropping the bars will not reveal which ones are truly magnetic, since these features do not depend on magnetism at all.",
+    tryAgain: "Remember: repulsion is the only sure test of magnetism between two real magnets."
   },
   {
     id: 9,
@@ -117,7 +127,8 @@ const quizData = [
       "The needle spins continuously due to the extra materials"
     ],
     correctIndex: 0,
-    explanation: "Wood, cardboard, and glass are all non-magnetic materials, and the activity shows that the compass needle deflects in the same way whether or not these sheets are placed between the magnet and the needle. This proves that the magnetic effect of a magnet can act through non-magnetic materials without losing its strength. If the materials blocked magnetism, the needle would stop moving once they were placed in between, which is not what happens. This is the same reason a magnet can attract a paper clip inside a glass of water or through a thin cardboard tray."
+    explanation: "Wood, cardboard, and glass are all non-magnetic materials, and the activity shows that the compass needle deflects in the same way whether or not these sheets are placed between the magnet and the needle. This proves that the magnetic effect of a magnet can act through non-magnetic materials without losing its strength. If the materials blocked magnetism, the needle would stop moving once they were placed in between, which is not what happens. This is the same reason a magnet can attract a paper clip inside a glass of water or through a thin cardboard tray.",
+    tryAgain: "Consider whether non-magnetic barriers block magnetic field lines."
   },
   {
     id: 10,
@@ -130,7 +141,8 @@ const quizData = [
       "Position A: 10, Position B: 2, Position C: 10"
     ],
     correctIndex: 3,
-    explanation: "Since the poles of a magnet are located at its two ends, the maximum number of steel clips will be attracted and stuck near positions A and C, which are the ends of the bar magnet. Position B is the middle of the magnet, where the magnetic force is weakest, so very few clips will stick there. Option D correctly shows high numbers of ten at both ends and a low number of two in the middle, matching the pattern seen in the iron filings activity earlier in the chapter. The other options wrongly show high attraction at only one end or in the middle, which does not match how magnetic poles behave."
+    explanation: "Since the poles of a magnet are located at its two ends, the maximum number of steel clips will be attracted and stuck near positions A and C, which are the ends of the bar magnet. Position B is the middle of the magnet, where the magnetic force is weakest, so very few clips will stick there. Option D correctly shows high numbers of ten at both ends and a low number of two in the middle, matching the pattern seen in the iron filings activity earlier in the chapter. The other options wrongly show high attraction at only one end or in the middle, which does not match how magnetic poles behave.",
+    tryAgain: "Poles at the ends have maximum magnetic strength, while the center is weak."
   },
   {
     id: 11,
@@ -143,7 +155,8 @@ const quizData = [
       "X is not a real magnet, so it cannot fall onto Y"
     ],
     correctIndex: 1,
-    explanation: "When two magnets are placed with their like poles facing each other, such as North facing North, they repel and push apart, which is why ring magnet X stays suspended above Y instead of falling. If magnet X is turned over so that its pole facing Y is now unlike Y's pole, for example North facing South, the two ring magnets will attract each other and come together. The wooden rod itself has no magnetic property and only serves to keep the magnets aligned vertically. This activity is the same basic idea used in maglev trains, where repulsion between magnets is used to make objects float."
+    explanation: "When two magnets are placed with their like poles facing each other, such as North facing North, they repel and push apart, which is why ring magnet X stays suspended above Y instead of falling. If magnet X is turned over so that its pole facing Y is now unlike Y's pole, for example North facing South, the two ring magnets will attract each other and come together. The wooden rod itself has no magnetic property and only serves to keep the magnets aligned vertically. This activity is the same basic idea used in maglev trains, where repulsion between magnets is used to make objects float.",
+    tryAgain: "Like poles repel each other, pushing the top ring magnet upward."
   },
   {
     id: 12,
@@ -156,7 +169,8 @@ const quizData = [
       "Store magnets standing upright without any keeper pieces"
     ],
     correctIndex: 2,
-    explanation: "The chapter explains that magnets should be stored in pairs with unlike poles kept on the same side, with a small piece of wood placed between them and soft iron pieces, called keepers, placed across the ends. This arrangement forms a closed loop for the magnetic field, which helps the magnets retain their strength for a longer time. Storing magnets loosely, near mobile phones, or without keeper pieces can actually weaken their magnetism or damage nearby electronic devices. This careful storage method is important because magnets can also lose their strength if they are heated, dropped, or hammered."
+    explanation: "The chapter explains that magnets should be stored in pairs with unlike poles kept on the same side, with a small piece of wood placed between them and soft iron pieces, called keepers, placed across the ends. This arrangement forms a closed loop for the magnetic field, which helps the magnets retain their strength for a longer time. Storing magnets loosely, near mobile phones, or without keeper pieces can actually weaken their magnetism or damage nearby electronic devices. This careful storage method is important because magnets can also lose their strength if they are heated, dropped, or hammered.",
+    tryAgain: "Think of using magnetic keepers and wooden spacers to preserve closed magnetic loops."
   },
   {
     id: 13,
@@ -169,7 +183,8 @@ const quizData = [
       "Suspend the unmarked magnet freely by a thread first to note which end points north, and confirm using repulsion, since only two true magnets can repel each other, unlike attraction which does not prove magnet identity"
     ],
     correctIndex: 3,
-    explanation: "The most reliable method is to freely suspend the unmarked magnet by a thread and observe which end always comes to rest pointing towards the north, since this end is its North pole. To confirm the poles further, repulsion should be used because only two genuine magnets repel each other, so bringing the labelled North pole near the suspected North end of the unmarked magnet should cause repulsion. Simple attraction is not reliable proof because even a plain iron bar would be attracted to a labelled magnet, making it impossible to know for certain which pole is which. Weighing the magnet or testing it near a mobile phone gives no accurate information about polarity and could even damage the phone."
+    explanation: "The most reliable method is to freely suspend the unmarked magnet by a thread and observe which end always comes to rest pointing towards the north, since this end is its North pole. To confirm the poles further, repulsion should be used because only two genuine magnets repel each other, so bringing the labelled North pole near the suspected North end of the unmarked magnet should cause repulsion. Simple attraction is not reliable proof because even a plain iron bar would be attracted to a labelled magnet, making it impossible to know for certain which pole is which. Weighing the magnet or testing it near a mobile phone gives no accurate information about polarity and could even damage the phone.",
+    tryAgain: "Suspension finds north, and repulsion with a known pole confirms it."
   },
   {
     id: 14,
@@ -182,7 +197,8 @@ const quizData = [
       "The end that always repels a compass needle"
     ],
     correctIndex: 0,
-    explanation: "The North pole, also called the north-seeking pole, is the end of a freely suspended magnet that comes to rest pointing towards the Earth's north direction. This happens because the Earth behaves like a giant magnet, and the magnet aligns with the Earth's magnetic field. The North pole is usually painted red in most magnets, not blue, and its identity has nothing to do with weight. Also, the North pole of a magnet actually attracts the South pole of a compass needle rather than always repelling it, since compass needles have both a north and a south end."
+    explanation: "The North pole, also called the north-seeking pole, is the end of a freely suspended magnet that comes to rest pointing towards the Earth's north direction. This happens because the Earth behaves like a giant magnet, and the magnet aligns with the Earth's magnetic field. The North pole is usually painted red in most magnets, not blue, and its identity has nothing to do with weight. Also, the North pole of a magnet actually attracts the South pole of a compass needle rather than always repelling it, since compass needles have both a north and a south end.",
+    tryAgain: "The North-seeking pole points toward the northern direction of Earth."
   },
   {
     id: 15,
@@ -195,7 +211,8 @@ const quizData = [
       "One piece will have two North poles and the other will have two South poles"
     ],
     correctIndex: 2,
-    explanation: "The chapter explains that it is not possible to obtain a magnet with a single pole, because North and South poles always exist together in pairs, even in the smallest piece of a broken magnet. So when a bar magnet is broken into two pieces, each new smaller piece will develop its own complete North pole and South pole. The pieces do not lose their magnetism, and it is impossible for a piece to end up with two poles of the same kind only. This property shows that magnetic poles are always found as a pair, no matter how many times a magnet is divided."
+    explanation: "The chapter explains that it is not possible to obtain a magnet with a single pole, because North and South poles always exist together in pairs, even in the smallest piece of a broken magnet. So when a bar magnet is broken into two pieces, each new smaller piece will develop its own complete North pole and South pole. The pieces do not lose their magnetism, and it is impossible for a piece to end up with two poles of the same kind only. This property shows that magnetic poles are always found as a pair, no matter how many times a magnet is divided.",
+    tryAgain: "Magnetic poles always exist in pairs (N and S) and cannot be isolated."
   },
   {
     id: 16,
@@ -208,7 +225,8 @@ const quizData = [
       "Nothing will happen since cars cannot be affected by magnets"
     ],
     correctIndex: 1,
-    explanation: "When the facing poles of both magnets are the same, in this case both North poles, the like poles repel each other rather than attract. As the cars are pushed closer, the repelling force between the two North poles pushes the cars apart, making them move away from each other instead of colliding. If the facing poles had been unlike, such as North facing South, the cars would have attracted and moved towards each other instead. This activity is a fun way to directly observe the rule that like poles repel while unlike poles attract."
+    explanation: "When the facing poles of both magnets are the same, in this case both North poles, the like poles repel each other rather than attract. As the cars are pushed closer, the repelling force between the two North poles pushes the cars apart, making them move away from each other instead of colliding. If the facing poles had been unlike, such as North facing South, the cars would have attracted and moved towards each other instead. This activity is a fun way to directly observe the rule that like poles repel while unlike poles attract.",
+    tryAgain: "Like poles (North facing North) exert a repulsive force pushing apart."
   },
   {
     id: 17,
@@ -221,7 +239,8 @@ const quizData = [
       "It has no polarity because it is in the middle of the shape"
     ],
     correctIndex: 0,
-    explanation: "In a magnet, opposite ends always carry opposite polarity, so if one end is South, the connected end of that same magnet piece will be North, and this pattern continues along each joined magnet. Starting from end 5 marked North and tracing through each bar magnet in the L-shaped arrangement, the polarity keeps switching consistently at each magnet's far end. Following this logic through the three joined magnets, end 1, which is at the farthest point from end 5, works out to be South. Every point along a magnet has one fixed polarity based on which pole it belongs to, so options claiming no polarity or an unclear polarity are incorrect."
+    explanation: "In a magnet, opposite ends always carry opposite polarity, so if one end is South, the connected end of that same magnet piece will be North, and this pattern continues along each joined magnet. Starting from end 5 marked North and tracing through each bar magnet in the L-shaped arrangement, the polarity keeps switching consistently at each magnet's far end. Following this logic through the three joined magnets, end 1, which is at the farthest point from end 5, works out to be South. Every point along a magnet has one fixed polarity based on which pole it belongs to, so options claiming no polarity or an unclear polarity are incorrect.",
+    tryAgain: "Opposite ends of every magnet piece carry opposite polarity."
   },
   {
     id: 18,
@@ -234,7 +253,8 @@ const quizData = [
       "The train uses only attraction between unlike poles to pull itself forward along the ground"
     ],
     correctIndex: 2,
-    explanation: "A Maglev, or magnetic levitation, train uses powerful magnets placed on both the train and the track so that their like poles face one another. This arrangement creates a strong repulsive force, similar to the ring magnets floating experiment in the chapter, which lifts the train slightly above the track and allows it to move without touching the rails. Since there is no direct contact between the train and track, friction is greatly reduced, allowing very high speeds, but this has nothing to do with air fans or spinning wheels. Attraction between unlike poles is sometimes used elsewhere in the system, but the key idea behind levitation itself is repulsion between like poles, not attraction."
+    explanation: "A Maglev, or magnetic levitation, train uses powerful magnets placed on both the train and the track so that their like poles face one another. This arrangement creates a strong repulsive force, similar to the ring magnets floating experiment in the chapter, which lifts the train slightly above the track and allows it to move without touching the rails. Since there is no direct contact between the train and track, friction is greatly reduced, allowing very high speeds, but this has nothing to do with air fans or spinning wheels. Attraction between unlike poles is sometimes used elsewhere in the system, but the key idea behind levitation itself is repulsion between like poles, not attraction.",
+    tryAgain: "Repulsion between like magnetic poles lifts the train above the track."
   },
   {
     id: 19,
@@ -247,7 +267,8 @@ const quizData = [
       "Uttar-yantra"
     ],
     correctIndex: 1,
-    explanation: "The chapter describes an ancient Indian navigation device called the matsya-yantra, also known as machchh-yantra, which used a magnetized fish-shaped piece of iron floating in a vessel of oil. Just like a modern compass needle, this fish-shaped piece would align itself along the north-south direction, allowing sailors to find their way at sea. This shows that magnetic navigation methods were developed and used in India long before the widespread use of the modern circular compass box. The other names given in the options are not the actual historical term used for this traditional Indian navigation tool."
+    explanation: "The chapter describes an ancient Indian navigation device called the matsya-yantra, also known as machchh-yantra, which used a magnetized fish-shaped piece of iron floating in a vessel of oil. Just like a modern compass needle, this fish-shaped piece would align itself along the north-south direction, allowing sailors to find their way at sea. This shows that magnetic navigation methods were developed and used in India long before the widespread use of the modern circular compass box. The other names given in the options are not the actual historical term used for this traditional Indian navigation tool.",
+    tryAgain: "Recall the ancient Sanskrit name for the magnetized fish-shaped device in oil."
   },
   {
     id: 20,
@@ -260,7 +281,8 @@ const quizData = [
       "Suspend each bar freely by a thread at its middle; only the true magnet will consistently come to rest in the north-south direction, while the iron bar will settle in any random direction"
     ],
     correctIndex: 3,
-    explanation: "Only a true magnet has the special property of aligning itself along the Earth's north-south direction when it is freely suspended and allowed to rotate to rest. A plain iron bar does not have this property and will simply stop at any random direction, since it is not influenced by the Earth's magnetic field in the same organized way. This test does not require touching the bars together or using any other magnet, which makes it perfect for this situation. Checking shininess, sticking to a wall, or measuring length are not valid tests, since none of these features are related to whether an object is magnetic."
+    explanation: "Only a true magnet has the special property of aligning itself along the Earth's north-south direction when it is freely suspended and allowed to rotate to rest. A plain iron bar does not have this property and will simply stop at any random direction, since it is not influenced by the Earth's magnetic field in the same organized way. This test does not require touching the bars together or using any other magnet, which makes it perfect for this situation. Checking shininess, sticking to a wall, or measuring length are not valid tests, since none of these features are related to whether an object is magnetic.",
+    tryAgain: "Only a genuine magnet aligns itself consistently along Earth's north-south direction when suspended."
   }
 ];
 
@@ -308,40 +330,54 @@ export default function Chapter4Quiz({ onComplete }) {
 
   if (isFinished) {
     return (
-      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflowY: 'auto', padding: '1rem', boxSizing: 'border-box', backgroundColor: 'transparent' }}>
+      <div style={{ 
+        width: '100%', 
+        height: '100%', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        overflowY: 'auto', 
+        padding: '1rem', 
+        boxSizing: 'border-box', 
+        backgroundColor: 'transparent',
+        fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif"
+      }}>
         <div style={{ 
-          maxWidth: '620px', 
-          width: '92%', 
-          padding: '3rem 3.5rem', 
+          maxWidth: '560px', 
+          width: '90%', 
+          padding: '2.8rem 3.2rem', 
           textAlign: 'center', 
           background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
-          borderRadius: '32px', 
-          border: '2px solid #E2E8F0',
-          boxShadow: '0 16px 48px rgba(23, 59, 95, 0.16)',
+          borderRadius: '28px', 
+          border: '1.5px solid #E2E8F0',
+          boxShadow: '0 12px 40px rgba(23, 59, 95, 0.12)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '1.6rem'
+          gap: '1.45rem'
         }}>
-          <h2 style={{ fontSize: '2.5rem', margin: 0, color: '#173B5F', fontWeight: 900, letterSpacing: '-0.01em' }}>🎉 Quiz Completed!</h2>
+          <h2 style={{ fontSize: '2.2rem', margin: 0, color: '#173B5F', fontWeight: 900 }}>
+            Quiz Completed! 🎉
+          </h2>
           
-          <p style={{ color: '#214A70', margin: 0, fontSize: '1.65rem', fontWeight: 750, lineHeight: 1.4 }}>
-            You scored <strong style={{ color: '#0284C7', fontWeight: 900 }}>{score}</strong> out of <strong style={{ color: '#173B5F', fontWeight: 900 }}>{quizData.length}</strong>
+          <p style={{ color: '#1E293B', margin: 0, fontSize: '1.45rem', fontWeight: 700 }}>
+            You scored <strong style={{ color: '#173B5F', fontSize: '1.6rem' }}>{score}</strong> out of {quizData.length}
           </p>
 
           <button
             onClick={() => { if (onComplete) onComplete(score); }}
             className="gold-glow-btn"
             style={{
-              padding: '1.2rem 3.5rem',
-              borderRadius: '40px',
-              fontSize: '1.45rem',
+              padding: '1rem 3.2rem',
+              borderRadius: '32px',
+              fontSize: '1.25rem',
               fontWeight: 900,
               cursor: 'pointer',
               marginTop: '0.6rem'
             }}
           >
-            Finish Activity
+            Finish Activity <ArrowRight size={22} color="#FFFFFF" />
           </button>
         </div>
       </div>
@@ -356,128 +392,190 @@ export default function Chapter4Quiz({ onComplete }) {
       flexDirection: 'column', 
       alignItems: 'center', 
       justifyContent: 'center', 
-      padding: '0.5rem', 
-      boxSizing: 'border-box',
-      overflowY: 'auto',
-      backgroundColor: 'transparent'
+      padding: '0.5rem 1rem', 
+      boxSizing: 'border-box', 
+      overflow: 'hidden',
+      backgroundColor: 'transparent',
+      fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif"
     }}>
-      <div style={{ width: '100%', maxWidth: '1050px', display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
-        {/* Top Bar */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem', padding: '0 0.5rem', flexShrink: 0 }}>
-          <h3 style={{ margin: 0, color: '#064E3B', fontSize: 'clamp(0.95rem, 1.4vw, 1.1rem)', fontWeight: 900 }}>Test Your Knowledge</h3>
-          <div style={{ color: '#047857', fontSize: 'clamp(0.85rem, 1.3vw, 1rem)', fontWeight: 800 }}>
-            Question {currentQuestion + 1} of {quizData.length}
-          </div>
-        </div>
-
+      <div style={{ width: '100%', maxWidth: '1180px', display: 'flex', flexDirection: 'column' }}>
+        
         {/* Main Quiz Card */}
         <div className="glass-panel" style={{ 
           background: 'linear-gradient(135deg, #F3F7F9 0%, #EAF2F6 100%)', 
           border: '1.5px solid #E2E8F0', 
-          borderRadius: '20px', 
-          padding: '1.25rem 1.75rem', 
-          boxShadow: '0 10px 35px rgba(217, 119, 6, 0.1)',
+          borderRadius: '28px', 
+          padding: '2.2rem 3rem', 
+          boxShadow: '0 8px 30px rgba(23, 59, 95, 0.08)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '0.85rem',
+          gap: '1.25rem',
           width: '100%',
-          flex: 1,
-          minHeight: 0,
-          overflowY: 'auto',
           boxSizing: 'border-box'
         }}>
-          {/* Title */}
-          <h3 style={{ margin: 0, color: '#064E3B', fontSize: 'clamp(1.15rem, 1.8vw, 1.45rem)', fontWeight: 900 }}>
-            {currentQ.title}
-          </h3>
+          {/* Question Badge inside the quiz container */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+            <span style={{
+              background: '#ECFDF5',
+              padding: '0.4rem 1.2rem',
+              borderRadius: '16px',
+              border: '1.5px solid #A7F3D0',
+              color: '#065F46',
+              fontWeight: 900,
+              fontSize: '1.15rem',
+              boxShadow: '0 2px 6px rgba(6, 95, 70, 0.08)'
+            }}>
+              Question {currentQuestion + 1} of {quizData.length}
+            </span>
+          </div>
 
           {/* Question Text */}
-          <p style={{ margin: 0, fontSize: 'clamp(0.95rem, 1.5vw, 1.15rem)', lineHeight: '1.45', fontWeight: 600, color: '#334155' }}>
+          <p style={{ margin: 0, fontSize: '1.45rem', lineHeight: '1.5', fontWeight: 800, color: '#173B5F' }}>
             {currentQ.question}
           </p>
 
           {/* Option Buttons */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-            {currentQ.options.map((option, index) => {
-              let bgColor = '#FFFFFF';
-              let borderColor = '#CBD5E1';
-              let textColor = '#1E293B';
-              let icon = null;
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {currentQ.options.map((opt, index) => {
+              const isSelected = selectedIndices.includes(index);
+              const isOptionCorrect = index === currentQ.correctIndex;
 
-              if (showResult) {
-                if (index === currentQ.correctIndex) {
-                  bgColor = '#DCFCE7';
-                  borderColor = '#16A34A';
-                  textColor = '#065F46';
-                  icon = <CheckCircle size={22} color="#16A34A" />;
-                } else if (index === selectedOption) {
-                  bgColor = '#FEE2E2';
-                  borderColor = '#EF4444';
-                  textColor = '#991B1B';
-                  icon = <XCircle size={22} color="#EF4444" />;
+              let bgColor = '#0A1931';
+              let borderColor = '#1e293b';
+              let textColor = '#FFFFFF';
+              let boxShadow = '0 4px 14px rgba(10, 25, 49, 0.25)';
+              let icon = null;
+              let isDisabled = false;
+
+              if (isQuestionResolved) {
+                if (isOptionCorrect) {
+                  bgColor = 'linear-gradient(135deg, #064E3B 0%, #047857 100%)';
+                  borderColor = '#34D399';
+                  textColor = '#FFFFFF';
+                  boxShadow = '0 0 25px rgba(52, 211, 153, 0.55), 0 4px 14px rgba(6, 78, 59, 0.35)';
+                  icon = <CheckCircle size={28} color="#34D399" />;
+                } else if (isSelected) {
+                  bgColor = 'linear-gradient(135deg, #7F1D1D 0%, #991B1B 100%)';
+                  borderColor = '#F87171';
+                  textColor = '#FFFFFF';
+                  boxShadow = '0 0 25px rgba(248, 113, 113, 0.55), 0 4px 14px rgba(127, 29, 29, 0.35)';
+                  icon = <XCircle size={28} color="#F87171" />;
+                } else {
+                  bgColor = '#0A1931';
+                  borderColor = '#1e293b';
+                  textColor = '#cbd5e1';
+                  boxShadow = 'none';
                 }
-              } else if (index === selectedOption) {
-                borderColor = '#173B5F';
-                bgColor = '#EAF2F6';
-                textColor = '#173B5F';
+                isDisabled = true;
+              } else {
+                if (isSelected) {
+                  bgColor = 'linear-gradient(135deg, #7F1D1D 0%, #991B1B 100%)';
+                  borderColor = '#F87171';
+                  textColor = '#FFFFFF';
+                  boxShadow = '0 0 20px rgba(248, 113, 113, 0.45)';
+                  icon = <XCircle size={28} color="#F87171" />;
+                  isDisabled = true;
+                } else {
+                  bgColor = '#0A1931';
+                  borderColor = '#1e293b';
+                  textColor = '#FFFFFF';
+                  boxShadow = '0 4px 14px rgba(10, 25, 49, 0.25)';
+                  isDisabled = false;
+                }
               }
 
               return (
                 <button
                   key={index}
                   onClick={() => handleOptionSelect(index)}
-                  disabled={showResult}
+                  disabled={isDisabled}
                   style={{
                     width: '100%',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    padding: '0.85rem 1.35rem',
-                    borderRadius: '12px',
+                    padding: '1.15rem 1.8rem',
+                    borderRadius: '20px',
                     background: bgColor,
-                    border: `1.5px solid ${borderColor}`,
+                    border: `2.5px solid ${borderColor}`,
                     color: textColor,
-                    cursor: showResult ? 'default' : 'pointer',
+                    cursor: isDisabled ? 'default' : 'pointer',
                     textAlign: 'left',
-                    fontSize: '1.05rem',
+                    fontSize: '1.25rem',
                     fontWeight: 700,
                     transition: 'all 0.25s ease',
-                    boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
-                    opacity: showResult && index !== currentQ.correctIndex && index !== selectedOption ? 0.6 : 1
+                    boxShadow: boxShadow,
+                    opacity: isQuestionResolved && !isOptionCorrect && !isSelected ? 0.55 : 1
                   }}
                 >
-                  <span>{option}</span>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                    <span style={{ 
+                      fontWeight: 900, 
+                      color: isOptionCorrect && isQuestionResolved ? '#6EE7B7' : isSelected ? '#FCA5A5' : '#93C5FD' 
+                    }}>
+                      {OPTION_PREFIXES[index]}.
+                    </span>
+                    <span>{opt}</span>
+                  </span>
                   {icon}
                 </button>
               );
             })}
           </div>
 
-          {/* Explanation & Next Question Button */}
-          {showResult && (
-            <div style={{ marginTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-              <div style={{ padding: '1.15rem 1.65rem', background: '#F0FDF4', borderRadius: '18px', border: '1.5px solid #A7F3D0', borderLeft: '6px solid #059669' }}>
-                <h4 style={{ margin: '0 0 0.4rem 0', fontSize: '1.45rem', fontWeight: 900, color: '#064E3B' }}>Explanation</h4>
-                <p style={{ margin: 0, color: '#065F46', fontSize: '1.35rem', lineHeight: '1.55', fontWeight: 750 }}>{currentQ.explanation}</p>
+          {/* Feedback & Action Banners */}
+          {isQuestionResolved ? (
+            <div style={{ marginTop: '0.4rem', display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
+              <div style={{ 
+                padding: '1.15rem 1.65rem', 
+                background: '#F0FDF4', 
+                borderRadius: '18px', 
+                border: '1.5px solid #A7F3D0', 
+                borderLeft: '6px solid #059669',
+                boxShadow: '0 4px 14px rgba(5, 150, 105, 0.08)'
+              }}>
+                <h4 style={{ margin: '0 0 0.4rem 0', fontSize: '1.45rem', fontWeight: 900, color: '#064E3B' }}>
+                  {isCorrect ? "Explanation (Correct)" : "Explanation"}
+                </h4>
+                <p style={{ margin: 0, color: '#065F46', fontSize: '1.35rem', lineHeight: '1.55', fontWeight: 750 }}>
+                  {currentQ.explanation}
+                </p>
               </div>
               
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.25rem' }}>
                 <button
                   onClick={handleNext}
                   className="gold-glow-btn"
                   style={{
-                    padding: '0.85rem 2.5rem',
+                    padding: '0.95rem 2.8rem',
                     borderRadius: '30px',
                     fontSize: '1.25rem',
                     fontWeight: 900,
                     cursor: 'pointer'
                   }}
                 >
-                  {currentQuestion === quizData.length - 1 ? 'Finish Quiz' : 'Next Question'}
+                  {currentQuestion === quizData.length - 1 ? 'Finish Quiz' : 'Next Question'} <ArrowRight size={22} color="#FFFFFF" />
                 </button>
               </div>
             </div>
-          )}
+          ) : selectedIndices.length > 0 ? (
+            <div style={{ 
+              marginTop: '0.4rem', 
+              padding: '1.15rem 1.65rem', 
+              background: '#FEF2F2', 
+              borderRadius: '18px', 
+              border: '1.5px solid #FECACA', 
+              borderLeft: '6px solid #DC2626',
+              boxShadow: '0 4px 14px rgba(220, 38, 38, 0.08)'
+            }}>
+              <h4 style={{ margin: '0 0 0.4rem 0', fontSize: '1.45rem', fontWeight: 900, color: '#991B1B' }}>
+                Try Again
+              </h4>
+              <p style={{ margin: 0, color: '#B91C1C', fontSize: '1.35rem', lineHeight: '1.55', fontWeight: 750 }}>
+                {currentQ.tryAgain}
+              </p>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
