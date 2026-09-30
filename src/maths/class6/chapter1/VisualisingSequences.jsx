@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import TriangularNumbersRecall from './TriangularNumbersRecall';
 import CubeNumbersInteractive from './CubeNumbersInteractive';
 import RealisticCube3D from './RealisticCube3D';
-<<<<<<< HEAD
 import video36dots from '../36dots.mp4';
 import page1Audio from './audio/page1.mp3';
 import page2Audio from './audio/page2.mp3';
@@ -29,9 +28,6 @@ import p13CorrectAudioFile from './audio/p13-correct.mp3';
 import wrongAudioFile from './audio/p1-wrong.mp3';
 import firstWrongAudioFile from './audio/1st-wpage3.mp3';
 import secondWrongAudioFile from './audio/2nd-wpage3.mp3';
-=======
-
->>>>>>> 27f631c1e93b28820bdb1ffb22ba45c43180d1d8
 
 // ==========================================
 // CONFETTI BURST
