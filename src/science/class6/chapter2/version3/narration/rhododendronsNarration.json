@@ -1,0 +1,263 @@
+{
+  "rhododendrons": {
+    "audioFile": "rhododendrons.mp3",
+    "totalDuration": 42.11,
+    "words": [
+      {
+        "word": "MOUNTAIN",
+        "start": 0.95,
+        "end": 1.67
+      },
+      {
+        "word": "RHODODENDRONS",
+        "start": 1.67,
+        "end": 2.85
+      },
+      {
+        "word": "Nilgiri",
+        "start": 7.0,
+        "end": 7.92
+      },
+      {
+        "word": "Shola",
+        "start": 7.92,
+        "end": 8.58
+      },
+      {
+        "word": "Forests",
+        "start": 8.58,
+        "end": 9.5
+      },
+      {
+        "word": "Short",
+        "start": 9.8,
+        "end": 10.41
+      },
+      {
+        "word": "height",
+        "start": 10.41,
+        "end": 11.15
+      },
+      {
+        "word": "and",
+        "start": 11.15,
+        "end": 11.52
+      },
+      {
+        "word": "smaller",
+        "start": 11.52,
+        "end": 12.38
+      },
+      {
+        "word": "leaves",
+        "start": 12.38,
+        "end": 13.12
+      },
+      {
+        "word": "withstand",
+        "start": 13.12,
+        "end": 14.22
+      },
+      {
+        "word": "violent",
+        "start": 14.22,
+        "end": 15.08
+      },
+      {
+        "word": "mountain",
+        "start": 15.08,
+        "end": 16.06
+      },
+      {
+        "word": "winds.",
+        "start": 16.06,
+        "end": 16.8
+      },
+      {
+        "word": "Sikkim",
+        "start": 17.6,
+        "end": 18.6
+      },
+      {
+        "word": "Mountains",
+        "start": 18.6,
+        "end": 20.1
+      },
+      {
+        "word": "Sheltered,",
+        "start": 20.2,
+        "end": 21.18
+      },
+      {
+        "word": "moist",
+        "start": 21.18,
+        "end": 21.67
+      },
+      {
+        "word": "mountain",
+        "start": 21.67,
+        "end": 22.46
+      },
+      {
+        "word": "valleys",
+        "start": 22.46,
+        "end": 23.14
+      },
+      {
+        "word": "support",
+        "start": 23.14,
+        "end": 23.83
+      },
+      {
+        "word": "tall",
+        "start": 23.83,
+        "end": 24.22
+      },
+      {
+        "word": "tree",
+        "start": 24.22,
+        "end": 24.61
+      },
+      {
+        "word": "growth.",
+        "start": 24.61,
+        "end": 25.3
+      },
+      {
+        "word": "Regional",
+        "start": 25.5,
+        "end": 26.17
+      },
+      {
+        "word": "Adaptation",
+        "start": 26.17,
+        "end": 27.0
+      },
+      {
+        "word": "Same",
+        "start": 27.0,
+        "end": 27.39
+      },
+      {
+        "word": "plant",
+        "start": 27.39,
+        "end": 27.87
+      },
+      {
+        "word": "species",
+        "start": 27.87,
+        "end": 28.55
+      },
+      {
+        "word": "develop",
+        "start": 28.55,
+        "end": 29.23
+      },
+      {
+        "word": "distinct",
+        "start": 29.23,
+        "end": 30.0
+      },
+      {
+        "word": "features",
+        "start": 30.0,
+        "end": 30.77
+      },
+      {
+        "word": "to",
+        "start": 30.77,
+        "end": 30.97
+      },
+      {
+        "word": "survive",
+        "start": 30.97,
+        "end": 31.65
+      },
+      {
+        "word": "local",
+        "start": 31.65,
+        "end": 32.13
+      },
+      {
+        "word": "climates.",
+        "start": 32.13,
+        "end": 33.0
+      },
+      {
+        "word": "Think:",
+        "start": 33.2,
+        "end": 35.4
+      },
+      {
+        "word": "Why",
+        "start": 35.5,
+        "end": 35.76
+      },
+      {
+        "word": "do",
+        "start": 35.76,
+        "end": 35.94
+      },
+      {
+        "word": "rhododendrons",
+        "start": 35.94,
+        "end": 37.09
+      },
+      {
+        "word": "stay",
+        "start": 37.09,
+        "end": 37.44
+      },
+      {
+        "word": "short",
+        "start": 37.44,
+        "end": 37.88
+      },
+      {
+        "word": "on",
+        "start": 37.88,
+        "end": 38.06
+      },
+      {
+        "word": "windy",
+        "start": 38.06,
+        "end": 38.5
+      },
+      {
+        "word": "peaks,",
+        "start": 38.5,
+        "end": 39.02
+      },
+      {
+        "word": "but",
+        "start": 39.02,
+        "end": 39.29
+      },
+      {
+        "word": "grow",
+        "start": 39.29,
+        "end": 39.64
+      },
+      {
+        "word": "tall",
+        "start": 39.64,
+        "end": 39.99
+      },
+      {
+        "word": "across",
+        "start": 39.99,
+        "end": 40.52
+      },
+      {
+        "word": "sheltered",
+        "start": 40.52,
+        "end": 41.31
+      },
+      {
+        "word": "valleys?",
+        "start": 41.31,
+        "end": 42.0
+      }
+    ]
+  }
+}

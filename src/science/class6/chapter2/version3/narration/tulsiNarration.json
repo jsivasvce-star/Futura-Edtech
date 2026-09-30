@@ -1,0 +1,293 @@
+{
+  "tulsi": {
+    "audioFile": "Tulsi.mp3",
+    "totalDuration": 29.936,
+    "words": [
+      {
+        "word": "Look",
+        "start": 0.0,
+        "end": 0.268
+      },
+      {
+        "word": "at",
+        "start": 0.268,
+        "end": 0.402
+      },
+      {
+        "word": "the",
+        "start": 0.402,
+        "end": 0.603
+      },
+      {
+        "word": "tulsi",
+        "start": 0.603,
+        "end": 0.937
+      },
+      {
+        "word": "plant.",
+        "start": 0.937,
+        "end": 1.272
+      },
+      {
+        "word": "Its",
+        "start": 1.962,
+        "end": 2.229
+      },
+      {
+        "word": "Young",
+        "start": 2.229,
+        "end": 2.72
+      },
+      {
+        "word": "stems",
+        "start": 2.72,
+        "end": 3.21
+      },
+      {
+        "word": "are",
+        "start": 3.21,
+        "end": 3.505
+      },
+      {
+        "word": "soft",
+        "start": 3.505,
+        "end": 3.897
+      },
+      {
+        "word": "and",
+        "start": 3.897,
+        "end": 4.191
+      },
+      {
+        "word": "green;",
+        "start": 4.191,
+        "end": 4.682
+      },
+      {
+        "word": "older",
+        "start": 4.682,
+        "end": 5.173
+      },
+      {
+        "word": "stems",
+        "start": 5.173,
+        "end": 5.663
+      },
+      {
+        "word": "may",
+        "start": 5.663,
+        "end": 5.958
+      },
+      {
+        "word": "become",
+        "start": 5.958,
+        "end": 6.546
+      },
+      {
+        "word": "woody.",
+        "start": 6.546,
+        "end": 7.037
+      },
+      {
+        "word": "Its",
+        "start": 7.97,
+        "end": 8.247
+      },
+      {
+        "word": "Small,",
+        "start": 8.247,
+        "end": 9.012
+      },
+      {
+        "word": "oval,",
+        "start": 9.012,
+        "end": 9.624
+      },
+      {
+        "word": "simple",
+        "start": 9.624,
+        "end": 10.542
+      },
+      {
+        "word": "leaves",
+        "start": 10.542,
+        "end": 11.461
+      },
+      {
+        "word": "with",
+        "start": 11.461,
+        "end": 12.073
+      },
+      {
+        "word": "a",
+        "start": 12.073,
+        "end": 12.379
+      },
+      {
+        "word": "strong",
+        "start": 12.379,
+        "end": 13.297
+      },
+      {
+        "word": "aroma.",
+        "start": 13.297,
+        "end": 14.062
+      },
+      {
+        "word": "Its",
+        "start": 14.745,
+        "end": 15.011
+      },
+      {
+        "word": "Tiny",
+        "start": 15.011,
+        "end": 15.398
+      },
+      {
+        "word": "purple",
+        "start": 15.398,
+        "end": 15.979
+      },
+      {
+        "word": "or",
+        "start": 15.979,
+        "end": 16.172
+      },
+      {
+        "word": "whitish",
+        "start": 16.172,
+        "end": 16.85
+      },
+      {
+        "word": "flowers",
+        "start": 16.85,
+        "end": 17.527
+      },
+      {
+        "word": "in",
+        "start": 17.527,
+        "end": 17.72
+      },
+      {
+        "word": "upright",
+        "start": 17.72,
+        "end": 18.398
+      },
+      {
+        "word": "clusters.",
+        "start": 18.398,
+        "end": 19.172
+      },
+      {
+        "word": "Tulsi",
+        "start": 19.955,
+        "end": 20.341
+      },
+      {
+        "word": "is",
+        "start": 20.341,
+        "end": 20.495
+      },
+      {
+        "word": "Commonly",
+        "start": 20.495,
+        "end": 21.113
+      },
+      {
+        "word": "grown",
+        "start": 21.113,
+        "end": 21.499
+      },
+      {
+        "word": "in",
+        "start": 21.499,
+        "end": 21.653
+      },
+      {
+        "word": "home",
+        "start": 21.653,
+        "end": 21.962
+      },
+      {
+        "word": "gardens",
+        "start": 21.962,
+        "end": 22.502
+      },
+      {
+        "word": "and",
+        "start": 22.502,
+        "end": 22.734
+      },
+      {
+        "word": "used",
+        "start": 22.734,
+        "end": 23.043
+      },
+      {
+        "word": "in",
+        "start": 23.043,
+        "end": 23.197
+      },
+      {
+        "word": "traditional",
+        "start": 23.197,
+        "end": 24.046
+      },
+      {
+        "word": "medicine.",
+        "start": 24.046,
+        "end": 24.664
+      },
+      {
+        "word": "Now",
+        "start": 25.389,
+        "end": 25.89
+      },
+      {
+        "word": "think:",
+        "start": 25.89,
+        "end": 26.724
+      },
+      {
+        "word": "What",
+        "start": 26.724,
+        "end": 27.053
+      },
+      {
+        "word": "does",
+        "start": 27.053,
+        "end": 27.383
+      },
+      {
+        "word": "“aromatic”",
+        "start": 27.383,
+        "end": 28.124
+      },
+      {
+        "word": "tell",
+        "start": 28.124,
+        "end": 28.454
+      },
+      {
+        "word": "us",
+        "start": 28.454,
+        "end": 28.618
+      },
+      {
+        "word": "about",
+        "start": 28.618,
+        "end": 29.03
+      },
+      {
+        "word": "tulsi",
+        "start": 29.03,
+        "end": 29.442
+      },
+      {
+        "word": "leaves?",
+        "start": 29.442,
+        "end": 29.936
+      }
+    ]
+  }
+}

@@ -4,8 +4,8 @@ import { Play } from 'lucide-react';
 import StandardVideoControlBar from './StandardVideoControlBar';
 
 const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer({
-  videoSrc = '/assets/stage 2.mp4',
-  fallbackSrc = '/assets/stage 2.mp4',
+  videoSrc = '/MagneticPoles/break3.mp4',
+  fallbackSrc = '/MagneticPoles/break3.mp4',
   broken = false,
   showPoles = false,
   onPhaseChange,
@@ -20,7 +20,7 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [isLooping, setIsLooping] = useState(loop);
   const [playbackRate, setPlaybackRate] = useState(1);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -120,33 +120,38 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
     const video = videoRef.current;
     if (!video) return;
 
-    const handleLoadedMetadata = () => {
+    video.muted = true;
+    setIsMuted(true);
+
+    const startPlayback = () => {
       setDuration(video.duration || 22);
       if (autoPlay) {
         video.play().then(() => {
           setIsPlaying(true);
+          if (onPlaybackStateChange) onPlaybackStateChange(true);
         }).catch(() => {
-          video.muted = true;
-          setIsMuted(true);
-          video.play().then(() => {
-            setIsPlaying(true);
-          }).catch(() => {});
+          setIsPlaying(false);
         });
       }
     };
 
-    video.addEventListener('loadedmetadata', handleLoadedMetadata);
-    if (video.readyState >= 1) {
-      handleLoadedMetadata();
+    video.addEventListener('loadeddata', startPlayback);
+    video.addEventListener('canplay', startPlayback);
+    video.addEventListener('loadedmetadata', startPlayback);
+
+    if (video.readyState >= 2) {
+      startPlayback();
     }
 
     return () => {
-      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      video.removeEventListener('loadeddata', startPlayback);
+      video.removeEventListener('canplay', startPlayback);
+      video.removeEventListener('loadedmetadata', startPlayback);
       if (controlsTimeoutRef.current) {
         clearTimeout(controlsTimeoutRef.current);
       }
     };
-  }, [autoPlay]);
+  }, [videoSrc, autoPlay, onPlaybackStateChange]);
 
   // Fullscreen change listener
   useEffect(() => {
@@ -322,11 +327,14 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
     >
       {/* HTML5 Video Element */}
       <video
+        key={videoSrc}
         ref={videoRef}
         src={videoSrc}
+        autoPlay={autoPlay}
         loop={isLooping}
         muted={isMuted}
         playsInline
+        preload="auto"
         onTimeUpdate={handleTimeUpdate}
         onPlay={() => {
           setIsPlaying(true);
@@ -345,13 +353,52 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
           objectFit: 'contain',
           backgroundColor: '#070C18',
           cursor: 'pointer',
+          display: 'block'
         }}
       >
         <source src={videoSrc} type="video/mp4" />
         <source src={fallbackSrc} type="video/mp4" />
+        <source src="/assets/break3.mp4" type="video/mp4" />
         <source src="/assets/stage 2.mp4" type="video/mp4" />
         Your browser does not support HTML5 video playback.
       </video>
+
+      {/* Centered Play Button Overlay when paused */}
+      <AnimatePresence>
+        {!isPlaying && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.85 }}
+            onClick={togglePlay}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'rgba(0, 0, 0, 0.35)',
+              zIndex: 18,
+              cursor: 'pointer'
+            }}
+          >
+            <div style={{
+              width: '74px',
+              height: '74px',
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+              border: '2.5px solid #FDE68A',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 0 30px rgba(245, 158, 11, 0.7), 0 6px 20px rgba(0,0,0,0.5)',
+              paddingLeft: '4px'
+            }}>
+              <Play size={36} color="#FFFFFF" fill="#FFFFFF" />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Top HUD: Step Indicators */}
       <div style={{
@@ -401,92 +448,7 @@ const BreakingMagnetVideoPlayer = forwardRef(function BreakingMagnetVideoPlayer(
         </div>
       </div>
 
-      {/* Scientific Overlay HUD during Phase 3 */}
-      <AnimatePresence>
-        {progressPercent >= 66 && (
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 8 }}
-            transition={{ duration: 0.3 }}
-            style={{
-              position: 'absolute',
-              bottom: '75px',
-              left: '16px',
-              right: '16px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              pointerEvents: 'none',
-              zIndex: 15,
-            }}
-          >
-            {/* Left Piece Badge */}
-            <div style={{
-              background: 'rgba(15, 23, 42, 0.88)',
-              backdropFilter: 'blur(8px)',
-              border: '1.5px solid #22C55E',
-              borderRadius: '12px',
-              padding: '6px 12px',
-              boxShadow: '0 4px 14px rgba(34, 197, 94, 0.35)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '2px',
-              textAlign: 'center',
-            }}>
-              <span style={{ fontSize: '0.74rem', fontWeight: 900, color: '#4ADE80' }}>
-                Left Piece
-              </span>
-              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#E2E8F0' }}>
-                N (red) ── S (blue)
-              </span>
-            </div>
 
-            {/* Center Monopole Concept Tag */}
-            <div style={{
-              background: 'rgba(15, 23, 42, 0.88)',
-              backdropFilter: 'blur(8px)',
-              border: '1.5px solid #214A70',
-              borderRadius: '12px',
-              padding: '6px 14px',
-              boxShadow: '0 4px 14px rgba(245, 158, 11, 0.35)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '2px',
-              textAlign: 'center',
-            }}>
-              <span style={{ fontSize: '0.74rem', fontWeight: 900, color: '#214A70' }}>
-                Magnetic Dipoles
-              </span>
-              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#F8FAFC' }}>
-                Isolated poles (monopoles) do not exist
-              </span>
-            </div>
-
-            {/* Right Piece Badge */}
-            <div style={{
-              background: 'rgba(15, 23, 42, 0.88)',
-              backdropFilter: 'blur(8px)',
-              border: '1.5px solid #22C55E',
-              borderRadius: '12px',
-              padding: '6px 12px',
-              boxShadow: '0 4px 14px rgba(34, 197, 94, 0.35)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '2px',
-              textAlign: 'center',
-            }}>
-              <span style={{ fontSize: '0.74rem', fontWeight: 900, color: '#4ADE80' }}>
-                Right Piece
-              </span>
-              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#E2E8F0' }}>
-                N (red) ── S (blue)
-              </span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Center Play Button Overlay (when paused mid-video) */}
       <AnimatePresence>

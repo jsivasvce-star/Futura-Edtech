@@ -1,0 +1,606 @@
+diff --git a/src/science/class6/chapter2/version2/Chapter2LearningLab.jsx b/src/science/class6/chapter2/version2/Chapter2LearningLab.jsx
+index 399e7368..90bf5225 100644
+--- a/src/science/class6/chapter2/version2/Chapter2LearningLab.jsx
++++ b/src/science/class6/chapter2/version2/Chapter2LearningLab.jsx
+@@ -2,12 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
+ import { 
+   ArrowLeft, CheckCircle, BookOpen, Volume2, VolumeX, Sparkles, 
+   Award, ArrowRight, RefreshCw, Footprints, Leaf, Check, Heart, ShieldCheck,
+-  ChevronDown, ChevronUp
++  ChevronDown, ChevronUp, Play, Pause, Maximize
+ } from 'lucide-react';
+ import confetti from 'canvas-confetti';
+ 
+ import sanskritSlogan from '../../../../assets/sanskrit_slogan.png';
+ import Chapter2CoverPage from './Chapter2CoverPage';
++import EducationalVideoPlayer from '../../../../components/EducationalVideoPlayer';
+ import Chapter2SloganPage from './Chapter2SloganPage';
+ import IntroStoryteller from './IntroStoryteller';
+ import activity21TransitionVideo from '../../../../assets/activity21_transition.mp4';
+@@ -70,7 +71,6 @@ import LeafVenationLab from './LeafVenationLab';
+ import RootSystemsLab from './RootSystemsLab';
+ import VenationRootCorrelationLab from './VenationRootCorrelationLab';
+ import SeedDissectionLab from './SeedDissectionLab';
+-import AnimalHabitatExplorerActivity from './AnimalHabitatExplorer';
+ import NewActivity29 from './NewActivity29';
+ import Activity2_10Lab from './Activity2_10Lab';
+ import AdaptationsLab from './AdaptationsLab';
+@@ -175,6 +175,9 @@ const SUMMARY_QUIZ = [
+   }
+ ];
+ 
++
++
++
+ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, onSoundButtonVisibilityChange }) {
+   const [viewMode, setViewMode] = useState(() => {
+     const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+@@ -219,8 +222,8 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange,
+     const params = new URLSearchParams(window.location.hash.replace('#', '?'));
+     const tab = params.get('habitatTab');
+     if (tab === 'tables') return 'activity2_10';
+-    return tab || 'mission';
+-  }); // 'mission' | 'activity2_10' | 'adaptations' | 'conservation'
++    return tab || 'new_activity_29';
++  }); // 'new_activity_29' | 'activity2_10' | 'adaptations' | 'conservation'
+   const [tab10ViewMode, setTab10ViewMode] = useState('exercises'); // 'exercises' | 'summary'
+   const [isPlayingTransition, setIsPlayingTransition] = useState(false);
+   const [isTransitionVideoEnded, setIsTransitionVideoEnded] = useState(false);
+@@ -1062,236 +1065,238 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange,
+         )}
+ 
+         {isPlayingHeightVideo && (
+-          <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
+-            <video disablePictureInPicture 
+-              ref={heightVideoRef}
+-              src={heightSpecimensVideo} 
+-              autoPlay 
+-              playsInline 
+-              onEnded={() => {
++          <EducationalVideoPlayer
++            videoRef={heightVideoRef}
++            src={heightSpecimensVideo}
++            onEnded={() => {
++              setIsPlayingHeightVideo(false);
++              setIsPlayingStemVideo(true);
++            }}
++          >
++            <button
++              onClick={() => {
++                if (heightVideoRef.current) heightVideoRef.current.pause();
++                setIsPlayingHeightVideo(false);
++                setIsPlayingAct24Transition(true);
++                setIsAct24TransitionEnded(false);
++              }}
++              style={{
++                position: 'absolute',
++                left: '32px',
++                bottom: '80px',
++                zIndex: 10001,
++                background: 'rgba(243, 239, 224, 0.9)',
++                color: '#1E293B',
++                border: 'none',
++                borderRadius: '12px',
++                padding: '12px 28px',
++                fontSize: '18px',
++                fontWeight: '700',
++                display: 'flex',
++                alignItems: 'center',
++                gap: '8px',
++                cursor: 'pointer',
++                boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
++              }}
++            >
++              <ArrowLeft size={20} /> Back
++            </button>
++            <button
++              onClick={() => {
++                if (heightVideoRef.current) heightVideoRef.current.pause();
+                 setIsPlayingHeightVideo(false);
+                 setIsPlayingStemVideo(true);
+               }}
+-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+-            />
+-            
+-            {/* Back / Next buttons */}
+-            <div style={{
+-              position: 'absolute',
+-              bottom: 0,
+-              left: 0,
+-              right: 0,
+-              display: 'flex',
+-              justifyContent: 'space-between',
+-              alignItems: 'center',
+-              padding: '32px'
+-            }}>
+-              <button 
+-                onClick={() => {
+-                  setIsPlayingHeightVideo(false);
+-                  setIsPlayingAct24Transition(true);
+-                  setIsAct24TransitionEnded(false);
+-                }}
+-                style={{
+-                  background: 'rgba(243, 239, 224, 0.9)',
+-                  color: '#1E293B',
+-                  border: 'none',
+-                  borderRadius: '12px',
+-                  padding: '12px 28px',
+-                  fontSize: '18px',
+-                  fontWeight: '700',
+-                  display: 'flex',
+-                  alignItems: 'center',
+-                  gap: '8px',
+-                  cursor: 'pointer',
+-                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+-                }}
+-              >
+-                <ArrowLeft size={20} /> Back
+-              </button>
+-              
+-              <button 
+-                onClick={() => {
+-                  setIsPlayingHeightVideo(false);
+-                  setIsPlayingStemVideo(true);
+-                }}
+-                style={{
+-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+-                  color: '#FFFFFF',
+-                  border: 'none',
+-                  borderRadius: '12px',
+-                  padding: '12px 32px',
+-                  fontSize: '18px',
+-                  fontWeight: '800',
+-                  display: 'flex',
+-                  alignItems: 'center',
+-                  gap: '8px',
+-                  cursor: 'pointer',
+-                  boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+-                }}
+-              >
+-                Next <ArrowRight size={20} />
+-              </button>
+-            </div>
+-          </div>
++              style={{
++                position: 'absolute',
++                right: '32px',
++                bottom: '80px',
++                zIndex: 10001,
++                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
++                color: '#FFFFFF',
++                border: 'none',
++                borderRadius: '12px',
++                padding: '12px 32px',
++                fontSize: '18px',
++                fontWeight: '800',
++                display: 'flex',
++                alignItems: 'center',
++                gap: '8px',
++                cursor: 'pointer',
++                boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
++              }}
++            >
++              Next <ArrowRight size={20} />
++            </button>
++          </EducationalVideoPlayer>
+         )}
+ 
+         {isPlayingStemVideo && (
+-          <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
+-            <video disablePictureInPicture 
+-              ref={stemVideoRef}
+-              src={stemSpecimensVideo} 
+-              autoPlay 
+-              playsInline 
+-              onEnded={() => {
++          <EducationalVideoPlayer
++            videoRef={stemVideoRef}
++            src={stemSpecimensVideo}
++            onEnded={() => {
++              setIsPlayingStemVideo(false);
++              setIsPlayingBranchesVideo(true);
++            }}
++          >
++            <button
++              onClick={() => {
++                if (stemVideoRef.current) stemVideoRef.current.pause();
++                setIsPlayingStemVideo(false);
++                setIsPlayingHeightVideo(true);
++              }}
++              style={{
++                position: 'absolute',
++                left: '32px',
++                bottom: '80px',
++                zIndex: 10001,
++                background: 'rgba(243, 239, 224, 0.9)',
++                color: '#1E293B',
++                border: 'none',
++                borderRadius: '12px',
++                padding: '12px 28px',
++                fontSize: '18px',
++                fontWeight: '700',
++                display: 'flex',
++                alignItems: 'center',
++                gap: '8px',
++                cursor: 'pointer',
++                boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
++              }}
++            >
++              <ArrowLeft size={20} /> Back
++            </button>
++            <button
++              onClick={() => {
++                if (stemVideoRef.current) stemVideoRef.current.pause();
+                 setIsPlayingStemVideo(false);
+                 setIsPlayingBranchesVideo(true);
+               }}
+-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+-            />
+-            
+-            {/* Back / Next buttons */}
+-            <div style={{
+-              position: 'absolute',
+-              bottom: 0,
+-              left: 0,
+-              right: 0,
+-              display: 'flex',
+-              justifyContent: 'space-between',
+-              alignItems: 'center',
+-              padding: '32px'
+-            }}>
+-              <button 
+-                onClick={() => {
+-                  setIsPlayingStemVideo(false);
+-                  setIsPlayingHeightVideo(true);
+-                }}
+-                style={{
+-                  background: 'rgba(243, 239, 224, 0.9)',
+-                  color: '#1E293B',
+-                  border: 'none',
+-                  borderRadius: '12px',
+-                  padding: '12px 28px',
+-                  fontSize: '18px',
+-                  fontWeight: '700',
+-                  display: 'flex',
+-                  alignItems: 'center',
+-                  gap: '8px',
+-                  cursor: 'pointer',
+-                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+-                }}
+-              >
+-                <ArrowLeft size={20} /> Back
+-              </button>
+-              
+-              <button 
+-                onClick={() => {
+-                  setIsPlayingStemVideo(false);
+-                  setIsPlayingBranchesVideo(true);
+-                }}
+-                style={{
+-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+-                  color: '#FFFFFF',
+-                  border: 'none',
+-                  borderRadius: '12px',
+-                  padding: '12px 32px',
+-                  fontSize: '18px',
+-                  fontWeight: '800',
+-                  display: 'flex',
+-                  alignItems: 'center',
+-                  gap: '8px',
+-                  cursor: 'pointer',
+-                  boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+-                }}
+-              >
+-                Next <ArrowRight size={20} />
+-              </button>
+-            </div>
+-          </div>
++              style={{
++                position: 'absolute',
++                right: '32px',
++                bottom: '80px',
++                zIndex: 10001,
++                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
++                color: '#FFFFFF',
++                border: 'none',
++                borderRadius: '12px',
++                padding: '12px 32px',
++                fontSize: '18px',
++                fontWeight: '800',
++                display: 'flex',
++                alignItems: 'center',
++                gap: '8px',
++                cursor: 'pointer',
++                boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
++              }}
++            >
++              Next <ArrowRight size={20} />
++            </button>
++          </EducationalVideoPlayer>
+         )}
+ 
+         {isPlayingBranchesVideo && (
+-          <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
+-            <video disablePictureInPicture 
+-              ref={branchesVideoRef}
+-              src={branchesSpecimensVideo} 
+-              autoPlay 
+-              playsInline 
+-              onEnded={() => {
++          <EducationalVideoPlayer
++            videoRef={branchesVideoRef}
++            src={branchesSpecimensVideo}
++            onEnded={() => {
++              setIsPlayingBranchesVideo(false);
++              setIsPlayingPlantGroupVideo(true);
++            }}
++          >
++            <button
++              onClick={() => {
++                if (branchesVideoRef.current) branchesVideoRef.current.pause();
++                setIsPlayingBranchesVideo(false);
++                setIsPlayingStemVideo(true);
++              }}
++              style={{
++                position: 'absolute',
++                left: '32px',
++                bottom: '80px',
++                zIndex: 10001,
++                background: 'rgba(243, 239, 224, 0.9)',
++                color: '#1E293B',
++                border: 'none',
++                borderRadius: '12px',
++                padding: '12px 28px',
++                fontSize: '18px',
++                fontWeight: '700',
++                display: 'flex',
++                alignItems: 'center',
++                gap: '8px',
++                cursor: 'pointer',
++                boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
++              }}
++            >
++              <ArrowLeft size={20} /> Back
++            </button>
++            <button
++              onClick={() => {
++                if (branchesVideoRef.current) branchesVideoRef.current.pause();
+                 setIsPlayingBranchesVideo(false);
+                 setIsPlayingPlantGroupVideo(true);
+               }}
+-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+-            />
+-            
+-            {/* Back / Next buttons */}
+-            <div style={{
+-              position: 'absolute',
+-              bottom: 0,
+-              left: 0,
+-              right: 0,
+-              display: 'flex',
+-              justifyContent: 'space-between',
+-              alignItems: 'center',
+-              padding: '32px'
+-            }}>
+-              <button 
+-                onClick={() => {
+-                  setIsPlayingBranchesVideo(false);
+-                  setIsPlayingStemVideo(true);
+-                }}
+-                style={{
+-                  background: 'rgba(243, 239, 224, 0.9)',
+-                  color: '#1E293B',
+-                  border: 'none',
+-                  borderRadius: '12px',
+-                  padding: '12px 28px',
+-                  fontSize: '18px',
+-                  fontWeight: '700',
+-                  display: 'flex',
+-                  alignItems: 'center',
+-                  gap: '8px',
+-                  cursor: 'pointer',
+-                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+-                }}
+-              >
+-                <ArrowLeft size={20} /> Back
+-              </button>
+-              
+-              <button 
+-                onClick={() => {
+-                  setIsPlayingBranchesVideo(false);
+-                  setIsPlayingPlantGroupVideo(true);
+-                }}
+-                style={{
+-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+-                  color: '#FFFFFF',
+-                  border: 'none',
+-                  borderRadius: '12px',
+-                  padding: '12px 32px',
+-                  fontSize: '18px',
+-                  fontWeight: '800',
+-                  display: 'flex',
+-                  alignItems: 'center',
+-                  gap: '8px',
+-                  cursor: 'pointer',
+-                  boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+-                }}
+-              >
+-                Next <ArrowRight size={20} />
+-              </button>
+-            </div>
+-          </div>
++              style={{
++                position: 'absolute',
++                right: '32px',
++                bottom: '80px',
++                zIndex: 10001,
++                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
++                color: '#FFFFFF',
++                border: 'none',
++                borderRadius: '12px',
++                padding: '12px 32px',
++                fontSize: '18px',
++                fontWeight: '800',
++                display: 'flex',
++                alignItems: 'center',
++                gap: '8px',
++                cursor: 'pointer',
++                boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
++              }}
++            >
++              Next <ArrowRight size={20} />
++            </button>
++          </EducationalVideoPlayer>
+         )}
+ 
+         {isPlayingPlantGroupVideo && (
+-          <div style={{ position: 'absolute', inset: 0, zIndex: 9999, background: '#000' }}>
+-            <video disablePictureInPicture 
+-              ref={plantGroupVideoRef}
+-              src={plantGroupSpecimensVideo} 
+-              autoPlay 
+-              playsInline 
+-              onEnded={() => {
++          <EducationalVideoPlayer
++            videoRef={plantGroupVideoRef}
++            src={plantGroupSpecimensVideo}
++            onEnded={() => {
++              setIsPlayingPlantGroupVideo(false);
++              if (transitionDirection === 'backward') {
++                setCurrentStep(transitionSourceStep);
++                if (transitionSourceSubTab) setVenationSubTab(transitionSourceSubTab);
++              } else {
++                setCurrentStep(transitionTargetStep);
++                if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
++              }
++            }}
++          >
++            <button 
++              onClick={() => {
++                if (plantGroupVideoRef.current) plantGroupVideoRef.current.pause();
++                setIsPlayingPlantGroupVideo(false);
++                setIsPlayingBranchesVideo(true);
++              }}
++              style={{
++                position: 'absolute', left: '32px', bottom: '80px', zIndex: 10001,
++                background: 'rgba(243, 239, 224, 0.9)', color: '#1E293B',
++                border: 'none', borderRadius: '12px', padding: '12px 28px',
++                fontSize: '18px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '8px',
++                cursor: 'pointer', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
++              }}
++            >
++              <ArrowLeft size={20} /> Back
++            </button>
++            <button 
++              onClick={() => {
++                if (plantGroupVideoRef.current) plantGroupVideoRef.current.pause();
+                 setIsPlayingPlantGroupVideo(false);
+                 if (transitionDirection === 'backward') {
+                   setCurrentStep(transitionSourceStep);
+@@ -1301,73 +1306,17 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange,
+                   if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
+                 }
+               }}
+-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+-            />
+-            
+-            {/* Back / Next buttons */}
+-            <div style={{
+-              position: 'absolute',
+-              bottom: 0,
+-              left: 0,
+-              right: 0,
+-              display: 'flex',
+-              justifyContent: 'space-between',
+-              alignItems: 'center',
+-              padding: '32px'
+-            }}>
+-              <button 
+-                onClick={() => {
+-                  setIsPlayingPlantGroupVideo(false);
+-                  setIsPlayingBranchesVideo(true);
+-                }}
+-                style={{
+-                  background: 'rgba(243, 239, 224, 0.9)',
+-                  color: '#1E293B',
+-                  border: 'none',
+-                  borderRadius: '12px',
+-                  padding: '12px 28px',
+-                  fontSize: '18px',
+-                  fontWeight: '700',
+-                  display: 'flex',
+-                  alignItems: 'center',
+-                  gap: '8px',
+-                  cursor: 'pointer',
+-                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+-                }}
+-              >
+-                <ArrowLeft size={20} /> Back
+-              </button>
+-              
+-              <button 
+-                onClick={() => {
+-                  setIsPlayingPlantGroupVideo(false);
+-                  if (transitionDirection === 'backward') {
+-                    setCurrentStep(transitionSourceStep);
+-                    if (transitionSourceSubTab) setVenationSubTab(transitionSourceSubTab);
+-                  } else {
+-                    setCurrentStep(transitionTargetStep);
+-                    if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
+-                  }
+-                }}
+-                style={{
+-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+-                  color: '#FFFFFF',
+-                  border: 'none',
+-                  borderRadius: '12px',
+-                  padding: '12px 32px',
+-                  fontSize: '18px',
+-                  fontWeight: '800',
+-                  display: 'flex',
+-                  alignItems: 'center',
+-                  gap: '8px',
+-                  cursor: 'pointer',
+-                  boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+-                }}
+-              >
+-                Next <ArrowRight size={20} />
+-              </button>
+-            </div>
+-          </div>
++              style={{
++                position: 'absolute', right: '32px', bottom: '80px', zIndex: 10001,
++                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)', color: '#FFFFFF',
++                border: 'none', borderRadius: '12px', padding: '12px 32px',
++                fontSize: '18px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px',
++                cursor: 'pointer', boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
++              }}
++            >
++              Next <ArrowRight size={20} />
++            </button>
++          </EducationalVideoPlayer>
+         )}
+ 
+ 
+@@ -2162,15 +2111,9 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange,
+         {/* ============================================================ */}
+         {currentStep === 9 && (
+           <div style={{ width: '100%', height: '100%', minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+-            {habitatSubTab === 'mission' && (
+-              <AnimalHabitatExplorerActivity 
+-                onBackToDashboard={() => setCurrentStep(8)} 
+-                onNextActivity={() => setHabitatSubTab('new_activity_29')} 
+-              />
+-            )}
+             {habitatSubTab === 'new_activity_29' && (
+               <NewActivity29 
+-                onBackToDashboard={() => setHabitatSubTab('mission')} 
++                onBackToDashboard={() => setCurrentStep(8)} 
+                 onNextActivity={() => setHabitatSubTab('activity2_10')} 
+               />
+             )}
+@@ -2552,3 +2495,4 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange,
+   );
+ }
+ 
++

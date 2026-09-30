@@ -105,47 +105,48 @@ export default function Stage2_Floating({ onComplete }) {
   };
 
   const renderCorkWithNeedle = () => (
-    <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', perspective: '1200px', pointerEvents: 'none' }}>
-      <div style={{ position: 'absolute', top: '50%', left: '50%', transformStyle: 'preserve-3d', transform: 'translate(-50%, -50%) rotateX(55deg)' }}>
+    <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
         
-        {/* Water Ripples during spin */}
+        {/* Top-down Water Ripples during spin */}
         {isSpinning && (
           <>
             <motion.div 
-              initial={{ scale: 0.5, opacity: 0.9 }}
-              animate={{ scale: [0.6, 2.6], opacity: [0.85, 0] }}
-              transition={{ duration: 1.0, repeat: Infinity, ease: 'easeOut' }}
+              initial={{ scale: 0.35, opacity: 0.95 }}
+              animate={{ scale: [0.35, 2.4], opacity: [0.9, 0] }}
+              transition={{ duration: 1.1, repeat: Infinity, ease: 'easeOut' }}
               style={{ 
-                position: 'absolute', top: -100, left: -100, width: 200, height: 200, 
-                borderRadius: '50%', border: '2.5px solid rgba(255, 255, 255, 0.9)',
-                boxShadow: '0 0 16px rgba(56, 189, 248, 0.7)',
+                position: 'absolute', top: -110, left: -110, width: 220, height: 220, 
+                borderRadius: '50%', border: '2.5px solid rgba(255, 255, 255, 0.85)',
+                boxShadow: '0 0 16px rgba(255, 255, 255, 0.6), inset 0 0 12px rgba(186, 230, 253, 0.5)',
                 pointerEvents: 'none' 
               }}
             />
             <motion.div 
-              initial={{ scale: 0.4, opacity: 0.9 }}
-              animate={{ scale: [0.4, 2.1], opacity: [0.75, 0] }}
-              transition={{ duration: 1.0, delay: 0.4, repeat: Infinity, ease: 'easeOut' }}
+              initial={{ scale: 0.25, opacity: 0.9 }}
+              animate={{ scale: [0.25, 1.9], opacity: [0.8, 0] }}
+              transition={{ duration: 1.1, delay: 0.45, repeat: Infinity, ease: 'easeOut' }}
               style={{ 
-                position: 'absolute', top: -100, left: -100, width: 200, height: 200, 
-                borderRadius: '50%', border: '2.5px solid rgba(186, 230, 253, 0.8)',
+                position: 'absolute', top: -110, left: -110, width: 220, height: 220, 
+                borderRadius: '50%', border: '2px solid rgba(224, 242, 254, 0.8)',
+                boxShadow: '0 0 12px rgba(186, 230, 253, 0.6)',
                 pointerEvents: 'none' 
               }}
             />
           </>
         )}
         
-        {/* Gentle bobbing floating physics & subtle natural water movement */}
+        {/* Gentle natural top-view water surface drift / bobbing */}
         <motion.div
           animate={{ 
-            z: [0, 5, 0],
-            rotateX: [0, 1.4, -0.8, 0],
-            rotateY: [0, -0.9, 0.9, 0]
+            x: [0, 1.5, -1.2, 0],
+            y: [0, -1.2, 1.4, 0],
+            scale: [1, 1.012, 0.992, 1]
           }}
-          transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ position: 'absolute', top: 0, left: 0, width: 0, height: 0, transformStyle: 'preserve-3d' }}
+          transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ position: 'absolute', top: 0, left: 0, width: 0, height: 0 }}
         >
-          {/* Rotatable Wooden Cork with Needle driven by continuous physics oscillation */}
+          {/* Top-View Rotatable Wooden Cork with Needle driven by continuous physics oscillation */}
           <div
             style={{
               position: 'absolute',
@@ -153,47 +154,47 @@ export default function Stage2_Floating({ onComplete }) {
               left: 0,
               width: 0,
               height: 0,
-              transformStyle: 'preserve-3d',
-              cursor: 'pointer',
+              cursor: isSpinning ? 'default' : 'pointer',
               pointerEvents: 'auto',
-              transform: `rotateZ(${displayAngle}deg)`
+              transform: `rotate(${displayAngle}deg)`
             }}
-            onClick={handleTurnCork}
+            onClick={!isSpinning ? handleTurnCork : undefined}
             title="Click to gently turn the floating compass"
           >
-            {/* Click Hitbox & Floating Wooden Cork with Needle */}
+            {/* Click Hitbox & Floating Wooden Cork with Needle in Top View */}
             <div style={{ 
               position: 'absolute', 
-              width: 180, 
-              height: 180, 
-              left: -90, 
-              top: -90, 
-              transformStyle: 'preserve-3d',
+              width: 275, 
+              height: 275, 
+              left: -137.5, 
+              top: -137.5, 
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center'
             }}>
-              {/* Wooden cork disk with vertical magnetized needle */}
+              {/* Top View Circular cork disc with vertical magnetized needle, with realistic sunlight caustics drop-shadow */}
               <div style={{
                 position: 'absolute',
                 left: '50%',
                 top: '50%',
                 transform: 'translate(-50%, -50%)',
-                filter: 'drop-shadow(0 14px 24px rgba(0, 0, 0, 0.62)) drop-shadow(0 0 16px rgba(255, 255, 255, 0.45)) brightness(1.22) contrast(1.12)',
+                filter: 'drop-shadow(10px 14px 18px rgba(35, 20, 8, 0.52)) drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.35)) brightness(1.08) contrast(1.06)',
                 pointerEvents: 'none',
-                width: '185px',
+                width: '265px',
+                height: '265px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
                 <img
                   src="/MagneticCompass/cork_with_needle.png"
-                  alt="Floating cork with magnetized needle"
+                  alt="Floating cork with magnetized needle (Top View)"
                   style={{
                     width: '100%',
-                    height: 'auto',
+                    height: '100%',
                     objectFit: 'contain',
-                    display: 'block'
+                    display: 'block',
+                    imageRendering: 'auto'
                   }}
                 />
               </div>
@@ -231,7 +232,7 @@ export default function Stage2_Floating({ onComplete }) {
           maxWidth: '100%', 
           flex: 1, 
           minHeight: '380px', 
-          backgroundImage: `url('/floating_compass_bowl_bg.jpg')`,
+          backgroundImage: `url('/MagneticCompass/floating_compass_bowl_bg.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -247,44 +248,45 @@ export default function Stage2_Floating({ onComplete }) {
           {/* Top Left Observation Badge */}
           <div style={{
             position: 'absolute',
-            top: '18px',
-            left: '20px',
+            top: '16px',
+            left: '18px',
             zIndex: 30,
-            background: '#FFFBEB',
+            background: 'rgba(255, 251, 235, 0.95)',
+            backdropFilter: 'blur(8px)',
             border: '1.5px solid #FDE68A',
-            borderRadius: '24px',
-            padding: '0.45rem 1.15rem',
-            boxShadow: '0 6px 20px rgba(0, 0, 0, 0.08)',
+            borderRadius: '20px',
+            padding: '0.4rem 1rem',
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.55rem',
+            gap: '0.5rem',
             pointerEvents: 'none'
           }}>
-            <Compass size={22} color="#92400E" strokeWidth={2.5} />
-            <span style={{ fontSize: '1.1rem', color: '#1E1B4B', fontWeight: 900 }}>
+            <Compass size={20} color="#92400E" strokeWidth={2.5} />
+            <span style={{ fontSize: '1.05rem', color: '#1E1B4B', fontWeight: 900 }}>
               Observation: <span style={{ fontWeight: 700, color: '#334155' }}>{step === 'floating' ? 'Oscillating in water...' : 'Needle has settled'}</span>
             </span>
           </div>
 
-          {/* 4 Cardinal Direction Markers Touching the Outer Bowl Rim (North, East, South, West) */}
-          {/* North Badge (Touching top bowl rim - nudged downward) */}
+          {/* 4 Cardinal Direction Markers (North, East, South, West) */}
+          {/* North Badge */}
           <div 
             className="cardinal-direction-badge"
             style={{
               position: 'absolute',
-              top: '96px',
+              top: '18px',
               left: '50%',
               transform: 'translateX(-50%)',
               zIndex: 25,
               background: '#FFFFFF',
               border: '2px solid #E2E8F0',
               borderRadius: '16px',
-              padding: '0.45rem 1.4rem',
+              padding: '0.4rem 1.35rem',
               boxShadow: '0 6px 18px rgba(0, 0, 0, 0.12)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '1.35rem',
+              fontSize: '1.25rem',
               fontWeight: 900,
               color: '#000000',
               letterSpacing: '0.02em',
@@ -294,24 +296,24 @@ export default function Stage2_Floating({ onComplete }) {
             North
           </div>
 
-          {/* South Badge (Touching bottom bowl rim - nudged upward) */}
+          {/* South Badge */}
           <div 
             className="cardinal-direction-badge"
             style={{
               position: 'absolute',
-              bottom: '124px',
+              bottom: '95px',
               left: '50%',
               transform: 'translateX(-50%)',
               zIndex: 25,
               background: '#FFFFFF',
               border: '2px solid #E2E8F0',
               borderRadius: '16px',
-              padding: '0.45rem 1.4rem',
+              padding: '0.4rem 1.35rem',
               boxShadow: '0 6px 18px rgba(0, 0, 0, 0.12)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '1.35rem',
+              fontSize: '1.25rem',
               fontWeight: 900,
               color: '#000000',
               letterSpacing: '0.02em',
@@ -321,24 +323,24 @@ export default function Stage2_Floating({ onComplete }) {
             South
           </div>
 
-          {/* West Badge (Touching left bowl rim) */}
+          {/* West Badge */}
           <div 
             className="cardinal-direction-badge"
             style={{
               position: 'absolute',
-              left: '42px',
-              top: '49%',
+              left: '24px',
+              top: '50%',
               transform: 'translateY(-50%)',
               zIndex: 25,
               background: '#FFFFFF',
               border: '2px solid #E2E8F0',
               borderRadius: '16px',
-              padding: '0.45rem 1.35rem',
+              padding: '0.4rem 1.3rem',
               boxShadow: '0 6px 18px rgba(0, 0, 0, 0.12)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '1.35rem',
+              fontSize: '1.25rem',
               fontWeight: 900,
               color: '#000000',
               letterSpacing: '0.02em',
@@ -348,24 +350,24 @@ export default function Stage2_Floating({ onComplete }) {
             West
           </div>
 
-          {/* East Badge (Touching right bowl rim) */}
+          {/* East Badge */}
           <div 
             className="cardinal-direction-badge"
             style={{
               position: 'absolute',
-              right: '42px',
-              top: '49%',
+              right: '24px',
+              top: '50%',
               transform: 'translateY(-50%)',
               zIndex: 25,
               background: '#FFFFFF',
               border: '2px solid #E2E8F0',
               borderRadius: '16px',
-              padding: '0.45rem 1.35rem',
+              padding: '0.4rem 1.3rem',
               boxShadow: '0 6px 18px rgba(0, 0, 0, 0.12)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '1.35rem',
+              fontSize: '1.25rem',
               fontWeight: 900,
               color: '#000000',
               letterSpacing: '0.02em',
@@ -375,44 +377,39 @@ export default function Stage2_Floating({ onComplete }) {
             East
           </div>
 
-          {/* Floating Needle Layer in Center of Bowl */}
+          {/* Floating Needle Layer in Exact Center of Water Bowl */}
           <div style={{
-            width: '450px',
-            height: '410px',
-            position: 'relative',
-            zIndex: 10,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginTop: '0.2rem'
+            position: 'absolute',
+            inset: 0,
+            zIndex: 15,
+            pointerEvents: 'none'
           }}>
-            <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
-              {renderCorkWithNeedle()}
-            </div>
+            {renderCorkWithNeedle()}
           </div>
 
           {/* Bottom Floating Card */}
           <div style={{
             position: 'absolute',
-            bottom: '18px',
+            bottom: '16px',
             left: '50%',
             transform: 'translateX(-50%)',
             zIndex: 30,
             width: '92%',
-            maxWidth: '680px',
-            background: '#FFFBEB',
+            maxWidth: '640px',
+            background: 'rgba(255, 251, 235, 0.95)',
+            backdropFilter: 'blur(8px)',
             border: '1.5px solid #FDE68A',
-            borderRadius: '24px',
-            padding: '0.75rem 1.3rem',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.14)',
+            borderRadius: '20px',
+            padding: '0.65rem 1.25rem',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
             display: 'flex',
             alignItems: 'center',
-            gap: '1.1rem',
+            gap: '1rem',
             pointerEvents: 'none'
           }}>
             <div style={{
-              width: '44px',
-              height: '44px',
+              width: '40px',
+              height: '40px',
               borderRadius: '50%',
               background: '#FFFFFF',
               border: '2px solid #064E3B',
@@ -422,24 +419,24 @@ export default function Stage2_Floating({ onComplete }) {
               flexShrink: 0,
               boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
             }}>
-              <Compass size={26} color="#064E3B" strokeWidth={2.5} />
+              <Compass size={24} color="#064E3B" strokeWidth={2.5} />
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem' }}>
               <div style={{
-                fontSize: '1.3rem',
+                fontSize: '1.2rem',
                 fontWeight: 900,
                 color: '#064E3B',
-                lineHeight: 1.25,
+                lineHeight: 1.2,
                 letterSpacing: '-0.01em'
               }}>
                 The needle settles approximately north–south.
               </div>
               <div style={{
-                fontSize: '1.1rem',
+                fontSize: '1.05rem',
                 fontWeight: 600,
                 color: '#334155',
-                lineHeight: 1.25
+                lineHeight: 1.2
               }}>
                 You have made a simple magnetic compass.
               </div>

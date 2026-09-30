@@ -4,8 +4,8 @@ import { Play } from 'lucide-react';
 import StandardVideoControlBar from './StandardVideoControlBar';
 
 const MagneticPolesVideoPlayer = forwardRef(function MagneticPolesVideoPlayer({
-  videoSrc = '/assets/stage1_barmagnet.mp4',
-  fallbackSrc = '/assets/stage1_barmagnet.mp4',
+  videoSrc = '/MagneticPoles/Barmagnet3.mp4',
+  fallbackSrc = '/MagneticPoles/Barmagnet3.mp4',
   externalIsPaused = false,
   onExternalTogglePause,
   onExternalReset,
@@ -20,7 +20,7 @@ const MagneticPolesVideoPlayer = forwardRef(function MagneticPolesVideoPlayer({
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [isLooping, setIsLooping] = useState(loop);
   const [playbackRate, setPlaybackRate] = useState(1);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -136,31 +136,42 @@ const MagneticPolesVideoPlayer = forwardRef(function MagneticPolesVideoPlayer({
     const video = videoRef.current;
     if (!video) return;
 
-    const handleLoadedMetadata = () => {
+    video.defaultMuted = true;
+    video.muted = true;
+    setIsMuted(true);
+
+    const startPlayback = () => {
       setDuration(video.duration || 0);
       if (autoPlay && !externalIsPaused) {
         video.play().then(() => {
           setIsPlaying(true);
         }).catch(() => {
-          // Autoplay with audio was blocked; fallback to muted autoplay
+          video.defaultMuted = true;
           video.muted = true;
           setIsMuted(true);
           video.play().then(() => {
             setIsPlaying(true);
-          }).catch(() => {});
+          }).catch(() => {
+            setIsPlaying(false);
+          });
         });
       }
     };
 
-    video.addEventListener('loadedmetadata', handleLoadedMetadata);
-    if (video.readyState >= 1) {
-      handleLoadedMetadata();
+    video.addEventListener('loadeddata', startPlayback);
+    video.addEventListener('canplay', startPlayback);
+    video.addEventListener('loadedmetadata', startPlayback);
+
+    if (video.readyState >= 2) {
+      startPlayback();
     }
 
     return () => {
-      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      video.removeEventListener('loadeddata', startPlayback);
+      video.removeEventListener('canplay', startPlayback);
+      video.removeEventListener('loadedmetadata', startPlayback);
     };
-  }, [autoPlay, externalIsPaused]);
+  }, [videoSrc, autoPlay, externalIsPaused]);
 
   // Fullscreen change listener
   useEffect(() => {
@@ -295,10 +306,12 @@ const MagneticPolesVideoPlayer = forwardRef(function MagneticPolesVideoPlayer({
       {/* HTML5 Video Element */}
       <video
         ref={videoRef}
+        key={videoSrc}
         src={videoSrc}
-        loop={isLooping}
+        autoPlay={autoPlay}
         muted={isMuted}
         playsInline
+        preload="auto"
         onTimeUpdate={handleTimeUpdate}
         onPlay={() => {
           setIsPlaying(true);
@@ -313,13 +326,52 @@ const MagneticPolesVideoPlayer = forwardRef(function MagneticPolesVideoPlayer({
           objectFit: 'contain',
           backgroundColor: '#070C18',
           cursor: 'pointer',
+          display: 'block'
         }}
       >
         <source src={videoSrc} type="video/mp4" />
-        <source src={fallbackSrc} type="video/mp4" />
-        <source src="/assets/stage1_barmagnet.mp4" type="video/mp4" />
+        <source src="/MagneticPoles/Barmagnet3.mp4" type="video/mp4" />
+        <source src="/assets/Barmagnet3.mp4" type="video/mp4" />
+        <source src="/MagneticPoles/barmagnet3.mp4" type="video/mp4" />
         Your browser does not support HTML5 video playback.
       </video>
+
+      {/* Centered Play Button Overlay when paused */}
+      <AnimatePresence>
+        {!isPlaying && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.85 }}
+            onClick={togglePlay}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'rgba(0, 0, 0, 0.35)',
+              zIndex: 18,
+              cursor: 'pointer'
+            }}
+          >
+            <div style={{
+              width: '74px',
+              height: '74px',
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+              border: '2.5px solid #FDE68A',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 0 30px rgba(245, 158, 11, 0.7), 0 6px 20px rgba(0,0,0,0.5)',
+              paddingLeft: '4px'
+            }}>
+              <Play size={36} color="#FFFFFF" fill="#FFFFFF" />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Top HUD: Phase Badges */}
       <div style={{

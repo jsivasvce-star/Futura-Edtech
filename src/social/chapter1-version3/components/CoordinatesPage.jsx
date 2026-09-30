@@ -573,9 +573,9 @@ const DegLabel = ({ text, color, style }) => (
 const InfographicStep = ({ handleNext, handlePrev, toggleAudio, isPlaying }) => {
   const [selectedSegment, setSelectedSegment] = React.useState(null);
   return (
-    <div className="infographic-layout" style={{ overflowY: 'auto', height: '100%', padding: '16px 24px' }}>
+    <div className="infographic-layout" style={{ overflowY: 'auto', height: '100%', padding: '4px 24px 16px 24px' }}>
       {/* HEADER */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0px' }}>
         <button className="dark-nav-btn" onClick={handlePrev}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>
           Back
@@ -590,9 +590,9 @@ const InfographicStep = ({ handleNext, handlePrev, toggleAudio, isPlaying }) => 
               onClick={toggleAudio}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: '6px',
-                padding: '4px 12px', background: 'transparent',
+                padding: '4px 12px', background: '#fbbf24',
                 border: '1.5px solid #fbbf24', borderRadius: '999px',
-                fontSize: '13px', fontWeight: 800, color: '#fbbf24',
+                fontSize: '15px', fontWeight: 900, color: '#0f172a',
                 cursor: 'pointer'
               }}
             >
@@ -607,20 +607,20 @@ const InfographicStep = ({ handleNext, handlePrev, toggleAudio, isPlaying }) => 
       </div>
 
       {/* THREE COLUMNS */}
-      <div style={{ display: 'flex', flex: 1, gap: '12px', minHeight: 0 }}>
+      <div style={{ display: 'flex', flex: 1, gap: '12px', minHeight: 0, marginTop: '24px' }}>
         {/* COL 1: EARTH GLOBE */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
           <div style={{ height: '60px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '8px' }}>
-            <div style={{ color: '#cbd5e1', fontSize: '14px', fontWeight: '900', textAlign: 'center', marginBottom: '2px', letterSpacing: '0.5px' }}>NORTH POLE<br />90° N</div>
-            <div style={{ color: '#f97316', fontSize: '16px', fontWeight: '900' }}>0°</div>
+            <div style={{ color: '#f8fafc', fontSize: '16px', fontWeight: 900, textAlign: 'center', marginBottom: '2px', letterSpacing: '0.5px', WebkitTextStroke: '0.5px currentColor' }}>NORTH POLE<br />90° N</div>
+            <div style={{ color: '#fbbf24', fontSize: '18px', fontWeight: 900, WebkitTextStroke: '0.5px currentColor' }}>0°</div>
           </div>
           <div style={{ flex: 1, width: '100%', position: 'relative', minHeight: 0 }}>
 
             <Globe3D currentTask={3} gridLat={0} gridLon={0} transparentBg={true} disableMoon={true} />
           </div>
           <div style={{ height: '90px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', marginTop: '8px' }}>
-            <div style={{ color: '#cbd5e1', fontSize: '14px', fontWeight: '900' }}>180°</div>
-            <div style={{ color: '#cbd5e1', fontSize: '14px', fontWeight: '900', textAlign: 'center', letterSpacing: '0.5px' }}>SOUTH POLE<br />90° S</div>
+            <div style={{ color: '#f8fafc', fontSize: '16px', fontWeight: 900, WebkitTextStroke: '0.5px currentColor' }}>180°</div>
+            <div style={{ color: '#f8fafc', fontSize: '16px', fontWeight: 900, textAlign: 'center', letterSpacing: '0.5px', WebkitTextStroke: '0.5px currentColor' }}>SOUTH POLE<br />90° S</div>
 
           </div>
         </div>
@@ -628,8 +628,8 @@ const InfographicStep = ({ handleNext, handlePrev, toggleAudio, isPlaying }) => 
         {/* COL 2: PEELED ORANGE MODEL */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
           <div style={{ height: '60px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '8px' }}>
-            <div style={{ color: '#cbd5e1', fontSize: '14px', fontWeight: '900', textAlign: 'center', marginBottom: '2px', letterSpacing: '0.5px' }}>NORTH POLE<br />(90° N)</div>
-            <div style={{ color: '#f97316', fontSize: '16px', fontWeight: '900' }}>0°</div>
+            <div style={{ color: '#f8fafc', fontSize: '16px', fontWeight: 900, textAlign: 'center', marginBottom: '2px', letterSpacing: '0.5px', WebkitTextStroke: '0.5px currentColor' }}>NORTH POLE<br />(90° N)</div>
+            <div style={{ color: '#fbbf24', fontSize: '18px', fontWeight: 900, WebkitTextStroke: '0.5px currentColor' }}>0°</div>
           </div>
           <div style={{ flex: 1, width: '100%', position: 'relative', minHeight: 0 }}>
 
@@ -642,8 +642,8 @@ const InfographicStep = ({ handleNext, handlePrev, toggleAudio, isPlaying }) => 
             </Canvas>
           </div>
           <div style={{ height: '90px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', marginTop: '8px' }}>
-            <div style={{ color: '#cbd5e1', fontSize: '14px', fontWeight: '900' }}>180°</div>
-            <div style={{ color: '#cbd5e1', fontSize: '14px', fontWeight: '900', textAlign: 'center', letterSpacing: '0.5px' }}>SOUTH POLE<br />(90° S)</div>
+            <div style={{ color: '#f8fafc', fontSize: '16px', fontWeight: 900, WebkitTextStroke: '0.5px currentColor' }}>180°</div>
+            <div style={{ color: '#f8fafc', fontSize: '16px', fontWeight: 900, textAlign: 'center', letterSpacing: '0.5px', WebkitTextStroke: '0.5px currentColor' }}>SOUTH POLE<br />(90° S)</div>
           </div>
         </div>
 
@@ -651,8 +651,8 @@ const InfographicStep = ({ handleNext, handlePrev, toggleAudio, isPlaying }) => 
         {/* COL 3: ORANGE SEGMENTS TOP-DOWN */}
         <div style={{ flex: 0.85, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
           <div style={{ height: '60px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '8px' }}>
-            <div style={{ color: '#f97316', fontSize: '15px', fontWeight: '900', textAlign: 'center', marginBottom: '2px', letterSpacing: '0.5px' }}>Order of Longitudes</div>
-            <div style={{ color: '#94a3b8', fontSize: '13px', fontWeight: 'bold', textAlign: 'center' }}>Measured Eastward from 0°<br/>and Westward from 0°</div>
+            <div style={{ color: '#fbbf24', fontSize: '17px', fontWeight: 900, textAlign: 'center', marginBottom: '2px', letterSpacing: '0.5px', WebkitTextStroke: '0.5px currentColor' }}>Order of Longitudes</div>
+            <div style={{ color: '#cbd5e1', fontSize: '14px', fontWeight: 900, textAlign: 'center', WebkitTextStroke: '0.5px currentColor' }}>Measured Eastward from 0°<br/>and Westward from 0°</div>
           </div>
           <div style={{ flex: 1, width: '100%', position: 'relative', minHeight: 0 }}>
             <Canvas camera={{ position: [0, 9.5, 0.1], fov: 45 }}>
@@ -670,34 +670,34 @@ const InfographicStep = ({ handleNext, handlePrev, toggleAudio, isPlaying }) => 
 
       {/* FOOTER */}
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '8px', marginTop: '8px' }}>
-        <h4 style={{ color: '#fff', textAlign: 'center', margin: '0 0 8px', fontSize: '13px', letterSpacing: '1.5px' }}>3 BEST SUGGESTIONS TO REMEMBER LONGITUDES</h4>
+        <h4 style={{ color: '#fff', textAlign: 'center', margin: '0 0 8px', fontSize: '16px', fontWeight: 900, letterSpacing: '1.5px', WebkitTextStroke: '0.5px currentColor' }}>3 BEST SUGGESTIONS TO REMEMBER LONGITUDES</h4>
         <div style={{ display: 'flex', gap: '10px' }}>
           <div className="sugg-box" style={{ padding: '10px 14px' }}>
             <div className="sugg-num" style={{ width: '26px', height: '26px', fontSize: '13px' }}>1</div>
             <div className="sugg-text">
-              <strong style={{ color: '#fbbf24', fontWeight: '900', fontSize: '15px' }}>Imagine Orange Segments</strong>
-              <p style={{ fontWeight: '600', fontSize: '13px' }}>Think of Earth longitudes as the natural lines on an orange. They run from Pole to Pole and split the Earth.</p>
+              <strong style={{ color: '#fbbf24', fontWeight: 900, fontSize: '18px', WebkitTextStroke: '0.5px currentColor' }}>Imagine Orange Segments</strong>
+              <p style={{ fontWeight: 800, fontSize: '16px', color: '#f8fafc' }}>Think of Earth longitudes as the natural lines on an orange. They run from Pole to Pole and split the Earth.</p>
             </div>
           </div>
           <div className="sugg-box" style={{ padding: '10px 14px' }}>
             <div className="sugg-num" style={{ width: '26px', height: '26px', fontSize: '13px' }}>2</div>
             <div className="sugg-text">
-              <strong style={{ color: '#fbbf24', fontWeight: '900', fontSize: '15px' }}>Use the 0° – 180° Rule</strong>
-              <p style={{ fontWeight: '600', fontSize: '13px' }}>0° at Greenwich.<br />Count up to 180° East (E).<br />Count up to 180° West (W).<br />180° is the International Date Line.</p>
+              <strong style={{ color: '#fbbf24', fontWeight: 900, fontSize: '18px', WebkitTextStroke: '0.5px currentColor' }}>Use the 0° – 180° Rule</strong>
+              <p style={{ fontWeight: 800, fontSize: '16px', color: '#f8fafc' }}>0° at Greenwich.<br />Count up to 180° East (E).<br />Count up to 180° West (W).<br />180° is the International Date Line.</p>
             </div>
           </div>
           <div className="sugg-box" style={{ padding: '10px 14px' }}>
             <div className="sugg-num" style={{ width: '26px', height: '26px', fontSize: '13px' }}>3</div>
             <div className="sugg-text">
-              <strong style={{ color: '#fbbf24', fontWeight: '900', fontSize: '15px' }}>East is Positive, West is Negative</strong>
-              <p style={{ fontWeight: '600', fontSize: '13px' }}>Longitudes to the East of 0° are positive (+).<br />Longitudes to the West of 0° are negative (−).</p>
+              <strong style={{ color: '#fbbf24', fontWeight: 900, fontSize: '18px', WebkitTextStroke: '0.5px currentColor' }}>East is Positive, West is Negative</strong>
+              <p style={{ fontWeight: 800, fontSize: '16px', color: '#f8fafc' }}>Longitudes to the East of 0° are positive (+).<br />Longitudes to the West of 0° are negative (−).</p>
             </div>
           </div>
-          <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 14px', minWidth: '150px', fontSize: '12px', lineHeight: '1.8' }}>
-            <span style={{ color: '#f97316', fontWeight: 'bold' }}>E</span> <span style={{ color: '#94a3b8' }}>= East (Positive)</span><br />
-            <span style={{ color: '#60a5fa', fontWeight: 'bold' }}>W</span> <span style={{ color: '#94a3b8' }}>= West (Negative)</span><br />
-            <span style={{ color: '#fff', fontWeight: 'bold' }}>0°</span> <span style={{ color: '#94a3b8' }}>= Prime Meridian</span><br />
-            <span style={{ color: '#fff', fontWeight: 'bold' }}>180°</span> <span style={{ color: '#94a3b8' }}>= Intl. Date Line</span>
+          <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 14px', minWidth: '150px', fontSize: '15px', fontWeight: 800, lineHeight: '1.8' }}>
+            <span style={{ color: '#f97316', fontWeight: 900, WebkitTextStroke: '0.5px currentColor' }}>E</span> <span style={{ color: '#cbd5e1' }}>= East (Positive)</span><br />
+            <span style={{ color: '#60a5fa', fontWeight: 900, WebkitTextStroke: '0.5px currentColor' }}>W</span> <span style={{ color: '#cbd5e1' }}>= West (Negative)</span><br />
+            <span style={{ color: '#ffffff', fontWeight: 900, WebkitTextStroke: '0.5px currentColor' }}>0°</span> <span style={{ color: '#cbd5e1' }}>= Prime Meridian</span><br />
+            <span style={{ color: '#ffffff', fontWeight: 900, WebkitTextStroke: '0.5px currentColor' }}>180°</span> <span style={{ color: '#cbd5e1' }}>= Intl. Date Line</span>
           </div>
         </div>
       </div>
@@ -817,7 +817,7 @@ const stepsData = [
     title: "Longitude in Degrees",
     paragraphs: [
       "Longitude is measured in **degrees**, from **0° to 180°**, adding **E** for east or **W** for west of the Prime Meridian.",
-      "For example, **New York** is **74°W**, **Delhi** is **77°E**, and **Tokyo** is **140°E** — shown by the <strong style={{ color: '#f97316' }}>orange pins** on the globe."
+      "For example, **New York** is **74°W**, **Delhi** is **77°E**, and **Tokyo** is **140°E**."
     ],
     keyIdea: "Longitude runs **0° to 180°**, East or West — e.g. Delhi **77°E**, New York **74°W**, Tokyo **140°E**.",
     task: 6, lon: 77
@@ -856,8 +856,8 @@ const stepsData = [
     stepNum: 15,
     title: "Western & Eastern Hemispheres",
     paragraphs: [
-      "Cut the globe along the **Prime Meridian (0&deg;)** and the **180&deg;** line, and it falls into two halves that we can see **fully**.",
-      "The left half (blue) is the **Western Hemisphere** (0&deg;&ndash;180&deg; West); the right half (orange) is the **Eastern Hemisphere** (0&deg;&ndash;180&deg; East). India lies in the Eastern Hemisphere."
+      "Cut the globe along the **Prime Meridian (0°)** and the **180°** line, and it falls into two halves that we can see **fully**.",
+      "The left half (blue) is the **Western Hemisphere** (0°–180° West); the right half (orange) is the **Eastern Hemisphere** (0°–180° East). India lies in the Eastern Hemisphere."
     ],
     keyIdea: "The **Prime Meridian** splits Earth into the **Western** and **Eastern** hemispheres.",
     task: 11
@@ -866,7 +866,7 @@ const stepsData = [
     stepNum: 16,
     title: "Northern & Southern Hemispheres",
     paragraphs: [
-      "Now cut the globe along the **Equator (0&deg;)** instead. Again it opens into two halves shown **fully**.",
+      "Now cut the globe along the **Equator (0°)** instead. Again it opens into two halves shown **fully**.",
       "The top half (green) is the **Northern Hemisphere**; the bottom half (purple) is the **Southern Hemisphere**. India lies in the Northern Hemisphere."
     ],
     keyIdea: "The **Equator** splits Earth into the **Northern** and **Southern** hemispheres.",
@@ -1030,9 +1030,9 @@ export default function CoordinatesPage({ onNextActivity, onBack }) {
                   onClick={toggleAudio}
                   style={{
                     display: 'inline-flex', alignItems: 'center', gap: '6px',
-                    padding: '8px 16px', background: '#d97706',
+                    padding: '8px 16px', background: '#fbbf24',
                     border: 'none', borderRadius: '999px',
-                    fontSize: '14px', fontWeight: 800, color: '#fff',
+                    fontSize: '15px', fontWeight: 900, color: '#0f172a',
                     cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                   }}
                 >
@@ -1155,9 +1155,9 @@ export default function CoordinatesPage({ onNextActivity, onBack }) {
                 onClick={toggleAudio}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '6px',
-                  padding: '4px 12px', background: 'transparent',
+                  padding: '4px 12px', background: '#fbbf24',
                   border: '1.5px solid #fbbf24', borderRadius: '999px',
-                  fontSize: '13px', fontWeight: 800, color: '#fbbf24',
+                  fontSize: '15px', fontWeight: 900, color: '#0f172a',
                   cursor: 'pointer'
                 }}
               >

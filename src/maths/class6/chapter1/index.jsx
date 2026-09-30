@@ -194,24 +194,7 @@ export default function Class6MathsChapter1({ onBackToDashboard }) {
     }
 
     if (currentStep === 6) {
-      return (
-        <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-          <ErrorBoundary>
-            <Canvas camera={{ position: currentSlide === 1 ? [0, 2.5, 5.2] : [0, 0.8, 5.2], fov: 44 }}>
-              <ambientLight intensity={1.9} color="#ffffff" />
-              <directionalLight position={[10, 12, 6]} intensity={2.4} color="#ffffff" castShadow />
-              <group 
-                position={currentSlide === 1 ? [0, -0.45, 0] : [0, 0.1, 0]} 
-                scale={currentSlide === 1 ? 0.76 : 0.9}
-              >
-                {currentSlide === 1 && <PhotorealisticStackedTrianglesBridge3D rows={s2nTriRows} />}
-                {currentSlide === 2 && <Table3KochSnowflake3D depth={s2nKochIter} />}
-              </group>
-              <OrbitControls enablePan={false} maxDistance={7} minDistance={2} />
-            </Canvas>
-          </ErrorBoundary>
-        </div>
-      );
+      return null;
     }
 
     if (currentStep === 7) {
@@ -488,58 +471,7 @@ export default function Class6MathsChapter1({ onBackToDashboard }) {
             </div>
           </div>
         ) : currentStep === 6 ? (
-          <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
-            {renderLeftPanelContent()}
-            <div style={{ flex: 1, background: '#FFFFFF', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
-              <div style={{ padding: '24px 24px 0 24px' }}>
-                <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#3B82F6', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '8px' }}>✨ SECTION 6</div>
-                <h2 style={{ fontFamily: '"Fraunces", serif', fontSize: '2.25rem', fontWeight: 800, color: '#1E40AF', margin: '0 0 16px 0' }}>📖 Shapes to Numbers</h2>
-              </div>
-              <div style={{ flex: 1, overflowY: 'auto', padding: '0 24px 24px 24px', minHeight: 0 }} className="hide-scrollbar chapter-content-justified">
-                <PatternsInShapes
-                  activeActivity={currentSlide}
-                  setActiveActivity={(id) => setCurrentSlide(id)}
-                  viewMode={viewMode}
-                  setViewMode={setViewMode}
-                  polygonIdx={polygonIdx}
-                  setPolygonIdx={setPolygonIdx}
-                  placedPolyEdges={placedPolyEdges}
-                  setPlacedPolyEdges={setPlacedPolyEdges}
-                  graphIdx={graphIdx}
-                  setGraphIdx={setGraphIdx}
-                  activeComponentIds={activeComponentIds}
-                  setActiveComponentIds={setActiveComponentIds}
-                  squareSize={squareSize}
-                  setSquareSize={setSquareSize}
-                  placedSquareLayers={placedSquareLayers}
-                  setPlacedSquareLayers={setPlacedSquareLayers}
-                  triangleRows={triangleRows}
-                  setTriangleRows={setTriangleRows}
-                  placedTriLayers={placedTriLayers}
-                  setPlacedTriLayers={setPlacedTriLayers}
-                  kochDepth={kochDepth}
-                  setKochDepth={setKochDepth}
-                />
-              </div>
-              <ChapterBackFooter
-                onBack={() => {
-                  if (currentSlide > 1) setCurrentSlide(currentSlide - 1);
-                  else { setCurrentStep(5); setCurrentSlide(1); }
-                }}
-                onNext={() => {
-                  if (currentSlide < 5) setCurrentSlide(currentSlide + 1);
-                  else { setCurrentStep(7); setCurrentSlide(1); }
-                }}
-                nextLabel="Next"
-                nextVariant="blue"
-                centerContent={
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: 800, color: '#1E3A8A' }}>
-                    <span>Slide {currentSlide} of 5</span>
-                  </div>
-                }
-              />
-            </div>
-          </div>
+          <ShapesToNumbers onNext={() => { setCurrentStep(7); setCurrentSlide(1); }} />
         ) : currentStep === 7 ? (
           <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
             {renderLeftPanelContent()}

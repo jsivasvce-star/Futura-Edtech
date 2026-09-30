@@ -607,7 +607,7 @@ export default function MiscellaneousPage({ onBackToDashboard, onBack }) {
               onClick={toggleAudio}
               style={{
                 padding: '6px 12px', borderRadius: '999px', border: '1px solid #334155',
-                background: '#1E293B', color: '#F8FAFC', fontSize: '13px', fontWeight: 600,
+                background: '#1E293B', color: '#F8FAFC', fontSize: '15px', fontWeight: 600,
                 cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
                 fontFamily: '"Space Grotesk", sans-serif'
               }}

@@ -123,7 +123,7 @@ const Globe = ({ currentTask, latVal, lonVal, gridLat, gridLon, disableMoon }) =
       {/* Base Globe */}
       {(currentTask < 11 || currentTask === 16 || currentTask === 21) && (
         <Sphere args={[radius, 64, 64]}>
-          <meshStandardMaterial map={colorMap} roughness={0.6} metalness={0.1} />
+          <meshStandardMaterial map={colorMap} roughness={0.6} metalness={0.1} emissive="#222222" transparent={false} />
         </Sphere>
       )}
 
@@ -295,7 +295,7 @@ const Globe = ({ currentTask, latVal, lonVal, gridLat, gridLon, disableMoon }) =
           <group>
             <group position={[-offset, 0, 0]}>
               <Sphere args={[radius, 64, 64]} rotation={[0, -Math.PI / 2, 0]}>
-                <meshStandardMaterial map={colorMap} color="#ffffff" emissive="#0f172a" roughness={0.6} metalness={0.1} transparent={true} opacity={0.92} side={THREE.FrontSide} clippingPlanes={[westPlane]} />
+                <meshStandardMaterial map={colorMap} color="#ffffff" emissive="#1a202c" roughness={0.6} metalness={0.1} transparent={false} side={THREE.FrontSide} clippingPlanes={[westPlane]} />
               </Sphere>
               <mesh rotation={[0, Math.PI / 2, 0]}>
                 <circleGeometry args={[radius, 64]} />
@@ -306,7 +306,7 @@ const Globe = ({ currentTask, latVal, lonVal, gridLat, gridLon, disableMoon }) =
 
             <group position={[offset, 0, 0]}>
               <Sphere args={[radius, 64, 64]} rotation={[0, -Math.PI / 2, 0]}>
-                <meshStandardMaterial map={colorMap} color="#ffffff" emissive="#0f172a" roughness={0.6} metalness={0.1} transparent={true} opacity={0.92} side={THREE.FrontSide} clippingPlanes={[eastPlane]} />
+                <meshStandardMaterial map={colorMap} color="#ffffff" emissive="#1a202c" roughness={0.6} metalness={0.1} transparent={false} side={THREE.FrontSide} clippingPlanes={[eastPlane]} />
               </Sphere>
               <mesh rotation={[0, Math.PI / 2, 0]}>
                 <circleGeometry args={[radius, 64]} />
@@ -328,7 +328,7 @@ const Globe = ({ currentTask, latVal, lonVal, gridLat, gridLon, disableMoon }) =
           <group>
             <group position={[0, offset, 0]}>
               <Sphere args={[radius, 64, 64]} rotation={[0, -Math.PI / 2, 0]}>
-                <meshStandardMaterial map={colorMap} color="#ffffff" emissive="#0f172a" roughness={0.6} metalness={0.1} transparent={true} opacity={0.92} side={THREE.FrontSide} clippingPlanes={[northPlane]} />
+                <meshStandardMaterial map={colorMap} color="#ffffff" emissive="#1a202c" roughness={0.6} metalness={0.1} transparent={false} side={THREE.FrontSide} clippingPlanes={[northPlane]} />
               </Sphere>
               <mesh rotation={[Math.PI / 2, 0, 0]}>
                 <circleGeometry args={[radius, 64]} />
@@ -339,7 +339,7 @@ const Globe = ({ currentTask, latVal, lonVal, gridLat, gridLon, disableMoon }) =
 
             <group position={[0, -offset, 0]}>
               <Sphere args={[radius, 64, 64]} rotation={[0, -Math.PI / 2, 0]}>
-                <meshStandardMaterial map={colorMap} color="#ffffff" emissive="#0f172a" roughness={0.6} metalness={0.1} transparent={true} opacity={0.92} side={THREE.FrontSide} clippingPlanes={[southPlane]} />
+                <meshStandardMaterial map={colorMap} color="#ffffff" emissive="#1a202c" roughness={0.6} metalness={0.1} transparent={false} side={THREE.FrontSide} clippingPlanes={[southPlane]} />
               </Sphere>
               <mesh rotation={[Math.PI / 2, 0, 0]}>
                 <circleGeometry args={[radius, 64]} />
@@ -364,7 +364,7 @@ const Globe = ({ currentTask, latVal, lonVal, gridLat, gridLon, disableMoon }) =
             {/* Top-Left: Northern + Western */}
             <group position={[-offset, offset, 0]}>
               <Sphere args={[radius, 64, 64]} rotation={[0, -Math.PI / 2, 0]}>
-                <meshStandardMaterial map={colorMap} color="#ffffff" emissive="#0f172a" roughness={0.6} metalness={0.1} transparent={true} opacity={0.92} side={THREE.FrontSide} clippingPlanes={[planeLeft, planeTop]} />
+                <meshStandardMaterial map={colorMap} color="#ffffff" emissive="#1a202c" roughness={0.6} metalness={0.1} transparent={false} side={THREE.FrontSide} clippingPlanes={[planeLeft, planeTop]} />
               </Sphere>
               <mesh rotation={[-Math.PI / 2, 0, 0]}>
                 <circleGeometry args={[radius, 32, Math.PI / 2, Math.PI]} />
@@ -381,7 +381,7 @@ const Globe = ({ currentTask, latVal, lonVal, gridLat, gridLon, disableMoon }) =
             {/* Top-Right: Northern + Eastern */}
             <group position={[offset, offset, 0]}>
               <Sphere args={[radius, 64, 64]} rotation={[0, -Math.PI / 2, 0]}>
-                <meshStandardMaterial map={colorMap} color="#ffffff" emissive="#0f172a" roughness={0.6} metalness={0.1} transparent={true} opacity={0.92} side={THREE.FrontSide} clippingPlanes={[planeRight, planeTop]} />
+                <meshStandardMaterial map={colorMap} color="#ffffff" emissive="#1a202c" roughness={0.6} metalness={0.1} transparent={false} side={THREE.FrontSide} clippingPlanes={[planeRight, planeTop]} />
               </Sphere>
               <mesh rotation={[-Math.PI / 2, 0, 0]}>
                 <circleGeometry args={[radius, 32, -Math.PI / 2, Math.PI]} />
@@ -398,7 +398,7 @@ const Globe = ({ currentTask, latVal, lonVal, gridLat, gridLon, disableMoon }) =
             {/* Bottom-Left: Southern + Western */}
             <group position={[-offset, -offset, 0]}>
               <Sphere args={[radius, 64, 64]} rotation={[0, -Math.PI / 2, 0]}>
-                <meshStandardMaterial map={colorMap} color="#ffffff" emissive="#0f172a" roughness={0.6} metalness={0.1} transparent={true} opacity={0.92} side={THREE.FrontSide} clippingPlanes={[planeLeft, planeBottom]} />
+                <meshStandardMaterial map={colorMap} color="#ffffff" emissive="#1a202c" roughness={0.6} metalness={0.1} transparent={false} side={THREE.FrontSide} clippingPlanes={[planeLeft, planeBottom]} />
               </Sphere>
               <mesh rotation={[-Math.PI / 2, 0, 0]}>
                 <circleGeometry args={[radius, 32, Math.PI / 2, Math.PI]} />
@@ -415,7 +415,7 @@ const Globe = ({ currentTask, latVal, lonVal, gridLat, gridLon, disableMoon }) =
             {/* Bottom-Right: Southern + Eastern */}
             <group position={[offset, -offset, 0]}>
               <Sphere args={[radius, 64, 64]} rotation={[0, -Math.PI / 2, 0]}>
-                <meshStandardMaterial map={colorMap} color="#ffffff" emissive="#0f172a" roughness={0.6} metalness={0.1} transparent={true} opacity={0.92} side={THREE.FrontSide} clippingPlanes={[planeRight, planeBottom]} />
+                <meshStandardMaterial map={colorMap} color="#ffffff" emissive="#1a202c" roughness={0.6} metalness={0.1} transparent={false} side={THREE.FrontSide} clippingPlanes={[planeRight, planeBottom]} />
               </Sphere>
               <mesh rotation={[-Math.PI / 2, 0, 0]}>
                 <circleGeometry args={[radius, 32, -Math.PI / 2, Math.PI]} />
@@ -486,9 +486,9 @@ export default function Globe3D({ currentTask, latVal, lonVal, gridLat, gridLon,
   return (
     <Canvas camera={{ position: [0, 1.5, 6], fov: 45 }} style={{ width: '100%', height: '100%', cursor: 'grab', background: transparentBg ? 'transparent' : 'black' }} gl={{ localClippingEnabled: true }}>
       {!transparentBg && <color attach="background" args={['black']} />}
-      <ambientLight intensity={0.7} />
-      <directionalLight position={[10, 15, 10]} intensity={1.5} color="#ffffff" />
-      <directionalLight position={[-10, -10, -5]} intensity={1.0} color="#3b82f6" />
+      <ambientLight intensity={1.5} />
+      <directionalLight position={[10, 15, 10]} intensity={1.8} color="#ffffff" />
+      <directionalLight position={[-10, -10, -5]} intensity={1.2} color="#3b82f6" />
       
       {!transparentBg && <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />}
       

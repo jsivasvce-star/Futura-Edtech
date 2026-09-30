@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SectionNextButton from './SectionNextButton';
-import sunImg from '../../../../assets/realistic_sun.jpg';
-import moonImg from '../../../../assets/moon_texture.jpg';
+import patternVideo from '../../../../assets/1.1_6vid.mp4';
 
 export default function PatternWhyExperience({ onNext }) {
   const [stage, setStage] = useState(1);
   const [showDNA, setShowDNA] = useState(false);
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  }, [stage]);
 
   // Auto-advance some stages or handle interactions
   const handlePatternChoice = (isCorrect) => {
@@ -116,112 +122,39 @@ export default function PatternWhyExperience({ onNext }) {
       width: '100%', height: '100%', backgroundColor: '#000',
       display: 'flex', flexDirection: 'row', overflow: 'hidden'
     }}>
-      {/* LEFT ANIMATION AREA (MAX SPACE) */}
+      {/* LEFT VISUAL AREA: 1.1_6vid HD VIDEO */}
       <div style={{
-        position: 'relative', flex: 1, minWidth: 0, height: '100%', overflow: 'hidden',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        perspective: '1200px', zIndex: 1
+        position: 'relative',
+        flex: 1,
+        minWidth: 0,
+        height: '100%',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#000000',
+        zIndex: 1
       }}>
-        {/* Background Stars */}
-        <div style={{
-          position: 'absolute', inset: 0, background: 'radial-gradient(circle at center, #0f172a 0%, #000 100%)', zIndex: 0
-        }} />
-
-        {/* Global Scaler to simulate object-fit contain without overflowing */}
-        <div style={{ position: 'relative', width: '800px', height: '600px', transform: 'scale(0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          
-          {/* Sun */}
-          <div style={{
-            position: 'absolute', width: '150px', height: '150px',
-            borderRadius: '50%',
-            background: `url(${sunImg}) center/cover`,
-            boxShadow: '0 0 100px #f59e0b, inset 0 0 50px #ea580c',
-            zIndex: 2,
-            transition: 'all 2s ease-in-out',
-            transform: stage >= 4 ? 'scale(0.7) translateX(-250px)' : 'scale(1) translateX(0)',
-            animation: 'spin 60s linear infinite'
-          }} />
-
-          {/* Orbit Path */}
-          <div style={{
-            position: 'absolute', width: '500px', height: '500px',
-            borderRadius: '50%', border: '2px dashed rgba(255,255,255,0.2)',
-            opacity: stage >= 2 ? 1 : 0, transition: 'opacity 1s',
-            transform: stage >= 4 ? 'scale(0.7) translateX(-250px) rotateX(60deg)' : 'scale(1) translateX(0) rotateX(60deg)',
-          }} />
-
-          {/* Gravity Vectors */}
-          {stage >= 3 && (
-            <div style={{
-              position: 'absolute', width: '100%', height: '100%',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              opacity: stage === 4 ? 1 : 0, transition: 'opacity 1s', zIndex: 1
-            }}>
-              <svg width="600" height="600" style={{ position: 'absolute' }}>
-                <circle cx="300" cy="300" r="240" fill="none" stroke="rgba(59, 130, 246, 0.4)" strokeWidth="4" />
-                <line x1="300" y1="300" x2="540" y2="300" stroke="#ef4444" strokeWidth="4" strokeDasharray="10,10">
-                  <animateTransform attributeName="transform" type="rotate" from="0 300 300" to="360 300 300" dur="10s" repeatCount="indefinite" />
-                </line>
-                <text x="400" y="280" fill="#ef4444" fontSize="16" fontWeight="bold">Gravity (Pull)</text>
-                <text x="550" y="300" fill="#3b82f6" fontSize="16" fontWeight="bold">Velocity</text>
-              </svg>
-            </div>
-          )}
-
-          {/* Earth Container */}
-          <div style={{
-            position: 'absolute', width: '500px', height: '500px',
-            animation: 'orbit 10s linear infinite',
-            transformStyle: 'preserve-3d',
-            zIndex: 3,
-            transition: 'all 2s ease-in-out',
-            transform: stage >= 4 ? 'scale(0.7) translateX(-250px)' : 'scale(1) translateX(0)',
-          }}>
-            {/* Earth */}
-            <div style={{
-              position: 'absolute', right: '-25px', top: 'calc(50% - 25px)',
-              width: '50px', height: '50px', borderRadius: '50%',
-              background: 'radial-gradient(circle at 30% 30%, #3b82f6, #1e3a8a)',
-              boxShadow: 'inset -10px -10px 20px rgba(0,0,0,0.5), 0 0 20px rgba(59,130,246,0.5)',
-              transform: 'rotateX(-60deg)',
-              animation: 'spin 5s linear infinite'
-            }}>
-              
-              {/* Moon Orbit */}
-              <div style={{
-                position: 'absolute', width: '100px', height: '100px',
-                left: '-25px', top: '-25px',
-                animation: 'orbit 4s linear infinite',
-                transformStyle: 'preserve-3d'
-              }}>
-                <div style={{
-                  position: 'absolute', right: '0', top: 'calc(50% - 8px)',
-                  width: '16px', height: '16px', borderRadius: '50%',
-                  background: `url(${moonImg}) center/cover`,
-                  boxShadow: 'inset -3px -3px 6px rgba(0,0,0,0.8)'
-                }} />
-              </div>
-
-              {/* Satellite / Rocket (Stage 5) */}
-              {stage === 5 && (
-                <div style={{
-                  position: 'absolute', width: '130px', height: '130px',
-                  left: '-40px', top: '-40px',
-                  animation: 'orbit 3s linear infinite reverse',
-                  transformStyle: 'preserve-3d'
-                }}>
-                  <div style={{
-                    position: 'absolute', right: '0', top: 'calc(50% - 6px)',
-                    width: '24px', height: '12px', background: '#e2e8f0',
-                    borderRadius: '4px', boxShadow: '0 0 8px #fff'
-                  }}>
-                    <div style={{ position: 'absolute', top: '-8px', left: '8px', width: '8px', height: '24px', background: '#3b82f6', opacity: 0.8 }} />
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+        <video
+          ref={videoRef}
+          src={patternVideo || '/assets/1.1_6vid.mp4'}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          disablePictureInPicture
+          controlsList="nodownload nofullscreen noremoteplayback"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center',
+            display: 'block',
+            border: 'none',
+            outline: 'none'
+          }}
+        />
       </div>
 
       {/* RIGHT CONTENT PANEL (MINIMUM REQUIRED SPACE) */}
@@ -326,17 +259,6 @@ export default function PatternWhyExperience({ onNext }) {
         {/* Bottom-right pinned Next button: Section 6 -> Section 7 */}
         <SectionNextButton onClick={onNext} />
       </div>
-
-      <style>{`
-        @keyframes orbit {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        @keyframes spin {
-          from { background-position: 0% center; transform: rotate(0deg); }
-          to { background-position: 100% center; transform: rotate(360deg); }
-        }
-      `}</style>
     </div>
   );
 }

@@ -215,7 +215,7 @@ export default function TwoFriendsActivity({ onBack, onNextActivity }) {
                   flex: 1
                 }}
               >
-                {c.title} <span style={{ fontSize: '10px', opacity: 0.8, fontWeight: 'normal', marginLeft: '4px' }}>({c.loc1} ⇄ {c.loc2})</span>
+                {c.title} <span style={{ fontSize: '12px', color: activeCase === c.id ? '#000000' : '#ffffff', opacity: 1, fontWeight: 900, marginLeft: '4px', letterSpacing: '0.5px', textShadow: '0 0 1px currentColor' }}>({c.loc1} ⇄ {c.loc2})</span>
               </button>
             ))}
           </div>
@@ -227,7 +227,7 @@ export default function TwoFriendsActivity({ onBack, onNextActivity }) {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', flexWrap: 'wrap' }}>
                 <span style={{ fontSize: '18px' }}>{data.friendA.avatar}</span>
                 <span style={{ fontWeight: 'bold', color: '#fff', fontSize: '15px' }}>{data.friendA.name}</span>
-                <span style={{ color: '#94a3b8', fontSize: '11px', textTransform: 'uppercase' }}>• {data.friendA.locLabel} ({data.friendA.lonString})</span>
+                <span style={{ color: '#cbd5e1', fontSize: '12px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.5px' }}>• {data.friendA.locLabel} ({data.friendA.lonString})</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '6px' }}>
                 <span style={{ fontSize: '20px', fontWeight: 'bold', color: '#fff' }}>{timeA.split(' ')[0]} <span style={{ fontSize: '12px', color: '#f59e0b' }}>{timeA.split(' ')[1]}</span></span>
@@ -235,7 +235,7 @@ export default function TwoFriendsActivity({ onBack, onNextActivity }) {
               </div>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', color: '#94a3b8', fontSize: '9px', textAlign: 'center', width: '40px', whiteSpace: 'pre-line' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', color: '#e2e8f0', fontSize: '12px', fontWeight: 900, textAlign: 'center', width: '54px', whiteSpace: 'pre-line' }}>
               {data.relationText}
             </div>
 
@@ -244,7 +244,7 @@ export default function TwoFriendsActivity({ onBack, onNextActivity }) {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', flexWrap: 'wrap' }}>
                 <span style={{ fontSize: '18px' }}>{data.friendB.avatar}</span>
                 <span style={{ fontWeight: 'bold', color: '#fff', fontSize: '15px' }}>{data.friendB.name}</span>
-                <span style={{ color: '#94a3b8', fontSize: '11px', textTransform: 'uppercase' }}>• {data.friendB.locLabel} ({data.friendB.lonString})</span>
+                <span style={{ color: '#cbd5e1', fontSize: '12px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.5px' }}>• {data.friendB.locLabel} ({data.friendB.lonString})</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '6px' }}>
                 <span style={{ fontSize: '20px', fontWeight: 'bold', color: '#fff' }}>{timeB.split(' ')[0]} <span style={{ fontSize: '12px', color: '#f59e0b' }}>{timeB.split(' ')[1]}</span></span>
@@ -294,12 +294,12 @@ export default function TwoFriendsActivity({ onBack, onNextActivity }) {
                return (
                  <React.Fragment key={idx}>
                    <div style={{ position: 'absolute', left: `${50 + (dot.lon/360)*100}%`, top: `${dot.latPercent}%`, transform: 'translate(-50%, -50%)', fontSize: '20px', filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.7))', zIndex: 2 }}>{avatar}</div>
-                   <div style={{ position: 'absolute', left: `${50 + (dot.lon/360)*100}%`, top: `${dot.latPercent}%`, transform: `translate(-50%, ${dot.labelOffset > 0 ? dot.labelOffset + 12 : dot.labelOffset - 12}px)`, color: dot.labelColor, fontSize: '9px', fontWeight: 'bold', textShadow: '0px 1px 2px #000', zIndex: 2 }}>{dot.label}</div>
+                   <div style={{ position: 'absolute', left: `${50 + (dot.lon/360)*100}%`, top: `${dot.latPercent}%`, transform: `translate(-50%, ${dot.labelOffset > 0 ? dot.labelOffset + 16 : dot.labelOffset - 16}px)`, color: dot.labelColor, fontSize: '14px', fontWeight: 900, WebkitTextStroke: '0.5px currentColor', textShadow: '0px 1px 4px rgba(0,0,0,1), 0px 0px 3px rgba(0,0,0,1)', letterSpacing: '0.5px', zIndex: 2 }}>{dot.label}</div>
                  </React.Fragment>
                );
              })}
              
-             <div style={{ position: 'absolute', bottom: 4, width: '100%', textAlign: 'center', fontSize: '9px', color: '#94a3b8', zIndex: 2 }}>
+             <div style={{ position: 'absolute', bottom: 4, width: '100%', textAlign: 'center', fontSize: '13px', fontWeight: 900, letterSpacing: '0.5px', color: '#ffffff', zIndex: 2, textShadow: '0px 1px 3px rgba(0,0,0,1), 0px 0px 2px rgba(0,0,0,1)' }}>
                ☀️ = where the Sun is overhead now • shaded = night side • friend A • friend B
              </div>
           </div>
@@ -309,7 +309,7 @@ export default function TwoFriendsActivity({ onBack, onNextActivity }) {
             <button onClick={() => setPlaying(!playing)} style={{ background: playing ? '#ef4444' : '#10b981', color: '#fff', border: 'none', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.3)', flexShrink: 0, fontSize: '14px' }}>
               {playing ? '⏸' : '▶'}
             </button>
-            <div style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 'bold', whiteSpace: 'nowrap' }}>⏱ {data.sliderLabel}</div>
+            <div style={{ fontSize: '13px', color: '#e2e8f0', fontWeight: 900, letterSpacing: '0.5px', whiteSpace: 'nowrap' }}>⏱ {data.sliderLabel}</div>
             <input type="range" min="0" max="1440" value={timeMins} onChange={e => { setTimeMins(Number(e.target.value)); setPlaying(false); }} style={{ flex: 1, accentColor: '#f59e0b', cursor: 'pointer' }} />
             <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#fff', whiteSpace: 'nowrap' }}>{format12(istMins)}</div>
           </div>
@@ -326,23 +326,23 @@ export default function TwoFriendsActivity({ onBack, onNextActivity }) {
                 const isA = msg.friend === 'A';
                 const friendData = isA ? data.friendA : data.friendB;
                 return (
-                  <div key={i} style={{ display: 'flex', gap: '10px', alignSelf: isA ? 'flex-start' : 'flex-end', maxWidth: '85%' }}>
-                    {isA && <div style={{ fontSize: '20px' }}>{friendData.avatar}</div>}
+                  <div key={i} style={{ display: 'flex', gap: '10px', alignSelf: isA ? 'flex-start' : 'flex-end', maxWidth: '88%' }}>
+                    {isA && <div style={{ fontSize: '24px' }}>{friendData.avatar}</div>}
                     <div style={{ 
                       background: friendData.chatBg,
                       border: `1px solid ${friendData.chatBorder}`,
                       padding: '8px 12px',
-                      borderRadius: isA ? '0 12px 12px 12px' : '12px 0 12px 12px',
+                      borderRadius: isA ? '0 16px 16px 16px' : '16px 0 16px 16px',
                       color: '#f8fafc',
-                      fontSize: '14px',
+                      fontSize: '16px',
                       lineHeight: '1.4'
                     }}>
-                      <div style={{ fontSize: '11px', fontWeight: 'bold', color: friendData.chatNameColor, marginBottom: '2px' }}>
+                      <div style={{ fontSize: '13px', fontWeight: 'bold', color: friendData.chatNameColor, marginBottom: '2px' }}>
                         {friendData.name} · {friendData.locLabel.split(',')[0]}
                       </div>
                       {msg.text}
                     </div>
-                    {!isA && <div style={{ fontSize: '20px' }}>{friendData.avatar}</div>}
+                    {!isA && <div style={{ fontSize: '24px' }}>{friendData.avatar}</div>}
                   </div>
                 );
               })}

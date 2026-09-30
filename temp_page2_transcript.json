@@ -1,0 +1,580 @@
+[
+  {
+    "audioWord": "Who",
+    "start": 0.0,
+    "end": 0.26,
+    "pageWordId": "t-1",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "was",
+    "start": 0.26,
+    "end": 0.72,
+    "pageWordId": "t-2",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "Aryabhata?",
+    "start": 0.72,
+    "end": 1.38,
+    "pageWordId": "t-3",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "Aryabhata",
+    "start": 2.34,
+    "end": 3.08,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "was",
+    "start": 3.08,
+    "end": 3.3,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "an",
+    "start": 3.3,
+    "end": 3.54,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "ancient",
+    "start": 3.54,
+    "end": 3.98,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "Indian",
+    "start": 3.98,
+    "end": 4.46,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "mathematician",
+    "start": 4.46,
+    "end": 5.18,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "and",
+    "start": 5.18,
+    "end": 5.74,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "astronomer",
+    "start": 5.74,
+    "end": 6.3,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "who",
+    "start": 6.3,
+    "end": 6.86,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "made",
+    "start": 6.86,
+    "end": 7.28,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "important",
+    "start": 7.28,
+    "end": 7.88,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "contributions",
+    "start": 7.88,
+    "end": 8.7,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "to",
+    "start": 8.7,
+    "end": 9.24,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "our",
+    "start": 9.24,
+    "end": 9.5,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "understanding",
+    "start": 9.5,
+    "end": 10.02,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "of",
+    "start": 10.02,
+    "end": 10.28,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "the",
+    "start": 10.28,
+    "end": 10.52,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "earth,",
+    "start": 10.52,
+    "end": 10.8,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "the",
+    "start": 11.24,
+    "end": 11.48,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "stars",
+    "start": 11.48,
+    "end": 11.8,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "and",
+    "start": 11.8,
+    "end": 12.4,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "mathematics,",
+    "start": 12.4,
+    "end": 13.08,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "a",
+    "start": 13.76,
+    "end": 13.94,
+    "pageWordId": "s-1",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "pioneer",
+    "start": 13.94,
+    "end": 14.26,
+    "pageWordId": "s-2",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "of",
+    "start": 14.26,
+    "end": 14.7,
+    "pageWordId": "s-3",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "Indian",
+    "start": 14.7,
+    "end": 14.98,
+    "pageWordId": "s-4",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "astronomy",
+    "start": 14.98,
+    "end": 15.54,
+    "pageWordId": "s-5",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "and",
+    "start": 15.54,
+    "end": 15.98,
+    "pageWordId": "s-6",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "mathematics.",
+    "start": 15.98,
+    "end": 16.6,
+    "pageWordId": "s-7",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "Around",
+    "start": 17.56,
+    "end": 17.96,
+    "pageWordId": "p1-2",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "500",
+    "start": 17.96,
+    "end": 18.58,
+    "pageWordId": "p1-3",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "CE,",
+    "start": 18.58,
+    "end": 19.14,
+    "pageWordId": "p1-4",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "Aryabhata",
+    "start": 19.66,
+    "end": 20.28,
+    "pageWordId": "p1-5",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "asked",
+    "start": 20.28,
+    "end": 20.7,
+    "pageWordId": "p1-6",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "some",
+    "start": 20.7,
+    "end": 21.08,
+    "pageWordId": "p1-7",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "very",
+    "start": 21.08,
+    "end": 21.6,
+    "pageWordId": "p1-8",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "important",
+    "start": 21.6,
+    "end": 21.92,
+    "pageWordId": "p1-9",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "questions.",
+    "start": 21.92,
+    "end": 22.56,
+    "pageWordId": "p1-10",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "What",
+    "start": 23.06,
+    "end": 23.36,
+    "pageWordId": "p1-12",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "shape",
+    "start": 23.36,
+    "end": 23.66,
+    "pageWordId": "p1-13",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "is",
+    "start": 23.66,
+    "end": 23.9,
+    "pageWordId": "p1-14",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "the",
+    "start": 23.9,
+    "end": 24.04,
+    "pageWordId": "p1-15",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "earth?",
+    "start": 24.04,
+    "end": 24.26,
+    "pageWordId": "p1-16",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "Why",
+    "start": 24.8,
+    "end": 25.04,
+    "pageWordId": "p1-17",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "do",
+    "start": 25.04,
+    "end": 25.24,
+    "pageWordId": "p1-18",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "the",
+    "start": 25.24,
+    "end": 25.44,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "stars",
+    "start": 25.44,
+    "end": 25.68,
+    "pageWordId": "p1-19",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "appear",
+    "start": 25.68,
+    "end": 26.0,
+    "pageWordId": "p1-20",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "to",
+    "start": 26.0,
+    "end": 26.26,
+    "pageWordId": "p1-21",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "move?",
+    "start": 26.26,
+    "end": 26.52,
+    "pageWordId": "p1-22",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "And",
+    "start": 27.0,
+    "end": 27.26,
+    "pageWordId": "p1-23",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "how",
+    "start": 27.26,
+    "end": 27.5,
+    "pageWordId": "p1-24",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "can",
+    "start": 27.5,
+    "end": 27.72,
+    "pageWordId": "p1-25",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "we",
+    "start": 27.72,
+    "end": 27.94,
+    "pageWordId": "p1-26",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "measure",
+    "start": 27.94,
+    "end": 28.2,
+    "pageWordId": "p1-27",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "our",
+    "start": 28.2,
+    "end": 28.54,
+    "pageWordId": "p1-28",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "planet?",
+    "start": 28.54,
+    "end": 28.86,
+    "pageWordId": "p1-29",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "At",
+    "start": 29.3,
+    "end": 29.7,
+    "pageWordId": "p2A-1",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "just",
+    "start": 29.7,
+    "end": 30.14,
+    "pageWordId": "p2A-2",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "23",
+    "start": 30.14,
+    "end": 30.66,
+    "pageWordId": "p2A-3",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "years",
+    "start": 30.66,
+    "end": 31.0,
+    "pageWordId": "p2A-4",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "of",
+    "start": 31.0,
+    "end": 31.2,
+    "pageWordId": "p2A-5",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "age,",
+    "start": 31.2,
+    "end": 31.46,
+    "pageWordId": "p2A-6",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "he",
+    "start": 31.9,
+    "end": 32.06,
+    "pageWordId": "p2A-7",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "composed",
+    "start": 32.06,
+    "end": 32.46,
+    "pageWordId": "p2A-8",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "his",
+    "start": 32.46,
+    "end": 32.7,
+    "pageWordId": "p2A-9",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "famous",
+    "start": 32.7,
+    "end": 33.04,
+    "pageWordId": "p2A-10",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "work",
+    "start": 33.04,
+    "end": 33.5,
+    "matchType": "audio-only"
+  },
+  {
+    "audioWord": "Aryabhatya",
+    "start": 33.5,
+    "end": 34.36,
+    "pageWordId": "p2B-1",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "in",
+    "start": 34.36,
+    "end": 35.06,
+    "pageWordId": "p2C-1",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "499",
+    "start": 35.06,
+    "end": 36.18,
+    "pageWordId": "p2C-2",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "CE.",
+    "start": 36.18,
+    "end": 36.74,
+    "pageWordId": "p2C-3",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "It",
+    "start": 37.26,
+    "end": 37.5,
+    "pageWordId": "p2C-4",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "became",
+    "start": 37.5,
+    "end": 37.76,
+    "pageWordId": "p2C-5",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "an",
+    "start": 37.76,
+    "end": 38.1,
+    "pageWordId": "p2C-6",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "important",
+    "start": 38.1,
+    "end": 38.42,
+    "pageWordId": "p2C-7",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "work",
+    "start": 38.42,
+    "end": 38.82,
+    "pageWordId": "p2C-8",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "that",
+    "start": 38.82,
+    "end": 39.28,
+    "pageWordId": "p2C-9",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "influenced",
+    "start": 39.28,
+    "end": 39.7,
+    "pageWordId": "p2C-10",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "many",
+    "start": 39.7,
+    "end": 40.1,
+    "pageWordId": "p2C-11",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "scholars",
+    "start": 40.1,
+    "end": 40.5,
+    "pageWordId": "p2C-12",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "for",
+    "start": 40.5,
+    "end": 40.82,
+    "pageWordId": "p2C-13",
+    "matchType": "matched"
+  },
+  {
+    "audioWord": "generations.",
+    "start": 40.82,
+    "end": 41.48,
+    "pageWordId": "p2C-14",
+    "matchType": "matched"
+  }
+]

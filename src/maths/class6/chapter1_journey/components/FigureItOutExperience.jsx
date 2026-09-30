@@ -92,7 +92,7 @@ const VIDEO_MAP = {
 };
 
 export default function FigureItOutExperience({ onNext }) {
-  const [q1Active, setQ1Active] = useState(false); // Default to Q2 to match user's direct request
+  const [q1Active, setQ1Active] = useState(true); // Default to Q1 so Question 1 is shown first
   
   // Q1 State
   const [droppedCards, setDroppedCards] = useState([]);
@@ -358,46 +358,57 @@ export default function FigureItOutExperience({ onNext }) {
               </div>
             </div>
 
-            {/* RIGHT SIDE: CARDS LIST (COMPACT - NO SCROLL) */}
+            {/* RIGHT SIDE: CARDS LIST (COMPACT - NO SCROLL) + NEXT BUTTON */}
             <div style={{ 
               flex: '0 0 clamp(340px, 28vw, 420px)', 
               width: 'clamp(340px, 28vw, 420px)', 
-              display: 'grid', 
-              gridTemplateColumns: '1fr 1fr', 
-              gap: '10px', 
-              alignContent: 'center', 
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
               overflow: 'hidden', 
               boxSizing: 'border-box'
             }}>
-              {CARDS.map(card => {
-                const isDropped = droppedCards.find(c => c.id === card.id);
-                return (
-                  <div
-                    key={card.id}
-                    draggable={!isDropped}
-                    onDragStart={(e) => handleDragStart(e, card)}
-                    onClick={() => handleClickCard(card)}
-                    style={{
-                      background: '#1e293b',
-                      borderRadius: '10px',
-                      padding: '8px',
-                      border: `1.5px solid ${isDropped ? '#334155' : '#475569'}`,
-                      cursor: isDropped ? 'default' : 'grab',
-                      opacity: isDropped ? 0.45 : 1,
-                      transform: isDropped ? 'scale(0.96)' : 'scale(1)',
-                      transition: 'all 0.2s ease',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      gap: '6px',
-                      boxShadow: isDropped ? 'none' : '0 3px 10px rgba(0,0,0,0.25)'
-                    }}
-                  >
-                    <img src={card.img} alt={card.label} style={{ width: '100%', height: '75px', objectFit: 'cover', borderRadius: '6px' }} />
-                    <span style={{ color: '#f8fafc', fontWeight: 900, fontSize: 'clamp(1.15rem, 1.25vw, 1.35rem)', fontFamily: '"Times New Roman", Times, Georgia, serif' }}>{card.label}</span>
-                  </div>
-                );
-              })}
+              <div style={{
+                display: 'grid', 
+                gridTemplateColumns: '1fr 1fr', 
+                gap: '10px', 
+                alignContent: 'center', 
+                overflow: 'hidden', 
+                boxSizing: 'border-box'
+              }}>
+                {CARDS.map(card => {
+                  const isDropped = droppedCards.find(c => c.id === card.id);
+                  return (
+                    <div
+                      key={card.id}
+                      draggable={!isDropped}
+                      onDragStart={(e) => handleDragStart(e, card)}
+                      onClick={() => handleClickCard(card)}
+                      style={{
+                        background: '#1e293b',
+                        borderRadius: '10px',
+                        padding: '8px',
+                        border: `1.5px solid ${isDropped ? '#334155' : '#475569'}`,
+                        cursor: isDropped ? 'default' : 'grab',
+                        opacity: isDropped ? 0.45 : 1,
+                        transform: isDropped ? 'scale(0.96)' : 'scale(1)',
+                        transition: 'all 0.2s ease',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        gap: '6px',
+                        boxShadow: isDropped ? 'none' : '0 3px 10px rgba(0,0,0,0.25)'
+                      }}
+                    >
+                      <img src={card.img} alt={card.label} style={{ width: '100%', height: '75px', objectFit: 'cover', borderRadius: '6px' }} />
+                      <span style={{ color: '#f8fafc', fontWeight: 900, fontSize: 'clamp(1.15rem, 1.25vw, 1.35rem)', fontFamily: '"Times New Roman", Times, Georgia, serif' }}>{card.label}</span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Bottom-right Next Button to advance to Question 2 */}
+              <SectionNextButton onClick={() => setQ1Active(false)} />
             </div>
           </div>
         )}

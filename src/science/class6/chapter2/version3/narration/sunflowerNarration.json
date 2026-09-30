@@ -1,0 +1,258 @@
+{
+  "sunflower": {
+    "audioFile": "Sunflower.mp3",
+    "totalDuration": 32.862,
+    "words": [
+      {
+        "word": "Let's",
+        "start": 0.0,
+        "end": 0.322
+      },
+      {
+        "word": "observe",
+        "start": 0.322,
+        "end": 0.773
+      },
+      {
+        "word": "the",
+        "start": 0.773,
+        "end": 0.966
+      },
+      {
+        "word": "sunflower.",
+        "start": 0.966,
+        "end": 1.546
+      },
+      {
+        "word": "Tall,",
+        "start": 2.264,
+        "end": 2.785
+      },
+      {
+        "word": "strong,",
+        "start": 2.785,
+        "end": 3.566
+      },
+      {
+        "word": "green,",
+        "start": 3.566,
+        "end": 4.217
+      },
+      {
+        "word": "rough",
+        "start": 4.217,
+        "end": 4.868
+      },
+      {
+        "word": "and",
+        "start": 4.868,
+        "end": 5.259
+      },
+      {
+        "word": "slightly",
+        "start": 5.259,
+        "end": 6.301
+      },
+      {
+        "word": "hairy.",
+        "start": 6.301,
+        "end": 6.952
+      },
+      {
+        "word": "Large,",
+        "start": 7.585,
+        "end": 8.205
+      },
+      {
+        "word": "broad",
+        "start": 8.205,
+        "end": 8.826
+      },
+      {
+        "word": "and",
+        "start": 8.826,
+        "end": 9.198
+      },
+      {
+        "word": "rough,",
+        "start": 9.198,
+        "end": 9.818
+      },
+      {
+        "word": "with",
+        "start": 9.818,
+        "end": 10.314
+      },
+      {
+        "word": "prominent",
+        "start": 10.314,
+        "end": 11.431
+      },
+      {
+        "word": "veins.",
+        "start": 11.431,
+        "end": 12.051
+      },
+      {
+        "word": "A",
+        "start": 12.739,
+        "end": 12.96
+      },
+      {
+        "word": "bright",
+        "start": 12.96,
+        "end": 13.623
+      },
+      {
+        "word": "yellow",
+        "start": 13.623,
+        "end": 14.286
+      },
+      {
+        "word": "flower",
+        "start": 14.286,
+        "end": 14.948
+      },
+      {
+        "word": "head",
+        "start": 14.948,
+        "end": 15.39
+      },
+      {
+        "word": "with",
+        "start": 15.39,
+        "end": 15.832
+      },
+      {
+        "word": "a",
+        "start": 15.832,
+        "end": 16.053
+      },
+      {
+        "word": "dark",
+        "start": 16.053,
+        "end": 16.495
+      },
+      {
+        "word": "central",
+        "start": 16.495,
+        "end": 17.268
+      },
+      {
+        "word": "disc.",
+        "start": 17.268,
+        "end": 17.71
+      },
+      {
+        "word": "Produces",
+        "start": 18.432,
+        "end": 19.321
+      },
+      {
+        "word": "edible",
+        "start": 19.321,
+        "end": 19.987
+      },
+      {
+        "word": "seeds.",
+        "start": 19.987,
+        "end": 20.542
+      },
+      {
+        "word": "Young",
+        "start": 20.542,
+        "end": 21.098
+      },
+      {
+        "word": "developing",
+        "start": 21.098,
+        "end": 22.208
+      },
+      {
+        "word": "heads",
+        "start": 22.208,
+        "end": 22.764
+      },
+      {
+        "word": "follow",
+        "start": 22.764,
+        "end": 23.43
+      },
+      {
+        "word": "the",
+        "start": 23.43,
+        "end": 23.763
+      },
+      {
+        "word": "sun;",
+        "start": 23.763,
+        "end": 24.096
+      },
+      {
+        "word": "mature",
+        "start": 24.096,
+        "end": 24.763
+      },
+      {
+        "word": "heads",
+        "start": 24.763,
+        "end": 25.318
+      },
+      {
+        "word": "usually",
+        "start": 25.318,
+        "end": 26.095
+      },
+      {
+        "word": "face",
+        "start": 26.095,
+        "end": 26.54
+      },
+      {
+        "word": "east.",
+        "start": 26.54,
+        "end": 26.984
+      },
+      {
+        "word": "Do",
+        "start": 29.208,
+        "end": 29.368
+      },
+      {
+        "word": "mature",
+        "start": 29.368,
+        "end": 29.849
+      },
+      {
+        "word": "sunflower",
+        "start": 29.849,
+        "end": 30.57
+      },
+      {
+        "word": "heads",
+        "start": 30.57,
+        "end": 30.971
+      },
+      {
+        "word": "keep",
+        "start": 30.971,
+        "end": 31.291
+      },
+      {
+        "word": "following",
+        "start": 31.291,
+        "end": 32.012
+      },
+      {
+        "word": "the",
+        "start": 32.012,
+        "end": 32.253
+      },
+      {
+        "word": "sun?",
+        "start": 32.253,
+        "end": 32.493
+      }
+    ]
+  }
+}
