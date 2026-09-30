@@ -1168,7 +1168,7 @@ export default React.memo(function ExploreIndiaActivity({ onBeginChapter, onBack
                 border: '1.5px solid #F59E0B',
                 borderRadius: '999px',
                 fontSize: '15px',
-                fontWeight: 800,
+                fontWeight: 900,
                 color: '#92400E',
                 cursor: 'pointer',
                 marginRight: '8px'

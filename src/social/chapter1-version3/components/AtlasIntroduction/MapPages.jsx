@@ -1010,9 +1010,9 @@ export const PhysicalMapPage = ({ onFullyViewed, onNextMap, onPrevMap, currentPa
       onClick={toggleAudio}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: '6px',
-        padding: '8px 16px', background: '#d97706',
+        padding: '8px 16px', background: '#fbbf24',
         border: 'none', borderRadius: '999px',
-        fontSize: '14px', fontWeight: 800, color: '#fff',
+        fontSize: '15px', fontWeight: 900, color: '#0f172a',
         cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
         marginRight: '8px'
       }}
@@ -1147,9 +1147,9 @@ export const PoliticalMapPage = ({ onFullyViewed, onNextMap, onPrevMap, currentP
               style={{
                 marginLeft: theme.spacing.s4,
                 display: 'inline-flex', alignItems: 'center', gap: '6px',
-                padding: '8px 16px', background: '#d97706',
+                padding: '8px 16px', background: '#fbbf24',
                 border: 'none', borderRadius: '999px',
-                fontSize: '14px', fontWeight: 800, color: '#fff',
+                fontSize: '15px', fontWeight: 900, color: '#0f172a',
                 cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
               }}
             >
@@ -1270,9 +1270,9 @@ export const ThematicMapPage = ({ onFullyViewed, onNextMap, onPrevMap, currentPa
               style={{
                 marginLeft: theme.spacing.s4,
                 display: 'inline-flex', alignItems: 'center', gap: '6px',
-                padding: '8px 16px', background: '#d97706',
+                padding: '8px 16px', background: '#fbbf24',
                 border: 'none', borderRadius: '999px',
-                fontSize: '14px', fontWeight: 800, color: '#fff',
+                fontSize: '15px', fontWeight: 900, color: '#0f172a',
                 cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
               }}
             >

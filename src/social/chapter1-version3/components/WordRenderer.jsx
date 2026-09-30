@@ -4,6 +4,9 @@ const WordRenderer = ({ text, idPrefix, defaultColor = "inherit", highlightColor
   if (typeof text !== 'string') return text;
   
   const words = text.split(/\s+/);
+  let inBold = false;
+  let inOrange = false;
+
   return (
     <>
       {words.map((word, index) => {
@@ -22,16 +25,31 @@ const WordRenderer = ({ text, idPrefix, defaultColor = "inherit", highlightColor
           suffix = match[3];
         }
 
-        let isBold = false;
-        let isOrange = false;
-
-        if (cleanWord.startsWith("**") && cleanWord.endsWith("**")) {
-          isBold = true;
-          cleanWord = cleanWord.slice(2, -2);
-        } else if (cleanWord.startsWith("!!") && cleanWord.endsWith("!!")) {
-          isOrange = true;
-          cleanWord = cleanWord.slice(2, -2);
+        if (cleanWord.startsWith("**")) {
+          inBold = true;
+          cleanWord = cleanWord.substring(2);
         }
+        if (cleanWord.startsWith("!!")) {
+          inOrange = true;
+          cleanWord = cleanWord.substring(2);
+        }
+
+        let isBold = inBold;
+        let isOrange = inOrange;
+
+        if (cleanWord.endsWith("**")) {
+          cleanWord = cleanWord.slice(0, -2);
+          isBold = true;
+          inBold = false;
+        }
+        if (cleanWord.endsWith("!!")) {
+          cleanWord = cleanWord.slice(0, -2);
+          isOrange = true;
+          inOrange = false;
+        }
+        
+        // Failsafe strip of any remaining asterisks
+        cleanWord = cleanWord.replace(/\*\*/g, '');
 
         let color = defaultColor;
         if (isHighlight) {

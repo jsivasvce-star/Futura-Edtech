@@ -449,7 +449,7 @@ export default function Directions({ onComplete, onBack }) {
                     onClick={toggleAudio}
                     style={{
                       padding: '10px 20px', borderRadius: '999px', border: '1px solid #FDE68A',
-                      background: '#FEF3C7', color: '#92400E', fontSize: '15px', fontWeight: 800,
+                      background: '#FEF3C7', color: '#92400E', fontSize: '15px', fontWeight: 900,
                       cursor: 'pointer', transition: 'all 0.2s ease', display: 'flex', alignItems: 'center', gap: '8px',
                       fontFamily: '"Space Grotesk", sans-serif'
                     }}
@@ -747,7 +747,7 @@ export default function Directions({ onComplete, onBack }) {
                         onClick={toggleAudio}
                         style={{
                           padding: '10px 20px', borderRadius: '999px', border: '1px solid #FDE68A',
-                          background: '#FEF3C7', color: '#92400E', fontSize: '15px', fontWeight: 800,
+                          background: '#FEF3C7', color: '#92400E', fontSize: '15px', fontWeight: 900,
                           cursor: 'pointer', transition: 'all 0.2s ease', display: 'flex', alignItems: 'center', gap: '8px',
                           fontFamily: '"Space Grotesk", sans-serif'
                         }}
