@@ -23,6 +23,55 @@ export const TABLE_2_3_COLUMNS = [
   { id: 'plantGroup', label: 'Name of plant group', group: null, options: ['Herb', 'Shrub', 'Tree'] }
 ];
 
+// NCERT Table 2.3 Answer Key based on plant height, stem properties, and branches
+export const TABLE_2_3_CORRECT_ANSWERS = {
+  mango: {
+    height: ['Tall'],
+    stemColor: ['Brown'],
+    stemTexture: ['Hard'],
+    stemThickness: ['Thick'],
+    branchLow: ['No'],
+    branchHigh: ['Yes'],
+    plantGroup: ['Tree']
+  },
+  rose: {
+    height: ['Medium'],
+    stemColor: ['Brown', 'Green'],
+    stemTexture: ['Hard'],
+    stemThickness: ['Thin'],
+    branchLow: ['Yes'],
+    branchHigh: ['No'],
+    plantGroup: ['Shrub']
+  },
+  tomato: {
+    height: ['Short'],
+    stemColor: ['Green'],
+    stemTexture: ['Tender'],
+    stemThickness: ['Thin'],
+    branchLow: ['No'],
+    branchHigh: ['No'],
+    plantGroup: ['Herb']
+  },
+  sunflower: {
+    height: ['Medium', 'Tall'],
+    stemColor: ['Green'],
+    stemTexture: ['Tender', 'Hard'],
+    stemThickness: ['Thin'],
+    branchLow: ['No'],
+    branchHigh: ['No'],
+    plantGroup: ['Herb']
+  },
+  hibiscus: {
+    height: ['Medium'],
+    stemColor: ['Brown'],
+    stemTexture: ['Hard'],
+    stemThickness: ['Thin'],
+    branchLow: ['Yes'],
+    branchHigh: ['No'],
+    plantGroup: ['Shrub']
+  }
+};
+
 const playAudioTone = (type = 'click') => {
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -49,6 +98,14 @@ const playAudioTone = (type = 'click') => {
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
       osc.start(now);
       osc.stop(now + 0.4);
+    } else if (type === 'error') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.setValueAtTime(180, now + 0.12);
+      gain.gain.setValueAtTime(0.14, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+      osc.start(now);
+      osc.stop(now + 0.28);
     }
   } catch (e) {
     // Ignore audio restrictions
@@ -59,6 +116,7 @@ export default function Table23Activity({ onBack, onNext }) {
   // Table 2.3 answers: { [rowId]: { [columnId]: value } }
   const [table23Answers, setTable23Answers] = useState({});
   const [table23Checked, setTable23Checked] = useState(false);
+  const [feedback, setFeedback] = useState(null);
 
   const handleTable23Select = (rowId, columnId, value) => {
     playAudioTone('click');
@@ -67,23 +125,56 @@ export default function Table23Activity({ onBack, onNext }) {
       [rowId]: { ...prev[rowId], [columnId]: value }
     }));
     setTable23Checked(false);
+    setFeedback(null);
   };
 
   const handleTable23Reset = () => {
     playAudioTone('click');
     setTable23Answers({});
     setTable23Checked(false);
+    setFeedback(null);
   };
 
   const handleTable23Check = () => {
     playAudioTone('click');
     setTable23Checked(true);
-    const allFilled = TABLE_2_3_ROWS.every(row =>
-      TABLE_2_3_COLUMNS.every(col => !!(table23Answers[row.id] && table23Answers[row.id][col.id]))
-    );
-    if (allFilled) {
+
+    let allCorrect = true;
+    let anyUnfilled = false;
+    let wrongCount = 0;
+
+    TABLE_2_3_ROWS.forEach(row => {
+      TABLE_2_3_COLUMNS.forEach(col => {
+        const val = table23Answers[row.id]?.[col.id];
+        if (!val) {
+          anyUnfilled = true;
+          allCorrect = false;
+        } else if (!TABLE_2_3_CORRECT_ANSWERS[row.id]?.[col.id]?.includes(val)) {
+          wrongCount++;
+          allCorrect = false;
+        }
+      });
+    });
+
+    if (allCorrect) {
       playAudioTone('success');
       confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
+      setFeedback({
+        type: 'success',
+        message: '🎉 Brilliant! All plant characteristics and categories are correctly identified!'
+      });
+    } else if (anyUnfilled && wrongCount === 0) {
+      playAudioTone('error');
+      setFeedback({
+        type: 'incomplete',
+        message: '⚠️ Please select answers for all empty cells marked in red.'
+      });
+    } else {
+      playAudioTone('error');
+      setFeedback({
+        type: 'error',
+        message: `❌ ${wrongCount > 0 ? `${wrongCount} cell${wrongCount > 1 ? 's are' : ' is'} incorrect (marked in red).` : 'Some entries are missing.'} Review the plant evidence and try again!`
+      });
     }
   };
 
@@ -269,6 +360,8 @@ export default function Table23Activity({ onBack, onNext }) {
                   </td>
                   {TABLE_2_3_COLUMNS.map((col, cIdx) => {
                     const value = (table23Answers[row.id] && table23Answers[row.id][col.id]) || '';
+                    const isValCorrect = !!(value && TABLE_2_3_CORRECT_ANSWERS[row.id]?.[col.id]?.includes(value));
+
                     return (
                       <td key={col.id} style={{
                         padding: '4px 4px',
@@ -287,10 +380,10 @@ export default function Table23Activity({ onBack, onNext }) {
                             minHeight: '38px',
                             borderRadius: '8px',
                             border: table23Checked
-                              ? (value ? '2px solid #22C55E' : '2px solid #F87171')
-                              : '1.5px solid #CBD5E1',
-                            background: table23Checked && value
-                              ? 'rgba(240, 253, 244, 0.95)'
+                              ? (isValCorrect ? '2.5px solid #22C55E' : '2.5px solid #EF4444')
+                              : (value ? '1.5px solid #64748B' : '1.5px solid #CBD5E1'),
+                            background: table23Checked
+                              ? (isValCorrect ? 'rgba(240, 253, 244, 0.95)' : 'rgba(254, 242, 242, 0.95)')
                               : '#FFFFFF',
                             color: '#1E293B',
                             fontSize: '20px',
@@ -313,6 +406,32 @@ export default function Table23Activity({ onBack, onNext }) {
             </tbody>
           </table>
         </div>
+
+        {/* Feedback Message Banner */}
+        {feedback && (
+          <div style={{
+            padding: '8px 16px',
+            borderRadius: '12px',
+            fontSize: '18px',
+            fontWeight: 800,
+            textAlign: 'center',
+            fontFamily: '"Outfit", sans-serif',
+            background: feedback.type === 'success'
+              ? 'linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%)'
+              : (feedback.type === 'incomplete'
+                  ? 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)'
+                  : 'linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%)'),
+            color: feedback.type === 'success'
+              ? '#14532D'
+              : (feedback.type === 'incomplete' ? '#78350F' : '#991B1B'),
+            border: feedback.type === 'success'
+              ? '2px solid #22C55E'
+              : (feedback.type === 'incomplete' ? '2px solid #F59E0B' : '2px solid #EF4444'),
+            boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+          }}>
+            {feedback.message}
+          </div>
+        )}
 
         {/* Action Buttons */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '18px', paddingTop: '2px' }}>
