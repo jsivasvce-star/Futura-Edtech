@@ -59,6 +59,7 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
   });
   const [isAnswersChecked, setIsAnswersChecked] = useState(false);
   const [showInfoPopup, setShowInfoPopup] = useState(false);
+  const [showErrorPopup, setShowErrorPopup] = useState(false);
 
   const handleDragStart = (e, animal) => {
     e.dataTransfer.setData('animalId', animal.id);
@@ -88,11 +89,22 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
     setDroppedAnimals({ climbs: [], flies: [], runs: [], hops: [], swims: [] });
     setIsAnswersChecked(false);
     setShowInfoPopup(false);
+    setShowErrorPopup(false);
   };
 
   const checkAnswers = () => {
     setIsAnswersChecked(true);
-    setShowInfoPopup(true);
+    const hasWrongAnswers = Object.entries(droppedAnimals).some(([zoneId, animals]) => 
+      animals.some(animal => animal.targetZone !== zoneId)
+    );
+    const totalPlaced = Object.values(droppedAnimals).reduce((sum, arr) => sum + arr.length, 0);
+    const allPlaced = totalPlaced === PAGE4_ANIMALS.length;
+    
+    if (hasWrongAnswers || !allPlaced) {
+      setShowErrorPopup(true);
+    } else {
+      setShowInfoPopup(true);
+    }
   };  return (
     <div style={{
       position: 'relative',
@@ -982,6 +994,51 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
                       }}
                     >
                       Continue <ArrowRight size={20} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Error Popup Modal */}
+            {showErrorPopup && (
+              <div style={{
+                position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+                background: 'rgba(0, 0, 0, 0.65)', backdropFilter: 'blur(6px)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                zIndex: 100, pointerEvents: 'auto'
+              }}>
+                <div style={{
+                  background: 'white', borderRadius: '20px', padding: '32px 40px',
+                  maxWidth: '450px', boxShadow: '0 24px 48px rgba(0,0,0,0.4)',
+                  animation: 'fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                  textAlign: 'center'
+                }}>
+                  <div style={{
+                    background: '#fef2f2', borderRadius: '12px', padding: '16px',
+                    borderLeft: '4px solid #ef4444', marginBottom: '24px'
+                  }}>
+                    <h2 style={{ margin: '0 0 8px 0', color: '#991b1b', fontSize: '24px', fontWeight: '900', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                      <RotateCcw size={24} color="#ef4444" /> Not Quite Right!
+                    </h2>
+                  </div>
+                  <p style={{ color: '#334155', fontSize: '17px', lineHeight: 1.7, margin: '0 0 32px 0', fontWeight: '600' }}>
+                    Some animals are in the wrong zone or haven't been placed.
+                    <br/><br/>
+                    Check your answers and try again!
+                  </p>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <button 
+                      onClick={() => { setShowErrorPopup(false); setIsAnswersChecked(false); }}
+                      style={{
+                        background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                        color: 'white', border: 'none', borderRadius: '30px',
+                        padding: '12px 40px', fontSize: '18px', fontWeight: '800',
+                        cursor: 'pointer', boxShadow: '0 4px 15px rgba(239,68,68,0.4)',
+                        transition: 'transform 0.2s', display: 'flex', alignItems: 'center', gap: '8px'
+                      }}
+                    >
+                      Try Again <RotateCcw size={20} />
                     </button>
                   </div>
                 </div>

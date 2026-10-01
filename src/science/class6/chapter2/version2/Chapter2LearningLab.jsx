@@ -257,6 +257,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
   // Quiz state in Tab 10
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [showProgressBar, setShowProgressBar] = useState(false);
+  const [quizSubmitted, setQuizSubmitted] = useState(false);
   const navRef = useRef(null);
 
   // Stop speech synthesis when navigating away or changing sub-tabs
