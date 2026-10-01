@@ -29,7 +29,7 @@ export default function Stage2_Conclusion({ onComplete }) {
 
   const [customTransition, setCustomTransition] = useState(null);
 
-  // Deflect sequence: Natural minor left and right harmonic oscillation settling along North-South axis (0°)
+  // Deflect sequence: Full authentic multi-revolution rotation and damped harmonic settle back to North-South (0°)
   const handleDeflect = () => {
     if (isSpinning) return;
     setIsSpinning(true);
@@ -38,26 +38,26 @@ export default function Stage2_Conclusion({ onComplete }) {
       ? needleAngle 
       : (Array.isArray(needleAngle) ? needleAngle[needleAngle.length - 1] : 0);
 
-    // Minor left and right deflections (oscillating within +/- 45 degrees)
-    const deflect1 = 44;   // +44° clockwise swing
-    const deflect2 = -28;  // -28° counter-clockwise swing
-    const deflect3 = 14;   // +14° rebound
-    const deflect4 = -5;   // -5° minor settle
-    const finalNorthSouth = 0; // 0° alignment
+    const spins = 2; // 2 full revolutions (720°)
+    const targetDeg = current + spins * 360;
+    const rebound1 = targetDeg + 42;
+    const rebound2 = targetDeg - 24;
+    const rebound3 = targetDeg + 10;
+    const finalNorthSouth = targetDeg; // 720° which is aligned North-South
 
-    const animDuration = 2.6; // seconds
-    setNeedleAngle([current, deflect1, deflect2, deflect3, deflect4, finalNorthSouth]);
+    const animDuration = 3.0; // seconds
+    setNeedleAngle([current, targetDeg, rebound1, rebound2, rebound3, finalNorthSouth]);
     setCustomTransition({
       duration: animDuration,
-      times: [0, 0.28, 0.54, 0.74, 0.88, 1],
-      ease: ["easeOut", "easeInOut", "easeInOut", "easeInOut", "easeOut"]
+      times: [0, 0.52, 0.70, 0.82, 0.92, 1],
+      ease: ["easeIn", "easeOut", "easeInOut", "easeInOut", "easeInOut", "easeOut"]
     });
 
     setTimeout(() => {
       setNeedleAngle(0);
       setCustomTransition(null);
       setIsSpinning(false);
-    }, animDuration * 1000 + 50);
+    }, animDuration * 1000 + 60);
   };
 
   return (

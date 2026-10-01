@@ -218,111 +218,63 @@
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   YELLOW MAGNETIC FIELD RINGS ANIMATION (Matching Reference Visual)
+   STREAMING GOLDEN MAGNETIC FIELD LINES ANIMATION (Matching Reference Image)
    ══════════════════════════════════════════════════════════════════════════════ */
-@keyframes revolve-field-ring-1 {
+@keyframes streamFlux {
   0% {
-    transform: rotateX(72deg) rotateY(9deg) rotateZ(0deg);
+    stroke-dashoffset: 40;
   }
   100% {
-    transform: rotateX(72deg) rotateY(9deg) rotateZ(360deg);
+    stroke-dashoffset: 0;
   }
 }
 
-@keyframes revolve-field-ring-2 {
+@keyframes streamFluxReverse {
   0% {
-    transform: rotateX(72deg) rotateY(-9deg) rotateZ(360deg);
+    stroke-dashoffset: 0;
   }
   100% {
-    transform: rotateX(72deg) rotateY(-9deg) rotateZ(0deg);
+    stroke-dashoffset: 40;
   }
 }
 
-@keyframes field-glow-breathe {
+@keyframes magneticLayerPulse {
   0%, 100% {
-    opacity: 0.75;
-    filter: drop-shadow(0 0 5px rgba(250, 204, 21, 0.65)) drop-shadow(0 0 10px rgba(245, 158, 11, 0.35));
+    opacity: 0.60;
+    filter: drop-shadow(0 0 2px rgba(251, 191, 36, 0.5)) drop-shadow(0 0 5px rgba(245, 158, 11, 0.25));
   }
   50% {
-    opacity: 0.95;
-    filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.95)) drop-shadow(0 0 16px rgba(245, 158, 11, 0.55));
+    opacity: 0.80;
+    filter: drop-shadow(0 0 4px rgba(254, 240, 138, 0.75)) drop-shadow(0 0 8px rgba(245, 158, 11, 0.38));
   }
 }
 
-.magnetic-field-rings-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 220px;
-  height: 90px;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  perspective: 700px;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.magnetic-glowing-lines-overlay {
+  animation: magneticLayerPulse 3.2s ease-in-out infinite;
+  pointer-events: none !important;
+  mix-blend-mode: screen;
 }
 
-.magnetic-field-ring-1 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 204px;
-  height: 74px;
-  margin-top: -37px;
-  margin-left: -102px;
-  border-radius: 50%;
-  border: 1.5px dashed rgba(253, 224, 71, 0.88);
-  box-shadow: 0 0 8px rgba(250, 204, 21, 0.45), inset 0 0 6px rgba(250, 204, 21, 0.25);
-  animation: revolve-field-ring-1 5.5s linear infinite, field-glow-breathe 3.2s ease-in-out infinite;
-  pointer-events: none;
-  transform-style: preserve-3d;
+.field-stream-line-1 {
+  animation: streamFlux 2.2s linear infinite;
 }
 
-.magnetic-field-ring-1::after {
-  content: '';
-  position: absolute;
-  top: 0px;
-  left: 50%;
-  width: 5px;
-  height: 5px;
-  margin-left: -2.5px;
-  margin-top: -2.5px;
-  border-radius: 50%;
-  background: #FEF08A;
-  box-shadow: 0 0 8px #FDE047, 0 0 14px #F59E0B;
+.field-stream-line-2 {
+  animation: streamFlux 3.0s linear infinite;
 }
 
-.magnetic-field-ring-2 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 176px;
-  height: 64px;
-  margin-top: -32px;
-  margin-left: -88px;
-  border-radius: 50%;
-  border: 1.5px dashed rgba(254, 240, 138, 0.78);
-  box-shadow: 0 0 6px rgba(250, 204, 21, 0.4), inset 0 0 5px rgba(250, 204, 21, 0.2);
-  animation: revolve-field-ring-2 6.8s linear infinite, field-glow-breathe 3.2s ease-in-out infinite 1.6s;
-  pointer-events: none;
-  transform-style: preserve-3d;
+.field-stream-line-3 {
+  animation: streamFlux 1.6s linear infinite;
 }
 
-.magnetic-field-ring-2::after {
-  content: '';
-  position: absolute;
-  bottom: 0px;
-  left: 50%;
-  width: 4.5px;
-  height: 4.5px;
-  margin-left: -2.25px;
-  margin-bottom: -2.25px;
-  border-radius: 50%;
-  background: #FFFFFF;
-  box-shadow: 0 0 8px #FDE047, 0 0 12px #F59E0B;
+.field-stream-line-slow {
+  animation: streamFlux 4.2s linear infinite;
 }
+
+.luminous-magnetic-field-container {
+  animation: magneticPulseGlow 2.5s ease-in-out infinite;
+}
+
 
 
 

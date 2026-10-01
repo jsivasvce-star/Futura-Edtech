@@ -81,102 +81,60 @@ class SoundEngine {
 
 const audioEngine = new SoundEngine();
 
-// ─── Luminous Yellow Magnetic Field Orbital Rings ───
-function MagneticFieldRings() {
-  return (
-    <div className="magnetic-field-rings-container">
-      {/* Outer revolving yellow orbital ring */}
-      <div className="magnetic-field-ring-1" />
-      {/* Inner revolving yellow orbital ring */}
-      <div className="magnetic-field-ring-2" />
-    </div>
-  );
-}
-
-// ─── High-Resolution Wooden Car with Standard Bar Magnet ───
-function HighResWoodenCar({ 
+// ─── High-Resolution Wooden Toy Jeep with Antenna, Magnet & Glowing Magnetic Lines ───
+function HighResWoodenJeep({ 
   carSide, // 'left' (faces right) or 'right' (faces left)
-  magnetAsset, // '/assets/vintage_bar_magnet_ns.png' or '/assets/vintage_bar_magnet_sn.png'
-  isFlipping
+  carsMode // 'same' (repulsion) or 'different' (attraction)
 }) {
   const isLeftCar = carSide === 'left';
-  const carImageSrc = isLeftCar 
-    ? '/MagnetInteraction/car_left_facing_right.png' 
-    : '/MagnetInteraction/car_right_facing_left.png';
+  const jeepImageSrc = isLeftCar 
+    ? '/MagnetInteraction/jeep_with_magnet_and_lines_left.png' 
+    : (carsMode === 'same'
+        ? '/MagnetInteraction/jeep_with_magnet_and_lines_right_repel.png'
+        : '/MagnetInteraction/jeep_with_magnet_and_lines_right_attract.png');
 
-  // Move the bar magnet slightly backward on top of the car
-  // Left car faces right -> backward is to the left (40%)
-  // Right car faces left -> backward is to the right (60%)
-  const magnetLeftPos = isLeftCar ? '41%' : '59%';
+  const glowingLinesSrc = isLeftCar
+    ? '/MagnetInteraction/magnetic_glowing_lines_left.png'
+    : (carsMode === 'same'
+        ? '/MagnetInteraction/magnetic_glowing_lines_right_repel.png'
+        : '/MagnetInteraction/magnetic_glowing_lines_right_attract.png');
 
   return (
     <div 
       style={{
         position: 'relative',
-        width: '320px',
-        height: '142px',
+        width: '285px',
         userSelect: 'none',
         pointerEvents: 'none',
-        filter: 'drop-shadow(0 6px 12px rgba(0,0,0,0.18))',
-        transition: 'filter 0.2s ease',
+        filter: 'drop-shadow(0 8px 18px rgba(0,0,0,0.32))',
       }}
     >
-      {/* ── Standardized Bar Magnet (Slightly larger, increased subtle gap above car roof, positioned backward) ── */}
-      <div style={{
-        position: 'absolute',
-        top: '-29px',
-        left: magnetLeftPos,
-        transform: 'translateX(-50%)',
-        width: '168px',
-        height: '38px',
-        zIndex: 5,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        perspective: '700px'
-      }}>
-        {/* Subtle Glowing Yellow Orbital Magnetic Field Rings */}
-        <MagneticFieldRings />
-
-        {/* Animated 3D Flip Container for Magnet */}
-        <motion.div
-          animate={{ rotateY: isFlipping ? 180 : 0 }}
-          transition={{ duration: 0.38, ease: "easeInOut" }}
-          style={{
-            width: '100%',
-            height: '36px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            filter: 'drop-shadow(0 6px 12px rgba(0,0,0,0.5))'
-          }}
-        >
-          <img 
-            src={magnetAsset}
-            alt="Standard Bar Magnet"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-              display: 'block',
-              pointerEvents: 'none'
-            }}
-          />
-        </motion.div>
-      </div>
-
-      {/* ── High-Resolution Handcrafted Wooden Car Body ── */}
+      {/* ── Base Layer: Jeep with Magnet and Magnetic Field Lines & Arrows ── */}
       <img
-        src={carImageSrc}
-        alt={isLeftCar ? "Left Wooden Toy Car (Facing Right)" : "Right Wooden Toy Car (Facing Left)"}
+        src={jeepImageSrc}
+        alt={isLeftCar ? "Left Wooden Toy Jeep with Magnet & Magnetic Lines" : "Right Wooden Toy Jeep with Magnet & Magnetic Lines"}
         style={{
           width: '100%',
-          height: '100%',
-          objectFit: 'contain',
+          height: 'auto',
           display: 'block',
-          position: 'relative',
-          zIndex: 3,
-          pointerEvents: 'none'
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* ── Glowing Overlay Layer: Exact Solid Yellow Lines & Arrows Glowing on Top ── */}
+      <img
+        src={glowingLinesSrc}
+        alt="Luminous Magnetic Field Lines & Arrows"
+        className="magnetic-glowing-lines-overlay"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          display: 'block',
+          pointerEvents: 'none',
+          zIndex: 4,
         }}
       />
     </div>
@@ -188,11 +146,11 @@ export default function Stage1_MagneticCars({ carsMode = 'same', animTrigger = 0
   // Physical Positions on 0-24 cm ruler
   // Scale in background image spans from 4.8% (0 cm) to 95.2% (24 cm).
   // Total span = 90.4%. Center (12.0 cm) is at 50.0%.
-  // Starting positions:
-  // - Left Car (Car A, facing right): nose at posA. Rear sits at ruler start (0.0 cm to 5.2 cm).
-  // - Right Car (Car B, facing left): nose at posB. Rear sits at ruler end (18.8 cm to 24.0 cm).
-  const START_A = 5.2;
-  const START_B = 18.8;
+  // Starting positions with wider physical retreat on scale:
+  // - Left Jeep (Car A, facing right): nose starts at 6.2 cm (rear stays comfortably at 1.0 cm on scale)
+  // - Right Jeep (Car B, facing left): nose starts at 17.8 cm (rear stays comfortably at 23.0 cm on scale)
+  const START_A = 6.2;
+  const START_B = 17.8;
   const TOTAL_TRACK_CM = 24.0;
 
   const [posA, setPosA] = useState(START_A); // cm (Left car nose)
@@ -203,13 +161,6 @@ export default function Stage1_MagneticCars({ carsMode = 'same', animTrigger = 0
   // - Right car:
   //     carsMode === 'same' -> 'NS' (North faces left -> N-N Repulsion).
   //     carsMode === 'different' -> 'SN' (South faces left -> N-S Attraction).
-  const magnetAssetA = '/assets/vintage_bar_magnet_sn.png'; // N faces right
-  const magnetAssetB = carsMode === 'same' 
-    ? '/assets/vintage_bar_magnet_ns.png' // N faces left
-    : '/assets/vintage_bar_magnet_sn.png'; // S faces left
-
-  const [isFlippingB, setIsFlippingB] = useState(false);
-
   // Animation frame and timing refs
   const animFrameRef = useRef(null);
   const animStartTimeRef = useRef(null);
@@ -232,16 +183,16 @@ export default function Stage1_MagneticCars({ carsMode = 'same', animTrigger = 0
 
     if (mode === 'same') {
       // ─── Same Poles (N–N Repulsion Endless Loop):
-      // Phase 1 (0 -> 1.35s): Inward approach from opposite ends to safe distance (gap = 2.8cm)
-      // Phase 2 (1.35 -> 2.70s): Repulsion push backward away from each other to starting ends
-      // Phase 3 (2.70 -> 3.30s): Brief pause at ends before restarting loop
-      const T_APPROACH = 1350; // ms
-      const T_REPEL = 1350;    // ms
-      const T_PAUSE = 600;     // ms
+      // Phase 1 (0 -> 1.50s): Inward approach from starting position (6.2cm / 17.8cm) to close proximity (11.2cm / 12.8cm, gap = 1.6cm)
+      // Phase 2 (1.50 -> 3.10s): Strong repulsion push backward to starting positions (6.2cm / 17.8cm) strictly on scale
+      // Phase 3 (3.10 -> 3.90s): Generous pause at starting positions before restarting loop
+      const T_APPROACH = 1500; // ms
+      const T_REPEL = 1600;    // ms
+      const T_PAUSE = 800;     // ms
       const CYCLE_DURATION = T_APPROACH + T_REPEL + T_PAUSE;
 
-      const targetPosA = 10.6;   // Left car nose reaches 10.6 cm
-      const targetPosB = 13.4;   // Right car nose reaches 13.4 cm (Safe 2.8 cm gap, zero physical contact)
+      const targetPosA = 11.2;   // Left car nose comes close to 11.2 cm
+      const targetPosB = 12.8;   // Right car nose comes close to 12.8 cm (gap = 1.6 cm, close repulsion!)
 
       const animateSamePoles = (currentTime) => {
         const totalElapsed = currentTime - animStartTimeRef.current;
@@ -253,7 +204,7 @@ export default function Stage1_MagneticCars({ carsMode = 'same', animTrigger = 0
         }
 
         if (elapsed < T_APPROACH) {
-          // 1. Inward Approach Phase
+          // 1. Inward Approach Phase (Coming closer together)
           const progress = Math.min(elapsed / T_APPROACH, 1);
           const ease = easeOutQuad(progress);
           const curA = START_A + (targetPosA - START_A) * ease;
@@ -261,12 +212,12 @@ export default function Stage1_MagneticCars({ carsMode = 'same', animTrigger = 0
           setPosA(curA);
           setPosB(curB);
 
-          if (progress > 0.85 && !humPlayed) {
+          if (progress > 0.88 && !humPlayed) {
             humPlayed = true;
             audioEngine.playRepelHum();
           }
         } else if (elapsed < T_APPROACH + T_REPEL) {
-          // 2. Repulsion Push Phase (Reverse backward to ends)
+          // 2. Repulsion Push Phase (Reverse backward to start positions on scale)
           if (!humPlayed) {
             humPlayed = true;
             audioEngine.playRepelHum();
@@ -279,7 +230,7 @@ export default function Stage1_MagneticCars({ carsMode = 'same', animTrigger = 0
           setPosA(curA);
           setPosB(curB);
         } else {
-          // 3. Brief Settle Pause at Starting Ends
+          // 3. Clear Settle Pause at Starting Positions
           setPosA(START_A);
           setPosB(START_B);
         }
@@ -291,13 +242,13 @@ export default function Stage1_MagneticCars({ carsMode = 'same', animTrigger = 0
 
     } else {
       // ─── Different Poles (N–S Attraction & Zero-Gap Crash Endless Loop):
-      // Phase 1 (0 -> 1.40s): Move inward from opposite ends with magnetic acceleration
+      // Phase 1 (0 -> 1.50s): Move inward from starting positions (6.2cm / 17.8cm) with magnetic acceleration
       // Crash and fully touch at center of track (posA = 12.0, posB = 12.0) with ZERO GAP!
-      // Phase 2 (1.40 -> 2.70s): Hold docked in contact
-      // Phase 3 (2.70 -> 3.50s): Smooth reset back to opposite starting ends
-      const T_ATTRACT = 1400; // ms
-      const T_HOLD = 1300;    // ms
-      const T_RESET = 800;    // ms
+      // Phase 2 (1.50 -> 2.90s): Hold docked in contact
+      // Phase 3 (2.90 -> 3.90s): Smooth reset back to starting positions (6.2cm / 17.8cm) strictly over the scale
+      const T_ATTRACT = 1500; // ms
+      const T_HOLD = 1400;    // ms
+      const T_RESET = 1000;   // ms
       const CYCLE_DURATION = T_ATTRACT + T_HOLD + T_RESET;
 
       const dockCenter = 12.0; // 12.0 cm (Both car noses meet exactly at center line with ZERO GAP)
@@ -333,7 +284,7 @@ export default function Stage1_MagneticCars({ carsMode = 'same', animTrigger = 0
           setPosA(dockCenter);
           setPosB(dockCenter);
         } else {
-          // 3. Smooth Reset Back to Opposite Ends
+          // 3. Smooth Reset Back to Starting Positions
           const resetProgress = Math.min((elapsed - (T_ATTRACT + T_HOLD)) / T_RESET, 1);
           const ease = easeInOutCubic(resetProgress);
           const curA = dockCenter + (START_A - dockCenter) * ease;
@@ -352,13 +303,9 @@ export default function Stage1_MagneticCars({ carsMode = 'same', animTrigger = 0
   // Trigger automated endless loop animation on mount, mode change, or re-click trigger
   useEffect(() => {
     audioEngine.playModeSwitch();
-    setIsFlippingB(true);
-    const flipTimer = setTimeout(() => setIsFlippingB(false), 380);
-
     runAnimationSequence(carsMode);
 
     return () => {
-      clearTimeout(flipTimer);
       if (animFrameRef.current) {
         cancelAnimationFrame(animFrameRef.current);
         animFrameRef.current = null;
@@ -383,7 +330,7 @@ export default function Stage1_MagneticCars({ carsMode = 'same', animTrigger = 0
         position: 'relative'
       }}
     >
-      {/* ── Full-Width Photorealistic Laboratory Table Stage ── */}
+      {/* ── Full-Width Photorealistic Laboratory Table Stage (Bright, Vivid, Crystal Clear) ── */}
       <div 
         style={{
           position: 'relative',
@@ -400,18 +347,11 @@ export default function Stage1_MagneticCars({ carsMode = 'same', animTrigger = 0
           backgroundSize: '100% 100%',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
+          filter: 'brightness(1.08) contrast(1.06) saturate(1.12)',
+          imageRendering: '-webkit-optimize-contrast',
           boxSizing: 'border-box'
         }}
       >
-        {/* Soft Ambient Depth Overlay */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 0%, rgba(15, 23, 42, 0.01) 50%, rgba(0, 0, 0, 0.12) 100%)',
-          pointerEvents: 'none',
-          zIndex: 1
-        }} />
-
         {/* ── Centered Top Fixed Wooden Board Pop-Up (Clean Text on Wooden Container) ── */}
         <div style={{
           position: 'absolute',
@@ -443,7 +383,7 @@ export default function Stage1_MagneticCars({ carsMode = 'same', animTrigger = 0
               height: '18.7%',
               left: '50%',
               transform: 'translateX(-50%)',
-              width: '41%',
+              width: '45%',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -454,54 +394,45 @@ export default function Stage1_MagneticCars({ carsMode = 'same', animTrigger = 0
               <span style={{
                 color: '#FFFFFF',
                 fontFamily: 'Inter, Outfit, sans-serif',
-                fontSize: 'clamp(0.85rem, 1.15vw, 1.15rem)',
+                fontSize: 'clamp(0.95rem, 1.25vw, 1.25rem)',
                 fontWeight: 900,
-                letterSpacing: '0.015em',
+                letterSpacing: '0.02em',
                 textShadow: '0 2px 4px rgba(0, 0, 0, 0.9), 0 0 2px #000000',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '8px',
                 lineHeight: 1,
                 whiteSpace: 'nowrap',
               }}>
-                {carsMode === 'same' ? (
-                  <>
-                    <span style={{ color: '#FBBF24' }}>⚡</span>
-                    <span>Same Poles (N ↔ N) : Magnetic Repulsion</span>
-                  </>
-                ) : (
-                  <>
-                    <span style={{ color: '#F87171' }}>🧲</span>
-                    <span>Opposite Poles (N → S) : Magnetic Attraction</span>
-                  </>
-                )}
+                {carsMode === 'same' ? 'Same Poles (N<->N)' : 'Opposite poles (N<->S)'}
               </span>
             </div>
 
-            {/* Lower Main Board Explanatory Text Area - Concise text with large, legible typography */}
+            {/* Lower Main Board Explanatory Text Area - Spanning across 3 lines with justified alignment */}
             <div style={{
               position: 'absolute',
-              top: '34%',
-              bottom: '9%',
-              left: '6%',
-              right: '6%',
+              top: '32%',
+              bottom: '8%',
+              left: '8%',
+              right: '8%',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              textAlign: 'center',
               boxSizing: 'border-box',
-              padding: '0 12px',
+              padding: '0 8px',
             }}>
               <p style={{
                 margin: 0,
                 color: '#FFFFFF',
                 fontFamily: 'Inter, Outfit, sans-serif',
-                fontSize: 'clamp(1.05rem, 1.48vw, 1.42rem)',
+                fontSize: 'clamp(1.1rem, 1.48vw, 1.45rem)',
                 fontWeight: 850,
-                lineHeight: 1.34,
+                lineHeight: 1.4,
+                textAlign: 'justify',
+                textJustify: 'inter-word',
                 letterSpacing: '0.005em',
                 textShadow: '0 2px 5px rgba(0, 0, 0, 0.95), 0 0 3px #000000',
+                width: '100%',
               }}>
                 {carsMode === 'same'
                   ? 'Like poles repel! When both cars face each other with identical poles (N ↔ N), an invisible magnetic force pushes them apart without touching.'
@@ -511,48 +442,46 @@ export default function Stage1_MagneticCars({ carsMode = 'same', animTrigger = 0
           </div>
         </div>
 
-        {/* ── Interactive Track Plane: Cars positioned directly on top of the 3D White Scale ── */}
+        {/* ── Interactive Track Plane: Wooden Toy Jeeps with Magnet & Magnetic Lines positioned on Track ── */}
         <div style={{
           position: 'absolute',
           inset: 0,
           zIndex: 5,
           pointerEvents: 'none'
         }}>
-          {/* ── Left Wooden Car (Car A, Facing Right - Nose anchored at percentA) ── */}
+          {/* ── Left Wooden Toy Jeep (Jeep A, Facing Right - Nose anchored at percentA) ── */}
           <div 
             style={{
               position: 'absolute',
               left: `${percentA}%`,
               transform: 'translateX(-100%)',
-              bottom: '27.4%',
+              bottom: '28.5%',
               zIndex: 6,
               pointerEvents: 'none',
               userSelect: 'none'
             }}
           >
-            <HighResWoodenCar
+            <HighResWoodenJeep
               carSide="left"
-              magnetAsset={magnetAssetA}
-              isFlipping={false}
+              carsMode={carsMode}
             />
           </div>
 
-          {/* ── Right Wooden Car (Car B, Facing Left - Nose anchored at percentB) ── */}
+          {/* ── Right Wooden Toy Jeep (Jeep B, Facing Left - Nose anchored at percentB) ── */}
           <div 
             style={{
               position: 'absolute',
               left: `${percentB}%`,
               transform: 'translateX(0%)',
-              bottom: '27.4%',
+              bottom: '28.5%',
               zIndex: 6,
               pointerEvents: 'none',
               userSelect: 'none'
             }}
           >
-            <HighResWoodenCar
+            <HighResWoodenJeep
               carSide="right"
-              magnetAsset={magnetAssetB}
-              isFlipping={isFlippingB}
+              carsMode={carsMode}
             />
           </div>
         </div>
@@ -560,3 +489,5 @@ export default function Stage1_MagneticCars({ carsMode = 'same', animTrigger = 0
     </div>
   );
 }
+
+

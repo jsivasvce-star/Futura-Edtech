@@ -23,37 +23,28 @@ export default function Stage2_Floating({ onComplete }) {
 
   const startTimeRef = useRef(null);
 
-  // Dynamic multi-phase cork rotation: 2 fast CCW rotations (-720°) -> 1 slow CW rotation (+360°) -> damped settle
+  // Natural fluid rotation physics: Smooth multi-turn spin -> underdamped harmonic settle back to North (0°)
   useEffect(() => {
     let animFrame;
 
     const updatePhysics = (now) => {
       if (isSpinningRef.current && startTimeRef.current !== null) {
         const elapsed = (now - startTimeRef.current) / 1000;
-        const T1 = 1.35; // Phase 1: 2 fast CCW rotations (720°)
-        const T2 = 1.65; // Phase 2: 1 slow CW rotation (360°)
-        const T3 = 1.90; // Phase 3: Damped spring harmonic settle
+        const totalDuration = 2.8; // 2.8s total natural water rotation
 
-        if (elapsed < T1) {
-          // Phase 1: Fast CCW 720° (0 -> -720°)
-          const p = elapsed / T1;
-          const ease = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
-          const deg = -720 * ease;
+        if (elapsed < 1.4) {
+          // Phase 1: Smooth fast spin of 2 full turns (720°) with natural easing
+          const p = elapsed / 1.4;
+          const ease = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+          const deg = 720 * ease;
           angleRef.current = (deg * Math.PI) / 180;
           setDisplayAngle(deg);
-        } else if (elapsed < T1 + T2) {
-          // Phase 2: Slow CW 360° (-720° -> -360°)
-          const p = (elapsed - T1) / T2;
-          const ease = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
-          const deg = -720 + 360 * ease;
-          angleRef.current = (deg * Math.PI) / 180;
-          setDisplayAngle(deg);
-        } else if (elapsed < T1 + T2 + T3) {
-          // Phase 3: Smooth underdamped harmonic settle around 0° (North)
-          const dt = elapsed - (T1 + T2);
-          const amp = 52 * Math.exp(-2.2 * dt);
-          const oscillation = amp * Math.sin(dt * 7.5);
-          const deg = -360 + oscillation;
+        } else if (elapsed < totalDuration) {
+          // Phase 2: Damped harmonic spring oscillation settling to 720° (aligned North)
+          const dt = elapsed - 1.4;
+          const amp = 45 * Math.exp(-2.5 * dt);
+          const oscillation = amp * Math.sin(dt * 8.5);
+          const deg = 720 + oscillation;
           angleRef.current = (deg * Math.PI) / 180;
           setDisplayAngle(deg);
         } else {
