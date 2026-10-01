@@ -331,8 +331,8 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
           minWidth: '320px',
           maxHeight: 'calc(100vh - clamp(60px, 8vh, 80px))',
           background: 'transparent',
-          backdropFilter: 'blur(4px)',
-          WebkitBackdropFilter: 'blur(4px)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
           border: '1.5px solid rgba(16, 185, 129, 0.45)',
           borderRadius: '24px',
           boxShadow: 'inset 1px 1px 2px rgba(255, 255, 255, 0.25), inset -1px -1px 2px rgba(0, 0, 0, 0.3), 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(16, 185, 129, 0.2)',
@@ -553,7 +553,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                 <div style={{
                   fontSize: '20px',
                   color: '#FFFFFF',
-                  fontWeight: 500,
+                  fontWeight: 700,
                   lineHeight: 1.35,
                   fontFamily: '"Inter", sans-serif',
                   textAlign: 'justify',
@@ -604,7 +604,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                 <div style={{
                   fontSize: '20px',
                   color: '#FFFFFF',
-                  fontWeight: 500,
+                  fontWeight: 700,
                   lineHeight: 1.35,
                   fontFamily: '"Inter", sans-serif',
                   textAlign: 'justify',
@@ -655,7 +655,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                 <div style={{
                   fontSize: '20px',
                   color: '#FFFFFF',
-                  fontWeight: 500,
+                  fontWeight: 700,
                   lineHeight: 1.35,
                   fontFamily: '"Inter", sans-serif',
                   textAlign: 'justify',
@@ -708,7 +708,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                     <div style={{
                       fontSize: '20px',
                       color: '#FFFFFF',
-                      fontWeight: 500,
+                      fontWeight: 700,
                       lineHeight: 1.35,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',
@@ -764,7 +764,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                     <div style={{
                       fontSize: '20px',
                       color: '#FEF9C3',
-                      fontWeight: 600,
+                      fontWeight: 700,
                       lineHeight: 1.35,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',
