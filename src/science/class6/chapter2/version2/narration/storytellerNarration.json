@@ -1976,137 +1976,137 @@
     "cues": [
       {
         "text": "After exploring the forest, the students gather together to share what they have discovered.",
-        "start": 0,
-        "end": 0.863,
+        "start": 1.41,
+        "end": 6.81,
         "words": [
           {
             "word": "After",
-            "start": 0,
-            "end": 0.055
+            "start": 1.41,
+            "end": 1.63
           },
           {
             "word": "exploring",
-            "start": 0.055,
-            "end": 0.153
+            "start": 1.65,
+            "end": 2.35
           },
           {
             "word": "the",
-            "start": 0.153,
-            "end": 0.186
+            "start": 2.37,
+            "end": 2.51
           },
           {
             "word": "forest,",
-            "start": 0.186,
-            "end": 0.262
+            "start": 2.53,
+            "end": 2.93
           },
           {
             "word": "the",
-            "start": 0.262,
-            "end": 0.295
+            "start": 3.43,
+            "end": 3.59
           },
           {
             "word": "students",
-            "start": 0.295,
-            "end": 0.382
+            "start": 3.61,
+            "end": 4.03
           },
           {
             "word": "gather",
-            "start": 0.382,
-            "end": 0.448
+            "start": 4.09,
+            "end": 4.41
           },
           {
             "word": "together",
-            "start": 0.448,
-            "end": 0.535
+            "start": 4.45,
+            "end": 4.95
           },
           {
             "word": "to",
-            "start": 0.535,
-            "end": 0.557
+            "start": 5.29,
+            "end": 5.51
           },
           {
             "word": "share",
-            "start": 0.557,
-            "end": 0.612
+            "start": 5.53,
+            "end": 5.87
           },
           {
             "word": "what",
-            "start": 0.612,
-            "end": 0.655
+            "start": 5.93,
+            "end": 6.17
           },
           {
             "word": "they",
-            "start": 0.655,
-            "end": 0.699
+            "start": 6.18,
+            "end": 6.35
           },
           {
             "word": "have",
-            "start": 0.699,
-            "end": 0.743
+            "start": 6.37,
+            "end": 6.51
           },
           {
             "word": "discovered.",
-            "start": 0.743,
-            "end": 0.863
+            "start": 6.53,
+            "end": 6.81
           }
         ]
       },
       {
         "text": "They look through their notebooks and compare their findings.",
-        "start": 1.623,
-        "end": 8.373,
+        "start": 7.58,
+        "end": 10.8,
         "words": [
           {
             "word": "They",
-            "start": 1.623,
-            "end": 1.753
+            "start": 7.58,
+            "end": 7.84
           },
           {
             "word": "look",
-            "start": 1.763,
-            "end": 1.913
+            "start": 7.96,
+            "end": 8.2
           },
           {
             "word": "through",
-            "start": 1.923,
-            "end": 2.153
+            "start": 8.2,
+            "end": 8.52
           },
           {
             "word": "their",
-            "start": 2.163,
-            "end": 2.273
+            "start": 8.66,
+            "end": 8.76
           },
           {
             "word": "notebooks",
-            "start": 2.283,
-            "end": 2.913
+            "start": 8.76,
+            "end": 9.15
           },
           {
             "word": "and",
-            "start": 3.413,
-            "end": 4.033
+            "start": 9.42,
+            "end": 9.6
           },
           {
             "word": "compare",
-            "start": 4.043,
-            "end": 4.373
+            "start": 9.64,
+            "end": 9.84
           },
           {
             "word": "their",
-            "start": 4.383,
-            "end": 4.953
+            "start": 9.88,
+            "end": 10.1
           },
           {
             "word": "findings.",
-            "start": 8.003,
-            "end": 8.373
+            "start": 10.12,
+            "end": 10.8
           }
         ]
       },
       {
         "text": "Dr. Raghu asks them to record their observations in Table 2.1 for plants,",
         "start": 11.788,
-        "end": 17.158,
+        "end": 18.05,
         "words": [
           {
             "word": "Dr.",
@@ -2161,49 +2161,49 @@
           {
             "word": "2.1",
             "start": 16.068,
-            "end": 16.228
+            "end": 16.65
           },
           {
             "word": "for",
-            "start": 16.228,
-            "end": 16.348
+            "start": 16.8,
+            "end": 17.1
           },
           {
             "word": "plants",
-            "start": 16.358,
-            "end": 16.728
-          },
-          {
-            "word": "and",
-            "start": 16.738,
-            "end": 17.158
+            "start": 17.55,
+            "end": 18.05
           }
         ]
       },
       {
         "text": "and Table 2.2 for animals.",
-        "start": 18.738,
-        "end": 21.148,
+        "start": 18.55,
+        "end": 21.05,
         "words": [
           {
+            "word": "and",
+            "start": 18.55,
+            "end": 18.75
+          },
+          {
             "word": "Table",
-            "start": 18.738,
-            "end": 19.028
+            "start": 18.75,
+            "end": 19.1
           },
           {
             "word": "2.2",
-            "start": 19.028,
-            "end": 19.348
+            "start": 19.1,
+            "end": 19.65
           },
           {
             "word": "for",
-            "start": 19.348,
-            "end": 19.508
+            "start": 19.75,
+            "end": 20.0
           },
           {
             "word": "animals.",
-            "start": 20.368,
-            "end": 21.148
+            "start": 20.3,
+            "end": 21.05
           }
         ]
       },
