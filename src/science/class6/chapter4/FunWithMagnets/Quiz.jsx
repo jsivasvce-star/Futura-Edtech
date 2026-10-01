@@ -218,7 +218,7 @@ export default function Quiz({ onComplete }) {
           </div>
 
           {/* Question Text */}
-          <p style={{ margin: 0, fontSize: '1.45rem', lineHeight: '1.5', fontWeight: 800, color: '#173B5F' }}>
+          <p style={{ margin: 0, fontSize: '1.45rem', lineHeight: '1.5', fontWeight: 800, color: '#000000' }}>
             {currentQ.question}
           </p>
 
@@ -251,7 +251,7 @@ export default function Quiz({ onComplete }) {
                 } else {
                   bgColor = '#0A1931';
                   borderColor = '#1e293b';
-                  textColor = '#cbd5e1';
+                  textColor = '#FFFFFF';
                   boxShadow = 'none';
                 }
                 isDisabled = true;
@@ -286,14 +286,14 @@ export default function Quiz({ onComplete }) {
                     borderRadius: '20px',
                     background: bgColor,
                     border: `2.5px solid ${borderColor}`,
-                    color: textColor,
+                    color: '#FFFFFF',
                     cursor: isDisabled ? 'default' : 'pointer',
                     textAlign: 'left',
                     fontSize: '1.25rem',
                     fontWeight: 700,
                     transition: 'all 0.25s ease',
                     boxShadow: boxShadow,
-                    opacity: isQuestionResolved && !isOptionCorrect && !isSelected ? 0.55 : 1
+                    opacity: isQuestionResolved && !isOptionCorrect && !isSelected ? 0.7 : 1
                   }}
                 >
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
@@ -303,7 +303,7 @@ export default function Quiz({ onComplete }) {
                     }}>
                       {OPTION_PREFIXES[index]}.
                     </span>
-                    <span>{opt}</span>
+                    <span style={{ color: '#FFFFFF' }}>{opt}</span>
                   </span>
                   {icon}
                 </button>
@@ -322,10 +322,10 @@ export default function Quiz({ onComplete }) {
                 borderLeft: '6px solid #059669',
                 boxShadow: '0 4px 14px rgba(5, 150, 105, 0.08)'
               }}>
-                <h4 style={{ margin: '0 0 0.4rem 0', fontSize: '1.45rem', fontWeight: 900, color: '#064E3B' }}>
+                <h4 style={{ margin: '0 0 0.4rem 0', fontSize: '1.45rem', fontWeight: 900, color: '#000000' }}>
                   {isCorrect ? "Explanation (Correct)" : "Explanation"}
                 </h4>
-                <p style={{ margin: 0, color: '#065F46', fontSize: '1.35rem', lineHeight: '1.55', fontWeight: 750 }}>
+                <p style={{ margin: 0, color: '#000000', fontSize: '1.35rem', lineHeight: '1.55', fontWeight: 800 }}>
                   {currentQ.explanation}
                 </p>
               </div>
@@ -356,10 +356,10 @@ export default function Quiz({ onComplete }) {
               borderLeft: '6px solid #DC2626',
               boxShadow: '0 4px 14px rgba(220, 38, 38, 0.08)'
             }}>
-              <h4 style={{ margin: '0 0 0.4rem 0', fontSize: '1.45rem', fontWeight: 900, color: '#991B1B' }}>
+              <h4 style={{ margin: '0 0 0.4rem 0', fontSize: '1.45rem', fontWeight: 900, color: '#000000' }}>
                 Try Again
               </h4>
-              <p style={{ margin: 0, color: '#B91C1C', fontSize: '1.35rem', lineHeight: '1.55', fontWeight: 750 }}>
+              <p style={{ margin: 0, color: '#000000', fontSize: '1.35rem', lineHeight: '1.55', fontWeight: 800 }}>
                 {currentQ.tryAgain}
               </p>
             </div>

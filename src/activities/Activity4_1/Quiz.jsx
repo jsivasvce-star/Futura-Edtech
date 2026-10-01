@@ -182,7 +182,7 @@ export default function Quiz({ onComplete }) {
           </h3>
 
           {/* Question Text */}
-          <p style={{ fontSize: '1.38rem', margin: 0, lineHeight: '1.6', fontWeight: 700, color: '#065F46' }}>
+          <p style={{ fontSize: '1.38rem', margin: 0, lineHeight: '1.6', fontWeight: 700, color: '#000000' }}>
             {currentQ.question}
           </p>
 
@@ -247,8 +247,8 @@ export default function Quiz({ onComplete }) {
           {showResult && (
             <div style={{ marginTop: '0.6rem', animation: 'fadeIn 0.35s ease' }}>
               <div style={{ padding: '1.1rem 1.6rem', background: '#FFFBEB', borderRadius: '18px', border: '1.5px solid #FDE68A', borderLeft: '6px solid #D97706' }}>
-                <h4 style={{ margin: '0 0 0.35rem 0', fontSize: '1.2rem', fontWeight: 900, color: '#064E3B' }}>Explanation</h4>
-                <p style={{ margin: 0, color: '#065F46', fontSize: '1.18rem', lineHeight: '1.55', fontWeight: 600 }}>{currentQ.explanation}</p>
+                <h4 style={{ margin: '0 0 0.35rem 0', fontSize: '1.2rem', fontWeight: 900, color: '#000000' }}>Explanation</h4>
+                <p style={{ margin: 0, color: '#000000', fontSize: '1.18rem', lineHeight: '1.55', fontWeight: 800 }}>{currentQ.explanation}</p>
               </div>
               
               <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
