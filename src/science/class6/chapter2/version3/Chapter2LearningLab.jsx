@@ -1124,8 +1124,12 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
               playsInline 
               onEnded={() => {
                 setIsPlayingAct24Transition(false);
-                setIsPlayingHeightVideo(true);
-              }}
+                if (transitionDirection === 'backward') {
+                    setCurrentStep(transitionTargetStep || 4);
+                  } else {
+                    setIsPlayingHeightVideo(true);
+                  }
+                }}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
           </div>
@@ -1144,7 +1148,9 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
               onClick={() => {
                 if (heightVideoRef.current) heightVideoRef.current.pause();
                 setIsPlayingHeightVideo(false);
-                  setCurrentStep(4);
+                  setTransitionDirection('backward');
+                  setTransitionTargetStep(4);
+                  setIsPlayingAct24Transition(true);
               }}
               style={{
                 position: 'absolute',
@@ -2011,9 +2017,9 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
                 setTransitionSourceStep(5);
                 setTransitionSourceSubTab(null);
                 setTransitionDirection('backward');
-                setIsPlayingAct24Transition(true);
-              }} 
-              onGoToDetective={() => {
+                setIsPlayingHeightVideo(true);
+                }} 
+                onGoToDetective={() => {
                 setStep6SubTab('detective');
                 setTransitionTargetStep(6);
                 setTransitionTargetSubTab(null);
