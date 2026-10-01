@@ -304,7 +304,7 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
-      padding: '10px 18px 12px',
+      padding: '6px 16px 8px',
       boxSizing: 'border-box',
       overflow: 'hidden',
       userSelect: 'none',
@@ -334,6 +334,68 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
           transform: translateY(-2px);
           box-shadow: 0 6px 20px rgba(6, 78, 59, 0.65), 0 0 16px rgba(52, 211, 153, 0.4);
         }
+
+        .bio-nav-btn {
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          color: #FFFFFF;
+          border: 1.8px solid rgba(255, 255, 255, 0.35);
+          border-radius: 12px;
+          padding: 9px 24px;
+          font-size: 24px;
+          font-weight: 800;
+          font-family: 'Outfit', sans-serif;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 0 10px rgba(245, 158, 11, 0.15);
+          position: relative;
+          overflow: hidden;
+          z-index: 10;
+          text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
+          flex-shrink: 0;
+        }
+        .bio-nav-btn:hover:not(:disabled) {
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.30) 0%, rgba(255, 255, 255, 0.14) 100%);
+          color: #FFFDF0;
+          border-color: #FBBF24;
+          transform: translateY(-2px) scale(1.02);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.42), inset 0 1px 2px rgba(255, 255, 255, 0.7), 0 0 20px rgba(245, 158, 11, 0.5);
+        }
+
+        .bio-cta-btn {
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%);
+          color: #FFFBEB;
+          border: 2px solid rgba(253, 230, 138, 0.85);
+          border-radius: 12px;
+          padding: 9px 26px;
+          font-size: 24px;
+          font-weight: 900;
+          font-family: 'Outfit', sans-serif;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55);
+          text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55);
+          position: relative;
+          overflow: hidden;
+          z-index: 10;
+          flex-shrink: 0;
+        }
+        .bio-cta-btn:hover {
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.10) 48%, rgba(0, 0, 0, 0.15) 52%, rgba(0, 0, 0, 0.45) 100%), linear-gradient(135deg, rgba(16, 185, 129, 0.88) 0%, rgba(4, 120, 87, 0.94) 100%);
+          color: #FFFFFF;
+          border-color: #FEF08A;
+          transform: translateY(-2px) scale(1.02);
+          box-shadow: 0 12px 34px rgba(0, 0, 0, 0.75), 0 0 24px rgba(251, 191, 36, 0.50), inset 0 1.5px 2px rgba(255, 255, 255, 0.90);
+        }
       `}</style>
 
       {/* ============================================================ */}
@@ -347,12 +409,48 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
         position: 'relative',
         zIndex: 20
       }}>
-        {/* Invisible Spacer matching the hanging wooden sign on background */}
+        {/* Activity 2.10 Hanging Wooden Sign under the background ropes */}
         <div style={{
-          width: '280px',
-          height: '92px',
-          flexShrink: 0
-        }} />
+          width: '270px',
+          height: '84px',
+          flexShrink: 0,
+          background: 'linear-gradient(180deg, #FDF7EA 0%, #F5E8CE 100%)',
+          border: '2px solid #9A602B',
+          borderRadius: '12px',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.8), 0 2px 4px rgba(100, 60, 20, 0.3)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '6px 12px',
+          transform: 'rotate(-1.2deg)',
+          marginTop: '6px',
+          boxSizing: 'border-box'
+        }}>
+          <div style={{
+            fontSize: '26px',
+            fontWeight: '900',
+            color: '#1E293B',
+            fontFamily: '"Outfit", sans-serif',
+            letterSpacing: '0.01em',
+            lineHeight: 1.15
+          }}>
+            Activity 2.10
+          </div>
+          <div style={{
+            fontSize: '17px',
+            fontWeight: '700',
+            color: '#334155',
+            fontFamily: '"Caveat", cursive, sans-serif',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px',
+            lineHeight: 1.2
+          }}>
+            <span>Let us compare and analyse</span>
+            <span style={{ fontSize: '18px' }}>🍃</span>
+          </div>
+        </div>
 
         {/* Top Middle-Right Instruction Card (Frosted Light Blue Card) */}
         <div style={{
@@ -432,11 +530,11 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
       {/* 2. CENTER STAGE: Table 2.6 Board with Wooden Border Frame     */}
       {/* ============================================================ */}
       <div style={{
-        margin: '4px auto 0',
+        margin: '0 auto',
         width: '100%',
-        maxWidth: '960px',
+        maxWidth: 'min(98vw, 1040px)',
         background: 'linear-gradient(180deg, #7C4820 0%, #522D10 100%)',
-        padding: '6px',
+        padding: '7px',
         borderRadius: '16px',
         boxShadow: '0 14px 36px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3)',
         border: '2px solid #A36531',
@@ -446,19 +544,19 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
         <div style={{
           background: '#45220C',
           borderRadius: '10px 10px 0 0',
-          padding: '5px 14px',
+          padding: '8px 18px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           gap: '8px',
           color: '#FFFFFF',
           fontWeight: '900',
-          fontSize: '16.5px',
+          fontSize: '20px',
           fontFamily: '"Outfit", sans-serif',
           borderBottom: '1.5px solid #854B20',
           letterSpacing: '0.01em'
         }}>
-          <span style={{ fontSize: '18px' }}>🍃</span>
+          <span style={{ fontSize: '22px' }}>🍃</span>
           <span>Table 2.6: Animals and plants found in different surroundings</span>
         </div>
 
@@ -482,7 +580,7 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
             alignItems: 'center',
             justifyContent: 'center',
             fontWeight: '900',
-            fontSize: '14px',
+            fontSize: '16px',
             color: '#1E293B',
             textAlign: 'center'
           }}>
@@ -497,7 +595,7 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
                 background: region.headerBg,
                 borderRight: rIdx === REGIONS.length - 1 ? 'none' : '1px solid #7DD3FC',
                 borderBottom: '1px solid #7DD3FC',
-                padding: '5px 6px 4px',
+                padding: '5px 6px',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -506,7 +604,7 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
               }}
             >
               <div style={{
-                fontSize: '13px',
+                fontSize: '15px',
                 fontWeight: '900',
                 color: region.headerColor,
                 textAlign: 'center',
@@ -516,9 +614,9 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
               </div>
               <div style={{
                 width: '100%',
-                maxWidth: '135px',
-                height: '38px',
-                borderRadius: '5px',
+                maxWidth: '150px',
+                height: '46px',
+                borderRadius: '6px',
                 overflow: 'hidden',
                 boxShadow: '0 2px 4px rgba(0,0,0,0.15)',
                 border: '1px solid rgba(255,255,255,0.8)'
@@ -541,9 +639,9 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
             alignItems: 'center',
             justifyContent: 'center',
             fontWeight: '800',
-            fontSize: '13.5px',
+            fontSize: '16px',
             color: '#1E293B',
-            minHeight: '34px'
+            minHeight: '44px'
           }}>
             1
           </div>
@@ -555,10 +653,11 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '4px 8px',
-            fontSize: '13.5px',
+            padding: '5px 8px',
+            fontSize: '16px',
             fontWeight: '800',
-            color: '#1E293B'
+            color: '#1E293B',
+            minHeight: '44px'
           }}>
             <span>Camel</span>
           </div>
@@ -570,10 +669,11 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '4px 8px',
-            fontSize: '13.5px',
+            padding: '5px 8px',
+            fontSize: '16px',
             fontWeight: '800',
-            color: '#1E293B'
+            color: '#1E293B',
+            minHeight: '44px'
           }}>
             <span>Deodar tree</span>
           </div>
@@ -585,10 +685,11 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '4px 8px',
-            fontSize: '13.5px',
+            padding: '5px 8px',
+            fontSize: '16px',
             fontWeight: '800',
-            color: '#1E293B'
+            color: '#1E293B',
+            minHeight: '44px'
           }}>
             <span>Fish</span>
           </div>
@@ -600,10 +701,11 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '4px 8px',
-            fontSize: '13.5px',
+            padding: '5px 8px',
+            fontSize: '16px',
             fontWeight: '800',
-            color: '#1E293B'
+            color: '#1E293B',
+            minHeight: '44px'
           }}>
             <span>Lion</span>
           </div>
@@ -622,9 +724,9 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontWeight: '800',
-                fontSize: '13.5px',
+                fontSize: '16px',
                 color: '#1E293B',
-                minHeight: '34px'
+                minHeight: '44px'
               }}>
                 {rowNum}
               </div>
@@ -647,14 +749,14 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
       <div style={{
         margin: '4px auto 0',
         width: '100%',
-        maxWidth: '960px',
+        maxWidth: 'min(98vw, 1040px)',
         background: 'rgba(255, 255, 255, 0.72)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
         borderRadius: '16px',
         border: '2px solid rgba(255, 255, 255, 0.9)',
         boxShadow: '0 8px 30px rgba(0, 0, 0, 0.22)',
-        padding: '7px 10px',
+        padding: '8px 10px',
         boxSizing: 'border-box',
         zIndex: 15
       }}>
@@ -662,8 +764,8 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(9, 1fr)',
-          gap: '7px',
-          marginBottom: '5px'
+          gap: '8px',
+          marginBottom: '6px'
         }}>
           {SPECIMENS.slice(0, 9).map(renderSpecimenCard)}
         </div>
@@ -672,7 +774,7 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(9, 1fr)',
-          gap: '7px'
+          gap: '8px'
         }}>
           {SPECIMENS.slice(9, 17).map(renderSpecimenCard)}
         </div>
@@ -681,79 +783,59 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
       {/* ============================================================ */}
       {/* 4. BOTTOM ACTION ROW: Back Button, Tip, Check Answers & Next */}
       {/* ============================================================ */}
+      {/* 4. BOTTOM ACTION ROW: Back Button (Left Corner), Center Controls, Next Button (Right Corner) */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         width: '100%',
-        maxWidth: '960px',
-        margin: '5px auto 2px',
-        zIndex: 20,
-        gap: '10px'
+        padding: '0 24px',
+        boxSizing: 'border-box',
+        margin: '4px 0 2px',
+        zIndex: 25
       }}>
-        {/* Back Navigation Button */}
+        {/* Left Bottom Corner: Back Navigation Button (Habitats Page Style) */}
         <button
+          type="button"
+          className="bio-nav-btn"
           onClick={() => {
             if (onBack) onBack();
             else if (onPrevious) onPrevious();
             else window.history.back();
           }}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            padding: '7px 20px',
-            background: 'rgba(15, 23, 42, 0.70)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
-            border: '1.8px solid #D4AF37',
-            borderRadius: '24px',
-            color: '#F8FAFC',
-            fontWeight: '800',
-            fontSize: '14.5px',
-            fontFamily: '"Outfit", sans-serif',
-            cursor: 'pointer',
-            boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35)',
-            transition: 'all 0.2s ease',
-            flexShrink: 0
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-2px)';
-            e.currentTarget.style.borderColor = '#FDE68A';
-            e.currentTarget.style.boxShadow = '0 6px 18px rgba(245, 158, 11, 0.35)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'none';
-            e.currentTarget.style.borderColor = '#D4AF37';
-            e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.35)';
-          }}
+          aria-label="Back"
         >
-          <ArrowLeft size={16} color="#FBBF24" />
+          <ArrowLeft size={22} color="#FFFFFF" strokeWidth={2.5} />
           <span>Back</span>
         </button>
 
-        {/* Instruction Badge Pill (Center) */}
+        {/* Center Action Group: Hint Pill & Check Answers Button */}
         <div style={{
-          background: 'rgba(254, 243, 199, 0.95)',
-          border: '1.5px solid #F59E0B',
-          borderRadius: '24px',
-          padding: '6px 18px',
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.12)'
+          gap: '12px',
+          justifyContent: 'center'
         }}>
-          <span style={{ fontSize: '17px' }}>💡</span>
-          <span style={{ fontSize: '13.5px', fontWeight: '800', color: '#78350F' }}>
-            {selectedSpecimenId
-              ? 'Now click any empty slot in the table to place it!'
-              : 'Drag the pictures to fill the table'}
-          </span>
-        </div>
+          {/* Instruction Badge Pill */}
+          <div style={{
+            background: 'rgba(254, 243, 199, 0.95)',
+            border: '1.5px solid #F59E0B',
+            borderRadius: '24px',
+            padding: '8px 20px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.12)'
+          }}>
+            <span style={{ fontSize: '20px' }}>💡</span>
+            <span style={{ fontSize: '18px', fontWeight: '800', color: '#78350F' }}>
+              {selectedSpecimenId
+                ? 'Now click any empty slot in the table to place it!'
+                : 'Drag the pictures to fill the table'}
+            </span>
+          </div>
 
-        {/* Right Action Group: Check Answers & Next Button */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-          {/* Check My Answers Button (Forest Green Pill) */}
+          {/* Check My Answers Button */}
           <button
             onClick={handleCheckAnswers}
             className="check-btn-glow"
@@ -761,57 +843,37 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
               background: 'linear-gradient(135deg, #064E3B 0%, #065F46 100%)',
               border: '2px solid #34D399',
               borderRadius: '24px',
-              padding: '7px 20px',
+              padding: '9px 24px',
               color: '#FFFFFF',
               fontWeight: '900',
-              fontSize: '14.5px',
+              fontSize: '22px',
               fontFamily: '"Outfit", sans-serif',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
-              letterSpacing: '0.01em'
+              gap: '8px',
+              letterSpacing: '0.01em',
+              flexShrink: 0
             }}
           >
             <span>Check answers</span>
-            <Check size={16} />
-          </button>
-
-          {/* Next Navigation Button */}
-          <button
-            onClick={() => {
-              if (onComplete) onComplete();
-              else if (onNext) onNext();
-            }}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '7px 22px',
-              background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-              border: '1.8px solid #FDE68A',
-              borderRadius: '24px',
-              color: '#FFFFFF',
-              fontWeight: '900',
-              fontSize: '14.5px',
-              fontFamily: '"Outfit", sans-serif',
-              cursor: 'pointer',
-              boxShadow: '0 4px 14px rgba(217, 119, 6, 0.45)',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 6px 20px rgba(217, 119, 6, 0.65)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'none';
-              e.currentTarget.style.boxShadow = '0 4px 14px rgba(217, 119, 6, 0.45)';
-            }}
-          >
-            <span>Next</span>
-            <ArrowRight size={16} />
+            <Check size={20} />
           </button>
         </div>
+
+        {/* Right Bottom Corner: Next Navigation Button (Habitats Page Style) */}
+        <button
+          type="button"
+          className="bio-cta-btn"
+          onClick={() => {
+            if (onComplete) onComplete();
+            else if (onNext) onNext();
+          }}
+          aria-label="Next"
+        >
+          <span>Next</span>
+          <ArrowRight size={22} color="#FFFBEB" strokeWidth={2.5} />
+        </button>
       </div>
 
 
@@ -921,11 +983,11 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
           borderRight: cellBorder,
           borderBottom: isLastRow ? 'none' : '1px solid #7DD3FC',
           background: cellBg,
-          minHeight: '34px',
+          minHeight: '44px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '2px 5px',
+          padding: '3px 5px',
           cursor: selectedSpecimenId ? 'pointer' : 'default',
           position: 'relative'
         }}
@@ -941,18 +1003,18 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
               : '#F0F9FF',
             border: `1.5px solid ${isEvaluated ? (isCorrect ? '#10B981' : '#EF4444') : '#38BDF8'}`,
             borderRadius: '5px',
-            padding: '2px 4px',
+            padding: '3px 6px',
             gap: '4px',
             boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', overflow: 'hidden' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', overflow: 'hidden' }}>
               <img
                 src={item.image}
                 alt={item.name}
-                style={{ width: '20px', height: '20px', borderRadius: '3px', objectFit: 'cover' }}
+                style={{ width: '26px', height: '26px', borderRadius: '4px', objectFit: 'cover' }}
               />
               <span style={{
-                fontSize: '12px',
+                fontSize: '13.5px',
                 fontWeight: '800',
                 color: '#0F172A',
                 whiteSpace: 'nowrap',
@@ -965,7 +1027,7 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
               {isEvaluated && (
-                <span style={{ fontSize: '11px', fontWeight: '900', color: isCorrect ? '#059669' : '#DC2626' }}>
+                <span style={{ fontSize: '13px', fontWeight: '900', color: isCorrect ? '#059669' : '#DC2626' }}>
                   {isCorrect ? '✓' : '✕'}
                 </span>
               )}
@@ -982,7 +1044,7 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
                   alignItems: 'center'
                 }}
               >
-                <X size={12} />
+                <X size={14} />
               </button>
             </div>
           </div>
@@ -994,8 +1056,8 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
             alignItems: 'center',
             justifyContent: 'center',
             color: selectedSpecimenId ? '#0284C7' : '#94A3B8',
-            fontSize: '12px',
-            fontWeight: '600'
+            fontSize: '13px',
+            fontWeight: '700'
           }}>
             {selectedSpecimenId ? 'Click to place' : ''}
           </div>
@@ -1056,7 +1118,7 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
         )}
 
         {/* Thumbnail Image */}
-        <div style={{ width: '100%', height: '52px', overflow: 'hidden', background: '#F1F5F9' }}>
+        <div style={{ width: '100%', height: '67px', overflow: 'hidden', background: '#F1F5F9' }}>
           <img
             src={specimen.image}
             alt={specimen.name}
@@ -1066,9 +1128,9 @@ export default function Activity2_10Lab({ onBack, onComplete, onNext, onPrevious
 
         {/* Label */}
         <div style={{
-          padding: '3px 2px',
+          padding: '4px 2px',
           textAlign: 'center',
-          fontSize: '11px',
+          fontSize: '13px',
           fontWeight: '800',
           color: '#1E293B',
           whiteSpace: 'nowrap',

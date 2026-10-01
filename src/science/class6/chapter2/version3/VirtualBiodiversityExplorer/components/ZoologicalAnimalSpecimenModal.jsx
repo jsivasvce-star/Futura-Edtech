@@ -331,8 +331,8 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
           minWidth: '320px',
           maxHeight: 'calc(100vh - clamp(60px, 8vh, 80px))',
           background: 'transparent',
-          backdropFilter: 'blur(4px)',
-          WebkitBackdropFilter: 'blur(4px)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
           border: '1.5px solid rgba(16, 185, 129, 0.45)',
           borderRadius: '24px',
           boxShadow: 'inset 1px 1px 2px rgba(255, 255, 255, 0.25), inset -1px -1px 2px rgba(0, 0, 0, 0.3), 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(16, 185, 129, 0.2)',
@@ -382,7 +382,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                 borderRadius: '20px',
                 fontFamily: '"Outfit", sans-serif',
                 fontWeight: 800,
-                fontSize: '20px',
+                fontSize: '22px',
                 letterSpacing: '0.04em',
                 textTransform: 'uppercase',
                 display: 'inline-flex',
@@ -413,7 +413,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                       alignItems: 'center',
                       gap: '6px',
                       color: '#FFFFFF',
-                      fontSize: '18px',
+                      fontSize: '22px',
                       fontWeight: 800,
                       cursor: 'pointer',
                       boxShadow: '0 2px 8px rgba(0, 0, 0, 0.35)',
@@ -459,7 +459,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                     alignItems: 'center',
                     gap: '6px',
                     color: '#FEF3C7',
-                    fontSize: '20px',
+                    fontSize: '22px',
                     fontWeight: 800,
                     cursor: 'pointer',
                     transition: 'all 0.2s ease'
@@ -498,7 +498,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                 <h3 style={{
                   fontFamily: '"Outfit", sans-serif',
                   fontWeight: 900,
-                  fontSize: '24px',
+                  fontSize: '26px',
                   margin: 0,
                   color: '#FCD34D',
                   lineHeight: 1.15,
@@ -507,7 +507,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                   {animal.popupName || animal.name}
                 </h3>
                 <div style={{
-                  fontSize: '20px',
+                  fontSize: '24px',
                   color: '#6EE7B7',
                   fontWeight: 600,
                   fontStyle: 'italic',
@@ -538,7 +538,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                 transition: 'all 0.25s ease'
               }}>
                 <div style={{
-                  fontSize: '22px',
+                  fontSize: '24px',
                   fontWeight: 800,
                   color: isHabitatActive ? '#FDE047' : '#6EE7B7',
                   display: 'flex',
@@ -551,13 +551,12 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                   <span>🏡 WHERE FOUND</span>
                 </div>
                 <div style={{
-                  fontSize: '20px',
+                  fontSize: '22px',
                   color: '#FFFFFF',
                   fontWeight: 500,
                   lineHeight: 1.35,
                   fontFamily: '"Inter", sans-serif',
                   textAlign: 'justify',
-                  textJustify: 'inter-word',
                   textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)'
                 }}>
                   {hasNarration && habitatSec ? (
@@ -589,7 +588,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                 transition: 'all 0.25s ease'
               }}>
                 <div style={{
-                  fontSize: '22px',
+                  fontSize: '24px',
                   fontWeight: 800,
                   color: isMovementActive ? '#FDE047' : '#A7F3D0',
                   display: 'flex',
@@ -602,13 +601,12 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                   <span>🐾 MOVEMENT</span>
                 </div>
                 <div style={{
-                  fontSize: '20px',
+                  fontSize: '22px',
                   color: '#FFFFFF',
                   fontWeight: 500,
                   lineHeight: 1.35,
                   fontFamily: '"Inter", sans-serif',
                   textAlign: 'justify',
-                  textJustify: 'inter-word',
                   textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)'
                 }}>
                   {hasNarration && movementSec ? (
@@ -640,7 +638,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                 transition: 'all 0.25s ease'
               }}>
                 <div style={{
-                  fontSize: '22px',
+                  fontSize: '24px',
                   fontWeight: 800,
                   color: isAdaptationsActive ? '#FDE047' : '#FBCFE8',
                   display: 'flex',
@@ -653,13 +651,12 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                   <span>🔬 {animalKey === 'crow' ? 'BODY FEATURES' : 'BODY ADAPTATIONS'}</span>
                 </div>
                 <div style={{
-                  fontSize: '20px',
+                  fontSize: '22px',
                   color: '#FFFFFF',
                   fontWeight: 500,
                   lineHeight: 1.35,
                   fontFamily: '"Inter", sans-serif',
                   textAlign: 'justify',
-                  textJustify: 'inter-word',
                   textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)'
                 }}>
                   {hasNarration && adaptationsSec ? (
@@ -693,7 +690,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                     transition: 'all 0.25s ease'
                   }}>
                     <div style={{
-                      fontSize: '22px',
+                      fontSize: '24px',
                       fontWeight: 800,
                       color: isFeedingActive ? '#FDE047' : '#93C5FD',
                       display: 'flex',
@@ -706,13 +703,12 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                       <span>🍽️ FEEDING</span>
                     </div>
                     <div style={{
-                      fontSize: '20px',
+                      fontSize: '22px',
                       color: '#FFFFFF',
                       fontWeight: 500,
                       lineHeight: 1.35,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',
-                      textJustify: 'inter-word',
                       textShadow: '0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85)'
                     }}>
                       {hasNarration && feedingSec ? (
@@ -749,7 +745,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                     transition: 'all 0.25s ease'
                   }}>
                     <div style={{
-                      fontSize: '22px',
+                      fontSize: '24px',
                       fontWeight: 800,
                       color: '#FDE047',
                       display: 'flex',
@@ -762,13 +758,12 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                       <span>💡 Think:</span>
                     </div>
                     <div style={{
-                      fontSize: '20px',
+                      fontSize: '22px',
                       color: '#FEF9C3',
                       fontWeight: 600,
                       lineHeight: 1.35,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',
-                      textJustify: 'inter-word',
                       textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)'
                     }}>
                       {hasNarration && thinkSec ? (

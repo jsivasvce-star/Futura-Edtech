@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, ArrowLeft, BookOpen, ChevronRight, Play, Pause } from 'lucide-react';
+import { ArrowRight, ArrowLeft, BookOpen, ChevronRight, ChevronLeft, Play, Pause } from 'lucide-react';
 import useWordSyncAudio from './narration/useWordSyncAudio';
 import rhododendronsNarrationAudio from './narration/audio/rhododendrons.mp3';
 import rhododendronsNarrationData from './narration/rhododendronsNarration.json';
@@ -13,18 +13,18 @@ const BioWord = ({ children, index, activeIndex, isPlaying, color = 'emerald' })
   const highlightBg = isAmber
     ? 'rgba(245, 158, 11, 0.50)'
     : isCyan
-    ? 'rgba(6, 182, 212, 0.50)'
-    : 'rgba(16, 185, 129, 0.50)';
+      ? 'rgba(6, 182, 212, 0.50)'
+      : 'rgba(16, 185, 129, 0.50)';
   const highlightShadow = isAmber
     ? '0 0 16px rgba(245, 158, 11, 0.95), inset 0 0 8px rgba(255, 255, 255, 0.6)'
     : isCyan
-    ? '0 0 16px rgba(34, 211, 238, 0.95), inset 0 0 8px rgba(255, 255, 255, 0.6)'
-    : '0 0 16px rgba(52, 211, 153, 0.95), inset 0 0 8px rgba(255, 255, 255, 0.6)';
+      ? '0 0 16px rgba(34, 211, 238, 0.95), inset 0 0 8px rgba(255, 255, 255, 0.6)'
+      : '0 0 16px rgba(52, 211, 153, 0.95), inset 0 0 8px rgba(255, 255, 255, 0.6)';
   const highlightTextShadow = isAmber
     ? '0 0 12px rgba(245, 158, 11, 0.95), 0 2px 4px rgba(0, 0, 0, 0.9)'
     : isCyan
-    ? '0 0 12px rgba(34, 211, 238, 0.95), 0 2px 4px rgba(0, 0, 0, 0.9)'
-    : '0 0 12px rgba(52, 211, 153, 0.95), 0 2px 4px rgba(0, 0, 0, 0.9)';
+      ? '0 0 12px rgba(34, 211, 238, 0.95), 0 2px 4px rgba(0, 0, 0, 0.9)'
+      : '0 0 12px rgba(52, 211, 153, 0.95), 0 2px 4px rgba(0, 0, 0, 0.9)';
 
   return (
     <span
@@ -57,7 +57,7 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
     pause: pauseAudio,
   } = useWordSyncAudio(rhododendronsNarrationAudio, rhododendronsNarrationData.rhododendrons.words, {
     autoPlay: false,
-    onEnd: () => {},
+    onEnd: () => { },
   });
 
   const toggleAudio = () => {
@@ -116,6 +116,24 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
           animation: bioPanelLeftEnter 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
+        @keyframes bioPanelRightEnter {
+          0% {
+            opacity: 0;
+            transform: translateX(40px);
+          }
+          65% {
+            opacity: 1;
+            transform: translateX(-3px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        .bio-panel-right-enter {
+          animation: bioPanelRightEnter 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
         .bio-nav-btn {
           background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%);
           backdrop-filter: blur(16px);
@@ -123,14 +141,14 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
           color: #FFFFFF;
           border: 1.8px solid rgba(255, 255, 255, 0.35);
           border-radius: 12px;
-          padding: 9px 24px;
-          font-size: 16px;
+          padding: 10px 24px;
+          font-size: 22px;
           font-weight: 800;
           font-family: 'Outfit', sans-serif;
           cursor: pointer;
           display: inline-flex;
           align-items: center;
-          gap: 6px;
+          gap: 8px;
           transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
           box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 0 10px rgba(245, 158, 11, 0.15);
           position: relative;
@@ -151,8 +169,8 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
           color: #FFFBEB;
           border: 2px solid rgba(253, 230, 138, 0.85);
           border-radius: 12px;
-          padding: 9px 26px;
-          font-size: 16px;
+          padding: 10px 26px;
+          font-size: 22px;
           font-weight: 900;
           font-family: 'Outfit', sans-serif;
           cursor: pointer;
@@ -210,7 +228,7 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
       }}>
         <h1 style={{
           margin: 0,
-          fontSize: '24px',
+          fontSize: '26px',
           fontWeight: 900,
           fontFamily: '"Cinzel", Georgia, serif',
           letterSpacing: '0.14em',
@@ -237,9 +255,9 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
           onClick={handlePrevClick}
           aria-label="Previous Page"
           style={{
-            padding: '8px 22px',
-            fontSize: '16px',
-            borderRadius: '10px'
+            padding: '10px 24px',
+            fontSize: '22px',
+            borderRadius: '12px'
           }}
         >
           ← Previous Page
@@ -259,33 +277,33 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
           onClick={handleNextClick}
           aria-label="Next Page"
           style={{
-            padding: '8px 24px',
-            fontSize: '16px',
-            borderRadius: '10px'
+            padding: '10px 26px',
+            fontSize: '22px',
+            borderRadius: '12px'
           }}
         >
           <span>Next Page</span>
-          <ArrowRight size={17} strokeWidth={2.5} />
+          <ArrowRight size={22} strokeWidth={2.5} />
         </button>
       </div>
 
-      {/* Interactive Popup Message: Rhododendrons Across Mountain Regions */}
+      {/* Interactive Popup Message: Rhododendrons Across Mountain Regions (Right Top Corner) */}
       {showPopup && (
         <div
-          className="bio-panel-left-enter"
+          className="bio-panel-right-enter"
           style={{
             position: 'absolute',
             top: '16px',
-            left: '18px',
-            width: 'min(480px, 42vw)',
-            maxHeight: 'calc(100vh - 76px)',
+            right: '18px',
+            width: 'min(540px, 46vw)',
+            maxHeight: 'calc(100vh - 84px)',
             zIndex: 40,
-            backdropFilter: 'blur(4px)',
-            WebkitBackdropFilter: 'blur(2px)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
             background: 'transparent',
-            border: '1.8px solid rgba(251, 191, 36, 0.55)',
+            border: '2px solid rgba(251, 191, 36, 0.60)',
             borderRadius: '24px',
-            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 24px rgba(245, 158, 11, 0.20)',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 24px rgba(245, 158, 11, 0.20)',
             boxSizing: 'border-box',
             display: 'flex',
             flexDirection: 'column',
@@ -300,8 +318,8 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
             flexDirection: 'column',
             justifyContent: 'space-between',
             flex: 1,
-            padding: 'clamp(14px, 2vh, 20px) clamp(16px, 2vw, 22px)',
-            gap: 'clamp(8px, 1.2vh, 14px)',
+            padding: 'clamp(14px, 1.8vh, 18px) clamp(16px, 1.8vw, 22px)',
+            gap: 'clamp(8px, 1.2vh, 12px)',
             position: 'relative',
             zIndex: 5,
             overflowY: 'auto',
@@ -315,7 +333,7 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
               gap: '12px'
             }}>
               <span style={{
-                background: 'linear-gradient(135deg, rgba(40, 24, 6, 0.70) 0%, rgba(20, 12, 3, 0.60) 100%)',
+                background: 'linear-gradient(135deg, rgba(40, 24, 6, 0.75) 0%, rgba(20, 12, 3, 0.65) 100%)',
                 color: '#34D399',
                 border: '1.5px solid rgba(52, 211, 153, 0.55)',
                 boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
@@ -323,15 +341,15 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
                 borderRadius: '22px',
                 fontFamily: '"Outfit", sans-serif',
                 fontWeight: 800,
-                fontSize: '18px',
-                letterSpacing: '0.04em',
+                fontSize: '22px',
+                letterSpacing: '0.03em',
                 textTransform: 'uppercase',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
                 textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
               }}>
-                <span style={{ fontSize: '18px' }}>🌺</span>
+                <span style={{ fontSize: '22px' }}>🌺</span>
                 <span style={{ color: '#34D399' }}>RHODODENDRONS</span>
               </span>
 
@@ -351,13 +369,13 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
                       ? '0 0 16px rgba(52, 211, 153, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
                       : '0 4px 12px rgba(0, 0, 0, 0.35), 0 0 10px rgba(52, 211, 153, 0.25)',
                     borderRadius: '20px',
-                    padding: '4px 14px',
+                    padding: '5px 16px',
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '6px',
                     color: '#FFFFFF',
                     fontWeight: 800,
-                    fontSize: '18px',
+                    fontSize: '22px',
                     fontFamily: '"Outfit", sans-serif',
                     cursor: 'pointer',
                     flexShrink: 0,
@@ -374,12 +392,12 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
                 >
                   {isPlayingAudio ? (
                     <>
-                      <Pause size={15} fill="#FFFFFF" />
+                      <Pause size={18} fill="#FFFFFF" />
                       <span>Pause</span>
                     </>
                   ) : (
                     <>
-                      <Play size={15} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                      <Play size={18} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
                       <span>Play</span>
                     </>
                   )}
@@ -399,8 +417,8 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
                     border: '1.5px solid rgba(255, 255, 255, 0.30)',
                     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                     borderRadius: '10px',
-                    width: '36px',
-                    height: '36px',
+                    width: '40px',
+                    height: '40px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -420,17 +438,17 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
                     e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
                   }}
                 >
-                  <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
+                  <span style={{ fontSize: '22px', fontWeight: 900, lineHeight: 1 }}>✕</span>
                 </button>
               </div>
             </div>
 
-            {/* Title Section */}
+            {/* Title Section (26px) */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <h2 style={{
                 fontFamily: '"Outfit", sans-serif',
                 fontWeight: 900,
-                fontSize: '24px',
+                fontSize: '26px',
                 margin: 0,
                 color: '#34D399',
                 lineHeight: 1.25,
@@ -445,10 +463,10 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
 
             {/* Info Panel: Content Sections */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {/* Section 1: Nilgiri Shola Forests */}
+              {/* Section 1: Nilgiri Shola Forests (Subheading 24px, Content 22px justified) */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <div style={{
-                  fontSize: '21px',
+                  fontSize: '24px',
                   fontWeight: 800,
                   color: '#6EE7B7',
                   display: 'flex',
@@ -457,7 +475,7 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
                   fontFamily: '"Outfit", sans-serif',
                   textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(110, 231, 183, 0.4)'
                 }}>
-                  <span style={{ fontSize: '21px' }}>🍃</span>
+                  <span style={{ fontSize: '24px' }}>🍃</span>
                   <span>
                     <BioWord index={2} activeIndex={activeWordIndex} isPlaying={isPlayingAudio}>Nilgiri</BioWord>{' '}
                     <BioWord index={3} activeIndex={activeWordIndex} isPlaying={isPlayingAudio}>Shola</BioWord>{' '}
@@ -465,13 +483,13 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
                   </span>
                 </div>
                 <div style={{
-                  fontSize: '18px',
+                  fontSize: '22px',
                   color: '#E2E8F0',
                   textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
-                  fontWeight: 500,
-                  lineHeight: 1.5,
+                  fontWeight: 700,
+                  lineHeight: 1.45,
                   fontFamily: '"Inter", sans-serif',
-                  textAlign: 'left'
+                  textAlign: 'justify'
                 }}>
                   <BioWord index={5} activeIndex={activeWordIndex} isPlaying={isPlayingAudio}>Short</BioWord>{' '}
                   <BioWord index={6} activeIndex={activeWordIndex} isPlaying={isPlayingAudio}>height</BioWord>{' '}
@@ -487,10 +505,10 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
 
               <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
-              {/* Section 2: Sikkim Mountains */}
+              {/* Section 2: Sikkim Mountains (Subheading 24px, Content 22px justified) */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <div style={{
-                  fontSize: '21px',
+                  fontSize: '24px',
                   fontWeight: 800,
                   color: '#7DD3FC',
                   display: 'flex',
@@ -499,20 +517,20 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
                   fontFamily: '"Outfit", sans-serif',
                   textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(125, 211, 252, 0.4)'
                 }}>
-                  <span style={{ fontSize: '21px' }}>🌲</span>
+                  <span style={{ fontSize: '24px' }}>🌲</span>
                   <span>
                     <BioWord index={14} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="cyan">Sikkim</BioWord>{' '}
                     <BioWord index={15} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="cyan">Mountains</BioWord>
                   </span>
                 </div>
                 <div style={{
-                  fontSize: '18px',
+                  fontSize: '22px',
                   color: '#E0F2FE',
                   textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
-                  fontWeight: 500,
-                  lineHeight: 1.5,
+                  fontWeight: 700,
+                  lineHeight: 1.45,
                   fontFamily: '"Inter", sans-serif',
-                  textAlign: 'left'
+                  textAlign: 'justify'
                 }}>
                   <BioWord index={16} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="cyan">Sheltered,</BioWord>{' '}
                   <BioWord index={17} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="cyan">moist</BioWord>{' '}
@@ -527,10 +545,10 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
 
               <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.02) 100%)' }} />
 
-              {/* Section 3: Regional Adaptation */}
+              {/* Section 3: Regional Adaptation (Subheading 24px, Content 22px justified) */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <div style={{
-                  fontSize: '21px',
+                  fontSize: '24px',
                   fontWeight: 800,
                   color: '#FDE68A',
                   display: 'flex',
@@ -539,20 +557,20 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
                   fontFamily: '"Outfit", sans-serif',
                   textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(253, 230, 138, 0.4)'
                 }}>
-                  <span style={{ fontSize: '21px' }}>🏔️</span>
+                  <span style={{ fontSize: '24px' }}>🏔️</span>
                   <span>
                     <BioWord index={24} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">Regional</BioWord>{' '}
                     <BioWord index={25} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">Adaptation</BioWord>
                   </span>
                 </div>
                 <div style={{
-                  fontSize: '18px',
+                  fontSize: '22px',
                   color: '#FEF3C7',
                   textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
-                  fontWeight: 500,
-                  lineHeight: 1.5,
+                  fontWeight: 700,
+                  lineHeight: 1.45,
                   fontFamily: '"Inter", sans-serif',
-                  textAlign: 'left'
+                  textAlign: 'justify'
                 }}>
                   <BioWord index={26} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">Same</BioWord>{' '}
                   <BioWord index={27} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">plant</BioWord>{' '}
@@ -567,7 +585,7 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
                 </div>
               </div>
 
-              {/* Callout box: Think */}
+              {/* Callout box: Think (Icon 24px, Content 22px justified) */}
               <div style={{
                 background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.16) 100%)',
                 border: '1.5px solid rgba(253, 230, 138, 0.45)',
@@ -578,15 +596,15 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
                 alignItems: 'flex-start',
                 gap: '10px'
               }}>
-                <span style={{ fontSize: '18px', lineHeight: 1 }}>💡</span>
+                <span style={{ fontSize: '24px', lineHeight: 1 }}>💡</span>
                 <div style={{
-                  fontSize: '18px',
+                  fontSize: '22px',
                   color: '#FCD34D',
                   fontWeight: 700,
                   fontStyle: 'italic',
                   fontFamily: '"Outfit", sans-serif',
-                  lineHeight: 1.5,
-                  textAlign: 'left',
+                  lineHeight: 1.45,
+                  textAlign: 'justify',
                   textShadow: '0 1px 6px rgba(0, 0, 0, 0.95), 0 0 12px rgba(252, 211, 77, 0.3)'
                 }}>
                   <BioWord index={36} activeIndex={activeWordIndex} isPlaying={isPlayingAudio} color="amber">Think:</BioWord>{' '}
@@ -611,7 +629,7 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
         </div>
       )}
 
-      {/* Left-Side Center Arrow Trigger: Opens Popup */}
+      {/* Right-Side Center Arrow Trigger: Opens Popup */}
       {!showPopup && (
         <button
           type="button"
@@ -620,26 +638,26 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
           aria-label="Open Rhododendrons Notes"
           style={{
             position: 'absolute',
-            left: 0,
+            right: 0,
             top: '50%',
             transform: 'translateY(-50%)',
             zIndex: 35,
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            padding: '12px 18px 12px 14px',
+            padding: '12px 14px 12px 18px',
             background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
             color: '#FFFBEB',
             border: '2px solid rgba(253, 230, 138, 0.85)',
-            borderLeft: 'none',
-            borderRadius: '0 20px 20px 0',
+            borderRight: 'none',
+            borderRadius: '20px 0 0 20px',
             boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)',
             cursor: 'pointer',
             fontFamily: '"Outfit", sans-serif',
             fontWeight: 900,
-            fontSize: '15px',
+            fontSize: '22px',
             textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
             transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
           }}
@@ -654,8 +672,8 @@ export default function RhododendronsPage({ onPreviousPage, onNext, onBack }) {
             e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)';
           }}
         >
-          <BookOpen size={18} color="#FFFBEB" strokeWidth={2.5} />
-          <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
+          <ChevronLeft size={24} color="#FFFFFF" strokeWidth={3} />
+          <BookOpen size={20} color="#FFFBEB" strokeWidth={2.5} />
         </button>
       )}
     </div>

@@ -558,19 +558,20 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           width: '100%',
           boxSizing: 'border-box',
           flexShrink: 0,
-          padding: '5px 6px',
+          padding: '4px 6px',
           background: done ? '#F0FDF4' : '#FFFFFF',
           borderTop: '1.5px solid rgba(15, 23, 42, 0.08)',
-          fontSize: '18px',
+          fontSize: '22px',
           fontWeight: 900,
           color: done ? '#15803D' : '#0F172A',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           textAlign: 'center',
+          fontFamily: '"Outfit", sans-serif',
           pointerEvents: 'none'
         }}>
-          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', letterSpacing: '-0.02em' }}>
             {plant.name}
           </span>
         </div>
@@ -630,39 +631,37 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
         }}
       >
         {/* Header: Icon, Label, and Count Badge (matches Activity 2.3) */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px', minWidth: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '4px', minWidth: 0 }}>
           <span style={{
-            display: 'flex', alignItems: 'center', gap: '7px',
-            fontSize: '18px', fontWeight: 900, color: tone.heading,
+            display: 'flex', alignItems: 'center', gap: '6px',
+            fontSize: '22px', fontWeight: 900, color: tone.heading,
             fontFamily: '"Outfit", sans-serif',
             whiteSpace: 'nowrap',
-            minWidth: 0,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis'
+            minWidth: 0
           }}>
             {zone.icon}
-            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{zone.label}</span>
+            <span>{zone.label}</span>
           </span>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
             {checked && (
               <span style={{
-                fontSize: '13px', fontWeight: 900,
+                fontSize: '18px', fontWeight: 900,
                 color: solved ? '#166534' : '#B91C1C',
                 background: solved ? '#DCFCE7' : '#FEE2E2',
                 border: `1.5px solid ${solved ? '#86EFAC' : '#FCA5A5'}`,
-                padding: '1px 7px', borderRadius: '999px', whiteSpace: 'nowrap'
+                padding: '2px 8px', borderRadius: '999px', whiteSpace: 'nowrap'
               }}>
                 {solved ? 'Correct' : 'Not yet'}
               </span>
             )}
             <span style={{
-              fontSize: '16px', fontWeight: 800,
-              fontFamily: '"Inter", sans-serif',
+              fontSize: '22px', fontWeight: 800,
+              fontFamily: '"Outfit", sans-serif',
               color: '#334155',
               background: 'rgba(255, 255, 255, 0.9)',
               border: '1px solid rgba(0,0,0,0.1)',
-              padding: '2px 8px', borderRadius: '8px',
+              padding: '2px 10px', borderRadius: '8px',
               whiteSpace: 'nowrap'
             }}>
               {members.length} plants
@@ -702,12 +701,12 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
-                      gap: '4px',
+                      gap: '5px',
                       background: checked ? (right ? '#DCFCE7' : '#FEE2E2') : '#FFFFFF',
                       border: `1.5px solid ${checked ? (right ? '#4ADE80' : '#FCA5A5') : '#CBD5E1'}`,
                       borderRadius: '14px',
-                      padding: '2px 6px 2px 3px',
-                      fontSize: '15px',
+                      padding: '2px 8px 2px 4px',
+                      fontSize: '20px',
                       fontWeight: 800,
                       color: '#0F172A',
                       fontFamily: '"Outfit", sans-serif',
@@ -720,11 +719,11 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
                       src={p.img}
                       alt={p.name}
                       draggable={false}
-                      style={{ width: '20px', height: '20px', borderRadius: '50%', objectFit: 'cover', pointerEvents: 'none' }}
+                      style={{ width: '22px', height: '22px', borderRadius: '50%', objectFit: 'cover', pointerEvents: 'none' }}
                     />
                     <span style={{ whiteSpace: 'nowrap' }}>{p.name}</span>
                     {checked && (
-                      <span style={{ color: right ? '#16A34A' : '#DC2626', fontWeight: 900, fontSize: '13px' }}>
+                      <span style={{ color: right ? '#16A34A' : '#DC2626', fontWeight: 900, fontSize: '15px' }}>
                         {right ? '✓' : '✕'}
                       </span>
                     )}
@@ -740,14 +739,14 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
                         background: '#F1F5F9',
                         border: 'none',
                         borderRadius: '50%',
-                        width: '16px',
-                        height: '16px',
+                        width: '18px',
+                        height: '18px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         cursor: 'pointer',
                         color: '#64748B',
-                        fontSize: '11px',
+                        fontSize: '13px',
                         marginLeft: '2px',
                         padding: 0
                       }}
@@ -781,10 +780,11 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           }}>
             {members.length === 0 && zone.drawing}
             <span style={{
-              fontSize: members.length === 0 ? '17px' : '13px',
+              fontSize: members.length === 0 ? '22px' : '16px',
               fontWeight: isHover ? 800 : 700,
               color: isHover ? '#15803D' : tone.dropText,
-              fontFamily: '"Outfit", sans-serif'
+              fontFamily: '"Outfit", sans-serif',
+              textAlign: 'center'
             }}>
               {isHover
                 ? 'Release to drop plant here'
@@ -822,7 +822,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
         }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: '8px',
-            fontSize: '20px', fontWeight: 900, color: tone.heading,
+            fontSize: '24px', fontWeight: 900, color: tone.heading,
             fontFamily: '"Outfit", sans-serif'
           }}>
             {group === 'venation' ? (
@@ -841,13 +841,13 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           </div>
 
           <span style={{
-            fontSize: '16px',
+            fontSize: '22px',
             fontWeight: 800,
-            fontFamily: '"Inter", sans-serif',
+            fontFamily: '"Outfit", sans-serif',
             color: tone.heading,
             background: 'rgba(255, 255, 255, 0.85)',
             border: `1.5px solid ${tone.panelBorder}`,
-            padding: '2px 10px',
+            padding: '3px 12px',
             borderRadius: '12px'
           }}>
             {placedInGroup} / 12 placed
@@ -1207,53 +1207,28 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           boxShadow: '0 10px 26px rgba(60, 38, 10, 0.45)'
         }}>
           <div style={{
-            fontSize: '28px', fontWeight: 900, color: '#2A1706', lineHeight: 1.12,
-            fontFamily: '"Fraunces", Georgia, serif'
+            fontSize: '26px', fontWeight: 900, color: '#2A1706', lineHeight: 1.15,
+            fontFamily: '"Fraunces", "Outfit", Georgia, serif'
           }}>
             Activity 2.7: Let us relate and analyse
           </div>
-          <div style={{ fontSize: '20px', fontWeight: 700, color: '#4A2E10', fontStyle: 'italic', marginTop: '2px' }}>
+          <div style={{ fontSize: '24px', fontWeight: 800, color: '#4A2E10', fontStyle: 'italic', marginTop: '2px', fontFamily: '"Outfit", sans-serif' }}>
             Explore. Observe. Group. Learn.
           </div>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
-          <button
-            type="button"
-            onClick={() => {
-              correlationAudio.playSwitch();
-              setPhase('specimens');
-            }}
-            title="Review Activity 2.7 Specimen Slides"
-            style={{
-              display: 'flex', alignItems: 'center', gap: '8px',
-              background: 'linear-gradient(135deg, #15803D 0%, #166534 100%)',
-              border: '2px solid #86EFAC',
-              borderRadius: '999px',
-              padding: '7px 16px',
-              fontSize: '18px', fontWeight: 900, color: '#FFFFFF',
-              boxShadow: '0 6px 18px rgba(22, 101, 52, 0.28)',
-              cursor: 'pointer',
-              fontFamily: '"Outfit", sans-serif',
-              transition: 'transform 0.15s ease, box-shadow 0.15s ease'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-          >
-            <Leaf size={18} color="#86EFAC" />
-            <span>Specimen Slides (5)</span>
-          </button>
-
           <div style={{
             display: 'flex', alignItems: 'center', gap: '9px',
             background: 'rgba(255, 255, 255, 0.93)',
             border: '2px solid rgba(22, 101, 52, 0.25)',
             borderRadius: '999px',
-            padding: '7px 16px',
-            fontSize: '20px', fontWeight: 900, color: '#14532D',
-            boxShadow: '0 6px 18px rgba(15, 23, 42, 0.18)'
+            padding: '8px 20px',
+            fontSize: '22px', fontWeight: 900, color: '#14532D',
+            boxShadow: '0 6px 18px rgba(15, 23, 42, 0.18)',
+            fontFamily: '"Outfit", sans-serif'
           }}>
-            <Leaf size={17} color="#16A34A" />
+            <Leaf size={19} color="#16A34A" />
             <span>Venation &amp; Root</span>
           </div>
 
@@ -1261,19 +1236,19 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
             background: 'linear-gradient(170deg, #C08F4E 0%, #9A6C2E 100%)',
             border: '2.5px solid #7A5320',
             borderRadius: '10px',
-            padding: '6px 16px',
+            padding: '6px 18px',
             textAlign: 'center',
             boxShadow: '0 8px 20px rgba(60, 38, 10, 0.42)'
           }}>
             <div style={{
               display: 'flex', alignItems: 'center', gap: '8px',
               fontSize: '26px', fontWeight: 900, color: '#FFF7E3',
-              fontFamily: '"Fraunces", Georgia, serif'
+              fontFamily: '"Fraunces", "Outfit", Georgia, serif'
             }}>
-              <Trophy size={17} color="#FDE68A" />
+              <Trophy size={20} color="#FDE68A" />
               {solvedCount} / {ZONES.length}
             </div>
-            <div style={{ fontSize: '16px', fontWeight: 800, color: '#FBE7C0', marginTop: '-1px' }}>
+            <div style={{ fontSize: '22px', fontWeight: 800, color: '#FBE7C0', marginTop: '-1px', fontFamily: '"Outfit", sans-serif' }}>
               groups complete
             </div>
           </div>
@@ -1286,13 +1261,13 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
         background: 'rgba(255, 255, 255, 0.92)',
         border: '2px solid rgba(22, 101, 52, 0.18)',
         borderRadius: '999px',
-        padding: '7px 18px',
+        padding: '8px 22px',
         flexShrink: 0,
         boxShadow: '0 5px 16px rgba(15, 23, 42, 0.12)'
       }}>
-        <Lightbulb size={18} color="#D97706" />
-        <span style={{ fontSize: '20px', fontWeight: 900, color: '#14532D' }}>Grouping rule:</span>
-        <span style={{ fontSize: '20px', fontWeight: 600, color: '#334155' }}>
+        <Lightbulb size={22} color="#D97706" />
+        <span style={{ fontSize: '24px', fontWeight: 900, color: '#14532D', fontFamily: '"Outfit", sans-serif' }}>Grouping rule:</span>
+        <span style={{ fontSize: '22px', fontWeight: 600, color: '#334155', textAlign: 'justify', lineHeight: 1.35, fontFamily: '"Inter", sans-serif' }}>
           Drag each plant from the left dock and drop it into its leaf venation group and root group.
         </span>
       </div>
@@ -1319,13 +1294,13 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
         }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: '10px',
-            fontSize: '27px', fontWeight: 900, color: '#14532D',
-            fontFamily: '"Fraunces", Georgia, serif', flexShrink: 0
+            fontSize: '26px', fontWeight: 900, color: '#14532D',
+            fontFamily: '"Fraunces", "Outfit", Georgia, serif', flexShrink: 0
           }}>
             <span style={{
               width: '34px', height: '34px', borderRadius: '50%',
               background: '#166534', color: '#FFFFFF',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '17px'
+              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px'
             }}>🌿</span>
             Plants
           </div>
@@ -1369,13 +1344,14 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           background: 'rgba(255, 255, 255, 0.92)',
           border: '2px solid rgba(22, 101, 52, 0.18)',
           borderRadius: '999px',
-          padding: '7px 18px',
+          padding: '8px 20px',
           boxShadow: '0 5px 16px rgba(15, 23, 42, 0.12)'
         }}>
-          <Leaf size={17} color="#16A34A" />
+          <Leaf size={20} color="#16A34A" />
           <span style={{
-            fontSize: '20px', fontWeight: 700, color: '#334155',
-            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'
+            fontSize: '22px', fontWeight: 700, color: '#334155',
+            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+            textAlign: 'justify', fontFamily: '"Inter", sans-serif'
           }}>
             {checked && allSolved
               ? 'Every group is correct — parallel veins always go with fibrous roots, and reticulate veins with a tap root.'
@@ -1386,7 +1362,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
         </div>
 
         <button type="button" onClick={handleClear} style={footBtn('ghost')}>
-          <RotateCcw size={16} />
+          <RotateCcw size={18} />
           <span>Clear</span>
         </button>
 
@@ -1397,7 +1373,7 @@ export default function VenationRootCorrelationLab({ onBackToDashboard, onPrevio
           title={allPlaced ? 'Check my answers' : 'Place every plant in a venation group and a root group first'}
           style={footBtn(allPlaced ? 'check' : 'disabled')}
         >
-          <Check size={17} />
+          <Check size={19} />
           <span>{allPlaced ? 'Check my answers' : 'Place all 12 plants'}</span>
         </button>
 
@@ -1549,10 +1525,10 @@ function footBtn(kind) {
   const base = {
     display: 'flex',
     alignItems: 'center',
-    gap: '7px',
+    gap: '8px',
     borderRadius: '999px',
-    padding: '9px 20px',
-    fontSize: '20px',
+    padding: '10px 24px',
+    fontSize: '22px',
     fontWeight: 900,
     fontFamily: '"Outfit", sans-serif',
     cursor: 'pointer',

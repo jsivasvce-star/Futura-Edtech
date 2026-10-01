@@ -2505,11 +2505,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   position: 'absolute',
                   top: '20px',
                   right: '20px',
-                  width: 'min(500px, calc(100vw - 40px))',
+                  width: 'min(530px, calc(100vw - 40px))',
                   maxHeight: 'calc(100% - 70px)',
                   background: 'transparent',
-                  backdropFilter: 'blur(4px)',
-                  WebkitBackdropFilter: 'blur(4px)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
                   borderRadius: '20px',
@@ -2560,7 +2560,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         borderRadius: '20px',
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 800,
-                        fontSize: '18px',
+                        fontSize: '22px',
                         letterSpacing: '0.04em',
                         textTransform: 'uppercase',
                         display: 'inline-flex',
@@ -2568,7 +2568,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         gap: '6px',
                         textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                       }}>
-                        <span style={{ fontSize: '18px' }}>🌿</span>
+                        <span style={{ fontSize: '22px' }}>🌿</span>
                         <span>HERBS</span>
                       </span>
 
@@ -2588,13 +2588,13 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                               ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
                               : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
                             borderRadius: '16px',
-                            padding: '4px 12px',
+                            padding: '4px 14px',
                             display: 'inline-flex',
                             alignItems: 'center',
-                            gap: '5px',
+                            gap: '6px',
                             color: '#FFFFFF',
                             fontWeight: 800,
-                            fontSize: '18px',
+                            fontSize: '22px',
                             fontFamily: '"Outfit", sans-serif',
                             cursor: 'pointer',
                             flexShrink: 0,
@@ -2611,12 +2611,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         >
                           {isHerbsSpeaking ? (
                             <>
-                              <Pause size={15} fill="#FFFFFF" />
+                              <Pause size={17} fill="#FFFFFF" />
                               <span>Pause</span>
                             </>
                           ) : (
                             <>
-                              <Play size={15} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                              <Play size={17} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
                               <span>Play</span>
                             </>
                           )}
@@ -2633,8 +2633,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             border: '1.2px solid rgba(255, 255, 255, 0.22)',
                             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                             borderRadius: '10px',
-                            width: '32px',
-                            height: '32px',
+                            width: '34px',
+                            height: '34px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -2653,17 +2653,17 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
                           }}
                         >
-                          <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
+                          <span style={{ fontSize: '22px', fontWeight: 900, lineHeight: 1 }}>✕</span>
                         </button>
                       </div>
                     </div>
 
-                    {/* Title Section: 24px Title */}
+                    {/* Title Section: 26px Title */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                       <h3 style={{
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 900,
-                        fontSize: '24px',
+                        fontSize: '26px',
                         margin: 0,
                         color: '#FCD34D',
                         lineHeight: 1.2,
@@ -2674,7 +2674,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         TENDER GREEN HERBS
                       </h3>
                       <div style={{
-                        fontSize: '20px',
+                        fontSize: '24px',
                         color: '#6EE7B7',
                         fontWeight: 600,
                         fontStyle: 'italic',
@@ -2694,7 +2694,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       {/* Section 1: Soft Green Stems */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #10B981`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '21px',
+                          fontSize: '24px',
                           fontWeight: 800,
                           color: '#A7F3D0',
                           display: 'flex',
@@ -2703,11 +2703,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span style={{ fontSize: '21px' }}>🌱</span>
+                          <span style={{ fontSize: '24px' }}>🌱</span>
                           <span>Soft Green Stems</span>
                         </div>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           color: '#FFFFFF',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
@@ -2728,7 +2728,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       {/* Section 2: Size */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #F59E0B`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '21px',
+                          fontSize: '24px',
                           fontWeight: 800,
                           color: '#FDE68A',
                           display: 'flex',
@@ -2737,11 +2737,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span style={{ fontSize: '21px' }}>📏</span>
+                          <span style={{ fontSize: '24px' }}>📏</span>
                           <span>Size</span>
                         </div>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           color: '#FFFFFF',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
@@ -2762,7 +2762,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       {/* Section 3: Life Cycle */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #3B82F6`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '21px',
+                          fontSize: '24px',
                           fontWeight: 800,
                           color: '#BFDBFE',
                           display: 'flex',
@@ -2771,11 +2771,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span style={{ fontSize: '21px' }}>🔄</span>
+                          <span style={{ fontSize: '24px' }}>🔄</span>
                           <span>Life Cycle</span>
                         </div>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           color: '#FFFFFF',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
@@ -2796,7 +2796,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       {/* Section 4: Examples */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #8B5CF6`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '21px',
+                          fontSize: '24px',
                           fontWeight: 800,
                           color: '#DDD6FE',
                           display: 'flex',
@@ -2805,11 +2805,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span style={{ fontSize: '21px' }}>🌿</span>
+                          <span style={{ fontSize: '24px' }}>🌿</span>
                           <span>Examples</span>
                         </div>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           color: '#FEF08A',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
@@ -2838,9 +2838,9 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         gap: '10px',
                         boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
                       }}>
-                        <span style={{ fontSize: '21px', lineHeight: 1.2 }}>💡</span>
+                        <span style={{ fontSize: '24px', lineHeight: 1.2 }}>💡</span>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           fontWeight: 800,
                           color: '#FDE047',
                           fontFamily: '"Outfit", sans-serif',
@@ -2848,8 +2848,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           lineHeight: 1.4,
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)'
                         }}>
-                          <span style={{ fontSize: '21px', fontWeight: 900 }}>Think: </span>
-                          <span style={{ fontWeight: 500, color: '#FFFFFF' }}>
+                          <span style={{ fontSize: '24px', fontWeight: 900 }}>Think: </span>
+                          <span style={{ fontWeight: 500, color: '#FFFFFF', fontSize: '22px' }}>
                             <NarratedWords
                               words={herbsNarrationData.herbs.words.slice(40, 50)}
                               activeIndex={herbsActiveWordIndex}
@@ -3065,11 +3065,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   position: 'absolute',
                   top: '20px',
                   right: '20px',
-                  width: 'min(500px, calc(100vw - 40px))',
+                  width: 'min(530px, calc(100vw - 40px))',
                   maxHeight: 'calc(100% - 70px)',
                   background: 'transparent',
-                  backdropFilter: 'blur(4px)',
-                  WebkitBackdropFilter: 'blur(4px)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
                   borderRadius: '20px',
@@ -3120,7 +3120,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         borderRadius: '20px',
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 800,
-                        fontSize: '18px',
+                        fontSize: '22px',
                         letterSpacing: '0.04em',
                         textTransform: 'uppercase',
                         display: 'inline-flex',
@@ -3128,7 +3128,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         gap: '6px',
                         textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                       }}>
-                        <span style={{ fontSize: '18px' }}>🌿</span>
+                        <span style={{ fontSize: '22px' }}>🌿</span>
                         <span>SHRUBS</span>
                       </span>
 
@@ -3148,13 +3148,13 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                               ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
                               : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
                             borderRadius: '16px',
-                            padding: '4px 12px',
+                            padding: '4px 14px',
                             display: 'inline-flex',
                             alignItems: 'center',
-                            gap: '5px',
+                            gap: '6px',
                             color: '#FFFFFF',
                             fontWeight: 800,
-                            fontSize: '18px',
+                            fontSize: '22px',
                             fontFamily: '"Outfit", sans-serif',
                             cursor: 'pointer',
                             flexShrink: 0,
@@ -3171,12 +3171,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         >
                           {isShrubsSpeaking ? (
                             <>
-                              <Pause size={15} fill="#FFFFFF" />
+                              <Pause size={17} fill="#FFFFFF" />
                               <span>Pause</span>
                             </>
                           ) : (
                             <>
-                              <Play size={15} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                              <Play size={17} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
                               <span>Play</span>
                             </>
                           )}
@@ -3193,8 +3193,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             border: '1.2px solid rgba(255, 255, 255, 0.22)',
                             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                             borderRadius: '10px',
-                            width: '32px',
-                            height: '32px',
+                            width: '34px',
+                            height: '34px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -3213,17 +3213,17 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
                           }}
                         >
-                          <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
+                          <span style={{ fontSize: '22px', fontWeight: 900, lineHeight: 1 }}>✕</span>
                         </button>
                       </div>
                     </div>
 
-                    {/* Title Section: 24px Title */}
+                    {/* Title Section: 26px Title */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                       <h3 style={{
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 900,
-                        fontSize: '24px',
+                        fontSize: '26px',
                         margin: 0,
                         color: '#FB7185',
                         lineHeight: 1.2,
@@ -3233,6 +3233,16 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       }}>
                         BUSHY WOODY SHRUBS
                       </h3>
+                      <div style={{
+                        fontSize: '24px',
+                        color: '#FDA4AF',
+                        fontWeight: 600,
+                        fontStyle: 'italic',
+                        fontFamily: '"Outfit", sans-serif',
+                        textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)'
+                      }}>
+                        Hard Woody Stems • Branching Near Base
+                      </div>
                     </div>
 
                     {/* Info Panel */}
@@ -3244,7 +3254,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       {/* Section 1: Hard, Woody Stems */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #10B981`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '21px',
+                          fontSize: '24px',
                           fontWeight: 800,
                           color: '#A7F3D0',
                           display: 'flex',
@@ -3253,11 +3263,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span style={{ fontSize: '21px' }}>🪵</span>
+                          <span style={{ fontSize: '24px' }}>🪵</span>
                           <span>Hard, Woody Stems</span>
                         </div>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           color: '#FFFFFF',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
@@ -3278,7 +3288,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       {/* Section 2: Branches Near the Ground */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #F59E0B`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '21px',
+                          fontSize: '24px',
                           fontWeight: 800,
                           color: '#FDE68A',
                           display: 'flex',
@@ -3287,11 +3297,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span style={{ fontSize: '21px' }}>🌿</span>
+                          <span style={{ fontSize: '24px' }}>🌿</span>
                           <span>Branches Near the Ground</span>
                         </div>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           color: '#FFFFFF',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
@@ -3312,7 +3322,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       {/* Section 3: Medium Height */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #3B82F6`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '21px',
+                          fontSize: '24px',
                           fontWeight: 800,
                           color: '#BFDBFE',
                           display: 'flex',
@@ -3321,11 +3331,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span style={{ fontSize: '21px' }}>📏</span>
+                          <span style={{ fontSize: '24px' }}>📏</span>
                           <span>Medium Height</span>
                         </div>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           color: '#FFFFFF',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
@@ -3346,7 +3356,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       {/* Section 4: Examples */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #8B5CF6`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '21px',
+                          fontSize: '24px',
                           fontWeight: 800,
                           color: '#DDD6FE',
                           display: 'flex',
@@ -3355,11 +3365,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span style={{ fontSize: '21px' }}>🌺</span>
+                          <span style={{ fontSize: '24px' }}>🌺</span>
                           <span>Examples</span>
                         </div>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           color: '#FEF08A',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
@@ -3388,9 +3398,9 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         gap: '10px',
                         boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
                       }}>
-                        <span style={{ fontSize: '21px', lineHeight: 1.2 }}>💡</span>
+                        <span style={{ fontSize: '24px', lineHeight: 1.2 }}>💡</span>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           fontWeight: 800,
                           color: '#FDE047',
                           fontFamily: '"Outfit", sans-serif',
@@ -3398,8 +3408,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           lineHeight: 1.4,
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)'
                         }}>
-                          <span style={{ fontSize: '21px', fontWeight: 900 }}>Think: </span>
-                          <span style={{ fontWeight: 500, color: '#FFFFFF' }}>
+                          <span style={{ fontSize: '24px', fontWeight: 900 }}>Think: </span>
+                          <span style={{ fontWeight: 500, color: '#FFFFFF', fontSize: '22px' }}>
                             <NarratedWords
                               words={shrubsNarrationData.shrubs.words.slice(45, 51)}
                               activeIndex={shrubsActiveWordIndex}
@@ -3613,11 +3623,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   position: 'absolute',
                   top: '20px',
                   right: '20px',
-                  width: 'min(500px, calc(100vw - 40px))',
+                  width: 'min(530px, calc(100vw - 40px))',
                   maxHeight: 'calc(100% - 70px)',
                   background: 'transparent',
-                  backdropFilter: 'blur(4px)',
-                  WebkitBackdropFilter: 'blur(4px)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
                   border: '1.5px solid rgba(16, 185, 129, 0.35)',
                   borderLeft: '1.5px solid rgba(255, 255, 255, 0.25)',
                   borderRadius: '20px',
@@ -3668,7 +3678,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         borderRadius: '20px',
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 800,
-                        fontSize: '18px',
+                        fontSize: '22px',
                         letterSpacing: '0.04em',
                         textTransform: 'uppercase',
                         display: 'inline-flex',
@@ -3676,7 +3686,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         gap: '6px',
                         textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
                       }}>
-                        <span style={{ fontSize: '18px' }}>🌳</span>
+                        <span style={{ fontSize: '22px' }}>🌳</span>
                         <span>TREES</span>
                       </span>
 
@@ -3696,13 +3706,13 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                               ? '0 0 14px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
                               : '0 2px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(16, 185, 129, 0.25)',
                             borderRadius: '16px',
-                            padding: '4px 12px',
+                            padding: '4px 14px',
                             display: 'inline-flex',
                             alignItems: 'center',
-                            gap: '5px',
+                            gap: '6px',
                             color: '#FFFFFF',
                             fontWeight: 800,
-                            fontSize: '18px',
+                            fontSize: '22px',
                             fontFamily: '"Outfit", sans-serif',
                             cursor: 'pointer',
                             flexShrink: 0,
@@ -3719,12 +3729,12 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         >
                           {isTreesSpeaking ? (
                             <>
-                              <Pause size={15} fill="#FFFFFF" />
+                              <Pause size={17} fill="#FFFFFF" />
                               <span>Pause</span>
                             </>
                           ) : (
                             <>
-                              <Play size={15} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                              <Play size={17} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
                               <span>Play</span>
                             </>
                           )}
@@ -3741,8 +3751,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             border: '1.2px solid rgba(255, 255, 255, 0.22)',
                             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                             borderRadius: '10px',
-                            width: '32px',
-                            height: '32px',
+                            width: '34px',
+                            height: '34px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -3761,17 +3771,17 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                             e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
                           }}
                         >
-                          <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
+                          <span style={{ fontSize: '22px', fontWeight: 900, lineHeight: 1 }}>✕</span>
                         </button>
                       </div>
                     </div>
 
-                    {/* Title Section: 24px Title */}
+                    {/* Title Section: 26px Title */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                       <h3 style={{
                         fontFamily: '"Outfit", sans-serif',
                         fontWeight: 900,
-                        fontSize: '24px',
+                        fontSize: '26px',
                         margin: 0,
                         color: '#FBBF24',
                         lineHeight: 1.2,
@@ -3781,6 +3791,16 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       }}>
                         TOWERING WOODY TREES
                       </h3>
+                      <div style={{
+                        fontSize: '24px',
+                        color: '#FDE68A',
+                        fontWeight: 600,
+                        fontStyle: 'italic',
+                        fontFamily: '"Outfit", sans-serif',
+                        textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)'
+                      }}>
+                        Single Thick Trunk • High Woody Canopy
+                      </div>
                     </div>
 
                     {/* Info Panel */}
@@ -3792,7 +3812,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       {/* Section 1: Thick, Woody Trunk */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #10B981`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '21px',
+                          fontSize: '24px',
                           fontWeight: 800,
                           color: '#A7F3D0',
                           display: 'flex',
@@ -3801,11 +3821,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span style={{ fontSize: '21px' }}>🪵</span>
+                          <span style={{ fontSize: '24px' }}>🪵</span>
                           <span>Thick, Woody Trunk</span>
                         </div>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           color: '#FFFFFF',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
@@ -3826,7 +3846,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       {/* Section 2: Branches and Canopy */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #F59E0B`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '21px',
+                          fontSize: '24px',
                           fontWeight: 800,
                           color: '#FDE68A',
                           display: 'flex',
@@ -3835,11 +3855,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span style={{ fontSize: '21px' }}>🍃</span>
+                          <span style={{ fontSize: '24px' }}>🍃</span>
                           <span>Branches and Canopy</span>
                         </div>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           color: '#FFFFFF',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
@@ -3860,7 +3880,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       {/* Section 3: Height and Lifespan */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #3B82F6`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '21px',
+                          fontSize: '24px',
                           fontWeight: 800,
                           color: '#BFDBFE',
                           display: 'flex',
@@ -3869,11 +3889,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span style={{ fontSize: '21px' }}>⏳</span>
+                          <span style={{ fontSize: '24px' }}>⏳</span>
                           <span>Height and Lifespan</span>
                         </div>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           color: '#FFFFFF',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
@@ -3894,7 +3914,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                       {/* Section 4: Examples */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: `3.5px solid #8B5CF6`, paddingLeft: '12px' }}>
                         <div style={{
-                          fontSize: '21px',
+                          fontSize: '24px',
                           fontWeight: 800,
                           color: '#DDD6FE',
                           display: 'flex',
@@ -3903,11 +3923,11 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           fontFamily: '"Outfit", sans-serif',
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.6)'
                         }}>
-                          <span style={{ fontSize: '21px' }}>🌳</span>
+                          <span style={{ fontSize: '24px' }}>🌳</span>
                           <span>Examples</span>
                         </div>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           color: '#FEF08A',
                           textAlign: 'justify',
                           textShadow: '0 1px 3px #000000, 0 2px 6px rgba(0, 0, 0, 0.98)',
@@ -3936,9 +3956,9 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                         gap: '10px',
                         boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)'
                       }}>
-                        <span style={{ fontSize: '21px', lineHeight: 1.2 }}>💡</span>
+                        <span style={{ fontSize: '24px', lineHeight: 1.2 }}>💡</span>
                         <div style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           fontWeight: 800,
                           color: '#FDE047',
                           fontFamily: '"Outfit", sans-serif',
@@ -3946,8 +3966,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                           lineHeight: 1.4,
                           textShadow: '0 1px 4px rgba(0, 0, 0, 0.95)'
                         }}>
-                          <span style={{ fontSize: '21px', fontWeight: 900 }}>Think: </span>
-                          <span style={{ fontWeight: 500, color: '#FFFFFF' }}>
+                          <span style={{ fontSize: '24px', fontWeight: 900 }}>Think: </span>
+                          <span style={{ fontWeight: 500, color: '#FFFFFF', fontSize: '22px' }}>
                             <NarratedWords
                               words={treesNarrationData.trees.words.slice(60, 67)}
                               activeIndex={treesActiveWordIndex}
@@ -5660,7 +5680,7 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                 height: '100vh',
                 zIndex: 9999999,
                 background: 'rgba(20, 69, 47, 0.45)',
-                backdropFilter: 'blur(4px)',
+                backdropFilter: 'blur(8px)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -5672,8 +5692,8 @@ export default function VirtualBiodiversityExplorer({ onBackToDashboard, typeFil
                   width: '100%',
                   maxHeight: '90vh',
                   background: 'rgba(250, 248, 242, 0.55)',
-                  backdropFilter: 'blur(4px)',
-                  WebkitBackdropFilter: 'blur(4px)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
                   borderRadius: '20px',
                   border: '2px solid rgba(20, 69, 47, 0.5)',
                   boxShadow: '0 25px 50px -12px rgba(20, 69, 47, 0.4)',

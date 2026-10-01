@@ -191,18 +191,18 @@ export default function Table23Activity({ onBack, onNext }) {
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      paddingTop: '60px',
-      paddingBottom: '68px',
-      paddingLeft: '20px',
-      paddingRight: '20px',
+      paddingTop: '44px',
+      paddingBottom: '52px',
+      paddingLeft: '16px',
+      paddingRight: '16px',
       boxSizing: 'border-box',
       overflow: 'hidden'
     }}>
       {/* Header: Wood Sign Title */}
       <div style={{
         position: 'absolute',
-        top: '12px',
-        left: '24px',
+        top: '10px',
+        left: '20px',
         background: 'linear-gradient(180deg, #B07D48 0%, #7F4F24 100%)',
         border: '3px solid #5C3A1A',
         borderRadius: '14px',
@@ -214,7 +214,7 @@ export default function Table23Activity({ onBack, onNext }) {
         <h1 style={{
           margin: 0,
           fontFamily: '"Outfit", sans-serif',
-          fontSize: '22px',
+          fontSize: '26px',
           fontWeight: 900,
           color: '#FFFFFF',
           textShadow: '0 2px 4px rgba(0,0,0,0.5)'
@@ -224,7 +224,7 @@ export default function Table23Activity({ onBack, onNext }) {
         <p style={{
           margin: '2px 0 0',
           fontFamily: '"Outfit", sans-serif',
-          fontSize: '20px',
+          fontSize: '24px',
           fontWeight: 700,
           color: '#FEF3C7',
           letterSpacing: '0.03em'
@@ -233,19 +233,19 @@ export default function Table23Activity({ onBack, onNext }) {
         </p>
       </div>
 
-      {/* Main Table Card */}
+      {/* Main Table Card - slightly expanded top and bottom */}
       <div style={{
-        width: 'min(97vw, 1500px)',
+        width: 'min(98vw, 1540px)',
         maxWidth: '100%',
         maxHeight: '100%',
         overflow: 'hidden',
         boxSizing: 'border-box',
         background: 'linear-gradient(165deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 253, 244, 0.94) 45%, rgba(220, 252, 231, 0.90) 100%)',
-        backdropFilter: 'blur(4px)',
+        backdropFilter: 'blur(8px)',
         WebkitBackdropFilter: 'blur(16px)',
         border: '2.5px solid #86EFAC',
         borderRadius: '24px',
-        padding: '14px 20px',
+        padding: '12px 18px',
         boxShadow: '0 25px 60px -10px rgba(6, 78, 59, 0.4), 0 0 0 3px rgba(255, 255, 255, 0.95), 0 0 35px rgba(34, 197, 94, 0.35), inset 0 2px 4px rgba(255, 255, 255, 0.9)',
         display: 'flex',
         flexDirection: 'column',
@@ -256,19 +256,19 @@ export default function Table23Activity({ onBack, onNext }) {
           background: 'linear-gradient(135deg, #064E3B 0%, #15803D 50%, #166534 100%)',
           border: '1.5px solid #86EFAC',
           borderRadius: '14px',
-          padding: '8px 22px',
+          padding: '8px 24px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           gap: '12px',
           boxShadow: '0 6px 18px rgba(6, 78, 59, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35)'
         }}>
-          <span style={{ fontSize: '22px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🌿</span>
+          <span style={{ fontSize: '26px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🌿</span>
           <h2 style={{
             margin: 0,
             fontFamily: '"Outfit", sans-serif',
-            fontSize: '22px',
-            fontWeight: 800,
+            fontSize: '26px',
+            fontWeight: 900,
             color: '#FFFFFF',
             textAlign: 'center',
             letterSpacing: '0.01em',
@@ -276,7 +276,7 @@ export default function Table23Activity({ onBack, onNext }) {
           }}>
             Table 2.3: <span style={{ color: '#FDE047', textShadow: '0 0 12px rgba(250, 204, 21, 0.6), 0 2px 4px rgba(0,0,0,0.5)' }}>Grouping of plants based on height and nature of stem</span>
           </h2>
-          <span style={{ fontSize: '22px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🌿</span>
+          <span style={{ fontSize: '26px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🌿</span>
         </div>
 
         {/* Table */}
@@ -298,37 +298,43 @@ export default function Table23Activity({ onBack, onNext }) {
             <thead>
               <tr>
                 <th rowSpan={2} style={{
-                  background: 'linear-gradient(180deg, #BBF7D0 0%, #A7F3D0 100%)', padding: '6px 4px', fontSize: '20px', fontWeight: 800,
+                  background: 'linear-gradient(180deg, #BBF7D0 0%, #A7F3D0 100%)', padding: '8px 4px', fontSize: '24px', fontWeight: 900,
+                  fontFamily: '"Outfit", sans-serif',
                   color: '#064E3B', borderBottom: '1.5px solid #6EE7B7', borderRight: '1.5px solid #86EFAC', width: '5%'
                 }}>S. no.</th>
                 <th rowSpan={2} style={{
-                  background: 'linear-gradient(180deg, #BBF7D0 0%, #A7F3D0 100%)', padding: '6px 6px', fontSize: '20px', fontWeight: 800,
-                  color: '#064E3B', borderBottom: '1.5px solid #6EE7B7', borderRight: '1.5px solid #86EFAC', width: '12%'
+                  background: 'linear-gradient(180deg, #BBF7D0 0%, #A7F3D0 100%)', padding: '8px 8px', fontSize: '24px', fontWeight: 900,
+                  fontFamily: '"Outfit", sans-serif',
+                  color: '#064E3B', borderBottom: '1.5px solid #6EE7B7', borderRight: '1.5px solid #86EFAC', width: '13%'
                 }}>Name of the plant</th>
                 <th style={{
-                  background: 'linear-gradient(180deg, #86EFAC 0%, #4ADE80 100%)', padding: '6px 4px', fontSize: '20px', fontWeight: 800,
+                  background: 'linear-gradient(180deg, #86EFAC 0%, #4ADE80 100%)', padding: '8px 4px', fontSize: '24px', fontWeight: 900,
+                  fontFamily: '"Outfit", sans-serif',
                   color: '#064E3B', borderBottom: '1.5px solid #22C55E', borderRight: '1.5px solid #4ADE80', width: '11%'
                 }}>Height</th>
                 <th colSpan={3} style={{
-                  background: 'linear-gradient(180deg, #86EFAC 0%, #4ADE80 100%)', padding: '6px 4px', fontSize: '20px', fontWeight: 800,
+                  background: 'linear-gradient(180deg, #86EFAC 0%, #4ADE80 100%)', padding: '8px 4px', fontSize: '24px', fontWeight: 900,
+                  fontFamily: '"Outfit", sans-serif',
                   color: '#064E3B', borderBottom: '1.5px solid #22C55E', borderRight: '1.5px solid #4ADE80', width: '33%'
                 }}>Nature of stem</th>
                 <th colSpan={2} style={{
-                  background: 'linear-gradient(180deg, #86EFAC 0%, #4ADE80 100%)', padding: '6px 4px', fontSize: '20px', fontWeight: 800,
-                  color: '#064E3B', borderBottom: '1.5px solid #22C55E', borderRight: '1.5px solid #4ADE80', width: '26%'
+                  background: 'linear-gradient(180deg, #86EFAC 0%, #4ADE80 100%)', padding: '8px 4px', fontSize: '24px', fontWeight: 900,
+                  fontFamily: '"Outfit", sans-serif',
+                  color: '#064E3B', borderBottom: '1.5px solid #22C55E', borderRight: '1.5px solid #4ADE80', width: '25%'
                 }}>Appearance of branches</th>
                 <th rowSpan={2} style={{
-                  background: 'linear-gradient(180deg, #BBF7D0 0%, #A7F3D0 100%)', padding: '6px 6px', fontSize: '20px', fontWeight: 800,
+                  background: 'linear-gradient(180deg, #BBF7D0 0%, #A7F3D0 100%)', padding: '8px 8px', fontSize: '24px', fontWeight: 900,
+                  fontFamily: '"Outfit", sans-serif',
                   color: '#064E3B', borderBottom: '1.5px solid #6EE7B7', width: '13%'
                 }}>Name of plant group</th>
               </tr>
               <tr>
-                <th style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #DCFCE7 100%)', padding: '4px 3px', fontSize: '20px', fontWeight: 700, color: '#166534', borderBottom: '1.5px solid #86EFAC', borderRight: '1px solid #A7F3D0', width: '11%' }}>Short / Medium / Tall</th>
-                <th style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #DCFCE7 100%)', padding: '4px 3px', fontSize: '20px', fontWeight: 700, color: '#166534', borderBottom: '1.5px solid #86EFAC', borderRight: '1px solid #A7F3D0', width: '11%' }}>Green / Brown</th>
-                <th style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #DCFCE7 100%)', padding: '4px 3px', fontSize: '20px', fontWeight: 700, color: '#166534', borderBottom: '1.5px solid #86EFAC', borderRight: '1px solid #A7F3D0', width: '11%' }}>Tender / Hard</th>
-                <th style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #DCFCE7 100%)', padding: '4px 3px', fontSize: '20px', fontWeight: 700, color: '#166534', borderBottom: '1.5px solid #86EFAC', borderRight: '1px solid #A7F3D0', width: '11%' }}>Thick / Thin</th>
-                <th style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #DCFCE7 100%)', padding: '4px 3px', fontSize: '20px', fontWeight: 700, color: '#166534', borderBottom: '1.5px solid #86EFAC', borderRight: '1px solid #A7F3D0', width: '13%' }}>Close to the ground</th>
-                <th style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #DCFCE7 100%)', padding: '4px 3px', fontSize: '20px', fontWeight: 700, color: '#166534', borderBottom: '1.5px solid #86EFAC', borderRight: '1px solid #A7F3D0', width: '13%' }}>Higher up on the stem</th>
+                <th style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #DCFCE7 100%)', padding: '6px 4px', fontSize: '22px', fontWeight: 800, fontFamily: '"Outfit", sans-serif', color: '#166534', borderBottom: '1.5px solid #86EFAC', borderRight: '1px solid #A7F3D0', width: '11%' }}>Short / Medium / Tall</th>
+                <th style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #DCFCE7 100%)', padding: '6px 4px', fontSize: '22px', fontWeight: 800, fontFamily: '"Outfit", sans-serif', color: '#166534', borderBottom: '1.5px solid #86EFAC', borderRight: '1px solid #A7F3D0', width: '11%' }}>Green / Brown</th>
+                <th style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #DCFCE7 100%)', padding: '6px 4px', fontSize: '22px', fontWeight: 800, fontFamily: '"Outfit", sans-serif', color: '#166534', borderBottom: '1.5px solid #86EFAC', borderRight: '1px solid #A7F3D0', width: '11%' }}>Tender / Hard</th>
+                <th style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #DCFCE7 100%)', padding: '6px 4px', fontSize: '22px', fontWeight: 800, fontFamily: '"Outfit", sans-serif', color: '#166534', borderBottom: '1.5px solid #86EFAC', borderRight: '1px solid #A7F3D0', width: '11%' }}>Thick / Thin</th>
+                <th style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #DCFCE7 100%)', padding: '6px 4px', fontSize: '22px', fontWeight: 800, fontFamily: '"Outfit", sans-serif', color: '#166534', borderBottom: '1.5px solid #86EFAC', borderRight: '1px solid #A7F3D0', width: '12.5%' }}>Close to the ground</th>
+                <th style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #DCFCE7 100%)', padding: '6px 4px', fontSize: '22px', fontWeight: 800, fontFamily: '"Outfit", sans-serif', color: '#166534', borderBottom: '1.5px solid #86EFAC', borderRight: '1px solid #A7F3D0', width: '12.5%' }}>Higher up on the stem</th>
               </tr>
             </thead>
             <tbody>
@@ -338,9 +344,10 @@ export default function Table23Activity({ onBack, onNext }) {
                   transition: 'background 0.15s ease'
                 }}>
                   <td style={{
-                    padding: '6px 4px',
-                    fontSize: '20px',
-                    fontWeight: 800,
+                    padding: '7px 4px',
+                    fontSize: '23px',
+                    fontWeight: 900,
+                    fontFamily: '"Outfit", sans-serif',
                     color: '#065F46',
                     borderBottom: rowIdx === TABLE_2_3_ROWS.length - 1 ? 'none' : '1px solid #D1FAE5',
                     borderRight: '1px solid #D1FAE5',
@@ -349,9 +356,10 @@ export default function Table23Activity({ onBack, onNext }) {
                     {rowIdx + 1}.
                   </td>
                   <td style={{
-                    padding: '6px 8px',
-                    fontSize: '20px',
-                    fontWeight: 800,
+                    padding: '7px 10px',
+                    fontSize: '23px',
+                    fontWeight: 900,
+                    fontFamily: '"Outfit", sans-serif',
                     color: '#0F172A',
                     borderBottom: rowIdx === TABLE_2_3_ROWS.length - 1 ? 'none' : '1px solid #D1FAE5',
                     borderRight: '1px solid #D1FAE5'
@@ -364,7 +372,7 @@ export default function Table23Activity({ onBack, onNext }) {
 
                     return (
                       <td key={col.id} style={{
-                        padding: '4px 4px',
+                        padding: '5px 4px',
                         borderBottom: rowIdx === TABLE_2_3_ROWS.length - 1 ? 'none' : '1px solid #D1FAE5',
                         borderRight: cIdx === TABLE_2_3_COLUMNS.length - 1 ? 'none' : '1px solid #D1FAE5',
                         overflow: 'hidden'
@@ -376,8 +384,8 @@ export default function Table23Activity({ onBack, onNext }) {
                             width: '100%',
                             maxWidth: '100%',
                             boxSizing: 'border-box',
-                            padding: '4px 6px',
-                            minHeight: '38px',
+                            padding: '6px 8px',
+                            minHeight: '42px',
                             borderRadius: '8px',
                             border: table23Checked
                               ? (isValCorrect ? '2.5px solid #22C55E' : '2.5px solid #EF4444')
@@ -386,9 +394,9 @@ export default function Table23Activity({ onBack, onNext }) {
                               ? (isValCorrect ? 'rgba(240, 253, 244, 0.95)' : 'rgba(254, 242, 242, 0.95)')
                               : '#FFFFFF',
                             color: '#1E293B',
-                            fontSize: '20px',
+                            fontSize: '22px',
                             fontFamily: '"Inter", sans-serif',
-                            fontWeight: 600,
+                            fontWeight: 700,
                             cursor: 'pointer',
                             boxShadow: '0 2px 4px rgba(0,0,0,0.04)'
                           }}
@@ -407,15 +415,16 @@ export default function Table23Activity({ onBack, onNext }) {
           </table>
         </div>
 
-        {/* Feedback Message Banner */}
+        {/* Feedback Message Banner - content justified */}
         {feedback && (
           <div style={{
-            padding: '8px 16px',
+            padding: '8px 18px',
             borderRadius: '12px',
-            fontSize: '18px',
+            fontSize: '22px',
             fontWeight: 800,
-            textAlign: 'center',
-            fontFamily: '"Outfit", sans-serif',
+            textAlign: 'justify',
+            fontFamily: '"Inter", sans-serif',
+            lineHeight: 1.35,
             background: feedback.type === 'success'
               ? 'linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%)'
               : (feedback.type === 'incomplete'
@@ -434,17 +443,17 @@ export default function Table23Activity({ onBack, onNext }) {
         )}
 
         {/* Action Buttons */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '18px', paddingTop: '2px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '18px', paddingTop: '4px' }}>
           <button
             onClick={handleTable23Check}
             style={{
-              display: 'flex', alignItems: 'center', gap: '8px',
+              display: 'flex', alignItems: 'center', gap: '10px',
               background: 'linear-gradient(135deg, #16A34A 0%, #15803D 100%)',
               border: '2px solid #86EFAC',
               borderRadius: '24px',
-              padding: '9px 28px',
-              fontSize: '20px',
-              fontWeight: 800,
+              padding: '10px 30px',
+              fontSize: '22px',
+              fontWeight: 900,
               color: '#FFFFFF',
               cursor: 'pointer',
               boxShadow: '0 6px 18px rgba(22, 163, 74, 0.45), inset 0 1px 0 rgba(255,255,255,0.3)',
@@ -452,18 +461,18 @@ export default function Table23Activity({ onBack, onNext }) {
               transition: 'transform 0.15s ease, boxShadow 0.15s ease'
             }}
           >
-            <Check size={20} /> Check Answer
+            <Check size={22} /> Check Answer
           </button>
           <button
             onClick={handleTable23Reset}
             style={{
-              display: 'flex', alignItems: 'center', gap: '8px',
+              display: 'flex', alignItems: 'center', gap: '10px',
               background: 'linear-gradient(135deg, #F97316 0%, #EA580C 100%)',
               border: '2px solid #FDBA74',
               borderRadius: '24px',
-              padding: '9px 28px',
-              fontSize: '20px',
-              fontWeight: 800,
+              padding: '10px 30px',
+              fontSize: '22px',
+              fontWeight: 900,
               color: '#FFFFFF',
               cursor: 'pointer',
               boxShadow: '0 6px 18px rgba(234, 88, 12, 0.45), inset 0 1px 0 rgba(255,255,255,0.3)',
@@ -471,7 +480,7 @@ export default function Table23Activity({ onBack, onNext }) {
               transition: 'transform 0.15s ease, boxShadow 0.15s ease'
             }}
           >
-            <RefreshCw size={18} /> Reset
+            <RefreshCw size={20} /> Reset
           </button>
         </div>
       </div>
@@ -484,24 +493,24 @@ export default function Table23Activity({ onBack, onNext }) {
         }}
         style={{
           position: 'absolute',
-          bottom: '14px',
-          left: '24px',
+          bottom: '12px',
+          left: '20px',
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
-          background: 'rgba(255, 255, 255, 0.92)',
+          background: 'rgba(255, 255, 255, 0.94)',
           border: '2px solid #CBD5E1',
           borderRadius: '26px',
-          padding: '9px 22px',
-          fontSize: '20px',
-          fontWeight: 800,
+          padding: '10px 24px',
+          fontSize: '22px',
+          fontWeight: 900,
           color: '#1E293B',
           cursor: 'pointer',
           boxShadow: '0 6px 20px rgba(0,0,0,0.25)',
           zIndex: 50
         }}
       >
-        <ArrowLeft size={20} /> Back to Act 2.4 Detective
+        <ArrowLeft size={22} /> Back to Act 2.4 Detective
       </button>
       <button
         onClick={() => {
@@ -510,16 +519,16 @@ export default function Table23Activity({ onBack, onNext }) {
         }}
         style={{
           position: 'absolute',
-          bottom: '14px',
-          right: '24px',
+          bottom: '12px',
+          right: '20px',
           display: 'flex',
           alignItems: 'center',
           gap: '10px',
           background: 'linear-gradient(135deg, #15803D 0%, #166534 100%)',
           border: '2px solid #86EFAC',
           borderRadius: '28px',
-          padding: '9px 24px',
-          fontSize: '20px',
+          padding: '10px 26px',
+          fontSize: '22px',
           fontWeight: 900,
           color: '#FFFFFF',
           cursor: 'pointer',
@@ -527,7 +536,7 @@ export default function Table23Activity({ onBack, onNext }) {
           zIndex: 50
         }}
       >
-        Proceed to Act 2.5 Leaf Venation <ArrowRight size={20} />
+        Proceed to Act 2.5 Leaf Venation <ArrowRight size={22} />
       </button>
     </div>
   );

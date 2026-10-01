@@ -104,20 +104,21 @@ export default function SeedDissectionLab({ onBackToDashboard, onPreviousPage, o
         </div>
 
         {/* Briefing */}
+        {/* Briefing */}
         <div style={{
           minHeight: 0,
           display: 'flex',
           flexDirection: 'column',
-          gap: '10px',
+          justifyContent: 'space-between',
+          gap: 'clamp(8px, 1.2vh, 14px)',
           background: 'linear-gradient(170deg, rgba(14, 62, 39, 0.90) 0%, rgba(6, 34, 21, 0.94) 100%)',
-          backdropFilter: 'blur(4px)',
-          WebkitBackdropFilter: 'blur(4px)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
           border: '3px solid rgba(134, 239, 172, 0.55)',
           borderRadius: '18px',
-          padding: '12px 18px',
+          padding: 'clamp(10px, 1.4vh, 16px) clamp(12px, 1.6vw, 18px)',
           boxShadow: '0 18px 42px rgba(0, 0, 0, 0.5)',
-          overflowY: 'auto',
-          overflowX: 'hidden'
+          overflow: 'hidden'
         }}>
           <div style={{
             display: 'flex',
@@ -126,21 +127,23 @@ export default function SeedDissectionLab({ onBackToDashboard, onPreviousPage, o
             background: 'linear-gradient(180deg, #1F7A46 0%, #14532D 100%)',
             border: '2px solid rgba(134, 239, 172, 0.6)',
             borderRadius: '12px',
-            padding: '7px 16px',
+            padding: '7px 18px',
             flexShrink: 0
           }}>
-            <Lightbulb size={24} color="#FCD34D" />
-            <span style={{ fontSize: '24px', fontWeight: 900, color: '#FFFFFF', fontFamily: '"Fraunces", Georgia, serif' }}>
+            <Lightbulb size={26} color="#FCD34D" />
+            <span style={{ fontSize: '26px', fontWeight: 900, color: '#FFFFFF', fontFamily: '"Outfit", sans-serif' }}>
               What You&rsquo;ll Learn
             </span>
           </div>
 
           <p style={{
             margin: 0,
-            fontSize: '21px',
+            fontSize: '23px',
             fontWeight: 600,
-            lineHeight: 1.4,
+            lineHeight: 1.36,
             color: '#EAF7EE',
+            fontFamily: '"Inter", sans-serif',
+            textAlign: 'justify',
             flexShrink: 0
           }}>
             In this activity, you will discover how seeds absorb water and how their structure
@@ -148,35 +151,55 @@ export default function SeedDissectionLab({ onBackToDashboard, onPreviousPage, o
             and understand how it prepares for germination.
           </p>
 
-          {/* Key points on a parchment card */}
+          {/* Key points on a parchment card - expands to cover vertical space cleanly */}
           <div style={{
+            flex: 1,
+            minHeight: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
             background: 'linear-gradient(170deg, #F6F1DC 0%, #EDE6CA 100%)',
             border: '2px solid rgba(120, 83, 32, 0.35)',
             borderRadius: '14px',
-            padding: '10px 14px',
+            padding: 'clamp(8px, 1.2vh, 12px) clamp(10px, 1.4vw, 16px)',
             boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.7), 0 8px 20px rgba(0,0,0,0.3)',
-            flexShrink: 0
+            overflow: 'hidden'
           }}>
             <div style={{
               display: 'flex', alignItems: 'center', gap: '8px',
-              fontSize: '22px', fontWeight: 900, color: '#14532D',
-              fontFamily: '"Fraunces", Georgia, serif', marginBottom: '8px'
+              fontSize: '24px', fontWeight: 900, color: '#14532D',
+              fontFamily: '"Outfit", sans-serif', marginBottom: '4px',
+              flexShrink: 0
             }}>
-              <span style={{ fontSize: '22px' }}>🌿</span> Key Points
+              <span style={{ fontSize: '24px' }}>🌿</span> Key Points
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div style={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              minHeight: 0,
+              gap: 'clamp(4px, 0.8vh, 10px)'
+            }}>
               {KEY_POINTS.map(point => (
                 <div key={point} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
                   <span style={{
-                    width: '23px', height: '23px', borderRadius: '50%',
+                    width: '24px', height: '24px', borderRadius: '50%',
                     background: '#15803D', color: '#FFFFFF',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    flexShrink: 0, marginTop: '2px'
+                    flexShrink: 0, marginTop: '3px'
                   }}>
-                    <Check size={14} strokeWidth={3.5} />
+                    <Check size={15} strokeWidth={3.5} />
                   </span>
-                  <span style={{ fontSize: '20px', fontWeight: 700, color: '#1F2937', lineHeight: 1.35 }}>
+                  <span style={{
+                    fontSize: '22px',
+                    fontWeight: 700,
+                    color: '#1F2937',
+                    lineHeight: 1.3,
+                    textAlign: 'justify',
+                    fontFamily: '"Inter", sans-serif'
+                  }}>
                     {point}
                   </span>
                 </div>
@@ -189,7 +212,6 @@ export default function SeedDissectionLab({ onBackToDashboard, onPreviousPage, o
               type="button"
               onClick={handleNext}
               style={{
-                marginTop: 'auto',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -242,8 +264,8 @@ export default function SeedDissectionLab({ onBackToDashboard, onPreviousPage, o
           WebkitBackdropFilter: 'blur(16px)',
           border: '2px solid rgba(253, 230, 138, 0.85)',
           borderRadius: '26px',
-          padding: '10px 22px',
-          fontSize: '18px',
+          padding: '10px 24px',
+          fontSize: '22px',
           fontWeight: 900,
           color: '#FFFBEB',
           cursor: 'pointer',
@@ -255,7 +277,7 @@ export default function SeedDissectionLab({ onBackToDashboard, onPreviousPage, o
         onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
         onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
       >
-        <ArrowLeft size={20} />
+        <ArrowLeft size={22} />
         <span>{onPreviousPage ? 'Previous' : 'Dashboard'}</span>
       </button>
     </div>

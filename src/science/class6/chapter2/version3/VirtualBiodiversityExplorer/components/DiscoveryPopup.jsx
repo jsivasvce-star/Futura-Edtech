@@ -38,7 +38,8 @@ export default function DiscoveryPopup({
       justifyContent: 'center',
       padding: '1rem',
       background: 'rgba(15, 23, 42, 0.65)',
-      backdropFilter: 'blur(4px)'
+      backdropFilter: 'blur(8px)',
+      WebkitBackdropFilter: 'blur(8px)'
     }}>
       {/* Pop-up Card */}
       <div style={{
@@ -46,6 +47,8 @@ export default function DiscoveryPopup({
         width: '100%',
         maxWidth: '34rem',
         background: 'rgba(250, 248, 242, 0.55)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
         border: '2px solid rgba(20, 69, 47, 0.5)',
         borderRadius: '24px',
         padding: '1.75rem',
@@ -76,7 +79,7 @@ export default function DiscoveryPopup({
             </span>
             <div>
               <span style={{
-                fontSize: '18px',
+                fontSize: '22px',
                 fontWeight: 800,
                 textTransform: 'uppercase',
                 letterSpacing: '0.04em',
@@ -91,7 +94,7 @@ export default function DiscoveryPopup({
               </span>
               <h2 style={{
                 fontFamily: '"Fraunces", Georgia, serif',
-                fontSize: '24px',
+                fontSize: '26px',
                 fontWeight: 900,
                 color: '#14452F',
                 margin: '0.35rem 0 0'
@@ -132,13 +135,12 @@ export default function DiscoveryPopup({
             padding: '1rem 1.25rem'
           }}>
             <p style={{
-              fontSize: '18px',
+              fontSize: '22px',
               color: '#2D3748',
               fontWeight: 500,
               lineHeight: 1.5,
               margin: 0,
-              textAlign: 'justify',
-              textJustify: 'inter-word'
+              textAlign: 'justify'
             }}>
               {organism.details}
             </p>
@@ -158,18 +160,17 @@ export default function DiscoveryPopup({
               <Lightbulb className="w-5 h-5" />
             </div>
             <div style={{ flex: 1 }}>
-              <span style={{ fontSize: '21px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em', color: '#B45309', display: 'block' }}>
+              <span style={{ fontSize: '24px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em', color: '#B45309', display: 'block' }}>
                 Did You Know?
               </span>
               <p style={{
-                fontSize: '18px',
+                fontSize: '22px',
                 color: '#78350F',
                 fontWeight: 600,
                 marginTop: '4px',
                 marginBottom: 0,
                 lineHeight: 1.5,
-                textAlign: 'justify',
-                textJustify: 'inter-word'
+                textAlign: 'justify'
               }}>
                 {organism.fact}
               </p>
@@ -188,7 +189,7 @@ export default function DiscoveryPopup({
               padding: '0.85rem 1.25rem',
               borderRadius: '14px',
               fontWeight: 800,
-              fontSize: '18px',
+              fontSize: '22px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',

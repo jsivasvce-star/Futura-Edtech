@@ -1647,10 +1647,10 @@ export default function InlineSortingActivity({
               }}>
                 <h1 style={{
                   margin: 0,
-                  fontSize: '24px',
+                  fontSize: '26px',
                   fontWeight: 900,
-                  fontFamily: '"Cinzel", Georgia, serif',
-                  letterSpacing: '0.12em',
+                  fontFamily: '"Outfit", "Cinzel", Georgia, serif',
+                  letterSpacing: '0.08em',
                   textTransform: 'uppercase',
                   color: '#FFFFFF',
                   lineHeight: 1.15,
@@ -1678,12 +1678,12 @@ export default function InlineSortingActivity({
                   gap: '8px',
                   color: '#FFFFFF'
                 }}>
-                  <span style={{ fontSize: '20px' }}>🏆</span>
+                  <span style={{ fontSize: '22px' }}>🏆</span>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
-                    <span style={{ fontSize: '20px', fontWeight: 900, color: '#FEF08A', lineHeight: 1 }}>
+                    <span style={{ fontSize: '22px', fontWeight: 900, color: '#FEF08A', lineHeight: 1 }}>
                       {completedTabs.length} / {CRITERIA_TABS.length}
                     </span>
-                    <span style={{ fontSize: '18px', fontWeight: 700, fontFamily: '"Inter", sans-serif', color: '#E2E8F0' }}>
+                    <span style={{ fontSize: '20px', fontWeight: 800, fontFamily: '"Inter", sans-serif', color: '#E2E8F0' }}>
                       challenges complete
                     </span>
                   </div>
@@ -1696,12 +1696,12 @@ export default function InlineSortingActivity({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '6px',
+              gap: '8px',
               flexWrap: 'wrap',
-              background: 'rgba(255, 255, 255, 0.82)',
-              padding: '3px 12px',
+              background: 'rgba(255, 255, 255, 0.88)',
+              padding: '4px 14px',
               borderRadius: '28px',
-              backdropFilter: 'blur(6px)',
+              backdropFilter: 'blur(8px)',
               width: 'fit-content',
               margin: '3px auto 0',
               boxShadow: '0 2px 10px rgba(0,0,0,0.06)'
@@ -1722,13 +1722,14 @@ export default function InlineSortingActivity({
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '6px',
+                      gap: '8px',
                       background: isActive ? '#14452F' : '#FFFFFF',
                       border: isActive ? '2px solid #14452F' : '1.5px solid #CBD5E1',
                       borderRadius: '20px',
-                      padding: '4px 12px',
-                      fontSize: '18px',
+                      padding: '4px 14px',
+                      fontSize: '20px',
                       fontWeight: 800,
+                      fontFamily: '"Outfit", sans-serif',
                       color: isActive ? '#FFFFFF' : '#1E293B',
                       cursor: 'pointer',
                       whiteSpace: 'nowrap',
@@ -1738,15 +1739,15 @@ export default function InlineSortingActivity({
                       transition: 'all 0.15s ease'
                     }}
                   >
-                    <span style={{ fontSize: '18px' }}>{tab.icon}</span>
+                    <span style={{ fontSize: '20px' }}>{tab.icon}</span>
                     <span>{tab.label}</span>
                     {isDone && (
                       <span style={{
                         background: isActive ? '#86EFAC' : '#22C55E',
                         color: isActive ? '#14532D' : '#FFFFFF',
                         borderRadius: '50%',
-                        width: '20px',
-                        height: '20px',
+                        width: '22px',
+                        height: '22px',
                         fontSize: '18px',
                         fontWeight: 900,
                         display: 'inline-flex',
@@ -1799,12 +1800,12 @@ export default function InlineSortingActivity({
                 flexShrink: 0
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ fontSize: '22px' }}>🤿</span>
-                  <h3 style={{ margin: 0, fontSize: '21px', fontWeight: 900, color: '#0F172A' }}>
+                  <span style={{ fontSize: '26px' }}>🤿</span>
+                  <h3 style={{ margin: 0, fontSize: '26px', fontWeight: 900, fontFamily: '"Outfit", sans-serif', color: '#0F172A' }}>
                     Observation cards
                   </h3>
                 </div>
-                <span style={{ fontSize: '18px', fontWeight: 700, color: '#64748B' }}>
+                <span style={{ fontSize: '22px', fontWeight: 800, fontFamily: '"Outfit", sans-serif', color: '#475569' }}>
                   {currentTabCards.length} to observe
                 </span>
               </div>
@@ -1904,8 +1905,9 @@ export default function InlineSortingActivity({
                         flexShrink: 0
                       }}>
                         <span style={{
-                          fontSize: card.name.length > 9 ? '17px' : '18px',
+                          fontSize: card.name.length > 9 ? '18px' : '20px',
                           fontWeight: 800,
+                          fontFamily: '"Outfit", sans-serif',
                           color: '#1E293B',
                           whiteSpace: 'nowrap',
                           letterSpacing: '-0.01em'
@@ -1924,18 +1926,20 @@ export default function InlineSortingActivity({
                 background: '#F0FDF4',
                 border: '1.5px solid #BBF7D0',
                 borderRadius: '12px',
-                padding: '4px 12px',
+                padding: '6px 12px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
+                gap: '10px',
                 flexShrink: 0
               }}>
-                <span style={{ fontSize: '20px', flexShrink: 0 }}>🐸</span>
+                <span style={{ fontSize: '24px', flexShrink: 0 }}>🐸</span>
                 <span style={{
-                  fontSize: '18px',
+                  fontSize: '22px',
                   fontWeight: 700,
+                  fontFamily: '"Inter", sans-serif',
                   color: '#166534',
-                  lineHeight: 1.2
+                  lineHeight: 1.35,
+                  textAlign: 'justify'
                 }}>
                   Drag each card from the left dock and drop it into the correct group on the right.
                 </span>
@@ -1966,14 +1970,14 @@ export default function InlineSortingActivity({
               }}>
                 <h3 style={{
                   margin: 0,
-                  fontSize: '24px',
+                  fontSize: '26px',
                   fontWeight: 900,
                   fontFamily: '"Outfit", sans-serif',
                   color: '#0F172A'
                 }}>
                   Your groups
                 </h3>
-                <span style={{ fontSize: '20px', fontWeight: 800, fontFamily: '"Inter", sans-serif', color: '#1E293B' }}>
+                <span style={{ fontSize: '23px', fontWeight: 800, fontFamily: '"Outfit", sans-serif', color: '#1E293B' }}>
                   {placedCount} / {totalCardsCount} placed
                 </span>
               </div>
@@ -2044,18 +2048,18 @@ export default function InlineSortingActivity({
                               src={group.customIcon}
                               alt=""
                               style={{
-                                width: isCompact ? '30px' : '36px',
-                                height: isCompact ? '30px' : '36px',
+                                width: isCompact ? '32px' : '38px',
+                                height: isCompact ? '32px' : '38px',
                                 objectFit: 'contain',
                                 flexShrink: 0
                               }}
                             />
                           ) : (
-                            <span style={{ fontSize: isCompact ? '20px' : '22px', flexShrink: 0 }}>{group.icon}</span>
+                            <span style={{ fontSize: isCompact ? '24px' : '26px', flexShrink: 0 }}>{group.icon}</span>
                           )}
                           <div style={{ minWidth: 0, flex: '1 1 auto' }}>
                             <div style={{
-                              fontSize: isCompact ? '20px' : '22px',
+                              fontSize: isCompact ? '24px' : '26px',
                               fontWeight: 900,
                               fontFamily: '"Outfit", sans-serif',
                               color: group.headerColor || '#0F172A',
@@ -2064,25 +2068,26 @@ export default function InlineSortingActivity({
                               {group.title}
                             </div>
                             <div style={{
-                              fontSize: '18px',
+                              fontSize: isCompact ? '22px' : '24px',
                               fontWeight: 600,
                               fontFamily: '"Inter", sans-serif',
-                              color: '#475569',
+                              color: '#334155',
                               marginTop: '2px',
-                              lineHeight: 1.25
+                              lineHeight: 1.35,
+                              textAlign: 'justify'
                             }}>
                               {group.subtitle}
                             </div>
                           </div>
                         </div>
                         <span style={{
-                          fontSize: '18px',
+                          fontSize: '22px',
                           fontWeight: 800,
-                          fontFamily: '"Inter", sans-serif',
+                          fontFamily: '"Outfit", sans-serif',
                           color: '#1E293B',
                           background: 'rgba(255,255,255,0.92)',
                           border: '1.5px solid rgba(0,0,0,0.1)',
-                          padding: '3px 10px',
+                          padding: '4px 12px',
                           borderRadius: '8px',
                           whiteSpace: 'nowrap',
                           flexShrink: 0
@@ -2131,13 +2136,13 @@ export default function InlineSortingActivity({
                                   src={card.image}
                                   alt={card.name}
                                   style={{
-                                    width: '24px',
-                                    height: '24px',
+                                    width: '26px',
+                                    height: '26px',
                                     borderRadius: '50%',
                                     objectFit: 'cover'
                                   }}
                                 />
-                                <span style={{ fontSize: '18px', fontWeight: 800, fontFamily: '"Inter", sans-serif', color: '#1E293B' }}>
+                                <span style={{ fontSize: '22px', fontWeight: 800, fontFamily: '"Outfit", sans-serif', color: '#1E293B' }}>
                                   {card.name}
                                 </span>
                                 <button
@@ -2146,8 +2151,8 @@ export default function InlineSortingActivity({
                                     background: '#F1F5F9',
                                     border: 'none',
                                     borderRadius: '50%',
-                                    width: '22px',
-                                    height: '22px',
+                                    width: '24px',
+                                    height: '24px',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -2171,7 +2176,7 @@ export default function InlineSortingActivity({
                           borderRadius: '12px',
                           padding: cardsInGroup.length === 0 ? (isCompact ? '10px 14px' : '16px 14px') : '6px 12px',
                           textAlign: 'center',
-                          fontSize: '18px',
+                          fontSize: isCompact ? '22px' : '24px',
                           fontWeight: 700,
                           fontFamily: '"Outfit", sans-serif',
                           color: selectedCardId ? (group.dropColor || group.headerColor) : '#64748B',
@@ -2203,19 +2208,21 @@ export default function InlineSortingActivity({
                   background: validationResult.success ? '#DCFCE7' : '#FEE2E2',
                   border: validationResult.success ? '2px solid #86EFAC' : '2px solid #FCA5A5',
                   borderRadius: '10px',
-                  padding: '6px 12px',
+                  padding: '6px 14px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
                   flexShrink: 0
                 }}>
-                  <span style={{ fontSize: '20px' }}>
+                  <span style={{ fontSize: '22px' }}>
                     {validationResult.success ? '🎉' : '🤔'}
                   </span>
                   <span style={{
-                    fontSize: '18px',
+                    fontSize: '22px',
                     fontWeight: 800,
-                    color: validationResult.success ? '#15803D' : '#B91C1C'
+                    fontFamily: '"Inter", sans-serif',
+                    color: validationResult.success ? '#15803D' : '#B91C1C',
+                    textAlign: 'justify'
                   }}>
                     {validationResult.message}
                   </span>
@@ -2255,11 +2262,12 @@ export default function InlineSortingActivity({
               <p style={{
                 margin: 0,
                 fontFamily: '"Outfit", sans-serif',
-                fontSize: '18px',
+                fontSize: '22px',
                 fontWeight: 800,
                 color: '#2B1705',
                 whiteSpace: 'pre-line',
-                lineHeight: 1.15
+                lineHeight: 1.25,
+                textAlign: 'justify'
               }}>
                 {activeTab.bottomSign}
               </p>
@@ -2269,18 +2277,19 @@ export default function InlineSortingActivity({
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
-              background: 'rgba(255, 255, 255, 0.88)',
-              padding: '6px 14px',
+              gap: '10px',
+              background: 'rgba(255, 255, 255, 0.92)',
+              padding: '6px 16px',
               borderRadius: '20px',
-              fontSize: '18px',
+              fontSize: '22px',
               fontWeight: 700,
+              fontFamily: '"Outfit", sans-serif',
               color: '#334155',
-              backdropFilter: 'blur(4px)',
+              backdropFilter: 'blur(6px)',
               flexShrink: 1,
               minWidth: 0
             }}>
-              <span style={{ fontSize: '18px', flexShrink: 0 }}>🍃</span>
+              <span style={{ fontSize: '22px', flexShrink: 0 }}>🍃</span>
               <span style={{ whiteSpace: 'nowrap' }}>Find features shared by all members in a group.</span>
             </div>
 
@@ -2292,9 +2301,10 @@ export default function InlineSortingActivity({
                   background: '#FFFFFF',
                   border: '1.5px solid #CBD5E1',
                   borderRadius: '20px',
-                  padding: '7px 16px',
-                  fontSize: '18px',
+                  padding: '7px 18px',
+                  fontSize: '22px',
                   fontWeight: 800,
+                  fontFamily: '"Outfit", sans-serif',
                   color: '#475569',
                   cursor: 'pointer',
                   boxShadow: '0 3px 6px rgba(0,0,0,0.05)',
@@ -2313,9 +2323,10 @@ export default function InlineSortingActivity({
                   background: 'linear-gradient(135deg, #14452F 0%, #064E3B 100%)',
                   border: '2px solid #86EFAC',
                   borderRadius: '20px',
-                  padding: '7px 20px',
-                  fontSize: '18px',
+                  padding: '7px 22px',
+                  fontSize: '22px',
                   fontWeight: 900,
+                  fontFamily: '"Outfit", sans-serif',
                   color: '#FFFFFF',
                   cursor: 'pointer',
                   boxShadow: '0 4px 14px rgba(20, 69, 47, 0.45)',
@@ -2344,16 +2355,17 @@ export default function InlineSortingActivity({
                 background: 'rgba(255, 255, 255, 0.92)',
                 border: '2px solid #CBD5E1',
                 borderRadius: '20px',
-                padding: '7px 20px',
-                fontSize: '18px',
+                padding: '7px 22px',
+                fontSize: '22px',
                 fontWeight: 800,
+                fontFamily: '"Outfit", sans-serif',
                 color: '#1E293B',
                 cursor: 'pointer',
                 boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
                 transition: 'all 0.15s ease'
               }}
             >
-              <ArrowLeft size={18} /> Back to Specimens
+              <ArrowLeft size={20} /> Back to Specimens
             </button>
 
             <button
@@ -2369,16 +2381,17 @@ export default function InlineSortingActivity({
                 background: 'linear-gradient(135deg, #15803D 0%, #166534 100%)',
                 border: '2px solid #86EFAC',
                 borderRadius: '20px',
-                padding: '7px 22px',
-                fontSize: '18px',
+                padding: '7px 24px',
+                fontSize: '22px',
                 fontWeight: 900,
+                fontFamily: '"Outfit", sans-serif',
                 color: '#FFFFFF',
                 cursor: 'pointer',
                 boxShadow: '0 4px 14px rgba(22, 101, 52, 0.45)',
                 transition: 'all 0.15s ease'
               }}
             >
-              Continue to Act 2.4 Detective <ArrowRight size={18} />
+              Continue to Act 2.4 Detective <ArrowRight size={20} />
             </button>
           </div>
         </div>
@@ -2393,7 +2406,8 @@ export default function InlineSortingActivity({
           position: 'fixed',
           inset: 0,
           background: 'rgba(0,0,0,0.7)',
-          backdropFilter: 'blur(4px)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -2403,7 +2417,7 @@ export default function InlineSortingActivity({
           <div style={{
             background: '#FFFFFF',
             borderRadius: '24px',
-            maxWidth: '520px',
+            maxWidth: '540px',
             width: '100%',
             overflow: 'hidden',
             boxShadow: '0 25px 60px rgba(0,0,0,0.4)',
@@ -2430,30 +2444,31 @@ export default function InlineSortingActivity({
                   color: '#FFFFFF',
                   border: 'none',
                   borderRadius: '50%',
-                  width: '36px',
-                  height: '36px',
+                  width: '38px',
+                  height: '38px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
-                  fontSize: '18px'
+                  fontSize: '20px'
                 }}
               >
-                <X size={20} />
+                <X size={22} />
               </button>
             </div>
 
-            <div style={{ padding: '20px' }}>
+            <div style={{ padding: '22px' }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginBottom: '10px'
+                marginBottom: '12px'
               }}>
                 <h3 style={{
                   margin: 0,
-                  fontSize: '24px',
+                  fontSize: '26px',
                   fontWeight: 900,
+                  fontFamily: '"Outfit", sans-serif',
                   color: '#0F172A'
                 }}>
                   {inspectedCard.name}
@@ -2462,8 +2477,9 @@ export default function InlineSortingActivity({
                   background: inspectedCard.type === 'plant' ? '#DCFCE7' : '#FEF3C7',
                   color: inspectedCard.type === 'plant' ? '#166534' : '#92400E',
                   fontWeight: 800,
-                  fontSize: '18px',
-                  padding: '4px 12px',
+                  fontFamily: '"Outfit", sans-serif',
+                  fontSize: '24px',
+                  padding: '4px 14px',
                   borderRadius: '12px'
                 }}>
                   {inspectedCard.type === 'plant' ? '🌿 Plant' : '🐾 Animal'}
@@ -2471,10 +2487,12 @@ export default function InlineSortingActivity({
               </div>
 
               <p style={{
-                margin: '0 0 16px 0',
-                fontSize: '18px',
-                lineHeight: 1.5,
-                color: '#475569'
+                margin: '0 0 18px 0',
+                fontSize: '22px',
+                lineHeight: 1.55,
+                color: '#334155',
+                fontFamily: '"Inter", sans-serif',
+                textAlign: 'justify'
               }}>
                 {inspectedCard.fact}
               </p>
@@ -2486,10 +2504,11 @@ export default function InlineSortingActivity({
                   background: '#166534',
                   color: '#FFFFFF',
                   border: 'none',
-                  borderRadius: '12px',
+                  borderRadius: '14px',
                   padding: '12px',
-                  fontSize: '18px',
+                  fontSize: '22px',
                   fontWeight: 800,
+                  fontFamily: '"Outfit", sans-serif',
                   cursor: 'pointer'
                 }}
               >

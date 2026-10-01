@@ -1538,8 +1538,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
         .content-box {
           background: rgba(255, 255, 255, 0.08) !important;
-          backdrop-filter: blur(4px) !important;
-          -webkit-backdrop-filter: blur(5px) !important;
+          backdrop-filter: blur(8px) !important;
+          -webkit-backdrop-filter: blur(8px) !important;
         }
 
         .forest-panel {
@@ -1781,25 +1781,28 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             overflow: 'hidden',
             boxSizing: 'border-box'
           }}>
-            {/* LEFT PANEL: Forest Green Box Panel */}
+            {/* LEFT PANEL: Single Unified Box Panel */}
             <div style={{
               position: 'relative',
-              background: 'linear-gradient(145deg, rgba(6, 36, 24, 0.75) 0%, rgba(3, 22, 14, 0.82) 100%)',
-              backdropFilter: 'blur(4px) saturate(180%)',
-              WebkitBackdropFilter: 'blur(2px) saturate(180%)',
+              background: 'linear-gradient(145deg, rgba(6, 36, 24, 0.78) 0%, rgba(3, 22, 14, 0.85) 100%)',
+              backdropFilter: 'blur(8px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(8px) saturate(180%)',
               border: '1.5px solid rgba(167, 243, 208, 0.35)',
-              borderRadius: '20px',
-              padding: 'clamp(16px, 2.2vh, 24px) clamp(18px, 2vw, 24px)',
+              borderRadius: '24px',
+              padding: 'clamp(24px, 3vh, 32px) clamp(24px, 2.4vw, 32px)',
               boxShadow: '0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(16, 185, 129, 0.2)',
               display: 'flex',
               flexDirection: 'column',
-              gap: 'clamp(12px, 1.8vh, 18px)',
-              overflow: 'hidden',
+              justifyContent: 'space-between',
+              height: '100%',
+              overflowY: 'auto',
+              overflowX: 'hidden',
+              scrollbarWidth: 'none',
               boxSizing: 'border-box'
             }}>
-              {/* Header: Subtitle, Title & Intro */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              {/* Top Block: Badge, Title & Intro */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <div style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -1809,15 +1812,15 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     <div style={{
                       display: 'inline-flex',
                       alignItems: 'center',
-                      gap: '6px',
+                      gap: '8px',
                       color: '#A7F3D0',
                       fontWeight: 800,
-                      fontSize: '18px',
+                      fontSize: '24px',
                       letterSpacing: '0.05em',
                       textTransform: 'uppercase',
                       fontFamily: '"Outfit", sans-serif'
                     }}>
-                      <span>🌿</span>
+                      <span style={{ fontSize: '24px' }}>🌿</span>
                       <span>ACTIVITY 2.2</span>
                     </div>
 
@@ -1830,12 +1833,12 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                         background: (isPlayingPart1 || isPlayingPart2) ? 'rgba(245, 158, 11, 0.35)' : 'rgba(255, 255, 255, 0.12)',
                         border: (isPlayingPart1 || isPlayingPart2) ? '1.5px solid #F59E0B' : '1px solid rgba(167, 243, 208, 0.4)',
                         borderRadius: '16px',
-                        padding: '4px 12px',
+                        padding: '6px 16px',
                         color: (isPlayingPart1 || isPlayingPart2) ? '#FEF3C7' : '#ECFDF5',
                         display: 'inline-flex',
                         alignItems: 'center',
-                        gap: '6px',
-                        fontSize: '13px',
+                        gap: '8px',
+                        fontSize: '22px',
                         fontWeight: 800,
                         fontFamily: '"Outfit", sans-serif',
                         cursor: 'pointer',
@@ -1843,7 +1846,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                         transition: 'all 0.2s ease'
                       }}
                     >
-                      {(isPlayingPart1 || isPlayingPart2) ? <Pause size={13} fill="#FEF3C7" /> : <Volume2 size={13} />}
+                      {(isPlayingPart1 || isPlayingPart2) ? <Pause size={18} fill="#FEF3C7" /> : <Volume2 size={18} />}
                       <span>{(isPlayingPart1 || isPlayingPart2) ? 'Pause' : (narrationStep === 'completed' ? 'Replay' : 'Narration')}</span>
                     </button>
                   </div>
@@ -1852,9 +1855,9 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     fontFamily: '"Outfit", sans-serif',
                     color: (isPlayingPart1 && part1ActiveWordIndex >= 0 && part1ActiveWordIndex <= 7) ? '#FEF08A' : '#FCD34D',
                     fontWeight: 900,
-                    fontSize: '26px',
+                    fontSize: '34px',
                     margin: '0',
-                    lineHeight: 1.15,
+                    lineHeight: 1.18,
                     textShadow: (isPlayingPart1 && part1ActiveWordIndex >= 0 && part1ActiveWordIndex <= 7)
                       ? '0 0 18px rgba(253, 224, 71, 0.95), 0 2px 6px rgba(0,0,0,0.95)'
                       : '0 2px 6px rgba(0,0,0,0.95)',
@@ -1866,18 +1869,14 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
                 {/* Intro Text */}
                 <div style={{
-                  fontSize: '18px',
-                  lineHeight: 1.5,
+                  fontSize: '26px',
+                  lineHeight: 1.55,
                   color: '#ECFDF5',
                   fontFamily: '"Inter", sans-serif',
                   fontWeight: 600,
                   textAlign: 'justify',
-                  textJustify: 'inter-word',
                   textShadow: '0 1px 3px rgba(0,0,0,0.9)',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1.2px solid rgba(167, 243, 208, 0.22)',
-                  borderRadius: '14px',
-                  padding: '12px 16px'
+                  margin: 0
                 }}>
                   <NarratedWords
                     words={ecosystemNarrationData.part1.introBoxWords}
@@ -1901,150 +1900,115 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 </div>
               </div>
 
-              {/* Middle Section Cards - Covering vertical space evenly with flex: 1 */}
+              {/* Section 1: Reflect and Remember */}
               <div style={{
-                flex: 1,
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 'clamp(10px, 1.6vh, 16px)',
-                minHeight: 0
+                gap: '10px'
               }}>
-                {/* Section 1: Reflect and Remember */}
                 <div style={{
-                  flex: 1,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  background: (isPlayingPart1 && part1ActiveWordIndex >= 17)
-                    ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.22) 0%, rgba(6, 78, 59, 0.30) 100%)'
-                    : 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 78, 59, 0.18) 100%)',
-                  border: (isPlayingPart1 && part1ActiveWordIndex >= 17) ? '1.5px solid rgba(110, 231, 183, 0.65)' : '1.5px solid rgba(110, 231, 183, 0.3)',
-                  borderLeft: '5px solid #10B981',
-                  borderRadius: '16px',
-                  padding: 'clamp(14px, 2vh, 20px) clamp(16px, 1.6vw, 20px)',
-                  boxShadow: (isPlayingPart1 && part1ActiveWordIndex >= 17) ? '0 6px 20px rgba(16, 185, 129, 0.25)' : '0 4px 16px rgba(0, 0, 0, 0.25)',
-                  transition: 'all 0.25s ease'
+                  fontSize: '28px',
+                  fontWeight: 800,
+                  color: (isPlayingPart1 && part1ActiveWordIndex >= 17) ? '#FEF08A' : '#6EE7B7',
+                  fontFamily: '"Outfit", sans-serif',
+                  lineHeight: 1.25,
+                  textShadow: '0 1px 4px rgba(0,0,0,0.9)',
+                  transition: 'color 0.2s ease'
                 }}>
-                  <div style={{
-                    fontSize: '21px',
-                    fontWeight: 800,
-                    color: '#6EE7B7',
-                    fontFamily: '"Outfit", sans-serif',
-                    lineHeight: 1.2,
-                    textShadow: '0 1px 4px rgba(0,0,0,0.9)'
-                  }}>
-                    Reflect and Remember
-                  </div>
-                  <div style={{
-                    fontSize: '18px',
-                    lineHeight: 1.55,
-                    color: '#FFFFFF',
-                    fontFamily: '"Inter", sans-serif',
-                    fontWeight: 500,
-                    textAlign: 'justify',
-                    textJustify: 'inter-word',
-                    textShadow: '0 1px 3px rgba(0,0,0,0.9)'
-                  }}>
-                    <NarratedWords
-                      words={ecosystemNarrationData.part1.section1Words}
-                      activeIndex={isPlayingPart1 ? part1ActiveWordIndex : -1}
-                      baseIndex={17}
-                      activeStyle={{
-                        color: '#FDE047',
-                        textShadow: '0 0 12px rgba(253, 224, 71, 0.95), 0 1px 3px #000000',
-                        fontWeight: 800,
-                        transform: 'scale(1.06)',
-                        display: 'inline-block'
-                      }}
-                      spokenStyle={{
-                        color: '#6EE7B7'
-                      }}
-                      wordStyle={{
-                        color: '#FFFFFF',
-                        transition: 'all 0.15s ease'
-                      }}
-                    />
-                  </div>
+                  Reflect and Remember
                 </div>
-
-                {/* Section 2: Share Your Observations */}
                 <div style={{
-                  flex: 1,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  background: (isPlayingPart2 && part2ActiveWordIndex >= 4 && part2ActiveWordIndex <= 19)
-                    ? 'linear-gradient(135deg, rgba(52, 211, 153, 0.22) 0%, rgba(4, 120, 87, 0.28) 100%)'
-                    : 'linear-gradient(135deg, rgba(52, 211, 153, 0.10) 0%, rgba(4, 120, 87, 0.16) 100%)',
-                  border: (isPlayingPart2 && part2ActiveWordIndex >= 4 && part2ActiveWordIndex <= 19) ? '1.5px solid rgba(110, 231, 183, 0.65)' : '1.5px solid rgba(110, 231, 183, 0.3)',
-                  borderLeft: '5px solid #34D399',
-                  borderRadius: '16px',
-                  padding: 'clamp(14px, 2vh, 20px) clamp(16px, 1.6vw, 20px)',
-                  boxShadow: (isPlayingPart2 && part2ActiveWordIndex >= 4 && part2ActiveWordIndex <= 19) ? '0 6px 20px rgba(52, 211, 153, 0.25)' : '0 4px 16px rgba(0, 0, 0, 0.25)',
-                  transition: 'all 0.25s ease'
+                  fontSize: '26px',
+                  lineHeight: 1.55,
+                  color: '#FFFFFF',
+                  fontFamily: '"Inter", sans-serif',
+                  fontWeight: 500,
+                  textAlign: 'justify',
+                  textShadow: '0 1px 3px rgba(0,0,0,0.9)'
                 }}>
-                  <div style={{
-                    fontSize: '21px',
-                    fontWeight: 800,
-                    color: '#A7F3D0',
-                    fontFamily: '"Outfit", sans-serif',
-                    lineHeight: 1.2,
-                    textShadow: '0 1px 4px rgba(0,0,0,0.9)'
-                  }}>
-                    Share Your Observations
-                  </div>
-                  <div style={{
-                    fontSize: '18px',
-                    lineHeight: 1.55,
-                    color: '#FFFFFF',
-                    fontFamily: '"Inter", sans-serif',
-                    fontWeight: 500,
-                    textAlign: 'justify',
-                    textJustify: 'inter-word',
-                    textShadow: '0 1px 3px rgba(0,0,0,0.9)'
-                  }}>
-                    <NarratedWords
-                      words={ecosystemNarrationData.part2.section2Words}
-                      activeIndex={isPlayingPart2 ? part2ActiveWordIndex : -1}
-                      baseIndex={4}
-                      activeStyle={{
-                        color: '#FDE047',
-                        textShadow: '0 0 12px rgba(253, 224, 71, 0.95), 0 1px 3px #000000',
-                        fontWeight: 800,
-                        transform: 'scale(1.06)',
-                        display: 'inline-block'
-                      }}
-                      spokenStyle={{
-                        color: '#A7F3D0'
-                      }}
-                      wordStyle={{
-                        color: '#FFFFFF',
-                        transition: 'all 0.15s ease'
-                      }}
-                    />
-                  </div>
+                  <NarratedWords
+                    words={ecosystemNarrationData.part1.section1Words}
+                    activeIndex={isPlayingPart1 ? part1ActiveWordIndex : -1}
+                    baseIndex={17}
+                    activeStyle={{
+                      color: '#FDE047',
+                      textShadow: '0 0 12px rgba(253, 224, 71, 0.95), 0 1px 3px #000000',
+                      fontWeight: 800,
+                      transform: 'scale(1.06)',
+                      display: 'inline-block'
+                    }}
+                    spokenStyle={{
+                      color: '#6EE7B7'
+                    }}
+                    wordStyle={{
+                      color: '#FFFFFF',
+                      transition: 'all 0.15s ease'
+                    }}
+                  />
                 </div>
               </div>
 
-              {/* Bottom Tag */}
+              {/* Section 2: Share Your Observations */}
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px'
+              }}>
+                <div style={{
+                  fontSize: '28px',
+                  fontWeight: 800,
+                  color: (isPlayingPart2 && part2ActiveWordIndex >= 4 && part2ActiveWordIndex <= 19) ? '#FEF08A' : '#A7F3D0',
+                  fontFamily: '"Outfit", sans-serif',
+                  lineHeight: 1.25,
+                  textShadow: '0 1px 4px rgba(0,0,0,0.9)',
+                  transition: 'color 0.2s ease'
+                }}>
+                  Share Your Observations
+                </div>
+                <div style={{
+                  fontSize: '26px',
+                  lineHeight: 1.55,
+                  color: '#FFFFFF',
+                  fontFamily: '"Inter", sans-serif',
+                  fontWeight: 500,
+                  textAlign: 'justify',
+                  textShadow: '0 1px 3px rgba(0,0,0,0.9)'
+                }}>
+                  <NarratedWords
+                    words={ecosystemNarrationData.part2.section2Words}
+                    activeIndex={isPlayingPart2 ? part2ActiveWordIndex : -1}
+                    baseIndex={4}
+                    activeStyle={{
+                      color: '#FDE047',
+                      textShadow: '0 0 12px rgba(253, 224, 71, 0.95), 0 1px 3px #000000',
+                      fontWeight: 800,
+                      transform: 'scale(1.06)',
+                      display: 'inline-block'
+                    }}
+                    spokenStyle={{
+                      color: '#A7F3D0'
+                    }}
+                    wordStyle={{
+                      color: '#FFFFFF',
+                      transition: 'all 0.15s ease'
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Bottom Line / Tag: Integrated cleanly without a box */}
               <div style={{
                 textAlign: 'center',
-                color: '#FDE047',
-                fontSize: '18px',
+                color: (isPlayingPart2 && part2ActiveWordIndex >= 20) ? '#FFFFFF' : '#FDE047',
+                fontSize: '26px',
                 fontWeight: 800,
                 letterSpacing: '0.04em',
                 fontFamily: '"Outfit", sans-serif',
-                padding: '12px 18px',
-                background: (isPlayingPart2 && part2ActiveWordIndex >= 20)
-                  ? 'rgba(245, 158, 11, 0.35)'
-                  : 'rgba(245, 158, 11, 0.15)',
-                border: (isPlayingPart2 && part2ActiveWordIndex >= 20)
-                  ? '1.5px solid rgba(245, 158, 11, 0.8)'
-                  : '1.2px solid rgba(245, 158, 11, 0.4)',
-                borderRadius: '14px',
-                textShadow: '0 1px 4px rgba(0,0,0,0.95)',
+                paddingTop: '16px',
+                borderTop: '1px solid rgba(167, 243, 208, 0.25)',
+                textShadow: (isPlayingPart2 && part2ActiveWordIndex >= 20)
+                  ? '0 0 16px rgba(255, 255, 255, 1), 0 0 24px rgba(253, 224, 71, 0.95)'
+                  : '0 1px 4px rgba(0,0,0,0.95)',
                 transition: 'all 0.25s ease'
               }}>
                 <span>✨ </span>
@@ -2544,8 +2508,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             <div className="content-box" style={{
               width: 'min(95vw, 1260px)',
               background: 'rgba(255, 255, 255, 0.42)',
-              backdropFilter: 'blur(4px) saturate(160%)',
-              WebkitBackdropFilter: 'blur(2px) saturate(160%)',
+              backdropFilter: 'blur(8px) saturate(160%)',
+              WebkitBackdropFilter: 'blur(8px) saturate(160%)',
               border: '1.5px solid rgba(255, 255, 255, 0.6)',
               borderRadius: '24px',
               padding: 'clamp(22px, 3vh, 32px) clamp(16px, 2.2vw, 28px)',
@@ -2563,19 +2527,22 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
+                gap: 'clamp(24px, 3vw, 40px)',
                 zIndex: 2,
                 position: 'relative',
                 background: 'transparent',
                 borderRadius: '16px',
                 padding: '4px 4px 10px',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                width: '100%',
+                boxSizing: 'border-box'
               }}>
-                <div>
+                <div style={{ flex: 1, minWidth: 0, paddingRight: '8px' }}>
                   <div style={{
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '6px',
-                    fontSize: '20px',
+                    fontSize: '22px',
                     fontWeight: 900,
                     color: '#FDE047',
                     letterSpacing: '0.06em',
@@ -2589,22 +2556,23 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   <h2 style={{
                     margin: '2px 0 0',
                     fontFamily: '"Fraunces", Georgia, serif',
-                    fontSize: '24px',
+                    fontSize: '26px',
                     fontWeight: 900,
-                    color: '#FFFFFF',
-                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 18px rgba(0, 0, 0, 0.85)',
+                    color: '#FDE047',
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.98), 0 0 18px rgba(245, 158, 11, 0.65)',
                     lineHeight: 1.15
                   }}>
                     Ecosystem Reflection: Pick 1 Plant &amp; 1 Animal
                   </h2>
                   <div style={{
-                    fontSize: '20px',
+                    fontSize: '22px',
                     color: '#F8FAFC',
                     textShadow: '0 1px 6px rgba(0, 0, 0, 0.95)',
                     fontWeight: 600,
                     marginTop: '4px',
                     fontFamily: '"Inter", sans-serif',
-                    lineHeight: 1.25
+                    lineHeight: 1.35,
+                    textAlign: 'justify'
                   }}>
                     Choose the specimens you observed during your nature walk to contribute to the shared Class Board.
                   </div>
@@ -2648,6 +2616,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 {/* Left Column: Select a Plant */}
                 <div style={{
                   background: 'rgba(240, 253, 244, 0.6)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
                   border: '1.2px solid rgba(134, 239, 172, 0.5)',
                   borderRadius: '16px',
                   padding: 'clamp(12px, 1.5vh, 16px)',
@@ -2666,7 +2636,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     padding: '2px 4px'
                   }}>
                     <span style={{
-                      fontSize: '22px',
+                      fontSize: '24px',
                       fontWeight: 900,
                       color: '#064E3B',
                       fontFamily: '"Outfit", sans-serif',
@@ -2676,12 +2646,13 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                       🍃 Select a Plant
                     </span>
                     <span style={{
-                      fontSize: '20px',
+                      fontSize: '22px',
                       color: '#065F46',
                       fontStyle: 'italic',
                       fontWeight: 600,
                       fontFamily: '"Inter", sans-serif',
-                      lineHeight: 1.25,
+                      lineHeight: 1.35,
+                      textAlign: 'justify',
                       textShadow: '0 1px 2px rgba(255, 255, 255, 0.9)'
                     }}>
                       Plants make our world greener and healthier.
@@ -2731,7 +2702,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                             background: 'linear-gradient(0deg, rgba(6, 40, 25, 0.94) 0%, rgba(6, 40, 25, 0.78) 70%, transparent 100%)',
                             color: '#FFFFFF',
                             padding: '22px 10px 8px',
-                            fontSize: '20px',
+                            fontSize: '22px',
                             fontWeight: 700,
                             fontFamily: '"Outfit", sans-serif',
                             display: 'flex',
@@ -2742,7 +2713,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                             overflow: 'hidden',
                             textOverflow: 'ellipsis'
                           }}>
-                            <span style={{ fontSize: '20px' }}>{PLANT_EMOJIS[p]}</span>
+                            <span style={{ fontSize: '22px' }}>{PLANT_EMOJIS[p]}</span>
                             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{p}</span>
                           </div>
 
@@ -2777,6 +2748,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 {/* Right Column: Select an Animal */}
                 <div style={{
                   background: 'rgba(255, 251, 235, 0.6)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
                   border: '1.2px solid rgba(253, 224, 71, 0.5)',
                   borderRadius: '16px',
                   padding: 'clamp(12px, 1.5vh, 16px)',
@@ -2795,7 +2768,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     padding: '2px 4px'
                   }}>
                     <span style={{
-                      fontSize: '22px',
+                      fontSize: '24px',
                       fontWeight: 900,
                       color: '#451A03',
                       fontFamily: '"Outfit", sans-serif',
@@ -2805,12 +2778,13 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                       🐾 Select an Animal
                     </span>
                     <span style={{
-                      fontSize: '20px',
+                      fontSize: '22px',
                       color: '#78350F',
                       fontStyle: 'italic',
                       fontWeight: 600,
                       fontFamily: '"Inter", sans-serif',
-                      lineHeight: 1.25,
+                      lineHeight: 1.35,
+                      textAlign: 'justify',
                       textShadow: '0 1px 2px rgba(255, 255, 255, 0.9)'
                     }}>
                       Animals keep ecosystems balanced and alive.
@@ -2860,7 +2834,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                             background: 'linear-gradient(0deg, rgba(40, 26, 12, 0.94) 0%, rgba(40, 26, 12, 0.78) 70%, transparent 100%)',
                             color: '#FFFFFF',
                             padding: '22px 10px 8px',
-                            fontSize: '20px',
+                            fontSize: '22px',
                             fontWeight: 700,
                             fontFamily: '"Outfit", sans-serif',
                             display: 'flex',
@@ -2871,7 +2845,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                             overflow: 'hidden',
                             textOverflow: 'ellipsis'
                           }}>
-                            <span style={{ fontSize: '20px' }}>{ANIMAL_EMOJIS[a]}</span>
+                            <span style={{ fontSize: '22px' }}>{ANIMAL_EMOJIS[a]}</span>
                             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{a}</span>
                           </div>
 
@@ -2927,7 +2901,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     borderRadius: '20px',
                     color: '#065F46',
                     padding: '8px 22px',
-                    fontSize: '20px',
+                    fontSize: '22px',
                     fontWeight: 700,
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -2944,7 +2918,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
                 {/* Center: Nature Quote */}
                 <div style={{
-                  fontSize: '20px',
+                  fontSize: '22px',
                   color: '#FFFFFF',
                   textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 12px rgba(0, 0, 0, 0.85)',
                   fontStyle: 'italic',
@@ -3109,7 +3083,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             flex: 1,
             minHeight: 0,
             display: 'grid',
-            gridTemplateColumns: (phase === 'pick' || activeTab === 'quiz') ? '1fr' : 'clamp(330px, 28vw, 380px) minmax(0, 1fr)',
+            gridTemplateColumns: (phase === 'pick' || activeTab === 'quiz') ? '1fr' : 'clamp(430px, 35vw, 510px) minmax(0, 1fr)',
             padding: '0.3rem 0.8rem',
             gap: '0.9rem',
             overflow: 'hidden',
@@ -3122,19 +3096,18 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             {(phase !== 'pick' && activeTab !== 'quiz') && (
               <div style={{
                 position: 'relative',
-                background: 'linear-gradient(145deg, rgba(6, 36, 24, 0.75) 0%, rgba(3, 22, 14, 0.82) 100%)',
-                backdropFilter: 'blur(4px) saturate(180%)',
-                WebkitBackdropFilter: 'blur(2px) saturate(180%)',
+                background: 'linear-gradient(145deg, rgba(6, 36, 24, 0.78) 0%, rgba(3, 22, 14, 0.85) 100%)',
+                backdropFilter: 'blur(8px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(8px) saturate(180%)',
                 border: '1.5px solid rgba(167, 243, 208, 0.35)',
-                borderRadius: '20px',
-                padding: 'clamp(14px, 2vh, 20px) clamp(16px, 1.8vw, 20px)',
+                borderRadius: '24px',
+                padding: 'clamp(14px, 1.8vh, 20px) clamp(18px, 2vw, 24px)',
                 boxShadow: '0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(16, 185, 129, 0.2)',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 'clamp(10px, 1.4vh, 14px)',
-                overflowY: 'auto',
-                overflowX: 'hidden',
-                scrollbarWidth: 'none',
+                justifyContent: 'space-between',
+                height: '100%',
+                overflow: 'hidden',
                 boxSizing: 'border-box'
               }}>
                 {/* Header */}
@@ -3148,15 +3121,15 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     <div style={{
                       display: 'inline-flex',
                       alignItems: 'center',
-                      gap: '6px',
+                      gap: '8px',
                       color: '#A7F3D0',
                       fontWeight: 800,
-                      fontSize: '18px',
+                      fontSize: '23px',
                       letterSpacing: '0.05em',
                       textTransform: 'uppercase',
                       fontFamily: '"Outfit", sans-serif'
                     }}>
-                      <span style={{ fontSize: '18px' }}>🍃</span>
+                      <span style={{ fontSize: '23px' }}>🍃</span>
                       <span>ACTIVITY 2.2</span>
                     </div>
 
@@ -3169,12 +3142,12 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                         background: isPlayingBoardNarration ? 'rgba(245, 158, 11, 0.35)' : 'rgba(255, 255, 255, 0.12)',
                         border: isPlayingBoardNarration ? '1.5px solid #F59E0B' : '1px solid rgba(167, 243, 208, 0.4)',
                         borderRadius: '16px',
-                        padding: '4px 12px',
+                        padding: '4px 14px',
                         color: isPlayingBoardNarration ? '#FEF3C7' : '#ECFDF5',
                         display: 'inline-flex',
                         alignItems: 'center',
-                        gap: '6px',
-                        fontSize: '13px',
+                        gap: '8px',
+                        fontSize: '20px',
                         fontWeight: 800,
                         fontFamily: '"Outfit", sans-serif',
                         cursor: 'pointer',
@@ -3182,7 +3155,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                         transition: 'all 0.2s ease'
                       }}
                     >
-                      {isPlayingBoardNarration ? <Pause size={13} fill="#FEF3C7" /> : <Volume2 size={13} />}
+                      {isPlayingBoardNarration ? <Pause size={16} fill="#FEF3C7" /> : <Volume2 size={16} />}
                       <span>{isPlayingBoardNarration ? 'Pause' : (boardNarrationCompleted ? 'Replay' : 'Narration')}</span>
                     </button>
                   </div>
@@ -3191,7 +3164,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                     fontFamily: '"Outfit", sans-serif',
                     color: (isPlayingBoardNarration && boardActiveWordIndex >= 0 && boardActiveWordIndex <= 5) ? '#FEF08A' : '#FCD34D',
                     fontWeight: 900,
-                    fontSize: '24px',
+                    fontSize: '32px',
                     margin: '0',
                     lineHeight: 1.15,
                     textShadow: (isPlayingBoardNarration && boardActiveWordIndex >= 0 && boardActiveWordIndex <= 5)
@@ -3203,57 +3176,42 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   </h2>
                 </div>
 
-                {/* 4 Observation Points: Styled Cards covering the vertical space evenly without overflow */}
+                {/* 4 Observation Points: Unified Clean Layout without Nested Boxes */}
                 <div style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 'clamp(6px, 1vh, 10px)',
+                  justifyContent: 'space-between',
                   flex: 1,
-                  minHeight: 0,
-                  justifyContent: 'space-between'
+                  padding: 'clamp(4px, 0.8vh, 8px) 0',
+                  gap: 'clamp(8px, 1.2vh, 14px)'
                 }}>
                   {/* Point 1: Our Shared Observations */}
                   <div style={{
-                    flex: 1,
-                    minHeight: 0,
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'center',
-                    gap: '2px',
-                    background: (isPlayingBoardNarration && boardActiveWordIndex >= 6 && boardActiveWordIndex <= 20)
-                      ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(6, 78, 59, 0.36) 100%)'
-                      : 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 78, 59, 0.16) 100%)',
-                    border: (isPlayingBoardNarration && boardActiveWordIndex >= 6 && boardActiveWordIndex <= 20)
-                      ? '1.5px solid rgba(110, 231, 183, 0.8)'
-                      : '1.2px solid rgba(110, 231, 183, 0.28)',
-                    borderLeft: (isPlayingBoardNarration && boardActiveWordIndex >= 6 && boardActiveWordIndex <= 20)
-                      ? '5px solid #34D399'
-                      : '4px solid #10B981',
-                    borderRadius: '12px',
-                    padding: 'clamp(6px, 1vh, 10px) clamp(10px, 1.2vw, 14px)',
-                    boxShadow: (isPlayingBoardNarration && boardActiveWordIndex >= 6 && boardActiveWordIndex <= 20)
-                      ? '0 0 16px rgba(16, 185, 129, 0.35), 0 2px 8px rgba(0, 0, 0, 0.2)'
-                      : '0 2px 8px rgba(0, 0, 0, 0.2)',
-                    boxSizing: 'border-box',
-                    transition: 'all 0.3s ease'
+                    gap: '4px',
+                    flexShrink: 0
                   }}>
                     <div style={{
-                      color: '#6EE7B7',
+                      color: (isPlayingBoardNarration && boardActiveWordIndex >= 6 && boardActiveWordIndex <= 20) ? '#FEF08A' : '#6EE7B7',
                       fontWeight: 800,
                       fontFamily: '"Outfit", sans-serif',
-                      fontSize: '17px',
-                      lineHeight: 1.15
+                      fontSize: '26px',
+                      lineHeight: 1.18,
+                      textShadow: (isPlayingBoardNarration && boardActiveWordIndex >= 6 && boardActiveWordIndex <= 20)
+                        ? '0 0 14px rgba(253, 224, 71, 0.95), 0 1px 3px rgba(0,0,0,0.9)'
+                        : '0 1px 3px rgba(0,0,0,0.8)',
+                      transition: 'all 0.2s ease'
                     }}>
                       Our Shared Observations
                     </div>
                     <div style={{
-                      fontSize: '15px',
-                      lineHeight: 1.35,
+                      fontSize: '23px',
+                      lineHeight: 1.36,
                       color: '#FFFFFF',
                       fontFamily: '"Inter", sans-serif',
                       fontWeight: 500,
                       textAlign: 'justify',
-                      textJustify: 'inter-word',
                       textShadow: '0 1px 3px rgba(0,0,0,0.9)'
                     }}>
                       <NarratedWords
@@ -3277,46 +3235,31 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
                   {/* Point 2: Notice the Diversity */}
                   <div style={{
-                    flex: 1,
-                    minHeight: 0,
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'center',
-                    gap: '2px',
-                    background: (isPlayingBoardNarration && boardActiveWordIndex >= 21 && boardActiveWordIndex <= 32)
-                      ? 'linear-gradient(135deg, rgba(52, 211, 153, 0.24) 0%, rgba(4, 120, 87, 0.32) 100%)'
-                      : 'linear-gradient(135deg, rgba(52, 211, 153, 0.10) 0%, rgba(4, 120, 87, 0.14) 100%)',
-                    border: (isPlayingBoardNarration && boardActiveWordIndex >= 21 && boardActiveWordIndex <= 32)
-                      ? '1.5px solid rgba(110, 231, 183, 0.8)'
-                      : '1.2px solid rgba(110, 231, 183, 0.28)',
-                    borderLeft: (isPlayingBoardNarration && boardActiveWordIndex >= 21 && boardActiveWordIndex <= 32)
-                      ? '5px solid #6EE7B7'
-                      : '4px solid #34D399',
-                    borderRadius: '12px',
-                    padding: 'clamp(6px, 1vh, 10px) clamp(10px, 1.2vw, 14px)',
-                    boxShadow: (isPlayingBoardNarration && boardActiveWordIndex >= 21 && boardActiveWordIndex <= 32)
-                      ? '0 0 16px rgba(52, 211, 153, 0.35), 0 2px 8px rgba(0, 0, 0, 0.2)'
-                      : '0 2px 8px rgba(0, 0, 0, 0.2)',
-                    boxSizing: 'border-box',
-                    transition: 'all 0.3s ease'
+                    gap: '4px',
+                    flexShrink: 0
                   }}>
                     <div style={{
-                      color: '#A7F3D0',
+                      color: (isPlayingBoardNarration && boardActiveWordIndex >= 21 && boardActiveWordIndex <= 32) ? '#FEF08A' : '#A7F3D0',
                       fontWeight: 800,
                       fontFamily: '"Outfit", sans-serif',
-                      fontSize: '17px',
-                      lineHeight: 1.15
+                      fontSize: '26px',
+                      lineHeight: 1.18,
+                      textShadow: (isPlayingBoardNarration && boardActiveWordIndex >= 21 && boardActiveWordIndex <= 32)
+                        ? '0 0 14px rgba(253, 224, 71, 0.95), 0 1px 3px rgba(0,0,0,0.9)'
+                        : '0 1px 3px rgba(0,0,0,0.8)',
+                      transition: 'all 0.2s ease'
                     }}>
                       Notice the Diversity
                     </div>
                     <div style={{
-                      fontSize: '15px',
-                      lineHeight: 1.35,
+                      fontSize: '23px',
+                      lineHeight: 1.36,
                       color: '#FFFFFF',
                       fontFamily: '"Inter", sans-serif',
                       fontWeight: 500,
                       textAlign: 'justify',
-                      textJustify: 'inter-word',
                       textShadow: '0 1px 3px rgba(0,0,0,0.9)'
                     }}>
                       <NarratedWords
@@ -3340,46 +3283,31 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
                   {/* Point 3: What Is Biodiversity? */}
                   <div style={{
-                    flex: 1,
-                    minHeight: 0,
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'center',
-                    gap: '2px',
-                    background: (isPlayingBoardNarration && boardActiveWordIndex >= 33 && boardActiveWordIndex <= 45)
-                      ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(6, 78, 59, 0.36) 100%)'
-                      : 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 78, 59, 0.16) 100%)',
-                    border: (isPlayingBoardNarration && boardActiveWordIndex >= 33 && boardActiveWordIndex <= 45)
-                      ? '1.5px solid rgba(110, 231, 183, 0.8)'
-                      : '1.2px solid rgba(110, 231, 183, 0.28)',
-                    borderLeft: (isPlayingBoardNarration && boardActiveWordIndex >= 33 && boardActiveWordIndex <= 45)
-                      ? '5px solid #34D399'
-                      : '4px solid #10B981',
-                    borderRadius: '12px',
-                    padding: 'clamp(6px, 1vh, 10px) clamp(10px, 1.2vw, 14px)',
-                    boxShadow: (isPlayingBoardNarration && boardActiveWordIndex >= 33 && boardActiveWordIndex <= 45)
-                      ? '0 0 16px rgba(16, 185, 129, 0.35), 0 2px 8px rgba(0, 0, 0, 0.2)'
-                      : '0 2px 8px rgba(0, 0, 0, 0.2)',
-                    boxSizing: 'border-box',
-                    transition: 'all 0.3s ease'
+                    gap: '4px',
+                    flexShrink: 0
                   }}>
                     <div style={{
-                      color: '#6EE7B7',
+                      color: (isPlayingBoardNarration && boardActiveWordIndex >= 33 && boardActiveWordIndex <= 45) ? '#FEF08A' : '#6EE7B7',
                       fontWeight: 800,
                       fontFamily: '"Outfit", sans-serif',
-                      fontSize: '17px',
-                      lineHeight: 1.15
+                      fontSize: '26px',
+                      lineHeight: 1.18,
+                      textShadow: (isPlayingBoardNarration && boardActiveWordIndex >= 33 && boardActiveWordIndex <= 45)
+                        ? '0 0 14px rgba(253, 224, 71, 0.95), 0 1px 3px rgba(0,0,0,0.9)'
+                        : '0 1px 3px rgba(0,0,0,0.8)',
+                      transition: 'all 0.2s ease'
                     }}>
                       What Is Biodiversity?
                     </div>
                     <div style={{
-                      fontSize: '15px',
-                      lineHeight: 1.35,
+                      fontSize: '23px',
+                      lineHeight: 1.36,
                       color: '#FFFFFF',
                       fontFamily: '"Inter", sans-serif',
                       fontWeight: 500,
                       textAlign: 'justify',
-                      textJustify: 'inter-word',
                       textShadow: '0 1px 3px rgba(0,0,0,0.9)'
                     }}>
                       <NarratedWords
@@ -3403,50 +3331,31 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
 
                   {/* Point 4: Living Things Depend on Each Other */}
                   <div style={{
-                    flex: 1,
-                    minHeight: 0,
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'center',
-                    gap: '2px',
-                    background: (isPlayingBoardNarration && boardActiveWordIndex >= 46 && boardActiveWordIndex <= 62)
-                      ? 'linear-gradient(135deg, rgba(52, 211, 153, 0.24) 0%, rgba(4, 120, 87, 0.32) 100%)'
-                      : 'linear-gradient(135deg, rgba(52, 211, 153, 0.10) 0%, rgba(4, 120, 87, 0.14) 100%)',
-                    border: (isPlayingBoardNarration && boardActiveWordIndex >= 46 && boardActiveWordIndex <= 62)
-                      ? '1.5px solid rgba(110, 231, 183, 0.8)'
-                      : '1.2px solid rgba(110, 231, 183, 0.28)',
-                    borderLeft: (isPlayingBoardNarration && boardActiveWordIndex >= 46 && boardActiveWordIndex <= 62)
-                      ? '5px solid #6EE7B7'
-                      : '4px solid #34D399',
-                    borderRadius: '12px',
-                    padding: 'clamp(6px, 1vh, 10px) clamp(10px, 1.2vw, 14px)',
-                    boxShadow: (isPlayingBoardNarration && boardActiveWordIndex >= 46 && boardActiveWordIndex <= 62)
-                      ? '0 0 16px rgba(52, 211, 153, 0.35), 0 2px 8px rgba(0, 0, 0, 0.2)'
-                      : '0 2px 8px rgba(0, 0, 0, 0.2)',
-                    boxSizing: 'border-box',
-                    transition: 'all 0.3s ease'
+                    gap: '4px',
+                    flexShrink: 0
                   }}>
                     <div style={{
-                      color: (isPlayingBoardNarration && boardActiveWordIndex >= 46 && boardActiveWordIndex <= 52) ? '#FDE047' : '#A7F3D0',
+                      color: (isPlayingBoardNarration && boardActiveWordIndex >= 46 && boardActiveWordIndex <= 52) ? '#FEF08A' : '#A7F3D0',
                       fontWeight: 800,
                       fontFamily: '"Outfit", sans-serif',
-                      fontSize: '17px',
-                      lineHeight: 1.15,
+                      fontSize: '26px',
+                      lineHeight: 1.18,
                       textShadow: (isPlayingBoardNarration && boardActiveWordIndex >= 46 && boardActiveWordIndex <= 52)
                         ? '0 0 14px rgba(253, 224, 71, 0.95), 0 1px 3px rgba(0,0,0,0.9)'
-                        : 'none',
+                        : '0 1px 3px rgba(0,0,0,0.8)',
                       transition: 'all 0.2s ease'
                     }}>
                       Living Things Depend on Each Other
                     </div>
                     <div style={{
-                      fontSize: '15px',
-                      lineHeight: 1.35,
+                      fontSize: '23px',
+                      lineHeight: 1.36,
                       color: '#FFFFFF',
                       fontFamily: '"Inter", sans-serif',
                       fontWeight: 500,
                       textAlign: 'justify',
-                      textJustify: 'inter-word',
                       textShadow: '0 1px 3px rgba(0,0,0,0.9)'
                     }}>
                       <NarratedWords
@@ -3469,33 +3378,34 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                   </div>
                 </div>
 
-                {/* Think Prompt: Horizontal Sleek Amber Banner */}
+                {/* Think Question: Dedicated Distinct Amber Box */}
                 <div style={{
                   background: (isPlayingBoardNarration && boardActiveWordIndex >= 63 && boardActiveWordIndex <= 70)
-                    ? 'rgba(245, 158, 11, 0.28)'
+                    ? 'rgba(245, 158, 11, 0.32)'
                     : 'rgba(245, 158, 11, 0.16)',
                   border: (isPlayingBoardNarration && boardActiveWordIndex >= 63 && boardActiveWordIndex <= 70)
-                    ? '1.5px solid rgba(245, 158, 11, 0.95)'
-                    : '1.5px solid rgba(245, 158, 11, 0.5)',
-                  borderRadius: '12px',
-                  padding: '8px 12px',
+                    ? '1.8px solid #F59E0B'
+                    : '1.5px solid rgba(245, 158, 11, 0.55)',
+                  borderRadius: '14px',
+                  padding: 'clamp(8px, 1.1vh, 12px) clamp(12px, 1.2vw, 16px)',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px',
+                  gap: '10px',
                   boxShadow: (isPlayingBoardNarration && boardActiveWordIndex >= 63 && boardActiveWordIndex <= 70)
                     ? '0 0 20px rgba(245, 158, 11, 0.55), 0 4px 14px rgba(0, 0, 0, 0.25)'
                     : '0 4px 14px rgba(0, 0, 0, 0.25)',
                   flexShrink: 0,
+                  marginTop: 'clamp(6px, 1vh, 10px)',
                   transition: 'all 0.3s ease'
                 }}>
-                  <span style={{ fontSize: '20px', flexShrink: 0 }}>💡</span>
+                  <span style={{ fontSize: '24px', flexShrink: 0, lineHeight: 1 }}>💡</span>
                   <div style={{
-                    fontSize: '15px',
+                    fontSize: '22px',
                     color: '#FEF08A',
                     fontFamily: '"Outfit", sans-serif',
-                    lineHeight: 1.25
+                    lineHeight: 1.35
                   }}>
-                    <strong style={{ color: '#FDE047', fontWeight: 900, fontSize: '16px' }}>Think:</strong>{' '}
+                    <strong style={{ color: '#FDE047', fontWeight: 900, fontSize: '23px' }}>Think:</strong>{' '}
                     <NarratedWords
                       words={ecosystemNarrationData.board.thinkWords}
                       activeIndex={isPlayingBoardNarration ? boardActiveWordIndex : -1}
@@ -4458,8 +4368,8 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             right: 0,
             bottom: 0,
             background: 'rgba(2, 20, 14, 0.78)',
-            backdropFilter: 'blur(4px)',
-            WebkitBackdropFilter: 'blur(5px)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -4496,7 +4406,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 boxShadow: '0 2px 10px rgba(217, 119, 6, 0.35)',
                 padding: '6px 14px',
                 borderRadius: '12px',
-                fontSize: '20px',
+                fontSize: '22px',
                 fontWeight: 900,
                 letterSpacing: '0.04em',
                 textTransform: 'uppercase',
@@ -4550,7 +4460,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
             <div>
               <h3 style={{
                 margin: 0,
-                fontSize: '24px',
+                fontSize: '26px',
                 fontWeight: 900,
                 fontFamily: '"Outfit", sans-serif',
                 color: '#FFFFFF',
@@ -4559,7 +4469,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 {previewSpecimen.name}
               </h3>
               <div style={{
-                fontSize: '20px',
+                fontSize: '24px',
                 color: '#FDE68A',
                 fontStyle: 'italic',
                 fontWeight: 700,
@@ -4578,10 +4488,10 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 borderRadius: '12px',
                 padding: '10px 14px'
               }}>
-                <div style={{ fontSize: '20px', fontWeight: 900, color: '#A7F3D0', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                <div style={{ fontSize: '24px', fontWeight: 900, color: '#A7F3D0', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
                   🌿 Role in Ecosystem
                 </div>
-                <div style={{ fontSize: '20px', color: '#F0FDF4', fontWeight: 600, marginTop: '4px', lineHeight: 1.4, textAlign: 'justify', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                <div style={{ fontSize: '22px', color: '#F0FDF4', fontWeight: 600, marginTop: '4px', lineHeight: 1.45, textAlign: 'justify', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
                   {previewSpecimen.type === 'plant' ? ECOLOGICAL_ROLES[previewSpecimen.name] : (ANIMAL_DESCRIPTIONS[previewSpecimen.name] || '')}
                 </div>
               </div>
@@ -4592,10 +4502,10 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 borderRadius: '12px',
                 padding: '10px 14px'
               }}>
-                <div style={{ fontSize: '20px', fontWeight: 900, color: '#FDE68A', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                <div style={{ fontSize: '24px', fontWeight: 900, color: '#FDE68A', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
                   ✨ Class 6 Observation
                 </div>
-                <div style={{ fontSize: '20px', color: '#FEF3C7', fontWeight: 600, marginTop: '4px', lineHeight: 1.4, textAlign: 'justify', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
+                <div style={{ fontSize: '22px', color: '#FEF3C7', fontWeight: 600, marginTop: '4px', lineHeight: 1.45, textAlign: 'justify', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>
                   {previewSpecimen.type === 'plant'
                     ? (PLANT_DESCRIPTIONS[previewSpecimen.name] + ' • Contributes clean air and shade to the school habitat.')
                     : (ANIMAL_DESCRIPTIONS[previewSpecimen.name] + ' • Observed interacting with plants during field walk.')}
@@ -4618,7 +4528,7 @@ export default function AppreciatingBiodiversityActivity({ onBackToDashboard, on
                 border: '2px solid #FDE68A',
                 background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
                 color: '#FFFFFF',
-                fontSize: '20px',
+                fontSize: '22px',
                 fontWeight: 900,
                 fontFamily: '"Outfit", sans-serif',
                 cursor: 'pointer',

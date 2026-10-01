@@ -47,7 +47,7 @@ const BioWord = ({ children, index, activeIndex, isPlaying, color = 'emerald' })
 };
 
 export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(true);
 
   // Real narration audio + word-level highlight sync
   const {
@@ -131,19 +131,19 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
 
         .bio-nav-btn {
           background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
           color: #FFFFFF;
           border: 1.8px solid rgba(255, 255, 255, 0.35);
           border-radius: 12px;
-          padding: 9px 24px;
-          font-size: 16px;
+          padding: 10px 24px;
+          font-size: 22px;
           font-weight: 800;
           font-family: 'Outfit', sans-serif;
           cursor: pointer;
           display: inline-flex;
           align-items: center;
-          gap: 6px;
+          gap: 8px;
           transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
           box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 0 10px rgba(245, 158, 11, 0.15);
           position: relative;
@@ -164,8 +164,8 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
           color: #FFFBEB;
           border: 2px solid rgba(253, 230, 138, 0.85);
           border-radius: 12px;
-          padding: 8px 24px;
-          font-size: 16px;
+          padding: 10px 24px;
+          font-size: 22px;
           font-weight: 900;
           font-family: 'Outfit', sans-serif;
           cursor: pointer;
@@ -173,8 +173,8 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
           align-items: center;
           gap: 8px;
           transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 5px rgba(0, 0, 0, 0.55);
           text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55);
           position: relative;
@@ -226,16 +226,16 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
         pointerEvents: 'none',
         textAlign: 'center',
         background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
         border: '2px solid rgba(253, 230, 138, 0.85)',
         borderRadius: '12px',
-        padding: '7px 28px',
+        padding: '8px 32px',
         boxShadow: '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75)'
       }}>
         <h1 style={{
           margin: 0,
-          fontSize: '24px',
+          fontSize: '26px',
           fontWeight: 900,
           fontFamily: '"Cinzel", Georgia, serif',
           letterSpacing: '0.14em',
@@ -263,9 +263,9 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
           onClick={handlePrevClick}
           aria-label="Previous Page"
           style={{
-            padding: '8px 22px',
-            fontSize: '16px',
-            borderRadius: '10px'
+            padding: '10px 24px',
+            fontSize: '22px',
+            borderRadius: '12px'
           }}
         >
           ← Previous Page
@@ -285,13 +285,13 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
           onClick={handleNextClick}
           aria-label="Next"
           style={{
-            padding: '8px 24px',
-            fontSize: '16px',
-            borderRadius: '10px'
+            padding: '10px 24px',
+            fontSize: '22px',
+            borderRadius: '12px'
           }}
         >
           <span>Next</span>
-          <ArrowRight size={17} strokeWidth={2.5} />
+          <ArrowRight size={22} strokeWidth={2.5} />
         </button>
       </div>
 
@@ -303,15 +303,15 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
             position: 'absolute',
             top: '16px',
             left: '18px',
-            width: 'min(480px, 42vw)',
-            maxHeight: 'calc(100vh - 76px)',
+            width: 'min(550px, 46vw)',
+            maxHeight: 'calc(100vh - 84px)',
             zIndex: 40,
-            backdropFilter: 'blur(4px)',
-            WebkitBackdropFilter: 'blur(2px)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
             background: 'transparent',
-            border: '1.8px solid rgba(167, 243, 208, 0.55)',
+            border: '2px solid rgba(167, 243, 208, 0.60)',
             borderRadius: '24px',
-            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 24px rgba(16, 185, 129, 0.20)',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 24px rgba(16, 185, 129, 0.20)',
             boxSizing: 'border-box',
             display: 'flex',
             flexDirection: 'column',
@@ -327,7 +327,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
             justifyContent: 'space-between',
             flex: 1,
             padding: 'clamp(14px, 2vh, 20px) clamp(16px, 2vw, 22px)',
-            gap: 'clamp(8px, 1.2vh, 14px)',
+            gap: 'clamp(10px, 1.4vh, 16px)',
             position: 'relative',
             zIndex: 5,
             overflowY: 'auto',
@@ -342,15 +342,15 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
               gap: '12px'
             }}>
               <span style={{
-                background: 'linear-gradient(135deg, rgba(24, 36, 14, 0.70) 0%, rgba(12, 22, 8, 0.60) 100%)',
+                background: 'linear-gradient(135deg, rgba(24, 36, 14, 0.75) 0%, rgba(12, 22, 8, 0.70) 100%)',
                 color: '#A7F3D0',
                 border: '1.5px solid rgba(110, 231, 183, 0.55)',
                 boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.20)',
-                padding: '5px 16px',
-                borderRadius: '22px',
+                padding: '6px 18px',
+                borderRadius: '24px',
                 fontFamily: '"Outfit", sans-serif',
                 fontWeight: 800,
-                fontSize: '18px',
+                fontSize: '22px',
                 letterSpacing: '0.04em',
                 textTransform: 'uppercase',
                 display: 'inline-flex',
@@ -358,7 +358,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
                 gap: '8px',
                 textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)'
               }}>
-                <span style={{ fontSize: '18px' }}>🦚</span>
+                <span style={{ fontSize: '22px' }}>🦚</span>
                 <span style={{ color: '#34D399' }}>SACRED GROVES</span>
               </span>
 
@@ -378,13 +378,13 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
                       ? '0 0 16px rgba(16, 185, 129, 0.85), 0 2px 8px rgba(0,0,0,0.4)'
                       : '0 4px 12px rgba(0, 0, 0, 0.35), 0 0 10px rgba(16, 185, 129, 0.25)',
                     borderRadius: '20px',
-                    padding: '4px 14px',
+                    padding: '6px 16px',
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '6px',
                     color: '#FFFFFF',
                     fontWeight: 800,
-                    fontSize: '18px',
+                    fontSize: '22px',
                     fontFamily: '"Outfit", sans-serif',
                     cursor: 'pointer',
                     flexShrink: 0,
@@ -401,12 +401,12 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
                 >
                   {isPlayingConservationAudio ? (
                     <>
-                      <Pause size={15} fill="#FFFFFF" />
+                      <Pause size={18} fill="#FFFFFF" />
                       <span>Pause</span>
                     </>
                   ) : (
                     <>
-                      <Play size={15} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
+                      <Play size={18} fill="#FFFFFF" style={{ marginLeft: '1px' }} />
                       <span>Play</span>
                     </>
                   )}
@@ -422,8 +422,8 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
                     border: '1.5px solid rgba(255, 255, 255, 0.30)',
                     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
                     borderRadius: '10px',
-                    width: '36px',
-                    height: '36px',
+                    width: '40px',
+                    height: '40px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -443,7 +443,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
                     e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)';
                   }}
                 >
-                  <span style={{ fontSize: '18px', fontWeight: 900, lineHeight: 1 }}>✕</span>
+                  <span style={{ fontSize: '22px', fontWeight: 900, lineHeight: 1 }}>✕</span>
                 </button>
               </div>
             </div>
@@ -457,7 +457,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
               <h2 style={{
                 fontFamily: '"Outfit", sans-serif',
                 fontWeight: 900,
-                fontSize: '24px',
+                fontSize: '26px',
                 margin: 0,
                 color: '#34D399',
                 lineHeight: 1.25,
@@ -474,12 +474,12 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
             <div style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '10px'
+              gap: '12px'
             }}>
               {/* Section 1: Protected by Tradition */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <div style={{
-                  fontSize: '21px',
+                  fontSize: '24px',
                   fontWeight: 800,
                   color: '#6EE7B7',
                   display: 'flex',
@@ -488,7 +488,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
                   fontFamily: '"Outfit", sans-serif',
                   textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(110, 231, 183, 0.4)'
                 }}>
-                  <span style={{ fontSize: '21px' }}>🌳</span>
+                  <span style={{ fontSize: '24px' }}>🌳</span>
                   <span>
                     <BioWord index={2} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>Protected</BioWord>{' '}
                     <BioWord index={3} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio}>by</BioWord>{' '}
@@ -496,11 +496,11 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
                   </span>
                 </div>
                 <div style={{
-                  fontSize: '18px',
+                  fontSize: '22px',
                   color: '#E2E8F0',
                   textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
-                  fontWeight: 500,
-                  lineHeight: 1.6,
+                  fontWeight: 700,
+                  lineHeight: 1.45,
                   fontFamily: '"Inter", sans-serif',
                   textAlign: 'justify',
                   textJustify: 'inter-word'
@@ -530,7 +530,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
               {/* Section 2: A Home for Wildlife */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <div style={{
-                  fontSize: '21px',
+                  fontSize: '24px',
                   fontWeight: 800,
                   color: '#7DD3FC',
                   display: 'flex',
@@ -539,7 +539,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
                   fontFamily: '"Outfit", sans-serif',
                   textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(125, 211, 252, 0.4)'
                 }}>
-                  <span style={{ fontSize: '21px' }}>🌿</span>
+                  <span style={{ fontSize: '24px' }}>🌿</span>
                   <span>
                     <BioWord index={22} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">A</BioWord>{' '}
                     <BioWord index={23} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="cyan">Home</BioWord>{' '}
@@ -548,11 +548,11 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
                   </span>
                 </div>
                 <div style={{
-                  fontSize: '18px',
+                  fontSize: '22px',
                   color: '#E0F2FE',
                   textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
-                  fontWeight: 500,
-                  lineHeight: 1.6,
+                  fontWeight: 700,
+                  lineHeight: 1.45,
                   fontFamily: '"Inter", sans-serif',
                   textAlign: 'justify',
                   textJustify: 'inter-word'
@@ -575,7 +575,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
               {/* Section 3: Community Conservation */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <div style={{
-                  fontSize: '21px',
+                  fontSize: '24px',
                   fontWeight: 800,
                   color: '#FBBF24',
                   display: 'flex',
@@ -584,18 +584,18 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
                   fontFamily: '"Outfit", sans-serif',
                   textShadow: '0 2px 8px rgba(0, 0, 0, 0.98), 0 0 16px rgba(251, 191, 36, 0.45)'
                 }}>
-                  <span style={{ fontSize: '21px' }}>🤝</span>
+                  <span style={{ fontSize: '24px' }}>🤝</span>
                   <span>
                     <BioWord index={46} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">Community</BioWord>{' '}
                     <BioWord index={47} activeIndex={conservationActiveWordIndex} isPlaying={isPlayingConservationAudio} color="amber">Conservation</BioWord>
                   </span>
                 </div>
                 <div style={{
-                  fontSize: '18px',
+                  fontSize: '22px',
                   color: '#FEF3C7',
                   textShadow: '0 1px 6px rgba(0, 0, 0, 0.98), 0 0 10px rgba(0, 0, 0, 0.5)',
-                  fontWeight: 500,
-                  lineHeight: 1.6,
+                  fontWeight: 700,
+                  lineHeight: 1.45,
                   fontFamily: '"Inter", sans-serif',
                   textAlign: 'justify',
                   textJustify: 'inter-word'
@@ -619,8 +619,8 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
 
               {/* Callout box: Think */}
               <div style={{
-                background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.16) 100%)',
-                border: '1.5px solid rgba(253, 230, 138, 0.45)',
+                background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.20) 100%)',
+                border: '1.5px solid rgba(253, 230, 138, 0.55)',
                 borderRadius: '14px',
                 padding: '10px 14px',
                 boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
@@ -628,14 +628,14 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
                 alignItems: 'flex-start',
                 gap: '10px'
               }}>
-                <span style={{ fontSize: '18px', lineHeight: 1 }}>💡</span>
+                <span style={{ fontSize: '24px', lineHeight: 1 }}>💡</span>
                 <div style={{
-                  fontSize: '18px',
+                  fontSize: '22px',
                   color: '#FCD34D',
                   fontWeight: 700,
                   fontStyle: 'italic',
                   fontFamily: '"Outfit", sans-serif',
-                  lineHeight: 1.5,
+                  lineHeight: 1.45,
                   textAlign: 'justify',
                   textJustify: 'inter-word',
                   textShadow: '0 1px 6px rgba(0, 0, 0, 0.95), 0 0 12px rgba(252, 211, 77, 0.3)'
@@ -675,11 +675,11 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
             zIndex: 35,
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '8px',
-            padding: '12px 18px 12px 14px',
+            gap: '10px',
+            padding: '14px 20px 14px 16px',
             background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.28) 52%, rgba(0, 0, 0, 0.60) 100%), linear-gradient(135deg, rgba(6, 44, 28, 0.90) 0%, rgba(2, 24, 14, 0.94) 100%)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
             color: '#FFFBEB',
             border: '2px solid rgba(253, 230, 138, 0.85)',
             borderLeft: 'none',
@@ -688,7 +688,7 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
             cursor: 'pointer',
             fontFamily: '"Outfit", sans-serif',
             fontWeight: 900,
-            fontSize: '15px',
+            fontSize: '22px',
             textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 14px rgba(253, 230, 138, 0.55)',
             transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)'
           }}
@@ -703,8 +703,8 @@ export default function ConservationPage({ onPreviousPage, onNext, onBack }) {
             e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.70), 0 0 20px rgba(245, 158, 11, 0.25)';
           }}
         >
-          <BookOpen size={18} color="#FFFBEB" strokeWidth={2.5} />
-          <ChevronRight size={22} color="#FFFFFF" strokeWidth={3} />
+          <BookOpen size={22} color="#FFFBEB" strokeWidth={2.5} />
+          <ChevronRight size={26} color="#FFFFFF" strokeWidth={3} />
         </button>
       )}
     </div>

@@ -78,7 +78,6 @@ import Activity2_10Lab from './Activity2_10Lab';
 import RhododendronsPage from './RhododendronsPage';
 import HabitatsPage from './HabitatsPage';
 import AdaptationsPage from './AdaptationsPage';
-import PlantGroupsPage from './PlantGroupsPage';
 import ConservationPage from './ConservationPage';
 import AdaptationsLab from './AdaptationsLab';
 import ConservationLab from './ConservationLab';
@@ -126,8 +125,6 @@ function getActiveTabNarration(step, section1SubTab, venationSubTab, habitatSubT
       return "Desert Adaptations and The Ship of the Desert. Learn how camels and desert plants have specialized features like wide padded feet, humps for storing fat, and reduced leaves to survive extreme desert conditions.";
     } else if (habitatSubTab === 'habitats_page') {
       return "Habitats and the Biosphere. A habitat is the natural home providing food, water, air, and shelter for living organisms. All living regions on Earth form the biosphere.";
-    } else if (habitatSubTab === 'plant_groups_page') {
-      return "Botanical Classification and Plant Groups. Plants are categorized into tender green herbs, woody branching shrubs, and tall canopy trees, with distinct root and leaf venation architectures.";
     } else if (habitatSubTab === 'conservation_page') {
       return "Conservation and Sacred Groves. Sacred groves are patches of forest protected by local communities because of cultural or religious traditions, sheltering native wildlife and medicinal plants.";
     } else if (habitatSubTab === 'adaptations') {
@@ -444,10 +441,6 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         return;
       }
       if (habitatSubTab === 'habitats_page') {
-        setHabitatSubTab('plant_groups_page');
-        return;
-      }
-      if (habitatSubTab === 'plant_groups_page') {
         setHabitatSubTab('conservation_page');
         return;
       }
@@ -581,10 +574,6 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
         return;
       }
       if (habitatSubTab === 'conservation_page') {
-        setHabitatSubTab('plant_groups_page');
-        return;
-      }
-      if (habitatSubTab === 'plant_groups_page') {
         setHabitatSubTab('habitats_page');
         return;
       }
@@ -641,7 +630,6 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
       if (habitatSubTab === 'rhododendrons_page') return 'Curriculum Lesson · Rhododendrons';
       if (habitatSubTab === 'adaptations_page') return 'Curriculum Lesson · Adaptations';
       if (habitatSubTab === 'habitats_page') return 'Curriculum Lesson · Habitats';
-      if (habitatSubTab === 'plant_groups_page') return 'Curriculum Lesson · Plant Groups';
       if (habitatSubTab === 'conservation_page') return 'Curriculum Lesson · Sacred Groves';
       if (habitatSubTab === 'adaptations') return 'Activity 2.10 · Adaptations';
       return 'Conservation · Sacred Groves';
@@ -674,8 +662,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
       if (habitatSubTab === 'activity2_10') return 'Next: Rhododendrons Lesson';
       if (habitatSubTab === 'rhododendrons_page') return 'Next: Adaptations Lesson';
       if (habitatSubTab === 'adaptations_page') return 'Next: Habitats Lesson';
-      if (habitatSubTab === 'habitats_page') return 'Next: Plant Groups Lesson';
-      if (habitatSubTab === 'plant_groups_page') return 'Next: Sacred Groves Lesson';
+      if (habitatSubTab === 'habitats_page') return 'Next: Sacred Groves Lesson';
       if (habitatSubTab === 'conservation_page') return 'Next: Adaptations Lab';
       if (habitatSubTab === 'adaptations') return 'Next: Conservation Lab';
       return 'Next: Chapter Evaluation';
@@ -2225,18 +2212,12 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
             {habitatSubTab === 'habitats_page' && (
               <HabitatsPage 
                 onPreviousPage={() => setHabitatSubTab('adaptations_page')} 
-                onNext={() => setHabitatSubTab('plant_groups_page')} 
-              />
-            )}
-            {habitatSubTab === 'plant_groups_page' && (
-              <PlantGroupsPage 
-                onPreviousPage={() => setHabitatSubTab('habitats_page')} 
                 onNext={() => setHabitatSubTab('conservation_page')} 
               />
             )}
             {habitatSubTab === 'conservation_page' && (
               <ConservationPage 
-                onPreviousPage={() => setHabitatSubTab('plant_groups_page')} 
+                onPreviousPage={() => setHabitatSubTab('habitats_page')} 
                 onNext={() => setHabitatSubTab('adaptations')} 
               />
             )}
