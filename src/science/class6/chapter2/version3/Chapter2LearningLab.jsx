@@ -1144,8 +1144,7 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
               onClick={() => {
                 if (heightVideoRef.current) heightVideoRef.current.pause();
                 setIsPlayingHeightVideo(false);
-                setIsPlayingAct24Transition(true);
-                setIsAct24TransitionEnded(false);
+                  setCurrentStep(4);
               }}
               style={{
                 position: 'absolute',
