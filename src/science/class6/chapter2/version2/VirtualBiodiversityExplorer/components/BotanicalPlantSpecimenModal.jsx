@@ -166,12 +166,14 @@ export default function BotanicalPlantSpecimenModal({ plant, onClose, plantImage
   const isThinkActive = isSpeaking && thinkSec && activeWordIndex >= (thinkSec.activeStart ?? (thinkSec.start > 20 ? thinkSec.start - 2 : thinkSec.start)) && activeWordIndex < thinkSec.end;
 
   const karaokeActiveStyle = {
-    color: '#0F172A',
-    background: 'linear-gradient(135deg, #FDE047 0%, #F59E0B 100%)',
-    padding: '1px 6px',
-    borderRadius: '5px',
+    color: '#FFFFFF',
+    background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+    padding: '2px 8px',
+    borderRadius: '6px',
     fontWeight: 900,
-    boxShadow: '0 0 16px rgba(253, 224, 71, 0.95), 0 2px 6px rgba(0, 0, 0, 0.85)',
+    boxShadow: '0 0 18px rgba(52, 211, 153, 0.95), 0 2px 8px rgba(0, 0, 0, 0.75)',
+    border: '1px solid rgba(167, 243, 208, 0.65)',
+    textShadow: '0 1px 3px rgba(0, 0, 0, 0.95), 0 0 8px rgba(0, 0, 0, 0.8)',
     display: 'inline-block',
     transform: 'scale(1.06)'
   };
