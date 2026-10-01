@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
+import MovingFieldArrows from './MovingFieldArrows';
 import '../MagnetInteraction.css';
 
 // ─── Synthesized Web Audio Sound Engine ───
@@ -136,6 +137,12 @@ function HighResWoodenJeep({
           pointerEvents: 'none',
           zIndex: 4,
         }}
+      />
+
+      {/* ── Continuously Moving Magnetic Field Arrows ── */}
+      <MovingFieldArrows
+        carSide={carSide}
+        carsMode={carsMode}
       />
     </div>
   );
