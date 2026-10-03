@@ -2353,7 +2353,7 @@ export default function InteractiveModal({
             >
               <ArrowLeft size={18} /> Back to Map
             </button>
-            <VisualisingSequences onNext={() => { onCompleteNode('1.3'); onClose(); }} />
+            <VisualisingSequences version={node.version || 1} onNext={() => { onCompleteNode('1.3'); onClose(); }} />
           </div>
         </Suspense>
       </ErrorBoundary>

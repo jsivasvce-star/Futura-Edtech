@@ -472,8 +472,16 @@ export default function Simulation({ onComplete, onNext }) {
         position: 'relative'
       }}
     >
-      {/* Left Column: 2× Scaled Typography with Exact Layout & Content */}
-      <div className="stage-left-column">
+      {/* Left Column: Vertically Centered */}
+      <div 
+        className="stage-left-column"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          height: '100%'
+        }}
+      >
         {/* Container 1: Explore the compass */}
         <div 
           className="stage-container-1"
@@ -483,36 +491,39 @@ export default function Simulation({ onComplete, onNext }) {
             border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
             boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
-            padding: '1.2rem 1.55rem',
+            padding: '1.5rem 1.75rem',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
-            gap: '0.85rem',
+            gap: '1.25rem',
             boxSizing: 'border-box'
           }}
         >
           {/* Header */}
-          <h3 style={{ margin: 0, fontSize: '2.15rem', fontWeight: 900, color: '#1E1B4B', letterSpacing: '-0.02em' }}>
-            Explore the compass
-          </h3>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <BookOpen size={36} color="#173B5F" strokeWidth={2.5} />
+            <h3 style={{ margin: 0, fontSize: '2.5rem', fontWeight: 900, color: '#1E1B4B', letterSpacing: '-0.02em' }}>
+              Explore the compass
+            </h3>
+          </div>
 
-          {/* 4 Numbered Steps with 2× Scaled Text */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          {/* 4 Numbered Steps with Scaled Text */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
             {[
               { num: '1', text: 'Click Start Demo to move the magnet through four positions.' },
               { num: '2', text: 'Watch the needle turn as the magnet moves nearby.' },
               { num: '3', text: 'Move the magnet farther away and watch the needle settle.' },
               { num: '4', text: 'Flip or drag the magnet to explore a new direction.' }
             ].map((step) => (
-              <div key={step.num} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <div className="gold-step-badge">
+              <div key={step.num} style={{ display: 'flex', alignItems: 'center', gap: '1.1rem' }}>
+                <div className="gold-step-badge" style={{ width: '44px', height: '44px', fontSize: '1.55rem' }}>
                   {step.num}
                 </div>
                 <span style={{
-                  fontSize: '1.45rem',
+                  fontSize: '1.75rem',
                   color: '#173B5F',
                   fontWeight: 700,
-                  lineHeight: 1.35
+                  lineHeight: 1.38
                 }}>
                   {step.text}
                 </span>
@@ -524,147 +535,18 @@ export default function Simulation({ onComplete, onNext }) {
           <div style={{
             background: '#FEF9C3',
             border: '1.5px solid #FDE047',
-            borderRadius: '16px',
-            padding: '0.75rem 1.15rem',
+            borderRadius: '18px',
+            padding: '1rem 1.35rem',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.85rem'
+            gap: '1rem',
+            marginTop: '0.35rem'
           }}>
-            <span style={{ fontSize: '1.6rem' }}>💡</span>
-            <span style={{ fontSize: '1.38rem', fontWeight: 800, color: '#1E1B4B', lineHeight: 1.25 }}>
+            <span style={{ fontSize: '1.85rem' }}>💡</span>
+            <span style={{ fontSize: '1.65rem', fontWeight: 800, color: '#1E1B4B', lineHeight: 1.3 }}>
               A compass needle is a small magnet.
             </span>
           </div>
-        </div>
-
-        {/* Container 2: Observation status */}
-        <div 
-          className="stage-container-2"
-          style={{
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)',
-            border: '1.5px solid #E2E8F0',
-            borderRadius: '24px',
-            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
-            padding: '1.2rem 1.55rem',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            gap: '0.85rem',
-            boxSizing: 'border-box'
-          }}
-        >
-          {/* Header Row */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ margin: 0, fontSize: '2.15rem', fontWeight: 900, color: '#1E1B4B', letterSpacing: '-0.02em' }}>
-              Observation status
-            </h3>
-            <span style={{
-              background: '#DCFCE7',
-              color: '#15803D',
-              fontWeight: 900,
-              fontSize: '1.15rem',
-              padding: '0.35rem 0.95rem',
-              borderRadius: '20px',
-              border: '1.5px solid #86EFAC'
-            }}>
-              Step {currentStep} of 4
-            </span>
-          </div>
-
-          {/* Status Box 1: Magnet position */}
-          <div style={{
-            background: '#FFFFFF',
-            border: '1.5px solid #E2E8F0',
-            borderRadius: '16px',
-            padding: '0.75rem 1.25rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.25rem',
-            boxShadow: '0 2px 6px rgba(0,0,0,0.02)'
-          }}>
-            <span style={{ fontSize: '1.2rem', fontWeight: 800, color: '#173B5F' }}>
-              Magnet position
-            </span>
-            <span style={{ fontSize: '1.45rem', fontWeight: 900, color: '#1E1B4B' }}>
-              {positionDisplay}
-            </span>
-          </div>
-
-          {/* Status Box 2: Magnet orientation */}
-          <div style={{
-            background: '#FFFFFF',
-            border: '1.5px solid #E2E8F0',
-            borderRadius: '16px',
-            padding: '0.75rem 1.25rem',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            boxShadow: '0 2px 6px rgba(0,0,0,0.02)'
-          }}>
-            <span style={{ fontSize: '1.2rem', fontWeight: 800, color: '#173B5F' }}>
-              Magnet orientation
-            </span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-              {/* Visual 2-Pole Magnet Pill */}
-              <div style={{
-                display: 'flex',
-                borderRadius: '8px',
-                overflow: 'hidden',
-                border: '1px solid #0F172A',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
-              }}>
-                <div style={{
-                  background: isFlipped ? '#1D4ED8' : '#DC2626',
-                  color: '#FFFFFF',
-                  padding: '3px 12px',
-                  fontWeight: 900,
-                  fontSize: '1.15rem'
-                }}>
-                  {isFlipped ? 'S' : 'N'}
-                </div>
-                <div style={{
-                  background: isFlipped ? '#DC2626' : '#1D4ED8',
-                  color: '#FFFFFF',
-                  padding: '3px 12px',
-                  fontWeight: 900,
-                  fontSize: '1.15rem'
-                }}>
-                  {isFlipped ? 'N' : 'S'}
-                </div>
-              </div>
-              <span style={{ fontSize: '1.45rem', fontWeight: 900, color: '#1E1B4B' }}>
-                {isFlipped ? 'S → N' : 'N → S'}
-              </span>
-            </div>
-          </div>
-
-          {/* Helper Prompt Text */}
-          <div style={{ fontSize: '1.25rem', color: '#173B5F', fontWeight: 600 }}>
-            Watch what changes when the magnet moves closer.
-          </div>
-
-          {/* Bottom Action Button: Proceed to Quiz */}
-          <button
-            type="button"
-            onClick={onNext}
-            className="gold-glow-btn"
-            style={{
-              width: '100%',
-              padding: '0.95rem 1.8rem',
-              fontSize: '1.45rem',
-              fontWeight: 900,
-              borderRadius: '16px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: '0.65rem',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease'
-            }}
-          >
-            Proceed to Quiz <ArrowRight size={22} color="#FFFFFF" />
-          </button>
         </div>
       </div>
 

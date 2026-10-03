@@ -5,6 +5,7 @@ import TriangularNumbersRecall from './TriangularNumbersRecall';
 import CubeNumbersInteractive from './CubeNumbersInteractive';
 import RealisticCube3D from './RealisticCube3D';
 import video36dots from '../36dots.mp4';
+import VisualisingSequencesV2 from './version-2/VisualisingSequencesV2';
 import page1Audio from './audio/page1.mp3';
 import page2Audio from './audio/page2.mp3';
 import page3Audio from './audio/page3.mp3';
@@ -696,7 +697,7 @@ const CONCEPTS = [
   { id: 11, title: 'The same 36 dots', subtitle: 'Change the shape. Keep every dot.', watchDesc: 'The colours travel with the dots. The total stays the same.', watchAnswer: 'No dots are added or removed during the move.', question: 'What stays the same when the triangle becomes a square?', seqList: 'Count the dots in either shape.', options: [30, 36, 42], correctOption: 36, discoveredTitle: 'The same 36 dots fit into a triangle and a square.', discoveredDesc: 'The triangle has 8 growing rows: 1 + 2 + ... + 8 = 36. The square has 6 equal rows: 6 x 6 = 36.', nextTitle: 'Finish', questionPic: 6, color: '#38bdf8', Visualizer: Visualizer36Dots }
 ];
 
-export default function VisualisingSequences({ onNext }) {
+export default function VisualisingSequences({ onNext, version = 1 }) {
   const [conceptIdx, setConceptIdx] = useState(0); 
   const [tab, setTab] = useState('watch');
   const [step, setStep] = useState(1); 
@@ -728,7 +729,7 @@ export default function VisualisingSequences({ onNext }) {
     const correctSrc = conceptIdx === 9 ? p13CorrectAudioFile : (conceptIdx === 8 ? p12CorrectAudioFile : (conceptIdx === 7 ? p11CorrectAudioFile : (conceptIdx === 6 ? p10CorrectAudioFile : (conceptIdx === 5 ? p6CorrectAudioFile : (conceptIdx === 4 ? p5CorrectAudioFile : (conceptIdx === 3 ? p4CorrectAudioFile : (conceptIdx === 2 ? p3CorrectAudioFile : (conceptIdx === 1 ? p2CorrectAudioFile : p1CorrectAudioFile))))))));
     correctAudioRef.current = new Audio(correctSrc);
     
-    if (tab !== 'watch') {
+    if (tab !== 'watch' || version === 2) {
        return;
     }
 
@@ -906,6 +907,14 @@ export default function VisualisingSequences({ onNext }) {
     }
   };
 
+  if (version === 2) {
+    return (
+      <div style={{ position: 'relative', width: '100%', height: '100%', background: 'white', minHeight: '600px' }}>
+        <VisualisingSequencesV2 onNext={onNext} />
+      </div>
+    );
+  }
+
   if (!concept) return null;
 
   if (conceptIdx === 6 && tab === 'interactive') {
@@ -913,10 +922,11 @@ export default function VisualisingSequences({ onNext }) {
   }
 
   return (
-    <div>
-      {/* Dynamic Aurora/Space Background */}
-      <div className="bg-image" />
-      <div className="bg-overlay" />
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+      <div>
+        {/* Dynamic Aurora/Space Background */}
+        <div className="bg-image" />
+        <div className="bg-overlay" />
 
 
       {/* Main Content Area (Glass Card) */}
@@ -1250,6 +1260,7 @@ export default function VisualisingSequences({ onNext }) {
           75% { transform: translateX(-5px); }
         }
       `}</style>
+      </div>
     </div>
   );
 }

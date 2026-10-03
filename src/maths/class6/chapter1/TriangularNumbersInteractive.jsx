@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import questionMarkImage from '../qn.png';
 import triImage from '../tri.png';
+import { Volume2, VolumeX } from 'lucide-react';
+import page4Audio from './version-2/audio/page4.mp3';
+import page5Audio from './version-2/audio/page5.mp3';
+import page6Audio from './audio/page6.mp3';
 
 const STEPS = [
   {
@@ -68,11 +72,51 @@ function getDotPositions(rows) {
 export default function TriangularNumbersInteractive({ onNext, onPrev }) {
   const [step, setStep] = useState(0);
   const [placedDots, setPlacedDots] = useState([]); // array of ids
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const audioRef = useRef(null);
 
   const currentConfig = STEPS[step];
   const allPositions = getDotPositions(currentConfig.rows);
   
   const isComplete = placedDots.length === currentConfig.newDots;
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    
+    let audioSrc = null;
+    if (step === 0) audioSrc = page4Audio;
+    else if (step === 1) audioSrc = page5Audio;
+    else if (step === 2) audioSrc = page6Audio;
+    
+    if (audioSrc) {
+      const newAudio = new Audio(audioSrc);
+      audioRef.current = newAudio;
+      
+      const handleEnded = () => setIsPlayingAudio(false);
+      newAudio.addEventListener('ended', handleEnded);
+      
+      newAudio.play().then(() => setIsPlayingAudio(true)).catch(err => console.log("Audio play failed:", err));
+      
+      return () => {
+        newAudio.removeEventListener('ended', handleEnded);
+        newAudio.pause();
+      };
+    }
+  }, [step]);
+
+  const toggleAudio = () => {
+    if (!audioRef.current) return;
+    if (isPlayingAudio) {
+      audioRef.current.pause();
+      setIsPlayingAudio(false);
+    } else {
+      audioRef.current.play().catch(e => console.log("Audio play failed:", e));
+      setIsPlayingAudio(true);
+    }
+  };
 
   // Initialize placed dots when step changes
   useEffect(() => {
@@ -116,6 +160,9 @@ export default function TriangularNumbersInteractive({ onNext, onPrev }) {
             {currentConfig.subtitle}
           </h2>
         </div>
+        <button onClick={toggleAudio} style={{ backgroundColor: 'rgba(255,255,255,0.05)', color: '#cbd5e1', border: '1px solid rgba(255,255,255,0.1)', padding: '10px 20px', borderRadius: '12px', fontSize: '15px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', ...(isPlayingAudio ? {backgroundColor: 'rgba(255,255,255,0.1)', color: '#fff', borderColor: 'rgba(255,255,255,0.2)'} : {})}}>
+          {isPlayingAudio ? <Volume2 size={18} /> : <VolumeX size={18} />} Listen
+        </button>
       </div>
 
       {/* Main Content Area */}

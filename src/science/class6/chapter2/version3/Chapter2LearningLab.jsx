@@ -1124,8 +1124,12 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
               playsInline 
               onEnded={() => {
                 setIsPlayingAct24Transition(false);
-                setIsPlayingHeightVideo(true);
-              }}
+                if (transitionDirection === 'backward') {
+                    setCurrentStep(transitionTargetStep || 4);
+                  } else {
+                    setIsPlayingHeightVideo(true);
+                  }
+                }}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
           </div>
@@ -1144,26 +1148,27 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
               onClick={() => {
                 if (heightVideoRef.current) heightVideoRef.current.pause();
                 setIsPlayingHeightVideo(false);
-                setIsPlayingAct24Transition(true);
-                setIsAct24TransitionEnded(false);
+                  setTransitionDirection('backward');
+                  setTransitionTargetStep(4);
+                  setIsPlayingAct24Transition(true);
               }}
               style={{
                 position: 'absolute',
                 left: '32px',
                 bottom: '80px',
                 zIndex: 10001,
-                background: 'rgba(243, 239, 224, 0.9)',
-                color: '#1E293B',
-                border: 'none',
-                borderRadius: '12px',
-                padding: '12px 28px',
+                background: 'linear-gradient(145deg, #112A1F 0%, #081510 100%)',
+                color: 'white',
+                border: '1.5px solid #FCD34D',
+                borderRadius: '40px',
+                padding: '10px 24px',
                 fontSize: '18px',
                 fontWeight: '700',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
                 cursor: 'pointer',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255,255,255,0.1)'
               }}
             >
               <ArrowLeft size={20} /> Back
@@ -1179,18 +1184,18 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 right: '32px',
                 bottom: '80px',
                 zIndex: 10001,
-                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                color: '#FFFFFF',
-                border: 'none',
-                borderRadius: '12px',
-                padding: '12px 32px',
+                background: 'linear-gradient(145deg, #112A1F 0%, #081510 100%)',
+                color: 'white',
+                border: '1.5px solid #FCD34D',
+                borderRadius: '40px',
+                padding: '10px 24px',
                 fontSize: '18px',
-                fontWeight: '800',
+                fontWeight: '700',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
                 cursor: 'pointer',
-                boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255,255,255,0.1)'
               }}
             >
               Next <ArrowRight size={20} />
@@ -1218,18 +1223,18 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 left: '32px',
                 bottom: '80px',
                 zIndex: 10001,
-                background: 'rgba(243, 239, 224, 0.9)',
-                color: '#1E293B',
-                border: 'none',
-                borderRadius: '12px',
-                padding: '12px 28px',
+                background: 'linear-gradient(145deg, #112A1F 0%, #081510 100%)',
+                color: 'white',
+                border: '1.5px solid #FCD34D',
+                borderRadius: '40px',
+                padding: '10px 24px',
                 fontSize: '18px',
                 fontWeight: '700',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
                 cursor: 'pointer',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255,255,255,0.1)'
               }}
             >
               <ArrowLeft size={20} /> Back
@@ -1245,18 +1250,18 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 right: '32px',
                 bottom: '80px',
                 zIndex: 10001,
-                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                color: '#FFFFFF',
-                border: 'none',
-                borderRadius: '12px',
-                padding: '12px 32px',
+                background: 'linear-gradient(145deg, #112A1F 0%, #081510 100%)',
+                color: 'white',
+                border: '1.5px solid #FCD34D',
+                borderRadius: '40px',
+                padding: '10px 24px',
                 fontSize: '18px',
-                fontWeight: '800',
+                fontWeight: '700',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
                 cursor: 'pointer',
-                boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255,255,255,0.1)'
               }}
             >
               Next <ArrowRight size={20} />
@@ -1284,18 +1289,18 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 left: '32px',
                 bottom: '80px',
                 zIndex: 10001,
-                background: 'rgba(243, 239, 224, 0.9)',
-                color: '#1E293B',
-                border: 'none',
-                borderRadius: '12px',
-                padding: '12px 28px',
+                background: 'linear-gradient(145deg, #112A1F 0%, #081510 100%)',
+                color: 'white',
+                border: '1.5px solid #FCD34D',
+                borderRadius: '40px',
+                padding: '10px 24px',
                 fontSize: '18px',
                 fontWeight: '700',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
                 cursor: 'pointer',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255,255,255,0.1)'
               }}
             >
               <ArrowLeft size={20} /> Back
@@ -1311,18 +1316,18 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 right: '32px',
                 bottom: '80px',
                 zIndex: 10001,
-                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                color: '#FFFFFF',
-                border: 'none',
-                borderRadius: '12px',
-                padding: '12px 32px',
+                background: 'linear-gradient(145deg, #112A1F 0%, #081510 100%)',
+                color: 'white',
+                border: '1.5px solid #FCD34D',
+                borderRadius: '40px',
+                padding: '10px 24px',
                 fontSize: '18px',
-                fontWeight: '800',
+                fontWeight: '700',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
                 cursor: 'pointer',
-                boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255,255,255,0.1)'
               }}
             >
               Next <ArrowRight size={20} />
@@ -1352,11 +1357,22 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 setIsPlayingBranchesVideo(true);
               }}
               style={{
-                position: 'absolute', left: '32px', bottom: '80px', zIndex: 10001,
-                background: 'rgba(243, 239, 224, 0.9)', color: '#1E293B',
-                border: 'none', borderRadius: '12px', padding: '12px 28px',
-                fontSize: '18px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '8px',
-                cursor: 'pointer', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                position: 'absolute',
+                left: '32px',
+                bottom: '80px',
+                zIndex: 10001,
+                background: 'linear-gradient(145deg, #112A1F 0%, #081510 100%)',
+                color: 'white',
+                border: '1.5px solid #FCD34D',
+                borderRadius: '40px',
+                padding: '10px 24px',
+                fontSize: '18px',
+                fontWeight: '700',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                cursor: 'pointer',
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255,255,255,0.1)'
               }}
             >
               <ArrowLeft size={20} /> Back
@@ -1374,11 +1390,22 @@ export default function Chapter2LearningLab({ onBack, onHeaderVisibilityChange, 
                 }
               }}
               style={{
-                position: 'absolute', right: '32px', bottom: '80px', zIndex: 10001,
-                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)', color: '#FFFFFF',
-                border: 'none', borderRadius: '12px', padding: '12px 32px',
-                fontSize: '18px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px',
-                cursor: 'pointer', boxShadow: '0 6px 20px rgba(217, 119, 6, 0.4)'
+                position: 'absolute',
+                right: '32px',
+                bottom: '80px',
+                zIndex: 10001,
+                background: 'linear-gradient(145deg, #112A1F 0%, #081510 100%)',
+                color: 'white',
+                border: '1.5px solid #FCD34D',
+                borderRadius: '40px',
+                padding: '10px 24px',
+                fontSize: '18px',
+                fontWeight: '700',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                cursor: 'pointer',
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255,255,255,0.1)'
               }}
             >
               Next <ArrowRight size={20} />
@@ -1990,9 +2017,9 @@ if (transitionTargetSubTab) setVenationSubTab(transitionTargetSubTab);
                 setTransitionSourceStep(5);
                 setTransitionSourceSubTab(null);
                 setTransitionDirection('backward');
-                setIsPlayingAct24Transition(true);
-              }} 
-              onGoToDetective={() => {
+                setIsPlayingHeightVideo(true);
+                }} 
+                onGoToDetective={() => {
                 setStep6SubTab('detective');
                 setTransitionTargetStep(6);
                 setTransitionTargetSubTab(null);

@@ -153,7 +153,7 @@ export default function Stage2_Conclusion({ onComplete }) {
       </div>
 
       {/* Right Side: Scientific Finding & Interactive Controls (35% width) */}
-      <div className="stage-right-column" style={{ flex: '0 0 35%', maxWidth: '35%' }}>
+      <div className="stage-right-column" style={{ flex: '0 0 36%', maxWidth: '36%' }}>
         {/* Container 1: Scientific Finding & Explanation */}
         <div 
           className="stage-container-1"
@@ -163,7 +163,7 @@ export default function Stage2_Conclusion({ onComplete }) {
             border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
             boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
-            padding: '1.25rem 1.5rem',
+            padding: '1.25rem 1.6rem',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
@@ -172,15 +172,15 @@ export default function Stage2_Conclusion({ onComplete }) {
           }}
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-              <Sparkles size={28} color="#173B5F" strokeWidth={2.5} />
-              <h3 style={{ margin: 0, fontSize: '2.15rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <Sparkles size={34} color="#173B5F" strokeWidth={2.5} />
+              <h3 style={{ margin: 0, fontSize: '2.5rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
                 Stage 2: Conclusion
               </h3>
             </div>
 
             {/* Bullet Points with Dot Bullets & Formatting */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', marginTop: '0.35rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', marginTop: '0.25rem' }}>
               <div
                 style={{
                   display: 'flex',
@@ -189,19 +189,19 @@ export default function Stage2_Conclusion({ onComplete }) {
                 }}
               >
                 <span style={{
-                  width: '12px',
-                  height: '12px',
+                  width: '13px',
+                  height: '13px',
                   borderRadius: '50%',
                   background: '#173B5F',
-                  marginTop: '0.65rem',
+                  marginTop: '0.75rem',
                   flexShrink: 0
                 }} />
                 <p style={{
                   margin: 0,
-                  fontSize: '1.45rem',
+                  fontSize: '1.75rem',
                   color: '#173B5F',
                   fontWeight: 650,
-                  lineHeight: 1.4
+                  lineHeight: 1.35
                 }}>
                   A freely suspended magnet or compass needle always aligns along the <strong style={{ color: '#0F172A', fontWeight: 900 }}>North–South direction</strong>.
                 </p>
@@ -215,19 +215,19 @@ export default function Stage2_Conclusion({ onComplete }) {
                 }}
               >
                 <span style={{
-                  width: '12px',
-                  height: '12px',
+                  width: '13px',
+                  height: '13px',
                   borderRadius: '50%',
                   background: '#173B5F',
-                  marginTop: '0.65rem',
+                  marginTop: '0.75rem',
                   flexShrink: 0
                 }} />
                 <p style={{
                   margin: 0,
-                  fontSize: '1.45rem',
+                  fontSize: '1.75rem',
                   color: '#173B5F',
                   fontWeight: 650,
-                  lineHeight: 1.4
+                  lineHeight: 1.35
                 }}>
                   The Sun's position provides an East–West reference to verify the magnet's North–South axis.
                 </p>
@@ -237,16 +237,16 @@ export default function Stage2_Conclusion({ onComplete }) {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.85rem',
-                marginTop: '0.65rem',
+                gap: '0.95rem',
+                marginTop: '0.5rem',
                 background: 'linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%)',
                 border: '1.5px solid #93C5FD',
                 borderRadius: '16px',
-                padding: '0.85rem 1.15rem',
+                padding: '0.95rem 1.25rem',
                 boxShadow: '0 4px 12px rgba(37, 99, 235, 0.08)'
               }}>
-                <span style={{ fontSize: '1.75rem', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.12))' }}>🧭</span>
-                <span style={{ fontSize: '1.35rem', color: '#1E3A8A', fontWeight: 800, lineHeight: 1.38, letterSpacing: '-0.01em' }}>
+                <span style={{ fontSize: '1.95rem', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.12))' }}>🧭</span>
+                <span style={{ fontSize: '1.65rem', color: '#1E3A8A', fontWeight: 800, lineHeight: 1.35, letterSpacing: '-0.01em' }}>
                   This directional property has guided global navigation for centuries.
                 </span>
               </div>
@@ -263,7 +263,7 @@ export default function Stage2_Conclusion({ onComplete }) {
             border: '1.5px solid #E2E8F0',
             borderRadius: '24px',
             boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
-            padding: '1.25rem 1.5rem',
+            padding: '1.25rem 1.6rem',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -272,10 +272,10 @@ export default function Stage2_Conclusion({ onComplete }) {
           }}
         >
           <div>
-            <div style={{ fontSize: '1.85rem', fontWeight: 900, color: '#1E1B4B', letterSpacing: '-0.015em', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-              <Compass size={28} color="#173B5F" strokeWidth={2.5} /> Compass Deflection Test
+            <div style={{ fontSize: '2.3rem', fontWeight: 900, color: '#1E1B4B', letterSpacing: '-0.015em', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <Compass size={32} color="#173B5F" strokeWidth={2.5} /> Compass Deflection Test
             </div>
-            <p style={{ fontSize: '1.4rem', color: '#173B5F', fontWeight: 650, margin: 0, lineHeight: 1.35 }}>
+            <p style={{ fontSize: '1.65rem', color: '#173B5F', fontWeight: 650, margin: 0, lineHeight: 1.35 }}>
               Tap below to deflect the compass needle and observe it oscillate back to the North-South axis:
             </p>
           </div>
@@ -288,7 +288,7 @@ export default function Stage2_Conclusion({ onComplete }) {
               style={{
                 width: '100%',
                 padding: '1.05rem 1.4rem',
-                fontSize: '1.45rem',
+                fontSize: '1.6rem',
                 fontWeight: 900,
                 borderRadius: '16px',
                 background: isSpinning ? '#CBD5E1' : undefined,
@@ -305,28 +305,6 @@ export default function Stage2_Conclusion({ onComplete }) {
               <RotateCw size={26} className={isSpinning ? 'spin-anim' : ''} />
               {isSpinning ? 'Deflecting Needle...' : 'Deflect Compass Needle'}
             </button>
-
-            {onComplete && (
-              <button
-                onClick={onComplete}
-                className="gold-glow-btn"
-                style={{
-                  width: '100%',
-                  padding: '1.05rem 1.4rem',
-                  fontSize: '1.45rem',
-                  fontWeight: 900,
-                  borderRadius: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '0.65rem',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                Proceed to Quiz <ArrowRight size={24} color="#FFFFFF" />
-              </button>
-            )}
           </div>
         </div>
       </div>
