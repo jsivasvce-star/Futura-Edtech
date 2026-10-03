@@ -729,28 +729,6 @@ export default function Simulation({ onComplete, onNext }) {
               );
             })}
           </div>
-
-          {/* Proceed Button */}
-          <button
-            onClick={onNext}
-            className="gold-glow-btn"
-            style={{
-              width: '100%',
-              padding: '0.6rem',
-              borderRadius: '20px',
-              fontSize: '20.5px',
-              fontWeight: 900,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '0.5rem',
-              marginTop: '0.5rem',
-              border: 'none',
-            }}
-          >
-            Proceed to Concept Check <ArrowRight size={22} />
-          </button>
         </div>
       </div>
 

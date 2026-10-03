@@ -185,12 +185,11 @@ export default function Stage3_Explore({ onComplete, onNext }) {
           {/* Top Action: Pause Flight Button */}
           <button
             onClick={() => setIsRunning(!isRunning)}
+            className="gold-glow-btn"
             style={{
               width: '100%',
               padding: '0.85rem 1rem',
-              borderRadius: '14px',
-              background: '#D97706',
-              color: '#FFFFFF',
+              borderRadius: '16px',
               fontWeight: 800,
               fontSize: '22px',
               cursor: 'pointer',
@@ -198,8 +197,6 @@ export default function Stage3_Explore({ onComplete, onNext }) {
               alignItems: 'center',
               justifyContent: 'center',
               gap: '0.65rem',
-              border: 'none',
-              boxShadow: '0 4px 12px rgba(217, 119, 6, 0.25)',
               transition: 'all 0.2s ease'
             }}
           >
@@ -226,19 +223,16 @@ export default function Stage3_Explore({ onComplete, onNext }) {
             }}>
               <button 
                 onClick={() => handleSelectMode("same")}
+                className={interactionMode === "same" ? "gold-glow-btn" : "navy-btn"}
                 style={{ 
                   padding: "0.75rem 0.9rem",
-                  borderRadius: "14px",
+                  borderRadius: "16px",
                   fontSize: "20px",
                   fontWeight: 800,
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  background: interactionMode === "same" ? "#D97706" : "#0B2240",
-                  color: "#FFFFFF",
-                  border: "none",
-                  boxShadow: "0 4px 12px rgba(217, 119, 6, 0.25)",
                   transition: "all 0.2s ease"
                 }}
               >
@@ -247,19 +241,16 @@ export default function Stage3_Explore({ onComplete, onNext }) {
 
               <button 
                 onClick={() => handleSelectMode("different")}
+                className={interactionMode === "different" ? "gold-glow-btn" : "navy-btn"}
                 style={{ 
                   padding: "0.75rem 0.9rem",
-                  borderRadius: "14px",
+                  borderRadius: "16px",
                   fontSize: "20px",
                   fontWeight: 800,
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  background: interactionMode === "different" ? "#D97706" : "#0B2240",
-                  color: "#FFFFFF",
-                  border: "none",
-                  boxShadow: "0 4px 12px rgba(11, 34, 64, 0.25)",
                   transition: "all 0.2s ease"
                 }}
               >
@@ -280,19 +271,16 @@ export default function Stage3_Explore({ onComplete, onNext }) {
             }}>
               <button
                 onClick={() => setEnvironmentMode('day')}
+                className={environmentMode === 'day' ? "gold-glow-btn" : "navy-btn"}
                 style={{
                   padding: '0.75rem 0.9rem',
-                  borderRadius: '14px',
+                  borderRadius: '16px',
                   fontSize: '20px',
                   fontWeight: 800,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  background: environmentMode === 'day' ? '#D97706' : '#0B2240',
-                  color: '#FFFFFF',
-                  border: 'none',
-                  boxShadow: '0 4px 12px rgba(217, 119, 6, 0.25)',
                   transition: 'all 0.2s ease'
                 }}
               >
@@ -300,19 +288,16 @@ export default function Stage3_Explore({ onComplete, onNext }) {
               </button>
               <button
                 onClick={() => setEnvironmentMode('night')}
+                className={environmentMode === 'night' ? "gold-glow-btn" : "navy-btn"}
                 style={{
                   padding: '0.75rem 0.9rem',
-                  borderRadius: '14px',
+                  borderRadius: '16px',
                   fontSize: '20px',
                   fontWeight: 800,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  background: environmentMode === 'night' ? '#D97706' : '#0B2240',
-                  color: '#FFFFFF',
-                  border: 'none',
-                  boxShadow: '0 4px 12px rgba(11, 34, 64, 0.25)',
                   transition: 'all 0.2s ease'
                 }}
               >
@@ -320,34 +305,6 @@ export default function Stage3_Explore({ onComplete, onNext }) {
               </button>
             </div>
           </div>
-
-          {/* Bottom Primary CTA: Proceed to Quiz Button (Consistent Dark Blue) */}
-          <button 
-            onClick={handleFinish} 
-            className="navy-btn"
-            style={{ 
-              width: "100%", 
-              padding: "0.85rem 1.4rem", 
-              fontSize: "22px", 
-              fontWeight: 900, 
-              borderRadius: "16px", 
-              display: "flex", 
-              justifyContent: "space-between", 
-              alignItems: "center", 
-              background: "linear-gradient(135deg, #214A70 0%, #173B5F 100%)",
-              border: "1.5px solid #2B6CB0", 
-              color: "#FFFFFF",
-              boxShadow: "0 4px 14px rgba(23, 59, 95, 0.35)", 
-              cursor: "pointer", 
-              transition: "all 0.2s ease" 
-            }} 
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-              <CheckCircle2 size={24} color="#FFFFFF" strokeWidth={2.5} />
-              <span>Proceed to Quiz</span>
-            </div>
-            <Sparkles size={24} color="#FFFFFF" fill="#FFFFFF" style={{ opacity: 0.9 }} />
-          </button>
         </div>
       </div>
       
