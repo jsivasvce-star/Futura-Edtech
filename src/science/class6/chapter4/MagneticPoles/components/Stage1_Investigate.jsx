@@ -622,23 +622,23 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
           {/* Header Row */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <BookOpen size={32} color="#173B5F" strokeWidth={2.5} />
-              <h3 style={{ margin: 0, fontSize: '2.15rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
+              <BookOpen size={34} color="#173B5F" strokeWidth={2.5} />
+              <h3 style={{ margin: 0, fontSize: '2.4rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
                 Try the experiment
               </h3>
             </div>
           </div>
 
-          {/* Numbered Steps with 2x Scaled Text and Warm Gold Step Badges */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          {/* Numbered Steps with Scaled Text and Warm Gold Step Badges */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
             {[
               { num: '1', text: 'Sprinkle iron filings around the magnet.' },
               { num: '2', text: 'Gently tap the sheet of paper.' },
               { num: '3', text: 'Compare the ends with the middle.' }
             ].map((s) => (
               <div key={s.num} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <div className="gold-step-badge">{s.num}</div>
-                <span style={{ fontSize: '1.55rem', color: '#173B5F', fontWeight: 700, lineHeight: 1.35 }}>
+                <div className="gold-step-badge" style={{ width: '42px', height: '42px', fontSize: '1.5rem' }}>{s.num}</div>
+                <span style={{ fontSize: '1.75rem', color: '#173B5F', fontWeight: 700, lineHeight: 1.35 }}>
                   {s.text}
                 </span>
               </div>
@@ -650,14 +650,14 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
             background: '#F0FDF4',
             border: '1.5px solid #BBF7D0',
             borderRadius: '16px',
-            padding: '0.75rem 1.15rem',
+            padding: '0.85rem 1.25rem',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.85rem'
+            gap: '0.95rem'
           }}>
             <div style={{
               background: '#DCFCE7',
-              padding: '0.45rem',
+              padding: '0.5rem',
               borderRadius: '12px',
               display: 'flex',
               alignItems: 'center',
@@ -665,13 +665,13 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
               color: '#16A34A',
               flexShrink: 0
             }}>
-              <Sparkles size={26} color="#16A34A" />
+              <Sparkles size={28} color="#16A34A" />
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
-              <span style={{ fontSize: '1.35rem', fontWeight: 900, color: '#14532D', lineHeight: 1.25 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+              <span style={{ fontSize: '1.55rem', fontWeight: 900, color: '#14532D', lineHeight: 1.25 }}>
                 Look closely at the pattern.
               </span>
-              <span style={{ fontSize: '1.18rem', fontWeight: 600, color: '#15803D', lineHeight: 1.25 }}>
+              <span style={{ fontSize: '1.38rem', fontWeight: 600, color: '#15803D', lineHeight: 1.25 }}>
                 Where do most filings collect?
               </span>
             </div>
@@ -685,8 +685,8 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
               className={!isPaused ? 'gold-glow-btn' : ''}
               style={{ 
                 flex: 1.2, 
-                padding: '0.95rem 1.3rem', 
-                fontSize: '1.45rem', 
+                padding: '1rem 1.35rem', 
+                fontSize: '1.6rem', 
                 fontWeight: 900, 
                 borderRadius: '18px', 
                 display: 'flex', 
@@ -708,8 +708,8 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
               onClick={handleReset}
               style={{ 
                 flex: 0.8, 
-                padding: '0.95rem 1.1rem', 
-                fontSize: '1.35rem', 
+                padding: '1rem 1.15rem', 
+                fontSize: '1.5rem', 
                 fontWeight: 900, 
                 borderRadius: '18px', 
                 background: '#FFFBEB', 
@@ -748,25 +748,25 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
         >
           {/* Header Row */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <HelpCircle size={32} color="#173B5F" strokeWidth={2.5} />
-            <h3 style={{ margin: 0, fontSize: '2.15rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
+            <HelpCircle size={34} color="#173B5F" strokeWidth={2.5} />
+            <h3 style={{ margin: 0, fontSize: '2.4rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
               Check your observation
             </h3>
           </div>
           
-          <p style={{ margin: 0, color: '#173B5F', fontSize: '1.45rem', lineHeight: 1.35, fontWeight: 700 }}>
+          <p style={{ margin: 0, color: '#173B5F', fontSize: '1.7rem', lineHeight: 1.35, fontWeight: 700 }}>
             Where is the magnetic pull strongest?
           </p>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             <button
               type="button"
               onClick={() => handleQuizAnswer('ends')}
               aria-pressed={quizAnswer === 'ends'}
               style={{ 
-                padding: '0.95rem 1.35rem', 
+                padding: '1rem 1.45rem', 
                 textAlign: 'left', 
-                fontSize: '1.35rem', 
+                fontSize: '1.55rem', 
                 fontWeight: 800, 
                 lineHeight: 1.25,
                 borderRadius: '16px', 
@@ -784,7 +784,7 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
               }}
             >
               <span>At the two ends</span>
-              {quizAnswer === 'ends' && <CheckCircle size={24} color="#10B981" />}
+              {quizAnswer === 'ends' && <CheckCircle size={26} color="#10B981" />}
             </button>
 
             <button
@@ -792,9 +792,9 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
               onClick={() => handleQuizAnswer('middle')}
               aria-pressed={quizAnswer === 'middle'}
               style={{ 
-                padding: '0.95rem 1.35rem', 
+                padding: '1rem 1.45rem', 
                 textAlign: 'left', 
-                fontSize: '1.35rem', 
+                fontSize: '1.55rem', 
                 fontWeight: 800, 
                 lineHeight: 1.25,
                 borderRadius: '16px', 
@@ -812,44 +812,44 @@ export default function Stage1_Investigate({ onComplete, onGoToQuiz }) {
               }}
             >
               <span>At the middle</span>
-              {quizAnswer === 'middle' && <XCircle size={24} color="#EF4444" />}
+              {quizAnswer === 'middle' && <XCircle size={26} color="#EF4444" />}
             </button>
           </div>
 
           {/* Feedback section */}
           {quizAnswer === 'middle' && (
             <div style={{
-              padding: '0.75rem 1.15rem',
+              padding: '0.85rem 1.25rem',
               borderRadius: '14px',
               background: '#FEF2F2',
               border: '1.5px solid #F87171',
               color: '#991B1B',
-              fontSize: '1.15rem',
+              fontSize: '1.35rem',
               fontWeight: 700,
               display: 'flex',
               alignItems: 'center',
-              gap: '0.65rem'
+              gap: '0.75rem'
             }}>
-              <XCircle size={20} color="#DC2626" style={{ flexShrink: 0 }} />
+              <XCircle size={22} color="#DC2626" style={{ flexShrink: 0 }} />
               <span>Incorrect. Very few filings cling to the middle. Look closely at the ends and try again!</span>
             </div>
           )}
 
           {quizAnswer === 'ends' && (
             <div style={{
-              padding: '0.75rem 1.15rem',
+              padding: '0.85rem 1.25rem',
               borderRadius: '14px',
               background: '#ECFDF5',
               border: '1.5px solid #6EE7B7',
               borderLeft: '5px solid #10B981',
               color: '#065F46',
-              fontSize: '1.2rem',
+              fontSize: '1.4rem',
               fontWeight: 700,
               display: 'flex',
               alignItems: 'center',
-              gap: '0.65rem'
+              gap: '0.75rem'
             }}>
-              <CheckCircle size={22} color="#10B981" style={{ flexShrink: 0 }} />
+              <CheckCircle size={24} color="#10B981" style={{ flexShrink: 0 }} />
               <span>🎉 Correct! The magnetic pull is strongest at the two ends (poles).</span>
             </div>
           )}

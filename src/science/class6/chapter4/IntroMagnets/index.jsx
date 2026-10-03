@@ -235,18 +235,19 @@ export default function IntroMagnets({ onBackToDashboard, onComplete }) {
       const isCurrentWord = isThisLineActive && charIndex >= startPos && charIndex < nextPos;
       const isPastWord = isThisLineActive && charIndex >= nextPos;
 
-      let color = isEduCard ? '#EAF2F6' : (isScroll ? '#1E1006' : '#2C221E');
-      let fontWeight = isScroll ? 600 : 500;
+      let color = isEduCard ? '#FFFFFF' : (isScroll ? '#1E1006' : '#2C221E');
+      let fontWeight = isScroll ? 600 : (isEduCard ? 600 : 500);
       let textShadow = 'none';
 
       if (isCurrentWord) {
         // TEXT COLOR ONLY HIGHLIGHT (No Background, No Popups)
-        color = isEduCard ? '#F3C969' : (isScroll ? '#C2410C' : '#2563EB');
-        fontWeight = isScroll ? 900 : 800;
+        color = isEduCard ? '#F97316' : (isScroll ? '#C2410C' : '#2563EB');
+        fontWeight = isScroll ? 900 : (isEduCard ? 900 : 800);
         if (isScroll) textShadow = '0 0 2px rgba(194, 65, 12, 0.45)';
+        if (isEduCard) textShadow = '0 0 10px rgba(249, 115, 22, 0.65)';
       } else if (isPastWord) {
-        color = isEduCard ? '#173B5F' : (isScroll ? '#5A260A' : '#1E40AF');
-        fontWeight = isScroll ? 750 : 700;
+        color = isEduCard ? '#FFFFFF' : (isScroll ? '#5A260A' : '#1E40AF');
+        fontWeight = isScroll ? 750 : (isEduCard ? 600 : 700);
       }
 
       return (

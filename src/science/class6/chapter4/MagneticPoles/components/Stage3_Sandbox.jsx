@@ -854,17 +854,17 @@ export default function Stage3_Sandbox({ onComplete }) {
           {/* Header Row */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <BookOpen size={32} color="#173B5F" strokeWidth={2.5} />
-              <h3 style={{ margin: 0, fontSize: '2.15rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
+              <BookOpen size={34} color="#173B5F" strokeWidth={2.5} />
+              <h3 style={{ margin: 0, fontSize: '2.4rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
                 {currentShapeData.title}
               </h3>
             </div>
             <span style={{
-              fontSize: '1rem',
+              fontSize: '1.15rem',
               fontWeight: 800,
               color: '#065F46',
               background: '#DCFCE7',
-              padding: '0.35rem 0.95rem',
+              padding: '0.4rem 1.05rem',
               borderRadius: '16px',
               border: '1.5px solid #86EFAC',
               boxShadow: '0 2px 6px rgba(6, 95, 70, 0.08)'
@@ -873,12 +873,12 @@ export default function Stage3_Sandbox({ onComplete }) {
             </span>
           </div>
 
-          {/* Numbered Steps with 2x Scaled Text and Warm Gold Step Badges */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          {/* Numbered Steps with Scaled Text and Warm Gold Step Badges */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
             {currentShapeData.instructions.map((instruction, idx) => (
               <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <div className="gold-step-badge">{idx + 1}</div>
-                <span style={{ fontSize: '1.55rem', color: '#173B5F', fontWeight: 700, lineHeight: 1.35 }}>
+                <div className="gold-step-badge" style={{ width: '42px', height: '42px', fontSize: '1.5rem' }}>{idx + 1}</div>
+                <span style={{ fontSize: '1.75rem', color: '#173B5F', fontWeight: 700, lineHeight: 1.35 }}>
                   {instruction}
                 </span>
               </div>
@@ -909,10 +909,10 @@ export default function Stage3_Sandbox({ onComplete }) {
               <Sparkles size={30} color="#16A34A" />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-              <span style={{ fontSize: '1.65rem', fontWeight: 900, color: '#14532D', lineHeight: 1.25 }}>
+              <span style={{ fontSize: '1.85rem', fontWeight: 900, color: '#14532D', lineHeight: 1.25 }}>
                 Different shapes, same law.
               </span>
-              <span style={{ fontSize: '1.45rem', fontWeight: 700, color: '#15803D', lineHeight: 1.25 }}>
+              <span style={{ fontSize: '1.65rem', fontWeight: 700, color: '#15803D', lineHeight: 1.25 }}>
                 Every magnet has two magnetic poles.
               </span>
             </div>
@@ -938,30 +938,30 @@ export default function Stage3_Sandbox({ onComplete }) {
         >
           {/* Header Row */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <HelpCircle size={32} color="#173B5F" strokeWidth={2.5} />
-            <h3 style={{ margin: 0, fontSize: '2.15rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
+            <HelpCircle size={34} color="#173B5F" strokeWidth={2.5} />
+            <h3 style={{ margin: 0, fontSize: '2.4rem', color: '#1E1B4B', fontWeight: 900, letterSpacing: '-0.02em' }}>
               Observation Summary
             </h3>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {currentShapeData.observations.map((obs, idx) => (
               <div
                 key={idx}
                 style={{
-                  padding: '0.85rem 1.15rem',
+                  padding: '0.95rem 1.25rem',
                   borderRadius: '16px',
                   background: '#F8FAFC',
                   border: '1.5px solid #E2E8F0',
                   color: '#173B5F',
-                  fontSize: '1.35rem',
+                  fontSize: '1.65rem',
                   fontWeight: 700,
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.75rem'
+                  gap: '0.85rem'
                 }}
               >
-                <CheckCircle size={24} color="#10B981" style={{ flexShrink: 0 }} />
+                <CheckCircle size={26} color="#10B981" style={{ flexShrink: 0 }} />
                 <span>{obs}</span>
               </div>
             ))}
@@ -974,8 +974,8 @@ export default function Stage3_Sandbox({ onComplete }) {
                 onClick={handlePrevPage}
                 style={{
                   flex: 1,
-                  padding: '0.75rem 1.25rem',
-                  fontSize: '1.2rem',
+                  padding: '0.85rem 1.35rem',
+                  fontSize: '1.4rem',
                   fontWeight: 900,
                   borderRadius: '16px',
                   background: '#F3F7F9',
@@ -990,7 +990,7 @@ export default function Stage3_Sandbox({ onComplete }) {
                   transition: 'all 0.2s ease'
                 }}
               >
-                <ArrowLeft size={18} /> Prev Shape
+                <ArrowLeft size={20} /> Prev Shape
               </button>
             )}
 
@@ -999,8 +999,8 @@ export default function Stage3_Sandbox({ onComplete }) {
               className="gold-glow-btn"
               style={{
                 flex: shape === 'horseshoe' ? 1 : 1.6,
-                padding: '0.75rem 1.25rem',
-                fontSize: '1.2rem',
+                padding: '0.85rem 1.35rem',
+                fontSize: '1.4rem',
                 fontWeight: 900,
                 borderRadius: '16px',
                 display: 'flex',
@@ -1011,9 +1011,9 @@ export default function Stage3_Sandbox({ onComplete }) {
               }}
             >
               {shape === 'horseshoe' ? (
-                <>Next: Ring Magnet <ArrowRight size={18} color="#FFFFFF" /></>
+                <>Next: Ring Magnet <ArrowRight size={20} color="#FFFFFF" /></>
               ) : (
-                <>Proceed to Quiz <ArrowRight size={18} color="#FFFFFF" /></>
+                <>Proceed to Quiz <ArrowRight size={20} color="#FFFFFF" /></>
               )}
             </button>
           </div>
