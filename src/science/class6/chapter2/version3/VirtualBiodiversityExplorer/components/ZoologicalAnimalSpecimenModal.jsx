@@ -147,12 +147,14 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
   const isThinkActive = isSpeaking && thinkSec && activeWordIndex >= (thinkSec.activeStart ?? thinkSec.start) && activeWordIndex < thinkSec.end;
 
   const karaokeActiveStyle = {
-    color: '#0F172A',
-    background: 'linear-gradient(135deg, #FDE047 0%, #F59E0B 100%)',
-    padding: '1px 6px',
-    borderRadius: '5px',
+    color: '#FFFFFF',
+    background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+    padding: '2px 8px',
+    borderRadius: '6px',
     fontWeight: 900,
-    boxShadow: '0 0 16px rgba(253, 224, 71, 0.95), 0 2px 6px rgba(0, 0, 0, 0.85)',
+    boxShadow: '0 0 18px rgba(52, 211, 153, 0.95), 0 2px 8px rgba(0, 0, 0, 0.75)',
+    border: '1px solid rgba(167, 243, 208, 0.65)',
+    textShadow: '0 1px 3px rgba(0, 0, 0, 0.95), 0 0 8px rgba(0, 0, 0, 0.8)',
     display: 'inline-block',
     transform: 'scale(1.06)'
   };
@@ -331,8 +333,8 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
           minWidth: '320px',
           maxHeight: 'calc(100vh - clamp(60px, 8vh, 80px))',
           background: 'transparent',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
           border: '1.5px solid rgba(16, 185, 129, 0.45)',
           borderRadius: '24px',
           boxShadow: 'inset 1px 1px 2px rgba(255, 255, 255, 0.25), inset -1px -1px 2px rgba(0, 0, 0, 0.3), 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(16, 185, 129, 0.2)',
@@ -553,7 +555,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                 <div style={{
                   fontSize: '22px',
                   color: '#FFFFFF',
-                  fontWeight: 500,
+                  fontWeight: 700,
                   lineHeight: 1.35,
                   fontFamily: '"Inter", sans-serif',
                   textAlign: 'justify',
@@ -603,7 +605,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                 <div style={{
                   fontSize: '22px',
                   color: '#FFFFFF',
-                  fontWeight: 500,
+                  fontWeight: 700,
                   lineHeight: 1.35,
                   fontFamily: '"Inter", sans-serif',
                   textAlign: 'justify',
@@ -653,7 +655,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                 <div style={{
                   fontSize: '22px',
                   color: '#FFFFFF',
-                  fontWeight: 500,
+                  fontWeight: 700,
                   lineHeight: 1.35,
                   fontFamily: '"Inter", sans-serif',
                   textAlign: 'justify',
@@ -705,7 +707,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                     <div style={{
                       fontSize: '22px',
                       color: '#FFFFFF',
-                      fontWeight: 500,
+                      fontWeight: 700,
                       lineHeight: 1.35,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',
@@ -760,7 +762,7 @@ export default function ZoologicalAnimalSpecimenModal({ animal, onClose, animalI
                     <div style={{
                       fontSize: '22px',
                       color: '#FEF9C3',
-                      fontWeight: 600,
+                      fontWeight: 700,
                       lineHeight: 1.35,
                       fontFamily: '"Inter", sans-serif',
                       textAlign: 'justify',

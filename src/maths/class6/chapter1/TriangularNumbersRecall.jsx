@@ -1,7 +1,43 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import questionMarkImage from '../qn.png';
+import { Volume2, VolumeX } from 'lucide-react';
+import pageAudio from './version-2/audio/page5.mp3';
 
 export default function TriangularNumbersRecall({ onNext, onPrev }) {
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    
+    const newAudio = new Audio(pageAudio);
+    audioRef.current = newAudio;
+    
+    const handleEnded = () => setIsPlayingAudio(false);
+    newAudio.addEventListener('ended', handleEnded);
+    
+    newAudio.play().then(() => setIsPlayingAudio(true)).catch(err => console.log("Audio play failed:", err));
+    
+    return () => {
+      newAudio.removeEventListener('ended', handleEnded);
+      newAudio.pause();
+    };
+  }, []);
+
+  const toggleAudio = () => {
+    if (!audioRef.current) return;
+    if (isPlayingAudio) {
+      audioRef.current.pause();
+      setIsPlayingAudio(false);
+    } else {
+      audioRef.current.play().catch(e => console.log("Audio play failed:", e));
+      setIsPlayingAudio(true);
+    }
+  };
+
   return (
     <div style={{
       position: 'absolute',
@@ -42,6 +78,9 @@ export default function TriangularNumbersRecall({ onNext, onPrev }) {
             One new row. A bigger triangle.
           </h2>
         </div>
+        <button onClick={toggleAudio} style={{ backgroundColor: 'rgba(255,255,255,0.05)', color: '#cbd5e1', border: '1px solid rgba(255,255,255,0.1)', padding: '10px 20px', borderRadius: '12px', fontSize: '15px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', ...(isPlayingAudio ? {backgroundColor: 'rgba(255,255,255,0.1)', color: '#fff', borderColor: 'rgba(255,255,255,0.2)'} : {})}}>
+          {isPlayingAudio ? <Volume2 size={18} /> : <VolumeX size={18} />} Listen
+        </button>
       </div>
 
       {/* Main Content Area */}

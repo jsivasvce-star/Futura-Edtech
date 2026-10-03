@@ -195,19 +195,19 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
               <button
                 onClick={() => setPage(2)}
                 style={{
-                  background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                  color: '#FFFFFF',
-                  border: '1.8px solid #FDE68A',
-                  padding: '12px 32px',
-                  borderRadius: '12px',
-                  fontSize: '20px',
-                  fontWeight: '900',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  boxShadow: '0 4px 20px rgba(217, 119, 6, 0.5)'
-                }}
+                    background: 'linear-gradient(145deg, #112A1F 0%, #081510 100%)',
+                    color: 'white',
+                    border: '1.5px solid #FCD34D',
+                    borderRadius: '40px',
+                    padding: '10px 24px',
+                    fontSize: '18px',
+                    fontWeight: '700',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255,255,255,0.1)'
+                  }}
               >
                 Next <ArrowRight size={22} />
               </button>
@@ -217,20 +217,19 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
               <button 
                 onClick={onBackToDashboard}
                 style={{
-                  background: 'rgba(30, 41, 59, 0.85)',
-                  border: '1.5px solid rgba(255, 255, 255, 0.3)',
-                  borderRadius: '12px',
-                  padding: '12px 32px',
-                  color: '#F1F5F9',
-                  fontSize: '20px',
-                  fontWeight: '900',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  backdropFilter: 'blur(8px)',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
-                }}
+                    background: 'linear-gradient(145deg, #112A1F 0%, #081510 100%)',
+                    color: 'white',
+                    border: '1.5px solid #FCD34D',
+                    borderRadius: '40px',
+                    padding: '10px 24px',
+                    fontSize: '18px',
+                    fontWeight: '700',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255,255,255,0.1)'
+                  }}
               >
                 <ArrowLeft size={22} /> Back
               </button>
@@ -438,19 +437,19 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
             <button
               onClick={() => setPage(1)}
               style={{
-                background: 'rgba(255, 255, 255, 0.15)',
-                border: '1.5px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '12px',
-                padding: '12px 28px',
-                color: '#F1F5F9',
-                fontSize: '20px',
-                fontWeight: '800',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                transition: 'all 0.2s'
-              }}
+                    background: 'linear-gradient(145deg, #112A1F 0%, #081510 100%)',
+                    color: 'white',
+                    border: '1.5px solid #FCD34D',
+                    borderRadius: '40px',
+                    padding: '10px 24px',
+                    fontSize: '18px',
+                    fontWeight: '700',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255,255,255,0.1)'
+                  }}
             >
               <ArrowLeft size={22} /> Back
             </button>
@@ -464,20 +463,19 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
                 }
               }}
               style={{
-                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                color: '#FFFFFF',
-                border: '1.8px solid #FDE68A',
-                padding: '12px 36px',
-                borderRadius: '12px',
-                fontSize: '22px',
-                fontWeight: '900',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                boxShadow: '0 4px 20px rgba(217, 119, 6, 0.5)',
-                transition: 'all 0.2s'
-              }}
+                    background: 'linear-gradient(145deg, #112A1F 0%, #081510 100%)',
+                    color: 'white',
+                    border: '1.5px solid #FCD34D',
+                    borderRadius: '40px',
+                    padding: '10px 24px',
+                    fontSize: '18px',
+                    fontWeight: '700',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255,255,255,0.1)'
+                  }}
             >
               Next <ArrowRight size={24} />
             </button>
@@ -597,13 +595,19 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
               <button 
                 onClick={() => setPage(2)}
                 style={{
-                  background: 'white', color: '#334155',
-                  border: '2px solid #e2e8f0', borderRadius: '30px',
-                  padding: '12px 24px', fontSize: '16px', fontWeight: '800',
-                  display: 'flex', alignItems: 'center', gap: '8px',
-                  cursor: 'pointer', boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-                  transition: 'transform 0.2s', margin: 0
-                }}
+                    background: 'linear-gradient(145deg, #112A1F 0%, #081510 100%)',
+                    color: 'white',
+                    border: '1.5px solid #FCD34D',
+                    borderRadius: '40px',
+                    padding: '10px 24px',
+                    fontSize: '18px',
+                    fontWeight: '700',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255,255,255,0.1)'
+                  }}
               >
                 <ArrowLeft size={18} /> Back
               </button>
@@ -639,21 +643,19 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
               <button 
                 onClick={() => setPage(4)}
                 style={{
-                  background: '#065f46',
-                  color: '#fff',
-                  border: '2px solid #34d399',
-                  borderRadius: '30px',
-                  padding: '12px 24px',
-                  fontSize: '16px',
-                  fontWeight: '800',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
-                  transition: 'transform 0.2s',
-                }}
+                    background: 'linear-gradient(145deg, #112A1F 0%, #081510 100%)',
+                    color: 'white',
+                    border: '1.5px solid #FCD34D',
+                    borderRadius: '40px',
+                    padding: '10px 24px',
+                    fontSize: '18px',
+                    fontWeight: '700',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255,255,255,0.1)'
+                  }}
               >
                 Next <ArrowRight size={18} />
               </button>
@@ -878,12 +880,19 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
               <button 
                 onClick={() => setPage(3)}
                 style={{
-                  background: 'rgba(255,255,255,0.9)', color: '#334155',
-                  border: '2px solid rgba(0,0,0,0.1)', borderRadius: '30px',
-                  padding: '10px 20px', fontSize: '15px', fontWeight: '700',
-                  display: 'flex', alignItems: 'center', gap: '6px',
-                  cursor: 'pointer', boxShadow: '0 4px 10px rgba(0,0,0,0.1)'
-                }}
+                    background: 'linear-gradient(145deg, #112A1F 0%, #081510 100%)',
+                    color: 'white',
+                    border: '1.5px solid #FCD34D',
+                    borderRadius: '40px',
+                    padding: '10px 24px',
+                    fontSize: '18px',
+                    fontWeight: '700',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255,255,255,0.1)'
+                  }}
               >
                 <ArrowLeft size={18} /> Back
               </button>
@@ -1070,10 +1079,19 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
               <button 
                 onClick={() => setPage(pageNum === 5 ? 4 : pageNum - 1)}
                 style={{
-                  background: 'white', color: '#334155', border: '2px solid #e2e8f0', borderRadius: '30px',
-                  padding: '12px 24px', fontSize: '16px', fontWeight: '800', display: 'flex', alignItems: 'center',
-                  gap: '8px', cursor: 'pointer', boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
-                }}
+                    background: 'linear-gradient(145deg, #112A1F 0%, #081510 100%)',
+                    color: 'white',
+                    border: '1.5px solid #FCD34D',
+                    borderRadius: '40px',
+                    padding: '10px 24px',
+                    fontSize: '18px',
+                    fontWeight: '700',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255,255,255,0.1)'
+                  }}
               >
                 <ArrowLeft size={18} /> Back
               </button>
@@ -1085,9 +1103,18 @@ export default function NewActivity29({ onBackToDashboard, onNextActivity }) {
                 <button 
                   onClick={() => setPage(pageNum + 1)}
                   style={{
-                    background: '#065f46', color: '#fff', border: '2px solid #34d399', borderRadius: '30px',
-                    padding: '12px 24px', fontSize: '16px', fontWeight: '800', display: 'flex', alignItems: 'center',
-                    gap: '8px', cursor: 'pointer', boxShadow: '0 4px 10px rgba(0,0,0,0.2)'
+                    background: 'linear-gradient(145deg, #112A1F 0%, #081510 100%)',
+                    color: 'white',
+                    border: '1.5px solid #FCD34D',
+                    borderRadius: '40px',
+                    padding: '10px 24px',
+                    fontSize: '18px',
+                    fontWeight: '700',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255,255,255,0.1)'
                   }}
                 >
                   Next <ArrowRight size={18} />

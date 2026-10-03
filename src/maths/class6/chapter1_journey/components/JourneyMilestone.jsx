@@ -266,19 +266,44 @@ export default function JourneyMilestone({
       </div>
 
       {/* Interactive Action Button */}
-      <button
-        className="milestone-action-btn"
-        onClick={(e) => {
-          e.stopPropagation();
-          onSelect(node);
-        }}
-      >
-        {isQuiz ? (
-          <>START QUIZ <ArrowRight size={15} /></>
-        ) : (
-          <>EXPLORE <ArrowRight size={15} /></>
-        )}
-      </button>
+      {node.id === '1.3' ? (
+        <div style={{ display: 'flex', gap: '8px', width: '100%', padding: '0 8px', boxSizing: 'border-box' }}>
+          <button
+            className="milestone-action-btn"
+            style={{ flex: 1, padding: '10px 0', fontSize: '12px' }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onSelect({ ...node, version: 1 });
+            }}
+          >
+            Version 1
+          </button>
+          <button
+            className="milestone-action-btn"
+            style={{ flex: 1, padding: '10px 0', fontSize: '12px' }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onSelect({ ...node, version: 2 });
+            }}
+          >
+            Version 2
+          </button>
+        </div>
+      ) : (
+        <button
+          className="milestone-action-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            onSelect(node);
+          }}
+        >
+          {isQuiz ? (
+            <>START QUIZ <ArrowRight size={15} /></>
+          ) : (
+            <>EXPLORE <ArrowRight size={15} /></>
+          )}
+        </button>
+      )}
     </div>
   );
 }
