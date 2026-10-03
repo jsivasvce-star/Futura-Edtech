@@ -381,7 +381,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   objectFit: 'contain',
                   objectPosition: 'left bottom',
                   display: 'block',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -619,7 +618,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   maxWidth: '30%',
                   maxHeight: '100%',
                   objectFit: 'contain',
-                  mixBlendMode: 'multiply',
                   opacity: page2Step >= 1 ? 1 : 0,
                   transition: 'opacity 0.4s ease-in-out'
                 }}
@@ -631,7 +629,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   maxWidth: '30%',
                   maxHeight: '100%',
                   objectFit: 'contain',
-                  mixBlendMode: 'multiply',
                   opacity: page2Step >= 2 ? 1 : 0,
                   transition: 'opacity 0.4s ease-in-out'
                 }}
@@ -643,7 +640,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   maxWidth: '30%',
                   maxHeight: '100%',
                   objectFit: 'contain',
-                  mixBlendMode: 'multiply',
                   opacity: page2Step >= 3 ? 1 : 0,
                   transition: 'opacity 0.4s ease-in-out'
                 }}
@@ -671,7 +667,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   objectFit: 'contain',
                   objectPosition: 'left bottom',
                   display: 'block',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -758,7 +753,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   objectFit: 'contain',
                   objectPosition: 'left bottom',
                   display: 'block',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -814,7 +808,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   objectFit: 'contain',
                   objectPosition: 'left bottom',
                   display: 'block',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -834,7 +827,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   width: '100%',
                   height: 'auto',
                   objectFit: 'contain',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -956,7 +948,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   objectFit: 'contain',
                   objectPosition: 'left bottom',
                   display: 'block',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -976,7 +967,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   width: '100%',
                   height: 'auto',
                   objectFit: 'contain',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -1148,7 +1138,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   objectFit: 'contain',
                   objectPosition: 'left bottom',
                   display: 'block',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -1281,7 +1270,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   objectFit: 'contain',
                   objectPosition: 'left bottom',
                   display: 'block',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -1301,7 +1289,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   width: '100%',
                   height: 'auto',
                   objectFit: 'contain',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -1485,7 +1472,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   objectFit: 'contain',
                   objectPosition: 'left bottom',
                   display: 'block',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -1640,7 +1626,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   objectFit: 'contain',
                   objectPosition: 'left bottom',
                   display: 'block',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -1660,7 +1645,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   width: '100%',
                   height: 'auto',
                   objectFit: 'contain',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -1868,7 +1852,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   objectFit: 'contain',
                   objectPosition: 'left bottom',
                   display: 'block',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -2041,7 +2024,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   objectFit: 'contain',
                   objectPosition: 'left bottom',
                   display: 'block',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -2063,7 +2045,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   width: '100%',
                   height: 'auto',
                   objectFit: 'contain',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -2085,7 +2066,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   width: '100%',
                   height: 'auto',
                   objectFit: 'contain',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -2274,7 +2254,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   objectFit: 'contain',
                   objectPosition: 'left bottom',
                   display: 'block',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -2294,7 +2273,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   width: '100%',
                   height: 'auto',
                   objectFit: 'contain',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
@@ -2525,7 +2503,6 @@ export default function VisualisingSequencesV2({ onNext }) {
                   objectFit: 'contain',
                   objectPosition: 'left bottom',
                   display: 'block',
-                  mixBlendMode: 'multiply'
                 }}
               />
             </div>
