@@ -77,6 +77,7 @@ const Chapter4Flow = lazy(() => import('./science/class6/chapter4/Chapter4Flow')
 const Chapter4Cover = lazy(() => import('./science/class6/chapter4/Chapter4Cover'));
 const Chapter5Flow = lazy(() => import('./science/class6/chapter5/Chapter5Flow'));
 const Chapter5Cover = lazy(() => import('./science/class6/chapter5/Chapter5Cover'));
+const DeepasMuddle = lazy(() => import('./science/class6/chapter5/DeepasMuddle'));
 const Chapter4Quiz = lazy(() => import('./science/class6/chapter4/Chapter4Flow/Chapter4Quiz'));
 const IntroMagnets = lazy(() => import('./science/class6/chapter4/IntroMagnets'));
 const AppreciatingBiodiversityActivity = lazy(() => import('./science/class6/chapter2/AppreciatingBiodiversityActivity'));
@@ -248,6 +249,7 @@ export default function App() {
         'activity_4_7': 'Activity 4.7',
         'linear_motion': 'Linear Motion Lab',
         'circular_motion': 'Circular Motion Lab',
+        'sci6-ch5-intro': "Deepa's Muddle",
         'material_detective': 'Material Detective Lab',
         '5.1': 'Force Explorer Lab',
         '4.1': 'Magnetic Effect of Current Lab',
@@ -2998,6 +3000,9 @@ export default function App() {
                        activeActivity === 'chapter2_v1' ? 'Chapter 2 (V1)' :
                        activeActivity === 'chapter2_v2' ? 'Chapter 2 (V2)' :
                        activeActivity === 'chapter2' ? 'Chapter 2' :
+                       activeActivity === 'sci6-ch5-intro' || activeActivity === 'deepas_muddle' ? "Deepa's Muddle" :
+                       activeActivity === 'chapter5_flow' ? 'Chapter 5 Flow' :
+                       activeActivity === 'chapter5_cover' ? 'Chapter 5 Cover' :
                        activeActivity === '9.2' ? 'Activity 9.2' :
                        'Template Demo'}
                     </span>
@@ -3202,6 +3207,11 @@ export default function App() {
             <Chapter5Flow 
               onBackToDashboard={() => navigateTo('class6', 'chapter5_cover')}
               onLaunchActivity={(id) => navigateTo('class6', id)}
+            />
+          ) : activeActivity === 'sci6-ch5-intro' || activeActivity === 'deepas_muddle' || activeActivity === 'deepas-muddle' ? (
+            <DeepasMuddle 
+              onBackToDashboard={() => navigateTo('class6', 'chapter5_flow')} 
+              onComplete={() => navigateTo('class6', 'chapter5_flow', 'sci6-ch5-activity-5-1')}
             />
           ) : activeActivity === 'chapter6' ? (
             renderClass6Chapter6()
