@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+/* eslint-disable react/prop-types */
+import { useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Chapter2CoverV1 from './Chapter2CoverV1';
 import Section2_1Point from './sections/Section2_1Point';
+import Section2_2LineSegment from './sections/Section2_2LineSegment';
 import './cover.css';
 
 /**
@@ -184,6 +186,23 @@ export default function Class6MathsChapter2V1({ onBackToDashboard }) {
       return <Section2_1Point onBack={() => setViewState('main')} />;
     }
 
+    if (activeSection.id === '2.2') {
+      return (
+        <Section2_2LineSegment
+          onBackToMap={() => setViewState('main')}
+          onBack={() => setViewState('main')}
+          onBackTo2_1={() => {
+            const sec21 = CHAPTER_2_V1_SECTIONS.find(s => s.id === '2.1');
+            if (sec21) handleSelectSection(sec21);
+          }}
+          onNextSection={() => {
+            const sec23 = CHAPTER_2_V1_SECTIONS.find(s => s.id === '2.3');
+            if (sec23) handleSelectSection(sec23);
+          }}
+        />
+      );
+    }
+
     return (
       <div 
         className="ch2-v1-section-view"
@@ -222,17 +241,12 @@ export default function Class6MathsChapter2V1({ onBackToDashboard }) {
         <div className="ch2-v1-nav-left">
           <button
             onClick={() => setViewState('cover')}
-            className="ch2-top-back-btn"
-            style={{ position: 'static' }}
-            title="Return to Chapter 2 Cover"
+            className="ch2-header-back-link"
+            title="Back to Cover"
           >
-            <ArrowLeft size={16} />
-            <span>Back to Cover</span>
+            <ArrowLeft size={20} className="ch2-header-back-arrow" />
+            <span>Back</span>
           </button>
-          <div className="ch2-v1-nav-title-group">
-            <span className="ch2-v1-nav-badge">CHAPTER 2</span>
-            <h2 className="ch2-v1-nav-heading">LINES AND ANGLES</h2>
-          </div>
         </div>
       </header>
 
