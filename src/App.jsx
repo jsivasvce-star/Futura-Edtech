@@ -74,6 +74,7 @@ const FunWithMagnets = lazy(() => import('./science/class6/chapter4/FunWithMagne
 const Chapter4Flow = lazy(() => import('./science/class6/chapter4/Chapter4Flow'));
 const Chapter4Cover = lazy(() => import('./science/class6/chapter4/Chapter4Cover'));
 const Chapter5Flow = lazy(() => import('./science/class6/chapter5/Chapter5Flow'));
+const Chapter5Cover = lazy(() => import('./science/class6/chapter5/Chapter5Cover'));
 const Chapter4Quiz = lazy(() => import('./science/class6/chapter4/Chapter4Flow/Chapter4Quiz'));
 const IntroMagnets = lazy(() => import('./science/class6/chapter4/IntroMagnets'));
 const AppreciatingBiodiversityActivity = lazy(() => import('./science/class6/chapter2/AppreciatingBiodiversityActivity'));
@@ -138,7 +139,8 @@ export default function App() {
     const isPhysicsCh4 = activeSubject === 'class6' && [
       'intro_magnets', 'activity_4_1', 'magnetic_poles', 'suspended_magnet', 
       'magnetic_compass', 'magnet_interaction', 'activity_4_6', 'activity_4_7', 
-      'sci6-ch4-sec45-fun-with-magnets', 'chapter_4_quiz', 'chapter4_flow', 'chapter4_cover'
+      'sci6-ch4-sec45-fun-with-magnets', 'chapter_4_quiz', 'chapter4_flow', 'chapter4_cover',
+      'chapter5_cover', 'chapter5_flow', 'chapter5flow'
     ].includes(activeActivity);
 
     if (isPhysicsCh4) {
@@ -846,6 +848,7 @@ export default function App() {
     { num: 1, title: "The Wonderful World of Science" },
     { num: 2, title: "Diversity in the Living World" },
     { num: 4, title: "Exploring Magnets" },
+    { num: 5, title: "Measurement of Length and Motion" },
     { num: 6, title: "Materials Around Us" }
   ];
 
@@ -909,7 +912,7 @@ export default function App() {
                         : chapter.num === 4 
                           ? "Includes Activity 4.1: Appearance, hardness, and effect of hammering on different materials."
                           : chapter.num === 5
-                            ? "Includes Activity 5.3: Linear Motion and observation of moving objects."
+                            ? "Full interactive lab chart: standard units, parallax, curved lengths & types of motion."
                             : chapter.num === 6
                               ? "Includes Activities 6.1, 6.2, and 6.3: Material Detective case study."
                               : chapter.num === 10
@@ -1030,7 +1033,7 @@ export default function App() {
                     <button 
                       onClick={() => {
                         if (chapter.num === 4) navigateTo('class6', 'chapter4_cover');
-                        else if (chapter.num === 5) navigateTo('class6', 'chapter5_flow');
+                        else if (chapter.num === 5) navigateTo('class6', 'chapter5_cover');
                         else if (chapter.num === 6) navigateTo('class6', 'materials_around_us');
                         else navigateTo('class6', `chapter${chapter.num}`);
                       }}
@@ -3133,13 +3136,16 @@ export default function App() {
               onLaunchActivity={(act) => navigateTo('class6', act)} 
               initialSection={activeSection}
             />
-          ) : activeActivity === 'chapter5_flow' ? (
+          ) : activeActivity === 'chapter5_cover' || activeActivity === 'chapter5' ? (
+            <Chapter5Cover 
+              onStartJourney={() => navigateTo('class6', 'chapter5_flow')}
+              onBack={() => navigateTo('class6', null)}
+            />
+          ) : activeActivity === 'chapter5_flow' || activeActivity === 'chapter5flow' ? (
             <Chapter5Flow 
-              onBackToDashboard={() => navigateTo('class6', null)}
+              onBackToDashboard={() => navigateTo('class6', 'chapter5_cover')}
               onLaunchActivity={(id) => navigateTo('class6', id)}
             />
-          ) : activeActivity === 'chapter5' ? (
-            renderClass6Chapter5()
           ) : activeActivity === 'chapter6' ? (
             renderClass6Chapter6()
           ) : (
