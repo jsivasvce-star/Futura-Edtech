@@ -58,6 +58,8 @@ const CirclesLabActivity = lazy(() => import('./maths/class6/chapter4/CirclesLab
 const Class6MathsChapter1 = lazy(() => import('./maths/class6/chapter1'));
 const Class6MathsChapter1Cover = lazy(() => import('./maths/class6/chapter1_cover'));
 const Class6MathsChapter1Journey = lazy(() => import('./maths/class6/chapter1_journey'));
+const Class6MathsChapter2V1 = lazy(() => import('./maths/class6/chapter2/version1'));
+const Class6MathsChapter2V2 = lazy(() => import('./maths/class6/chapter2/version2'));
 const VirtualBiodiversityExplorerActivity = lazy(() => import('./science/class6/chapter2/VirtualBiodiversityExplorer'));
 const PlantDetectiveActivity = lazy(() => import('./science/class6/chapter2/PlantDetective'));
 const AnimalHabitatExplorerActivity = lazy(() => import('./science/class6/chapter2/AnimalHabitatExplorer'));
@@ -1093,7 +1095,8 @@ export default function App() {
   };
 
   const CLASS_6_MATHS_CHAPTERS = [
-    { num: 1, title: "Knowing our Numbers" }
+    { num: 1, title: "Knowing our Numbers" },
+    { num: 2, title: "CHAPTER 2" }
   ];
 
   // Renders Class 6th Maths wing
@@ -1165,6 +1168,57 @@ export default function App() {
                       style={{ flex: 1, gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
                     >
                       New
+                    </button>
+                  </div>
+                </div>
+              );
+            }
+
+            if (chapter.num === 2) {
+              return (
+                <div
+                  key={chapter.num}
+                  className="glass-panel"
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '1rem',
+                    padding: '1.5rem',
+                    border: '1px solid var(--accent-border)',
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}
+                >
+                  <div style={{ position: 'absolute', top: 0, right: 0, background: 'var(--accent-bg)', color: 'var(--accent-text)', fontSize: '0.7rem', fontWeight: 'bold', padding: '0.25rem 0.75rem', borderBottomLeftRadius: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    Active Chapter
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginTop: '0.5rem' }}>
+                    <BookOpen size={20} style={{ color: 'var(--accent-text)', marginTop: '0.25rem' }} />
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                      <h3 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--text-heading)' }}>CHAPTER 2</h3>
+                      <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--accent-text)', fontWeight: '600', letterSpacing: '0.02em' }}>LINES AND ANGLES</p>
+                    </div>
+                  </div>
+
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: 0, lineHeight: '1.5', flex: 1 }}>
+                    Explore lines, angles, shapes, and foundational geometric concepts.
+                  </p>
+
+                  <div style={{ display: 'flex', gap: '0.75rem', width: '100%' }}>
+                    <button
+                      onClick={() => navigateTo('class6_maths', 'chapter2_v1')}
+                      className="primary"
+                      style={{ flex: 1, gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
+                    >
+                      V1
+                    </button>
+                    <button
+                      onClick={() => navigateTo('class6_maths', 'chapter2_v2')}
+                      className="primary"
+                      style={{ flex: 1, gap: '0.35rem', justifyContent: 'center', fontSize: '0.85rem', padding: '0.6rem' }}
+                    >
+                      V2
                     </button>
                   </div>
                 </div>
@@ -2941,6 +2995,9 @@ export default function App() {
                        activeActivity === 'virtual_biodiversity' ? 'Activity 2.1 — Virtual Biodiversity Explorer' :
                        activeActivity === 'plant_detective' ? 'Plant Detective Lab' :
                        activeActivity === 'animal_habitat' ? 'Animal Habitat Explorer' :
+                       activeActivity === 'chapter2_v1' ? 'Chapter 2 (V1)' :
+                       activeActivity === 'chapter2_v2' ? 'Chapter 2 (V2)' :
+                       activeActivity === 'chapter2' ? 'Chapter 2' :
                        activeActivity === '9.2' ? 'Activity 9.2' :
                        'Template Demo'}
                     </span>
@@ -3211,6 +3268,10 @@ export default function App() {
             <Class6MathsChapter1Journey 
               onBackToDashboard={() => navigateTo('class6_maths', 'chapter1_new')} 
             />
+          ) : activeActivity === 'chapter2_v1' || (activeActivity === 'chapter2' && activeVersion === 'v1') ? (
+            <Class6MathsChapter2V1 onBackToDashboard={() => navigateTo('class6_maths', null)} />
+          ) : activeActivity === 'chapter2_v2' || (activeActivity === 'chapter2' && (activeVersion === 'v2' || !activeVersion)) ? (
+            <Class6MathsChapter2V2 onBackToDashboard={() => navigateTo('class6_maths', null)} />
           ) : activeActivity === 'line_segment_lab' ? (
             <LineSegmentLabActivity onBackToDashboard={() => navigateTo('class6_maths', 'chapter4')} />
           ) : activeActivity === 'parallel_intersecting_lab' ? (
