@@ -1,0 +1,755 @@
+/* ══════════════════════════════════════════════════════════════════════════════
+   CHAPTER 2 · LINES AND ANGLES (V1) · SECTION 2.1: POINT
+   Full-Screen Interactive Educational Application (100vh · Zero Scroll)
+   16:9 Desktop/Laptop Optimized · Large Bold Typography · High Contrast
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.point-app-fullscreen-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  box-sizing: border-box;
+  background: #FAF7F0;
+  background: radial-gradient(ellipse at 50% 20%, #FFFFFF 0%, #FAF6EE 55%, #F0E8D8 100%);
+  color: #090D16;
+  overflow: hidden !important;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  user-select: none;
+  z-index: 100;
+}
+
+/* ── Subtle Desk Surface Grain (High Quality, Never Intrusive) ── */
+.point-desk-surface {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.28;
+  background-image: 
+    linear-gradient(to right, rgba(160, 115, 60, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(160, 115, 60, 0.03) 2px, transparent 2px);
+  background-size: 60px 8px;
+}
+
+/* ── Top Header: Large Bold Crisp Typography ── */
+.point-app-header {
+  position: relative;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(10px, 1.4vh, 16px) clamp(24px, 3.5vw, 56px);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 2px solid rgba(2, 132, 199, 0.22);
+  flex-shrink: 0;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+}
+
+.point-header-left {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 24px);
+}
+
+.point-header-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.point-header-badge {
+  font-size: clamp(0.78rem, 1.1vh, 0.92rem);
+  font-weight: 900;
+  color: #0284C7;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.point-header-title {
+  font-size: clamp(1.35rem, 2.2vh, 1.75rem);
+  font-weight: 900;
+  color: #090D16;
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+/* Top Back Button */
+.point-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: clamp(8px, 1.1vh, 12px) clamp(16px, 1.6vw, 22px);
+  background: #FFFFFF;
+  border: 2px solid rgba(2, 132, 199, 0.35);
+  border-radius: 9999px;
+  color: #090D16;
+  font-size: clamp(0.95rem, 1.3vh, 1.05rem);
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.point-back-btn:hover {
+  background: #F0F9FF;
+  color: #0284C7;
+  border-color: #0284C7;
+  transform: translateX(-3px);
+  box-shadow: 0 4px 18px rgba(2, 132, 199, 0.25);
+}
+
+/* ── Full-Screen Viewport Stage (Zero Scroll · 100vh constraint) ── */
+.point-fullscreen-stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(8px, 1.2vh, 16px) clamp(20px, 3.5vw, 60px) clamp(10px, 1.6vh, 20px) clamp(20px, 3.5vw, 60px);
+  box-sizing: border-box;
+  overflow: hidden !important;
+  z-index: 20;
+}
+
+/* ── Banner: Big, Bold, High-Contrast Classroom Typography ── */
+.point-stage-banner {
+  text-align: center;
+  max-width: 1100px;
+  width: 100%;
+  flex-shrink: 0;
+  margin-bottom: clamp(6px, 1vh, 12px);
+}
+
+.point-stage-question {
+  font-size: clamp(1.85rem, 3.6vh, 2.85rem);
+  font-weight: 900;
+  color: #090D16;
+  margin: 0;
+  letter-spacing: -0.025em;
+  line-height: 1.18;
+}
+
+.point-stage-subtitle {
+  font-size: clamp(1.15rem, 2vh, 1.45rem);
+  color: #1E293B;
+  font-weight: 700;
+  margin: clamp(4px, 0.8vh, 8px) 0 0 0;
+  line-height: 1.32;
+}
+
+/* ── Keywords Highlight (Royal Blue Accent) ── */
+.point-keyword-highlight {
+  color: #0284C7;
+  font-weight: 900;
+}
+
+/* ── Central Interactive Scene Space ── */
+.point-stage-central-scene {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  max-width: 1320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* ── Screen 1 Paper Canvas with Real Desk Look ── */
+.point-desk-paper-canvas {
+  width: 100%;
+  max-width: 1100px;
+  height: 100%;
+  max-height: min(450px, 52vh);
+  background: #FFFFFF;
+  border-radius: clamp(16px, 2.2vh, 24px);
+  border: 2px solid rgba(203, 213, 225, 0.8);
+  box-shadow: 
+    0 24px 60px rgba(15, 23, 42, 0.1),
+    0 8px 24px rgba(160, 115, 60, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.point-paper-margin-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: clamp(40px, 8vw, 110px);
+  width: 2px;
+  background: rgba(239, 68, 68, 0.3);
+}
+
+.point-paper-faint-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background-image: linear-gradient(to bottom, rgba(2, 132, 199, 0.04) 1px, transparent 1px);
+  background-size: 100% 36px;
+}
+
+/* Clickable Dot Hitbox with Animated Glow Target */
+.point-touch-target-wrap {
+  position: absolute;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 30;
+  transition: transform 0.22s ease;
+}
+
+.point-touch-target-wrap:hover {
+  transform: scale(1.3);
+}
+
+.point-touch-dot-core {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #090D16;
+  box-shadow: 0 0 12px rgba(2, 132, 199, 0.9);
+  transition: all 0.3s ease;
+}
+
+.point-blue-pulse-ring {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2.5px solid #0284C7;
+  animation: pointRingGlow 1.8s ease-out infinite;
+}
+
+@keyframes pointRingGlow {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* ── Screen 2 Three Spacious Real-World Objects ── */
+.point-trio-space {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(16px, 3vw, 40px);
+  width: 100%;
+  height: 100%;
+  max-height: min(440px, 52vh);
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.point-trio-item {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(2, 132, 199, 0.25);
+  border-radius: clamp(16px, 2.2vh, 24px);
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06), inset 0 1px 0 #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(16px, 2.2vh, 26px) clamp(16px, 1.8vw, 24px);
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.point-trio-item:hover {
+  transform: translateY(-6px);
+  border-color: #0284C7;
+  background: #FFFFFF;
+  box-shadow: 0 20px 48px rgba(2, 132, 199, 0.22), inset 0 1px 0 #FFFFFF;
+}
+
+.point-trio-item.inspected {
+  border-color: #0284C7;
+  background: #FFFFFF;
+  box-shadow: 0 16px 42px rgba(2, 132, 199, 0.18);
+}
+
+.point-trio-svg-wrap {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.point-trio-item-title {
+  font-size: clamp(1.2rem, 2.2vh, 1.55rem);
+  font-weight: 900;
+  color: #090D16;
+  margin: 0;
+  text-align: center;
+}
+
+.point-trio-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  background: #E0F2FE;
+  border: 1.5px solid #7DD3FC;
+  border-radius: 9999px;
+  color: #0284C7;
+  font-size: clamp(1rem, 1.6vh, 1.25rem);
+  font-weight: 900;
+  margin-top: 6px;
+}
+
+.point-trio-inspect-hint {
+  font-size: clamp(0.95rem, 1.4vh, 1.15rem);
+  color: #0284C7;
+  font-weight: 800;
+  padding: 6px 12px;
+  background: #F0F9FF;
+  border-radius: 9999px;
+  margin-top: 6px;
+}
+
+/* ── Screen 3 Discover Question Options ── */
+.point-discover-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.point-discover-objects-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 4vw, 56px);
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+.point-discover-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.4vh, 16px);
+  width: 100%;
+  max-width: 820px;
+}
+
+.point-discover-btn {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: clamp(14px, 1.9vh, 20px) clamp(20px, 2.2vw, 28px);
+  background: #FFFFFF;
+  border: 2px solid rgba(2, 132, 199, 0.28);
+  border-radius: clamp(14px, 1.8vh, 18px);
+  font-family: inherit;
+  font-size: clamp(1.15rem, 2vh, 1.45rem);
+  font-weight: 800;
+  color: #090D16;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+}
+
+.point-discover-btn:hover {
+  border-color: #0284C7;
+  background: #F0F9FF;
+  transform: translateX(6px);
+  box-shadow: 0 8px 24px rgba(2, 132, 199, 0.18);
+}
+
+.point-discover-btn.correct {
+  background: #DCFCE7 !important;
+  border-color: #16A34A !important;
+  color: #14532D !important;
+  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.25) !important;
+}
+
+.point-discover-btn.wrong {
+  background: #FEE2E2 !important;
+  border-color: #EF4444 !important;
+  color: #7F1D1D !important;
+}
+
+.point-option-circle {
+  width: clamp(38px, 4.8vh, 48px);
+  height: clamp(38px, 4.8vh, 48px);
+  border-radius: 50%;
+  background: rgba(2, 132, 199, 0.14);
+  color: #0284C7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.15rem, 1.8vh, 1.35rem);
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+.point-hint-banner {
+  padding: 12px 24px;
+  background: #FEF3C7;
+  border: 2px solid #F59E0B;
+  border-radius: 14px;
+  color: #78350F;
+  font-size: clamp(1.05rem, 1.6vh, 1.25rem);
+  font-weight: 800;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* ── Screen 4 & 5 Powerful Mathematical Reveal ── */
+.point-math-reveal-space {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  gap: clamp(14px, 2.2vh, 28px);
+  text-align: center;
+}
+
+.point-glowing-dot-hero {
+  width: clamp(140px, 20vh, 190px);
+  height: clamp(140px, 20vh, 190px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(2, 132, 199, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: pointHeroPulse 3s ease-in-out infinite;
+}
+
+@keyframes pointHeroPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+.point-pure-math-dot {
+  width: clamp(18px, 2.8vh, 24px);
+  height: clamp(18px, 2.8vh, 24px);
+  border-radius: 50%;
+  background: #0284C7;
+  box-shadow: 0 0 26px rgba(2, 132, 199, 0.9), 0 0 8px #0284C7;
+}
+
+.point-statement-large {
+  font-size: clamp(1.65rem, 3.2vh, 2.5rem);
+  font-weight: 900;
+  color: #090D16;
+  margin: 0;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.point-formula-card {
+  max-width: 860px;
+  background: #FFFFFF;
+  border: 2.5px solid #BAE6FD;
+  border-radius: 20px;
+  padding: clamp(16px, 2.2vh, 24px) clamp(28px, 3.5vw, 44px);
+  box-shadow: 0 14px 36px rgba(2, 132, 199, 0.1);
+  font-size: clamp(1.25rem, 2.4vh, 1.7rem);
+  font-weight: 900;
+  color: #0369A1;
+  line-height: 1.38;
+}
+
+/* Screen 5 Transformation items */
+.point-trans-col {
+  text-align: center;
+}
+
+.point-trans-label {
+  font-size: clamp(1.15rem, 2vh, 1.45rem);
+  font-weight: 900;
+  color: #090D16;
+}
+
+.point-trans-arrow {
+  font-size: clamp(1.6rem, 2.5vh, 2rem);
+  font-weight: 900;
+  color: #0284C7;
+  margin: 4px 0;
+}
+
+.point-trans-dot {
+  font-size: clamp(2.2rem, 3.5vh, 3rem);
+  font-weight: 900;
+  line-height: 1;
+  color: #0284C7;
+}
+
+.point-dots-workspace {
+  background: #FFFFFF;
+  border: 2.5px solid #BAE6FD;
+  border-radius: 24px;
+  padding: clamp(24px, 3.5vh, 36px) clamp(60px, 8vw, 110px);
+  display: flex;
+  align-items: center;
+  gap: clamp(48px, 6vw, 80px);
+  box-shadow: 0 16px 40px rgba(2, 132, 199, 0.1);
+}
+
+/* ── Screen 6 Naming Points: Spacious Clean Canvas ── */
+.point-naming-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(40px, 8vw, 120px);
+  width: 100%;
+  height: 100%;
+  max-height: min(380px, 48vh);
+}
+
+.point-node-interactive {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: clamp(20px, 3vh, 34px) clamp(28px, 3.5vw, 44px);
+  background: rgba(255, 255, 255, 0.96);
+  border: 2.5px solid rgba(2, 132, 199, 0.28);
+  border-radius: 24px;
+  cursor: pointer;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.05);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  min-width: clamp(150px, 18vw, 220px);
+}
+
+.point-node-interactive:hover {
+  transform: translateY(-8px);
+  border-color: #0284C7;
+  box-shadow: 0 22px 50px rgba(2, 132, 199, 0.24);
+}
+
+.point-node-interactive.active {
+  background: #F0F9FF;
+  border-color: #0284C7;
+  box-shadow: 0 18px 46px rgba(2, 132, 199, 0.28);
+  transform: scale(1.06);
+}
+
+.point-node-center-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #0284C7;
+  box-shadow: 0 0 16px rgba(2, 132, 199, 0.85);
+}
+
+.point-node-big-letter {
+  font-size: clamp(3rem, 5.5vh, 4.4rem);
+  font-weight: 900;
+  color: #090D16;
+  font-family: 'Space Grotesk', sans-serif;
+  line-height: 1;
+}
+
+.point-node-tag {
+  font-size: clamp(1.15rem, 1.8vh, 1.4rem);
+  font-weight: 900;
+  color: #0284C7;
+  letter-spacing: 0.04em;
+}
+
+/* ── Screen 7 Real Choices Bar ── */
+.point-choices-row {
+  display: flex;
+  gap: clamp(14px, 2vw, 26px);
+  margin-top: clamp(8px, 1.4vh, 16px);
+  width: 100%;
+  max-width: 760px;
+  justify-content: center;
+}
+
+.point-choice-pill-btn {
+  flex: 1;
+  padding: clamp(14px, 1.8vh, 20px) clamp(18px, 2vw, 26px);
+  border-radius: 18px;
+  border: 2px solid rgba(2, 132, 199, 0.3);
+  background: #FFFFFF;
+  color: #090D16;
+  font-family: inherit;
+  font-size: clamp(1.15rem, 1.9vh, 1.45rem);
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+  text-align: center;
+}
+
+.point-choice-pill-btn:hover {
+  border-color: #0284C7;
+  color: #0284C7;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(2, 132, 199, 0.16);
+}
+
+.point-choice-pill-btn.correct {
+  background: #DCFCE7 !important;
+  border-color: #16A34A !important;
+  color: #14532D !important;
+}
+
+.point-choice-pill-btn.wrong {
+  background: #FEE2E2 !important;
+  border-color: #EF4444 !important;
+  color: #7F1D1D !important;
+}
+
+/* ── Screen 8 Completion Banner & Text ── */
+.point-completion-box {
+  background: #FFFFFF;
+  border: 2.5px solid #0284C7;
+  border-radius: 22px;
+  padding: clamp(16px, 2.2vh, 24px) clamp(32px, 4vw, 56px);
+  text-align: center;
+  box-shadow: 0 14px 36px rgba(2, 132, 199, 0.15);
+  animation: pointHeroPulse 0.4s ease;
+}
+
+.point-hero-title {
+  font-size: clamp(1.8rem, 3.2vh, 2.4rem);
+  font-weight: 900;
+  color: #0284C7;
+  letter-spacing: 0.12em;
+}
+
+.point-hero-symbol {
+  font-size: clamp(2.4rem, 4vh, 3.2rem);
+  line-height: 1;
+  color: #0284C7;
+}
+
+.point-completion-statement {
+  margin: 6px 0;
+  font-size: clamp(1.35rem, 2.5vh, 1.8rem);
+  font-weight: 900;
+  color: #090D16;
+}
+
+.point-completion-substatement {
+  margin: 4px 0;
+  font-size: clamp(1.15rem, 2.1vh, 1.5rem);
+  font-weight: 800;
+  color: #0284C7;
+}
+
+.point-complete-badge {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: clamp(1.05rem, 1.8vh, 1.35rem);
+  font-weight: 900;
+  color: #16A34A;
+  background: #DCFCE7;
+  padding: 6px 20px;
+  border-radius: 9999px;
+  border: 1.5px solid #86EFAC;
+}
+
+/* ── Bottom Action & Continue Controls ── */
+.point-bottom-controls-bar {
+  flex-shrink: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  min-height: clamp(48px, 6.5vh, 60px);
+  z-index: 30;
+}
+
+.point-continue-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: clamp(12px, 1.6vh, 18px) clamp(36px, 4vw, 56px);
+  background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  border-radius: 9999px;
+  color: #FFFFFF;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.15rem, 1.8vh, 1.4rem);
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 8px 26px rgba(2, 132, 199, 0.42);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.point-continue-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 14px 34px rgba(2, 132, 199, 0.55);
+}
+
+.point-continue-btn:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.point-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: clamp(10px, 1.4vh, 16px) clamp(22px, 2.5vw, 30px);
+  background: #FFFFFF;
+  border: 2px solid #CBD5E1;
+  border-radius: 9999px;
+  color: #334155;
+  font-family: inherit;
+  font-size: clamp(1.05rem, 1.5vh, 1.25rem);
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.point-secondary-btn:hover {
+  border-color: #0284C7;
+  color: #0284C7;
+}
+
+.point-instruction-hint {
+  font-size: clamp(1.15rem, 2vh, 1.45rem);
+  font-weight: 900;
+  color: #0284C7;
+  animation: pointPulseText 2s infinite ease-in-out;
+}
+
+@keyframes pointPulseText {
+  0%, 100% { opacity: 0.88; }
+  50% { opacity: 1; transform: scale(1.02); }
+}
