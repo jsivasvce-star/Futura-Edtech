@@ -1,11 +1,16 @@
 @keyframes waveFluid {
   0%, 100% { transform: scaleY(1) translateY(0px) rotate(0deg); opacity: 0.9; }
-  50% { transform: scaleY(1.05) translateY(-5px) rotate(2deg); opacity: 1; }
+  50% { transform: scaleY(1.03) translateY(-3px) rotate(1deg); opacity: 1; }
+}
+
+@keyframes waveFluidMid {
+  0%, 100% { transform: scaleY(1) translateY(0px) rotate(0deg); opacity: 0.8; }
+  50% { transform: scaleY(1.05) translateY(-5px) rotate(-1deg); opacity: 0.9; }
 }
 
 @keyframes waveFluidFront {
   0%, 100% { transform: scaleY(1) translateY(0px) rotate(0deg); opacity: 1; }
-  50% { transform: scaleY(1.1) translateY(-8px) rotate(-1deg); opacity: 0.9; }
+  50% { transform: scaleY(1.08) translateY(-8px) rotate(-2deg); opacity: 0.9; }
 }
 
 @keyframes dropFloat {
@@ -225,12 +230,18 @@
   animation: waveFluid 4s ease-in-out infinite;
 }
 
+.wave-mid {
+  transform-origin: bottom center;
+  animation: waveFluidMid 3.8s ease-in-out infinite;
+}
+
 .wave-front {
   transform-origin: bottom center;
   animation: waveFluidFront 3.5s ease-in-out infinite;
 }
 
 .splash-right .wave-back { animation-delay: 0.5s; }
+.splash-right .wave-mid { animation-delay: 0.3s; }
 .splash-right .wave-front { animation-delay: 0.2s; }
 
 .drop {
