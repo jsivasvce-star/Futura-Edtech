@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Chapter2CoverV1 from './Chapter2CoverV1';
 import Section2_1Point from './sections/Section2_1Point';
 import Section2_2LineSegment from './sections/Section2_2LineSegment';
+import Section2_3Line from './sections/Section2_3Line';
 import './cover.css';
 
 /**
@@ -198,6 +199,23 @@ export default function Class6MathsChapter2V1({ onBackToDashboard }) {
           onNextSection={() => {
             const sec23 = CHAPTER_2_V1_SECTIONS.find(s => s.id === '2.3');
             if (sec23) handleSelectSection(sec23);
+          }}
+        />
+      );
+    }
+
+    if (activeSection.id === '2.3') {
+      return (
+        <Section2_3Line
+          onBackToMap={() => setViewState('main')}
+          onBack={() => setViewState('main')}
+          onBackTo2_2={() => {
+            const sec22 = CHAPTER_2_V1_SECTIONS.find(s => s.id === '2.2');
+            if (sec22) handleSelectSection(sec22);
+          }}
+          onNextSection={() => {
+            const sec24 = CHAPTER_2_V1_SECTIONS.find(s => s.id === '2.4');
+            if (sec24) handleSelectSection(sec24);
           }}
         />
       );
