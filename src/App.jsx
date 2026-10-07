@@ -78,6 +78,11 @@ const Chapter4Cover = lazy(() => import('./science/class6/chapter4/Chapter4Cover
 const Chapter5Flow = lazy(() => import('./science/class6/chapter5/Chapter5Flow'));
 const Chapter5Cover = lazy(() => import('./science/class6/chapter5/Chapter5Cover'));
 const DeepasMuddle = lazy(() => import('./science/class6/chapter5/DeepasMuddle'));
+const HandspanBalisht = lazy(() => import('./science/class6/chapter5/HandspanBalisht'));
+const StandardUnits = lazy(() => import('./science/class6/chapter5/StandardUnits'));
+const CorrectMeasurement = lazy(() => import('./science/class6/chapter5/CorrectMeasurement'));
+const LengthOfCurve = lazy(() => import('./science/class6/chapter5/LengthOfCurve'));
+const DescribingPosition = lazy(() => import('./science/class6/chapter5/DescribingPosition'));
 const Chapter4Quiz = lazy(() => import('./science/class6/chapter4/Chapter4Flow/Chapter4Quiz'));
 const IntroMagnets = lazy(() => import('./science/class6/chapter4/IntroMagnets'));
 const AppreciatingBiodiversityActivity = lazy(() => import('./science/class6/chapter2/AppreciatingBiodiversityActivity'));
@@ -3212,6 +3217,31 @@ export default function App() {
             <DeepasMuddle 
               onBackToDashboard={() => navigateTo('class6', 'chapter5_flow')} 
               onComplete={() => navigateTo('class6', 'chapter5_flow', 'sci6-ch5-activity-5-1')}
+            />
+          ) : activeActivity === 'sci6-ch5-activity-5-1' || activeActivity === 'handspan_balisht' || activeActivity === 'handspan-balisht' || activeActivity === 'activity5_1' ? (
+            <HandspanBalisht 
+              onBackToDashboard={() => navigateTo('class6', 'chapter5_flow')} 
+              onComplete={() => navigateTo('class6', 'chapter5_flow', 'sci6-ch5-activity-5-2')}
+            />
+          ) : activeActivity === 'sci6-ch5-activity-5-2' || activeActivity === 'standard_units' || activeActivity === 'standard-units' || activeActivity === 'standard_units_ui' || activeActivity === 'activity5_2' ? (
+            <StandardUnits 
+              onBackToDashboard={() => navigateTo('class6', 'chapter5_flow')} 
+              onComplete={() => navigateTo('class6', 'chapter5_flow', 'sci6-ch5-activity-5-3')}
+            />
+          ) : activeActivity === 'sci6-ch5-activity-5-3' || activeActivity === 'correct_measurement' || activeActivity === 'correct-measurement' || activeActivity === 'activity5_3' ? (
+            <CorrectMeasurement 
+              onBackToDashboard={() => navigateTo('class6', 'chapter5_flow')} 
+              onComplete={() => navigateTo('class6', 'chapter5_flow', 'sci6-ch5-activity-5-4')}
+            />
+          ) : activeActivity === 'sci6-ch5-activity-5-4' || activeActivity === 'length_of_a_curve' || activeActivity === 'length_of_curve' || activeActivity === 'length-of-curve' || activeActivity === 'activity5_4' ? (
+            <LengthOfCurve 
+              onBackToDashboard={() => navigateTo('class6', 'chapter5_flow')} 
+              onComplete={() => navigateTo('class6', 'chapter5_flow', 'sci6-ch5-activity-5-5')}
+            />
+          ) : activeActivity === 'sci6-ch5-activity-5-5' || activeActivity === 'describing_positions' || activeActivity === 'describing-positions' || activeActivity === 'describing_position' || activeActivity === 'describing-position' || activeActivity === 'activity5_5' ? (
+            <DescribingPosition 
+              onBackToDashboard={() => navigateTo('class6', 'chapter5_flow')} 
+              onComplete={() => navigateTo('class6', 'chapter5_flow', 'linear_motion')}
             />
           ) : activeActivity === 'chapter6' ? (
             renderClass6Chapter6()
