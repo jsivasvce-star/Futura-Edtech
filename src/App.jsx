@@ -26,7 +26,7 @@ const ElectricCircuitActivity = lazy(() => import('./science/class7/chapter3/Ele
 const ActivityTemplate = lazy(() => import('./activities/ActivityTemplate'));
 const GeographyExpeditionActivity = lazy(() => import('./social/class7/chapter1/Class7Geography'));
 const SphericalMirrorsActivity = lazy(() => import('./science/class7/chapter11/SphericalMirrors'));
-const FoodTestingActivity = lazy(() => import('./science/class6/chapter3/FoodTesting'));
+const Activity35 = lazy(() => import('./science/class6/chapter3/Activity35'));
 const FatTestingActivity = lazy(() => import('./science/class6/chapter3/FatTesting'));
 const ProteinTestingActivity = lazy(() => import('./science/class6/chapter3/ProteinTesting'));
 const MaterialsPropertiesActivity = lazy(() => import('./science/class7/chapter4/MaterialsProperties'));
@@ -851,6 +851,7 @@ export default function App() {
   const CLASS_6_CHAPTERS = [
     { num: 1, title: "The Wonderful World of Science" },
     { num: 2, title: "Diversity in the Living World" },
+    { num: 3, title: "Mindful Eating: A Path to a Healthy Body" },
     { num: 4, title: "Exploring Magnets" },
     { num: 5, title: "Measurement of Length and Motion" },
     { num: 6, title: "Materials Around Us" }
@@ -912,7 +913,7 @@ export default function App() {
                     {chapter.num === 2
                       ? "Virtual Biodiversity Explorer, Plant Detective, and Animal Habitat Explorer."
                       : chapter.num === 3 
-                        ? "Includes Activity 3.5: Testing for Starch." 
+                        ? "Explore food diversity across regions, nutrients, starch/fat/protein testing, and balanced diet." 
                         : chapter.num === 4 
                           ? "Includes Activity 4.1: Appearance, hardness, and effect of hammering on different materials."
                           : chapter.num === 5
@@ -1031,6 +1032,43 @@ export default function App() {
                         title="Open Chapter 2 (Version 3)"
                       >
                         <span>Version 3</span> <ArrowRight size={13} />
+                      </button>
+                    </div>
+                  ) : chapter.num === 3 ? (
+                    <div style={{ display: 'flex', gap: '0.65rem', width: '100%', marginTop: 'auto' }}>
+                      <button
+                        id="btn-open-chapter3-v1"
+                        onClick={() => navigateTo('class6', 'chapter3', null, 'v1')}
+                        style={{
+                          flex: 1,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.35rem',
+                          fontSize: '0.84rem',
+                          fontWeight: 800,
+                          padding: '0.65rem 0.4rem',
+                          borderRadius: '8px',
+                          border: 'none',
+                          background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                          color: '#FFFFFF',
+                          cursor: 'pointer',
+                          boxShadow: '0 3px 12px rgba(217, 119, 6, 0.35)',
+                          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                          letterSpacing: '0.02em',
+                          whiteSpace: 'nowrap'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-2px)';
+                          e.currentTarget.style.boxShadow = '0 6px 16px rgba(217, 119, 6, 0.45)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'translateY(0)';
+                          e.currentTarget.style.boxShadow = '0 3px 12px rgba(217, 119, 6, 0.35)';
+                        }}
+                        title="Open Chapter 3 (Version 1)"
+                      >
+                        <span>Version 1</span> <ArrowRight size={13} />
                       </button>
                     </div>
                   ) : (
@@ -3059,7 +3097,7 @@ export default function App() {
           )
         ) : activeSubject === 'class6' ? (
           activeActivity === 'food_testing' ? (
-            <FoodTestingActivity onBackToDashboard={() => navigateTo('class6', 'chapter3')} />
+            <Activity35 onBackToDashboard={() => navigateTo('class6', 'chapter3')} />
           ) : activeActivity === 'fat_testing' ? (
             <FatTestingActivity onBackToDashboard={() => navigateTo('class6', 'chapter3')} />
           ) : activeActivity === 'protein_testing' ? (
@@ -3166,6 +3204,7 @@ export default function App() {
             <Chapter3LearningLab 
               onBack={() => navigateTo('class6', null)}
               onHeaderVisibilityChange={(visible) => setHideHeader(!visible)}
+              initialVersion={activeVersion}
             />
           ) : activeActivity === 'chapter10' ? (
             <Chapter10LearningLab 

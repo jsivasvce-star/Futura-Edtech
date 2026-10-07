@@ -51,7 +51,7 @@ import RootSystemsLab from "./RootSystemsLab";
 import VenationRootCorrelationLab from "./VenationRootCorrelationLab";
 import SeedDissectionLab from "./SeedDissectionLab";
 import AnimalHabitatExplorerActivity from "./AnimalHabitatExplorer";
-import FoodTestingActivity from "../../chapter3/FoodTesting";
+import Activity35 from "../../chapter3/Activity35";
 import FatTestingActivity from "../../chapter3/FatTesting";
 import ProteinTestingActivity from "../../chapter3/ProteinTesting";
 
@@ -3263,7 +3263,7 @@ export default function ChapterLearningLab({
       case "animal_habitat_matching":
         return <AnimalHabitatExplorerActivity key="animal_habitat_matching" onBackToDashboard={onBack} initialPhase={1} />;
       case "food_testing":
-        return <FoodTestingActivity onBackToDashboard={onBack} />;
+        return <Activity35 onBackToDashboard={onBack} />;
       case "fat_testing":
         return <FatTestingActivity onBackToDashboard={onBack} />;
       case "protein_testing":
