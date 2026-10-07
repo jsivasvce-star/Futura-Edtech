@@ -939,11 +939,12 @@ export default function App() {
                           justifyContent: 'center',
                           fontSize: '0.84rem',
                           padding: '0.6rem 0.4rem',
-                          whiteSpace: 'nowrap'
+                          whiteSpace: 'nowrap',
+                          color: '#FFFFFF'
                         }}
                         title="Open Chapter 2 (Version 1)"
                       >
-                        <span>Version 1</span> <ArrowRight size={13} />
+                        <span style={{ color: '#FFFFFF' }}>Version 1</span> <ArrowRight size={13} color="#FFFFFF" />
                       </button>
 
                       <button
@@ -956,11 +957,12 @@ export default function App() {
                           justifyContent: 'center',
                           fontSize: '0.84rem',
                           padding: '0.6rem 0.4rem',
-                          whiteSpace: 'nowrap'
+                          whiteSpace: 'nowrap',
+                          color: '#FFFFFF'
                         }}
                         title="Open Chapter 2 (Version 2)"
                       >
-                        <span>Version 2</span> <ArrowRight size={13} />
+                        <span style={{ color: '#FFFFFF' }}>Version 2</span> <ArrowRight size={13} color="#FFFFFF" />
                       </button>
 
                       <button
@@ -973,11 +975,12 @@ export default function App() {
                           justifyContent: 'center',
                           fontSize: '0.84rem',
                           padding: '0.6rem 0.4rem',
-                          whiteSpace: 'nowrap'
+                          whiteSpace: 'nowrap',
+                          color: '#FFFFFF'
                         }}
                         title="Open Chapter 2 (Version 3)"
                       >
-                        <span>Version 3</span> <ArrowRight size={13} />
+                        <span style={{ color: '#FFFFFF' }}>Version 3</span> <ArrowRight size={13} color="#FFFFFF" />
                       </button>
                     </div>
                   ) : chapter.num === 3 ? (
@@ -992,11 +995,12 @@ export default function App() {
                           justifyContent: 'center',
                           fontSize: '0.84rem',
                           padding: '0.6rem 0.4rem',
-                          whiteSpace: 'nowrap'
+                          whiteSpace: 'nowrap',
+                          color: '#FFFFFF'
                         }}
                         title="Open Chapter 3 (Version 1)"
                       >
-                        <span>Version 1</span> <ArrowRight size={13} />
+                        <span style={{ color: '#FFFFFF' }}>Version 1</span> <ArrowRight size={13} color="#FFFFFF" />
                       </button>
                     </div>
                   ) : (
