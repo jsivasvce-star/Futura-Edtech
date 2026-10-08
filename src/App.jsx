@@ -26,7 +26,7 @@ const ElectricCircuitActivity = lazy(() => import('./science/class7/chapter3/Ele
 const ActivityTemplate = lazy(() => import('./activities/ActivityTemplate'));
 const GeographyExpeditionActivity = lazy(() => import('./social/class7/chapter1/Class7Geography'));
 const SphericalMirrorsActivity = lazy(() => import('./science/class7/chapter11/SphericalMirrors'));
-const FoodTestingActivity = lazy(() => import('./science/class6/chapter3/FoodTesting'));
+const Activity35 = lazy(() => import('./science/class6/chapter3/Activity35'));
 const FatTestingActivity = lazy(() => import('./science/class6/chapter3/FatTesting'));
 const ProteinTestingActivity = lazy(() => import('./science/class6/chapter3/ProteinTesting'));
 const MaterialsPropertiesActivity = lazy(() => import('./science/class7/chapter4/MaterialsProperties'));
@@ -76,6 +76,13 @@ const FunWithMagnets = lazy(() => import('./science/class6/chapter4/FunWithMagne
 const Chapter4Flow = lazy(() => import('./science/class6/chapter4/Chapter4Flow'));
 const Chapter4Cover = lazy(() => import('./science/class6/chapter4/Chapter4Cover'));
 const Chapter5Flow = lazy(() => import('./science/class6/chapter5/Chapter5Flow'));
+const Chapter5Cover = lazy(() => import('./science/class6/chapter5/Chapter5Cover'));
+const DeepasMuddle = lazy(() => import('./science/class6/chapter5/DeepasMuddle'));
+const HandspanBalisht = lazy(() => import('./science/class6/chapter5/HandspanBalisht'));
+const StandardUnits = lazy(() => import('./science/class6/chapter5/StandardUnits'));
+const CorrectMeasurement = lazy(() => import('./science/class6/chapter5/CorrectMeasurement'));
+const LengthOfCurve = lazy(() => import('./science/class6/chapter5/LengthOfCurve'));
+const DescribingPosition = lazy(() => import('./science/class6/chapter5/DescribingPosition'));
 const Chapter4Quiz = lazy(() => import('./science/class6/chapter4/Chapter4Flow/Chapter4Quiz'));
 const IntroMagnets = lazy(() => import('./science/class6/chapter4/IntroMagnets'));
 const AppreciatingBiodiversityActivity = lazy(() => import('./science/class6/chapter2/AppreciatingBiodiversityActivity'));
@@ -140,7 +147,8 @@ export default function App() {
     const isPhysicsCh4 = activeSubject === 'class6' && [
       'intro_magnets', 'activity_4_1', 'magnetic_poles', 'suspended_magnet', 
       'magnetic_compass', 'magnet_interaction', 'activity_4_6', 'activity_4_7', 
-      'sci6-ch4-sec45-fun-with-magnets', 'chapter_4_quiz', 'chapter4_flow', 'chapter4_cover'
+      'sci6-ch4-sec45-fun-with-magnets', 'chapter_4_quiz', 'chapter4_flow', 'chapter4_cover',
+      'chapter5_cover', 'chapter5_flow', 'chapter5flow'
     ].includes(activeActivity);
 
     if (isPhysicsCh4) {
@@ -246,6 +254,7 @@ export default function App() {
         'activity_4_7': 'Activity 4.7',
         'linear_motion': 'Linear Motion Lab',
         'circular_motion': 'Circular Motion Lab',
+        'sci6-ch5-intro': "Deepa's Muddle",
         'material_detective': 'Material Detective Lab',
         '5.1': 'Force Explorer Lab',
         '4.1': 'Magnetic Effect of Current Lab',
@@ -847,7 +856,9 @@ export default function App() {
   const CLASS_6_CHAPTERS = [
     { num: 1, title: "The Wonderful World of Science" },
     { num: 2, title: "Diversity in the Living World" },
+    { num: 3, title: "Mindful Eating: A Path to a Healthy Body" },
     { num: 4, title: "Exploring Magnets" },
+    { num: 5, title: "Measurement of Length and Motion" },
     { num: 6, title: "Materials Around Us" }
   ];
 
@@ -907,11 +918,11 @@ export default function App() {
                     {chapter.num === 2
                       ? "Virtual Biodiversity Explorer, Plant Detective, and Animal Habitat Explorer."
                       : chapter.num === 3 
-                        ? "Includes Activity 3.5: Testing for Starch." 
+                        ? "Explore food diversity across regions, nutrients, starch/fat/protein testing, and balanced diet." 
                         : chapter.num === 4 
                           ? "Includes Activity 4.1: Appearance, hardness, and effect of hammering on different materials."
                           : chapter.num === 5
-                            ? "Includes Activity 5.3: Linear Motion and observation of moving objects."
+                            ? "Full interactive lab chart: standard units, parallax, curved lengths & types of motion."
                             : chapter.num === 6
                               ? "Includes Activities 6.1, 6.2, and 6.3: Material Detective case study."
                               : chapter.num === 10
@@ -926,113 +937,82 @@ export default function App() {
                       <button
                         id="btn-open-chapter2-v1"
                         onClick={() => navigateTo('class6', 'chapter2', null, 'v1')}
+                        className="primary"
                         style={{
                           flex: 1,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
                           gap: '0.35rem',
+                          justifyContent: 'center',
                           fontSize: '0.84rem',
-                          fontWeight: 800,
-                          padding: '0.65rem 0.4rem',
-                          borderRadius: '8px',
-                          border: 'none',
-                          background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-                          color: '#FFFFFF',
-                          cursor: 'pointer',
-                          boxShadow: '0 3px 12px rgba(217, 119, 6, 0.35)',
-                          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                          letterSpacing: '0.02em',
-                          whiteSpace: 'nowrap'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'translateY(-2px)';
-                          e.currentTarget.style.boxShadow = '0 6px 16px rgba(217, 119, 6, 0.45)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'translateY(0)';
-                          e.currentTarget.style.boxShadow = '0 3px 12px rgba(217, 119, 6, 0.35)';
+                          padding: '0.6rem 0.4rem',
+                          whiteSpace: 'nowrap',
+                          color: '#FFFFFF'
                         }}
                         title="Open Chapter 2 (Version 1)"
                       >
-                        <span>Version 1</span> <ArrowRight size={13} />
+                        <span style={{ color: '#FFFFFF' }}>Version 1</span> <ArrowRight size={13} color="#FFFFFF" />
                       </button>
 
                       <button
                         id="btn-open-chapter2-v2"
                         onClick={() => navigateTo('class6', 'chapter2', null, 'v2')}
+                        className="primary"
                         style={{
                           flex: 1,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
                           gap: '0.35rem',
+                          justifyContent: 'center',
                           fontSize: '0.84rem',
-                          fontWeight: 800,
-                          padding: '0.65rem 0.4rem',
-                          borderRadius: '8px',
-                          border: 'none',
-                          background: 'linear-gradient(135deg, #059669 0%, #10B981 100%)',
-                          color: '#FFFFFF',
-                          cursor: 'pointer',
-                          boxShadow: '0 3px 12px rgba(16, 185, 129, 0.35)',
-                          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                          letterSpacing: '0.02em',
-                          whiteSpace: 'nowrap'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'translateY(-2px)';
-                          e.currentTarget.style.boxShadow = '0 6px 16px rgba(16, 185, 129, 0.45)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'translateY(0)';
-                          e.currentTarget.style.boxShadow = '0 3px 12px rgba(16, 185, 129, 0.35)';
+                          padding: '0.6rem 0.4rem',
+                          whiteSpace: 'nowrap',
+                          color: '#FFFFFF'
                         }}
                         title="Open Chapter 2 (Version 2)"
                       >
-                        <span>Version 2</span> <ArrowRight size={13} />
+                        <span style={{ color: '#FFFFFF' }}>Version 2</span> <ArrowRight size={13} color="#FFFFFF" />
                       </button>
 
                       <button
                         id="btn-open-chapter2-v3"
                         onClick={() => navigateTo('class6', 'chapter2', null, 'v3')}
+                        className="primary"
                         style={{
                           flex: 1,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
                           gap: '0.35rem',
+                          justifyContent: 'center',
                           fontSize: '0.84rem',
-                          fontWeight: 800,
-                          padding: '0.65rem 0.4rem',
-                          borderRadius: '8px',
-                          border: 'none',
-                          background: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)',
-                          color: '#FFFFFF',
-                          cursor: 'pointer',
-                          boxShadow: '0 3px 12px rgba(37, 99, 235, 0.35)',
-                          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                          letterSpacing: '0.02em',
-                          whiteSpace: 'nowrap'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'translateY(-2px)';
-                          e.currentTarget.style.boxShadow = '0 6px 16px rgba(37, 99, 235, 0.45)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'translateY(0)';
-                          e.currentTarget.style.boxShadow = '0 3px 12px rgba(37, 99, 235, 0.35)';
+                          padding: '0.6rem 0.4rem',
+                          whiteSpace: 'nowrap',
+                          color: '#FFFFFF'
                         }}
                         title="Open Chapter 2 (Version 3)"
                       >
-                        <span>Version 3</span> <ArrowRight size={13} />
+                        <span style={{ color: '#FFFFFF' }}>Version 3</span> <ArrowRight size={13} color="#FFFFFF" />
+                      </button>
+                    </div>
+                  ) : chapter.num === 3 ? (
+                    <div style={{ display: 'flex', gap: '0.65rem', width: '100%', marginTop: 'auto' }}>
+                      <button
+                        id="btn-open-chapter3-v1"
+                        onClick={() => navigateTo('class6', 'chapter3', null, 'v1')}
+                        className="primary"
+                        style={{
+                          flex: 1,
+                          gap: '0.35rem',
+                          justifyContent: 'center',
+                          fontSize: '0.84rem',
+                          padding: '0.6rem 0.4rem',
+                          whiteSpace: 'nowrap',
+                          color: '#FFFFFF'
+                        }}
+                        title="Open Chapter 3 (Version 1)"
+                      >
+                        <span style={{ color: '#FFFFFF' }}>Version 1</span> <ArrowRight size={13} color="#FFFFFF" />
                       </button>
                     </div>
                   ) : (
                     <button 
                       onClick={() => {
                         if (chapter.num === 4) navigateTo('class6', 'chapter4_cover');
-                        else if (chapter.num === 5) navigateTo('class6', 'chapter5_flow');
+                        else if (chapter.num === 5) navigateTo('class6', 'chapter5_cover');
                         else if (chapter.num === 6) navigateTo('class6', 'materials_around_us');
                         else navigateTo('class6', `chapter${chapter.num}`);
                       }}
@@ -2995,6 +2975,9 @@ export default function App() {
                        activeActivity === 'chapter2_v1' ? 'Chapter 2 (V1)' :
                        activeActivity === 'chapter2_v2' ? 'Chapter 2 (V2)' :
                        activeActivity === 'chapter2' ? 'Chapter 2' :
+                       activeActivity === 'sci6-ch5-intro' || activeActivity === 'deepas_muddle' ? "Deepa's Muddle" :
+                       activeActivity === 'chapter5_flow' ? 'Chapter 5 Flow' :
+                       activeActivity === 'chapter5_cover' ? 'Chapter 5 Cover' :
                        activeActivity === '9.2' ? 'Activity 9.2' :
                        'Template Demo'}
                     </span>
@@ -3051,7 +3034,7 @@ export default function App() {
           )
         ) : activeSubject === 'class6' ? (
           activeActivity === 'food_testing' ? (
-            <FoodTestingActivity onBackToDashboard={() => navigateTo('class6', 'chapter3')} />
+            <Activity35 onBackToDashboard={() => navigateTo('class6', 'chapter3')} />
           ) : activeActivity === 'fat_testing' ? (
             <FatTestingActivity onBackToDashboard={() => navigateTo('class6', 'chapter3')} />
           ) : activeActivity === 'protein_testing' ? (
@@ -3158,6 +3141,7 @@ export default function App() {
             <Chapter3LearningLab 
               onBack={() => navigateTo('class6', null)}
               onHeaderVisibilityChange={(visible) => setHideHeader(!visible)}
+              initialVersion={activeVersion}
             />
           ) : activeActivity === 'chapter10' ? (
             <Chapter10LearningLab 
@@ -3190,13 +3174,46 @@ export default function App() {
               onLaunchActivity={(act) => navigateTo('class6', act)} 
               initialSection={activeSection}
             />
-          ) : activeActivity === 'chapter5_flow' ? (
+          ) : activeActivity === 'chapter5_cover' || activeActivity === 'chapter5' ? (
+            <Chapter5Cover 
+              onStartJourney={() => navigateTo('class6', 'chapter5_flow')}
+              onBack={() => navigateTo('class6', null)}
+            />
+          ) : activeActivity === 'chapter5_flow' || activeActivity === 'chapter5flow' ? (
             <Chapter5Flow 
-              onBackToDashboard={() => navigateTo('class6', null)}
+              onBackToDashboard={() => navigateTo('class6', 'chapter5_cover')}
               onLaunchActivity={(id) => navigateTo('class6', id)}
             />
-          ) : activeActivity === 'chapter5' ? (
-            renderClass6Chapter5()
+          ) : activeActivity === 'sci6-ch5-intro' || activeActivity === 'deepas_muddle' || activeActivity === 'deepas-muddle' ? (
+            <DeepasMuddle 
+              onBackToDashboard={() => navigateTo('class6', 'chapter5_flow')} 
+              onComplete={() => navigateTo('class6', 'chapter5_flow', 'sci6-ch5-activity-5-1')}
+            />
+          ) : activeActivity === 'sci6-ch5-activity-5-1' || activeActivity === 'handspan_balisht' || activeActivity === 'handspan-balisht' || activeActivity === 'activity5_1' ? (
+            <HandspanBalisht 
+              onBackToDashboard={() => navigateTo('class6', 'chapter5_flow')} 
+              onComplete={() => navigateTo('class6', 'chapter5_flow', 'sci6-ch5-activity-5-2')}
+            />
+          ) : activeActivity === 'sci6-ch5-activity-5-2' || activeActivity === 'standard_units' || activeActivity === 'standard-units' || activeActivity === 'standard_units_ui' || activeActivity === 'activity5_2' ? (
+            <StandardUnits 
+              onBackToDashboard={() => navigateTo('class6', 'chapter5_flow')} 
+              onComplete={() => navigateTo('class6', 'chapter5_flow', 'sci6-ch5-activity-5-3')}
+            />
+          ) : activeActivity === 'sci6-ch5-activity-5-3' || activeActivity === 'correct_measurement' || activeActivity === 'correct-measurement' || activeActivity === 'activity5_3' ? (
+            <CorrectMeasurement 
+              onBackToDashboard={() => navigateTo('class6', 'chapter5_flow')} 
+              onComplete={() => navigateTo('class6', 'chapter5_flow', 'sci6-ch5-activity-5-4')}
+            />
+          ) : activeActivity === 'sci6-ch5-activity-5-4' || activeActivity === 'length_of_a_curve' || activeActivity === 'length_of_curve' || activeActivity === 'length-of-curve' || activeActivity === 'activity5_4' ? (
+            <LengthOfCurve 
+              onBackToDashboard={() => navigateTo('class6', 'chapter5_flow')} 
+              onComplete={() => navigateTo('class6', 'chapter5_flow', 'sci6-ch5-activity-5-5')}
+            />
+          ) : activeActivity === 'sci6-ch5-activity-5-5' || activeActivity === 'describing_positions' || activeActivity === 'describing-positions' || activeActivity === 'describing_position' || activeActivity === 'describing-position' || activeActivity === 'activity5_5' ? (
+            <DescribingPosition 
+              onBackToDashboard={() => navigateTo('class6', 'chapter5_flow')} 
+              onComplete={() => navigateTo('class6', 'chapter5_flow', 'linear_motion')}
+            />
           ) : activeActivity === 'chapter6' ? (
             renderClass6Chapter6()
           ) : (

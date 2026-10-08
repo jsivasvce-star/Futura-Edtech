@@ -1,0 +1,438 @@
+/* ==========================================================================
+   DEEPA'S MUDDLE — CHAPTER 5 STORY MODULE STYLING
+   Light theme bottom narrative container with bold, crisp typography,
+   uncompromised native image resolution, pixel sharpness, and centered positioning.
+   ========================================================================== */
+
+.deepa-story-viewport {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(circle at 50% 50%, #0F172A 0%, #070B16 100%);
+  font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Atmospheric Background Glow Lines */
+.deepa-ambient-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Fullscreen Stage Container — true edge-to-edge presentation */
+.deepa-stage-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 10;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Image Frame ensuring uncompromised resolution, pixel clarity & brightness */
+.deepa-image-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.deepa-story-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  filter: contrast(1.02) brightness(1.01);
+  will-change: transform, opacity;
+  transition: opacity 0.35s ease-in-out;
+}
+
+/* Top Bar: Progress Indicator & Voice Controls */
+.deepa-top-header {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.deepa-header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 1.15rem;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1.8px solid #E2E8F0;
+  border-radius: 9999px;
+  color: #1E293B;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  pointer-events: auto;
+}
+
+.deepa-page-pills {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.deepa-page-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+  background: #CBD5E1;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.deepa-page-dot.active {
+  width: 26px;
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+}
+
+.deepa-page-dot.completed {
+  background: #10B981;
+}
+
+/* Audio & Replay Top-Right Buttons */
+.deepa-top-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  pointer-events: auto;
+}
+
+.deepa-control-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 35px;
+  border: 1.8px solid #E2E8F0;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #1E293B;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.92rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.deepa-control-btn:hover {
+  transform: translateY(-2px);
+  background: #FFFFFF;
+  border-color: #F59E0B;
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.25);
+  color: #0F172A;
+}
+
+.deepa-control-btn.muted {
+  background: rgba(239, 68, 68, 0.92);
+  border-color: rgba(239, 68, 68, 0.6);
+  color: #FFFFFF;
+}
+
+.deepa-control-btn.unmuted {
+  background: rgba(16, 185, 129, 0.92);
+  border-color: rgba(16, 185, 129, 0.6);
+  color: #FFFFFF;
+}
+
+/* ==========================================================================
+   BOTTOM NARRATIVE CONTAINER — LIGHT THEME (Centered, Bold, Crisp & Clean)
+   ========================================================================== */
+.deepa-bottom-container {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: min(94vw, 1140px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.94) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.8px solid #E2E8F0;
+  border-radius: 22px;
+  padding: 1.1rem 1.75rem;
+  box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  box-sizing: border-box;
+  transition: box-shadow 0.3s ease;
+}
+
+/* Scene Header inside Container */
+.deepa-container-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.5px solid #E2E8F0;
+  padding-bottom: 0.45rem;
+}
+
+.deepa-scene-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.deepa-scene-index-badge {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  color: #FFFFFF;
+  font-size: 0.78rem;
+  font-weight: 900;
+  padding: 0.22rem 0.7rem;
+  border-radius: 999px;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);
+}
+
+.deepa-scene-heading {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 850;
+  color: #0F172A;
+  letter-spacing: -0.01em;
+}
+
+.deepa-audio-playing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #0284C7;
+}
+
+.deepa-audio-wave {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 12px;
+}
+
+.deepa-audio-bar {
+  width: 3px;
+  background: #0284C7;
+  border-radius: 2px;
+  animation: soundWaveLight 0.8s ease-in-out infinite alternate;
+}
+
+.deepa-audio-bar:nth-child(1) { height: 6px; animation-delay: 0.1s; }
+.deepa-audio-bar:nth-child(2) { height: 12px; animation-delay: 0.3s; }
+.deepa-audio-bar:nth-child(3) { height: 8px; animation-delay: 0.2s; }
+
+@keyframes soundWaveLight {
+  0% { height: 4px; }
+  100% { height: 14px; }
+}
+
+/* Primary Narrative Text — Light Theme, Bold & Large */
+.deepa-story-text {
+  margin: 0;
+  font-size: clamp(1.22rem, 1.75vw, 1.55rem);
+  font-weight: 800;
+  line-height: 1.55;
+  color: #1E293B;
+  letter-spacing: -0.01em;
+}
+
+/* Bottom Navigation Actions within Light Theme Container */
+.deepa-container-nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.2rem;
+}
+
+.deepa-nav-btn {
+  padding: 0.65rem 1.65rem;
+  border-radius: 35px;
+  border: 1.5px solid #CBD5E1;
+  background: #F1F5F9;
+  color: #334155;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 850;
+  font-size: 1.02rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.deepa-nav-btn:hover {
+  transform: translateY(-2px);
+  background: #E2E8F0;
+  border-color: #94A3B8;
+  color: #0F172A;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.deepa-nav-btn.primary-btn {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  border: 1.5px solid #FCD34D;
+  color: #FFFFFF;
+  font-weight: 900;
+  box-shadow: 0 4px 16px rgba(217, 119, 6, 0.35);
+}
+
+.deepa-nav-btn.primary-btn:hover {
+  background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+  box-shadow: 0 6px 22px rgba(245, 158, 11, 0.55);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.deepa-nav-btn.finish-btn {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  border: 1.5px solid #6EE7B7;
+  color: #FFFFFF;
+  font-weight: 900;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+}
+
+.deepa-nav-btn.finish-btn:hover {
+  background: linear-gradient(135deg, #34D399 0%, #10B981 100%);
+  box-shadow: 0 6px 22px rgba(16, 185, 129, 0.55);
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* ==========================================================================
+   COMPLETION MODAL (Matches Futura Edtech Standard)
+   ========================================================================== */
+.deepa-completion-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 2.5vw, 2rem);
+  box-sizing: border-box;
+  z-index: 100000;
+}
+
+.deepa-completion-card {
+  background-color: #FFFFFF;
+  border: 1.8px solid #E2E8F0;
+  border-radius: 36px;
+  padding: clamp(2rem, 4vh, 3.2rem) clamp(1.75rem, 3vw, 2.8rem);
+  width: min(92vw, 76vh, 660px);
+  box-shadow: 0 25px 65px -12px rgba(15, 23, 42, 0.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.85rem, 2.2vh, 1.4rem);
+  box-sizing: border-box;
+  animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.deepa-completion-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+  flex-shrink: 0;
+}
+
+.deepa-completion-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1.45rem;
+  border-radius: 9999px;
+  border: 1.8px solid #10B981;
+  background-color: rgba(16, 185, 129, 0.08);
+  color: #047857;
+  font-size: 1.12rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.deepa-completion-title {
+  font-size: clamp(2.3rem, 3.6vw, 3.2rem);
+  font-weight: 900;
+  margin: 0;
+  color: #1E293B;
+  letter-spacing: -0.02em;
+  text-align: center;
+  line-height: 1.15;
+}
+
+.deepa-completion-desc {
+  font-size: clamp(1.3rem, 2vw, 1.6rem);
+  color: #334155;
+  line-height: 1.5;
+  margin: 0;
+  font-weight: 750;
+  max-width: 560px;
+  text-align: center;
+}
+
+.deepa-completion-cta {
+  width: 86%;
+  max-width: 460px;
+  padding: 1.15rem 2.2rem;
+  font-size: 1.35rem;
+  font-weight: 900;
+  border-radius: 45px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 0.4rem;
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  color: #FFFFFF;
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.45);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.deepa-completion-cta:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 26px rgba(245, 158, 11, 0.6);
+}

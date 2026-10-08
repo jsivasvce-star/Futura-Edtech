@@ -59,6 +59,8 @@ import technologyVideo from '../../../../assets/technology.mp4';
 import satelliteImg from '../../../../assets/satellite.png';
 import phonePatternImg from '../../../../assets/phone_pattern.png';
 import keyboardImg from '../../../../assets/keyboard.png';
+import coverImg from '../../chapter1/version-2/image/cover.png';
+import coverAudio from '../../chapter1/version-2/audio/page37.mp3';
 
 const SCHOOL_OBJECTS = [
   {
@@ -321,6 +323,7 @@ const LESSON_TABS = [
 ];
 
 function FullscreenExplore1_1({ onClose, onCompleteNode }) {
+  const [showCover, setShowCover] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
   const [activeLessonTab, setActiveLessonTab] = useState(1);
@@ -335,8 +338,26 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
     return text.split(' ');
   }, [currentSlide]);
 
+  // Timer for the 5-second cover screen
+  useEffect(() => {
+    if (showCover) {
+      const audio = new Audio(coverAudio);
+      audio.play().catch(e => console.log('Cover audio playback blocked:', e));
+
+      const timer = setTimeout(() => {
+        setShowCover(false);
+      }, 5000);
+      return () => {
+        clearTimeout(timer);
+        audio.pause();
+        audio.currentTime = 0;
+      };
+    }
+  }, [showCover]);
+
   // Voice-synchronized word highlighting and 5-second auto-next delay
   useEffect(() => {
+    if (showCover) return;
     if (currentSlide >= TRAFFIC_SLIDES.length) {
       return;
     }
@@ -404,6 +425,14 @@ function FullscreenExplore1_1({ onClose, onCompleteNode }) {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
+
+  if (showCover) {
+    return (
+      <div style={{ position: 'fixed', inset: 0, zIndex: 999999, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#000' }}>
+        <img src={coverImg} alt="Cover" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      </div>
+    );
+  }
 
   const isLessonContent = currentSlide >= TRAFFIC_SLIDES.length;
 

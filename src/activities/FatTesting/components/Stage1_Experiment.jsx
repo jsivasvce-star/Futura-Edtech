@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, FlaskConical, RotateCcw, FileText, Sun, ArrowRight } from 'lucide-react';
-import ThreeDFoodViewer from '../../FoodTesting/components/ThreeDFoodViewer';
+import ThreeDFoodViewer from './ThreeDFoodViewer';
 
 const FOOD_ITEMS = [
   { id: 'potato', name: 'Slice of Potato', hasFat: false, hasWater: true, baseColor: '#fef08a' },
