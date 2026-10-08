@@ -135,36 +135,6 @@ export default function ModernGasStovePage({ onBack, onNext }) {
         Chulha Stove
       </motion.button>
 
-      {/* Floating Top-Right Next Navigation Button */}
-      {!showCard && (
-        <motion.button
-          type="button"
-          onClick={onNext}
-          whileHover={{ scale: 1.05, y: -2 }}
-          whileTap={{ scale: 0.95 }}
-          style={{
-            position: 'absolute',
-            top: '20px',
-            right: '24px',
-            zIndex: 35,
-            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-            border: '2px solid #FEF08A',
-            color: '#FFFFFF',
-            fontSize: '20px',
-            fontWeight: 900,
-            padding: '8px 24px',
-            borderRadius: '12px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            boxShadow: '0 6px 20px rgba(217, 119, 6, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.4)',
-          }}
-        >
-          <span>Next</span>
-          <ArrowRight size={22} color="#FFFFFF" />
-        </motion.button>
-      )}
 
       {/* Floating Bottom-Right Next Navigation Button */}
       {!showCard && (

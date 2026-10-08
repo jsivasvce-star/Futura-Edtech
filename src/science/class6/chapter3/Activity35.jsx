@@ -9,15 +9,20 @@ export default function Activity35({ onBackToDashboard, onBack, onNext }) {
 
   useEffect(() => {
     const handleMessage = (e) => {
-      if (e.data?.type === 'ACTIVITY_BACK') {
+      const type = e.data?.type;
+      if (type === 'ACTIVITY_BACK' || type === 'back-activity') {
         if (handleBack) {
           handleBack();
+        }
+      } else if (type === 'ACTIVITY_NEXT' || type === 'next-activity') {
+        if (onNext) {
+          onNext();
         }
       }
     };
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
-  }, [handleBack]);
+  }, [handleBack, onNext]);
 
   return (
     <div style={{ position: 'fixed', inset: 0, width: '100vw', height: '100vh', zIndex: 9999, background: '#000' }}>

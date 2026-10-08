@@ -37,14 +37,14 @@ import NutrientsOriginSaltSunlightPage from './components/NutrientsOriginSaltSun
 import RoughageDietaryFibresPage from './components/RoughageDietaryFibresPage';
 import WaterHydrationPage from './components/WaterHydrationPage';
 import KnowScientistGopalanPage from './components/KnowScientistGopalanPage';
-import BalancedThaliBuilder from './components/BalancedThaliBuilder';
 import FoodLabelDetective from './components/FoodLabelDetective';
 import Chapter3Challenge from './components/Chapter3Challenge';
 
 // Virtual Chemistry Labs (Activities 3.5, 3.6, 3.7)
-import Activity35 from '../Activity35';
-import FatTestingActivity from '../FatTesting';
-import ProteinTestingActivity from '../ProteinTesting';
+import Activity35 from './components/Activity35Page';
+import Activity36TestForFatsPage from './components/Activity36TestForFatsPage';
+import Activity37TestForProteinsPage from './components/Activity37TestForProteinsPage';
+import Activity38BalancedDietPage from './components/Activity38BalancedDietPage';
 
 export default function Chapter3LearningLab({ onBack, onHeaderVisibilityChange }) {
   const [stage, setStage] = useState('cover');
@@ -359,7 +359,7 @@ export default function Chapter3LearningLab({ onBack, onHeaderVisibilityChange }
 
       case 'activity_3_6':
         return (
-          <FatTestingActivity
+          <Activity36TestForFatsPage
             onBack={() => setStage('activity_3_5')}
             onBackToDashboard={() => setStage('activity_3_5')}
             onNext={() => setStage('activity_3_7')}
@@ -368,7 +368,7 @@ export default function Chapter3LearningLab({ onBack, onHeaderVisibilityChange }
 
       case 'activity_3_7':
         return (
-          <ProteinTestingActivity
+          <Activity37TestForProteinsPage
             onBack={() => setStage('activity_3_6')}
             onBackToDashboard={() => setStage('activity_3_6')}
             onNext={() => setStage('activity_3_8')}
@@ -377,7 +377,7 @@ export default function Chapter3LearningLab({ onBack, onHeaderVisibilityChange }
 
       case 'activity_3_8':
         return (
-          <BalancedThaliBuilder
+          <Activity38BalancedDietPage
             onBack={() => setStage('activity_3_7')}
             onBackToDashboard={() => setStage('activity_3_7')}
             onNext={() => setStage('activity_3_9')}
