@@ -1437,33 +1437,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 5 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                zIndex: 2,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                B2
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e3a8a',
-                padding: '8px 32px 8px 36px',
-                borderRadius: '0 24px 24px 0',
-                fontSize: '1.2rem',
-                fontWeight: '700',
-                marginLeft: '-16px',
-                zIndex: 1,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.1)'
-              }}>
-                Add two more to make 3
-              </div>
-            </div>
+
 
             {/* Pink Sequence Bar */}
             <div style={{
@@ -1627,33 +1601,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 6 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                zIndex: 2,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                B2 (after placing)
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e3a8a',
-                padding: '8px 32px 8px 36px',
-                borderRadius: '0 24px 24px 0',
-                fontSize: '1.4rem',
-                fontWeight: '800',
-                marginLeft: '-16px',
-                zIndex: 1,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.1)'
-              }}>
-                1 + 2 = 3
-              </div>
-            </div>
+
 
             {/* Pink Sequence Bar */}
             <div style={{
@@ -1759,33 +1707,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 7 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                zIndex: 2,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                B3
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e3a8a',
-                padding: '8px 32px 8px 36px',
-                borderRadius: '0 24px 24px 0',
-                fontSize: '1.2rem',
-                fontWeight: '700',
-                marginLeft: '-16px',
-                zIndex: 1,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.1)'
-              }}>
-                Add three more to make 6
-              </div>
-            </div>
+
 
             {/* Pink Sequence Bar */}
             <div style={{
@@ -1961,33 +1883,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 8 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                zIndex: 2,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                B3 (after placing)
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e3a8a',
-                padding: '8px 32px 8px 36px',
-                borderRadius: '0 24px 24px 0',
-                fontSize: '1.4rem',
-                fontWeight: '800',
-                marginLeft: '-16px',
-                zIndex: 1,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.1)'
-              }}>
-                3 + 3 = 6
-              </div>
-            </div>
+
 
             {/* Pink Sequence Bar */}
             <div style={{
@@ -2115,33 +2011,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 9 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                zIndex: 2,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                B4
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e3a8a',
-                padding: '8px 32px 8px 36px',
-                borderRadius: '0 24px 24px 0',
-                fontSize: '1.2rem',
-                fontWeight: '700',
-                marginLeft: '-16px',
-                zIndex: 1,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.1)'
-              }}>
-                Your turn - add four more
-              </div>
-            </div>
+
 
             {/* Pink Sequence Bar */}
             <div style={{
@@ -2341,33 +2211,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 10 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                zIndex: 2,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                B4 (after placing)
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e3a8a',
-                padding: '8px 32px 8px 36px',
-                borderRadius: '0 24px 24px 0',
-                fontSize: '1.4rem',
-                fontWeight: '800',
-                marginLeft: '-16px',
-                zIndex: 1,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.1)'
-              }}>
-                6 + 4 = 10
-              </div>
-            </div>
+
 
             {/* Pink Sequence Bar */}
             <div style={{
@@ -2513,33 +2357,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 11 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                zIndex: 2,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                B5
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e3a8a',
-                padding: '8px 32px 8px 36px',
-                borderRadius: '0 24px 24px 0',
-                fontSize: '1.4rem',
-                fontWeight: '800',
-                marginLeft: '-16px',
-                zIndex: 1,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.1)'
-              }}>
-                Now do you see it?
-              </div>
-            </div>
+
 
             {/* Sequence Bar - No highlight */}
             <div style={{
@@ -2743,33 +2561,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 12 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                zIndex: 2,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                B6
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e3a8a',
-                padding: '8px 32px 8px 36px',
-                borderRadius: '0 24px 24px 0',
-                fontSize: '1.2rem',
-                fontWeight: '700',
-                marginLeft: '-16px',
-                zIndex: 1,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.1)'
-              }}>
-                One more - add five to make 15
-              </div>
-            </div>
+
 
             {/* Pink Sequence Bar */}
             <div style={{
@@ -2992,33 +2784,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 13 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                zIndex: 2,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                B6 (after placing)
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e3a8a',
-                padding: '8px 32px 8px 36px',
-                borderRadius: '0 24px 24px 0',
-                fontSize: '1.4rem',
-                fontWeight: '800',
-                marginLeft: '-16px',
-                zIndex: 1,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.1)'
-              }}>
-                10 + 5 = 15
-              </div>
-            </div>
+
 
             {/* Pink Sequence Bar */}
             <div style={{
@@ -3219,33 +2985,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 14 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                zIndex: 2,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                C1
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e3a8a',
-                padding: '8px 32px 8px 36px',
-                borderRadius: '0 24px 24px 0',
-                fontSize: '1.2rem',
-                fontWeight: '700',
-                marginLeft: '-16px',
-                zIndex: 1,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.1)'
-              }}>
-                Start with 1
-              </div>
-            </div>
+
 
             {/* Pink Sequence Bar */}
             <div style={{
@@ -3363,33 +3103,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 15 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                zIndex: 2,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                C2
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e3a8a',
-                padding: '8px 32px 8px 36px',
-                borderRadius: '0 24px 24px 0',
-                fontSize: '1.2rem',
-                fontWeight: '700',
-                marginLeft: '-16px',
-                zIndex: 1,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.1)'
-              }}>
-                Add three more to make 4
-              </div>
-            </div>
+
 
             {/* Pink Sequence Bar */}
             <div style={{
@@ -3576,33 +3290,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 16 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                zIndex: 2,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                C3
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e3a8a',
-                padding: '8px 32px 8px 36px',
-                borderRadius: '0 24px 24px 0',
-                fontSize: '1.2rem',
-                fontWeight: '700',
-                marginLeft: '-16px',
-                zIndex: 1,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.1)'
-              }}>
-                Your turn - make 9
-              </div>
-            </div>
+
 
             {/* Pink Sequence Bar */}
             <div style={{
@@ -3786,33 +3474,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 17 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                zIndex: 2,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                C3 (after placing)
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e3a8a',
-                padding: '8px 32px 8px 36px',
-                borderRadius: '0 24px 24px 0',
-                fontSize: '1.4rem',
-                fontWeight: '800',
-                marginLeft: '-16px',
-                zIndex: 1,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.1)'
-              }}>
-                4 + 5 = 9
-              </div>
-            </div>
+
 
             {/* Pink Sequence Bar */}
             <div style={{
@@ -3928,33 +3590,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {/* PAGE 18: Make 16 */}
         {page === 18 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                zIndex: 2,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                C4
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e3a8a',
-                padding: '8px 32px 8px 36px',
-                borderRadius: '0 24px 24px 0',
-                fontSize: '1.2rem',
-                fontWeight: '700',
-                marginLeft: '-16px',
-                zIndex: 1,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.1)'
-              }}>
-                Next – make 16
-              </div>
-            </div>
+
 
             <div style={{
               position: 'absolute',
@@ -4045,11 +3681,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {/* PAGE 19: Make 16 (after placing) */}
         {page === 19 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{ backgroundColor: '#0f172a', color: 'white', padding: '8px 20px', borderRadius: '12px', fontSize: '1.4rem', fontWeight: '900', zIndex: 2, boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>
-                C4 (after placing)
-              </div>
-            </div>
+
 
             <div style={{
               position: 'absolute', top: '110px', left: '50px', right: '50px', backgroundColor: '#fce7f3', borderRadius: '24px', padding: '16px 80px 16px 32px', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', fontSize: '3.5rem', fontWeight: '800', color: '#1e1b4b', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', zIndex: 10, gap: '100px'
@@ -4086,14 +3718,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {/* PAGE 20: Make 25 */}
         {page === 20 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{ backgroundColor: '#0f172a', color: 'white', padding: '8px 20px', borderRadius: '12px', fontSize: '1.4rem', fontWeight: '900', zIndex: 2, boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>
-                C4 (continued)
-              </div>
-              <div style={{ backgroundColor: '#fef08a', color: '#1e3a8a', padding: '8px 32px 8px 36px', borderRadius: '0 24px 24px 0', fontSize: '1.2rem', fontWeight: '700', marginLeft: '-16px', zIndex: 1, boxShadow: '2px 2px 8px rgba(0,0,0,0.1)' }}>
-                One more step - make 25
-              </div>
-            </div>
+
 
             <div style={{
               position: 'absolute', top: '110px', left: '50px', right: '50px', backgroundColor: '#fce7f3', borderRadius: '24px', padding: '16px 80px 16px 32px', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', fontSize: '3.5rem', fontWeight: '800', color: '#1e1b4b', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', zIndex: 10, gap: '100px'
@@ -4165,11 +3790,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {/* PAGE 21: Make 25 (after placing) */}
         {page === 21 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{ backgroundColor: '#0f172a', color: 'white', padding: '8px 20px', borderRadius: '12px', fontSize: '1.4rem', fontWeight: '900', zIndex: 2, boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>
-                C4 (after placing)
-              </div>
-            </div>
+
 
             <div style={{
               position: 'absolute', top: '110px', left: '50px', right: '50px', backgroundColor: '#fce7f3', borderRadius: '24px', padding: '16px 80px 16px 32px', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', fontSize: '3.5rem', fontWeight: '800', color: '#1e1b4b', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', zIndex: 10, gap: '100px'
@@ -4207,14 +3828,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {/* PAGE 22: What do you notice? */}
         {page === 22 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{ backgroundColor: '#0f172a', color: 'white', padding: '8px 20px', borderRadius: '12px', fontSize: '1.4rem', fontWeight: '900', zIndex: 2, boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>
-                C5
-              </div>
-              <div style={{ backgroundColor: '#fef08a', color: '#1e3a8a', padding: '8px 32px 8px 36px', borderRadius: '0 24px 24px 0', fontSize: '1.4rem', fontWeight: '800', marginLeft: '-16px', zIndex: 1, boxShadow: '2px 2px 8px rgba(0,0,0,0.1)' }}>
-                What do you notice?
-              </div>
-            </div>
+
 
             {/* Boy Left Image (b4.png) */}
             <div style={{ position: 'absolute', bottom: 0, left: '-2%', width: '22%', height: '40%', zIndex: 11, display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start' }}>
@@ -4338,14 +3952,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 23 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{ backgroundColor: '#0f172a', color: 'white', padding: '8px 20px', borderRadius: '12px', fontSize: '1.4rem', fontWeight: '900', zIndex: 2, boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>
-                D1
-              </div>
-              <div style={{ backgroundColor: '#fef08a', color: '#1e3a8a', padding: '8px 32px 8px 36px', borderRadius: '0 24px 24px 0', fontSize: '1.4rem', fontWeight: '800', marginLeft: '-16px', zIndex: 1, boxShadow: '2px 2px 8px rgba(0,0,0,0.1)' }}>
-                Start with a new sequence
-              </div>
-            </div>
+
 
             {/* Boy Left Image (b12.png) */}
             <div style={{ position: 'absolute', bottom: 0, left: '-2%', width: '32%', height: '55%', zIndex: 11, display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start' }}>
@@ -4464,14 +4071,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 24 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{ backgroundColor: '#0f172a', color: 'white', padding: '8px 20px', borderRadius: '12px', fontSize: '1.4rem', fontWeight: '900', zIndex: 2, boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>
-                D2
-              </div>
-              <div style={{ backgroundColor: '#fef08a', color: '#1e3a8a', padding: '8px 32px 8px 36px', borderRadius: '0 24px 24px 0', fontSize: '1.4rem', fontWeight: '800', marginLeft: '-16px', zIndex: 1, boxShadow: '2px 2px 8px rgba(0,0,0,0.1)' }}>
-                Add two more to make 8
-              </div>
-            </div>
+
 
             {/* Boy Left Image (b4.png) */}
             <div style={{
@@ -4997,14 +4597,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 26 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{ backgroundColor: '#0f172a', color: 'white', padding: '8px 20px', borderRadius: '12px', fontSize: '1.4rem', fontWeight: '900', zIndex: 2, boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>
-                D4
-              </div>
-              <div style={{ backgroundColor: '#fef08a', color: '#1e3a8a', padding: '8px 32px 8px 36px', borderRadius: '0 24px 24px 0', fontSize: '1.4rem', fontWeight: '800', marginLeft: '-16px', zIndex: 1, boxShadow: '2px 2px 8px rgba(0,0,0,0.1)' }}>
-                Your turn – make 64
-              </div>
-            </div>
+
 
             {/* Boy Left Image (b4.png) */}
             <div style={{
@@ -5079,14 +4672,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 27 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{ backgroundColor: '#0f172a', color: 'white', padding: '8px 20px', borderRadius: '12px', fontSize: '1.4rem', fontWeight: '900', zIndex: 2, boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>
-                D5
-              </div>
-              <div style={{ backgroundColor: '#fef08a', color: '#1e3a8a', padding: '8px 32px 8px 36px', borderRadius: '0 24px 24px 0', fontSize: '1.4rem', fontWeight: '800', marginLeft: '-16px', zIndex: 1, boxShadow: '2px 2px 8px rgba(0,0,0,0.1)' }}>
-                Predict and build 125
-              </div>
-            </div>
+
 
             {/* Boy Left Image (b4.png) */}
             <div style={{
@@ -5161,14 +4747,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 28 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{ backgroundColor: '#0f172a', color: 'white', padding: '8px 20px', borderRadius: '12px', fontSize: '1.4rem', fontWeight: '900', zIndex: 2, boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>
-                D6
-              </div>
-              <div style={{ backgroundColor: '#fef08a', color: '#1e3a8a', padding: '8px 32px 8px 36px', borderRadius: '0 24px 24px 0', fontSize: '1.4rem', fontWeight: '800', marginLeft: '-16px', zIndex: 1, boxShadow: '2px 2px 8px rgba(0,0,0,0.1)' }}>
-                Let's see the sequence
-              </div>
-            </div>
+
 
             {/* Boy Left Image (b6.png) */}
             <div style={{
@@ -5389,20 +4968,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 30 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                zIndex: 2,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                T1
-              </div>
-            </div>
+
 
             {/* Boy and Speech Bubble */}
             <div style={{
@@ -5562,20 +5128,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 31 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                zIndex: 2,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                T2
-              </div>
-            </div>
+
 
             {/* Boy */}
             <div style={{
@@ -5680,20 +5233,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 32 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                zIndex: 2,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                T3
-              </div>
-            </div>
+
 
             {/* Boy */}
             <div style={{
@@ -5776,20 +5316,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 33 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                zIndex: 2,
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                T4
-              </div>
-            </div>
+
 
             {/* Boy */}
             <div style={{
@@ -5861,30 +5388,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 34 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px 0 0 12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                E1
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e1b4b',
-                padding: '8px 20px',
-                borderRadius: '0 12px 12px 0',
-                fontSize: '1.4rem',
-                fontWeight: '800',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                All 1s
-              </div>
-            </div>
+
 
             {/* Boy */}
             <div style={{
@@ -6013,30 +5517,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 35 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px 0 0 12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                E2
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e1b4b',
-                padding: '8px 20px',
-                borderRadius: '0 12px 12px 0',
-                fontSize: '1.4rem',
-                fontWeight: '800',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                Counting Numbers
-              </div>
-            </div>
+
 
             {/* Boy */}
             <div style={{
@@ -6181,30 +5662,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 36 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px 0 0 12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                E3
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e1b4b',
-                padding: '8px 20px',
-                borderRadius: '0 12px 12px 0',
-                fontSize: '1.4rem',
-                fontWeight: '800',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                Odd Numbers
-              </div>
-            </div>
+
 
             {/* Boy */}
             <div style={{
@@ -6361,30 +5819,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 37 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px 0 0 12px',
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                E4
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e1b4b',
-                padding: '8px 20px',
-                borderRadius: '0 12px 12px 0',
-                fontSize: '1.4rem',
-                fontWeight: '800',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                Even Numbers
-              </div>
-            </div>
+
 
             {/* Boy */}
             <div style={{
@@ -6704,30 +6139,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 39 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 24px',
-                borderRadius: '12px 0 0 12px',
-                fontSize: '1.6rem',
-                fontWeight: '900',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                1
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e1b4b',
-                padding: '8px 24px',
-                borderRadius: '0 12px 12px 0',
-                fontSize: '1.6rem',
-                fontWeight: '800',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                A new pattern appears
-              </div>
-            </div>
+
 
             {/* Boy */}
             <div style={{
@@ -6851,30 +6263,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 40 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '12px 0 0 12px',
-                fontSize: '1.6rem',
-                fontWeight: '900',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                2
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e1b4b',
-                padding: '8px 20px',
-                borderRadius: '0 12px 12px 0',
-                fontSize: '1.6rem',
-                fontWeight: '800',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                Can you see the shape?
-              </div>
-            </div>
+
 
             {/* Boy */}
             <div style={{
@@ -6983,30 +6372,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 41 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 24px',
-                borderRadius: '12px 0 0 12px',
-                fontSize: '1.6rem',
-                fontWeight: '900',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                3
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e1b4b',
-                padding: '8px 24px',
-                borderRadius: '0 12px 12px 0',
-                fontSize: '1.6rem',
-                fontWeight: '800',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                What comes next?
-              </div>
-            </div>
+
 
             {/* Boy */}
             <div style={{
@@ -7156,30 +6522,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 42 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 24px',
-                borderRadius: '12px 0 0 12px',
-                fontSize: '1.6rem',
-                fontWeight: '900',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                5
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e1b4b',
-                padding: '8px 24px',
-                borderRadius: '0 12px 12px 0',
-                fontSize: '1.6rem',
-                fontWeight: '800',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                Powers of 2 – Can you make the picture?
-              </div>
-            </div>
+
 
             {/* Boy */}
             <div style={{
@@ -7289,30 +6632,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 43 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 24px',
-                borderRadius: '12px 0 0 12px',
-                fontSize: '1.6rem',
-                fontWeight: '900',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                6
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e1b4b',
-                padding: '8px 24px',
-                borderRadius: '0 12px 12px 0',
-                fontSize: '1.6rem',
-                fontWeight: '800',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                One possible idea (example)
-              </div>
-            </div>
+
 
             {/* Center Content: Cards */}
             <div style={{
@@ -7432,30 +6752,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 44 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 24px',
-                borderRadius: '12px 0 0 12px',
-                fontSize: '1.6rem',
-                fontWeight: '900',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                8
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e1b4b',
-                padding: '8px 24px',
-                borderRadius: '0 12px 12px 0',
-                fontSize: '1.6rem',
-                fontWeight: '800',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                Powers of 3 – Now your turn
-              </div>
-            </div>
+
 
             {/* Boy */}
             <div style={{
@@ -7565,30 +6862,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 45 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 24px',
-                borderRadius: '12px 0 0 12px',
-                fontSize: '1.6rem',
-                fontWeight: '900',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                9
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e1b4b',
-                padding: '8px 24px',
-                borderRadius: '0 12px 12px 0',
-                fontSize: '1.6rem',
-                fontWeight: '800',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                One possible idea (example)
-              </div>
-            </div>
+
 
             {/* Center Content: Cards */}
             <div style={{
@@ -7700,30 +6974,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 46 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 24px',
-                borderRadius: '12px 0 0 12px',
-                fontSize: '1.6rem',
-                fontWeight: '900',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                11
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e1b4b',
-                padding: '8px 24px',
-                borderRadius: '0 12px 12px 0',
-                fontSize: '1.6rem',
-                fontWeight: '800',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                Some number patterns we explored
-              </div>
-            </div>
+
 
             {/* Center Content: Cards Grid */}
             <div style={{
@@ -7916,30 +7167,7 @@ export default function VisualisingSequencesV2({ onNext }) {
         {page === 47 && (
           <>
             {/* Top Left Badge */}
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{
-                backgroundColor: '#0f172a',
-                color: 'white',
-                padding: '8px 24px',
-                borderRadius: '12px 0 0 12px',
-                fontSize: '1.6rem',
-                fontWeight: '900',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                12
-              </div>
-              <div style={{
-                backgroundColor: '#fef08a',
-                color: '#1e1b4b',
-                padding: '8px 24px',
-                borderRadius: '0 12px 12px 0',
-                fontSize: '1.6rem',
-                fontWeight: '800',
-                boxShadow: '2px 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                What next?
-              </div>
-            </div>
+
 
             {/* Boy */}
             <div style={{
@@ -8037,10 +7265,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 48 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{ backgroundColor: '#0f172a', color: 'white', padding: '8px 24px', borderRadius: '12px 0 0 12px', fontSize: '1.6rem', fontWeight: '900', boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>F1</div>
-              <div style={{ backgroundColor: '#fef08a', color: '#1e1b4b', padding: '8px 24px', borderRadius: '0 12px 12px 0', fontSize: '1.6rem', fontWeight: '800', boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>Can you see 36 as a shape?</div>
-            </div>
+
             <div style={{ position: 'absolute', bottom: 0, left: '-4%', width: '25%', height: '45%', zIndex: 5, display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start' }}>
               <img src={b4} alt="Boy" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain', objectPosition: 'left bottom', display: 'block' }} />
             </div>
@@ -8104,10 +7329,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 49 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{ backgroundColor: '#0f172a', color: 'white', padding: '8px 24px', borderRadius: '12px 0 0 12px', fontSize: '1.6rem', fontWeight: '900', boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>F2</div>
-              <div style={{ backgroundColor: '#fef08a', color: '#1e1b4b', padding: '8px 24px', borderRadius: '0 12px 12px 0', fontSize: '1.6rem', fontWeight: '800', boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>Make a familiar shape</div>
-            </div>
+
             <div style={{ position: 'absolute', bottom: 0, left: '-4%', width: '25%', height: '45%', zIndex: 5, display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start' }}>
               <img src={b4} alt="Boy" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain', objectPosition: 'left bottom', display: 'block' }} />
             </div>
@@ -8143,10 +7365,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 50 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{ backgroundColor: '#0f172a', color: 'white', padding: '8px 24px', borderRadius: '12px 0 0 12px', fontSize: '1.6rem', fontWeight: '900', boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>F3</div>
-              <div style={{ backgroundColor: '#fef08a', color: '#1e1b4b', padding: '8px 24px', borderRadius: '0 12px 12px 0', fontSize: '1.6rem', fontWeight: '800', boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>Is that the only way?</div>
-            </div>
+
             <div style={{ position: 'absolute', bottom: 0, left: '-4%', width: '25%', height: '45%', zIndex: 5, display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start' }}>
               <img src={b4} alt="Boy" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain', objectPosition: 'left bottom', display: 'block' }} />
             </div>
@@ -8178,10 +7397,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 51 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{ backgroundColor: '#0f172a', color: 'white', padding: '8px 24px', borderRadius: '12px 0 0 12px', fontSize: '1.6rem', fontWeight: '900', boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>F4</div>
-              <div style={{ backgroundColor: '#fef08a', color: '#1e1b4b', padding: '8px 24px', borderRadius: '0 12px 12px 0', fontSize: '1.6rem', fontWeight: '800', boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>Make another shape</div>
-            </div>
+
             <div style={{ position: 'absolute', bottom: 0, left: '-4%', width: '25%', height: '45%', zIndex: 5, display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start' }}>
               <img src={b4} alt="Boy" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain', objectPosition: 'left bottom', display: 'block' }} />
             </div>
@@ -8220,10 +7436,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 52 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{ backgroundColor: '#0f172a', color: 'white', padding: '8px 24px', borderRadius: '12px 0 0 12px', fontSize: '1.6rem', fontWeight: '900', boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>F5</div>
-              <div style={{ backgroundColor: '#fef08a', color: '#1e1b4b', padding: '8px 24px', borderRadius: '0 12px 12px 0', fontSize: '1.6rem', fontWeight: '800', boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>The same number, two shapes</div>
-            </div>
+
             <div style={{ position: 'absolute', bottom: 0, left: '-4%', width: '25%', height: '45%', zIndex: 5, display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start' }}>
               <img src={b4} alt="Boy" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain', objectPosition: 'left bottom', display: 'block' }} />
             </div>
@@ -8308,10 +7521,7 @@ export default function VisualisingSequencesV2({ onNext }) {
 
         {page === 53 && (
           <>
-            <div style={{ position: 'absolute', top: '24px', left: '24px', display: 'flex', alignItems: 'center', gap: '0', zIndex: 10 }}>
-              <div style={{ backgroundColor: '#0f172a', color: 'white', padding: '8px 24px', borderRadius: '12px 0 0 12px', fontSize: '1.6rem', fontWeight: '900', boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>F6</div>
-              <div style={{ backgroundColor: '#fef08a', color: '#1e1b4b', padding: '8px 24px', borderRadius: '0 12px 12px 0', fontSize: '1.6rem', fontWeight: '800', boxShadow: '2px 2px 8px rgba(0,0,0,0.2)' }}>Think further</div>
-            </div>
+
             <div style={{ position: 'absolute', bottom: 0, left: '-4%', width: '25%', height: '45%', zIndex: 5, display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start' }}>
               <img src={b4} alt="Boy" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain', objectPosition: 'left bottom', display: 'block' }} />
             </div>
