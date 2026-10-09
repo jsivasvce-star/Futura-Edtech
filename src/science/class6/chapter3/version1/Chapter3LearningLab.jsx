@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Chapter3CoverPage from './components/Chapter3CoverPage';
 import Chapter3SloganPage from './components/Chapter3SloganPage';
 import Chapter3VideoIntroPage from './components/Chapter3VideoIntroPage';
+import Activity31CoverPage from './components/Activity31CoverPage';
 import MealTrackerActivity from './components/MealTrackerActivity';
 import Activity32RegionalFoodPage from './components/Activity32RegionalFoodPage';
 import FoodCropsClimateBook from './components/FoodCropsClimateBook';
@@ -37,7 +38,6 @@ import NutrientsOriginSaltSunlightPage from './components/NutrientsOriginSaltSun
 import RoughageDietaryFibresPage from './components/RoughageDietaryFibresPage';
 import WaterHydrationPage from './components/WaterHydrationPage';
 import KnowScientistGopalanPage from './components/KnowScientistGopalanPage';
-import FoodLabelDetective from './components/FoodLabelDetective';
 import Chapter3Challenge from './components/Chapter3Challenge';
 
 // Virtual Chemistry Labs (Activities 3.5, 3.6, 3.7)
@@ -45,6 +45,21 @@ import Activity35 from './components/Activity35Page';
 import Activity36TestForFatsPage from './components/Activity36TestForFatsPage';
 import Activity37TestForProteinsPage from './components/Activity37TestForProteinsPage';
 import Activity38BalancedDietPage from './components/Activity38BalancedDietPage';
+import Activity39ChoicePage from './components/Activity39ChoicePage';
+import Activity39LetUsComparePage from './components/Activity39LetUsComparePage';
+import Activity39WhichWouldYouChoosePage from './components/Activity39WhichWouldYouChoosePage';
+import Activity39JunkFoodPage from './components/Activity39JunkFoodPage';
+import Activity39HealthUltimateWealthPage from './components/Activity39HealthUltimateWealthPage';
+import Activity39ReadLabelFSSAIPage from './components/Activity39ReadLabelFSSAIPage';
+import MilletsNutritionRichCerealsPage from './components/MilletsNutritionRichCerealsPage';
+import NativeCropsIndiaSanwaPage from './components/NativeCropsIndiaSanwaPage';
+import HaveYouTastedMilletsPage from './components/HaveYouTastedMilletsPage';
+import MilletsNutriCerealsPage from './components/MilletsNutriCerealsPage';
+import FoodMilesFarmToPlatePage from './components/FoodMilesFarmToPlatePage';
+import FoodMilesVideoPage from './components/FoodMilesVideoPage';
+import FoodMilesVideoPart2Page from './components/FoodMilesVideoPart2Page';
+import GoLocalReduceFoodMilesPage from './components/GoLocalReduceFoodMilesPage';
+import GoLocalVideoPage from './components/GoLocalVideoPage';
 
 export default function Chapter3LearningLab({ onBack, onHeaderVisibilityChange }) {
   const [stage, setStage] = useState('cover');
@@ -79,6 +94,14 @@ export default function Chapter3LearningLab({ onBack, onHeaderVisibilityChange }
         return (
           <Chapter3VideoIntroPage
             onBack={() => setStage('slogan')}
+            onNext={() => setStage('activity_3_1_cover')}
+          />
+        );
+
+      case 'activity_3_1_cover':
+        return (
+          <Activity31CoverPage
+            onBack={() => setStage('video')}
             onNext={() => setStage('activity_3_1')}
           />
         );
@@ -86,9 +109,9 @@ export default function Chapter3LearningLab({ onBack, onHeaderVisibilityChange }
       case 'activity_3_1':
         return (
           <MealTrackerActivity
-            onBack={() => setStage('video')}
+            onBack={() => setStage('activity_3_1_cover')}
             onNext={() => setStage('activity_3_2_image')}
-            onBackToDashboard={() => setStage('video')}
+            onBackToDashboard={() => setStage('activity_3_1_cover')}
           />
         );
 
@@ -386,9 +409,120 @@ export default function Chapter3LearningLab({ onBack, onHeaderVisibilityChange }
 
       case 'activity_3_9':
         return (
-          <FoodLabelDetective
+          <Activity39ChoicePage
             onBack={() => setStage('activity_3_8')}
-            onBackToDashboard={() => setStage('activity_3_8')}
+            onNext={() => setStage('activity_3_9_compare')}
+          />
+        );
+
+      case 'activity_3_9_compare':
+        return (
+          <Activity39LetUsComparePage
+            onBack={() => setStage('activity_3_9')}
+            onNext={() => setStage('activity_3_9_choose')}
+          />
+        );
+
+      case 'activity_3_9_choose':
+        return (
+          <Activity39WhichWouldYouChoosePage
+            onBack={() => setStage('activity_3_9_compare')}
+            onNext={() => setStage('activity_3_9_junk_food')}
+          />
+        );
+
+      case 'activity_3_9_junk_food':
+        return (
+          <Activity39JunkFoodPage
+            onBack={() => setStage('activity_3_9_choose')}
+            onNext={() => setStage('activity_3_9_health_wealth')}
+          />
+        );
+
+      case 'activity_3_9_health_wealth':
+        return (
+          <Activity39HealthUltimateWealthPage
+            onBack={() => setStage('activity_3_9_junk_food')}
+            onNext={() => setStage('activity_3_9_read_label')}
+          />
+        );
+
+      case 'activity_3_9_read_label':
+        return (
+          <Activity39ReadLabelFSSAIPage
+            onBack={() => setStage('activity_3_9_health_wealth')}
+            onNext={() => setStage('millets_nutrition_rich')}
+          />
+        );
+
+      case 'millets_nutrition_rich':
+        return (
+          <MilletsNutritionRichCerealsPage
+            onBack={() => setStage('activity_3_9_read_label')}
+            onNext={() => setStage('native_crops_india')}
+          />
+        );
+
+      case 'native_crops_india':
+        return (
+          <NativeCropsIndiaSanwaPage
+            onBack={() => setStage('millets_nutrition_rich')}
+            onNext={() => setStage('have_you_tasted_millets')}
+          />
+        );
+
+      case 'have_you_tasted_millets':
+        return (
+          <HaveYouTastedMilletsPage
+            onBack={() => setStage('native_crops_india')}
+            onNext={() => setStage('millets_nutri_cereals')}
+          />
+        );
+
+      case 'millets_nutri_cereals':
+        return (
+          <MilletsNutriCerealsPage
+            onBack={() => setStage('have_you_tasted_millets')}
+            onNext={() => setStage('food_miles')}
+          />
+        );
+
+      case 'food_miles':
+        return (
+          <FoodMilesFarmToPlatePage
+            onBack={() => setStage('millets_nutri_cereals')}
+            onNext={() => setStage('food_miles_video')}
+          />
+        );
+
+      case 'food_miles_video':
+        return (
+          <FoodMilesVideoPage
+            onBack={() => setStage('food_miles')}
+            onNext={() => setStage('food_miles_video_part2')}
+          />
+        );
+
+      case 'food_miles_video_part2':
+        return (
+          <FoodMilesVideoPart2Page
+            onBack={() => setStage('food_miles_video')}
+            onNext={() => setStage('go_local_reduce_food_miles')}
+          />
+        );
+
+      case 'go_local_reduce_food_miles':
+        return (
+          <GoLocalReduceFoodMilesPage
+            onBack={() => setStage('food_miles_video_part2')}
+            onNext={() => setStage('go_local_video')}
+          />
+        );
+
+      case 'go_local_video':
+        return (
+          <GoLocalVideoPage
+            onBack={() => setStage('go_local_reduce_food_miles')}
             onNext={() => setStage('activity_3_10')}
           />
         );
@@ -396,8 +530,8 @@ export default function Chapter3LearningLab({ onBack, onHeaderVisibilityChange }
       case 'activity_3_10':
         return (
           <Chapter3Challenge
-            onBack={() => setStage('activity_3_9')}
-            onBackToDashboard={() => setStage('activity_3_9')}
+            onBack={() => setStage('go_local_video')}
+            onBackToDashboard={() => setStage('go_local_video')}
             onNext={onBack}
           />
         );

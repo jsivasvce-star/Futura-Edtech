@@ -16,10 +16,11 @@ const NUTRITION_DATA = [
   { metric: 'Iron Content', wafers: '0.9 mg', chana: '6.4 mg (High)', winner: 'chana', note: 'Roasted chana provides essential iron to produce hemoglobin, directly preventing childhood anaemia.' }
 ];
 
-export default function FoodLabelDetective({ onBackToDashboard }) {
+export default function FoodLabelDetective({ onBackToDashboard, onBack, onNext }) {
   const [selectedMetricIdx, setSelectedMetricIdx] = useState(0);
   const [revealedAll, setRevealedAll] = useState(false);
 
+  const handleBack = onBack || onBackToDashboard;
   const currentMetric = NUTRITION_DATA[selectedMetricIdx];
 
   const handleRevealAll = () => {
@@ -53,9 +54,9 @@ export default function FoodLabelDetective({ onBackToDashboard }) {
         zIndex: 20
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          {onBackToDashboard && (
+          {handleBack && (
             <button
-              onClick={onBackToDashboard}
+              onClick={handleBack}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -70,7 +71,7 @@ export default function FoodLabelDetective({ onBackToDashboard }) {
                 cursor: 'pointer'
               }}
             >
-              <ArrowLeft size={16} /> Back to Lab Map
+              <ArrowLeft size={16} /> Back
             </button>
           )}
 
@@ -87,25 +88,49 @@ export default function FoodLabelDetective({ onBackToDashboard }) {
           </div>
         </div>
 
-        <button
-          onClick={handleRevealAll}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.55rem 1.25rem',
-            borderRadius: '12px',
-            border: 'none',
-            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-            color: '#FFFFFF',
-            fontSize: '0.88rem',
-            fontWeight: 800,
-            cursor: 'pointer',
-            boxShadow: '0 4px 14px rgba(217, 119, 6, 0.35)'
-          }}
-        >
-          <Award size={16} /> Declare Winner
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <button
+            onClick={handleRevealAll}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.55rem 1.25rem',
+              borderRadius: '12px',
+              border: 'none',
+              background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+              color: '#FFFFFF',
+              fontSize: '0.88rem',
+              fontWeight: 800,
+              cursor: 'pointer',
+              boxShadow: '0 4px 14px rgba(217, 119, 6, 0.35)'
+            }}
+          >
+            <Award size={16} /> Declare Winner
+          </button>
+          {onNext && (
+            <button
+              onClick={onNext}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                padding: '0.55rem 1.15rem',
+                borderRadius: '12px',
+                border: '1.5px solid #FEF08A',
+                background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                color: '#FFFFFF',
+                fontSize: '0.88rem',
+                fontWeight: 800,
+                cursor: 'pointer',
+                boxShadow: '0 4px 14px rgba(16, 185, 129, 0.35)'
+              }}
+            >
+              <span>Next</span>
+              <ChevronRight size={16} />
+            </button>
+          )}
+        </div>
       </header>
 
       {/* Main Grid */}
