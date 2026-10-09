@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Utensils, MapPin } from 'lucide-react';
-import activity32Img from '../assets/activity3_2_regional_food.jpg';
+import { ArrowLeft, ArrowRight, Wheat, Compass } from 'lucide-react';
+import foodMilesImg from '../assets/food_miles_from_farm_to_plate.jpg';
 
-export default function Activity32RegionalFoodPage({ onBack, onNext }) {
+export default function FoodMilesFarmToPlatePage({ onBack, onNext }) {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowRight' || e.key === 'Enter') {
@@ -32,9 +32,9 @@ export default function Activity32RegionalFoodPage({ onBack, onNext }) {
         boxSizing: 'border-box',
       }}
     >
-      {/* 1. Ambient Blurred Background to smoothly fill wide/tall viewports */}
+      {/* 1. Ambient Blurred Backdrop to smoothly fill wide/tall viewports */}
       <img
-        src={activity32Img}
+        src={foodMilesImg}
         alt=""
         aria-hidden="true"
         style={{
@@ -52,8 +52,8 @@ export default function Activity32RegionalFoodPage({ onBack, onNext }) {
 
       {/* 2. Main Full-Screen Cinematic Image Without Distortion */}
       <img
-        src={activity32Img}
-        alt="3.1.1 Food in different regions - Activity 3.2: Let us explore - Every state, a different plate"
+        src={foodMilesImg}
+        alt="Food Miles - From Farm to Our Plate"
         style={{
           position: 'relative',
           width: '100vw',
@@ -105,7 +105,7 @@ export default function Activity32RegionalFoodPage({ onBack, onNext }) {
         }}
       >
         <ArrowLeft size={20} color="#FEF08A" />
-        <span>Activity 3.1</span>
+        <span>Millets: Nutri-Cereals</span>
       </motion.button>
 
       {/* 5. Top-Right: Category Badge */}
@@ -127,7 +127,7 @@ export default function Activity32RegionalFoodPage({ onBack, onNext }) {
           boxShadow: '0 6px 20px rgba(0, 0, 0, 0.45)',
         }}
       >
-        <MapPin size={18} color="#FBBF24" />
+        <Compass size={18} color="#FBBF24" />
         <span
           style={{
             color: '#FEF08A',
@@ -137,7 +137,7 @@ export default function Activity32RegionalFoodPage({ onBack, onNext }) {
             textTransform: 'uppercase',
           }}
         >
-          Activity 3.2 · Regional Foods
+          Farm to Plate
         </span>
       </div>
 
@@ -168,7 +168,7 @@ export default function Activity32RegionalFoodPage({ onBack, onNext }) {
           transition: 'all 0.15s ease',
         }}
       >
-        <span>Food Crops & Climate</span>
+        <span>Watch Journey</span>
         <ArrowRight size={22} color="#FFFFFF" />
       </motion.button>
     </div>

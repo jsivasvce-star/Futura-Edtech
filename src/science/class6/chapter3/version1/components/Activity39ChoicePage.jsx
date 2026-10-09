@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Utensils, MapPin } from 'lucide-react';
-import activity32Img from '../assets/activity3_2_regional_food.jpg';
+import { ArrowLeft, ArrowRight, HeartHandshake, Sparkles } from 'lucide-react';
+import choiceImg from '../assets/activity_3_9_let_us_compare.jpg';
 
-export default function Activity32RegionalFoodPage({ onBack, onNext }) {
+export default function Activity39ChoicePage({ onBack, onNext }) {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowRight' || e.key === 'Enter') {
@@ -23,7 +23,7 @@ export default function Activity32RegionalFoodPage({ onBack, onNext }) {
         width: '100vw',
         height: '100vh',
         overflow: 'hidden',
-        background: '#1A0E04',
+        background: '#1A0F06',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -32,9 +32,9 @@ export default function Activity32RegionalFoodPage({ onBack, onNext }) {
         boxSizing: 'border-box',
       }}
     >
-      {/* 1. Ambient Blurred Background to smoothly fill wide/tall viewports */}
+      {/* 1. Ambient Blurred Backdrop */}
       <img
-        src={activity32Img}
+        src={choiceImg}
         alt=""
         aria-hidden="true"
         style={{
@@ -50,10 +50,10 @@ export default function Activity32RegionalFoodPage({ onBack, onNext }) {
         }}
       />
 
-      {/* 2. Main Full-Screen Cinematic Image Without Distortion */}
+      {/* 2. Main Full-Screen Cinematic Image */}
       <img
-        src={activity32Img}
-        alt="3.1.1 Food in different regions - Activity 3.2: Let us explore - Every state, a different plate"
+        src={choiceImg}
+        alt="Activity 3.9: Every bite is a choice"
         style={{
           position: 'relative',
           width: '100vw',
@@ -70,13 +70,80 @@ export default function Activity32RegionalFoodPage({ onBack, onNext }) {
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'radial-gradient(ellipse at center, transparent 70%, rgba(26, 14, 4, 0.45) 100%)',
+          background: 'radial-gradient(ellipse at center, transparent 72%, rgba(26, 15, 6, 0.45) 100%)',
           pointerEvents: 'none',
           zIndex: 10,
         }}
       />
 
-      {/* 4. Top-Left: Back Navigation Button */}
+      {/* 4. Top Center Title Banner */}
+      <motion.div
+        initial={{ opacity: 0, y: -25, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: 'easeOut' }}
+        style={{
+          position: 'absolute',
+          top: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 50,
+          background: 'rgba(28, 16, 7, 0.85)',
+          backdropFilter: 'blur(14px)',
+          WebkitBackdropFilter: 'blur(14px)',
+          border: '2px solid rgba(251, 191, 36, 0.85)',
+          borderRadius: '999px',
+          padding: '8px 26px 8px 12px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          boxShadow: '0 12px 35px rgba(0, 0, 0, 0.55), 0 0 24px rgba(245, 158, 11, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.25)',
+        }}
+      >
+        <div
+          style={{
+            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+            borderRadius: '999px',
+            padding: '5px 14px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            boxShadow: '0 2px 10px rgba(217, 119, 6, 0.45)',
+            flexShrink: 0,
+          }}
+        >
+          <HeartHandshake size={18} color="#FFFFFF" />
+          <span
+            style={{
+              color: '#FFFFFF',
+              fontSize: '13px',
+              fontWeight: 900,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+            }}
+          >
+            Activity 3.9
+          </span>
+        </div>
+
+        <h1
+          style={{
+            margin: 0,
+            fontSize: '22px',
+            fontWeight: 900,
+            color: '#FEF08A',
+            letterSpacing: '0.02em',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.8)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+          }}
+        >
+          <span>Every Bite is a Choice</span>
+          <Sparkles size={18} color="#F59E0B" style={{ opacity: 0.9 }} />
+        </h1>
+      </motion.div>
+
+      {/* 5. Top-Left: Back Navigation Button */}
       <motion.button
         type="button"
         onClick={onBack}
@@ -87,7 +154,7 @@ export default function Activity32RegionalFoodPage({ onBack, onNext }) {
           top: '20px',
           left: '24px',
           zIndex: 50,
-          background: 'rgba(28, 14, 4, 0.88)',
+          background: 'rgba(28, 16, 7, 0.85)',
           backdropFilter: 'blur(10px)',
           WebkitBackdropFilter: 'blur(10px)',
           border: '2px solid rgba(251, 191, 36, 0.55)',
@@ -105,41 +172,8 @@ export default function Activity32RegionalFoodPage({ onBack, onNext }) {
         }}
       >
         <ArrowLeft size={20} color="#FEF08A" />
-        <span>Activity 3.1</span>
+        <span>Activity 3.8</span>
       </motion.button>
-
-      {/* 5. Top-Right: Category Badge */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '20px',
-          right: '24px',
-          zIndex: 50,
-          background: 'rgba(28, 14, 4, 0.88)',
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          border: '2px solid rgba(254, 240, 138, 0.75)',
-          borderRadius: '999px',
-          padding: '6px 18px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          boxShadow: '0 6px 20px rgba(0, 0, 0, 0.45)',
-        }}
-      >
-        <MapPin size={18} color="#FBBF24" />
-        <span
-          style={{
-            color: '#FEF08A',
-            fontSize: '14px',
-            fontWeight: 800,
-            letterSpacing: '0.04em',
-            textTransform: 'uppercase',
-          }}
-        >
-          Activity 3.2 · Regional Foods
-        </span>
-      </div>
 
       {/* 6. Bottom-Right: Next Navigation Button */}
       <motion.button
@@ -168,7 +202,7 @@ export default function Activity32RegionalFoodPage({ onBack, onNext }) {
           transition: 'all 0.15s ease',
         }}
       >
-        <span>Food Crops & Climate</span>
+        <span>Let us compare</span>
         <ArrowRight size={22} color="#FFFFFF" />
       </motion.button>
     </div>

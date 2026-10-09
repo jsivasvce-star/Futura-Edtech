@@ -1,0 +1,357 @@
+.c8-aavi-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  background-color: #0f172a; /* Fallback */
+}
+
+/* Background Image Layer */
+.c8-aavi-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.8s ease-out;
+  transform: scale(1.02); /* Slight scale to allow breathing room */
+}
+
+.c8-aavi-bg.fade-in {
+  opacity: 1;
+}
+
+/* Subtle idle animation to simulate Aavi breathing/looking */
+@keyframes idleBreathe {
+  0% { transform: scale(1.01) translate(0, 0); }
+  50% { transform: scale(1.02) translate(0, -3px); }
+  100% { transform: scale(1.01) translate(0, 0); }
+}
+
+.c8-aavi-bg.idle-breathe {
+  animation: idleBreathe 6s ease-in-out infinite;
+}
+
+/* UI Content Layer */
+.c8-aavi-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.8s ease-out 0.3s;
+  pointer-events: none; /* Let clicks pass through to interactive layer */
+}
+
+.c8-aavi-content.fade-in {
+  opacity: 1;
+}
+
+/* Make child elements interactive again */
+.c8-aavi-top-center,
+.c8-aavi-interactive-layer {
+  pointer-events: auto;
+}
+
+/* =========================================
+   Top Center: Premium Wooden Sign
+========================================= */
+.c8-aavi-top-center {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.c8-aavi-wooden-sign {
+  position: relative;
+  display: inline-flex;
+  border-radius: 12px;
+  overflow: hidden;
+  /* Deep, rich drop shadow for 3D raised effect */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 4px 10px rgba(0, 0, 0, 0.2);
+  border: 4px solid #6b3f1f;
+  background-color: #8b5a2b; /* Fallback */
+}
+
+.c8-aavi-wooden-header {
+  background: linear-gradient(180deg, #5c2d11 0%, #3a1603 100%);
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.6rem 2rem;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+  box-shadow: inset 0 2px 5px rgba(255,255,255,0.1);
+  position: relative;
+}
+
+.c8-aavi-wooden-header::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 10%;
+  width: 80%;
+  height: 2px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 1px;
+}
+
+/* =========================================
+   Interactive Button Layer
+========================================= */
+.c8-aavi-interactive-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.c8-aavi-btn-touch-ice {
+  position: absolute;
+  /* Positioned directly below the Ice character on the wooden table */
+  bottom: 4%;
+  left: 20%;
+  transform: translateX(-50%);
+  
+  background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+  color: white;
+  border: 3px solid #e0f2fe;
+  border-radius: 99px;
+  padding: 0.8rem 2rem;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.8), inset 0 2px 8px rgba(255, 255, 255, 0.6);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: pulse-ice-highlight 2s infinite;
+}
+
+.c8-aavi-btn-touch-ice:hover {
+  transform: translateX(-50%) translateY(-5px) scale(1.08);
+  background: linear-gradient(135deg, #7dd3fc 0%, #38bdf8 100%);
+  box-shadow: 0 0 30px rgba(56, 189, 248, 1), inset 0 2px 8px rgba(255, 255, 255, 0.8);
+}
+
+.c8-aavi-btn-touch-ice:active {
+  transform: translateX(-50%) translateY(2px) scale(0.95);
+}
+
+@keyframes pulse-ice-highlight {
+  0% {
+    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.8), 0 0 20px rgba(56, 189, 248, 0.8);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(56, 189, 248, 0), 0 0 20px rgba(56, 189, 248, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0), 0 0 20px rgba(56, 189, 248, 0.8);
+  }
+}
+
+/* =========================================
+   Step 1: Sparkles, Reaction, & Observation
+========================================= */
+.c8-aavi-step1-layer {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: auto;
+}
+
+/* Sparkles around Aavi's Ice Cube */
+.c8-aavi-sparkles-container {
+  position: absolute;
+  top: 32%;
+  left: 35%;
+  width: 100px;
+  height: 100px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.c8-sparkle {
+  position: absolute;
+  color: #fff;
+  font-size: 1.5rem;
+  filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
+  animation: sparkle-twinkle 2s infinite alternate;
+}
+
+.c8-sparkle.s1 { top: 10%; left: 20%; animation-delay: 0s; }
+.c8-sparkle.s2 { top: 70%; left: 80%; animation-delay: 0.5s; font-size: 1.2rem; }
+.c8-sparkle.s3 { top: 80%; left: 10%; animation-delay: 1s; font-size: 1rem; }
+
+@keyframes sparkle-twinkle {
+  0% { transform: scale(0.5) rotate(0deg); opacity: 0.4; }
+  100% { transform: scale(1.2) rotate(45deg); opacity: 1; }
+}
+
+/* Ice Character Happy Reaction Glow */
+.c8-aavi-ice-reaction {
+  position: absolute;
+  bottom: 12%;
+  left: 17%;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(135,206,250,0.4) 0%, rgba(135,206,250,0) 70%);
+  animation: ice-reaction-pulse 2s infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes ice-reaction-pulse {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(1.5); opacity: 1; }
+}
+
+/* Observation Bubble */
+.c8-aavi-observation-bubble {
+  position: absolute;
+  top: 15%;
+  left: 26%;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 1.5rem 3rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), inset 0 0 10px rgba(255,255,255,1);
+  border: 4px solid rgba(255, 255, 255, 0.95);
+  color: #1e3a8a;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  animation: bubble-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+.c8-aavi-observation-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 20px;
+  border-width: 20px 20px 0 0;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.85) transparent transparent transparent;
+}
+
+@keyframes bubble-pop {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.c8-aavi-observation-bubble p {
+  font-size: 2rem !important;
+  margin: 0;
+  line-height: 1.2;
+}
+
+
+/* Typography logic per step */
+.c8-aavi-observation-bubble p {
+  margin: 0;
+  line-height: 1.3;
+}
+
+.c8-aavi-observation-bubble.step-1 p { font-size: 2.2rem; }
+.c8-aavi-observation-bubble.step-2 p { font-size: 2rem; }
+.c8-aavi-observation-bubble.step-3 p { font-size: 1.6rem; }
+.c8-aavi-observation-bubble.step-4 p { font-size: 2.2rem; }
+
+/* Navigation buttons */
+.c8-aavi-nav-controls {
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
+  z-index: 10;
+}
+
+.c8-aavi-btn-next {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  padding: 15px 30px;
+  font-size: 1.4rem;
+  font-weight: 800;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(29, 78, 216, 0.5), inset 0 2px 5px rgba(255,255,255,0.3);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.c8-aavi-btn-next:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 15px 30px rgba(29, 78, 216, 0.6), inset 0 2px 5px rgba(255,255,255,0.4);
+}
+
+.c8-aavi-btn-next.final {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  box-shadow: 0 10px 25px rgba(5, 150, 105, 0.5), inset 0 2px 5px rgba(255,255,255,0.3);
+}
+
+.c8-aavi-btn-next.final:hover {
+  box-shadow: 0 15px 30px rgba(5, 150, 105, 0.6), inset 0 2px 5px rgba(255,255,255,0.4);
+}
+
+/* Lemonade Ripple Animation */
+.c8-aavi-lemonade-ripple {
+  position: absolute;
+  bottom: 12%;
+  left: 33%;
+  width: 120px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
+  animation: ripple-liquid 2s infinite ease-in-out;
+  pointer-events: none;
+  transform: rotate(-10deg);
+}
+
+@keyframes ripple-liquid {
+  0% { transform: rotate(-10deg) scale(0.9); opacity: 0.3; }
+  50% { transform: rotate(-10deg) scale(1.1); opacity: 0.7; }
+  100% { transform: rotate(-10deg) scale(0.9); opacity: 0.3; }
+}
+
+/* Back button styles */
+.c8-aavi-btn-back {
+  position: absolute;
+  bottom: 10%;
+  left: 10%;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  padding: 12px 25px;
+  font-size: 1.3rem;
+  font-weight: 800;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.c8-aavi-btn-back:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}

@@ -68,6 +68,12 @@ const ForceExplorerActivity = lazy(() => import('./science/class8/chapter5/Force
 const MicroscopeDiscovery = lazy(() => import('./science/class6/chapter10/MicroscopeDiscovery'));
 const MaterialDetectiveActivity = lazy(() => import('./science/class6/chapter6/MaterialDetective'));
 const MaterialsAroundUsActivity = lazy(() => import('./science/class6/chapter6/MaterialsAroundUs'));
+const StatesOfWaterIntroActivity = lazy(() => import('./science/class6/chapter8/StatesOfWaterIntro'));
+const StatesOfWaterSloganActivity = lazy(() => import('./science/class6/chapter8/StatesOfWaterSlogan'));
+const StatesOfWaterPage0Activity = lazy(() => import('./science/class6/chapter8/StatesOfWaterPage0'));
+const StatesOfWaterAaviIdeaActivity = lazy(() => import('./science/class6/chapter8/StatesOfWaterAaviIdea'));
+const StatesOfWaterThiravIdeaActivity = lazy(() => import('./science/class6/chapter8/StatesOfWaterThiravIdea'));
+const StatesOfWaterTestIceActivity = lazy(() => import('./science/class6/chapter8/StatesOfWaterTestIce'));
 const MaterialsAroundUsNewActivity = lazy(() => import('./science/class6/chapter6/MaterialsAroundUsNew'));
 const Activity4_1 = lazy(() => import('./science/class6/chapter4/Activity4_1'));
 const Activity4_6 = lazy(() => import('./science/class6/chapter4/Activity4_6'));
@@ -859,7 +865,8 @@ export default function App() {
     { num: 3, title: "Mindful Eating: A Path to a Healthy Body" },
     { num: 4, title: "Exploring Magnets" },
     { num: 5, title: "Measurement of Length and Motion" },
-    { num: 6, title: "Materials Around Us" }
+    { num: 6, title: "Materials Around Us" },
+    { num: 8, title: "A Journey through States of Water" }
   ];
 
   // Renders Class 6th Activities List
@@ -887,7 +894,7 @@ export default function App() {
           gap: '1.25rem'
         }}>
           {CLASS_6_CHAPTERS.map(chapter => {
-            if (chapter.num === 2 || chapter.num === 3 || chapter.num === 4 || chapter.num === 5 || chapter.num === 6 || chapter.num === 10 || chapter.num === 11 || chapter.num === 13) {
+            if (chapter.num === 2 || chapter.num === 3 || chapter.num === 4 || chapter.num === 5 || chapter.num === 6 || chapter.num === 8 || chapter.num === 10 || chapter.num === 11 || chapter.num === 13) {
               return (
                 <div
                   key={chapter.num}
@@ -925,11 +932,13 @@ export default function App() {
                             ? "Full interactive lab chart: standard units, parallax, curved lengths & types of motion."
                             : chapter.num === 6
                               ? "Includes Activities 6.1, 6.2, and 6.3: Material Detective case study."
-                              : chapter.num === 10
-                                ? "Includes Activity 10.1: Living Creatures & life processes exploration."
-                                : chapter.num === 13
-                                  ? "Full interactive lab: magnetic materials, poles, compass, attraction & repulsion, and more."
-                                  : "Includes Activity 11.1: Nature's treasures & resource conservation."}
+                              : chapter.num === 8
+                                ? "Explore how water can change its form through interactive activities and experiments."
+                                : chapter.num === 10
+                                  ? "Includes Activity 10.1: Living Creatures & life processes exploration."
+                                  : chapter.num === 13
+                                    ? "Full interactive lab: magnetic materials, poles, compass, attraction & repulsion, and more."
+                                    : "Includes Activity 11.1: Nature's treasures & resource conservation."}
                   </p>
 
                   {chapter.num === 2 ? (
@@ -1014,6 +1023,7 @@ export default function App() {
                         if (chapter.num === 4) navigateTo('class6', 'chapter4_cover');
                         else if (chapter.num === 5) navigateTo('class6', 'chapter5_cover');
                         else if (chapter.num === 6) navigateTo('class6', 'materials_around_us');
+                        else if (chapter.num === 8) navigateTo('class6', 'chapter8_intro');
                         else navigateTo('class6', `chapter${chapter.num}`);
                       }}
                       className="primary" 
@@ -3163,7 +3173,37 @@ export default function App() {
             <MaterialsAroundUsActivity onBackToDashboard={() => navigateTo('class6', null)} />
           ) : activeActivity === 'materials_around_us_new' ? (
             <MaterialsAroundUsNewActivity onBackToDashboard={() => navigateTo('class6', null)} />
-          ) : activeActivity === 'chapter4_cover' || activeActivity === 'chapter4' ? (
+          ) : activeActivity === 'chapter8_intro' ? (
+            <StatesOfWaterIntroActivity 
+              onNext={() => navigateTo('class6', 'chapter8_slogan')} 
+              onBack={() => navigateTo('class6', null)}
+            />
+          ) : activeActivity === 'chapter8_slogan' ? (
+            <StatesOfWaterSloganActivity
+              onNext={() => navigateTo('class6', 'chapter8_page0')}
+              onBack={() => navigateTo('class6', 'chapter8_intro')}
+            />
+          ) : activeActivity === 'chapter8_page0' ? (
+            <StatesOfWaterPage0Activity
+              onNext={() => navigateTo('class6', 'chapter8_aavi')}
+              onBack={() => navigateTo('class6', 'chapter8_slogan')}
+            />
+            ) : activeActivity === 'chapter8_aavi' ? (
+              <StatesOfWaterAaviIdeaActivity
+                onNext={() => navigateTo('class6', 'chapter8_thirav')}
+                onBack={() => navigateTo('class6', 'chapter8_page0')}
+              />
+            ) : activeActivity === 'chapter8_thirav' ? (
+              <StatesOfWaterThiravIdeaActivity
+                onNext={() => navigateTo('class6', 'chapter8_testice')}
+                onBack={() => navigateTo('class6', 'chapter8_aavi')}
+              />
+            ) : activeActivity === 'chapter8_testice' ? (
+              <StatesOfWaterTestIceActivity
+                onNext={() => navigateTo('class6', 'chapter8_activity8_1')}
+                onBack={() => navigateTo('class6', 'chapter8_thirav')}
+              />
+) : activeActivity === 'chapter4_cover' || activeActivity === 'chapter4' ? (
             <Chapter4Cover 
               onStartJourney={() => navigateTo('class6', 'chapter4_flow')}
               onBack={() => navigateTo('class6', null)}

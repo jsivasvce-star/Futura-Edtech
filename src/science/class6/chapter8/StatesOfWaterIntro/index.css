@@ -1,0 +1,328 @@
+@keyframes c8PulseGlow {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(0, 191, 255, 0.6)); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 25px rgba(0, 191, 255, 1)); transform: scale(1.02); }
+}
+
+@keyframes c8DecorFloat1 {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.4; }
+  50% { transform: translateY(-15px) rotate(10deg); opacity: 0.7; }
+}
+
+@keyframes c8DecorFloat2 {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+  50% { transform: translateY(20px) rotate(-15deg); opacity: 0.6; }
+}
+
+.chapter8-intro-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  z-index: 10000;
+  user-select: none;
+  background-color: #060A17;
+  font-family: 'Outfit', 'Inter', sans-serif;
+}
+
+.chapter8-intro-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left center;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.chapter8-intro-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* 100% transparent until 60% to completely preserve the steam, ice, and dark background. 
+     Fades softly to a light blue only on the far right. */
+  background: linear-gradient(
+    90deg, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(255, 255, 255, 0) 65%, 
+    rgba(240, 250, 255, 0.08) 85%, 
+    rgba(240, 250, 255, 0.15) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+.chapter8-intro-decorations {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.chapter8-intro-decorations .decor {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  opacity: 0.4;
+}
+
+.chapter8-intro-decorations .icon-1 { top: 15%; left: 10%; width: 40px; animation: c8DecorFloat1 8s infinite ease-in-out; }
+.chapter8-intro-decorations .icon-2 { top: 10%; right: 15%; width: 60px; animation: c8DecorFloat2 12s infinite ease-in-out; }
+.chapter8-intro-decorations .icon-3 { bottom: 35%; right: 5%; width: 35px; animation: c8DecorFloat1 9s infinite ease-in-out 2s; }
+
+.chapter8-intro-content-wrapper {
+  position: absolute;
+  top: 0;
+  left: 55%;
+  width: 45%;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4vh 4vw;
+  box-sizing: border-box;
+}
+
+.chapter8-intro-typography {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.text-dark-blue {
+  color: #0b1d5c;
+}
+
+.text-cyan-solid {
+  color: #00a8e8;
+}
+
+.chapter8-title-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  text-align: center;
+}
+
+.chapter8-top-title {
+  font-size: min(2.3vw, 3.5vh);
+  color: #0b1d5c;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: 0.1em;
+}
+
+.chapter8-top-title-underline {
+  width: 120%;
+  height: 2px;
+  background-color: #0b1d5c;
+  margin: 1vh 0 2vh 0;
+}
+
+.chapter8-main-title {
+  font-size: min(5.2vw, 8vh);
+  font-weight: 900;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.chapter8-outline-pill {
+  border: 1px solid #0b1d5c;
+  border-radius: 9999px;
+  padding: 0.8vh 2vw;
+  color: #0b1d5c;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-size: 20px;
+  margin-top: 3vh;
+  background: transparent;
+}
+
+.chapter8-chapter-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #0b1d5c;
+  padding: 2.5vh 3.5vw;
+  background-color: transparent;
+  margin-top: 4vh;
+  width: 80%;
+}
+
+.chapter8-box-heading {
+  margin: 0;
+  color: #051240;
+  font-size: min(2.3vw, 4vh);
+  font-weight: 900;
+  text-align: center;
+  line-height: 1;
+}
+
+.chapter8-box-subtitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #051240;
+  margin-top: 1.5vh;
+}
+
+.chapter8-bullet-points {
+  margin-top: 4vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2vh;
+}
+
+.chapter8-bullet-row {
+  color: #0077b6;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  display: flex;
+  gap: 2vw;
+  align-items: center;
+}
+
+.chapter8-bullet-row-secondary {
+  font-size: 18px;
+  gap: 1.5vw;
+}
+
+.chapter8-bullet-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #00a8e8;
+}
+
+.chapter8-glowing-btn {
+  margin-top: 6vh;
+  position: relative;
+  min-height: min(9vh, 65px);
+  background: linear-gradient(90deg, #1e4bb2 0%, #061a55 100%);
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5vh 3vw;
+  color: white;
+  font-family: 'Inter', 'Outfit', sans-serif;
+  gap: 2vw;
+  box-shadow: 0 10px 25px rgba(0, 162, 255, 0.4);
+}
+
+.chapter8-btn-inner-glow {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+  z-index: 1;
+  opacity: 0.7;
+  filter: blur(8px);
+  animation: c8PulseGlow 2s infinite ease-in-out;
+}
+
+.chapter8-glowing-btn:hover {
+  transform: scale(1.05);
+}
+
+.chapter8-glowing-btn::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, #1e4bb2 0%, #061a55 100%);
+  border-radius: 9999px;
+  z-index: 1;
+}
+
+.chapter8-btn-drop-icon {
+  width: 28px;
+  height: 28px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.chapter8-btn-text {
+  font-size: min(2.5vw, 3.5vh);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  z-index: 2;
+  position: relative;
+}
+
+.chapter8-btn-icon {
+  width: 28px;
+  height: 28px;
+  z-index: 2;
+  position: relative;
+}
+
+.chapter8-back-btn {
+  position: absolute;
+  bottom: 5vh;
+  left: 4vw;
+  width: 140px;
+  height: 48px;
+  background: #ffffff;
+  border: 1px solid #bae6fd;
+  border-radius: 9999px;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.15s ease;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5vw;
+  color: #0b1d5c;
+  box-shadow: 0 4px 12px rgba(0, 168, 232, 0.15);
+}
+
+.chapter8-back-btn-glow {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 9999px;
+  background: rgba(0, 168, 232, 0.15);
+  z-index: -1;
+  filter: blur(4px);
+  animation: c8PulseGlow 3s infinite ease-in-out;
+}
+
+.chapter8-back-btn:hover {
+  transform: scale(1.05);
+}
+
+.chapter8-back-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.chapter8-back-text {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
