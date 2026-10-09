@@ -70,6 +70,10 @@ const MaterialDetectiveActivity = lazy(() => import('./science/class6/chapter6/M
 const MaterialsAroundUsActivity = lazy(() => import('./science/class6/chapter6/MaterialsAroundUs'));
 const StatesOfWaterIntroActivity = lazy(() => import('./science/class6/chapter8/StatesOfWaterIntro'));
 const StatesOfWaterSloganActivity = lazy(() => import('./science/class6/chapter8/StatesOfWaterSlogan'));
+const StatesOfWaterPage0Activity = lazy(() => import('./science/class6/chapter8/StatesOfWaterPage0'));
+const StatesOfWaterAaviIdeaActivity = lazy(() => import('./science/class6/chapter8/StatesOfWaterAaviIdea'));
+const StatesOfWaterThiravIdeaActivity = lazy(() => import('./science/class6/chapter8/StatesOfWaterThiravIdea'));
+const StatesOfWaterTestIceActivity = lazy(() => import('./science/class6/chapter8/StatesOfWaterTestIce'));
 const MaterialsAroundUsNewActivity = lazy(() => import('./science/class6/chapter6/MaterialsAroundUsNew'));
 const Activity4_1 = lazy(() => import('./science/class6/chapter4/Activity4_1'));
 const Activity4_6 = lazy(() => import('./science/class6/chapter4/Activity4_6'));
@@ -3200,10 +3204,30 @@ export default function App() {
             />
           ) : activeActivity === 'chapter8_slogan' ? (
             <StatesOfWaterSloganActivity
-              onNext={() => navigateTo('class6', 'chapter8')}
+              onNext={() => navigateTo('class6', 'chapter8_page0')}
               onBack={() => navigateTo('class6', 'chapter8_intro')}
             />
-          ) : activeActivity === 'chapter4_cover' || activeActivity === 'chapter4' ? (
+          ) : activeActivity === 'chapter8_page0' ? (
+            <StatesOfWaterPage0Activity
+              onNext={() => navigateTo('class6', 'chapter8_aavi')}
+              onBack={() => navigateTo('class6', 'chapter8_slogan')}
+            />
+            ) : activeActivity === 'chapter8_aavi' ? (
+              <StatesOfWaterAaviIdeaActivity
+                onNext={() => navigateTo('class6', 'chapter8_thirav')}
+                onBack={() => navigateTo('class6', 'chapter8_page0')}
+              />
+            ) : activeActivity === 'chapter8_thirav' ? (
+              <StatesOfWaterThiravIdeaActivity
+                onNext={() => navigateTo('class6', 'chapter8_testice')}
+                onBack={() => navigateTo('class6', 'chapter8_aavi')}
+              />
+            ) : activeActivity === 'chapter8_testice' ? (
+              <StatesOfWaterTestIceActivity
+                onNext={() => navigateTo('class6', 'chapter8_activity8_1')}
+                onBack={() => navigateTo('class6', 'chapter8_thirav')}
+              />
+) : activeActivity === 'chapter4_cover' || activeActivity === 'chapter4' ? (
             <Chapter4Cover 
               onStartJourney={() => navigateTo('class6', 'chapter4_flow')}
               onBack={() => navigateTo('class6', null)}
