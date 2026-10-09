@@ -461,6 +461,12 @@ h2 {
   color: rgba(16, 42, 86, 0.65);
 }
 
+.glass-panel button.primary,
+.glass-panel button.primary span,
+.glass-panel button.primary svg {
+  color: #ffffff !important;
+}
+
 /* Outline buttons on dark bg */
 body.dashboard-active button.outline,
 body.science-lab-active button.outline {

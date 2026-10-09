@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ArrowLeft } from 'lucide-react';
 import Chapter2CoverV1 from './Chapter2CoverV1';
 import Section2_1Point from './sections/Section2_1Point';
+import Section2_2LineSegment from './sections/Section2_2LineSegment';
+import Section2_3Line from './sections/Section2_3Line';
+import SectionQuiz from './sections/SectionQuiz';
+import Chapter2InteractiveSection from './sections/Chapter2InteractiveSection';
 import './cover.css';
 
 /**
@@ -135,8 +139,8 @@ export const CHAPTER_2_V1_SECTIONS = [
     fullName: '2.10 — Drawing Angles',
     iconSvg: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <line x1="5" y1="22" x2="24" y2="22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        <line x1="5" y1="22" x2="19" y2="8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        <line x1="5" y1="22" x2="24" y2="22" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+        <line x1="5" y1="22" x2="19" y2="8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
         <path d="M 18 7 L 23 12 L 20 15 L 15 10 Z" fill="none" stroke="currentColor" strokeWidth="1.5" />
       </svg>
     )
@@ -155,13 +159,169 @@ export const CHAPTER_2_V1_SECTIONS = [
   }
 ];
 
+export const CHAPTER_2_V1_QUIZ = {
+  id: 'quiz',
+  number: 'Q',
+  title: 'Quiz',
+  fullName: 'Chapter 2 — Final Quiz',
+  theme: 'quiz',
+  glowColor: 'rgba(107, 33, 168, 0.55)',
+  image: '/assets/maths/class6/chapter2/card_quiz_hd.png'
+};
+
+/**
+ * EXACT 12 CHAPTER FLOW CARDS (4-Column × 3-Row Desktop Grid matching reference)
+ */
+export const CHAPTER_2_FLOW_CARDS = [
+  {
+    id: '2.1',
+    number: '2.1',
+    title: 'Point',
+    fullName: '2.1 — Point',
+    theme: 'point',
+    glowColor: 'rgba(29, 78, 216, 0.55)',
+    image: '/assets/maths/class6/chapter2/card_2_1_point_hd.png'
+  },
+  {
+    id: '2.2',
+    number: '2.2',
+    title: 'Line Segment',
+    fullName: '2.2 — Line Segment',
+    theme: 'linesegment',
+    glowColor: 'rgba(5, 150, 105, 0.55)',
+    image: '/assets/maths/class6/chapter2/card_2_2_linesegment_hd.png'
+  },
+  {
+    id: '2.3',
+    number: '2.3',
+    title: 'Line',
+    fullName: '2.3 — Line',
+    theme: 'line',
+    glowColor: 'rgba(79, 70, 229, 0.55)',
+    image: '/assets/maths/class6/chapter2/card_2_3_line_hd.png'
+  },
+  {
+    id: '2.4',
+    number: '2.4',
+    title: 'Ray',
+    fullName: '2.4 — Ray',
+    theme: 'ray',
+    glowColor: 'rgba(217, 119, 6, 0.55)',
+    image: '/assets/maths/class6/chapter2/card_2_4_ray_hd.png'
+  },
+  {
+    id: '2.5',
+    number: '2.5',
+    title: 'Angle',
+    fullName: '2.5 — Angle',
+    theme: 'angle',
+    glowColor: 'rgba(219, 39, 119, 0.55)',
+    image: '/assets/maths/class6/chapter2/card_2_5_angle_hd.png'
+  },
+  {
+    id: '2.6',
+    number: '2.6',
+    title: 'Comparing Angles',
+    fullName: '2.6 — Comparing Angles',
+    theme: 'comparingangles',
+    glowColor: 'rgba(8, 145, 178, 0.55)',
+    image: '/assets/maths/class6/chapter2/card_2_6_comparingangles_hd.png'
+  },
+  {
+    id: '2.7',
+    number: '2.7',
+    title: 'Making Rotating Arms',
+    fullName: '2.7 — Making Rotating Arms',
+    theme: 'rotatingarms',
+    glowColor: 'rgba(29, 78, 216, 0.55)',
+    image: '/assets/maths/class6/chapter2/card_2_7_rotatingarms_hd.png'
+  },
+  {
+    id: '2.8',
+    number: '2.8',
+    title: 'Special Types of Angles',
+    fullName: '2.8 — Special Types of Angles',
+    theme: 'specialangles',
+    glowColor: 'rgba(124, 58, 237, 0.55)',
+    image: '/assets/maths/class6/chapter2/card_2_8_specialangles_hd.png'
+  },
+  {
+    id: '2.9',
+    number: '2.9',
+    title: 'Measuring Angles',
+    fullName: '2.9 — Measuring Angles',
+    theme: 'measuringangles',
+    glowColor: 'rgba(217, 119, 6, 0.55)',
+    image: '/assets/maths/class6/chapter2/card_2_9_measuringangles_hd.png'
+  },
+  {
+    id: '2.10',
+    number: '2.10',
+    title: 'Drawing Angles',
+    fullName: '2.10 — Drawing Angles',
+    theme: 'drawingangles',
+    glowColor: 'rgba(2, 132, 199, 0.55)',
+    image: '/assets/maths/class6/chapter2/card_2_10_drawingangles_hd.png'
+  },
+  {
+    id: '2.11',
+    number: '2.11',
+    title: 'Types of Angles and their Measures',
+    fullName: '2.11 — Types of Angles and their Measures',
+    theme: 'typesofangles',
+    glowColor: 'rgba(13, 148, 136, 0.55)',
+    image: '/assets/maths/class6/chapter2/card_2_11_typesofangles_hd.png'
+  },
+  CHAPTER_2_V1_QUIZ
+];
+
+export const CHAPTER_2_V1_ALL_ITEMS = CHAPTER_2_FLOW_CARDS;
+
 /**
  * Class 6 Mathematics · Chapter 2: Lines and Angles (Version 1)
- * Multi-Stage Navigation: Cover Page → Main Page (11 Cards) → Individual Section View
+ * Production-Quality Chapter Flow Page matching exact Reference Design
  */
 export default function Class6MathsChapter2V1({ onBackToDashboard }) {
-  const [viewState, setViewState] = useState('cover'); // 'cover' | 'main' | 'section'
+  // If explicitly requesting direct flow view via URL hash (#activity=chapter2_v1&flow=true), show flow page;
+  // Otherwise default to the interactive Cover Page ('cover')!
+  const isDirectFlow = typeof window !== 'undefined' && (
+    window.location.hash.includes('flow=true') || 
+    window.location.hash.includes('view=flow')
+  );
+  const [viewState, setViewState] = useState(isDirectFlow ? 'main' : 'cover'); // 'cover' | 'main' | 'section'
   const [activeSection, setActiveSection] = useState(null);
+
+  // Synchronize hash state so browser Back/Forward buttons navigate between Cover and Flow
+  useEffect(() => {
+    const handleHashOrPopState = () => {
+      const hash = window.location.hash || '';
+      if (hash.includes('flow=true') || hash.includes('view=flow')) {
+        setViewState('main');
+      } else if (hash.includes('activity=chapter2_v1')) {
+        setViewState('cover');
+      }
+    };
+    window.addEventListener('hashchange', handleHashOrPopState);
+    window.addEventListener('popstate', handleHashOrPopState);
+    return () => {
+      window.removeEventListener('hashchange', handleHashOrPopState);
+      window.removeEventListener('popstate', handleHashOrPopState);
+    };
+  }, []);
+
+  // Keyboard Escape shortcut from Chapter Flow page returns to Cover Page
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && viewState === 'main') {
+        if (typeof window !== 'undefined') {
+          window.location.hash = '#subject=class6_maths&activity=chapter2_v1';
+        }
+        setViewState('cover');
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [viewState]);
 
   const handleSelectSection = (section) => {
     setActiveSection(section);
@@ -173,7 +333,12 @@ export default function Class6MathsChapter2V1({ onBackToDashboard }) {
     return (
       <Chapter2CoverV1
         onBackToDashboard={onBackToDashboard}
-        onStartExploring={() => setViewState('main')}
+        onStartExploring={() => {
+          if (typeof window !== 'undefined') {
+            window.location.hash = '#subject=class6_maths&activity=chapter2_v1&flow=true';
+          }
+          setViewState('main');
+        }}
       />
     );
   }
@@ -184,170 +349,141 @@ export default function Class6MathsChapter2V1({ onBackToDashboard }) {
       return <Section2_1Point onBack={() => setViewState('main')} />;
     }
 
-    return (
-      <div 
-        className="ch2-v1-section-view"
-        id={`ch2-v1-section-${activeSection.number.replace('.', '_')}`}
-      >
-        <header className="ch2-v1-section-topbar">
-          <div className="ch2-v1-section-topbar-left">
-            <button
-              onClick={() => setViewState('main')}
-              className="ch2-top-back-btn"
-              style={{ position: 'static' }}
-              title="Back to Chapter 2 Sections"
-            >
-              <ArrowLeft size={16} />
-              <span>Back</span>
-            </button>
-            <div className="ch2-v1-section-title-wrap">
-              <span className="ch2-v1-section-badge">CHAPTER 2 · LINES AND ANGLES</span>
-              <h2 className="ch2-v1-section-name">{activeSection.fullName}</h2>
-            </div>
-          </div>
-        </header>
+    if (activeSection.id === '2.2') {
+      return (
+        <Section2_2LineSegment
+          onBackToMap={() => setViewState('main')}
+          onBack={() => setViewState('main')}
+          onBackTo2_1={() => {
+            const sec21 = CHAPTER_2_FLOW_CARDS.find((s) => s.id === '2.1');
+            if (sec21) handleSelectSection(sec21);
+          }}
+          onNextSection={() => {
+            const sec23 = CHAPTER_2_FLOW_CARDS.find((s) => s.id === '2.3');
+            if (sec23) handleSelectSection(sec23);
+          }}
+        />
+      );
+    }
 
-        <main className="ch2-v1-section-canvas-area">
-          {/* Empty / placeholder container ready for future development */}
-        </main>
-      </div>
+    if (activeSection.id === '2.3') {
+      return (
+        <Section2_3Line
+          onBackToMap={() => setViewState('main')}
+          onBack={() => setViewState('main')}
+          onBackTo2_2={() => {
+            const sec22 = CHAPTER_2_FLOW_CARDS.find((s) => s.id === '2.2');
+            if (sec22) handleSelectSection(sec22);
+          }}
+          onNextSection={() => {
+            const sec24 = CHAPTER_2_FLOW_CARDS.find((s) => s.id === '2.4');
+            if (sec24) handleSelectSection(sec24);
+          }}
+        />
+      );
+    }
+
+    if (activeSection.id === 'quiz') {
+      return <SectionQuiz onBack={() => setViewState('main')} />;
+    }
+
+    // Sections 2.4 through 2.11: Fully functional interactive laboratory
+    return (
+      <Chapter2InteractiveSection
+        section={activeSection}
+        onBack={() => setViewState('main')}
+      />
     );
   }
 
-  // ── 3. MAIN PAGE VIEW (11 CLICKABLE HEADING CARDS GRID) ──
+  // ── 3. MAIN CHAPTER FLOW PAGE VIEW (100% Matching Reference Design) ──
   return (
-    <div className="ch2-v1-main-page" id="ch2-v1-main-page">
-      {/* Top Navigation Bar */}
-      <header className="ch2-v1-navbar">
-        <div className="ch2-v1-nav-left">
-          <button
-            onClick={() => setViewState('cover')}
-            className="ch2-top-back-btn"
-            style={{ position: 'static' }}
-            title="Return to Chapter 2 Cover"
-          >
-            <ArrowLeft size={16} />
-            <span>Back to Cover</span>
-          </button>
-          <div className="ch2-v1-nav-title-group">
-            <span className="ch2-v1-nav-badge">CHAPTER 2</span>
-            <h2 className="ch2-v1-nav-heading">LINES AND ANGLES</h2>
+    <div className="ch2-flow-page-root" id="ch2-v1-main-page">
+      {/* Highlighted Top-Left Back Button */}
+      <button
+        onClick={() => {
+          if (typeof window !== 'undefined') {
+            window.location.hash = '#subject=class6_maths&activity=chapter2_v1';
+          }
+          setViewState('cover');
+        }}
+        className="ch2-flow-back-btn-highlighted"
+        title="Back to Chapter 2 Cover"
+        id="ch2-flow-back-btn"
+        aria-label="Back to Chapter 2 Cover"
+      >
+        <ArrowLeft size={18} strokeWidth={2.6} className="ch2-flow-back-icon" />
+        <span>Back</span>
+      </button>
+
+      <div className="ch2-flow-stage">
+        {/* Single Centered Ivory Plaque with Gold Metallic Border — NO Back Button */}
+        <header 
+          className="ch2-header-plaque" 
+          role="banner"
+          onClick={() => {
+            if (typeof window !== 'undefined') {
+              window.location.hash = '#subject=class6_maths&activity=chapter2_v1';
+            }
+            setViewState('cover');
+          }}
+          title="Grade 6 Chapter 2: Lines and Angles (Click to return to Cover)"
+          style={{ cursor: 'pointer' }}
+        >
+          <span className="ch2-plaque-screw screw-left" aria-hidden="true" />
+          <div className="ch2-plaque-text-wrap">
+            <span className="ch2-plaque-eyebrow">GRADE 6 • MATHEMATICS • CHAPTER 2</span>
+            <h1 className="ch2-plaque-title">LINES AND ANGLES</h1>
           </div>
-        </div>
-      </header>
+          <span className="ch2-plaque-screw screw-right" aria-hidden="true" />
+        </header>
 
-      {/* Main Page Title Header */}
-      <div className="ch2-v1-page-header">
-        <h1 className="ch2-v1-page-title">LINES AND ANGLES</h1>
-        <p className="ch2-v1-page-desc">
-          Select a section below to begin exploring geometric concepts
-        </p>
+        {/* 12 Heading Cards Container (Strict 4-Column × 3-Row Grid) */}
+        <main className="ch2-flow-cards-grid" role="region" aria-label="Chapter 2 Section Cards">
+          {CHAPTER_2_FLOW_CARDS.map((card) => (
+            <div
+              key={card.id}
+              className={`ch2-ref-card ch2-theme-${card.theme}`}
+              onClick={() => handleSelectSection(card)}
+              id={`ch2-card-${card.id.replace('.', '_')}`}
+              tabIndex={0}
+              role="button"
+              aria-label={`Section ${card.number}: ${card.title} - Explore`}
+              style={{ '--card-glow': card.glowColor }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleSelectSection(card);
+                }
+              }}
+            >
+              <img
+                src={card.image}
+                alt={`${card.number} ${card.title}`}
+                className="ch2-ref-card-img"
+                loading="eager"
+              />
+              <div className="ch2-ref-card-sheen" aria-hidden="true" />
+              {/* Interactive Action Bar on card bottom */}
+              <div className="ch2-ref-card-overlay">
+                <span className="ch2-ref-card-badge-accessible" aria-hidden="true">{card.number}</span>
+                <span className="ch2-ref-card-title-accessible" aria-hidden="true">{card.title}</span>
+                <div
+                  className="ch2-ref-card-action-bar"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelectSection(card);
+                  }}
+                  title={`Explore ${card.title}`}
+                >
+                  <span className="ch2-ref-explore-text">EXPLORE</span>
+                  <span className="ch2-ref-explore-arrow" aria-hidden="true">→</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </main>
       </div>
-
-      {/* 11 Heading Cards Container (Strict Single Viewport, 4-4-3 Centered) */}
-      <main className="ch2-cards-container">
-        {/* Row 1: 2.1 to 2.4 */}
-        <div className="ch2-cards-row">
-          {CHAPTER_2_V1_SECTIONS.slice(0, 4).map((sec) => (
-            <div
-              key={sec.id}
-              className="ch2-heading-card"
-              onClick={() => handleSelectSection(sec)}
-              id={`ch2-card-${sec.id.replace('.', '_')}`}
-              tabIndex={0}
-              role="button"
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  handleSelectSection(sec);
-                }
-              }}
-            >
-              <div className="ch2-card-top-row">
-                <span className="ch2-card-number-badge">{sec.number}</span>
-                <div className="ch2-card-icon-box">{sec.iconSvg}</div>
-              </div>
-
-              <div className="ch2-card-body">
-                <h3 className="ch2-card-title">{sec.title}</h3>
-              </div>
-
-              <div className="ch2-card-bottom-row">
-                <span className="ch2-card-action-text">EXPLORE</span>
-                <ArrowRight size={16} className="ch2-card-arrow-icon" />
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Row 2: 2.5 to 2.8 */}
-        <div className="ch2-cards-row">
-          {CHAPTER_2_V1_SECTIONS.slice(4, 8).map((sec) => (
-            <div
-              key={sec.id}
-              className="ch2-heading-card"
-              onClick={() => handleSelectSection(sec)}
-              id={`ch2-card-${sec.id.replace('.', '_')}`}
-              tabIndex={0}
-              role="button"
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  handleSelectSection(sec);
-                }
-              }}
-            >
-              <div className="ch2-card-top-row">
-                <span className="ch2-card-number-badge">{sec.number}</span>
-                <div className="ch2-card-icon-box">{sec.iconSvg}</div>
-              </div>
-
-              <div className="ch2-card-body">
-                <h3 className="ch2-card-title">{sec.title}</h3>
-              </div>
-
-              <div className="ch2-card-bottom-row">
-                <span className="ch2-card-action-text">EXPLORE</span>
-                <ArrowRight size={16} className="ch2-card-arrow-icon" />
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Row 3: 2.9 to 2.11 (Centered Horizontally) */}
-        <div className="ch2-cards-row-bottom">
-          {CHAPTER_2_V1_SECTIONS.slice(8, 11).map((sec) => (
-            <div
-              key={sec.id}
-              className="ch2-heading-card"
-              onClick={() => handleSelectSection(sec)}
-              id={`ch2-card-${sec.id.replace('.', '_')}`}
-              tabIndex={0}
-              role="button"
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  handleSelectSection(sec);
-                }
-              }}
-            >
-              <div className="ch2-card-top-row">
-                <span className="ch2-card-number-badge">{sec.number}</span>
-                <div className="ch2-card-icon-box">{sec.iconSvg}</div>
-              </div>
-
-              <div className="ch2-card-body">
-                <h3 className="ch2-card-title">{sec.title}</h3>
-              </div>
-
-              <div className="ch2-card-bottom-row">
-                <span className="ch2-card-action-text">EXPLORE</span>
-                <ArrowRight size={16} className="ch2-card-arrow-icon" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </main>
     </div>
   );
 }

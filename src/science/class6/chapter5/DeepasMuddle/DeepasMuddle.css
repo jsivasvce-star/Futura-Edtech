@@ -25,9 +25,10 @@
   z-index: 1;
 }
 
-/* Fullscreen Stage Container */
+/* Fullscreen Stage Container — true edge-to-edge presentation */
 .deepa-stage-wrapper {
-  position: relative;
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   display: flex;
@@ -35,13 +36,14 @@
   justify-content: center;
   overflow: hidden;
   z-index: 10;
-  padding-bottom: 3.5rem; /* Leaves breathing room for centered bottom container */
+  padding: 0;
   box-sizing: border-box;
 }
 
 /* Image Frame ensuring uncompromised resolution, pixel clarity & brightness */
 .deepa-image-frame {
-  position: relative;
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   display: flex;
@@ -53,14 +55,13 @@
 .deepa-story-img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  object-position: center;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+  object-fit: cover;
+  object-position: center center;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  filter: contrast(1.0) saturate(1.0) brightness(1.0); /* 100% untouched native brightness & pixel clarity */
-  will-change: auto;
+  transform: translateZ(0);
+  filter: contrast(1.02) brightness(1.01);
+  will-change: transform, opacity;
   transition: opacity 0.35s ease-in-out;
 }
 
@@ -168,9 +169,11 @@
    ========================================================================== */
 .deepa-bottom-container {
   position: absolute;
-  bottom: 0.9rem;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 1.25rem;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
   width: min(94vw, 1140px);
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.94) 100%);
   backdrop-filter: blur(20px);
@@ -178,13 +181,13 @@
   border: 1.8px solid #E2E8F0;
   border-radius: 22px;
   padding: 1.1rem 1.75rem;
-  box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 100;
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
   box-sizing: border-box;
-  transition: all 0.3s ease;
+  transition: box-shadow 0.3s ease;
 }
 
 /* Scene Header inside Container */
