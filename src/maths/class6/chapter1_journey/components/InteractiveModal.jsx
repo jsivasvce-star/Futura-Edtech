@@ -2358,7 +2358,7 @@ export default function InteractiveModal({
     return (
       <ErrorBoundary>
         <Suspense fallback={null}>
-          <div style={{ position: 'fixed', inset: 0, zIndex: 999999, backgroundColor: '#0a0f1d' }}>
+          <div style={{ position: 'fixed', inset: 0, zIndex: 999999, backgroundColor: '#fdfbf7' }}>
             <button
               onClick={onClose}
               style={{
@@ -2370,13 +2370,14 @@ export default function InteractiveModal({
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: 'rgba(15, 23, 42, 0.8)',
-                color: '#f8fafc',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
+                background: '#DCEEFF',
+                color: '#082B66',
+                border: '2px solid #93C5FD',
+                boxShadow: '0 4px 12px rgba(8, 43, 102, 0.12)',
                 padding: '10px 20px',
                 borderRadius: '12px',
                 cursor: 'pointer',
-                fontWeight: 'bold',
+                fontWeight: '800',
                 fontFamily: 'system-ui, -apple-system, sans-serif'
               }}
             >

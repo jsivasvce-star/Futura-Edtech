@@ -6,6 +6,7 @@ import CubeNumbersInteractive from './CubeNumbersInteractive';
 import RealisticCube3D from './RealisticCube3D';
 import video36dots from '../36dots.mp4';
 import VisualisingSequencesV2 from './version-2/VisualisingSequencesV2';
+import mathBg13V1 from './math_bg_1_3_v1.jpg';
 import page1Audio from './audio/page1.mp3';
 import page2Audio from './audio/page2.mp3';
 import page3Audio from './audio/page3.mp3';
@@ -128,16 +129,9 @@ const BoxVisualizer = ({ step, playStep, numPictures, questionPic, renderShapes,
             (step === 3 && playStep < numPictures - 1)
           );
 
-          let boxStroke = isFocus ? "#1a362f" : "rgba(255,255,255,0.05)";
-          let boxFill = isFocus ? "rgba(16, 35, 30, 0.4)" : "transparent";
-          let boxDash = "none";
-          let titleColor = isFocus ? "#64748b" : "#334155";
-          
+          let titleColor = isFocus ? "#082B66" : "#64748B";
           if (isUnknown) {
-            boxStroke = "#334155";
-            boxFill = "transparent";
-            boxDash = "8,8";
-            titleColor = "#334155";
+            titleColor = "#64748B";
           }
 
           let arrowhead = "arrowhead";
@@ -150,16 +144,16 @@ const BoxVisualizer = ({ step, playStep, numPictures, questionPic, renderShapes,
 
           return (
               <g key={pic} transform={`translate(${x}, 170)`}>
-                <text x="0" y="-120" fill={titleColor} fontSize="20" textAnchor="middle" fontWeight="bold" letterSpacing="1" style={{transition: 'fill 0.4s ease'}}>PICTURE {pic}</text>
+                <text x="0" y="-120" fill={titleColor} fontSize="20" textAnchor="middle" fontWeight="800" letterSpacing="1" style={{transition: 'fill 0.4s ease'}}>PICTURE {pic}</text>
               
               <g style={{opacity: isFocus ? 1 : 0, transition: 'opacity 0.4s ease-in-out'}}>
                 {isUnknown ? (
-                  <text x="0" y="25" fill="#334155" fontSize="100" textAnchor="middle" fontWeight="800">?</text>
+                  <text x="0" y="25" fill="#082B66" fontSize="100" textAnchor="middle" fontWeight="900">?</text>
                 ) : (
                   renderShapes(pic, i, isFocus)
                 )}
 
-                <text x="0" y="140" fill={isUnknown ? "#334155" : "#4ade80"} fontSize="64" textAnchor="middle" fontWeight="800">{isUnknown ? "?" : bottomValues[i]}</text>
+                <text x="0" y="140" fill={isUnknown ? "#082B66" : "#0866E8"} fontSize="64" textAnchor="middle" fontWeight="900">{isUnknown ? "?" : bottomValues[i]}</text>
               </g>
               
               {i > 0 && (isFocus || canClickNext) && !hideArrows && (
@@ -177,10 +171,10 @@ const BoxVisualizer = ({ step, playStep, numPictures, questionPic, renderShapes,
                           d={`M ${startX} -20 L ${endX} -20`} 
                           fill="none" 
                           stroke={connectorColor} 
-                          strokeWidth="2" 
+                          strokeWidth="2.5" 
                           markerEnd={`url(#${arrowhead})`} 
                         />
-                        <text x={(startX + endX) / 2} y="-30" fill={connectorColor} fontSize="22" textAnchor="middle" fontWeight="bold" style={{opacity: showHint || step === 3 ? 1 : 0, transition: "opacity 0.4s ease"}}>{connectorLabel(i, pic)}</text>
+                        <text x={(startX + endX) / 2} y="-30" fill={connectorColor} fontSize="22" textAnchor="middle" fontWeight="800" style={{opacity: showHint || step === 3 ? 1 : 0, transition: "opacity 0.4s ease"}}>{connectorLabel(i, pic)}</text>
                       </>
                     );
                   })()}
@@ -273,7 +267,7 @@ const VisualizerTriangular = ({ step, playStep, showHint }) => (
               <circle 
                 key={`placeholder-${r}-${c}`} 
                 cx={cx} cy={cy} r="9" 
-                stroke="rgba(255,255,255,0.4)" 
+                stroke="rgba(8, 43, 102, 0.25)" 
                 strokeWidth="1.5" 
                 strokeDasharray="3,3" 
                 fill="transparent" 
@@ -336,7 +330,7 @@ const VisualizerSquare = ({ step, playStep, showHint }) => (
               <rect 
                 key={`placeholder-${r}-${c}`} 
                 x={cx} y={cy} width="18" height="18" rx="6" 
-                stroke="rgba(255,255,255,0.4)" 
+                stroke="rgba(8, 43, 102, 0.25)" 
                 strokeWidth="1.5" 
                 strokeDasharray="3,3" 
                 fill="transparent" 
@@ -363,9 +357,9 @@ const VisualizerCube = ({ step, playStep, showHint }) => {
   const [separate, setSeparate] = useState(false);
   
   const toggleControls = (
-    <div style={{display: 'flex', gap: '8px', background: 'rgba(15,23,42,0.8)', padding: '4px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)'}}>
-      <button onClick={() => setSeparate(false)} style={{padding: '6px 16px', borderRadius: '6px', border: 'none', cursor: 'pointer', background: !separate ? 'rgba(255,255,255,0.15)' : 'transparent', color: !separate ? '#fff' : '#94a3b8', fontWeight: '600'}}>Solid cubes</button>
-      <button onClick={() => setSeparate(true)} style={{padding: '6px 16px', borderRadius: '6px', border: 'none', cursor: 'pointer', background: separate ? 'rgba(255,255,255,0.15)' : 'transparent', color: separate ? '#fff' : '#94a3b8', fontWeight: '600'}}>Separate layers</button>
+    <div style={{display: 'flex', gap: '8px', background: '#E8F2FF', padding: '4px', borderRadius: '10px', border: '2px solid #BAE6FD'}}>
+      <button onClick={() => setSeparate(false)} style={{padding: '6px 16px', borderRadius: '8px', border: 'none', cursor: 'pointer', background: !separate ? '#1769F5' : 'transparent', color: !separate ? '#ffffff' : '#082B66', fontWeight: '800', boxShadow: !separate ? '0 2px 8px rgba(23,105,245,0.25)' : 'none'}}>Solid cubes</button>
+      <button onClick={() => setSeparate(true)} style={{padding: '6px 16px', borderRadius: '8px', border: 'none', cursor: 'pointer', background: separate ? '#1769F5' : 'transparent', color: separate ? '#ffffff' : '#082B66', fontWeight: '800', boxShadow: separate ? '0 2px 8px rgba(23,105,245,0.25)' : 'none'}}>Separate layers</button>
     </div>
   );
 
@@ -468,7 +462,7 @@ const VisualizerHexagonal = ({ step, playStep, showHint }) => (
                 <circle 
                   key={`placeholder-r${r}-k${k}-j${j}`} 
                   cx={px*S} cy={py*S} r="5.5" 
-                  stroke="rgba(255,255,255,0.4)" 
+                  stroke="rgba(8, 43, 102, 0.25)" 
                   strokeWidth="1.5" 
                   strokeDasharray="2,2" 
                   fill="transparent" 
@@ -640,13 +634,13 @@ const Visualizer36Dots = ({ step, playStep, showHint }) => {
   return (
     <div style={{position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
       <div style={{position: 'absolute', top: 10, zIndex: 10, display: 'flex', gap: '16px'}}>
-        <button onClick={() => setShape('triangle')} style={{ padding: '8px 24px', background: shape === 'triangle' ? 'rgba(244,114,182,0.15)' : 'transparent', border: shape === 'triangle' ? '1px solid #f472b6' : '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: shape === 'triangle' ? '#f472b6' : '#94a3b8', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '700', fontSize: '16px', transition: '0.2s' }}>
+        <button onClick={() => setShape('triangle')} style={{ padding: '8px 24px', background: shape === 'triangle' ? '#1769F5' : '#DCEEFF', border: shape === 'triangle' ? '2px solid #1769F5' : '2px solid #93C5FD', borderRadius: '12px', color: shape === 'triangle' ? '#ffffff' : '#082B66', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '800', fontSize: '16px', boxShadow: shape === 'triangle' ? '0 4px 14px rgba(23,105,245,0.3)' : 'none', transition: '0.2s' }}>
           <span>△</span> Triangle
         </button>
-        <button onClick={() => setShape('square')} style={{ padding: '8px 24px', background: shape === 'square' ? 'rgba(56,189,248,0.15)' : 'transparent', border: shape === 'square' ? '1px solid #38bdf8' : '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: shape === 'square' ? '#38bdf8' : '#94a3b8', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '700', fontSize: '16px', transition: '0.2s' }}>
+        <button onClick={() => setShape('square')} style={{ padding: '8px 24px', background: shape === 'square' ? '#1769F5' : '#DCEEFF', border: shape === 'square' ? '2px solid #1769F5' : '2px solid #93C5FD', borderRadius: '12px', color: shape === 'square' ? '#ffffff' : '#082B66', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '800', fontSize: '16px', boxShadow: shape === 'square' ? '0 4px 14px rgba(23,105,245,0.3)' : 'none', transition: '0.2s' }}>
           <span>□</span> Square
         </button>
-        <button onClick={() => setShape('rectangle')} style={{ padding: '8px 24px', background: shape === 'rectangle' ? 'rgba(74,222,128,0.15)' : 'transparent', border: shape === 'rectangle' ? '1px solid #4ade80' : '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: shape === 'rectangle' ? '#4ade80' : '#94a3b8', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '700', fontSize: '16px', transition: '0.2s' }}>
+        <button onClick={() => setShape('rectangle')} style={{ padding: '8px 24px', background: shape === 'rectangle' ? '#1769F5' : '#DCEEFF', border: shape === 'rectangle' ? '2px solid #1769F5' : '2px solid #93C5FD', borderRadius: '12px', color: shape === 'rectangle' ? '#ffffff' : '#082B66', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '800', fontSize: '16px', boxShadow: shape === 'rectangle' ? '0 4px 14px rgba(23,105,245,0.3)' : 'none', transition: '0.2s' }}>
           <span>▭</span> Rectangle
         </button>
       </div>
@@ -667,13 +661,13 @@ const Visualizer36Dots = ({ step, playStep, showHint }) => {
         </g>
         
         <g transform="translate(850, 190)">
-          <text x="0" y="-80" fill="#94a3b8" fontSize="16" fontWeight="800" letterSpacing="2">SAME DOTS</text>
-          <text x="0" y="10" fill="#f472b6" fontSize="100" fontWeight="800">{36}</text>
-          <text x="0" y="60" fill="#e2e8f0" fontSize="24" fontWeight="600">
+          <text x="0" y="-80" fill="#082B66" fontSize="16" fontWeight="900" letterSpacing="2">SAME DOTS</text>
+          <text x="0" y="10" fill="#0866E8" fontSize="100" fontWeight="900">{36}</text>
+          <text x="0" y="60" fill="#202B3C" fontSize="26" fontWeight="800">
             {shape === 'triangle' ? '1 + 2 + ... + 8' : (shape === 'square' ? '6 x 6 = 36' : '4 x 9 = 36')}
           </text>
-          <text x="0" y="100" fill="#64748b" fontSize="16">No dots added.</text>
-          <text x="0" y="125" fill="#64748b" fontSize="16">None removed.</text>
+          <text x="0" y="100" fill="#123B78" fontSize="18" fontWeight="600">No dots added.</text>
+          <text x="0" y="125" fill="#123B78" fontSize="18" fontWeight="600">None removed.</text>
         </g>
       </svg>
     </div>
@@ -924,12 +918,18 @@ export default function VisualisingSequences({ onNext, version = 1 }) {
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
       <div>
-        {/* Dynamic Aurora/Space Background */}
-        <div className="bg-image" />
-        <div className="bg-overlay" />
-
-
-      {/* Main Content Area (Glass Card) */}
+        {/* Full-Screen Edge-to-Edge Mathematics Background */}
+        <div 
+          className="bg-image" 
+          style={{
+            backgroundImage: `url(${mathBg13V1})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: '#fdfbf7'
+          }}
+        />
+      {/* Main Content Area */}
       <div className="main-wrapper">
         <Confetti trigger={showConfetti} />
 
@@ -941,20 +941,20 @@ export default function VisualisingSequences({ onNext, version = 1 }) {
               exit={{ opacity: 0, y: -20, x: '-50%' }}
               style={{
                 position: 'absolute',
-                top: '20%',
+                top: '18%',
                 left: '50%',
-                background: 'rgba(30, 41, 59, 0.9)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                backdropFilter: 'blur(10px)',
-                color: '#cbd5e1',
+                background: 'rgba(255, 255, 255, 0.98)',
+                border: '2px solid #FCA5A5',
+                color: '#991B1B',
                 padding: '12px 24px',
                 borderRadius: '12px',
-                fontWeight: '600',
+                fontWeight: '800',
+                fontSize: '18px',
                 zIndex: 100,
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.3)'
+                boxShadow: '0 10px 30px rgba(239, 68, 68, 0.15)'
               }}
             >
               <span style={{ fontSize: '20px' }}>🤔</span>
@@ -968,7 +968,10 @@ export default function VisualisingSequences({ onNext, version = 1 }) {
           <div className="content-header">
             <div>
               <div className="concept-meta">
-                VISUAL PATTERNS &nbsp;•&nbsp; <span style={{color: '#4ade80'}}>1.3 &nbsp;•&nbsp; CONCEPT {String(conceptIdx+1).padStart(2, '0')} / 11</span>
+                <span>VISUAL PATTERNS &nbsp;•&nbsp;</span>
+                <span className="concept-badge-inactive">1.3</span>
+                <span>&nbsp;•&nbsp;</span>
+                <span className="concept-badge-active">CONCEPT {String(conceptIdx+1).padStart(2, '0')} / 11</span>
               </div>
               <h1 className="concept-title">{concept.title}</h1>
               <h2 className="concept-subtitle">{concept.subtitle}</h2>
@@ -978,16 +981,16 @@ export default function VisualisingSequences({ onNext, version = 1 }) {
               onClick={toggleAudio}
               style={{
                 display: 'flex', alignItems: 'center', gap: '8px',
-                background: isPlayingAudio ? 'rgba(56, 189, 248, 0.2)' : 'rgba(255, 255, 255, 0.1)',
-                border: isPlayingAudio ? '2px solid #38bdf8' : '2px solid rgba(255, 255, 255, 0.2)',
-                color: isPlayingAudio ? '#38bdf8' : '#e2e8f0',
+                background: isPlayingAudio ? '#1769F5' : '#DCEEFF',
+                border: isPlayingAudio ? '2px solid #1769F5' : '2px solid #93C5FD',
+                color: isPlayingAudio ? '#ffffff' : '#082B66',
                 padding: '10px 20px', borderRadius: '12px',
-                fontWeight: 'bold', fontSize: '16px',
+                fontWeight: '800', fontSize: '15px',
                 cursor: 'pointer', transition: 'all 0.3s ease',
-                boxShadow: isPlayingAudio ? '0 0 15px rgba(56, 189, 248, 0.3)' : 'none'
+                boxShadow: isPlayingAudio ? '0 4px 14px rgba(23, 105, 245, 0.35)' : 'none'
               }}
             >
-              {isPlayingAudio ? <Volume2 size={24} /> : <VolumeX size={24} />}
+              {isPlayingAudio ? <Volume2 size={22} /> : <VolumeX size={22} />}
               {isPlayingAudio ? 'Playing' : 'Listen'}
             </button>
           </div>
@@ -1029,10 +1032,6 @@ export default function VisualisingSequences({ onNext, version = 1 }) {
                                onClick={() => document.dispatchEvent(new CustomEvent('next-step'))}
                                className="modern-next-btn pulse-glow"
                                title="Reveal next pattern"
-                               style={{
-                                 '--theme-color': themeColor,
-                                 '--theme-color-rgb': themeColorRgb
-                               }}
                             >
                                <span className="modern-next-icon">
                                  <ChevronRight size={28} strokeWidth={2.5} />
@@ -1050,13 +1049,13 @@ export default function VisualisingSequences({ onNext, version = 1 }) {
                 <>
                   <div className="watch-desc-inline" style={{textAlign: 'left'}}>
                     {concept.watchDesc}
-                    <div style={{float: 'right', fontSize: '14px', color: '#64748b'}}>Picture {conceptIdx===7 || conceptIdx===8 || conceptIdx===9 ? '4 of 5' : '5 of 6'}</div>
+                    <div style={{float: 'right', fontSize: '15px', color: '#123B78', fontWeight: '700'}}>Picture {conceptIdx===7 || conceptIdx===8 || conceptIdx===9 ? '4 of 5' : '5 of 6'}</div>
                   </div>
                   
                   <div className="find-card-inline">
                     {step === 3 ? (
                       <motion.div initial={{scale:0.95, opacity:0}} animate={{scale:1, opacity:1}} className="success-inline">
-                         <div className="success-header"><Check size={20} color="#4ade80"/> CONCEPT DISCOVERED</div>
+                         <div className="success-header"><Check size={20} color="#087A3D" strokeWidth={3} /> CONCEPT DISCOVERED</div>
                          <div className="success-title">{concept.discoveredTitle}</div>
                          <div className="success-desc">{concept.discoveredDesc}</div>
                       </motion.div>
@@ -1104,17 +1103,16 @@ export default function VisualisingSequences({ onNext, version = 1 }) {
       <style>{`
         .modern-next-btn {
           width: 48px; height: 48px; border-radius: 50%;
-          background: rgba(var(--theme-color-rgb), 0.15); 
-          border: 1.5px solid rgba(var(--theme-color-rgb), 0.4); 
+          background: #DCEEFF; 
+          border: 2px solid #1769F5; 
           display: flex; align-items: center; justify-content: center;
-          cursor: pointer; color: var(--theme-color);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-          backdrop-filter: blur(8px);
+          cursor: pointer; color: #1769F5;
+          box-shadow: 0 4px 14px rgba(23, 105, 245, 0.2);
           transition: all 0.2s ease-out;
           -webkit-appearance: none;
         }
         .modern-next-btn:focus-visible {
-          outline: 2px solid var(--theme-color);
+          outline: 2px solid #1769F5;
           outline-offset: 4px;
         }
         .modern-next-icon {
@@ -1123,10 +1121,10 @@ export default function VisualisingSequences({ onNext, version = 1 }) {
           margin-left: 3px;
         }
         .modern-next-btn:hover { 
-          background: rgba(var(--theme-color-rgb), 0.25); 
-          border-color: rgba(var(--theme-color-rgb), 0.6);
+          background: #BAE6FD; 
+          border-color: #0f56d4;
           transform: translateY(-2px); 
-          box-shadow: 0 6px 16px rgba(var(--theme-color-rgb), 0.25); 
+          box-shadow: 0 6px 16px rgba(23, 105, 245, 0.3); 
         }
         .modern-next-btn:hover .modern-next-icon { 
           transform: translateX(3px); 
@@ -1135,43 +1133,25 @@ export default function VisualisingSequences({ onNext, version = 1 }) {
           transform: translateY(1px); 
         }
         @keyframes pulse-glow {
-          0% { box-shadow: 0 0 0 0 rgba(var(--theme-color-rgb), 0.5); }
-          70% { box-shadow: 0 0 0 12px rgba(var(--theme-color-rgb), 0); }
-          100% { box-shadow: 0 0 0 0 rgba(var(--theme-color-rgb), 0); }
+          0% { box-shadow: 0 0 0 0 rgba(23, 105, 245, 0.4); }
+          70% { box-shadow: 0 0 0 10px rgba(23, 105, 245, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(23, 105, 245, 0); }
         }
         .pulse-glow {
           animation: pulse-glow 2s infinite;
         }
-        .brilliant-layout {
-          width: 100%; height: 100vh; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-          display: flex; flex-direction: column; overflow: hidden; position: absolute; inset: 0; z-index: 9999;
-          color: #f8fafc;
-        }
 
         .bg-image {
           position: absolute; inset: 0; z-index: -2;
-          background-image: url('https://images.unsplash.com/photo-1532782356570-5b581b0a5196?q=80&w=2560&auto=format&fit=crop'); 
+          background-image: url('${mathBg13V1}'); 
           background-size: cover; background-position: center;
+          background-repeat: no-repeat;
+          background-color: #fdfbf7;
         }
         
         .bg-overlay {
-          position: absolute; inset: 0; z-index: -1;
-          background: linear-gradient(180deg, rgba(15,23,42,0.4) 0%, rgba(15,23,42,0.8) 100%);
+          display: none;
         }
-
-        .top-nav {
-          display: flex; justify-content: space-between; align-items: center; padding: 0 24px; height: 56px; 
-          background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.05);
-          font-size: 15px; font-weight: 600; color: #94a3b8; flex-shrink: 0; z-index: 10;
-        }
-        .nav-left, .nav-center, .nav-right { display: flex; align-items: center; gap: 16px; }
-        .nav-tab { padding: 6px 12px; border-radius: 6px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; }
-        .nav-tab:hover { background: rgba(255,255,255,0.1); color: #f8fafc; }
-        .nav-tab.active { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
-        .progress-badge { background: rgba(255,255,255,0.1); color: #fff; padding: 2px 8px; border-radius: 12px; margin-left: 8px; font-size: 18px; font-weight: 700; }
-        .icon-box { color: #fbbf24; margin-right: 6px; font-size: 16px; }
-        .icon-text { font-family: serif; font-weight: bold; margin-right: 6px; font-size: 18px; }
-        .nav-icon { background: rgba(255,255,255,0.1); padding: 6px; border-radius: 6px; display: flex; cursor: pointer; }
 
         .main-wrapper {
           flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative;
@@ -1180,78 +1160,130 @@ export default function VisualisingSequences({ onNext, version = 1 }) {
 
         .glass-container {
           width: 100%; margin: 0 auto;
+          background: transparent;
+          border: none;
+          box-shadow: none;
         }
 
-        .content-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; padding: 0 12px; }
-        .concept-meta { font-size: 18px; color: #cbd5e1; letter-spacing: 1px; font-weight: 800; margin-bottom: 8px; }
-        .concept-title { font-size: 48px; font-weight: 800; margin: 0 0 4px 0; color: #ffffff; letter-spacing: -0.5px; text-shadow: 0 2px 12px rgba(0,0,0,0.5); }
-        .concept-subtitle { font-size: 22px; font-weight: 500; margin: 0; color: #cbd5e1; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+        .content-header { 
+          display: flex; justify-content: space-between; align-items: flex-start; 
+          margin-bottom: 12px; padding: 0 12px; 
+        }
+        .concept-meta { 
+          font-size: 18px; color: #123B78; letter-spacing: 1px; font-weight: 800; 
+          margin-bottom: 8px; display: flex; align-items: center; gap: 8px; 
+        }
+        .concept-badge-inactive {
+          background: #DCEEFF; color: #082B66; padding: 2px 8px; border-radius: 6px; font-weight: 800; font-size: 15px;
+        }
+        .concept-badge-active {
+          background: #FFD629; color: #082B66; padding: 2px 10px; border-radius: 6px; font-weight: 900; font-size: 15px;
+        }
+        .concept-title { 
+          font-size: 46px; font-weight: 900; margin: 0 0 4px 0; color: #082B66; letter-spacing: -0.5px; 
+        }
+        .concept-subtitle { 
+          font-size: 22px; font-weight: 700; margin: 0; color: #123B78; 
+        }
 
         .glass-card-body {
-          overflow: hidden; display: flex; flex-direction: column;
+          overflow: visible; display: flex; flex-direction: column;
+          background: transparent;
+          border: none;
+          box-shadow: none;
         }
 
-        .content-tabs-bar { 
-          display: flex; justify-content: space-between; align-items: center; 
-          border-bottom: 1px solid rgba(255,255,255,0.05); padding: 12px 24px; 
-          background: rgba(0,0,0,0.2);
+        .visualization-area { 
+          width: 100%; display: flex; justify-content: center; padding: 12px 0; 
+          background: transparent; border: none; box-shadow: none;
         }
-        .tabs-left { display: flex; align-items: center; gap: 16px; }
-        .main-tab { background: none; border: none; color: #94a3b8; font-size: 18px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; padding: 6px 12px; border-radius: 8px; }
-        .main-tab:hover { color: #f8fafc; background: rgba(255,255,255,0.05); }
-        .main-tab.active { color: #4ade80; }
-        .tab-num { background: rgba(255,255,255,0.1); color: #cbd5e1; padding: 2px 6px; border-radius: 4px; font-size: 18px; font-weight: 800; }
-        .main-tab.active .tab-num { background: #166534; color: #4ade80; }
-
-        .play-controls { display: flex; gap: 6px; align-items: center; }
-        .play-controls button { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; border-radius: 6px; padding: 6px 12px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: 0.2s; }
-        .play-controls button:hover { background: rgba(255,255,255,0.1); }
-        .play-controls button.active { background: rgba(255,255,255,0.15); color: #fff; }
-        .divider { width: 1px; height: 16px; background: rgba(255,255,255,0.1); margin: 0 4px; }
-
-        .visualization-area { width: 100%; display: flex; justify-content: center; padding: 12px 0; }
-        .seq-svg { width: 100%; max-height: 500px; overflow: visible; margin-top: 40px; }
+        .seq-svg { 
+          width: 100%; max-height: 500px; overflow: visible; margin-top: 40px; 
+        }
 
         .below-visualizer { padding: 0 40px 0px 40px; }
-        .watch-desc-inline { font-size: 18px; color: #cbd5e1; font-weight: 500; margin-bottom: 12px; text-align: center; }
+        .watch-desc-inline { 
+          font-size: 20px; color: #202B3C; font-weight: 600; margin-bottom: 14px; text-align: center; line-height: 1.5; 
+        }
         
-        .ready-btn { background: #4ade80; color: #022c22; border: none; border-radius: 8px; padding: 14px 28px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 20px rgba(74,222,128,0.3); }
-        .ready-btn:hover { background: #22c55e; transform: translateY(-2px); box-shadow: 0 6px 24px rgba(74,222,128,0.4); }
+        .ready-btn { 
+          background: #1769F5; color: #ffffff; border: none; border-radius: 12px; 
+          padding: 14px 28px; font-size: 17px; font-weight: 800; cursor: pointer; 
+          transition: 0.2s; box-shadow: 0 4px 16px rgba(23, 105, 245, 0.35); 
+        }
+        .ready-btn:hover { 
+          background: #0f56d4; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(23, 105, 245, 0.45); 
+        }
 
         .find-card-inline { margin-bottom: 12px; }
         .checkpoint-container { 
-          background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255,255,255,0.1); 
-          border-radius: 12px; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center;
+          background: rgba(255, 255, 255, 0.95); border: 2px solid #BAE6FD; 
+          border-radius: 16px; padding: 18px 32px; display: flex; justify-content: space-between; align-items: center;
+          box-shadow: 0 8px 30px rgba(8, 43, 102, 0.08);
         }
-        .find-title { font-size: 14px; color: #94a3b8; letter-spacing: 1.5px; font-weight: 800; margin-bottom: 8px; text-transform: uppercase; }
-        .find-question { font-size: 26px; font-weight: 700; color: #f8fafc; margin-bottom: 4px; }
-        .find-seq { font-size: 18px; color: #94a3b8; font-weight: 500; }
+        .find-title { 
+          font-size: 14px; color: #0866E8; letter-spacing: 1.5px; font-weight: 800; margin-bottom: 8px; text-transform: uppercase; 
+        }
+        .find-question { 
+          font-size: 24px; font-weight: 800; color: #082B66; margin-bottom: 6px; 
+        }
+        .find-seq { 
+          font-size: 19px; color: #202B3C; font-weight: 700; 
+        }
 
         .options-row { display: flex; gap: 12px; justify-content: center; }
-        .option-btn { background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.05); color: #cbd5e1; border-radius: 8px; width: 70px; height: 70px; font-size: 26px; font-weight: 800; cursor: pointer; transition: 0.2s; box-shadow: inset 0 1px 0 rgba(255,255,255,0.1); }
-        .option-btn:hover { background: rgba(30,41,59,1); color: #fff; }
-        .option-btn.correct { background: #22c55e; border-color: #4ade80; color: #fff; box-shadow: 0 0 20px rgba(34,197,94,0.4); transform: scale(1.05); }
-        .option-btn.wrong { animation: shake 0.4s; }
+        .option-btn { 
+          background: #F0F7FF; border: 2px solid #93C5FD; color: #082B66; 
+          border-radius: 12px; width: 70px; height: 70px; font-size: 28px; font-weight: 900; 
+          cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(8, 43, 102, 0.06); 
+        }
+        .option-btn:hover { 
+          background: #DBEAFE; border-color: #1769F5; color: #082B66; transform: translateY(-2px); 
+        }
+        .option-btn.correct { 
+          background: #087A3D !important; border-color: #055e2e !important; color: #ffffff !important; 
+          box-shadow: 0 6px 20px rgba(8, 122, 61, 0.4) !important; transform: scale(1.05); 
+        }
+        .option-btn.wrong { 
+          background: #FEE2E2 !important; border-color: #EF4444 !important; color: #991B1B !important; 
+          animation: shake 0.4s; 
+        }
 
-        .success-inline { background: rgba(16, 35, 30, 0.8); border: 1px solid rgba(74, 222, 128, 0.3); border-radius: 12px; padding: 20px 32px; }
-        .success-header { display: flex; align-items: center; gap: 8px; color: #4ade80; font-size: 15px; font-weight: 800; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
-        .success-title { font-size: 26px; font-weight: 700; color: #f8fafc; margin-bottom: 4px; }
-        .success-desc { font-size: 18px; color: #cbd5e1; line-height: 1.5; font-weight: 500; }
-
-        .legend-row { display: flex; justify-content: center; gap: 24px; font-size: 18px; color: #64748b; font-weight: 600; }
-        .legend-item { display: flex; align-items: center; gap: 8px; }
-        .legend-box { width: 12px; height: 12px; border-radius: 2px; }
-        .legend-box.green { background: #4ade80; }
-        .legend-box.yellow { background: #fbbf24; }
+        .success-inline { 
+          background: rgba(240, 253, 244, 0.96); border: 2px solid #86EFAC; 
+          border-radius: 16px; padding: 20px 32px; 
+          box-shadow: 0 8px 30px rgba(8, 122, 61, 0.1); 
+        }
+        .success-header { 
+          display: flex; align-items: center; gap: 8px; color: #087A3D; 
+          font-size: 15px; font-weight: 900; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; 
+        }
+        .success-title { 
+          font-size: 24px; font-weight: 800; color: #082B66; margin-bottom: 6px; 
+        }
+        .success-desc { 
+          font-size: 18px; color: #202B3C; line-height: 1.5; font-weight: 600; 
+        }
 
         .bottom-floating-footer {
           position: absolute; bottom: 20px; left: 24px; right: 24px;
           display: flex; justify-content: space-between; align-items: center; z-index: 50;
         }
-        .footer-nav-btn { background: rgba(15,23,42,0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; font-size: 18px; font-weight: 700; cursor: pointer; padding: 10px 20px; border-radius: 8px; transition: 0.2s; }
-        .footer-nav-btn:hover { background: rgba(30,41,59,0.9); color: #fff; }
-        .footer-nav-btn.primary { background: #3b82f6; border-color: #60a5fa; color: #fff; }
-        .footer-nav-btn.primary:hover { background: #2563eb; }
+        .footer-nav-btn { 
+          background: #DCEEFF; border: 2px solid #93C5FD; color: #082B66; 
+          font-size: 18px; font-weight: 800; cursor: pointer; padding: 10px 22px; 
+          border-radius: 10px; transition: 0.2s; box-shadow: 0 4px 12px rgba(8, 43, 102, 0.08); 
+        }
+        .footer-nav-btn:hover { 
+          background: #c3e2ff; transform: translateY(-1px); 
+        }
+        .footer-nav-btn.primary { 
+          background: #1769F5; border: 2px solid #1769F5; color: #ffffff; 
+          box-shadow: 0 4px 16px rgba(23, 105, 245, 0.35); 
+        }
+        .footer-nav-btn.primary:hover { 
+          background: #0f56d4; border-color: #0f56d4; 
+        }
         
         @keyframes shake {
           0%, 100% { transform: translateX(0); }

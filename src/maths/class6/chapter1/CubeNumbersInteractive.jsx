@@ -4,6 +4,7 @@ import { Volume2, VolumeX } from 'lucide-react';
 import page7Audio from './audio/page7.mp3';
 import page8Audio from './audio/page8.mp3';
 import page9Audio from './audio/page9.mp3';
+import mathBg13V1 from './math_bg_1_3_v1.jpg';
 
 const STEPS = [
   {
@@ -55,24 +56,24 @@ const IsoCube = ({ size, fillTop = '#fb7185', fillLeft = '#f43f5e', fillRight = 
     <svg width={size * 2} height={size * 2} viewBox={`${-size} ${-size} ${size * 2} ${size * 2}`} style={{ overflow: 'visible', position: 'absolute', top: 0, left: 0 }}>
       <polygon 
         points={`${-w},${-h} 0,${-2*h} ${w},${-h} 0,0`} 
-        fill={ghost ? 'rgba(255,255,255,0.15)' : fillTop} 
-        stroke={ghost ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.9)'} 
-        strokeWidth={ghost ? "3" : "2.5"} 
-        strokeDasharray={ghost ? "6 4" : "none"} 
+        fill={ghost ? 'rgba(8, 43, 102, 0.05)' : fillTop} 
+        stroke={ghost ? '#123B78' : 'rgba(255,255,255,0.9)'} 
+        strokeWidth={ghost ? "2.5" : "2.5"} 
+        strokeDasharray={ghost ? "5 4" : "none"} 
       />
       <polygon 
         points={`0,0 ${w},${-h} ${w},${r-h} 0,${r}`} 
-        fill={ghost ? 'rgba(255,255,255,0.15)' : fillRight} 
-        stroke={ghost ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.9)'} 
-        strokeWidth={ghost ? "3" : "2.5"} 
-        strokeDasharray={ghost ? "6 4" : "none"} 
+        fill={ghost ? 'rgba(8, 43, 102, 0.05)' : fillRight} 
+        stroke={ghost ? '#123B78' : 'rgba(255,255,255,0.9)'} 
+        strokeWidth={ghost ? "2.5" : "2.5"} 
+        strokeDasharray={ghost ? "5 4" : "none"} 
       />
       <polygon 
         points={`0,0 ${-w},${-h} ${-w},${r-h} 0,${r}`} 
-        fill={ghost ? 'rgba(255,255,255,0.15)' : fillLeft} 
-        stroke={ghost ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.9)'} 
-        strokeWidth={ghost ? "3" : "2.5"} 
-        strokeDasharray={ghost ? "6 4" : "none"} 
+        fill={ghost ? 'rgba(8, 43, 102, 0.05)' : fillLeft} 
+        stroke={ghost ? '#123B78' : 'rgba(255,255,255,0.9)'} 
+        strokeWidth={ghost ? "2.5" : "2.5"} 
+        strokeDasharray={ghost ? "5 4" : "none"} 
       />
     </svg>
   );
@@ -167,37 +168,61 @@ export default function CubeNumbersInteractive({ onNext, onPrev }) {
     <div style={{
       position: 'absolute',
       top: 0, left: 0, right: 0, bottom: 0,
-      backgroundColor: '#0f172a',
+      backgroundColor: '#fdfbf7',
       display: 'flex',
       flexDirection: 'column',
       color: '#f8fafc',
       fontFamily: 'Inter, system-ui, sans-serif',
       overflow: 'hidden'
     }}>
-      {/* Background Decorative Elements */}
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '40vh', pointerEvents: 'none', zIndex: 0 }}>
-         <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
-           <path d="M 10,100 Q 15,60 30,100 Z" fill={CUBE_COLORS[step].bg} />
-           <path d="M -5,100 Q 15,40 40,100 Z" fill={CUBE_COLORS[step].bgDim} />
-           <path d="M 80,100 Q 90,50 105,100 Z" fill={CUBE_COLORS[step].bg} />
-           <path d="M 60,100 Q 85,40 110,100 Z" fill={CUBE_COLORS[step].bgDim} />
-         </svg>
-      </div>
+      {/* Full-Screen Edge-to-Edge Mathematics Background for Concept 6B */}
+      <div 
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `url(${mathBg13V1})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundColor: '#fdfbf7',
+          zIndex: 0
+        }}
+      />
 
       {/* Top Header */}
       <div style={{ padding: '32px 40px 24px 40px', zIndex: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
         <div>
-          <div style={{ fontSize: '18px', color: '#cbd5e1', letterSpacing: '1px', fontWeight: '800', marginBottom: '8px' }}>
-            VISUAL PATTERNS &nbsp;•&nbsp; <span style={{color: CUBE_COLORS[step].text}}>1.3 &nbsp;•&nbsp; CONCEPT 06B / 11</span>
+          <div style={{ fontSize: '18px', color: '#123B78', letterSpacing: '1px', fontWeight: '800', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span>VISUAL PATTERNS &nbsp;•&nbsp;</span>
+            <span style={{ background: '#DCEEFF', color: '#082B66', padding: '2px 8px', borderRadius: '6px', fontWeight: '800', fontSize: '15px' }}>1.3</span>
+            <span>&nbsp;•&nbsp;</span>
+            <span style={{ background: '#FFD629', color: '#082B66', padding: '2px 10px', borderRadius: '6px', fontWeight: '900', fontSize: '15px' }}>CONCEPT 06B / 11</span>
           </div>
-          <h1 style={{ fontSize: '48px', fontWeight: '800', margin: '0 0 4px 0', color: '#ffffff', letterSpacing: '-0.5px', textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>
+          <h1 style={{ fontSize: '46px', fontWeight: '900', margin: '0 0 4px 0', color: '#082B66', letterSpacing: '-0.5px' }}>
             {currentConfig.title}
           </h1>
-          <h2 style={{ fontSize: '22px', fontWeight: '500', margin: '0', color: '#cbd5e1', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
+          <h2 style={{ fontSize: '22px', fontWeight: '700', margin: '0', color: '#123B78' }}>
             {currentConfig.subtitle}
           </h2>
         </div>
-        <button onClick={toggleAudio} style={{ backgroundColor: 'rgba(255,255,255,0.05)', color: '#cbd5e1', border: '1px solid rgba(255,255,255,0.1)', padding: '10px 20px', borderRadius: '12px', fontSize: '15px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', ...(isPlayingAudio ? {backgroundColor: 'rgba(255,255,255,0.1)', color: '#fff', borderColor: 'rgba(255,255,255,0.2)'} : {})}}>
+        <button 
+          onClick={toggleAudio} 
+          style={{
+            background: isPlayingAudio ? '#1769F5' : '#DCEEFF',
+            color: isPlayingAudio ? '#ffffff' : '#082B66',
+            border: isPlayingAudio ? '2px solid #1769F5' : '2px solid #93C5FD',
+            padding: '10px 20px',
+            borderRadius: '12px',
+            fontSize: '15px',
+            fontWeight: '800',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            boxShadow: isPlayingAudio ? '0 4px 14px rgba(23, 105, 245, 0.35)' : 'none',
+            transition: 'all 0.2s'
+          }}
+        >
           {isPlayingAudio ? <Volume2 size={18} /> : <VolumeX size={18} />} Listen
         </button>
       </div>
@@ -342,8 +367,8 @@ export default function CubeNumbersInteractive({ onNext, onPrev }) {
                   width: '100%'
                 }}
               >
-                <div style={{ fontSize: '42px', fontWeight: '800', letterSpacing: '2px', color: '#a855f7' }}>
-                  {currentConfig.n} &times; {currentConfig.n} &times; {currentConfig.n} = {currentConfig.n ** 3}
+                <div style={{ fontSize: '42px', fontWeight: '900', letterSpacing: '2px', color: '#082B66' }}>
+                  {currentConfig.n} &times; {currentConfig.n} &times; {currentConfig.n} = <span style={{ color: '#087A3D' }}>{currentConfig.n ** 3}</span>
                 </div>
               </motion.div>
             )}
@@ -358,19 +383,27 @@ export default function CubeNumbersInteractive({ onNext, onPrev }) {
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: '24px 40px',
-        borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+        borderTop: '2px solid #BAE6FD',
         zIndex: 10,
-        backgroundColor: 'rgba(15, 23, 42, 0.8)',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
         backdropFilter: 'blur(10px)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
           <button 
             onClick={() => onPrev && onPrev()}
             style={{
-              background: 'rgba(15,23,42,0.8)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)', color: '#cbd5e1', fontSize: '18px', fontWeight: '700', cursor: 'pointer', padding: '10px 20px', borderRadius: '8px', transition: 'all 0.2s'
+              background: '#DCEEFF',
+              border: '2px solid #93C5FD',
+              color: '#082B66',
+              fontSize: '18px',
+              fontWeight: '800',
+              cursor: 'pointer',
+              padding: '10px 20px',
+              borderRadius: '10px',
+              transition: 'all 0.2s'
             }}
-            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(30,41,59,0.9)'; e.currentTarget.style.color = '#fff'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(15,23,42,0.8)'; e.currentTarget.style.color = '#cbd5e1'; }}
+            onMouseEnter={e => { e.currentTarget.style.background = '#c3e2ff'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = '#DCEEFF'; }}
           >
             &larr; Previous concept
           </button>
@@ -387,18 +420,18 @@ export default function CubeNumbersInteractive({ onNext, onPrev }) {
               }
             }}
             style={{
-              backgroundColor: (!isComplete) ? 'rgba(255,255,255,0.1)' : '#a855f7',
-              color: (!isComplete) ? 'rgba(255,255,255,0.3)' : '#fff',
+              backgroundColor: (!isComplete) ? '#E2E8F0' : '#1769F5',
+              color: (!isComplete) ? '#94A3B8' : '#ffffff',
               padding: '14px 28px',
-              borderRadius: '10px',
+              borderRadius: '12px',
               border: 'none',
-              fontWeight: '700',
-              fontSize: '15px',
+              fontWeight: '800',
+              fontSize: '16px',
               cursor: (!isComplete) ? 'not-allowed' : 'pointer',
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              boxShadow: (!isComplete) ? 'none' : '0 4px 14px 0 rgba(168, 85, 247, 0.4)',
+              boxShadow: (!isComplete) ? 'none' : '0 4px 16px rgba(23, 105, 245, 0.35)',
               transition: 'all 0.2s'
             }}
           >
