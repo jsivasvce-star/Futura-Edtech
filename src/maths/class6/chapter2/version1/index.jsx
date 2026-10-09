@@ -4,8 +4,10 @@ import Chapter2CoverV1 from './Chapter2CoverV1';
 import Section2_1Point from './sections/Section2_1Point';
 import Section2_2LineSegment from './sections/Section2_2LineSegment';
 import Section2_3Line from './sections/Section2_3Line';
+import Section2_4Ray from './sections/Section2_4Ray';
 import SectionQuiz from './sections/SectionQuiz';
 import Chapter2InteractiveSection from './sections/Chapter2InteractiveSection';
+import { DIAGRAM_COMPONENTS } from './Ch2CardDiagrams';
 import './cover.css';
 
 /**
@@ -383,6 +385,23 @@ export default function Class6MathsChapter2V1({ onBackToDashboard }) {
       );
     }
 
+    if (activeSection.id === '2.4') {
+      return (
+        <Section2_4Ray
+          onBackToMap={() => setViewState('main')}
+          onBack={() => setViewState('main')}
+          onBackTo2_3={() => {
+            const sec23 = CHAPTER_2_FLOW_CARDS.find((s) => s.id === '2.3');
+            if (sec23) handleSelectSection(sec23);
+          }}
+          onNextSection={() => {
+            const sec25 = CHAPTER_2_FLOW_CARDS.find((s) => s.id === '2.5');
+            if (sec25) handleSelectSection(sec25);
+          }}
+        />
+      );
+    }
+
     if (activeSection.id === 'quiz') {
       return <SectionQuiz onBack={() => setViewState('main')} />;
     }
@@ -440,48 +459,54 @@ export default function Class6MathsChapter2V1({ onBackToDashboard }) {
 
         {/* 12 Heading Cards Container (Strict 4-Column × 3-Row Grid) */}
         <main className="ch2-flow-cards-grid" role="region" aria-label="Chapter 2 Section Cards">
-          {CHAPTER_2_FLOW_CARDS.map((card) => (
-            <div
-              key={card.id}
-              className={`ch2-ref-card ch2-theme-${card.theme}`}
-              onClick={() => handleSelectSection(card)}
-              id={`ch2-card-${card.id.replace('.', '_')}`}
-              tabIndex={0}
-              role="button"
-              aria-label={`Section ${card.number}: ${card.title} - Explore`}
-              style={{ '--card-glow': card.glowColor }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  handleSelectSection(card);
-                }
-              }}
-            >
-              <img
-                src={card.image}
-                alt={`${card.number} ${card.title}`}
-                className="ch2-ref-card-img"
-                loading="eager"
-              />
-              <div className="ch2-ref-card-sheen" aria-hidden="true" />
-              {/* Interactive Action Bar on card bottom */}
-              <div className="ch2-ref-card-overlay">
-                <span className="ch2-ref-card-badge-accessible" aria-hidden="true">{card.number}</span>
-                <span className="ch2-ref-card-title-accessible" aria-hidden="true">{card.title}</span>
+          {CHAPTER_2_FLOW_CARDS.map((card) => {
+            const DiagramComponent = DIAGRAM_COMPONENTS[card.id];
+            return (
+              <div
+                key={card.id}
+                className={`ch2-ref-card ch2-theme-${card.theme}`}
+                onClick={() => handleSelectSection(card)}
+                id={`ch2-card-${card.id.replace('.', '_')}`}
+                tabIndex={0}
+                role="button"
+                aria-label={`Section ${card.number}: ${card.title} - Explore`}
+                style={{ '--card-glow': card.glowColor }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleSelectSection(card);
+                  }
+                }}
+              >
+                {/* Glossy Top Sheen */}
+                <div className="ch2-ref-card-sheen" aria-hidden="true" />
+
+                {/* Ultra-HD Precision Mathematical Diagram Layer */}
+                <div className="ch2-card-diagram-layer">
+                  {DiagramComponent && <DiagramComponent />}
+                </div>
+
+                {/* Ultra-HD Sharp Text and Badge Layer */}
+                <div className="ch2-card-content-layer">
+                  <span className="ch2-card-badge-pill">{card.number}</span>
+                  <h2 className="ch2-card-title-text">{card.title}</h2>
+                </div>
+
+                {/* Interactive Action Bar on card bottom */}
                 <div
-                  className="ch2-ref-card-action-bar"
+                  className="ch2-card-bottom-bar"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleSelectSection(card);
                   }}
                   title={`Explore ${card.title}`}
                 >
-                  <span className="ch2-ref-explore-text">EXPLORE</span>
-                  <span className="ch2-ref-explore-arrow" aria-hidden="true">→</span>
+                  <span className="ch2-card-explore-label">EXPLORE</span>
+                  <span className="ch2-card-explore-arrow" aria-hidden="true">→</span>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </main>
       </div>
     </div>
